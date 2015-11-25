@@ -17,7 +17,8 @@
 
 	<target name="clean" description="Clean all the samples.">
 		<subant target="clean">
-			<fileset dir="." includes="*/build.xml"/>
+			<!-- FIXMEIVY -->
+			<fileset dir="." includes="*/build.xml" excludes="webapp-repo/build.xml"/>
 		</subant>
 	</target>
 
@@ -35,28 +36,29 @@
 		<path refid="project-classpath"/>
 	</path>
 
-	<target name="compile-classpath">
+	<target name="prepare-compile-classpath">
 		<ant dir="../../" target="compile"/>
-		<ivy:configure file="../../ivysettings.xml"/>
-		<property name="ivy-file" value="../../ivy.xml"/>
+		<ivy:configure file="../../ivysettings.xml" override="true"/>
+		<local name="ivy-file"/>
 		<condition property="ivy-file" value="${sample.dir}/ivy.xml" else="../../ivy.xml">
 			<available file="${sample.dir}/ivy.xml"/>
 		</condition>
 		<ivy:resolve file="${ivy-file}" log="download-only" conf="compile"/> 
-		<ivy:cachepath pathid="project-lib" conf="compile"/> 
+		<ivy:cachepath pathid="project-lib"/> 
 	</target>
 
-	<target name="test-classpath">
+	<target name="prepare-test-classpath">
 		<ant dir="../../" target="compile"/>
-		<ivy:configure file="../../ivysettings.xml"/>
+		<ivy:configure file="../../ivysettings.xml" override="true"/>
+		<local name="ivy-file"/>
 		<condition property="ivy-file" value="${sample.dir}/ivy.xml" else="../../ivy.xml">
 			<available file="${sample.dir}/ivy.xml"/>
 		</condition>
 		<ivy:resolve file="${ivy-file}" log="download-only" conf="test"/> 
-		<ivy:cachepath pathid="project-lib" conf="test"/> 
+		<ivy:cachepath pathid="project-lib"/> 
 	</target>
 
-	<target name="javac" depends="compile-classpath">
+	<target name="javac" depends="prepare-compile-classpath">
 		<mkdir dir="${sample.dir}/build/classes"/> 
 		<javac srcdir="${sample.dir}/src" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
@@ -71,7 +73,7 @@
 		</copy>
 	</target>
 
-	<target name="compile" depends="compile-classpath">
+	<target name="compile" depends="prepare-compile-classpath">
 		<mkdir dir="${sample.dir}/build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="sample-classpath"/>
@@ -94,196 +96,196 @@
 		</copy>
 	</target>
 
-	<target name="fill" depends="test-classpath">
+	<target name="fill" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="fill"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="view" depends="test-classpath">
+	<target name="view" depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="${sample.dir}">
 			<arg value="build/reports/${sample.report.name}.jrprint"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewXml" depends="test-classpath">
+	<target name="viewXml" depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true" dir="${sample.dir}">
 			<arg value="build/reports/${sample.report.name}.jrpxml"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="print" depends="test-classpath">
+	<target name="print" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="print"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="pdf" depends="test-classpath">
+	<target name="pdf" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="pdf"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
-	<target name="pdfa1" depends="test-classpath">
+	<target name="pdfa1" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="pdfa1"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xml" depends="test-classpath">
+	<target name="xml" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xml"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xmlEmbed" depends="test-classpath">
+	<target name="xmlEmbed" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xmlEmbed"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="html" depends="test-classpath">
+	<target name="html" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="html"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="rtf" depends="test-classpath">
+	<target name="rtf" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="rtf"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
-	<target name="xls" depends="test-classpath">
+	<target name="xls" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xls"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="jxl" depends="test-classpath">
+	<target name="jxl" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="jxl"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="csv" depends="test-classpath">
+	<target name="csv" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="csv"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
-	<target name="csvMetadata" depends="test-classpath">
+	<target name="csvMetadata" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="csvMetadata"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
-	<target name="xlsMetadata" depends="test-classpath">
+	<target name="xlsMetadata" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xlsMetadata"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
-	<target name="jxlMetadata" depends="test-classpath">
+	<target name="jxlMetadata" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="jxlMetadata"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
-	<target name="jsonMetadata" depends="test-classpath">
+	<target name="jsonMetadata" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="jsonMetadata"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
-	<target name="odt" depends="test-classpath">
+	<target name="odt" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="odt"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="ods" depends="test-classpath">
+	<target name="ods" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="ods"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="docx" depends="test-classpath">
+	<target name="docx" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="docx"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xlsx" depends="test-classpath">
+	<target name="xlsx" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xlsx"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="pptx" depends="test-classpath">
+	<target name="pptx" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="pptx"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xhtml" depends="test-classpath">
+	<target name="xhtml" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xhtml"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="run" depends="test-classpath">
+	<target name="run" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="run"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="writeXml" depends="compile-classpath">
+	<target name="writeXml" depends="prepare-compile-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="writeXml"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXml" depends="test-classpath">
+	<target name="viewDesignXml" depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${sample.dir}/reports/${sample.report.name}.jrxml"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign" depends="test-classpath">
+	<target name="viewDesign" depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${sample.dir}/build/reports/${sample.report.name}.jasper"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="decompile" depends="compile-classpath">
+	<target name="decompile" depends="prepare-compile-classpath">
 		<mkdir dir="${sample.dir}/build/reports"/> 
 		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
 			<classpath refid="sample-classpath"/>
@@ -298,7 +300,7 @@
 		</jrdc> 
 	</target>
 
-	<target name="writeApi" depends="compile-classpath">
+	<target name="writeApi" depends="prepare-compile-classpath">
 		<mkdir dir="${sample.dir}/build/reports"/> 
 		<taskdef name="jraw" classname="net.sf.jasperreports.ant.JRAntApiWriteTask"> 
 			<classpath refid="sample-classpath"/>
@@ -314,7 +316,7 @@
 		</jraw> 
 	</target>
 
-	<target name="writeApiXml" depends="compile-classpath">
+	<target name="writeApiXml" depends="prepare-compile-classpath">
 		<mkdir dir="${sample.dir}/build/classes"/> 
 		<javac srcdir="${sample.dir}/build/reports" destdir="${sample.dir}/build/reports" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
@@ -340,7 +342,7 @@
 		<delete dir="${sample.dir}/target" />
 	</target>
 
-	<target name="test" depends="test-classpath">
+	<target name="test" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="test"/>
 			<classpath refid="sample-classpath"/>

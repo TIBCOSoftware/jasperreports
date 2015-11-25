@@ -21,12 +21,12 @@
 		<path refid="project-classpath"/>
 	</path>
 
-	<target name="test-classpath">
+	<target name="prepare-test-classpath">
 		<ant dir="../../../" target="compile"/>
-		<ivy:configure file="../../../ivysettings.xml"/>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
 		<ivy:retrieve file="./ivy-lib.xml" pattern="./build/lib/[artifact].[ext]" log="download-only" conf="test"/> 
 		<ivy:resolve file="./ivy.xml" log="download-only" conf="test"/> 
-		<ivy:cachepath pathid="project-lib" conf="test"/> 
+		<ivy:cachepath pathid="project-lib"/> 
 	</target>
 
 	<target name="javac" description="Compiles the java source files of the test application.">
@@ -38,7 +38,7 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="test-classpath">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<jvmarg value="-javaagent:build/lib/toplink-essentials-agent.jar"/>
 			<arg value="fill"/>

@@ -2,29 +2,14 @@
 
 	<description>Shows how the chart themes could be used to change the look and feel of all chart types.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="chartthemes"/>
 	<property name="sample.base.name" value="ChartThemes" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="AllChartsReport" />
 
-	<path id="project-classpath">
-		<path refid="project-lib"/>
-		<pathelement location="../../../build/classes"/>
-	</path>
-	
-	<path id="sample-classpath">
-		<pathelement location="./build/classes"/>
-		<pathelement location="../../fonts"/>
-		<path refid="project-classpath"/>
-	</path>
-
-	<target name="compile-classpath">
-		<ant dir="../../../" target="compile"/>
-		<ivy:configure file="../../../ivysettings.xml"/>
-		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
-	</target>
-
-	<target name="javac" description="Compiles the java source files of the test application." depends="compile-classpath">
+	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
@@ -53,7 +38,7 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings." depends="compile-classpath">
+	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings." depends="prepare-compile-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="themes"/>
 			<classpath refid="sample-classpath"/>

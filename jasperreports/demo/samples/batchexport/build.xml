@@ -1,20 +1,13 @@
-<project name="batchexport" default="test" basedir=".">
+<project name="batchexport" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how multiple reports could be concatenated during export.</description>
+		
+	<import file="../build-sample-classpath.xml"/>
 
 	<property name="sample.dir" value="batchexport"/>
 	<property name="sample.base.name" value="BatchExport" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
-	
-	<path id="classpath">
-		<pathelement location="./build/classes"/>
-		<pathelement location="../../fonts"/>
-		<pathelement location="../../../build/classes"/>
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
 	
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
@@ -28,24 +21,24 @@
 		<ant dir="../" target="fill"/>
 	</target>
 
-	<target name="view1" description="Launches the report viewer to preview the first report stored in the .jrprint file.">
+	<target name="view1" description="Launches the report viewer to preview the first report stored in the .jrprint file." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="./build/reports/Report1.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="view2" description="Launches the report viewer to preview the second report stored in the .jrprint file.">
+	<target name="view2" description="Launches the report viewer to preview the second report stored in the .jrprint file." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="./build/reports/Report2.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="view3" description="Launches the report viewer to preview the third report stored in the .jrprint file.">
+	<target name="view3" description="Launches the report viewer to preview the third report stored in the .jrprint file." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="./build/reports/Report3.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
@@ -97,45 +90,45 @@
 		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="viewDesignXml1" description="Launches the design viewer to preview the first XML report design.">
+	<target name="viewDesignXml1" description="Launches the design viewer to preview the first XML report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./reports/Report1.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXml2" description="Launches the design viewer to preview the second XML report design.">
+	<target name="viewDesignXml2" description="Launches the design viewer to preview the second XML report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./reports/Report2.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXml3" description="Launches the design viewer to preview the third XML report design.">
+	<target name="viewDesignXml3" description="Launches the design viewer to preview the third XML report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./reports/Report3.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign1" description="Launches the design viewer to preview the first compiled report design.">
+	<target name="viewDesign1" description="Launches the design viewer to preview the first compiled report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./build/reports/Report1.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign2" description="Launches the design viewer to preview the second compiled report design.">
+	<target name="viewDesign2" description="Launches the design viewer to preview the second compiled report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./build/reports/Report2.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign3" description="Launches the design viewer to preview the third compiled report design.">
+	<target name="viewDesign3" description="Launches the design viewer to preview the third compiled report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./build/reports/Report3.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
