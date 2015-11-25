@@ -39,7 +39,9 @@
 		<ant dir="../../" target="compile"/>
 		<ivy:configure file="../../ivysettings.xml"/>
 		<property name="ivy-file" value="../../ivy.xml"/>
-		<available file="${sample.dir}/ivy.xml" property="ivy-file" value="${sample.dir}/ivy.xml"/>
+		<condition property="ivy-file" value="${sample.dir}/ivy.xml" else="../../ivy.xml">
+			<available file="${sample.dir}/ivy.xml"/>
+		</condition>
 		<ivy:resolve file="${ivy-file}" log="download-only" conf="compile"/> 
 		<ivy:cachepath pathid="project-lib" conf="compile"/> 
 	</target>
@@ -47,8 +49,9 @@
 	<target name="test-classpath">
 		<ant dir="../../" target="compile"/>
 		<ivy:configure file="../../ivysettings.xml"/>
-		<property name="ivy-file" value="../../ivy.xml"/>
-		<available file="${sample.dir}/ivy.xml" property="ivy-file" value="${sample.dir}/ivy.xml"/>
+		<condition property="ivy-file" value="${sample.dir}/ivy.xml" else="../../ivy.xml">
+			<available file="${sample.dir}/ivy.xml"/>
+		</condition>
 		<ivy:resolve file="${ivy-file}" log="download-only" conf="test"/> 
 		<ivy:cachepath pathid="project-lib" conf="test"/> 
 	</target>
