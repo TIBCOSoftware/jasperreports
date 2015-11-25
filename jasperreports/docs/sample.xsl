@@ -149,7 +149,7 @@ ga('send', 'pageview');
 <br/>
 <span class="element"><xsl:element name="a"><xsl:attribute name="href">http://sourceforge.net/projects/jasperreports/files/jasperreports/JasperReports%20<xsl:value-of select="$version"/>/jasperreports-<xsl:value-of select="$version"/>-project.zip/download</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Download All Sample Source Files</xsl:element></span>
 <br/>
-<span class="element"><xsl:element name="a"><xsl:attribute name="href">http://code.jaspersoft.com/svn/repos/jasperreports/tags/<xsl:value-of select="$svn"/>/jasperreports/demo/samples/<xsl:value-of select="sample/name"/>/</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Browse Sample Source Files on SVN</xsl:element></span>
+<span class="element"><xsl:element name="a"><xsl:attribute name="href">http://sourceforge.net/p/jasperreports/code/ci/<xsl:value-of select="$svn"/>/tree/jasperreports/demo/samples/<xsl:value-of select="sample/name"/>/</xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute>Browse Sample Source Files on Git</xsl:element></span>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
