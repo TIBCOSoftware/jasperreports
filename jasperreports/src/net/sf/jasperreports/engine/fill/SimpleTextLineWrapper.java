@@ -236,7 +236,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			}
 		}
 		
-		fontKey = new FontKey(family, size.intValue(), style, styledText.getLocale());
+		fontKey = new FontKey(family, size.floatValue(), style, styledText.getLocale());
 		createFontInfo(run.attributes);
 		
 		return true;
@@ -812,14 +812,6 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		float size;
 		int style;
 		Locale locale;
-		
-		/**
-		 * @deprecated To be removed.
-		 */
-		public FontKey(String family, int size, int style, Locale locale)
-		{
-			this(family, (float)size, style, locale);
-		}
 		
 		public FontKey(String family, float size, int style, Locale locale)
 		{
