@@ -1,0 +1,16 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports">
+		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
+	</info>
+	<dependencies>
+		<dependency org="commons-dbcp" name="commons-dbcp" rev="1.2" conf="test->*"/>
+		<dependency org="commons-math" name="commons-math" rev="1.0" conf="test->*"/>
+		<dependency org="commons-pool" name="commons-pool" rev="1.3" conf="test->*"/>
+		<dependency org="commons-vfs" name="commons-vfs" rev="1.0" conf="test->*"/>
+		<dependency org="eigenbase" name="eigenbase-properties" rev="1.1.0.10924" conf="test->*"/>
+		<dependency org="eigenbase" name="eigenbase-resgen" rev="1.3.0.11873" conf="test->*"/>
+		<dependency org="eigenbase" name="eigenbase-xom" rev="1.3.0.11999" conf="test->*"/>
+		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10" conf="test->*"/>
+		<dependency org="log4j" name="log4j" rev="1.2.17" conf="test->*"/>
+	</dependencies>
+</ivy-module>

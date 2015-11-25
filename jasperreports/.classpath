@@ -2,58 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="lib/ecj-4.3.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.3.2.GA.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/png-encoder-1.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-javaflow-20060411.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jpa.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/antlr-2.7.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/saaj-api-1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxen-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/bsh-2.0b4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-bridge.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-gvt.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xml-apis-ext.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svg-dom.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-script.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-css.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/groovy-all-2.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.23.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.19.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/mondrian-3.1.1.12687.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/ant-1.7.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/barcode4j-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/spring-beans-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/spring-core-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xalan-2.7.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jxl-2.6.10.jar"/>
-	<classpathentry kind="lib" path="lib/castor-core-1.3.3.jar"/>
-	<classpathentry kind="lib" path="lib/castor-xml-1.3.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/velocity-1.7-dep.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-digester-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/servlet-api-2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/rhino-1.7.6.jar"/>
-	<classpathentry kind="lib" path="lib/lucene-analyzers-common-4.5.1.jar"/>
-	<classpathentry kind="lib" path="lib/lucene-core-4.5.1.jar"/>
-	<classpathentry kind="lib" path="lib/lucene-queryparser-4.5.1.jar"/>
-	<classpathentry kind="lib" path="lib/olap4j-0.9.7.309-JS-3.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient-4.3.4.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.10.1.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-3.10.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/core-2.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/itext-2.1.7.js4.jar"/>
-	<classpathentry kind="lib" path="lib/xmpcore-5.1.1.jar"/>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=jasperreports&amp;ivyXmlPath=ivy.xml&amp;confs=*&amp;ivySettingsPath=ivysettings.xml&amp;loadSettingsOnDemand=false&amp;ivyUserDir=&amp;propertyFiles="/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
