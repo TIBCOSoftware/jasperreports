@@ -1,0 +1,40 @@
+<project name="JasperReports Sample Classpath Build File" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<description>Declares common sample classpath related targets.</description>
+
+	<path id="project-classpath">
+		<path refid="project-lib"/>
+		<pathelement location="../../../build/classes"/>
+	</path>
+	
+	<path id="sample-classpath">
+		<pathelement location="./build/classes"/>
+		<pathelement location="../../fonts"/>
+		<path refid="project-classpath"/>
+	</path>
+
+	<target name="prepare-compile-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<local name="ivy-file"/>
+		<condition property="ivy-file" value="./ivy.xml" else="../../../ivy.xml">
+			<available file="./ivy.xml"/>
+		</condition>
+		<ivy:resolve file="${ivy-file}" log="download-only" conf="compile"/>
+		<ivy:cachepath pathid="project-lib"/> 
+	</target>
+
+	<!-- FIXMEIVY try reuse a prepare-classpath target with conf as parameter; 
+	does not work because project-lib does not seem to be returned to caller -->
+	<target name="prepare-test-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<local name="ivy-file"/>
+		<condition property="ivy-file" value="./ivy.xml" else="../../../ivy.xml">
+			<available file="./ivy.xml"/>
+		</condition>
+		<ivy:resolve file="${ivy-file}" log="download-only" conf="test"/>
+		<ivy:cachepath pathid="project-lib"/> 
+	</target>
+
+</project>

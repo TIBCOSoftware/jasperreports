@@ -2,28 +2,13 @@
 
 	<description>Shows how HQL could be used in reports.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="hibernate"/>
 	<property name="sample.base.name" value="Hibernate" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="AddressesReport" />
 	
-	<path id="project-classpath">
-		<path refid="project-lib"/>
-		<pathelement location="../../../build/classes"/>
-	</path>
-	
-	<path id="sample-classpath">
-		<pathelement location="./build/classes"/>
-		<pathelement location="../../fonts"/>
-		<path refid="project-classpath"/>
-	</path>
-
-	<target name="test-classpath">
-		<ant dir="../../../" target="compile"/>
-		<ivy:configure file="../../../ivysettings.xml"/>
-		<ivy:cachepath pathid="project-lib" log="download-only" conf="test"/> 
-	</target>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -32,7 +17,7 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="test-classpath">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<jvmarg value="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog"/>
 			<jvmarg value="-Dorg.apache.commons.logging.simplelog.defaultlog=error"/>

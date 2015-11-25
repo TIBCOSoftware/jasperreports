@@ -1,4 +1,4 @@
-<project name="webapp" default="javac" basedir=".">
+<project name="webapp" default="javac" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how reporting functionality could be added to a Web application.</description>
 
@@ -11,51 +11,53 @@
 		</fileset>
 	</path>
 
+	<path id="project-classpath">
+		<path refid="project-lib"/>
+		<pathelement location="../../../build/classes"/>
+	</path>
+	
+	<path id="sample-classpath">
+		<pathelement location="./WEB-INF/classes/"/>
+		<pathelement location="../../fonts"/>
+		<path refid="project-classpath"/>
+	</path>
+
+	<target name="prepare-compile-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:resolve file="../../../ivy.xml" log="download-only" conf="compile"/> 
+		<ivy:cachepath pathid="project-lib"/> 
+	</target>
+
 	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
+		<ant dir="../../../" target="jar"/>
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../dist">
 				<include name="**/jasperreports-*.jar"/>
 				<exclude name="**/jasperreports-javaflow-*.jar"/>
 			</fileset>
 		</copy>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../lib">
-				<include name="**/commons-*.jar"/>
-				<include name="**/i*ext*.jar"/>
-				<include name="**/*jdt*.jar"/>
-				<include name="**/poi*.jar"/>
-				<include name="**/png-encoder*.jar"/>
-				<include name="**/spring*.jar"/>
-				<include name="**/velocity*.jar"/>
-				<exclude name="**/commons-javaflow-*.jar"/>
-				<include name="**/jackson*.jar"/>
-			</fileset>
-		</copy>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:retrieve file="./ivy-lib.xml" pattern="./WEB-INF/lib/[artifact]-[revision].[ext]" log="download-only" conf="test"/> 
 	</target>
 
-	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
+	<target name="javac" description="Compiles the java source files of the web application." depends="prepare, prepare-compile-classpath">
 		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
-			<classpath>
-				<pathelement location="./WEB-INF/classes/"/>
-				<pathelement location="../../../build/classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target>
 
-	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design." depends="prepare-compile-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/WebappReport.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design." depends="prepare-compile-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/WebappReport.jasper"/>
 			<classpath refid="classpath"/>

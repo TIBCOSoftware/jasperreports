@@ -2,20 +2,13 @@
 
 	<description>Shows how to work with fonts.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="fonts"/>
 	<property name="sample.base.name" value="Fonts" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
-	<path id="classpath">
-		<pathelement location="./build/classes"/>
-		<pathelement location="../../../build/classes" />
-		<pathelement location="../../fonts" />
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -116,11 +109,11 @@
 		<ant dir="../" target="writeApiXml"/>
 	</target>
 
-	<target name="fontsXml">
+	<target name="fontsXml" description="Generates a font extension configuration file containing all available font families." depends="prepare-test-classpath">
 		<mkdir dir="./build/reports"/> 
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fontsXml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	
