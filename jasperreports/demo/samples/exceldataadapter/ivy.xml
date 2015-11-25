@@ -1,0 +1,10 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports">
+		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
+	</info>
+	<dependencies>
+		<dependency org="dom4j" name="dom4j" rev="1.6.1" conf="test->*"/>
+		<dependency org="org.apache.poi" name="poi-ooxml-schemas" rev="3.10.1" conf="test->*"/>
+		<dependency org="org.apache.xmlbeans" name="xmlbeans" rev="2.6.0" conf="test->*"/>
+	</dependencies>
+</ivy-module>

@@ -1,0 +1,8 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports">
+		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
+	</info>
+	<dependencies>
+		<dependency org="commons-codec" name="commons-codec" rev="1.5" conf="test->*"/>
+	</dependencies>
+</ivy-module>

@@ -1,0 +1,77 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports">
+		<license name="GNU Lesser General Public License" url="http://jasperreports.sourceforge.net/license.html" />
+		<description homepage="http://jasperreports.sourceforge.net">JasperReports Library</description>
+	</info>
+	<configurations defaultconf="compile" defaultconfmapping="compile->*">
+		<conf name="compile" description="dependencies for compile"/>
+		<conf name="docs" description="dependencies for docs" extends="compile"/>
+		<conf name="javaflow" description="dependencies for javaflow" extends="compile"/>
+		<conf name="test" description="dependencies for test" extends="compile"/>
+	</configurations>
+	<dependencies>
+		<dependency org="antlr" name="antlr" rev="2.7.5"/>
+		<dependency org="com.adobe.xmp" name="xmpcore" rev="5.1.1"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.1.4"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.1.4"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.1.4"/>
+		<dependency org="com.google.zxing" name="core" rev="2.3.0"/>
+		<dependency org="com.lowagie" name="itext" rev="2.1.7.js4-SNAPSHOT"/>
+		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.0"/>
+		<dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
+		<dependency org="commons-digester" name="commons-digester" rev="2.1"/>
+		<dependency org="commons-javaflow" name="commons-javaflow" rev="20060411"/>
+		<dependency org="commons-lang" name="commons-lang" rev="2.6"/>
+		<dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
+		<dependency org="javax.persistence" name="persistence-api" rev="1.0"/>
+		<dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
+		<dependency org="jaxen" name="jaxen" rev="1.1.1"/>
+		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
+		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
+		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
+		<dependency org="net.sourceforge.jexcelapi" name="jxl" rev="2.6.10"/>
+		<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
+		<dependency org="org.apache.bcel" name="bcel" rev="5.2" conf="compile->*"/><!-- conf="javaflow->*" because of bcel inside xalan -->
+		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.3.4"/>
+		<dependency org="org.apache.httpcomponents" name="httpcore" rev="4.3.2"/>
+		<dependency org="org.apache.lucene" name="lucene-analyzers-common" rev="4.5.1"/>
+		<dependency org="org.apache.lucene" name="lucene-core" rev="4.5.1"/>
+		<dependency org="org.apache.lucene" name="lucene-queryparser" rev="4.5.1"/>
+		<dependency org="org.apache.poi" name="poi-ooxml" rev="3.10.1"/>
+		<dependency org="org.apache.poi" name="poi" rev="3.10.1"/>
+		<dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.7"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.7"/>
+		<dependency org="org.beanshell" name="bsh" rev="2.0b4"/>
+		<dependency org="org.codehaus.castor" name="castor-core" rev="1.3.3"/>
+		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.3.3"/>
+		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.3"/>
+		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.3.1"/>
+		<dependency org="org.hibernate" name="hibernate-core" rev="3.3.2.GA"/>
+		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
+		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>
+		<dependency org="org.mozilla" name="rhino" rev="1.7.6"/>
+		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
+		<dependency org="org.springframework" name="spring-beans" rev="2.5"/>
+		<dependency org="org.springframework" name="spring-core" rev="2.5"/>
+		<dependency org="xalan" name="xalan" rev="2.7.1"/>
+		<dependency org="xml-apis" name="xml-apis-ext" rev="1.3.04"/>
+
+		<dependency org="xalan" name="serializer" rev="2.7.1" conf="docs->*"/>
+
+		<!--
+		<dependency org="com.keypoint" name="png-encoder" rev="1.5"/>
+		<dependency org="javax.xml.soap" name="saaj-api" rev="1.3"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.7"/>
+		<dependency org="org.testng" name="testng" rev="6.8.1"/>
+		<dependency org="log4j" name="log4j" rev="1.2.17"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-fonts" rev="4.0.0"/>
+		-->
+	</dependencies>
+</ivy-module>

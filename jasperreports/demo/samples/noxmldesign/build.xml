@@ -1,4 +1,4 @@
-<project name="noxmldesign" default="test" basedir=".">
+<project name="noxmldesign" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how report templates can be created using the API and not JRXML files.</description>
 
@@ -7,24 +7,32 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 
-	<path id="classpath">
-		<pathelement location="build/classes"/>
-		<pathelement location="../../../build/classes" />
-		<pathelement location="../../fonts" />
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
+	<path id="project-classpath">
+		<path refid="project-lib"/>
+		<pathelement location="../../../build/classes"/>
 	</path>
+	
+	<path id="sample-classpath">
+		<pathelement location="./build/classes"/>
+		<pathelement location="../../fonts"/>
+		<path refid="project-classpath"/>
+	</path>
+
+	<target name="compile-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml"/>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
+	</target>
 
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
 
-	<target name="compile" description="Compiles the report design and produces the .jasper file.">
+	<target name="compile" description="Compiles the report design and produces the .jasper file." depends="compile-classpath">
 		<mkdir dir="build/reports"/> 
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="compile"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

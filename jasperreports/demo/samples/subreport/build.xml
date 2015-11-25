@@ -1,4 +1,4 @@
-<project name="subreport" default="test" basedir=".">
+<project name="subreport" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how subreport could be used to create complex document layouts.</description>
 
@@ -7,14 +7,28 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="MasterReport" />
 
-	<path id="classpath">
+	<path id="project-classpath">
+		<path refid="project-lib"/>
+		<pathelement location="../../../build/classes"/>
+	</path>
+	
+	<path id="sample-classpath">
 		<pathelement location="./build/classes"/>
 		<pathelement location="../../fonts"/>
-		<pathelement location="../../../build/classes"/>
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
+		<path refid="project-classpath"/>
 	</path>
+
+	<target name="javaflow-classpath">
+		<ant dir="../../../" target="javaflow"/>
+		<ivy:configure file="../../../ivysettings.xml"/>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="javaflow"/> 
+	</target>
+
+	<target name="test-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml"/>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="test"/> 
+	</target>
 	
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
@@ -28,17 +42,14 @@
 		<ant dir="../" target="fill"/>
 	</target>
 
-	<target name="fill-javaflow" description="Fills the subreports using JavaFlow Continuations, not threads.">
-		<ant dir="../../../" target="javaflow" />
+	<target name="fill-javaflow" description="Fills the subreports using JavaFlow Continuations, not threads." depends="javaflow-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<sysproperty key="net.sf.jasperreports.properties" value="jasperreports-javaflow.properties"/>
 			<arg value="fill"/>
 			<classpath>
 				<pathelement location="build/classes"/>
-				<pathelement location="../../fonts" />
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
+				<pathelement location="../../fonts"/>
+				<path refid="project-lib"/>
 				<fileset dir="../../../dist">
 					<include name="**/jasperreports-javaflow-*.jar"/>
 				</fileset>
@@ -118,45 +129,45 @@
 		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="viewDesignXml1" description="Launches the design viewer to preview the master XML report design.">
+	<target name="viewDesignXml1" description="Launches the design viewer to preview the master XML report design." depends="test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/MasterReport.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXml2" description="Launches the design viewer to preview the first subreport XML report design.">
+	<target name="viewDesignXml2" description="Launches the design viewer to preview the first subreport XML report design." depends="test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/AddressReport.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXml3" description="Launches the design viewer to preview the second subreport XML report design.">
+	<target name="viewDesignXml3" description="Launches the design viewer to preview the second subreport XML report design." depends="test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/ProductReport.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign1" description="Launches the design viewer to preview the master compiled report design.">
+	<target name="viewDesign1" description="Launches the design viewer to preview the master compiled report design." depends="test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="build/reports/MasterReport.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign2" description="Launches the design viewer to preview the first subreport compiled report design.">
+	<target name="viewDesign2" description="Launches the design viewer to preview the first subreport compiled report design." depends="test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="build/reports/AddressReport.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign3" description="Launches the design viewer to preview the second subreport compiled report design.">
+	<target name="viewDesign3" description="Launches the design viewer to preview the second subreport compiled report design." depends="test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="build/reports/ProductReport.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

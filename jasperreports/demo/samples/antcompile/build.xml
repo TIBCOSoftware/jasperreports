@@ -1,48 +1,55 @@
-<project name="antcompile" default="test" basedir=".">
+<project name="antcompile" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how multiple JRXML files can be compiled in batch mode using ANT.</description>
 
-	<path id="classpath">
+	<path id="project-classpath">
+		<path refid="project-lib"/>
 		<pathelement location="../../../build/classes"/>
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-		<pathelement location="../../fonts"/>
 	</path>
 	
-	<path id="runClasspath">
-		<path refid="classpath"/>
+	<path id="sample-classpath">
 		<pathelement location="./build/classes"/>
+		<pathelement location="../../fonts"/>
+		<path refid="project-classpath"/>
 	</path>
 
-	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
-		<classpath refid="classpath"/>
-	</taskdef>
+	<target name="compile-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml"/>
+		<ivy:resolve file="../../../ivy.xml" log="download-only" conf="compile"/> 
+		<ivy:cachepath pathid="project-lib" conf="compile"/> 
+	</target>
 
-	<target name="javac" description="Compiles the Java source files used in the report designs.">
+	<target name="javac" description="Compiles the Java source files used in the report designs." depends="compile-classpath">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
-			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target> 
 
-	<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag."> 
+	<target name="compile1" description="Compiles report designs specified using the &quot;srcdir&quot; in the &lt;jrc&gt; tag." depends="compile-classpath"> 
 		<mkdir dir="./build/reports"/> 
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="project-classpath"/>
+		</taskdef>
 		<jrc 
 				srcdir="./reports"
 				destdir="./build/reports"
 				tempdir="./build/reports"
 				keepjava="true"
 				xmlvalidation="true">
-			<classpath refid="runClasspath"/>
+			<classpath refid="sample-classpath"/>
 			<include name="**/*.jrxml"/>
 		</jrc>
 	</target> 
 
-	<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+	<target name="compile2" description="Compiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag." depends="compile-classpath">
 		<mkdir dir="./build/reports"/> 
+		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+			<classpath refid="project-classpath"/>
+		</taskdef>
 		<jrc 
 				destdir="./build/reports"
 				tempdir="./build/reports"
@@ -53,13 +60,13 @@
 					<include name="**/*.jrxml"/>
 				</fileset>
 			</src>
-			<classpath refid="runClasspath"/>
+			<classpath refid="sample-classpath"/>
 		</jrc> 
 	</target> 
 
-	<target name="decompile" description="Decompiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+	<target name="decompile" description="Decompiles report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag." depends="compile-classpath">
 		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
-			<classpath refid="classpath"/>
+			<classpath refid="project-classpath"/>
 		</taskdef>
 		<jrdc destdir="./build/reports">
 			<src>
@@ -67,7 +74,7 @@
 					<include name="**/*.jasper"/>
 				</fileset>
 			</src>
-			<classpath refid="runClasspath"/>
+			<classpath refid="sample-classpath"/>
 		</jrdc> 
 	</target> 
 

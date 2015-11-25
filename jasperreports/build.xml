@@ -1,22 +1,24 @@
-<project name="JasperReports" default="compile" basedir=".">
+<project name="JasperReports" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Helps build the JasperReports distribution files.</description>
 
 	<property name="version" value="6.2.1"/>
 
+	<path id="project-classpath">
+		<path refid="project-lib"/>
+		<pathelement location="./build/classes"/>
+	</path>
+
 	<target name="compile" description="Compiles the java source files of the library.">
-		<mkdir dir="./build/classes"/> 
+		<mkdir dir="./build/classes"/>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6" 
 				encoding="ISO-8859-1" includeantruntime="false" createMissingPackageInfoClass="false">
-			<classpath>
-				<pathelement location="./build/classes"/>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="project-classpath"/>
 			<src path="./src"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		
 		<copy todir="./build/classes">
@@ -46,11 +48,7 @@
 	
 	<target name="antlr.generate" description="Generates source files for ANTLR grammars">
 		<mkdir dir="./build/antlr-generated-sources"/> 
-		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g">
-			<classpath>
-				<pathelement path="./lib/antlr-2.7.5.jar"/>
-			</classpath>
-		</antlr>
+		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g"/>
 	</target>
 
 	<target name="jar" depends="compile" description="Builds the JasperReports JAR file.">
@@ -67,13 +65,9 @@
 	<target name="alljars" depends="jar, javaflow, fonts" description="Builds all JasperReports JAR files."/>
 
 	<target name="javaflow" depends="compile" description="Builds the JavaFlow instrumentated JAR file.">
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="javaflow"/> 
 		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
+			<classpath refid="project-classpath"/>
 		</taskdef>
 
 		<copy todir="./build/javaflow">
@@ -141,6 +135,7 @@
 		<delete>
 			<fileset dir="./dist/docs/api" includes="**/*.*" />
 		</delete>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
 		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
 				sourcepath="./src"
 				destdir="./dist/docs/api"
@@ -165,12 +160,7 @@
 <span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2014 TIBCO Software Inc. <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
 ]]>
 			</bottom>
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
+			<classpath refid="project-classpath"/>
 		</javadoc>
 		<copy todir="./dist/docs/api/resources">
 			<fileset dir="./docs/resources">
@@ -195,54 +185,38 @@
 	</target>
 	
 	<target name="schemaref" description="Generates the Schema Reference.">
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
 		<xslt basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
+			<classpath refid="project-classpath"/>
 		</xslt>
 	</target>
 	
 	<target name="componentschemaref" description="Generates the Component Schema Reference.">
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
 		<xslt basedir="src/net/sf/jasperreports/components" in="src/net/sf/jasperreports/components/components.xsd" destdir="dist/docs" style="docs/components.schema.reference.xsl" out="./dist/docs/components.schema.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
+			<classpath refid="project-classpath"/>
 		</xslt>
 	</target>
 	
 	<target name="configref" description="Generates the Configuration Reference.">
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
 		<xslt basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
+			<classpath refid="project-classpath"/>
 		</xslt>
 	</target>
 	
 	<target name="sampleref" depends="compile" description="Generates the Sample Reference.">
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
 		<xslt basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
+			<classpath refid="project-classpath"/>
 		</xslt>
 		<mkdir dir="./dist/docs/sample.reference"/> 
 		<mkdir dir="./dist/docs/resources"/> 
@@ -251,12 +225,7 @@
 			<param name="version" expression="${version}"/>
 			<param name="svn" expression="${svn}"/>
 			<regexpmapper from="^(.*)/docs/(.*).xml$$" to="\1/\2.html" handledirsep="true"/>
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar"/>
-				</fileset>
-				<pathelement location="./build/classes"/>
-			</classpath>
+			<classpath refid="project-classpath"/>
 		</xslt>
 		<copy todir="./dist/docs/sample.reference">
 			<regexpmapper from="^(.*)/docs/(.*)$$" to="\1/\2" handledirsep="true"/>

@@ -1,0 +1,12 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports">
+		<license name="GNU Lesser General Public License" url="http://jasperreports.sourceforge.net/license.html" />
+		<description homepage="http://jasperreports.sourceforge.net">JasperReports Library</description>
+	</info>
+	<configurations defaultconf="hsqldb" defaultconfmapping="hsqldb->*">
+		<conf name="hsqldb" description="dependencies for hsqldb"/>
+	</configurations>
+	<dependencies>
+		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10"/>
+	</dependencies>
+</ivy-module>

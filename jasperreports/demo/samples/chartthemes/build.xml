@@ -1,4 +1,4 @@
-<project name="chartthemes" default="test" basedir=".">
+<project name="chartthemes" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how the chart themes could be used to change the look and feel of all chart types.</description>
 
@@ -7,21 +7,29 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="AllChartsReport" />
 
-	<path id="classpath">
-		<pathelement location="./build/classes"/>
+	<path id="project-classpath">
+		<path refid="project-lib"/>
 		<pathelement location="../../../build/classes"/>
+	</path>
+	
+	<path id="sample-classpath">
+		<pathelement location="./build/classes"/>
 		<pathelement location="../../fonts"/>
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
+		<path refid="project-classpath"/>
 	</path>
 
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<target name="compile-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml"/>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
+	</target>
+
+	<target name="javac" description="Compiles the java source files of the test application." depends="compile-classpath">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
-			<classpath refid="classpath"/>
-			<compilerarg value="-Xlint:unchecked"/>
+			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/classes">
@@ -45,10 +53,10 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings.">
+	<target name="themes" description="Creates the *.jrctx file containing the chart theme settings." depends="compile-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="themes"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

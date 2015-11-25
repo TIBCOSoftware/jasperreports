@@ -43,7 +43,7 @@
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
-			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target>

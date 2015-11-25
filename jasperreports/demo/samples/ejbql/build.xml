@@ -1,4 +1,4 @@
-<project name="ejbql" default="test" basedir=".">
+<project name="ejbql" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how EJBQL could be used in reports.</description>
 
@@ -7,17 +7,27 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="JRMDbReport" />
 
-	<path id="classpath">
-		<pathelement location="build/classes"/>
+	<path id="project-classpath">
+		<path refid="project-lib"/>
 		<pathelement location="../../../build/classes"/>
-		<pathelement location="../../fonts"/>
-		<fileset dir="../../../lib">
+	</path>
+	
+	<path id="sample-classpath">
+		<pathelement location="./build/classes"/>
+		<fileset dir="./build/lib">
 			<include name="**/*.jar"/>
 		</fileset>
-		<fileset dir="lib">
-			<include name="toplink-essentials.jar"/>
-		</fileset>
+		<pathelement location="../../fonts"/>
+		<path refid="project-classpath"/>
 	</path>
+
+	<target name="test-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml"/>
+		<ivy:retrieve file="./ivy-lib.xml" pattern="./build/lib/[artifact].[ext]" log="download-only" conf="test"/> 
+		<ivy:resolve file="./ivy.xml" log="download-only" conf="test"/> 
+		<ivy:cachepath pathid="project-lib" conf="test"/> 
+	</target>
 
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
@@ -28,11 +38,11 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="test-classpath">
 		<java classname="${sample.app.name}" fork="true">
-			<jvmarg value="-javaagent:lib/toplink-essentials-agent.jar"/>
+			<jvmarg value="-javaagent:build/lib/toplink-essentials-agent.jar"/>
 			<arg value="fill"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
