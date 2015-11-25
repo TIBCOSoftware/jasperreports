@@ -161,6 +161,7 @@
 ]]>
 			</bottom>
 			<classpath refid="project-classpath"/>
+			<arg value="-Xdoclint:none"/>
 		</javadoc>
 		<copy todir="./dist/docs/api/resources">
 			<fileset dir="./docs/resources">
