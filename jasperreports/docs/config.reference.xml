@@ -407,6 +407,7 @@
       <property ref="net.sf.jasperreports.properties"/>
       <property ref="net.sf.jasperreports.report.version"/>
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
+      <property ref="net.sf.jasperreports.xml.load.unknown.entities"/>
     </content>
   </category>
   
@@ -5497,6 +5498,19 @@ In the latter case the report time zone (as in <api href="net/sf/jasperreports/e
     <default>N/A</default>
     <scope>Global | Dataset | Parameter | Field</scope>
     <since>6.1.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.load.unknown.entities -->
+  
+  <configProperty name="net.sf.jasperreports.xml.load.unknown.entities">
+    <description>
+Property that determines whether loading entities that are not known to the engine is allowed.
+    </description>
+    <api>net/sf/jasperreports/engine/xml/JRXmlDigester.html#PROPERTY_LOAD_UNKNOWN_ENTITIES</api>
+    <default>false</default>
+    <scope>Global</scope>
+    <since>6.2.1</since>
   </configProperty>
   
   

@@ -446,11 +446,8 @@ public class JRPrintXmlLoader implements ErrorHandler
 				handler.configureDigester(digester);
 				
 				String schemaResource = namespace.getInternalSchemaResource();
-				if (schemaResource != null)
-				{
-					digester.addInternalEntityResource(namespace.getPublicSchemaLocation(), 
-							schemaResource);
-				}
+				digester.addInternalEntityResource(namespace.getPublicSchemaLocation(), 
+						schemaResource);
 			}
 		}
 		
