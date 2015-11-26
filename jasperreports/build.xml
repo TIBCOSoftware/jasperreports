@@ -137,6 +137,11 @@
 			<fileset dir="./dist/docs/api" includes="**/*.*" />
 		</delete>
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
+		<condition property="javadoc-arg" value="-Xdoclint:none" else="">
+			<or>
+				<matches pattern="1.8.*" string="${java.version}"/>
+			</or>
+		</condition>
 		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
 				sourcepath="./src"
 				destdir="./dist/docs/api"
@@ -162,7 +167,7 @@
 ]]>
 			</bottom>
 			<classpath refid="project-classpath"/>
-			<arg value="-Xdoclint:none"/>
+			<arg line="${javadoc-arg}"/>
 		</javadoc>
 		<copy todir="./dist/docs/api/resources">
 			<fileset dir="./docs/resources">
@@ -172,7 +177,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-6-2-1"/>
+	<property name="scm-tag" value="jr-6-2-0"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
@@ -225,7 +230,7 @@
 		<xslt basedir="demo/samples" destdir="dist/docs/sample.reference" style="./docs/sample.xsl">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
-			<param name="svn" expression="${svn}"/>
+			<param name="scm-tag" expression="${scm-tag}"/>
 			<regexpmapper from="^(.*)/docs/(.*).xml$$" to="\1/\2.html" handledirsep="true"/>
 			<classpath refid="project-classpath"/>
 		</xslt>
