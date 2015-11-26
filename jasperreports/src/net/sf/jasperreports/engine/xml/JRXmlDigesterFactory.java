@@ -1601,11 +1601,18 @@ public final class JRXmlDigesterFactory
 			ComponentsBundle componentManager = it.next();
 			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
 			String schemaResource = xmlParser.getInternalSchemaResource();
-			if (schemaResource != null)
-			{
-				digester.addInternalEntityResource(xmlParser.getPublicSchemaLocation(), 
-						schemaResource);
-			}
+			digester.addInternalEntityResource(xmlParser.getPublicSchemaLocation(), 
+					schemaResource);
+		}
+		
+		Collection<PartComponentsBundle> parts = PartComponentsEnvironment.getInstance(jasperReportsContext).getBundles();
+		for (Iterator<PartComponentsBundle> it = parts.iterator(); it.hasNext();)
+		{
+			PartComponentsBundle componentManager = it.next();
+			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
+			String schemaResource = xmlParser.getInternalSchemaResource();
+			digester.addInternalEntityResource(xmlParser.getPublicSchemaLocation(), 
+					schemaResource);
 		}
 	}
 
