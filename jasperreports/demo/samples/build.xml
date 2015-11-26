@@ -10,15 +10,15 @@
 		<echo message=""/>
 
 		<subant target="test">
-			<fileset dir="." includes="*/build.xml" excludes="openflashchart/build.xml,webapp/build.xml,webapp-repo/build.xml"/>
+			<!-- FIXMEIVY -->
+			<fileset dir="." includes="*/build.xml" excludes="openflashchart/build.xml"/>
 		</subant>
 	</target>
 
 
 	<target name="clean" description="Clean all the samples.">
 		<subant target="clean">
-			<!-- FIXMEIVY -->
-			<fileset dir="." includes="*/build.xml" excludes="webapp-repo/build.xml"/>
+			<fileset dir="." includes="*/build.xml"/>
 		</subant>
 	</target>
 
