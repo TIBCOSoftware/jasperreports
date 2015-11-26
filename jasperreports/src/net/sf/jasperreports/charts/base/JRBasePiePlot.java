@@ -210,7 +210,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		// this fixes a problem with JFreeChart that changed the default value of isCircular at some point.
-		// look into SVN history for details
+		// look into Git history for details
 		ObjectInputStream.GetField fields = in.readFields();
 		//the following lines are required because above we called readFields(), not defaultReadObject()
 		labelFormat = (String) fields.get("labelFormat", null);
