@@ -896,12 +896,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		
 		writeChildElements(band);
 
-		List<ExpressionReturnValue> returnValues = band.getReturnValues();
-		if (returnValues != null && !returnValues.isEmpty())
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_1_1))
 		{
-			for (ExpressionReturnValue returnValue : returnValues)
+			List<ExpressionReturnValue> returnValues = band.getReturnValues();
+			if (returnValues != null && !returnValues.isEmpty())
 			{
-				writeReturnValue(returnValue);
+				for (ExpressionReturnValue returnValue : returnValues)
+				{
+					writeReturnValue(returnValue);
+				}
 			}
 		}
 		
