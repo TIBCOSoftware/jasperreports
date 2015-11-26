@@ -180,7 +180,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-6-2-1"/>
+	<property name="scm-tag" value="jr-6-2-0"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
@@ -249,7 +249,7 @@
 		<xslt basedir="demo/samples" destdir="dist/docs/sample.reference" style="./docs/sample.xsl">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
-			<param name="svn" expression="${svn}"/>
+			<param name="scm-tag" expression="${scm-tag}"/>
 			<regexpmapper from="^(.*)/docs/(.*).xml$$" to="\1/\2.html" handledirsep="true"/>
 			<classpath>
 				<fileset dir="./lib">
