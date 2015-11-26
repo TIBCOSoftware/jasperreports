@@ -123,7 +123,7 @@ package net.sf.jasperreports.engine;
  * @see JRParameter#REPORT_TEMPLATES
  * @see JRStyleContainer#getStyleNameReference()
  */
-public interface JRTemplate extends JRDefaultStyleProvider
+public interface JRTemplate
 {
 
 	/**

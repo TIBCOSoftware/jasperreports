@@ -48,7 +48,6 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 
 	private final List<JRTemplateReference> includedTemplates = new ArrayList<JRTemplateReference>();
 	private final List<JRStyle> styles = new ArrayList<JRStyle>();
-	private JRStyle defaultStyle;
 	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE
 
 	public JRPropertyChangeSupport getEventSupport() {
@@ -84,9 +83,6 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 	public void addStyle(int index, JRStyle style) throws JRException {
 		checkExistingName(style.getName());
 
-		if (style.isDefault()) {
-			defaultStyle = style;
-		}
 		if (index >= 0 && index < styles.size())
 			styles.add(index, style);
 		else {
@@ -141,10 +137,6 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		if (idx >= 0) {
 			styles.remove(idx);
 
-			if (style.isDefault()) {
-				defaultStyle = null;
-			}
-
 			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_STYLE, style, idx);
 			return true;
 		}
@@ -163,10 +155,6 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		for (ListIterator<JRStyle> it = styles.listIterator(); it.hasNext();) {
 			JRStyle style = it.next();
 			if (nameMatches(style, name)) {
-				if (style.isDefault()) {
-					defaultStyle = null;
-				}
-
 				removed = style;
 				break;
 			}
@@ -181,10 +169,6 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 
 	public JRStyle[] getStyles() {
 		return styles.toArray(new JRStyle[styles.size()]);
-	}
-
-	public JRStyle getDefaultStyle() {
-		return defaultStyle;
 	}
 
 	/**
