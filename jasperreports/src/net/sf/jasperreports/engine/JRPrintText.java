@@ -87,7 +87,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	/**
 	 * Sets the index to which this object's text is to be truncated.
 	 * 
-	 * The test is truncated when {@link JRStyledTextUtil#getTruncatedText(JRPrintText)} or {@link #getStyledText(JRStyledTextAttributeSelector)}
+	 * The test is truncated when {@link JRStyledTextUtil#getTruncatedText(JRPrintText)} or {@link #getFullStyledText(JRStyledTextAttributeSelector)}
 	 * are called.
 	 * 
 	 * @param index the index to which this object's text is to be truncated
