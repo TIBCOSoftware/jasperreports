@@ -137,6 +137,11 @@
 			<fileset dir="./dist/docs/api" includes="**/*.*" />
 		</delete>
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
+		<condition property="javadoc-arg" value="-Xdoclint:none" else="">
+			<or>
+				<matches pattern="1.8.*" string="${java.version}"/>
+			</or>
+		</condition>
 		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
 				sourcepath="./src"
 				destdir="./dist/docs/api"
@@ -162,7 +167,7 @@
 ]]>
 			</bottom>
 			<classpath refid="project-classpath"/>
-			<arg value="-Xdoclint:none"/>
+			<arg line="${javadoc-arg}"/>
 		</javadoc>
 		<copy todir="./dist/docs/api/resources">
 			<fileset dir="./docs/resources">
