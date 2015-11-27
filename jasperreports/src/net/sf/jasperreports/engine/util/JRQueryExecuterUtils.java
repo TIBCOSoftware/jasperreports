@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -56,15 +55,6 @@ public final class JRQueryExecuterUtils
 	private JRQueryExecuterUtils(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static JRQueryExecuterUtils getDefaultInstance()
-	{
-		return new JRQueryExecuterUtils(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
@@ -117,20 +107,6 @@ public final class JRQueryExecuterUtils
 	}
 	
 	
-	/**
-	 * Returns a query executer factory for a query language.
-	 * 
-	 * @param language the query language
-	 * @return a query executer factory
-	 * @throws JRException
-	 * @see QueryExecuterFactory#QUERY_EXECUTER_FACTORY_PREFIX
-	 * @deprecated Replaced by {@link #getExecuterFactory(String)}.
-	 */
-	public static net.sf.jasperreports.engine.query.JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
-	{
-		return getDefaultInstance().getExecuterFactory(language);
-	}
-
 	/**
 	 * @deprecated To be removed.
 	 */

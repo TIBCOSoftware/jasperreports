@@ -28,15 +28,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A class that provides access to 
@@ -69,15 +68,6 @@ public final class GenericElementHandlerEnviroment
 	private GenericElementHandlerEnviroment(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static GenericElementHandlerEnviroment getDefaultInstance()
-	{
-		return new GenericElementHandlerEnviroment(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
@@ -157,30 +147,5 @@ public final class GenericElementHandlerEnviroment
 			}
 		}
 		return bundles;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getElementHandler(JRGenericElementType, String)}.
-	 */
-	public static GenericElementHandler getHandler(JRGenericElementType type,
-			String exporterKey)
-	{
-		return getDefaultInstance().getElementHandler(type, exporterKey);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getBundles()}.
-	 */
-	protected static Map<String,GenericElementHandlerBundle> getHandlerBundles()
-	{
-		return getDefaultInstance().getBundles();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #loadBundles()}.
-	 */
-	protected static Map<String,GenericElementHandlerBundle> loadHandlerBundles()
-	{
-		return getDefaultInstance().loadBundles();
 	}
 }
