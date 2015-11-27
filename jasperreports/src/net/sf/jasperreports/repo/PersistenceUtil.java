@@ -25,7 +25,6 @@ package net.sf.jasperreports.repo;
 
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
@@ -43,15 +42,6 @@ public final class PersistenceUtil
 	private PersistenceUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static PersistenceUtil getDefaultInstance()
-	{
-		return new PersistenceUtil(DefaultJasperReportsContext.getInstance());
 	}
 	
 	

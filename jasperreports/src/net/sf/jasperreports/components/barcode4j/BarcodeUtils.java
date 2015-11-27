@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -52,15 +51,6 @@ public final class BarcodeUtils
 	private BarcodeUtils(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static BarcodeUtils getDefaultInstance()
-	{
-		return new BarcodeUtils(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
@@ -125,14 +115,6 @@ public final class BarcodeUtils
 	}
 
 	
-	/**
-	 * @deprecated Replaced by {@link #getProducer(JRPropertiesHolder)}.
-	 */
-	public static BarcodeImageProducer getImageProducer(JRPropertiesHolder propertiesHolder)
-	{
-		return getDefaultInstance().getProducer(propertiesHolder);
-	}
-
 	public static boolean isVertical(Barcode4jComponent barcode)
 	{
 		OrientationEnum orientation = barcode.getOrientationValue();

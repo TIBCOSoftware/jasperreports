@@ -26,17 +26,11 @@ package net.sf.jasperreports.engine;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Transparency;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.awt.image.RenderedImage;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.lang.ref.SoftReference;
-import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,7 +39,6 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -157,159 +150,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(String)}.
-	 */
-	public static JRRenderable getInstance(String imageLocation) throws JRException
-	{
-		return RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageLocation);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(String, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(String imageLocation, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		return RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageLocation, onErrorType);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(String, OnErrorTypeEnum, boolean)}.
-	 */
-	public static JRRenderable getInstance(String imageLocation, OnErrorTypeEnum onErrorType, boolean isLazy) throws JRException
-	{
-		return RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageLocation, onErrorType, isLazy);
-	}
-
-	
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(Image, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(Image img, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		ImageTypeEnum type = ImageTypeEnum.JPEG;
-		if (img instanceof RenderedImage)
-		{
-			ColorModel colorModel = ((RenderedImage) img).getColorModel();
-			//if the image has transparency, encode as PNG
-			if (colorModel.hasAlpha() 
-					&& colorModel.getTransparency() != Transparency.OPAQUE)
-			{
-				type = ImageTypeEnum.PNG;
-			}
-		}
-		
-		return getInstance(img, type.getValue(), onErrorType);
-	}
-
-
-	/**
-	 * Creates and returns an instance of the JRImageRenderer class after encoding the image object using an image
-	 * encoder that supports the supplied image type.
-	 * 
-	 * @param image the java.awt.Image object to wrap into a JRImageRenderer instance
-	 * @param imageType the type of the image as specified by one of the constants defined in the JRRenderable interface
-	 * @param onErrorType one of the error type constants defined in the {@link OnErrorTypeEnum}.
-	 * @return the image renderer instance
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(Image, ImageTypeEnum, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(Image image, byte imageType, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		try
-		{
-			return new JRImageRenderer(JRImageLoader.loadImageDataFromAWTImage(image, imageType));
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e); 
-		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(InputStream, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(InputStream is, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		try
-		{
-			return new JRImageRenderer(JRLoader.loadBytes(is));
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e); 
-		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(URL, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(URL url, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		try
-		{
-			return new JRImageRenderer(JRLoader.loadBytes(url));
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e); 
-		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(File, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(File file, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		try
-		{
-			return new JRImageRenderer(JRLoader.loadBytes(file));
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e); 
-		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getOnErrorRendererForDimension(Renderable, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getOnErrorRendererForDimension(JRRenderable renderer, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		try
-		{
-			renderer.getDimension();
-			return renderer;
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e); 
-		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link RenderableUtil#getOnErrorRendererForImageData(Renderable, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getOnErrorRendererForImageData(JRRenderable renderer, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		try
-		{
-			renderer.getImageData();
-			return renderer;
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e); 
-		}
-	}
-
-
-	/**
 	 *
 	 */
 	public static JRImageRenderer getOnErrorRendererForImage(JasperReportsContext jasperReportsContext, JRImageRenderer renderer, OnErrorTypeEnum onErrorType) throws JRException
@@ -339,15 +179,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 			}
 		}
 		return result;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getOnErrorRendererForImage(JasperReportsContext, JRImageRenderer, OnErrorTypeEnum)}.
-	 */
-	public static JRImageRenderer getOnErrorRendererForImage(JRImageRenderer renderer, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		return getOnErrorRendererForImage(DefaultJasperReportsContext.getInstance(), renderer, onErrorType);
 	}
 
 

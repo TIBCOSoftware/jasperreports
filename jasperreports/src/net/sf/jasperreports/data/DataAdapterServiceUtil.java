@@ -26,7 +26,6 @@ package net.sf.jasperreports.data;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -47,15 +46,6 @@ public final class DataAdapterServiceUtil
 	private DataAdapterServiceUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static DataAdapterServiceUtil getDefaultInstance()
-	{
-		return new DataAdapterServiceUtil(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
