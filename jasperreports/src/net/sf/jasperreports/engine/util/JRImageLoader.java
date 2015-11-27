@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Image;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -74,15 +73,6 @@ public final class JRImageLoader
 		this.jasperReportsContext = jasperReportsContext;
 		
 		init();
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static JRImageLoader getDefaultInstance()
-	{
-		return new JRImageLoader(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
@@ -164,23 +154,5 @@ public final class JRImageLoader
 	public Image loadAwtImageFromBytes(byte[] bytes) throws JRException
 	{
 		return imageReader.readImage(bytes);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #loadBytesFromAwtImage(Image, byte)}.
-	 */
-	public static byte[] loadImageDataFromAWTImage(Image image, byte imageType) throws JRException
-	{
-		return getDefaultInstance().loadBytesFromAwtImage(image, imageType);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #loadAwtImageFromBytes(byte[])}.
-	 */
-	public static Image loadImage(byte[] bytes) throws JRException
-	{
-		return getDefaultInstance().loadAwtImageFromBytes(bytes);
 	}
 }

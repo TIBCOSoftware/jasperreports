@@ -29,14 +29,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
-
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 /**
  * A class that provides access to {@link ComponentsBundle component bundles}.
@@ -66,15 +65,6 @@ public final class ComponentsEnvironment
 	private ComponentsEnvironment(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static ComponentsEnvironment getDefaultInstance()
-	{
-		return new ComponentsEnvironment(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
@@ -171,45 +161,5 @@ public final class ComponentsEnvironment
 		
 		String name = componentKey.getName();
 		return componentsBundle.getComponentManager(name);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getBundles()}.
-	 */
-	public static Collection<ComponentsBundle> getComponentBundles()
-	{
-		return getDefaultInstance().getBundles();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getCachedBundles()}.
-	 */
-	protected static Map<String, ComponentsBundle> getCachedComponentBundles()
-	{
-		return getDefaultInstance().getCachedBundles();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #findBundles()}. 
-	 */
-	protected static Map<String, ComponentsBundle> findComponentBundles()
-	{
-		return getDefaultInstance().findBundles();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getBundle(String)}.
-	 */
-	public static ComponentsBundle getComponentsBundle(String namespace)
-	{
-		return getDefaultInstance().getBundle(namespace);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getManager(ComponentKey)}.
-	 */
-	public static ComponentManager getComponentManager(ComponentKey componentKey)
-	{
-		return getDefaultInstance().getManager(componentKey);
 	}
 }

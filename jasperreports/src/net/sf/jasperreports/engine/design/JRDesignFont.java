@@ -43,13 +43,6 @@ public class JRDesignFont extends JRBaseFont
 
 	public static final String PROPERTY_STYLE = "style";
 	public static final String PROPERTY_STYLE_NAME_REFERENCE = "styleNameReference";
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public JRDesignFont()
-	{
-	}
 		
 
 	/**
