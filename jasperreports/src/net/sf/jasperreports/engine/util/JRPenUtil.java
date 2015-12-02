@@ -38,14 +38,6 @@ public final class JRPenUtil
 {
 
 	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static void setLinePenFromPen(Byte pen, JRPen linePen)
-	{
-		setLinePenFromPen(PenEnum.getByValue(pen), linePen);
-	}
-
-	/**
 	 * 
 	 */
 	public static void setLinePenFromPen(PenEnum pen, JRPen linePen)
@@ -92,52 +84,6 @@ public final class JRPenUtil
 				}
 			}
 		}
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static byte getPenFromLinePen(JRPen linePen)
-	{
-		float lineWidth = linePen.getLineWidth().floatValue();
-		if (lineWidth <= 0f)
-		{
-			return PenEnum.NONE.getValue();
-		}
-		else if (0f < lineWidth && lineWidth < 1f)
-		{
-			return PenEnum.THIN.getValue();
-		}
-		else if (1f <= lineWidth && lineWidth < 2f)
-		{
-			if (linePen.getLineStyleValue() == LineStyleEnum.DASHED)
-			{
-				return PenEnum.DOTTED.getValue();
-			}
-			else
-			{
-				return PenEnum.ONE_POINT.getValue();
-			}
-		}
-		else if (2f <= lineWidth && lineWidth < 4f)
-		{
-			return PenEnum.TWO_POINT.getValue();
-		}
-
-		return PenEnum.FOUR_POINT.getValue();
-	}
-
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static Byte getOwnPenFromLinePen(JRPen linePen)
-	{
-		if (linePen.getOwnLineWidth() == null && linePen.getOwnLineStyleValue() == null)
-		{
-			return null;
-		}
-		
-		return new Byte(getPenFromLinePen(linePen));
 	}
 
 	/**

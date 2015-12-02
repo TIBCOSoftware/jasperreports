@@ -52,7 +52,6 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 import net.sf.jasperreports.engine.util.StyleResolver;
 
@@ -134,7 +133,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected final JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle;
 	protected String parentStyleNameReference;
 
@@ -1156,10 +1155,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated
 	 */
-	private Byte pen;
-	/**
-	 * @deprecated
-	 */
 	private Boolean isStyledText;
 	/**
 	 * @deprecated
@@ -1198,13 +1193,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			fill = null;
 		}
 
-		if (linePen == null)
-		{
-			linePen = new JRBasePen(this);
-			JRPenUtil.setLinePenFromPen(pen, linePen);
-			pen = null;
-		}
-		
 		if (isStyledText != null)
 		{
 			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;

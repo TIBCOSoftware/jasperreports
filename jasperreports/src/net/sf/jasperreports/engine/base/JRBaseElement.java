@@ -106,7 +106,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	protected JRGroup printWhenGroupChanges;
 	protected JRElementGroup elementGroup;
 
-	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected final JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle;
 	protected String parentStyleNameReference;
 

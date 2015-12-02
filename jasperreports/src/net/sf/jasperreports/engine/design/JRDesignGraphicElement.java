@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
@@ -147,10 +146,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	/**
 	 * @deprecated
 	 */
-	private Byte pen;
-	/**
-	 * @deprecated
-	 */
 	private Byte fill;
 	
 	@SuppressWarnings("deprecation")
@@ -162,12 +157,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 		{
 			fillValue = FillEnum.getByValue(fill);
 			fill = null;
-		}
-		if (linePen == null)
-		{
-			linePen = new JRBasePen(this);
-			JRPenUtil.setLinePenFromPen(pen, linePen);
-			pen = null;
 		}
 	}
 		

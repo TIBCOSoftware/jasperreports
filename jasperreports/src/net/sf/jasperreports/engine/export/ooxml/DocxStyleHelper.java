@@ -26,12 +26,12 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 
@@ -91,13 +91,13 @@ public class DocxStyleHelper extends BaseHelper
 			
 			if (reportIndex == 0)
 			{
-				JRDesignStyle style = new JRDesignStyle();
+				JRDesignStyle style = new JRDesignStyle(jasperPrint.getDefaultStyleProvider());
 				style.setName("EMPTY_CELL_STYLE");
 				style.setParentStyle(jasperPrint.getDefaultStyle());
 				style.setFontSize(0f);
-				exportHeader(style);
+				exportHeader(jasperPrint.getDefaultStyleProvider(), style);
 				paragraphHelper.exportProps(style);
-				runHelper.exportProps(style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
+				runHelper.exportProps(jasperPrint.getDefaultStyleProvider(), style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
 				exportFooter();
 			}
 			
@@ -107,9 +107,9 @@ public class DocxStyleHelper extends BaseHelper
 				for(int i = 0; i < styles.length; i++)
 				{
 					JRStyle style = styles[i];
-					exportHeader(style);
+					exportHeader(jasperPrint.getDefaultStyleProvider(), style);
 					paragraphHelper.exportProps(style);
-					runHelper.exportProps(style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
+					runHelper.exportProps(jasperPrint.getDefaultStyleProvider(), style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
 					exportFooter();
 				}
 			}
@@ -121,7 +121,7 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private void exportHeader(JRStyle style)
+	private void exportHeader(JRDefaultStyleProvider defaultStyleProvider, JRStyle style)
 	{
 		//write(" <w:style w:type=\"paragraph\" w:default=\"1\" w:styleId=\"" + style.getName() + "\">\n");
 		write(" <w:style w:type=\"paragraph\" w:styleId=\"" + style.getName() + "\"");
@@ -132,7 +132,7 @@ public class DocxStyleHelper extends BaseHelper
 		write(">\n");
 		write("  <w:name w:val=\"" + style.getName() + "\" />\n");
 		write("  <w:qFormat />\n");
-		JRStyle baseStyle = StyleResolver.getBaseStyle(style);
+		JRStyle baseStyle =  defaultStyleProvider.getStyleResolver().getBaseStyle(style);
 		String styleNameReference = baseStyle == null ? null : baseStyle.getName(); //javadoc says getStyleNameReference is not supposed to work for print elements
 		if (styleNameReference != null)
 		{

@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
@@ -139,10 +138,6 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	/**
 	 * @deprecated
 	 */
-	private Byte pen;
-	/**
-	 * @deprecated
-	 */
 	private Byte fill;
 	
 	@SuppressWarnings("deprecation")
@@ -154,12 +149,6 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 		{
 			fillValue = FillEnum.getByValue(fill);
 			fill = null;
-		}
-		if (linePen == null)
-		{
-			linePen = new JRBasePen(this);
-			JRPenUtil.setLinePenFromPen(pen, linePen);
-			pen = null;
 		}
 	}
 		

@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.barbecue;
 
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.StyleResolver;
@@ -34,18 +35,36 @@ import net.sf.jasperreports.engine.util.StyleResolver;
  */
 public final class BarbecueStyleResolver {
 	
-	private BarbecueStyleResolver() {
+	private BarbecueStyleResolver()
+	{
 	}
 	
 	/**
 	 * 
 	 */
-	public static RotationEnum getRotationValue(JRComponentElement element)	{
+	public static StyleResolver getStyleResolver(JRComponentElement element)
+	{
+		if (element != null)
+		{
+			JRDefaultStyleProvider defaultStyleProvider = element.getDefaultStyleProvider();
+			if (defaultStyleProvider != null)
+			{
+				return defaultStyleProvider.getStyleResolver();
+			}
+		}
+		return StyleResolver.getInstance();
+	}
+
+	/**
+	 * 
+	 */
+	public static RotationEnum getRotationValue(JRComponentElement element)
+	{
 		RotationEnum ownRotation = ((BarbecueComponent)element.getComponent()).getOwnRotation();
 		if (ownRotation != null) {
 			return ownRotation;
 		}
-		JRStyle style = StyleResolver.getBaseStyle(element);
+		JRStyle style = getStyleResolver(element).getBaseStyle(element);
 		if (style != null) {
 			RotationEnum rotation = style.getRotationValue();
 			if (rotation != null) {

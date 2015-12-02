@@ -91,7 +91,6 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
 import net.sf.jasperreports.export.DocxReportConfiguration;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -823,7 +822,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		if (textLength > 0)
 		{
 			exportStyledText(
-				StyleResolver.getBaseStyle(text), 
+				getCurrentJasperPrint().getDefaultStyleProvider().getStyleResolver().getBaseStyle(text), 
 				styledText, 
 				getTextLocale(text),
 				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),

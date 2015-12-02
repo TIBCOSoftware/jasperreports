@@ -32,11 +32,6 @@ import java.awt.Color;
 public interface JRPenContainer extends JRStyleContainer
 {
 
-//	/**
-//	 *
-//	 */
-//	public JRStyleContainer getStyleContainer();
-
 	/**
 	 *
 	 */

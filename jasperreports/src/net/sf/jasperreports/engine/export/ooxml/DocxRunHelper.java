@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -43,7 +44,6 @@ import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -120,9 +120,9 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(JRStyle style, Locale locale)
+	public void exportProps(JRDefaultStyleProvider defaultStyleProvider, JRStyle style, Locale locale)
 	{
-		JRStyle baseStyle = StyleResolver.getBaseStyle(style);
+		JRStyle baseStyle = defaultStyleProvider.getStyleResolver().getBaseStyle(style);
 		exportProps(
 			getAttributes(baseStyle), 
 			getAttributes(style), 

@@ -33,9 +33,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 import net.sf.jasperreports.engine.util.ObjectUtils.HashCode;
 
@@ -165,10 +163,6 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	/**
 	 * @deprecated
 	 */
-	private Byte pen;
-	/**
-	 * @deprecated
-	 */
 	private Byte fill;
 	
 	@SuppressWarnings("deprecation")
@@ -180,12 +174,6 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 		{
 			fillValue = FillEnum.getByValue(fill);
 			fill = null;
-		}
-		if (linePen == null)
-		{
-			linePen = new JRBasePen(this);
-			JRPenUtil.setLinePenFromPen(pen, linePen);
-			pen = null;
 		}
 	}
 
