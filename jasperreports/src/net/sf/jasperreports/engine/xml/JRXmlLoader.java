@@ -43,6 +43,10 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.digester.Digester;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -63,10 +67,6 @@ import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
-
-import org.apache.commons.digester.Digester;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -331,7 +331,7 @@ public class JRXmlLoader
 		assignGroupReferences();
 		this.assignGroupsToDatasets();
 		
-		return this.jasperDesign;
+		return jasperDesign;
 	}
 
 	/**

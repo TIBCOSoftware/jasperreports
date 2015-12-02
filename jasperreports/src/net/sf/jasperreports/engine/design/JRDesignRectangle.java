@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -74,7 +73,7 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	 */
 	public int getRadius()
 	{
-		return JRStyleResolver.getRadius(this);
+		return getStyleResolver().getRadius(this);
 	}
 
 	public Integer getOwnRadius()

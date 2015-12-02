@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 /**
  * An interface that provides a default style when none is specified. All classes that might need to return a default style
@@ -32,11 +33,16 @@ package net.sf.jasperreports.engine;
 public interface JRDefaultStyleProvider
 {
 
-	
+
 	/**
 	 * Returns a default style.
 	 */
 	public JRStyle getDefaultStyle();
+	
+	/**
+	 * Returns a style resolver.
+	 */
+	public StyleResolver getStyleResolver();
 
 
 }

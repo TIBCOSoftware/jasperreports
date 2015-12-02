@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
@@ -139,7 +138,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
 	/**
@@ -315,7 +314,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
-		return JRStyleResolver.getHorizontalTextAlign(this);
+		return getStyleResolver().getHorizontalTextAlign(this);
 	}
 		
 	/**
@@ -339,7 +338,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
-		return JRStyleResolver.getVerticalTextAlign(this);
+		return getStyleResolver().getVerticalTextAlign(this);
 	}
 		
 	/**
@@ -363,7 +362,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public RotationEnum getRotationValue()
 	{
-		return JRStyleResolver.getRotationValue(this);
+		return getStyleResolver().getRotationValue(this);
 	}
 		
 	public RotationEnum getOwnRotationValue()
@@ -439,7 +438,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getMarkup()
 	{
-		return JRStyleResolver.getMarkup(this);
+		return getStyleResolver().getMarkup(this);
 	}
 		
 	public String getOwnMarkup()
@@ -640,7 +639,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getFontName()
 	{
-		return JRStyleResolver.getFontName(this);
+		return getStyleResolver().getFontName(this);
 	}
 
 	/**
@@ -665,7 +664,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public boolean isBold()
 	{
-		return JRStyleResolver.isBold(this);
+		return getStyleResolver().isBold(this);
 	}
 
 	/**
@@ -699,7 +698,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public boolean isItalic()
 	{
-		return JRStyleResolver.isItalic(this);
+		return getStyleResolver().isItalic(this);
 	}
 
 	/**
@@ -732,7 +731,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public boolean isUnderline()
 	{
-		return JRStyleResolver.isUnderline(this);
+		return getStyleResolver().isUnderline(this);
 	}
 
 	/**
@@ -765,7 +764,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public boolean isStrikeThrough()
 	{
-		return JRStyleResolver.isStrikeThrough(this);
+		return getStyleResolver().isStrikeThrough(this);
 	}
 
 	/**
@@ -798,7 +797,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public float getFontsize()
 	{
-		return JRStyleResolver.getFontsize(this);
+		return getStyleResolver().getFontsize(this);
 	}
 
 	/**
@@ -854,7 +853,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getPdfFontName()
 	{
-		return JRStyleResolver.getPdfFontName(this);
+		return getStyleResolver().getPdfFontName(this);
 	}
 
 	/**
@@ -879,7 +878,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public String getPdfEncoding()
 	{
-		return JRStyleResolver.getPdfEncoding(this);
+		return getStyleResolver().getPdfEncoding(this);
 	}
 
 	/**
@@ -904,7 +903,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public boolean isPdfEmbedded()
 	{
-		return JRStyleResolver.isPdfEmbedded(this);
+		return getStyleResolver().isPdfEmbedded(this);
 	}
 
 	/**

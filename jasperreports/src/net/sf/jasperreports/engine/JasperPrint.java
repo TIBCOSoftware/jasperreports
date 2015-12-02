@@ -43,6 +43,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.base.StandardPrintParts;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -88,6 +89,8 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		
 		private JRStyle defaultStyle;
+		protected transient StyleResolver styleResolver;
+		protected transient ThreadLocal<StyleResolver> threadLocalStyleResolver;
 
 		DefaultStyleProvider(JRStyle style)
 		{
@@ -102,6 +105,43 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		void setDefaultStyle(JRStyle style)
 		{
 			this.defaultStyle = style;
+		}
+
+		public synchronized void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+		{
+			StyleResolver newStyleResolver = new StyleResolver(jasperReportsContext);
+			
+			if (styleResolver == null)
+			{
+				styleResolver = newStyleResolver;
+			}
+			
+			if (threadLocalStyleResolver == null)
+			{
+				threadLocalStyleResolver = new ThreadLocal<StyleResolver>();
+			}
+			
+			threadLocalStyleResolver.set(newStyleResolver);
+		}
+
+		public StyleResolver getStyleResolver()
+		{
+			if (
+				threadLocalStyleResolver == null
+				|| threadLocalStyleResolver.get() == null
+				)
+			{
+				if (styleResolver == null)
+				{
+					return StyleResolver.getInstance();
+				}
+				else
+				{
+					return styleResolver;
+				}
+			}
+			
+			return threadLocalStyleResolver.get();
 		}
 	}
 
@@ -192,6 +232,14 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		defaultStyleProvider = new DefaultStyleProvider(null);
 
 		propertiesMap = new JRPropertiesMap();
+	}
+
+	/**
+	 *
+	 */
+	public synchronized void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		defaultStyleProvider.setJasperReportsContext(jasperReportsContext);
 	}
 
 	/**

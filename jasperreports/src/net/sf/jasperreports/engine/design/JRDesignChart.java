@@ -76,7 +76,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -332,7 +331,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public Color getTitleColor()
 	{
-		return JRStyleResolver.getTitleColor(this);
+		return getStyleResolver().getTitleColor(this);
 	}
 
 	/**
@@ -376,7 +375,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public Color getSubtitleColor()
 	{
-		return JRStyleResolver.getSubtitleColor(this);
+		return getStyleResolver().getSubtitleColor(this);
 	}
 
 	/**
@@ -410,7 +409,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public Color getLegendColor()
 	{
-		return JRStyleResolver.getLegendColor(this);
+		return getStyleResolver().getLegendColor(this);
 	}
 
 	/**
@@ -436,7 +435,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public Color getLegendBackgroundColor()
 	{
-		return JRStyleResolver.getLegendBackgroundColor(this);
+		return getStyleResolver().getLegendBackgroundColor(this);
 	}
 
 	/**
@@ -863,7 +862,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 

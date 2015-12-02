@@ -48,11 +48,11 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.MarkupProcessor;
 import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 
 /**
@@ -180,8 +180,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		{
 			lineBox = initLineBox.clone(this);
 			paragraph = initParagraph.clone(this);
-			JRStyleResolver.appendBox(lineBox, providerStyle.getLineBox());
-			JRStyleResolver.appendParagraph(paragraph, providerStyle.getParagraph());
+			StyleUtil.appendBox(lineBox, providerStyle.getLineBox());
+			StyleUtil.appendParagraph(paragraph, providerStyle.getParagraph());
 			
 			fillStyleObjects = null;
 		}
@@ -219,7 +219,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**
@@ -275,7 +275,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
-		return JRStyleResolver.getHorizontalTextAlign(this);
+		return getStyleResolver().getHorizontalTextAlign(this);
 	}
 		
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
@@ -296,7 +296,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
-		return JRStyleResolver.getVerticalTextAlign(this);
+		return getStyleResolver().getVerticalTextAlign(this);
 	}
 		
 	public VerticalTextAlignEnum getOwnVerticalTextAlign()
@@ -317,7 +317,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public RotationEnum getRotationValue()
 	{
-		return JRStyleResolver.getRotationValue(this);
+		return getStyleResolver().getRotationValue(this);
 	}
 		
 	public RotationEnum getOwnRotationValue()
@@ -362,7 +362,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getMarkup()
 	{
-		return JRStyleResolver.getMarkup(this);
+		return getStyleResolver().getMarkup(this);
 	}
 		
 	/**
@@ -731,7 +731,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getFontName()
 	{
-		return JRStyleResolver.getFontName(this);
+		return getStyleResolver().getFontName(this);
 	}
 
 	/**
@@ -756,7 +756,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isBold()
 	{
-		return JRStyleResolver.isBold(this);
+		return getStyleResolver().isBold(this);
 	}
 
 	/**
@@ -790,7 +790,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isItalic()
 	{
-		return JRStyleResolver.isItalic(this);
+		return getStyleResolver().isItalic(this);
 	}
 
 	/**
@@ -823,7 +823,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isUnderline()
 	{
-		return JRStyleResolver.isUnderline(this);
+		return getStyleResolver().isUnderline(this);
 	}
 
 	/**
@@ -856,7 +856,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isStrikeThrough()
 	{
-		return JRStyleResolver.isStrikeThrough(this);
+		return getStyleResolver().isStrikeThrough(this);
 	}
 
 	/**
@@ -889,7 +889,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public float getFontsize()
 	{
-		return JRStyleResolver.getFontsize(this);
+		return getStyleResolver().getFontsize(this);
 	}
 
 	/**
@@ -946,7 +946,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getPdfFontName()
 	{
-		return JRStyleResolver.getPdfFontName(this);
+		return getStyleResolver().getPdfFontName(this);
 	}
 
 	/**
@@ -971,7 +971,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getPdfEncoding()
 	{
-		return JRStyleResolver.getPdfEncoding(this);
+		return getStyleResolver().getPdfEncoding(this);
 	}
 
 	/**
@@ -996,7 +996,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public boolean isPdfEmbedded()
 	{
-		return JRStyleResolver.isPdfEmbedded(this);
+		return getStyleResolver().isPdfEmbedded(this);
 	}
 
 	/**

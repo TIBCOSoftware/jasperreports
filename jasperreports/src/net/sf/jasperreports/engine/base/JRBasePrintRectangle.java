@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.PrintElementVisitor;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -61,7 +60,7 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	 */
 	public int getRadius()
 	{
-		return JRStyleResolver.getRadius(this);
+		return getStyleResolver().getRadius(this);
 	}
 
 	/**

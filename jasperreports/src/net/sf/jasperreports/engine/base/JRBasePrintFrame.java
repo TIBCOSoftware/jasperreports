@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * Base implementation of {@link net.sf.jasperreports.engine.JRPrintFrame JRPrintFrame}.
@@ -65,7 +64,7 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
 	/**

@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -63,7 +62,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	 */
 	public int getRadius()
 	{
-		return JRStyleResolver.getRadius(this);
+		return getStyleResolver().getRadius(this);
 	}
 		
 	public Integer getOwnRadius()

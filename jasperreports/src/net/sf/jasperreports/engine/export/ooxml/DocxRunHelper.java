@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -122,7 +122,7 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	public void exportProps(JRStyle style, Locale locale)
 	{
-		JRStyle baseStyle = JRStyleResolver.getBaseStyle(style);
+		JRStyle baseStyle = StyleResolver.getBaseStyle(style);
 		exportProps(
 			getAttributes(baseStyle), 
 			getAttributes(style), 

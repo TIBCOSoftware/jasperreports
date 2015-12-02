@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
@@ -118,7 +117,7 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**

@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
@@ -218,7 +217,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
 	/**
@@ -274,7 +273,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
-		return JRStyleResolver.getHorizontalTextAlign(this);
+		return getStyleResolver().getHorizontalTextAlign(this);
 	}
 		
 	/**
@@ -298,7 +297,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
-		return JRStyleResolver.getVerticalTextAlign(this);
+		return getStyleResolver().getVerticalTextAlign(this);
 	}
 		
 	/**
@@ -322,7 +321,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	public RotationEnum getRotationValue()
 	{
-		return JRStyleResolver.getRotationValue(this);
+		return getStyleResolver().getRotationValue(this);
 	}
 
 	/**
@@ -380,7 +379,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	public String getMarkup()
 	{
-		return JRStyleResolver.getMarkup(this);
+		return getStyleResolver().getMarkup(this);
 	}
 		
 	public String getOwnMarkup()
@@ -469,7 +468,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public String getFontName()
 	{
-		return JRStyleResolver.getFontName(this);
+		return getStyleResolver().getFontName(this);
 	}
 
 	/**
@@ -494,7 +493,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public boolean isBold()
 	{
-		return JRStyleResolver.isBold(this);
+		return getStyleResolver().isBold(this);
 	}
 
 	/**
@@ -528,7 +527,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public boolean isItalic()
 	{
-		return JRStyleResolver.isItalic(this);
+		return getStyleResolver().isItalic(this);
 	}
 
 	/**
@@ -561,7 +560,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public boolean isUnderline()
 	{
-		return JRStyleResolver.isUnderline(this);
+		return getStyleResolver().isUnderline(this);
 	}
 
 	/**
@@ -594,7 +593,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public boolean isStrikeThrough()
 	{
-		return JRStyleResolver.isStrikeThrough(this);
+		return getStyleResolver().isStrikeThrough(this);
 	}
 
 	/**
@@ -627,7 +626,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public float getFontsize()
 	{
-		return JRStyleResolver.getFontsize(this);
+		return getStyleResolver().getFontsize(this);
 	}
 
 	/**
@@ -683,7 +682,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public String getPdfFontName()
 	{
-		return JRStyleResolver.getPdfFontName(this);
+		return getStyleResolver().getPdfFontName(this);
 	}
 
 	/**
@@ -708,7 +707,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public String getPdfEncoding()
 	{
-		return JRStyleResolver.getPdfEncoding(this);
+		return getStyleResolver().getPdfEncoding(this);
 	}
 
 	/**
@@ -733,7 +732,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 */
 	public boolean isPdfEmbedded()
 	{
-		return JRStyleResolver.isPdfEmbedded(this);
+		return getStyleResolver().isPdfEmbedded(this);
 	}
 
 	/**

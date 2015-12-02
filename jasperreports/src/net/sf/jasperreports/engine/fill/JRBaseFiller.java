@@ -45,6 +45,9 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
@@ -77,9 +80,7 @@ import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -153,6 +154,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected List<JRTemplate> templates;
 
 	protected JRStyle defaultStyle;
+	
+	protected StyleResolver styleResolver;
 
 	protected JRStyle[] styles;
 
@@ -338,6 +341,14 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		return fillBand;
 	}
 
+	@Override
+	protected void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		super.setJasperReportsContext(jasperReportsContext);
+
+		this.styleResolver = new StyleResolver(jasperReportsContext);
+	}
+
 	/**
 	 * Returns the report fields indexed by name.
 	 *
@@ -472,6 +483,14 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	public JRStyle getDefaultStyle()
 	{
 		return defaultStyle;
+	}
+
+	/**
+	 *
+	 */
+	public StyleResolver getStyleResolver()
+	{
+		return styleResolver;
 	}
 
 	protected boolean isSubreportRunToBottom()

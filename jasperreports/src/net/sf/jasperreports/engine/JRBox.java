@@ -32,7 +32,7 @@ import java.awt.Color;
  * @deprecated Replaced by {@link JRLineBox}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRBox extends JRStyleContainer
+public interface JRBox
 {
 
 

@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -92,7 +92,19 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	{
 		return defaultStyleProvider;
 	}
-	
+
+	/**
+	 *
+	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		if (getDefaultStyleProvider() != null)
+		{
+			return getDefaultStyleProvider().getStyleResolver();
+		}
+		return StyleResolver.getInstance();
+	}
+
 	/**
 	 *
 	 */
@@ -146,7 +158,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
+		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	/**
@@ -234,7 +246,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getForecolor()
 	{
-		return JRStyleResolver.getForecolor(this);
+		return getStyleResolver().getForecolor(this);
 	}
 	
 	/**
@@ -258,7 +270,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getBackcolor()
 	{
-		return JRStyleResolver.getBackcolor(this);
+		return getStyleResolver().getBackcolor(this);
 	}
 
 	/**

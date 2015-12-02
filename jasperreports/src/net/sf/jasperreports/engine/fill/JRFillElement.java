@@ -62,7 +62,8 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 
 /**
@@ -264,6 +265,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return defaultStyleProvider;
 	}
 
+	/**
+	 *
+	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		return getDefaultStyleProvider().getStyleResolver();
+	}
 
 	/**
 	 *
@@ -333,7 +341,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
+		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	/**
@@ -465,7 +473,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public Color getForecolor()
 	{
-		return JRStyleResolver.getForecolor(this);
+		return getStyleResolver().getForecolor(this);
 	}
 
 	public Color getOwnForecolor()
@@ -485,7 +493,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public Color getBackcolor()
 	{
-		return JRStyleResolver.getBackcolor(this);
+		return getStyleResolver().getBackcolor(this);
 	}
 
 	/**
@@ -771,7 +779,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 					{
 						providerStyle = new JRBaseStyle();
 					}
-					JRStyleResolver.appendStyle(providerStyle, style);
+					StyleUtil.appendStyle(providerStyle, style);
 				}
 			}
 		}

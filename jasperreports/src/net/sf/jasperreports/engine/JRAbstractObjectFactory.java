@@ -104,6 +104,12 @@ public abstract class JRAbstractObjectFactory implements JRVisitor
 	/**
 	 *
 	 */
+	public abstract JRDefaultStyleProvider getDefaultStyleProvider();
+
+
+	/**
+	 *
+	 */
 	public abstract JRStyle getStyle(JRStyle style);
 
 	/**

@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 
@@ -132,7 +132,7 @@ public class DocxStyleHelper extends BaseHelper
 		write(">\n");
 		write("  <w:name w:val=\"" + style.getName() + "\" />\n");
 		write("  <w:qFormat />\n");
-		JRStyle baseStyle = JRStyleResolver.getBaseStyle(style);
+		JRStyle baseStyle = StyleResolver.getBaseStyle(style);
 		String styleNameReference = baseStyle == null ? null : baseStyle.getName(); //javadoc says getStyleNameReference is not supposed to work for print elements
 		if (styleNameReference != null)
 		{

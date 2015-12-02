@@ -36,8 +36,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -108,6 +108,18 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 			return boxContainer.getDefaultStyleProvider();
 		}
 		return null;
+	}
+
+	/**
+	 *
+	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		if (getDefaultStyleProvider() != null)
+		{
+			return getDefaultStyleProvider().getStyleResolver();
+		}
+		return StyleResolver.getInstance();
 	}
 
 	/**
@@ -247,7 +259,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	 */
 	public Integer getPadding()
 	{
-		return JRStyleResolver.getPadding(this);
+		return getStyleResolver().getPadding(this);
 	}
 
 	public Integer getOwnPadding()
@@ -278,7 +290,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	 */
 	public Integer getTopPadding()
 	{
-		return JRStyleResolver.getTopPadding(this);
+		return getStyleResolver().getTopPadding(this);
 	}
 
 	/**
@@ -312,7 +324,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	 */
 	public Integer getLeftPadding()
 	{
-		return JRStyleResolver.getLeftPadding(this);
+		return getStyleResolver().getLeftPadding(this);
 	}
 
 	/**
@@ -346,7 +358,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	 */
 	public Integer getBottomPadding()
 	{
-		return JRStyleResolver.getBottomPadding(this);
+		return getStyleResolver().getBottomPadding(this);
 	}
 
 	/**
@@ -380,7 +392,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	 */
 	public Integer getRightPadding()
 	{
-		return JRStyleResolver.getRightPadding(this);
+		return getStyleResolver().getRightPadding(this);
 	}
 
 	/**

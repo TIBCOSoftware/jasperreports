@@ -30,6 +30,17 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.MeterInterval;
+import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.data.Range;
+import org.jfree.data.general.Dataset;
+
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.charts.JRAreaPlot;
@@ -105,18 +116,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
-
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.MeterInterval;
-import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.Range;
-import org.jfree.data.general.Dataset;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 
 /**
@@ -353,7 +353,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		if (providerStyle != null)
 		{
 			lineBox = initLineBox.clone(this);
-			JRStyleResolver.appendBox(lineBox, providerStyle.getLineBox());
+			StyleUtil.appendBox(lineBox, providerStyle.getLineBox());
 		}
 	}
 
@@ -363,7 +363,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**
@@ -464,7 +464,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getTitleColor()
 	{
-		return JRStyleResolver.getTitleColor(this);
+		return getStyleResolver().getTitleColor(this);
 	}
 
 	/**
@@ -503,7 +503,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getSubtitleColor()
 	{
-		return JRStyleResolver.getSubtitleColor(this);
+		return getStyleResolver().getSubtitleColor(this);
 	}
 
 	/**
@@ -530,7 +530,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getLegendColor()
 	{
-		return JRStyleResolver.getLegendColor(this);
+		return getStyleResolver().getLegendColor(this);
 	}
 
 	/**
@@ -559,7 +559,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Color getLegendBackgroundColor()
 	{
-		return JRStyleResolver.getLegendBackgroundColor(this);
+		return getStyleResolver().getLegendBackgroundColor(this);
 	}
 
 	/**

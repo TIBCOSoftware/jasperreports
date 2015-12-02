@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -150,7 +149,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public String getPattern()
 	{
-		return JRStyleResolver.getPattern(this);
+		return getStyleResolver().getPattern(this);
 	}
 
 	public String getOwnPattern()
@@ -163,7 +162,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public boolean isBlankWhenNull()
 	{
-		return JRStyleResolver.isBlankWhenNull(this);
+		return getStyleResolver().isBlankWhenNull(this);
 	}
 
 	/**

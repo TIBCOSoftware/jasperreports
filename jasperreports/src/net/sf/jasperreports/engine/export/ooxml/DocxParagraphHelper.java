@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -103,7 +103,7 @@ public class DocxParagraphHelper extends BaseHelper
 	 */
 	public void exportProps(JRPrintText text)
 	{
-		JRStyle baseStyle = JRStyleResolver.getBaseStyle(text); 
+		JRStyle baseStyle = StyleResolver.getBaseStyle(text); 
 		exportPropsHeader(baseStyle == null ? null : baseStyle.getName(), text.getParagraph()); //javadoc says getStyleNameReference is not supposed to work for print elements
 
 		exportAlignment(

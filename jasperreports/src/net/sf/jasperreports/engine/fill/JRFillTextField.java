@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -50,7 +49,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.Pair;
 
 
@@ -166,7 +164,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		if (getPatternExpression() == null)
 		{
-			return JRStyleResolver.getPattern(this);
+			return getStyleResolver().getPattern(this);
 		}
 		return pattern;
 	}
@@ -252,7 +250,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public boolean isBlankWhenNull()
 	{
-		return JRStyleResolver.isBlankWhenNull(this);
+		return getStyleResolver().isBlankWhenNull(this);
 	}
 
 	/**

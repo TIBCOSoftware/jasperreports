@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 
 /**
@@ -81,7 +81,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 		if (providerStyle != null)
 		{
 			pen = initPen.clone(this);
-			JRStyleResolver.appendPen(pen, providerStyle.getLinePen());
+			StyleUtil.appendPen(pen, providerStyle.getLinePen());
 		}
 	}
 
@@ -99,7 +99,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public FillEnum getFillValue()
 	{
-		return JRStyleResolver.getFillValue(this);
+		return getStyleResolver().getFillValue(this);
 	}
 
 	/**

@@ -40,6 +40,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+import org.apache.commons.collections.map.LinkedMap;
+
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
 import net.sf.jasperreports.crosstabs.JRCellContents;
@@ -75,10 +77,7 @@ import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.Pair;
-
-import org.apache.commons.collections.map.LinkedMap;
 
 /**
  * Design-time {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
@@ -1530,7 +1529,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	public CrosstabColumnCell getTitleCell()

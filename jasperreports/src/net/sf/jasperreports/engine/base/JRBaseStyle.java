@@ -54,8 +54,8 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRPenUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -135,7 +135,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected JRDefaultStyleProvider defaultStyleProvider;//FIXME this is never set; it has been like that for a long time; trying to solve causes a stack overflow
+	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle;
 	protected String parentStyleNameReference;
 
@@ -189,6 +189,16 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public JRBaseStyle()
 	{
+		this((JRDefaultStyleProvider)null);
+	}
+
+	/**
+	 *
+	 */
+	public JRBaseStyle(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		this.defaultStyleProvider = defaultStyleProvider;
+		
 		linePen = new JRBasePen(this);
 		lineBox = new JRBaseLineBox(this);
 		paragraph = new JRBaseParagraph(this);
@@ -199,11 +209,19 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public JRBaseStyle(String name)
 	{
+		this((JRDefaultStyleProvider)null);
+		
 		this.name = name;
+	}
 
-		linePen = new JRBasePen(this);
-		lineBox = new JRBaseLineBox(this);
-		paragraph = new JRBaseParagraph(this);
+	/**
+	 *
+	 */
+	public JRBaseStyle(JRDefaultStyleProvider defaultStyleProvider, String name)
+	{
+		this(defaultStyleProvider);
+		
+		this.name = name;
 	}
 
 	/**
@@ -212,6 +230,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	public JRBaseStyle(JRStyle style, JRAbstractObjectFactory factory)
 	{
 		name = style.getName();
+		
+		defaultStyleProvider = factory.getDefaultStyleProvider();
 		
 		factory.setStyle(new JRStyleSetter()
 		{
@@ -304,6 +324,19 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		if (getDefaultStyleProvider() != null)
+		{
+			return getDefaultStyleProvider().getStyleResolver();
+		}
+		
+		return StyleResolver.getInstance();
+	}
+
+	/**
+	 *
+	 */
 	public JRStyle getStyle()
 	{
 		return parentStyle;
@@ -343,7 +376,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Color getForecolor()
 	{
-		return JRStyleResolver.getForecolor(this);
+		return getStyleResolver().getForecolor(this);
 	}
 
 	/**
@@ -356,7 +389,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Color getBackcolor()
 	{
-		return JRStyleResolver.getBackcolor(this);
+		return getStyleResolver().getBackcolor(this);
 	}
 
 	public Color getOwnBackcolor()
@@ -371,7 +404,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public FillEnum getFillValue()
 	{
-		return JRStyleResolver.getFillValue(this);
+		return getStyleResolver().getFillValue(this);
 	}
 
 	public FillEnum getOwnFillValue()
@@ -381,7 +414,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Integer getRadius()
 	{
-		return JRStyleResolver.getRadius(this);
+		return getStyleResolver().getRadius(this);
 	}
 
 	public Integer getOwnRadius()
@@ -394,7 +427,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public ScaleImageEnum getScaleImageValue()
 	{
-		return JRStyleResolver.getScaleImageValue(this);
+		return getStyleResolver().getScaleImageValue(this);
 	}
 
 	/**
@@ -442,7 +475,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
-		return JRStyleResolver.getHorizontalTextAlign(this);
+		return getStyleResolver().getHorizontalTextAlign(this);
 	}
 		
 	/**
@@ -458,7 +491,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
-		return JRStyleResolver.getVerticalTextAlign(this);
+		return getStyleResolver().getVerticalTextAlign(this);
 	}
 		
 	/**
@@ -474,7 +507,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
-		return JRStyleResolver.getHorizontalImageAlign(this);
+		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
 	/**
@@ -490,7 +523,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
-		return JRStyleResolver.getVerticalImageAlign(this);
+		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
 	/**
@@ -522,7 +555,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public RotationEnum getRotationValue()
 	{
-		return JRStyleResolver.getRotationValue(this);
+		return getStyleResolver().getRotationValue(this);
 	}
 
 	/**
@@ -561,7 +594,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public String getMarkup()
 	{
-		return JRStyleResolver.getMarkup(this);
+		return getStyleResolver().getMarkup(this);
 	}
 
 	public String getOwnMarkup()
@@ -571,7 +604,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Boolean isBlankWhenNull()
 	{
-		return JRStyleResolver.isBlankWhenNull(this);
+		return getStyleResolver().isBlankWhenNull(this);
 	}
 
 	public Boolean isOwnBlankWhenNull()
@@ -582,7 +615,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public String getFontName()
 	{
-		return JRStyleResolver.getFontName(this);
+		return getStyleResolver().getFontName(this);
 	}
 
 	public String getOwnFontName()
@@ -592,7 +625,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Boolean isBold()
 	{
-		return JRStyleResolver.isBold(this);
+		return getStyleResolver().isBold(this);
 	}
 
 	public Boolean isOwnBold()
@@ -602,7 +635,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Boolean isItalic()
 	{
-		return JRStyleResolver.isItalic(this);
+		return getStyleResolver().isItalic(this);
 	}
 
 	public Boolean isOwnItalic()
@@ -612,7 +645,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Boolean isUnderline()
 	{
-		return JRStyleResolver.isUnderline(this);
+		return getStyleResolver().isUnderline(this);
 	}
 
 	public Boolean isOwnUnderline()
@@ -622,7 +655,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Boolean isStrikeThrough()
 	{
-		return JRStyleResolver.isStrikeThrough(this);
+		return getStyleResolver().isStrikeThrough(this);
 	}
 
 	public Boolean isOwnStrikeThrough()
@@ -632,7 +665,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Float getFontsize()
 	{
-		return JRStyleResolver.getFontsize(this);
+		return getStyleResolver().getFontsize(this);
 	}
 
 	public Float getOwnFontsize()
@@ -659,7 +692,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public String getPdfFontName()
 	{
-		return JRStyleResolver.getPdfFontName(this);
+		return getStyleResolver().getPdfFontName(this);
 	}
 
 	public String getOwnPdfFontName()
@@ -669,7 +702,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public String getPdfEncoding()
 	{
-		return JRStyleResolver.getPdfEncoding(this);
+		return getStyleResolver().getPdfEncoding(this);
 	}
 
 	public String getOwnPdfEncoding()
@@ -679,7 +712,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public Boolean isPdfEmbedded()
 	{
-		return JRStyleResolver.isPdfEmbedded(this);
+		return getStyleResolver().isPdfEmbedded(this);
 	}
 
 	public Boolean isOwnPdfEmbedded()
@@ -689,7 +722,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 	public String getPattern()
 	{
-		return JRStyleResolver.getPattern(this);
+		return getStyleResolver().getPattern(this);
 	}
 
 	public String getOwnPattern()
@@ -702,7 +735,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getModeValue(this);
+		return getStyleResolver().getModeValue(this);
 	}
 
 	/**

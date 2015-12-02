@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 /**
  * Abstract implementation of an element container filler.
@@ -789,7 +789,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 				JRBaseStyle style = new JRBaseStyle(consolidatedStyleName);
 				for (int j = condStylesToApply.size() - 1; j >= 0; j--)
 				{
-					JRStyleResolver.appendStyle(style, condStylesToApply.get(j));
+					StyleUtil.appendStyle(style, condStylesToApply.get(j));
 				}
 
 				// deduplicate to previously created identical instances

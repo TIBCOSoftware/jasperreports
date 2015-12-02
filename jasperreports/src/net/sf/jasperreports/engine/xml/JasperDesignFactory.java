@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.UUID;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -32,8 +34,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -48,7 +48,11 @@ public class JasperDesignFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
+		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
+
 		JasperDesign jasperDesign = new JasperDesign();
+		
+		jasperDesign.setJasperReportsContext(xmlLoader.getJasperReportsContext());
 		
 		jasperDesign.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 

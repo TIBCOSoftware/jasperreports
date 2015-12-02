@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -55,7 +55,6 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 		this.lineBox = box;
 	}
 	
-	
 	/**
 	 *
 	 */
@@ -69,7 +68,7 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 	 */
 	public Float getLineWidth()
 	{
-		return JRStyleResolver.getLineWidth(this, penContainer.getDefaultLineWidth());
+		return getStyleResolver().getLineWidth(this, penContainer.getDefaultLineWidth());
 	}
 
 	/**
@@ -77,7 +76,7 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 	 */
 	public LineStyleEnum getLineStyleValue()
 	{
-		return JRStyleResolver.getLineStyleValue(this);
+		return getStyleResolver().getLineStyleValue(this);
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 	 */
 	public Color getLineColor()
 	{
-		return JRStyleResolver.getLineColor(this, penContainer.getDefaultLineColor());
+		return getStyleResolver().getLineColor(this, penContainer.getDefaultLineColor());
 	}
 
 	/**

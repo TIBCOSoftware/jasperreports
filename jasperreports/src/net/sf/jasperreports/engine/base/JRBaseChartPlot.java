@@ -32,6 +32,8 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRChart;
@@ -41,9 +43,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
-
-import org.jfree.chart.plot.PlotOrientation;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -125,6 +125,15 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 *
 	 */
+	protected StyleResolver getStyleResolver()
+	{
+		return getChart().getDefaultStyleProvider().getStyleResolver();
+	}
+
+	
+	/**
+	 *
+	 */
 	public JRChart getChart()
 	{
 		return chart;
@@ -135,7 +144,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 */
 	public Color getBackcolor()
 	{
-		return JRStyleResolver.getBackcolor(this);
+		return getStyleResolver().getBackcolor(this);
 	}
 
 	/**

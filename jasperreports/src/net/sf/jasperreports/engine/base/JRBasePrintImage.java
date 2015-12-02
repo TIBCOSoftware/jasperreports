@@ -47,7 +47,6 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -105,7 +104,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
 	/**
@@ -145,7 +144,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public ScaleImageEnum getScaleImageValue()
 	{
-		return JRStyleResolver.getScaleImageValue(this);
+		return getStyleResolver().getScaleImageValue(this);
 	}
 
 	/**
@@ -233,7 +232,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
-		return JRStyleResolver.getHorizontalImageAlign(this);
+		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
 	/**
@@ -257,7 +256,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
-		return JRStyleResolver.getVerticalImageAlign(this);
+		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
 	/**

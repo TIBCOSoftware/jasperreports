@@ -26,9 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
-import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBoxPen;
 
 /**
@@ -55,30 +53,30 @@ public class CachingLineBox implements JRLineBox
 		rightPadding = base.getRightPadding();
 	}
 
-	public JRDefaultStyleProvider getDefaultStyleProvider()
-	{
-		return base.getDefaultStyleProvider();
-	}
+//	public JRDefaultStyleProvider getDefaultStyleProvider()
+//	{
+//		return base.getDefaultStyleProvider();
+//	}
 
 	public Float getDefaultLineWidth()
 	{
 		return base.getDefaultLineWidth();
 	}
 
-	public JRStyle getStyle()
-	{
-		return base.getStyle();
-	}
+//	public JRStyle getStyle()
+//	{
+//		return base.getStyle();
+//	}
 
 	public Color getDefaultLineColor()
 	{
 		return base.getDefaultLineColor();
 	}
 
-	public String getStyleNameReference()
-	{
-		return base.getStyleNameReference();
-	}
+//	public String getStyleNameReference()
+//	{
+//		return base.getStyleNameReference();
+//	}
 
 	public JRBoxContainer getBoxContainer()
 	{

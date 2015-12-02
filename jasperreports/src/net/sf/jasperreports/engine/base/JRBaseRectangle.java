@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -71,7 +70,7 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	 */
 	public int getRadius()
 	{
-		return JRStyleResolver.getRadius(this);
+		return getStyleResolver().getRadius(this);
 	}
 
 	public Integer getOwnRadius()

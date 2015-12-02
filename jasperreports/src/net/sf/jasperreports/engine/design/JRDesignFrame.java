@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.type.BorderSplitType;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRFrame JRFrame} to be used at design time.
@@ -236,7 +235,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
 	/**

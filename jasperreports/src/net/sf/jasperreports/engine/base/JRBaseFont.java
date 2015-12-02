@@ -40,8 +40,8 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -232,6 +232,18 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	/**
 	 *
 	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		if (getDefaultStyleProvider() != null)
+		{
+			return getDefaultStyleProvider().getStyleResolver();
+		}
+		return StyleResolver.getInstance();
+	}
+	
+	/**
+	 *
+	 */
 	public JRStyle getStyle()
 	{
 		return style == null ? (styleContainer == null ? null : styleContainer.getStyle()) : style;
@@ -250,7 +262,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public String getFontName()
 	{
-		return JRStyleResolver.getFontName(this);
+		return getStyleResolver().getFontName(this);
 	}
 	
 	/**
@@ -277,7 +289,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public boolean isBold()
 	{
-		return JRStyleResolver.isBold(this);
+		return getStyleResolver().isBold(this);
 	}
 	
 	/**
@@ -313,7 +325,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public boolean isItalic()
 	{
-		return JRStyleResolver.isItalic(this);
+		return getStyleResolver().isItalic(this);
 	}
 	
 	/**
@@ -348,7 +360,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public boolean isUnderline()
 	{
-		return JRStyleResolver.isUnderline(this);
+		return getStyleResolver().isUnderline(this);
 	}
 	
 	/**
@@ -383,7 +395,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public boolean isStrikeThrough()
 	{
-		return JRStyleResolver.isStrikeThrough(this);
+		return getStyleResolver().isStrikeThrough(this);
 	}
 	
 	/**
@@ -418,7 +430,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public float getFontsize()
 	{
-		return JRStyleResolver.getFontsize(this);
+		return getStyleResolver().getFontsize(this);
 	}
 	
 	/**
@@ -476,7 +488,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public String getPdfFontName()
 	{
-		return JRStyleResolver.getPdfFontName(this);
+		return getStyleResolver().getPdfFontName(this);
 	}
 
 	/**
@@ -503,7 +515,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public String getPdfEncoding()
 	{
-		return JRStyleResolver.getPdfEncoding(this);
+		return getStyleResolver().getPdfEncoding(this);
 	}
 	
 	/**
@@ -530,7 +542,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 */
 	public boolean isPdfEmbedded()
 	{
-		return JRStyleResolver.isPdfEmbedded(this);
+		return getStyleResolver().isPdfEmbedded(this);
 	}
 
 	/**

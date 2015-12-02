@@ -32,6 +32,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.BookmarkHelper;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -54,9 +57,6 @@ import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -286,7 +286,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		return jasperPrint;
 	}
 
-	protected final void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	protected void setJasperReportsContext(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);

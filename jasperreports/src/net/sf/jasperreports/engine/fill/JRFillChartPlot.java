@@ -27,14 +27,14 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.SortedSet;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
-
-import org.jfree.chart.plot.PlotOrientation;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -83,13 +83,21 @@ public class JRFillChartPlot implements JRChartPlot
 	{
 		return chart;
 	}
-	
+
+	/**
+	 *
+	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		return getChart().getDefaultStyleProvider().getStyleResolver();
+	}
+
 	/**
 	 *
 	 */
 	public Color getBackcolor()
 	{
-		return JRStyleResolver.getBackcolor(this);
+		return getStyleResolver().getBackcolor(this);
 	}
 	
 	/**

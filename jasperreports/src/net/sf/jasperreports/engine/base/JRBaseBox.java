@@ -29,9 +29,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 
@@ -54,30 +52,6 @@ public class JRBaseBox implements net.sf.jasperreports.engine.JRBox, Serializabl
 	protected JRLineBox lineBox;
 
 	
-	/**
-	 * @deprecated Replaced by {@link JRBaseLineBox#getDefaultStyleProvider()}
-	 */
-	public JRDefaultStyleProvider getDefaultStyleProvider() 
-	{
-		return lineBox.getDefaultStyleProvider();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRBaseLineBox#getStyle()}
-	 */
-	public JRStyle getStyle() 
-	{
-		return lineBox.getStyle();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRBaseLineBox#getStyleNameReference()}
-	 */
-	public String getStyleNameReference()
-	{
-		return lineBox.getStyleNameReference();
-	}
-
 	/**
 	 * @deprecated Replaced by {@link JRLineBox#getPen()}
 	 */

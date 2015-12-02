@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -97,7 +96,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public FillEnum getFillValue()
 	{
-		return JRStyleResolver.getFillValue(this);
+		return getStyleResolver().getFillValue(this);
 	}
 
 	public FillEnum getOwnFillValue()

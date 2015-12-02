@@ -56,7 +56,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * Base read-only {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab} implementation.
@@ -126,7 +125,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
 	private void copyParameters(JRCrosstab crosstab, JRBaseObjectFactory factory)

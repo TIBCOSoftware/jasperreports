@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -59,6 +60,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -122,6 +124,9 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 
 	protected JRStyle defaultStyle;
 	protected JRStyle[] styles;
+
+	protected transient StyleResolver styleResolver;
+	protected transient ThreadLocal<StyleResolver> threadLocalStyleResolver;
 
 	/**
 	 * The main dataset of the report.
@@ -261,6 +266,26 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		this(report, (JRExpressionCollector) null);
 	}
 
+
+	/**
+	 *
+	 */
+	public synchronized void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		StyleResolver newStyleResolver = new StyleResolver(jasperReportsContext);
+		
+		if (styleResolver == null)
+		{
+			styleResolver = newStyleResolver;
+		}
+		
+		if (threadLocalStyleResolver == null)
+		{
+			threadLocalStyleResolver = new ThreadLocal<StyleResolver>();
+		}
+		
+		threadLocalStyleResolver.set(newStyleResolver);
+	}
 
 	/**
 	 *
@@ -524,6 +549,29 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	public JRStyle[] getStyles()
 	{
 		return styles;
+	}
+
+	/**
+	 *
+	 */
+	public StyleResolver getStyleResolver()
+	{
+		if (
+			threadLocalStyleResolver == null
+			|| threadLocalStyleResolver.get() == null
+			)
+		{
+			if (styleResolver == null)
+			{
+				return StyleResolver.getInstance();
+			}
+			else
+			{
+				return styleResolver;
+			}
+		}
+		
+		return threadLocalStyleResolver.get();
 	}
 
 	/**

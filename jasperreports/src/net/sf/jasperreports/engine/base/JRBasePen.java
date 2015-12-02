@@ -37,8 +37,8 @@ import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -94,9 +94,21 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	/**
 	 *
 	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		if (getStyleContainer().getDefaultStyleProvider() != null)
+		{
+			return getStyleContainer().getDefaultStyleProvider().getStyleResolver();
+		}
+		return StyleResolver.getInstance();
+	}
+	
+	/**
+	 *
+	 */
 	public Float getLineWidth()
 	{
-		return JRStyleResolver.getLineWidth(this, penContainer.getDefaultLineWidth());
+		return getStyleResolver().getLineWidth(this, penContainer.getDefaultLineWidth());
 	}
 
 	/**
@@ -130,7 +142,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	 */
 	public LineStyleEnum getLineStyleValue()
 	{
-		return JRStyleResolver.getLineStyleValue(this);
+		return getStyleResolver().getLineStyleValue(this);
 	}
 
 	/**
@@ -156,7 +168,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	 */
 	public Color getLineColor()
 	{
-		return JRStyleResolver.getLineColor(this, penContainer.getDefaultLineColor());
+		return getStyleResolver().getLineColor(this, penContainer.getDefaultLineColor());
 	}
 
 	/**

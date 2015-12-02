@@ -41,6 +41,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
@@ -119,13 +122,9 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.web.util.JacksonUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Fill-time implementation of a {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab}.
@@ -301,7 +300,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	private void copyRowGroups(JRCrosstab crosstab, JRFillCrosstabObjectFactory factory)

@@ -39,8 +39,8 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -84,16 +84,6 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	{
 		this.origin = origin;
 		this.defaultStyleProvider = defaultStyleProvider;
-		id = createId();
-	}
-
-	/**
-	 *
-	 */
-	protected JRTemplateElement(JROrigin origin, JRElement element)
-	{
-		this.origin = origin;
-		setElement(element);
 		id = createId();
 	}
 
@@ -144,6 +134,18 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 *
 	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		if (getDefaultStyleProvider() != null)
+		{
+			return getDefaultStyleProvider().getStyleResolver();
+		}
+		return StyleResolver.getInstance();
+	}
+
+	/**
+	 *
+	 */
 	public JRStyle getStyle()
 	{
 		return parentStyle;
@@ -186,7 +188,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
+		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	/**
@@ -210,7 +212,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 */
 	public Color getForecolor()
 	{
-		return JRStyleResolver.getForecolor(this);
+		return getStyleResolver().getForecolor(this);
 	}
 	
 	/**
@@ -234,7 +236,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 */
 	public Color getBackcolor()
 	{
-		return JRStyleResolver.getBackcolor(this);
+		return getStyleResolver().getBackcolor(this);
 	}
 	
 	/**

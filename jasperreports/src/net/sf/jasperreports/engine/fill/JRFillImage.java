@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleUtil;
 
 
 /**
@@ -127,7 +127,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		if (providerStyle != null)
 		{
 			lineBox = initLineBox.clone(this);
-			JRStyleResolver.appendBox(lineBox, providerStyle.getLineBox());
+			StyleUtil.appendBox(lineBox, providerStyle.getLineBox());
 		}
 	}
 
@@ -137,7 +137,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
+		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public ScaleImageEnum getScaleImageValue()
 	{
-		return JRStyleResolver.getScaleImageValue(this);
+		return getStyleResolver().getScaleImageValue(this);
 	}
 		
 	public ScaleImageEnum getOwnScaleImageValue()
@@ -214,7 +214,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
-		return JRStyleResolver.getHorizontalImageAlign(this);
+		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
@@ -235,7 +235,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
-		return JRStyleResolver.getVerticalImageAlign(this);
+		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()

@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 
 
 /**
+ * @deprecated Replaced by {@link StyleResolver}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public final class JRStyleResolver
@@ -87,6 +88,28 @@ public final class JRStyleResolver
 				return style;
 			}
 			JRDefaultStyleProvider defaultStyleProvider = styleContainer.getDefaultStyleProvider();
+			if (defaultStyleProvider != null)
+			{
+				return defaultStyleProvider.getDefaultStyle();
+			}
+		}
+		return null;
+	}
+
+
+	/**
+	 *
+	 */
+	public static JRStyle getBaseStyle(JRLineBox box)
+	{
+		if (box != null)
+		{
+			JRStyle style = box.getStyle();
+			if (style != null)
+			{
+				return style;
+			}
+			JRDefaultStyleProvider defaultStyleProvider = box.getDefaultStyleProvider();
 			if (defaultStyleProvider != null)
 			{
 				return defaultStyleProvider.getDefaultStyle();
@@ -1653,191 +1676,35 @@ public final class JRStyleResolver
 
 
 	/**
-	 * Merges two styles, by appending the properties of the source style to the ones of the destination style.
+	 * @deprecated Replaced by {@link StyleUtil#appendStyle(JRStyle, JRStyle)}.
 	 */
 	public static void appendStyle(JRStyle destStyle, JRStyle srcStyle)
 	{
-		if (srcStyle.getOwnModeValue() != null)
-		{
-			destStyle.setMode(srcStyle.getOwnModeValue());
-		}
-		if (srcStyle.getOwnForecolor() != null)
-		{
-			destStyle.setForecolor(srcStyle.getOwnForecolor());
-		}
-		if (srcStyle.getOwnBackcolor() != null)
-		{
-			destStyle.setBackcolor(srcStyle.getOwnBackcolor());
-		}
-		appendPen(destStyle.getLinePen(), srcStyle.getLinePen());
-		
-		if (srcStyle.getOwnFillValue() != null)
-		{
-			destStyle.setFill(srcStyle.getOwnFillValue());
-		}
-		if (srcStyle.getOwnRadius() != null)
-		{
-			destStyle.setRadius(srcStyle.getOwnRadius());
-		}
-		if (srcStyle.getOwnScaleImageValue() != null)
-		{
-			destStyle.setScaleImage(srcStyle.getOwnScaleImageValue());
-		}
-		if (srcStyle.getOwnHorizontalTextAlign() != null)
-		{
-			destStyle.setHorizontalTextAlign(srcStyle.getOwnHorizontalTextAlign());
-		}
-		if (srcStyle.getOwnHorizontalImageAlign() != null)
-		{
-			destStyle.setHorizontalImageAlign(srcStyle.getOwnHorizontalImageAlign());
-		}
-		if (srcStyle.getOwnVerticalTextAlign() != null)
-		{
-			destStyle.setVerticalTextAlign(srcStyle.getOwnVerticalTextAlign());
-		}
-		if (srcStyle.getOwnVerticalImageAlign() != null)
-		{
-			destStyle.setVerticalImageAlign(srcStyle.getOwnVerticalImageAlign());
-		}
-		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
-		appendParagraph(destStyle.getParagraph(), srcStyle.getParagraph());
-
-		if (srcStyle.getOwnRotationValue() != null)
-		{
-			destStyle.setRotation(srcStyle.getOwnRotationValue());
-		}
-		if (srcStyle.getOwnMarkup() != null)
-		{
-			destStyle.setMarkup(srcStyle.getOwnMarkup());
-		}
-		if (srcStyle.getOwnPattern() != null)
-		{
-			destStyle.setPattern(srcStyle.getOwnPattern());
-		}
-		if (srcStyle.getOwnFontName() != null)
-		{
-			destStyle.setFontName(srcStyle.getOwnFontName());
-		}
-		if (srcStyle.isOwnBold() != null)
-		{
-			destStyle.setBold(srcStyle.isOwnBold());
-		}
-		if (srcStyle.isOwnItalic() != null)
-		{
-			destStyle.setItalic(srcStyle.isOwnItalic());
-		}
-		if (srcStyle.isOwnUnderline() != null)
-		{
-			destStyle.setUnderline(srcStyle.isOwnUnderline());
-		}
-		if (srcStyle.isOwnStrikeThrough() != null)
-		{
-			destStyle.setStrikeThrough(srcStyle.isOwnStrikeThrough());
-		}
-		if (srcStyle.getOwnFontsize() != null)
-		{
-			destStyle.setFontSize(srcStyle.getOwnFontsize());
-		}
-		if (srcStyle.getOwnPdfFontName() != null)
-		{
-			destStyle.setPdfFontName(srcStyle.getOwnPdfFontName());
-		}
-		if (srcStyle.getOwnPdfEncoding() != null)
-		{
-			destStyle.setPdfEncoding(srcStyle.getOwnPdfEncoding());
-		}
-		if (srcStyle.isOwnPdfEmbedded() != null)
-		{
-			destStyle.setPdfEmbedded(srcStyle.isOwnPdfEmbedded());
-		}
-		
-		if (srcStyle.isOwnBlankWhenNull() != null)
-		{
-			destStyle.setBlankWhenNull(srcStyle.isOwnBlankWhenNull());
-		}
+		StyleUtil.appendStyle(destStyle, srcStyle);
 	}
 
 	/**
-	 * Merges two pens, by appending the properties of the source pen to the ones of the destination pen.
+	 * @deprecated Replaced by {@link StyleUtil#appendPen(JRPen, JRPen)}.
 	 */
 	public static void appendPen(JRPen destPen, JRPen srcPen)
 	{
-		if (srcPen.getOwnLineWidth() != null)
-		{
-			destPen.setLineWidth(srcPen.getOwnLineWidth());
-		}
-		if (srcPen.getOwnLineStyleValue() != null)
-		{
-			destPen.setLineStyle(srcPen.getOwnLineStyleValue());
-		}
-		if (srcPen.getOwnLineColor() != null)
-		{
-			destPen.setLineColor(srcPen.getOwnLineColor());
-		}
+		StyleUtil.appendPen(destPen, srcPen);
 	}
 
 	/**
-	 * Merges two boxes, by appending the properties of the source box to the ones of the destination box.
+	 * @deprecated Replaced by {@link StyleUtil#appendBox(JRLineBox, JRLineBox)}.
 	 */
 	public static void appendBox(JRLineBox destBox, JRLineBox srcBox)
 	{
-		appendPen(destBox.getPen(), srcBox.getPen());
-		appendPen(destBox.getTopPen(), srcBox.getTopPen());
-		appendPen(destBox.getLeftPen(), srcBox.getLeftPen());
-		appendPen(destBox.getBottomPen(), srcBox.getBottomPen());
-		appendPen(destBox.getRightPen(), srcBox.getRightPen());
-
-		if (srcBox.getOwnPadding() != null)
-		{
-			destBox.setPadding(srcBox.getOwnPadding());
-		}
-		if (srcBox.getOwnTopPadding() != null)
-		{
-			destBox.setTopPadding(srcBox.getOwnTopPadding());
-		}
-		if (srcBox.getOwnLeftPadding() != null)
-		{
-			destBox.setLeftPadding(srcBox.getOwnLeftPadding());
-		}
-		if (srcBox.getOwnBottomPadding() != null)
-		{
-			destBox.setBottomPadding(srcBox.getOwnBottomPadding());
-		}
-		if (srcBox.getOwnRightPadding() != null)
-		{
-			destBox.setRightPadding(srcBox.getOwnRightPadding());
-		}
+		StyleUtil.appendBox(destBox, srcBox);
 	}
 
 	/**
-	 * Merges two paragraphs, by appending the properties of the source paragraph to the ones of the destination paragraph.
+	 * @deprecated Replaced by {@link StyleUtil#appendParagraph(JRParagraph, JRParagraph)}.
 	 */
 	public static void appendParagraph(JRParagraph destParagraph, JRParagraph srcParagraph)
 	{
-		if (srcParagraph.getOwnLineSpacing() != null)
-		{
-			destParagraph.setLineSpacing(srcParagraph.getOwnLineSpacing());
-		}
-		if (srcParagraph.getOwnLeftIndent() != null)
-		{
-			destParagraph.setLeftIndent(srcParagraph.getOwnLeftIndent());
-		}
-		if (srcParagraph.getOwnRightIndent() != null)
-		{
-			destParagraph.setRightIndent(srcParagraph.getOwnRightIndent());
-		}
-		if (srcParagraph.getOwnSpacingBefore() != null)
-		{
-			destParagraph.setSpacingBefore(srcParagraph.getOwnSpacingBefore());
-		}
-		if (srcParagraph.getOwnSpacingAfter() != null)
-		{
-			destParagraph.setSpacingAfter(srcParagraph.getOwnSpacingAfter());
-		}
-		if (srcParagraph.getOwnTabStopWidth() != null)
-		{
-			destParagraph.setTabStopWidth(srcParagraph.getOwnTabStopWidth());
-		}
+		StyleUtil.appendParagraph(destParagraph, srcParagraph);
 	}
 
 	/**

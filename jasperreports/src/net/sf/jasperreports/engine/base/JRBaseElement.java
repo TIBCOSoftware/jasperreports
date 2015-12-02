@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -190,6 +190,14 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	/**
 	 *
 	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		return getDefaultStyleProvider().getStyleResolver();
+	}
+	
+	/**
+	 *
+	 */
 	protected JRStyle getBaseStyle()
 	{
 		if (parentStyle != null)
@@ -282,7 +290,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	public ModeEnum getModeValue()
 	{
-		return JRStyleResolver.getMode(this, ModeEnum.OPAQUE);
+		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
 	/**
@@ -414,7 +422,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	public Color getForecolor()
 	{
-		return JRStyleResolver.getForecolor(this);
+		return getStyleResolver().getForecolor(this);
 	}
 
 	/**
@@ -440,7 +448,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	 */
 	public Color getBackcolor()
 	{
-		return JRStyleResolver.getBackcolor(this);
+		return getStyleResolver().getBackcolor(this);
 	}
 
 	/**

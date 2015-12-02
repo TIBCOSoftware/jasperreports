@@ -28,6 +28,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -62,6 +63,14 @@ public class JRDesignStyle extends JRBaseStyle
 	public JRDesignStyle()
 	{
 		super();
+	}
+
+	/**
+	 *
+	 */
+	public JRDesignStyle(JRDefaultStyleProvider defaultStyleProvider)
+	{
+		super(defaultStyleProvider);
 	}
 
 	/**

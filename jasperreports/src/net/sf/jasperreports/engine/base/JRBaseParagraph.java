@@ -39,8 +39,8 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 
 /**
@@ -106,6 +106,18 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	/**
 	 *
 	 */
+	protected StyleResolver getStyleResolver() 
+	{
+		if (getDefaultStyleProvider() != null)
+		{
+			return getDefaultStyleProvider().getStyleResolver();
+		}
+		return StyleResolver.getInstance();
+	}
+
+	/**
+	 *
+	 */
 	public JRStyle getStyle() 
 	{
 		if (paragraphContainer != null)
@@ -140,7 +152,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public LineSpacingEnum getLineSpacing()
 	{
-		return JRStyleResolver.getLineSpacing(this);
+		return getStyleResolver().getLineSpacing(this);
 	}
 
 	/**
@@ -166,7 +178,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public Float getLineSpacingSize()
 	{
-		return JRStyleResolver.getLineSpacingSize(this);
+		return getStyleResolver().getLineSpacingSize(this);
 	}
 
 	/**
@@ -192,7 +204,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public Integer getFirstLineIndent()
 	{
-		return JRStyleResolver.getFirstLineIndent(this);
+		return getStyleResolver().getFirstLineIndent(this);
 	}
 
 	/**
@@ -218,7 +230,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public Integer getLeftIndent()
 	{
-		return JRStyleResolver.getLeftIndent(this);
+		return getStyleResolver().getLeftIndent(this);
 	}
 
 	/**
@@ -244,7 +256,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public Integer getRightIndent()
 	{
-		return JRStyleResolver.getRightIndent(this);
+		return getStyleResolver().getRightIndent(this);
 	}
 
 	/**
@@ -270,7 +282,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public Integer getSpacingBefore()
 	{
-		return JRStyleResolver.getSpacingBefore(this);
+		return getStyleResolver().getSpacingBefore(this);
 	}
 
 	/**
@@ -296,7 +308,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public Integer getSpacingAfter()
 	{
-		return JRStyleResolver.getSpacingAfter(this);
+		return getStyleResolver().getSpacingAfter(this);
 	}
 
 	/**
@@ -322,7 +334,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public Integer getTabStopWidth()
 	{
-		return JRStyleResolver.getTabStopWidth(this);
+		return getStyleResolver().getTabStopWidth(this);
 	}
 
 	/**
@@ -348,7 +360,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public TabStop[] getTabStops()
 	{
-		return JRStyleResolver.getTabStops(this);
+		return getStyleResolver().getTabStops(this);
 	}
 	
 	
