@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -96,7 +95,7 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	 */
 	public Color getCategoryAxisLabelColor()
 	{
-		return JRStyleResolver.getCategoryAxisLabelColor(this, this);
+		return getStyleResolver().getCategoryAxisLabelColor(this, this);
 	}
 
 	/**
@@ -127,7 +126,7 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	 */
 	public Color getCategoryAxisTickLabelColor()
 	{
-		return JRStyleResolver.getCategoryAxisTickLabelColor(this, this);
+		return getStyleResolver().getCategoryAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -181,7 +180,7 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	 */
 	public Color getCategoryAxisLineColor()
 	{
-		return JRStyleResolver.getCategoryAxisLineColor(this, this);
+		return getStyleResolver().getCategoryAxisLineColor(this, this);
 	}
 
 	/**
@@ -252,7 +251,7 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	 */
 	public Color getValueAxisLabelColor()
 	{
-		return JRStyleResolver.getValueAxisLabelColor(this, this);
+		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 
 	/**
@@ -283,7 +282,7 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
-		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -322,7 +321,7 @@ public class JRFillAreaPlot extends JRFillChartPlot implements JRAreaPlot
 	 */
 	public Color getValueAxisLineColor()
 	{
-		return JRStyleResolver.getValueAxisLineColor(this, this);
+		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 
 	/**

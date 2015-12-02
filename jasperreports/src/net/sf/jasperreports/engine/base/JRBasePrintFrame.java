@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.base;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +34,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRBoxUtil;
 
 /**
  * Base implementation of {@link net.sf.jasperreports.engine.JRPrintFrame JRPrintFrame}.
@@ -102,114 +99,6 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 		return getForecolor();
 	}
 
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	/**
-	 * @deprecated
-	 */
-	private Byte border;
-	/**
-	 * @deprecated
-	 */
-	private Byte topBorder;
-	/**
-	 * @deprecated
-	 */
-	private Byte leftBorder;
-	/**
-	 * @deprecated
-	 */
-	private Byte bottomBorder;
-	/**
-	 * @deprecated
-	 */
-	private Byte rightBorder;
-	/**
-	 * @deprecated
-	 */
-	private Color borderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color topBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color leftBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color bottomBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color rightBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Integer padding;
-	/**
-	 * @deprecated
-	 */
-	private Integer topPadding;
-	/**
-	 * @deprecated
-	 */
-	private Integer leftPadding;
-	/**
-	 * @deprecated
-	 */
-	private Integer bottomPadding;
-	/**
-	 * @deprecated
-	 */
-	private Integer rightPadding;
-	
-	@SuppressWarnings("deprecation")
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-	{
-		in.defaultReadObject();
-
-		if (lineBox == null)
-		{
-			lineBox = new JRBaseLineBox(this);
-			JRBoxUtil.setToBox(
-				border,
-				topBorder,
-				leftBorder,
-				bottomBorder,
-				rightBorder,
-				borderColor,
-				topBorderColor,
-				leftBorderColor,
-				bottomBorderColor,
-				rightBorderColor,
-				padding,
-				topPadding,
-				leftPadding,
-				bottomPadding,
-				rightPadding,
-				lineBox
-				);
-			border = null;
-			topBorder = null;
-			leftBorder = null;
-			bottomBorder = null;
-			rightBorder = null;
-			borderColor = null;
-			topBorderColor = null;
-			leftBorderColor = null;
-			bottomBorderColor = null;
-			rightBorderColor = null;
-			padding = null;
-			topPadding = null;
-			leftPadding = null;
-			bottomPadding = null;
-			rightPadding = null;
-		}
-	}
 
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{

@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -103,7 +102,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getCategoryAxisLabelColor()
 	{
-		return JRStyleResolver.getCategoryAxisLabelColor(this, this);
+		return getStyleResolver().getCategoryAxisLabelColor(this, this);
 	}
 
 	/**
@@ -134,7 +133,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getCategoryAxisTickLabelColor()
 	{
-		return JRStyleResolver.getCategoryAxisTickLabelColor(this, this);
+		return getStyleResolver().getCategoryAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -201,7 +200,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getCategoryAxisLineColor()
 	{
-		return JRStyleResolver.getCategoryAxisLineColor(this, this);
+		return getStyleResolver().getCategoryAxisLineColor(this, this);
 	}
 
 	/**
@@ -272,7 +271,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getValueAxisLabelColor()
 	{
-		return JRStyleResolver.getValueAxisLabelColor(this, this);
+		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 
 	/**
@@ -303,7 +302,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
-		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -342,7 +341,7 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	 */
 	public Color getValueAxisLineColor()
 	{
-		return JRStyleResolver.getValueAxisLineColor(this, this);
+		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 
 	/**

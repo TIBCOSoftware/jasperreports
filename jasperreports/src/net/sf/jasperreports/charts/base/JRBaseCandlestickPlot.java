@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -147,7 +146,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public Color getTimeAxisLabelColor()
 	{
-		return JRStyleResolver.getTimeAxisLabelColor(this, this);
+		return getStyleResolver().getTimeAxisLabelColor(this, this);
 	}
 	
 	/**
@@ -171,7 +170,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public Color getTimeAxisTickLabelColor()
 	{
-		return JRStyleResolver.getTimeAxisTickLabelColor(this, this);
+		return getStyleResolver().getTimeAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -203,7 +202,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public Color getTimeAxisLineColor()
 	{
-		return JRStyleResolver.getTimeAxisLineColor(this, this);
+		return getStyleResolver().getTimeAxisLineColor(this, this);
 	}
 
 	/**
@@ -262,7 +261,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public Color getValueAxisLabelColor()
 	{
-		return JRStyleResolver.getValueAxisLabelColor(this, this);
+		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 	
 	/**
@@ -286,7 +285,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
-		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -318,7 +317,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	 */
 	public Color getValueAxisLineColor()
 	{
-		return JRStyleResolver.getValueAxisLineColor(this, this);
+		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 	
 	/**

@@ -27,6 +27,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.type.ScaleTypeEnum;
 import net.sf.jasperreports.engine.JRChart;
@@ -38,9 +40,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
-
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -147,7 +146,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	public Color getXAxisLabelColor()
 	{
-		return JRStyleResolver.getXAxisLabelColor(this, this);
+		return getStyleResolver().getXAxisLabelColor(this, this);
 	}
 		
 	/**
@@ -171,7 +170,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	public Color getXAxisTickLabelColor()
 	{
-		return JRStyleResolver.getXAxisTickLabelColor(this, this);
+		return getStyleResolver().getXAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -203,7 +202,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	public Color getXAxisLineColor()
 	{
-		return JRStyleResolver.getXAxisLineColor(this, this);
+		return getStyleResolver().getXAxisLineColor(this, this);
 	}
 
 	/**
@@ -234,7 +233,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	public Color getYAxisLabelColor()
 	{
-		return JRStyleResolver.getYAxisLabelColor(this, this);
+		return getStyleResolver().getYAxisLabelColor(this, this);
 	}
 	
 	/**
@@ -258,7 +257,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	public Color getYAxisTickLabelColor()
 	{
-		return JRStyleResolver.getYAxisTickLabelColor(this, this);
+		return getStyleResolver().getYAxisTickLabelColor(this, this);
 	}
 	
 	/**
@@ -290,7 +289,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	public Color getYAxisLineColor()
 	{
-		return JRStyleResolver.getYAxisLineColor(this, this);
+		return getStyleResolver().getYAxisLineColor(this, this);
 	}
 	
 	/**

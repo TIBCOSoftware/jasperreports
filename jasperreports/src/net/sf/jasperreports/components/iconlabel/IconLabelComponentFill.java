@@ -53,7 +53,7 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 /**
  * 
@@ -728,6 +728,10 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		return fillContext.getComponentElement().getDefaultStyleProvider();
 	}
 
+	protected StyleResolver getStyleResolver() {
+		return getDefaultStyleProvider().getStyleResolver();
+	}
+
 	@Override
 	public JRStyle getStyle() {
 		return fillContext.getComponentElement().getStyle();
@@ -796,7 +800,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	 */
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
-		return JRStyleResolver.getHorizontalImageAlign(this);
+		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
@@ -817,7 +821,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	 */
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
-		return JRStyleResolver.getVerticalImageAlign(this);
+		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()

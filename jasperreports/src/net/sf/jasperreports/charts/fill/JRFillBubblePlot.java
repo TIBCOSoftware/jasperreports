@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -95,7 +94,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Color getXAxisLabelColor()
 	{
-		return JRStyleResolver.getXAxisLabelColor(this, this);
+		return getStyleResolver().getXAxisLabelColor(this, this);
 	}
 		
 	/**
@@ -119,7 +118,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Color getXAxisTickLabelColor()
 	{
-		return JRStyleResolver.getXAxisTickLabelColor(this, this);
+		return getStyleResolver().getXAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -151,7 +150,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Color getXAxisLineColor()
 	{
-		return JRStyleResolver.getXAxisLineColor(this, this);
+		return getStyleResolver().getXAxisLineColor(this, this);
 	}
 
 	/**
@@ -183,7 +182,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Color getYAxisLabelColor()
 	{
-		return JRStyleResolver.getYAxisLabelColor(this, this);
+		return getStyleResolver().getYAxisLabelColor(this, this);
 	}
 	
 	/**
@@ -207,7 +206,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Color getYAxisTickLabelColor()
 	{
-		return JRStyleResolver.getYAxisTickLabelColor(this, this);
+		return getStyleResolver().getYAxisTickLabelColor(this, this);
 	}
 	
 	/**
@@ -239,7 +238,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Color getYAxisLineColor()
 	{
-		return JRStyleResolver.getYAxisLineColor(this, this);
+		return getStyleResolver().getYAxisLineColor(this, this);
 	}
 	
 	/**

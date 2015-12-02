@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
 /**
@@ -153,7 +152,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public Color getTimeAxisLabelColor()
 	{
-		return JRStyleResolver.getTimeAxisLabelColor(this, this);
+		return getStyleResolver().getTimeAxisLabelColor(this, this);
 	}
 	
 	/**
@@ -177,7 +176,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public Color getTimeAxisTickLabelColor()
 	{
-		return JRStyleResolver.getTimeAxisTickLabelColor(this, this);
+		return getStyleResolver().getTimeAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -209,7 +208,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public Color getTimeAxisLineColor()
 	{
-		return JRStyleResolver.getTimeAxisLineColor(this, this);
+		return getStyleResolver().getTimeAxisLineColor(this, this);
 	}
 
 	/**
@@ -267,7 +266,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public Color getValueAxisLabelColor()
 	{
-		return JRStyleResolver.getValueAxisLabelColor(this, this);
+		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 	
 	/**
@@ -291,7 +290,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public Color getValueAxisTickLabelColor()
 	{
-		return JRStyleResolver.getValueAxisTickLabelColor(this, this);
+		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -323,7 +322,7 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	 */
 	public Color getValueAxisLineColor()
 	{
-		return JRStyleResolver.getValueAxisLineColor(this, this);
+		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 	
 	/**

@@ -35,10 +35,8 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRBoxUtil;
 
 /**
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents}.
@@ -133,10 +131,6 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	 * @deprecated
 	 */
 	private Byte mode;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.JRBox box;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -148,16 +142,6 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 			modeValue = ModeEnum.getByValue(mode);
 			
 			mode = null;
-		}
-
-		if (lineBox == null)
-		{
-			lineBox = new JRBaseLineBox(this);
-			JRBoxUtil.setBoxToLineBox(
-				box,
-				lineBox
-				);
-			box = null;
 		}
 	}
 	

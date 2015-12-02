@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -148,7 +147,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	 */
 	public Color getXAxisLabelColor()
 	{
-		return JRStyleResolver.getXAxisLabelColor(this, this);
+		return getStyleResolver().getXAxisLabelColor(this, this);
 	}
 		
 	/**
@@ -172,7 +171,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	 */
 	public Color getXAxisTickLabelColor()
 	{
-		return JRStyleResolver.getXAxisTickLabelColor(this, this);
+		return getStyleResolver().getXAxisTickLabelColor(this, this);
 	}
 
 	/**
@@ -204,7 +203,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	 */
 	public Color getXAxisLineColor()
 	{
-		return JRStyleResolver.getXAxisLineColor(this, this);
+		return getStyleResolver().getXAxisLineColor(this, this);
 	}
 
 	/**
@@ -235,7 +234,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	 */
 	public Color getYAxisLabelColor()
 	{
-		return JRStyleResolver.getYAxisLabelColor(this, this);
+		return getStyleResolver().getYAxisLabelColor(this, this);
 	}
 	
 	/**
@@ -259,7 +258,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	 */
 	public Color getYAxisTickLabelColor()
 	{
-		return JRStyleResolver.getYAxisTickLabelColor(this, this);
+		return getStyleResolver().getYAxisTickLabelColor(this, this);
 	}
 	
 	/**
@@ -291,7 +290,7 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	 */
 	public Color getYAxisLineColor()
 	{
-		return JRStyleResolver.getYAxisLineColor(this, this);
+		return getStyleResolver().getYAxisLineColor(this, this);
 	}
 	
 	/**

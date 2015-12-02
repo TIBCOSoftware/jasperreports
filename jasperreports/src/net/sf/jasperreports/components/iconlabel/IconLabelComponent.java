@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.StyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -73,7 +73,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	private VerticalImageAlignEnum verticalImageAlign;
 
 	private ComponentContext context;
-
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public IconLabelComponent(JRDefaultStyleProvider defaultStyleProvider) 
@@ -128,7 +128,15 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
-		return context == null ? null : context.getComponentElement().getDefaultStyleProvider();
+		return context == null ? labelTextField.getDefaultStyleProvider() : context.getComponentElement().getDefaultStyleProvider();
+	}
+	
+	/**
+	 *
+	 */
+	protected StyleResolver getStyleResolver()
+	{
+		return getDefaultStyleProvider().getStyleResolver();
 	}
 	
 	/**
@@ -258,7 +266,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	 */
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
-		return JRStyleResolver.getHorizontalImageAlign(this);
+		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
 	/**
@@ -284,7 +292,7 @@ public class IconLabelComponent implements ContextAwareComponent, JRBoxContainer
 	 */
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
-		return JRStyleResolver.getVerticalImageAlign(this);
+		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
 	/**

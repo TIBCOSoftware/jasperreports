@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.base.JRBoxPen;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -141,48 +139,6 @@ public final class JRBoxUtil
 	
 
 	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static void setToBox(
-		Byte border,
-		Byte topBorder,
-		Byte leftBorder,
-		Byte bottomBorder,
-		Byte rightBorder,
-		Color borderColor,
-		Color topBorderColor,
-		Color leftBorderColor,
-		Color bottomBorderColor,
-		Color rightBorderColor,
-		Integer padding,
-		Integer topPadding,
-		Integer leftPadding,
-		Integer bottomPadding,
-		Integer rightPadding,
-		JRLineBox box
-		)
-	{
-		JRPenUtil.setLinePenFromPen(border, box.getPen());
-		JRPenUtil.setLinePenFromPen(topBorder, box.getTopPen());
-		JRPenUtil.setLinePenFromPen(leftBorder, box.getLeftPen());
-		JRPenUtil.setLinePenFromPen(bottomBorder, box.getBottomPen());
-		JRPenUtil.setLinePenFromPen(rightBorder, box.getRightPen());
-		
-		box.getPen().setLineColor(borderColor);
-		box.getTopPen().setLineColor(topBorderColor);
-		box.getLeftPen().setLineColor(leftBorderColor);
-		box.getBottomPen().setLineColor(bottomBorderColor);
-		box.getRightPen().setLineColor(rightBorderColor);
-		
-		box.setPadding(padding);
-		box.setTopPadding(topPadding);
-		box.setLeftPadding(leftPadding);
-		box.setBottomPadding(bottomPadding);
-		box.setRightPadding(rightPadding);
-	}
-	
-
-	/**
 	 * 
 	 */
 	public static void copy(JRLineBox source, JRLineBox dest)
@@ -275,34 +231,6 @@ public final class JRBoxUtil
 	}
 	
 
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static void setBoxToLineBox(
-		net.sf.jasperreports.engine.JRBox box,
-		JRLineBox lineBox
-		)
-	{
-		setToBox(
-			box.getOwnBorder(),
-			box.getOwnTopBorder(),
-			box.getOwnLeftBorder(),
-			box.getOwnBottomBorder(),
-			box.getOwnRightBorder(),
-			box.getOwnBorderColor(),
-			box.getOwnTopBorderColor(),
-			box.getOwnLeftBorderColor(),
-			box.getOwnBottomBorderColor(),
-			box.getOwnRightBorderColor(),
-			box.getOwnPadding(),
-			box.getOwnTopPadding(),
-			box.getOwnLeftPadding(),
-			box.getOwnBottomPadding(),
-			box.getOwnRightPadding(),
-			lineBox
-			);
-	}
-	
 	public static void eraseBox(JRLineBox box)
 	{
 		box.setBottomPadding(0);

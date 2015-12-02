@@ -114,6 +114,7 @@ import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -2065,6 +2066,11 @@ public class TableReport implements JRReport
 	public JRStyle getDefaultStyle()
 	{
 		return parentReport.getDefaultStyle();
+	}
+
+	public StyleResolver getStyleResolver()
+	{
+		return parentReport.getStyleResolver();
 	}
 
 	public JRPropertiesHolder getParentProperties()
