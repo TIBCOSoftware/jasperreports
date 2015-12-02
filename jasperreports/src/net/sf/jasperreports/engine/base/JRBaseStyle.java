@@ -1114,6 +1114,13 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated
 	 */
+<<<<<<< HEAD
+=======
+	private Byte pen;
+	/**
+	 * @deprecated
+	 */
+>>>>>>> fb75b1cecf0868c139e8cfdb7025aaaa6ada71d7
 	private Boolean isStyledText;
 	/**
 	 * @deprecated
