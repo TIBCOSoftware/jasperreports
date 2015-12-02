@@ -51,9 +51,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
-import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 
@@ -1116,70 +1114,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated
 	 */
-	private Byte pen;
-	/**
-	 * @deprecated
-	 */
-	private Byte border;
-	/**
-	 * @deprecated
-	 */
-	private Byte topBorder;
-	/**
-	 * @deprecated
-	 */
-	private Byte leftBorder;
-	/**
-	 * @deprecated
-	 */
-	private Byte bottomBorder;
-	/**
-	 * @deprecated
-	 */
-	private Byte rightBorder;
-	/**
-	 * @deprecated
-	 */
-	private Color borderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color topBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color leftBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color bottomBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Color rightBorderColor;
-	/**
-	 * @deprecated
-	 */
-	private Integer padding;
-	/**
-	 * @deprecated
-	 */
-	private Integer topPadding;
-	/**
-	 * @deprecated
-	 */
-	private Integer leftPadding;
-	/**
-	 * @deprecated
-	 */
-	private Integer bottomPadding;
-	/**
-	 * @deprecated
-	 */
-	private Integer rightPadding;
-	/**
-	 * @deprecated
-	 */
 	private Boolean isStyledText;
 	/**
 	 * @deprecated
@@ -1218,51 +1152,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			fill = null;
 		}
 
-		if (linePen == null)
-		{
-			linePen = new JRBasePen(this);
-			JRPenUtil.setLinePenFromPen(pen, linePen);
-			pen = null;
-		}
-
-		if (lineBox == null)
-		{
-			lineBox = new JRBaseLineBox(this);
-			JRBoxUtil.setToBox(
-				border,
-				topBorder,
-				leftBorder,
-				bottomBorder,
-				rightBorder,
-				borderColor,
-				topBorderColor,
-				leftBorderColor,
-				bottomBorderColor,
-				rightBorderColor,
-				padding,
-				topPadding,
-				leftPadding,
-				bottomPadding,
-				rightPadding,
-				lineBox
-				);
-			border = null;
-			topBorder = null;
-			leftBorder = null;
-			bottomBorder = null;
-			rightBorder = null;
-			borderColor = null;
-			topBorderColor = null;
-			leftBorderColor = null;
-			bottomBorderColor = null;
-			rightBorderColor = null;
-			padding = null;
-			topPadding = null;
-			leftPadding = null;
-			bottomPadding = null;
-			rightPadding = null;
-		}
-		
 		if (isStyledText != null)
 		{
 			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;

@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRBoxUtil;
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents} used for
@@ -248,10 +247,6 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	 * @deprecated
 	 */
 	private Byte mode;
-	/**
-	 * @deprecated
-	 */
-	private net.sf.jasperreports.engine.JRBox box;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -263,16 +258,6 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 			modeValue = ModeEnum.getByValue(mode);
 			
 			mode = null;
-		}
-
-		if (lineBox == null)
-		{
-			lineBox = new JRBaseLineBox(this);
-			JRBoxUtil.setBoxToLineBox(
-				box,
-				lineBox
-				);
-			box = null;
 		}
 	}
 
