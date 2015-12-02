@@ -30,7 +30,6 @@ import net.sf.jasperreports.charts.JRTimeAxisFormat;
 import net.sf.jasperreports.charts.JRValueAxisFormat;
 import net.sf.jasperreports.charts.JRXAxisFormat;
 import net.sf.jasperreports.charts.JRYAxisFormat;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRCommonElement;
@@ -44,7 +43,6 @@ import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextAlignment;
@@ -69,10 +67,7 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
  */
 public final class JRStyleResolver
 {
-
-	private static final Integer INTEGER_ZERO = Integer.valueOf(0);
-	
-	private static final JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance());
+	private static final StyleResolver styleResolver = StyleResolver.getInstance();
 
 
 	/**
@@ -88,28 +83,6 @@ public final class JRStyleResolver
 				return style;
 			}
 			JRDefaultStyleProvider defaultStyleProvider = styleContainer.getDefaultStyleProvider();
-			if (defaultStyleProvider != null)
-			{
-				return defaultStyleProvider.getDefaultStyle();
-			}
-		}
-		return null;
-	}
-
-
-	/**
-	 *
-	 */
-	public static JRStyle getBaseStyle(JRLineBox box)
-	{
-		if (box != null)
-		{
-			JRStyle style = box.getStyle();
-			if (style != null)
-			{
-				return style;
-			}
-			JRDefaultStyleProvider defaultStyleProvider = box.getDefaultStyleProvider();
 			if (defaultStyleProvider != null)
 			{
 				return defaultStyleProvider.getDefaultStyle();
@@ -791,21 +764,7 @@ public final class JRStyleResolver
 	 */
 	public static Float getLineSpacingSize(JRParagraph paragraph)
 	{
-		Float ownLineSpacingSize = paragraph.getOwnLineSpacingSize();
-		if (ownLineSpacingSize != null)
-		{
-			return ownLineSpacingSize;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			Float lineSpacingSize = style.getParagraph().getLineSpacingSize();
-			if (lineSpacingSize != null)
-			{
-				return lineSpacingSize;
-			}
-		}
-		return propertiesUtil.getFloatProperty(JRParagraph.DEFAULT_LINE_SPACING_SIZE);
+		return styleResolver.getLineSpacingSize(paragraph);
 	}
 
 	/**
@@ -813,21 +772,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getFirstLineIndent(JRParagraph paragraph)
 	{
-		Integer ownFirstLineIndent = paragraph.getOwnFirstLineIndent();
-		if (ownFirstLineIndent != null)
-		{
-			return ownFirstLineIndent;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			Integer firstLineIndent = style.getParagraph().getFirstLineIndent();
-			if (firstLineIndent != null)
-			{
-				return firstLineIndent;
-			}
-		}
-		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_FIRST_LINE_INDENT);
+		return styleResolver.getFirstLineIndent(paragraph);
 	}
 
 	/**
@@ -835,21 +780,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getLeftIndent(JRParagraph paragraph)
 	{
-		Integer ownLeftIndent = paragraph.getOwnLeftIndent();
-		if (ownLeftIndent != null)
-		{
-			return ownLeftIndent;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			Integer leftIndent = style.getParagraph().getLeftIndent();
-			if (leftIndent != null)
-			{
-				return leftIndent;
-			}
-		}
-		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_LEFT_INDENT);
+		return styleResolver.getLeftIndent(paragraph);
 	}
 
 	/**
@@ -857,21 +788,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getRightIndent(JRParagraph paragraph)
 	{
-		Integer ownRightIndent = paragraph.getOwnRightIndent();
-		if (ownRightIndent != null)
-		{
-			return ownRightIndent;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			Integer rightIndent = style.getParagraph().getRightIndent();
-			if (rightIndent != null)
-			{
-				return rightIndent;
-			}
-		}
-		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_RIGHT_INDENT);
+		return styleResolver.getRightIndent(paragraph);
 	}
 
 	/**
@@ -879,21 +796,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getSpacingBefore(JRParagraph paragraph)
 	{
-		Integer ownSpacingBefore = paragraph.getOwnSpacingBefore();
-		if (ownSpacingBefore != null)
-		{
-			return ownSpacingBefore;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			Integer spacingBefore = style.getParagraph().getSpacingBefore();
-			if (spacingBefore != null)
-			{
-				return spacingBefore;
-			}
-		}
-		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_SPACING_BEFORE);
+		return styleResolver.getSpacingBefore(paragraph);
 	}
 
 	/**
@@ -901,21 +804,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getSpacingAfter(JRParagraph paragraph)
 	{
-		Integer ownSpacingAfter = paragraph.getOwnSpacingAfter();
-		if (ownSpacingAfter != null)
-		{
-			return ownSpacingAfter;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			Integer spacingAfter = style.getParagraph().getSpacingAfter();
-			if (spacingAfter != null)
-			{
-				return spacingAfter;
-			}
-		}
-		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_SPACING_AFTER);
+		return styleResolver.getSpacingAfter(paragraph);
 	}
 
 	/**
@@ -923,21 +812,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getTabStopWidth(JRParagraph paragraph)
 	{
-		Integer ownTabStopWidth = paragraph.getOwnTabStopWidth();
-		if (ownTabStopWidth != null)
-		{
-			return ownTabStopWidth;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			Integer tabStopWidth = style.getParagraph().getTabStopWidth();
-			if (tabStopWidth != null)
-			{
-				return tabStopWidth;
-			}
-		}
-		return propertiesUtil.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP_WIDTH);
+		return styleResolver.getTabStopWidth(paragraph);
 	}
 
 	/**
@@ -945,21 +820,7 @@ public final class JRStyleResolver
 	 */
 	public static TabStop[] getTabStops(JRParagraph paragraph)
 	{
-		TabStop[] ownTabStops = paragraph.getOwnTabStops();
-		if (ownTabStops != null)
-		{
-			return ownTabStops;
-		}
-		JRStyle style = getBaseStyle(paragraph);
-		if (style != null)
-		{
-			TabStop[] tabStops = style.getParagraph().getTabStops();
-			if (tabStops != null)
-			{
-				return tabStops;
-			}
-		}
-		return null;
+		return styleResolver.getTabStops(paragraph);
 	}
 
 	/**
@@ -1023,21 +884,7 @@ public final class JRStyleResolver
 	 */
 	public static LineSpacingEnum getLineSpacing(JRParagraph paragraph)
 	{
-		LineSpacingEnum ownLineSpacing = paragraph.getOwnLineSpacing();
-		if (ownLineSpacing != null)
-		{
-			return ownLineSpacing;
-		}
-		JRStyle baseStyle = getBaseStyle(paragraph);
-		if (baseStyle != null)
-		{
-			LineSpacingEnum lineSpacing = baseStyle.getParagraph().getLineSpacing();
-			if (lineSpacing != null)
-			{
-				return lineSpacing;
-			}
-		}
-		return LineSpacingEnum.SINGLE;//FIXMENOW could we make all enums in default props?
+		return styleResolver.getLineSpacing(paragraph);
 	}
 
 	/**
@@ -1161,21 +1008,7 @@ public final class JRStyleResolver
 	 */
 	public static String getFontName(JRFont font)
 	{
-		String ownFontName = font.getOwnFontName();
-		if (ownFontName != null)
-		{
-			return ownFontName;
-		}
-		JRStyle baseStyle = getBaseStyle(font);
-		if (baseStyle != null)
-		{
-			String fontName = baseStyle.getFontName();
-			if (fontName != null)
-			{
-				return fontName;
-			}
-		}
-		return propertiesUtil.getProperty(JRFont.DEFAULT_FONT_NAME);
+		return styleResolver.getFontName(font);
 	}
 	
 	/**
@@ -1183,21 +1016,7 @@ public final class JRStyleResolver
 	 */
 	public static String getFontName(JRStyle style)
 	{
-		String ownFontName = style.getOwnFontName();
-		if (ownFontName != null)
-		{
-			return ownFontName;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-		{
-			String fontName = baseStyle.getFontName();
-			if (fontName != null)
-			{
-				return fontName;
-			}
-		}
-		return propertiesUtil.getProperty(JRFont.DEFAULT_FONT_NAME);
+		return styleResolver.getFontName(style);
 	}
 
 	/**
@@ -1364,21 +1183,7 @@ public final class JRStyleResolver
 	 */
 	public static float getFontsize(JRFont font)
 	{
-		Float ownFontSize = font.getOwnFontsize();
-		if (ownFontSize != null)
-		{
-			return ownFontSize.floatValue();
-		}
-		JRStyle baseStyle = getBaseStyle(font);
-		if (baseStyle != null)
-		{
-			Float fontSize = baseStyle.getFontsize();
-			if (fontSize != null)
-			{
-				return fontSize.floatValue();
-			}
-		}
-		return propertiesUtil.getFloatProperty(JRFont.DEFAULT_FONT_SIZE);
+		return styleResolver.getFontsize(font);
 	}
 	
 	/**
@@ -1421,21 +1226,7 @@ public final class JRStyleResolver
 	 */
 	public static String getPdfFontName(JRFont font)
 	{
-		String ownPdfFontName = font.getOwnPdfFontName();
-		if (ownPdfFontName != null)
-		{
-			return ownPdfFontName;
-		}
-		JRStyle baseStyle = getBaseStyle(font);
-		if (baseStyle != null)
-		{
-			String pdfFontName = baseStyle.getPdfFontName();
-			if (pdfFontName != null)
-			{
-				return pdfFontName;
-			}
-		}
-		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
+		return styleResolver.getPdfFontName(font);
 	}
 	
 	/**
@@ -1443,21 +1234,7 @@ public final class JRStyleResolver
 	 */
 	public static String getPdfFontName(JRStyle style)
 	{
-		String ownPdfFontName = style.getOwnPdfFontName();
-		if (ownPdfFontName != null)
-		{
-			return ownPdfFontName;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-		{
-			String pdfFontName = baseStyle.getPdfFontName();
-			if (pdfFontName != null)
-			{
-				return pdfFontName;
-			}
-		}
-		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
+		return styleResolver.getPdfFontName(style);
 	}
 
 	/**
@@ -1465,21 +1242,7 @@ public final class JRStyleResolver
 	 */
 	public static String getPdfEncoding(JRFont font)
 	{
-		String ownPdfEncoding = font.getOwnPdfEncoding();
-		if (ownPdfEncoding != null)
-		{
-			return ownPdfEncoding;
-		}
-		JRStyle baseStyle = getBaseStyle(font);
-		if (baseStyle != null)
-		{
-			String pdfEncoding = baseStyle.getPdfEncoding();
-			if (pdfEncoding != null)
-			{
-				return pdfEncoding;
-			}
-		}
-		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_ENCODING);
+		return styleResolver.getPdfEncoding(font);
 	}
 	
 	/**
@@ -1487,21 +1250,7 @@ public final class JRStyleResolver
 	 */
 	public static String getPdfEncoding(JRStyle style)
 	{
-		String ownPdfEncoding = style.getOwnPdfEncoding();
-		if (ownPdfEncoding != null)
-		{
-			return ownPdfEncoding;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-		{
-			String pdfEncoding = baseStyle.getPdfEncoding();
-			if (pdfEncoding != null)
-			{
-				return pdfEncoding;
-			}
-		}
-		return propertiesUtil.getProperty(JRFont.DEFAULT_PDF_ENCODING);
+		return styleResolver.getPdfEncoding(style);
 	}
 
 	/**
@@ -1509,21 +1258,7 @@ public final class JRStyleResolver
 	 */
 	public static boolean isPdfEmbedded(JRFont font)
 	{
-		Boolean ownPdfEmbedded = font.isOwnPdfEmbedded();
-		if (ownPdfEmbedded != null)
-		{
-			return ownPdfEmbedded.booleanValue();
-		}
-		JRStyle baseStyle = getBaseStyle(font);
-		if (baseStyle != null)
-		{
-			Boolean pdfEmbedded = baseStyle.isPdfEmbedded();
-			if (pdfEmbedded != null)
-			{
-				return pdfEmbedded.booleanValue();
-			}
-		}
-		return propertiesUtil.getBooleanProperty(JRFont.DEFAULT_PDF_EMBEDDED);
+		return styleResolver.isPdfEmbedded(font);
 	}
 	
 	/**
@@ -1549,21 +1284,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getPadding(JRLineBox box)
 	{
-		Integer ownPadding = box.getOwnPadding();
-		if (ownPadding != null)
-		{
-			return ownPadding;
-		}
-		JRStyle baseStyle = getBaseStyle(box);
-		if (baseStyle != null)
-		{
-			Integer padding = baseStyle.getLineBox().getPadding();
-			if (padding != null)
-			{
-				return padding;
-			}
-		}
-		return INTEGER_ZERO;
+		return styleResolver.getPadding(box);
 	}
 
 	/**
@@ -1571,26 +1292,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getTopPadding(JRLineBox box)
 	{
-		Integer ownTopPadding = box.getOwnTopPadding();
-		if (ownTopPadding != null)
-		{
-			return ownTopPadding;
-		}
-		Integer ownPadding = box.getOwnPadding();
-		if (ownPadding != null)
-		{
-			return ownPadding;
-		}
-		JRStyle style = getBaseStyle(box);
-		if (style != null)
-		{
-			Integer topPadding = style.getLineBox().getTopPadding();
-			if (topPadding != null)
-			{
-				return topPadding;
-			}
-		}
-		return INTEGER_ZERO;
+		return styleResolver.getTopPadding(box);
 	}
 
 	/**
@@ -1598,26 +1300,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getLeftPadding(JRLineBox box)
 	{
-		Integer ownLeftPadding = box.getOwnLeftPadding();
-		if (ownLeftPadding != null)
-		{
-			return ownLeftPadding;
-		}
-		Integer ownPadding = box.getOwnPadding();
-		if (ownPadding != null)
-		{
-			return ownPadding;
-		}
-		JRStyle style = getBaseStyle(box);
-		if (style != null)
-		{
-			Integer leftPadding = style.getLineBox().getLeftPadding();
-			if (leftPadding != null)
-			{
-				return leftPadding;
-			}
-		}
-		return INTEGER_ZERO;
+		return styleResolver.getLeftPadding(box);
 	}
 
 	/**
@@ -1625,26 +1308,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getBottomPadding(JRLineBox box)
 	{
-		Integer ownBottomPadding = box.getOwnBottomPadding();
-		if (ownBottomPadding != null)
-		{
-			return ownBottomPadding;
-		}
-		Integer ownPadding = box.getOwnPadding();
-		if (ownPadding != null)
-		{
-			return ownPadding;
-		}
-		JRStyle style = getBaseStyle(box);
-		if (style != null)
-		{
-			Integer bottomPadding = style.getLineBox().getBottomPadding();
-			if (bottomPadding != null)
-			{
-				return bottomPadding;
-			}
-		}
-		return INTEGER_ZERO;
+		return styleResolver.getBottomPadding(box);
 	}
 
 	/**
@@ -1652,26 +1316,7 @@ public final class JRStyleResolver
 	 */
 	public static Integer getRightPadding(JRLineBox box)
 	{
-		Integer ownRightPadding = box.getOwnRightPadding();
-		if (ownRightPadding != null)
-		{
-			return ownRightPadding;
-		}
-		Integer ownPadding = box.getOwnPadding();
-		if (ownPadding != null)
-		{
-			return ownPadding;
-		}
-		JRStyle style = getBaseStyle(box);
-		if (style != null)
-		{
-			Integer rightPadding = style.getLineBox().getRightPadding();
-			if (rightPadding != null)
-			{
-				return rightPadding;
-			}
-		}
-		return INTEGER_ZERO;
+		return styleResolver.getRightPadding(box);
 	}
 
 

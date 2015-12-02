@@ -84,9 +84,17 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getPenContainer()}.
 	 */
 	public JRStyleContainer getStyleContainer()
+	{
+		return penContainer;
+	}
+
+	/**
+	 *
+	 */
+	public JRPenContainer getPenContainer()
 	{
 		return penContainer;
 	}

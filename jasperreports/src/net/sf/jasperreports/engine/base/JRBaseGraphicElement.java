@@ -114,6 +114,13 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fillValue);
 	}
 
+//	/**
+//	 * 
+//	 */
+//	public JRStyleContainer getStyleContainer() 
+//	{
+//		return this;
+//	}
 	/**
 	 * 
 	 */

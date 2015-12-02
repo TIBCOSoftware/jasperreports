@@ -23,10 +23,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRParagraphContainer;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 
@@ -59,22 +57,28 @@ public class CachingParagraph implements JRParagraph
 		this.spacingAfter = base.getSpacingAfter();
 	}
 
-	@Override
-	public JRDefaultStyleProvider getDefaultStyleProvider()
-	{
-		return base.getDefaultStyleProvider();
-	}
+//	@Override
+//	public JRDefaultStyleProvider getDefaultStyleProvider()
+//	{
+//		return base.getDefaultStyleProvider();
+//	}
+//
+//	@Override
+//	public JRStyle getStyle()
+//	{
+//		return base.getStyle();
+//	}
+//
+//	@Override
+//	public String getStyleNameReference()
+//	{
+//		return base.getStyleNameReference();
+//	}
 
 	@Override
-	public JRStyle getStyle()
+	public JRParagraphContainer getParagraphContainer()
 	{
-		return base.getStyle();
-	}
-
-	@Override
-	public String getStyleNameReference()
-	{
-		return base.getStyleNameReference();
+		return base.getParagraphContainer();
 	}
 
 	@Override

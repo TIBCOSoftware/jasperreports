@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRParagraph extends JRStyleContainer
+public interface JRParagraph
 {
 	/**
 	 * Specifies the default value for the text line spacing size, if no explicit information is provided in a 
@@ -86,6 +86,12 @@ public interface JRParagraph extends JRStyleContainer
 	 * By default JR paragraphs provide 40 pixels wide tab stops. 
 	 */
 	public static final String DEFAULT_TAB_STOP_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "default.tab.stop.width";
+
+	/**
+	 * Gets the text line spacing.
+	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 */
+	public JRParagraphContainer getParagraphContainer();
 
 	/**
 	 * 

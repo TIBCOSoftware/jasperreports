@@ -133,6 +133,14 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 		this.fillValue = fillValue;
 	}
 
+//	/**
+//	 * 
+//	 */
+//	public JRStyleContainer getStyleContainer() 
+//	{
+//		return this;
+//	}
+
 	/**
 	 * 
 	 */

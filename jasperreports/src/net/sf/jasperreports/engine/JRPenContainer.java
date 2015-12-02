@@ -29,8 +29,13 @@ import java.awt.Color;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRPenContainer// extends JRStyleContainer
+public interface JRPenContainer extends JRStyleContainer
 {
+
+//	/**
+//	 *
+//	 */
+//	public JRStyleContainer getStyleContainer();
 
 	/**
 	 *

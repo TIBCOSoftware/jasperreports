@@ -57,9 +57,14 @@ public interface JRPen
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getPenContainer()}.
 	 */
 	public JRStyleContainer getStyleContainer();
+
+	/**
+	 *
+	 */
+	public JRPenContainer getPenContainer();
 
 	/**
 	 * 

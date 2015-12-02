@@ -107,6 +107,14 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	}
 		
 
+//	/**
+//	 * 
+//	 */
+//	public JRStyleContainer getStyleContainer() 
+//	{
+//		return this;
+//	}
+
 	/**
 	 * 
 	 */
