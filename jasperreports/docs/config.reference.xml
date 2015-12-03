@@ -60,6 +60,7 @@
       <property ref="net.sf.jasperreports.allow.element.negative.y"/>
       <property ref="net.sf.jasperreports.allow.element.overlap"/>
       <property ref="net.sf.jasperreports.style.{style_property_suffix}"/>
+      <property ref="net.sf.jasperreports.styles.inherit.from.default"/>
     </content>
   </category>
   
@@ -1123,6 +1124,20 @@ have no meaning and no effects in this implementation. Conditional styles should
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.styles.inherit.from.default -->
+  
+  <configProperty name="net.sf.jasperreports.styles.inherit.from.default">
+    <description>
+Specifies whether report styles that do not have a parent specified would rely on the default style as parent for property inheritance. 
+Before version 6.2.1, styles without parent were not inheriting from default style.
+    </description>
+    <api>net/sf/jasperreports/engine/util/StyleResolver.html#PROPERTY_STYLES_INHERIT_FROM_DEFAULT</api>
+    <default>true</default>
+    <scope>Global</scope>
+    <since>6.2.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.band.split.type -->
   
   <configProperty name="net.sf.jasperreports.band.split.type">
@@ -1203,7 +1218,6 @@ By default the first line in JR paragraphs has no indentation.
     <default>0</default>
     <scope>Global</scope>
     <since>4.0.2</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -1217,7 +1231,6 @@ Specifies the default font name when no default font is explicitly given in a re
     <default>SansSerif</default>
     <scope>Global</scope>
     <since>1.3.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -1231,7 +1244,6 @@ Specifies the default font size when no default font size is explicitly given in
     <default>10</default>
     <scope>Global</scope>
     <since>1.3.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -1247,7 +1259,6 @@ By default JR paragraphs provide no left indentation.
     <default>0</default>
     <scope>Global</scope>
     <since>4.0.2</since>
-    <contextUnaware/>
   </configProperty>
   
 
@@ -1270,7 +1281,6 @@ This value is used in combination with the size-dependent line spacings in
     <default>1</default>
     <scope>Global</scope>
     <since>4.0.2</since>
-    <contextUnaware/>
   </configProperty>
   
 
@@ -1286,7 +1296,6 @@ By default JR paragraphs provide no right indentation.
     <default>0</default>
     <scope>Global</scope>
     <since>4.0.2</since>
-    <contextUnaware/>
   </configProperty>
   
 
@@ -1302,7 +1311,6 @@ By default JR paragraphs provide no spacing after lines.
     <default>0</default>
     <scope>Global</scope>
     <since>4.0.2</since>
-    <contextUnaware/>
   </configProperty>
   
 
@@ -1318,7 +1326,6 @@ By default JR paragraphs provide no spacing before lines.
     <default>0</default>
     <scope>Global</scope>
     <since>4.0.2</since>
-    <contextUnaware/>
   </configProperty>
   
 
@@ -1334,7 +1341,6 @@ By default JR paragraphs provide 40 pixels wide tab stops.
     <default>40</default>
     <scope>Global</scope>
     <since>4.0.2</since>
-    <contextUnaware/>
   </configProperty>
   
 
@@ -2412,7 +2418,6 @@ Property indicating the default PDF font, if not specified in the report templat
     <default>Helvetica</default>
     <scope>Global</scope>
     <since>1.3.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -2426,7 +2431,6 @@ Property indicating the default PDF encoding, if not specified in the report tem
     <default>Cp1252</default>
     <scope>Global</scope>
     <since>1.3.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -2440,7 +2444,6 @@ Property indicating the default PDF font embedding behavior, if not specified in
     <default>false</default>
     <scope>Global</scope>
     <since>1.3.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
