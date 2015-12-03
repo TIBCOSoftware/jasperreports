@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRParagraphContainer;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 
@@ -57,23 +59,29 @@ public class CachingParagraph implements JRParagraph
 		this.spacingAfter = base.getSpacingAfter();
 	}
 
-//	@Override
-//	public JRDefaultStyleProvider getDefaultStyleProvider()
-//	{
-//		return base.getDefaultStyleProvider();
-//	}
-//
-//	@Override
-//	public JRStyle getStyle()
-//	{
-//		return base.getStyle();
-//	}
-//
-//	@Override
-//	public String getStyleNameReference()
-//	{
-//		return base.getStyleNameReference();
-//	}
+	/**
+	 * @deprecated Replaced by {@link #getParagraphContainer()}.
+	 */
+	public JRDefaultStyleProvider getDefaultStyleProvider()
+	{
+		return base.getParagraphContainer().getDefaultStyleProvider();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getParagraphContainer()}.
+	 */
+	public JRStyle getStyle()
+	{
+		return base.getParagraphContainer().getStyle();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getParagraphContainer()}.
+	 */
+	public String getStyleNameReference()
+	{
+		return base.getParagraphContainer().getStyleNameReference();
+	}
 
 	@Override
 	public JRParagraphContainer getParagraphContainer()

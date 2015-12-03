@@ -119,14 +119,6 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	}
 	
 
-//	/**
-//	 * 
-//	 */
-//	public JRStyleContainer getStyleContainer() 
-//	{
-//		return this;
-//	}
-
 	/**
 	 * 
 	 */

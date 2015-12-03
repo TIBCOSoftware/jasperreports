@@ -55,11 +55,6 @@ public class CachingLineBox implements JRLineBox
 		rightPadding = base.getRightPadding();
 	}
 
-//	public JRStyleContainer getStyleContainer()
-//	{
-//		return base.getStyleContainer();
-//	}
-
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return base.getDefaultStyleProvider();

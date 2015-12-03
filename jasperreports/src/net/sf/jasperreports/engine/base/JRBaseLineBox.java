@@ -154,14 +154,6 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return boxContainer;
 	}
 
-//	/**
-//	 *
-//	 */
-//	public JRStyleContainer getStyleContainer()
-//	{
-//		return boxContainer;
-//	}
-
 	/**
 	 *
 	 */

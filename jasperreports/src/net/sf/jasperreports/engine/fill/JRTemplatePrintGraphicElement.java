@@ -113,13 +113,6 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 		throw new UnsupportedOperationException();
 	}
 	
-//	/**
-//	 * 
-//	 */
-//	public JRStyleContainer getStyleContainer() 
-//	{
-//		return template;
-//	}
 	/**
 	 * 
 	 */

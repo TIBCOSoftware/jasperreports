@@ -641,28 +641,6 @@ public final class StyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalTextAlign(JRTextAlignment)} and {@link #getHorizontalImageAlign(JRImageAlignment)}.
-	 */
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue(net.sf.jasperreports.engine.JRAlignment alignment)
-	{
-		net.sf.jasperreports.engine.type.HorizontalAlignEnum ownHorizontalAlignment = alignment.getOwnHorizontalAlignmentValue();
-		if (ownHorizontalAlignment != null)
-		{
-			return ownHorizontalAlignment;
-		}
-		JRStyle baseStyle = getBaseStyle(alignment);
-		if (baseStyle != null)
-		{
-			net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment = baseStyle.getHorizontalAlignmentValue();
-			if (horizontalAlignment != null)
-			{
-				return horizontalAlignment;
-			}
-		}
-		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.LEFT;
-	}
-
-	/**
 	 *
 	 */
 	public HorizontalTextAlignEnum getHorizontalTextAlign(JRTextAlignment alignment)
@@ -707,24 +685,6 @@ public final class StyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalTextAlign(JRStyle)} and {@link #getHorizontalImageAlign(JRStyle)}.
-	 */
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue(JRStyle style)
-	{
-		net.sf.jasperreports.engine.type.HorizontalAlignEnum ownHorizontalAlignment = style.getOwnHorizontalAlignmentValue();
-		if (ownHorizontalAlignment != null)
-		{
-			return ownHorizontalAlignment;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-		{
-			return baseStyle.getHorizontalAlignmentValue();
-		}
-		return null;
-	}
-
-	/**
 	 *
 	 */
 	public HorizontalTextAlignEnum getHorizontalTextAlign(JRStyle style)
@@ -758,28 +718,6 @@ public final class StyleResolver
 			return baseStyle.getHorizontalImageAlign();
 		}
 		return null;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalTextAlign(JRTextAlignment)} and {@link #getVerticalImageAlign(JRImageAlignment)}.
-	 */
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue(net.sf.jasperreports.engine.JRAlignment alignment)
-	{
-		net.sf.jasperreports.engine.type.VerticalAlignEnum ownVerticalAlignment = alignment.getOwnVerticalAlignmentValue();
-		if (ownVerticalAlignment != null)
-		{
-			return ownVerticalAlignment;
-		}
-		JRStyle baseStyle = getBaseStyle(alignment);
-		if (baseStyle != null)
-		{
-			net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment = baseStyle.getVerticalAlignmentValue();
-			if (verticalAlignment != null)
-			{
-				return verticalAlignment;
-			}
-		}
-		return net.sf.jasperreports.engine.type.VerticalAlignEnum.TOP;
 	}
 
 	/**
@@ -824,33 +762,6 @@ public final class StyleResolver
 			}
 		}
 		return VerticalImageAlignEnum.TOP;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public Byte getVerticalAlignment(JRStyle style)
-	{
-		net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment = getVerticalAlignmentValue(style);
-		return verticalAlignment == null ? null : verticalAlignment.getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalTextAlign(JRStyle)} and {@link #getVerticalImageAlign(JRStyle)}.
-	 */
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue(JRStyle style)
-	{
-		net.sf.jasperreports.engine.type.VerticalAlignEnum ownVerticalAlignment = style.getOwnVerticalAlignmentValue();
-		if (ownVerticalAlignment != null)
-		{
-			return ownVerticalAlignment;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-		{
-			return baseStyle.getVerticalAlignmentValue();
-		}
-		return null;
 	}
 
 	/**
@@ -1103,22 +1014,6 @@ public final class StyleResolver
 			return baseStyle.getRotationValue();
 		}
 		return null;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
-	 */
-	public LineSpacingEnum getLineSpacingValue(JRCommonText element)
-	{
-		return getLineSpacing(element.getParagraph());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
-	 */
-	public LineSpacingEnum getLineSpacingValue(JRStyle style)
-	{
-		return getLineSpacing(style.getParagraph());
 	}
 
 	/**
@@ -1500,23 +1395,6 @@ public final class StyleResolver
 			return baseStyle.getFontsize();
 		}
 		return null;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFontsize(JRFont)}.
-	 */
-	public int getFontSize(JRFont font)
-	{
-		return (int)getFontsize(font);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getFontsize(JRStyle)}.
-	 */
-	public Integer getFontSize(JRStyle style)
-	{
-		Float fontSize = getFontsize(style);
-		return fontSize == null ? null : fontSize.intValue();
 	}
 
 	/**

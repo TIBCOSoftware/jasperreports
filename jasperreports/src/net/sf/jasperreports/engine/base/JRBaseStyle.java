@@ -1075,14 +1075,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return parentStyleNameReference;
 	}
 	
-//	/**
-//	 *
-//	 */
-//	public JRStyleContainer getStyleContainer()
-//	{
-//		return this;
-//	}
-	
 	/**
 	 *
 	 */
