@@ -125,8 +125,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected JRStyle defaultStyle;
 	protected JRStyle[] styles;
 
-	protected transient StyleResolver styleResolver;
-	protected transient ThreadLocal<StyleResolver> threadLocalStyleResolver;
+	protected transient StyleResolver styleResolver = StyleResolver.getInstance();
 
 	/**
 	 * The main dataset of the report.
@@ -272,19 +271,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 */
 	public synchronized void setJasperReportsContext(JasperReportsContext jasperReportsContext)
 	{
-		StyleResolver newStyleResolver = new StyleResolver(jasperReportsContext);
-		
-		if (styleResolver == null)
-		{
-			styleResolver = newStyleResolver;
-		}
-		
-		if (threadLocalStyleResolver == null)
-		{
-			threadLocalStyleResolver = new ThreadLocal<StyleResolver>();
-		}
-		
-		threadLocalStyleResolver.set(newStyleResolver);
+		styleResolver = new StyleResolver(jasperReportsContext);
 	}
 
 	/**
@@ -556,22 +543,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 */
 	public StyleResolver getStyleResolver()
 	{
-		if (
-			threadLocalStyleResolver == null
-			|| threadLocalStyleResolver.get() == null
-			)
-		{
-			if (styleResolver == null)
-			{
-				return StyleResolver.getInstance();
-			}
-			else
-			{
-				return styleResolver;
-			}
-		}
-		
-		return threadLocalStyleResolver.get();
+		return styleResolver;
 	}
 
 	/**
