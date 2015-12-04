@@ -115,6 +115,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		{
 			return styleResolver;
 		}
+
+		private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+		{
+			in.defaultReadObject();
+			styleResolver = StyleResolver.getInstance();
+		}
 	}
 
 

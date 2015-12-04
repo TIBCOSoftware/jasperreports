@@ -843,7 +843,9 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
-		
+
+		styleResolver = StyleResolver.getInstance();
+
 		if (detail != null)
 		{
 			detailSection = new JRBaseSection(detail);
