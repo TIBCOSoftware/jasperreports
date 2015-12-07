@@ -190,9 +190,13 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	/**
 	 *
 	 */
-	protected StyleResolver getStyleResolver() 
+	protected StyleResolver getStyleResolver()
 	{
-		return getDefaultStyleProvider().getStyleResolver();
+		if (getDefaultStyleProvider() != null)
+		{
+			return getDefaultStyleProvider().getStyleResolver();
+		}
+		return StyleResolver.getInstance();
 	}
 	
 	/**
