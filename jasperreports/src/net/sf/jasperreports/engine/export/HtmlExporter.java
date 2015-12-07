@@ -439,12 +439,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 //		if (!isOutputResourcesToDir)
 		if (reportContext == null) // generate script tag on static export only
 		{
-			writer.write("<![if IE]>\n");
+			writer.write("<!--[if IE]>\n");
 			writer.write("<script>\n");
 			writer.write("var links = document.querySelectorAll('link.jrWebFont');\n");
 			writer.write("setTimeout(function(){ if (links) { for (var i = 0; i < links.length; i++) { links.item(i).href = links.item(i).href; } } }, 0);\n");
 			writer.write("</script>\n");
-			writer.write("<![endif]>\n");
+			writer.write("<![endif]-->\n");
 		}
 
 		if (htmlFooter == null)
