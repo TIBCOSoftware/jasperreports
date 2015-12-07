@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.JRConstants;
 public class DurationNumberFormat extends NumberFormat
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	private final DecimalFormat TWO_DECIMALS_FORMAT = new DecimalFormat("00"); 
 	
 	@Override
 	public StringBuffer format(
@@ -54,17 +56,18 @@ public class DurationNumberFormat extends NumberFormat
 		FieldPosition pos
 		) 
 	{
+		
 		long seconds = number;
 		long hours = seconds / 3600;
 		seconds -= hours * 3600;
 		long minutes = seconds / 60;
 		seconds -= minutes * 60;
 		
-		toAppendTo.append(hours);
+		toAppendTo.append(TWO_DECIMALS_FORMAT.format(hours));
 		toAppendTo.append(":");
-		toAppendTo.append(minutes);
+		toAppendTo.append(TWO_DECIMALS_FORMAT.format(minutes));
 		toAppendTo.append(":");
-		toAppendTo.append(seconds);
+		toAppendTo.append(TWO_DECIMALS_FORMAT.format(seconds));
 		
 		return toAppendTo;
 	}
