@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -147,6 +148,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			
 			URL url = extensionResource.getUrl();
 			List<ExtensionsRegistry> registries;
+			Map<String, Exception> registryExceptions = new LinkedHashMap<String, Exception>();
 			synchronized (classLoaderRegistries)
 			{
 				registries = classLoaderRegistries.get(url);
@@ -158,10 +160,16 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 								+ url);
 					}
 					
-					registries = loadRegistries(url);
+					registries = loadRegistries(url, registryExceptions);
 					
 					classLoaderRegistries.put(url, registries);
 				}
+			}
+			
+			for (Map.Entry<String, Exception> entry : registryExceptions.entrySet())
+			{
+				log.error("Error instantiating extensions registry for " 
+						+ entry.getKey() + " from " + url, entry.getValue());
 			}
 			
 			allRegistries.addAll(registries);
@@ -189,7 +197,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		}
 	}
 	
-	protected List<ExtensionsRegistry> loadRegistries(URL url)
+	protected List<ExtensionsRegistry> loadRegistries(URL url, Map<String, Exception> registryExceptions)
 	{
 		JRPropertiesMap properties = JRPropertiesMap.loadProperties(url);
 		
@@ -217,8 +225,8 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			catch (Exception e)
 			{
 				//skip this registry
-				log.error("Error instantiating extensions registry for " 
-						+ registryId + " from " + url, e);
+				//error logging is deferred after the registries are cached to avoid a loop from JRRuntimeException.resolveMessage
+				registryExceptions.put(registryId, e);
 			}
 		}
 		return registries;
