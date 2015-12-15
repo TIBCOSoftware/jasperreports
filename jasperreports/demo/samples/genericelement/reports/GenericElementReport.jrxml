@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GenericElementReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="820" leftMargin="11" rightMargin="11" topMargin="50" bottomMargin="50" whenNoDataType="AllSectionsNoDetail" uuid="ed16b371-5ada-4abb-8973-bcfa77094161">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GenericElementReport" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="820" leftMargin="11" rightMargin="11" topMargin="50" bottomMargin="50" uuid="ed16b371-5ada-4abb-8973-bcfa77094161">
 	<style name="widget1" hTextAlign="Right" hImageAlign="Right"/>
-	<parameter name="JRProjectID" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[Integer.valueOf(287)]]></defaultValueExpression>
+	<parameter name="JRProjectID" class="java.lang.String">
+		<defaultValueExpression><![CDATA["jasperreports"]]></defaultValueExpression>
 	</parameter>
 	<title>
 		<band height="495">

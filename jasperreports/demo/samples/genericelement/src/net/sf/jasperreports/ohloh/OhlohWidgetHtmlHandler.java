@@ -63,19 +63,19 @@ public class OhlohWidgetHtmlHandler implements
 		return getProjectID(element) != null;
 	}
 
-	protected Integer getProjectID(JRGenericPrintElement element)
+	protected String getProjectID(JRGenericPrintElement element)
 	{
-		return (Integer) element.getParameterValue(getProjectIDParameter());
+		return (String) element.getParameterValue(getProjectIDParameter());
 	}
 
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		StringBuffer script = new StringBuffer(128);
-		script.append("<script type=\"text/javascript\" src=\"http://www.ohloh.net/projects/");
+		script.append("<script type='text/javascript' src='https://www.openhub.net/p/");
 		script.append(getProjectID(element));
 		script.append("/widgets/");
 		script.append(getWidgetName());
-		script.append("\"></script>");
+		script.append("?format=js'></script>");
 		return script.toString();
 	}
 	
