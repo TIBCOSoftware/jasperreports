@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-functions</artifactId>
-	<version>6.2.1-SNAPSHOT</version>
+	<version>6.2.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Functions</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>git://git.code.sf.net/p/jasperreports/code jasperreports-code</connection>
-		<tag>jr-6-2-1</tag>
+		<tag>jr-6-2-2</tag>
 		<url>http://sourceforge.net/p/jasperreports/code/ci/master/tree/</url>
 	</scm>
 	<repositories>
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.2.1-SNAPSHOT</version>
+			<version>6.2.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
