@@ -10,8 +10,7 @@
 		<echo message=""/>
 
 		<subant target="test">
-			<!-- FIXMEIVY -->
-			<fileset dir="." includes="*/build.xml" excludes="openflashchart/build.xml"/>
+			<fileset dir="." includes="*/build.xml"/>
 		</subant>
 	</target>
 
