@@ -711,11 +711,12 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 				PrintParts parts = viewerContext.getJasperPrint().getParts();
 				Integer pageIndex = viewerContext.getPageIndex();
 				Integer partIndex = parts.getPartIndex(pageIndex);
+				Integer tabIndex = partIndex - (parts.startsAtZero() ? 1 : 0);
 				
-				if (partIndex < pnlTabs.getComponentCount())
+				if (tabIndex < pnlTabs.getComponentCount())
 				{
 					pnlTabsChangeListenerEnabled = false;
-					pnlTabs.setSelectedIndex(partIndex - (parts.startsAtZero() ? 1 : 0));
+					pnlTabs.setSelectedIndex(tabIndex);
 					((JPanel)pnlTabs.getSelectedComponent()).add(scrollPane);
 					pnlTabsChangeListenerEnabled = true;
 				}
