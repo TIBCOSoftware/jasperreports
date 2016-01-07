@@ -2209,7 +2209,7 @@
    </sequence>
    <attribute name="stretchType" use="optional">
 	<annotation>
-	 <documentation>The element will be printed when the specified group changes.</documentation>
+	 <documentation><i>Deprecated</i>. Replaced by attribute with the same name in tag <elem>reportElement</elem>.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
@@ -2530,7 +2530,7 @@ This can be useful when, for instance, a border has to be drawn around the image
 	 <documentation>The level of the bookmark corresponding to the anchor.
 	  <p/>
 	  The PDF exporter can create a bookmark tree using anchors defined in the report.
-	  This attributes specifies the level of the tree entry corresponding to this element's anchor.
+	  This attribute specifies the level of the tree entry corresponding to this element's anchor.
 	  If set to "0" (the default), no bookmark will be created for the anchor.
 	 </documentation>
 	</annotation>
@@ -3484,7 +3484,7 @@ This can be useful when, for instance, a border has to be drawn around the image
      <documentation>The level of the bookmark corresponding to the anchor.
 	  <p/>
 	  The PDF exporter can create a bookmark tree using anchors defined in the report.
-	  This attributes specifies the level of the tree entry corresponding to this element's anchor.
+	  This attribute specifies the level of the tree entry corresponding to this element's anchor.
 	  If set to "0" (the default), no bookmark will be created for the anchor.
 	 </documentation>
     </annotation>
@@ -3863,7 +3863,7 @@ This can be useful when, for instance, a border has to be drawn around the image
      <documentation>The level of the bookmark corresponding to the anchor.
 	  <p/>
 	  The PDF exporter can create a bookmark tree using anchors defined in the report.
-	  This attributes specifies the level of the tree entry corresponding to this element's anchor.
+	  This attribute specifies the level of the tree entry corresponding to this element's anchor.
 	  If set to "0" (the default), no bookmark will be created for the anchor.
 	 </documentation>
     </annotation>

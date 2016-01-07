@@ -51,6 +51,11 @@ public class JRGraphicElementFactory extends JRBaseFactory
 		StretchTypeEnum stretchType = StretchTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_stretchType));
 		if (stretchType != null)
 		{
+			if (log.isWarnEnabled())
+			{
+				log.warn("The 'stretchType' attribute in <graphicElement> tag is deprecated. Use the same attribut in <reportElement> tag instead.");
+			}
+				
 			graphicElement.setStretchType(stretchType);
 		}
 
