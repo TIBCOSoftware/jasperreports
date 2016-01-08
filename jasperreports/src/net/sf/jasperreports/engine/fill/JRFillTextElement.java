@@ -695,8 +695,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				// occupy all remaining space so that no other element renders there
 				// but do not change the print element height
-				int stretchHeight = getHeight() + availableStretchHeight;
-				setStretchHeight(stretchHeight);
+				setStretchHeight(getHeight() + availableStretchHeight);
 				
 				// store the difference between the consumed stretch height and the text stretch height.
 				// this will be used in fill() to set the print element height, 
