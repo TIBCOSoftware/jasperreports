@@ -348,9 +348,9 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	public JRGroup getPrintWhenGroupChanges();
 	
 	/**
-	 * Indicates the logical group that the element belongs to. More elements can be grouped in order to get the height
-	 * of the tallest one.
-	 * @see StretchTypeEnum#RELATIVE_TO_TALLEST_OBJECT
+	 * Indicates the logical group that the element belongs to. More elements can be grouped in order to make some of them stretch
+	 * relative to the height of their parent group.
+	 * @see StretchTypeEnum
 	 */
 	public JRElementGroup getElementGroup();
 
