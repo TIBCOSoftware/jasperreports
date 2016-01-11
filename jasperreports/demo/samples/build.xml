@@ -344,6 +344,7 @@
 
 	<target name="test" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<jvmarg value="-Djava.awt.headless=true"/>
 			<arg value="test"/>
 			<classpath refid="sample-classpath"/>
 		</java>
