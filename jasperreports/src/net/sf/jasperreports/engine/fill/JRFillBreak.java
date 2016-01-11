@@ -222,7 +222,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 						log.trace("unpaginated report, column break not triggered");
 					}
 				}
-				else if (!filler.isFirstColumnBand || band.firstYElement != null)
+				else if (!filler.isFirstColumnBand || band.atLeastOneElementIsToPrint)
 				{
 					setStretchHeight(availableHeight - getRelativeY());
 				}

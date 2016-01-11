@@ -543,7 +543,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 	protected boolean isPageBreakInhibited()
 	{
-		boolean isPageBreakInhibited = filler.isFirstPageBand && firstYElement == null;
+		boolean isPageBreakInhibited = filler.isFirstPageBand && !atLeastOneElementIsToPrint;
 		
 		if (isPageBreakInhibited && filler.isSubreport())
 		{
