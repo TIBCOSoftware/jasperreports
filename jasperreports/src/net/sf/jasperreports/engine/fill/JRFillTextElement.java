@@ -689,13 +689,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			boolean textEnded = measuredText.getTextOffset() >= tmpStyledText.getText().length();
 			if (textEnded || !canOverflow || !consumeSpaceOnOverflow)
 			{
-				setStretchHeight(elementTextHeight);
+				setPrepareHeight(elementTextHeight);
 			}
 			else
 			{
 				// occupy all remaining space so that no other element renders there
 				// but do not change the print element height
-				setStretchHeight(getHeight() + availableStretchHeight);
+				setPrepareHeight(getHeight() + availableStretchHeight);
 				
 				// store the difference between the consumed stretch height and the text stretch height.
 				// this will be used in fill() to set the print element height, 
@@ -706,7 +706,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 		else
 		{
-			setStretchHeight(getHeight());
+			setPrepareHeight(getHeight());
 		}
 		
 		setTextStart(getTextEnd());

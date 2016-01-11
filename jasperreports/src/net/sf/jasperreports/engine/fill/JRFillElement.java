@@ -116,7 +116,14 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean isAlreadyPrinted;
 	private Collection<JRElement> dependantElements = new ArrayList<JRElement>();
 	private int relativeY;
+	/**
+	 * Keeps total stretch height, including forced stretch after honoring the stretchType property of the element. 
+	 */
 	private int stretchHeight;
+	/**
+	 * Keeps the natural stretch height calculated during element prepare. 
+	 */
+	private int prepareHeight;
 
 	private int x;
 	private int y;
@@ -683,6 +690,20 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		{
 			this.stretchHeight = getHeight();
 		}
+	}
+
+	/**
+	 * Element height is calculated in two phases. 
+	 * First, the element stretches on its own during prepare, to accommodate all its content.
+	 * This is the natural stretch and we keep track of the calculated height in prepareHeight.
+	 * Secondly, the element stretches further in accordance with its stretchType property.
+	 * This forced stretch occurs at a later time and the amount of stretch is kept in stretchHeight. 
+	 */
+	protected void setPrepareHeight(int prepareHeight)
+	{
+		this.prepareHeight = prepareHeight;
+		
+		setStretchHeight(prepareHeight);
 	}
 
 	/**

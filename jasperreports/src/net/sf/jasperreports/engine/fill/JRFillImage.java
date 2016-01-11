@@ -723,7 +723,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					{
 						if (imageHeight != null)
 						{
-							setStretchHeight(imageHeight.intValue() + padding);
+							setPrepareHeight(imageHeight.intValue() + padding);
 						}
 					}
 					else
@@ -731,7 +731,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						hasOverflowed = true;
 						isToPrint = false;
 						willOverflow = true;
-						setStretchHeight(availableHeight - getRelativeY() - padding);
+						setPrepareHeight(availableHeight - getRelativeY() - padding);
 					}
 				}
 			}

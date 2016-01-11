@@ -23,15 +23,15 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -224,7 +224,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 				}
 				else if (!filler.isFirstColumnBand || band.atLeastOneElementIsToPrint)
 				{
-					setStretchHeight(availableHeight - getRelativeY());
+					setPrepareHeight(availableHeight - getRelativeY());
 				}
 			}
 			else
@@ -245,7 +245,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 					
 					if (apply)
 					{
-						setStretchHeight(availableHeight - getRelativeY());
+						setPrepareHeight(availableHeight - getRelativeY());
 						filler.columnIndex = filler.columnCount - 1;
 					}
 				}

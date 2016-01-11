@@ -747,7 +747,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			else
 			{
-				setStretchHeight(getHeight());
+				setPrepareHeight(getHeight());
 				setToPrint(false);
 
 				return false;
@@ -788,13 +788,13 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		boolean willOverflow = crosstabFiller.willOverflow();
 		if (willOverflow)
 		{
-			setStretchHeight(availableHeight - getRelativeY());
+			setPrepareHeight(availableHeight - getRelativeY());
 		}
 		else if (!printFrames.isEmpty())
 		{
 			JRTemplatePrintFrame lastFrame = printFrames.get(printFrames.size() - 1);
 			int usedHeight = lastFrame.getY() + lastFrame.getHeight();
-			setStretchHeight(usedHeight);
+			setPrepareHeight(usedHeight);
 		}
 		
 		return willOverflow;
@@ -1554,15 +1554,15 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				}
 			}
 
-			//FIXME is this needed?  we do setStretchHeight in prepare()
+			//FIXME is this needed?  we do setPrepareHeight in prepare()
 			boolean fillEnded = lastRowIndex >= rowHeadersData[0].length && lastColumnIndex >= columnHeadersData[0].length;
 			if (fillEnded)
 			{
-				setStretchHeight(yOffset);
+				setPrepareHeight(yOffset);
 			}
 			else
 			{
-				setStretchHeight(availableHeight);
+				setPrepareHeight(availableHeight);
 			}
 
 			startRowIndex = lastRowIndex;

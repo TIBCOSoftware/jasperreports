@@ -862,7 +862,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			else
 			{
 				printPage = null;
-				setStretchHeight(getHeight());
+				setPrepareHeight(getHeight());
 				setToPrint(false);
 
 				return willOverflow;
@@ -903,7 +903,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 
 			printPage = subreportFiller.getCurrentPage();
-			setStretchHeight(result.hasFinished() ? subFillerParent.getCurrentPageStretchHeight() : pageHeight);
+			setPrepareHeight(result.hasFinished() ? subFillerParent.getCurrentPageStretchHeight() : pageHeight);
 
 			//if the subreport fill thread has not finished, 
 			// it means that the subreport will overflow on the next page
