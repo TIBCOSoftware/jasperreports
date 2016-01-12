@@ -151,7 +151,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 			
 			isToPrint = result.isToPrint();
 			willOverflow = result.willOverflow();
-			setStretchHeight(result.getStretchHeight());
+			setPrepareHeight(result.getStretchHeight());
 			
 			// if the component will overflow, set the filling flag to true
 			// to know next time that the component is continuing

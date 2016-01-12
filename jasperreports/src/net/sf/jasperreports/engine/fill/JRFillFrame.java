@@ -247,19 +247,19 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		if (willOverflow)
 		{
-			setStretchHeight(availableHeight - getRelativeY());
+			setPrepareHeight(availableHeight - getRelativeY());
 		}
 		else
 		{
 			int neededStretch = frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding;
 			if (neededStretch <= availableHeight - getRelativeY()) 
 			{
-				setStretchHeight(neededStretch);
+				setPrepareHeight(neededStretch);
 			}
 			else
 			{
 				//FIXME is this case possible?
-				setStretchHeight(availableHeight - getRelativeY());
+				setPrepareHeight(availableHeight - getRelativeY());
 			}
 		}
 
