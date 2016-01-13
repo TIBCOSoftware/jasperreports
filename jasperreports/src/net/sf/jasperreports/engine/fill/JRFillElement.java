@@ -760,6 +760,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		relativeY = y;
 		stretchHeight = height;
+		prepareHeight = height;
 
 		if (elementGroup != null)
 		{
