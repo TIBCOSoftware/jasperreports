@@ -956,15 +956,14 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		{
 			for (JRFillElement element : elements)
 			{
-				int diffY = element.getY() - getY() - getHeight() -
-						(element.getRelativeY() - getRelativeY() - getStretchHeight());
+				int newRelativeY = 
+					getRelativeY() + getStretchHeight() //pusher element current bottom edge
+					+ (element.getY() - (getY() + getHeight())); //design time distance between elements; difference between float element top edge and pusher element bottom edge
 
-				if (diffY < 0)
+				if (newRelativeY > element.getRelativeY())
 				{
-					diffY = 0;
+					element.setRelativeY(newRelativeY);
 				}
-
-				element.setRelativeY(element.getRelativeY() + diffY);
 			}
 		}
 	}
