@@ -114,7 +114,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean isToPrint = true;
 	private boolean isReprinted;
 	private boolean isAlreadyPrinted;
-	private Collection<JRElement> dependantElements = new ArrayList<JRElement>();
+	private Collection<JRFillElement> dependantElements = new ArrayList<JRFillElement>();
 	private int relativeY;
 	/**
 	 * Keeps total stretch height, including forced stretch after honoring the stretchType property of the element. 
@@ -640,7 +640,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected Collection<JRElement> getDependantElements()
+	protected Collection<JRFillElement> getDependantElements()
 	{
 		return dependantElements;
 	}
@@ -648,7 +648,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected void addDependantElement(JRElement element)
+	protected void addDependantElement(JRFillElement element)
 	{
 		dependantElements.add(element);
 	}
@@ -951,16 +951,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected void moveDependantElements()
 	{
-		Collection<JRElement> elements = getDependantElements();
+		Collection<JRFillElement> elements = getDependantElements();
 		if (elements != null && elements.size() > 0)
 		{
-			JRFillElement element = null;
-			int diffY = 0;
-			for(Iterator<JRElement> it = elements.iterator(); it.hasNext();)
+			for (JRFillElement element : elements)
 			{
-				element = (JRFillElement)it.next();
-
-				diffY = element.getY() - getY() - getHeight() -
+				int diffY = element.getY() - getY() - getHeight() -
 						(element.getRelativeY() - getRelativeY() - getStretchHeight());
 
 				if (diffY < 0)
