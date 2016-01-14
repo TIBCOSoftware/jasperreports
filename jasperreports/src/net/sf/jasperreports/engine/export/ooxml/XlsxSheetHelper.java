@@ -381,7 +381,7 @@ public class XlsxSheetHelper extends BaseHelper
 		if (jasP != null && jasP.getPageWidth() != 0 && jasP.getPageHeight() != 0)
 		{
 			long mmPageWidth = Math.round(((double)jasP.getPageWidth() / 72.0d) * 25.4d);
-			long mmPageHeight = Math.round(((double)jasP.getPageHeight() / 72.0d) * 24.4d);
+			long mmPageHeight = Math.round(((double)jasP.getPageHeight() / 72.0d) * 25.4d);
 
 			for (PaperSizeEnum paperSize : PaperSizeEnum.values())
 			{
