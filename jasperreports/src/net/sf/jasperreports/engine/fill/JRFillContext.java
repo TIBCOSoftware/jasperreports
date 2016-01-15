@@ -39,12 +39,14 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.Pair;
@@ -89,6 +91,11 @@ public class JRFillContext
 	
 	private Map<String, Object> fillCaches = new HashMap<String, Object>();
 
+	/**
+	 * @deprecated To be removed.
+	 */
+	private final boolean legacyElementStretchEnabled;
+
 	
 	/**
 	 * Constructs a fill context.
@@ -104,6 +111,11 @@ public class JRFillContext
 		deduplicableRegistry = new DeduplicableRegistry();
 		
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
+		
+		legacyElementStretchEnabled = 
+			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
+				StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED
+				);
 	}
 
 	public BaseReportFiller getMasterFiller()
@@ -262,6 +274,15 @@ public class JRFillContext
 	public boolean isIgnorePagination()
 	{
 		return masterFiller.isIgnorePagination();
+	}
+	
+	
+	/**
+	 * @deprecated To be removed.
+	 */
+	public boolean isLegacyElementStretchEnabled()
+	{
+		return legacyElementStretchEnabled;
 	}
 	
 	

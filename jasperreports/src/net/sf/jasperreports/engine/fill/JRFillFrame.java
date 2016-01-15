@@ -278,6 +278,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	}
 	
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected void stretchHeightFinal()
 	{
 		// only do this if the frame is printing
@@ -291,6 +294,18 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			int bottomPadding = getLineBox().getBottomPadding().intValue();
 			super.setStretchHeight(frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding);
 		}
+	}
+
+
+	protected boolean stretchElementToHeight(int stretchHeight)
+	{
+		boolean applied = super.stretchElementToHeight(stretchHeight); 
+		if (applied)
+		{
+			frameContainer.stretchElementsToContainer();
+			frameContainer.moveBandBottomElements();
+		}
+		return applied;
 	}
 
 

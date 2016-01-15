@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.map.ReferenceMap;
+
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
@@ -48,8 +50,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
-
-import org.apache.commons.collections.map.ReferenceMap;
 
 /**
  * Crosstab cell contents filler.
@@ -399,9 +399,17 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	protected JRPrintFrame fill() throws JRException
 	{
-		stretchElements();
-		moveBandBottomElements();
-		removeBlankElements();
+		if (isLegacyElementStretchEnabled())
+		{
+			stretchElements();
+			moveBandBottomElements();
+			removeBlankElements();
+		}
+		else
+		{
+			stretchElementsToContainer();
+			moveBandBottomElements();
+		}
 
 		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(getTemplateFrame(), printElementOriginator);
 		//printCell.setUUID();

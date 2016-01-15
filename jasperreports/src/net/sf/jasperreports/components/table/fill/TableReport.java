@@ -1591,7 +1591,7 @@ public class TableReport implements JRReport
 		frame.setY(y);
 		frame.setWidth(width);
 		frame.setHeight(cell.getHeight());
-		frame.setStretchType(StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT);
+		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_HEIGHT);
 		
 		frame.setStyle(cell.getStyle());
 		frame.setStyleNameReference(cell.getStyleNameReference());
@@ -1704,7 +1704,7 @@ public class TableReport implements JRReport
 		JRElement cellElement = element.clone(elementGroup, y);
 		cellElement.setX(x);
 		cellElement.setWidth(width);
-		cellElement.setStretchType(StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT);
+		cellElement.setStretchType(StretchTypeEnum.ELEMENT_GROUP_HEIGHT);
 
 		if (columnHashCode != null && headerHtmlBaseProperties.get(columnHashCode) != null)
 		{

@@ -118,10 +118,21 @@ public class FillListContents extends JRFillElementContainer
 		setStretchHeight(height);
 	}
 
+	// double check the usefulness of this whole method when removing legacy stretch;
+	// it looks like it will be needed only on HorizontalFillList, in which case its content could be copied only there
+	// and this method could be removed
 	protected void finalizeElementPositions()
 	{
-		stretchElements();
-		moveBandBottomElements();
-		removeBlankElements();
+		if (isLegacyElementStretchEnabled())
+		{
+			stretchElements();
+			moveBandBottomElements();
+			removeBlankElements();
+		}
+		else
+		{
+			stretchElementsToContainer();
+			moveBandBottomElements();
+		}
 	}
 }

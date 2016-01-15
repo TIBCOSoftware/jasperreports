@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -84,6 +85,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	
 	protected boolean hasPrintWhenOverflowElement;
 	
+	private final boolean legacyElementStretchEnabled;
+
+	
 	protected JRFillElementContainer(JRBaseFiller filler, JRElementGroup container, JRFillObjectFactory factory)
 	{
 		super(container, factory);
@@ -92,6 +96,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		initDeepElements();
 		
 		this.filler = filler;
+		
+		@SuppressWarnings("deprecation")
+		boolean depFlag = filler.getFillContext().isLegacyElementStretchEnabled();
+		legacyElementStretchEnabled = depFlag; 
 	}
 	
 	protected JRFillElementContainer(JRFillElementContainer container, JRFillCloneFactory factory)
@@ -102,6 +110,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		initDeepElements();
 		
 		this.filler = container.filler;
+		
+		@SuppressWarnings("deprecation")
+		boolean depFlag = filler.getFillContext().isLegacyElementStretchEnabled();
+		legacyElementStretchEnabled = depFlag; 
 	}
 
 
@@ -135,7 +147,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		}
 	}
 
-	protected final void initElements()
+	/**
+	 * @deprecated To be removed.
+	 */
+	protected final void _initElements()
 	{
 		hasPrintWhenOverflowElement = false;
 		
@@ -198,6 +213,91 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			Collections.sort(sortedElemsList, new JRYComparator());
 			ySortedElements = new JRFillElement[elements.length];
 			sortedElemsList.toArray(ySortedElements);
+
+			/*   */
+			stretchElements = new JRFillElement[stretchElemsList.size()];
+			stretchElemsList.toArray(stretchElements);
+
+			/*   */
+			bandBottomElements = new JRFillElement[bandBottomElemsList.size()];
+			bandBottomElemsList.toArray(bandBottomElements);
+
+			/*   */
+			removableElements = new JRFillElement[removableElemsList.size()];
+			removableElemsList.toArray(removableElements);
+		}
+		
+		/*   */
+		setDependentElements();
+	}
+
+	protected final void initElements()
+	{
+		if (isLegacyElementStretchEnabled())
+		{
+			_initElements();
+			return;
+		}
+		
+		hasPrintWhenOverflowElement = false;
+		
+		if (elements != null && elements.length > 0)
+		{
+			List<JRFillElement> stretchElemsList = new ArrayList<JRFillElement>();
+			List<JRFillElement> bandBottomElemsList = new ArrayList<JRFillElement>();
+			List<JRFillElement> removableElemsList = new ArrayList<JRFillElement>();
+			
+			JRYComparator yComparator = new JRYComparator();
+
+			/*   */
+			ySortedElements = Arrays.copyOf(elements, elements.length);
+			Arrays.sort(ySortedElements, yComparator);
+
+			topElementInGroup = null;
+			bottomElementInGroup = null;
+
+			for (JRFillElement element : ySortedElements)
+			{
+				if (element.getPositionTypeValue() == PositionTypeEnum.FIX_RELATIVE_TO_BOTTOM)
+				{
+					bandBottomElemsList.add(element);
+				}
+
+				if (element.getStretchTypeValue() != StretchTypeEnum.NO_STRETCH)
+				{
+					stretchElemsList.add(element);
+				}
+				
+				if (element.isRemoveLineWhenBlank())
+				{
+					removableElemsList.add(element);
+				}
+				
+				if (element.isPrintWhenDetailOverflows())
+				{
+					hasPrintWhenOverflowElement = true;
+				}
+
+				if (
+					topElementInGroup == null ||
+					(
+					element.getY() + element.getHeight() <
+					topElementInGroup.getY() + topElementInGroup.getHeight())
+					)
+				{
+					topElementInGroup = element;
+				}
+
+				if (
+					bottomElementInGroup == null ||
+					(
+					element.getY() + element.getHeight() >
+					bottomElementInGroup.getY() + bottomElementInGroup.getHeight())
+					)
+				{
+					bottomElementInGroup = element;
+				}
+			}
 
 			/*   */
 			stretchElements = new JRFillElement[stretchElemsList.size()];
@@ -327,9 +427,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
-	protected void prepareElements(
+	protected void _prepareElements(
 		int availableHeight,
 		boolean isOverflowAllowed
 		) throws JRException
@@ -356,7 +456,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 						) 
 					|| currentOverflow;
 
-				element.moveDependantElements();
+				element._moveDependantElements();
 
 				if (element.isToPrint())
 				{
@@ -407,6 +507,169 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		willOverflow = currentOverflow && isOverflowAllowed;
 	}
 
+	
+	/**
+	 *
+	 */
+	protected void prepareElements(
+		int availableHeight,
+		boolean isOverflowAllowed
+		) throws JRException
+	{
+		if (isLegacyElementStretchEnabled())
+		{
+			_prepareElements(availableHeight, isOverflowAllowed);
+			return;
+		}
+		
+		currentOverflow = false;
+		currentOverflowAllowed = isOverflowAllowed;
+
+		firstY = isOverflow ? getActualContainerHeight() : 0;
+		atLeastOneElementIsToPrint = false;
+		boolean isFirstYFound = false;
+
+		if (ySortedElements != null && ySortedElements.length > 0)
+		{
+			for (JRFillElement element : ySortedElements)
+			{
+				currentOverflow = 
+					element.prepare(
+						availableHeight + getElementFirstY(element),
+						isOverflow
+						) 
+					|| currentOverflow;
+				
+				// it does not seem to make sense for elements that do not print because of their isToPrint() returning false,
+				// to push other dependent elements, but it was always like that; furthermore, such disappearing elements are pushed by 
+				// other elements and also participate in white space collapse later on, so it is somewhat fair to also allow them 
+				// to push others 
+				element.moveDependantElements();
+
+				if (element.isToPrint())
+				{
+					if (isOverflow)
+					{
+						if (element.isReprinted())
+						{
+							firstY = 0;
+						}
+						else if (!isFirstYFound)
+						{
+							firstY = element.getY();
+						}
+						isFirstYFound = true;
+					}
+
+					atLeastOneElementIsToPrint = true;
+				}
+			}
+		}
+		
+		stretchHeight = getContainerHeight();
+
+		// certain elements have stretched to their natural height, while others have been moved in the process;
+		// we are now ready to calculate the stretch height of the current container, so that we can use that for
+		// moving elements to bottom, before attempting to remove blank elements;
+		// ATTENTION: this calculation needed to be in a separate ySortedElement loop as the above one, because
+		// it needs to take into consideration the displacement of dependent elements made after each element prepare
+		prepareStretchHeight(availableHeight, isOverflowAllowed);
+		
+		moveBandBottomElements();
+		
+		// removing blank elements and thus collapsing white space performs both
+		// element height shrinking and relative Y repositioning, also changing the current
+		// container stretch height
+		removeBlankElements();
+
+		// we are first stretching elements relative to group, because they do not need container height and might
+		// actually cause the container to stretch further
+		stretchElementsToElementGroup();
+
+		// recalculating container stretch height to account for element group stretching, just before triggering
+		// container related stretch
+		prepareStretchHeight(availableHeight, isOverflowAllowed);
+
+		moveBandBottomElements();
+
+		// container based element stretching is the last one to be performed
+		stretchElementsToContainer();
+	}
+
+	/**
+	 *
+	 */
+	protected void prepareStretchHeight(
+		int availableHeight,
+		boolean isOverflowAllowed
+		) throws JRException
+	{
+		int calculatedStretchHeight = calculateStretchHeight();
+		
+		if (calculatedStretchHeight > availableHeight + firstY)
+		{
+			currentOverflow = true;
+		}
+		
+		// stretchHeight includes firstY, which is subtracted in fillElements
+		if (currentOverflow)
+		{
+			stretchHeight = availableHeight + firstY;
+		}
+		else
+		{
+			stretchHeight = calculatedStretchHeight;
+		}
+
+		willOverflow = currentOverflow && isOverflowAllowed;
+	}
+
+	/**
+	 *
+	 */
+	protected int calculateStretchHeight() throws JRException
+	{
+		int calculatedStretchHeight = -1;
+
+		if (ySortedElements != null && ySortedElements.length > 0)
+		{
+			int containerHeight = getContainerHeight();
+
+			for (JRFillElement element : ySortedElements)
+			{
+				if (element.isToPrint())
+				{
+					int spaceToBottom = containerHeight - (element.getY() + element.getHeight()) - element.getCollapsedHeightBelow();
+					if (spaceToBottom < 0)
+					{
+						spaceToBottom = 0;
+					}
+					
+					if (calculatedStretchHeight < element.getRelativeY() + element.getStretchHeight() + spaceToBottom)
+					{
+						calculatedStretchHeight = element.getRelativeY() + element.getStretchHeight() + spaceToBottom;
+					}
+				}
+			}
+		}
+		
+		if (calculatedStretchHeight < 0)
+		{
+			// there was no element printing; so trying to preserve stretchHeight
+			calculatedStretchHeight = stretchHeight;
+		}
+		
+		return calculatedStretchHeight;
+	}
+
+	/**
+	 *
+	 */
+	public boolean isLegacyElementStretchEnabled()
+	{
+		return legacyElementStretchEnabled;
+	}
+
 	public boolean isCurrentOverflow()
 	{
 		return currentOverflow;
@@ -435,7 +698,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		return elemFirstY;
 	}
 
-	protected void setStretchHeight(int stretchHeight)
+	/**
+	 * @deprecated To be removed.
+	 */
+	protected void _setStretchHeight(int stretchHeight)
 	{
 		if (stretchHeight > this.stretchHeight)
 		{
@@ -444,8 +710,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	}
 
 	/**
-	 *
+	 * This method is deprecated and is going to be removed. 
+	 * Not marked as deprecated to avoid deprecation warnings.
 	 */
+	@SuppressWarnings("deprecation")
 	protected void stretchElements()
 	{
 		if (stretchElements != null && stretchElements.length > 0)
@@ -454,9 +722,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			{
 				JRFillElement element = stretchElements[i];
 				
-				element.stretchElement(stretchHeight - getContainerHeight());//TODO subtract firstY?
+				element._stretchElement(stretchHeight - getContainerHeight());//TODO subtract firstY?
 				
-				element.moveDependantElements();
+				element._moveDependantElements();
 			}
 		}
 		
@@ -467,6 +735,67 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 				JRFillElement element = ySortedElements[i];
 
 				element.stretchHeightFinal();
+			}
+		}
+	}
+
+	protected void setStretchHeight(int stretchHeight)
+	{
+		if (isLegacyElementStretchEnabled())
+		{
+			_setStretchHeight(stretchHeight);
+			return;
+		}
+		
+		this.stretchHeight = stretchHeight;
+	}
+
+	/**
+	 *
+	 */
+	protected void stretchElementsToElementGroup()
+	{
+		if (stretchElements != null && stretchElements.length > 0)
+		{
+			for (int i = 0; i < stretchElements.length; i++)
+			{
+				JRFillElement element = stretchElements[i];
+
+				if (element.isToPrint())
+				{
+					boolean applied = element.stretchElementToElementGroup();
+					
+					if (applied)
+					{
+						element.moveDependantElements();
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected void stretchElementsToContainer()
+	{
+		if (stretchElements != null && stretchElements.length > 0)
+		{
+			int containerStretch = stretchHeight - getContainerHeight();
+			
+			for (int i = 0; i < stretchElements.length; i++)
+			{
+				JRFillElement element = stretchElements[i];
+
+				if (element.isToPrint())
+				{
+					boolean applied = element.stretchElementToContainer(containerStretch);
+					
+					if (applied)
+					{
+						element.moveDependantElements();
+					}
+				}
 			}
 		}
 	}
@@ -504,9 +833,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
-	protected void removeBlankElements()
+	protected void _removeBlankElements()
 	{
 		JRElement[] remElems = removableElements;
 		if (remElems != null && remElems.length > 0)
@@ -566,6 +895,84 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 							
 							if (jElem.getRelativeY() >= blankY + blankHeight)
 							{
+								jElem.setRelativeY(jElem.getRelativeY() - blankHeight);
+							}
+						}
+						
+						stretchHeight = stretchHeight - blankHeight;
+					}
+				}
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void removeBlankElements()
+	{
+		if (isLegacyElementStretchEnabled())
+		{
+			_removeBlankElements();
+			return;
+		}
+		
+		if (removableElements != null && removableElements.length > 0)
+		{
+			for (JRFillElement remElem : removableElements)
+			{
+				int blankHeight;
+				if (remElem.isToPrint())
+				{
+					blankHeight = remElem.getHeight() - remElem.getStretchHeight();
+				}
+				else
+				{
+					blankHeight = remElem.getHeight();//FIXME subreports that stretch and then don't print, will not remove all space
+				}
+				
+				if (
+					blankHeight > 0 && 
+					remElem.getRelativeY() + remElem.getStretchHeight() <= stretchHeight &&
+					remElem.getRelativeY() >= firstY
+					)
+				{
+					int blankY = remElem.getRelativeY() + remElem.getHeight() - blankHeight;
+					boolean isToRemove = true;
+					
+					for (JRFillElement jElem : ySortedElements)
+					{
+						if (remElem != jElem && jElem.isToPrint())
+						{
+							int top = 
+								Math.min(blankY, jElem.getRelativeY());
+							int bottom = 
+								Math.max(
+									blankY + blankHeight, 
+									jElem.getRelativeY() + jElem.getStretchHeight()
+									);
+							
+							if (blankHeight + jElem.getStretchHeight() > bottom - top)
+							{
+								isToRemove = false;
+								break;
+							}
+						}
+					}
+					
+					if (isToRemove)
+					{
+						for (JRFillElement jElem : ySortedElements)
+						{
+							if (jElem.getRelativeY() + jElem.getStretchHeight() <= blankY)
+							{
+								jElem.setCollapsedHeightBelow(jElem.getCollapsedHeightBelow() + blankHeight);
+							}
+
+							if (jElem.getRelativeY() >= blankY + blankHeight)
+							{
+								jElem.setCollapsedHeightAbove(jElem.getCollapsedHeightAbove() + blankHeight);
 								jElem.setRelativeY(jElem.getRelativeY() - blankHeight);
 							}
 						}

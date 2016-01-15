@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
@@ -43,9 +46,6 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -420,11 +420,14 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 		prepareElements(availableHeight, isOverflowAllowed);
 
-		stretchElements();
+		if (isLegacyElementStretchEnabled())
+		{
+			stretchElements();
 
-		moveBandBottomElements();
+			moveBandBottomElements();
 
-		removeBlankElements();
+			removeBlankElements();
+		}
 
 		isFirstWholeOnPageColumn = isNewPageColumn && isOverflow;
 		isNewPageColumn = false;

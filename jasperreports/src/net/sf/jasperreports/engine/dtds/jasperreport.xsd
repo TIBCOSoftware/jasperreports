@@ -2036,23 +2036,43 @@
    </attribute>
    <attribute name="stretchType" use="optional" default="NoStretch">
 	<annotation>
-	 <documentation>Specifies the graphic element stretch behavior when the report section is affected by stretch.</documentation>
+	 <documentation>Specifies the element stretch behavior relative to its element group siblings or element container stretch.</documentation>
 	</annotation>
     <simpleType>
      <restriction base="string">
       <enumeration value="NoStretch">
 		<annotation>
-		 <documentation>The graphic element won't stretch vertically as the band stretches to display field data.</documentation>
+		 <documentation>The element won't stretch vertically beyond its natural stretch height, when the container stretches to display other elements.</documentation>
 		</annotation>
 	  </enumeration>  
       <enumeration value="RelativeToTallestObject">
 		<annotation>
-		 <documentation>The graphic element will stretch to accommodate the tallest object in its group. See the <elem>elementGroup</elem> element, to see how to group elements in bands.</documentation>
+		 <documentation><i>Deprecated</i>. Replaced by ElementGroupHeight value.</documentation>
 		</annotation>
 	  </enumeration>  
       <enumeration value="RelativeToBandHeight">
 		<annotation>
-		 <documentation>The graphic element will stretch to fit in the band.</documentation>
+		 <documentation><i>Deprecated</i>. Replaced by ContainerHeight value.</documentation>
+		</annotation>
+	  </enumeration>  
+      <enumeration value="ElementGroupBottom">
+		<annotation>
+		 <documentation>The element will stretch to accommodate the overall natural growth of its group, but also taking into account the shifting Y position of the element within its group. See the <elem>elementGroup</elem> element, to see how to group elements.</documentation>
+		</annotation>
+	  </enumeration>  
+      <enumeration value="ElementGroupHeight">
+		<annotation>
+		 <documentation>The element will stretch to accommodate the overall natural growth of its group, without taking into account the shifting Y position of the element within its group. See the <elem>elementGroup</elem> element, to see how to group elements.</documentation>
+		</annotation>
+	  </enumeration>  
+      <enumeration value="ContainerBottom">
+		<annotation>
+		 <documentation>The element will stretch to fit the container height, while taking into account its new Y position. This results in the element preserving its distance to the container's bottom edge.</documentation>
+		</annotation>
+	  </enumeration>  
+      <enumeration value="ContainerHeight">
+		<annotation>
+		 <documentation>The element will stretch to fit the container height, but without taking into account its new Y position. This might results in the element being shifted up (due to collapsing elements above) or down (due to stretching elements above that push it downards) relative to the container bottom edge. In case the element its already pushed downwards, the additional stretch imposed by the container might actually throw it beyond the container's bottom edge, in which case the element will not render at all.</documentation>
 		</annotation>
 	  </enumeration>  
      </restriction>

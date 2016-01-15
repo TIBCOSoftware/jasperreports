@@ -1012,7 +1012,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_key, element.getKey());
 		writeStyleReferenceAttr(element);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_positionType, element.getPositionTypeValue(), PositionTypeEnum.FIX_RELATIVE_TO_TOP);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, element.getStretchTypeValue(), StretchTypeEnum.NO_STRETCH);
+		writeStretchType(element.getStretchTypeValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPrintRepeatedValues, element.isPrintRepeatedValues(), true);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, element.getOwnModeValue());
 
@@ -1041,6 +1041,31 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writePropertyExpressions(element.getPropertyExpressions());
 		writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, element.getPrintWhenExpression(), false);
 		writer.closeElement();
+	}
+
+
+	@SuppressWarnings("deprecation")
+	private void writeStretchType(StretchTypeEnum stretchType)
+	{
+		if (isOlderVersionThan(JRConstants.VERSION_6_2_2))
+		{
+			switch (stretchType)
+			{
+				case CONTAINER_HEIGHT :
+				case CONTAINER_BOTTOM :
+				{
+					stretchType = StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT;
+					break;
+				}
+				case ELEMENT_GROUP_HEIGHT :
+				case ELEMENT_GROUP_BOTTOM :
+				{
+					stretchType = StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT;
+					break;
+				}
+			}
+		}
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_stretchType, stretchType, StretchTypeEnum.NO_STRETCH);
 	}
 
 
