@@ -202,9 +202,18 @@ public final class ParagraphUtil
 	 */
 	public static TabStop getFirstTabStop(JRParagraph paragraph, float endX)
 	{
-		TabStop firstTabStop = new TabStop();
+		TabStop firstTabStop = null;
 		TabStop[] tabStops = getTabStops(paragraph, endX);
-		firstTabStop = tabStops[0];
+		if (tabStops.length > 0)
+		{
+			firstTabStop = tabStops[0];
+		}
+		else
+		{
+			//FIXMETAB what to do here?
+			firstTabStop = new TabStop();
+			firstTabStop.setPosition((int)endX);
+		}
 		return firstTabStop;
 	}
 
@@ -214,7 +223,7 @@ public final class ParagraphUtil
 	 */
 	public static TabStop getLastTabStop(JRParagraph paragraph, float endX)
 	{
-		TabStop lastTabStop = new TabStop();
+		TabStop lastTabStop = null;
 		TabStop[] tabStops = getTabStops(paragraph, endX);
 		int i = tabStops.length - 1;
 		for (; i >= 0; i--)
@@ -229,6 +238,7 @@ public final class ParagraphUtil
 		if (i < 0)
 		{
 			//FIXMETAB what to do here?
+			lastTabStop = new TabStop();
 			lastTabStop.setPosition((int)endX);
 		}
 		return lastTabStop;
