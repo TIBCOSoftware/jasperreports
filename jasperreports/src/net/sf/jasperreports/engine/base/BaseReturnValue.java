@@ -23,8 +23,14 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectInputStream.GetField;
+import java.io.ObjectStreamClass;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.ReturnValue;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
  * Base implementation of {@link net.sf.jasperreports.engine.ReturnValue ReturnValue}.
@@ -69,5 +75,27 @@ public class BaseReturnValue extends BaseCommonReturnValue implements ReturnValu
 	public Object clone() 
 	{
 		return super.clone();
+	}
+	
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException
+	{
+		GetField fields = stream.readFields();
+		fromVariable = (String) fields.get("fromVariable", null);
+		
+		// the fields of BaseCommonReturnValue were originally in this class.
+		// if deserializing an old object, we need to manually copy the values into the parent class.
+		ObjectStreamClass streamClass = fields.getObjectStreamClass();
+		if (streamClass.getField("toVariable") != null)
+		{
+			this.toVariable = (String) fields.get("toVariable", null);
+		}
+		if (streamClass.getField("calculation") != null)
+		{
+			this.calculation = (CalculationEnum) fields.get("calculation", null);
+		}
+		if (streamClass.getField("incrementerFactoryClassName") != null)
+		{
+			this.incrementerFactoryClassName = (String) fields.get("incrementerFactoryClassName", null);
+		}
 	}
 }
