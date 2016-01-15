@@ -43,6 +43,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -118,13 +125,6 @@ import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 /**
@@ -1322,23 +1322,80 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 	}
 
-	protected void writeRectangle(JRPrintGraphicElement element, TableCell cell) throws IOException
+	protected void writeRectangle(JRPrintRectangle rectangle, TableCell cell) throws IOException
 	{
-		startCell(element, cell);
-
-		StringBuilder styleBuffer = new StringBuilder();
-		appendElementCellGenericStyle(cell, styleBuffer);
-		appendBackcolorStyle(cell, styleBuffer);
-		appendPen(
-			styleBuffer,
-			element.getLinePen(),
-			null
-			);
-		writeStyle(styleBuffer);
+		startCell(rectangle, cell);
+		
+		int radius = rectangle.getRadius();
+		if (radius == 0)
+		{
+			StringBuilder styleBuffer = new StringBuilder();
+			appendElementCellGenericStyle(cell, styleBuffer);
+			appendBackcolorStyle(cell, styleBuffer);
+			appendPen(
+				styleBuffer,
+				rectangle.getLinePen(),
+				null
+				);
+			writeStyle(styleBuffer);
+		}
 
 		finishStartCell();
 
+		if (radius != 0)
+		{
+			float lineDiff = rectangle.getLinePen().getLineWidth() / 2;
+			writer.write("<svg height=\"" + rectangle.getHeight() + "\" width=\"" + rectangle.getWidth() + "\">");
+			writer.write("<rect x=\"" + lineDiff + "\" y=\"" + lineDiff + "\" rx=\"" + radius + "\" ry=\"" + radius + "\" ");
+			writer.write("height=\"" + (rectangle.getHeight() - 2 * lineDiff) + "\" width=\"" + (rectangle.getWidth() - 2 * lineDiff) + "\" ");
+			writeSvgStyle(rectangle);
+			writer.write("\"/></svg>");
+		}
+
 		endCell();
+	}
+
+	protected void writeEllipse(JRPrintEllipse ellipse, TableCell cell) throws IOException
+	{
+		startCell(ellipse, cell);
+
+		finishStartCell();
+
+		float lineDiff = ellipse.getLinePen().getLineWidth() / 2;
+		writer.write("<svg height=\"" + ellipse.getHeight() + "\" width=\"" + ellipse.getWidth() + "\">");
+		writer.write("<ellipse cx=\"" + (ellipse.getWidth() / 2) + "\" cy=\"" + (ellipse.getHeight() / 2));
+		writer.write("\" rx=\"" + (ellipse.getWidth() / 2 - lineDiff) + "\" ry=\"" + (ellipse.getHeight() / 2 - lineDiff) + "\" ");
+		writeSvgStyle(ellipse);
+		writer.write("\"/></svg>");
+		
+		endCell();
+	}
+
+	protected void writeSvgStyle(JRPrintGraphicElement element) throws IOException
+	{
+		writer.write("style=\"fill:" + JRColorUtil.getCssColor(element.getBackcolor()) + ";");
+		writer.write("stroke:" + JRColorUtil.getCssColor(element.getForecolor()) + ";");
+		writer.write("stroke-width:" + element.getLinePen().getLineWidth() + ";");
+
+		switch (element.getLinePen().getLineStyleValue())
+		{
+			case DOTTED :
+			{
+				writer.write("stroke-dasharray:" + element.getLinePen().getLineWidth() + "," + element.getLinePen().getLineWidth() + ";");
+				break;
+			}
+			case DASHED :
+			{
+				writer.write("stroke-dasharray:" + 5 * element.getLinePen().getLineWidth() + "," + 3 * element.getLinePen().getLineWidth() + ";");
+				break;
+			}
+			case DOUBLE :
+			case SOLID :
+			default :
+			{
+				break;
+			}
+		}
 	}
 
 	protected void writeLine(JRPrintLine line, TableCell cell)
@@ -2588,7 +2645,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			try
 			{
-				writeRectangle(ellipse, cell);
+				writeEllipse(ellipse, cell);
 			} 
 			catch (IOException e)
 			{
