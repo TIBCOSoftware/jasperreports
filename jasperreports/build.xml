@@ -9,6 +9,11 @@
 		<pathelement location="./build/classes"/>
 	</path>
 
+	<path id="project-classpath">
+		<path refid="project-lib"/>
+		<pathelement location="./build/classes"/>
+	</path>
+
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/>
 		<ivy:configure file="./ivysettings.xml" override="true"/>
