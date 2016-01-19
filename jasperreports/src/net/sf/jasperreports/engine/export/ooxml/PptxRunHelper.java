@@ -173,14 +173,16 @@ public class PptxRunHelper extends BaseHelper
 
 		value = attrs.get(TextAttribute.SUPERSCRIPT);
 
-//		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
-//		{
-//			write("        <a:vertAlign a:val=\"superscript\" />\n");
-//		}
-//		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
-//		{
-//			write("        <a:vertAlign a:val=\"subscript\" />\n");
-//		}
+		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
+		{
+			//default superscript position above baseline
+			write(" baseline=\"30000\"");
+		}
+		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
+		{
+			//default subscript position below baseline
+			write(" baseline=\"-25000\"");
+		}
 
 		write(">\n");
 
