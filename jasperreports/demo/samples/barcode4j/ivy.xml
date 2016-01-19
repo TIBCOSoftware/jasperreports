@@ -9,6 +9,6 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.7" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.7" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.7" conf="test->*"/>
-		<dependency org="xalan" name="serializer" rev="2.7.1" conf="test->*"/>
+		<dependency org="xalan" name="serializer" rev="2.7.2" conf="test->*"/>
 	</dependencies>
 </ivy-module>
