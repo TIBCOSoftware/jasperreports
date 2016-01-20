@@ -43,6 +43,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -118,13 +125,6 @@ import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 /**
@@ -988,12 +988,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 						byte[] imageData = renderer.getImageData(jasperReportsContext);
 
-						if (imageHandler != null)
-						{
-							imageHandler.handleResource(imageName, imageData);
-							
-							imagePath = imageHandler.getResourcePath(imageName);
-						}
+						imageHandler.handleResource(imageName, imageData);
+						
+						imagePath = imageHandler.getResourcePath(imageName);
 					}
 				}
 

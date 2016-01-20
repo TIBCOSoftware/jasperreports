@@ -34,8 +34,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 
 
 /**
@@ -70,10 +70,16 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
 
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	protected HtmlResourceHandler imageHandler;
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected HtmlResourceHandler fontHandler;
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected HtmlResourceHandler resourceHandler;
 	
 	/**
