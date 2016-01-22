@@ -42,7 +42,6 @@
 		<dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.7"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.7"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.7"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.7"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.7"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.7"/>
