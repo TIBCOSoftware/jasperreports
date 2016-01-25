@@ -26,12 +26,11 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.fill;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.components.items.fill.FillItem;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -40,77 +39,125 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: CVFillItem.java 6002 2013-03-20 08:15:32Z teodord $
  */
-public class CVFillItem implements Item {
+public class CVFillItem extends FillItem {
 
-	/**
+        /**
 	 *
 	 */
-	protected Item item;
-	protected Map<String, Object> evaluatedProperties;
-
-	/**
-	 *
-	 */
-	public CVFillItem(Item item, JRFillObjectFactory factory) {
-		factory.put(item, this);
-
-		this.item = item;
-	}
-
-	/**
-	 *
-	 */
-	public void evaluateProperties(JRFillExpressionEvaluator evaluator,
-			byte evaluation) throws JRException {
-		List<ItemProperty> itemProperties = getProperties();
-		Map<String, Object> result = null;
-		if (itemProperties != null && !itemProperties.isEmpty()) {
-			result = new HashMap<String, Object>();
-			for (ItemProperty property : itemProperties) {
-				result.put(property.getName(),
-						getEvaluatedValue(property, evaluator, evaluation));
-			}
-		}
-
-		evaluatedProperties = result;
-	}
-
-	/**
-	 *
-	 */
-	public Object clone() {
-		throw new UnsupportedOperationException();
-	}
+	public CVFillItem(
+		Item item, 
+		JRFillObjectFactory factory
+		)
+	{
+		super(item, factory);
+        }
 
 	@Override
-	public List<ItemProperty> getProperties() {
-		return item.getProperties();
+	public Object getEvaluatedValue(ItemProperty property, JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	{
+            
+		return super.getEvaluatedValue(property, evaluator, evaluation);
+	}
+	
+	@Override
+	public void verifyValue(ItemProperty property, Object value) throws JRException {
+	}
+	
+	@Override
+	public void verifyValues(Map<String, Object> result) throws JRException {
+		// we trust the user's expression, since is very user - defined.
 	}
 
-	public Map<String, Object> getEvaluatedProperties() {
-		return evaluatedProperties;
-	}
-
-	public Object getEvaluatedValue(ItemProperty property,
-			JRFillExpressionEvaluator evaluator, byte evaluation)
-			throws JRException {
-		Object result = null;
-		if (property.getValueExpression() == null
-				|| "".equals(property.getValueExpression())) {
-			result = property.getValue();
-		} else {
-			result = evaluator.evaluate(property.getValueExpression(),
-					evaluation);
-		}
-
-		verifyValue(property, result);
-
-		return result;
-	}
-
-	public void verifyValue(ItemProperty property, Object value)
-			throws JRException {
-
-	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//	/**
+//	 *
+//	 */
+//	protected Item item;
+//	protected Map<String, Object> evaluatedProperties;
+//
+//	/**
+//	 *
+//	 */
+//	public CVFillItem(Item item, JRFillObjectFactory factory) {
+//		factory.put(item, this);
+//
+//		this.item = item;
+//	}
+//
+//	/**
+//	 *
+//	 */
+//	public void evaluateProperties(JRFillExpressionEvaluator evaluator,
+//			byte evaluation) throws JRException {
+//		List<ItemProperty> itemProperties = getProperties();
+//		Map<String, Object> result = null;
+//		if (itemProperties != null && !itemProperties.isEmpty()) {
+//			result = new HashMap<String, Object>();
+//			for (ItemProperty property : itemProperties) {
+//				result.put(property.getName(),
+//						getEvaluatedValue(property, evaluator, evaluation));
+//			}
+//		}
+//
+//		evaluatedProperties = result;
+//	}
+//
+//	/**
+//	 *
+//	 */
+//	public Object clone() {
+//		throw new UnsupportedOperationException();
+//	}
+//
+//	@Override
+//	public List<ItemProperty> getProperties() {
+//		return item.getProperties();
+//	}
+//
+//	public Map<String, Object> getEvaluatedProperties() {
+//		return evaluatedProperties;
+//	}
+//
+//	public Object getEvaluatedValue(ItemProperty property,
+//			JRFillExpressionEvaluator evaluator, byte evaluation)
+//			throws JRException {
+//		Object result = null;
+//		if (property.getValueExpression() == null
+//				|| "".equals(property.getValueExpression())) {
+//			result = property.getValue();
+//		} else {
+//                    
+//                        System.out.println("Property getting evaluated out of: " +  evaluator.getFillDataset().getName());
+//                            
+//                        
+//			result = evaluator.evaluate(property.getValueExpression(),
+//					evaluation);
+//		}
+//
+//		verifyValue(property, result);
+//
+//		return result;
+//	}
+//
+//	public void verifyValue(ItemProperty property, Object value)
+//			throws JRException {
+//
+//	}
 
 }

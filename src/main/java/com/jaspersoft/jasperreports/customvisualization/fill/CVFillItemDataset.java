@@ -26,14 +26,7 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.fill;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.fill.JRCalculator;
-import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
-import net.sf.jasperreports.engine.fill.JRFillElementDataset;
-import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
+import net.sf.jasperreports.components.items.fill.FillItemData;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
@@ -41,69 +34,77 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: FillItemDataset.java 6002 2013-03-20 08:15:32Z teodord $
  */
-public class CVFillItemDataset extends JRFillElementDataset
+public class CVFillItemDataset extends net.sf.jasperreports.components.items.fill.FillItemDataset
 {
 
-	protected final CVFillItemData itemData;
+	protected final FillItemData itemData;
 //	protected List<FillMarker> markerList;
 	//protected List<Map<String,Object>> evaluatedMarkers;
-	protected JRFillExpressionEvaluator evaluator;
-	protected byte evaluation = JRExpression.EVALUATION_DEFAULT;
+	//protected JRFillExpressionEvaluator evaluator;
+	//protected byte evaluation = JRExpression.EVALUATION_DEFAULT;
 	
-	public CVFillItemDataset(CVFillItemData itemData, JRFillObjectFactory factory)
+	public CVFillItemDataset(FillItemData itemData, JRFillObjectFactory factory)
 	{
-		super(itemData.getDataset(), factory);
+		super(itemData, factory);
 
+                
 		this.itemData = itemData;
 
-		factory.registerElementDataset(this);
+                //factory.registerElementDataset(this);
 	}
-
-	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
-	{
-		try
-		{
-			itemData.evaluateItems(calculator, evaluation);
-		}
-		catch (JRExpressionEvalException e)
-		{
-			throw e;
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
-	protected void customIncrement()
-	{
-		itemData.addEvaluateItems();
-	}
-
-        /**
-         * We need to reset our data here....
-         */
-	protected void customInitialize()
-	{
-            itemData.reset();
-	}
-
-	public void collectExpressions(JRExpressionCollector collector)
-	{
-		//CVCompiler.collectExpressions(markerDataset, collector);
-	}
-
-	/**
-	 * @return the evaluation
-	 */
-	public byte getEvaluation() {
-		return evaluation;
-	}
-
-	/**
-	 * @param evaluation the evaluation to set
-	 */
-	public void setEvaluation(byte evaluation) {
-		this.evaluation = evaluation;
-	}
+        
+//	protected void customInitialize()
+//	{
+//            itemData.reset();
+//	}
+//        
+//
+//	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
+//	{
+//		try
+//		{
+//                        System.out.println("Calculator dataset for this item dataset: " + calculator.getFillDataset().getName());
+//			itemData.evaluateItems(calculator, evaluation);
+//		}
+//		catch (JRExpressionEvalException e)
+//		{
+//			throw e;
+//		}
+//		catch (JRException e)
+//		{
+//			throw new JRRuntimeException(e);
+//		}
+//	}
+//
+//	protected void customIncrement()
+//	{
+//		itemData.addEvaluateItems();
+//	}
+//
+//        /**
+//         * We need to reset our data here....
+//         */
+//	protected void customInitialize()
+//	{
+//            itemData.reset();
+//	}
+//
+//	public void collectExpressions(JRExpressionCollector collector)
+//	{
+//		//CVCompiler.collectExpressions(markerDataset, collector);
+//	}
+//
+//	/**
+//	 * @return the evaluation
+//	 */
+//	public byte getEvaluation() {
+//		return evaluation;
+//	}
+//
+//	/**
+//	 * @param evaluation the evaluation to set
+//	 */
+//	public void setEvaluation(byte evaluation) {
+//		this.evaluation = evaluation;
+//	}
 }

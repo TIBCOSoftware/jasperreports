@@ -4,7 +4,7 @@
 
     <groupId>com.jaspersoft.jasperreports</groupId>
     <artifactId>jasperreports-customvisualization</artifactId>
-    <version>6.2.0</version>
+    <version>6.2.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>JasperReports Custom Visualization Component</name>
     <url>http://maven.apache.org</url>
@@ -12,7 +12,7 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.2.0</version>
+            <version>6.2.1-SNAPSHOT</version>
         </dependency>
 		<dependency>
             <groupId>junit</groupId>
@@ -126,6 +126,12 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
+        </dependency>
+        <dependency>
+                <groupId>hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>1.8.0.10</version>
+                <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

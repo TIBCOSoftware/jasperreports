@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.qualifier using JasperReports Library version 6.2.1  -->
+<!-- 2016-01-25T13:33:49 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="d3_Circle_sample" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Dataset1" uuid="414c2cdc-2dd1-45d4-8dcd-2272ada0b638">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<queryString>
+			<![CDATA[select distinct shipcountry from orders]]>
+		</queryString>
+		<field name="SHIPCOUNTRY" class="java.lang.String"/>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[select shipcountry, shipcity from orders order by shipcountry, shipcity]]>
+	</queryString>
+	<field name="SHIPCOUNTRY" class="java.lang.String"/>
+	<field name="SHIPCITY" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{SHIPCOUNTRY}]]></groupExpression>
+		<groupHeader>
+			<band height="220">
+				<componentElement>
+					<reportElement x="0" y="30" width="550" height="190" uuid="fbb36477-0a3a-4763-98ce-94237b08671e"/>
+					<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Group" evaluationGroup="Group1">
+						<cvc:itemProperty name="script" value="d3Circle.min.js"/>
+						<cvc:itemProperty name="css" value="d3Circle.css"/>
+						<cvc:itemProperty name="module" value="d3Circle"/>
+						<cvc:cvData>
+							<dataset resetType="Group" resetGroup="Group1"/>
+							<cvc:item>
+								<cvc:itemProperty name="SHIPCITY" value="value">
+									<valueExpression><![CDATA[$F{SHIPCITY}]]></valueExpression>
+								</cvc:itemProperty>
+							</cvc:item>
+						</cvc:cvData>
+					</cvc:customvisualization>
+				</componentElement>
+				<textField>
+					<reportElement x="0" y="0" width="260" height="30" uuid="dcf1557d-bd30-48c2-9750-e88b0ab3f4e4"/>
+					<textFieldExpression><![CDATA["GRP_" + $F{SHIPCOUNTRY}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="544" height="70" uuid="2b33a1c4-77e4-4156-80ea-6f475c069904"/>
+				<text><![CDATA[This test ensures that each instanceData of the component includes only the cities of the country that it displays]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

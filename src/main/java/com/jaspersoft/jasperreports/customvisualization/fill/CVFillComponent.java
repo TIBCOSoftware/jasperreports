@@ -65,6 +65,7 @@ import com.jaspersoft.jasperreports.customvisualization.CVComponent;
 import com.jaspersoft.jasperreports.customvisualization.CVConstants;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
 import com.jaspersoft.jasperreports.customvisualization.Processor;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 
 
 public class CVFillComponent extends BaseFillComponent implements Serializable, FillContextProvider
@@ -91,6 +92,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 	
 	public CVFillComponent(CVComponent component, JRFillObjectFactory factory)
 	{
+           
                 this.component = component;
                 this.itemProperties = new ArrayList<CVFillItemProperty>();
                 
@@ -150,6 +152,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 	{
                 if (fillContext != null)
                 {
+                    
                     for (CVFillItemProperty itemProperty : this.itemProperties)
                     {
                         itemProperty.evaluate(fillContext, evaluation);
@@ -157,11 +160,25 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
                     
                     for (int i=0; i<this.itemDataList.size(); ++i)
                     {
-                         CVFillItemData itemData = this.itemDataList.get(i);
+                       
+                        CVFillItemData itemData = this.itemDataList.get(i);
+                        
+                        System.out.println("Evaluating itemData " + i);
+                        
                         if (itemData != null)
                         {
                             List<Map<String,Object>> newSet = itemData.getEvaluateItems(evaluation);
+                            
+                            for (Map<String,Object> m : newSet)
+                            {
+                                  //System.out.println(m);
+                            }
+                            
                             datasetsData.set(i, newSet );
+                            
+                            System.out.println("Evaluated itemData " + i + "  RECORDS: " + newSet.size());
+                            
+                            
                         }
                         else
                         {
@@ -169,9 +186,6 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
                         }
                     }
                 }
-                
-                
-                
         }
         
 	public FillPrepareResult prepare(int availableHeight)

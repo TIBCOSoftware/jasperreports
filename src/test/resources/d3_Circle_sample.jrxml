@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.0.1.qualifier using JasperReports Library version 6.0.0  -->
-<!-- 2014-12-15T18:03:12 -->
+<!-- Created with Jaspersoft Studio version 6.2.1.qualifier using JasperReports Library version 6.2.1  -->
+<!-- 2016-01-25T12:59:35 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="d3_Circle_sample" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Dataset1" uuid="414c2cdc-2dd1-45d4-8dcd-2272ada0b638">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<queryString>
+			<![CDATA[select distinct shipcountry from orders]]>
+		</queryString>
+		<field name="SHIPCOUNTRY" class="java.lang.String"/>
+	</subDataset>
 	<queryString language="SQL">
-		<![CDATA[]]>
+		<![CDATA[select count(*) c from orders]]>
 	</queryString>
+	<field name="C" class="java.lang.Long"/>
 	<title>
 		<band height="376" splitType="Stretch">
 			<componentElement>
 				<reportElement x="0" y="0" width="555" height="376" uuid="fbb36477-0a3a-4763-98ce-94237b08671e"/>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
 					<cvc:itemProperty name="script" value="d3Circle.min.js"/>
-                                        <cvc:itemProperty name="css" value="d3Circle.css"/>
+					<cvc:itemProperty name="css" value="d3Circle.css"/>
 					<cvc:itemProperty name="module" value="d3Circle"/>
+					<cvc:cvData>
+						<dataset>
+							<datasetRun subDataset="Dataset1" uuid="cef13d66-c078-4868-bd2a-7b14b0b185f6">
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+						</dataset>
+						<cvc:item>
+							<cvc:itemProperty name="COUNTRY" value="value">
+								<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+					<cvc:cvData>
+						<dataset/>
+						<cvc:item>
+							<cvc:itemProperty name="ORDERS" value="value">
+								<valueExpression><![CDATA[$F{C}]]></valueExpression>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
 				</cvc:customvisualization>
 			</componentElement>
 		</band>

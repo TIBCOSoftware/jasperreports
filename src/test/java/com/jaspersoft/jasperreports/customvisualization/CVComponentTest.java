@@ -122,9 +122,14 @@ public class CVComponentTest
         return new TestSuite( CVComponentTest.class );
     }
 
-    public void testCircle() throws Exception
+//    public void testCircle() throws Exception
+//    {
+//        testReport("d3_Circle_sample.jrxml", false);
+//    }
+    
+    public void testCircleWithGroups() throws Exception
     {
-        testReport("d3_Circle_sample.jrxml", true);
+        testReport("d3_Circle_sample_with_groups.jrxml", false);
     }
     
 //    public void testDendogram() throws Exception
@@ -184,51 +189,51 @@ public class CVComponentTest
      */
     private void testReport(String filename, boolean useEmptyDatasource) throws Exception
     {
-//                Connection connection = null;
-//		InputStream jrxmlStream = null;
-//		JasperReport report = null;
-//		JasperPrint jasperPrint = null;
-//		JasperDesign template = null;
-//		try
-//		{
-//
-//			jrxmlStream = JRLoader.getResourceInputStream(filename);
-//			template = JRXmlLoader.load(jrxmlStream);
-//			report = JasperCompileManager.compileReport(template);
-//			Map params = new HashMap();
-//			
-//                        if (useEmptyDatasource)
-//                        {
-//                            
-//                            params.put("REPORT_DATA_SOURCE", new JREmptyDataSource(1));
-//                        }
-//                        else
-//                        {
-//                            connection = getHsql();
-//                            params.put("REPORT_CONNECTION", connection);
-//                        }
-//                        
-//                        jasperPrint = JasperFillManager.fillReport(report, params);
-//			export(jasperPrint);
-//
-//		}
-//		finally
-//		{
-//			if(jrxmlStream != null) {
-//				try
-//				{
-//					jrxmlStream.close();
-//				}
-//				catch (IOException e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//			if (connection != null)
-//			{
-//				connection.close();
-//			}
-//		}
+                Connection connection = null;
+		InputStream jrxmlStream = null;
+		JasperReport report = null;
+		JasperPrint jasperPrint = null;
+		JasperDesign template = null;
+                
+                try
+		{
+			jrxmlStream = JRLoader.getResourceInputStream(filename);
+			template = JRXmlLoader.load(jrxmlStream);
+			report = JasperCompileManager.compileReport(template);
+			Map params = new HashMap();
+			
+                        if (useEmptyDatasource)
+                        {
+                            
+                            params.put("REPORT_DATA_SOURCE", new JREmptyDataSource(1));
+                        }
+                        else
+                        {
+                            connection = getHsql();
+                            params.put("REPORT_CONNECTION", connection);
+                        }
+                        
+                        jasperPrint = JasperFillManager.fillReport(report, params);
+			export(jasperPrint);
+
+		}
+		finally
+		{
+			if(jrxmlStream != null) {
+				try
+				{
+					jrxmlStream.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			if (connection != null)
+			{
+				connection.close();
+			}
+		}
         
         
     }
@@ -238,11 +243,9 @@ public class CVComponentTest
     protected void export(JasperPrint jasperPrint) throws Exception
 	{
             
-                
 
-
-//                JasperExportManager.exportReportToHtmlFile(jasperPrint, 
-//				new File(outputDir,  jasperPrint.getName() + ".html").getPath());
+                JasperExportManager.exportReportToHtmlFile(jasperPrint, 
+				new File(outputDir,  jasperPrint.getName() + ".html").getPath());
 //                
 //                
 //                JasperExportManager.exportReportToPdfFile(jasperPrint, 
