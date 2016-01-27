@@ -100,10 +100,7 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * Default value is &quot;.
 	 * @see #PROPERTY_FIELD_ENCLOSURE
 	 */
-	@ExporterProperty(
-			value=PROPERTY_FIELD_ENCLOSURE, 
-			nullDefault=true
-			)
+	@ExporterProperty(PROPERTY_FIELD_ENCLOSURE)
 	public String getFieldEnclosure();
 	
 	/**
