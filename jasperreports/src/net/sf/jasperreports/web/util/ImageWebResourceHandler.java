@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 
@@ -81,7 +82,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			try
 			{
 				Renderable pxRenderer = 
-					RenderableUtil.getInstance(jasperReportsContext).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
+					RenderableUtil.getInstance(jasperReportsContext).getRenderable(JRImageLoader.PIXEL_IMAGE_RESOURCE);
 				imageData = pxRenderer.getImageData(jasperReportsContext);
 				imageMimeType = ImageTypeEnum.GIF.getMimeType();
 			}

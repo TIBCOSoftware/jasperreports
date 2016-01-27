@@ -126,6 +126,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -503,7 +504,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				pxImage =
 					Image.getInstance(
-						JRLoader.loadBytesFromResource("net/sf/jasperreports/engine/images/pixel.GIF")
+						JRLoader.loadBytesFromResource(JRImageLoader.PIXEL_IMAGE_RESOURCE)
 						);
 			}
 			catch(Exception e)

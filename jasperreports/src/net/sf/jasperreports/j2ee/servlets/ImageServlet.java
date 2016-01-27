@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**
@@ -76,7 +77,7 @@ public class ImageServlet extends BaseHttpServlet
 			try
 			{
 				Renderable pxRenderer = 
-					RenderableUtil.getInstance(getJasperReportsContext()).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
+					RenderableUtil.getInstance(getJasperReportsContext()).getRenderable(JRImageLoader.PIXEL_IMAGE_RESOURCE);
 				imageData = pxRenderer.getImageData(getJasperReportsContext());
 				imageMimeType = ImageTypeEnum.GIF.getMimeType();
 			}

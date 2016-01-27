@@ -51,6 +51,7 @@ public final class JRImageLoader
 	 */
 	public static final String PROPERTY_IMAGE_ENCODER = JRPropertiesUtil.PROPERTY_PREFIX + "image.encoder";
 
+	public static final String PIXEL_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/pixel.GIF";
 	public static final String NO_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/image-16.png";
 	public static final String SUBREPORT_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/subreport-16.png";
 	public static final String CHART_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/chart-16.png";
