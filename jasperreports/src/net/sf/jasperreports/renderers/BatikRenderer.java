@@ -341,7 +341,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	 * <p>
 	 * The returned renderer loads the SVG data lazily, i.e. only when the data
 	 * is actually required (which is at the first
-	 * {@link #render(Graphics2D, Rectangle2D)}}.
+	 * {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}}.
 	 * </p>
 	 *
 	 * @param location the SVG location
