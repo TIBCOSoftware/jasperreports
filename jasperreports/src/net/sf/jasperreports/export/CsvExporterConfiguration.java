@@ -113,7 +113,10 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * Default value is <code>false</code>.
 	 * @see #PROPERTY_FORCE_FIELD_ENCLOSURE
 	 */
-	@ExporterProperty(PROPERTY_FORCE_FIELD_ENCLOSURE)
+	@ExporterProperty(
+			value=PROPERTY_FORCE_FIELD_ENCLOSURE, 
+			booleanDefault=false
+			)
 	public Boolean getForceFieldEnclosure();
 
 	/**

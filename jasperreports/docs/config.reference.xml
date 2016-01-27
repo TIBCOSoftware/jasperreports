@@ -2668,7 +2668,8 @@ If a sequence of characters is set for this property, only the leading one will 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getFieldEnclosure()">getFieldEnclosure()</api> CSV export configuration setting.
 <br/>
-Since this property does not support expressions, character values that represent XML entity references should be XML-escaped.
+This property set in the JRXML report does not support expressions, so we have to ensure that 
+character values representing XML entity references are XML-escaped, accordingly.
 For instance, use &amp;quot; instead of &quot;, &amp;apos; instead of &apos;, etc.
     </description>
     <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_FIELD_ENCLOSURE</api>
