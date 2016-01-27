@@ -122,14 +122,6 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		renderer.render(jasperReportsContext, grx, rectangle);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
-	 */
-	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
-	}
-
 	@Override
 	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
 	{

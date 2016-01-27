@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
@@ -115,6 +116,15 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	public byte[] getImageData() throws JRException
 	{
 		return getImageData(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 */
+	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
+	{
+		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
 	}
 
 

@@ -50,7 +50,6 @@ import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGPreserveAspectRatio;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
@@ -133,14 +132,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		this.areaHyperlinks = areaHyperlinks;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
-	 */
-	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
-	}
-	
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		ensureSvg(jasperReportsContext);

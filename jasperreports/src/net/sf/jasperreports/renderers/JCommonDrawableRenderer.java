@@ -33,12 +33,11 @@ package net.sf.jasperreports.renderers;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.jfree.ui.Drawable;
+
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
-
-import org.jfree.ui.Drawable;
 
 
 /**
@@ -79,14 +78,6 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 		{
 			drawable.draw(grx, rectangle);
 		}
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
-	 */
-	public void render(Graphics2D grx, Rectangle2D rectangle) 
-	{
-		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
 	}
 	
 }
