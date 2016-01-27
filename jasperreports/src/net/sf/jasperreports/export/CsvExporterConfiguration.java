@@ -65,6 +65,22 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_WRITE_BOM = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.write.bom";
 
 	/**
+	 * Property whose value is used as default for the {@link #getFieldEnclosure()} export configuration setting.
+	 * Default value is &quot;.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_FIELD_ENCLOSURE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.field.enclosure";
+	
+	/**
+	 * Property whose value is used as default for the {@link #getForceFieldEnclosure()} export configuration setting.
+	 * Default value is <code>false</code>.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_FORCE_FIELD_ENCLOSURE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.force.field.enclosure";
+
+	/**
 	 * Returns the string representing the character or sequence of characters to be used to delimit two fields on the same record.
 	 * @see #PROPERTY_FIELD_DELIMITER
 	 */
@@ -75,6 +91,30 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 		)
 	@ExporterProperty(PROPERTY_FIELD_DELIMITER)
 	public String getFieldDelimiter();
+
+	/**
+	 * Returns a string representing the character to be used to enclose a field value on a record. 
+	 * If this is a multi-character string, the first character only will be taken into account. 
+	 * White spaces are not considered.
+	 * <p/>
+	 * Default value is &quot;.
+	 * @see #PROPERTY_FIELD_ENCLOSURE
+	 */
+	@ExporterProperty(
+			value=PROPERTY_FIELD_ENCLOSURE, 
+			nullDefault=true
+			)
+	public String getFieldEnclosure();
+	
+	/**
+	 * Returns a flag that enforces all exported field values to be enclosed within 
+	 * a pair of enclosure characters (usually a pair of quotes: &quot;&quot;). 
+	 * <p/>
+	 * Default value is <code>false</code>.
+	 * @see #PROPERTY_FORCE_FIELD_ENCLOSURE
+	 */
+	@ExporterProperty(PROPERTY_FORCE_FIELD_ENCLOSURE)
+	public Boolean getForceFieldEnclosure();
 
 	/**
 	 * Returns the string representing the character or sequence of characters to be used to delimit two records.

@@ -200,6 +200,8 @@
       <property ref="net.sf.jasperreports.export.csv.column.names.{suffix}"/>
       <property ref="net.sf.jasperreports.export.csv.data"/>
       <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
+      <property ref="net.sf.jasperreports.export.csv.field.enclosure"/>
+      <property ref="net.sf.jasperreports.export.csv.force.field.enclosure"/>
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.repeat.value"/>
       <property ref="net.sf.jasperreports.export.csv.write.bom"/>
@@ -2652,6 +2654,42 @@ Property that contains the character or sequence of characters used to delimit t
     <default>,</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.csv.field.enclosure -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.field.enclosure">
+    <description>
+Property containing the character to enclose a field value on a record. 
+<br/>
+If a sequence of characters is set for this property, only the leading one will be taken into account. White spaces are not considered.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getFieldEnclosure()">getFieldEnclosure()</api> CSV export configuration setting.
+<br/>
+Since this property does not support expressions, character values that represent XML entity references should be XML-escaped.
+For instance, use &amp;quot; instead of &quot;, &amp;apos; instead of &apos;, etc.
+    </description>
+    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_FIELD_ENCLOSURE</api>
+    <default>&quot;</default>
+    <scope>Global | Report</scope>
+    <since>6.2.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.csv.force.field.enclosure -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.force.field.enclosure">
+    <description>
+Property that enforces all exported field values to be enclosed within a pair of enclosure characters (usually a pair of quotes:""). 
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getForceFieldEnclosure()">getForceFieldEnclosure()</api> CSV export configuration flag.
+    </description>
+    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_FORCE_FIELD_ENCLOSURE</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>6.2.1</since>
   </configProperty>
   
   

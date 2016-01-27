@@ -30,7 +30,9 @@ package net.sf.jasperreports.export;
 public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration implements CsvExporterConfiguration
 {
 	private String fieldDelimiter;	
+	private String fieldEnclosure;	
 	private String recordDelimiter;	
+	private Boolean forceFieldEnclosure;	
 	private Boolean isWriteBOM;	
 
 	/**
@@ -54,6 +56,22 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 	public void setFieldDelimiter(String fieldDelimiter)
 	{
 		this.fieldDelimiter = fieldDelimiter;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getFieldEnclosure()
+	{
+		return fieldEnclosure;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setFieldEnclosure(String fieldEnclosure)
+	{
+		this.fieldEnclosure = fieldEnclosure;
 	}
 	
 	/**
@@ -87,4 +105,21 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 	{
 		this.isWriteBOM = isWriteBOM;
 	}
+	
+	/**
+	 * 
+	 */
+	public Boolean getForceFieldEnclosure()
+	{
+		return forceFieldEnclosure;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setForceFieldEnclosure(Boolean forceFieldEnclosure)
+	{
+		this.forceFieldEnclosure = forceFieldEnclosure;
+	}
+	
 }
