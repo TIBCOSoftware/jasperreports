@@ -84,7 +84,7 @@ public class RenderableUtil
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRImageRenderer#getInstance(String)}.
 	 */
 	public Renderable getRenderable(String imageLocation) throws JRException
 	{
@@ -93,7 +93,7 @@ public class RenderableUtil
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link JRImageRenderer#getInstance(String)}.
 	 */
 	public Renderable getRenderable(String imageLocation, OnErrorTypeEnum onErrorType) throws JRException
 	{

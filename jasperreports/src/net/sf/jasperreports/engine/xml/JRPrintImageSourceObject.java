@@ -26,13 +26,11 @@ package net.sf.jasperreports.engine.xml;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import org.w3c.tools.codec.Base64Decoder;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.RenderableUtil;
-
-import org.w3c.tools.codec.Base64Decoder;
 
 
 /**
@@ -100,7 +98,7 @@ public class JRPrintImageSourceObject
 		}
 		else
 		{
-			printImage.setRenderable(RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageSource));//FIXMECONTEXT this might just be OK since the image is lazy anyway
+			printImage.setRenderable(JRImageRenderer.getInstance(imageSource));
 		}
 	}
 	

@@ -32,22 +32,12 @@
 package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -55,8 +45,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class ImageConverter extends ElementConverter
 {
-	private static final Log log = LogFactory.getLog(ImageConverter.class);
-
 	/**
 	 *
 	 */
@@ -96,72 +84,14 @@ public final class ImageConverter extends ElementConverter
 		printImage.setLinkType(image.getLinkType());
 		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
 		printImage.setVerticalImageAlign(image.getOwnVerticalImageAlign());
-		printImage.setRenderable(getRenderable(reportConverter.getJasperReportsContext(), image, printImage));
+		printImage.setRenderable(
+			JRImageRenderer.getInstance(
+				JRExpressionUtil.getSimpleExpressionText(image.getExpression())
+				)
+			);
 		printImage.setScaleImage(image.getOwnScaleImageValue());
 		
 		return printImage;
-	}
-
-	/**
-	 * 
-	 */
-	private Renderable getRenderable(JasperReportsContext jasperReportsContext, JRImage imageElement, JRPrintImage printImage)
-	{
-		String location = JRExpressionUtil.getSimpleExpressionText(imageElement.getExpression());
-		if(location != null)
-		{
-			try
-			{
-				return RenderableUtil.getInstance(jasperReportsContext).getRenderable(location);
-				/*
-				byte[] imageData = JRLoader.loadBytesFromLocation(location); 
-				Image awtImage = JRImageLoader.loadImage(imageData);
-				if (awtImage == null)
-				{
-					printImage.setScaleImage(JRImage.SCALE_IMAGE_CLIP);
-					return 
-						JRImageRenderer.getInstance(
-							JRImageLoader.NO_IMAGE_RESOURCE, 
-							imageElement.getOnErrorType()
-							);
-				}
-				return JRImageRenderer.getInstance(imageData);
-				*/
-			}
-			catch (JRException e)
-			{
-				if (log.isDebugEnabled())
-				{
-					log.debug("Creating location renderer for converted image failed.", e);
-				}
-			}
-		}
-		
-		try
-		{
-			printImage.setScaleImage(ScaleImageEnum.CLIP);
-			return 
-				RenderableUtil.getInstance(jasperReportsContext).getRenderable(
-					JRImageLoader.NO_IMAGE_RESOURCE, 
-					imageElement.getOnErrorTypeValue()
-					);
-		}
-		catch (JRException e)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Creating icon renderer for converted image failed.", e);
-			}
-		}
-		catch (JRRuntimeException e)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Creating icon renderer for converted image failed.", e);
-			}
-		}
-		
-		return null;
 	}
 
 }

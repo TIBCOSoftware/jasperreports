@@ -143,6 +143,20 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
+	public static JRImageRenderer getInstance(String imageLocation)
+	{
+		if (imageLocation == null)
+		{
+			return null;
+		}
+		
+		return new JRImageRenderer(imageLocation);
+	}
+
+
+	/**
+	 *
+	 */
 	public static JRImageRenderer getInstance(byte[] imageData)
 	{
 		return new JRImageRenderer(imageData);

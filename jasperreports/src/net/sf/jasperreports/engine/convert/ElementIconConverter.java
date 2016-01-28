@@ -32,17 +32,10 @@
 package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
-import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -53,8 +46,6 @@ import org.apache.commons.logging.LogFactory;
 public class ElementIconConverter extends ElementConverter
 {
 
-	private static final Log log = LogFactory.getLog(ElementIconConverter.class);
-	
 	private final String iconLocation;
 	
 	public ElementIconConverter(String iconLocation)
@@ -71,23 +62,8 @@ public class ElementIconConverter extends ElementConverter
 		printImage.getLineBox().setPadding(3);
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		
-		printImage.setRenderable(getRenderer(reportConverter.getJasperReportsContext()));
+		printImage.setRenderable(JRImageRenderer.getInstance(iconLocation));
 		return printImage;
-	}
-
-	protected Renderable getRenderer(JasperReportsContext jasperReportsContext)
-	{
-		try
-		{
-			return RenderableUtil.getInstance(jasperReportsContext).getRenderable(
-					iconLocation, 
-					OnErrorTypeEnum.ERROR);
-		}
-		catch (JRException e)
-		{
-			log.warn("Error creating component design preview icon", e);
-			return null;
-		}
 	}
 
 }

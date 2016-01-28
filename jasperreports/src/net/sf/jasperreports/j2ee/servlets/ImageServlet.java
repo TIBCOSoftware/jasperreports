@@ -38,12 +38,12 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -76,9 +76,7 @@ public class ImageServlet extends BaseHttpServlet
 		{
 			try
 			{
-				Renderable pxRenderer = 
-					RenderableUtil.getInstance(getJasperReportsContext()).getRenderable(JRImageLoader.PIXEL_IMAGE_RESOURCE);
-				imageData = pxRenderer.getImageData(getJasperReportsContext());
+				imageData = RepositoryUtil.getInstance(getJasperReportsContext()).getBytesFromLocation(JRImageLoader.PIXEL_IMAGE_RESOURCE);
 				imageMimeType = ImageTypeEnum.GIF.getMimeType();
 			}
 			catch (JRException e)
