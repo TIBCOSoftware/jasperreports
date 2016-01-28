@@ -63,21 +63,6 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		this.backcolor = backcolor;
 	}
 
-	
-	/**
-	 * @deprecated Replaced by {@link #JRWrappingSvgRenderer(Renderable, Dimension2D, Color)}.
-	 */
-	public JRWrappingSvgRenderer(
-		JRRenderable renderer, 
-		Dimension2D elementDimension,
-		Color backcolor
-		)
-	{
-		this.renderer = RenderableUtil.getWrappingRenderable(renderer);
-		this.elementDimension = elementDimension;
-		this.backcolor = backcolor;
-	}
-
 
 	/**
 	 *

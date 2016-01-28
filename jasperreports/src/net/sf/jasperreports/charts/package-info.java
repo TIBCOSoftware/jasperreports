@@ -77,7 +77,7 @@
  * </ul>
  * <h3>Chart Rendering</h3>
  * In generated reports the output produced by a chart element is an image element. Image elements are drawn using 
- * implementations of the {@link net.sf.jasperreports.engine.JRRenderable JRRenderable} interface. 
+ * implementations of the {@link net.sf.jasperreports.engine.Renderable Renderable} interface. 
  * The <code>renderType</code> attribute specifies the renderer implementation that will be used to render the 
  * chart during export or report display. By default, JasperReports recognizes the following values for this attribute: 
  * <ul>

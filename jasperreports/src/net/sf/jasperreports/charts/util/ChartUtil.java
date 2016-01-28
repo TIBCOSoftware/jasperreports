@@ -33,21 +33,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.charts.ChartTheme;
-import net.sf.jasperreports.charts.ChartThemeBundle;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintImageArea;
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.fill.DefaultChartTheme;
-import net.sf.jasperreports.engine.util.JRSingletonCache;
-
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -58,6 +43,19 @@ import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.data.Range;
+
+import net.sf.jasperreports.charts.ChartTheme;
+import net.sf.jasperreports.charts.ChartThemeBundle;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintImageArea;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 
 /**
@@ -70,9 +68,8 @@ public final class ChartUtil
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
-	private static final JRSingletonCache<ChartRendererFactory> CHART_RENDERER_FACTORY_CACHE = 
-			new JRSingletonCache<ChartRendererFactory>(ChartRendererFactory.class);
+	private static final JRSingletonCache<ChartRenderableFactory> CHART_RENDERABLE_FACTORY_CACHE = 
+			new JRSingletonCache<ChartRenderableFactory>(ChartRenderableFactory.class);
 	
 	protected static final double AUTO_TICK_UNIT_THRESHOLD = 1e12;
 	protected static final double AUTO_TICK_UNIT_FACTOR = 1000d;
@@ -240,14 +237,7 @@ public final class ChartUtil
 
 		try
 		{
-			@SuppressWarnings("deprecation")
-			ChartRendererFactory factory = CHART_RENDERER_FACTORY_CACHE.getCachedInstance(factoryClass);
-			if (factory instanceof ChartRenderableFactory)
-			{
-				return (ChartRenderableFactory)factory;
-			}
-			
-			return new WrappingChartRenderableFactory(factory); 
+			return CHART_RENDERABLE_FACTORY_CACHE.getCachedInstance(factoryClass);
 		}
 		catch (JRException e)
 		{
@@ -255,47 +245,6 @@ public final class ChartUtil
 		}
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getChartRenderableFactory(String)}.
-	 */
-	public static ChartRendererFactory getChartRendererFactory(String renderType)
-	{
-		return getDefaultInstance().getChartRenderableFactory(renderType);
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static class WrappingChartRenderableFactory implements ChartRenderableFactory
-	{
-		private ChartRendererFactory factory;
-		
-		public WrappingChartRenderableFactory(ChartRendererFactory factory)
-		{
-			this.factory = factory;
-		}
-
-		public net.sf.jasperreports.engine.JRRenderable getRenderer(
-			JFreeChart chart,
-			ChartHyperlinkProvider chartHyperlinkProvider,
-			Rectangle2D rectangle
-			) 
-		{
-			return factory.getRenderer(chart, chartHyperlinkProvider, rectangle);
-		}
-
-		public Renderable getRenderable(
-			JasperReportsContext jasperReportsContext,
-			JFreeChart chart,
-			ChartHyperlinkProvider chartHyperlinkProvider,
-			Rectangle2D rectangle) 
-		{
-			net.sf.jasperreports.engine.JRRenderable deprecatedRenderer 
-				= getRenderer(chart, chartHyperlinkProvider, rectangle);
-			return RenderableUtil.getWrappingRenderable(deprecatedRenderer);
-		}
-	}
-	
 	/**
 	 * @deprecated replaced by {@link #createIntegerTickUnits(Locale)}
 	 */

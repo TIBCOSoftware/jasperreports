@@ -122,22 +122,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getRenderable()}.
-	 */
-	public net.sf.jasperreports.engine.JRRenderable getRenderer()
-	{
-		return getRenderable();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setRenderable(Renderable)}.
-	 */
-	public void setRenderer(net.sf.jasperreports.engine.JRRenderable renderer)
-	{
-		setRenderable(RenderableUtil.getWrappingRenderable(renderer));
-	}
-		
-	/**
 	 * 
 	 */
 	public ScaleImageEnum getScaleImageValue()

@@ -42,16 +42,6 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 
 
 	/**
-	 * @deprecated Replaced by {@link #getRenderable()}.
-	 */
-	public JRRenderable getRenderer();
-		
-	/**
-	 * @deprecated Replaced by {@link #setRenderable(Renderable)}.
-	 */
-	public void setRenderer(JRRenderable renderer);
-		
-	/**
 	 *
 	 */
 	public Renderable getRenderable();
