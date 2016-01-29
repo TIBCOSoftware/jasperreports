@@ -39,10 +39,8 @@ import java.util.List;
 
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.bridge.BridgeContext;
-import org.apache.batik.bridge.FontFamilyResolver;
 import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgent;
-import org.apache.batik.bridge.UserAgentAdapter;
 import org.apache.batik.bridge.ViewBox;
 import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
@@ -70,27 +68,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected static class JRUserAgent extends UserAgentAdapter
-	{
-		private final BatikFontFamilyResolver fontFamilyResolver;
-		
-		public JRUserAgent(JasperReportsContext jasperReportsContext) 
-		{
-			fontFamilyResolver = BatikFontFamilyResolver.getInstance(jasperReportsContext);
-		}
-		
-		public float getPixelUnitToMillimeter()
-		{
-			// JR works at 72dpi
-			return 0.35277777777777777777777777777778f;
-		}
-
-		public FontFamilyResolver getFontFamilyResolver() 
-		{
-			return fontFamilyResolver;
-		}
-	}
-	
 	private String svgText;
 	private byte[] svgData;
 	private String svgDataLocation;
@@ -185,7 +162,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		
 		try
 		{
-			UserAgent userAgent = new JRUserAgent(jasperReportsContext);
+			UserAgent userAgent = new BatikUserAgent(jasperReportsContext);
 			
 			SVGDocumentFactory documentFactory =
 				new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
