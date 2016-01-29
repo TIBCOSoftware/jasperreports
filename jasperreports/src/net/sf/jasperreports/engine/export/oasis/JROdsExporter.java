@@ -40,6 +40,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
@@ -81,9 +84,6 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.OdsExporterConfiguration;
 import net.sf.jasperreports.export.OdsReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -436,12 +436,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 					if (!image.isLazy())
 					{
-						// Image load might fail.
-						Renderable tmpRenderer =
-							RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(getJasperReportsContext());
-						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
+						Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
+						if (dimension != null)
 						{
 							normalWidth = dimension.getWidth();
 							normalHeight = dimension.getHeight();

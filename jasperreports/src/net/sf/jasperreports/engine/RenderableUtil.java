@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Image;
 import java.awt.Transparency;
+import java.awt.geom.Dimension2D;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -275,6 +276,26 @@ public class RenderableUtil
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Tries to get the dimension of the renderable object. If an exception occurs, it is silently ignored and the method returns null.
+	 */
+	public Dimension2D getDimensionSafely(Renderable renderer)
+	{
+		Dimension2D dimension = null;
+		try
+		{
+			dimension = renderer.getDimension(jasperReportsContext);
+		}
+		catch (Exception e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Error getting image dimension.", e);
+			}
+		}
+		return dimension;
 	}
 
 	/**

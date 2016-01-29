@@ -1831,12 +1831,8 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		
 					if (!image.isLazy())
 					{
-						// Image load might fail. 
-						Renderable tmpRenderer = 
-							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
-						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
+						Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
+						if (dimension != null)
 						{
 							normalWidth = dimension.getWidth();
 							normalHeight = dimension.getHeight();
@@ -1889,12 +1885,8 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		
 					if (!image.isLazy())
 					{
-						// Image load might fail. 
-						Renderable tmpRenderer = 
-							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
-						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
+						Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
+						if (dimension != null)
 						{
 							normalWidth = dimension.getWidth();
 							normalHeight = dimension.getHeight();

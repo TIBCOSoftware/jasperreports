@@ -41,6 +41,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
@@ -100,9 +103,6 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.export.XlsxExporterConfiguration;
 import net.sf.jasperreports.export.XlsxReportConfiguration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -1045,12 +1045,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			double normalWidth = availableImageWidth;
 			double normalHeight = availableImageHeight;
 
-			// Image load might fail.
-			Renderable tmpRenderer =
-				RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
-			// If renderer was replaced, ignore image dimension.
-			if (tmpRenderer == renderer && dimension != null)
+			Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
+			if (dimension != null)
 			{
 				normalWidth = dimension.getWidth();
 				normalHeight = dimension.getHeight();

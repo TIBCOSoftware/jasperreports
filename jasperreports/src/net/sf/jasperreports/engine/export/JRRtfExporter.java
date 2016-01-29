@@ -45,6 +45,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -86,9 +89,6 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
 import net.sf.jasperreports.export.RtfReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Exports a JasperReports document to RTF format. 
@@ -1108,12 +1108,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			// Image load might fail.
-			Renderable tmpRenderer =
-				RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, printImage.getOnErrorTypeValue());
-			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
-			// If renderer was replaced, ignore image dimension.
-			if (tmpRenderer == renderer && dimension != null)
+			Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
+			if (dimension != null)
 			{
 				normalWidth = (int) dimension.getWidth();
 				normalHeight = (int) dimension.getHeight();
