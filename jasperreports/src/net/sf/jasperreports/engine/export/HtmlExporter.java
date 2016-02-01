@@ -28,6 +28,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
@@ -45,6 +47,7 @@ import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.tools.codec.Base64Encoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -954,7 +957,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			String imageMapName = null;
 			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
 			
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			boolean isEmbedImage = isEmbedImage(image);
+			
+			if (
+				renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
+				&& rendererToImagePathMap.containsKey(renderer.getId())
+				&& (image.isLazy() || !isEmbedImage)
+				)
 			{
 				imagePath = rendererToImagePathMap.get(renderer.getId());
 			}
@@ -963,38 +972,58 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				if (image.isLazy())
 				{
 					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+
+					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
 				else
 				{
-					@SuppressWarnings("deprecation")
-					HtmlResourceHandler imageHandler = 
-						getImageHandler() == null 
-						? getExporterOutput().getImageHandler() 
-						: getImageHandler();
-					if (imageHandler != null)
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 					{
-						JRPrintElementIndex imageIndex = getElementIndex(cell);
-						String imageName = getImageName(imageIndex);
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								new Dimension(image.getWidth(), image.getHeight()),
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								);
+					}
 
-						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-						{
-							renderer =
-								new JRWrappingSvgRenderer(
-									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
-									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-									);
-						}
+					byte[] imageData = renderer.getImageData(jasperReportsContext);
 
-						byte[] imageData = renderer.getImageData(jasperReportsContext);
-
-						imageHandler.handleResource(imageName, imageData);
+					if (isEmbedImage)
+					{
+						ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 						
-						imagePath = imageHandler.getResourcePath(imageName);
+						Base64Encoder encoder = new Base64Encoder(bais, baos);
+						encoder.process();
+						
+						String encoding = getExporterOutput().getEncoding();
+						
+						imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
+						
+						//don't cache the base64 encoded image as imagePath
+					}
+					else
+					{
+						@SuppressWarnings("deprecation")
+						HtmlResourceHandler imageHandler = 
+							getImageHandler() == null 
+							? getExporterOutput().getImageHandler() 
+							: getImageHandler();
+						if (imageHandler != null)
+						{
+							JRPrintElementIndex imageIndex = getElementIndex(cell);
+							String imageName = getImageName(imageIndex);
+
+							imageHandler.handleResource(imageName, imageData);
+							
+							imagePath = imageHandler.getResourcePath(imageName);
+
+							rendererToImagePathMap.put(renderer.getId(), imagePath);
+						}
+						//does not make sense to cache null imagePath, in the absence of an image handler
 					}
 				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
 			
 			if (imageMapRenderer)
@@ -1315,23 +1344,80 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 	}
 
-	protected void writeRectangle(JRPrintGraphicElement element, TableCell cell) throws IOException
+	protected void writeRectangle(JRPrintRectangle rectangle, TableCell cell) throws IOException
 	{
-		startCell(element, cell);
-
-		StringBuilder styleBuffer = new StringBuilder();
-		appendElementCellGenericStyle(cell, styleBuffer);
-		appendBackcolorStyle(cell, styleBuffer);
-		appendPen(
-			styleBuffer,
-			element.getLinePen(),
-			null
-			);
-		writeStyle(styleBuffer);
+		startCell(rectangle, cell);
+		
+		int radius = rectangle.getRadius();
+		if (radius == 0)
+		{
+			StringBuilder styleBuffer = new StringBuilder();
+			appendElementCellGenericStyle(cell, styleBuffer);
+			appendBackcolorStyle(cell, styleBuffer);
+			appendPen(
+				styleBuffer,
+				rectangle.getLinePen(),
+				null
+				);
+			writeStyle(styleBuffer);
+		}
 
 		finishStartCell();
 
+		if (radius != 0)
+		{
+			float lineDiff = rectangle.getLinePen().getLineWidth() / 2;
+			writer.write("<svg height=\"" + rectangle.getHeight() + "\" width=\"" + rectangle.getWidth() + "\">");
+			writer.write("<rect x=\"" + lineDiff + "\" y=\"" + lineDiff + "\" rx=\"" + radius + "\" ry=\"" + radius + "\" ");
+			writer.write("height=\"" + (rectangle.getHeight() - 2 * lineDiff) + "\" width=\"" + (rectangle.getWidth() - 2 * lineDiff) + "\" ");
+			writeSvgStyle(rectangle);
+			writer.write("\"/></svg>");
+		}
+
 		endCell();
+	}
+
+	protected void writeEllipse(JRPrintEllipse ellipse, TableCell cell) throws IOException
+	{
+		startCell(ellipse, cell);
+
+		finishStartCell();
+
+		float lineDiff = ellipse.getLinePen().getLineWidth() / 2;
+		writer.write("<svg height=\"" + ellipse.getHeight() + "\" width=\"" + ellipse.getWidth() + "\">");
+		writer.write("<ellipse cx=\"" + (ellipse.getWidth() / 2) + "\" cy=\"" + (ellipse.getHeight() / 2));
+		writer.write("\" rx=\"" + (ellipse.getWidth() / 2 - lineDiff) + "\" ry=\"" + (ellipse.getHeight() / 2 - lineDiff) + "\" ");
+		writeSvgStyle(ellipse);
+		writer.write("\"/></svg>");
+		
+		endCell();
+	}
+
+	protected void writeSvgStyle(JRPrintGraphicElement element) throws IOException
+	{
+		writer.write("style=\"fill:" + JRColorUtil.getCssColor(element.getBackcolor()) + ";");
+		writer.write("stroke:" + JRColorUtil.getCssColor(element.getForecolor()) + ";");
+		writer.write("stroke-width:" + element.getLinePen().getLineWidth() + ";");
+
+		switch (element.getLinePen().getLineStyleValue())
+		{
+			case DOTTED :
+			{
+				writer.write("stroke-dasharray:" + element.getLinePen().getLineWidth() + "," + element.getLinePen().getLineWidth() + ";");
+				break;
+			}
+			case DASHED :
+			{
+				writer.write("stroke-dasharray:" + 5 * element.getLinePen().getLineWidth() + "," + 3 * element.getLinePen().getLineWidth() + ";");
+				break;
+			}
+			case DOUBLE :
+			case SOLID :
+			default :
+			{
+				break;
+			}
+		}
 	}
 
 	protected void writeLine(JRPrintLine line, TableCell cell)
@@ -2581,7 +2667,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		{
 			try
 			{
-				writeRectangle(ellipse, cell);
+				writeEllipse(ellipse, cell);
 			} 
 			catch (IOException e)
 			{

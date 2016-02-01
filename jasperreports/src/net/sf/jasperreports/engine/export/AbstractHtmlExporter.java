@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -192,6 +193,24 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		}
 
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
+	}
+
+
+	/**
+	 * 
+	 */
+	protected boolean isEmbedImage(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, getCurrentItemConfiguration().isEmbedImage());
+		}
+		return getCurrentItemConfiguration().isEmbedImage();
 	}
 
 }

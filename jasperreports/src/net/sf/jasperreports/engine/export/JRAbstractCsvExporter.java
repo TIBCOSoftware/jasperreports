@@ -59,6 +59,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 	extends JRAbstractExporter<RC, C, WriterExporterOutput, E>
 {
 	public static final String BOM_CHARACTER = "\uFEFF";
+	public static final String DEFAULT_ENCLOSURE = "\"";
 	protected static final String CSV_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.";
 
 	/**
@@ -202,12 +203,16 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 		
 		if (source != null)
 		{
-			boolean putQuotes = false;
-			
 			CsvExporterConfiguration configuration = getCurrentConfiguration();
 			String fieldDelimiter = configuration.getFieldDelimiter();
 			String recordDelimiter = configuration.getRecordDelimiter();
+			boolean putQuotes = configuration.getForceFieldEnclosure();
 			
+			// single character used for field enclosure; white spaces are not considered; default value is "
+			String quotes = configuration.getFieldEnclosure().trim().length() == 0 
+					? DEFAULT_ENCLOSURE 
+					: configuration.getFieldEnclosure().trim().substring(0, 1);
+
 			if (
 				source.indexOf(fieldDelimiter) >= 0
 				|| source.indexOf(recordDelimiter) >= 0
@@ -217,15 +222,15 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 			}
 			
 			StringBuffer sbuffer = new StringBuffer();
-			StringTokenizer tkzer = new StringTokenizer(source, "\"\n", true);
+			StringTokenizer tkzer = new StringTokenizer(source, quotes+"\n", true);
 			String token = null;
 			while(tkzer.hasMoreTokens())
 			{
 				token = tkzer.nextToken();
-				if ("\"".equals(token))
+				if (quotes.equals(token))
 				{
 					putQuotes = true;
-					sbuffer.append("\"\"");
+					sbuffer.append(quotes+quotes);
 				}
 				else if ("\n".equals(token))
 				{
@@ -243,10 +248,9 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 			
 			if (putQuotes)
 			{
-				str = "\"" + str + "\"";
+				str = quotes + str + quotes;
 			}
 		}
-		
 		return str;
 	}
 	
