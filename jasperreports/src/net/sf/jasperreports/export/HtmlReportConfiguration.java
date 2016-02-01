@@ -101,6 +101,12 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 
 	
 	/**
+	 * Property that provides a default for the {@link #isEmbedImage()} export configuration flag.
+	 */
+	public static final String PROPERTY_EMBED_IMAGE = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "embed.image";
+
+	
+	/**
 	 * Returns a boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
 	 * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
 	 * All the remaining empty space could be removed by setting this parameter to true.
@@ -230,4 +236,14 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		booleanDefault=false
 		)
 	public Boolean isIgnoreHyperlink();
+	
+	
+	/**
+	 * @see #PROPERTY_EMBED_IMAGE
+	 */
+	@ExporterProperty(
+		value=PROPERTY_EMBED_IMAGE, 
+		booleanDefault=false
+		)
+	public Boolean isEmbedImage();
 }

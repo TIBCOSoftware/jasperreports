@@ -40,6 +40,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	private Boolean accessibleHtml;
 	private Float zoomRatio;
 	private Boolean isIgnoreHyperlink;
+	private Boolean isEmbedImage;
 
 	
 	/**
@@ -191,5 +192,21 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	public void setIgnoreHyperlink(Boolean isIgnoreHyperlink)
 	{
 		this.isIgnoreHyperlink = isIgnoreHyperlink;
+	}
+	
+	/**
+	 * 
+	 */
+	public Boolean isEmbedImage()
+	{
+		return isEmbedImage;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEmbedImage(Boolean isEmbedImage)
+	{
+		this.isEmbedImage = isEmbedImage;
 	}
 }

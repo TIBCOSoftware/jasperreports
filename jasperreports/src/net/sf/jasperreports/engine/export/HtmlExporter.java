@@ -28,6 +28,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
@@ -45,6 +47,7 @@ import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.tools.codec.Base64Encoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -954,7 +957,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			String imageMapName = null;
 			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
 			
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			boolean isEmbedImage = isEmbedImage(image);
+			
+			if (
+				renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
+				&& rendererToImagePathMap.containsKey(renderer.getId())
+				&& (image.isLazy() || !isEmbedImage)
+				)
 			{
 				imagePath = rendererToImagePathMap.get(renderer.getId());
 			}
@@ -963,41 +972,58 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				if (image.isLazy())
 				{
 					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+
+					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
 				else
 				{
-					@SuppressWarnings("deprecation")
-					HtmlResourceHandler imageHandler = 
-						getImageHandler() == null 
-						? getExporterOutput().getImageHandler() 
-						: getImageHandler();
-					if (imageHandler != null)
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 					{
-						JRPrintElementIndex imageIndex = getElementIndex(cell);
-						String imageName = getImageName(imageIndex);
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								new Dimension(image.getWidth(), image.getHeight()),
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								);
+					}
 
-						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-						{
-							renderer =
-								new JRWrappingSvgRenderer(
-									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
-									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-									);
-						}
+					byte[] imageData = renderer.getImageData(jasperReportsContext);
 
-						byte[] imageData = renderer.getImageData(jasperReportsContext);
-
+					if (isEmbedImage)
+					{
+						ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						
+						Base64Encoder encoder = new Base64Encoder(bais, baos);
+						encoder.process();
+						
+						String encoding = getExporterOutput().getEncoding();
+						
+						imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
+						
+						//don't cache the base64 encoded image as imagePath
+					}
+					else
+					{
+						@SuppressWarnings("deprecation")
+						HtmlResourceHandler imageHandler = 
+							getImageHandler() == null 
+							? getExporterOutput().getImageHandler() 
+							: getImageHandler();
 						if (imageHandler != null)
 						{
+							JRPrintElementIndex imageIndex = getElementIndex(cell);
+							String imageName = getImageName(imageIndex);
+
 							imageHandler.handleResource(imageName, imageData);
 							
 							imagePath = imageHandler.getResourcePath(imageName);
+
+							rendererToImagePathMap.put(renderer.getId(), imagePath);
 						}
+						//does not make sense to cache null imagePath, in the absence of an image handler
 					}
 				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
 			
 			if (imageMapRenderer)

@@ -220,6 +220,7 @@
       <property ref="net.sf.jasperreports.export.html.between.pages"/>
       <property ref="net.sf.jasperreports.export.html.border.collapse"/>
       <property ref="net.sf.jasperreports.export.html.class"/>
+      <property ref="net.sf.jasperreports.export.html.embed.image"/>
       <property ref="net.sf.jasperreports.export.html.header"/>
       <property ref="net.sf.jasperreports.export.html.flush.output"/>
       <property ref="net.sf.jasperreports.export.html.footer"/>
@@ -2987,6 +2988,19 @@ the <code>class</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;d
     <default>N/A</default>
     <scope>Element</scope>
     <since>4.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.embed.image -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.embed.image">
+    <description>
+This property specifies whether the image should be Base64 encoded and embedded into the src attribute of the image tag, and not referenced as separate resource.
+    </description>
+    <api>net/sf/jasperreports/engine/export/HtmlReportConfiguration.html#PROPERTY_EMBED_IMAGE</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.2.1</since>
   </configProperty>
   
   

@@ -37,6 +37,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
@@ -48,6 +50,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.w3c.tools.codec.Base64Encoder;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -100,9 +106,6 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.parameters.ParametersHtmlExporterOutput;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -1752,9 +1755,15 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	
 			ScaleImageEnum scaleImage = image.getScaleImageValue();
 			
+			boolean isEmbedImage = isEmbedImage(image);
+			
 			if (renderer != null)
 			{
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+				if (
+					renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
+					&& rendererToImagePathMap.containsKey(renderer.getId())
+					&& (image.isLazy() || !isEmbedImage)
+					)
 				{
 					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
@@ -1763,40 +1772,61 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					if (image.isLazy())
 					{
 						imagePath = ((JRImageRenderer)renderer).getImageLocation();
+
+						rendererToImagePathMap.put(renderer.getId(), imagePath);
 					}
 					else
 					{
-						HtmlResourceHandler imageHandler = 
-							getImageHandler() == null 
-							? getExporterOutput().getImageHandler() 
-							: getImageHandler();
-						if (imageHandler != null)
+						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 						{
-							JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-							String imageName = getImageName(imageIndex);
+							renderer =
+								new JRWrappingSvgRenderer(
+									renderer,
+									new Dimension(image.getWidth(), image.getHeight()),
+									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+									);
+						}
 
-							if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-							{
-								renderer =
-									new JRWrappingSvgRenderer(
-										renderer,
-										new Dimension(image.getWidth(), image.getHeight()),
-										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-										);
-							}
+						byte[] imageData = renderer.getImageData(jasperReportsContext);
 
-							byte[] imageData = renderer.getImageData(jasperReportsContext);
 
+						if (isEmbedImage)
+						{
+							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+							ByteArrayOutputStream baos = new ByteArrayOutputStream();
+							
+							Base64Encoder encoder = new Base64Encoder(bais, baos);
+							encoder.process();
+							
+							String encoding = getExporterOutput().getEncoding();
+							
+							imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
+							
+							//don't cache the base64 encoded image as imagePath
+						}
+						else
+						{
+							HtmlResourceHandler imageHandler = 
+								getImageHandler() == null 
+								? getExporterOutput().getImageHandler() 
+								: getImageHandler();
 							if (imageHandler != null)
 							{
-								imageHandler.handleResource(imageName, imageData);
+								JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+								String imageName = getImageName(imageIndex);
 
-								imagePath = imageHandler.getResourcePath(imageName);
+								if (imageHandler != null)
+								{
+									imageHandler.handleResource(imageName, imageData);
+
+									imagePath = imageHandler.getResourcePath(imageName);
+
+									rendererToImagePathMap.put(renderer.getId(), imagePath);
+								}
+								//does not make sense to cache null imagePath, in the absence of an image handler
 							}
 						}
 					}
-	
-					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
 				
 				if (imageMapRenderer)
