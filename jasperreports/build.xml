@@ -200,6 +200,15 @@
 		</xslt>
 	</target>
 	
+	<target name="partschemaref" description="Generates the Report Parts Schema Reference.">
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
+		<xslt basedir="src/net/sf/jasperreports/parts" in="src/net/sf/jasperreports/parts/parts.xsd" destdir="dist/docs" style="docs/parts.schema.reference.xsl" out="./dist/docs/parts.schema.reference.html">
+			<param name="sf.net" expression="${sf.net}"/>
+			<param name="version" expression="${version}"/>
+			<classpath refid="project-classpath"/>
+		</xslt>
+	</target>
+	
 	<target name="componentschemaref" description="Generates the Component Schema Reference.">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
 		<xslt basedir="src/net/sf/jasperreports/components" in="src/net/sf/jasperreports/components/components.xsd" destdir="dist/docs" style="docs/components.schema.reference.xsl" out="./dist/docs/components.schema.reference.html">
@@ -254,6 +263,6 @@
 		</copy>
 	</target>
 	
-	<target name="docs" depends="preparedocs, javadoc, schemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
+	<target name="docs" depends="preparedocs, javadoc, schemaref, partschemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
 
 </project>
