@@ -230,8 +230,9 @@ public class TableUtil
 		}
 		if (c != null) {
 			y = p.y + h;
-			h = c.getHeight();
-			boundsMap.put(c, new Rectangle(p.x, y, w, h));
+			int cellHeight = c.getHeight();
+			boundsMap.put(c, new Rectangle(p.x, y, w, cellHeight));
+			h += cellHeight;
 		}
 		return new Rectangle(p.x + w, y, w, h);
 	}
