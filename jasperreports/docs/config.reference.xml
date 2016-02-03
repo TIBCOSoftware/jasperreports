@@ -2452,11 +2452,14 @@ Property indicating the default PDF font embedding behavior, if not specified in
   <configProperty name="net.sf.jasperreports.export.{format}.ignore.hyperlink">
     <description>
 Properties with this syntax are used by the exporters to determine if a certain hyperlink should be activated or not. 
-These flags can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name. 
+These flags can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name. The 
+available output formats for filling in the {format} placeholder are: html, pdf, rtf, xls, docx, pptx, odt. When the 
+format is set to 'xls', this property will be applied for XLS, XLSX and ODS exporters.
     </description>
     <api>N/A</api>
     <default>N/A</default>
     <scope>Global | Report | Hyperlink</scope>
+    <since>5.0.4</since>
   </configProperty>
   
   
