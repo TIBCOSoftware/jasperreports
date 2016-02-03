@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.fill.FillDatasetPosition;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
-import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
 import net.sf.jasperreports.engine.util.JRReportUtils;
@@ -57,8 +56,6 @@ public class FillDatasetRun extends JRFillDatasetRun
 
 	private static final Log log = LogFactory.getLog(FillDatasetRun.class);
 	
-	private final JRFillExpressionEvaluator expressionEvaluator;
-	
 	private Map<String, Object> parameterValues;
 	private FillDatasetPosition datasetPosition;
 	private boolean cacheIncluded;
@@ -69,10 +66,9 @@ public class FillDatasetRun extends JRFillDatasetRun
 	public FillDatasetRun(JRDatasetRun datasetRun,
 			JRFillObjectFactory factory) throws JRException
 	{
-		super(factory.getReportFiller(), datasetRun, 
+		super(factory.getReportFiller(), factory.getExpressionEvaluator(),
+				datasetRun, 
 				createFillDataset(datasetRun, factory));
-		
-		this.expressionEvaluator = factory.getExpressionEvaluator();
 		
 		initReturnValues(factory);
 		factory.registerDatasetRun(this);
@@ -81,8 +77,6 @@ public class FillDatasetRun extends JRFillDatasetRun
 	public FillDatasetRun(FillDatasetRun datasetRun, JRFillCloneFactory factory)
 	{
 		super(datasetRun, factory);
-		
-		this.expressionEvaluator = datasetRun.expressionEvaluator;
 	}
 
 	private static JRFillDataset createFillDataset(JRDatasetRun datasetRun,

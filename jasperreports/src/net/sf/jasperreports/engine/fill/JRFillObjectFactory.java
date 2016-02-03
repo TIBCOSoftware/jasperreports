@@ -1398,16 +1398,27 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		else
 		{
 			String datasetName = datasetRun.getDatasetName();
-			elementDatasetsList = elementDatasetMap.get(datasetName);
-			if (elementDatasetsList == null)
-			{
-				elementDatasetsList = new ArrayList<JRFillElementDataset>();
-				elementDatasetMap.put(datasetName, elementDatasetsList);
-			}
+			elementDatasetsList = getElementDatasetsList(datasetName);
 			
 			registerDatasetRun((JRFillDatasetRun) datasetRun);
 		}
 		elementDatasetsList.add(elementDataset);
+	}
+	
+	protected List<JRFillElementDataset> getElementDatasetsList(String datasetName)
+	{
+		if (parentFiller != null)
+		{
+			return parentFiller.getElementDatasetsList(datasetName);
+		}
+		
+		List<JRFillElementDataset> elementDatasetsList = elementDatasetMap.get(datasetName);
+		if (elementDatasetsList == null)
+		{
+			elementDatasetsList = new ArrayList<JRFillElementDataset>();
+			elementDatasetMap.put(datasetName, elementDatasetsList);
+		}
+		return elementDatasetsList;
 	}
 
 	public void trackDatasetRuns()
@@ -1453,7 +1464,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			fillDatasetRun = (JRFillDatasetRun) get(datasetRun);
 			if (fillDatasetRun == null)
 			{
-				fillDatasetRun = new JRFillDatasetRun(filler, datasetRun, this);
+				fillDatasetRun = new JRFillDatasetRun(datasetRun, this);
 			}
 		}
 
