@@ -873,15 +873,33 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			imageHeight = 0;
 		}
 
+		String horizontalAlignment = getImageHorizontalAlignmentStyle(image);
+		String verticalAlignment = getImageVerticalAlignmentStyle(image);
+
 		StringBuilder styleBuffer = new StringBuilder();
 		ScaleImageEnum scaleImage = image.getScaleImageValue();
 		if (scaleImage != ScaleImageEnum.CLIP)
 		{
 			// clipped images are absolutely positioned within a div
-			setImageHorizontalAlignmentStyle(image, styleBuffer);
-			setImageVerticalAlignmentStyle(image, styleBuffer);
+			if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
+			{
+				styleBuffer.append("text-align: ");
+				styleBuffer.append(horizontalAlignment);
+				styleBuffer.append(";");
+			}
+
+			if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
+			{
+				styleBuffer.append(" vertical-align: ");
+				styleBuffer.append(verticalAlignment);
+				styleBuffer.append(";");
+			}
 		}
-		else if (imageHeight > 0)
+		
+		if (
+			image.isLazy()
+			|| (scaleImage == ScaleImageEnum.CLIP && imageHeight > 0)
+			)
 		{
 			// some browsers need td height so that height: 100% works on the div used for clipped images.
 			// we're using the height without paddings because that's closest to the HTML size model.
@@ -931,10 +949,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		boolean hasHyperlinks = false;
 
-		if(renderer != null)
+		if (renderer != null)
 		{
 			boolean startedDiv = false;
-			if (scaleImage == ScaleImageEnum.CLIP)
+			if (
+				scaleImage == ScaleImageEnum.CLIP
+				|| (image.isLazy() 
+				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
+					|| (image.getHorizontalImageAlign() != HorizontalImageAlignEnum.LEFT || image.getVerticalImageAlign() != VerticalImageAlignEnum.TOP)))
+				)
 			{
 				writer.write("<div style=\"width: 100%; height: 100%; position: relative; overflow: hidden;\">\n");
 				startedDiv = true;
@@ -952,7 +975,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				hasHyperlinks = hyperlinkStarted;
 			}
 			
-			writer.write("<img");
 			String imagePath = null;
 			String imageMapName = null;
 			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
@@ -1047,105 +1069,147 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				}
 			}
 
-			writer.write(" src=\"");
-			if (imagePath != null)
+			if (
+				image.isLazy() 
+				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
+					|| (image.getHorizontalImageAlign() != HorizontalImageAlignEnum.LEFT || image.getVerticalImageAlign() != VerticalImageAlignEnum.TOP))
+				)
 			{
-				writer.write(imagePath);
+				writer.write("<div style=\"width: 100%; height: 100%; background-image: url('");
+				if (imagePath != null)
+				{
+					writer.write(imagePath);
+				}
+				writer.write(
+					"'); background-repeat: no-repeat; background-position: " 
+					+ horizontalAlignment + " " 
+					+ (image.getVerticalImageAlign() == VerticalImageAlignEnum.MIDDLE ? "center" : verticalAlignment) 
+					+ ";background-size: "
+					);
+			
+				switch (scaleImage)
+				{
+					case FILL_FRAME :
+					{
+						writer.write("100% 100%");
+						break;
+					}
+					case CLIP :
+					{
+						writer.write("auto");
+						break;
+					}
+					case RETAIN_SHAPE :
+					default :
+					{
+						writer.write("contain");
+					}
+				}
+				writer.write(";\"></div>");
 			}
-			writer.write("\"");
-		
-			switch (scaleImage)
+			else
 			{
-				case FILL_FRAME :
+				writer.write("<img");
+				writer.write(" src=\"");
+				if (imagePath != null)
 				{
-					writer.write(" style=\"width: ");
-					writer.write(toSizeUnit(imageWidth));
-					writer.write("; height: ");
-					writer.write(toSizeUnit(imageHeight));
-					writer.write("\"");
-		
-					break;
+					writer.write(imagePath);
 				}
-				case CLIP :
+				writer.write("\"");
+			
+				switch (scaleImage)
 				{
-					int positionLeft;
-					int positionTop;
-					
-					HorizontalImageAlignEnum horizontalAlign = image.getHorizontalImageAlign();
-					VerticalImageAlignEnum verticalAlign = image.getVerticalImageAlign();
-					if (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
+					case FILL_FRAME :
 					{
-						// no need to compute anything
-						positionLeft = 0;
-						positionTop = 0;
+						writer.write(" style=\"width: ");
+						writer.write(toSizeUnit(imageWidth));
+						writer.write("; height: ");
+						writer.write(toSizeUnit(imageHeight));
+						writer.write("\"");
+			
+						break;
 					}
-					else
+					case CLIP :
 					{
-						double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
-						// these calculations assume that the image td does not stretch due to other cells.
-						// when that happens, the image will not be properly aligned.
-						float xAlignFactor = horizontalAlign == HorizontalImageAlignEnum.RIGHT ? 1f
-								: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
-						float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
-								: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
-						positionLeft = (int) (xAlignFactor * (imageWidth - normalSize[0]));
-						positionTop = (int) (yAlignFactor * (imageHeight - normalSize[1]));
-					}
-					
-					writer.write(" style=\"position: absolute; left:");
-					writer.write(toSizeUnit(positionLeft));
-					writer.write("; top: ");
-					writer.write(toSizeUnit(positionTop));
-					// not setting width, height and clip as it doesn't seem needed plus it fixes clip for lazy images
-					writer.write(";\"");
-
-					break;
-				}
-				case RETAIN_SHAPE :
-				default :
-				{
-		
-					if (imageHeight > 0)
-					{
-						double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
-						double ratio = normalSize[0] / normalSize[1];
-		
-						if( ratio > (double)imageWidth / (double)imageHeight )
+						int positionLeft;
+						int positionTop;
+						
+						HorizontalImageAlignEnum horizontalAlign = image.getHorizontalImageAlign();
+						VerticalImageAlignEnum verticalAlign = image.getVerticalImageAlign();
+						if (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
 						{
-							writer.write(" style=\"width: ");
-							writer.write(toSizeUnit(imageWidth));
-							writer.write("\"");
+							// no need to compute anything
+							positionLeft = 0;
+							positionTop = 0;
 						}
 						else
 						{
-							writer.write(" style=\"height: ");
-							writer.write(toSizeUnit(imageHeight));
-							writer.write("\"");
+							double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
+							// these calculations assume that the image td does not stretch due to other cells.
+							// when that happens, the image will not be properly aligned.
+							float xAlignFactor = horizontalAlign == HorizontalImageAlignEnum.RIGHT ? 1f
+									: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
+							float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
+									: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
+							positionLeft = (int) (xAlignFactor * (imageWidth - normalSize[0]));
+							positionTop = (int) (yAlignFactor * (imageHeight - normalSize[1]));
+						}
+						
+						writer.write(" style=\"position: absolute; left:");
+						writer.write(toSizeUnit(positionLeft));
+						writer.write("; top: ");
+						writer.write(toSizeUnit(positionTop));
+						// not setting width, height and clip as it doesn't seem needed plus it fixes clip for lazy images
+						writer.write(";\"");
+
+						break;
+					}
+					case RETAIN_SHAPE :
+					default :
+					{
+			
+						if (imageHeight > 0)
+						{
+							double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
+							double ratio = normalSize[0] / normalSize[1];
+			
+							if( ratio > (double)imageWidth / (double)imageHeight )
+							{
+								writer.write(" style=\"width: ");
+								writer.write(toSizeUnit(imageWidth));
+								writer.write("\"");
+							}
+							else
+							{
+								writer.write(" style=\"height: ");
+								writer.write(toSizeUnit(imageHeight));
+								writer.write("\"");
+							}
 						}
 					}
 				}
+				
+				if (imageMapName != null)
+				{
+					writer.write(" usemap=\"#" + imageMapName + "\"");
+				}
+				
+				writer.write(" alt=\"\"");
+				
+				if (hasHyperlinks)
+				{
+					writer.write(" border=\"0\"");
+				}
+				
+				if (image.getHyperlinkTooltip() != null)
+				{
+					writer.write(" title=\"");
+					writer.write(JRStringUtil.xmlEncode(image.getHyperlinkTooltip()));
+					writer.write("\"");
+				}
+				
+				writer.write("/>");
 			}
-			
-			if (imageMapName != null)
-			{
-				writer.write(" usemap=\"#" + imageMapName + "\"");
-			}
-			
-			writer.write(" alt=\"\"");
-			
-			if (hasHyperlinks)
-			{
-				writer.write(" border=\"0\"");
-			}
-			
-			if (image.getHyperlinkTooltip() != null)
-			{
-				writer.write(" title=\"");
-				writer.write(JRStringUtil.xmlEncode(image.getHyperlinkTooltip()));
-				writer.write("\"");
-			}
-			
-			writer.write("/>");
 
 			if (hyperlinkStarted)
 			{
@@ -1167,7 +1231,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		endCell();
 	}
 
-	protected void setImageHorizontalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
+	protected String getImageHorizontalAlignmentStyle(JRPrintImage image)
 	{
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 		switch (image.getHorizontalImageAlign())
@@ -1188,16 +1252,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 			}
 		}
-
-		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
-		{
-			styleBuffer.append("text-align: ");
-			styleBuffer.append(horizontalAlignment);
-			styleBuffer.append(";");
-		}
+		return horizontalAlignment;
 	}
 
-	protected void setImageVerticalAlignmentStyle(JRPrintImage image, StringBuilder styleBuffer)
+	protected String getImageVerticalAlignmentStyle(JRPrintImage image)
 	{
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 		switch (image.getVerticalImageAlign())
@@ -1218,13 +1276,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 			}
 		}
-
-		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
-		{
-			styleBuffer.append(" vertical-align: ");
-			styleBuffer.append(verticalAlignment);
-			styleBuffer.append(";");
-		}
+		return verticalAlignment;
 	}
 
 	protected double[] getImageNormalSize(JRPrintImage image, Renderable renderer, int imageWidth, int imageHeight) throws JRException

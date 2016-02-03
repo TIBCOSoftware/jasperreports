@@ -3,7 +3,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports" 
-	xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components">
+	xmlns:c="http://jasperreports.sourceforge.net/jasperreports/parts">
 
 <xsl:output method = "html" />
 <xsl:param name="sf.net"/>
@@ -19,7 +19,7 @@
 <xsl:template match="/">
 <html>
 <head>
-<title>JasperReports <xsl:value-of select="$version"/> - Components Schema Reference</title>
+<title>JasperReports <xsl:value-of select="$version"/> - Report Parts Schema Reference</title>
 <style type="text/css">
 .title {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -117,7 +117,7 @@ ga('send', 'pageview');
   </tr>
   <tr valign="middle">
     <td nowrap="true">
-<span class="title">JasperReports - Components Schema Reference (version <xsl:value-of select="$version"/>)</span>
+<span class="title">JasperReports - Report Parts Schema Reference (version <xsl:value-of select="$version"/>)</span>
     </td>
     <td align="right">
 <img src="resources/jasperreports.png" border="0"/>
@@ -132,7 +132,7 @@ ga('send', 'pageview');
 
 <br/>
 
-<span class="description">This document describes the JRXML structure of the built-in components for the JasperReports Library.</span>
+<span class="description">This document describes the JRXML structure of the built-in report parts for the JasperReports Library.</span>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
@@ -153,100 +153,28 @@ ga('send', 'pageview');
   <tr>
     <td></td>
     <td>
-      <span class="toc"><a href="parts.schema.reference.html">Report Parts Schema Reference</a></span>
+      <span class="toc"><a href="components.schema.reference.html">Components Schema Reference</a></span>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <span class="label"><br/>Components Schema Reference</span>
+      <span class="label"><br/>Report Parts Schema Reference</span>
     </td>
   </tr>
 </table>
 
-<table width="100%" cellspacing="0" cellpadding="5" border="0">
-  <tr valign="top">
-    <td>
-  <xsl:for-each select="//xsd:element[@name]">
-  <xsl:sort select="@name"/>
-    <xsl:element name="a"><xsl:attribute name="href">#<xsl:choose>
-	  <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
-	  <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
-	  <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
-    </xsl:choose>
-    </xsl:attribute><span class="toc"><xsl:value-of select="@name"/></span>
-    </xsl:element>
-    <span class="toc">
-	<xsl:choose>
-	  <xsl:when test="../../../../@name"> (in <xsl:value-of select="../../../../@name"/>)</xsl:when>
-	  <xsl:when test="../../../@name"> (in <xsl:value-of select="../../../@name"/>)</xsl:when>
-    </xsl:choose>
-    </span>
-    <br/>
-    <xsl:if test="position() mod 29 = 0">
-	  <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
-	</xsl:if>
-  </xsl:for-each>
-    </td>
-  </tr>
-</table>
-
+<!-- a list of element links is not necessary in case of a single-element schema -->
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td style="width: 20px;"><br/></td>
-    <td><br/></td>
+    <td style="width: 20px;"></td>
+    <td style="width: 20px;"></td>
+    <td style="width: 20px;"></td>
+    <td style="width: 20px;"></td>
+    <td></td>
   </tr>
-  <xsl:for-each select="//xsd:element[@name]">
-  <xsl:sort select="@name"/>
-  <tr>
-    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name">
-	<xsl:choose>
-	  <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
-	  <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
-	  <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
-    </xsl:choose>
-    </xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
-  </tr>
-  <tr>
-    <td colspan="5"><hr size="1"/></td>
-  </tr>
-  <tr>
-    <td colspan="5"><span class="name"><xsl:value-of select="@name"/></span></td>
-  </tr>
-   <xsl:apply-templates select="xsd:complexType"/>
-  </xsl:for-each>
+  <xsl:apply-templates select="//xsd:element[@name]"/>
   
-  <xsl:for-each select="//xsd:complexType[@name]">
-  <xsl:sort select="@name"/>
-  <tr>
-    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name">
-	<xsl:choose>
-	  <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
-	  <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
-	  <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
-    </xsl:choose>
-    </xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
-  </tr>
-  <tr>
-    <td colspan="5"><hr size="1"/></td>
-  </tr>
-  <tr>
-    <td colspan="5"><span class="name"><xsl:value-of select="@name"/></span>
-    </td>
-  </tr>
-    <xsl:apply-templates select="xsd:complexContent"/>
-  <xsl:apply-templates select="xsd:sequence"/>
-  <xsl:if test="xsd:attribute">
-    <tr>
-      <td></td>
-	  <td colspan="4"><span class="label"><br/>Attributes</span></td>
-    </tr>
-  <xsl:apply-templates select="xsd:attribute"/>
-  </xsl:if>
-  </xsl:for-each>
   <tr>
     <td colspan="5"><br/><br/></td>
   </tr>
@@ -264,6 +192,22 @@ ga('send', 'pageview');
 </html>
 </xsl:template>
 
+
+<xsl:template match="//xsd:element[@name]">
+  <tr>
+    <td colspan="5" align="right"><br/>
+      <xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element>
+      <a href="#top" class="toc">top</a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5"><hr size="1"/></td>
+  </tr>
+  <tr>
+    <td colspan="5"><span class="name"><xsl:value-of select="@name"/></span></td>
+  </tr>
+   <xsl:apply-templates select="xsd:complexType"/>
+</xsl:template>
 
 <xsl:template match="xsd:complexType">
   <xsl:apply-templates select="xsd:complexContent"/>

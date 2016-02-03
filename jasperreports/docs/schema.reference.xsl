@@ -147,13 +147,13 @@ ga('send', 'pageview');
   </tr>
   <tr>
     <td colspan="2">
-      <span class="label"><br/>Schemas</span>
+      <span class="label"><br/>Other JasperReports Library Schemas</span>
     </td>
   </tr>
   <tr>
     <td></td>
     <td>
-      <span class="toc">Report Schema Reference</span>
+      <span class="toc"><a href="parts.schema.reference.html">Report Parts Schema Reference</a></span>
     </td>
   </tr>
   <tr>
@@ -188,7 +188,7 @@ ga('send', 'pageview');
     </xsl:choose>
     </span>
     <br/>
-    <xsl:if test="position() mod 45 = 0">
+    <xsl:if test="position() mod 60 = 0">
 	  <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
 	</xsl:if>
   </xsl:for-each>
