@@ -2619,7 +2619,7 @@ It must be one of the column names in the <a href="#net.sf.jasperreports.export.
 Properties having this prefix contain comma-separated names of the columns that will be exported to CSV.
 <br/>
 Column names in this property are used as default list for the 
-<api href="net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#getColumnNames()">getColumnNames()</api> 
+<api href="net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#getColumnNames()">getColumnNames()</api> 
 CSV metadata export output setting.
 <br/><br/>
 <b>Note: </b>For accurate results it's recommended that column names in the list to follow the same order as the original columns.
@@ -2751,7 +2751,7 @@ Its value is used as default for the
 Property that specifies whether the export header (the column names) should be written or not.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#isWriteHeader()">isWriteHeader()</api> CSV metadata export configuration setting.
+<api href="net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#isWriteHeader()">isWriteHeader()</api> CSV metadata export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/CsvMetadataExporterConfiguration.html#PROPERTY_WRITE_HEADER</api>
     <default>false</default>
@@ -2802,7 +2802,7 @@ If the property is <code>true</code>, any page in the document will be exported 
 This property specifies whether <api href="net/sf/jasperreports/engine/JRPrintFrame.html">JRPrintFrame</api> frames are to be exported as nested tables.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#isFramesAsNestedTables()">isFramesAsNestedTables()</api> DOCX export configuration setting.
+<api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isFramesAsNestedTables()">isFramesAsNestedTables()</api> DOCX export configuration setting.
 <br/>
 If set to <code>false</code>, the frame content will be integrated into the master/page table.
     </description>
@@ -2820,7 +2820,7 @@ If set to <code>false</code>, the frame content will be integrated into the mast
 This property indicates whether table rows can grow if more text is added into cells.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#isFlexibleRowHeight()">isFlexibleRowHeight()</api> DOCX export configuration setting.
+<api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isFlexibleRowHeight()">isFlexibleRowHeight()</api> DOCX export configuration setting.
 <br/>
 If set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
     </description>
@@ -2852,7 +2852,7 @@ This property specifies whether the newline element present in a justified parag
 If set to <code>true</code>, the text line before the new paragraph will lose the justified alignment.
 <br/>
 It serves as default value for the 
-<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#isNewLineAsParagraph()">isNewLineAsParagraph()</api> DOCX export configuration setting.
+<api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isNewLineAsParagraph()">isNewLineAsParagraph()</api> DOCX export configuration setting.
 The property itself defaults to <code>false</code> (for backward compatibility reasons).
     </description>
     <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_NEW_LINE_AS_PARAGRAPH</api>
@@ -2882,7 +2882,7 @@ Property that determines the value of the allowScriptAccess parameter for Flash 
 Configuration property that determines the exporter to produce accessible HTML.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#isAccessibleHtml()">isAccessibleHtml()</api> HTML export configuration setting.
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isAccessibleHtml()">isAccessibleHtml()</api> HTML export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_ACCESSIBLE</api>
     <default>false</default>
@@ -3029,7 +3029,7 @@ the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, w
 Flag property that specifies whether the blank lines that sometimes appear between rows as spacers should be removed.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> HTML export configuration setting.
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> HTML export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
     <default>false</default>
@@ -3046,7 +3046,7 @@ Property that specifies the unit to use when measuring lengths or font size. Thi
 specifications like "px" for pixels or "pt" for points. The default value is "px", meaning that lengths and font sizes are specified in pixels.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getSizeUnit()">getSizeUnit()</api> HTML export configuration setting.
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#getSizeUnit()">getSizeUnit()</api> HTML export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_SIZE_UNIT</api>
     <default>px</default>
@@ -3075,7 +3075,7 @@ Property that specifies whether the export engine should use small transparent s
 Property that indicates whether the report background should be turned to white. If not set, the default background will appear, depending on the selected CSS styles.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> HTML export configuration setting.
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> HTML export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
     <default>true</default>
@@ -3091,7 +3091,7 @@ Its value is used as default for the
 Property that specifies whether the export engine should force text wrapping by breaking words (CSS <code>word-wrap: break-word</code>). 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#isWrapBreakWord()">isWrapBreakWord()</api> HTML export configuration setting.
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isWrapBreakWord()">isWrapBreakWord()</api> HTML export configuration setting.
 <br/>
 Note that this CSS property is not currently supported by all browsers. An alternative approach for forcing word breaks in HTML is to save the 
 line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.breaks">net.sf.jasperreports.text.save.line.breaks</a> property.
@@ -3259,7 +3259,7 @@ If the pattern is invalid, it won't be taken into account by the Excel file view
 This property indicates whether table rows in ODS documents can grow if more text is added into cells. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/OdsExporterConfiguration.html#isFlexibleRowHeight()">isFlexibleRowHeight()</api> ODS export configuration setting.
+<api href="net/sf/jasperreports/export/OdsReportConfiguration.html#isFlexibleRowHeight()">isFlexibleRowHeight()</api> ODS export configuration setting.
 <br/>
 If set to <code>false</code>, the rows in the ODS document do not increase in height automatically and the user has to enlarge them manually. Otherwise, 
 the table rows will adjust their height automatically in order to fit their content in.
@@ -3278,7 +3278,7 @@ the table rows will adjust their height automatically in order to fit their cont
 This property table rows in ODT documents can grow if more text is added into cells. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/OdtExporterConfiguration.html#isFlexibleRowHeight()">isFlexibleRowHeight()</api> ODT export configuration setting.
+<api href="net/sf/jasperreports/export/OdtReportConfiguration.html#isFlexibleRowHeight()">isFlexibleRowHeight()</api> ODT export configuration setting.
 <br/>
 If set to <code>false</code>, the table rows in the ODT document do not increase in height automatically and the user has to enlarge them manually. 
 Otherwise, the table rows will adjust their height automatically in order to fit their content in.
@@ -3297,7 +3297,7 @@ Otherwise, the table rows will adjust their height automatically in order to fit
 Property that establishes the priority of export parameters against report hints.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/ExporterConfiguration.html#isOverrideHints()">isOverrideHints()</api> export configuration setting.
+<api href="net/sf/jasperreports/export/CommonExportConfiguration.html#isOverrideHints()">isOverrideHints()</api> export configuration setting.
 <br/>
 If the property is <code>true</code>, export parameters override report hints; this is the default behavior.
     </description>
@@ -3407,7 +3407,7 @@ Property that specifies whether the PDF exporter should use a <a href="http://it
 implementation to ensure that PDF text wrap behavior is the same as in AWT.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isForceLineBreakPolicy()">isForceLineBreakPolicy()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#isForceLineBreakPolicy()">isForceLineBreakPolicy()</api> PDF export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_FORCE_LINEBREAK_POLICY</api>
     <default>false</default>
@@ -3426,7 +3426,7 @@ Its value is used as default for the
 Property that specifies whether the rendering of SVG images using shapes on the PDF Graphics2D context should be forced.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isForceSvgShapes()">isForceSvgShapes()</api> PDF export configuration setting.
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#isForceSvgShapes()">isForceSvgShapes()</api> PDF export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_FORCE_SVG_SHAPES</api>
     <default>true</default>
@@ -3583,7 +3583,7 @@ Property that contains the allowed user permissions of the PDF document, if it i
 </ul>
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getAllowedPermissionsHint()">getAllowedPermissionsHint()</api> PDF export configuration setting. 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getAllowedPermissions()">getAllowedPermissions()</api> PDF export configuration setting. 
 By default no user permissions are allowed at all.
     </description>
     <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PERMISSIONS_ALLOWED</api>
@@ -3743,7 +3743,7 @@ Its value is used as default for the
 Property whose floating point value is representing the pixel/character horizontal ratio.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getCharWidth()">getCharWidth()</api> Text export configuration setting.
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#getCharWidth()">getCharWidth()</api> Text export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_CHARACTER_WIDTH</api>
     <default>N/A</default>
@@ -3775,7 +3775,7 @@ Its value is used as default for the
 Property whose floating point value is representing the pixel/character vertical ratio.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getCharHeight()">getCharHeight()</api> Text export configuration setting.
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#getCharHeight()">getCharHeight()</api> Text export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_CHARACTER_HEIGHT</api>
     <default>N/A</default>
@@ -3791,7 +3791,7 @@ Its value is used as default for the
 Property whose integer value is representing the page width in characters.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageWidthInChars()">getPageWidthInChars()</api> Text export configuration setting.
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#getPageWidthInChars()">getPageWidthInChars()</api> Text export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_WIDTH</api>
     <default>N/A</default>
@@ -3823,7 +3823,7 @@ Its value is used as default for the
 Property whose integer value representing the page height in characters.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageHeightInChars()">getPageHeightInChars()</api> Text export configuration setting.
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#getPageHeightInChars()">getPageHeightInChars()</api> Text export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_HEIGHT</api>
     <default>N/A</default>
@@ -3952,7 +3952,7 @@ Allowed values are:
 Property that specifies whether row spans should be collapsed and merging cells across rows should be inhibited.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isCollapseRowSpan()">isCollapseRowSpan()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isCollapseRowSpan()">isCollapseRowSpan()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_COLLAPSE_ROW_SPAN</api>
     <default>false</default>
@@ -3982,7 +3982,7 @@ Represents the name for the column that should appear in the metadata-based Exce
 Properties having this prefix contain comma-separated column names used in the metadata-based Excel export. 
 <br/>
 Column names in these properties are used as default list of values for the 
-<api href="net/sf/jasperreports/export/XlsMetadataExporterConfiguration.html#isCollapseRowSpan()">getColumnNames()</api> Excel metadata export configuration setting.
+<api href="net/sf/jasperreports/export/XlsMetadataReportConfiguration.html#getColumnNames()">getColumnNames()</api> Excel metadata export configuration setting.
 <br/>
 The order of the columns is important and for accurate results they should be in the same order as the original columns.   
     </description>
@@ -4046,7 +4046,7 @@ present, a <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.h
 Property that specifies if the cell content is hidden or exposed in the formula bar of a protected sheet. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isCellHidden()">isCellHidden()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isCellHidden()">isCellHidden()</api> Excel export configuration setting.
 <br/>
 By default the property is not set (<code>false</code>), and the cell content is not hidden.
 <br/>
@@ -4066,7 +4066,7 @@ This property has effect only if the enclosing sheet is protected.
 Property that specifies if the cell content is locked (read-only) within a protected sheet. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isCellLocked()">isCellLocked()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isCellLocked()">isCellLocked()</api> Excel export configuration setting.
 <br/>
 By default the property is considered (<code>true</code>), but it only has effect if the enclosing sheet is protected.
     </description>
@@ -4128,7 +4128,7 @@ By default this value is represented by the value stored in the report element t
 Property that specifies whether the exporter should take into consideration the type of the original text field expressions and set the cell types and values accordingly.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isDetectCellType()">isDetectCellType()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isDetectCellType()">isDetectCellType()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_DETECT_CELL_TYPE</api>
     <default>false</default>
@@ -4144,7 +4144,7 @@ Its value is used as default for the
 Property used at print time to indicate the number of pages height to fit the sheet in. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getFitHeight()">getFitHeight()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getFitHeight()">getFitHeight()</api> Excel export configuration setting.
 <br/>
 Print pages for a given sheet in Excel are generated according to 'Paper size' settings in the Print menu, 
 with no respect to the initial pagination of the report. In this case differences between a JasperReport print page and a page in Excel may occur. 
@@ -4172,7 +4172,7 @@ See also the <a href="#net.sf.jasperreports.export.xls.fit.width">net.sf.jasperr
 Property used at print time to indicate the number of pages width to fit the sheet in. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getFitWidth()">getFitWidth()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getFitWidth()">getFitWidth()</api> Excel export configuration setting.
 <br/>
 Print pages for a given sheet in Excel are generated according to 'Paper size' settings in the Print menu, 
 with no respect to the initial pagination of the report. In this case differences between a JasperReport print page and a page in Excel may occur. 
@@ -4201,7 +4201,7 @@ See also the <a href="#net.sf.jasperreports.export.xls.fit.height">net.sf.jasper
 Property that specifies the first page number in the page setup dialog.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getFirstPageNumber()">getFirstPageNumber()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getFirstPageNumber()">getFirstPageNumber()</api> Excel export configuration setting.
 <br/>
 When the property is set at Element level, it can be used to set the first page number for the current sheet.
 <br/>
@@ -4221,7 +4221,7 @@ Global settings are overriden by report level settings; report level settings ar
 Flag property that indicates whether the font size should be decreased so that texts fit into the specified cell height.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isFontSizeFixEnabled()">isFontSizeFixEnabled()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isFontSizeFixEnabled()">isFontSizeFixEnabled()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_FONT_SIZE_FIX_ENABLED</api>
     <default>false</default>
@@ -4257,7 +4257,7 @@ Allowed values are:
 Flag property that indicates whether local anchors should be ignored when elements are exported to Excel. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreAnchors()">isIgnoreAnchors()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnoreAnchors()">isIgnoreAnchors()</api> Excel export configuration setting.
 <br/>
 If set to <code>true</code>, local anchors will be excluded from export. 
 Otherwise they will be exported along with elements they belong to.
@@ -4276,7 +4276,7 @@ Otherwise they will be exported along with elements they belong to.
 Property that specifies whether cell background color should be ignored in the generated document.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreCellBackground()">isIgnoreCellBackground()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnoreCellBackground()">isIgnoreCellBackground()</api> Excel export configuration setting.
 <br/>
 If the property is set at element level, its value will be applied only to the sheet containing that element. 
 Other sheets in the document will not be affected.
@@ -4295,7 +4295,7 @@ Other sheets in the document will not be affected.
 Property that specifies whether cell borders should be ignored in the generated document.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreCellBorder()">isIgnoreCellBorder()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnoreCellBorder()">isIgnoreCellBorder()</api> Excel export configuration setting.
 <br/>
 If the property is set at element level, its value will be applied only to the sheet containing that element. 
 Other sheets in the document will not be affected.
@@ -4314,7 +4314,7 @@ Other sheets in the document will not be affected.
 Property that specifies whether graphic elements should be ignored and only text elements will be exported.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnoreGraphics()">isIgnoreGraphics()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnoreGraphics()">isIgnoreGraphics()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_IGNORE_GRAPHICS</api>
     <default>false</default>
@@ -4336,7 +4336,7 @@ Property that specifies the image anchor type. Possible values are:
 Global settings are overriden by report level settings; report level settings are overriden by element level settings.   
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getImageAnchorType()">getImageAnchorType()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getImageAnchorType()">getImageAnchorType()</api> Excel export configuration setting.
 	</description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_IMAGE_ANCHOR_TYPE</api>
     <default><code>MoveNoSize</code></default>
@@ -4352,7 +4352,7 @@ Its value is used as default for the
 Flag property that specifies whether the minimum image padding will be forced to 1 pixel, to avoid situations where the image hides the cell border.    
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isImageBorderFixEnabled()">isImageBorderFixEnabled()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isImageBorderFixEnabled()">isImageBorderFixEnabled()</api> Excel export configuration setting.
 	</description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_IMAGE_BORDER_FIX_ENABLED</api>
     <default>false</default>
@@ -4368,7 +4368,7 @@ Its value is used as default for the
 Property that specifies the maximum number of rows allowed to be exported to the same sheet. Negative values or zero means that no limit has been set.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMaxRowsPerSheet()">getMaxRowsPerSheet()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getMaxRowsPerSheet()">getMaxRowsPerSheet()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_MAXIMUM_ROWS_PER_SHEET</api>
     <default>0</default>
@@ -4384,7 +4384,7 @@ Its value is used as default for the
 Property that specifies whether each report page should be written in a different XLS sheet.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isOnePagePerSheet()">isOnePagePerSheet()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isOnePagePerSheet()">isOnePagePerSheet()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_ONE_PAGE_PER_SHEET</api>
     <default>false</default>
@@ -4400,7 +4400,7 @@ Its value is used as default for the
 Property that specifies whether the empty spacer columns should be removed or not.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isRemoveEmptySpaceBetweenColumns()">isRemoveEmptySpaceBetweenColumns()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isRemoveEmptySpaceBetweenColumns()">isRemoveEmptySpaceBetweenColumns()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS</api>
     <default>false</default>
@@ -4416,7 +4416,7 @@ Its value is used as default for the
 Property that specifies whether the empty spacer rows should be removed or not.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
     <default>false</default>
@@ -4449,7 +4449,7 @@ Its value is used as default for the
 Property that determines whether date values are to be translated to the timezone that was used to fill the report.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isUseTimeZone()">isUseTimeZone()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isUseTimeZone()">isUseTimeZone()</api> Excel export configuration setting.
 <br/>
 By default, date values are exported to Excel using the default timezone of the system.
 Setting this property to <code>true</code> instructs the exporter to use he report fill timezone to export date values.
@@ -4470,7 +4470,7 @@ The property only has effect when <code>net.sf.jasperreports.export.xls.detect.c
 Property that specifies whether the page background should be white or the default XLS background color.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> Excel export configuration setting.
 <br/>
 If the property is set at element level, its value will be applied only to the sheet containing that element. 
 Other sheets in the document will not be affected.
@@ -4667,7 +4667,7 @@ The property is available for:
 Property used to adjust the page content to a given percent of the normal size in the print preview pane. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getPageScale()">getPageScale()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPageScale()">getPageScale()</api> Excel export configuration setting.
 <br/>
 Allowed values are positive integers from 10 to 400, representing percents of the normal size.
 <br/>
@@ -4675,8 +4675,8 @@ When the property is set at Element level, it can be used to set the page scale 
 <br/>
 Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
 <br/>
-The property overrides the <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_FIT_WIDTH">PROPERTY_FIT_WIDTH</api> and 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_FIT_HEIGHT">PROPERTY_FIT_HEIGHT</api> values.
+The property overrides the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FIT_WIDTH">PROPERTY_FIT_WIDTH</api> and 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FIT_HEIGHT">PROPERTY_FIT_HEIGHT</api> values.
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
@@ -4694,7 +4694,7 @@ This property is by default not set (<code>null</code>).
 Property that contains a String value representing the password in case of password protected sheets in documents.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getPassword()">getPassword()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPassword()">getPassword()</api> Excel export configuration setting.
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
@@ -4800,7 +4800,7 @@ This property indicates if the sheet is left-to-right or right-to-left oriented.
   <li><code>RTL</code></li>
 </ul>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetDirection()">getSheetDirection()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetDirection()">getSheetDirection()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_DIRECTION</api>
     <default>LTR</default>
@@ -4816,7 +4816,7 @@ Its value is used as default for the
 Custom property storing the text content of the sheet footer's center.             
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetFooterCenter()">getSheetFooterCenter()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterCenter()">getSheetFooterCenter()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_FOOTER_CENTER</api>
     <default>N/A</default>
@@ -4832,7 +4832,7 @@ Its value is used as default for the
 Custom property storing the text content of the left side of the sheet footer.             
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetFooterLeft()">getSheetFooterLeft()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterLeft()">getSheetFooterLeft()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_FOOTER_LEFT</api>
     <default>N/A</default>
@@ -4848,7 +4848,7 @@ Its value is used as default for the
 Custom property storing the text content of the right side of the sheet footer.             
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetFooterRight()">getSheetFooterRight()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterRight()">getSheetFooterRight()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_FOOTER_RIGHT</api>
     <default>N/A</default>
@@ -4864,7 +4864,7 @@ Its value is used as default for the
 Custom property storing the text content of the sheet header's center.             
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetHeaderCenter()">getSheetHeaderCenter()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderCenter()">getSheetHeaderCenter()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_HEADER_CENTER</api>
     <default>N/A</default>
@@ -4880,7 +4880,7 @@ Its value is used as default for the
 Custom property storing the text content of the left side of the sheet header.             
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetHeaderLeft()">getSheetHeaderLeft()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderLeft()">getSheetHeaderLeft()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_HEADER_LEFT</api>
     <default>N/A</default>
@@ -4896,7 +4896,7 @@ Its value is used as default for the
 Custom property storing the text content of the right side of the sheet header.             
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getSheetHeaderRight()">getSheetHeaderRight()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderRight()">getSheetHeaderRight()</api> Excel export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_SHEET_HEADER_RIGHT</api>
     <default>N/A</default>
@@ -5059,7 +5059,7 @@ last exported element's property.
 Flag property that specifies if the gridlines in a given sheet are shown. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isShowGridLines()">isShowGridLines()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isShowGridLines()">isShowGridLines()</api> Excel export configuration setting.
 <br/>
 If multiple elements in a sheet provide this property, the last read value will be considered.
 Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.    
@@ -5101,7 +5101,7 @@ Settings at global level are overriden by report level settings; report level se
 Custom element property specifying if text wrapping is allowed in a given cell. 
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isWrapText()">isWrapText()</api> Excel export configuration setting.
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isWrapText()">isWrapText()</api> Excel export configuration setting.
 <br/>
 If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowed.
 </description>
@@ -5119,7 +5119,7 @@ If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowe
 Property that specifies whether the export header (the column names) should be written or not, in the metadata-based Excel export.    
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsMetadataExporterConfiguration.html#isWriteHeader()">isWriteHeader()</api> Excel metadata export configuration setting.
+<api href="net/sf/jasperreports/export/XlsMetadataReportConfiguration.html#isWriteHeader()">isWriteHeader()</api> Excel metadata export configuration setting.
     </description>
     <api>net/sf/jasperreports/export/XlsMetadataExporterConfiguration.html#PROPERTY_WRITE_HEADER</api>
     <default>false</default>
