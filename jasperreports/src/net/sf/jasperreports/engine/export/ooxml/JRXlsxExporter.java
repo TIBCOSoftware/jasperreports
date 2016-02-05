@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,10 +31,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
 import java.text.AttributedCharacterIterator;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -62,7 +59,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
@@ -93,7 +89,6 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -166,7 +161,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
-	protected List<JRPrintElementIndex> imagesToProcess;
 //	protected Map hyperlinksMap;
 
 	protected int tableIndex;
@@ -328,7 +322,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	/**
 	 *
 	 */
-	protected String getImagePath(Renderable renderer, boolean isLazy, JRExporterGridCell gridCell)
+	protected String getImagePath(Renderable renderer, boolean isLazy, JRExporterGridCell gridCell) throws JRException
 	{
 		String imagePath = null;
 
@@ -347,7 +341,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 //				else
 //				{
 					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-					imagesToProcess.add(imageIndex);
 
 					String mimeType = renderer.getImageTypeValue().getMimeType();//FIXMEPPTX this code for file extension is duplicated
 					if (mimeType == null)
@@ -355,8 +348,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						mimeType = ImageTypeEnum.JPEG.getMimeType();
 					}
 					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-
 					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+
+					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
+						new FileBufferedZipEntry(
+							"xl/media/" + imageName,
+							renderer.getImageData(jasperReportsContext)
+							)
+						);
+					
+//					drawingRelsHelper.exportImage(imageName);
+
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
 //				}
@@ -741,44 +743,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			wbHelper.exportFooter();
 
 			wbHelper.close();
-
-			if ((imagesToProcess != null && imagesToProcess.size() > 0))
-			{
-				for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
-				{
-					JRPrintElementIndex imageIndex = it.next();
-
-					JRPrintImage image = getImage(exporterInput, imageIndex);
-					Renderable renderer = image.getRenderable();
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
-								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-								);
-					}
-
-					String mimeType = renderer.getImageTypeValue().getMimeType();
-					if (mimeType == null)
-					{
-						mimeType = ImageTypeEnum.JPEG.getMimeType();
-					}
-					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-					
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
-					
-					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
-						new FileBufferedZipEntry(
-							"xl/media/" + imageName,
-							renderer.getImageData(jasperReportsContext)
-							)
-						);
-					
-//					drawingRelsHelper.exportImage(imageName);
-				}
-			}
 
 //			if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
 //			{
@@ -1551,7 +1515,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		rendererToImagePathMap = new HashMap<String,String>();
 //		imageMaps = new HashMap();
-		imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //		hyperlinksMap = new HashMap();
 		definedNames = new StringBuffer();
 		try

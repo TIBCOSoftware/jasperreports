@@ -77,68 +77,68 @@
 				</image>
 			</band>
 			<band height="50">
-				<rectangle>
-					<reportElement x="0" y="0" width="150" height="40" backcolor="#FFDDDD"/>
-					<graphicElement>
+				<frame>
+					<reportElement x="0" y="0" width="150" height="40" mode="Opaque" backcolor="#FFDDDD"/>
+					<box>
 						<pen lineWidth="0.0"/>
-					</graphicElement>
-				</rectangle>
-				<image>
-					<reportElement x="5" y="5" width="70" height="30"/>
-					<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
-				</image>
-				<rectangle>
-					<reportElement x="200" y="0" width="150" height="40" backcolor="#FFDDDD"/>
-					<graphicElement>
+					</box>
+					<image>
+						<reportElement x="5" y="5" width="70" height="30"/>
+						<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
+					</image>
+				</frame>
+				<frame>
+					<reportElement x="200" y="0" width="150" height="40" mode="Opaque" backcolor="#FFDDDD"/>
+					<box>
 						<pen lineWidth="0.0"/>
-					</graphicElement>
-				</rectangle>
-				<image scaleImage="Clip">
-					<reportElement x="205" y="5" width="70" height="30" backcolor="#FFDDDD"/>
-					<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
-				</image>
-				<rectangle>
-					<reportElement x="400" y="0" width="150" height="40" backcolor="#FFDDDD"/>
-					<graphicElement>
+					</box>
+					<image scaleImage="Clip">
+						<reportElement x="5" y="5" width="70" height="30" backcolor="#FFDDDD"/>
+						<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
+					</image>
+				</frame>
+				<frame>
+					<reportElement x="400" y="0" width="150" height="40" mode="Opaque" backcolor="#FFDDDD"/>
+					<box>
 						<pen lineWidth="0.0"/>
-					</graphicElement>
-				</rectangle>
-				<image scaleImage="FillFrame">
-					<reportElement x="405" y="5" width="70" height="30" backcolor="#FFDDDD"/>
-					<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
-				</image>
+					</box>
+					<image scaleImage="FillFrame">
+						<reportElement x="5" y="5" width="70" height="30" backcolor="#FFDDDD"/>
+						<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
+					</image>
+				</frame>
 			</band>
 			<band height="50">
-				<rectangle>
-					<reportElement x="0" y="0" width="150" height="40" backcolor="#FFDDDD"/>
-					<graphicElement>
+				<frame>
+					<reportElement x="0" y="0" width="150" height="40" mode="Opaque" backcolor="#FFDDDD"/>
+					<box>
 						<pen lineWidth="0.0"/>
-					</graphicElement>
-				</rectangle>
-				<image>
-					<reportElement mode="Opaque" x="5" y="5" width="30" height="30" backcolor="#DDFFDD"/>
-					<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
-				</image>
-				<rectangle>
-					<reportElement x="200" y="0" width="150" height="40" backcolor="#FFDDDD"/>
-					<graphicElement>
+					</box>
+					<image>
+						<reportElement mode="Opaque" x="5" y="5" width="30" height="30" backcolor="#DDFFDD"/>
+						<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
+					</image>
+				</frame>
+				<frame>
+					<reportElement x="200" y="0" width="150" height="40" mode="Opaque" backcolor="#FFDDDD"/>
+					<box>
 						<pen lineWidth="0.0"/>
-					</graphicElement>
-				</rectangle>
-				<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
-					<reportElement mode="Opaque" x="205" y="5" width="120" height="30" backcolor="#DDFFDD"/>
-					<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
-				</image>
-				<rectangle>
-					<reportElement x="400" y="0" width="150" height="40" backcolor="#FFDDDD"/>
-					<graphicElement>
+					</box>
+					<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
+						<reportElement mode="Opaque" x="5" y="5" width="120" height="30" backcolor="#DDFFDD"/>
+						<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
+					</image>
+				</frame>
+				<frame>
+					<reportElement x="400" y="0" width="150" height="40" mode="Opaque" backcolor="#FFDDDD"/>
+					<box>
 						<pen lineWidth="0.0"/>
-					</graphicElement>
-				</rectangle>
-				<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
-					<reportElement mode="Opaque" x="405" y="5" width="120" height="30" backcolor="#DDFFDD"/>
-					<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
-				</image>
+					</box>
+					<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+						<reportElement mode="Opaque" x="5" y="5" width="120" height="30" backcolor="#DDFFDD"/>
+						<imageExpression><![CDATA["transparent.gif"]]></imageExpression>
+					</image>
+				</frame>
 			</band>
 			<band height="50">
 				<image scaleImage="Clip">
