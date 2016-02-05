@@ -717,21 +717,51 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 										|| (!this.isAlreadyPrinted() && !this.isPrintRepeatedValues())));
 					boolean imageOverflowAllowed = 
 							filler.isBandOverFlowAllowed() && !reprinted && !hasOverflowed;
-					boolean fits = fitImage(availableHeight - getRelativeY() - padding, imageOverflowAllowed, 
-							getHorizontalImageAlign());
-					if (fits)
+
+					if (renderer == null)
 					{
-						if (imageHeight != null)
-						{
-							setPrepareHeight(imageHeight.intValue() + padding);
-						}
+						// if renderer is null, it means the isRemoveLineWhenBlank was false further up; 
+						// no need to do anything here 
 					}
 					else
 					{
-						hasOverflowed = true;
-						isToPrint = false;
-						willOverflow = true;
-						setPrepareHeight(availableHeight - getRelativeY() - padding);
+						renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRendererForDimension(renderer, getOnErrorTypeValue());
+						
+						if (renderer == null) // OnErrorTypeEnum.BLANK can return null above
+						{
+							isToPrint = !isRemoveLineWhenBlank();
+						}
+						else
+						{
+							boolean fits = true; 
+
+							Dimension2D imageSize = renderer.getDimension(filler.getJasperReportsContext());
+							if (imageSize != null)
+							{
+								fits = 
+									fitImage(
+										imageSize, 
+										availableHeight - getRelativeY() - padding, 
+										imageOverflowAllowed, 
+										getHorizontalImageAlign()
+										);
+							}
+
+							if (fits)
+							{
+								if (imageHeight != null)
+								{
+									setPrepareHeight(imageHeight.intValue() + padding);
+								}
+							}
+							else
+							{
+								hasOverflowed = true;
+								isToPrint = false;
+								willOverflow = true;
+								setPrepareHeight(availableHeight - getRelativeY() - padding);
+							}
+						}
 					}
 				}
 			}
@@ -788,27 +818,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		super.reset();
 	}
 
-	protected boolean fitImage(int availableHeight, boolean overflowAllowed,
-			HorizontalImageAlignEnum hAlign) throws JRException
+	protected boolean fitImage(
+		Dimension2D imageSize, 
+		int availableHeight, 
+		boolean overflowAllowed,
+		HorizontalImageAlignEnum hAlign
+		) throws JRException
 	{
 		imageHeight = null;
 		imageWidth = null;
 		imageX = null;
-		
-		Dimension2D imageSize = null;
-		try
-		{
-			imageSize = renderer == null ? null : renderer.getDimension(filler.getJasperReportsContext());
-		}
-		catch (Exception e)
-		{
-			//ignore exception here; will be raised again when rendering the image
-		}
-		
-		if (imageSize == null)
-		{
-			return true;
-		}
 		
 		int realHeight = (int) imageSize.getHeight();
 		int realWidth = (int) imageSize.getWidth();
@@ -966,10 +985,28 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)//to avoid get dimension and thus unnecessarily load the image
 		{
-			int padding = printImage.getLineBox().getBottomPadding().intValue() 
-			+ printImage.getLineBox().getTopPadding().intValue();
-			fitImage(getHeight() - padding, false, 
-					printImage.getHorizontalImageAlign());
+			if (renderer != null)
+			{
+				renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRendererForDimension(renderer, getOnErrorTypeValue());
+				
+				if (renderer != null) // OnErrorTypeEnum.BLANK can return null above
+				{
+					Dimension2D imageSize = renderer.getDimension(filler.getJasperReportsContext());
+					if (imageSize != null)
+					{
+						int padding = 
+							printImage.getLineBox().getBottomPadding().intValue() 
+							+ printImage.getLineBox().getTopPadding().intValue();
+							
+						fitImage(
+							imageSize,
+							getHeight() - padding, 
+							false, 
+							printImage.getHorizontalImageAlign()
+							);
+					}
+				}
+			}
 		}
 		
 		copy(printImage);
