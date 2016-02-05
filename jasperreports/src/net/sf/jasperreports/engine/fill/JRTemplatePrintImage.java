@@ -63,12 +63,14 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	private static final int SERIALIZATION_FLAG_CACHED_RENDERER = 1;
 	private static final int SERIALIZATION_FLAG_ANCHOR = 1 << 1;
 	private static final int SERIALIZATION_FLAG_HYPERLINK = 1 << 2;
+	private static final int SERIALIZATION_FLAG_HYPERLINK_OMITTED = 1 << 3;
 
 	/**
 	 *
 	 */
 	private Renderable renderable;
 	private String anchorName;
+	private boolean hyperlinkOmitted;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
@@ -341,13 +343,18 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	{
 		this.anchorName = anchorName;
 	}
+	
+	public void setHyperlinkOmitted(boolean hyperlinkOmitted)
+	{
+		this.hyperlinkOmitted = hyperlinkOmitted;
+	}
 		
 	/**
 	 *
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
-		return ((JRTemplateImage)this.template).getHyperlinkTypeValue();
+		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateImage)this.template).getHyperlinkTypeValue();
 	}
 		
 	/**
@@ -449,7 +456,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	
 	public String getLinkType()
 	{
-		return ((JRTemplateImage) this.template).getLinkType();
+		return hyperlinkOmitted ? null : ((JRTemplateImage) this.template).getLinkType();
 	}
 
 	public void setLinkType(String type)
@@ -535,6 +542,10 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		{
 			flags |= SERIALIZATION_FLAG_HYPERLINK;
 		}
+		if (hyperlinkOmitted)
+		{
+			flags |= SERIALIZATION_FLAG_HYPERLINK_OMITTED;
+		}
 		
 		out.writeByte(flags);
 		
@@ -593,6 +604,11 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		else
 		{
 			bookmarkLevel = JRAnchor.NO_BOOKMARK;
+		}
+		
+		if ((flags & SERIALIZATION_FLAG_HYPERLINK_OMITTED) != 0)
+		{
+			hyperlinkOmitted = true;
 		}
 
 		if ((flags & SERIALIZATION_FLAG_HYPERLINK) != 0)

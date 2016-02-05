@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -964,6 +963,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
+			if (text instanceof JRTemplatePrintText)//this is normally the case
+			{
+				((JRTemplatePrintText) text).setHyperlinkOmitted(true);
+			}
+			
 			text.setHyperlinkReference(null);
 		}
 		transferProperties(text);

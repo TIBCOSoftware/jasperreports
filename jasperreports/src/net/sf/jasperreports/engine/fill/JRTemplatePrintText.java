@@ -74,6 +74,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private static final int SERIALIZATION_FLAG_LINE_BREAK_OFFSETS = 1 << 4;
 	private static final int SERIALIZATION_FLAG_ZERO_LINE_BREAK_OFFSETS = 1 << 5;
 	private static final int SERIALIZATION_FLAG_HAS_VALUE = 1 << 6;
+	private static final int SERIALIZATION_FLAG_HYPERLINK_OMITTED = 1 << 7;
 
 	/**
 	 *
@@ -94,6 +95,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private TextFormat textFormat;
 	
 	private String anchorName;
+	private boolean hyperlinkOmitted;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
 	private Integer hyperlinkPage;
@@ -532,13 +534,18 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	{
 		this.anchorName = anchorName;
 	}
+	
+	public void setHyperlinkOmitted(boolean hyperlinkOmitted)
+	{
+		this.hyperlinkOmitted = hyperlinkOmitted;
+	}
 		
 	/**
 	 *
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
-		return ((JRTemplateText)this.template).getHyperlinkTypeValue();
+		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateText)this.template).getHyperlinkTypeValue();
 	}
 		
 	/**
@@ -971,7 +978,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 
 	public String getLinkType()
 	{
-		return ((JRTemplateText) template).getLinkType();
+		return hyperlinkOmitted ? null : ((JRTemplateText) template).getLinkType();
 	}
 
 	public void setLinkType(String type)
@@ -1027,6 +1034,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		boolean hasTrunc = textTruncateIndex != null || textTruncateSuffix != null;
 		boolean hasLineBreakOffsets = lineBreakOffsets != null;
 		boolean zeroLineBreakOffsets = lineBreakOffsets != null && lineBreakOffsets.length == 0;
+		//FIXME add a flag for null value
 		boolean hasValue = !(text == null ? value == null : (value instanceof String && text.equals(value)));
 		
 		if (hasAnchor)
@@ -1057,8 +1065,12 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		{
 			flags |= SERIALIZATION_FLAG_RTL;
 		}
+		if (hyperlinkOmitted)
+		{
+			flags |= SERIALIZATION_FLAG_HYPERLINK_OMITTED;
+		}
 		
-		out.writeByte(flags);
+		out.writeIntCompressed(flags);
 		
 		out.writeJRObject(text);
 		if (hasValue)
@@ -1107,7 +1119,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	{
 		super.readVirtualized(in);
 		
-		int flags = in.readUnsignedByte();
+		int flags = in.readIntCompressed();
 		text = (String) in.readJRObject();
 		
 		if ((flags & SERIALIZATION_FLAG_HAS_VALUE) != 0)
@@ -1154,6 +1166,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		else
 		{
 			bookmarkLevel = JRAnchor.NO_BOOKMARK;
+		}
+		
+		if ((flags & SERIALIZATION_FLAG_HYPERLINK_OMITTED) != 0)
+		{
+			hyperlinkOmitted = true;
 		}
 
 		if ((flags & SERIALIZATION_FLAG_HYPERLINK) != 0)
