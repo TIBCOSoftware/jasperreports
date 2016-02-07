@@ -1680,15 +1680,16 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		
 		Renderable renderer = image.getRenderable();
 		Renderable originalRenderer = renderer;
-		boolean imageMapRenderer = renderer != null 
-				&& renderer instanceof ImageMapRenderable
+
+		if (renderer != null)
+		{
+			boolean hasAreaHyperlinks = 
+				renderer instanceof ImageMapRenderable
 				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
 
-		boolean hasHyperlinks = false;
+			boolean hasHyperlinks = false;
 
-		if(renderer != null)
-		{
-			if (imageMapRenderer)
+			if (hasAreaHyperlinks)
 			{
 				hasHyperlinks = true;
 				hyperlinkStarted = false;
@@ -1700,100 +1701,98 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			
 			writer.write("<img");
 			String imagePath = null;
-			String imageMapName = null;
-			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
 			
 			boolean isEmbedImage = isEmbedImage(image);
 			
-			if (renderer != null)
+			if (
+				renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
+				&& rendererToImagePathMap.containsKey(renderer.getId())
+				&& (image.isLazy() || !isEmbedImage)
+				)
 			{
-				if (
-					renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
-					&& rendererToImagePathMap.containsKey(renderer.getId())
-					&& (image.isLazy() || !isEmbedImage)
-					)
+				imagePath = rendererToImagePathMap.get(renderer.getId());
+			}
+			else
+			{
+				if (image.isLazy())
 				{
-					imagePath = rendererToImagePathMap.get(renderer.getId());
+					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+
+					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
 				else
 				{
-					if (image.isLazy())
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 					{
-						imagePath = ((JRImageRenderer)renderer).getImageLocation();
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								new Dimension(image.getWidth(), image.getHeight()),
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								);
+					}
 
-						rendererToImagePathMap.put(renderer.getId(), imagePath);
+					byte[] imageData = renderer.getImageData(jasperReportsContext);
+
+					if (isEmbedImage)
+					{
+						ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						
+						Base64Encoder encoder = new Base64Encoder(bais, baos);
+						encoder.process();
+						
+						String encoding = getExporterOutput().getEncoding();
+						
+						imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
+						
+						//don't cache the base64 encoded image as imagePath
 					}
 					else
 					{
-						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+						HtmlResourceHandler imageHandler = 
+							getImageHandler() == null 
+							? getExporterOutput().getImageHandler() 
+							: getImageHandler();
+						if (imageHandler != null)
 						{
-							renderer =
-								new JRWrappingSvgRenderer(
-									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
-									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-									);
-						}
+							JRPrintElementIndex imageIndex = getElementIndex();
+							String imageName = getImageName(imageIndex);
 
-						byte[] imageData = renderer.getImageData(jasperReportsContext);
-
-						if (isEmbedImage)
-						{
-							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
-							ByteArrayOutputStream baos = new ByteArrayOutputStream();
-							
-							Base64Encoder encoder = new Base64Encoder(bais, baos);
-							encoder.process();
-							
-							String encoding = getExporterOutput().getEncoding();
-							
-							imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
-							
-							//don't cache the base64 encoded image as imagePath
-						}
-						else
-						{
-							HtmlResourceHandler imageHandler = 
-								getImageHandler() == null 
-								? getExporterOutput().getImageHandler() 
-								: getImageHandler();
 							if (imageHandler != null)
 							{
-								JRPrintElementIndex imageIndex = getElementIndex();
-								String imageName = getImageName(imageIndex);
+								imageHandler.handleResource(imageName, imageData);
 
-								if (imageHandler != null)
-								{
-									imageHandler.handleResource(imageName, imageData);
+								imagePath = imageHandler.getResourcePath(imageName);
 
-									imagePath = imageHandler.getResourcePath(imageName);
-
-									rendererToImagePathMap.put(renderer.getId(), imagePath);
-								}
-								//does not make sense to cache null imagePath, in the absence of an image handler
+								rendererToImagePathMap.put(renderer.getId(), imagePath);
 							}
+							//does not make sense to cache null imagePath, in the absence of an image handler
 						}
 					}
 				}
+			}
+			
+			String imageMapName = null;
+			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
+
+			if (hasAreaHyperlinks)
+			{
+				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
 				
-				if (imageMapRenderer)
+				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 				{
-					Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
+					imageMapName = imageMaps.get(new Pair<String,Rectangle>(renderer.getId(), renderingArea));
+				}
+
+				if (imageMapName == null)
+				{
+					imageMapName = "map_" + getElementIndex().toString();
+					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 					
 					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 					{
-						imageMapName = imageMaps.get(new Pair<String,Rectangle>(renderer.getId(), renderingArea));
-					}
-	
-					if (imageMapName == null)
-					{
-						imageMapName = "map_" + getElementIndex().toString();
-						imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
-						
-						if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-						{
-							imageMaps.put(new Pair<String,Rectangle>(renderer.getId(), renderingArea), imageMapName);
-						}
+						imageMaps.put(new Pair<String,Rectangle>(renderer.getId(), renderingArea), imageMapName);
 					}
 				}
 			}

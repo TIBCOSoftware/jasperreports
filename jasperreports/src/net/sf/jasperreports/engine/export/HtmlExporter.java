@@ -943,11 +943,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		Renderable renderer = image.getRenderable();
 		Renderable originalRenderer = renderer;
-		boolean imageMapRenderer = renderer != null 
-				&& renderer instanceof ImageMapRenderable
-				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
-
-		boolean hasHyperlinks = false;
 
 		if (renderer != null)
 		{
@@ -963,8 +958,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				startedDiv = true;
 			}
 			
+			boolean hasAreaHyperlinks = 
+				renderer instanceof ImageMapRenderable
+				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
+
+			boolean hasHyperlinks = false;
+
 			boolean hyperlinkStarted;
-			if (imageMapRenderer)
+			if (hasAreaHyperlinks)
 			{
 				hyperlinkStarted = false;
 				hasHyperlinks = true;
@@ -976,8 +977,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 			
 			String imagePath = null;
-			String imageMapName = null;
-			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
 			
 			boolean isEmbedImage = isEmbedImage(image);
 			
@@ -1048,7 +1047,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				}
 			}
 			
-			if (imageMapRenderer)
+			String imageMapName = null;
+			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
+
+			if (hasAreaHyperlinks)
 			{
 				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
 				

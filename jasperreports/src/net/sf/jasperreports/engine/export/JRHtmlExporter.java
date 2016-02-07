@@ -1728,16 +1728,17 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		
 		Renderable renderer = image.getRenderable();
 		Renderable originalRenderer = renderer;
-		boolean imageMapRenderer = renderer != null 
-				&& renderer instanceof ImageMapRenderable
-				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
-
-		boolean hasHyperlinks = false;
 
 		boolean isUsingImagesToAlign = getCurrentConfiguration().isUsingImagesToAlign();
-		if(renderer != null || isUsingImagesToAlign)
+		if (renderer != null || isUsingImagesToAlign)
 		{
-			if (imageMapRenderer)
+			boolean hasAreaHyperlinks =  
+				renderer instanceof ImageMapRenderable
+				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
+
+			boolean hasHyperlinks = false;
+
+			if (hasAreaHyperlinks)
 			{
 				hasHyperlinks = true;
 				hyperlinkStarted = false;
@@ -1828,7 +1829,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					}
 				}
 				
-				if (imageMapRenderer)
+				if (hasAreaHyperlinks)
 				{
 					Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
 					
