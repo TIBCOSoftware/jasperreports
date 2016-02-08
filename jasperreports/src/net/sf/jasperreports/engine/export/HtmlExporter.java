@@ -1074,7 +1074,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			if (
 				image.isLazy() 
 				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
-					|| (image.getHorizontalImageAlign() != HorizontalImageAlignEnum.LEFT || image.getVerticalImageAlign() != VerticalImageAlignEnum.TOP))
+					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP))
 				)
 			{
 				writer.write("<div style=\"width: 100%; height: 100%; background-image: url('");
@@ -1138,7 +1138,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						
 						HorizontalImageAlignEnum horizontalAlign = image.getHorizontalImageAlign();
 						VerticalImageAlignEnum verticalAlign = image.getVerticalImageAlign();
-						if (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
+						if (  
+							image.isLazy()
+							|| (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
+							)
 						{
 							// no need to compute anything
 							positionLeft = 0;
@@ -1146,15 +1149,24 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						}
 						else
 						{
-							double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
+							double normalWidth = imageWidth;
+							double normalHeight = imageHeight;
+
+							Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
+							if (dimension != null)
+							{
+								normalWidth = dimension.getWidth();
+								normalHeight = dimension.getHeight();
+							}
+							
 							// these calculations assume that the image td does not stretch due to other cells.
 							// when that happens, the image will not be properly aligned.
 							float xAlignFactor = horizontalAlign == HorizontalImageAlignEnum.RIGHT ? 1f
 									: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
 							float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
 									: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
-							positionLeft = (int) (xAlignFactor * (imageWidth - normalSize[0]));
-							positionTop = (int) (yAlignFactor * (imageHeight - normalSize[1]));
+							positionLeft = (int) (xAlignFactor * (imageWidth - normalWidth));
+							positionTop = (int) (yAlignFactor * (imageHeight - normalHeight));
 						}
 						
 						writer.write(" style=\"position: absolute; left:");
@@ -1169,13 +1181,22 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					case RETAIN_SHAPE :
 					default :
 					{
-			
+						//considering the IF above, if we get here, then for sure isLazy() is false, so we can ask the renderer for its dimension
 						if (imageHeight > 0)
 						{
-							double[] normalSize = getImageNormalSize(image, originalRenderer, imageWidth, imageHeight);
-							double ratio = normalSize[0] / normalSize[1];
+							double normalWidth = imageWidth;
+							double normalHeight = imageHeight;
+
+							Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
+							if (dimension != null)
+							{
+								normalWidth = dimension.getWidth();
+								normalHeight = dimension.getHeight();
+							}
+							
+							double ratio = normalWidth / normalHeight;
 			
-							if( ratio > (double)imageWidth / (double)imageHeight )
+							if ( ratio > (double)imageWidth / (double)imageHeight )
 							{
 								writer.write(" style=\"width: ");
 								writer.write(toSizeUnit(imageWidth));
@@ -1281,24 +1302,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		return verticalAlignment;
 	}
 
-	protected double[] getImageNormalSize(JRPrintImage image, Renderable renderer, int imageWidth, int imageHeight) throws JRException
-	{
-		double normalWidth = imageWidth;
-		double normalHeight = imageHeight;
-
-		if (!image.isLazy())
-		{
-			Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
-			if (dimension != null)
-			{
-				normalWidth = dimension.getWidth();
-				normalHeight = dimension.getHeight();
-			}
-		}
-		
-		return new double[]{normalWidth, normalHeight};
-	}
-	
 	protected JRPrintElementIndex getElementIndex(TableCell cell)
 	{
 		String elementAddress = cell.getElementAddress();
