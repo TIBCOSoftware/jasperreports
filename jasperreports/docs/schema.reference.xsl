@@ -86,6 +86,10 @@
 	color: #000000;
 }
 
+.indent {
+    margin-left: 20px;
+} 
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -239,7 +243,7 @@ ga('send', 'pageview');
   
   <tr>
     <td colspan="5">
-      <span class="category"><br/><br/>2. Complex Types</span>
+      <span class="category"><br/><br/>2. Named Complex Types</span>
     </td>
   </tr>
   
@@ -262,15 +266,29 @@ ga('send', 'pageview');
     <td colspan="4"><span class="description"> - abstract type</span></td>
   </tr>
   </xsl:if>
-  <xsl:apply-templates select="xsd:complexContent"/>
-  <xsl:apply-templates select="xsd:sequence"/>
-  <xsl:if test="xsd:attribute">
-    <tr>
-      <td></td>
-	  <td colspan="4"><span class="label"><br/>Attributes</span></td>
-    </tr>
-  <xsl:apply-templates select="xsd:attribute"/>
+  <xsl:if test="xsd:annotation/xsd:documentation and xsd:annotation/xsd:documentation != ''">
+  <tr>
+    <td></td>
+    <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
+  </tr>
   </xsl:if>
+  <xsl:choose>
+    <xsl:when test="xsd:complexContent/xsd:extension">
+      <xsl:apply-templates select="xsd:complexContent/xsd:extension"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:if test="xsd:sequence">
+        <xsl:apply-templates select="xsd:sequence"/>
+      </xsl:if>
+      <xsl:if test="xsd:attribute">
+        <tr>
+          <td></td>
+	      <td colspan="4"><span class="label"><br/>Attributes</span></td>
+        </tr>
+        <xsl:apply-templates select="xsd:attribute"/>
+      </xsl:if>
+    </xsl:otherwise>
+  </xsl:choose>
   </xsl:for-each>
 </table>
 
@@ -363,6 +381,35 @@ ga('send', 'pageview');
 
 </body>
 </html>
+</xsl:template>
+
+
+<xsl:template match="xsd:complexContent/xsd:extension">
+  <xsl:if test="@base">
+    <tr>
+      <td></td>
+	  <td colspan="4"><span class="label"><br/>Parent type: </span><xsl:element name="a"><xsl:attribute name="href"><xsl:if test='starts-with(@base,"jr:")'>schema.reference.html</xsl:if>#<xsl:value-of select='substring-after(@base,":")'/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><span class="toc"><xsl:value-of select='substring-after(@base,":")'/></span></xsl:element>.</td>
+    </tr>
+  </xsl:if>
+  <tr>
+    <td></td>
+    <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
+  </tr>
+  <xsl:if test="xsd:sequence">
+    <tr>
+      <td></td>
+	  <td colspan="4"><span class="label"><br/>Contains</span></td>
+    </tr>
+  	<xsl:apply-templates/>
+  </xsl:if>
+  <xsl:if test="xsd:attribute">
+    <tr>
+      <td></td>
+	  <td colspan="4"><span class="label"><br/>Attributes</span></td>
+    </tr>
+    <xsl:apply-templates select="xsd:attribute"/>
+  </xsl:if>
+  
 </xsl:template>
 
 
@@ -564,7 +611,11 @@ ga('send', 'pageview');
       <xsl:otherwise><xsl:attribute name="href">#<xsl:value-of select='substring-after(@ref,":")'/></xsl:attribute><span class="element"><xsl:value-of select='substring-after(@ref,":")'/></span></xsl:otherwise>
      </xsl:choose>
     </xsl:element>
-    <xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose></td>
+    <xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose>
+    <xsl:if test="xsd:annotation/xsd:documentation and xsd:annotation/xsd:documentation != ''">
+      <span class="description"> <div class="indent"><xsl:value-of select="xsd:annotation/xsd:documentation"/></div></span>
+    </xsl:if>
+    </td>
   </tr>
 </xsl:template>
 
@@ -635,6 +686,93 @@ ga('send', 'pageview');
     <td style="width: 10px;"></td>
     <td><xsl:if test="xsd:annotation/xsd:documentation and xsd:annotation/xsd:documentation[.!='']"><span class="description"><xsl:value-of select="xsd:annotation/xsd:documentation"/></span></xsl:if></td>
   </tr>
+</xsl:template>
+
+<xsl:template match="xsd:attribute">
+  <tr>
+    <td colspan="2"></td>
+	<td colspan="3"><br/><span class="attribute"><xsl:element name="a">
+	<xsl:choose>
+	  <xsl:when test="../../../../@name">
+	  	<xsl:attribute name="name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/>
+	  	</xsl:attribute><xsl:attribute name="href">#<xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:attribute>
+	  </xsl:when>
+	  <xsl:when test="../../../@name">
+	  	<xsl:attribute name="name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:attribute>
+	  	<xsl:attribute name="href">#<xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:attribute>
+	  </xsl:when>
+	  <xsl:otherwise>
+	  	<xsl:attribute name="name"><xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute>
+	  	<xsl:attribute name="href">#<xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute>
+	  </xsl:otherwise>
+    </xsl:choose>
+	<xsl:attribute name="class">attribute</xsl:attribute><xsl:value-of select="@name"/></xsl:element></span></td>
+  </tr>
+  <tr>
+    <td colspan="3"></td>
+	<td colspan="2"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
+  </tr>
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Type: </span><span class="description"><xsl:value-of select="@type"/></span></td>
+  </tr>
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Use: </span><span class="description"><xsl:value-of select="@use"/></span></td>
+  </tr>
+  <xsl:if test="xsd:simpleType/xsd:restriction/xsd:enumeration">
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Values </span></td>
+  </tr>
+  <tr>
+    <td colspan="4"></td>
+    <td>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <xsl:apply-templates select="xsd:simpleType/xsd:restriction/xsd:enumeration"/>
+      </table>
+	</td>
+  </tr>
+  </xsl:if>
+  <xsl:if test="@type='jr:basicEvaluationTime'">
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Values </span></td>
+  </tr>
+  <tr>
+    <td colspan="4"></td>
+    <td>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <xsl:apply-templates select="../../../xsd:simpleType[@name='basicEvaluationTime']"/>
+      </table>
+	</td>
+  </tr>
+  </xsl:if>
+  <xsl:if test="@type='jr:complexEvaluationTime'">
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Values </span></td>
+  </tr>
+  <tr>
+    <td colspan="4"></td>
+    <td>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <xsl:apply-templates select="../../../xsd:simpleType[@name='complexEvaluationTime']"/>
+      </table>
+	</td>
+  </tr>
+  </xsl:if>
+  <xsl:if test="@default">
+  <tr>
+    <td colspan="3"></td>
+    <td colspan="2"><span class="label">Default: </span><span class="description"><xsl:value-of select="@default"/></span></td>
+  </tr>
+  </xsl:if>
+  <!--
+  <tr>
+    <td colspan="5"/>
+  </tr>
+  -->
 </xsl:template>
 
 </xsl:stylesheet>
