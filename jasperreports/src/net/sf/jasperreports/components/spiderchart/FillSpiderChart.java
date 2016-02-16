@@ -232,6 +232,11 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		}
 		else
 		{
+			if (printImage instanceof JRTemplatePrintImage)//this is normally the case
+			{
+				((JRTemplatePrintImage) printImage).setHyperlinkOmitted(true);
+			}
+			
 			printImage.setHyperlinkReference(null);
 		}
 //		transferProperties(printImage);

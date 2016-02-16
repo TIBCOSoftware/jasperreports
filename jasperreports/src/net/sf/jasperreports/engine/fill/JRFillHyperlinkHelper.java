@@ -108,22 +108,20 @@ public final class JRFillHyperlinkHelper
 			return null;
 		}
 		
+		Boolean hyperlinkWhen = (Boolean) expressionEvaluator.evaluate(hyperlink.getHyperlinkWhenExpression(), evaluationType);
+		if (hyperlink.getHyperlinkWhenExpression() != null && hyperlinkWhen != Boolean.TRUE)
+		{
+			return null;
+		}
+		
 		JRBasePrintHyperlink printHyperlink = new JRBasePrintHyperlink();
 		printHyperlink.setLinkType(hyperlink.getLinkType());
 		printHyperlink.setLinkTarget(hyperlink.getLinkTarget());
-		Boolean hyperlinkWhen = (Boolean) expressionEvaluator.evaluate(hyperlink.getHyperlinkWhenExpression(), evaluationType);
-		if (hyperlink.getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
-		{
-			printHyperlink.setHyperlinkReference((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkReferenceExpression(), evaluationType));
-			printHyperlink.setHyperlinkAnchor((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkAnchorExpression(), evaluationType));
-			printHyperlink.setHyperlinkPage((Integer) expressionEvaluator.evaluate(hyperlink.getHyperlinkPageExpression(), evaluationType));
-			printHyperlink.setHyperlinkTooltip((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkTooltipExpression(), evaluationType));
-			printHyperlink.setHyperlinkParameters(evaluateHyperlinkParameters(hyperlink, expressionEvaluator, evaluationType));
-		}
-		else
-		{
-			printHyperlink.setHyperlinkReference(null);
-		}
+		printHyperlink.setHyperlinkReference((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkReferenceExpression(), evaluationType));
+		printHyperlink.setHyperlinkAnchor((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkAnchorExpression(), evaluationType));
+		printHyperlink.setHyperlinkPage((Integer) expressionEvaluator.evaluate(hyperlink.getHyperlinkPageExpression(), evaluationType));
+		printHyperlink.setHyperlinkTooltip((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkTooltipExpression(), evaluationType));
+		printHyperlink.setHyperlinkParameters(evaluateHyperlinkParameters(hyperlink, expressionEvaluator, evaluationType));
 		return printHyperlink;
 	}
 	

@@ -62,7 +62,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
-import net.sf.jasperreports.engine.SimplePrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
@@ -1414,7 +1413,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	/**
 	 *
 	 */
-	protected static TextAlignHolder getTextAlignHolder(JRPrintText textElement)
+	public static TextAlignHolder getTextAlignHolder(JRPrintText textElement)
 	{
 		HorizontalTextAlignEnum horizontalAlignment;
 		VerticalTextAlignEnum verticalAlignment;
@@ -1426,14 +1425,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			{
 				switch (textElement.getHorizontalTextAlign())
 				{
-					case LEFT :
+					case JUSTIFIED :
 					{
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-						break;
-					}
-					case CENTER :
-					{
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
+						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
 						break;
 					}
 					case RIGHT :
@@ -1441,11 +1435,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						verticalAlignment = VerticalTextAlignEnum.TOP;
 						break;
 					}
-					case JUSTIFIED :
+					case CENTER :
 					{
-						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
+						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
 						break;
 					}
+					case LEFT :
 					default :
 					{
 						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
@@ -1454,14 +1449,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 				switch (textElement.getVerticalTextAlign())
 				{
-					case TOP :
+					case JUSTIFIED :
 					{
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-						break;
-					}
-					case MIDDLE :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
+						horizontalAlignment = HorizontalTextAlignEnum.JUSTIFIED;
 						break;
 					}
 					case BOTTOM :
@@ -1469,6 +1459,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
 						break;
 					}
+					case MIDDLE :
+					{
+						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
+						break;
+					}
+					case TOP :
 					default :
 					{
 						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
@@ -1481,14 +1477,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			{
 				switch (textElement.getHorizontalTextAlign())
 				{
-					case LEFT :
+					case JUSTIFIED :
 					{
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-						break;
-					}
-					case CENTER :
-					{
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
+						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
 						break;
 					}
 					case RIGHT :
@@ -1496,11 +1487,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
 						break;
 					}
-					case JUSTIFIED :
+					case CENTER :
 					{
-						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
+						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
 						break;
 					}
+					case LEFT :
 					default :
 					{
 						verticalAlignment = VerticalTextAlignEnum.TOP;
@@ -1509,14 +1501,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 				switch (textElement.getVerticalTextAlign())
 				{
-					case TOP :
+					case JUSTIFIED :
 					{
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-						break;
-					}
-					case MIDDLE :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
+						horizontalAlignment = HorizontalTextAlignEnum.JUSTIFIED;
 						break;
 					}
 					case BOTTOM :
@@ -1524,6 +1511,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
 						break;
 					}
+					case MIDDLE :
+					{
+						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
+						break;
+					}
+					case TOP :
 					default :
 					{
 						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;

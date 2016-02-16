@@ -179,6 +179,7 @@ public class ParagraphStyle extends Style
 					case MIDDLE :
 						return VERTICAL_ALIGN_MIDDLE;
 					case TOP :
+					case JUSTIFIED :
 					default :
 						return VERTICAL_ALIGN_TOP;
 				}
@@ -206,6 +207,7 @@ public class ParagraphStyle extends Style
 					case MIDDLE :
 						return HORIZONTAL_ALIGN_CENTER;
 					case TOP :
+					case JUSTIFIED :
 					default :
 						return HORIZONTAL_ALIGN_LEFT;
 				}
@@ -219,6 +221,7 @@ public class ParagraphStyle extends Style
 					case MIDDLE :
 						return HORIZONTAL_ALIGN_CENTER;
 					case TOP :
+					case JUSTIFIED :
 					default :
 						return HORIZONTAL_ALIGN_RIGHT;
 				}

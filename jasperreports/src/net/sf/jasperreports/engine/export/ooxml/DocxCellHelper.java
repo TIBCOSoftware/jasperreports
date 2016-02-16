@@ -232,6 +232,7 @@ public class DocxCellHelper extends BaseHelper
 				case MIDDLE :
 					return VERTICAL_ALIGN_MIDDLE;
 				case TOP :
+				case JUSTIFIED : //DOCX does not support vertical text justification
 				default :
 					return VERTICAL_ALIGN_TOP;
 			}

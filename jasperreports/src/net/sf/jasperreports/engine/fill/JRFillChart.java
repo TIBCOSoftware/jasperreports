@@ -1018,6 +1018,11 @@ public class JRFillChart extends JRFillElement implements JRChart
 		}
 		else
 		{
+			if (printImage instanceof JRTemplatePrintImage)//this is normally the case
+			{
+				((JRTemplatePrintImage) printImage).setHyperlinkOmitted(true);
+			}
+			
 			printImage.setHyperlinkReference(null);
 		}
 		transferProperties(printImage);

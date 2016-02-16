@@ -62,6 +62,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	private static final Log log = LogFactory.getLog(JRFillDatasetRun.class);
 	
 	protected final BaseReportFiller filler;
+	protected final JRFillExpressionEvaluator expressionEvaluator;
 
 	protected final JRDatasetRun parentDatasetRun;
 	protected final JRFillDataset dataset;
@@ -86,7 +87,18 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public JRFillDatasetRun(JRBaseFiller filler, JRDatasetRun datasetRun, JRFillObjectFactory factory)
 	{
-		this(filler, datasetRun, 
+		this(filler, filler.getExpressionEvaluator(), datasetRun, factory);
+	}
+
+	protected JRFillDatasetRun(JRDatasetRun datasetRun, JRFillObjectFactory factory)
+	{
+		this(factory.getFiller(), factory.getExpressionEvaluator(), datasetRun, factory);
+	}
+
+	protected JRFillDatasetRun(JRBaseFiller filler, JRFillExpressionEvaluator expressionEvaluator,
+			JRDatasetRun datasetRun, JRFillObjectFactory factory)
+	{
+		this(filler, expressionEvaluator, datasetRun, 
 				filler.datasetMap.get(datasetRun.getDatasetName()));
 		
 		factory.put(datasetRun, this);
@@ -97,7 +109,14 @@ public class JRFillDatasetRun implements JRDatasetRun
 	protected JRFillDatasetRun(BaseReportFiller filler, JRDatasetRun datasetRun, 
 			JRFillDataset dataset)
 	{
+		this(filler, filler.getExpressionEvaluator(), datasetRun, dataset);
+	}
+
+	protected JRFillDatasetRun(BaseReportFiller filler, JRFillExpressionEvaluator expressionEvaluator, 
+			JRDatasetRun datasetRun, JRFillDataset dataset)
+	{
 		this.filler = filler;
+		this.expressionEvaluator = expressionEvaluator;
 		this.dataset = dataset;
 
 		this.parentDatasetRun = datasetRun;
@@ -110,6 +129,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	public JRFillDatasetRun(JRFillDatasetRun datasetRun, JRFillCloneFactory factory)
 	{
 		this.filler = datasetRun.filler;
+		this.expressionEvaluator = datasetRun.expressionEvaluator;
 		this.dataset = datasetRun.dataset;
 		
 		this.parentDatasetRun = datasetRun.parentDatasetRun;
@@ -140,6 +160,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 			
 			@Override
 			public JRVariable getToVariable(String name) {
+				//FIXME should we look for the variable in expressionEvaluator.getFillDataset()?
 				return filler.getVariable(name);
 			}
 			
@@ -184,7 +205,8 @@ public class JRFillDatasetRun implements JRDatasetRun
 		
 		Map<String,Object> parameterValues = 
 			JRFillSubreport.getParameterValues(
-				filler, 
+				filler,
+				expressionEvaluator,
 				parametersMapExpression, 
 				parameters, 
 				evaluation, 
@@ -196,9 +218,9 @@ public class JRFillDatasetRun implements JRDatasetRun
 		try
 		{
 			// set fill position for caching
-			FillDatasetPosition datasetPosition = new FillDatasetPosition(filler.mainDataset.fillPosition);
+			FillDatasetPosition datasetPosition = new FillDatasetPosition(expressionEvaluator.getFillDataset().fillPosition);
 			datasetPosition.addAttribute("datasetRunUUID", getUUID());
-			filler.mainDataset.setCacheRecordIndex(datasetPosition, evaluation);		
+			expressionEvaluator.getFillDataset().setCacheRecordIndex(datasetPosition, evaluation);		
 			dataset.setFillPosition(datasetPosition);
 			
 			String cacheIncludedProp = JRPropertiesUtil.getOwnProperty(this, DataCacheHandler.PROPERTY_INCLUDED); 
@@ -209,13 +231,13 @@ public class JRFillDatasetRun implements JRDatasetRun
 			{
 				if (!(filler.fillContext.hasDataSnapshot() && cacheIncluded)) 
 				{
-					JRDataSource dataSource = (JRDataSource) filler.evaluateExpression(dataSourceExpression, evaluation);
+					JRDataSource dataSource = (JRDataSource) expressionEvaluator.evaluate(dataSourceExpression, evaluation);
 					dataset.setDatasourceParameterValue(parameterValues, dataSource);
 				}
 			}
 			else if (connectionExpression != null)
 			{
-				Connection connection = (Connection) filler.evaluateExpression(connectionExpression, evaluation);
+				Connection connection = (Connection) expressionEvaluator.evaluate(connectionExpression, evaluation);
 				dataset.setConnectionParameterValue(parameterValues, connection);
 			}
 
@@ -265,7 +287,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 					(language.equals("sql") || language.equals("SQL")) &&
 					!parameterValues.containsKey(JRParameter.REPORT_CONNECTION))
 			{
-				JRFillParameter connParam = filler.getParametersMap().get(JRParameter.REPORT_CONNECTION);
+				JRFillParameter connParam = expressionEvaluator.getFillDataset().getParametersMap().get(JRParameter.REPORT_CONNECTION);
 				Connection connection = (Connection) connParam.getValue();
 				parameterValues.put(JRParameter.REPORT_CONNECTION, connection);
 			}

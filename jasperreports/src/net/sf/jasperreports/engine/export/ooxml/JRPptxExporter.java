@@ -852,15 +852,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				"\" rtlCol=\"0\" anchor=\"");
 		switch (text.getVerticalTextAlign())
 		{
-			case TOP:
-				slideHelper.write("t");
+			case BOTTOM:
+				slideHelper.write("b");
 				break;
 			case MIDDLE:
 				slideHelper.write("ctr");
 				break;
-			case BOTTOM:
-				slideHelper.write("b");
-				break;
+			case TOP:
+			case JUSTIFIED:
 			default:
 				slideHelper.write("t");
 				break;

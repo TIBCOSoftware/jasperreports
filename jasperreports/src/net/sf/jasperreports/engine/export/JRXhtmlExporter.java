@@ -1035,6 +1035,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 				break;
 			}
 			case TOP :
+			case JUSTIFIED :
 			default :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;

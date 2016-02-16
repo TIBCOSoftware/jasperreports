@@ -47,7 +47,7 @@ public enum VerticalTextAlignEnum implements NamedEnum
 	/**
 	 *
 	 */ 
-	JUSTIFIED("Justified");//FIXMEENUM this is not used, right?
+	JUSTIFIED("Justified");
 
 	/**
 	 *

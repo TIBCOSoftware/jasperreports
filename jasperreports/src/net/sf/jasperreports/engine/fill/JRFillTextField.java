@@ -962,6 +962,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
+			if (text instanceof JRTemplatePrintText)//this is normally the case
+			{
+				((JRTemplatePrintText) text).setHyperlinkOmitted(true);
+			}
+			
 			text.setHyperlinkReference(null);
 		}
 		transferProperties(text);

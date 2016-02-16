@@ -218,9 +218,9 @@ public abstract class AbstractTextRenderer
 		verticalAlignOffset = 0f;
 		switch (text.getVerticalTextAlign())
 		{
-			case TOP :
+			case BOTTOM :
 			{
-				verticalAlignOffset = 0f;
+				verticalAlignOffset = height - topPadding - bottomPadding - text.getTextHeight();
 				break;
 			}
 			case MIDDLE :
@@ -228,11 +228,8 @@ public abstract class AbstractTextRenderer
 				verticalAlignOffset = (height - topPadding - bottomPadding - text.getTextHeight()) / 2f;
 				break;
 			}
-			case BOTTOM :
-			{
-				verticalAlignOffset = height - topPadding - bottomPadding - text.getTextHeight();
-				break;
-			}
+			case TOP :
+			case JUSTIFIED :
 			default :
 			{
 				verticalAlignOffset = 0f;

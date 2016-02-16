@@ -195,6 +195,7 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -1198,7 +1199,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_textElement);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, textElement.getOwnHorizontalTextAlign());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalTextAlign());
+		VerticalTextAlignEnum vTextAlign = textElement.getOwnVerticalTextAlign();
+		if (isOlderVersionThan(JRConstants.VERSION_6_2_1))
+		{
+			vTextAlign = vTextAlign == VerticalTextAlignEnum.JUSTIFIED ? VerticalTextAlignEnum.TOP : vTextAlign;
+		}
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, vTextAlign);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotationValue());
 		if (isOlderVersionThan(JRConstants.VERSION_4_0_2))
 		{

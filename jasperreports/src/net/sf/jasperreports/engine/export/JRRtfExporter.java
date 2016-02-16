@@ -716,8 +716,9 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			{
 				switch (text.getVerticalTextAlign())
 				{
-					case TOP:
+					case BOTTOM:
 					{
+						leftPadding = Math.max(leftPadding, width - rightPadding - textHeight);
 						break;
 					}
 					case MIDDLE:
@@ -725,10 +726,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						leftPadding = Math.max(leftPadding, (width - rightPadding - textHeight) / 2);
 						break;
 					}
-					case BOTTOM:
+					case TOP:
+					case JUSTIFIED:
+					default:
 					{
-						leftPadding = Math.max(leftPadding, width - rightPadding - textHeight);
-						break;
 					}
 				}
 				rotation = "{\\sp{\\sn txflTextFlow}{\\sv 2}}";
@@ -738,8 +739,9 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			{
 				switch (text.getVerticalTextAlign())
 				{
-					case TOP:
+					case BOTTOM:
 					{
+						rightPadding = Math.max(rightPadding, width - leftPadding - textHeight);
 						break;
 					}
 					case MIDDLE:
@@ -747,10 +749,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						rightPadding = Math.max(rightPadding, (width - leftPadding - textHeight) / 2);
 						break;
 					}
-					case BOTTOM:
+					case TOP:
+					case JUSTIFIED:
+					default:
 					{
-						rightPadding = Math.max(rightPadding, width - leftPadding - textHeight);
-						break;
 					}
 				}
 				rotation = "{\\sp{\\sn txflTextFlow}{\\sv 3}}";
@@ -771,8 +773,9 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						break;
 					}
 					case BOTTOM:
+					case JUSTIFIED:
+					default:
 					{
-						break;
 					}
 				}
 				rotation = "";
@@ -783,8 +786,9 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			{
 				switch (text.getVerticalTextAlign())
 				{
-					case TOP:
+					case BOTTOM:
 					{
+						topPadding = Math.max(topPadding, height - bottomPadding - textHeight);
 						break;
 					}
 					case MIDDLE:
@@ -792,10 +796,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						topPadding = Math.max(topPadding, (height - bottomPadding - textHeight) / 2);
 						break;
 					}
-					case BOTTOM:
+					case TOP:
+					case JUSTIFIED:
+					default:
 					{
-						topPadding = Math.max(topPadding, height - bottomPadding - textHeight);
-						break;
 					}
 				}
 				rotation = "";

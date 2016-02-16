@@ -634,6 +634,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				break;
 			}
 			case TOP :
+			case JUSTIFIED :
 			default :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
@@ -1453,7 +1454,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected void writeSvgStyle(JRPrintGraphicElement element) throws IOException
 	{
 		writer.write("style=\"fill:" + JRColorUtil.getCssColor(element.getBackcolor()) + ";");
-		writer.write("stroke:" + JRColorUtil.getCssColor(element.getForecolor()) + ";");
+		writer.write("stroke:" + JRColorUtil.getCssColor(element.getLinePen().getLineColor()) + ";");
 		writer.write("stroke-width:" + element.getLinePen().getLineWidth() + ";");
 
 		switch (element.getLinePen().getLineStyleValue())

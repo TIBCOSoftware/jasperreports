@@ -120,14 +120,11 @@ import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
-import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
@@ -2462,117 +2459,6 @@ public class JExcelApiExporter extends
 			}
 		}
 		return ps;
-	}
-
-
-	public static TextAlignHolder getTextAlignHolder(JRPrintText textElement)
-	{
-		HorizontalTextAlignEnum horizontalAlignment;
-		VerticalTextAlignEnum verticalAlignment;
-		RotationEnum rotation = textElement.getRotationValue();
-
-		switch (textElement.getRotationValue())
-		{
-			case LEFT :
-			{
-				switch (textElement.getHorizontalTextAlign())
-				{
-					case RIGHT :
-					{
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-						break;
-					}
-					case CENTER :
-					{
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
-						break;
-					}
-					case LEFT :
-					case JUSTIFIED :
-					default :
-					{
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-					}
-				}
-
-				switch (textElement.getVerticalTextAlign())
-				{
-					case BOTTOM :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-						break;
-					}
-					case MIDDLE :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
-						break;
-					}
-					case TOP :
-					default :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-					}
-				}
-
-				break;
-			}
-			case RIGHT :
-			{
-				switch (textElement.getHorizontalTextAlign())
-				{
-					case RIGHT :
-					{
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-						break;
-					}
-					case CENTER :
-					{
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
-						break;
-					}
-					case LEFT :
-					case JUSTIFIED :
-					default :
-					{
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-					}
-				}
-
-				switch (textElement.getVerticalTextAlign())
-				{
-					case TOP :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-						break;
-					}
-					case MIDDLE :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
-						break;
-					}
-					case BOTTOM :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-						break;
-					}
-					default :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-					}
-				}
-
-				break;
-			}
-			case UPSIDE_DOWN:
-			case NONE :
-			default :
-			{
-				horizontalAlignment = textElement.getHorizontalTextAlign();
-				verticalAlignment = textElement.getVerticalTextAlign();
-			}
-		}
-
-		return new TextAlignHolder(horizontalAlignment, verticalAlignment, rotation);
 	}
 
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int col, int row) throws JRException
