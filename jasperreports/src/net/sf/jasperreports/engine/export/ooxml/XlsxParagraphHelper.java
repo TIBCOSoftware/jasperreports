@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 
 
 /**
@@ -43,6 +44,11 @@ public class XlsxParagraphHelper extends BaseHelper
 	private static final String HORIZONTAL_ALIGN_RIGHT = "right";
 	private static final String HORIZONTAL_ALIGN_CENTER = "center";
 	private static final String HORIZONTAL_ALIGN_JUSTIFY = "justify";
+
+	private static final String VERTICAL_ALIGN_TOP = "top";
+	private static final String VERTICAL_ALIGN_MIDDLE = "center";
+	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
+	private static final String VERTICAL_ALIGN_JUSTIFY = "justify";
 
 	/**
 	 *
@@ -163,6 +169,29 @@ public class XlsxParagraphHelper extends BaseHelper
 				case LEFT :
 				default :
 					return HORIZONTAL_ALIGN_LEFT;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static String getVerticalAlignment(VerticalTextAlignEnum verticalAlignment)
+	{
+		if (verticalAlignment != null)
+		{
+			switch (verticalAlignment)
+			{
+				case JUSTIFIED :
+					return VERTICAL_ALIGN_JUSTIFY;
+				case BOTTOM :
+					return VERTICAL_ALIGN_BOTTOM;
+				case MIDDLE :
+					return VERTICAL_ALIGN_MIDDLE;
+				case TOP :
+				default :
+					return VERTICAL_ALIGN_TOP;
 			}
 		}
 		return null;

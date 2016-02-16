@@ -626,6 +626,7 @@
       <enumeration value="Top"/>
       <enumeration value="Middle"/>
       <enumeration value="Bottom"/>
+      <enumeration value="Justified"/>
      </restriction>
     </simpleType>
    </attribute>
@@ -3155,6 +3156,11 @@ This can be useful when, for instance, a border has to be drawn around the image
       <enumeration value="Bottom">
 		<annotation>
 		 <documentation>Text is aligned to the bottom.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Justified">
+		<annotation>
+		 <documentation>Text is justified.</documentation>
 		</annotation>
 	  </enumeration>
      </restriction>

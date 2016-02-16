@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -78,9 +81,6 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
 import net.sf.jasperreports.export.PptxReportConfiguration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -852,15 +852,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				"\" rtlCol=\"0\" anchor=\"");
 		switch (text.getVerticalTextAlign())
 		{
-			case TOP:
-				slideHelper.write("t");
+			case BOTTOM:
+				slideHelper.write("b");
 				break;
 			case MIDDLE:
 				slideHelper.write("ctr");
 				break;
-			case BOTTOM:
-				slideHelper.write("b");
-				break;
+			case TOP:
+			case JUSTIFIED:
 			default:
 				slideHelper.write("t");
 				break;

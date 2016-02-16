@@ -54,6 +54,31 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFName;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellReference;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
@@ -90,15 +115,12 @@ import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
-import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -108,31 +130,6 @@ import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFName;
-import org.apache.poi.hssf.usermodel.HSSFPalette;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HeaderFooter;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellReference;
 
 
 /**
@@ -1412,108 +1409,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 		return HSSFCellStyle.BORDER_NONE;
 	}
-
 	
-	public static TextAlignHolder getTextAlignHolder(JRPrintText textElement) {
-		HorizontalTextAlignEnum horizontalAlignment;
-		VerticalTextAlignEnum verticalAlignment;
-		RotationEnum rotation = textElement.getRotationValue();
-
-		switch (textElement.getRotationValue()) {
-			case LEFT : {
-				switch (textElement.getHorizontalTextAlign()) {
-					case LEFT : {
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-						break;
-					}
-					case CENTER : {
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
-						break;
-					}
-					case RIGHT : {
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-						break;
-					}
-					case JUSTIFIED : {
-						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
-						break;
-					}
-					default : {
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-					}
-				}
-
-				switch (textElement.getVerticalTextAlign()) {
-					case TOP : {
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-						break;
-					}
-					case MIDDLE : {
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
-						break;
-					}
-					case BOTTOM : {
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-						break;
-					}
-					default : {
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-					}
-				}
-				break;
-			}
-			case RIGHT : {
-				switch (textElement.getHorizontalTextAlign()) {
-					case LEFT : {
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-						break;
-					}
-					case CENTER : {
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
-						break;
-					}
-					case RIGHT : {
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-						break;
-					}
-					case JUSTIFIED : {
-						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
-						break;
-					}
-					default : {
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-					}
-				}
-
-				switch (textElement.getVerticalTextAlign()) {
-					case TOP : {
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-						break;
-					}
-					case MIDDLE : {
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
-						break;
-					}
-					case BOTTOM : {
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-						break;
-					}
-					default : {
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-					}
-				}
-				break;
-			}
-			case UPSIDE_DOWN:
-			case NONE :
-			default : {
-				horizontalAlignment = textElement.getHorizontalTextAlign();
-				verticalAlignment = textElement.getVerticalTextAlign();
-			}
-		}
-		return new TextAlignHolder(horizontalAlignment, verticalAlignment, rotation);
-	}
-
 	protected void exportFrame(JRPrintFrame frame) throws JRException {
 		
 		for (Object element : frame.getElements()) {

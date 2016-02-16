@@ -43,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.w3c.tools.codec.Base64Encoder;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -89,6 +91,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.VersionComparator;
@@ -100,8 +103,6 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
-
-import org.w3c.tools.codec.Base64Encoder;
 
 
 /**
@@ -500,7 +501,12 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hTextAlign, style.getOwnHorizontalTextAlign());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hImageAlign, style.getOwnHorizontalImageAlign());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vTextAlign, style.getOwnVerticalTextAlign());
+		VerticalTextAlignEnum vTextAlign = style.getOwnVerticalTextAlign();
+		if (isOlderVersionThan(JRConstants.VERSION_6_2_1))
+		{
+			vTextAlign = vTextAlign == VerticalTextAlignEnum.JUSTIFIED ? VerticalTextAlignEnum.TOP : vTextAlign;
+		}
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vTextAlign, vTextAlign);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vImageAlign, style.getOwnVerticalImageAlign());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
@@ -947,7 +953,12 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_text);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, text.getOwnHorizontalTextAlign());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, text.getOwnVerticalTextAlign());
+		VerticalTextAlignEnum vTextAlign = text.getOwnVerticalTextAlign();
+		if (isOlderVersionThan(JRConstants.VERSION_6_2_1))
+		{
+			vTextAlign = vTextAlign == VerticalTextAlignEnum.JUSTIFIED ? VerticalTextAlignEnum.TOP : vTextAlign;
+		}
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, vTextAlign);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textHeight, text.getTextHeight());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, text.getOwnRotationValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, text.getRunDirectionValue(), RunDirectionEnum.LTR);
@@ -1285,5 +1296,14 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected boolean isNewerVersionOrEqual(String oldVersion)
 	{
 		return versionComparator.compare(version, oldVersion) >= 0;
+	}
+
+	
+	/**
+	 *
+	 */
+	protected boolean isOlderVersionThan(String version)
+	{
+		return versionComparator.compare(this.version, version) < 0;
 	}
 }

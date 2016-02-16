@@ -48,7 +48,7 @@ public enum VerticalAlignEnum implements JREnum
 	/**
 	 *
 	 */ 
-	JUSTIFIED((byte)4, "Justified");//FIXMEENUM this is not used, right?
+	JUSTIFIED((byte)4, "Justified");
 
 	/**
 	 *
@@ -115,10 +115,6 @@ public enum VerticalAlignEnum implements JREnum
 	 */
 	public static VerticalTextAlignEnum getVerticalTextAlignEnum(VerticalAlignEnum verticalAlignment)
 	{
-		if (verticalAlignment == JUSTIFIED)
-		{
-			return VerticalTextAlignEnum.TOP;
-		}
 		return verticalAlignment == null ? null : VerticalTextAlignEnum.getByName(verticalAlignment.getName());
 	}
 	

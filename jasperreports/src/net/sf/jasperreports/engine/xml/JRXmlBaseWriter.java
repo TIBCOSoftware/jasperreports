@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
@@ -114,7 +115,12 @@ public abstract class JRXmlBaseWriter
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_hTextAlign, style.getOwnHorizontalTextAlign());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_hImageAlign, style.getOwnHorizontalImageAlign());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_vTextAlign, style.getOwnVerticalTextAlign());
+			VerticalTextAlignEnum vTextAlign = style.getOwnVerticalTextAlign();
+			if (isOlderVersionThan(JRConstants.VERSION_6_2_1))
+			{
+				vTextAlign = vTextAlign == VerticalTextAlignEnum.JUSTIFIED ? VerticalTextAlignEnum.TOP : vTextAlign;
+			}
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_vTextAlign, vTextAlign);
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_vImageAlign, style.getOwnVerticalImageAlign());
 		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());

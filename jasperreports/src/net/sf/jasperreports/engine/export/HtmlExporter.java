@@ -634,6 +634,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				break;
 			}
 			case TOP :
+			case JUSTIFIED :
 			default :
 			{
 				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;

@@ -228,6 +228,7 @@
       <enumeration value="Top"/>
       <enumeration value="Middle"/>
       <enumeration value="Bottom"/>
+      <enumeration value="Justified"/>
      </restriction>
     </simpleType>
    </attribute>
@@ -849,6 +850,7 @@
       <enumeration value="Top"/>
       <enumeration value="Middle"/>
       <enumeration value="Bottom"/>
+      <enumeration value="Justified"/>
      </restriction>
     </simpleType>
    </attribute>

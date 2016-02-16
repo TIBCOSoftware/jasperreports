@@ -123,21 +123,65 @@ public class XlsxStyleInfo
 		switch (rotation)
 		{
 			case 90:
+			{
 				switch (vAlign)
 				{
-					case BOTTOM : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.RIGHT);
-					case MIDDLE : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.CENTER);
-					default: return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.LEFT);
+					case JUSTIFIED : 
+					{
+						hAlign = HorizontalTextAlignEnum.JUSTIFIED;
+						break;
+					}
+					case BOTTOM : 
+					{
+						hAlign = HorizontalTextAlignEnum.RIGHT;
+						break;
+					}
+					case MIDDLE : 
+					{
+						hAlign = HorizontalTextAlignEnum.CENTER;
+						break;
+					}
+					case TOP : 
+					default: 
+					{
+						hAlign = HorizontalTextAlignEnum.LEFT;
+					}
 				}
+				break;
+			}
 			case 180:
+			{
 				switch (vAlign)
 				{
-					case BOTTOM : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.LEFT);
-					case MIDDLE : return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.CENTER);
-					default: return XlsxParagraphHelper.getHorizontalAlignment(HorizontalTextAlignEnum.RIGHT);
+					case JUSTIFIED : 
+					{
+						hAlign = HorizontalTextAlignEnum.JUSTIFIED;
+						break;
+					}
+					case BOTTOM : 
+					{
+						hAlign = HorizontalTextAlignEnum.LEFT;
+						break;
+					}
+					case MIDDLE : 
+					{
+						hAlign = HorizontalTextAlignEnum.CENTER;
+						break;
+					}
+					case TOP : 
+					default: 
+					{
+						hAlign = HorizontalTextAlignEnum.RIGHT;
+					}
 				}
-			default: return XlsxParagraphHelper.getHorizontalAlignment(hAlign);	
+				break;
+			}
+			default:
+			{
+			}	
 		}
+		
+		return XlsxParagraphHelper.getHorizontalAlignment(hAlign);
 	}
 	
 	protected String getVerticalAlignment(HorizontalTextAlignEnum hAlign, VerticalTextAlignEnum vAlign, int rotation)
@@ -145,21 +189,65 @@ public class XlsxStyleInfo
 		switch (rotation)
 		{
 			case 90:
+			{
 				switch (hAlign)
 				{
-					case RIGHT : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.TOP);
-					case CENTER : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.MIDDLE);
-					default: return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.BOTTOM);
+					case JUSTIFIED : 
+					{
+						vAlign = VerticalTextAlignEnum.JUSTIFIED;
+						break;
+					}
+					case RIGHT : 
+					{
+						vAlign = VerticalTextAlignEnum.TOP;
+						break;
+					}
+					case CENTER : 
+					{
+						vAlign = VerticalTextAlignEnum.MIDDLE;
+						break;
+					}
+					case LEFT : 
+					default: 
+					{
+						vAlign = VerticalTextAlignEnum.BOTTOM;
+					}
 				}
+				break;
+			}
 			case 180:
+			{
 				switch (hAlign)
 				{
-					case RIGHT : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.BOTTOM);
-					case CENTER : return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.MIDDLE);
-					default: return DocxCellHelper.getVerticalAlignment(VerticalTextAlignEnum.TOP);
+					case JUSTIFIED : 
+					{
+						vAlign = VerticalTextAlignEnum.JUSTIFIED;
+						break;
+					}
+					case RIGHT : 
+					{
+						vAlign = VerticalTextAlignEnum.BOTTOM;
+						break;
+					}
+					case CENTER : 
+					{
+						vAlign = VerticalTextAlignEnum.MIDDLE;
+						break;
+					}
+					case LEFT : 
+					default: 
+					{
+						vAlign = VerticalTextAlignEnum.TOP;
+					}
 				}
-			default: return DocxCellHelper.getVerticalAlignment(vAlign);	
+				break;
+			}
+			default: 
+			{	
+			}
 		}
+		
+		return XlsxParagraphHelper.getVerticalAlignment(vAlign);
 	}
 	
 	public String getId()

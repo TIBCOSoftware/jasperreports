@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -55,9 +54,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -402,139 +398,6 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
 		return textElement.getFullStyledText(noneSelector);
-	}
-
-	/**
-	 *
-	 */
-	protected static TextAlignHolder getTextAlignHolder(JRPrintText textElement)
-	{
-		HorizontalTextAlignEnum horizontalAlignment;
-		VerticalTextAlignEnum verticalAlignment;
-		RotationEnum rotation = textElement.getRotationValue();
-
-		switch (textElement.getRotationValue())
-		{
-			case LEFT :
-			{
-				switch (textElement.getHorizontalTextAlign())
-				{
-					case LEFT :
-					{
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-						break;
-					}
-					case CENTER :
-					{
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
-						break;
-					}
-					case RIGHT :
-					{
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-						break;
-					}
-					case JUSTIFIED :
-					{
-						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
-						break;
-					}
-					default :
-					{
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-					}
-				}
-
-				switch (textElement.getVerticalTextAlign())
-				{
-					case TOP :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-						break;
-					}
-					case MIDDLE :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
-						break;
-					}
-					case BOTTOM :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-						break;
-					}
-					default :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-					}
-				}
-
-				break;
-			}
-			case RIGHT :
-			{
-				switch (textElement.getHorizontalTextAlign())
-				{
-					case LEFT :
-					{
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-						break;
-					}
-					case CENTER :
-					{
-						verticalAlignment = VerticalTextAlignEnum.MIDDLE;
-						break;
-					}
-					case RIGHT :
-					{
-						verticalAlignment = VerticalTextAlignEnum.BOTTOM;
-						break;
-					}
-					case JUSTIFIED :
-					{
-						verticalAlignment = VerticalTextAlignEnum.JUSTIFIED;
-						break;
-					}
-					default :
-					{
-						verticalAlignment = VerticalTextAlignEnum.TOP;
-					}
-				}
-
-				switch (textElement.getVerticalTextAlign())
-				{
-					case TOP :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-						break;
-					}
-					case MIDDLE :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.CENTER;
-						break;
-					}
-					case BOTTOM :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.LEFT;
-						break;
-					}
-					default :
-					{
-						horizontalAlignment = HorizontalTextAlignEnum.RIGHT;
-					}
-				}
-
-				break;
-			}
-			case UPSIDE_DOWN:
-			case NONE :
-			default :
-			{
-				horizontalAlignment = textElement.getHorizontalTextAlign();
-				verticalAlignment = textElement.getVerticalTextAlign();
-			}
-		}
-
-		return new TextAlignHolder(horizontalAlignment, verticalAlignment, rotation);
 	}
 
 	/**
