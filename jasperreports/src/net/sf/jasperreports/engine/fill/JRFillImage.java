@@ -706,8 +706,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					isToPrint = false;
 					willOverflow = true;
 				}
-				else if (!isLazy() && (getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT
-						|| getScaleImageValue() == ScaleImageEnum.REAL_SIZE))
+				else if (
+					!isLazy() 
+					&& (getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT || getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
+					)
 				{
 					int padding = getLineBox().getBottomPadding().intValue() 
 							+ getLineBox().getTopPadding().intValue();
@@ -725,7 +727,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					}
 					else
 					{
-						renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRendererForDimension(renderer, getOnErrorTypeValue());
+						try
+						{
+							renderer.getDimension(filler.getJasperReportsContext());
+						}
+						catch (Exception e)
+						{
+							renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+						}
 						
 						if (renderer == null) // OnErrorTypeEnum.BLANK can return null above
 						{
@@ -992,7 +1001,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		{
 			if (renderer != null)
 			{
-				renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRendererForDimension(renderer, getOnErrorTypeValue());
+				try
+				{
+					renderer.getDimension(filler.getJasperReportsContext());
+				}
+				catch (Exception e)
+				{
+					renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+				}
 				
 				if (renderer != null) // OnErrorTypeEnum.BLANK can return null above
 				{

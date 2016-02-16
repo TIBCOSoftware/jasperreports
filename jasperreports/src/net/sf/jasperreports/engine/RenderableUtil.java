@@ -339,7 +339,7 @@ public class RenderableUtil
 	}
 	*/
 
-	protected Renderable handleImageError(Exception error, OnErrorTypeEnum onErrorType) throws JRException
+	public Renderable handleImageError(Exception error, OnErrorTypeEnum onErrorType) throws JRException
 	{
 		Renderable errorRenderable;
 		if (error instanceof JRException)
