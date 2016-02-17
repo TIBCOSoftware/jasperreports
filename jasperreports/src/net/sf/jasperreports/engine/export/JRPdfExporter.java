@@ -418,7 +418,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	/**
 	 *
 	 */
-	protected Map<Renderable,Image> loadedImagesMap;
+	protected Map<String,Image> loadedImagesMap;
 	protected Image pxImage;
 
 	private BookmarkStack bookmarkStack;
@@ -862,7 +862,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 				setCurrentExporterInputItem(item);
 				
-				loadedImagesMap = new HashMap<Renderable,Image>();
+				loadedImagesMap = new HashMap<String,Image>();
 				
 				pageFormat = jasperPrint.getPageFormat(0);
 
@@ -1572,9 +1572,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					}
 					case FILL_FRAME :
 					{
-						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer))
+						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer.getId()))
 						{
-							image = loadedImagesMap.get(renderer);
+							image = loadedImagesMap.get(renderer.getId());
 						}
 						else
 						{
@@ -1601,7 +1601,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 							if (printImage.isUsingCache())
 							{
-								loadedImagesMap.put(renderer, image);
+								loadedImagesMap.put(renderer.getId(), image);
 							}
 						}
 
@@ -1611,9 +1611,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					case RETAIN_SHAPE :
 					default :
 					{
-						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer))
+						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer.getId()))
 						{
-							image = loadedImagesMap.get(renderer);
+							image = loadedImagesMap.get(renderer.getId());
 						}
 						else
 						{
@@ -1640,7 +1640,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 							if (printImage.isUsingCache())
 							{
-								loadedImagesMap.put(renderer, image);
+								loadedImagesMap.put(renderer.getId(), image);
 							}
 						}
 
