@@ -99,7 +99,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				Renderable onErrorRenderer = RenderableUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
-					internalImageDrawer.draw(grx, renderer);
+					internalImageDrawer.draw(grx, onErrorRenderer);
 				}
 			}
 		}
@@ -134,8 +134,8 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		private final JRPrintImage printImage;
 		private final int offsetX;
 		private final int offsetY;
-		protected int availableImageWidth;
-		protected int availableImageHeight;
+		private final int availableImageWidth;
+		private final int availableImageHeight;
 		private final int topPadding;
 		private final int leftPadding;
 		private final int bottomPadding;
@@ -156,11 +156,11 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
 			rightPadding = printImage.getLineBox().getRightPadding().intValue();
 			
-			availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
-			availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
+			int tmpAvailableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
+			availableImageWidth = tmpAvailableImageWidth < 0 ? 0 : tmpAvailableImageWidth;
 
-			availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
-			availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
+			int tmpAvailableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
+			availableImageHeight = tmpAvailableImageHeight < 0 ? 0 : tmpAvailableImageHeight;
 		}
 		
 		protected void draw(

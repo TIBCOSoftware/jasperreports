@@ -60,6 +60,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -93,7 +94,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintAnchor;
@@ -1459,348 +1459,49 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			pdfContentByte.fill();
 		}
 
-		int topPadding = printImage.getLineBox().getTopPadding().intValue();
-		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
-		int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
-		int rightPadding = printImage.getLineBox().getRightPadding().intValue();
-
-		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
-		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
-
-		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
-		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
-
+		InternalImageProcessor imageProcessor =
+			new InternalImageProcessor(printImage);
+		
 		Renderable renderer = printImage.getRenderable();
 
 		if (
 			renderer != null &&
-			availableImageWidth > 0 &&
-			availableImageHeight > 0
+			imageProcessor.availableImageWidth > 0 &&
+			imageProcessor.availableImageHeight > 0
 			)
 		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+			InternalImageProcessorResult imageProcessorResult = null;
+			
+			try
 			{
-				// Image renderers are all asked for their image data at some point. 
-				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
+				imageProcessorResult = imageProcessor.process(renderer);
 			}
-		}
-		else
-		{
-			renderer = null;
-		}
-
-		if (renderer != null)
-		{
-			int xoffset = 0;
-			int yoffset = 0;
-
-			Chunk chunk = null;
-
-			float scaledWidth = availableImageWidth;
-			float scaledHeight = availableImageHeight;
-
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+			catch (Exception e)
 			{
-				Image image = null;
-
-				switch(printImage.getScaleImageValue())
+				Renderable onErrorRenderer = RenderableUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorTypeValue());
+				if (onErrorRenderer != null)
 				{
-					case CLIP :
-					{
-						// Image load might fail, from given image data. 
-						// Better to test and replace the renderer now, in case of lazy load error.
-						renderer = 
-							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(
-								renderer, 
-								printImage.getOnErrorTypeValue()
-								);
-						if (renderer == null)
-						{
-							break;
-						}
-						
-						int normalWidth = availableImageWidth;
-						int normalHeight = availableImageHeight;
-
-						Dimension2D dimension = renderer.getDimension(jasperReportsContext);
-						if (dimension != null)
-						{
-							normalWidth = (int)dimension.getWidth();
-							normalHeight = (int)dimension.getHeight();
-						}
-
-						xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-						yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-
-						int minWidth = Math.min(normalWidth, availableImageWidth);
-						int minHeight = Math.min(normalHeight, availableImageHeight);
-
-						BufferedImage bi =
-							new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_ARGB);
-
-						Graphics2D g = bi.createGraphics();
-						try
-						{
-							if (printImage.getModeValue() == ModeEnum.OPAQUE)
-							{
-								g.setColor(printImage.getBackcolor());
-								g.fillRect(0, 0, minWidth, minHeight);
-							}
-							renderer.render(
-								jasperReportsContext,
-								g,
-								new java.awt.Rectangle(
-									(xoffset > 0 ? 0 : xoffset),
-									(yoffset > 0 ? 0 : yoffset),
-									normalWidth,
-									normalHeight
-									)
-								);
-						}
-						finally
-						{
-							g.dispose();
-						}
-
-						xoffset = (xoffset < 0 ? 0 : xoffset);
-						yoffset = (yoffset < 0 ? 0 : yoffset);
-
-						//awtImage = bi.getSubimage(0, 0, minWidth, minHeight);
-
-						//image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
-						image = Image.getInstance(bi, null);
-
-						break;
-					}
-					case FILL_FRAME :
-					{
-						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer.getId()))
-						{
-							image = loadedImagesMap.get(renderer.getId());
-						}
-						else
-						{
-							try
-							{
-								image = Image.getInstance(renderer.getImageData(jasperReportsContext));
-								imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
-							}
-							catch(Exception e)
-							{
-								JRImageRenderer tmpRenderer = 
-									JRImageRenderer.getOnErrorRendererForImage(
-										jasperReportsContext,
-										JRImageRenderer.getInstance(renderer.getImageData(jasperReportsContext)), 
-										printImage.getOnErrorTypeValue()
-										);
-								if (tmpRenderer == null)
-								{
-									break;
-								}
-								java.awt.Image awtImage = tmpRenderer.getImage(jasperReportsContext);
-								image = Image.getInstance(awtImage, null);
-							}
-
-							if (printImage.isUsingCache())
-							{
-								loadedImagesMap.put(renderer.getId(), image);
-							}
-						}
-
-						image.scaleAbsolute(availableImageWidth, availableImageHeight);
-						break;
-					}
-					case RETAIN_SHAPE :
-					default :
-					{
-						if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer.getId()))
-						{
-							image = loadedImagesMap.get(renderer.getId());
-						}
-						else
-						{
-							try
-							{
-								image = Image.getInstance(renderer.getImageData(jasperReportsContext));
-								imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
-							}
-							catch(Exception e)
-							{
-								JRImageRenderer tmpRenderer = 
-									JRImageRenderer.getOnErrorRendererForImage(
-										jasperReportsContext,
-										JRImageRenderer.getInstance(renderer.getImageData(jasperReportsContext)), 
-										printImage.getOnErrorTypeValue()
-										);
-								if (tmpRenderer == null)
-								{
-									break;
-								}
-								java.awt.Image awtImage = tmpRenderer.getImage(jasperReportsContext);
-								image = Image.getInstance(awtImage, null);
-							}
-
-							if (printImage.isUsingCache())
-							{
-								loadedImagesMap.put(renderer.getId(), image);
-							}
-						}
-
-						image.scaleToFit(availableImageWidth, availableImageHeight);
-
-						xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
-						yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
-
-						xoffset = (xoffset < 0 ? 0 : xoffset);
-						yoffset = (yoffset < 0 ? 0 : yoffset);
-
-						break;
-					}
-				}
-
-				if (image != null)
-				{
-					chunk = new Chunk(image, 0, 0);
-
-					scaledWidth = image.getScaledWidth();
-					scaledHeight = image.getScaledHeight();
+					imageProcessorResult = imageProcessor.process(onErrorRenderer);
 				}
 			}
-			else
+
+			if (imageProcessorResult != null)
 			{
-				double normalWidth = availableImageWidth;
-				double normalHeight = availableImageHeight;
-
-				double displayWidth = availableImageWidth;
-				double displayHeight = availableImageHeight;
-
-				double ratioX = 1f;
-				double ratioY = 1f;
-				
-				Rectangle2D clip = null;
-
-				Dimension2D dimension = renderer.getDimension(jasperReportsContext);
-				if (dimension != null)
-				{
-					normalWidth = dimension.getWidth();
-					normalHeight = dimension.getHeight();
-					displayWidth = normalWidth;
-					displayHeight = normalHeight;
-					
-					switch (printImage.getScaleImageValue())
-					{
-						case CLIP:
-						{
-							xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-							yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-							clip =
-								new Rectangle2D.Double(
-									- xoffset,
-									- yoffset,
-									availableImageWidth,
-									availableImageHeight
-									);
-							break;
-						}
-						case FILL_FRAME:
-						{
-							ratioX = availableImageWidth / normalWidth;
-							ratioY = availableImageHeight / normalHeight;
-							normalWidth *= ratioX;
-							normalHeight *= ratioY;
-							xoffset = 0;
-							yoffset = 0;
-							break;
-						}
-						case RETAIN_SHAPE:
-						default:
-						{
-							ratioX = availableImageWidth / normalWidth;
-							ratioY = availableImageHeight / normalHeight;
-							ratioX = ratioX < ratioY ? ratioX : ratioY;
-							ratioY = ratioX;
-							normalWidth *= ratioX;
-							normalHeight *= ratioY;
-							xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-							yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-							break;
-						}
-					}
-				}
-
-				PdfTemplate template = pdfContentByte.createTemplate((float)displayWidth, (float)displayHeight);
-
-				Graphics2D g = getCurrentItemConfiguration().isForceSvgShapes()
-					? template.createGraphicsShapes((float)displayWidth, (float)displayHeight)
-					: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
-
-				try
-				{
-					if (clip != null)
-					{
-						g.setClip(clip);
-					}
-					
-					if (printImage.getModeValue() == ModeEnum.OPAQUE)
-					{
-						g.setColor(printImage.getBackcolor());
-						g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
-					}
-
-					renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, displayWidth, displayHeight));
-				}
-				finally
-				{
-					g.dispose();
-				}
-
-				pdfContentByte.saveState();
-				pdfContentByte.addTemplate(
-					template,
-					(float)ratioX, 0f, 0f, (float)ratioY,
-					printImage.getX() + getOffsetX() + xoffset,
-					pageFormat.getPageHeight()
-						- printImage.getY() - getOffsetY()
-						- (int)normalHeight
-						- yoffset
-					);
-				pdfContentByte.restoreState();
-
-				Image image = getPxImage();
-				image.scaleAbsolute(availableImageWidth, availableImageHeight);
-				chunk = new Chunk(image, 0, 0);
-				
-				pdfWriter.releaseTemplate(template);
-			}
-
-			/*
-			image.setAbsolutePosition(
-				printImage.getX() + offsetX + borderOffset,
-				jasperPrint.getPageHeight() - printImage.getY() - offsetY - image.scaledHeight() - borderOffset
-				);
-
-			pdfContentByte.addImage(image);
-			*/
-
-
-			if (chunk != null)
-			{
-				setAnchor(chunk, printImage, printImage);
-				setHyperlinkInfo(chunk, printImage);
+				setAnchor(imageProcessorResult.chunk, printImage, printImage);
+				setHyperlinkInfo(imageProcessorResult.chunk, printImage);
 
 				tagHelper.startImage(printImage);
 				
 				ColumnText colText = new ColumnText(pdfContentByte);
-				int upperY = pageFormat.getPageHeight() - printImage.getY() - topPadding - getOffsetY() - yoffset;
-				int lowerX = printImage.getX() + leftPadding + getOffsetX() + xoffset;
+				int upperY = pageFormat.getPageHeight() - printImage.getY() - imageProcessor.topPadding - getOffsetY() - imageProcessorResult.yoffset;
+				int lowerX = printImage.getX() + imageProcessor.leftPadding + getOffsetX() + imageProcessorResult.xoffset;
 				colText.setSimpleColumn(
-					new Phrase(chunk),
+					new Phrase(imageProcessorResult.chunk),
 					lowerX,
-					upperY - scaledHeight,
-					lowerX + scaledWidth,
+					upperY - imageProcessorResult.scaledHeight,
+					lowerX + imageProcessorResult.scaledWidth,
 					upperY,
-					scaledHeight,
+					imageProcessorResult.scaledHeight,
 					Element.ALIGN_LEFT
 					);
 
@@ -1833,6 +1534,357 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		}
 	}
 
+	private class InternalImageProcessor
+	{
+		private final JRPrintImage printImage;
+		
+		private final int topPadding;
+		private final int leftPadding;
+		private final int bottomPadding;
+		private final int rightPadding;
+
+		private final int availableImageWidth;
+		private final int availableImageHeight;
+		
+		private InternalImageProcessor(JRPrintImage printImage)
+		{
+			this.printImage = printImage;
+			
+			topPadding = printImage.getLineBox().getTopPadding().intValue();
+			leftPadding = printImage.getLineBox().getLeftPadding().intValue();
+			bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
+			rightPadding = printImage.getLineBox().getRightPadding().intValue();
+
+			int tmpAvailableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
+			availableImageWidth = tmpAvailableImageWidth < 0 ? 0 : tmpAvailableImageWidth;
+
+			int tmpAvailableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
+			availableImageHeight = tmpAvailableImageHeight < 0 ? 0 : tmpAvailableImageHeight;
+		}
+		
+		private InternalImageProcessorResult process(Renderable renderer) throws JRException, IOException, BadElementException
+		{
+			InternalImageProcessorResult imageProcessorResult = null;
+
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+			{
+				switch(printImage.getScaleImageValue())
+				{
+					case CLIP :
+					{
+						imageProcessorResult = processImageClip(renderer);
+						break;
+					}
+					case FILL_FRAME :
+					{
+						imageProcessorResult = processImageFillFrame(renderer);
+						break;
+					}
+					case RETAIN_SHAPE :
+					default :
+					{
+						imageProcessorResult = processImageRetainShape(renderer);
+					}
+				}
+			}
+			else
+			{
+				imageProcessorResult = processSvg(renderer);
+			}
+
+			return imageProcessorResult;
+		}
+		
+		
+		private InternalImageProcessorResult processImageClip(Renderable renderer) throws JRException, IOException, BadElementException
+		{
+			int normalWidth = availableImageWidth;
+			int normalHeight = availableImageHeight;
+
+			Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+			if (dimension != null)
+			{
+				normalWidth = (int)dimension.getWidth();
+				normalHeight = (int)dimension.getHeight();
+			}
+
+			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+
+			int minWidth = Math.min(normalWidth, availableImageWidth);
+			int minHeight = Math.min(normalHeight, availableImageHeight);
+
+			BufferedImage bi =
+				new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_ARGB);
+
+			Graphics2D g = bi.createGraphics();
+			try
+			{
+				if (printImage.getModeValue() == ModeEnum.OPAQUE)
+				{
+					g.setColor(printImage.getBackcolor());
+					g.fillRect(0, 0, minWidth, minHeight);
+				}
+				renderer.render(
+					jasperReportsContext,
+					g,
+					new java.awt.Rectangle(
+						(xoffset > 0 ? 0 : xoffset),
+						(yoffset > 0 ? 0 : yoffset),
+						normalWidth,
+						normalHeight
+						)
+					);
+			}
+			finally
+			{
+				g.dispose();
+			}
+
+			xoffset = (xoffset < 0 ? 0 : xoffset);
+			yoffset = (yoffset < 0 ? 0 : yoffset);
+
+			//awtImage = bi.getSubimage(0, 0, minWidth, minHeight);
+
+			//image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
+			Image image = Image.getInstance(bi, null);
+			
+			return 
+				new InternalImageProcessorResult(
+					new Chunk(image, 0, 0), 
+					image.getScaledWidth(), 
+					image.getScaledHeight(),
+					xoffset,
+					yoffset
+					);
+		}
+
+		private InternalImageProcessorResult processImageFillFrame(Renderable renderer) throws JRException
+		{
+			Image image = null;
+			
+			if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer.getId()))
+			{
+				image = loadedImagesMap.get(renderer.getId());
+			}
+			else
+			{
+				try
+				{
+					image = Image.getInstance(renderer.getImageData(jasperReportsContext));
+					imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+				}
+				catch (Exception e)
+				{
+					throw new JRException(e);
+				}
+
+				if (printImage.isUsingCache())
+				{
+					loadedImagesMap.put(renderer.getId(), image);
+				}
+			}
+
+			image.scaleAbsolute(availableImageWidth, availableImageHeight);
+			
+			return 
+				new InternalImageProcessorResult(
+					new Chunk(image, 0, 0), 
+					image.getScaledWidth(), 
+					image.getScaledHeight(),
+					0,
+					0
+					);
+		}
+
+		private InternalImageProcessorResult processImageRetainShape(Renderable renderer) throws JRException
+		{
+			Image image = null;
+			
+			if (printImage.isUsingCache() && loadedImagesMap.containsKey(renderer.getId()))
+			{
+				image = loadedImagesMap.get(renderer.getId());
+			}
+			else
+			{
+				try
+				{
+					image = Image.getInstance(renderer.getImageData(jasperReportsContext));
+					imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
+				}
+				catch (Exception e)
+				{
+					throw new JRException(e);
+				}
+
+				if (printImage.isUsingCache())
+				{
+					loadedImagesMap.put(renderer.getId(), image);
+				}
+			}
+
+			image.scaleToFit(availableImageWidth, availableImageHeight);
+
+			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
+			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
+
+			xoffset = (xoffset < 0 ? 0 : xoffset);
+			yoffset = (yoffset < 0 ? 0 : yoffset);
+			
+			return 
+				new InternalImageProcessorResult(
+					new Chunk(image, 0, 0), 
+					image.getScaledWidth(), 
+					image.getScaledHeight(),
+					xoffset,
+					yoffset
+					);
+		}
+		
+		private InternalImageProcessorResult processSvg(Renderable renderer) throws JRException, IOException
+		{
+			int xoffset = 0;
+			int yoffset = 0;
+
+			double normalWidth = availableImageWidth;
+			double normalHeight = availableImageHeight;
+
+			double displayWidth = availableImageWidth;
+			double displayHeight = availableImageHeight;
+
+			double ratioX = 1f;
+			double ratioY = 1f;
+			
+			Rectangle2D clip = null;
+
+			Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+			if (dimension != null)
+			{
+				normalWidth = dimension.getWidth();
+				normalHeight = dimension.getHeight();
+				displayWidth = normalWidth;
+				displayHeight = normalHeight;
+				
+				switch (printImage.getScaleImageValue())
+				{
+					case CLIP:
+					{
+						xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+						yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+						clip =
+							new Rectangle2D.Double(
+								- xoffset,
+								- yoffset,
+								availableImageWidth,
+								availableImageHeight
+								);
+						break;
+					}
+					case FILL_FRAME:
+					{
+						ratioX = availableImageWidth / normalWidth;
+						ratioY = availableImageHeight / normalHeight;
+						normalWidth *= ratioX;
+						normalHeight *= ratioY;
+						xoffset = 0;
+						yoffset = 0;
+						break;
+					}
+					case RETAIN_SHAPE:
+					default:
+					{
+						ratioX = availableImageWidth / normalWidth;
+						ratioY = availableImageHeight / normalHeight;
+						ratioX = ratioX < ratioY ? ratioX : ratioY;
+						ratioY = ratioX;
+						normalWidth *= ratioX;
+						normalHeight *= ratioY;
+						xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+						yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+						break;
+					}
+				}
+			}
+
+			PdfTemplate template = pdfContentByte.createTemplate((float)displayWidth, (float)displayHeight);
+
+			Graphics2D g = getCurrentItemConfiguration().isForceSvgShapes()
+				? template.createGraphicsShapes((float)displayWidth, (float)displayHeight)
+				: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
+
+			try
+			{
+				if (clip != null)
+				{
+					g.setClip(clip);
+				}
+				
+				if (printImage.getModeValue() == ModeEnum.OPAQUE)
+				{
+					g.setColor(printImage.getBackcolor());
+					g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
+				}
+
+				renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, displayWidth, displayHeight));
+			}
+			finally
+			{
+				g.dispose();
+			}
+
+			pdfContentByte.saveState();
+			pdfContentByte.addTemplate(
+				template,
+				(float)ratioX, 0f, 0f, (float)ratioY,
+				printImage.getX() + getOffsetX() + xoffset,
+				pageFormat.getPageHeight()
+					- printImage.getY() - getOffsetY()
+					- (int)normalHeight
+					- yoffset
+				);
+			pdfContentByte.restoreState();
+
+			Image image = getPxImage();
+			image.scaleAbsolute(availableImageWidth, availableImageHeight);
+			
+			InternalImageProcessorResult result =
+				new InternalImageProcessorResult(
+					new Chunk(image, 0, 0),
+					availableImageWidth,
+					availableImageHeight,
+					xoffset,
+					yoffset
+					);
+			
+			pdfWriter.releaseTemplate(template);
+			
+			return result;
+		}
+	}
+
+	private class InternalImageProcessorResult
+	{
+		private final Chunk chunk;
+		private final float scaledWidth;
+		private final float scaledHeight;
+		private final int xoffset;
+		private final int yoffset;
+		
+		private InternalImageProcessorResult(
+				Chunk chunk,
+				float scaledWidth,
+				float scaledHeight,
+				int xoffset,
+				int yoffset
+			)
+		{
+			this.chunk = chunk;
+			this.scaledWidth = scaledWidth;
+			this.scaledHeight = scaledHeight;
+			this.xoffset = xoffset;
+			this.yoffset = yoffset;
+		}
+	}
 
 	private float getXAlignFactor(JRPrintImage printImage)
 	{

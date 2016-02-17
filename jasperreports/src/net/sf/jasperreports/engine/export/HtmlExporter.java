@@ -943,7 +943,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 		
 		Renderable renderer = image.getRenderable();
-		Renderable originalRenderer = renderer;
 
 		if (renderer != null)
 		{
@@ -977,21 +976,291 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				hasHyperlinks = hyperlinkStarted;
 			}
 			
-			String imagePath = null;
+			String imageMapName = null;
+			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
+
+			if (hasAreaHyperlinks)
+			{
+				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
+				
+				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+				{
+					imageMapName = imageMaps.get(new Pair<String, Rectangle>(renderer.getId(), renderingArea));
+				}
+
+				if (imageMapName == null)
+				{
+					Renderable originalRenderer = image.getRenderable();
+					imageMapName = "map_" + getElementIndex(cell).toString() + "-" + originalRenderer.getId();//use renderer.getId()?
+					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
+					
+					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+					{
+						imageMaps.put(new Pair<String, Rectangle>(renderer.getId(), renderingArea), imageMapName);
+					}
+				}
+			}
+
+			boolean useBackgroundImage = 
+				image.isLazy() 
+				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
+					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP));
+				
+			InternalImageProcessor imageProcessor = 
+				new InternalImageProcessor(
+					image, 
+					image.isLazy(), 
+					isEmbedImage(image),
+					!useBackgroundImage && scaleImage != ScaleImageEnum.FILL_FRAME && !image.isLazy(),
+					cell
+					);
 			
-			boolean isEmbedImage = isEmbedImage(image);
+			InternalImageProcessorResult imageProcessorResult = null;
+			
+			try
+			{
+				imageProcessorResult = imageProcessor.process(renderer);
+			}
+			catch (Exception e)
+			{
+				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, image.getOnErrorTypeValue());
+				if (onErrorRenderer != null)
+				{
+					imageProcessorResult = imageProcessor.process(onErrorRenderer);
+				}
+			}
+			
+			if (imageProcessorResult != null)
+			{
+				if (useBackgroundImage)
+				{
+					writer.write("<div style=\"width: 100%; height: 100%; background-image: url('");
+					String imagePath = imageProcessorResult.imagePath;
+					if (imagePath != null)
+					{
+						writer.write(imagePath);
+					}
+					writer.write(
+						"'); background-repeat: no-repeat; background-position: " 
+						+ horizontalAlignment + " " 
+						+ (image.getVerticalImageAlign() == VerticalImageAlignEnum.MIDDLE ? "center" : verticalAlignment) 
+						+ ";background-size: "
+						);
+				
+					switch (scaleImage)
+					{
+						case FILL_FRAME :
+						{
+							writer.write("100% 100%");
+							break;
+						}
+						case CLIP :
+						{
+							writer.write("auto");
+							break;
+						}
+						case RETAIN_SHAPE :
+						default :
+						{
+							writer.write("contain");
+						}
+					}
+					writer.write(";\"></div>");
+				}
+				else
+				{
+					writer.write("<img");
+					writer.write(" src=\"");
+					String imagePath = imageProcessorResult.imagePath;
+					if (imagePath != null)
+					{
+						writer.write(imagePath);
+					}
+					writer.write("\"");
+				
+					switch (scaleImage)
+					{
+						case FILL_FRAME :
+						{
+							writer.write(" style=\"width: ");
+							writer.write(toSizeUnit(imageWidth));
+							writer.write("; height: ");
+							writer.write(toSizeUnit(imageHeight));
+							writer.write("\"");
+				
+							break;
+						}
+						case CLIP :
+						{
+							int positionLeft;
+							int positionTop;
+							
+							HorizontalImageAlignEnum horizontalAlign = image.getHorizontalImageAlign();
+							VerticalImageAlignEnum verticalAlign = image.getVerticalImageAlign();
+							if (  
+								image.isLazy()
+								|| (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
+								)
+							{
+								// no need to compute anything
+								positionLeft = 0;
+								positionTop = 0;
+							}
+							else
+							{
+								double normalWidth = imageWidth;
+								double normalHeight = imageHeight;
+
+								Dimension2D dimension = imageProcessorResult.dimension;
+								if (dimension != null)
+								{
+									normalWidth = dimension.getWidth();
+									normalHeight = dimension.getHeight();
+								}
+								
+								// these calculations assume that the image td does not stretch due to other cells.
+								// when that happens, the image will not be properly aligned.
+								float xAlignFactor = horizontalAlign == HorizontalImageAlignEnum.RIGHT ? 1f
+										: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
+								float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
+										: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
+								positionLeft = (int) (xAlignFactor * (imageWidth - normalWidth));
+								positionTop = (int) (yAlignFactor * (imageHeight - normalHeight));
+							}
+							
+							writer.write(" style=\"position: absolute; left:");
+							writer.write(toSizeUnit(positionLeft));
+							writer.write("; top: ");
+							writer.write(toSizeUnit(positionTop));
+							// not setting width, height and clip as it doesn't seem needed plus it fixes clip for lazy images
+							writer.write(";\"");
+
+							break;
+						}
+						case RETAIN_SHAPE :
+						default :
+						{
+							//considering the IF above, if we get here, then for sure isLazy() is false, so we can ask the renderer for its dimension
+							if (imageHeight > 0)
+							{
+								double normalWidth = imageWidth;
+								double normalHeight = imageHeight;
+
+								Dimension2D dimension = imageProcessorResult.dimension;
+								if (dimension != null)
+								{
+									normalWidth = dimension.getWidth();
+									normalHeight = dimension.getHeight();
+								}
+								
+								double ratio = normalWidth / normalHeight;
+				
+								if ( ratio > (double)imageWidth / (double)imageHeight )
+								{
+									writer.write(" style=\"width: ");
+									writer.write(toSizeUnit(imageWidth));
+									writer.write("\"");
+								}
+								else
+								{
+									writer.write(" style=\"height: ");
+									writer.write(toSizeUnit(imageHeight));
+									writer.write("\"");
+								}
+							}
+						}
+					}
+					
+					if (imageMapName != null)
+					{
+						writer.write(" usemap=\"#" + imageMapName + "\"");
+					}
+					
+					writer.write(" alt=\"\"");
+					
+					if (hasHyperlinks)
+					{
+						writer.write(" border=\"0\"");
+					}
+					
+					if (image.getHyperlinkTooltip() != null)
+					{
+						writer.write(" title=\"");
+						writer.write(JRStringUtil.xmlEncode(image.getHyperlinkTooltip()));
+						writer.write("\"");
+					}
+					
+					writer.write("/>");
+				}
+			}
+
+			if (hyperlinkStarted)
+			{
+				endHyperlink();
+			}
+			
+			if (startedDiv)
+			{
+				writer.write("</div>");
+			}
+			
+			if (imageMapAreas != null)
+			{
+				writer.write("\n");
+				writeImageMap(imageMapName, image, imageMapAreas);
+			}
+		}
+		
+		endCell();
+	}
+
+	
+	private class InternalImageProcessor
+	{
+		private final JRPrintElement imageElement;
+		private final boolean isLazy; 
+		private final boolean embedImage; 
+		private final boolean needDimension; 
+		private final TableCell cell;
+
+		protected InternalImageProcessor(
+			JRPrintElement imageElement,
+			boolean isLazy, 
+			boolean embedImage, 
+			boolean needDimension, 
+			TableCell cell
+			)
+		{
+			this.imageElement = imageElement;
+			this.isLazy = isLazy;
+			this.embedImage = embedImage;
+			this.needDimension = needDimension;
+			this.cell = cell;
+		}
+		
+		protected InternalImageProcessorResult process(Renderable renderer) throws JRException, IOException
+		{
+			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
+			Dimension2D dimension = null;
+			if (needDimension)
+			{
+				dimension = renderer.getDimension(jasperReportsContext);
+			}
+			
+			
+			String imagePath = null;
 			
 			if (
 				renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
 				&& rendererToImagePathMap.containsKey(renderer.getId())
-				&& (image.isLazy() || !isEmbedImage)
+				&& (isLazy || !embedImage)
 				)
 			{
 				imagePath = rendererToImagePathMap.get(renderer.getId());
 			}
 			else
 			{
-				if (image.isLazy())
+				if (isLazy)
 				{
 					imagePath = ((JRImageRenderer)renderer).getImageLocation();
 
@@ -1004,14 +1273,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						renderer =
 							new JRWrappingSvgRenderer(
 								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								new Dimension(imageElement.getWidth(), imageElement.getHeight()),
+								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								);
 					}
 
 					byte[] imageData = renderer.getImageData(jasperReportsContext);
 
-					if (isEmbedImage)
+					if (embedImage)
 					{
 						ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1048,212 +1317,23 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				}
 			}
 			
-			String imageMapName = null;
-			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
-
-			if (hasAreaHyperlinks)
-			{
-				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
-				
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-				{
-					imageMapName = imageMaps.get(new Pair<String, Rectangle>(renderer.getId(), renderingArea));
-				}
-
-				if (imageMapName == null)
-				{
-					imageMapName = "map_" + getElementIndex(cell).toString() + "-" + originalRenderer.getId();//use renderer.getId()?
-					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
-					
-					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-					{
-						imageMaps.put(new Pair<String, Rectangle>(renderer.getId(), renderingArea), imageMapName);
-					}
-				}
-			}
-
-			if (
-				image.isLazy() 
-				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
-					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP))
-				)
-			{
-				writer.write("<div style=\"width: 100%; height: 100%; background-image: url('");
-				if (imagePath != null)
-				{
-					writer.write(imagePath);
-				}
-				writer.write(
-					"'); background-repeat: no-repeat; background-position: " 
-					+ horizontalAlignment + " " 
-					+ (image.getVerticalImageAlign() == VerticalImageAlignEnum.MIDDLE ? "center" : verticalAlignment) 
-					+ ";background-size: "
-					);
-			
-				switch (scaleImage)
-				{
-					case FILL_FRAME :
-					{
-						writer.write("100% 100%");
-						break;
-					}
-					case CLIP :
-					{
-						writer.write("auto");
-						break;
-					}
-					case RETAIN_SHAPE :
-					default :
-					{
-						writer.write("contain");
-					}
-				}
-				writer.write(";\"></div>");
-			}
-			else
-			{
-				writer.write("<img");
-				writer.write(" src=\"");
-				if (imagePath != null)
-				{
-					writer.write(imagePath);
-				}
-				writer.write("\"");
-			
-				switch (scaleImage)
-				{
-					case FILL_FRAME :
-					{
-						writer.write(" style=\"width: ");
-						writer.write(toSizeUnit(imageWidth));
-						writer.write("; height: ");
-						writer.write(toSizeUnit(imageHeight));
-						writer.write("\"");
-			
-						break;
-					}
-					case CLIP :
-					{
-						int positionLeft;
-						int positionTop;
-						
-						HorizontalImageAlignEnum horizontalAlign = image.getHorizontalImageAlign();
-						VerticalImageAlignEnum verticalAlign = image.getVerticalImageAlign();
-						if (  
-							image.isLazy()
-							|| (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
-							)
-						{
-							// no need to compute anything
-							positionLeft = 0;
-							positionTop = 0;
-						}
-						else
-						{
-							double normalWidth = imageWidth;
-							double normalHeight = imageHeight;
-
-							Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
-							if (dimension != null)
-							{
-								normalWidth = dimension.getWidth();
-								normalHeight = dimension.getHeight();
-							}
-							
-							// these calculations assume that the image td does not stretch due to other cells.
-							// when that happens, the image will not be properly aligned.
-							float xAlignFactor = horizontalAlign == HorizontalImageAlignEnum.RIGHT ? 1f
-									: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
-							float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
-									: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
-							positionLeft = (int) (xAlignFactor * (imageWidth - normalWidth));
-							positionTop = (int) (yAlignFactor * (imageHeight - normalHeight));
-						}
-						
-						writer.write(" style=\"position: absolute; left:");
-						writer.write(toSizeUnit(positionLeft));
-						writer.write("; top: ");
-						writer.write(toSizeUnit(positionTop));
-						// not setting width, height and clip as it doesn't seem needed plus it fixes clip for lazy images
-						writer.write(";\"");
-
-						break;
-					}
-					case RETAIN_SHAPE :
-					default :
-					{
-						//considering the IF above, if we get here, then for sure isLazy() is false, so we can ask the renderer for its dimension
-						if (imageHeight > 0)
-						{
-							double normalWidth = imageWidth;
-							double normalHeight = imageHeight;
-
-							Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
-							if (dimension != null)
-							{
-								normalWidth = dimension.getWidth();
-								normalHeight = dimension.getHeight();
-							}
-							
-							double ratio = normalWidth / normalHeight;
-			
-							if ( ratio > (double)imageWidth / (double)imageHeight )
-							{
-								writer.write(" style=\"width: ");
-								writer.write(toSizeUnit(imageWidth));
-								writer.write("\"");
-							}
-							else
-							{
-								writer.write(" style=\"height: ");
-								writer.write(toSizeUnit(imageHeight));
-								writer.write("\"");
-							}
-						}
-					}
-				}
-				
-				if (imageMapName != null)
-				{
-					writer.write(" usemap=\"#" + imageMapName + "\"");
-				}
-				
-				writer.write(" alt=\"\"");
-				
-				if (hasHyperlinks)
-				{
-					writer.write(" border=\"0\"");
-				}
-				
-				if (image.getHyperlinkTooltip() != null)
-				{
-					writer.write(" title=\"");
-					writer.write(JRStringUtil.xmlEncode(image.getHyperlinkTooltip()));
-					writer.write("\"");
-				}
-				
-				writer.write("/>");
-			}
-
-			if (hyperlinkStarted)
-			{
-				endHyperlink();
-			}
-			
-			if (startedDiv)
-			{
-				writer.write("</div>");
-			}
-			
-			if (imageMapAreas != null)
-			{
-				writer.write("\n");
-				writeImageMap(imageMapName, image, imageMapAreas);
-			}
+			return new InternalImageProcessorResult(imagePath, dimension);
 		}
-		
-		endCell();
 	}
+	
+	
+	private static class InternalImageProcessorResult
+	{
+		protected final String imagePath;
+		protected final Dimension2D dimension;
+		
+		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		{
+			this.imagePath = imagePath;
+			this.dimension = dimension;
+		}
+	}
+
 
 	protected String getImageHorizontalAlignmentStyle(JRPrintImage image)
 	{
