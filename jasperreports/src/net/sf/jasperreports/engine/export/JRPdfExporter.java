@@ -1543,22 +1543,28 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 							new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_ARGB);
 
 						Graphics2D g = bi.createGraphics();
-						if (printImage.getModeValue() == ModeEnum.OPAQUE)
+						try
 						{
-							g.setColor(printImage.getBackcolor());
-							g.fillRect(0, 0, minWidth, minHeight);
+							if (printImage.getModeValue() == ModeEnum.OPAQUE)
+							{
+								g.setColor(printImage.getBackcolor());
+								g.fillRect(0, 0, minWidth, minHeight);
+							}
+							renderer.render(
+								jasperReportsContext,
+								g,
+								new java.awt.Rectangle(
+									(xoffset > 0 ? 0 : xoffset),
+									(yoffset > 0 ? 0 : yoffset),
+									normalWidth,
+									normalHeight
+									)
+								);
 						}
-						renderer.render(
-							jasperReportsContext,
-							g,
-							new java.awt.Rectangle(
-								(xoffset > 0 ? 0 : xoffset),
-								(yoffset > 0 ? 0 : yoffset),
-								normalWidth,
-								normalHeight
-								)
-							);
-						g.dispose();
+						finally
+						{
+							g.dispose();
+						}
 
 						xoffset = (xoffset < 0 ? 0 : xoffset);
 						yoffset = (yoffset < 0 ? 0 : yoffset);

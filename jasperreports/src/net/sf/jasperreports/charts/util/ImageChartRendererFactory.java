@@ -28,6 +28,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import org.jfree.chart.JFreeChart;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -37,8 +39,6 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.renderers.JRSimpleImageMapRenderer;
-
-import org.jfree.chart.JFreeChart;
 
 
 /**
@@ -67,18 +67,25 @@ public class ImageChartRendererFactory extends AbstractChartRenderableFactory
 				BufferedImage.TYPE_INT_ARGB
 				);
 
-		Graphics2D grx = bi.createGraphics();
-		grx.scale(scale, scale);
-
 		List<JRPrintImageAreaHyperlink> areaHyperlinks = null;
 
-		if (chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks())
+		Graphics2D grx = bi.createGraphics();
+		try
 		{
-			areaHyperlinks = ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, (Graphics2D)bi.getGraphics(), rectangle);
+			grx.scale(scale, scale);
+
+			if (chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks())
+			{
+				areaHyperlinks = ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, grx, rectangle);
+			}
+			else
+			{
+				chart.draw(grx, rectangle);
+			}
 		}
-		else
+		finally
 		{
-			chart.draw(grx, rectangle);
+			grx.dispose();
 		}
 
 		try

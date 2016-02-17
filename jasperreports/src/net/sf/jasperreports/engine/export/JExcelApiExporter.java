@@ -1393,26 +1393,33 @@ public class JExcelApiExporter extends
 							);
 
 					Graphics2D grx = bi.createGraphics();
-					grx.scale(scale, scale);
-					grx.clip(
-						new Rectangle(
-							0, 
-							0, 
-							availableImageWidth, 
-							availableImageHeight
-							)
-						);
-					
-					renderer.render(
-						jasperReportsContext,
-						grx, 
-						new Rectangle(
-							(int) (xalignFactor * (availableImageWidth - normalWidth)),
-							(int) (yalignFactor * (availableImageHeight - normalHeight)),
-							normalWidth, 
-							normalHeight
-							)
-						);
+					try
+					{
+						grx.scale(scale, scale);
+						grx.clip(
+							new Rectangle(
+								0, 
+								0, 
+								availableImageWidth, 
+								availableImageHeight
+								)
+							);
+						
+						renderer.render(
+							jasperReportsContext,
+							grx, 
+							new Rectangle(
+								(int) (xalignFactor * (availableImageWidth - normalWidth)),
+								(int) (yalignFactor * (availableImageHeight - normalHeight)),
+								normalWidth, 
+								normalHeight
+								)
+							);
+					}
+					finally
+					{
+						grx.dispose();
+					}
 
 					topOffset = topPadding;
 					leftOffset = leftPadding;

@@ -62,8 +62,14 @@ public abstract class JRAbstractImageEncoder implements JRImageEncoder
 					);
 
 			Graphics g = bi.createGraphics();
-			g.drawImage(image, 0, 0, null);
-			g.dispose();
+			try
+			{
+				g.drawImage(image, 0, 0, null);
+			}
+			finally
+			{
+				g.dispose();
+			}
 		}
 
 		return encode(bi, imageType);
