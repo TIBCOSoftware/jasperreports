@@ -1077,9 +1077,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			Renderable renderer = element.getRenderable();
 
 			if (
-				renderer != null &&
-				availableImageWidth > 0 &&
-				availableImageHeight > 0
+				renderer != null 
+				&& availableImageWidth > 0 
+				&& availableImageHeight > 0
 				) {
 				
 				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE) {
@@ -1213,24 +1213,23 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					}
 					case RETAIN_SHAPE:
 					default: {
-						if (element.getHeight() > 0) {
-							double ratio = (double) normalWidth / (double) normalHeight;
+						double ratio = (double) normalWidth / (double) normalHeight;
 
-							if (ratio > (double) availableImageWidth / (double) availableImageHeight) {
-								normalWidth = availableImageWidth;
-								normalHeight = (int) (availableImageWidth / ratio);
-							} else {
-								normalWidth = (int) (availableImageHeight * ratio);
-								normalHeight = availableImageHeight;
-							}
-
-//							topOffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
-//							leftOffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
-//							bottomOffset = bottomPadding + (int) ((1f - yalignFactor) * (availableImageHeight - normalHeight));
-//							rightOffset = rightPadding + (int) ((1f - xalignFactor) * (availableImageWidth - normalWidth));
-
-							imageData = renderer.getImageData(jasperReportsContext);
+						if (ratio > (double) availableImageWidth / (double) availableImageHeight) {
+							normalWidth = availableImageWidth;
+							normalHeight = (int) (availableImageWidth / ratio);
+						} else {
+							normalWidth = (int) (availableImageHeight * ratio);
+							normalHeight = availableImageHeight;
 						}
+
+//						topOffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
+//						leftOffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
+//						bottomOffset = bottomPadding + (int) ((1f - yalignFactor) * (availableImageHeight - normalHeight));
+//						rightOffset = rightPadding + (int) ((1f - xalignFactor) * (availableImageWidth - normalWidth));
+
+						imageData = renderer.getImageData(jasperReportsContext);
+
 						break;
 					}
 				}

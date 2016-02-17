@@ -395,9 +395,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		Renderable renderer = image.getRenderable();
 
 		if (
-			renderer != null &&
-			availableImageWidth > 0 &&
-			availableImageHeight > 0
+			renderer != null 
+			&& availableImageWidth > 0 
+			&& availableImageHeight > 0
 			)
 		{
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && !image.isLazy())
@@ -444,21 +444,18 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 						}
 					}
 
-					if (availableImageHeight > 0)
+					double ratio = normalWidth / normalHeight;
+
+					if( ratio > availableImageWidth / (double)availableImageHeight )
 					{
-						double ratio = normalWidth / normalHeight;
+						width = availableImageWidth;
+						height = (int)(width/ratio);
 
-						if( ratio > availableImageWidth / (double)availableImageHeight )
-						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
-
-						}
-						else
-						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
-						}
+					}
+					else
+					{
+						height = availableImageHeight;
+						width = (int)(ratio * height);
 					}
 
 					xoffset = (int)(xalignFactor * (availableImageWidth - width));

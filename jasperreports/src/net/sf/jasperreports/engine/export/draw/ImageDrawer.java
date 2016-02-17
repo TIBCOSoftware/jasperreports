@@ -85,9 +85,9 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		Renderable renderer = printImage.getRenderable();
 		
 		if (
-			renderer != null &&
-			internalImageDrawer.availableImageWidth > 0 &&
-			internalImageDrawer.availableImageHeight > 0
+			renderer != null 
+			&& internalImageDrawer.availableImageWidth > 0 
+			&& internalImageDrawer.availableImageHeight > 0
 			)
 		{
 			try
@@ -266,45 +266,42 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			Renderable renderer
 			) throws JRException
 		{
-			if (printImage.getHeight() > 0)
+			int normalWidth = availableImageWidth;
+			int normalHeight = availableImageHeight;
+
+			Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
+			if (dimension != null)
 			{
-				int normalWidth = availableImageWidth;
-				int normalHeight = availableImageHeight;
-
-				Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
-				if (dimension != null)
-				{
-					normalWidth = (int)dimension.getWidth();
-					normalHeight = (int)dimension.getHeight();
-				}
-		
-				double ratio = (double)normalWidth / (double)normalHeight;
-				
-				if( ratio > (double)availableImageWidth / (double)availableImageHeight )
-				{
-					normalWidth = availableImageWidth; 
-					normalHeight = (int)(availableImageWidth / ratio); 
-				}
-				else
-				{
-					normalWidth = (int)(availableImageHeight * ratio); 
-					normalHeight = availableImageHeight; 
-				}
-
-				int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-				int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-
-				renderer.render(
-					getJasperReportsContext(),
-					grx,
-					new Rectangle(
-						printImage.getX() + leftPadding + offsetX + xoffset, 
-						printImage.getY() + topPadding + offsetY + yoffset, 
-						normalWidth, 
-						normalHeight
-						) 
-					);
+				normalWidth = (int)dimension.getWidth();
+				normalHeight = (int)dimension.getHeight();
 			}
+	
+			double ratio = (double)normalWidth / (double)normalHeight;
+			
+			if( ratio > (double)availableImageWidth / (double)availableImageHeight )
+			{
+				normalWidth = availableImageWidth; 
+				normalHeight = (int)(availableImageWidth / ratio); 
+			}
+			else
+			{
+				normalWidth = (int)(availableImageHeight * ratio); 
+				normalHeight = availableImageHeight; 
+			}
+
+			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+
+			renderer.render(
+				getJasperReportsContext(),
+				grx,
+				new Rectangle(
+					printImage.getX() + leftPadding + offsetX + xoffset, 
+					printImage.getY() + topPadding + offsetY + yoffset, 
+					normalWidth, 
+					normalHeight
+					) 
+				);
 		}
 	}
 

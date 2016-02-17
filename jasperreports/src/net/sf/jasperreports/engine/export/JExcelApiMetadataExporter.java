@@ -1240,9 +1240,9 @@ public class JExcelApiMetadataExporter extends
 			Renderable renderer = element.getRenderable();
 	
 			if (
-				renderer != null &&
-				availableImageWidth > 0 &&
-				availableImageHeight > 0
+				renderer != null 
+				&& availableImageWidth > 0 
+				&& availableImageHeight > 0
 				)
 			{
 				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
@@ -1382,23 +1382,20 @@ public class JExcelApiMetadataExporter extends
 					case RETAIN_SHAPE:
 					default:
 					{
-						if (element.getHeight() > 0)
+						double ratio = (double) normalWidth / (double) normalHeight;
+						
+						if (ratio > (double) availableImageWidth / (double) availableImageHeight)
 						{
-							double ratio = (double) normalWidth / (double) normalHeight;
-	
-							if (ratio > (double) availableImageWidth / (double) availableImageHeight)
-							{
-								normalWidth = availableImageWidth;
-								normalHeight = (int) (availableImageWidth / ratio);
-							}
-							else
-							{
-								normalWidth = (int) (availableImageHeight * ratio);
-								normalHeight = availableImageHeight;
-							}
-	
-							imageData = renderer.getImageData(jasperReportsContext);
+							normalWidth = availableImageWidth;
+							normalHeight = (int) (availableImageWidth / ratio);
 						}
+						else
+						{
+							normalWidth = (int) (availableImageHeight * ratio);
+							normalHeight = availableImageHeight;
+						}
+
+						imageData = renderer.getImageData(jasperReportsContext);
 	
 						break;
 					}

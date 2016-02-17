@@ -935,9 +935,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		Renderable renderer = image.getRenderable();
 
 		if (
-			renderer != null &&
-			availableImageWidth > 0 &&
-			availableImageHeight > 0
+			renderer != null
+			&& availableImageWidth > 0 
+			&& availableImageHeight > 0
 			)
 		{
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
@@ -1047,64 +1047,61 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				case RETAIN_SHAPE :
 				default :
 				{
-					if (availableImageHeight > 0)//FIXMEXLSX this is useless. test is above. check all
+					double ratio = normalWidth / normalHeight;
+
+					if( ratio > availableImageWidth / (double)availableImageHeight )
 					{
-						double ratio = normalWidth / normalHeight;
+						width = availableImageWidth;
+						height = (int)(width/ratio);
 
-						if( ratio > availableImageWidth / (double)availableImageHeight )
+						switch (image.getVerticalImageAlign())
 						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
-
-							switch (image.getVerticalImageAlign())
+							case TOP :
 							{
-								case TOP :
-								{
-									cropTop = 0;
-									cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
-									break;
-								}
-								case MIDDLE :
-								{
-									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
-									cropBottom = cropTop;
-									break;
-								}
-								case BOTTOM :
-								default :
-								{
-									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
-									cropBottom = 0;
-									break;
-								}
+								cropTop = 0;
+								cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
+								break;
+							}
+							case MIDDLE :
+							{
+								cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
+								cropBottom = cropTop;
+								break;
+							}
+							case BOTTOM :
+							default :
+							{
+								cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
+								cropBottom = 0;
+								break;
 							}
 						}
-						else
-						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
+					}
+					else
+					{
+						height = availableImageHeight;
+						width = (int)(ratio * height);
 
-							switch (image.getHorizontalImageAlign())
+						switch (image.getHorizontalImageAlign())
+						{
+							case RIGHT :
 							{
-								case RIGHT :
-								{
-									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
-									cropRight = 0;
-									break;
-								}
-								case CENTER :
-								{
-									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
-									cropRight = cropLeft;
-									break;
-								}
-								case LEFT :
-								default :
-								{
-									cropLeft = 0;
-									cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
-									break;
-								}
+								cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
+								cropRight = 0;
+								break;
+							}
+							case CENTER :
+							{
+								cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
+								cropRight = cropLeft;
+								break;
+							}
+							case LEFT :
+							default :
+							{
+								cropLeft = 0;
+								cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
+								break;
 							}
 						}
 					}

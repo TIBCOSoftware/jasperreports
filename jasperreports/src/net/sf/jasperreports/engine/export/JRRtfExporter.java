@@ -1080,9 +1080,9 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		Renderable renderer = printImage.getRenderable();
 
 		if (
-			renderer != null &&
-			availableImageWidth > 0 &&
-			availableImageHeight > 0
+			renderer != null 
+			&& availableImageWidth > 0 
+			&& availableImageHeight > 0
 			)
 		{
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
@@ -1191,26 +1191,23 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 				case RETAIN_SHAPE:
 				default:
 				{
-					if (printImage.getHeight() > 0)
+					double ratio = (double) normalWidth / (double) normalHeight;
+
+					if (ratio > (double) availableImageWidth / (double) availableImageHeight)
 					{
-						double ratio = (double) normalWidth / (double) normalHeight;
-
-						if (ratio > (double) availableImageWidth / (double) availableImageHeight)
-						{
-							normalWidth = availableImageWidth;
-							normalHeight = (int) (availableImageWidth / ratio);
-						}
-						else
-						{
-							normalWidth = (int) (availableImageHeight * ratio);
-							normalHeight = availableImageHeight;
-						}
-
-						xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-						yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-						imageWidth = normalWidth;
-						imageHeight = normalHeight;
+						normalWidth = availableImageWidth;
+						normalHeight = (int) (availableImageWidth / ratio);
 					}
+					else
+					{
+						normalWidth = (int) (availableImageHeight * ratio);
+						normalHeight = availableImageHeight;
+					}
+
+					xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					imageWidth = normalWidth;
+					imageHeight = normalHeight;
 
 					break;
 				}

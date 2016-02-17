@@ -1465,9 +1465,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		Renderable renderer = printImage.getRenderable();
 
 		if (
-			renderer != null &&
-			imageProcessor.availableImageWidth > 0 &&
-			imageProcessor.availableImageHeight > 0
+			renderer != null 
+			&& imageProcessor.availableImageWidth > 0 
+			&& imageProcessor.availableImageHeight > 0
 			)
 		{
 			InternalImageProcessorResult imageProcessorResult = null;
