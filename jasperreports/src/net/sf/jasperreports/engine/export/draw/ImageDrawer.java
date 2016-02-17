@@ -41,8 +41,10 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 
 /**
@@ -113,64 +115,22 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 
 		if (renderer != null)
 		{
-			int normalWidth = availableImageWidth;
-			int normalHeight = availableImageHeight;
-
-			Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
-			if (dimension != null)
-			{
-				normalWidth = (int)dimension.getWidth();
-				normalHeight = (int)dimension.getHeight();
-			}
-	
-			float xalignFactor = 0f;
-			switch (printImage.getHorizontalImageAlign())
-			{
-				case RIGHT :
-				{
-					xalignFactor = 1f;
-					break;
-				}
-				case CENTER :
-				{
-					xalignFactor = 0.5f;
-					break;
-				}
-				case LEFT :
-				default :
-				{
-					xalignFactor = 0f;
-					break;
-				}
-			}
-
-			float yalignFactor = 0f;
-			switch (printImage.getVerticalImageAlign())
-			{
-				case BOTTOM :
-				{
-					yalignFactor = 1f;
-					break;
-				}
-				case MIDDLE :
-				{
-					yalignFactor = 0.5f;
-					break;
-				}
-				case TOP :
-				default :
-				{
-					yalignFactor = 0f;
-					break;
-				}
-			}
-
 			switch (printImage.getScaleImageValue())// FIXME maybe put this in JRFiller
 			{
 				case CLIP :
 				{
-					int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
-					int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
+					int normalWidth = availableImageWidth;
+					int normalHeight = availableImageHeight;
+
+					Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
+					if (dimension != null)
+					{
+						normalWidth = (int)dimension.getWidth();
+						normalHeight = (int)dimension.getHeight();
+					}
+			
+					int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
+					int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
 
 					Shape oldClipShape = grx.getClip();
 
@@ -223,6 +183,16 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				{
 					if (printImage.getHeight() > 0)
 					{
+						int normalWidth = availableImageWidth;
+						int normalHeight = availableImageHeight;
+
+						Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
+						if (dimension != null)
+						{
+							normalWidth = (int)dimension.getWidth();
+							normalHeight = (int)dimension.getHeight();
+						}
+				
 						double ratio = (double)normalWidth / (double)normalHeight;
 						
 						if( ratio > (double)availableImageWidth / (double)availableImageHeight )
@@ -236,8 +206,8 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 							normalHeight = availableImageHeight; 
 						}
 
-						int xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
-						int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
+						int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
+						int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
 
 						renderer.render(
 							getJasperReportsContext(),
@@ -280,4 +250,53 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		}
 	}
 
+	private float getXAlignFactor(HorizontalImageAlignEnum horizontalImageAlign)
+	{
+		float xalignFactor = 0f;
+		switch (horizontalImageAlign)
+		{
+			case RIGHT :
+			{
+				xalignFactor = 1f;
+				break;
+			}
+			case CENTER :
+			{
+				xalignFactor = 0.5f;
+				break;
+			}
+			case LEFT :
+			default :
+			{
+				xalignFactor = 0f;
+				break;
+			}
+		}
+		return xalignFactor;
+	}
+
+	private float getYAlignFactor(VerticalImageAlignEnum verticalImageAlign)
+	{
+		float yalignFactor = 0f;
+		switch (verticalImageAlign)
+		{
+			case BOTTOM :
+			{
+				yalignFactor = 1f;
+				break;
+			}
+			case MIDDLE :
+			{
+				yalignFactor = 0.5f;
+				break;
+			}
+			case TOP :
+			default :
+			{
+				yalignFactor = 0f;
+				break;
+			}
+		}
+		return yalignFactor;
+	}
 }
