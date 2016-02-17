@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 
@@ -78,150 +77,31 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				);
 		}
 
-		int topPadding = printImage.getLineBox().getTopPadding().intValue();
-		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
-		int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
-		int rightPadding = printImage.getLineBox().getRightPadding().intValue();
-		
-		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
-		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
-
-		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
-		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
+		InternalImageDrawer internalImageDrawer = 
+			new InternalImageDrawer(
+				printImage,
+				offsetX,
+				offsetY
+				);
 		
 		Renderable renderer = printImage.getRenderable();
 		
 		if (
 			renderer != null &&
-			availableImageWidth > 0 &&
-			availableImageHeight > 0
+			internalImageDrawer.availableImageWidth > 0 &&
+			internalImageDrawer.availableImageHeight > 0
 			)
 		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+			try
 			{
-				// Image renderers are all asked for their image data and dimension at some point. 
-				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
-				if (renderer != null)
-				{
-					renderer = RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForDimension(renderer, printImage.getOnErrorTypeValue());
-				}
+				internalImageDrawer.draw(grx, renderer);
 			}
-		}
-		else
-		{
-			renderer = null;
-		}
-
-		if (renderer != null)
-		{
-			switch (printImage.getScaleImageValue())// FIXME maybe put this in JRFiller
+			catch (Exception e)
 			{
-				case CLIP :
+				Renderable onErrorRenderer = RenderableUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorTypeValue());
+				if (onErrorRenderer != null)
 				{
-					int normalWidth = availableImageWidth;
-					int normalHeight = availableImageHeight;
-
-					Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
-					if (dimension != null)
-					{
-						normalWidth = (int)dimension.getWidth();
-						normalHeight = (int)dimension.getHeight();
-					}
-			
-					int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
-					int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
-
-					Shape oldClipShape = grx.getClip();
-
-					grx.clip(
-						new Rectangle(
-							printImage.getX() + leftPadding + offsetX, 
-							printImage.getY() + topPadding + offsetY, 
-							availableImageWidth, 
-							availableImageHeight
-							)
-						);
-					
-					try
-					{
-						renderer.render(
-							getJasperReportsContext(),
-							grx, 
-							new Rectangle(
-								printImage.getX() + leftPadding + offsetX + xoffset, 
-								printImage.getY() + topPadding + offsetY + yoffset, 
-								normalWidth, 
-								normalHeight
-								) 
-							);
-					}
-					finally
-					{
-						grx.setClip(oldClipShape);
-					}
-	
-					break;
-				}
-				case FILL_FRAME :
-				{
-					renderer.render(
-						getJasperReportsContext(),
-						grx,
-						new Rectangle(
-							printImage.getX() + leftPadding + offsetX, 
-							printImage.getY() + topPadding + offsetY, 
-							availableImageWidth, 
-							availableImageHeight
-							)
-						);
-	
-					break;
-				}
-				case RETAIN_SHAPE :
-				default :
-				{
-					if (printImage.getHeight() > 0)
-					{
-						int normalWidth = availableImageWidth;
-						int normalHeight = availableImageHeight;
-
-						Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
-						if (dimension != null)
-						{
-							normalWidth = (int)dimension.getWidth();
-							normalHeight = (int)dimension.getHeight();
-						}
-				
-						double ratio = (double)normalWidth / (double)normalHeight;
-						
-						if( ratio > (double)availableImageWidth / (double)availableImageHeight )
-						{
-							normalWidth = availableImageWidth; 
-							normalHeight = (int)(availableImageWidth / ratio); 
-						}
-						else
-						{
-							normalWidth = (int)(availableImageHeight * ratio); 
-							normalHeight = availableImageHeight; 
-						}
-
-						int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
-						int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
-
-						renderer.render(
-							getJasperReportsContext(),
-							grx,
-							new Rectangle(
-								printImage.getX() + leftPadding + offsetX + xoffset, 
-								printImage.getY() + topPadding + offsetY + yoffset, 
-								normalWidth, 
-								normalHeight
-								) 
-							);
-					}
-					
-					break;
+					internalImageDrawer.draw(grx, renderer);
 				}
 			}
 		}
@@ -247,6 +127,186 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		else
 		{
 			drawBox(grx, printImage.getLineBox(), printImage, offsetX, offsetY);
+		}
+	}
+	
+	
+	private class InternalImageDrawer
+	{
+		private final JRPrintImage printImage;
+		private final int offsetX;
+		private final int offsetY;
+		protected int availableImageWidth;
+		protected int availableImageHeight;
+		private final int topPadding;
+		private final int leftPadding;
+		private final int bottomPadding;
+		private final int rightPadding;
+
+		protected InternalImageDrawer(
+			JRPrintImage printImage,
+			int offsetX,
+			int offsetY
+			)
+		{
+			this.printImage = printImage;
+			this.offsetX = offsetX;
+			this.offsetY = offsetY;
+
+			topPadding = printImage.getLineBox().getTopPadding().intValue();
+			leftPadding = printImage.getLineBox().getLeftPadding().intValue();
+			bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
+			rightPadding = printImage.getLineBox().getRightPadding().intValue();
+			
+			availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
+			availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
+
+			availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
+			availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
+		}
+		
+		protected void draw(
+			Graphics2D grx,
+			Renderable renderer
+			) throws JRException
+		{
+			switch (printImage.getScaleImageValue())
+			{
+				case CLIP :
+				{
+					drawClip(grx, renderer);
+					break;
+				}
+				case FILL_FRAME :
+				{
+					drawFillFrame(grx, renderer);
+					break;
+				}
+				case RETAIN_SHAPE :
+				default :
+				{
+					drawRetainShape(grx, renderer);
+				}
+			}
+		}
+
+		private void drawClip(
+			Graphics2D grx,
+			Renderable renderer
+			) throws JRException
+		{
+			int normalWidth = availableImageWidth;
+			int normalHeight = availableImageHeight;
+
+			Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
+			if (dimension != null)
+			{
+				normalWidth = (int)dimension.getWidth();
+				normalHeight = (int)dimension.getHeight();
+			}
+
+			int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
+
+			Shape oldClipShape = grx.getClip();
+
+			grx.clip(
+				new Rectangle(
+					printImage.getX() + leftPadding + offsetX, 
+					printImage.getY() + topPadding + offsetY, 
+					availableImageWidth, 
+					availableImageHeight
+					)
+				);
+			
+			try
+			{
+				renderer.render(
+					getJasperReportsContext(),
+					grx, 
+					new Rectangle(
+						printImage.getX() + leftPadding + offsetX + xoffset, 
+						printImage.getY() + topPadding + offsetY + yoffset, 
+						normalWidth, 
+						normalHeight
+						) 
+					);
+			}
+			finally
+			{
+				grx.setClip(oldClipShape);
+			}
+		}
+		
+		
+		/**
+		 *
+		 */
+		private void drawFillFrame(
+			Graphics2D grx,
+			Renderable renderer
+			) throws JRException
+		{
+			renderer.render(
+				getJasperReportsContext(),
+				grx,
+				new Rectangle(
+					printImage.getX() + leftPadding + offsetX, 
+					printImage.getY() + topPadding + offsetY, 
+					availableImageWidth, 
+					availableImageHeight
+					)
+				);
+		}
+		
+		
+		/**
+		 *
+		 */
+		private void drawRetainShape(
+			Graphics2D grx,
+			Renderable renderer
+			) throws JRException
+		{
+			if (printImage.getHeight() > 0)
+			{
+				int normalWidth = availableImageWidth;
+				int normalHeight = availableImageHeight;
+
+				Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
+				if (dimension != null)
+				{
+					normalWidth = (int)dimension.getWidth();
+					normalHeight = (int)dimension.getHeight();
+				}
+		
+				double ratio = (double)normalWidth / (double)normalHeight;
+				
+				if( ratio > (double)availableImageWidth / (double)availableImageHeight )
+				{
+					normalWidth = availableImageWidth; 
+					normalHeight = (int)(availableImageWidth / ratio); 
+				}
+				else
+				{
+					normalWidth = (int)(availableImageHeight * ratio); 
+					normalHeight = availableImageHeight; 
+				}
+
+				int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
+				int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
+
+				renderer.render(
+					getJasperReportsContext(),
+					grx,
+					new Rectangle(
+						printImage.getX() + leftPadding + offsetX + xoffset, 
+						printImage.getY() + topPadding + offsetY + yoffset, 
+						normalWidth, 
+						normalHeight
+						) 
+					);
+			}
 		}
 	}
 
