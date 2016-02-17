@@ -194,9 +194,9 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 				chart.getImageWidth(), chart.getImageHeight(), 
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics = bufferedImage.createGraphics();
-		chart.setGraphics2D(graphics);
 		try
 		{
+			chart.setGraphics2D(graphics);
 			chart.render();
 		}
 		catch (ChartDataException e)
@@ -206,6 +206,10 @@ public class FillAxisChart extends BaseFillComponent implements JRFillCloneable
 		catch (PropertyException e)
 		{
 			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			graphics.dispose();
 		}
 		return bufferedImage;
 	}

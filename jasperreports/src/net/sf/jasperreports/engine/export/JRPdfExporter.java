@@ -1504,9 +1504,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				Image image = null;
 
-				float xalignFactor = getXAlignFactor(printImage);
-				float yalignFactor = getYAlignFactor(printImage);
-
 				switch(printImage.getScaleImageValue())
 				{
 					case CLIP :
@@ -1533,8 +1530,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 							normalHeight = (int)dimension.getHeight();
 						}
 
-						xoffset = (int)(xalignFactor * (availableImageWidth - normalWidth));
-						yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
+						xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+						yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 
 						int minWidth = Math.min(normalWidth, availableImageWidth);
 						int minHeight = Math.min(normalHeight, availableImageHeight);
@@ -1652,8 +1649,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 						image.scaleToFit(availableImageWidth, availableImageHeight);
 
-						xoffset = (int)(xalignFactor * (availableImageWidth - image.getPlainWidth()));
-						yoffset = (int)(yalignFactor * (availableImageHeight - image.getPlainHeight()));
+						xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
+						yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
 
 						xoffset = (xoffset < 0 ? 0 : xoffset);
 						yoffset = (yoffset < 0 ? 0 : yoffset);
@@ -1691,15 +1688,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					displayWidth = normalWidth;
 					displayHeight = normalHeight;
 					
-					float xalignFactor = getXAlignFactor(printImage);
-					float yalignFactor = getYAlignFactor(printImage);
-
 					switch (printImage.getScaleImageValue())
 					{
 						case CLIP:
 						{
-							xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-							yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+							xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+							yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 							clip =
 								new Rectangle2D.Double(
 									- xoffset,
@@ -1728,8 +1722,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 							ratioY = ratioX;
 							normalWidth *= ratioX;
 							normalHeight *= ratioY;
-							xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-							yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+							xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+							yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 							break;
 						}
 					}
@@ -1741,21 +1735,25 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					? template.createGraphicsShapes((float)displayWidth, (float)displayHeight)
 					: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
 
-				if (clip != null)
+				try
 				{
-					g.setClip(clip);
+					if (clip != null)
+					{
+						g.setClip(clip);
+					}
+					
+					if (printImage.getModeValue() == ModeEnum.OPAQUE)
+					{
+						g.setColor(printImage.getBackcolor());
+						g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
+					}
+
+					renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, displayWidth, displayHeight));
 				}
-				
-				if (printImage.getModeValue() == ModeEnum.OPAQUE)
+				finally
 				{
-					g.setColor(printImage.getBackcolor());
-					g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
+					g.dispose();
 				}
-
-				Rectangle2D rectangle = new Rectangle2D.Double(0, 0, displayWidth, displayHeight);
-
-				renderer.render(jasperReportsContext, g, rectangle);
-				g.dispose();
 
 				pdfContentByte.saveState();
 				pdfContentByte.addTemplate(

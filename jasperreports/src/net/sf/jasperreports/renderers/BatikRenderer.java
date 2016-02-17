@@ -118,13 +118,20 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 				SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true,
 				(float) rectangle.getWidth(), (float) rectangle.getHeight());
 		Graphics2D graphics = (Graphics2D) grx.create();
-		graphics.translate(rectangle.getX(), rectangle.getY());
-		graphics.transform(transform);
-
-		// CompositeGraphicsNode not thread safe
-		synchronized (rootNode)
+		try
 		{
-			rootNode.paint(graphics);
+			graphics.translate(rectangle.getX(), rectangle.getY());
+			graphics.transform(transform);
+
+			// CompositeGraphicsNode not thread safe
+			synchronized (rootNode)
+			{
+				rootNode.paint(graphics);
+			}
+		}
+		finally
+		{
+			graphics.dispose();
 		}
 	}
 

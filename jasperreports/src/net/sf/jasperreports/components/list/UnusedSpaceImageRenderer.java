@@ -69,29 +69,36 @@ public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 		) throws JRException
 	{
 		Graphics2D graphics = (Graphics2D) grx.create();
-		graphics.translate(rectangle.getX(), rectangle.getY());
-		graphics.setColor(FILL);
-		
-		if (clip != null)
+		try
 		{
-			graphics.clip(clip);
-		}
-		
-		int width = (int) rectangle.getWidth();
-		int limit = width + (int) rectangle.getHeight();
-		int increment = lineGap + lineWidth;
-		int reverseOffset = (width - 4 * lineWidth / 3) % increment;
-		for (int x = 0; x <= limit; x += increment)
-		{
-			graphics.fillPolygon(
-					new int[]{x, x + lineWidth, 0, 0},
-					new int[]{0, 0, x + lineWidth, x},
-					4);
+			graphics.translate(rectangle.getX(), rectangle.getY());
+			graphics.setColor(FILL);
+			
+			if (clip != null)
+			{
+				graphics.clip(clip);
+			}
+			
+			int width = (int) rectangle.getWidth();
+			int limit = width + (int) rectangle.getHeight();
+			int increment = lineGap + lineWidth;
+			int reverseOffset = (width - 4 * lineWidth / 3) % increment;
+			for (int x = 0; x <= limit; x += increment)
+			{
+				graphics.fillPolygon(
+						new int[]{x, x + lineWidth, 0, 0},
+						new int[]{0, 0, x + lineWidth, x},
+						4);
 
-			graphics.fillPolygon(
-					new int[]{width - x - reverseOffset, width - x - lineWidth - reverseOffset, width, width},
-					new int[]{0, 0, x + lineWidth, x},
-					4);
+				graphics.fillPolygon(
+						new int[]{width - x - reverseOffset, width - x - lineWidth - reverseOffset, width, width},
+						new int[]{0, 0, x + lineWidth, x},
+						4);
+			}
+		}
+		finally
+		{
+			graphics.dispose();
 		}
 	}
 

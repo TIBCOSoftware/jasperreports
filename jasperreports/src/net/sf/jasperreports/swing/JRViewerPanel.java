@@ -57,6 +57,9 @@ import javax.swing.JPanel;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -81,9 +84,6 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
 import net.sf.jasperreports.view.JRHyperlinkListener;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -495,16 +495,27 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			}
 
 			exporter.setExporterInput(new SimpleExporterInput(viewerContext.getJasperPrint()));
-			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
-			output.setGraphics2D((Graphics2D)grx.create());
-			exporter.setExporterOutput(output);
+
 			SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
 			configuration.setPageIndex(viewerContext.getPageIndex());
 			configuration.setZoomRatio(realZoom);
 			configuration.setOffsetX(1); //lblPage border
 			configuration.setOffsetY(1);
 			exporter.setConfiguration(configuration);
-			exporter.exportReport();
+
+			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
+			Graphics2D g = (Graphics2D)grx.create();
+			output.setGraphics2D(g);
+			exporter.setExporterOutput(output);
+
+			try
+			{
+				exporter.exportReport();
+			}
+			finally
+			{
+				g.dispose();
+			}
 		}
 		catch(Exception e)
 		{
@@ -576,7 +587,15 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			}
 			else
 			{
-				paintPage((Graphics2D)g.create());
+				Graphics2D grx = (Graphics2D)g.create();
+				try
+				{
+					paintPage(grx);
+				}
+				finally
+				{
+					grx.dispose();
+				}
 			}
 		}
 
@@ -859,12 +878,20 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 				BufferedImage.TYPE_INT_RGB
 				);
 		
-		Graphics2D grx = (Graphics2D) image.getGraphics();
 		AffineTransform transform = new AffineTransform();
 		transform.scale(realZoom, realZoom);
-		grx.transform(transform);
 
-		drawPageError(grx);
+		Graphics2D grx = (Graphics2D) image.getGraphics();
+		try
+		{
+			grx.transform(transform);
+
+			drawPageError(grx);
+		}
+		finally
+		{
+			grx.dispose();
+		}
 		
 		return image;
 	}

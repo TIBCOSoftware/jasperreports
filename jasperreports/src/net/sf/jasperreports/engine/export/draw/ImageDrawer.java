@@ -41,9 +41,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 
 /**
@@ -205,8 +203,8 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				normalHeight = (int)dimension.getHeight();
 			}
 
-			int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
+			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 
 			Shape oldClipShape = grx.getClip();
 
@@ -293,8 +291,8 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 					normalHeight = availableImageHeight; 
 				}
 
-				int xoffset = (int)(getXAlignFactor(printImage.getHorizontalImageAlign()) * (availableImageWidth - normalWidth));
-				int yoffset = (int)(getYAlignFactor(printImage.getVerticalImageAlign()) * (availableImageHeight - normalHeight));
+				int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+				int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 
 				renderer.render(
 					getJasperReportsContext(),
@@ -310,10 +308,10 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		}
 	}
 
-	private float getXAlignFactor(HorizontalImageAlignEnum horizontalImageAlign)
+	private float getXAlignFactor(JRPrintImage printImage)
 	{
 		float xalignFactor = 0f;
-		switch (horizontalImageAlign)
+		switch (printImage.getHorizontalImageAlign())
 		{
 			case RIGHT :
 			{
@@ -335,10 +333,10 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		return xalignFactor;
 	}
 
-	private float getYAlignFactor(VerticalImageAlignEnum verticalImageAlign)
+	private float getYAlignFactor(JRPrintImage printImage)
 	{
 		float yalignFactor = 0f;
-		switch (verticalImageAlign)
+		switch (printImage.getVerticalImageAlign())
 		{
 			case BOTTOM :
 			{

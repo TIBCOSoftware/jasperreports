@@ -151,15 +151,21 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 					);
 
 			Graphics2D g = createGraphics(bi);
-			g.scale(scale, scale);
-			Color backcolor = getBackcolor();
-			if (backcolor != null)
+			try
 			{
-				g.setColor(backcolor);
-				g.fillRect(0, 0, (int)dimension.getWidth(), (int)dimension.getHeight());
+				g.scale(scale, scale);
+				Color backcolor = getBackcolor();
+				if (backcolor != null)
+				{
+					g.setColor(backcolor);
+					g.fillRect(0, 0, (int)dimension.getWidth(), (int)dimension.getHeight());
+				}
+				render(jasperReportsContext, g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
 			}
-			render(jasperReportsContext, g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
-			g.dispose();
+			finally
+			{
+				g.dispose();
+			}
 			
 			return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageTypeValue());
 		}
