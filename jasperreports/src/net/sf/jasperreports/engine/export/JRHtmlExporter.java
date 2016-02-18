@@ -150,11 +150,13 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
 	{
+		@Override
 		public String getExportPropertiesPrefix()
 		{
 			return HTML_EXPORTER_PROPERTIES_PREFIX;
 		}
 
+		@Override
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{
 			return JRHtmlExporter.this.getHyperlinkURL(link);
@@ -208,27 +210,21 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<JRHtmlExporterConfiguration> getConfigurationInterface()
 	{
 		return JRHtmlExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<JRHtmlReportConfiguration> getItemConfigurationInterface()
 	{
 		return JRHtmlReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected void ensureOutput()
 	{
 		if (exporterOutput == null)
@@ -252,9 +248,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -302,6 +296,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			emptyCellStringProvider =
 				new StringProvider()
 				{
+					@Override
 					public String getStringForCollapsedTD(int width, int height)
 					{
 						HtmlResourceHandler imageHandler = 
@@ -311,6 +306,8 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 						String pxUri = imageHandler == null ? null : imageHandler.getResourcePath("px");
 						return "><img alt=\"\" src=\"" + pxUri + "\" style=\"width: " + toSizeUnit(width) + "; height: " + toSizeUnit(height) + ";\"/>";
 					}
+
+					@Override
 					public String getStringForEmptyTD()
 					{
 						HtmlResourceHandler imageHandler = 
@@ -321,6 +318,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 						return "<img alt=\"\" src=\"" + pxUri + "\" border=\"0\"/>";
 					}
 					
+					@Override
 					public String getReportTableStyle()
 					{
 						return null;
@@ -332,15 +330,19 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			emptyCellStringProvider =
 				new StringProvider()
 				{
+					@Override
 					public String getStringForCollapsedTD(int width, int height)
 					{
 						return " style=\"width: " + toSizeUnit(width) + "; height: " + toSizeUnit(height) + ";\">";
 					}
+
+					@Override
 					public String getStringForEmptyTD()
 					{
 						return "";
 					}
 					
+					@Override
 					public String getReportTableStyle()
 					{
 						// required for lines and rectangles, but doesn't work in IE
@@ -1754,6 +1756,18 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			String imageMapName = null;
 			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
 	
+			int availableImageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
+			if (availableImageWidth < 0)
+			{
+				availableImageWidth = 0;
+			}
+		
+			int availableImageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
+			if (availableImageHeight < 0)
+			{
+				availableImageHeight = 0;
+			}
+		
 			ScaleImageEnum scaleImage = image.getScaleImageValue();
 			
 			boolean isEmbedImage = isEmbedImage(image);
@@ -1783,7 +1797,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 							renderer =
 								new JRWrappingSvgRenderer(
 									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
+									new Dimension(availableImageWidth, availableImageHeight),
 									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 									);
 						}
@@ -1865,26 +1879,14 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			}
 			writer.write("\"");
 		
-			int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
-			if (imageWidth < 0)
-			{
-				imageWidth = 0;
-			}
-		
-			int imageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
-			if (imageHeight < 0)
-			{
-				imageHeight = 0;
-			}
-		
 			switch (scaleImage)
 			{
 				case FILL_FRAME :
 				{
 					writer.write(" style=\"width: ");
-					writer.write(toSizeUnit(imageWidth));
+					writer.write(toSizeUnit(availableImageWidth));
 					writer.write("; height: ");
-					writer.write(toSizeUnit(imageHeight));
+					writer.write(toSizeUnit(availableImageHeight));
 					writer.write("\"");
 		
 					break;
@@ -1893,8 +1895,8 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 				case RETAIN_SHAPE :
 				default :
 				{
-					double normalWidth = imageWidth;
-					double normalHeight = imageHeight;
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
 		
 					if (!image.isLazy())
 					{
@@ -1910,20 +1912,20 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 						}
 					}
 		
-					if (imageHeight > 0)
+					if (availableImageHeight > 0)
 					{
 						double ratio = normalWidth / normalHeight;
 		
-						if( ratio > (double)imageWidth / (double)imageHeight )
+						if( ratio > (double)availableImageWidth / (double)availableImageHeight )
 						{
 							writer.write(" style=\"width: ");
-							writer.write(toSizeUnit(imageWidth));
+							writer.write(toSizeUnit(availableImageWidth));
 							writer.write("\"");
 						}
 						else
 						{
 							writer.write(" style=\"height: ");
-							writer.write(toSizeUnit(imageHeight));
+							writer.write(toSizeUnit(availableImageHeight));
 							writer.write("\"");
 						}
 					}
@@ -2290,11 +2292,13 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		return parameters;
 	}
 
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return HTML_EXPORTER_PROPERTIES_PREFIX;
 	}
 	
+	@Override
 	public String getExporterKey()
 	{
 		return HTML_EXPORTER_KEY;
@@ -2354,8 +2358,8 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	}
 
 
-	protected JRStyledText getStyledText(JRPrintText textElement,
-			boolean setBackcolor)
+	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
 		JRStyledText styledText = super.getStyledText(textElement, setBackcolor);
 		

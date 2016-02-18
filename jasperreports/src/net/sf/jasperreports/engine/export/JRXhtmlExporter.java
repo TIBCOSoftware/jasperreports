@@ -134,11 +134,13 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
 	{
+		@Override
 		public String getExportPropertiesPrefix()
 		{
 			return XHTML_EXPORTER_PROPERTIES_PREFIX;
 		}
 
+		@Override
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{
 			return JRXhtmlExporter.this.getHyperlinkURL(link);
@@ -188,27 +190,21 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<HtmlExporterConfiguration> getConfigurationInterface()
 	{
 		return HtmlExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<HtmlReportConfiguration> getItemConfigurationInterface()
 	{
 		return HtmlReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected void ensureOutput()
 	{
 		if (exporterOutput == null)
@@ -223,9 +219,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -1700,6 +1694,18 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 				hasHyperlinks = startHyperlink(image);
 			}
 			
+			int availableImageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
+			if (availableImageWidth < 0)
+			{
+				availableImageWidth = 0;
+			}
+		
+			int availableImageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
+			if (availableImageHeight < 0)
+			{
+				availableImageHeight = 0;
+			}
+
 			writer.write("<img");
 			String imagePath = null;
 			
@@ -1728,7 +1734,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 						renderer =
 							new JRWrappingSvgRenderer(
 								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
+								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 								);
 					}
@@ -1805,18 +1811,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			}
 			writer.write("\"");
 		
-			int availableImageWidth = image.getWidth() - image.getLineBox().getLeftPadding().intValue() - image.getLineBox().getRightPadding().intValue();
-			if (availableImageWidth < 0)
-			{
-				availableImageWidth = 0;
-			}
-		
-			int availableImageHeight = image.getHeight() - image.getLineBox().getTopPadding().intValue() - image.getLineBox().getBottomPadding().intValue();
-			if (availableImageHeight < 0)
-			{
-				availableImageHeight = 0;
-			}
-
 			ScaleImageEnum scaleImage = image.getScaleImageValue();
 			
 			switch (scaleImage)
@@ -2361,6 +2355,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		return parameters;
 	}
 
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return XHTML_EXPORTER_PROPERTIES_PREFIX;
@@ -2421,8 +2416,8 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	}
 
 
-	protected JRStyledText getStyledText(JRPrintText textElement,
-			boolean setBackcolor)
+	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
 		JRStyledText styledText = super.getStyledText(textElement, setBackcolor);
 		
@@ -2442,9 +2437,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return XHTML_EXPORTER_KEY;
