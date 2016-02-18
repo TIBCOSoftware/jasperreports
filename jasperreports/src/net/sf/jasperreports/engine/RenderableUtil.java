@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Image;
 import java.awt.Transparency;
-import java.awt.geom.Dimension2D;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -256,7 +255,7 @@ public class RenderableUtil
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public Renderable getOnErrorRendererForDimension(Renderable renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -279,27 +278,7 @@ public class RenderableUtil
 	}
 
 	/**
-	 * Tries to get the dimension of the renderable object. If an exception occurs, it is silently ignored and the method returns null.
-	 */
-	public Dimension2D getDimensionSafely(Renderable renderer)
-	{
-		Dimension2D dimension = null;
-		try
-		{
-			dimension = renderer.getDimension(jasperReportsContext);
-		}
-		catch (Exception e)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Error getting image dimension.", e);
-			}
-		}
-		return dimension;
-	}
-
-	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public Renderable getOnErrorRendererForImageData(Renderable renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -323,22 +302,8 @@ public class RenderableUtil
 
 
 	/**
-	 *
-	 *
-	public Renderable getOnErrorRendererForImage(Renderable renderer, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		try
-		{
-			renderer.getImage();
-			return renderer;
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e); 
-		}
-	}
-	*/
-
+	 * 
+	 */
 	public Renderable handleImageError(Exception error, OnErrorTypeEnum onErrorType) throws JRException
 	{
 		Renderable errorRenderable;
@@ -366,11 +331,15 @@ public class RenderableUtil
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_IMAGE_ERROR,
 					(Object[])null,
-					error);
+					error
+					);
 		}
 		return errorRenderable;
 	}
 
+	/**
+	 *
+	 */
 	public Renderable getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
 	{
 		Renderable renderer = null;
@@ -397,6 +366,9 @@ public class RenderableUtil
 		return renderer;
 	}
 
+	/**
+	 *
+	 */
 	public Renderable getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRRuntimeException e) throws JRRuntimeException
 	{
 		Renderable renderer = null;
