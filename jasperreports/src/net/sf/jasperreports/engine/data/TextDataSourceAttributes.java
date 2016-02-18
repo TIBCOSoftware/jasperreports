@@ -26,8 +26,6 @@ package net.sf.jasperreports.engine.data;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
-
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -47,6 +45,7 @@ public class TextDataSourceAttributes implements JRCloneable
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public TextDataSourceAttributes clone()
 	{
 		try

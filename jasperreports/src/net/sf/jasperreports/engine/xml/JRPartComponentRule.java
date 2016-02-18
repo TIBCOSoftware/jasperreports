@@ -23,13 +23,12 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import org.apache.commons.digester.Rule;
+
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.design.JRDesignPart;
 import net.sf.jasperreports.engine.part.PartComponent;
-
-import org.apache.commons.digester.Rule;
 
 /**
  * A digester rule that links a {@link PartComponent} object with its parent
@@ -55,6 +54,7 @@ public class JRPartComponentRule extends Rule
 		return new JRPartComponentRule();
 	}
 	
+	@Override
 	public void end(String namespace, String name) throws JRException
 	{
 		Object top = getDigester().peek();

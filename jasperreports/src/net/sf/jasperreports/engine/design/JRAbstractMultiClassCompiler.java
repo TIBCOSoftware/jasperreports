@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.design;
 
 import java.io.File;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -46,6 +45,7 @@ public abstract class JRAbstractMultiClassCompiler extends JRAbstractClassCompil
 		super(jasperReportsContext);
 	}
 
+	@Override
 	public String compileClass(File sourceFile, String classpath) throws JRException
 	{
 		return compileClasses(new File[]{sourceFile}, classpath);

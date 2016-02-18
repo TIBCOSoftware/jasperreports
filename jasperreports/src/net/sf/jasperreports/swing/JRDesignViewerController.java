@@ -23,35 +23,24 @@
  */
 package net.sf.jasperreports.swing;
 
-import java.io.File;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
-import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class JRDesignViewerController extends JRViewerController
 {
-	private static final Log log = LogFactory.getLog(JRDesignViewerController.class);
-
 	/**
 	 * @see #JRDesignViewerController(JasperReportsContext, Locale, ResourceBundle)
 	 */

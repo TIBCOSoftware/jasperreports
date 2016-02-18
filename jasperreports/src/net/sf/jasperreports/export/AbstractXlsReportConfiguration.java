@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -89,9 +88,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isOnePagePerSheet()
 	{
 		return isOnePagePerSheet;
@@ -107,9 +104,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isRemoveEmptySpaceBetweenColumns()
 	{
 		return isRemoveEmptySpaceBetweenColumns;
@@ -125,9 +120,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isRemoveEmptySpaceBetweenRows()
 	{
 		return isRemoveEmptySpaceBetweenRows;
@@ -143,9 +136,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isWhitePageBackground()
 	{
 		return isWhitePageBackground;
@@ -161,9 +152,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isDetectCellType()
 	{
 		return isDetectCellType;
@@ -179,9 +168,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isFontSizeFixEnabled()
 	{
 		return isFontSizeFixEnabled;
@@ -197,9 +184,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isImageBorderFixEnabled()
 	{
 		return isImageBorderFixEnabled;
@@ -215,9 +200,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreGraphics()
 	{
 		return isIgnoreGraphics;
@@ -233,9 +216,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isCollapseRowSpan()
 	{
 		return isCollapseRowSpan;
@@ -251,9 +232,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreCellBorder()
 	{
 		return isIgnoreCellBorder;
@@ -269,9 +248,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreCellBackground()
 	{
 		return isIgnoreCellBackground;
@@ -287,9 +264,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isWrapText()
 	{
 		return isWrapText;
@@ -305,9 +280,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isCellLocked()
 	{
 		return isCellLocked;
@@ -323,9 +296,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isCellHidden()
 	{
 		return isCellHidden;
@@ -341,9 +312,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getMaxRowsPerSheet()
 	{
 		return maxRowsPerSheet;
@@ -359,9 +328,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnorePageMargins()
 	{
 		return isIgnorePageMargins;
@@ -377,9 +344,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getSheetHeaderLeft()
 	{
 		return sheetHeaderLeft;
@@ -395,9 +360,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getSheetHeaderCenter()
 	{
 		return sheetHeaderCenter;
@@ -413,9 +376,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getSheetHeaderRight()
 	{
 		return sheetHeaderRight;
@@ -431,9 +392,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getSheetFooterLeft()
 	{
 		return sheetFooterLeft;
@@ -449,9 +408,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getSheetFooterCenter()
 	{
 		return sheetFooterCenter;
@@ -467,9 +424,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getSheetFooterRight()
 	{
 		return sheetFooterRight;
@@ -485,9 +440,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getPassword()
 	{
 		return password;
@@ -503,9 +456,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String[] getSheetNames()
 	{
 		return sheetNames;
@@ -521,9 +472,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Map<String, String> getFormatPatternsMap()
 	{
 		return formatPatternsMap;
@@ -539,9 +488,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;
@@ -557,9 +504,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreAnchors()
 	{
 		return isIgnoreAnchors;
@@ -575,9 +520,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getFitWidth()
 	{
 		return fitWidth;
@@ -593,9 +536,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getFitHeight()
 	{
 		return fitHeight;
@@ -611,9 +552,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getPageScale()
 	{
 		return pageScale;
@@ -629,9 +568,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public RunDirectionEnum getSheetDirection()
 	{
 		return sheetDirection;
@@ -647,9 +584,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Float getColumnWidthRatio()
 	{
 		return columnWidthRatio;
@@ -665,9 +600,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isUseTimeZone()
 	{
 		return isUseTimeZone;
@@ -683,9 +616,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getFirstPageNumber()
 	{
 		return firstPageNumber;
@@ -701,9 +632,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isShowGridLines()
 	{
 		return isShowGridLines;
@@ -719,9 +648,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ImageAnchorTypeEnum getImageAnchorType()
 	{
 		return imageAnchorType;
@@ -736,9 +663,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 		this.imageAnchorType = imageAnchorType;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isAutoFitPageHeight()
 	{
 		return isAutoFitPageHeight;
@@ -752,9 +677,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 		this.isAutoFitPageHeight = isAutoFitPageHeight;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isForcePageBreaks()
 	{
 		return isForcePageBreaks;
@@ -769,6 +692,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 
+	@Override
 	public Boolean isShrinkToFit() 
 	{
 		return isShrinkToFit;
@@ -781,9 +705,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreTextFormatting() 
 	{
 		return isIgnoreTextFormatting;

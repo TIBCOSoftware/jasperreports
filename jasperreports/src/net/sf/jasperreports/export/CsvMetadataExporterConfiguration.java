@@ -23,10 +23,7 @@
  */
 package net.sf.jasperreports.export;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
-import net.sf.jasperreports.export.annotations.ExporterParameter;
-import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**

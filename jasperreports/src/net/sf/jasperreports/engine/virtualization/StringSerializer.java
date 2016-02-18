@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.virtualization;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.export.PropertiesExporterConfigurationFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
