@@ -257,27 +257,21 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	protected Class<HtmlExporterConfiguration> getConfigurationInterface()
 	{
 		return HtmlExporterConfiguration.class;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	protected Class<HtmlReportConfiguration> getItemConfigurationInterface()
 	{
 		return HtmlReportConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -862,16 +856,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	{
 		startCell(image, cell);
 
-		int imageWidth = image.getWidth() - image.getLineBox().getLeftPadding() - image.getLineBox().getRightPadding();
-		if (imageWidth < 0)
+		int availableImageWidth = image.getWidth() - image.getLineBox().getLeftPadding() - image.getLineBox().getRightPadding();
+		if (availableImageWidth < 0)
 		{
-			imageWidth = 0;
+			availableImageWidth = 0;
 		}
 	
-		int imageHeight = image.getHeight() - image.getLineBox().getTopPadding() - image.getLineBox().getBottomPadding();
-		if (imageHeight < 0)
+		int availableImageHeight = image.getHeight() - image.getLineBox().getTopPadding() - image.getLineBox().getBottomPadding();
+		if (availableImageHeight < 0)
 		{
-			imageHeight = 0;
+			availableImageHeight = 0;
 		}
 
 		String horizontalAlignment = getImageHorizontalAlignmentStyle(image);
@@ -899,13 +893,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		if (
 			image.isLazy()
-			|| (scaleImage == ScaleImageEnum.CLIP && imageHeight > 0)
+			|| (scaleImage == ScaleImageEnum.CLIP && availableImageHeight > 0)
 			)
 		{
 			// some browsers need td height so that height: 100% works on the div used for clipped images.
 			// we're using the height without paddings because that's closest to the HTML size model.
 			styleBuffer.append("height: ");
-			styleBuffer.append(toSizeUnit(imageHeight));
+			styleBuffer.append(toSizeUnit(availableImageHeight));
 			styleBuffer.append("; ");
 		}
 
@@ -1008,11 +1002,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
-					image, 
-					image.isLazy(), 
-					isEmbedImage(image),
+					image,
+					image.isLazy(),
 					!useBackgroundImage && scaleImage != ScaleImageEnum.FILL_FRAME && !image.isLazy(),
-					cell
+					cell,
+					availableImageWidth,
+					availableImageHeight
 					);
 			
 			InternalImageProcessorResult imageProcessorResult = null;
@@ -1083,9 +1078,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						case FILL_FRAME :
 						{
 							writer.write(" style=\"width: ");
-							writer.write(toSizeUnit(imageWidth));
+							writer.write(toSizeUnit(availableImageWidth));
 							writer.write("; height: ");
-							writer.write(toSizeUnit(imageHeight));
+							writer.write(toSizeUnit(availableImageHeight));
 							writer.write("\"");
 				
 							break;
@@ -1108,8 +1103,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							}
 							else
 							{
-								double normalWidth = imageWidth;
-								double normalHeight = imageHeight;
+								double normalWidth = availableImageWidth;
+								double normalHeight = availableImageHeight;
 
 								Dimension2D dimension = imageProcessorResult.dimension;
 								if (dimension != null)
@@ -1124,8 +1119,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 										: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
 								float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
 										: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
-								positionLeft = (int) (xAlignFactor * (imageWidth - normalWidth));
-								positionTop = (int) (yAlignFactor * (imageHeight - normalHeight));
+								positionLeft = (int) (xAlignFactor * (availableImageWidth - normalWidth));
+								positionTop = (int) (yAlignFactor * (availableImageHeight - normalHeight));
 							}
 							
 							writer.write(" style=\"position: absolute; left:");
@@ -1141,10 +1136,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						default :
 						{
 							//considering the IF above, if we get here, then for sure isLazy() is false, so we can ask the renderer for its dimension
-							if (imageHeight > 0)
+							if (availableImageHeight > 0)
 							{
-								double normalWidth = imageWidth;
-								double normalHeight = imageHeight;
+								double normalWidth = availableImageWidth;
+								double normalHeight = availableImageHeight;
 
 								Dimension2D dimension = imageProcessorResult.dimension;
 								if (dimension != null)
@@ -1155,16 +1150,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								
 								double ratio = normalWidth / normalHeight;
 				
-								if ( ratio > (double)imageWidth / (double)imageHeight )
+								if ( ratio > (double)availableImageWidth / (double)availableImageHeight )
 								{
 									writer.write(" style=\"width: ");
-									writer.write(toSizeUnit(imageWidth));
+									writer.write(toSizeUnit(availableImageWidth));
 									writer.write("\"");
 								}
 								else
 								{
 									writer.write(" style=\"height: ");
-									writer.write(toSizeUnit(imageHeight));
+									writer.write(toSizeUnit(availableImageHeight));
 									writer.write("\"");
 								}
 							}
@@ -1222,20 +1217,25 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		private final boolean embedImage; 
 		private final boolean needDimension; 
 		private final TableCell cell;
+		private final int availableImageWidth;
+		private final int availableImageHeight;
 
 		protected InternalImageProcessor(
 			JRPrintElement imageElement,
-			boolean isLazy, 
-			boolean embedImage, 
+			boolean isLazy,
 			boolean needDimension, 
-			TableCell cell
+			TableCell cell,
+			int availableImageWidth,
+			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
 			this.isLazy = isLazy;
-			this.embedImage = embedImage;
+			this.embedImage = isEmbedImage(imageElement);
 			this.needDimension = needDimension;
 			this.cell = cell;
+			this.availableImageWidth = availableImageWidth;
+			this.availableImageHeight = availableImageHeight;
 		}
 		
 		protected InternalImageProcessorResult process(Renderable renderer) throws JRException, IOException
@@ -1273,7 +1273,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						renderer =
 							new JRWrappingSvgRenderer(
 								renderer,
-								new Dimension(imageElement.getWidth(), imageElement.getHeight()),
+								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								);
 					}
@@ -2365,8 +2365,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		return (int)toZoom((float)size);
 	}
 
-	protected JRStyledText getStyledText(JRPrintText textElement,
-			boolean setBackcolor)
+	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
 		JRStyledText styledText = super.getStyledText(textElement, setBackcolor);
 		
@@ -2839,6 +2839,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	protected class ExporterContext extends BaseExporterContext implements JRHtmlExporterContext
 	{
+		@Override
 		public String getHyperlinkURL(JRPrintHyperlink link)
 		{
 			return HtmlExporter.this.getHyperlinkURL(link);
