@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -168,6 +169,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 		}
 		
+		@Override
 		public PptxSlideHelper getSlideHelper()
 		{
 			return slideHelper;
@@ -195,27 +197,21 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<PptxExporterConfiguration> getConfigurationInterface()
 	{
 		return PptxExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<PptxReportConfiguration> getItemConfigurationInterface()
 	{
 		return PptxReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -231,9 +227,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -996,199 +990,357 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			&& availableImageHeight > 0
 			)
 		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-			{
-				// Non-lazy image renderers are all asked for their image data at some point.
-				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
-			}
-		}
-		else
-		{
-			renderer = null;
-		}
-
-		if (renderer != null)
-		{
-			int width = availableImageWidth;
-			int height = availableImageHeight;
-
-			double normalWidth = availableImageWidth;
-			double normalHeight = availableImageHeight;
-
-			Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
-			if (dimension != null)
-			{
-				normalWidth = dimension.getWidth();
-				normalHeight = dimension.getHeight();
-			}
-
-			double cropTop = 0;
-			double cropLeft = 0;
-			double cropBottom = 0;
-			double cropRight = 0;
+			InternalImageProcessor imageProcessor = 
+				new InternalImageProcessor(
+					image, 
+					image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME,
+					availableImageWidth,
+					availableImageHeight
+					);
+				
+			InternalImageProcessorResult imageProcessorResult = null;
 			
-			switch (image.getScaleImageValue())
+			try
 			{
-				case FILL_FRAME :
+				imageProcessorResult = imageProcessor.process(renderer);
+			}
+			catch (Exception e)
+			{
+				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, image.getOnErrorTypeValue());
+				if (onErrorRenderer != null)
 				{
-					width = availableImageWidth;
-					height = availableImageHeight;
-//					cropTop = 100000 * topPadding / availableImageHeight;
-//					cropLeft = 100000 * leftPadding / availableImageWidth;
-//					cropBottom = 100000 * bottomPadding / availableImageHeight;
-//					cropRight = 100000 * rightPadding / availableImageWidth;
- 					break;
+					imageProcessorResult = imageProcessor.process(onErrorRenderer);
 				}
-				case CLIP :
+			}
+			
+			if (imageProcessorResult != null)//FIXMEPPTX render background for null images, like other exporters do 
+			{
+				int width = availableImageWidth;
+				int height = availableImageHeight;
+
+				double cropTop = 0;
+				double cropLeft = 0;
+				double cropBottom = 0;
+				double cropRight = 0;
+				
+				switch (image.getScaleImageValue())
 				{
-//					if (normalWidth > availableImageWidth)
-//					{
-						switch (image.getHorizontalImageAlign())
-						{
-							case RIGHT :
-							{
-								cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-								cropRight = 0;
-//								cropRight = 100000 * rightPadding / availableImageWidth;
-								break;
-							}
-							case CENTER :
-							{
-								cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth / 2;
-								cropRight = cropLeft;
-								break;
-							}
-							case LEFT :
-							default :
-							{
-//								cropLeft = 100000 * leftPadding / availableImageWidth;
-								cropLeft = 0;
-								cropRight = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-								break;
-							}
-						}
-//						width = availableImageWidth;
-////						cropLeft = cropLeft / 0.75d;
-////						cropRight = cropRight / 0.75d;
-//					}
-//					else
-//					{
-//						width = (int)normalWidth;
-//					}
-
-//					if (normalHeight > availableImageHeight)
-//					{
-						switch (image.getVerticalImageAlign())
-						{
-							case TOP :
-							{
-//								cropTop = 100000 * topPadding / availableImageHeight;
-								cropTop = 0;
-								cropBottom = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-								break;
-							}
-							case MIDDLE :
-							{
-								cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight / 2;
-								cropBottom = cropTop;
-								break;
-							}
-							case BOTTOM :
-							default :
-							{
-								cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-								cropBottom = 0;
-//								cropBottom = 100000 * bottomPadding / availableImageHeight;
-								break;
-							}
-						}
-//						height = availableImageHeight;
-//						cropTop = cropTop / 0.75d;
-//						cropBottom = cropBottom / 0.75d;
-//					}
-//					else
-//					{
-//						height = (int)normalHeight;
-//					}
-
-					break;
-				}
-				case RETAIN_SHAPE :
-				default :
-				{
-					double ratio = normalWidth / normalHeight;
-
-					if( ratio > availableImageWidth / (double)availableImageHeight )
+					case FILL_FRAME :
 					{
 						width = availableImageWidth;
-						height = (int)(width/ratio);
+						height = availableImageHeight;
+//						cropTop = 100000 * topPadding / availableImageHeight;
+//						cropLeft = 100000 * leftPadding / availableImageWidth;
+//						cropBottom = 100000 * bottomPadding / availableImageHeight;
+//						cropRight = 100000 * rightPadding / availableImageWidth;
+	 					break;
+					}
+					case CLIP :
+					{
+						double normalWidth = availableImageWidth;
+						double normalHeight = availableImageHeight;
 
-						switch (image.getVerticalImageAlign())
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
 						{
-							case TOP :
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+
+//						if (normalWidth > availableImageWidth)
+//						{
+							switch (image.getHorizontalImageAlign())
 							{
-								cropTop = 0;
-								cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
-								break;
+								case RIGHT :
+								{
+									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
+									cropRight = 0;
+//									cropRight = 100000 * rightPadding / availableImageWidth;
+									break;
+								}
+								case CENTER :
+								{
+									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth / 2;
+									cropRight = cropLeft;
+									break;
+								}
+								case LEFT :
+								default :
+								{
+//									cropLeft = 100000 * leftPadding / availableImageWidth;
+									cropLeft = 0;
+									cropRight = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
+									break;
+								}
 							}
-							case MIDDLE :
+//							width = availableImageWidth;
+////							cropLeft = cropLeft / 0.75d;
+////							cropRight = cropRight / 0.75d;
+//						}
+//						else
+//						{
+//							width = (int)normalWidth;
+//						}
+
+//						if (normalHeight > availableImageHeight)
+//						{
+							switch (image.getVerticalImageAlign())
 							{
-								cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
-								cropBottom = cropTop;
-								break;
+								case TOP :
+								{
+//									cropTop = 100000 * topPadding / availableImageHeight;
+									cropTop = 0;
+									cropBottom = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
+									break;
+								}
+								case MIDDLE :
+								{
+									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight / 2;
+									cropBottom = cropTop;
+									break;
+								}
+								case BOTTOM :
+								default :
+								{
+									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
+									cropBottom = 0;
+//									cropBottom = 100000 * bottomPadding / availableImageHeight;
+									break;
+								}
 							}
-							case BOTTOM :
-							default :
+//							height = availableImageHeight;
+//							cropTop = cropTop / 0.75d;
+//							cropBottom = cropBottom / 0.75d;
+//						}
+//						else
+//						{
+//							height = (int)normalHeight;
+//						}
+
+						break;
+					}
+					case RETAIN_SHAPE :
+					default :
+					{
+						double normalWidth = availableImageWidth;
+						double normalHeight = availableImageHeight;
+
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+
+						double ratio = normalWidth / normalHeight;
+
+						if( ratio > availableImageWidth / (double)availableImageHeight )
+						{
+							width = availableImageWidth;
+							height = (int)(width/ratio);
+
+							switch (image.getVerticalImageAlign())
 							{
-								cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
-								cropBottom = 0;
-								break;
+								case TOP :
+								{
+									cropTop = 0;
+									cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
+									break;
+								}
+								case MIDDLE :
+								{
+									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
+									cropBottom = cropTop;
+									break;
+								}
+								case BOTTOM :
+								default :
+								{
+									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
+									cropBottom = 0;
+									break;
+								}
 							}
 						}
-					}
-					else
-					{
-						height = availableImageHeight;
-						width = (int)(ratio * height);
-
-						switch (image.getHorizontalImageAlign())
+						else
 						{
-							case RIGHT :
+							height = availableImageHeight;
+							width = (int)(ratio * height);
+
+							switch (image.getHorizontalImageAlign())
 							{
-								cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
-								cropRight = 0;
-								break;
-							}
-							case CENTER :
-							{
-								cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
-								cropRight = cropLeft;
-								break;
-							}
-							case LEFT :
-							default :
-							{
-								cropLeft = 0;
-								cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
-								break;
+								case RIGHT :
+								{
+									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
+									cropRight = 0;
+									break;
+								}
+								case CENTER :
+								{
+									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
+									cropRight = cropLeft;
+									break;
+								}
+								case LEFT :
+								default :
+								{
+									cropLeft = 0;
+									cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
+									break;
+								}
 							}
 						}
 					}
 				}
+
+//				insertPageAnchor();
+//				if (image.getAnchorName() != null)
+//				{
+//					tempBodyWriter.write("<text:bookmark text:name=\"");
+//					tempBodyWriter.write(image.getAnchorName());
+//					tempBodyWriter.write("\"/>");
+//				}
+
+
+//				boolean startedHyperlink = startHyperlink(image,false);
+
+				slideRelsHelper.exportImage(imageProcessorResult.imagePath);
+
+				slideHelper.write("<p:pic>\n");
+				slideHelper.write("  <p:nvPicPr>\n");
+				slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(image) + "\" name=\"Picture\">\n");
+
+				String href = getHyperlinkURL(image);
+				if (href != null)
+				{
+					slideHelper.exportHyperlink(href);
+				}
+				
+				slideHelper.write("    </p:cNvPr>\n");
+				slideHelper.write("    <p:cNvPicPr>\n");
+				slideHelper.write("      <a:picLocks noChangeAspect=\"1\"/>\n");
+				slideHelper.write("    </p:cNvPicPr>\n");
+				slideHelper.write("    <p:nvPr/>\n");
+				slideHelper.write("  </p:nvPicPr>\n");
+				slideHelper.write("<p:blipFill>\n");
+				slideHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
+				slideHelper.write("<a:srcRect");
+////				if (cropLeft > 0)
+////				{
+//					slideHelper.write(" l=\"" + (int)(100000 * leftPadding / image.getWidth()) + "\"");
+////				}
+////				if (cropTop > 0)
+////				{
+//					slideHelper.write(" t=\"" + (int)cropTop + "\"");
+////				}
+////				if (cropRight > 0)
+////				{
+//					slideHelper.write(" r=\"" + (int)cropRight + "\"");
+////				}
+////				if (cropBottom > 0)
+////				{
+//					slideHelper.write(" b=\"" + (int)cropBottom + "\"");
+////				}
+				slideHelper.write("/>");
+				slideHelper.write("<a:stretch><a:fillRect");
+//				if (cropLeft > 0)
+//				{
+					slideHelper.write(" l=\"" + (int)cropLeft + "\"");
+//				}
+//				if (cropTop > 0)
+//				{
+					slideHelper.write(" t=\"" + (int)cropTop + "\"");
+//				}
+//				if (cropRight > 0)
+//				{
+					slideHelper.write(" r=\"" + (int)cropRight + "\"");
+//				}
+//				if (cropBottom > 0)
+//				{
+					slideHelper.write(" b=\"" + (int)cropBottom + "\"");
+//				}
+				slideHelper.write("/></a:stretch>\n");
+				slideHelper.write("</p:blipFill>\n");
+				slideHelper.write("  <p:spPr>\n");
+				slideHelper.write("    <a:xfrm>\n");
+				slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX() + leftPadding) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY() + topPadding) + "\"/>\n");
+				slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(availableImageWidth) + "\" cy=\"" + LengthUtil.emu(availableImageHeight) + "\"/>\n");
+				slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
+				if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
+				{
+					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
+				}
+				if (image.getLineBox().getPen().getLineWidth() > 0)
+				{
+					slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(image.getLineBox().getPen().getLineWidth()) + "\">\n");
+					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
+					slideHelper.write("<a:prstDash val=\"");
+					switch (image.getLineBox().getPen().getLineStyleValue())
+					{
+						case DASHED :
+						{
+							slideHelper.write("dash");
+							break;
+						}
+						case DOTTED :
+						{
+							slideHelper.write("dot");
+							break;
+						}
+						case DOUBLE :
+						case SOLID :
+						default :
+						{
+							slideHelper.write("solid");
+							break;
+						}
+					}
+					slideHelper.write("\"/>\n");
+					slideHelper.write("  </a:ln>\n");
+				}
+				slideHelper.write("  </p:spPr>\n");
+				slideHelper.write("  </p:pic>\n");
+
+//				if(startedHyperlink)
+//				{
+//					endHyperlink(false);
+//				}
 			}
+		}
 
-//			insertPageAnchor();
-//			if (image.getAnchorName() != null)
-//			{
-//				tempBodyWriter.write("<text:bookmark text:name=\"");
-//				tempBodyWriter.write(image.getAnchorName());
-//				tempBodyWriter.write("\"/>");
-//			}
+//		docHelper.write("</w:p>");
+	}
 
+	private class InternalImageProcessor
+	{
+		private final JRPrintElement imageElement;
+		private final boolean needDimension; 
+		private final int availableImageWidth;
+		private final int availableImageHeight;
 
-//			boolean startedHyperlink = startHyperlink(image,false);
-
+		protected InternalImageProcessor(
+			JRPrintElement imageElement,
+			boolean needDimension,
+			int availableImageWidth,
+			int availableImageHeight
+			)
+		{
+			this.imageElement = imageElement;
+			this.needDimension = needDimension;
+			this.availableImageWidth = availableImageWidth;
+			this.availableImageHeight = availableImageHeight;
+		}
+		
+		private InternalImageProcessorResult process(Renderable renderer) throws JRException
+		{
+			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
+			Dimension2D dimension = null;
+			if (needDimension)
+			{
+				dimension = renderer.getDimension(jasperReportsContext);
+			}
+			
+			
 			String imagePath = null;
 
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
@@ -1210,8 +1362,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 						renderer =
 							new JRWrappingSvgRenderer(
 								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								new Dimension(availableImageWidth, availableImageHeight),
+								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								);
 					}
 					
@@ -1238,111 +1390,21 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
-
-			slideRelsHelper.exportImage(imagePath);
-
-			slideHelper.write("<p:pic>\n");
-			slideHelper.write("  <p:nvPicPr>\n");
-			slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(image) + "\" name=\"Picture\">\n");
-
-			String href = getHyperlinkURL(image);
-			if (href != null)
-			{
-				slideHelper.exportHyperlink(href);
-			}
 			
-			slideHelper.write("    </p:cNvPr>\n");
-			slideHelper.write("    <p:cNvPicPr>\n");
-			slideHelper.write("      <a:picLocks noChangeAspect=\"1\"/>\n");
-			slideHelper.write("    </p:cNvPicPr>\n");
-			slideHelper.write("    <p:nvPr/>\n");
-			slideHelper.write("  </p:nvPicPr>\n");
-			slideHelper.write("<p:blipFill>\n");
-			slideHelper.write("<a:blip r:embed=\"" + imagePath + "\"/>");
-			slideHelper.write("<a:srcRect");
-////			if (cropLeft > 0)
-////			{
-//				slideHelper.write(" l=\"" + (int)(100000 * leftPadding / image.getWidth()) + "\"");
-////			}
-////			if (cropTop > 0)
-////			{
-//				slideHelper.write(" t=\"" + (int)cropTop + "\"");
-////			}
-////			if (cropRight > 0)
-////			{
-//				slideHelper.write(" r=\"" + (int)cropRight + "\"");
-////			}
-////			if (cropBottom > 0)
-////			{
-//				slideHelper.write(" b=\"" + (int)cropBottom + "\"");
-////			}
-			slideHelper.write("/>");
-			slideHelper.write("<a:stretch><a:fillRect");
-//			if (cropLeft > 0)
-//			{
-				slideHelper.write(" l=\"" + (int)cropLeft + "\"");
-//			}
-//			if (cropTop > 0)
-//			{
-				slideHelper.write(" t=\"" + (int)cropTop + "\"");
-//			}
-//			if (cropRight > 0)
-//			{
-				slideHelper.write(" r=\"" + (int)cropRight + "\"");
-//			}
-//			if (cropBottom > 0)
-//			{
-				slideHelper.write(" b=\"" + (int)cropBottom + "\"");
-//			}
-			slideHelper.write("/></a:stretch>\n");
-			slideHelper.write("</p:blipFill>\n");
-			slideHelper.write("  <p:spPr>\n");
-			slideHelper.write("    <a:xfrm>\n");
-			slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX() + leftPadding) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY() + topPadding) + "\"/>\n");
-			slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(availableImageWidth) + "\" cy=\"" + LengthUtil.emu(availableImageHeight) + "\"/>\n");
-			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
-			if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
-			{
-				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
-			}
-			if (image.getLineBox().getPen().getLineWidth() > 0)
-			{
-				slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(image.getLineBox().getPen().getLineWidth()) + "\">\n");
-				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
-				slideHelper.write("<a:prstDash val=\"");
-				switch (image.getLineBox().getPen().getLineStyleValue())
-				{
-					case DASHED :
-					{
-						slideHelper.write("dash");
-						break;
-					}
-					case DOTTED :
-					{
-						slideHelper.write("dot");
-						break;
-					}
-					case DOUBLE :
-					case SOLID :
-					default :
-					{
-						slideHelper.write("solid");
-						break;
-					}
-				}
-				slideHelper.write("\"/>\n");
-				slideHelper.write("  </a:ln>\n");
-			}
-			slideHelper.write("  </p:spPr>\n");
-			slideHelper.write("  </p:pic>\n");
-
-//			if(startedHyperlink)
-//			{
-//				endHyperlink(false);
-//			}
+			return new InternalImageProcessorResult(imagePath, dimension);
 		}
+	}
 
-//		docHelper.write("</w:p>");
+	private class InternalImageProcessorResult
+	{
+		protected final String imagePath;
+		protected final Dimension2D dimension;
+		
+		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		{
+			this.imagePath = imagePath;
+			this.dimension = dimension;
+		}
 	}
 
 
@@ -1555,57 +1617,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	}
 
 
-//	private float getXAlignFactor(JRPrintImage image)
-//	{
-//		float xalignFactor = 0f;
-//		switch (image.getHorizontalAlignmentValue())
-//		{
-//			case RIGHT :
-//			{
-//				xalignFactor = 1f;
-//				break;
-//			}
-//			case CENTER :
-//			{
-//				xalignFactor = 0.5f;
-//				break;
-//			}
-//			case LEFT :
-//			default :
-//			{
-//				xalignFactor = 0f;
-//				break;
-//			}
-//		}
-//		return xalignFactor;
-//	}
-
-
-//	private float getYAlignFactor(JRPrintImage image)
-//	{
-//		float yalignFactor = 0f;
-//		switch (image.getVerticalAlignmentValue())
-//		{
-//			case BOTTOM :
-//			{
-//				yalignFactor = 1f;
-//				break;
-//			}
-//			case MIDDLE :
-//			{
-//				yalignFactor = 0.5f;
-//				break;
-//			}
-//			case TOP :
-//			default :
-//			{
-//				yalignFactor = 0f;
-//				break;
-//			}
-//		}
-//		return yalignFactor;
-//	}
-
 //	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
 //	{
 //		String href = getHyperlinkURL(link);
@@ -1778,17 +1789,13 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		}
 //	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return PPTX_EXPORTER_KEY;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return PPTX_EXPORTER_PROPERTIES_PREFIX;

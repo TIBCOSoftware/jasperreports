@@ -121,6 +121,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -206,18 +207,14 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<XlsMetadataExporterConfiguration> getConfigurationInterface()
 	{
 		return XlsMetadataExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<XlsMetadataReportConfiguration> getItemConfigurationInterface()
 	{
 		return XlsMetadataReportConfiguration.class;
@@ -254,6 +251,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				);
 	}
 
+	@Override
 	protected void openWorkbook(OutputStream os) throws JRException	{
 		XlsMetadataExporterConfiguration configuration = getCurrentConfiguration();
 		String lcWorkbookTemplate = workbookTemplate == null ? configuration.getWorkbookTemplate() : workbookTemplate;
@@ -304,6 +302,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		columnWidths = new HashMap<String, Integer>();
 	}
 
+	@Override
 	protected void createSheet(SheetInfo sheetInfo)	{
 		this.sheetInfo = sheetInfo;
 		sheet = workbook.createSheet(sheetInfo.sheetName);
@@ -411,6 +410,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
 
+	@Override
 	protected void closeSheet()	
 	{
 		if (sheet == null)
@@ -450,6 +450,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 
+	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException {
 		try	{
 			for (Object anchorName : anchorNames.keySet()) {
@@ -535,6 +536,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		cellValueMap.put(currentColumnName, new CellSettings(currentStyle));
 	}
 	
+	@Override
 	protected void writeCurrentRow(Map<String, Object> currentRow, Map<String, Object> repeatedValues)  throws JRException {
 		row = sheet.createRow(sheet.getPhysicalNumberOfRows());
 		setRowHeight(row);
@@ -607,6 +609,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 	
 
+	@Override
 	protected void exportLine(JRPrintLine line) throws JRException {
 		String currentColumnName = line.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
@@ -660,6 +663,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 
+	@Override
 	protected void exportRectangle(JRPrintGraphicElement element) throws JRException {
 		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
@@ -697,6 +701,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 
+	@Override
 	protected void exportText(final JRPrintText textElement) throws JRException {
 		String currentColumnName = textElement.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if (currentColumnName != null && currentColumnName.length() > 0) {
@@ -794,6 +799,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			} else if (getCurrentItemConfiguration().isDetectCellType()) {
 				TextValue value = getTextValue(textElement, textStr);
 				value.handle(new TextValueHandler() {
+					@Override
 					public void handle(StringTextValue textValue) {
 						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup())) {
 							cellSettings.importValues(HSSFCell.CELL_TYPE_STRING, getLoadedCellStyle(baseStyle), new HSSFRichTextString(textValue.getText()));
@@ -802,6 +808,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						}
 					}
 
+					@Override
 					public void handle(NumberTextValue textValue) {
 						String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
 						if (convertedPattern != null) {
@@ -822,6 +829,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						cellSettings.importValues(HSSFCell.CELL_TYPE_NUMERIC, getLoadedCellStyle(baseStyle), value);
 					}
 
+					@Override
 					public void handle(DateTextValue textValue) {
 						String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
 						if(convertedPattern != null) {
@@ -846,11 +854,11 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						cellSettings.importValues(HSSFCell.CELL_TYPE_NUMERIC, getLoadedCellStyle(baseStyle), value);
 					}
 
+					@Override
 					public void handle(BooleanTextValue textValue) {
 						Boolean value = hasCurrentColumnData ? Boolean.valueOf(textStr) : textValue.getValue();
 						cellSettings.importValues(HSSFCell.CELL_TYPE_BOOLEAN, getLoadedCellStyle(baseStyle), value);
 					}
-
 				});
 			} else {
 				if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup())) {
@@ -1047,6 +1055,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		return richTextStr;
 	}
 
+	@Override
 	public void exportImage(JRPrintImage element) throws JRException {
 
 		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
@@ -1057,269 +1066,317 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			adjustColumnWidth(currentColumnName, element.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(element));
 			adjustRowHeight(element.getHeight(), Boolean.TRUE.equals(((JRXlsExporterNature)nature).getRowAutoFit(element)));
 			
-			int topPadding =
-				Math.max(element.getLineBox().getTopPadding().intValue(), getImageBorderCorrection(element.getLineBox().getTopPen()));
-			int leftPadding =
-				Math.max(element.getLineBox().getLeftPadding().intValue(), getImageBorderCorrection(element.getLineBox().getLeftPen()));
-			int bottomPadding =
-				Math.max(element.getLineBox().getBottomPadding().intValue(), getImageBorderCorrection(element.getLineBox().getBottomPen()));
-			int rightPadding =
-				Math.max(element.getLineBox().getRightPadding().intValue(), getImageBorderCorrection(element.getLineBox().getRightPen()));
-
-			//pngEncoder.setImage( null );
-
-			int availableImageWidth = element.getWidth() - leftPadding - rightPadding;
-			availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
-
-			int availableImageHeight = element.getHeight() - topPadding - bottomPadding;
-			availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-
+			InternalImageProcessor imageProcessor = 
+				new InternalImageProcessor(
+					element 
+					);
+						
 			Renderable renderer = element.getRenderable();
 
 			if (
 				renderer != null 
-				&& availableImageWidth > 0 
-				&& availableImageHeight > 0
-				) {
+				&& imageProcessor.availableImageWidth > 0 
+				&& imageProcessor.availableImageHeight > 0
+				) 
+			{
+				InternalImageProcessorResult imageProcessorResult = null;
 				
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE) {
-					// Image renderers are all asked for their image data and dimension at some point.
-					// Better to test and replace the renderer now, in case of lazy load error.
-					renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForImageData(renderer, element.getOnErrorTypeValue());
-					if (renderer != null) {
-						renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, element.getOnErrorTypeValue());
-					}
-				} else {
-					renderer =
-						new JRWrappingSvgRenderer(
-							renderer,
-							new Dimension(element.getWidth(), element.getHeight()),
-							ModeEnum.OPAQUE == element.getModeValue() ? element.getBackcolor() : null
-							);
+				try
+				{
+					imageProcessorResult = imageProcessor.process(renderer);
 				}
-			} else {
-				renderer = null;
-			}
-
-			if (renderer != null) {
-				int normalWidth = availableImageWidth;
-				int normalHeight = availableImageHeight;
-
-				Dimension2D dimension = renderer.getDimension(jasperReportsContext);
-				if (dimension != null) {
-					normalWidth = (int) dimension.getWidth();
-					normalHeight = (int) dimension.getHeight();
-				}
-
-				float xalignFactor = 0f;
-				switch (element.getHorizontalImageAlign()) {
-					case RIGHT: {
-						xalignFactor = 1f;
-						break;
-					}
-					case CENTER: {
-						xalignFactor = 0.5f;
-						break;
-					}
-					case LEFT:
-					default: {
-						xalignFactor = 0f;
-						break;
-					}
-				}
-
-				float yalignFactor = 0f;
-				switch (element.getVerticalImageAlign()) {
-					case BOTTOM: {
-						yalignFactor = 1f;
-						break;
-					}
-					case MIDDLE: {
-						yalignFactor = 0.5f;
-						break;
-					}
-					case TOP:
-					default: {
-						yalignFactor = 0f;
-						break;
-					}
-				}
-
-				byte[] imageData = null;
-//				int topOffset = 0;
-//				int leftOffset = 0;
-//				int bottomOffset = 0;
-//				int rightOffset = 0;
-//				
-				switch (element.getScaleImageValue()) {
-					case CLIP: {
-						int dpi = getPropertiesUtil().getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
-						double scale = dpi/72d;
-						
-						BufferedImage bi = 
-							new BufferedImage(
-								(int)(scale * availableImageWidth), 
-								(int)(scale * availableImageHeight), 
-								BufferedImage.TYPE_INT_ARGB
-								);
-						
-						Graphics2D grx = bi.createGraphics();
-						try
-						{
-							grx.scale(scale, scale);
-							grx.clip(
-								new Rectangle(
-									0,
-									0,
-									availableImageWidth,
-									availableImageHeight
-									)
-								);
-
-							renderer.render(
-								jasperReportsContext,
-								grx,
-								new Rectangle(
-									(int) (xalignFactor * (availableImageWidth - normalWidth)),
-									(int) (yalignFactor * (availableImageHeight - normalHeight)),
-									normalWidth,
-									normalHeight
-									)
-								);
-						}
-						finally
-						{
-							grx.dispose();
-						}
-
-//						topOffset = topPadding;
-//						leftOffset = leftPadding;
-//						bottomOffset = bottomPadding;
-//						rightOffset = rightPadding;
-
-						imageData = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG);
-
-						break;
-					}
-					case FILL_FRAME: {
-//						topOffset = topPadding;
-//						leftOffset = leftPadding;
-//						bottomOffset = bottomPadding;
-//						rightOffset = rightPadding;
-
-						imageData = renderer.getImageData(jasperReportsContext);
-
-						break;
-					}
-					case RETAIN_SHAPE:
-					default: {
-						double ratio = (double) normalWidth / (double) normalHeight;
-
-						if (ratio > (double) availableImageWidth / (double) availableImageHeight) {
-							normalWidth = availableImageWidth;
-							normalHeight = (int) (availableImageWidth / ratio);
-						} else {
-							normalWidth = (int) (availableImageHeight * ratio);
-							normalHeight = availableImageHeight;
-						}
-
-//						topOffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
-//						leftOffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
-//						bottomOffset = bottomPadding + (int) ((1f - yalignFactor) * (availableImageHeight - normalHeight));
-//						rightOffset = rightPadding + (int) ((1f - xalignFactor) * (availableImageWidth - normalWidth));
-
-						imageData = renderer.getImageData(jasperReportsContext);
-
-						break;
-					}
-				}
-
-				XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
-				
-				short mode = backgroundMode;
-				short backcolor = whiteIndex;
-				if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
-					mode = HSSFCellStyle.SOLID_FOREGROUND;
-					backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
-				}
-
-				short forecolor = getWorkbookColor(element.getLineBox().getPen().getLineColor()).getIndex();
-
-				if(element.getModeValue() == ModeEnum.OPAQUE ) {
-					backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
-				}
-
-				HSSFCellStyle cellStyle =
-					getLoadedCellStyle(
-						mode,
-						backcolor,
-						HSSFCellStyle.ALIGN_LEFT,
-						HSSFCellStyle.VERTICAL_TOP,
-						(short)0,
-						getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-						new BoxStyle(element),
-						isCellLocked(element),
-						isCellHidden(element),
-						isShrinkToFit(element)
-						);
-
-				addBlankElement(cellStyle, false, currentColumnName);
-				
-				int colIndex = columnNamesMap.get(currentColumnName);
-				try {
-					HSSFClientAnchor anchor = 
-							new HSSFClientAnchor(
-								0, 
-								0, 
-								0, 
-								0, 
-								(short)(colIndex), 
-								rowIndex, 
-								(short)(colIndex + 1), 
-								rowIndex+1
-								);
-					ImageAnchorTypeEnum imageAnchorType = 
-						ImageAnchorTypeEnum.getByName(
-							JRPropertiesUtil.getOwnProperty(element, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
-							);
-					if (imageAnchorType == null)
+				catch (Exception e)
+				{
+					Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, element.getOnErrorTypeValue());
+					if (onErrorRenderer != null)
 					{
-						imageAnchorType = configuration.getImageAnchorType();
+						imageProcessorResult = imageProcessor.process(onErrorRenderer);
+					}
+				}
+				
+				if (imageProcessorResult != null)//FIXMEXLS background for null images like the other exporters
+				{
+					XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
+					
+					short mode = backgroundMode;
+					short backcolor = whiteIndex;
+					if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
+						mode = HSSFCellStyle.SOLID_FOREGROUND;
+						backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
+					}
+
+					short forecolor = getWorkbookColor(element.getLineBox().getPen().getLineColor()).getIndex();
+
+					if(element.getModeValue() == ModeEnum.OPAQUE ) {
+						backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
+					}
+
+					HSSFCellStyle cellStyle =
+						getLoadedCellStyle(
+							mode,
+							backcolor,
+							HSSFCellStyle.ALIGN_LEFT,
+							HSSFCellStyle.VERTICAL_TOP,
+							(short)0,
+							getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
+							new BoxStyle(element),
+							isCellLocked(element),
+							isCellHidden(element),
+							isShrinkToFit(element)
+							);
+
+					addBlankElement(cellStyle, false, currentColumnName);
+					
+					int colIndex = columnNamesMap.get(currentColumnName);
+					try {
+						HSSFClientAnchor anchor = 
+								new HSSFClientAnchor(
+									0, 
+									0, 
+									0, 
+									0, 
+									(short)(colIndex), 
+									rowIndex, 
+									(short)(colIndex + 1), 
+									rowIndex+1
+									);
+						ImageAnchorTypeEnum imageAnchorType = 
+							ImageAnchorTypeEnum.getByName(
+								JRPropertiesUtil.getOwnProperty(element, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+								);
 						if (imageAnchorType == null)
 						{
-							imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
+							imageAnchorType = configuration.getImageAnchorType();
+							if (imageAnchorType == null)
+							{
+								imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
+							}
 						}
+						anchor.setAnchorType(imageAnchorType.getValue());
+						//pngEncoder.setImage(bi);
+						//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
+						int imgIndex = workbook.addPicture(imageProcessorResult.imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
+						patriarch.createPicture(anchor, imgIndex);
+						
+						// set auto fill columns
+						if(repeatValue) {
+							CellSettings cellSettings = new CellSettings(cellStyle);
+							cellSettings.setCellValue(new ImageSettings(imgIndex, anchor.getAnchorType()));
+							addCell(cellSettings, repeatedValues, currentColumnName);
+						} else {
+							repeatedValues.remove(currentColumnName);
+						}
+						
+//						setHyperlinkCell(element);
+					} catch (Exception ex) {
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+								null,
+								ex);
+					} catch (Error err) {
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
+								null,
+								err);
 					}
-					anchor.setAnchorType(imageAnchorType.getValue());
-					//pngEncoder.setImage(bi);
-					//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
-					int imgIndex = workbook.addPicture(imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
-					patriarch.createPicture(anchor, imgIndex);
-					
-					// set auto fill columns
-					if(repeatValue) {
-						CellSettings cellSettings = new CellSettings(cellStyle);
-						cellSettings.setCellValue(new ImageSettings(imgIndex, anchor.getAnchorType()));
-						addCell(cellSettings, repeatedValues, currentColumnName);
-					} else {
-						repeatedValues.remove(currentColumnName);
-					}
-					
-//					setHyperlinkCell(element);
-				} catch (Exception ex) {
-					throw 
-						new JRException(
-							EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
-							null,
-							ex);
-				} catch (Error err) {
-					throw 
-						new JRException(
-							EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL, 
-							null,
-							err);
 				}
 			}
+		}
+	}
+
+	private class InternalImageProcessor
+	{
+		private final JRPrintImage imageElement;
+
+		private final int topPadding;
+		private final int leftPadding;
+		private final int bottomPadding;
+		private final int rightPadding;
+		private final int availableImageWidth;
+		private final int availableImageHeight;
+		
+		protected InternalImageProcessor(
+			JRPrintImage imageElement
+			)
+		{
+			this.imageElement = imageElement;
+			
+			topPadding =
+				Math.max(imageElement.getLineBox().getTopPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getTopPen()));
+			leftPadding =
+				Math.max(imageElement.getLineBox().getLeftPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getLeftPen()));
+			bottomPadding =
+				Math.max(imageElement.getLineBox().getBottomPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getBottomPen()));
+			rightPadding =
+				Math.max(imageElement.getLineBox().getRightPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getRightPen()));
+
+			int tmpAvailableImageWidth = imageElement.getWidth() - leftPadding - rightPadding;
+			availableImageWidth = tmpAvailableImageWidth < 0 ? 0 : tmpAvailableImageWidth;
+
+			int tmpAvailableImageHeight = imageElement.getHeight() - topPadding - bottomPadding;
+			availableImageHeight = tmpAvailableImageHeight < 0 ? 0 : tmpAvailableImageHeight;
+		}
+		
+		private InternalImageProcessorResult process(Renderable renderer) throws JRException
+		{
+			byte[] imageData = null;
+			int topOffset = 0;
+			int leftOffset = 0;
+			int bottomOffset = 0;
+			int rightOffset = 0;
+			
+			switch (imageElement.getScaleImageValue()) 
+			{
+				case CLIP: 
+				{
+					int normalWidth = availableImageWidth;
+					int normalHeight = availableImageHeight;
+
+					Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+					if (dimension != null) {
+						normalWidth = (int) dimension.getWidth();
+						normalHeight = (int) dimension.getHeight();
+					}
+
+					int dpi = getPropertiesUtil().getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
+					double scale = dpi/72d;
+					
+					BufferedImage bi = 
+						new BufferedImage(
+							(int)(scale * availableImageWidth), 
+							(int)(scale * availableImageHeight), 
+							BufferedImage.TYPE_INT_ARGB
+							);
+					
+					Graphics2D grx = bi.createGraphics();
+					try
+					{
+						grx.scale(scale, scale);
+						grx.clip(
+							new Rectangle(
+								0,
+								0,
+								availableImageWidth,
+								availableImageHeight
+								)
+							);
+
+						renderer.render(
+							jasperReportsContext,
+							grx,
+							new Rectangle(
+								(int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - normalWidth)),
+								(int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - normalHeight)),
+								normalWidth,
+								normalHeight
+								)
+							);
+					}
+					finally
+					{
+						grx.dispose();
+					}
+
+//					topOffset = topPadding;
+//					leftOffset = leftPadding;
+//					bottomOffset = bottomPadding;
+//					rightOffset = rightPadding;
+
+					imageData = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG);
+
+					break;
+				}
+				case FILL_FRAME: 
+				{
+//					topOffset = topPadding;
+//					leftOffset = leftPadding;
+//					bottomOffset = bottomPadding;
+//					rightOffset = rightPadding;
+
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+					{
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								new Dimension(availableImageWidth, availableImageHeight),
+								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+								);
+					}
+
+					imageData = renderer.getImageData(jasperReportsContext);
+
+					break;
+				}
+				case RETAIN_SHAPE:
+				default: 
+				{
+					int normalWidth = availableImageWidth;
+					int normalHeight = availableImageHeight;
+
+					Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+					if (dimension != null) {
+						normalWidth = (int) dimension.getWidth();
+						normalHeight = (int) dimension.getHeight();
+					}
+
+					double ratio = (double) normalWidth / (double) normalHeight;
+
+					if (ratio > (double) availableImageWidth / (double) availableImageHeight) {
+						normalWidth = availableImageWidth;
+						normalHeight = (int) (availableImageWidth / ratio);
+					} else {
+						normalWidth = (int) (availableImageHeight * ratio);
+						normalHeight = availableImageHeight;
+					}
+
+//					topOffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
+//					leftOffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
+//					bottomOffset = bottomPadding + (int) ((1f - yalignFactor) * (availableImageHeight - normalHeight));
+//					rightOffset = rightPadding + (int) ((1f - xalignFactor) * (availableImageWidth - normalWidth));
+
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+					{
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								new Dimension(availableImageWidth, availableImageHeight),
+								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+								);
+					}
+
+					imageData = renderer.getImageData(jasperReportsContext);
+
+					break;
+				}
+			}
+			
+			return new InternalImageProcessorResult(imageData, topOffset, leftOffset, bottomOffset, rightOffset);
+		}
+	}
+
+	private class InternalImageProcessorResult
+	{
+		private final byte[] imageData;
+//		private final int topOffset;
+//		private final int leftOffset;
+//		private final int bottomOffset;
+//		private final int rightOffset;
+		
+		protected InternalImageProcessorResult(
+			byte[] imageData,
+			int topOffset,
+			int leftOffset,
+			int bottomOffset,
+			int rightOffset
+			)
+		{
+			this.imageData = imageData;
+//			this.topOffset = topOffset;
+//			this.leftOffset = leftOffset;
+//			this.bottomOffset = bottomOffset;
+//			this.rightOffset = rightOffset;
 		}
 	}
 
@@ -1416,6 +1473,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		return HSSFCellStyle.BORDER_NONE;
 	}
 	
+	@Override
 	protected void exportFrame(JRPrintFrame frame) throws JRException {
 		
 		for (Object element : frame.getElements()) {
@@ -1438,6 +1496,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 
+	@Override
 	protected void exportGenericElement(JRGenericPrintElement element) throws JRException {
 		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		if(currentColumnName != null && currentColumnName.length() > 0) {
@@ -1477,15 +1536,18 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 
+	@Override
 	protected ExporterNature getNature() {
 		return nature;
 	}
 
 
+	@Override
 	public String getExporterKey() {
 		return XLS_EXPORTER_KEY;
 	}
 
+	@Override
 	public String getExporterPropertiesPrefix() {
 		return XLS_EXPORTER_PROPERTIES_PREFIX;
 	}
@@ -1505,6 +1567,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	/**
 	 * Writes the header column names
 	 */
+	@Override
 	protected void writeReportHeader() throws JRException {
 		row = sheet.createRow(0);
 		for(int i = 0; i< columnNames.size(); i++) {
@@ -1533,6 +1596,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	/**
 	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
 	 */ 
+	@Override
 	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
 		setFreezePane(rowIndex, colIndex);
 	}
@@ -1913,10 +1977,12 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			return hashCode;
 		}
 
+		@Override
 		public int hashCode() {
 			return hash;
 		}
 
+		@Override
 		public boolean equals(Object o) {
 			BoxStyle b = (BoxStyle) o;
 
@@ -1931,6 +1997,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				b.borderColour[RIGHT] == borderColour[RIGHT];
 		}
 
+		@Override
 		public String toString() {
 			return "(" +
 				borderStyle[TOP] + "/" + borderColour[TOP] + "," +
@@ -2016,10 +2083,12 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			return lcDataFormat;
 		}
 	
+		@Override
 		public int hashCode() {
 			return hashCode;
 		}
 	
+		@Override
 		public boolean equals(Object o) {
 			StyleInfo s = (StyleInfo) o;
 	
@@ -2035,6 +2104,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					&& s.lcShrinkToFit == lcShrinkToFit;	//FIXME should dataformat be part of equals? it is part of toString()...
 		}
 	
+		@Override
 		public String toString() {
 			return "(" +
 				mode + "," + backcolor + "," +

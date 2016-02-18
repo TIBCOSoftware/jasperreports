@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
@@ -605,7 +604,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				else
 				{
 					newRenderer = 
-						JRImageRenderer.getOnErrorRenderer(
+						RenderableUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRenderer(
 							getOnErrorTypeValue(), 
 							new JRException(
 									EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS,  

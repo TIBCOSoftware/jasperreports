@@ -31,6 +31,7 @@
  */
 package net.sf.jasperreports.engine.export.oasis;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Locale;
@@ -41,7 +42,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
@@ -50,7 +50,6 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -191,7 +190,7 @@ public abstract class DocumentBuilder
 	/**
 	 *
 	 */
-	protected String getImagePath(Renderable renderer, JRPrintImage image, JRExporterGridCell gridCell) throws JRException
+	protected String getImagePath(Renderable renderer, Dimension dimension, Color backcolor, JRExporterGridCell gridCell, boolean isLazy) throws JRException
 	{
 		String imagePath = null;
 
@@ -203,14 +202,30 @@ public abstract class DocumentBuilder
 			}
 			else
 			{
-				if (image.isLazy())
+				if (isLazy)
 				{
 					imagePath = ((JRImageRenderer)renderer).getImageLocation();
 				}
 				else
 				{
 					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-					processImage(image, imageIndex);
+
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+					{
+						renderer =
+							new JRWrappingSvgRenderer(
+								renderer,
+								dimension,
+								backcolor
+								);
+					}
+
+					oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
+						new FileBufferedZipEntry(
+							"Pictures/" + DocumentBuilder.getImageName(imageIndex),
+							renderer.getImageData(getJasperReportsContext())
+							)
+						);
 
 					String imageName = DocumentBuilder.getImageName(imageIndex);
 					imagePath = "Pictures/" + imageName;
@@ -223,30 +238,6 @@ public abstract class DocumentBuilder
 		return imagePath;
 	}
 
-	/**
-	 *
-	 */
-	protected void processImage(JRPrintImage image, JRPrintElementIndex imageIndex) throws JRException
-	{
-		Renderable renderer = image.getRenderable();
-		if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-		{
-			renderer =
-				new JRWrappingSvgRenderer(
-					renderer,
-					new Dimension(image.getWidth(), image.getHeight()),
-					ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-					);
-		}
-
-		oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
-			new FileBufferedZipEntry(
-				"Pictures/" + DocumentBuilder.getImageName(imageIndex),
-				renderer.getImageData(getJasperReportsContext())
-				)
-			);
-	}
-	
 	/**
 	 *
 	 */

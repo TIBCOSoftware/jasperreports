@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
@@ -93,6 +94,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -213,18 +215,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<XlsxExporterConfiguration> getConfigurationInterface()
 	{
 		return XlsxExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<XlsxReportConfiguration> getItemConfigurationInterface()
 	{
 		return XlsxReportConfiguration.class;
@@ -444,57 +442,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
-//	private float getXAlignFactor(JRPrintImage image)
-//	{
-//		float xalignFactor = 0f;
-//		switch (image.getHorizontalAlignmentValue())
-//		{
-//			case RIGHT :
-//			{
-//				xalignFactor = 1f;
-//				break;
-//			}
-//			case CENTER :
-//			{
-//				xalignFactor = 0.5f;
-//				break;
-//			}
-//			case LEFT :
-//			default :
-//			{
-//				xalignFactor = 0f;
-//				break;
-//			}
-//		}
-//		return xalignFactor;
-//	}
-
-
-//	private float getYAlignFactor(JRPrintImage image)
-//	{
-//		float yalignFactor = 0f;
-//		switch (image.getVerticalAlignmentValue())
-//		{
-//			case BOTTOM :
-//			{
-//				yalignFactor = 1f;
-//				break;
-//			}
-//			case MIDDLE :
-//			{
-//				yalignFactor = 0.5f;
-//				break;
-//			}
-//			case TOP :
-//			default :
-//			{
-//				yalignFactor = 0f;
-//				break;
-//			}
-//		}
-//		return yalignFactor;
-//	}
-
 //	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
 //	{
 //		String href = getHyperlinkURL(link);
@@ -672,6 +619,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 	
 
+	@Override
 	protected void addBlankCell(
 		JRExporterGridCell gridCell, 
 		int colIndex,
@@ -683,6 +631,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException //FIXMEXLSX could throw IOException here, as other implementations do
 	{
 		styleHelper.export();
@@ -726,6 +675,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
 		startPage = true;
@@ -863,6 +813,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void exportFrame(
 		JRPrintFrame frame, 
 		JRExporterGridCell gridCell,
@@ -905,6 +856,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	public void exportImage(
 		JRPrintImage image, 
 		JRExporterGridCell gridCell,
@@ -940,188 +892,336 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			&& availableImageHeight > 0
 			)
 		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-			{
-				// Non-lazy image renderers are all asked for their image data at some point.
-				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
-			}
-		}
-		else
-		{
-			renderer = null;
-		}
-
-		if (renderer != null)
-		{
-			int width = availableImageWidth;
-			int height = availableImageHeight;
-
-			double normalWidth = availableImageWidth;
-			double normalHeight = availableImageHeight;
-
-			Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
-			if (dimension != null)
-			{
-				normalWidth = dimension.getWidth();
-				normalHeight = dimension.getHeight();
-			}
-
-			double cropTop = 0;
-			double cropLeft = 0;
-			double cropBottom = 0;
-			double cropRight = 0;
+			InternalImageProcessor imageProcessor = 
+				new InternalImageProcessor(
+					image, 
+					image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME, 
+					gridCell,
+					availableImageWidth,
+					availableImageHeight
+					);
+				
+			InternalImageProcessorResult imageProcessorResult = null;
 			
-			switch (image.getScaleImageValue())
+			try
 			{
-				case FILL_FRAME :
+				imageProcessorResult = imageProcessor.process(renderer);
+			}
+			catch (Exception e)
+			{
+				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, image.getOnErrorTypeValue());
+				if (onErrorRenderer != null)
 				{
-					width = availableImageWidth;
-					height = availableImageHeight;
- 					break;
+					imageProcessorResult = imageProcessor.process(onErrorRenderer);
 				}
-				case CLIP :
+			}
+			
+			if (imageProcessorResult != null)
+			{
+				int width = availableImageWidth;
+				int height = availableImageHeight;
+
+				double cropTop = 0;
+				double cropLeft = 0;
+				double cropBottom = 0;
+				double cropRight = 0;
+				
+				switch (image.getScaleImageValue())
 				{
-//					if (normalWidth > availableImageWidth)
-//					{
-						switch (image.getHorizontalImageAlign())
-						{
-							case RIGHT :
-							{
-								cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-								cropRight = 0;
-								break;
-							}
-							case CENTER :
-							{
-								cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth / 2;
-								cropRight = cropLeft;
-								break;
-							}
-							case LEFT :
-							default :
-							{
-								cropLeft = 0;
-								cropRight = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-								break;
-							}
-						}
-//					}
-//					else
-//					{
-//						width = (int)normalWidth;
-//					}
-
-//					if (normalHeight > availableImageHeight)
-//					{
-						switch (image.getVerticalImageAlign())
-						{
-							case TOP :
-							{
-								cropTop = 0;
-								cropBottom = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-								break;
-							}
-							case MIDDLE :
-							{
-								cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight / 2;
-								cropBottom = cropTop;
-								break;
-							}
-							case BOTTOM :
-							default :
-							{
-								cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-								cropBottom = 0;
-								break;
-							}
-						}
-//					}
-//					else
-//					{
-//						height = (int)normalHeight;
-//					}
-
-					break;
-				}
-				case RETAIN_SHAPE :
-				default :
-				{
-					double ratio = normalWidth / normalHeight;
-
-					if( ratio > availableImageWidth / (double)availableImageHeight )
+					case FILL_FRAME :
 					{
 						width = availableImageWidth;
-						height = (int)(width/ratio);
-
-						switch (image.getVerticalImageAlign())
-						{
-							case TOP :
-							{
-								cropTop = 0;
-								cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
-								break;
-							}
-							case MIDDLE :
-							{
-								cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
-								cropBottom = cropTop;
-								break;
-							}
-							case BOTTOM :
-							default :
-							{
-								cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
-								cropBottom = 0;
-								break;
-							}
-						}
-					}
-					else
-					{
 						height = availableImageHeight;
-						width = (int)(ratio * height);
+	 					break;
+					}
+					case CLIP :
+					{
+						double normalWidth = availableImageWidth;
+						double normalHeight = availableImageHeight;
 
-						switch (image.getHorizontalImageAlign())
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
 						{
-							case RIGHT :
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+
+//						if (normalWidth > availableImageWidth)
+//						{
+							switch (image.getHorizontalImageAlign())
 							{
-								cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
-								cropRight = 0;
-								break;
+								case RIGHT :
+								{
+									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
+									cropRight = 0;
+									break;
+								}
+								case CENTER :
+								{
+									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth / 2;
+									cropRight = cropLeft;
+									break;
+								}
+								case LEFT :
+								default :
+								{
+									cropLeft = 0;
+									cropRight = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
+									break;
+								}
 							}
-							case CENTER :
+//						}
+//						else
+//						{
+//							width = (int)normalWidth;
+//						}
+
+//						if (normalHeight > availableImageHeight)
+//						{
+							switch (image.getVerticalImageAlign())
 							{
-								cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
-								cropRight = cropLeft;
-								break;
+								case TOP :
+								{
+									cropTop = 0;
+									cropBottom = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
+									break;
+								}
+								case MIDDLE :
+								{
+									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight / 2;
+									cropBottom = cropTop;
+									break;
+								}
+								case BOTTOM :
+								default :
+								{
+									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
+									cropBottom = 0;
+									break;
+								}
 							}
-							case LEFT :
-							default :
+//						}
+//						else
+//						{
+//							height = (int)normalHeight;
+//						}
+
+						break;
+					}
+					case RETAIN_SHAPE :
+					default :
+					{
+						double normalWidth = availableImageWidth;
+						double normalHeight = availableImageHeight;
+
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+
+						double ratio = normalWidth / normalHeight;
+
+						if( ratio > availableImageWidth / (double)availableImageHeight )
+						{
+							width = availableImageWidth;
+							height = (int)(width/ratio);
+
+							switch (image.getVerticalImageAlign())
 							{
-								cropLeft = 0;
-								cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
-								break;
+								case TOP :
+								{
+									cropTop = 0;
+									cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
+									break;
+								}
+								case MIDDLE :
+								{
+									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
+									cropBottom = cropTop;
+									break;
+								}
+								case BOTTOM :
+								default :
+								{
+									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
+									cropBottom = 0;
+									break;
+								}
+							}
+						}
+						else
+						{
+							height = availableImageHeight;
+							width = (int)(ratio * height);
+
+							switch (image.getHorizontalImageAlign())
+							{
+								case RIGHT :
+								{
+									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
+									cropRight = 0;
+									break;
+								}
+								case CENTER :
+								{
+									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
+									cropRight = cropLeft;
+									break;
+								}
+								case LEFT :
+								default :
+								{
+									cropLeft = 0;
+									cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
+									break;
+								}
 							}
 						}
 					}
 				}
-			}
 
-			XlsReportConfiguration configuration = getCurrentItemConfiguration();
-			
-			if(!configuration.isIgnoreAnchors())
-			{
-				insertPageAnchor(colIndex,rowIndex);
-				if (image.getAnchorName() != null)
+				XlsReportConfiguration configuration = getCurrentItemConfiguration();
+				
+				if (!configuration.isIgnoreAnchors())
 				{
-					String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
-					definedNames.append("<definedName name=\"" + getDefinedName(image.getAnchorName()) +"\">"+ ref +"</definedName>\n");
+					insertPageAnchor(colIndex,rowIndex);
+					if (image.getAnchorName() != null)
+					{
+						String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
+						definedNames.append("<definedName name=\"" + getDefinedName(image.getAnchorName()) +"\">"+ ref +"</definedName>\n");
+					}
 				}
+
+//				boolean startedHyperlink = startHyperlink(image,false);
+
+				drawingRelsHelper.exportImage(imageProcessorResult.imagePath);
+
+				sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+
+				ImageAnchorTypeEnum imageAnchorType = 
+					ImageAnchorTypeEnum.getByName(
+						JRPropertiesUtil.getOwnProperty(image, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
+						);
+				if (imageAnchorType == null)
+				{
+					imageAnchorType = configuration.getImageAnchorType();
+					if (imageAnchorType == null)
+					{
+						imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
+					}
+				}
+				drawingHelper.write("<xdr:twoCellAnchor editAs=\"" + getAnchorType(imageAnchorType) + "\">\n");
+				drawingHelper.write("<xdr:from><xdr:col>" +
+					colIndex +
+					"</xdr:col><xdr:colOff>" +
+					LengthUtil.emu(leftPadding) +
+					"</xdr:colOff><xdr:row>" +
+					rowIndex +
+					"</xdr:row><xdr:rowOff>" +
+					LengthUtil.emu(topPadding) +
+					"</xdr:rowOff></xdr:from>\n");
+				drawingHelper.write("<xdr:to><xdr:col>" +
+					(colIndex + gridCell.getColSpan()) +
+					"</xdr:col><xdr:colOff>" +
+					LengthUtil.emu(-rightPadding) +
+					"</xdr:colOff><xdr:row>" +
+					(rowIndex + (configuration.isCollapseRowSpan() ? 1 : gridCell.getRowSpan())) +
+					"</xdr:row><xdr:rowOff>" +
+					LengthUtil.emu(-bottomPadding) +
+					"</xdr:rowOff></xdr:to>\n");
+				
+				drawingHelper.write("<xdr:pic>\n");
+				drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
+
+				String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
+				if (href != null)
+				{
+					drawingHelper.exportHyperlink(href);
+				}
+				
+				drawingHelper.write("</xdr:cNvPr><xdr:cNvPicPr/></xdr:nvPicPr>\n");
+				drawingHelper.write("<xdr:blipFill>\n");
+				drawingHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
+				drawingHelper.write("<a:srcRect");
+////				if (cropLeft > 0)
+//					drawingHelper.write(" l=\"" + (int)cropLeft + "\"");
+////				if (cropTop > 0)
+//					drawingHelper.write(" t=\"" + (int)cropTop + "\"");
+////				if (cropRight > 0)
+//					drawingHelper.write(" r=\"" + (int)cropRight + "\"");
+////				if (cropBottom > 0)
+//					drawingHelper.write(" b=\"" + (int)cropBottom + "\"");
+				drawingHelper.write("/>");
+				drawingHelper.write("<a:stretch><a:fillRect");
+//				if (cropLeft > 0)
+					drawingHelper.write(" l=\"" + (int)cropLeft + "\"");
+//				if (cropTop > 0)
+					drawingHelper.write(" t=\"" + (int)cropTop + "\"");
+//				if (cropRight > 0)
+					drawingHelper.write(" r=\"" + (int)cropRight + "\"");
+//				if (cropBottom > 0)
+					drawingHelper.write(" b=\"" + (int)cropBottom + "\"");
+				drawingHelper.write("/></a:stretch>\n");
+				drawingHelper.write("</xdr:blipFill>\n");
+				drawingHelper.write("<xdr:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(0) + "\" cy=\"" + LengthUtil.emu(0) + "\"/>");
+				drawingHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom>\n");
+//				if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
+//				{
+//					drawingHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
+//				}
+				drawingHelper.write("</xdr:spPr>\n");
+				drawingHelper.write("</xdr:pic>\n");
+				drawingHelper.write("<xdr:clientData/>\n");
+				drawingHelper.write("</xdr:twoCellAnchor>\n");
+
+//				if(startedHyperlink)
+//				{
+//					endHyperlink(false);
+//				}
 			}
+		}
 
-//			boolean startedHyperlink = startHyperlink(image,false);
+//		drawingHelper.write("</w:p>");
 
+		cellHelper.exportFooter();
+	}
+
+
+	private class InternalImageProcessor
+	{
+		private final JRPrintElement imageElement;
+		private final boolean needDimension; 
+		private final JRExporterGridCell cell;
+		private final int availableImageWidth;
+		private final int availableImageHeight;
+
+		protected InternalImageProcessor(
+			JRPrintElement imageElement,
+			boolean needDimension, 
+			JRExporterGridCell cell,
+			int availableImageWidth,
+			int availableImageHeight
+			)
+		{
+			this.imageElement = imageElement;
+			this.needDimension = needDimension;
+			this.cell = cell;
+			this.availableImageWidth = availableImageWidth;
+			this.availableImageHeight = availableImageHeight;
+		}
+		
+		private InternalImageProcessorResult process(Renderable renderer) throws JRException
+		{
+			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
+			Dimension2D dimension = null;
+			if (needDimension)
+			{
+				dimension = renderer.getDimension(jasperReportsContext);
+			}
+			
+			
 			String imagePath = null;
 
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
@@ -1136,15 +1236,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 //				}
 //				else
 //				{
-					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+					JRPrintElementIndex imageIndex = getElementIndex(cell);
 
 					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 					{
 						renderer =
 							new JRWrappingSvgRenderer(
 								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								new Dimension(availableImageWidth, availableImageHeight),
+								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								);
 					}
 
@@ -1171,99 +1271,25 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
-
-			drawingRelsHelper.exportImage(imagePath);
-
-			sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
-
-			ImageAnchorTypeEnum imageAnchorType = 
-				ImageAnchorTypeEnum.getByName(
-					JRPropertiesUtil.getOwnProperty(image, XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE)
-					);
-			if (imageAnchorType == null)
-			{
-				imageAnchorType = configuration.getImageAnchorType();
-				if (imageAnchorType == null)
-				{
-					imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
-				}
-			}
-			drawingHelper.write("<xdr:twoCellAnchor editAs=\"" + getAnchorType(imageAnchorType) + "\">\n");
-			drawingHelper.write("<xdr:from><xdr:col>" +
-				colIndex +
-				"</xdr:col><xdr:colOff>" +
-				LengthUtil.emu(leftPadding) +
-				"</xdr:colOff><xdr:row>" +
-				rowIndex +
-				"</xdr:row><xdr:rowOff>" +
-				LengthUtil.emu(topPadding) +
-				"</xdr:rowOff></xdr:from>\n");
-			drawingHelper.write("<xdr:to><xdr:col>" +
-				(colIndex + gridCell.getColSpan()) +
-				"</xdr:col><xdr:colOff>" +
-				LengthUtil.emu(-rightPadding) +
-				"</xdr:colOff><xdr:row>" +
-				(rowIndex + (configuration.isCollapseRowSpan() ? 1 : gridCell.getRowSpan())) +
-				"</xdr:row><xdr:rowOff>" +
-				LengthUtil.emu(-bottomPadding) +
-				"</xdr:rowOff></xdr:to>\n");
 			
-			drawingHelper.write("<xdr:pic>\n");
-			drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
-
-			String href = HyperlinkTypeEnum.LOCAL_ANCHOR.equals(image.getHyperlinkTypeValue()) || HyperlinkTypeEnum.LOCAL_PAGE.equals(image.getHyperlinkTypeValue()) ? "#" + getHyperlinkURL(image) : getHyperlinkURL(image);
-			if (href != null)
-			{
-				drawingHelper.exportHyperlink(href);
-			}
-			
-			drawingHelper.write("</xdr:cNvPr><xdr:cNvPicPr/></xdr:nvPicPr>\n");
-			drawingHelper.write("<xdr:blipFill>\n");
-			drawingHelper.write("<a:blip r:embed=\"" + imagePath + "\"/>");
-			drawingHelper.write("<a:srcRect");
-////			if (cropLeft > 0)
-//				drawingHelper.write(" l=\"" + (int)cropLeft + "\"");
-////			if (cropTop > 0)
-//				drawingHelper.write(" t=\"" + (int)cropTop + "\"");
-////			if (cropRight > 0)
-//				drawingHelper.write(" r=\"" + (int)cropRight + "\"");
-////			if (cropBottom > 0)
-//				drawingHelper.write(" b=\"" + (int)cropBottom + "\"");
-			drawingHelper.write("/>");
-			drawingHelper.write("<a:stretch><a:fillRect");
-//			if (cropLeft > 0)
-				drawingHelper.write(" l=\"" + (int)cropLeft + "\"");
-//			if (cropTop > 0)
-				drawingHelper.write(" t=\"" + (int)cropTop + "\"");
-//			if (cropRight > 0)
-				drawingHelper.write(" r=\"" + (int)cropRight + "\"");
-//			if (cropBottom > 0)
-				drawingHelper.write(" b=\"" + (int)cropBottom + "\"");
-			drawingHelper.write("/></a:stretch>\n");
-			drawingHelper.write("</xdr:blipFill>\n");
-			drawingHelper.write("<xdr:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(0) + "\" cy=\"" + LengthUtil.emu(0) + "\"/>");
-			drawingHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom>\n");
-//			if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
-//			{
-//				drawingHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
-//			}
-			drawingHelper.write("</xdr:spPr>\n");
-			drawingHelper.write("</xdr:pic>\n");
-			drawingHelper.write("<xdr:clientData/>\n");
-			drawingHelper.write("</xdr:twoCellAnchor>\n");
-
-//			if(startedHyperlink)
-//			{
-//				endHyperlink(false);
-//			}
+			return new InternalImageProcessorResult(imagePath, dimension);
 		}
+	}
 
-//		drawingHelper.write("</w:p>");
-
-		cellHelper.exportFooter();
+	private class InternalImageProcessorResult
+	{
+		protected final String imagePath;
+		protected final Dimension2D dimension;
+		
+		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		{
+			this.imagePath = imagePath;
+			this.dimension = dimension;
+		}
 	}
 
 
+	@Override
 	protected void exportLine(
 		JRPrintLine line, 
 		JRExporterGridCell gridCell,
@@ -1308,6 +1334,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void exportRectangle(
 		JRPrintGraphicElement rectangle,
 		JRExporterGridCell gridCell, 
@@ -1329,6 +1356,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	public void exportText(
 		final JRPrintText text, 
 		JRExporterGridCell gridCell,
@@ -1420,10 +1448,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		TextValueHandler handler = 
 			new TextValueHandler() 
 			{
+				@Override
 				public void handle(BooleanTextValue textValue) throws JRException {
 					sheetHelper.write("<v>" + textValue.getValue() + "</v>");
 				}
 				
+				@Override
 				public void handle(DateTextValue textValue) throws JRException {
 					Date date = textValue.getValue();
 					sheetHelper.write(
@@ -1437,6 +1467,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						);
 				}
 				
+				@Override
 				public void handle(NumberTextValue textValue) throws JRException {
 					Number number = textValue.getValue();
 					sheetHelper.write(
@@ -1446,6 +1477,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						);
 				}
 				
+				@Override
 				public void handle(StringTextValue textValue) throws JRException {
 					writeText();
 				}
@@ -1479,6 +1511,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void exportGenericElement(
 		JRGenericPrintElement element, 
 		JRExporterGridCell gridCell, 
@@ -1508,6 +1541,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
 		rendererToImagePathMap = new HashMap<String,String>();
@@ -1564,6 +1598,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 //	}
 
 
+	@Override
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
@@ -1572,12 +1607,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void setColumnWidth(int col, int width, boolean autoFit) 
 	{
 		sheetHelper.exportColumn(col, width, autoFit);
 	}
 
 
+	@Override
 	protected void setRowHeight(
 		int rowIndex, 
 		int rowHeight,
@@ -1589,22 +1626,19 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
+	@Override
 	protected void addRowBreak(int rowIndex) 
 	{
 		sheetHelper.addRowBreak(rowIndex);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return XLSX_EXPORTER_KEY;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return XLSX_EXPORTER_PROPERTIES_PREFIX;
@@ -1619,10 +1653,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	/**
 	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
 	 */ 
+	@Override
 	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
 		// nothing to do here
 	}
 
+	@Override
 	protected void setSheetName(String sheetName)
 	{
 		/* nothing to do here; it's done in createSheet() */
@@ -1634,6 +1670,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		sheetAutoFilter = autoFilterRange;
 	}
 	
+	@Override
 	protected void resetAutoFilters()
 	{
 		super.resetAutoFilters();

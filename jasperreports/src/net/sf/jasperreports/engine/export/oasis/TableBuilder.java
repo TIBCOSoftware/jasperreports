@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -653,64 +652,6 @@ public class TableBuilder
 	}
 
 	
-	/**
-	 *
-	 */
-	protected float getXAlignFactor(JRPrintImage image)
-	{
-		float xalignFactor = 0f;
-		switch (image.getHorizontalImageAlign())
-		{
-			case RIGHT :
-			{
-				xalignFactor = 1f;
-				break;
-			}
-			case CENTER :
-			{
-				xalignFactor = 0.5f;
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				xalignFactor = 0f;
-				break;
-			}
-		}
-		return xalignFactor;
-	}
-
-
-	/**
-	 *
-	 */
-	protected float getYAlignFactor(JRPrintImage image)
-	{
-		float yalignFactor = 0f;
-		switch (image.getVerticalImageAlign())
-		{
-			case BOTTOM :
-			{
-				yalignFactor = 1f;
-				break;
-			}
-			case MIDDLE :
-			{
-				yalignFactor = 0.5f;
-				break;
-			}
-			case TOP :
-			default :
-			{
-				yalignFactor = 0f;
-				break;
-			}
-		}
-		return yalignFactor;
-	}
-
-
 	/**
 	 *
 	 */

@@ -82,7 +82,9 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
@@ -176,27 +178,21 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<RtfExporterConfiguration> getConfigurationInterface()
 	{
 		return RtfExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<RtfReportConfiguration> getItemConfigurationInterface()
 	{
 		return RtfReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -212,9 +208,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	}
 	
 
-	/**
-	 * Export report in .rtf format
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -1085,207 +1079,217 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			&& availableImageHeight > 0
 			)
 		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-			{
-				// Image renderers are all asked for their image data at some point.
-				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
-			}
-		}
-		else
-		{
-			renderer = null;
-		}
-
-		if (renderer != null)
-		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-			{
-				renderer =
-					new JRWrappingSvgRenderer(
-						renderer,
-						new Dimension(printImage.getWidth(), printImage.getHeight()),
-						ModeEnum.OPAQUE == printImage.getModeValue() ? printImage.getBackcolor() : null
-						);
-			}
-
-			int normalWidth = availableImageWidth;
-			int normalHeight = availableImageHeight;
-
-			Dimension2D dimension = RenderableUtil.getInstance(jasperReportsContext).getDimensionSafely(renderer);
-			if (dimension != null)
-			{
-				normalWidth = (int) dimension.getWidth();
-				normalHeight = (int) dimension.getHeight();
-			}
-
-			int imageWidth = 0;
-			int imageHeight = 0;
-			int xoffset = 0;
-			int yoffset = 0;
-			int cropTop = 0;
-			int cropLeft = 0;
-			int cropBottom = 0;
-			int cropRight = 0;
-
-			switch (printImage.getScaleImageValue())
-			{
-				case CLIP:
-				{
-					switch (printImage.getHorizontalImageAlign())
-					{
-						case RIGHT :
-						{
-							cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
-							cropRight = 0;
-							break;
-						}
-						case CENTER :
-						{
-							cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth / 2;
-							cropRight = cropLeft;
-							break;
-						}
-						case LEFT :
-						default :
-						{
-							cropLeft = 0;
-							cropRight = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
-							break;
-						}
-					}
-					switch (printImage.getVerticalImageAlign())
-					{
-						case TOP :
-						{
-							cropTop = 0;
-							cropBottom = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
-							break;
-						}
-						case MIDDLE :
-						{
-							cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight / 2;
-							cropBottom = cropTop;
-							break;
-						}
-						case BOTTOM :
-						default :
-						{
-							cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
-							cropBottom = 0;
-							break;
-						}
-					}
-					imageWidth = availableImageWidth;
-					imageHeight = availableImageHeight;
-					break;
-				}
-				case FILL_FRAME:
-				{
-					normalWidth = availableImageWidth;
-					normalHeight = availableImageHeight;
-					imageWidth = availableImageWidth;
-					imageHeight = availableImageHeight;
-					break;
-				}
-				case RETAIN_SHAPE:
-				default:
-				{
-					double ratio = (double) normalWidth / (double) normalHeight;
-
-					if (ratio > (double) availableImageWidth / (double) availableImageHeight)
-					{
-						normalWidth = availableImageWidth;
-						normalHeight = (int) (availableImageWidth / ratio);
-					}
-					else
-					{
-						normalWidth = (int) (availableImageHeight * ratio);
-						normalHeight = availableImageHeight;
-					}
-
-					xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-					imageWidth = normalWidth;
-					imageHeight = normalHeight;
-
-					break;
-				}
-			}
-
-			startElement(printImage);
-			exportPen(printImage.getForecolor());//FIXMEBORDER should we have lineColor here, if at all needed?
-			finishElement();
-			boolean startedHyperlink = exportHyperlink(printImage);
-
-			contentWriter.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
-			contentWriter.write(String.valueOf(zorder++));
-			contentWriter.write("\\shpleft");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
-			contentWriter.write("\\shpright");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX() + imageWidth)));
-			contentWriter.write("\\shptop");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
-			contentWriter.write("\\shpbottom");
-			contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY() + imageHeight)));
-			contentWriter.write("{\\sp{\\sn shapeType}{\\sv 75}}");
-			contentWriter.write("{\\sp{\\sn fFilled}{\\sv 0}}");
-			contentWriter.write("{\\sp{\\sn fLockAspectRatio}{\\sv 0}}");
-
-			contentWriter.write("{\\sp{\\sn cropFromTop}{\\sv ");
-			contentWriter.write(String.valueOf(cropTop));
-			contentWriter.write("}}");
-			contentWriter.write("{\\sp{\\sn cropFromLeft}{\\sv ");
-			contentWriter.write(String.valueOf(cropLeft));
-			contentWriter.write("}}");
-			contentWriter.write("{\\sp{\\sn cropFromBottom}{\\sv ");
-			contentWriter.write(String.valueOf(cropBottom));
-			contentWriter.write("}}");
-			contentWriter.write("{\\sp{\\sn cropFromRight}{\\sv ");
-			contentWriter.write(String.valueOf(cropRight));
-			contentWriter.write("}}");
+			InternalImageProcessor imageProcessor = 
+				new InternalImageProcessor(
+					printImage, 
+					printImage.getScaleImageValue() != ScaleImageEnum.FILL_FRAME,
+					availableImageWidth,
+					availableImageHeight
+					);
+				
+			InternalImageProcessorResult imageProcessorResult = null;
 			
-			writeShapeHyperlink(printImage);
-
-			if(printImage.getAnchorName() != null)
+			try
 			{
-				writeAnchor(printImage.getAnchorName());
+				imageProcessorResult = imageProcessor.process(renderer);
+			}
+			catch (Exception e)
+			{
+				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, printImage.getOnErrorTypeValue());
+				if (onErrorRenderer != null)
+				{
+					imageProcessorResult = imageProcessor.process(onErrorRenderer);
+				}
 			}
 			
-			contentWriter.write("{\\sp{\\sn pib}{\\sv {\\pict");
-			if (renderer.getImageTypeValue() == ImageTypeEnum.JPEG)
+			if (imageProcessorResult != null)//FIXMERTF draw image background for null images, like the other exporters do
 			{
-				contentWriter.write("\\jpegblip");
-			}
-			else
-			{
-				contentWriter.write("\\pngblip");
-			}
-			contentWriter.write("\n");
+				int imageWidth = 0;
+				int imageHeight = 0;
+				int xoffset = 0;
+				int yoffset = 0;
+				int cropTop = 0;
+				int cropLeft = 0;
+				int cropBottom = 0;
+				int cropRight = 0;
 
-			ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
-
-			int count = 0;
-			int current = 0;
-			while ((current = bais.read()) != -1)
-			{
-				String helperStr = Integer.toHexString(current);
-				if (helperStr.length() < 2)
+				switch (printImage.getScaleImageValue())
 				{
-					helperStr = "0" + helperStr;
-				}
-				contentWriter.write(helperStr);
-				count++;
-				if (count == 64)
-				{
-					contentWriter.write("\n");
-					count = 0;
-				}
-			}
+					case CLIP:
+					{
+						int normalWidth = availableImageWidth;
+						int normalHeight = availableImageHeight;
 
-			contentWriter.write("\n}}}");
-			contentWriter.write("}}\n");
-			endHyperlink(startedHyperlink);
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
+						{
+							normalWidth = (int) dimension.getWidth();
+							normalHeight = (int) dimension.getHeight();
+						}
+
+						switch (printImage.getHorizontalImageAlign())
+						{
+							case RIGHT :
+							{
+								cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
+								cropRight = 0;
+								break;
+							}
+							case CENTER :
+							{
+								cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth / 2;
+								cropRight = cropLeft;
+								break;
+							}
+							case LEFT :
+							default :
+							{
+								cropLeft = 0;
+								cropRight = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
+								break;
+							}
+						}
+						switch (printImage.getVerticalImageAlign())
+						{
+							case TOP :
+							{
+								cropTop = 0;
+								cropBottom = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
+								break;
+							}
+							case MIDDLE :
+							{
+								cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight / 2;
+								cropBottom = cropTop;
+								break;
+							}
+							case BOTTOM :
+							default :
+							{
+								cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
+								cropBottom = 0;
+								break;
+							}
+						}
+						imageWidth = availableImageWidth;
+						imageHeight = availableImageHeight;
+						break;
+					}
+					case FILL_FRAME:
+					{
+						imageWidth = availableImageWidth;
+						imageHeight = availableImageHeight;
+						break;
+					}
+					case RETAIN_SHAPE:
+					default:
+					{
+						int normalWidth = availableImageWidth;
+						int normalHeight = availableImageHeight;
+
+						Dimension2D dimension = imageProcessorResult.dimension;
+						if (dimension != null)
+						{
+							normalWidth = (int) dimension.getWidth();
+							normalHeight = (int) dimension.getHeight();
+						}
+
+						double ratio = (double) normalWidth / (double) normalHeight;
+
+						if (ratio > (double) availableImageWidth / (double) availableImageHeight)
+						{
+							normalWidth = availableImageWidth;
+							normalHeight = (int) (availableImageWidth / ratio);
+						}
+						else
+						{
+							normalWidth = (int) (availableImageHeight * ratio);
+							normalHeight = availableImageHeight;
+						}
+
+						xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+						yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+						imageWidth = normalWidth;
+						imageHeight = normalHeight;
+
+						break;
+					}
+				}
+
+				startElement(printImage);
+				exportPen(printImage.getForecolor());//FIXMEBORDER should we have lineColor here, if at all needed?
+				finishElement();
+				boolean startedHyperlink = exportHyperlink(printImage);
+
+				contentWriter.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
+				contentWriter.write(String.valueOf(zorder++));
+				contentWriter.write("\\shpleft");
+				contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
+				contentWriter.write("\\shpright");
+				contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX() + imageWidth)));
+				contentWriter.write("\\shptop");
+				contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
+				contentWriter.write("\\shpbottom");
+				contentWriter.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY() + imageHeight)));
+				contentWriter.write("{\\sp{\\sn shapeType}{\\sv 75}}");
+				contentWriter.write("{\\sp{\\sn fFilled}{\\sv 0}}");
+				contentWriter.write("{\\sp{\\sn fLockAspectRatio}{\\sv 0}}");
+
+				contentWriter.write("{\\sp{\\sn cropFromTop}{\\sv ");
+				contentWriter.write(String.valueOf(cropTop));
+				contentWriter.write("}}");
+				contentWriter.write("{\\sp{\\sn cropFromLeft}{\\sv ");
+				contentWriter.write(String.valueOf(cropLeft));
+				contentWriter.write("}}");
+				contentWriter.write("{\\sp{\\sn cropFromBottom}{\\sv ");
+				contentWriter.write(String.valueOf(cropBottom));
+				contentWriter.write("}}");
+				contentWriter.write("{\\sp{\\sn cropFromRight}{\\sv ");
+				contentWriter.write(String.valueOf(cropRight));
+				contentWriter.write("}}");
+				
+				writeShapeHyperlink(printImage);
+
+				if(printImage.getAnchorName() != null)
+				{
+					writeAnchor(printImage.getAnchorName());
+				}
+				
+				contentWriter.write("{\\sp{\\sn pib}{\\sv {\\pict");
+				if (imageProcessorResult.imageType == ImageTypeEnum.JPEG)
+				{
+					contentWriter.write("\\jpegblip");
+				}
+				else
+				{
+					contentWriter.write("\\pngblip");
+				}
+				contentWriter.write("\n");
+
+				ByteArrayInputStream bais = new ByteArrayInputStream(imageProcessorResult.imageData);
+
+				int count = 0;
+				int current = 0;
+				while ((current = bais.read()) != -1)
+				{
+					String helperStr = Integer.toHexString(current);
+					if (helperStr.length() < 2)
+					{
+						helperStr = "0" + helperStr;
+					}
+					contentWriter.write(helperStr);
+					count++;
+					if (count == 64)
+					{
+						contentWriter.write("\n");
+						count = 0;
+					}
+				}
+
+				contentWriter.write("\n}}}");
+				contentWriter.write("}}\n");
+				endHyperlink(startedHyperlink);
+			}
 		}
 
 		int x = printImage.getX() + getOffsetX();
@@ -1308,6 +1312,67 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		else
 		{
 			exportBox(printImage.getLineBox(), x, y, width, height);
+		}
+	}
+
+	private class InternalImageProcessor
+	{
+		private final JRPrintElement imageElement;
+		private final boolean needDimension; 
+		private final int availableImageWidth; 
+		private final int availableImageHeight; 
+
+		protected InternalImageProcessor(
+			JRPrintElement imageElement,
+			boolean needDimension,
+			int availableImageWidth,
+			int availableImageHeight
+			)
+		{
+			this.imageElement = imageElement;
+			this.needDimension = needDimension;
+			this.availableImageWidth = availableImageWidth;
+			this.availableImageHeight = availableImageHeight;
+		}
+		
+		private InternalImageProcessorResult process(Renderable renderer) throws JRException
+		{
+			Dimension2D dimension = null;
+			if (needDimension)
+			{
+				dimension = renderer.getDimension(jasperReportsContext);
+			}
+			
+			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+			{
+				renderer =
+					new JRWrappingSvgRenderer(
+						renderer,
+						new Dimension(availableImageWidth, availableImageHeight),
+						ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+						);
+			}
+
+			return 
+				new InternalImageProcessorResult(
+					renderer.getImageData(jasperReportsContext), 
+					dimension, 
+					renderer.getImageTypeValue()
+					);
+		}
+	}
+
+	private class InternalImageProcessorResult
+	{
+		protected final byte[] imageData;
+		protected final Dimension2D dimension;
+		protected final ImageTypeEnum imageType;
+		
+		protected InternalImageProcessorResult(byte[] imageData, Dimension2D dimension, ImageTypeEnum imageType)
+		{
+			this.imageData = imageData;
+			this.dimension = dimension;
+			this.imageType = imageType;
 		}
 	}
 
@@ -1728,67 +1793,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		contentWriter.write("}");
 	}
 
-	private float getXAlignFactor(JRPrintImage image)
-	{
-		float xalignFactor = 0f;
-		switch (image.getHorizontalImageAlign())
-		{
-			case RIGHT :
-			{
-				xalignFactor = 1f;
-				break;
-			}
-			case CENTER :
-			{
-				xalignFactor = 0.5f;
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				xalignFactor = 0f;
-				break;
-			}
-		}
-		return xalignFactor;
-	}
-
-	private float getYAlignFactor(JRPrintImage image)
-	{
-		float yalignFactor = 0f;
-		switch (image.getVerticalImageAlign())
-		{
-			case BOTTOM :
-			{
-				yalignFactor = 1f;
-				break;
-			}
-			case MIDDLE :
-			{
-				yalignFactor = 0.5f;
-				break;
-			}
-			case TOP :
-			default :
-			{
-				yalignFactor = 0f;
-				break;
-			}
-		}
-		return yalignFactor;
-	}
-
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return RTF_EXPORTER_KEY;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return RTF_EXPORTER_PROPERTIES_PREFIX;
