@@ -52,11 +52,13 @@ public class AwtComponentRenderer extends JRAbstractSvgRenderer
 		this.component = component;
 	}
 	
+	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		return component.getSize();
 	}
 
+	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		AffineTransform origTransform = grx.getTransform();

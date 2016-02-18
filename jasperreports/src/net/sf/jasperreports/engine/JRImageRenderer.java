@@ -164,7 +164,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public static JRImageRenderer getOnErrorRendererForImage(JasperReportsContext jasperReportsContext, JRImageRenderer renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -197,7 +197,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
 	{
@@ -225,6 +225,9 @@ public class JRImageRenderer extends JRAbstractRenderer
 		return renderer;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	public static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRRuntimeException e) throws JRRuntimeException
 	{
 		JRImageRenderer renderer = null;

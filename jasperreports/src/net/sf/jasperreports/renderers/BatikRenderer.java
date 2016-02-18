@@ -109,6 +109,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		this.areaHyperlinks = areaHyperlinks;
 	}
 
+	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		ensureSvg(jasperReportsContext);
@@ -135,6 +136,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		}
 	}
 
+	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		try
@@ -203,6 +205,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	/**
 	 * @deprecated To be removed.
 	 */
+	@Override
 	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		render(grx, rectangle);
@@ -213,16 +216,19 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	/**
 	 *
 	 */
+	@Override
 	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
 		return areaHyperlinks;
 	}
 
+	@Override
 	public boolean hasImageAreaHyperlinks()
 	{
 		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
 	}
 
+	@Override
 	protected Graphics2D createGraphics(BufferedImage bi)
 	{
 		Graphics2D graphics = GraphicsUtil.createGraphics(bi);

@@ -25,10 +25,10 @@ package net.sf.jasperreports.charts.util;
 
 import java.awt.geom.Rectangle2D;
 
+import org.jfree.chart.JFreeChart;
+
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
-
-import org.jfree.chart.JFreeChart;
 
 
 /**
@@ -37,6 +37,7 @@ import org.jfree.chart.JFreeChart;
 public class DrawChartRendererFactory extends AbstractChartRenderableFactory
 {
 	
+	@Override
 	public Renderable getRenderable(
 		JasperReportsContext jasperReportsContext,
 		JFreeChart chart, 

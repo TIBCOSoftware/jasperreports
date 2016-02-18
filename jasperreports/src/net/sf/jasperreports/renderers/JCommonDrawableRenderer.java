@@ -31,6 +31,7 @@
 package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.ui.Drawable;
@@ -69,9 +70,13 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 		this.drawable = drawable;
 	}
 
-	/**
-	 *
-	 */
+	@Override
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) 
+	{
+		return null;
+	}
+
+	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		if (drawable != null) 

@@ -64,9 +64,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		Dimension2D imageDimension = null;
@@ -89,19 +87,13 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		return imageDimension;
 	}
 
-
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return backcolor;
 	}
 
-
-	/**
-	 *
-	 */
+	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		renderer.render(jasperReportsContext, grx, rectangle);
@@ -118,6 +110,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		return super.getImageDataDPI(jasperReportsContext);
 	}
 
+	@Override
 	protected Graphics2D createGraphics(BufferedImage bi)
 	{
 		if (renderer instanceof JRAbstractSvgRenderer)
@@ -127,5 +120,4 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		
 		return super.createGraphics(bi);
 	}
-
 }

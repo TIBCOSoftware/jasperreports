@@ -55,9 +55,10 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 		this.barcode = barcode;
 	}
 	
+	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
-		if(rotation != null) 
+		if (rotation != null) 
 		{
 			switch(rotation)
 			{
@@ -73,6 +74,7 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 		}
 	}
 
+	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		AffineTransform origTransform = grx.getTransform();
@@ -82,7 +84,7 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 
 			if (rotation != null)
 			{
-				switch(rotation)
+				switch (rotation)
 				{
 					case LEFT:
 						grx.translate(rectangle.getX(), rectangle.getY() + rectangle.getHeight());

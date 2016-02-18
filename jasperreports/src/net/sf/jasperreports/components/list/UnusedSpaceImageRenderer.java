@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.list;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
@@ -62,6 +63,13 @@ public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 		this.clip = clip;
 	}
 	
+	@Override
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) 
+	{
+		return null;
+	}
+	
+	@Override
 	public void render(
 		JasperReportsContext jasperReportsContext,
 		Graphics2D grx, 

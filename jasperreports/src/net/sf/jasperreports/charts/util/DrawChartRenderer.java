@@ -24,6 +24,7 @@
 package net.sf.jasperreports.charts.util;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -54,6 +55,13 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMap
 		this.chartHyperlinkProvider = chartHyperlinkProvider;
 	}
 
+	@Override
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) 
+	{
+		return null;
+	}
+	
+	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		if (chart != null)
@@ -65,6 +73,7 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMap
 	/**
 	 * @deprecated To be removed.
 	 */
+	@Override
 	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) 
 	{
 		try
@@ -79,14 +88,13 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMap
 		return ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, grx, rectangle);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
 		return ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, null, renderingArea);
 	}
 
+	@Override
 	public boolean hasImageAreaHyperlinks()
 	{
 		return chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks();
