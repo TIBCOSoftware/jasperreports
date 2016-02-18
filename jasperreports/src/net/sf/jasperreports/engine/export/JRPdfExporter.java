@@ -126,6 +126,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
@@ -391,6 +392,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected class ExporterContext extends BaseExporterContext implements JRPdfExporterContext
 	{
+		@Override
 		public PdfWriter getPdfWriter()
 		{
 			return pdfWriter;
@@ -457,27 +459,21 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<PdfExporterConfiguration> getConfigurationInterface()
 	{
 		return PdfExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<PdfReportConfiguration> getItemConfigurationInterface()
 	{
 		return PdfReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -517,9 +513,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		registerFonts();
@@ -1608,8 +1602,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				normalHeight = (int)dimension.getHeight();
 			}
 
-			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 
 			int minWidth = Math.min(normalWidth, availableImageWidth);
 			int minHeight = Math.min(normalHeight, availableImageHeight);
@@ -1725,8 +1719,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			image.scaleToFit(availableImageWidth, availableImageHeight);
 
-			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
-			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
+			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
+			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
 
 			xoffset = (xoffset < 0 ? 0 : xoffset);
 			yoffset = (yoffset < 0 ? 0 : yoffset);
@@ -1769,8 +1763,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				{
 					case CLIP:
 					{
-						xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-						yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+						xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+						yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 						clip =
 							new Rectangle2D.Double(
 								- xoffset,
@@ -1799,8 +1793,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 						ratioY = ratioX;
 						normalWidth *= ratioX;
 						normalHeight *= ratioY;
-						xoffset = (int) (getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-						yoffset = (int) (getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+						xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+						yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 						break;
 					}
 				}
@@ -1884,57 +1878,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			this.xoffset = xoffset;
 			this.yoffset = yoffset;
 		}
-	}
-
-	private float getXAlignFactor(JRPrintImage printImage)
-	{
-		float xalignFactor = 0f;
-		switch (printImage.getHorizontalImageAlign())
-		{
-			case RIGHT :
-			{
-				xalignFactor = 1f;
-				break;
-			}
-			case CENTER :
-			{
-				xalignFactor = 0.5f;
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				xalignFactor = 0f;
-				break;
-			}
-		}
-		return xalignFactor;
-	}
-
-
-	private float getYAlignFactor(JRPrintImage printImage)
-	{
-		float yalignFactor = 0f;
-		switch (printImage.getVerticalImageAlign())
-		{
-			case BOTTOM :
-			{
-				yalignFactor = 1f;
-				break;
-			}
-			case MIDDLE :
-			{
-				yalignFactor = 0.5f;
-				break;
-			}
-			case TOP :
-			default :
-			{
-				yalignFactor = 0f;
-				break;
-			}
-		}
-		return yalignFactor;
 	}
 
 
@@ -3176,6 +3119,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 		}
 
+		@Override
 		public BaseFont awtToPdf(java.awt.Font font)
 		{
 			// not setting underline and strikethrough as we only need the base font.
@@ -3186,6 +3130,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			return getFont(atts, null, false).getBaseFont();
 		}
 
+		@Override
 		public java.awt.Font pdfToAwt(BaseFont font, int size)
 		{
 			return null;
@@ -3217,18 +3162,14 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return PDF_EXPORTER_KEY;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return PDF_EXPORTER_PROPERTIES_PREFIX;
