@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
 
 
 /**
@@ -58,9 +59,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void draw(Graphics2D grx, JRPrintImage printImage, int offsetX, int offsetY) throws JRException
 	{
 		if (printImage.getModeValue() == ModeEnum.OPAQUE)
@@ -203,8 +202,8 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				normalHeight = (int)dimension.getHeight();
 			}
 
-			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 
 			Shape oldClipShape = grx.getClip();
 
@@ -289,8 +288,8 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				normalHeight = availableImageHeight; 
 			}
 
-			int xoffset = (int)(getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
 
 			renderer.render(
 				getJasperReportsContext(),
@@ -303,55 +302,5 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 					) 
 				);
 		}
-	}
-
-	private float getXAlignFactor(JRPrintImage printImage)
-	{
-		float xalignFactor = 0f;
-		switch (printImage.getHorizontalImageAlign())
-		{
-			case RIGHT :
-			{
-				xalignFactor = 1f;
-				break;
-			}
-			case CENTER :
-			{
-				xalignFactor = 0.5f;
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				xalignFactor = 0f;
-				break;
-			}
-		}
-		return xalignFactor;
-	}
-
-	private float getYAlignFactor(JRPrintImage printImage)
-	{
-		float yalignFactor = 0f;
-		switch (printImage.getVerticalImageAlign())
-		{
-			case BOTTOM :
-			{
-				yalignFactor = 1f;
-				break;
-			}
-			case MIDDLE :
-			{
-				yalignFactor = 0.5f;
-				break;
-			}
-			case TOP :
-			default :
-			{
-				yalignFactor = 0f;
-				break;
-			}
-		}
-		return yalignFactor;
 	}
 }
