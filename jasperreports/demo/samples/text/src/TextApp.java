@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 
 /**
@@ -139,7 +140,7 @@ public class TextApp extends AbstractSampleApp
 		JRXmlExporter exporter = new JRXmlExporter();
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+		exporter.setExporterOutput(new SimpleXmlExporterOutput(destFile));
 		
 		exporter.exportReport();
 
