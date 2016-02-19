@@ -1791,21 +1791,19 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					}
 					else
 					{
-						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-						{
-							renderer =
-								new JRWrappingSvgRenderer(
-									renderer,
-									new Dimension(availableImageWidth, availableImageHeight),
-									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-									);
-						}
-
-						byte[] imageData = renderer.getImageData(jasperReportsContext);
-
 						if (isEmbedImage)
 						{
-							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+							if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+							{
+								renderer =
+									new JRWrappingSvgRenderer(
+										renderer,
+										new Dimension(availableImageWidth, availableImageHeight),
+										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+										);
+							}
+
+							ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
 							
 							Base64Encoder encoder = new Base64Encoder(bais, baos);
@@ -1827,7 +1825,17 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 								JRPrintElementIndex imageIndex = getElementIndex(gridCell);
 								String imageName = getImageName(imageIndex);
 
-								imageHandler.handleResource(imageName, imageData);
+								if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+								{
+									renderer =
+										new JRWrappingSvgRenderer(
+											renderer,
+											new Dimension(availableImageWidth, availableImageHeight),
+											ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+											);
+								}
+
+								imageHandler.handleResource(imageName, renderer.getImageData(jasperReportsContext));
 
 								imagePath = imageHandler.getResourcePath(imageName);
 
