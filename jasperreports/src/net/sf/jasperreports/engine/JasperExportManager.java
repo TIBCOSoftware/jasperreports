@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 
@@ -360,7 +359,7 @@ public final class JasperExportManager
 		JRXmlExporter exporter = new JRXmlExporter(jasperReportsContext);
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(outputStream));
+		exporter.setExporterOutput(new SimpleXmlExporterOutput(outputStream));
 		
 		exporter.exportReport();
 	}
@@ -382,7 +381,7 @@ public final class JasperExportManager
 		JRXmlExporter exporter = new JRXmlExporter(jasperReportsContext);
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(sbuffer));
+		exporter.setExporterOutput(new SimpleXmlExporterOutput(sbuffer));
 		
 		exporter.exportReport();
 		
