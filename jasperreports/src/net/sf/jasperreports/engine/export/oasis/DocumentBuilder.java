@@ -196,15 +196,19 @@ public abstract class DocumentBuilder
 
 		if (renderer != null)
 		{
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			if (isLazy)
 			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
+				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
+				imagePath = ((JRImageRenderer)renderer).getImageLocation();
 			}
 			else
 			{
-				if (isLazy)
+				if (
+					renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
+					&& rendererToImagePathMap.containsKey(renderer.getId())
+					)
 				{
-					imagePath = ((JRImageRenderer)renderer).getImageLocation();
+					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
@@ -229,9 +233,13 @@ public abstract class DocumentBuilder
 
 					String imageName = DocumentBuilder.getImageName(imageIndex);
 					imagePath = "Pictures/" + imageName;
-				}
 
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
+					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+					{
+						//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+						rendererToImagePathMap.put(renderer.getId(), imagePath);
+					}
+				}
 			}
 		}
 

@@ -844,91 +844,105 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	
 			String imageSource = "";
 			
-			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-			{
-				renderer = 
-					new JRWrappingSvgRenderer(
-						renderer, 
-						new Dimension(image.getWidth(), image.getHeight()),
-						ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-						);
-			}
-				
 			if (image.isLazy())
 			{
+				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
 				imageSource = ((JRImageRenderer)renderer).getImageLocation();
-			}
-			else if (isEmbeddingImages)
-			{
-				try
-				{
-					ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					
-					Base64Encoder encoder = new Base64Encoder(bais, baos);
-					encoder.process();
-					
-					String encoding = getExporterOutput().getEncoding();
-					imageSource = new String(baos.toByteArray(), encoding);
-				}
-				catch (IOException e)
-				{
-					throw 
-						new JRException(
-							EXCEPTION_MESSAGE_KEY_EMBEDDING_IMAGE_ERROR,
-							null, 
-							e);
-				}
 			}
 			else
 			{
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer))
+				if (
+					!isEmbeddingImages //we do not cache imageSource for embedded images because it is too big
+					&& renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imageSource for SVG images because they render width different width/height each time
+					&& rendererToImagePathMap.containsKey(renderer.getId())
+					)
 				{
 					imageSource = rendererToImagePathMap.get(renderer);
 				}
 				else
 				{
-					String imageName = IMAGE_PREFIX + getNextImageId();
-					
-					byte[] imageData = renderer.getImageData(jasperReportsContext);
-
-					if (!imagesDir.exists())
+					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 					{
-						imagesDir.mkdir();
+						renderer = 
+							new JRWrappingSvgRenderer(
+								renderer, 
+								new Dimension(image.getWidth(), image.getHeight()),
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								);
 					}
-
-					File imageFile = new File(imagesDir, imageName);
-
-					OutputStream fos = null;
-					try
+						
+					if (isEmbeddingImages)
 					{
-						fos = new FileOutputStream(imageFile);
-						fos.write(imageData, 0, imageData.length);
-					}
-					catch (IOException e)
-					{
-						throw 
-							new JRException(
-								EXCEPTION_MESSAGE_KEY_IMAGE_WRITE_ERROR,
-								new Object[]{imageFile}, 
-								e);
-					}
-					finally
-					{
-						if (fos != null)
+						try
 						{
-							try
+							ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
+							ByteArrayOutputStream baos = new ByteArrayOutputStream();
+							
+							Base64Encoder encoder = new Base64Encoder(bais, baos);
+							encoder.process();
+							
+							String encoding = getExporterOutput().getEncoding();
+							imageSource = new String(baos.toByteArray(), encoding);
+						}
+						catch (IOException e)
+						{
+							throw 
+								new JRException(
+									EXCEPTION_MESSAGE_KEY_EMBEDDING_IMAGE_ERROR,
+									null, 
+									e);
+						}
+						//don't cache the base64 encoded image as imageSource because they are too big
+					}
+					else
+					{
+						String imageName = IMAGE_PREFIX + getNextImageId();
+						
+						byte[] imageData = renderer.getImageData(jasperReportsContext);
+
+						if (!imagesDir.exists())
+						{
+							imagesDir.mkdir();
+						}
+
+						File imageFile = new File(imagesDir, imageName);
+
+						OutputStream fos = null;
+						try
+						{
+							fos = new FileOutputStream(imageFile);
+							fos.write(imageData, 0, imageData.length);
+						}
+						catch (IOException e)
+						{
+							throw 
+								new JRException(
+									EXCEPTION_MESSAGE_KEY_IMAGE_WRITE_ERROR,
+									new Object[]{imageFile}, 
+									e);
+						}
+						finally
+						{
+							if (fos != null)
 							{
-								fos.close();
-							}
-							catch(IOException e)
-							{
+								try
+								{
+									fos.close();
+								}
+								catch(IOException e)
+								{
+								}
 							}
 						}
+						
+						imageSource = imageFile.getPath();
+
+						if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+						{
+							//cache imageSource only for IMAGE renderers because the SVG ones render with different width/height each time
+							rendererToImagePathMap.put(renderer, imageSource);
+						}
 					}
-					
-					imageSource = imageFile.getPath();
-					rendererToImagePathMap.put(renderer, imageSource);
 				}
 			}
 			

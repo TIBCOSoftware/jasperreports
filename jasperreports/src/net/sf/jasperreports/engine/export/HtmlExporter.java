@@ -1250,21 +1250,20 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 			String imagePath = null;
 			
-			if (
-				renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
-				&& rendererToImagePathMap.containsKey(renderer.getId())
-				&& (isLazy || !embedImage)
-				)
+			if (isLazy)
 			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
+				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
+				imagePath = ((JRImageRenderer)renderer).getImageLocation();
 			}
 			else
 			{
-				if (isLazy)
+				if (
+					!embedImage //we do not cache imagePath for embedded images because it is too big
+					&& renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
+					&& rendererToImagePathMap.containsKey(renderer.getId())
+					)
 				{
-					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-
-					rendererToImagePathMap.put(renderer.getId(), imagePath);
+					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
@@ -1291,8 +1290,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						String encoding = getExporterOutput().getEncoding();
 						
 						imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
-						
-						//don't cache the base64 encoded image as imagePath
+						//don't cache the base64 encoded image as imagePath because they are too big
 					}
 					else
 					{
@@ -1310,7 +1308,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							
 							imagePath = imageHandler.getResourcePath(imageName);
 
-							rendererToImagePathMap.put(renderer.getId(), imagePath);
+							if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+							{
+								//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+								rendererToImagePathMap.put(renderer.getId(), imagePath);
+							}
 						}
 						//does not make sense to cache null imagePath, in the absence of an image handler
 					}

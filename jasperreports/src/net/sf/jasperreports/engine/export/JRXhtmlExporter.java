@@ -1678,7 +1678,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		if (renderer != null)
 		{
-			boolean hasAreaHyperlinks = 
+			boolean hasAreaHyperlinks =
 				renderer instanceof ImageMapRenderable
 				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
 
@@ -1709,23 +1709,22 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			writer.write("<img");
 			String imagePath = null;
 			
-			boolean isEmbedImage = isEmbedImage(image);
-			
-			if (
-				renderer.getTypeValue() == RenderableTypeEnum.IMAGE 
-				&& rendererToImagePathMap.containsKey(renderer.getId())
-				&& (image.isLazy() || !isEmbedImage)
-				)
+			if (image.isLazy())
 			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
+				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
+				imagePath = ((JRImageRenderer)renderer).getImageLocation();
 			}
 			else
 			{
-				if (image.isLazy())
+				boolean isEmbedImage = isEmbedImage(image);
+				
+				if (
+					!isEmbedImage //we do not cache imagePath for embedded images because it is too big
+					&& renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
+					&& rendererToImagePathMap.containsKey(renderer.getId())
+					)
 				{
-					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-
-					rendererToImagePathMap.put(renderer.getId(), imagePath);
+					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
@@ -1752,8 +1751,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 						String encoding = getExporterOutput().getEncoding();
 						
 						imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
-						
-						//don't cache the base64 encoded image as imagePath
+						//don't cache the base64 encoded image as imagePath because they are too big
 					}
 					else
 					{
@@ -1766,16 +1764,18 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 							JRPrintElementIndex imageIndex = getElementIndex();
 							String imageName = getImageName(imageIndex);
 
-							if (imageHandler != null)
+							imageHandler.handleResource(imageName, imageData);
+
+							imagePath = imageHandler.getResourcePath(imageName);
+
+							if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 							{
-								imageHandler.handleResource(imageName, imageData);
-
-								imagePath = imageHandler.getResourcePath(imageName);
-
+								//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
 								rendererToImagePathMap.put(renderer.getId(), imagePath);
 							}
 							//does not make sense to cache null imagePath, in the absence of an image handler
 						}
+						//does not make sense to cache null imagePath, in the absence of an image handler
 					}
 				}
 			}

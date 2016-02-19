@@ -1224,18 +1224,18 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			
 			String imagePath = null;
 
-			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
-			{
-				imagePath = rendererToImagePathMap.get(renderer.getId());
-			}
-			else
-			{
-//				if (isLazy)//FIXMEDOCX learn how to link images
-//				{
-//					imagePath = ((JRImageRenderer)renderer).getImageLocation();
-//				}
-//				else
-//				{
+//			if (image.isLazy()) //FIXMEXLSX learn how to link images
+//			{
+//				
+//			}
+//			else
+//			{
+				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+				{
+					imagePath = rendererToImagePathMap.get(renderer.getId());
+				}
+				else
+				{
 					JRPrintElementIndex imageIndex = getElementIndex(cell);
 
 					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
@@ -1267,10 +1267,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
-//				}
-
-				rendererToImagePathMap.put(renderer.getId(), imagePath);
-			}
+	
+					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+					{
+						//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+						rendererToImagePathMap.put(renderer.getId(), imagePath);
+					}
+				}
+//			}
 			
 			return new InternalImageProcessorResult(imagePath, dimension);
 		}
