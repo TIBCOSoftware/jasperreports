@@ -58,18 +58,14 @@ public abstract class JRAbstractRenderer implements Renderable
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public String getId()
 	{
 		return id;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public RenderableTypeEnum getTypeValue()
 	{
@@ -77,9 +73,7 @@ public abstract class JRAbstractRenderer implements Renderable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public ImageTypeEnum getImageTypeValue()
 	{
@@ -87,9 +81,7 @@ public abstract class JRAbstractRenderer implements Renderable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
 	{
@@ -97,9 +89,7 @@ public abstract class JRAbstractRenderer implements Renderable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
 	{
@@ -107,9 +97,7 @@ public abstract class JRAbstractRenderer implements Renderable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{

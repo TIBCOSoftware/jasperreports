@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.renderers.ResourceImageRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -51,6 +52,8 @@ public class RenderableUtil
 	
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_ERROR = "engine.renderable.util.image.error";
 	
+	public static final Renderable NO_IMAGE_RENDERER = ResourceImageRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE);//FIXMEIMAGE consider moving constant from loader to here 
+
 	/**
 	 *
 	 */
@@ -348,8 +351,7 @@ public class RenderableUtil
 		{
 			case ICON :
 			{
-				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
-				//FIXME cache these renderers
+				renderer = NO_IMAGE_RENDERER;
 				break;
 			}
 			case BLANK :
@@ -377,8 +379,7 @@ public class RenderableUtil
 		{
 			case ICON :
 			{
-				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
-				//FIXME cache these renderers
+				renderer = NO_IMAGE_RENDERER;
 				break;
 			}
 			case BLANK :
