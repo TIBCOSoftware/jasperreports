@@ -35,9 +35,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class FileHtmlResourceHandler implements HtmlResourceHandler 
+public class FileXmlResourceHandler implements XmlResourceHandler 
 {
-	public static final String EXCEPTION_MESSAGE_KEY_RESOURCES_DIRECTORY_NOT_SPECIFIED = "export.html.resources.directory.not.specified";
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCES_DIRECTORY_NOT_SPECIFIED = "export.xml.resources.directory.not.specified";
 	
 	/**
 	 * 
@@ -48,7 +48,7 @@ public class FileHtmlResourceHandler implements HtmlResourceHandler
 	/**
 	 * 
 	 */
-	public FileHtmlResourceHandler(File parentFolder, String pathPattern)
+	public FileXmlResourceHandler(File parentFolder, String pathPattern)
 	{
 		this.parentFolder = parentFolder;
 		this.pathPattern = pathPattern;
@@ -57,13 +57,13 @@ public class FileHtmlResourceHandler implements HtmlResourceHandler
 	/**
 	 * 
 	 */
-	public FileHtmlResourceHandler(File parentFolder)
+	public FileXmlResourceHandler(File parentFolder)
 	{
 		this(parentFolder, null);
 	}
 
 	@Override
-	public String getResourcePath(String id)
+	public String getResourceSource(String id)
 	{
 		if (pathPattern == null)
 		{

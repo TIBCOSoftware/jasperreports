@@ -31,6 +31,8 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.FileXmlResourceHandler;
+import net.sf.jasperreports.engine.export.XmlResourceHandler;
 import net.sf.jasperreports.export.XmlExporterOutput;
 
 
@@ -46,7 +48,11 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 	/**
 	 * 
 	 */
+	private XmlResourceHandler imageHandler;
 	private Boolean isEmbeddingImages;
+	/**
+	 * @deprecated To be removed.
+	 */ 
 	private File imagesDir;
 	
 	/**
@@ -93,7 +99,8 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 					}
 					
 					imagesDir = new File(destFile.getParent(), destFile.getName() + XML_FILES_SUFFIX);
-					
+					imageHandler = new FileXmlResourceHandler(imagesDir, imagesDir.getName() + "/{0}");
+
 					Boolean isEmbeddingImagesParameter = (Boolean)parameters.get(net.sf.jasperreports.engine.export.JRXmlExporterParameter.IS_EMBEDDING_IMAGES);
 					if (isEmbeddingImagesParameter == null)
 					{
@@ -114,17 +121,21 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 			encoding = DEFAULT_XML_ENCODING;
 		}
 	}
+	
+	@Override
+	public XmlResourceHandler getImageHandler() 
+	{
+		return imageHandler;
+	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isEmbeddingImages()
 	{
 		return isEmbeddingImages;
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed. 
 	 */
 	public File getImagesDir()
 	{

@@ -21,22 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.export;
+package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.export.XmlResourceHandler;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface XmlExporterOutput extends WriterExporterOutput
+public interface XmlResourceHandler 
 {
 	/**
-	 * Returns a boolean value specifying whether images should be store internally or rather as files on disk.
+	 * 
 	 */
-	public Boolean isEmbeddingImages();
+	public String getResourceSource(String id);
 
 	/**
 	 * 
 	 */
-	public XmlResourceHandler getImageHandler(); 
+	public void handleResource(String id, byte[] data);
 }

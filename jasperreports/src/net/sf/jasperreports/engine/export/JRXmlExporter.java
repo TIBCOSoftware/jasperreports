@@ -31,10 +31,7 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.HashMap;
@@ -102,7 +99,7 @@ import net.sf.jasperreports.engine.xml.XmlValueHandlerUtils;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
-import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.export.XmlExporterOutput;
 
 
 /**
@@ -166,7 +163,7 @@ import net.sf.jasperreports.export.WriterExporterOutput;
  * @see net.sf.jasperreports.engine.xml.JRPrintXmlLoader
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration, ExporterConfiguration, WriterExporterOutput, JRXmlExporterContext>
+public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration, ExporterConfiguration, XmlExporterOutput, JRXmlExporterContext>
 {
 	/**
 	 *
@@ -174,7 +171,6 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	private static final String XML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.";
 	
 	public static final String EXCEPTION_MESSAGE_KEY_EMBEDDING_IMAGE_ERROR = "export.xml.embedding.image.error";
-	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_WRITE_ERROR = "export.xml.image.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_STYLE_NOT_FOUND = "export.xml.report.style.not.found";
 
 	/**
@@ -204,7 +200,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected String version;
 	protected VersionComparator versionComparator = new VersionComparator();
 	
-	protected Map<Renderable,String> rendererToImagePathMap;
+	protected Map<String,String> rendererToImagePathMap;
 //	protected Map fontsMap = new HashMap();
 	protected Map<String,JRStyle> stylesMap = new HashMap<String,JRStyle>();
 
@@ -212,8 +208,6 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	 *
 	 */
 	protected boolean isEmbeddingImages = true;
-	protected File destFile;
-	protected File imagesDir;
 
 	/**
 	 * 
@@ -246,27 +240,21 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<ExporterConfiguration> getConfigurationInterface()
 	{
 		return ExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<ReportExportConfiguration> getItemConfigurationInterface()
 	{
 		return ReportExportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -282,9 +270,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -295,9 +281,16 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		
 		ensureOutput();
 
+		Boolean lcIsEmbeddingImages = getExporterOutput().isEmbeddingImages();
+		if (lcIsEmbeddingImages == null)
+		{
+			lcIsEmbeddingImages = Boolean.TRUE;
+		}
+		isEmbeddingImages = lcIsEmbeddingImages.booleanValue();
+		
 		if (!isEmbeddingImages)
 		{
-			rendererToImagePathMap = new HashMap<Renderable,String>();
+			rendererToImagePathMap = new HashMap<String,String>();
 		}
 
 		Writer writer = getExporterOutput().getWriter();
@@ -857,22 +850,22 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
-					imageSource = rendererToImagePathMap.get(renderer);
+					imageSource = rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer = 
-							new JRWrappingSvgRenderer(
-								renderer, 
-								new Dimension(image.getWidth(), image.getHeight()),
-								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-								);
-					}
-						
 					if (isEmbeddingImages)
 					{
+						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+						{
+							renderer = 
+								new JRWrappingSvgRenderer(
+									renderer, 
+									new Dimension(image.getWidth(), image.getHeight()),
+									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+									);
+						}
+							
 						try
 						{
 							ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
@@ -882,6 +875,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 							encoder.process();
 							
 							String encoding = getExporterOutput().getEncoding();
+							
 							imageSource = new String(baos.toByteArray(), encoding);
 						}
 						catch (IOException e)
@@ -896,51 +890,30 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 					}
 					else
 					{
-						String imageName = IMAGE_PREFIX + getNextImageId();
-						
-						byte[] imageData = renderer.getImageData(jasperReportsContext);
-
-						if (!imagesDir.exists())
+						XmlResourceHandler imageHandler = getExporterOutput().getImageHandler();
+						if (imageHandler != null)
 						{
-							imagesDir.mkdir();
-						}
-
-						File imageFile = new File(imagesDir, imageName);
-
-						OutputStream fos = null;
-						try
-						{
-							fos = new FileOutputStream(imageFile);
-							fos.write(imageData, 0, imageData.length);
-						}
-						catch (IOException e)
-						{
-							throw 
-								new JRException(
-									EXCEPTION_MESSAGE_KEY_IMAGE_WRITE_ERROR,
-									new Object[]{imageFile}, 
-									e);
-						}
-						finally
-						{
-							if (fos != null)
+							String imageName = IMAGE_PREFIX + getNextImageId();
+							
+							if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 							{
-								try
-								{
-									fos.close();
-								}
-								catch(IOException e)
-								{
-								}
+								renderer = 
+									new JRWrappingSvgRenderer(
+										renderer, 
+										new Dimension(image.getWidth(), image.getHeight()),
+										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+										);
 							}
-						}
-						
-						imageSource = imageFile.getPath();
+								
+							imageHandler.handleResource(imageName, renderer.getImageData(jasperReportsContext));
+							
+							imageSource = imageHandler.getResourceSource(imageName);
 
-						if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-						{
-							//cache imageSource only for IMAGE renderers because the SVG ones render with different width/height each time
-							rendererToImagePathMap.put(renderer, imageSource);
+							if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+							{
+								//cache imageSource only for IMAGE renderers because the SVG ones render with different width/height each time
+								rendererToImagePathMap.put(renderer.getId(), imageSource);
+							}
 						}
 					}
 				}
@@ -1274,18 +1247,14 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return XML_EXPORTER_PROPERTIES_PREFIX;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return XML_EXPORTER_KEY;

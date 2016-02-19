@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleReportExportConfiguration;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -57,9 +57,7 @@ public class XmlServlet extends BaseHttpServlet
 	public static final String PAGE_INDEX_REQUEST_PARAMETER = "page";
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void service(
 		HttpServletRequest request,
 		HttpServletResponse response
@@ -126,7 +124,7 @@ public class XmlServlet extends BaseHttpServlet
 			{
 				configuration.setEndPageIndex(endPageIndex);
 			}
-			exporter.setExporterOutput(new SimpleWriterExporterOutput(fbos));
+			exporter.setExporterOutput(new SimpleXmlExporterOutput(fbos));
 
 			try 
 			{
@@ -199,7 +197,7 @@ public class XmlServlet extends BaseHttpServlet
 			}
 			
 			OutputStream outputStream = response.getOutputStream();
-			exporter.setExporterOutput(new SimpleWriterExporterOutput(outputStream));
+			exporter.setExporterOutput(new SimpleXmlExporterOutput(outputStream));
 
 			try 
 			{

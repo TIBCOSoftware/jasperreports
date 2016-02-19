@@ -165,24 +165,21 @@ public class SimpleWriterExporterOutput implements WriterExporterOutput
 	/**
 	 * The character encoding used for export.
 	 */
+	@Override
 	public String getEncoding()
 	{
 		return encoding;
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Writer getWriter()
 	{
 		return writer;
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void close()
 	{
 		if (toClose && writer != null)

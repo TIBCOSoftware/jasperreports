@@ -153,25 +153,19 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public HtmlResourceHandler getImageHandler() 
 	{
 		return imageHandler;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public HtmlResourceHandler getFontHandler() 
 	{
 		return fontHandler;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public HtmlResourceHandler getResourceHandler() 
 	{
 		return resourceHandler;
