@@ -59,7 +59,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	/**
 	 *
 	 */
-	public static final String PROPERTY_SPLIT_TYPE = "splitType";
+	public static final String PROPERTY_splitType = "splitType";
 
 	/**
 	 *
@@ -125,7 +125,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	{
 		SplitTypeEnum old = this.splitTypeValue;
 		this.splitTypeValue = splitTypeValue;
-		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_SPLIT_TYPE, old, this.splitTypeValue);
+		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_splitType, old, this.splitTypeValue);
 	}
 
 	/**
