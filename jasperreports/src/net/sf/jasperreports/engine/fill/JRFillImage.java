@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
 
 
@@ -545,9 +546,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				isUsingCache = source instanceof String;
 			}
 			
-			if (isUsingCache && filler.fillContext.hasLoadedImage(source))
+			Object imgKey = source;
+			if (source instanceof String)
 			{
-				newRenderer = filler.fillContext.getLoadedImage(source).getRenderable();
+				imgKey = new Pair<Boolean, String>(isLazy(), (String)source);
+			}
+
+			if (isUsingCache && filler.fillContext.hasLoadedImage(imgKey))
+			{
+				newRenderer = filler.fillContext.getLoadedImage(imgKey).getRenderable();
 			}
 			else
 			{
@@ -557,7 +564,17 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					? (net.sf.jasperreports.engine.JRRenderable)source 
 					: null;
 
-				if (source instanceof Image)
+				if (source instanceof String)
+				{
+					String strSource = (String) source;
+					newRenderer = 
+						RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(
+							strSource, 
+							getOnErrorTypeValue(), 
+							isLazy() 
+							);
+				}
+				else if (source instanceof Image)
 				{
 					Image img = (Image) source;
 					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorTypeValue());
@@ -576,19 +593,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				{
 					File file = (File) source;
 					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(file, getOnErrorTypeValue());
-				}
-				else if (source instanceof String)
-				{
-					String location = (String) source;
-					newRenderer = 
-						RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(
-							location, 
-							getOnErrorTypeValue(), 
-							isLazy()//, 
-//							filler.reportClassLoader,
-//							filler.urlHandlerFactory,
-//							filler.fileResolver
-							);
 				}
 				else if (source instanceof Renderable)
 				{
@@ -618,7 +622,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage(), 
 							printElementOriginator);//doesn't actually need a printElementId
 					img.setRenderable(newRenderer);
-					filler.fillContext.registerLoadedImage(source, img);
+					filler.fillContext.registerLoadedImage(imgKey, img);
 				}
 			}
 		}
