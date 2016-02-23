@@ -39,6 +39,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.jaspersoft.jasperreports.customvisualization.CVComponent;
+import com.jaspersoft.jasperreports.customvisualization.CVConstants;
+import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
+import com.jaspersoft.jasperreports.customvisualization.Processor;
+
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRComponentElement;
@@ -49,6 +57,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
@@ -57,15 +66,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.jaspersoft.jasperreports.customvisualization.CVComponent;
-import com.jaspersoft.jasperreports.customvisualization.CVConstants;
-import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
-import com.jaspersoft.jasperreports.customvisualization.Processor;
-import net.sf.jasperreports.engine.component.FillContextProvider;
 
 
 public class CVFillComponent extends BaseFillComponent implements Serializable, FillContextProvider
@@ -169,12 +169,15 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
                         {
                             List<Map<String,Object>> newSet = itemData.getEvaluateItems(evaluation);
                             
+                            List<Map<String,Object>> reallyNewSet = new ArrayList<Map<String,Object>>();
+                            
                             for (Map<String,Object> m : newSet)
                             {
-                                  //System.out.println(m);
+                                //System.out.println(m);
+                            	reallyNewSet.add(m);
                             }
                             
-                            datasetsData.set(i, newSet );
+                            datasetsData.set(i, reallyNewSet );
                             
                             System.out.println("Evaluated itemData " + i + "  RECORDS: " + newSet.size());
                             
