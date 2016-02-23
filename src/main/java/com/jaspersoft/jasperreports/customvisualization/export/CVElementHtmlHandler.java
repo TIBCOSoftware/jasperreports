@@ -50,8 +50,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jaspersoft.jasperreports.customvisualization.CVConstants;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
 import com.jaspersoft.jasperreports.customvisualization.CVUtils;
-import com.jaspersoft.jasperreports.customvisualization.Processor;
-import java.util.List;
 
 
 
@@ -93,9 +91,6 @@ public class CVElementHtmlHandler implements GenericElementHtmlHandler
                 throw new JRRuntimeException("Configuration object in the element "+ element + " is NULL!");
             }
             
-            List<List<Map<String,Object>>> savedDatasetsData = (List<List<Map<String,Object>>>) originalConfiguration.get(Processor.CONF_SERIES);
-            System.out.println("Serializing configuration to json.... my data item 0 contains... " + ((savedDatasetsData.size() > 0) ? savedDatasetsData.get(0).size()+"" : " no series"));
-                
             
             // Duplicate the configuration.
             Map<String, Object> configuration = new HashMap<String,Object>();
