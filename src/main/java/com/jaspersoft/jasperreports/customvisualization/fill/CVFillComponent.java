@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
@@ -163,10 +164,9 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
                        
                         CVFillItemData itemData = this.itemDataList.get(i);
                         
-                        System.out.println("Evaluating itemData " + i);
-                        
                         if (itemData != null)
                         {
+                            
                             List<Map<String,Object>> newSet = itemData.getEvaluateItems(evaluation);
                             
                             List<Map<String,Object>> reallyNewSet = new ArrayList<Map<String,Object>>();
@@ -178,9 +178,6 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
                             }
                             
                             datasetsData.set(i, reallyNewSet );
-                            
-                            System.out.println("Evaluated itemData " + i + "  RECORDS: " + newSet.size());
-                            
                             
                         }
                         else
@@ -266,15 +263,18 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
           
           List<List<Map<String,Object>>> savedDatasetsData = new ArrayList<List<Map<String,Object>>>();
           
-          
           for (int i=0; i<datasetsData.size(); ++i)
           {
                   savedDatasetsData.add(datasetsData.get(i));
+                  
                   datasetsData.set(i,null);
           }
           
           
           configuration.put(Processor.CONF_SERIES, savedDatasetsData);
+          
+          
+          
           
           
           Object scriptSource = null;
