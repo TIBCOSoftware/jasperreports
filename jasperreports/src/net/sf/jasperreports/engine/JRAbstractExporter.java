@@ -110,58 +110,69 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		/**
 		 * @deprecated Replaced by {@link #getExporterRef()}.
 		 */
+		@Override
 		public JRExporter getExporter()
 		{
 			return JRAbstractExporter.this;
 		}
 
+		@Override
 		public Exporter getExporterRef()
 		{
 			return JRAbstractExporter.this;
 		}
 
+		@Override
 		public JasperReportsContext getJasperReportsContext()
 		{
-			return jasperReportsContext;
+			return JRAbstractExporter.this.getJasperReportsContext();
 		}
 		
+		@Override
 		public JasperPrint getExportedReport()
 		{
 			return jasperPrint;
 		}
 
+		@Override
 		@SuppressWarnings("deprecation")
 		public Map<JRExporterParameter,Object> getExportParameters()
 		{
 			return parameters;
 		}
 
+		@Override
 		public int getOffsetX()
 		{
 			return JRAbstractExporter.this.getOffsetX();
 		}
 
+		@Override
 		public int getOffsetY()
 		{
 			return JRAbstractExporter.this.getOffsetY();
 		}
 
+		@Override
 		@SuppressWarnings("deprecation")
 		public String getExportPropertiesPrefix()
 		{
 			return JRAbstractExporter.this.getExporterPropertiesPrefix();
 		}
 		
+		@Override
 		public Object getValue(String key)
 		{
 			return values.get(key);
 		}
 		
+		@Override
 		public void setValue(String key, Object value)
 		{
 			values.put(key, value);
 		}
 
+		@Override
 		public Map<String, Object> getValues()
 		{
 			return values;
@@ -295,6 +306,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
 	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
 	 */
+	@Override
 	public void setParameter(JRExporterParameter parameter, Object value)
 	{
 		checkApi(true);
@@ -310,6 +322,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
 	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}.
 	 */
+	@Override
 	public Object getParameter(JRExporterParameter parameter)
 	{
 		return parameters.get(parameter);
@@ -320,6 +333,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
 	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
 	 */
+	@Override
 	public void setParameters(Map<JRExporterParameter,Object> parameters)
 	{
 		checkApi(true);
@@ -335,6 +349,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 * @deprecated Replaced by {@link #setExporterInput(ExporterInput)}, {@link #setConfiguration(ExporterConfiguration)},
 	 * {@link #setConfiguration(ReportExportConfiguration)} and {@link #setExporterOutput(ExporterOutput)}
 	 */
+	@Override
 	public Map<JRExporterParameter,Object> getParameters()
 	{
 		return parameters;
@@ -349,9 +364,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setExporterInput(ExporterInput exporterInput)
 	{
 		checkApi(false);
@@ -369,9 +382,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setExporterOutput(O exporterOutput)
 	{
 		checkApi(false);
@@ -380,9 +391,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setConfiguration(RC configuration)
 	{
 		checkApi(false);
@@ -391,9 +400,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setConfiguration(C configuration)
 	{
 		checkApi(false);
@@ -425,18 +432,14 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setReportContext(ReportContext reportContext)
 	{
 		this.reportContext = reportContext;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public ReportContext getReportContext()
 	{
 		return reportContext;
@@ -452,9 +455,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public abstract void exportReport() throws JRException;
 
 
