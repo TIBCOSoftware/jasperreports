@@ -79,7 +79,7 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	private JRGraphics2DExporterContext exporterContext;
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #FrameDrawer(JasperReportsContext, ExporterFilter, PrintDrawVisitor)}.
 	 */
 	public FrameDrawer(
 		JasperReportsContext jasperReportsContext,
@@ -97,7 +97,7 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	}
 		
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #FrameDrawer(JRGraphics2DExporterContext, ExporterFilter, PrintDrawVisitor)}.
 	 */
 	public FrameDrawer(
 		JRGraphics2DExporterContext exporterContext, 
@@ -114,15 +114,43 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	/**
 	 *
 	 */
+	public FrameDrawer(
+		JasperReportsContext jasperReportsContext,
+		ExporterFilter filter,
+		PrintDrawVisitor drawVisitor
+		)
+	{
+		super(jasperReportsContext);
+
+		this.filter = filter;
+		this.drawVisitor = drawVisitor;
+	}
+		
+	/**
+	 * 
+	 */
+	public FrameDrawer(
+		JRGraphics2DExporterContext exporterContext, 
+		ExporterFilter filter,
+		PrintDrawVisitor drawVisitor
+		)
+	{
+		this(exporterContext.getJasperReportsContext(), filter, drawVisitor);
+
+		this.exporterContext = exporterContext;
+	}
+		
+	
+	/**
+	 *
+	 */
 	public void setClip(boolean isClip)
 	{
 		this.isClip = isClip;
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void draw(Graphics2D grx, JRPrintFrame frame, int offsetX, int offsetY) throws JRException
 	{
 		setGraphics(grx);

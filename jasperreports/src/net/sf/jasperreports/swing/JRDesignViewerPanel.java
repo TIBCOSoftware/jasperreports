@@ -46,10 +46,11 @@ public class JRDesignViewerPanel extends JRViewerPanel
 		return 
 			new JRGraphics2DExporter(viewerContext.getJasperReportsContext())
 			{
+			@Override
 				protected void initReport()
 				{
 					super.initReport();
-					frameDrawer.setClip(true);//FIXMENOW thick border of margin elements is clipped
+					drawVisitor.setClip(true);//FIXMENOW thick border of margin elements is clipped
 				}
 			};
 	}

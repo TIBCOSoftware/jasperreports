@@ -45,6 +45,7 @@ public class MapElementGraphics2DHandler implements GenericElementGraphics2DHand
 	}
 	
 
+	@Override
 	public void exportElement(
 			JRGraphics2DExporterContext exporterContext, 
 			JRGenericPrintElement element, 
@@ -54,7 +55,7 @@ public class MapElementGraphics2DHandler implements GenericElementGraphics2DHand
 		try
 		{
 			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
-			ImageDrawer imageDrawer = exporter.getFrameDrawer().getDrawVisitor().getImageDrawer();
+			ImageDrawer imageDrawer = exporter.getDrawVisitor().getImageDrawer();
 			
 			imageDrawer.draw(
 					grx,
@@ -69,6 +70,7 @@ public class MapElementGraphics2DHandler implements GenericElementGraphics2DHand
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

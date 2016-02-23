@@ -48,6 +48,7 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 	}
 	
 
+	@Override
 	public void exportElement(
 			JRGraphics2DExporterContext exporterContext, 
 			JRGenericPrintElement element, 
@@ -87,7 +88,7 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 
 			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
 			
-			FrameDrawer frameDrawer = exporter.getFrameDrawer();
+			FrameDrawer frameDrawer = exporter.getDrawVisitor().getFrameDrawer();
 			frameDrawer.draw(
 				grx, 
 				frame, 
@@ -101,6 +102,7 @@ public class IconLabelElementGraphics2DHandler implements GenericElementGraphics
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

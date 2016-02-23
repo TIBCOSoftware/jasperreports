@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
+import net.sf.jasperreports.engine.export.draw.PrintDrawVisitor;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
 import net.sf.jasperreports.export.Graphics2DExporterOutput;
@@ -156,8 +157,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	/**
 	 *
 	 */
-	protected AwtTextRenderer textRenderer;
-	protected FrameDrawer frameDrawer;
+	protected PrintDrawVisitor drawVisitor;
 
 	protected class ExporterContext extends BaseExporterContext implements JRGraphics2DExporterContext
 	{
@@ -185,27 +185,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<Graphics2DExporterConfiguration> getConfigurationInterface()
 	{
 		return Graphics2DExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<Graphics2DReportConfiguration> getItemConfigurationInterface()
 	{
 		return Graphics2DReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -216,9 +210,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -261,14 +253,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		Boolean isMinimizePrinterJobSize = configuration.isMinimizePrinterJobSize();
 		Boolean isIgnoreMissingFont = configuration.isIgnoreMissingFont();
 		
-		textRenderer = 
-			new AwtTextRenderer(
+		drawVisitor = 
+			new PrintDrawVisitor(
 				jasperReportsContext,
 				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
 				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont
 				);
-
-		frameDrawer = new FrameDrawer(exporterContext, filter, textRenderer);
 	}
 
 	
@@ -339,7 +329,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		grx.setStroke(new BasicStroke(1));
 
 		/*   */
-		frameDrawer.draw(grx, page.getElements(), getOffsetX(), getOffsetY());
+		drawVisitor.getFrameDrawer().draw(grx, page.getElements(), getOffsetX(), getOffsetY());
 		
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
@@ -348,17 +338,13 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return GRAPHICS2D_EXPORTER_KEY;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX;
@@ -366,11 +352,20 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 
 
 	/**
-	 * @return the frameDrawer
+	 *
+	 */
+	public PrintDrawVisitor getDrawVisitor()
+	{
+		return drawVisitor;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getDrawVisitor()}.
 	 */
 	public FrameDrawer getFrameDrawer()
 	{
-		return this.frameDrawer;
+		return drawVisitor.getFrameDrawer();
 	}
 
 

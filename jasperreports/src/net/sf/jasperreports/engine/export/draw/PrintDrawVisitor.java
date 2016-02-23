@@ -67,6 +67,9 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private TextDrawer textDrawer;
 	private FrameDrawer frameDrawer;
 
+	/**
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, boolean, boolean)}.
+	 */
 	public PrintDrawVisitor(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
@@ -76,6 +79,32 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.imageDrawer = new ImageDrawer(jasperReportsContext);
 	}
 	
+	public PrintDrawVisitor(
+		JasperReportsContext jasperReportsContext,
+		boolean minimizePrinterJobSize,
+		boolean ignoreMissingFont
+		)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		this.lineDrawer = new LineDrawer(jasperReportsContext);
+		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
+		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
+		this.imageDrawer = new ImageDrawer(jasperReportsContext);
+
+		AwtTextRenderer textRenderer = 
+			new AwtTextRenderer(
+				jasperReportsContext,
+				minimizePrinterJobSize,
+				ignoreMissingFont
+				);
+		
+		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);
+		frameDrawer = new FrameDrawer(jasperReportsContext, null, this);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, boolean, boolean)}.
+	 */
 	public void setTextRenderer(JRReport report)
 	{
 		AwtTextRenderer textRenderer = 
@@ -94,6 +123,9 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.textDrawer = textDrawer;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void setFrameDrawer(FrameDrawer frameDrawer)
 	{
 		this.frameDrawer = frameDrawer;
@@ -109,6 +141,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.grx = grx;
 	}
 
+	@Override
 	public void visit(JRPrintText textElement, Offset offset)
 	{
 		textDrawer.draw(
@@ -119,6 +152,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 				);
 	}
 
+	@Override
 	public void visit(JRPrintImage image, Offset offset)
 	{
 		try
@@ -136,6 +170,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		}
 	}
 
+	@Override
 	public void visit(JRPrintRectangle rectangle, Offset offset)
 	{
 		rectangleDrawer.draw(
@@ -146,6 +181,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 				);
 	}
 
+	@Override
 	public void visit(JRPrintLine line, Offset offset)
 	{
 		lineDrawer.draw(
@@ -156,6 +192,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 				);
 	}
 
+	@Override
 	public void visit(JRPrintEllipse ellipse, Offset offset)
 	{
 		ellipseDrawer.draw(
@@ -166,6 +203,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 				);
 	}
 
+	@Override
 	public void visit(JRPrintFrame frame, Offset offset)
 	{
 		try
@@ -183,6 +221,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		}
 	}
 
+	@Override
 	public void visit(JRGenericPrintElement printElement, Offset offset)
 	{
 		GenericElementGraphics2DHandler handler = 
@@ -221,4 +260,11 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		return this.imageDrawer;
 	}
 
+	/**
+	 * @return the frameDrawer
+	 */
+	public FrameDrawer getFrameDrawer()
+	{
+		return frameDrawer;
+	}
 }

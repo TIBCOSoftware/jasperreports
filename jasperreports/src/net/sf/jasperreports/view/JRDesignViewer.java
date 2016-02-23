@@ -30,6 +30,9 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -42,9 +45,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -130,6 +130,7 @@ public class JRDesignViewer extends JRViewer
 		pnlStatus.setVisible(false);
 	}
 
+	@Override
 	void btnReloadActionPerformed(java.awt.event.ActionEvent evt)
 	{
 		if (this.type == TYPE_FILE_NAME)
@@ -151,8 +152,7 @@ public class JRDesignViewer extends JRViewer
 	}
 
 
-	/**
-	*/
+	@Override
 	protected void loadReport(String fileName, boolean isXmlReport) throws JRException
 	{
 		SimpleFileResolver fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
@@ -181,8 +181,7 @@ public class JRDesignViewer extends JRViewer
 	}
 
 
-	/**
-	*/
+	@Override
 	protected void loadReport(InputStream is, boolean isXmlReport) throws JRException
 	{
 		if (isXmlReport)
@@ -213,17 +212,17 @@ public class JRDesignViewer extends JRViewer
 		this.jasperPrint = new ReportConverter(jasperReportsContext, report, false).getJasperPrint();		
 	}
 
-	/**
-	*/
+	@Override
 	protected JRGraphics2DExporter getGraphics2DExporter() throws JRException
 	{
 		return 
 			new JRGraphics2DExporter(getJasperReportsContext())
 			{
+				@Override
 				protected void initReport()
 				{
 					super.initReport();
-					frameDrawer.setClip(true);//FIXMENOW thick border of margin elements is clipped
+					drawVisitor.setClip(true);//FIXMENOW thick border of margin elements is clipped
 				}
 			};
 	}

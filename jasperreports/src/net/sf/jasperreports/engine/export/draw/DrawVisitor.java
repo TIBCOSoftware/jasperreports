@@ -37,10 +37,14 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.convert.ConvertVisitor;
 import net.sf.jasperreports.engine.convert.ReportConverter;
+import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.UniformElementVisitor;
+import net.sf.jasperreports.export.Graphics2DReportConfiguration;
 
 
 /**
@@ -58,8 +62,18 @@ public class DrawVisitor extends UniformElementVisitor
 	public DrawVisitor(ReportConverter reportConverter, Graphics2D grx)
 	{
 		this.convertVisitor = new ConvertVisitor(reportConverter);
-		this.drawVisitor = new PrintDrawVisitor(reportConverter.getJasperReportsContext());
-		setTextRenderer(reportConverter.getReport());
+		
+		JasperReportsContext jasperReportsContext = reportConverter.getJasperReportsContext();
+		JRReport report = reportConverter.getReport();
+		JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		
+		this.drawVisitor = 
+			new PrintDrawVisitor(
+				jasperReportsContext,
+				propUtil.getBooleanProperty(report, Graphics2DReportConfiguration.MINIMIZE_PRINTER_JOB_SIZE, true),
+				propUtil.getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				);
+		
 		setGraphics2D(grx);
 		this.drawVisitor.setClip(true);
 	}
@@ -77,7 +91,7 @@ public class DrawVisitor extends UniformElementVisitor
 	}
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public void setTextRenderer(JRReport report)
 	{
@@ -105,9 +119,7 @@ public class DrawVisitor extends UniformElementVisitor
 		return new Offset(-element.getX(), -element.getY());
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		//nothing to draw. elements are drawn individually.
