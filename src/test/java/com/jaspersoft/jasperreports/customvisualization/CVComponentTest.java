@@ -129,7 +129,8 @@ public class CVComponentTest
     
     public void testCircleWithGroups() throws Exception
     {
-        testReport("d3_Circle_sample_with_groups.jrxml", false);
+        //testReport("d3_Circle_sample_with_groups.jrxml", false);
+        testReport("subdataset_test_sample.jrxml", false);
     }
     
 //    public void testDendogram() throws Exception
