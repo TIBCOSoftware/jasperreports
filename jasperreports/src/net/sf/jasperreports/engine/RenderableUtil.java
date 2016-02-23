@@ -27,10 +27,15 @@ import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
+import org.apache.batik.bridge.UserAgent;
+import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -38,7 +43,9 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.renderers.ResourceImageRenderer;
+import net.sf.jasperreports.renderers.BatikRenderer;
+import net.sf.jasperreports.renderers.BatikUserAgent;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -52,7 +59,7 @@ public class RenderableUtil
 	
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_ERROR = "engine.renderable.util.image.error";
 	
-	public static final Renderable NO_IMAGE_RENDERER = ResourceImageRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE);//FIXMEIMAGE consider moving constant from loader to here 
+	public static final Renderable NO_IMAGE_RENDERER = ResourceRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE, false);//FIXMEIMAGE consider moving constant from loader to here 
 
 	/**
 	 *
@@ -80,14 +87,49 @@ public class RenderableUtil
 	/**
 	 *
 	 */
-	public Renderable getRenderable(byte[] imageData)
+	public Renderable getRenderable(byte[] data)
 	{
-		return new JRImageRenderer(imageData);
+		if (isSvgData(data))
+		{
+			return BatikRenderer.getInstance(data);
+		}
+		else
+		{
+			return JRImageRenderer.getInstance(data);
+		}
 	}
 
 
 	/**
-	 * @deprecated Replaced by {@link JRImageRenderer#getInstance(String)}.
+	 *
+	 */
+	public boolean isSvgData(byte[] data)
+	{
+		UserAgent userAgent = new BatikUserAgent(jasperReportsContext);
+		
+		SVGDocumentFactory documentFactory =
+			new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
+		documentFactory.setValidating(userAgent.isXMLParserValidating());
+
+		try
+		{
+			//SVGDocument document = 
+				documentFactory.createSVGDocument(
+					null,
+					new ByteArrayInputStream(data)
+					);
+		}
+		catch (IOException e)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link ResourceRenderer#getInstance(String, boolean)}.
 	 */
 	public Renderable getRenderable(String imageLocation) throws JRException
 	{
@@ -96,7 +138,7 @@ public class RenderableUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link JRImageRenderer#getInstance(String)}.
+	 * @deprecated Replaced by {@link ResourceRenderer#getInstance(String, boolean)}.
 	 */
 	public Renderable getRenderable(String imageLocation, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -105,7 +147,7 @@ public class RenderableUtil
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link ResourceRenderer#getInstance(String, boolean)} and {@link #getNonLazyRenderable(String, OnErrorTypeEnum)}.
 	 */
 	public Renderable getRenderable(String imageLocation, OnErrorTypeEnum onErrorType, boolean isLazy) throws JRException
 	{
@@ -141,6 +183,31 @@ public class RenderableUtil
 	/**
 	 *
 	 */
+	public Renderable getNonLazyRenderable(String resourceLocation, OnErrorTypeEnum onErrorType) throws JRException
+	{
+		byte[] data;
+
+		try
+		{
+			data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(resourceLocation);
+		}
+		catch (Exception e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType + " for location " + resourceLocation, e);
+			}
+			
+			return handleImageError(e, onErrorType); 
+		}
+		
+		return getRenderable(data);
+	}
+
+	
+	/**
+	 *
+	 */
 	public Renderable getRenderable(Image img, OnErrorTypeEnum onErrorType) throws JRException
 	{
 		ImageTypeEnum type = ImageTypeEnum.JPEG;
@@ -170,21 +237,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(Image image, ImageTypeEnum imageType, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		Renderable result;
+		byte[] data = null;
 		try
 		{
-			result = new JRImageRenderer(JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType));
+			data = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType);
 		}
 		catch (Exception e)
 		{
-			result = handleImageError(e, onErrorType);
-			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType, e);
 			}
+
+			return handleImageError(e, onErrorType);
 		}
-		return result;
+		return getRenderable(data);
 	}
 
 
@@ -193,21 +260,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(InputStream is, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		Renderable result;
+		byte[] data = null;
 		try
 		{
-			result = new JRImageRenderer(JRLoader.loadBytes(is));
+			data = JRLoader.loadBytes(is);
 		}
 		catch (Exception e)
 		{
-			result = handleImageError(e, onErrorType); 
-			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType, e);
 			}
+
+			return handleImageError(e, onErrorType); 
 		}
-		return result;
+		return getRenderable(data);
 	}
 
 
@@ -216,21 +283,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(URL url, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		Renderable result;
+		byte[] data = null;
 		try
 		{
-			result = new JRImageRenderer(JRLoader.loadBytes(url));
+			data = JRLoader.loadBytes(url);
 		}
 		catch (Exception e)
 		{
-			result = handleImageError(e, onErrorType); 
-			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType + " for URL " + url, e);
 			}
+
+			return handleImageError(e, onErrorType); 
 		}
-		return result;
+		return getRenderable(data);
 	}
 
 
@@ -239,21 +306,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(File file, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		Renderable result;
+		byte[] data = null;
 		try
 		{
-			result = new JRImageRenderer(JRLoader.loadBytes(file));
+			data = JRLoader.loadBytes(file);
 		}
 		catch (Exception e)
 		{
-			result = handleImageError(e, onErrorType); 
-			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType + " for file " + file, e);
 			}
+
+			return handleImageError(e, onErrorType); 
 		}
-		return result;
+		return getRenderable(data);
 	}
 
 

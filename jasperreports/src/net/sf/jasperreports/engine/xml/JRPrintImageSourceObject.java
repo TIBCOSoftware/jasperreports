@@ -49,8 +49,18 @@ public class JRPrintImageSourceObject
 	/**
 	 *
 	 */
+	private final boolean isLazy;
 	private boolean isEmbedded;
 
+
+	/**
+	 *
+	 */
+	public JRPrintImageSourceObject(boolean isLazy)
+	{
+		this.isLazy = isLazy;
+	}
+	
 
 	/**
 	 *

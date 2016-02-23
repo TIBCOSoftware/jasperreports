@@ -61,7 +61,6 @@ import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -110,6 +109,7 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -1674,6 +1674,13 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		}
 		
 		Renderable renderer = image.getRenderable();
+
+		boolean isLazy = false;
+		if (renderer instanceof ResourceRenderer)
+		{
+			isLazy = ((ResourceRenderer)renderer).isLazy();
+		}
+		
 		Renderable originalRenderer = renderer;
 
 		if (renderer != null)
@@ -1709,10 +1716,10 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			writer.write("<img");
 			String imagePath = null;
 			
-			if (image.isLazy())
+			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imagePath = ((JRImageRenderer)renderer).getImageLocation();
+				imagePath = ((ResourceRenderer)renderer).getResourceLocation();
 			}
 			else
 			{
@@ -1860,7 +1867,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 					double normalWidth = availableImageWidth;
 					double normalHeight = availableImageHeight;
 		
-					if (!image.isLazy())
+					if (!isLazy)
 					{
 						// Image load might fail. 
 						Renderable tmpRenderer = 
@@ -1918,7 +1925,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 					double normalWidth = availableImageWidth;
 					double normalHeight = availableImageHeight;
 		
-					if (!image.isLazy())
+					if (!isLazy)
 					{
 						// Image load might fail. 
 						Renderable tmpRenderer = 

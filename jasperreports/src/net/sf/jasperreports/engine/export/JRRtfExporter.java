@@ -91,6 +91,8 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
 import net.sf.jasperreports.export.RtfReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 /**
  * Exports a JasperReports document to RTF format. 
@@ -153,6 +155,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
 
+	protected ResourceRendererCache resourceRendererCache;
+	
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{
 	}
@@ -256,6 +260,8 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	protected void initReport()
 	{
 		super.initReport();
+		
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 	}
 	
 
@@ -272,12 +278,12 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++ )
+		for (reportIndex = 0; reportIndex < items.size(); reportIndex++ )
 		{
 			ExporterInputItem item = items.get(reportIndex);
 
 			setCurrentExporterInputItem(item);
-			
+
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
@@ -1337,6 +1343,11 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
 		{
+			if (renderer instanceof ResourceRenderer)
+			{
+				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+			}
+			
 			Dimension2D dimension = null;
 			if (needDimension)
 			{

@@ -274,7 +274,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	/**
-	 *
+	 * @deprecated
 	 */
 	public boolean isLazy()
 	{
@@ -282,7 +282,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setLazy(boolean isLazy)
 	{

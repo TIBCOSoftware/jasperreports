@@ -24,67 +24,59 @@
 
 /*
  * Contributors:
+ * Eugene D - eugenedruy@users.sourceforge.net 
  * Adrian Jackson - iapetus@users.sourceforge.net
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.renderers;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPrintHyperlink, JRAlignment, JRImageAlignment, JRCommonImage
+public class ResourceRendererCache
 {
-
-
-	/**
-	 *
-	 */
-	public Renderable getRenderable();
-		
-	/**
-	 *
-	 */
-	public void setRenderable(Renderable renderer);
-		
-	/**
-	 * 
-	 */
-	public void setScaleImage(ScaleImageEnum scaleImage);
-
-	/**
-	 *
-	 */
-	public boolean isUsingCache();
-
-	/**
-	 *
-	 */
-	public void setUsingCache(boolean isUsingCache);
+	private final RenderableUtil renderableUtil;
+	private final Map<String, Renderable> loadedRenderers;
+	
 	
 	/**
-	 * @deprecated
+	 * 
 	 */
-	public boolean isLazy();
+	public ResourceRendererCache(JasperReportsContext jasperReportsContext)
+	{
+		this.renderableUtil = RenderableUtil.getInstance(jasperReportsContext);
+		this.loadedRenderers = new HashMap<String, Renderable>();
+	}
 
-	/**
-	 * @deprecated
-	 */
-	public void setLazy(boolean isLazy);
 
 	/**
 	 * 
 	 */
-	public OnErrorTypeEnum getOnErrorTypeValue();
-
-	/**
-	 *
-	 */
-	public void setOnErrorType(OnErrorTypeEnum onErrorType);
-
-
+	public Renderable getLoadedRenderer(ResourceRenderer resourceRenderer) throws JRException
+	{
+		Renderable loadedRenderer;
+		String resourceRendererId = resourceRenderer.getId();
+		if (loadedRenderers.containsKey(resourceRendererId))
+		{
+			loadedRenderer = loadedRenderers.get(resourceRendererId);
+		}
+		else
+		{
+			loadedRenderer = renderableUtil.getNonLazyRenderable(resourceRenderer.getResourceLocation(), OnErrorTypeEnum.ERROR);
+			loadedRenderers.put(resourceRendererId, loadedRenderer);
+		}
+		
+		return loadedRenderer;
+	}
 }

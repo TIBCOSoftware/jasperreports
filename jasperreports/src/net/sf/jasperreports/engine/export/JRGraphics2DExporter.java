@@ -56,6 +56,7 @@ import net.sf.jasperreports.export.Graphics2DExporterConfiguration;
 import net.sf.jasperreports.export.Graphics2DExporterOutput;
 import net.sf.jasperreports.export.Graphics2DReportConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -159,6 +160,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	 */
 	protected PrintDrawVisitor drawVisitor;
 
+	protected ResourceRendererCache resourceRendererCache;
+	
 	protected class ExporterContext extends BaseExporterContext implements JRGraphics2DExporterContext
 	{
 	}
@@ -259,6 +262,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
 				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont
 				);
+
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 	}
 
 	

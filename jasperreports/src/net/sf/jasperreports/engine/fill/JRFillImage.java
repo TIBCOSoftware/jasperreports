@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -567,12 +568,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				if (source instanceof String)
 				{
 					String strSource = (String) source;
-					newRenderer = 
-						RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(
-							strSource, 
-							getOnErrorTypeValue(), 
-							isLazy() 
-							);
+					if (isLazy())
+					{
+						newRenderer = ResourceRenderer.getInstance(strSource, true);
+					}
+					else
+					{
+						newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+					}
 				}
 				else if (source instanceof Image)
 				{

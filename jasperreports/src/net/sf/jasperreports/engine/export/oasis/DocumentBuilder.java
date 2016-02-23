@@ -39,7 +39,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -52,6 +51,7 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 
@@ -199,7 +199,7 @@ public abstract class DocumentBuilder
 			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imagePath = ((JRImageRenderer)renderer).getImageLocation();
+				imagePath = ((ResourceRenderer)renderer).getResourceLocation();
 			}
 			else
 			{

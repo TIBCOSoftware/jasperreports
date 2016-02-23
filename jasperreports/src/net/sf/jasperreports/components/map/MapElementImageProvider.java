@@ -182,7 +182,6 @@ public class MapElementImageProvider
 		printImage.setMode(element.getModeValue());
 		printImage.setBackcolor(element.getBackcolor());
 		printImage.setForecolor(element.getForecolor());
-		printImage.setLazy(false);
 		
 		//FIXMEMAP there are no scale image and alignment attributes defined for the map element
 		printImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
@@ -196,10 +195,10 @@ public class MapElementImageProvider
 				: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
 		printImage.setOnErrorType(onErrorType);
 		
-		if(cacheRenderer == null)
+		if (cacheRenderer == null)
 		{
-			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getRenderable(imageLocation, onErrorType, false);
-			if(cacheRenderer != null){
+			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
+			if (cacheRenderer != null){
 				cacheRenderer.getImageData(jasperReportsContext);
 				element.setParameterValue(MapComponent.PARAMETER_CACHE_RENDERER, cacheRenderer);
 			}

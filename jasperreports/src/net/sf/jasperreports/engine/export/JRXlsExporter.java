@@ -119,6 +119,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -1571,6 +1572,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
 		{
+			if (renderer instanceof ResourceRenderer)
+			{
+				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+			}
+			
 			byte[] imageData = null;
 			int topOffset = 0;
 			int leftOffset = 0;

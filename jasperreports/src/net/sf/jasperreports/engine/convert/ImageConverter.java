@@ -33,11 +33,11 @@ package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -65,9 +65,7 @@ public final class ImageConverter extends ElementConverter
 		return INSTANCE;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintImage printImage = new JRBasePrintImage(reportConverter.getDefaultStyleProvider());
@@ -80,15 +78,19 @@ public final class ImageConverter extends ElementConverter
 		printImage.setAnchorName(JRExpressionUtil.getExpressionText(image.getAnchorNameExpression()));
 		printImage.setBookmarkLevel(image.getBookmarkLevel());
 		printImage.setHorizontalImageAlign(image.getOwnHorizontalImageAlign());
-		printImage.setLazy(image.isLazy());
 		printImage.setLinkType(image.getLinkType());
 		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
 		printImage.setVerticalImageAlign(image.getOwnVerticalImageAlign());
+		
+		printImage.setUsingCache(image.getUsingCache());
+		
 		printImage.setRenderable(
-			JRImageRenderer.getInstance(
-				JRExpressionUtil.getSimpleExpressionText(image.getExpression())
+			ResourceRenderer.getInstance(
+				JRExpressionUtil.getSimpleExpressionText(image.getExpression()),
+				image.isLazy()
 				)
 			);
+
 		printImage.setScaleImage(image.getOwnScaleImageValue());
 		
 		return printImage;

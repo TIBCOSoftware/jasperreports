@@ -29,24 +29,12 @@ import java.util.List;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRPrintPage
+public interface JRPrintPage extends JRPrintElementListContainer
 {
 	
-
-	/**
-	 *
-	 */
-	public List<JRPrintElement> getElements();
-		
 	/**
 	 *
 	 */
 	public void setElements(List<JRPrintElement> elements);
-		
-	/**
-	 *
-	 */
-	public void addElement(JRPrintElement element);
-		
 
 }

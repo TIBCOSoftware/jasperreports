@@ -258,7 +258,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public boolean isLazy()
 	{
@@ -266,7 +266,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public void setLazy(boolean isLazy)
 	{

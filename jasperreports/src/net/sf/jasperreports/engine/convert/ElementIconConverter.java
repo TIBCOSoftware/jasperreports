@@ -32,10 +32,10 @@
 package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -53,6 +53,7 @@ public class ElementIconConverter extends ElementConverter
 		this.iconLocation = iconLocation;
 	}
 	
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintImage printImage = new JRBasePrintImage(
@@ -62,7 +63,8 @@ public class ElementIconConverter extends ElementConverter
 		printImage.getLineBox().setPadding(3);
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		
-		printImage.setRenderable(JRImageRenderer.getInstance(iconLocation));
+		printImage.setRenderable(ResourceRenderer.getInstance(iconLocation, false));
+		
 		return printImage;
 	}
 

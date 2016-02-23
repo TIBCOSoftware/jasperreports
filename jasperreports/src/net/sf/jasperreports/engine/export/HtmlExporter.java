@@ -61,7 +61,6 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -126,6 +125,7 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
 
@@ -891,8 +891,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 		
+		Renderable renderer = image.getRenderable();
+
+		boolean isLazy = false;
+		if (renderer instanceof ResourceRenderer)
+		{
+			isLazy = ((ResourceRenderer)renderer).isLazy();
+		}
+		
 		if (
-			image.isLazy()
+			isLazy
 			|| (scaleImage == ScaleImageEnum.CLIP && availableImageHeight > 0)
 			)
 		{
@@ -936,14 +944,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("\"/>");
 		}
 		
-		Renderable renderer = image.getRenderable();
-
 		if (renderer != null)
 		{
 			boolean startedDiv = false;
 			if (
 				scaleImage == ScaleImageEnum.CLIP
-				|| (image.isLazy() 
+				|| (isLazy 
 				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
 					|| (image.getHorizontalImageAlign() != HorizontalImageAlignEnum.LEFT || image.getVerticalImageAlign() != VerticalImageAlignEnum.TOP)))
 				)
@@ -996,15 +1002,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 
 			boolean useBackgroundImage = 
-				image.isLazy() 
+				isLazy 
 				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
 					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP));
 				
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image,
-					image.isLazy(),
-					!useBackgroundImage && scaleImage != ScaleImageEnum.FILL_FRAME && !image.isLazy(),
+					isLazy,
+					!useBackgroundImage && scaleImage != ScaleImageEnum.FILL_FRAME && !isLazy,
 					cell,
 					availableImageWidth,
 					availableImageHeight
@@ -1093,7 +1099,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							HorizontalImageAlignEnum horizontalAlign = image.getHorizontalImageAlign();
 							VerticalImageAlignEnum verticalAlign = image.getVerticalImageAlign();
 							if (  
-								image.isLazy()
+								isLazy
 								|| (horizontalAlign == HorizontalImageAlignEnum.LEFT && verticalAlign == VerticalImageAlignEnum.TOP)
 								)
 							{
@@ -1253,7 +1259,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imagePath = ((JRImageRenderer)renderer).getImageLocation();
+				imagePath = ((ResourceRenderer)renderer).getResourceLocation();
 			}
 			else
 			{

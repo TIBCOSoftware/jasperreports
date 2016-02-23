@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -40,7 +41,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
+public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame, JRPrintElementContainer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

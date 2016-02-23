@@ -144,6 +144,8 @@ import net.sf.jasperreports.export.type.PdfPermissionsEnum;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -420,6 +422,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	/**
 	 *
 	 */
+	protected ResourceRendererCache resourceRendererCache;
 	protected Map<String,Image> loadedImagesMap;
 	protected Image pxImage;
 
@@ -589,6 +592,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		crtEvenPageOffsetY = configuration.getEvenPageOffsetY();
 		
 		initGlyphRenderer();
+
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		loadedImagesMap = new HashMap<String,Image>();
 	}
 
 
@@ -850,13 +856,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			
 			boolean isCreatingBatchModeBookmarks = configuration.isCreatingBatchModeBookmarks();
 
-			for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+			for (reportIndex = 0; reportIndex < items.size(); reportIndex++)
 			{
 				ExporterInputItem item = items.get(reportIndex);
 
 				setCurrentExporterInputItem(item);
-				
-				loadedImagesMap = new HashMap<String,Image>();
 				
 				pageFormat = jasperPrint.getPageFormat(0);
 
@@ -886,7 +890,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 					int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+					for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.interrupted())
 						{
@@ -1560,6 +1564,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			InternalImageProcessorResult imageProcessorResult = null;
 
+			if (renderer instanceof ResourceRenderer)
+			{
+				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+			}
+			
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 			{
 				switch(printImage.getScaleImageValue())

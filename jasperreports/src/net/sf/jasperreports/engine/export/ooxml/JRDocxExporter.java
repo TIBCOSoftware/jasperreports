@@ -98,6 +98,8 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -174,6 +176,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected Writer docWriter;
 
 	protected Map<String, String> rendererToImagePathMap;
+	protected ResourceRendererCache resourceRendererCache;
 //	protected Map imageMaps;
 
 	protected int reportIndex;
@@ -303,7 +306,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		super.initExport();
 
-		rendererToImagePathMap = new HashMap<String,String>();
+		rendererToImagePathMap = new HashMap<String,String>();//FIXMEIMAGE why this is reset at export and not report; are there any others?
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 	}
@@ -332,6 +335,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				filter, 
 				!configuration.isFramesAsNestedTables()
 				);
+
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 	}
 
 	
@@ -1200,6 +1205,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
 		{
+			if (renderer instanceof ResourceRenderer)
+			{
+				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+			}
+			
 			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 			Dimension2D dimension = null;
 			if (needDimension)

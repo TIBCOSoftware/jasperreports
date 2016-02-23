@@ -254,6 +254,9 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		return graphics;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link ResourceRenderer}.
+	 */
 	protected void setSvgDataLocation(String svgDataLocation)
 	{
 		this.svgDataLocation = svgDataLocation;
@@ -350,6 +353,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	 *
 	 * @param location the SVG location
 	 * @throws JRException
+	 * @deprecated Replaced by {@link ResourceRenderer}.
 	 */
 	public static BatikRenderer getLocationInstance(String location) throws JRException
 	{

@@ -23,9 +23,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.JRPrintImage;
-
 import org.xml.sax.Attributes;
+
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -40,8 +41,13 @@ public class JRPrintImageSourceFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRPrintImage printImage = (JRPrintImage)digester.peek();
+		
+  	 	boolean isLazy = 
+  	 		printImage.getRenderable() instanceof ResourceRenderer
+  	 		? ((ResourceRenderer)printImage.getRenderable()).isLazy()
+  	 		: false;
 
-		JRPrintImageSourceObject imageSource = new JRPrintImageSourceObject();
+		JRPrintImageSourceObject imageSource = new JRPrintImageSourceObject(isLazy);
 
 		imageSource.setPrintImage(printImage);
 

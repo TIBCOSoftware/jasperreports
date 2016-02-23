@@ -23,28 +23,25 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.List;
+
 /**
- * Print element container interface.
- * <p>
- * An instance of this type is used by {@link net.sf.jasperreports.engine.fill.JRFillElementContainer JRFillElementContainer}
- * to collect the generated print elements.
- * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRPrintElementContainer extends JRPrintElementListContainer
+public interface JRPrintElementListContainer
 {
 	/**
-	 * Returns the height of the container.
+	 * Returns the list of {@link JRPrintElement elements} of the container.
 	 * 
-	 * @return the height of the container
+	 * @return the list of elements
 	 */
-	public int getHeight();
+	public List<JRPrintElement> getElements();
 	
 	
 	/**
-	 * Sets the height of the container.
+	 * Adds an element to the container.
 	 * 
-	 * @param height the height
+	 * @param element the element to add
 	 */
-	public void setHeight(int height);
+	public void addElement(JRPrintElement element);
 }

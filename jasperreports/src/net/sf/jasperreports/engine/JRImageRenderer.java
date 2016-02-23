@@ -132,7 +132,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	protected JRImageRenderer(String imageLocation)
 	{
@@ -141,7 +141,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	public static JRImageRenderer getInstance(String imageLocation)
 	{
@@ -159,7 +159,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRImageRenderer getInstance(byte[] imageData)
 	{
-		return new JRImageRenderer(imageData);
+		return new JRImageRenderer(imageData);//FIXMEIMAGE test for null like above?
 	}
 
 
@@ -174,18 +174,9 @@ public class JRImageRenderer extends JRAbstractRenderer
 			renderer.getImage(jasperReportsContext);
 			result = renderer;
 		}
-		catch (JRException e) //FIXME this duplicates RenderableUtil.handleImageError
+		catch (Exception e)
 		{
-			result = getOnErrorRenderer(onErrorType, e);
-			
-			if (log.isDebugEnabled())
-			{
-				log.debug("handled image error with type " + onErrorType, e);
-			}
-		}
-		catch (JRRuntimeException e)
-		{
-			result = getOnErrorRenderer(onErrorType, e); 
+			result = (JRImageRenderer)RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, onErrorType);
 			
 			if (log.isDebugEnabled())
 			{
@@ -197,61 +188,19 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated To be removed.
+	 * @deprecated Replaced by {@link RenderableUtil#getOnErrorRenderer(OnErrorTypeEnum, JRException)}.
 	 */
 	public static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
 	{
-		JRImageRenderer renderer = null;
-		
-		switch (onErrorType)
-		{
-			case ICON :
-			{
-				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
-				//FIXME cache these renderers
-				break;
-			}
-			case BLANK :
-			{
-				break;
-			}
-			case ERROR :
-			default :
-			{
-				throw e;
-			}
-		}
-
-		return renderer;
+		return (JRImageRenderer)RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getOnErrorRenderer(onErrorType, e);
 	}
 
 	/**
-	 * @deprecated To be removed.
+	 * @deprecated Replaced by {@link RenderableUtil#getOnErrorRenderer(OnErrorTypeEnum, JRRuntimeException)}.
 	 */
 	public static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRRuntimeException e) throws JRRuntimeException
 	{
-		JRImageRenderer renderer = null;
-		
-		switch (onErrorType)
-		{
-			case ICON :
-			{
-				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
-				//FIXME cache these renderers
-				break;
-			}
-			case BLANK :
-			{
-				break;
-			}
-			case ERROR :
-			default :
-			{
-				throw e;
-			}
-		}
-
-		return renderer;
+		return (JRImageRenderer)RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getOnErrorRenderer(onErrorType, e);
 	}
 
 

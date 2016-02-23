@@ -79,6 +79,7 @@ import net.sf.jasperreports.export.PrintPartUnrollExporterInput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -579,6 +580,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected Map<Integer, Boolean> onePagePerSheetMap = new HashMap<Integer, Boolean>();
 	protected int sheetsBeforeCurrentReport;
 	protected Map<Integer, Integer> sheetsBeforeCurrentReportMap = new HashMap<Integer, Integer>();
+	protected ResourceRendererCache resourceRendererCache;
 	
 
 	/**
@@ -761,6 +763,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		{
 			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
+
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 	}
 	
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
@@ -771,7 +775,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		boolean pageExported = false;
 		List<ExporterInputItem> items = exporterInput.getItems();
 
-		for(reportIndex = 0; reportIndex < items.size(); reportIndex++)
+		for (reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
 

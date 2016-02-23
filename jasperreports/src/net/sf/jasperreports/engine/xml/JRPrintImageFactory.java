@@ -23,14 +23,15 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -67,12 +68,6 @@ public class JRPrintImageFactory extends JRBaseFactory
 			image.setVerticalImageAlign(verticalImageAlign);
 		}
 
-		String isLazy = atts.getValue(JRXmlConstants.ATTRIBUTE_isLazy);
-		if (isLazy != null && isLazy.length() > 0)
-		{
-			image.setLazy(Boolean.valueOf(isLazy).booleanValue());
-		}
-
 		OnErrorTypeEnum onErrorType = OnErrorTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_onErrorType));
 		if (onErrorType != null)
 		{
@@ -97,6 +92,13 @@ public class JRPrintImageFactory extends JRBaseFactory
 		if (bookmarkLevelAttr != null)
 		{
 			image.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
+		}
+		
+		String isLazy = atts.getValue(JRXmlConstants.ATTRIBUTE_isLazy);
+		if (isLazy != null && isLazy.length() > 0)
+		{
+			//we use a resource renderer just to pass the value of isLazy flag to image source factory
+			image.setRenderable(ResourceRenderer.getInstance("", Boolean.valueOf(isLazy).booleanValue()));
 		}
 
 		return image;
