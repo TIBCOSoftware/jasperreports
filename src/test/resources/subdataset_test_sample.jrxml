@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.qualifier using JasperReports Library version 6.2.1  -->
+<!-- 2016-02-23T11:05:19 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subdatasets_test" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="47b42f90-5cc3-47de-87b0-71d957e1fb4a">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<queryString>
+			<![CDATA[select * from orders order by shipcountry]]>
+		</queryString>
+		<field name="ORDERID" class="java.lang.Integer"/>
+		<field name="CUSTOMERID" class="java.lang.String"/>
+		<field name="EMPLOYEEID" class="java.lang.Integer"/>
+		<field name="ORDERDATE" class="java.sql.Timestamp"/>
+		<field name="REQUIREDDATE" class="java.sql.Timestamp"/>
+		<field name="SHIPPEDDATE" class="java.sql.Timestamp"/>
+		<field name="SHIPVIA" class="java.lang.Integer"/>
+		<field name="FREIGHT" class="java.math.BigDecimal"/>
+		<field name="SHIPNAME" class="java.lang.String"/>
+		<field name="SHIPADDRESS" class="java.lang.String"/>
+		<field name="SHIPCITY" class="java.lang.String"/>
+		<field name="SHIPREGION" class="java.lang.String"/>
+		<field name="SHIPPOSTALCODE" class="java.lang.String"/>
+		<field name="SHIPCOUNTRY" class="java.lang.String"/>
+		<variable name="OrdersCount" class="java.lang.Number" resetType="Group" resetGroup="Country" calculation="Sum">
+			<variableExpression><![CDATA[1]]></variableExpression>
+		</variable>
+		<group name="Country">
+			<groupExpression><![CDATA[$F{SHIPCOUNTRY}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[select count(*) c from orders]]>
+	</queryString>
+	<field name="C" class="java.lang.Long"/>
+	<title>
+		<band height="384" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="380" uuid="fbb36477-0a3a-4763-98ce-94237b08671e"/>
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<cvc:itemProperty name="script" value="subdataset_test.min.js"/>
+					<cvc:itemProperty name="module" value="subdataset_test"/>
+					<cvc:cvData>
+						<dataset incrementType="Group" incrementGroup="Country">
+							<datasetRun subDataset="Dataset1" uuid="69f819aa-40f5-4bc2-89a3-0d33af794124">
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+						</dataset>
+						<cvc:item>
+							<cvc:itemProperty name="Country" value="value">
+								<valueExpression><![CDATA[$F{SHIPCOUNTRY}]]></valueExpression>
+							</cvc:itemProperty>
+							<cvc:itemProperty name="Orders" value="value">
+								<valueExpression><![CDATA[$V{OrdersCount}]]></valueExpression>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
+			</componentElement>
+		</band>
+	</title>
+	<summary>
+		<band height="417">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="40" uuid="6045f0b1-2800-44bb-9da2-43b792109486"/>
+				<text><![CDATA[Chart showing the same sub-dataset used for the CVC, with increment type group -> Country]]></text>
+			</staticText>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="40" width="555" height="377" uuid="f041d95c-13a2-472e-9b77-816ce4bfb4c5"/>
+					<chartTitle>
+						<font size="10"/>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="10"/>
+					</chartSubtitle>
+					<chartLegend>
+						<font size="10"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<dataset incrementType="Group" incrementGroup="Country">
+						<datasetRun subDataset="Dataset1" uuid="3a042f47-459b-4ce2-8758-886911b4464f">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["SERIES 1"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{SHIPCOUNTRY}]]></categoryExpression>
+						<valueExpression><![CDATA[$V{OrdersCount}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot orientation="Horizontal"/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<tickLabelFont>
+								<font size="10"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
