@@ -705,6 +705,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						}
 						else
 						{
+							if (renderer instanceof ResourceRenderer)
+							{
+								renderer = filler.fillContext.getResourceRendererCache().getLoadedRenderer((ResourceRenderer)renderer);
+							}
+							
 							boolean fits = true; 
 
 							Dimension2D imageSize = renderer.getDimension(filler.getJasperReportsContext());
@@ -971,6 +976,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				
 				if (renderer != null) // OnErrorTypeEnum.BLANK can return null above
 				{
+					if (renderer instanceof ResourceRenderer)
+					{
+						renderer = filler.fillContext.getResourceRendererCache().getLoadedRenderer((ResourceRenderer)renderer);
+					}
+					
 					Dimension2D imageSize = renderer.getDimension(filler.getJasperReportsContext());
 					if (imageSize != null)
 					{

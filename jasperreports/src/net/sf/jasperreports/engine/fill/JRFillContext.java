@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 /**
  * Context class shared by all the fillers involved in a report (master and subfillers).
@@ -64,6 +65,7 @@ public class JRFillContext
 	private final BaseReportFiller masterFiller;
 	
 	private Map<Object,JRPrintImage> loadedImages;
+	private ResourceRendererCache resourceRendererCache;
 	private Map<Object,JasperReport> loadedSubreports;
 	private Map<Object,JRTemplate> loadedTemplates;
 	private DeduplicableRegistry deduplicableRegistry;
@@ -106,6 +108,7 @@ public class JRFillContext
 		this.jasperReportsContext = masterFiller.getJasperReportsContext();
 		
 		loadedImages = new HashMap<Object,JRPrintImage>();
+		resourceRendererCache = new ResourceRendererCache(jasperReportsContext);
 		loadedSubreports = new HashMap<Object,JasperReport>();
 		loadedTemplates = new HashMap<Object,JRTemplate>();
 		deduplicableRegistry = new DeduplicableRegistry();
@@ -169,6 +172,15 @@ public class JRFillContext
 	}
 
 	
+	/**
+	 * 
+	 */
+	public ResourceRendererCache getResourceRendererCache()
+	{
+		return resourceRendererCache;
+	}
+
+
 	/**
 	 * Checks whether a subreport given by source has already been loaded and cached.
 	 * 
