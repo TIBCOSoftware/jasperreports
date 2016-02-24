@@ -1675,14 +1675,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		
 		Renderable renderer = image.getRenderable();
 
-		boolean isLazy = false;
-		if (renderer instanceof ResourceRenderer)
-		{
-			isLazy = ((ResourceRenderer)renderer).isLazy();
-		}
-		
-		Renderable originalRenderer = renderer;
-
 		if (renderer != null)
 		{
 			boolean hasAreaHyperlinks =
@@ -1715,6 +1707,12 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 			writer.write("<img");
 			String imagePath = null;
+			
+			boolean isLazy = false;
+			if (renderer instanceof ResourceRenderer)
+			{
+				isLazy = ((ResourceRenderer)renderer).isLazy();
+			}
 			
 			if (isLazy)
 			{
@@ -1809,6 +1807,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 				if (imageMapName == null)
 				{
+					Renderable originalRenderer = image.getRenderable();
 					imageMapName = "map_" + getElementIndex().toString();
 					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 					

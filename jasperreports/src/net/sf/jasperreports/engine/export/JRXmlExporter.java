@@ -798,8 +798,11 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalImageAlign());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalImageAlign());
-		boolean isLazy = (image.getRenderable() instanceof ResourceRenderer ? ((ResourceRenderer)image.getRenderable()).isLazy() : false);
+		
+		Renderable renderer = image.getRenderable();
+		boolean isLazy = (renderer instanceof ResourceRenderer ? ((ResourceRenderer)renderer).isLazy() : false);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, isLazy, false);
+
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
 		
 		JRHyperlinkProducerFactory hyperlinkProducerFactory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
@@ -829,8 +832,6 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		exportBox(image.getLineBox());
 		exportGraphicElement(image);
 		
-
-		Renderable renderer = image.getRenderable();
 		if (renderer != null)
 		{
 			xmlWriter.startElement(JRXmlConstants.ELEMENT_imageSource);

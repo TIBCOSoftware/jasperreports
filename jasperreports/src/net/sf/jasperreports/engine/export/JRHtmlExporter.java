@@ -1737,8 +1737,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			isLazy = ((ResourceRenderer)renderer).isLazy();
 		}
 		
-		Renderable originalRenderer = renderer;
-
 		boolean isUsingImagesToAlign = getCurrentConfiguration().isUsingImagesToAlign();
 		if (renderer != null || isUsingImagesToAlign)
 		{
@@ -1867,6 +1865,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		
 						if (imageMapName == null)
 						{
+							Renderable originalRenderer = image.getRenderable();
 							imageMapName = "map_" + getElementIndex(gridCell).toString();
 							imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 							
