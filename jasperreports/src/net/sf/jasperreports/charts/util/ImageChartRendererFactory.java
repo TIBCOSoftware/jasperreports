@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.renderers.JRSimpleImageMapRenderer;
+import net.sf.jasperreports.renderers.SimpleImageMapRenderer;
 
 
 /**
@@ -47,9 +47,7 @@ import net.sf.jasperreports.renderers.JRSimpleImageMapRenderer;
 public class ImageChartRendererFactory extends AbstractChartRenderableFactory
 {
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Renderable getRenderable(
 		JasperReportsContext jasperReportsContext,
 		JFreeChart chart, 
@@ -90,7 +88,7 @@ public class ImageChartRendererFactory extends AbstractChartRenderableFactory
 
 		try
 		{
-			return new JRSimpleImageMapRenderer(JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG), areaHyperlinks);
+			return new SimpleImageMapRenderer(JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG), areaHyperlinks);
 		}
 		catch (JRException e)
 		{

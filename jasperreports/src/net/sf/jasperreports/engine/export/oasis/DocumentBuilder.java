@@ -46,12 +46,13 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 
@@ -71,6 +72,7 @@ public abstract class DocumentBuilder
 	 *
 	 */
 	protected final Map<String, String> rendererToImagePathMap = new HashMap<String, String>();
+	protected final ResourceRendererCache resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 	protected final OasisZip oasisZip;
 	
 	
@@ -190,55 +192,68 @@ public abstract class DocumentBuilder
 	/**
 	 *
 	 */
-	protected String getImagePath(Renderable renderer, Dimension dimension, Color backcolor, JRExporterGridCell gridCell, boolean isLazy) throws JRException
+	protected ResourceRendererCache getResourceRendererCache()
+	{
+		return resourceRendererCache;
+	}
+
+	/**
+	 *
+	 */
+	protected String getImagePath(
+		Renderable renderer, 
+		Dimension dimension, 
+		Color backcolor, 
+		JRExporterGridCell gridCell,
+		boolean isLazy
+		) throws JRException
 	{
 		String imagePath = null;
-
-		if (renderer != null)
+		
+		if (isLazy)
 		{
-			if (isLazy)
+			// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
+			imagePath = RenderableUtil.getResourceLocation(renderer);
+		}
+		else
+		{
+			// by the time we get here, the resource renderer has already been loaded from cache
+			
+			if (
+				renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
+				&& rendererToImagePathMap.containsKey(renderer.getId())
+				)
 			{
-				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imagePath = ((ResourceRenderer)renderer).getResourceLocation();
+				imagePath = rendererToImagePathMap.get(renderer.getId());
 			}
 			else
 			{
-				if (
-					renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
-					&& rendererToImagePathMap.containsKey(renderer.getId())
-					)
+				JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+
+				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 				{
-					imagePath = rendererToImagePathMap.get(renderer.getId());
+					renderer =
+						new JRWrappingSvgRenderer(
+							renderer,
+							dimension,
+							backcolor
+							);
 				}
-				else
+
+				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
+					new FileBufferedZipEntry(
+						"Pictures/" + DocumentBuilder.getImageName(imageIndex),
+						renderer.getImageData(getJasperReportsContext())
+						)
+					);
+
+				String imageName = DocumentBuilder.getImageName(imageIndex);
+				imagePath = "Pictures/" + imageName;
+
+				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 				{
-					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
-								renderer,
-								dimension,
-								backcolor
-								);
-					}
-
-					oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
-						new FileBufferedZipEntry(
-							"Pictures/" + DocumentBuilder.getImageName(imageIndex),
-							renderer.getImageData(getJasperReportsContext())
-							)
-						);
-
-					String imageName = DocumentBuilder.getImageName(imageIndex);
-					imagePath = "Pictures/" + imageName;
-
-					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
-					{
-						//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
-						rendererToImagePathMap.put(renderer.getId(), imagePath);
-					}
+					//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
 			}
 		}

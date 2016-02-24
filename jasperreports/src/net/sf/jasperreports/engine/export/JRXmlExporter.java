@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.PrintParts;
 import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -100,6 +101,7 @@ import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.XmlExporterOutput;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -201,6 +203,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected VersionComparator versionComparator = new VersionComparator();
 	
 	protected Map<String,String> rendererToImagePathMap;
+	protected ResourceRendererCache resourceRendererCache;
 //	protected Map fontsMap = new HashMap();
 	protected Map<String,JRStyle> stylesMap = new HashMap<String,JRStyle>();
 
@@ -292,6 +295,8 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		{
 			rendererToImagePathMap = new HashMap<String,String>();
 		}
+
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 
 		Writer writer = getExporterOutput().getWriter();
 
@@ -800,7 +805,8 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalImageAlign());
 		
 		Renderable renderer = image.getRenderable();
-		boolean isLazy = (renderer instanceof ResourceRenderer ? ((ResourceRenderer)renderer).isLazy() : false);
+		boolean isLazy = RenderableUtil.isLazy(renderer);
+
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, isLazy, false);
 
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_onErrorType, image.getOnErrorTypeValue(), OnErrorTypeEnum.ERROR);
@@ -842,10 +848,15 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imageSource = ((ResourceRenderer)renderer).getResourceLocation();
+				imageSource = RenderableUtil.getResourceLocation(renderer);
 			}
 			else
 			{
+				if (renderer instanceof ResourceRenderer)
+				{
+					renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				}
+
 				if (
 					!isEmbeddingImages //we do not cache imageSource for embedded images because it is too big
 					&& renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imageSource for SVG images because they render width different width/height each time

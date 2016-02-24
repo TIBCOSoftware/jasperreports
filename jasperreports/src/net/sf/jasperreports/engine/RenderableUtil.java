@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.renderers.BatikRenderer;
 import net.sf.jasperreports.renderers.BatikUserAgent;
+import net.sf.jasperreports.renderers.ImageRenderer;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -95,7 +96,7 @@ public class RenderableUtil
 		}
 		else
 		{
-			return JRImageRenderer.getInstance(data);
+			return ImageRenderer.getInstance(data);
 		}
 	}
 
@@ -497,5 +498,63 @@ public class RenderableUtil
 			}
 		}
 		return renderable;
+	}
+
+
+	/**
+	 *
+	 */
+	public static boolean isLazy(Renderable renderer)
+	{
+		boolean isLazy = false;
+
+		if (renderer instanceof ResourceRenderer)
+		{
+			isLazy = ((ResourceRenderer)renderer).isLazy();
+		}
+		else if (renderer != null)
+		{
+			@SuppressWarnings("deprecation")
+			Class<?> depClass = net.sf.jasperreports.engine.JRImageRenderer.class;
+			if (depClass.equals(renderer.getClass()))
+			{
+				@SuppressWarnings("deprecation")
+				net.sf.jasperreports.engine.JRImageRenderer depRenderer = (net.sf.jasperreports.engine.JRImageRenderer)renderer;
+				@SuppressWarnings("deprecation")
+				String depImageLocation = depRenderer.getImageLocation();
+				isLazy = depImageLocation != null;
+			}
+		}
+		
+		return isLazy;
+	}
+
+
+	/**
+	 *
+	 */
+	public static String getResourceLocation(Renderable renderer)
+	{
+		String resourceLocation = null;
+
+		if (renderer instanceof ResourceRenderer)
+		{
+			resourceLocation = ((ResourceRenderer)renderer).getResourceLocation();
+		}
+		else if (renderer != null)
+		{
+			@SuppressWarnings("deprecation")
+			Class<?> depClass = net.sf.jasperreports.engine.JRImageRenderer.class;
+			if (depClass.equals(renderer.getClass()))
+			{
+				@SuppressWarnings("deprecation")
+				net.sf.jasperreports.engine.JRImageRenderer depRenderer = (net.sf.jasperreports.engine.JRImageRenderer)renderer;
+				@SuppressWarnings("deprecation")
+				String depImageLocation = depRenderer.getImageLocation();
+				resourceLocation = depImageLocation;
+			}
+		}
+		
+		return resourceLocation;
 	}
 }

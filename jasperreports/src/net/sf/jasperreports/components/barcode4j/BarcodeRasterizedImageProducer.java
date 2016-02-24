@@ -26,15 +26,15 @@ package net.sf.jasperreports.components.barcode4j;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 
+import org.krysalis.barcode4j.BarcodeGenerator;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
-
-import org.krysalis.barcode4j.BarcodeGenerator;
-import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+import net.sf.jasperreports.renderers.ImageRenderer;
 
 /**
  * 
@@ -52,6 +52,7 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 	public static final String PROPERTY_ANTIALIAS = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.antiAlias";
 	
+	@Override
 	public Renderable createImage(
 		JasperReportsContext jasperReportsContext,
 		JRComponentElement componentElement, 
@@ -81,7 +82,7 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 			provider.finish();
 			
 			byte[] imageData = out.toByteArray();
-			return JRImageRenderer.getInstance(imageData);
+			return ImageRenderer.getInstance(imageData);
 		}
 		catch (Exception e)
 		{

@@ -39,11 +39,14 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
@@ -63,9 +66,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 	public static final String REQUEST_PARAMETER_IMAGE_NAME = "image";
 
 			
-	/**
-	 *
-	 */
+	@Override
 	public boolean handleResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, HttpServletResponse response)
 	{
 		String imageName = request.getParameter(REQUEST_PARAMETER_IMAGE_NAME);
@@ -116,6 +117,23 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			JRPrintImage image = HtmlExporter.getImage(jasperPrintList, imageName);
 			
 			Renderable renderer = image.getRenderable();
+			
+			if (renderer instanceof ResourceRenderer)
+			{
+				try
+				{
+					renderer = //hard to use a cache here and it would be just for some icon type of images, if any 
+						RenderableUtil.getInstance(jasperReportsContext).getNonLazyRenderable(
+							((ResourceRenderer)renderer).getResourceLocation(), 
+							OnErrorTypeEnum.ERROR
+							);
+				}
+				catch (JRException e)
+				{
+					throw new JRRuntimeException(e);
+				}
+			}
+			
 			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 			{
 				renderer = 

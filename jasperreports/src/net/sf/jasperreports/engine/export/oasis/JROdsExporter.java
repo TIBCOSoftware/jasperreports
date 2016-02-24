@@ -80,13 +80,13 @@ import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.OdsExporterConfiguration;
 import net.sf.jasperreports.export.OdsReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -388,12 +388,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		int width = availableImageWidth;
-		int height = availableImageHeight;
-
-		int xoffset = 0;
-		int yoffset = 0;
-
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
 		Renderable renderer = image.getRenderable();
@@ -407,7 +401,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image, 
-					!image.isLazy() && image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME, 
 					gridCell,
 					availableImageWidth,
 					availableImageHeight
@@ -430,52 +423,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 			
 			if (imageProcessorResult != null)
 			{
-				switch (image.getScaleImageValue())
-				{
-					case FILL_FRAME :
-					{
-						width = availableImageWidth;
-						height = availableImageHeight;
-						xoffset = 0;
-						yoffset = 0;
-						break;
-					}
-					case CLIP :
-					case RETAIN_SHAPE :
-					default :
-					{
-						double normalWidth = availableImageWidth;
-						double normalHeight = availableImageHeight;
-
-						if (!image.isLazy())
-						{
-							Dimension2D dimension = imageProcessorResult.dimension;
-							if (dimension != null)
-							{
-								normalWidth = dimension.getWidth();
-								normalHeight = dimension.getHeight();
-							}
-						}
-
-						double ratio = normalWidth / normalHeight;
-
-						if( ratio > availableImageWidth / (double)availableImageHeight )
-						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
-
-						}
-						else
-						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
-						}
-
-						xoffset = (int)(ImageUtil.getXAlignFactor(image) * (availableImageWidth - width));
-						yoffset = (int)(ImageUtil.getYAlignFactor(image) * (availableImageHeight - height));
-					}
-				}
-
 				XlsReportConfiguration configuration = getCurrentItemConfiguration();
 				
 				boolean isOnePagePerSheet = configuration.isOnePagePerSheet();
@@ -497,21 +444,22 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan());
 				cellAddress = cellAddress == null ? "" : "table:end-cell-address=\"" + cellAddress + "\" ";
 				
-				tempBodyWriter.write("<draw:frame text:anchor-type=\"frame\" "
-						+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
-						+ cellAddress
-//							+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
-//							+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
-						+ "table:end-x=\"0in\" "
-						+ "table:end-y=\"0in\" "
-//							+ "svg:x=\"" + LengthUtil.inch(image.getX() + leftPadding + xoffset) + "in\" "
-//							+ "svg:y=\"" + LengthUtil.inch(image.getY() + topPadding + yoffset) + "in\" "
-						+ "svg:x=\"0in\" "
-						+ "svg:y=\"0in\" "
-						+ "svg:width=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
-						+ "svg:height=\"" + LengthUtil.inchRound(image.getHeight()) + "in\"" 
-						+ ">"
-						);
+				tempBodyWriter.write(
+					"<draw:frame text:anchor-type=\"frame\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
+					+ cellAddress
+//					+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+//					+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
+					+ "table:end-x=\"0in\" "
+					+ "table:end-y=\"0in\" "
+//					+ "svg:x=\"" + LengthUtil.inch(image.getX() + leftPadding + imageProcessorResult.xoffset) + "in\" "
+//					+ "svg:y=\"" + LengthUtil.inch(image.getY() + topPadding + imageProcessorResult.yoffset) + "in\" "
+					+ "svg:x=\"0in\" "
+					+ "svg:y=\"0in\" "
+					+ "svg:width=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+					+ "svg:height=\"" + LengthUtil.inchRound(image.getHeight()) + "in\"" 
+					+ ">"
+					);
 				tempBodyWriter.write("<draw:image ");
 				tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imageProcessorResult.imagePath) + "\"");
 				tempBodyWriter.write(" xlink:type=\"simple\"");
@@ -534,21 +482,18 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	private class InternalImageProcessor
 	{
 		private final JRPrintImage imageElement;
-		private final boolean needDimension; 
 		private final JRExporterGridCell cell;
 		private final int availableImageWidth;
 		private final int availableImageHeight;
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
-			boolean needDimension, 
 			JRExporterGridCell cell,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
-			this.needDimension = needDimension;
 			this.cell = cell;
 			this.availableImageWidth = availableImageWidth;
 			this.availableImageHeight = availableImageHeight;
@@ -556,36 +501,112 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
 		{
-			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
-			Dimension2D dimension = null;
-			if (needDimension)
+			boolean isLazy = RenderableUtil.isLazy(renderer);
+
+			if (!isLazy)
 			{
-				dimension = renderer.getDimension(jasperReportsContext);
+				if (renderer instanceof ResourceRenderer)
+				{
+					renderer = documentBuilder.getResourceRendererCache().getLoadedRenderer((ResourceRenderer)renderer);
+				}
 			}
 
+			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
+			
+			int width = availableImageWidth;
+			int height = availableImageHeight;
 
-			String imagePath = 
+			int xoffset = 0;
+			int yoffset = 0;
+
+			switch (imageElement.getScaleImageValue())
+			{
+				case FILL_FRAME :
+				{
+					width = availableImageWidth;
+					height = availableImageHeight;
+					xoffset = 0;
+					yoffset = 0;
+					break;
+				}
+				case CLIP :
+				case RETAIN_SHAPE :
+				default :
+				{
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
+
+					if (!isLazy)
+					{
+						Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+						if (dimension != null)
+						{
+							normalWidth = dimension.getWidth();
+							normalHeight = dimension.getHeight();
+						}
+					}
+
+					double ratio = normalWidth / normalHeight;
+
+					if( ratio > availableImageWidth / (double)availableImageHeight )
+					{
+						width = availableImageWidth;
+						height = (int)(width/ratio);
+
+					}
+					else
+					{
+						height = availableImageHeight;
+						width = (int)(ratio * height);
+					}
+
+					xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - width));
+					yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - height));
+				}
+			}
+
+			
+			String imagePath =
 				documentBuilder.getImagePath(
 					renderer, 
 					new Dimension(availableImageWidth, availableImageHeight),
 					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null,
 					cell,
-					imageElement.isLazy()
+					isLazy
 					);
 
-			return new InternalImageProcessorResult(imagePath, dimension);
+			return 
+				new InternalImageProcessorResult(
+					imagePath, 
+					width,
+					height,
+					xoffset,
+					yoffset
+					);
 		}
 	}
 
 	private class InternalImageProcessorResult
 	{
 		protected final String imagePath;
-		protected final Dimension2D dimension;
+		protected int width;
+		protected int height;
+		protected int xoffset;
+		protected int yoffset;
 		
-		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		protected InternalImageProcessorResult(
+			String imagePath, 
+			int width,
+			int height,
+			int xoffset,
+			int yoffset
+			)
 		{
 			this.imagePath = imagePath;
-			this.dimension = dimension;
+			this.width = width;
+			this.height = height;
+			this.xoffset = xoffset;
+			this.yoffset = yoffset;
 		}
 	}
 

@@ -126,6 +126,7 @@ import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
 
@@ -178,6 +179,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
+	protected ResourceRendererCache resourceRendererCache;
 
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -226,6 +228,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		rendererToImagePathMap = new HashMap<String,String>();
 		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 
 		fontsToProcess = new HashMap<String, HtmlFont>();
 		
@@ -893,11 +896,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		Renderable renderer = image.getRenderable();
 
-		boolean isLazy = false;
-		if (renderer instanceof ResourceRenderer)
-		{
-			isLazy = ((ResourceRenderer)renderer).isLazy();
-		}
+		boolean isLazy = RenderableUtil.isLazy(renderer);
 		
 		if (
 			isLazy
@@ -1246,23 +1245,27 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		protected InternalImageProcessorResult process(Renderable renderer) throws JRException, IOException
 		{
-			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
-			Dimension2D dimension = null;
-			if (needDimension)
-			{
-				dimension = renderer.getDimension(jasperReportsContext);
-			}
-			
-			
 			String imagePath = null;
+			Dimension2D dimension = null;
 			
 			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imagePath = ((ResourceRenderer)renderer).getResourceLocation();
+				imagePath = RenderableUtil.getResourceLocation(renderer);
 			}
 			else
 			{
+				if (renderer instanceof ResourceRenderer)
+				{
+					renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				}
+
+				// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
+				if (needDimension)
+				{
+					dimension = renderer.getDimension(jasperReportsContext);
+				}
+
 				if (
 					!embedImage //we do not cache imagePath for embedded images because it is too big
 					&& renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time

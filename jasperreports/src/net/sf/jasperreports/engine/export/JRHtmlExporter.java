@@ -105,6 +105,7 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -169,6 +170,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	protected Writer writer;
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
+	protected ResourceRendererCache resourceRendererCache;
 	
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -288,6 +290,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 		rendererToImagePathMap = new HashMap<String,String>();
 		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 
 		fontsToProcess = new HashMap<String, HtmlFont>();
 
@@ -1731,11 +1734,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		
 		Renderable renderer = image.getRenderable();
 
-		boolean isLazy = false;
-		if (renderer instanceof ResourceRenderer)
-		{
-			isLazy = ((ResourceRenderer)renderer).isLazy();
-		}
+		boolean isLazy = RenderableUtil.isLazy(renderer);
 		
 		boolean isUsingImagesToAlign = getCurrentConfiguration().isUsingImagesToAlign();
 		if (renderer != null || isUsingImagesToAlign)
@@ -1780,10 +1779,15 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 				if (isLazy)
 				{
 					// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-					imagePath = ((ResourceRenderer)renderer).getResourceLocation();
+					imagePath = RenderableUtil.getResourceLocation(renderer);
 				}
 				else
 				{
+					if (renderer instanceof ResourceRenderer)
+					{
+						renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+					}
+
 					boolean isEmbedImage = isEmbedImage(image);
 					
 					if (
@@ -1915,12 +1919,15 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 						// Image load might fail. 
 						Renderable tmpRenderer = 
 							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
+						if (tmpRenderer == renderer)
 						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
+							Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+							if (dimension != null)
+							{
+								normalWidth = dimension.getWidth();
+								normalHeight = dimension.getHeight();
+							}
 						}
 					}
 		

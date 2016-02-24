@@ -110,6 +110,7 @@ import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -153,6 +154,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	protected Writer writer;
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String,Rectangle>,String> imageMaps;
+	protected ResourceRendererCache resourceRendererCache;
 	
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -228,6 +230,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 
 		rendererToImagePathMap = new HashMap<String,String>();
 		imageMaps = new HashMap<Pair<String,Rectangle>,String>();
+		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 
 		fontsToProcess = new HashMap<String, HtmlFont>();
 		
@@ -1708,19 +1711,20 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			writer.write("<img");
 			String imagePath = null;
 			
-			boolean isLazy = false;
-			if (renderer instanceof ResourceRenderer)
-			{
-				isLazy = ((ResourceRenderer)renderer).isLazy();
-			}
+			boolean isLazy = RenderableUtil.isLazy(renderer);
 			
 			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imagePath = ((ResourceRenderer)renderer).getResourceLocation();
+				imagePath = RenderableUtil.getResourceLocation(renderer);
 			}
 			else
 			{
+				if (renderer instanceof ResourceRenderer)
+				{
+					renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				}
+
 				boolean isEmbedImage = isEmbedImage(image);
 				
 				if (
@@ -1871,12 +1875,15 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 						// Image load might fail. 
 						Renderable tmpRenderer = 
 							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
+						if (tmpRenderer == renderer)
 						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
+							Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+							if (dimension != null)
+							{
+								normalWidth = dimension.getWidth();
+								normalHeight = dimension.getHeight();
+							}
 						}
 					}
 
@@ -1929,12 +1936,15 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 						// Image load might fail. 
 						Renderable tmpRenderer = 
 							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer && dimension != null)
+						if (tmpRenderer == renderer)
 						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
+							Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+							if (dimension != null)
+							{
+								normalWidth = dimension.getWidth();
+								normalHeight = dimension.getHeight();
+							}
 						}
 					}
 		

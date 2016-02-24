@@ -1361,6 +1361,11 @@ public class JExcelApiMetadataExporter extends
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
 		{
+			if (renderer instanceof ResourceRenderer)
+			{
+				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+			}
+			
 			byte[] imageData = null;
 			
 			switch (imageElement.getScaleImageValue())
