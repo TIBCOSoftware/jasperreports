@@ -159,8 +159,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	 *
 	 */
 	protected PrintDrawVisitor drawVisitor;
-
-	protected ResourceRendererCache resourceRendererCache;
 	
 	protected class ExporterContext extends BaseExporterContext implements JRGraphics2DExporterContext
 	{
@@ -258,15 +256,23 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		
 		drawVisitor = 
 			new PrintDrawVisitor(
-				exporterContext,
+				jasperReportsContext,
+				getResourceRendererCache(),
 				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
 				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont
 				);
-
-		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
 	}
 
 	
+	/**
+	 *
+	 */
+	protected ResourceRendererCache getResourceRendererCache()
+	{
+		return new ResourceRendererCache(getJasperReportsContext());
+	}
+
+
 	/**
 	 *
 	 */

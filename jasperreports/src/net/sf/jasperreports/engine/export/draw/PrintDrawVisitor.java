@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.Graphics2DReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -69,7 +70,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private FrameDrawer frameDrawer;
 
 	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, ResourceRendererCache, boolean, boolean)}.
 	 */
 	public PrintDrawVisitor(JasperReportsContext jasperReportsContext)
 	{
@@ -77,11 +78,12 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.lineDrawer = new LineDrawer(jasperReportsContext);
 		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
 		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
-		this.imageDrawer = new ImageDrawer(jasperReportsContext);
+		this.imageDrawer = new ImageDrawer(jasperReportsContext, new ResourceRendererCache(jasperReportsContext));
 	}
 	
 	public PrintDrawVisitor(
 		JasperReportsContext jasperReportsContext,
+		ResourceRendererCache resourceRendererCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont
 		)
@@ -90,7 +92,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.lineDrawer = new LineDrawer(jasperReportsContext);
 		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
 		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
-		this.imageDrawer = new ImageDrawer(jasperReportsContext);
+		this.imageDrawer = new ImageDrawer(jasperReportsContext, resourceRendererCache);
 
 		AwtTextRenderer textRenderer = 
 			new AwtTextRenderer(
@@ -127,7 +129,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, ResourceRendererCache, boolean, boolean)}.
 	 */
 	public void setTextRenderer(JRReport report)
 	{

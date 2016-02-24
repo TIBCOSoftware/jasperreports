@@ -107,6 +107,7 @@ import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
 
@@ -171,6 +172,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected float zoom;
 
 	private JRGraphics2DExporter exporter;
+	protected ResourceRendererCache resourceRendererCache;
 
 	/**
 	 * the screen resolution.
@@ -197,6 +199,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private MouseListener mouseListener =
 		new java.awt.event.MouseAdapter()
 		{
+			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt)
 			{
 				hyperlinkClicked(evt);
@@ -205,13 +208,16 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	protected KeyListener keyNavigationListener =
 		new KeyListener() {
+			@Override
 			public void keyTyped(KeyEvent evt)
 			{
 			}
+			@Override
 			public void keyPressed(KeyEvent evt)
 			{
 				keyNavigate(evt);
 			}
+			@Override
 			public void keyReleased(KeyEvent evt)
 			{
 			}
@@ -424,6 +430,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		emptyContainer(this);
 		jasperPrint = null;
+		resourceRendererCache = null;
 	}
 
 
@@ -558,9 +565,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void gotoHyperlink(JRPrintHyperlink hyperlink)
 	{
 		switch(hyperlink.getHyperlinkTypeValue())
@@ -763,6 +768,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnSave.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnSave.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnSave.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnSaveActionPerformed(evt);
 			}
@@ -777,6 +783,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnPrint.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnPrint.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnPrint.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnPrintActionPerformed(evt);
 			}
@@ -791,6 +798,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnReload.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnReload.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnReload.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnReloadActionPerformed(evt);
 			}
@@ -808,6 +816,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnFirst.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnFirst.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFirst.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnFirstActionPerformed(evt);
 			}
@@ -822,6 +831,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnPrevious.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnPrevious.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnPreviousActionPerformed(evt);
 			}
@@ -836,6 +846,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnNext.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnNext.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnNext.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnNextActionPerformed(evt);
 			}
@@ -850,6 +861,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnLast.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnLast.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnLast.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnLastActionPerformed(evt);
 			}
@@ -862,6 +874,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		txtGoTo.setMinimumSize(new java.awt.Dimension(40, 23));
 		txtGoTo.setPreferredSize(new java.awt.Dimension(40, 23));
 		txtGoTo.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				txtGoToActionPerformed(evt);
 			}
@@ -879,6 +892,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnActualSize.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnActualSize.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnActualSize.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnActualSizeActionPerformed(evt);
 			}
@@ -893,6 +907,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnFitPage.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnFitPage.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFitPage.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnFitPageActionPerformed(evt);
 			}
@@ -907,6 +922,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnFitWidth.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnFitWidth.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFitWidth.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnFitWidthActionPerformed(evt);
 			}
@@ -924,6 +940,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnZoomIn.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnZoomIn.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomIn.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnZoomInActionPerformed(evt);
 			}
@@ -938,6 +955,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		btnZoomOut.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnZoomOut.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomOut.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnZoomOutActionPerformed(evt);
 			}
@@ -951,11 +969,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		cmbZoom.setMinimumSize(new java.awt.Dimension(80, 23));
 		cmbZoom.setPreferredSize(new java.awt.Dimension(80, 23));
 		cmbZoom.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				cmbZoomActionPerformed(evt);
 			}
 		});
 		cmbZoom.addItemListener(new java.awt.event.ItemListener() {
+			@Override
 			public void itemStateChanged(java.awt.event.ItemEvent evt) {
 				cmbZoomItemStateChanged(evt);
 			}
@@ -966,6 +986,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		add(tlbToolBar, java.awt.BorderLayout.NORTH);
 
 		pnlMain.addComponentListener(new java.awt.event.ComponentAdapter() {
+			@Override
 			public void componentResized(java.awt.event.ComponentEvent evt) {
 				pnlMainComponentResized(evt);
 			}
@@ -973,6 +994,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		pnlMain.setLayout(new java.awt.BorderLayout());
 
 		pnlTabs.addChangeListener(new javax.swing.event.ChangeListener() {
+			@Override
 			public void stateChanged(javax.swing.event.ChangeEvent evt) {
 				pnlTabsStateChanged(evt);
 			}
@@ -996,14 +1018,17 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		pnlLinks.setOpaque(false);
 		pnlLinks.setPreferredSize(new java.awt.Dimension(5, 5));
 		pnlLinks.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
 			public void mousePressed(java.awt.event.MouseEvent evt) {
 				pnlLinksMousePressed(evt);
 			}
+			@Override
 			public void mouseReleased(java.awt.event.MouseEvent evt) {
 				pnlLinksMouseReleased(evt);
 			}
 		});
 		pnlLinks.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(java.awt.event.MouseEvent evt) {
 				pnlLinksMouseDragged(evt);
 			}
@@ -1303,6 +1328,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			new Thread(
 				new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						try
@@ -1377,6 +1403,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					log.error("Reload error.", e);
 				}
 				jasperPrint = null;
+				resourceRendererCache = null;
 				refreshTabs();
 				setPageIndex(0);
 				refreshPage();
@@ -1592,6 +1619,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
 		}
 
+		resourceRendererCache = null;
+
 		refreshTabs();
 
 		type = TYPE_FILE_NAME;
@@ -1624,6 +1653,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			jasperPrint = (JasperPrint)JRLoader.loadObject(is);
 		}
+
+		resourceRendererCache = null;
 		
 		refreshTabs();
 
@@ -1639,6 +1670,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected void loadReport(JasperPrint jrPrint)
 	{
 		jasperPrint = jrPrint;
+		resourceRendererCache = null;
 
 		refreshTabs();
 
@@ -1942,6 +1974,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			addMouseMotionListener(this);
 		}
 
+		@Override
 		public String getToolTipText(MouseEvent event)
 		{
 			String tooltip = null;
@@ -1959,11 +1992,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			return tooltip;
 		}
 
+		@Override
 		public void mouseDragged(MouseEvent e)
 		{
 			pnlLinksMouseDragged(e);
 		}
 
+		@Override
 		public void mouseMoved(MouseEvent e)
 		{
 			JRPrintImageAreaHyperlink imageArea = getImageMapArea(e);
@@ -2000,6 +2035,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			return image;
 		}
 
+		@Override
 		public void mouseClicked(MouseEvent e)
 		{
 			JRPrintImageAreaHyperlink imageMapArea = getImageMapArea(e);
@@ -2009,20 +2045,24 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent e)
 		{
 		}
 
+		@Override
 		public void mouseExited(MouseEvent e)
 		{
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e)
 		{
 			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 			pnlLinksMousePressed(e);
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e)
 		{
 			e.getComponent().setCursor(Cursor.getDefaultCursor());
@@ -2207,7 +2247,28 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	protected JRGraphics2DExporter getGraphics2DExporter() throws JRException
 	{
-		return new JRGraphics2DExporter(jasperReportsContext);
+		return 
+			new JRGraphics2DExporter(jasperReportsContext)
+			{
+				@Override
+				protected ResourceRendererCache getResourceRendererCache()
+				{
+					return getResourceRendererCache();
+				}
+			};
+	}
+
+	
+	/**
+	 * 
+	 */
+	protected ResourceRendererCache getResourceRendererCache()
+	{
+		if (resourceRendererCache == null)
+		{
+			resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		}
+		return resourceRendererCache;
 	}
 
 	/**
@@ -2266,6 +2327,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			paintPageError(grx);
 			SwingUtilities.invokeLater(new Runnable()
 			{
+				@Override
 				public void run()
 				{
 					JOptionPane.showMessageDialog(JRViewer.this, getBundleString("error.displaying"));
@@ -2397,6 +2459,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			this.viewer = viewer;
 		}
 
+		@Override
 		public void paintComponent(Graphics g)
 		{
 			if (isRenderImage())

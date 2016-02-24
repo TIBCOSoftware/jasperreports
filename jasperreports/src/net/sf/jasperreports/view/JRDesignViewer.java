@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -223,6 +224,12 @@ public class JRDesignViewer extends JRViewer
 				{
 					super.initReport();
 					drawVisitor.setClip(true);//FIXMENOW thick border of margin elements is clipped
+				}
+
+				@Override
+				protected ResourceRendererCache getResourceRendererCache()
+				{
+					return JRDesignViewer.this.getResourceRendererCache();
 				}
 			};
 	}

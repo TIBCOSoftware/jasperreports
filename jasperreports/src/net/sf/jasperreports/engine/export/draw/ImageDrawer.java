@@ -43,6 +43,8 @@ import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -50,12 +52,30 @@ import net.sf.jasperreports.engine.util.ImageUtil;
  */
 public class ImageDrawer extends ElementDrawer<JRPrintImage>
 {
+	private final ResourceRendererCache resourceRendererCache;
+
 	/**
-	 *
+	 * @deprecated Replaced by {@link #ImageDrawer(JasperReportsContext, ResourceRendererCache)}.
 	 */
 	public ImageDrawer(JasperReportsContext jasperReportsContext)
 	{
+		this(
+			jasperReportsContext,
+			new ResourceRendererCache(jasperReportsContext)
+			);
+	}
+	
+	/**
+	 *
+	 */
+	public ImageDrawer(
+		JasperReportsContext jasperReportsContext,
+		ResourceRendererCache resourceRendererCache
+		)
+	{
 		super(jasperReportsContext);
+		
+		this.resourceRendererCache = resourceRendererCache;
 	}
 	
 	
@@ -167,6 +187,11 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			Renderable renderer
 			) throws JRException
 		{
+			if (renderer instanceof ResourceRenderer)
+			{
+				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+			}
+			
 			switch (printImage.getScaleImageValue())
 			{
 				case CLIP :

@@ -83,6 +83,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRendererCache;
 import net.sf.jasperreports.view.JRHyperlinkListener;
 
 /**
@@ -138,6 +139,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	private MouseListener mouseListener =
 		new java.awt.event.MouseAdapter()
 		{
+			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt)
 			{
 				hyperlinkClicked(evt);
@@ -146,15 +148,18 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	protected KeyListener keyNavigationListener = new KeyListener()
 	{
+		@Override
 		public void keyTyped(KeyEvent evt)
 		{
 		}
 
+		@Override
 		public void keyPressed(KeyEvent evt)
 		{
 			keyNavigate(evt);
 		}
 
+		@Override
 		public void keyReleased(KeyEvent evt)
 		{
 		}
@@ -193,12 +198,14 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 		setLayout(new java.awt.BorderLayout());
 		addComponentListener(new java.awt.event.ComponentAdapter() {
+			@Override
 			public void componentResized(java.awt.event.ComponentEvent evt) {
 				pnlMainComponentResized(evt);
 			}
 		});
 
 		pnlTabs.addChangeListener(new javax.swing.event.ChangeListener() {
+			@Override
 			public void stateChanged(javax.swing.event.ChangeEvent evt) {
 				pnlTabsStateChanged(evt);
 			}
@@ -222,14 +229,17 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		pnlLinks.setPreferredSize(new java.awt.Dimension(5, 5));
 		pnlLinks.setOpaque(false);
 		pnlLinks.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
 			public void mousePressed(java.awt.event.MouseEvent evt) {
 				pnlLinksMousePressed(evt);
 			}
+			@Override
 			public void mouseReleased(java.awt.event.MouseEvent evt) {
 				pnlLinksMouseReleased(evt);
 			}
 		});
 		pnlLinks.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(java.awt.event.MouseEvent evt) {
 				pnlLinksMouseDragged(evt);
 			}
@@ -336,9 +346,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void gotoHyperlink(JRPrintHyperlink hyperlink)
 	{
 		switch(hyperlink.getHyperlinkTypeValue())
@@ -529,6 +537,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			paintPageError(grx);
 			SwingUtilities.invokeLater(new Runnable()
 			{
+				@Override
 				public void run()
 				{
 					JOptionPane.showMessageDialog(JRViewerPanel.this, viewerContext.getBundleString("error.displaying"));
@@ -540,7 +549,15 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	protected JRGraphics2DExporter getGraphics2DExporter() throws JRException
 	{
-		return new JRGraphics2DExporter(viewerContext.getJasperReportsContext());
+		return 
+			new JRGraphics2DExporter(viewerContext.getJasperReportsContext())
+			{
+				@Override
+				protected ResourceRendererCache getResourceRendererCache()
+				{
+					return viewerContext.getResourceRendererCache();
+				}
+			};
 	}
 
 	protected void paintPageError(Graphics2D grx)
@@ -579,6 +596,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		{
 		}
 
+		@Override
 		public void paintComponent(Graphics g)
 		{
 			if (isRenderImage())
@@ -1016,6 +1034,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			addMouseMotionListener(this);
 		}
 
+		@Override
 		public String getToolTipText(MouseEvent event)
 		{
 			String tooltip = null;
@@ -1033,11 +1052,13 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			return tooltip;
 		}
 
+		@Override
 		public void mouseDragged(MouseEvent e)
 		{
 			pnlLinksMouseDragged(e);
 		}
 
+		@Override
 		public void mouseMoved(MouseEvent e)
 		{
 			JRPrintImageAreaHyperlink imageArea = getImageMapArea(e);
@@ -1074,6 +1095,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			return image;
 		}
 
+		@Override
 		public void mouseClicked(MouseEvent e)
 		{
 			JRPrintImageAreaHyperlink imageMapArea = getImageMapArea(e);
@@ -1083,20 +1105,24 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			}
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent e)
 		{
 		}
 
+		@Override
 		public void mouseExited(MouseEvent e)
 		{
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e)
 		{
 			e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 			pnlLinksMousePressed(e);
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e)
 		{
 			e.getComponent().setCursor(Cursor.getDefaultCursor());
@@ -1297,6 +1323,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		}
 	}
 
+	@Override
 	public void viewerEvent(JRViewerEvent event)
 	{
 		switch (event.getCode())
