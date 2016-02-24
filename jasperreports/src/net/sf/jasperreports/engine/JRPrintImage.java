@@ -31,7 +31,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -52,11 +52,6 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public void setRenderable(Renderable renderer);
 		
 	/**
-	 * 
-	 */
-	public void setScaleImage(ScaleImageEnum scaleImage);
-
-	/**
 	 *
 	 */
 	public boolean isUsingCache();
@@ -67,12 +62,12 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public void setUsingCache(boolean isUsingCache);
 	
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link ResourceRenderer}.
 	 */
 	public boolean isLazy();
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link ResourceRenderer}.
 	 */
 	public void setLazy(boolean isLazy);
 

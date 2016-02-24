@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
 import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -122,57 +123,43 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		super(image, originator);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Renderable getRenderable()
 	{
 		return renderable;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setRenderable(Renderable renderable)
 	{
 		this.renderable = renderable;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public ScaleImageEnum getScaleImageValue()
 	{
 		return ((JRTemplateImage)this.template).getScaleImageValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ScaleImageEnum getOwnScaleImageValue()
 	{
 		return ((JRTemplateImage)this.template).getOwnScaleImageValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setScaleImage(ScaleImageEnum scaleImage)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		return ((JRTemplateImage)this.template).isUsingCache();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{
 	}
@@ -180,6 +167,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return ((JRTemplateImage)this.template).getHorizontalAlignmentValue();
@@ -188,6 +176,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return ((JRTemplateImage)this.template).getOwnHorizontalAlignmentValue();
@@ -196,6 +185,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
@@ -204,6 +194,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return ((JRTemplateImage)this.template).getVerticalAlignmentValue();
@@ -212,6 +203,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return ((JRTemplateImage)this.template).getOwnVerticalAlignmentValue();
@@ -220,109 +212,90 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
 		return ((JRTemplateImage)this.template).getHorizontalImageAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return ((JRTemplateImage)this.template).getOwnHorizontalImageAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
 		return ((JRTemplateImage)this.template).getVerticalImageAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return ((JRTemplateImage)this.template).getOwnVerticalImageAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link ResourceRenderer}.
 	 */
+	@Override
 	public boolean isLazy()
 	{
 		return ((JRTemplateImage)this.template).isLazy();
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link ResourceRenderer}.
 	 */
+	@Override
 	public void setLazy(boolean isLazy)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
 		return ((JRTemplateImage)this.template).getOnErrorTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setOnErrorType(OnErrorTypeEnum onErrorType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return ((JRTemplateImage)template).getLineBox();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getAnchorName()
 	{
 		return this.anchorName;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setAnchorName(String anchorName)
 	{
 		this.anchorName = anchorName;
@@ -333,136 +306,119 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		this.hyperlinkOmitted = hyperlinkOmitted;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateImage)this.template).getHyperlinkTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
 		return ((JRTemplateImage)this.template).getHyperlinkTargetValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkReference()
 	{
 		return this.hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkReference(String hyperlinkReference)
 	{
 		this.hyperlinkReference = hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkAnchor()
 	{
 		return this.hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkAnchor(String hyperlinkAnchor)
 	{
 		this.hyperlinkAnchor = hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Integer getHyperlinkPage()
 	{
 		return this.hyperlinkPage;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkPage(Integer hyperlinkPage)
 	{
 		this.hyperlinkPage = hyperlinkPage;
 	}
 
-
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
 	}
 
-
+	@Override
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
 		this.bookmarkLevel = bookmarkLevel;
 	}
 
-	
+	@Override
 	public JRPrintHyperlinkParameters getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 
-	
+	@Override
 	public void setHyperlinkParameters(JRPrintHyperlinkParameters parameters)
 	{
 		this.hyperlinkParameters = parameters;
 	}
 
-	
+	@Override
 	public String getLinkType()
 	{
 		return hyperlinkOmitted ? null : ((JRTemplateImage) this.template).getLinkType();
 	}
 
+	@Override
 	public void setLinkType(String type)
 	{
 	}
 
+	@Override
 	public String getLinkTarget()
 	{
 		return ((JRTemplateImage) this.template).getLinkTarget();
 	}
 
+	@Override
 	public void setLinkTarget(String target)
 	{
 	}
 
-	
+	@Override
 	public String getHyperlinkTooltip()
 	{
 		return hyperlinkTooltip;
 	}
 
-	
+	@Override
 	public void setHyperlinkTooltip(String hyperlinkTooltip)
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
@@ -496,6 +452,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

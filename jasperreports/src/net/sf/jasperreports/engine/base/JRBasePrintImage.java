@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -67,7 +68,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected Boolean isUsingCache = Boolean.TRUE;
 	protected HorizontalImageAlignEnum horizontalImageAlign;
 	protected VerticalImageAlignEnum verticalImageAlign;
-	protected boolean isLazy;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	protected JRLineBox lineBox;
 	protected String anchorName;
@@ -97,65 +97,49 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Renderable getRenderable()
 	{
 		return renderable;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setRenderable(Renderable renderable)
 	{
 		this.renderable = renderable;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleImageEnum getScaleImageValue()
 	{
 		return getStyleResolver().getScaleImageValue(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleImageEnum getOwnScaleImageValue()
 	{
 		return this.scaleImageValue;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setScaleImage(ScaleImageEnum scaleImageValue)
 	{
 		this.scaleImageValue = scaleImageValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		return isUsingCache == null ? true : isUsingCache.booleanValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{
 		this.isUsingCache = (isUsingCache ? Boolean.TRUE : Boolean.FALSE);
@@ -164,6 +148,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
@@ -172,6 +157,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
@@ -180,6 +166,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
@@ -188,6 +175,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
@@ -196,6 +184,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
@@ -204,94 +193,79 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
 		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return horizontalImageAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
 		this.horizontalImageAlign = horizontalImageAlign;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
 		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return verticalImageAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
 	{
 		this.verticalImageAlign = verticalImageAlign;
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link ResourceRenderer}.
 	 */
+	@Override
 	public boolean isLazy()
 	{
 		return isLazy;
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated Replaced by {@link ResourceRenderer}.
 	 */
+	@Override
 	public void setLazy(boolean isLazy)
 	{
 		this.isLazy = isLazy;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
 		return this.onErrorTypeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
 	{
 		this.onErrorTypeValue = onErrorTypeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
@@ -305,105 +279,79 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		this.lineBox = lineBox.clone(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Float getDefaultLineWidth() 
 	{
 		return JRPen.LINE_WIDTH_0;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getAnchorName()
 	{
 		return anchorName;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setAnchorName(String anchorName)
 	{
 		this.anchorName = anchorName;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkReference()
 	{
 		return hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkReference(String hyperlinkReference)
 	{
 		this.hyperlinkReference = hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkAnchor()
 	{
 		return hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkAnchor(String hyperlinkAnchor)
 	{
 		this.hyperlinkAnchor = hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Integer getHyperlinkPage()
 	{
 		return hyperlinkPage;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkPage(Integer hyperlinkPage)
 	{
 		this.hyperlinkPage = hyperlinkPage;
@@ -417,25 +365,25 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		this.hyperlinkPage = Integer.valueOf(hyperlinkPage);
 	}
 
-
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
 	}
 
-
+	@Override
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
 		this.bookmarkLevel = bookmarkLevel;
 	}
 
-	
+	@Override
 	public JRPrintHyperlinkParameters getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 
-	
+	@Override
 	public void setHyperlinkParameters(JRPrintHyperlinkParameters hyperlinkParameters)
 	{
 		this.hyperlinkParameters = hyperlinkParameters;
@@ -458,36 +406,37 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		hyperlinkParameters.addParameter(parameter);
 	}
 
-	
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
 	}
 
-	
+	@Override
 	public void setLinkType(String linkType)
 	{
 		this.linkType = linkType;
 	}
 	
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
 	}
 
-	
+	@Override
 	public void setLinkTarget(String linkTarget)
 	{
 		this.linkTarget = linkTarget;
 	}
 	
-	
+	@Override
 	public String getHyperlinkTooltip()
 	{
 		return hyperlinkTooltip;
 	}
 
-	
+	@Override
 	public void setHyperlinkTooltip(String hyperlinkTooltip)
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
@@ -534,6 +483,10 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 * @deprecated
 	 */
 	private net.sf.jasperreports.engine.JRRenderable renderer;
+	/**
+	 * @deprecated
+	 */
+	private boolean isLazy;
 
 	
 	@SuppressWarnings("deprecation")
@@ -586,6 +539,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

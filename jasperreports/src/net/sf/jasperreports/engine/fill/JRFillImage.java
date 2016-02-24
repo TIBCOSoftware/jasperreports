@@ -114,9 +114,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluateStyle(
 		byte evaluation
 		) throws JRException
@@ -133,30 +131,25 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleImageEnum getScaleImageValue()
 	{
 		return getStyleResolver().getScaleImageValue(this);
 	}
 		
+	@Override
 	public ScaleImageEnum getOwnScaleImageValue()
 	{
 		return providerStyle == null || providerStyle.getOwnScaleImageValue() == null ? ((JRImage)this.parent).getOwnScaleImageValue() : providerStyle.getOwnScaleImageValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setScaleImage(ScaleImageEnum scaleImage)
 	{
 		throw new UnsupportedOperationException();
@@ -165,6 +158,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
@@ -173,6 +167,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
@@ -181,6 +176,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
@@ -189,6 +185,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
@@ -197,6 +194,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
@@ -205,48 +203,43 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
 		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
+	@Override
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return providerStyle == null || providerStyle.getOwnHorizontalImageAlign() == null ? ((JRImage)this.parent).getOwnHorizontalImageAlign() : providerStyle.getOwnHorizontalImageAlign();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
 		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
+	@Override
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return providerStyle == null || providerStyle.getOwnVerticalImageAlign() == null ? ((JRImage)this.parent).getOwnVerticalImageAlign() : providerStyle.getOwnVerticalImageAlign();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
@@ -255,6 +248,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		return ((JRImage)this.parent).isUsingCache();
@@ -263,83 +257,64 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public Boolean isOwnUsingCache()
 	{
 		return ((JRImage)this.parent).isOwnUsingCache();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getUsingCache()
 	{
 		return ((JRImage)this.parent).getUsingCache();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isLazy()
 	{
 		return ((JRImage)this.parent).isLazy();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setLazy(boolean isLazy)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
 		return ((JRImage)this.parent).getOnErrorTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setOnErrorType(OnErrorTypeEnum onErrorType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return ((JRImage)this.parent).getEvaluationTimeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return this.evaluationGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox == null ? initLineBox : lineBox;
@@ -353,73 +328,55 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return getHyperlinkTypeValue().getValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return ((JRImage)parent).getHyperlinkTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return ((JRImage)this.parent).getHyperlinkTarget();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getLinkTarget()
 	{
 		return ((JRImage)this.parent).getLinkTarget();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return ((JRImage)this.parent).getExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return ((JRImage)this.parent).getAnchorNameExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return ((JRImage)this.parent).getHyperlinkReferenceExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return ((JRImage)this.parent).getHyperlinkWhenExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return ((JRImage)this.parent).getHyperlinkAnchorExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return ((JRImage)this.parent).getHyperlinkPageExpression();
@@ -481,6 +438,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return (JRTemplateImage) getElementTemplate();
 	}
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		JRTemplateImage template = 
@@ -500,9 +458,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(
 		byte evaluation
 		) throws JRException
@@ -644,6 +600,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 	
 
+	@Override
 	protected boolean prepare(
 		int availableHeight,
 		boolean isOverflow
@@ -824,6 +781,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return willOverflow;
 	}
 
+	@Override
 	protected void reset()
 	{
 		imageHeight = null;
@@ -899,9 +857,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return fitted;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill() throws JRException
 	{
 		EvaluationTimeEnum evaluationTime = this.getEvaluationTimeValue();
@@ -980,23 +936,20 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitImage(this);
 	}
 
 	
+	@Override
 	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		evaluateImage(evaluation);
@@ -1041,17 +994,21 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return ((JRImage)this.parent).getBookmarkLevel();
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillImage(this, factory);
 	}
-	
+
+
+	@Override
 	protected void collectDelayedEvaluations()
 	{
 		super.collectDelayedEvaluations();
@@ -1065,18 +1022,21 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		return ((JRImage) parent).getHyperlinkParameters();
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return ((JRImage) parent).getLinkType();
 	}
 
 
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return ((JRImage) parent).getHyperlinkTooltipExpression();
