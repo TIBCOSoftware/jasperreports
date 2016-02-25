@@ -48,7 +48,8 @@ public class JasperDesignFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-		JasperDesign jasperDesign = new JasperDesign();
+		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
+		JasperDesign jasperDesign = new JasperDesign(xmlLoader.getJasperReportsContext());
 		
 		jasperDesign.setName(atts.getValue(JRXmlConstants.ATTRIBUTE_name));
 

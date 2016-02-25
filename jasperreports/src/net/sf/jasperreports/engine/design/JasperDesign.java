@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
@@ -220,10 +221,15 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
 	 */
-	@SuppressWarnings("deprecation")
 	public JasperDesign()
 	{
-		setMainDataset(new JRDesignDataset(true));
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+	@SuppressWarnings("deprecation")
+	public JasperDesign(JasperReportsContext context)
+	{
+		setMainDataset(new JRDesignDataset(context, true));
 		
 		detailSection = new JRDesignSection(new JROrigin(BandTypeEnum.DETAIL));
 	}
