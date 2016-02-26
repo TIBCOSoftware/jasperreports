@@ -128,15 +128,6 @@ public final class JRImageLoader
 
 
 	/**
-	 * @deprecated Replaced by {@link #loadBytesFromAwtImage(Image, ImageTypeEnum)}.
-	 */
-	public byte[] loadBytesFromAwtImage(Image image, byte imageType) throws JRException
-	{
-		return loadBytesFromAwtImage(image, ImageTypeEnum.getByValue(imageType));
-	}
-
-
-	/**
 	 * Encoding the image object using an image encoder that supports the supplied image type.
 	 * 
 	 * @param image the java.awt.Image object to encode

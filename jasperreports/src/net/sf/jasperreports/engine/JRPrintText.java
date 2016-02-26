@@ -206,16 +206,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	public void setMarkup(String markup);
 		
 	/**
-	 * @deprecated
-	 */
-	public JRFont getFont();
-
-	/**
-	 * @deprecated
-	 */
-	public void setFont(JRFont font);
-	
-	/**
 	 * Returns the type of the value which was used to generate this text.
 	 * <p>
 	 * {@link JRTextField Text fields} that have a non-<code>String</code> expression

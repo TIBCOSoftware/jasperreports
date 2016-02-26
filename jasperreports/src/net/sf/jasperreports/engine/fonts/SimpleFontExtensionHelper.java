@@ -52,6 +52,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -147,6 +148,14 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	}
 
 
+	/**
+	 * @see #loadFontFamilies(JasperReportsContext, String)
+	 */
+	public List<FontFamily> loadFontFamilies(String file)
+	{
+		return loadFontFamilies(DefaultJasperReportsContext.getInstance(), file);
+	}
+	
 	/**
 	 *
 	 */

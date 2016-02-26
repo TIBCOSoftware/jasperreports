@@ -32,10 +32,6 @@ import java.util.Map;
 public class ParameterContributorContext
 {
 
-	/**
-	 * @deprecated To be removed.
-	 */
-	private JasperReport jasperReport;
 	private JasperReportsContext jasperReportsContext;
 	private JRDataset dataset;
 	private Map<String,Object> parameterValues;
@@ -52,27 +48,8 @@ public class ParameterContributorContext
 		this.jasperReportsContext = jasperReportsContext;
 		this.dataset = dataset;
 		this.parameterValues = parameterValues;
-		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
 	}
 
-	/**
-	 * Returns the {@link JasperReport} object for this context.
-	 * 
-	 * <p>
-	 * Note that this context might correspond to a subdataset in the report.
-	 * Use {@link #getDataset()} to retrieve the dataset for which scriptlets
-	 * are to be created
-	 * </p>
-	 * 
-	 * @return the current {@link JasperReport} object
-	 * @see #getDataset()
-	 * @deprecated To be removed.
-	 */
-	public JasperReport getJasperReport()
-	{
-		return jasperReport;
-	}
-	
 	/**
 	 *
 	 */

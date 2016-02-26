@@ -29,7 +29,6 @@ import java.io.ObjectInputStream;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
@@ -478,21 +477,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText)template).getParagraph();
 	}
 		
-	/**
-	 * @deprecated
-	 */
-	public JRFont getFont()
-	{
-		return (JRTemplateText)template;
-	}
-		
-	/**
-	 * @deprecated
-	 */
-	public void setFont(JRFont font)
-	{
-	}
-
 	/**
 	 *
 	 */
