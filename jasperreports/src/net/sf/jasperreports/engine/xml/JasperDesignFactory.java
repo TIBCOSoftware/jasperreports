@@ -50,7 +50,7 @@ public class JasperDesignFactory extends JRBaseFactory
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 
-		JasperDesign jasperDesign = new JasperDesign();
+		JasperDesign jasperDesign = new JasperDesign(xmlLoader.getJasperReportsContext());
 		
 		jasperDesign.setJasperReportsContext(xmlLoader.getJasperReportsContext());
 		
