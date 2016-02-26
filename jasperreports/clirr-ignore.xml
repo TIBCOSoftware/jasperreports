@@ -1,0 +1,43 @@
+<differences>
+	<difference>
+		<className>net/sf/jasperreports/engine/base/JRBaseBand</className>
+		<differenceType>6011</differenceType>
+		<field>PROPERTY_SPLIT_TYPE</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/HtmlExporter</className>
+		<differenceType>7002</differenceType>
+		<method>*setImage*AlignmentStyle(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter*</className>
+		<differenceType>7002</differenceType>
+		<method>*getTextAlignHolder(net.sf.jasperreports.engine.JRPrintText)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/SimpleTextLineWrapper*</className>
+		<differenceType>7002</differenceType>
+		<method>*SimpleTextLineWrapper*(java.lang.String, int, int, java.util.Locale)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/CsvExporterConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*get*Enclosure()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*isEmbedImage()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/extensions/DefaultExtensionsRegistry</className>
+		<differenceType>7004</differenceType>
+		<method>*loadRegistries(java.net.URL)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/HtmlExporter</className>
+		<differenceType>7005</differenceType>
+		<method>*writeRectangle*</method>
+		<to>*writeRectangle(net.sf.jasperreports.engine.JRPrintRectangle, net.sf.jasperreports.engine.export.tabulator.TableCell)</to>
+	</difference>
+</differences>

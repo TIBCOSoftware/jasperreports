@@ -167,6 +167,7 @@
 				<artifactId>clirr-maven-plugin</artifactId>
 				<configuration>
 					<comparisonVersion>6.2.0</comparisonVersion>
+					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>
 		</plugins>
