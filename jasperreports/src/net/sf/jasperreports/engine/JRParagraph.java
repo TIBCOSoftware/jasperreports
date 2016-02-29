@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRParagraph
+public interface JRParagraph extends JRStyleContainer
 {
 	/**
 	 * Specifies the default value for the text line spacing size, if no explicit information is provided in a 

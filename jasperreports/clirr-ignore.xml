@@ -470,4 +470,24 @@
 		<differenceType>7012</differenceType>
 		<method>*getImageHandler()</method>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JR*Template</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/engine/JRDefaultStyleProvider</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRSimpleTemplate</className>
+		<differenceType>7002</differenceType>
+		<method>*getDefaultStyle()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/renderers/BatikRenderer</className>
+		<differenceType>7002</differenceType>
+		<method>*ensure*()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/renderers/BatikRenderer</className>
+		<differenceType>7002</differenceType>
+		<method>*getInstanceFromLocation(java.lang.String)</method>
+	</difference>
 </differences>

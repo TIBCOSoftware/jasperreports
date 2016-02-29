@@ -41,6 +41,7 @@ import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.bridge.BridgeContext;
 import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgent;
+import org.apache.batik.bridge.UserAgentAdapter;
 import org.apache.batik.bridge.ViewBox;
 import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
@@ -68,6 +69,19 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	/**
+	 * @deprecated Replaced by {@link BatikUserAgent}.
+	 */
+	protected static class JRUserAgent extends UserAgentAdapter
+	{
+		@Override
+		public float getPixelUnitToMillimeter()
+		{
+			// JR works at 72dpi
+			return 0.35277777777777777777777777777778f;
+		}
+	}
+	
 	private String svgText;
 	private byte[] svgData;
 	private String svgDataLocation;
