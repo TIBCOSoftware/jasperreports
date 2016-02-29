@@ -247,6 +247,11 @@
 		<method>*FrameDrawer(*)</method>
 	</difference>
 	<difference>
+		<className>net/sf/jasperreports/engine/export/draw/ImageDrawer</className>
+		<differenceType>7004</differenceType>
+		<method>*ImageDrawer()</method>
+	</difference>
+	<difference>
 		<className>net/sf/jasperreports/engine/export/DefaultHyperlink*ProducerFactory</className>
 		<differenceType>7002</differenceType>
 		<method>*DefaultHyperlink*ProducerFactory()</method>
@@ -479,6 +484,11 @@
 		<className>net/sf/jasperreports/engine/JRSimpleTemplate</className>
 		<differenceType>7002</differenceType>
 		<method>*getDefaultStyle()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/base/JRBasePrintImage</className>
+		<differenceType>6010</differenceType>
+		<field>isLazy</field>
 	</difference>
 	<difference>
 		<className>net/sf/jasperreports/renderers/BatikRenderer</className>

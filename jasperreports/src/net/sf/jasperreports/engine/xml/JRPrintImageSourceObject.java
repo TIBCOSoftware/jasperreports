@@ -56,6 +56,15 @@ public class JRPrintImageSourceObject
 
 
 	/**
+	 * @deprecated Replaced by {@link #JRPrintImageSourceObject(boolean)}.
+	 */
+	public JRPrintImageSourceObject()
+	{
+		this(false);
+	}
+	
+
+	/**
 	 *
 	 */
 	public JRPrintImageSourceObject(boolean isLazy)
