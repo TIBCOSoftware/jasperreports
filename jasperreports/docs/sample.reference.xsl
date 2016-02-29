@@ -131,7 +131,7 @@ ga('send', 'pageview');
 <span class="title">JasperReports - Sample Reference (version <xsl:value-of select="$version"/>)</span>
     </td>
     <td align="right">
-<img src="resources/jasperreports.png" border="0"/>
+<img src="resources/jasperreports.svg" border="0"/>
     </td>
   </tr>
   <tr>

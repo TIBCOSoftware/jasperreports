@@ -132,7 +132,7 @@ ga('send', 'pageview');
 <span class="title">JasperReports - <xsl:value-of select="sample/title"/><xsl:if test="$version != ''"> (version <xsl:value-of select="$version"/>)</xsl:if></span>
     </td>
     <td align="right">
-<img src="../../resources/jasperreports.png" border="0"/>
+<img src="../../resources/jasperreports.svg" border="0"/>
     </td>
   </tr>
   <tr>
