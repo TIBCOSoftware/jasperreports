@@ -64,12 +64,6 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	protected JRValueDisplay valueDisplay;
 
 	/**
-	 * Indicates if the boundaries of each range should be shown.
-	 * @deprecated No longer used.
-	 */
-	protected boolean showValueLines;
-
-	/**
 	 * Specifies where the textual display of the value should be shown.
 	 */
 	protected ValueLocationEnum valueLocationObject;
@@ -148,65 +142,43 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getDataRange()
 	{
 		return dataRange;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRValueDisplay getValueDisplay()
 	{
 		return valueDisplay;
 	}
 
-	/**
-	 * @deprecated No longer used.
-	 */
-	public boolean isShowValueLines()
-	{
-		return showValueLines;
-	}
-
-	/**
-	 *
-	 */
+	@Override
 	public ValueLocationEnum getValueLocationValue()
 	{
 		return valueLocationObject;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getMercuryColor()
 	{
 		return mercuryColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getLowRange()
 	{
 		return lowRange;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getMediumRange()
 	{
 		return mediumRange;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getHighRange()
 	{
 		return highRange;
@@ -219,14 +191,13 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 *
 	 * @param collector the expression collector to use
 	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseThermometerPlot clone = (JRBaseThermometerPlot)super.clone(parentChart);

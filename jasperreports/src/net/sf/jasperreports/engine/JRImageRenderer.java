@@ -101,7 +101,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRImageRenderer getInstance(byte[] imageData)
 	{
-		return new JRImageRenderer(imageData);//FIXMEIMAGE test for null like above?
+		return new JRImageRenderer(imageData);
 	}
 
 

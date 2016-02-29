@@ -125,14 +125,6 @@ public final class JRTypeSniffer
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getImageTypeValue(byte[])}.
-	 */
-	public static byte getImageType(byte[] data) 
-	{
-		return getImageTypeValue(data).getValue();
-	}
-
-	/**
 	 * 
 	 */
 	public static ImageTypeEnum getImageTypeValue(byte[] data) 
@@ -155,15 +147,6 @@ public final class JRTypeSniffer
 		}
 		
 		return ImageTypeEnum.UNKNOWN;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ImageTypeEnum}.
-	 */
-	public static String getImageMimeType(byte imageType) 
-	{
-		ImageTypeEnum imageTypeEnum = ImageTypeEnum.getByValue(imageType);
-		return imageTypeEnum == null ? null : imageTypeEnum.getMimeType();
 	}
 
 	

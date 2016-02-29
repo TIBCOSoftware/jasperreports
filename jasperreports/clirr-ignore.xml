@@ -500,4 +500,9 @@
 		<differenceType>7002</differenceType>
 		<method>*getInstanceFromLocation(java.lang.String)</method>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/JRTypeSniffer</className>
+		<differenceType>7002</differenceType>
+		<method>*getImage*Type(byte*)</method>
+	</difference>
 </differences>

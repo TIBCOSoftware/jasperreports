@@ -6013,7 +6013,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </attribute>
    <attribute name="isShowValueLines" use="optional" default="false">
   	<annotation>
-   	 <documentation>Defines whether or not lines are drawn showing values on the thermometer.</documentation>
+   	 <documentation><i>Deprecated</i>. No longer used. Defines whether or not lines are drawn showing values on the thermometer.</documentation>
   	</annotation>
     <simpleType>
      <restriction base="string">
