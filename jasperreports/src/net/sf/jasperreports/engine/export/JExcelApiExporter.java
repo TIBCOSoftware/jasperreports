@@ -1067,7 +1067,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter<JxlReportConfigurat
 		public void handle(StringTextValue textValue) throws JRException
 		{
 			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
-			result = new Label(x, y, textValue.getText(), cellStyle);
+			if (textValue.getText() == null || textValue.getText().length() == 0)
+			{
+				result = blank(cellStyle);
+			}
+			else
+			{
+				result = new Label(x, y, textValue.getText(), cellStyle);
+			}
 		}
 
 		public void handle(NumberTextValue textValue) throws JRException
