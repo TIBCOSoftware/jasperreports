@@ -21,22 +21,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.renderers;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import net.sf.jasperreports.renderers.WrappingRenderToImageRenderer;
+import net.sf.jasperreports.engine.DimensionRenderable;
+import net.sf.jasperreports.engine.Graphics2DRenderable;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.SvgRenderable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link WrappingRenderToImageRenderer}.
  */
-public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
+public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
 {
 
 	/**
@@ -47,44 +53,50 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
-	private Renderable renderer;
-	private Dimension2D elementDimension;
-	private Color backcolor;
+	private final Graphics2DRenderable renderer;
+	private final Dimension2D dimension;
+	private final Color backcolor;
 
 	
 	/**
 	 *
 	 */
-	public JRWrappingSvgRenderer(
-		Renderable renderer, 
-		Dimension2D elementDimension,
+	public WrappingRenderToImageRenderer(
+		Graphics2DRenderable renderer, 
+		Dimension2D dimension,
 		Color backcolor
 		)
 	{
 		this.renderer = renderer;
-		this.elementDimension = elementDimension;
+		this.dimension = dimension;
 		this.backcolor = backcolor;
 	}
 
-
+	
 	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		Dimension2D imageDimension = null;
-		try
+		
+		DimensionRenderable dimensionRenderable = renderer instanceof DimensionRenderable ? (DimensionRenderable)renderer : null;
+		
+		if (dimensionRenderable != null)
 		{
-			// use original dimension if possible
-			imageDimension = renderer.getDimension(jasperReportsContext);
-		}
-		catch (JRException e)
-		{
-			// ignore
+			try
+			{
+				// use original dimension if possible
+				imageDimension = dimensionRenderable.getDimension(jasperReportsContext);
+			}
+			catch (JRException e)
+			{
+				// ignore
+			}
 		}
 		
 		if (imageDimension == null)
 		{
-			// fallback to element dimension
-			imageDimension = elementDimension;
+			// fallback to supplied dimension
+			imageDimension = dimension;
 		}
 		
 		return imageDimension;
@@ -97,28 +109,29 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	}
 
 	@Override
+	@SuppressWarnings("deprecation")
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		renderer.render(jasperReportsContext, grx, rectangle);
 	}
 
 	@Override
-	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	public int getImageDataDPI(JasperReportsContext jasperReportsContext)
 	{
-		if (renderer instanceof JRAbstractSvgRenderer)
+		if (renderer instanceof RenderToImageAwareRenderable)
 		{
-			return ((JRAbstractSvgRenderer) renderer).getImageDataDPI(jasperReportsContext);
+			return ((RenderToImageAwareRenderable) renderer).getImageDataDPI(jasperReportsContext);
 		}
 		
 		return super.getImageDataDPI(jasperReportsContext);
 	}
 
 	@Override
-	protected Graphics2D createGraphics(BufferedImage bi)
+	public Graphics2D createGraphics(BufferedImage bi)
 	{
-		if (renderer instanceof JRAbstractSvgRenderer)
+		if (renderer instanceof RenderToImageAwareRenderable)
 		{
-			return ((JRAbstractSvgRenderer) renderer).createGraphics(bi);
+			return ((RenderToImageAwareRenderable) renderer).createGraphics(bi);
 		}
 		
 		return super.createGraphics(bi);

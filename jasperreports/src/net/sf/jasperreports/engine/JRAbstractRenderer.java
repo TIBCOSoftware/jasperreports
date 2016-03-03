@@ -29,13 +29,15 @@ import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.renderers.AbstractRenderer;
 
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link AbstractRenderer}.
  */
-public abstract class JRAbstractRenderer implements Renderable
+public abstract class JRAbstractRenderer implements Renderable, JRRenderable
 {
 
 	/**
@@ -66,7 +68,6 @@ public abstract class JRAbstractRenderer implements Renderable
 
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public RenderableTypeEnum getTypeValue()
 	{
 		return RenderableTypeEnum.getByValue(getType());
@@ -74,7 +75,6 @@ public abstract class JRAbstractRenderer implements Renderable
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public ImageTypeEnum getImageTypeValue()
 	{
 		return ImageTypeEnum.getByValue(getImageType());
@@ -82,7 +82,6 @@ public abstract class JRAbstractRenderer implements Renderable
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		return getDimension();
@@ -90,7 +89,6 @@ public abstract class JRAbstractRenderer implements Renderable
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		return getImageData();
@@ -98,7 +96,6 @@ public abstract class JRAbstractRenderer implements Renderable
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		render(grx, rectangle);

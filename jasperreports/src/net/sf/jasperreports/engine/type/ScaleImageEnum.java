@@ -23,9 +23,8 @@
  */
 package net.sf.jasperreports.engine.type;
 
+import net.sf.jasperreports.engine.DimensionRenderable;
 import net.sf.jasperreports.engine.JRImage;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
 
 
 /**
@@ -60,7 +59,7 @@ public enum ScaleImageEnum implements JREnum
 	 * Several restrictions apply to the image stretching mechanism:
 	 * <ul>
 	 * 	<li>It only works when the image renderer implements
-	 *  {@link Renderable#getDimension(JasperReportsContext)}.</li>
+	 *  {@link DimensionRenderable}.</li>
 	 *  <li>If the actual image width exceeds the declared image element width,
 	 * the image is proportionally stretched to fit the declared width.</li>
 	 * 	<li>Images with delayed evaluation (see {@link JRImage#getEvaluationTimeValue()}) 
@@ -101,6 +100,7 @@ public enum ScaleImageEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public Byte getValueByte()
 	{
 		return new Byte(value);
@@ -109,6 +109,7 @@ public enum ScaleImageEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public final byte getValue()
 	{
 		return value;
@@ -117,6 +118,7 @@ public enum ScaleImageEnum implements JREnum
 	/**
 	 *
 	 */
+	@Override
 	public String getName()
 	{
 		return name;

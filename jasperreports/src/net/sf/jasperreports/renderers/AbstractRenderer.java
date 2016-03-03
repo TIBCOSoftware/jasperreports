@@ -21,23 +21,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.renderers;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
-
-import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageMapRenderer;
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.Renderable;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed.
  */
-public class WrappingImageMapRenderable extends WrappingRenderable implements ImageMapRenderable, JRImageMapRenderer
+public abstract class AbstractRenderer implements Renderable
 {
 	/**
 	 *
@@ -47,34 +40,21 @@ public class WrappingImageMapRenderable extends WrappingRenderable implements Im
 	/**
 	 *
 	 */
-	private net.sf.jasperreports.engine.JRImageMapRenderer imageMapRenderer;
+	private String id;
 	
 	
 	/**
 	 *
 	 */
-	public WrappingImageMapRenderable(net.sf.jasperreports.engine.JRImageMapRenderer imageMapRenderer)
+	public AbstractRenderer()
 	{
-		super(imageMapRenderer);
-		this.imageMapRenderer = imageMapRenderer;
+		id = System.currentTimeMillis() + "-" + Math.random();
 	}
+	
 
-
-	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx,
-			Rectangle2D rectangle) throws JRException {
-		return imageMapRenderer.renderWithHyperlinks(grx, rectangle);
+	@Override
+	public String getId()
+	{
+		return id;
 	}
-
-
-	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(
-			Rectangle2D renderingArea) throws JRException {
-		return imageMapRenderer.getImageAreaHyperlinks(renderingArea);
-	}
-
-
-	public boolean hasImageAreaHyperlinks() {
-		return imageMapRenderer.hasImageAreaHyperlinks();
-	}
-
-
 }

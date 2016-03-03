@@ -33,16 +33,15 @@ package net.sf.jasperreports.engine;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@SuppressWarnings("deprecation")
-public interface Renderable extends JRRenderable
+public interface Renderable extends Serializable
 {
 	/**
 	 * Specifies the image resolution in dots-per-inch, for the images created by the engine when rasterizing SVGs or when clipping other renderers.
@@ -55,29 +54,27 @@ public interface Renderable extends JRRenderable
 	public String getId();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
 	 */
-	public RenderableTypeEnum getTypeValue();
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link ImageRenderable#getImageType()}.
 	 */
 	public ImageTypeEnum getImageTypeValue();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link DimensionRenderable#getDimension(JasperReportsContext)}.
 	 */
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException;
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link ImageRenderable#getImageData(JasperReportsContext)}.
 	 */
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException;
 
-
 	/**
-	 *
+	 * @deprecated Replaced by {@link Graphics2DRenderable#render(JasperReportsContext, Graphics2D, Rectangle2D)}.
 	 */
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException;
 }

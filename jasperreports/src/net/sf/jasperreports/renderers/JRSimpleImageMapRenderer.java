@@ -30,6 +30,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
@@ -37,7 +38,7 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  * @deprecated Replaced by {@link SimpleImageMapRenderer}.
  */
-public class JRSimpleImageMapRenderer extends JRImageRenderer implements ImageMapRenderable
+public class JRSimpleImageMapRenderer extends JRImageRenderer implements ImageMapRenderable, JRImageMapRenderer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	

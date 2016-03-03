@@ -36,15 +36,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.renderers.BatikRenderer;
-
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 import org.w3c.dom.Document;
@@ -57,6 +48,15 @@ import com.google.zxing.qrcode.encoder.ByteMatrix;
 import com.google.zxing.qrcode.encoder.Encoder;
 import com.google.zxing.qrcode.encoder.QRCode;
 
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.renderers.SvgTextRenderer;
+
 
 /**
  * 
@@ -67,6 +67,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 
 	public static final int DEFAULT_MARGIN = 4;//same as zxing's QRCodeWriter.QUIET_ZONE_SIZE
 	
+	@Override
 	public Renderable createImage(
 		JasperReportsContext jasperReportsContext,
 		JRComponentElement componentElement,
@@ -177,7 +178,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		}
 
 		String svgString = outWriter.toString();
-		return new BatikRenderer(svgString, null);
+		return SvgTextRenderer.getInstance(svgString);
 	}
 
 }

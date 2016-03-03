@@ -225,6 +225,33 @@
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</image>
 			</band>
+			<band height="150">
+				<image scaleImage="Clip" hAlign="Right" vAlign="Bottom" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+					<reportElement mode="Opaque" x="0" y="0" width="150" height="140" backcolor="#DDFFDD"/>
+					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
+				</image>
+				<image scaleImage="Clip" vAlign="Middle" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+					<reportElement mode="Opaque" x="200" y="0" width="40" height="140" backcolor="#DDFFDD"/>
+					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
+				</image>
+				<image scaleImage="FillFrame" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+					<reportElement mode="Opaque" x="250" y="0" width="40" height="140" backcolor="#DDFFDD"/>
+					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
+				</image>
+				<image scaleImage="RetainShape" vAlign="Middle" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+					<reportElement mode="Opaque" x="300" y="0" width="40" height="140" backcolor="#DDFFDD"/>
+					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
+				</image>
+				<image scaleImage="RetainShape" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+					<reportElement mode="Opaque" x="400" y="0" width="150" height="140" backcolor="#DDFFDD"/>
+					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
+				</image>
+			</band>
 		</groupHeader>
 	</group>
 </jasperReport>

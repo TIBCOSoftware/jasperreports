@@ -27,18 +27,18 @@ import java.awt.geom.Rectangle2D;
 import java.io.StringWriter;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.renderers.BatikRenderer;
-
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.jfree.chart.JFreeChart;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.renderers.SvgTextRenderer;
 
 
 /**
@@ -47,6 +47,7 @@ import org.w3c.dom.Document;
 public class SvgChartRendererFactory extends AbstractChartRenderableFactory
 {
 	
+	@Override
 	public Renderable getRenderable(
 		JasperReportsContext jasperReportsContext,
 		JFreeChart chart, 
@@ -78,7 +79,7 @@ public class SvgChartRendererFactory extends AbstractChartRenderableFactory
 		{
 			StringWriter swriter = new StringWriter();
 			grx.stream(swriter);
-			return new BatikRenderer(swriter.getBuffer().toString(), areaHyperlinks);
+			return new SvgTextRenderer(swriter.getBuffer().toString(), areaHyperlinks);
 		}
 		catch (SVGGraphics2DIOException e)
 		{

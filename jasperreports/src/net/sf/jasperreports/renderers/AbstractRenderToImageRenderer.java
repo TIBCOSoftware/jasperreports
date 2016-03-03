@@ -21,26 +21,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.renderers;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import net.sf.jasperreports.engine.DimensionRenderable;
+import net.sf.jasperreports.engine.Graphics2DRenderable;
+import net.sf.jasperreports.engine.ImageRenderable;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.SvgRenderable;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.renderers.AbstractRenderToImageRenderer;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link AbstractRenderToImageRenderer}.
  */
-public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
+public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImageAwareRenderer implements ImageRenderable, DimensionRenderable
 {
 	/**
 	 *
@@ -52,49 +55,34 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 
 	
 	/**
-	 * @deprecated Replaced by {@link #getTypeValue()}.
+	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
 	 */
 	@Override
-	public byte getType()
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
 	{
-		return getTypeValue().getValue();
+		return net.sf.jasperreports.engine.type.RenderableTypeEnum.SVG;
 	}
 
 
 	/**
-	 * @deprecated Replaced by {@link #getImageTypeValue()}.
-	 */
-	@Override
-	public byte getImageType()
-	{
-		return getImageTypeValue().getValue();
-	}
-
-
-	/**
-	 *
-	 */
-	@Override
-	public RenderableTypeEnum getTypeValue()
-	{
-		return RenderableTypeEnum.SVG;
-	}
-
-
-	/**
-	 *
+	 * @deprecated Replaced by {@link #getImageType()}.
 	 */
 	@Override
 	public ImageTypeEnum getImageTypeValue()
+	{
+		return getImageType();
+	}
+
+
+	@Override
+	public ImageTypeEnum getImageType()
 	{
 		return ImageTypeEnum.PNG;
 	}
 
 
-	/**
-	 *
-	 */
 	@Override
+	@SuppressWarnings("deprecation")
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		throw 
@@ -105,49 +93,12 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
-	 */
 	@Override
-	public Dimension2D getDimension() throws JRException
-	{
-		return getDimension(DefaultJasperReportsContext.getInstance());
-	}
-
-
-	/**
-	 *
-	 */
-	public Color getBackcolor()
-	{
-		return null;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getImageData(JasperReportsContext)}.
-	 */
-	@Override
-	public byte[] getImageData() throws JRException
-	{
-		return getImageData(DefaultJasperReportsContext.getInstance());
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
-	 */
-	@Override
-	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
-	}
-
-
-	@Override
+	@SuppressWarnings("deprecation")
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		Dimension2D dimension = getDimension(jasperReportsContext);
+		
 		if (dimension == null)
 		{
 			throw 
@@ -160,7 +111,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 		int dpi = getImageDataDPI(jasperReportsContext);
 		double scale = dpi/72d;
 		
-		ImageTypeEnum imageType = getImageTypeValue();
+		ImageTypeEnum imageType = getImageType();
 		BufferedImage bi =
 			new BufferedImage(
 				(int) (scale * dimension.getWidth()),
@@ -188,20 +139,12 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 			g.dispose();
 		}
 		
-		return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageTypeValue());
+		return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageType());
 	}
 
 
-	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	protected Color getBackcolor()
 	{
-		return JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
+		return null;
 	}
-
-
-	protected Graphics2D createGraphics(BufferedImage bi)
-	{
-		return bi.createGraphics();
-	}
-
-
 }

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -42,7 +43,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable
+public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable, JRImageMapRenderer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

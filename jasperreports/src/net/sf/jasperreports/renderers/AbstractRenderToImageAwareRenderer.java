@@ -21,60 +21,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
+import java.awt.image.BufferedImage;
 
-import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageMapRenderer;
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated To be removed.
  */
-public class WrappingImageMapRenderable extends WrappingRenderable implements ImageMapRenderable, JRImageMapRenderer
+public abstract class AbstractRenderToImageAwareRenderer extends AbstractRenderer implements RenderToImageAwareRenderable
 {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 *
-	 */
-	private net.sf.jasperreports.engine.JRImageMapRenderer imageMapRenderer;
-	
-	
-	/**
-	 *
-	 */
-	public WrappingImageMapRenderable(net.sf.jasperreports.engine.JRImageMapRenderer imageMapRenderer)
+	@Override
+	public int getImageDataDPI(JasperReportsContext jasperReportsContext)
 	{
-		super(imageMapRenderer);
-		this.imageMapRenderer = imageMapRenderer;
+		return JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
 	}
 
-
-	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx,
-			Rectangle2D rectangle) throws JRException {
-		return imageMapRenderer.renderWithHyperlinks(grx, rectangle);
+	@Override
+	public Graphics2D createGraphics(BufferedImage bi)
+	{
+		return bi.createGraphics();
 	}
-
-
-	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(
-			Rectangle2D renderingArea) throws JRException {
-		return imageMapRenderer.getImageAreaHyperlinks(renderingArea);
-	}
-
-
-	public boolean hasImageAreaHyperlinks() {
-		return imageMapRenderer.hasImageAreaHyperlinks();
-	}
-
-
 }

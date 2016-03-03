@@ -32,15 +32,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.krysalis.barcode4j.BarcodeGenerator;
+import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
+import org.w3c.dom.Document;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.renderers.BatikRenderer;
-
-import org.krysalis.barcode4j.BarcodeGenerator;
-import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
-import org.w3c.dom.Document;
+import net.sf.jasperreports.renderers.SvgTextRenderer;
 
 /**
  * 
@@ -49,6 +49,7 @@ import org.w3c.dom.Document;
 public class BarcodeSVGImageProducer implements BarcodeImageProducer
 {
 
+	@Override
 	public Renderable createImage(
 		JasperReportsContext jasperReportsContext,
 		JRComponentElement componentElement,
@@ -74,7 +75,7 @@ public class BarcodeSVGImageProducer implements BarcodeImageProducer
 			transformer.transform(source, output);
 
 			String svgString = outWriter.toString();
-			return new BatikRenderer(svgString, null);
+			return SvgTextRenderer.getInstance(svgString);
 		}
 		catch (Exception e)
 		{

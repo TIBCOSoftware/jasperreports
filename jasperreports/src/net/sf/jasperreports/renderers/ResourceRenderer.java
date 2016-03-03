@@ -27,16 +27,20 @@ import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRAbstractRenderer;
+import net.sf.jasperreports.engine.DimensionRenderable;
+import net.sf.jasperreports.engine.Graphics2DRenderable;
+import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.SvgRenderable;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ResourceRenderer extends JRAbstractRenderer
+public class ResourceRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -85,42 +89,42 @@ public class ResourceRenderer extends JRAbstractRenderer
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getTypeValue()}.
+	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
 	 */
 	@Override
-	public byte getType() {
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue() {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getImageTypeValue()}.
+	 * @deprecated Replaced by {@link ImageRenderable#getImageType()}.
 	 */
 	@Override
-	public byte getImageType() {
+	public ImageTypeEnum getImageTypeValue() {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
+	 * @deprecated Replaced by {@link DimensionRenderable#getDimension(JasperReportsContext)}.
 	 */
 	@Override
-	public Dimension2D getDimension() throws JRException {
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getImageData(JasperReportsContext)}.
+	 * @deprecated Replaced by {@link ImageRenderable#getImageData(JasperReportsContext)}.
 	 */
 	@Override
-	public byte[] getImageData() throws JRException {
+	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 * @deprecated Replaced by {@link Graphics2DRenderable#render(JasperReportsContext, Graphics2D, Rectangle2D)}.
 	 */
 	@Override
-	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException {
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException {
 		throw new UnsupportedOperationException();
 	}
 }

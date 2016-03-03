@@ -23,21 +23,17 @@
  */
 package net.sf.jasperreports.renderers;
 
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.lang.ref.SoftReference;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRAbstractRenderer;
+import net.sf.jasperreports.engine.DimensionRenderable;
+import net.sf.jasperreports.engine.Graphics2DRenderable;
+import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 
@@ -83,15 +79,14 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  * is loaded only when needed for rendering at report-export or view time.
  * <p/>
  * To simplify the implementation of SVG image renderers, JasperReports ships with an
- * abstract rendered {@link net.sf.jasperreports.engine.JRAbstractSvgRenderer}. This
+ * abstract rendered {@link net.sf.jasperreports.renderers.AbstractRenderToImageRenderer}. This
  * implementation contains the code to produce binary image data from the SVG graphic in
- * JPG format. This is needed when the image must be stored in separate files on disk or
+ * PNG format. This is needed when the image must be stored in separate files on disk or
  * delivered in binary format to a consumer (like a web browser).
  * 
- * @see net.sf.jasperreports.engine.JRAbstractSvgRenderer
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ImageRenderer extends JRAbstractRenderer
+public class ImageRenderer extends AbstractRenderer implements ImageRenderable
 {
 	/**
 	 *
@@ -102,13 +97,7 @@ public class ImageRenderer extends JRAbstractRenderer
 	 *
 	 */
 	private byte[] imageData;
-	private ImageTypeEnum imageTypeValue = ImageTypeEnum.UNKNOWN;
-
-	/**
-	 *
-	 */
-	private transient SoftReference<Image> awtImageRef;
-
+	private ImageTypeEnum imageType = ImageTypeEnum.UNKNOWN;
 
 	/**
 	 *
@@ -119,7 +108,7 @@ public class ImageRenderer extends JRAbstractRenderer
 		
 		if (imageData != null) 
 		{
-			imageTypeValue = JRTypeSniffer.getImageTypeValue(imageData);
+			imageType = JRTypeSniffer.getImageTypeValue(imageData);
 		}
 			
 	}
@@ -138,112 +127,52 @@ public class ImageRenderer extends JRAbstractRenderer
 	}
 
 
-	/**
-	 *
-	 */
-	protected Image getImage(JasperReportsContext jasperReportsContext) throws JRException
-	{
-		if (awtImageRef == null || awtImageRef.get() == null)
-		{
-			Image awtImage = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(getImageData(jasperReportsContext));
-			awtImageRef = new SoftReference<Image>(awtImage);
-		}
-		return awtImageRef.get();
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getTypeValue()}.
-	 */
 	@Override
-	public byte getType()
+	@SuppressWarnings("deprecation")
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
 	{
-		return getTypeValue().getValue();
-	}
-	
-	
-	@Override
-	public RenderableTypeEnum getTypeValue()
-	{
-		return RenderableTypeEnum.IMAGE;
+		return net.sf.jasperreports.engine.type.RenderableTypeEnum.IMAGE;
 	}
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #getImageTypeValue()}.
+	 * @deprecated Replaced by {@link #getImageType()}.
 	 */
-	@Override
-	public byte getImageType() 
-	{
-		return getImageTypeValue().getValue();
-	}
-	
-
 	@Override
 	public ImageTypeEnum getImageTypeValue()
 	{
-		return imageTypeValue;
+		return getImageType();
+	}
+	
+
+	@Override
+	public ImageTypeEnum getImageType()
+	{
+		return imageType;
 	}
 	
 
 	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
+	 * @deprecated Replaced by {@link DimensionRenderable#getDimension(JasperReportsContext)}.
 	 */
 	@Override
-	public Dimension2D getDimension() throws JRException
-	{
-		return getDimension(DefaultJasperReportsContext.getInstance());
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException {
+		throw new UnsupportedOperationException();
 	}
 
 
 	@Override
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
-	{
-		Image img = getImage(jasperReportsContext);
-		return new Dimension(img.getWidth(null), img.getHeight(null));
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getImageData(JasperReportsContext)}.
-	 */
-	@Override
-	public byte[] getImageData() throws JRException
-	{
-		return getImageData(DefaultJasperReportsContext.getInstance());
-	}
-
-
-	@Override
-	public byte[] getImageData(JasperReportsContext jasperReportsContext)
-			throws JRException
+	@SuppressWarnings("deprecation")
+	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		return imageData;
 	}
 
-
 	/**
-	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 * @deprecated Replaced by {@link Graphics2DRenderable#render(JasperReportsContext, Graphics2D, Rectangle2D)}.
 	 */
 	@Override
-	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
-	}
-
-
-	@Override
-	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		Image img = getImage(jasperReportsContext);
-
-		grx.drawImage(
-			img, 
-			(int)rectangle.getX(), 
-			(int)rectangle.getY(), 
-			(int)rectangle.getWidth(), 
-			(int)rectangle.getHeight(), 
-			null
-			);
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException {
+		throw new UnsupportedOperationException();
 	}
 }

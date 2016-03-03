@@ -56,7 +56,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.DimensionRenderable;
 import net.sf.jasperreports.engine.ImageMapRenderable;
+import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
@@ -79,7 +81,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementId;
 import net.sf.jasperreports.engine.PrintElementVisitor;
@@ -87,6 +88,7 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.SvgRenderable;
 import net.sf.jasperreports.engine.export.tabulator.Cell;
 import net.sf.jasperreports.engine.export.tabulator.CellVisitor;
 import net.sf.jasperreports.engine.export.tabulator.Column;
@@ -108,7 +110,6 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -982,7 +983,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
 				
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+				if (renderer instanceof ImageRenderable)
 				{
 					imageMapName = imageMaps.get(new Pair<String, Rectangle>(renderer.getId(), renderingArea));
 				}
@@ -993,7 +994,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					imageMapName = "map_" + getElementIndex(cell).toString() + "-" + originalRenderer.getId();//use renderer.getId()?
 					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 					
-					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+					if (renderer instanceof ImageRenderable)
 					{
 						imageMaps.put(new Pair<String, Rectangle>(renderer.getId(), renderingArea), imageMapName);
 					}
@@ -1263,12 +1264,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 				if (needDimension)
 				{
-					dimension = renderer.getDimension(jasperReportsContext);
+					dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
 				}
 
 				if (
 					!embedImage //we do not cache imagePath for embedded images because it is too big
-					&& renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
+					&& renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
@@ -1278,17 +1279,28 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				{
 					if (embedImage)
 					{
-						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+						byte[] imageData = null;
+						String imageType = null;
+
+						if (renderer instanceof SvgRenderable)
 						{
-							renderer =
-								new JRWrappingSvgRenderer(
+							imageData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
+							imageType = "image/svg+xml";
+						}
+						else
+						{
+							ImageRenderable imageRenderer = 
+								RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
 									renderer,
 									new Dimension(availableImageWidth, availableImageHeight),
 									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 									);
-						}
 
-						ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
+							imageData = imageRenderer.getImageData(jasperReportsContext);
+							imageType = imageRenderer.getImageType().getMimeType();
+						}
+						
+						ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 						
 						Base64Encoder encoder = new Base64Encoder(bais, baos);
@@ -1296,7 +1308,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						
 						String encoding = getExporterOutput().getEncoding();
 						
-						imagePath = "data:" + renderer.getImageTypeValue().getMimeType() + ";base64," + new String(baos.toByteArray(), encoding);
+						imagePath = "data:" + imageType + ";base64," + new String(baos.toByteArray(), encoding);
 						//don't cache the base64 encoded image as imagePath because they are too big
 					}
 					else
@@ -1311,23 +1323,20 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							JRPrintElementIndex imageIndex = getElementIndex(cell);
 							String imageName = getImageName(imageIndex);
 
-							if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-							{
-								renderer =
-									new JRWrappingSvgRenderer(
-										renderer,
-										new Dimension(availableImageWidth, availableImageHeight),
-										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-										);
-							}
+							ImageRenderable imageRenderer = 
+								RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+									renderer,
+									new Dimension(availableImageWidth, availableImageHeight),
+									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+									);
 
-							imageHandler.handleResource(imageName, renderer.getImageData(jasperReportsContext));
+							imageHandler.handleResource(imageName, imageRenderer.getImageData(jasperReportsContext));
 							
 							imagePath = imageHandler.getResourcePath(imageName);
 
-							if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+							if (imageRenderer == renderer)
 							{
-								//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+								//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
 								rendererToImagePathMap.put(renderer.getId(), imagePath);
 							}
 						}

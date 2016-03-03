@@ -32,8 +32,7 @@ import java.util.List;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-@SuppressWarnings("deprecation")
-public interface ImageMapRenderable extends Renderable, JRImageMapRenderer
+public interface ImageMapRenderable extends Renderable
 {
 
 	/**

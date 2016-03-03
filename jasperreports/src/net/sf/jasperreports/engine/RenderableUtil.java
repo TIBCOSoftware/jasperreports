@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.ColorModel;
@@ -43,10 +45,11 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.renderers.BatikRenderer;
 import net.sf.jasperreports.renderers.BatikUserAgent;
 import net.sf.jasperreports.renderers.ImageRenderer;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.SvgDataRenderer;
+import net.sf.jasperreports.renderers.WrappingRenderToImageRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -59,6 +62,7 @@ public class RenderableUtil
 	private static final Log log = LogFactory.getLog(RenderableUtil.class);
 	
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_ERROR = "engine.renderable.util.image.error";
+	public static final String EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE = "engine.renderable.must.implement.interface";
 	
 	public static final Renderable NO_IMAGE_RENDERER = ResourceRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE, false);//FIXMEIMAGE consider moving constant from loader to here 
 
@@ -92,7 +96,7 @@ public class RenderableUtil
 	{
 		if (isSvgData(data))
 		{
-			return BatikRenderer.getInstance(data);
+			return SvgDataRenderer.getInstance(data);
 		}
 		else
 		{
@@ -556,5 +560,61 @@ public class RenderableUtil
 		}
 		
 		return resourceLocation;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public ImageRenderable getImageRenderable(
+		Renderable renderer, 
+		Dimension dimension, 
+		Color backcolor
+		) throws JRException
+	{
+		ImageRenderable imageRenderer = null;
+		
+		if (renderer != null)
+		{
+			if (renderer instanceof ImageRenderable)
+			{
+				imageRenderer = (ImageRenderable)renderer;
+			}
+			else
+			{
+				Graphics2DRenderable grxRenderer = null;
+				
+				if (renderer instanceof Graphics2DRenderable)
+				{
+					grxRenderer = (Graphics2DRenderable)renderer;
+				}
+				else if (renderer instanceof SvgRenderable)
+				{
+					grxRenderer = SvgDataRenderer.getInstance(((SvgRenderable)renderer).getSvgData(jasperReportsContext));
+				}
+				else
+				{
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
+							new Object[]{
+								renderer.getClass().getName(),
+								ImageRenderable.class.getName() 
+									+ ", " + Graphics2DRenderable.class.getName() 
+									+ " or " + SvgRenderable.class.getName()
+								}
+							);
+				}
+
+				imageRenderer =
+					new WrappingRenderToImageRenderer(
+						grxRenderer,
+						dimension,
+						backcolor
+						);
+			}
+		}
+			
+		return imageRenderer;
 	}
 }

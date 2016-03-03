@@ -21,43 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.renderers;
 
-import java.awt.geom.Rectangle2D;
-import java.util.List;
-
-import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+/*
+ * Contributors:
+ * Adrian Jackson - iapetus@users.sourceforge.net
+ * David Taylor - exodussystems@users.sourceforge.net
+ * Lars Kristensen - llk@users.sourceforge.net
+ */
+package net.sf.jasperreports.engine;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class SimpleImageMapRenderer extends ImageRenderer implements ImageMapRenderable
+public interface SvgRenderable
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
-	
 	/**
-	 * 
+	 *
 	 */
-	public SimpleImageMapRenderer(byte[] imageData, List<JRPrintImageAreaHyperlink> areaHyperlinks) 
-	{
-		super(imageData);
-		this.areaHyperlinks = areaHyperlinks;
-	}
-
-	@Override
-	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
-	{
-		return areaHyperlinks;
-	}
-
-	@Override
-	public boolean hasImageAreaHyperlinks()
-	{
-		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
-	}
+	public byte[] getSvgData(JasperReportsContext jasperReportsContext) throws JRException;
 }

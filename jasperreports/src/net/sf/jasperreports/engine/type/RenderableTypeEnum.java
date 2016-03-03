@@ -23,9 +23,13 @@
  */
 package net.sf.jasperreports.engine.type;
 
+import net.sf.jasperreports.engine.Graphics2DRenderable;
+import net.sf.jasperreports.engine.ImageRenderable;
+import net.sf.jasperreports.engine.SvgRenderable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
  */
 public enum RenderableTypeEnum implements JREnum
 {
@@ -54,6 +58,7 @@ public enum RenderableTypeEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public Byte getValueByte()
 	{
 		return new Byte(value);
@@ -62,14 +67,13 @@ public enum RenderableTypeEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public final byte getValue()
 	{
 		return value;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

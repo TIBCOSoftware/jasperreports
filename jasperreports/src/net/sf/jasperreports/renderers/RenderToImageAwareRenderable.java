@@ -23,41 +23,24 @@
  */
 package net.sf.jasperreports.renderers;
 
-import java.awt.geom.Rectangle2D;
-import java.util.List;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
-import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class SimpleImageMapRenderer extends ImageRenderer implements ImageMapRenderable
+public interface RenderToImageAwareRenderable
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
-	
 	/**
 	 * 
 	 */
-	public SimpleImageMapRenderer(byte[] imageData, List<JRPrintImageAreaHyperlink> areaHyperlinks) 
-	{
-		super(imageData);
-		this.areaHyperlinks = areaHyperlinks;
-	}
+	public int getImageDataDPI(JasperReportsContext jasperReportsContext);
 
-	@Override
-	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
-	{
-		return areaHyperlinks;
-	}
-
-	@Override
-	public boolean hasImageAreaHyperlinks()
-	{
-		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
-	}
+	/**
+	 * 
+	 */
+	public Graphics2D createGraphics(BufferedImage bi);
 }
