@@ -66,10 +66,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -80,7 +77,6 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -91,6 +87,10 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
 import net.sf.jasperreports.export.RtfReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
 
@@ -1077,7 +1077,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		Renderable renderer = printImage.getRenderable();
+		Renderable renderer = printImage.getRenderer();
 
 		if (
 			renderer != null 
@@ -1351,24 +1351,21 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				dimension = renderer.getDimension(jasperReportsContext);
+				dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
 			}
 			
-			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-			{
-				renderer =
-					new JRWrappingSvgRenderer(
-						renderer,
-						new Dimension(availableImageWidth, availableImageHeight),
-						ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-						);
-			}
+			ImageRenderable imageRenderer = 
+				RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+					renderer,
+					new Dimension(availableImageWidth, availableImageHeight),
+					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+					);
 
 			return 
 				new InternalImageProcessorResult(
-					renderer.getImageData(jasperReportsContext), 
+					imageRenderer.getImageData(jasperReportsContext), 
 					dimension, 
-					renderer.getImageTypeValue()
+					imageRenderer.getImageType()
 					);
 		}
 	}

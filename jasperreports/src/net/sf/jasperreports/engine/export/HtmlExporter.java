@@ -56,9 +56,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.DimensionRenderable;
-import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
@@ -85,10 +82,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementId;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.PrintPageFormat;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.engine.SvgRenderable;
 import net.sf.jasperreports.engine.export.tabulator.Cell;
 import net.sf.jasperreports.engine.export.tabulator.CellVisitor;
 import net.sf.jasperreports.engine.export.tabulator.Column;
@@ -126,8 +120,14 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.SvgRenderable;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
 
@@ -895,7 +895,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 		
-		Renderable renderer = image.getRenderable();
+		Renderable renderer = image.getRenderer();
 
 		boolean isLazy = RenderableUtil.isLazy(renderer);
 		
@@ -959,8 +959,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 			
 			boolean hasAreaHyperlinks = 
-				renderer instanceof ImageMapRenderable
-				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
+				renderer instanceof AreaHyperlinksRenderable
+				&& ((AreaHyperlinksRenderable)renderer).hasImageAreaHyperlinks();
 
 			boolean hasHyperlinks = false;
 
@@ -990,9 +990,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 				if (imageMapName == null)
 				{
-					Renderable originalRenderer = image.getRenderable();
+					Renderable originalRenderer = image.getRenderer();
 					imageMapName = "map_" + getElementIndex(cell).toString() + "-" + originalRenderer.getId();//use renderer.getId()?
-					imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
+					imageMapAreas = ((AreaHyperlinksRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 					
 					if (renderer instanceof ImageRenderable)
 					{

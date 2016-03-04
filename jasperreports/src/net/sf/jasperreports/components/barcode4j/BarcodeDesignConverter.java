@@ -23,16 +23,16 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 
@@ -52,7 +52,7 @@ public class BarcodeDesignConverter implements ComponentDesignConverter
 		printImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 		
 		Renderable barcodeImage = evaluateBarcode(reportConverter, element);
-		printImage.setRenderable(barcodeImage);
+		printImage.setRenderer(barcodeImage);
 		
 		return printImage;
 	}

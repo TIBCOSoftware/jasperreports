@@ -45,8 +45,8 @@ import net.sf.jasperreports.components.charts.ChartCustomizer;
 import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * Spider Chart design evaluator.

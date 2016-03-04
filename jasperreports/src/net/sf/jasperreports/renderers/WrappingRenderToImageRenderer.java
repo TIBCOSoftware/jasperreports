@@ -30,13 +30,10 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import net.sf.jasperreports.engine.DimensionRenderable;
-import net.sf.jasperreports.engine.Graphics2DRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.SvgRenderable;
 
 
 /**

@@ -29,13 +29,9 @@ import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 
-import net.sf.jasperreports.engine.DimensionRenderable;
-import net.sf.jasperreports.engine.Graphics2DRenderable;
-import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.SvgRenderable;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
@@ -43,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImageAwareRenderer implements ImageRenderable, DimensionRenderable
+public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImageAwareRenderer implements Graphics2DRenderable, ImageRenderable, DimensionRenderable
 {
 	/**
 	 *
@@ -54,26 +50,6 @@ public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImag
 	public static final String EXCEPTION_MESSAGE_KEY_DIMENSION_NULL_NOT_ALLOWED = "engine.renderable.svg.dimension.null.not.allowed";
 
 	
-	/**
-	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
-	{
-		return net.sf.jasperreports.engine.type.RenderableTypeEnum.SVG;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getImageType()}.
-	 */
-	@Override
-	public ImageTypeEnum getImageTypeValue()
-	{
-		return getImageType();
-	}
-
-
 	@Override
 	public ImageTypeEnum getImageType()
 	{
@@ -82,7 +58,6 @@ public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImag
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		throw 
@@ -94,7 +69,6 @@ public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImag
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		Dimension2D dimension = getDimension(jasperReportsContext);

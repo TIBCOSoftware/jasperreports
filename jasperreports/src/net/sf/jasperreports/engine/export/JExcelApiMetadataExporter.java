@@ -104,10 +104,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -122,13 +119,17 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -1361,129 +1362,155 @@ public class JExcelApiMetadataExporter extends
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
 		{
+			InternalImageProcessorResult imageProcessorResult = null;
+
 			if (renderer instanceof ResourceRenderer)
 			{
 				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
-			byte[] imageData = null;
-			
 			switch (imageElement.getScaleImageValue())
 			{
 				case CLIP:
 				{
-					int normalWidth = availableImageWidth;
-					int normalHeight = availableImageHeight;
-		
-					Dimension2D dimension = renderer.getDimension(jasperReportsContext);
-					if (dimension != null)
-					{
-						normalWidth = (int) dimension.getWidth();
-						normalHeight = (int) dimension.getHeight();
-					}
-
-					int dpi = getPropertiesUtil().getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
-					double scale = dpi/72d;
-					
-					BufferedImage bi = 
-						new BufferedImage(
-							(int)(scale * availableImageWidth), 
-							(int)(scale * availableImageHeight), 
-							BufferedImage.TYPE_INT_ARGB
+					imageProcessorResult = 
+						processImageClip(
+							RenderableUtil.getInstance(jasperReportsContext).getGraphics2DRenderable(renderer)
 							);
-
-					Graphics2D grx = bi.createGraphics();
-					try
-					{
-						grx.scale(scale, scale);
-						grx.clip(
-							new Rectangle(
-								0, 
-								0, 
-								availableImageWidth, 
-								availableImageHeight
-								)
-							);
-						
-						renderer.render(
-							jasperReportsContext,
-							grx, 
-							new Rectangle(
-								(int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - normalWidth)),
-								(int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - normalHeight)),
-								normalWidth, 
-								normalHeight
-								)
-							);
-					}
-					finally
-					{
-						grx.dispose();
-					}
-
-					imageData = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG);
-
+	
 					break;
 				}
 				case FILL_FRAME:
 				{
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
+					imageProcessorResult = 
+						processImageFillFrame(
+							RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-								);
-					}
-
-					imageData = renderer.getImageData(jasperReportsContext);
-
+								)
+							);
+	
 					break;
 				}
 				case RETAIN_SHAPE:
 				default:
 				{
-					int normalWidth = availableImageWidth;
-					int normalHeight = availableImageHeight;
-		
-					Dimension2D dimension = renderer.getDimension(jasperReportsContext);
-					if (dimension != null)
-					{
-						normalWidth = (int) dimension.getWidth();
-						normalHeight = (int) dimension.getHeight();
-					}
-
-					double ratio = (double) normalWidth / (double) normalHeight;
-					
-					if (ratio > (double) availableImageWidth / (double) availableImageHeight)
-					{
-						normalWidth = availableImageWidth;
-						normalHeight = (int) (availableImageWidth / ratio);
-					}
-					else
-					{
-						normalWidth = (int) (availableImageHeight * ratio);
-						normalHeight = availableImageHeight;
-					}
-
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
+					imageProcessorResult = 
+						processImageRetainShape(
+							RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-								);
-					}
-
-					imageData = renderer.getImageData(jasperReportsContext);
-
+								)
+							);
+	
 					break;
 				}
+			}			
+			return imageProcessorResult;
+		}
+
+		private InternalImageProcessorResult processImageClip(Graphics2DRenderable renderer) throws JRException
+		{
+			int normalWidth = availableImageWidth;
+			int normalHeight = availableImageHeight;
+
+			Dimension2D dimension = 
+				renderer instanceof DimensionRenderable 
+				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext)
+				: null;
+			if (dimension != null)
+			{
+				normalWidth = (int) dimension.getWidth();
+				normalHeight = (int) dimension.getHeight();
 			}
+
+			int dpi = getPropertiesUtil().getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
+			double scale = dpi/72d;
 			
-			return new InternalImageProcessorResult(imageData);
+			BufferedImage bi = 
+				new BufferedImage(
+					(int)(scale * availableImageWidth), 
+					(int)(scale * availableImageHeight), 
+					BufferedImage.TYPE_INT_ARGB
+					);
+
+			Graphics2D grx = bi.createGraphics();
+			try
+			{
+				grx.scale(scale, scale);
+				grx.clip(
+					new Rectangle(
+						0, 
+						0, 
+						availableImageWidth, 
+						availableImageHeight
+						)
+					);
+				
+				renderer.render(
+					jasperReportsContext,
+					grx, 
+					new Rectangle(
+						(int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - normalWidth)),
+						(int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - normalHeight)),
+						normalWidth, 
+						normalHeight
+						)
+					);
+			}
+			finally
+			{
+				grx.dispose();
+			}
+
+			return 
+				new InternalImageProcessorResult(
+					JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG)
+					);
+		}
+
+		private InternalImageProcessorResult processImageFillFrame(ImageRenderable renderer) throws JRException
+		{
+			return 
+				new InternalImageProcessorResult(
+					renderer.getImageData(jasperReportsContext)
+					);
+		}
+
+		private InternalImageProcessorResult processImageRetainShape(ImageRenderable renderer) throws JRException
+		{
+			int normalWidth = availableImageWidth;
+			int normalHeight = availableImageHeight;
+
+			Dimension2D dimension = 
+				renderer instanceof DimensionRenderable 
+				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext)
+				: null;
+			if (dimension != null)
+			{
+				normalWidth = (int) dimension.getWidth();
+				normalHeight = (int) dimension.getHeight();
+			}
+
+			double ratio = (double) normalWidth / (double) normalHeight;
+			
+			if (ratio > (double) availableImageWidth / (double) availableImageHeight)
+			{
+				normalWidth = availableImageWidth;
+				normalHeight = (int) (availableImageWidth / ratio);
+			}
+			else
+			{
+				normalWidth = (int) (availableImageHeight * ratio);
+				normalHeight = availableImageHeight;
+			}
+
+			return 
+				new InternalImageProcessorResult(
+					renderer.getImageData(jasperReportsContext)
+					);
 		}
 	}
 

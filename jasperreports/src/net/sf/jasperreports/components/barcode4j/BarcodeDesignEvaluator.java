@@ -30,8 +30,8 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 

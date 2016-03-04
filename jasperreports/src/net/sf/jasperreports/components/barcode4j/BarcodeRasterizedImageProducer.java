@@ -33,8 +33,8 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.renderers.ImageRenderer;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 

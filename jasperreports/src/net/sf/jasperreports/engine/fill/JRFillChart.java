@@ -109,7 +109,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.base.JRBaseChart;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -117,6 +116,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.renderers.Renderable;
 
 
 /**
@@ -339,9 +339,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluateStyle(
 		byte evaluation
 		) throws JRException
@@ -358,157 +356,117 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowLegend()
 	{
 		return ((JRChart)parent).getShowLegend();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setShowLegend(Boolean isShowLegend)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getRenderType()
 	{
 		return renderType;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRenderType(String renderType)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getTheme()
 	{
 		return themeName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTheme(String theme)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return ((JRChart)parent).getEvaluationTimeValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return evaluationGroup;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox == null ? initLineBox : lineBox;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getTitleFont()
 	{
 		return titleFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EdgeEnum getTitlePositionValue()
 	{
 		return ((JRChart)parent).getTitlePositionValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTitlePosition(EdgeEnum titlePosition)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTitleColor()
 	{
 		return getStyleResolver().getTitleColor(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnTitleColor()
 	{
 		return ((JRChart)parent).getOwnTitleColor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTitleColor(Color titleColor)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getSubtitleFont()
 	{
 		return subtitleFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnSubtitleColor()
 	{
 		return ((JRChart)parent).getOwnSubtitleColor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getSubtitleColor()
 	{
 		return getStyleResolver().getSubtitleColor(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setSubtitleColor(Color subtitleColor)
 	{
 	}
@@ -518,6 +476,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 * @return the color to use for text in the legend
 	 */
+	@Override
 	public Color getOwnLegendColor()
 	{
 		return ((JRChart)parent).getOwnLegendColor();
@@ -528,6 +487,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 * @return the color to use for text in the legend
 	 */
+	@Override
 	public Color getLegendColor()
 	{
 		return getStyleResolver().getLegendColor(this);
@@ -538,6 +498,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 * @param legendColor the color to use for text in the legend
 	 */
+	@Override
 	public void setLegendColor(Color legendColor)
 	{
 	}
@@ -547,6 +508,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 * @return the color to use as the background of the legend
 	 */
+	@Override
 	public Color getOwnLegendBackgroundColor()
 	{
 		return ((JRChart)parent).getOwnLegendBackgroundColor();
@@ -557,6 +519,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 * @return the color to use as the background of the legend
 	 */
+	@Override
 	public Color getLegendBackgroundColor()
 	{
 		return getStyleResolver().getLegendBackgroundColor(this);
@@ -567,6 +530,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 * @param legendBackgroundColor the color to use for the background of the legend
 	 */
+	@Override
 	public void setLegendBackgroundColor(Color legendBackgroundColor)
 	{
 	}
@@ -576,38 +540,31 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 *
 	 * @return the font to use in the legend
 	 */
+	@Override
 	public JRFont getLegendFont()
 	{
 		return legendFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EdgeEnum getLegendPositionValue()
 	{
 		return ((JRChart)parent).getLegendPositionValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLegendPosition(EdgeEnum legendPosition)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTitleExpression()
 	{
 		return ((JRChart)parent).getTitleExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSubtitleExpression()
 	{
 		return ((JRChart)parent).getSubtitleExpression();
@@ -621,57 +578,43 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return getHyperlinkTypeValue().getValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return ((JRChart)parent).getHyperlinkTypeValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return ((JRChart)parent).getHyperlinkTarget();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return ((JRChart)parent).getAnchorNameExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return ((JRChart)parent).getHyperlinkReferenceExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return ((JRChart)parent).getHyperlinkWhenExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return ((JRChart)parent).getHyperlinkAnchorExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return ((JRChart)parent).getHyperlinkPageExpression();
@@ -691,9 +634,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return filler.getTimeZone();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChartDataset getDataset()
 	{
 		return dataset;
@@ -707,9 +648,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		this.dataset = dataset;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChartPlot getPlot()
 	{
 		return plot;
@@ -760,9 +699,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return hyperlinkTooltip;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
@@ -777,6 +714,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return (JRTemplateImage) getElementTemplate();
 	}
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		return new JRTemplateImage(getElementOrigin(), 
@@ -784,17 +722,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void rewind()
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(byte evaluation) throws JRException
 	{
 		reset();
@@ -873,9 +807,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected boolean prepare(
 		int availableHeight,
 		boolean isOverflow
@@ -973,9 +905,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill()
 	{
 		JRTemplatePrintImage printImage = new JRTemplatePrintImage(getJRTemplateImage(), printElementOriginator);
@@ -1006,7 +936,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void copy(JRPrintImage printImage)
 	{
-		printImage.setRenderable(getRenderable());
+		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
 		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
 		{
@@ -1028,21 +958,21 @@ public class JRFillChart extends JRFillElement implements JRChart
 		transferProperties(printImage);
 	}
 
+	@Override
 	public byte getChartType()
 	{
 		return chartType;
 	}
 
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitChart(this);
@@ -1411,6 +1341,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				: AxisLocation.TOP_OR_LEFT;
 	}
 	
+	@Override
 	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		evaluateRenderer(evaluation);
@@ -1420,14 +1351,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return ((JRChart)parent).getBookmarkLevel();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getCustomizerClass()
 	{
 		return customizerClass;
@@ -1440,6 +1370,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		//not needed
@@ -1447,23 +1378,27 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		return ((JRChart) parent).getHyperlinkParameters();
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return ((JRChart) parent).getLinkType();
 	}
 
+	@Override
 	public String getLinkTarget()
 	{
 		return ((JRChart) parent).getLinkTarget();
 	}
 
 
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return ((JRChart) parent).getHyperlinkTooltipExpression();
@@ -1480,35 +1415,43 @@ public class JRFillChart extends JRFillElement implements JRChart
 			JRFillChart.this.filler.getJasperReportsContext();
 		}
 		
+		@Override
 		public JasperReportsContext getJasperReportsContext()
 		{
 			return JRFillChart.this.filler.getJasperReportsContext();
 		}
 		
+		@Override
 		public String evaluateTextExpression(JRExpression expression) throws JRException {
 			return JRStringUtil.getString(JRFillChart.this.evaluateExpression(expression, evaluation));
 		}
 
+		@Override
 		public Object evaluateExpression(JRExpression expression) throws JRException {
 			return JRFillChart.this.evaluateExpression(expression, evaluation);
 		}
 
+		@Override
 		public JRChart getChart() {
 			return JRFillChart.this;
 		}
 
+		@Override
 		public Dataset getDataset() {
 			return ((JRFillChartDataset)JRFillChart.this.getDataset()).getDataset();
 		}
 
+		@Override
 		public Object getLabelGenerator() {
 			return ((JRFillChartDataset)JRFillChart.this.getDataset()).getLabelGenerator();
 		}
 
+		@Override
 		public Locale getLocale() {
 			return JRFillChart.this.getLocale();
 		}
 
+		@Override
 		public TimeZone getTimeZone() {
 			return JRFillChart.this.getTimeZone();
 		}

@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -57,10 +60,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
@@ -73,7 +73,6 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -82,11 +81,12 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
 import net.sf.jasperreports.export.PptxReportConfiguration;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -991,7 +991,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		Renderable renderer = image.getRenderable();
+		Renderable renderer = image.getRenderer();
 
 		if (
 			renderer != null
@@ -1352,7 +1352,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				dimension = renderer.getDimension(jasperReportsContext);
+				dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
 			}
 			
 			
@@ -1365,7 +1365,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //			else
 //			{
 				if (
-					renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
+					renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
@@ -1375,17 +1375,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				{
 					JRPrintElementIndex imageIndex = getElementIndex();
 
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
+					ImageRenderable imageRenderer = 
+							RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								);
-					}
-					
-					String mimeType = renderer.getImageTypeValue().getMimeType();//FIXMEEXPORT this code for file extension is duplicated; is it now?
+
+					String mimeType = imageRenderer.getImageType().getMimeType();//FIXMEEXPORT this code for file extension is duplicated; is it now?
 					if (mimeType == null)
 					{
 						mimeType = ImageTypeEnum.JPEG.getMimeType();
@@ -1396,7 +1393,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
 							"ppt/media/" + imageName,
-							renderer.getImageData(jasperReportsContext)
+							imageRenderer.getImageData(jasperReportsContext)
 							)
 						);
 					
@@ -1405,9 +1402,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
 
-					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+					if (imageRenderer == renderer)
 					{
-						//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
 						rendererToImagePathMap.put(renderer.getId(), imagePath);
 					}
 				}

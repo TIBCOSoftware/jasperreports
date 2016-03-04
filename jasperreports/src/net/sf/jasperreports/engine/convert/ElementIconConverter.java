@@ -72,7 +72,7 @@ public class ElementIconConverter extends ElementConverter
 		printImage.getLineBox().setPadding(3);
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		
-		printImage.setRenderable(ResourceRenderer.getInstance(iconLocation, false));
+		printImage.setRenderer(ResourceRenderer.getInstance(iconLocation, false));
 		
 		return printImage;
 	}

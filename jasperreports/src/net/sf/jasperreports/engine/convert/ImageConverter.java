@@ -82,7 +82,7 @@ public final class ImageConverter extends ElementConverter
 		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
 		printImage.setVerticalImageAlign(image.getOwnVerticalImageAlign());
 		
-		printImage.setRenderable(
+		printImage.setRenderer(
 			ResourceRenderer.getInstance(
 				JRExpressionUtil.getSimpleExpressionText(image.getExpression()),
 				image.isLazy()

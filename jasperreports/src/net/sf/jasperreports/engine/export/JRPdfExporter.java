@@ -88,9 +88,6 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.DimensionRenderable;
-import net.sf.jasperreports.engine.Graphics2DRenderable;
-import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
@@ -114,9 +111,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
-import net.sf.jasperreports.engine.SvgRenderable;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFace;
@@ -147,9 +141,15 @@ import net.sf.jasperreports.export.type.PdfPermissionsEnum;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
 import net.sf.jasperreports.renderers.SvgDataRenderer;
+import net.sf.jasperreports.renderers.SvgRenderable;
 import net.sf.jasperreports.renderers.WrappingImageToGraphics2DRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -284,7 +284,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * available in the SVG implementation itself.
  * <p/>
  * In JasperReports, SVG elements are rendered using 
- * {@link net.sf.jasperreports.engine.Renderable} implementations,
+ * {@link net.sf.jasperreports.renderers.Renderable} implementations,
  * which are most likely subclasses of the {@link net.sf.jasperreports.renderers.AbstractRenderToImageRenderer} 
  * class. SVG renderer implementations should be concerned only with
  * implementing the 
@@ -1465,7 +1465,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		InternalImageProcessor imageProcessor =
 			new InternalImageProcessor(printImage);
 		
-		Renderable renderer = printImage.getRenderable();
+		Renderable renderer = printImage.getRenderer();
 
 		if (
 			renderer != null 

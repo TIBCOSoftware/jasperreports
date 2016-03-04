@@ -30,13 +30,13 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 
@@ -141,7 +141,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 	{
 		if (renderable != null)
 		{
-			image.setRenderable(renderable);
+			image.setRenderer(renderable);
 		}
 	}
 

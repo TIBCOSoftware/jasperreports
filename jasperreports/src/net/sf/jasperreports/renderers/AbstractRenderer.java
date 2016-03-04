@@ -24,7 +24,6 @@
 package net.sf.jasperreports.renderers;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.Renderable;
 
 
 /**

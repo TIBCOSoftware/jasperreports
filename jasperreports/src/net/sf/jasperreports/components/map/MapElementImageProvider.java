@@ -31,14 +31,14 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -188,23 +188,24 @@ public class MapElementImageProvider
 		printImage.setHorizontalImageAlign(HorizontalImageAlignEnum.LEFT);
 		printImage.setVerticalImageAlign(VerticalImageAlignEnum.TOP);
 		
-		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapComponent.PARAMETER_CACHE_RENDERER);
-
-		OnErrorTypeEnum onErrorType = element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE) == null 
-				? MapComponent.DEFAULT_ON_ERROR_TYPE  
-				: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
+		OnErrorTypeEnum onErrorType = 
+			element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE) == null 
+			? MapComponent.DEFAULT_ON_ERROR_TYPE  
+			: OnErrorTypeEnum.getByName((String)element.getParameterValue(MapComponent.PARAMETER_ON_ERROR_TYPE));
 		printImage.setOnErrorType(onErrorType);
 		
+		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapComponent.PARAMETER_CACHE_RENDERER);
+
 		if (cacheRenderer == null)
 		{
 			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
-			if (cacheRenderer != null){
-				cacheRenderer.getImageData(jasperReportsContext);
+			if (cacheRenderer != null)
+			{
 				element.setParameterValue(MapComponent.PARAMETER_CACHE_RENDERER, cacheRenderer);
 			}
 		}
 
-		printImage.setRenderable(cacheRenderer);
+		printImage.setRenderer(cacheRenderer);
 		
 		return printImage;
 	}

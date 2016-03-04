@@ -23,11 +23,11 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import org.krysalis.barcode4j.BarcodeGenerator;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-
-import org.krysalis.barcode4j.BarcodeGenerator;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 

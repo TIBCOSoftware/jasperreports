@@ -71,14 +71,11 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.PrintParts;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -86,7 +83,6 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
@@ -100,8 +96,12 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.XmlExporterOutput;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.SvgRenderable;
 
 
 /**
@@ -804,7 +804,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalImageAlign());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalImageAlign());
 		
-		Renderable renderer = image.getRenderable();
+		Renderable renderer = image.getRenderer();
 		boolean isLazy = RenderableUtil.isLazy(renderer);
 
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, isLazy, false);
@@ -859,7 +859,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 
 				if (
 					!isEmbeddingImages //we do not cache imageSource for embedded images because it is too big
-					&& renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imageSource for SVG images because they render width different width/height each time
+					&& renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
@@ -869,19 +869,27 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 				{
 					if (isEmbeddingImages)
 					{
-						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
+						byte[] imageData = null;
+
+						if (renderer instanceof SvgRenderable)
 						{
-							renderer = 
-								new JRWrappingSvgRenderer(
-									renderer, 
+							imageData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
+						}
+						else
+						{
+							ImageRenderable imageRenderer = 
+								RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+									renderer,
 									new Dimension(image.getWidth(), image.getHeight()),
 									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 									);
+
+							imageData = imageRenderer.getImageData(jasperReportsContext);
 						}
 							
 						try
 						{
-							ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
+							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
 							
 							Base64Encoder encoder = new Base64Encoder(bais, baos);
@@ -908,23 +916,20 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 						{
 							String imageName = IMAGE_PREFIX + getNextImageId();
 							
-							if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-							{
-								renderer = 
-									new JRWrappingSvgRenderer(
-										renderer, 
-										new Dimension(image.getWidth(), image.getHeight()),
-										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-										);
-							}
-								
-							imageHandler.handleResource(imageName, renderer.getImageData(jasperReportsContext));
+							ImageRenderable imageRenderer = 
+								RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+									renderer,
+									new Dimension(image.getWidth(), image.getHeight()),
+									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+									);
+
+							imageHandler.handleResource(imageName, imageRenderer.getImageData(jasperReportsContext));
 							
 							imageSource = imageHandler.getResourceSource(imageName);
 
-							if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+							if (imageRenderer == renderer)
 							{
-								//cache imageSource only for IMAGE renderers because the SVG ones render with different width/height each time
+								//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
 								rendererToImagePathMap.put(renderer.getId(), imageSource);
 							}
 						}

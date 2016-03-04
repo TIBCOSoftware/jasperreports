@@ -23,8 +23,8 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.DimensionRenderable;
 import net.sf.jasperreports.engine.JRImage;
+import net.sf.jasperreports.renderers.DimensionRenderable;
 
 
 /**

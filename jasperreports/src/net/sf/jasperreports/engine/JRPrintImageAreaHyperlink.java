@@ -25,12 +25,14 @@ package net.sf.jasperreports.engine;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
+
 
 /**
  * A component of an image map.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see ImageMapRenderable
+ * @see AreaHyperlinksRenderable
  */
 public class JRPrintImageAreaHyperlink implements Serializable
 {

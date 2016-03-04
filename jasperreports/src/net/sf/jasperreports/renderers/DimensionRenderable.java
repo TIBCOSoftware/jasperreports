@@ -28,19 +28,21 @@
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.renderers;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Dimension2D;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface Graphics2DRenderable // does not need to extend DimensionRenderable because some renderers, such as the JFreeChart renderer, can accommodate any dimension
+public interface DimensionRenderable
 {
 	/**
 	 *
 	 */
-	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException;
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException;
 }

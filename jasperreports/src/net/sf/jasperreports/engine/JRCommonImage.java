@@ -82,7 +82,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
  * fill time. For images that use image files as sources, the image size will always be
  * known. For images that use other type of renderers, the image size is determined by
  * calling the <code>getDimension()</code> method on the image renderer object, which is an instance
- * of a class that implements {@link net.sf.jasperreports.engine.Renderable}. If the
+ * of a class that implements {@link net.sf.jasperreports.renderers.Renderable}. If the
  * method returns a null dimension, the actual image size will not be known and the image
  * will not stretch, but will render inside the area given by the design image width and
  * height.
@@ -112,7 +112,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
  * always be at least as tall as the design image element, its height can only be increased
  * when the report is filled.
  * 
- * @see net.sf.jasperreports.engine.Renderable
+ * @see net.sf.jasperreports.renderers.Renderable
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public interface JRCommonImage extends JRCommonGraphicElement, JRBoxContainer

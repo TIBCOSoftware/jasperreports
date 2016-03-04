@@ -61,12 +61,9 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
@@ -93,7 +90,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -103,6 +99,10 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.export.XlsxExporterConfiguration;
 import net.sf.jasperreports.export.XlsxReportConfiguration;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
@@ -885,7 +885,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 
-		Renderable renderer = image.getRenderable();
+		Renderable renderer = image.getRenderer();
 
 		if (
 			renderer != null
@@ -1224,7 +1224,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				dimension = renderer.getDimension(jasperReportsContext);
+				dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
 			}
 			
 			
@@ -1236,7 +1236,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 //			}
 //			else
 //			{
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+				if (
+					renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
+					&& rendererToImagePathMap.containsKey(renderer.getId())
+					)
 				{
 					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
@@ -1244,17 +1247,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				{
 					JRPrintElementIndex imageIndex = getElementIndex(cell);
 
-					if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-					{
-						renderer =
-							new JRWrappingSvgRenderer(
-								renderer,
-								new Dimension(availableImageWidth, availableImageHeight),
-								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-								);
-					}
+					ImageRenderable imageRenderer = 
+						RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+							renderer,
+							new Dimension(availableImageWidth, availableImageHeight),
+							ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+							);
 
-					String mimeType = renderer.getImageTypeValue().getMimeType();//FIXMEPPTX this code for file extension is duplicated
+					String mimeType = imageRenderer.getImageType().getMimeType();//FIXMEPPTX this code for file extension is duplicated
 					if (mimeType == null)
 					{
 						mimeType = ImageTypeEnum.JPEG.getMimeType();
@@ -1265,7 +1265,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
 							"xl/media/" + imageName,
-							renderer.getImageData(jasperReportsContext)
+							imageRenderer.getImageData(jasperReportsContext)
 							)
 						);
 					
@@ -1274,9 +1274,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
 	
-					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+					if (imageRenderer == renderer)
 					{
-						//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+						//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
 						rendererToImagePathMap.put(renderer.getId(), imagePath);
 					}
 				}

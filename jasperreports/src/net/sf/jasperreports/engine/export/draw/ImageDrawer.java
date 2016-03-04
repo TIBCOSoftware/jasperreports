@@ -39,10 +39,12 @@ import java.awt.geom.Dimension2D;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
 
@@ -101,7 +103,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				offsetY
 				);
 		
-		Renderable renderer = printImage.getRenderable();
+		Renderable renderer = printImage.getRenderer();
 		
 		if (
 			renderer != null 
@@ -192,35 +194,40 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
+			Graphics2DRenderable grxRenderer = RenderableUtil.getInstance(getJasperReportsContext()).getGraphics2DRenderable(renderer);
+			
 			switch (printImage.getScaleImageValue())
 			{
 				case CLIP :
 				{
-					drawClip(grx, renderer);
+					drawClip(grx, grxRenderer);
 					break;
 				}
 				case FILL_FRAME :
 				{
-					drawFillFrame(grx, renderer);
+					drawFillFrame(grx, grxRenderer);
 					break;
 				}
 				case RETAIN_SHAPE :
 				default :
 				{
-					drawRetainShape(grx, renderer);
+					drawRetainShape(grx, grxRenderer);
 				}
 			}
 		}
 
 		private void drawClip(
 			Graphics2D grx,
-			Renderable renderer
+			Graphics2DRenderable renderer
 			) throws JRException
 		{
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
+			Dimension2D dimension = 
+				renderer instanceof DimensionRenderable 
+				? ((DimensionRenderable)renderer).getDimension(getJasperReportsContext())
+				: null;
 			if (dimension != null)
 			{
 				normalWidth = (int)dimension.getWidth();
@@ -266,7 +273,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		 */
 		private void drawFillFrame(
 			Graphics2D grx,
-			Renderable renderer
+			Graphics2DRenderable renderer
 			) throws JRException
 		{
 			renderer.render(
@@ -287,13 +294,16 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		 */
 		private void drawRetainShape(
 			Graphics2D grx,
-			Renderable renderer
+			Graphics2DRenderable renderer
 			) throws JRException
 		{
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
+			Dimension2D dimension = 
+				renderer instanceof DimensionRenderable 
+				? ((DimensionRenderable)renderer).getDimension(getJasperReportsContext())
+				: null;
 			if (dimension != null)
 			{
 				normalWidth = (int)dimension.getWidth();

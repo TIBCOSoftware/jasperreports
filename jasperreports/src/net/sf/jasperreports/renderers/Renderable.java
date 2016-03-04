@@ -28,18 +28,25 @@
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.renderers;
 
-import java.awt.geom.Dimension2D;
+import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface DimensionRenderable
+public interface Renderable extends Serializable
 {
+	/**
+	 * Specifies the image resolution in dots-per-inch, for the images created by the engine when rasterizing SVGs or when clipping other renderers.
+	 */
+	public static final String PROPERTY_IMAGE_DPI = JRPropertiesUtil.PROPERTY_PREFIX + "image.dpi";
+
 	/**
 	 *
 	 */
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException;
+	public String getId();
 }

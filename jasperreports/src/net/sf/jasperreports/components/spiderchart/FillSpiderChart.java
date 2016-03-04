@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
@@ -48,6 +47,7 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.renderers.Renderable;
 
 
 /**
@@ -98,6 +98,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		return chartComponent.getEvaluationTime() == EvaluationTimeEnum.NOW;
 	}
 	
+	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
 		if (isEvaluateNow())
@@ -170,6 +171,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	}
 
 
+	@Override
 	public JRPrintElement fill()
 	{
 		JRComponentElement element = fillContext.getComponentElement();
@@ -201,16 +203,19 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		return image;
 	}
 
+	@Override
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		return FillPrepareResult.PRINT_NO_STRETCH;
 	}
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void evaluateDelayedElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		evaluateRenderer(evaluation);
@@ -220,7 +225,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 	protected void copy(JRPrintImage printImage)
 	{
-		printImage.setRenderable(getRenderable());
+		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
 		if (getChartSettings().getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
 		{

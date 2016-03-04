@@ -106,7 +106,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  * <li><code>java.io.InputStream</code></li>
  * <li><code>java.net.URL</code></li>
  * <li><code>java.awt.Image</code></li>
- * <li><code>{@link net.sf.jasperreports.engine.Renderable}</code></li>
+ * <li><code>{@link net.sf.jasperreports.renderers.Renderable}</code></li>
  * </ul>
  * When the image expression returns a <code>java.lang.String</code> value, the engine tries to see whether
  * the value represents a URL from which to load the image. If it is not a valid URL representation, it tries to locate a

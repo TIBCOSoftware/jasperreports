@@ -23,57 +23,35 @@
  */
 package net.sf.jasperreports.renderers;
 
-import net.sf.jasperreports.engine.JRConstants;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 
 /**
+ * Image renderer able to produce image maps.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ResourceRenderer extends AbstractRenderer
+public interface AreaHyperlinksRenderable
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	private final String resourceLocation;
-	private final boolean isLazy;
-	
-	/**
-	 *
-	 */
-	protected ResourceRenderer(
-		String resourceLocation,
-		boolean isLazy
-		)
-	{
-		this.resourceLocation = resourceLocation;
-		this.isLazy = isLazy;
-	}
 
 	/**
+	 * Returns the list of {@link JRPrintImageAreaHyperlink image map areas}.
 	 *
+	 * @param renderingArea the area on which the image would be rendered
+	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
+	 * @throws JRException
 	 */
-	public static ResourceRenderer getInstance(String resourceLocation, boolean isLazy)
-	{
-		if (resourceLocation == null)
-		{
-			return null;
-		}
-		
-		return new ResourceRenderer(resourceLocation, isLazy);
-	}
+	List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException;
 
 	/**
-	 *
+	 * Indicates whether the renderer actually includes any image map areas.
+	 * 
+	 * @return whether the renderer actually includes any image map areas
 	 */
-	public String getResourceLocation()
-	{
-		return resourceLocation;
-	}
+	boolean hasImageAreaHyperlinks();
 
-	/**
-	 *
-	 */
-	public boolean isLazy()
-	{
-		return isLazy;
-	}
 }

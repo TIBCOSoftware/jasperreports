@@ -23,21 +23,14 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
-import org.apache.batik.bridge.UserAgent;
-import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -45,16 +38,14 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.renderers.BatikUserAgent;
-import net.sf.jasperreports.renderers.ImageRenderer;
+import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.SvgDataRenderer;
-import net.sf.jasperreports.renderers.WrappingRenderToImageRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.renderers.RenderableUtil}.
  */
 public class RenderableUtil
 {
@@ -62,10 +53,7 @@ public class RenderableUtil
 	private static final Log log = LogFactory.getLog(RenderableUtil.class);
 	
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_ERROR = "engine.renderable.util.image.error";
-	public static final String EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE = "engine.renderable.must.implement.interface";
 	
-	public static final Renderable NO_IMAGE_RENDERER = ResourceRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE, false);//FIXMEIMAGE consider moving constant from loader to here 
-
 	/**
 	 *
 	 */
@@ -92,44 +80,9 @@ public class RenderableUtil
 	/**
 	 *
 	 */
-	public Renderable getRenderable(byte[] data)
+	public Renderable getRenderable(byte[] imageData)
 	{
-		if (isSvgData(data))
-		{
-			return SvgDataRenderer.getInstance(data);
-		}
-		else
-		{
-			return ImageRenderer.getInstance(data);
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	public boolean isSvgData(byte[] data)
-	{
-		UserAgent userAgent = new BatikUserAgent(jasperReportsContext);
-		
-		SVGDocumentFactory documentFactory =
-			new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
-		documentFactory.setValidating(userAgent.isXMLParserValidating());
-
-		try
-		{
-			//SVGDocument document = 
-				documentFactory.createSVGDocument(
-					null,
-					new ByteArrayInputStream(data)
-					);
-		}
-		catch (IOException e)
-		{
-			return false;
-		}
-		
-		return true;
+		return new JRImageRenderer(imageData);
 	}
 
 
@@ -188,31 +141,6 @@ public class RenderableUtil
 	/**
 	 *
 	 */
-	public Renderable getNonLazyRenderable(String resourceLocation, OnErrorTypeEnum onErrorType) throws JRException
-	{
-		byte[] data;
-
-		try
-		{
-			data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(resourceLocation);
-		}
-		catch (Exception e)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("handled image error with type " + onErrorType + " for location " + resourceLocation, e);
-			}
-			
-			return handleImageError(e, onErrorType); 
-		}
-		
-		return getRenderable(data);
-	}
-
-	
-	/**
-	 *
-	 */
 	public Renderable getRenderable(Image img, OnErrorTypeEnum onErrorType) throws JRException
 	{
 		ImageTypeEnum type = ImageTypeEnum.JPEG;
@@ -242,21 +170,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(Image image, ImageTypeEnum imageType, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		byte[] data = null;
+		Renderable result;
 		try
 		{
-			data = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType);
+			result = new JRImageRenderer(JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType));
 		}
 		catch (Exception e)
 		{
+			result = handleImageError(e, onErrorType);
+			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType, e);
 			}
-
-			return handleImageError(e, onErrorType);
 		}
-		return getRenderable(data);
+		return result;
 	}
 
 
@@ -265,21 +193,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(InputStream is, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		byte[] data = null;
+		Renderable result;
 		try
 		{
-			data = JRLoader.loadBytes(is);
+			result = new JRImageRenderer(JRLoader.loadBytes(is));
 		}
 		catch (Exception e)
 		{
+			result = handleImageError(e, onErrorType); 
+			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType, e);
 			}
-
-			return handleImageError(e, onErrorType); 
 		}
-		return getRenderable(data);
+		return result;
 	}
 
 
@@ -288,21 +216,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(URL url, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		byte[] data = null;
+		Renderable result;
 		try
 		{
-			data = JRLoader.loadBytes(url);
+			result = new JRImageRenderer(JRLoader.loadBytes(url));
 		}
 		catch (Exception e)
 		{
+			result = handleImageError(e, onErrorType); 
+			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType + " for URL " + url, e);
 			}
-
-			return handleImageError(e, onErrorType); 
 		}
-		return getRenderable(data);
+		return result;
 	}
 
 
@@ -311,21 +239,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(File file, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		byte[] data = null;
+		Renderable result;
 		try
 		{
-			data = JRLoader.loadBytes(file);
+			result = new JRImageRenderer(JRLoader.loadBytes(file));
 		}
 		catch (Exception e)
 		{
+			result = handleImageError(e, onErrorType); 
+			
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType + " for file " + file, e);
 			}
-
-			return handleImageError(e, onErrorType); 
 		}
-		return getRenderable(data);
+		return result;
 	}
 
 
@@ -347,6 +275,32 @@ public class RenderableUtil
 			if (log.isDebugEnabled())
 			{
 				log.debug("handled image error with type " + onErrorType, e);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	public net.sf.jasperreports.renderers.Renderable getOnErrorRendererForDimension(net.sf.jasperreports.renderers.Renderable renderer, OnErrorTypeEnum onErrorType) throws JRException
+	{
+		net.sf.jasperreports.renderers.Renderable result = null;
+		if (renderer instanceof DimensionRenderable)
+		{
+			try
+			{
+				((DimensionRenderable)renderer).getDimension(jasperReportsContext);
+				result = renderer;
+			}
+			catch (Exception e)
+			{
+				result = handleImageError(e, onErrorType);
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug("handled image error with type " + onErrorType, e);
+				}
 			}
 		}
 		return result;
@@ -406,15 +360,11 @@ public class RenderableUtil
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_IMAGE_ERROR,
 					(Object[])null,
-					error
-					);
+					error);
 		}
 		return errorRenderable;
 	}
 
-	/**
-	 *
-	 */
 	public Renderable getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
 	{
 		Renderable renderer = null;
@@ -423,7 +373,8 @@ public class RenderableUtil
 		{
 			case ICON :
 			{
-				renderer = NO_IMAGE_RENDERER;
+				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
+				//FIXME cache these renderers
 				break;
 			}
 			case BLANK :
@@ -440,9 +391,6 @@ public class RenderableUtil
 		return renderer;
 	}
 
-	/**
-	 *
-	 */
 	public Renderable getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRRuntimeException e) throws JRRuntimeException
 	{
 		Renderable renderer = null;
@@ -451,7 +399,8 @@ public class RenderableUtil
 		{
 			case ICON :
 			{
-				renderer = NO_IMAGE_RENDERER;
+				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
+				//FIXME cache these renderers
 				break;
 			}
 			case BLANK :
@@ -502,119 +451,5 @@ public class RenderableUtil
 			}
 		}
 		return renderable;
-	}
-
-
-	/**
-	 *
-	 */
-	public static boolean isLazy(Renderable renderer)
-	{
-		boolean isLazy = false;
-
-		if (renderer instanceof ResourceRenderer)
-		{
-			isLazy = ((ResourceRenderer)renderer).isLazy();
-		}
-		else if (renderer != null)
-		{
-			@SuppressWarnings("deprecation")
-			Class<?> depClass = net.sf.jasperreports.engine.JRImageRenderer.class;
-			if (depClass.equals(renderer.getClass()))
-			{
-				@SuppressWarnings("deprecation")
-				net.sf.jasperreports.engine.JRImageRenderer depRenderer = (net.sf.jasperreports.engine.JRImageRenderer)renderer;
-				@SuppressWarnings("deprecation")
-				String depImageLocation = depRenderer.getImageLocation();
-				isLazy = depImageLocation != null;
-			}
-		}
-		
-		return isLazy;
-	}
-
-
-	/**
-	 *
-	 */
-	public static String getResourceLocation(Renderable renderer)
-	{
-		String resourceLocation = null;
-
-		if (renderer instanceof ResourceRenderer)
-		{
-			resourceLocation = ((ResourceRenderer)renderer).getResourceLocation();
-		}
-		else if (renderer != null)
-		{
-			@SuppressWarnings("deprecation")
-			Class<?> depClass = net.sf.jasperreports.engine.JRImageRenderer.class;
-			if (depClass.equals(renderer.getClass()))
-			{
-				@SuppressWarnings("deprecation")
-				net.sf.jasperreports.engine.JRImageRenderer depRenderer = (net.sf.jasperreports.engine.JRImageRenderer)renderer;
-				@SuppressWarnings("deprecation")
-				String depImageLocation = depRenderer.getImageLocation();
-				resourceLocation = depImageLocation;
-			}
-		}
-		
-		return resourceLocation;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public ImageRenderable getImageRenderable(
-		Renderable renderer, 
-		Dimension dimension, 
-		Color backcolor
-		) throws JRException
-	{
-		ImageRenderable imageRenderer = null;
-		
-		if (renderer != null)
-		{
-			if (renderer instanceof ImageRenderable)
-			{
-				imageRenderer = (ImageRenderable)renderer;
-			}
-			else
-			{
-				Graphics2DRenderable grxRenderer = null;
-				
-				if (renderer instanceof Graphics2DRenderable)
-				{
-					grxRenderer = (Graphics2DRenderable)renderer;
-				}
-				else if (renderer instanceof SvgRenderable)
-				{
-					grxRenderer = SvgDataRenderer.getInstance(((SvgRenderable)renderer).getSvgData(jasperReportsContext));
-				}
-				else
-				{
-					throw 
-						new JRException(
-							EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
-							new Object[]{
-								renderer.getClass().getName(),
-								ImageRenderable.class.getName() 
-									+ ", " + Graphics2DRenderable.class.getName() 
-									+ " or " + SvgRenderable.class.getName()
-								}
-							);
-				}
-
-				imageRenderer =
-					new WrappingRenderToImageRenderer(
-						grxRenderer,
-						dimension,
-						backcolor
-						);
-			}
-		}
-			
-		return imageRenderer;
 	}
 }

@@ -43,9 +43,7 @@ import net.sf.jasperreports.engine.util.JRExpressionUtil;
 public class SpiderChartDesignConverter implements ComponentDesignConverter
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
 	{
 		SpiderChartComponent chartComponent = (SpiderChartComponent) element.getComponent();
@@ -76,7 +74,7 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 				null
 				);
 		
-		printImage.setRenderable(
+		printImage.setRenderer(
 			SpiderChartRendererEvaluator.evaluateRenderable(
 				reportConverter.getJasperReportsContext(),
 				element,

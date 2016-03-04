@@ -24,12 +24,8 @@
 package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.DimensionRenderable;
-import net.sf.jasperreports.engine.Graphics2DRenderable;
-import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -44,11 +40,11 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  * GIF, PNG, or can be a Scalable Vector Graphics (SVG) file that is rendered using some
  * business logic or a special graphics API like a charting or a barcode library. Either way,
  * JasperReports treats images in a very transparent way because it relies on a special
- * interface called {@link net.sf.jasperreports.engine.Renderable} to offer a common
+ * interface called {@link net.sf.jasperreports.renderers.Renderable} to offer a common
  * way to render images.
  * <p/>
- * The {@link net.sf.jasperreports.engine.Renderable} interface has a method called 
- * {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)},
+ * The {@link net.sf.jasperreports.renderers.Graphics2DRenderable} interface has a method called 
+ * {@link Graphics2DRenderable#render(JasperReportsContext, Graphics2D, Rectangle2D)},
  * which gets called by the engine each time it needs to draw the image
  * on a given device or graphic context. This approach provides the best quality for the
  * SVG images when they must be drawn on unknown devices or zoomed into without
@@ -59,7 +55,7 @@ import net.sf.jasperreports.engine.util.JRTypeSniffer;
  * in a separate file during export.
  * <p/>
  * The library comes with a default implementation for the 
- * {@link net.sf.jasperreports.engine.Renderable} interface that
+ * {@link net.sf.jasperreports.renderers.Renderable} interface that
  * wraps images that come from files or binary image data in JPG, GIF, or PNG format.
  * This is the {@link net.sf.jasperreports.renderers.ImageRenderer} class, which is actually a container
  * for the binary image data, used to load a <code>java.awt.Image</code> object from it.
@@ -128,51 +124,15 @@ public class ImageRenderer extends AbstractRenderer implements ImageRenderable
 
 
 	@Override
-	@SuppressWarnings("deprecation")
-	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
-	{
-		return net.sf.jasperreports.engine.type.RenderableTypeEnum.IMAGE;
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #getImageType()}.
-	 */
-	@Override
-	public ImageTypeEnum getImageTypeValue()
-	{
-		return getImageType();
-	}
-	
-
-	@Override
 	public ImageTypeEnum getImageType()
 	{
 		return imageType;
 	}
 	
 
-	/**
-	 * @deprecated Replaced by {@link DimensionRenderable#getDimension(JasperReportsContext)}.
-	 */
 	@Override
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException {
-		throw new UnsupportedOperationException();
-	}
-
-
-	@Override
-	@SuppressWarnings("deprecation")
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		return imageData;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link Graphics2DRenderable#render(JasperReportsContext, Graphics2D, Rectangle2D)}.
-	 */
-	@Override
-	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException {
-		throw new UnsupportedOperationException();
 	}
 }

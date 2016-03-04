@@ -37,7 +37,7 @@ import org.w3c.dom.Document;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.SvgTextRenderer;
 
 

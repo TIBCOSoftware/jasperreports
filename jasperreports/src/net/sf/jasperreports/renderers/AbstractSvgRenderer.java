@@ -43,17 +43,11 @@ import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGPreserveAspectRatio;
 
-import net.sf.jasperreports.engine.DimensionRenderable;
-import net.sf.jasperreports.engine.Graphics2DRenderable;
-import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.SvgRenderable;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 
 /**
@@ -61,7 +55,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
  *
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class AbstractSvgRenderer extends AbstractRenderToImageAwareRenderer implements SvgRenderable, Graphics2DRenderable, DimensionRenderable, ImageMapRenderable
+public abstract class AbstractSvgRenderer extends AbstractRenderToImageAwareRenderer implements SvgRenderable, Graphics2DRenderable, DimensionRenderable, AreaHyperlinksRenderable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -83,32 +77,7 @@ public abstract class AbstractSvgRenderer extends AbstractRenderToImageAwareRend
 		this.areaHyperlinks = areaHyperlinks;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
-	 */
 	@Override
-	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue() {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ImageRenderable#getImageType()}.
-	 */
-	@Override
-	public ImageTypeEnum getImageTypeValue() {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link ImageRenderable#getImageData(JasperReportsContext)}.
-	 */
-	@Override
-	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	@SuppressWarnings("deprecation")
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		ensureSvg(jasperReportsContext);
@@ -136,7 +105,6 @@ public abstract class AbstractSvgRenderer extends AbstractRenderToImageAwareRend
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		try

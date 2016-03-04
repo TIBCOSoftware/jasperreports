@@ -30,8 +30,8 @@ import org.w3c.tools.codec.Base64Decoder;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.renderers.ImageRenderer;
+import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
@@ -131,7 +131,7 @@ public class JRPrintImageSourceObject
 			}
 		}
 
-		printImage.setRenderable(renderable);
+		printImage.setRenderer(renderable);
 	}
 	
 

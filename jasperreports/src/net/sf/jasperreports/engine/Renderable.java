@@ -33,25 +33,24 @@ package net.sf.jasperreports.engine;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.io.Serializable;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.SvgRenderable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link net.sf.jasperreports.renderers.Renderable}
  */
-public interface Renderable extends Serializable
+public interface Renderable extends JRRenderable, net.sf.jasperreports.renderers.Renderable
 {
 	/**
 	 * Specifies the image resolution in dots-per-inch, for the images created by the engine when rasterizing SVGs or when clipping other renderers.
 	 */
 	public static final String PROPERTY_IMAGE_DPI = JRPropertiesUtil.PROPERTY_PREFIX + "image.dpi";
-
-	/**
-	 *
-	 */
-	public String getId();
 
 	/**
 	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.

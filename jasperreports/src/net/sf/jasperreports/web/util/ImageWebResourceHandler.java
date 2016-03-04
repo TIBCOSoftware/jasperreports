@@ -35,18 +35,18 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.SvgRenderable;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
@@ -116,11 +116,11 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			
 			JRPrintImage image = HtmlExporter.getImage(jasperPrintList, imageName);
 			
-			Renderable renderer = image.getRenderable();
+			Renderable renderer = image.getRenderer();
 			
-			if (renderer instanceof ResourceRenderer)
+			try
 			{
-				try
+				if (renderer instanceof ResourceRenderer)
 				{
 					renderer = //hard to use a cache here and it would be just for some icon type of images, if any 
 						RenderableUtil.getInstance(jasperReportsContext).getNonLazyRenderable(
@@ -128,27 +128,24 @@ public class ImageWebResourceHandler implements WebResourceHandler
 							OnErrorTypeEnum.ERROR
 							);
 				}
-				catch (JRException e)
+				
+				if (renderer instanceof SvgRenderable)
 				{
-					throw new JRRuntimeException(e);
+					imageData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
+					imageMimeType = "image/svg+xml";//FIXMEIMAGE use constant everywhere
 				}
-			}
-			
-			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-			{
-				renderer = 
-					new JRWrappingSvgRenderer(
-						renderer, 
-						new Dimension(image.getWidth(), image.getHeight()),
-						ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-						);
-			}
+				else
+				{
+					ImageRenderable imageRenderer = 
+						RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+							renderer,
+							new Dimension(image.getWidth(), image.getHeight()),
+							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+							);
 
-			imageMimeType = renderer.getImageTypeValue().getMimeType();
-			
-			try
-			{
-				imageData = renderer.getImageData(jasperReportsContext);
+					imageData = imageRenderer.getImageData(jasperReportsContext);
+					imageMimeType = imageRenderer.getImageType().getMimeType();
+				}
 			}
 			catch (JRException e)
 			{

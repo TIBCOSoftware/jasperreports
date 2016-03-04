@@ -28,7 +28,10 @@
  * David Taylor - exodussystems@users.sourceforge.net
  * Lars Kristensen - llk@users.sourceforge.net
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.renderers;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)

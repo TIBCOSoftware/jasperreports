@@ -21,59 +21,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
+
+/*
+ * Contributors:
+ * Adrian Jackson - iapetus@users.sourceforge.net
+ * David Taylor - exodussystems@users.sourceforge.net
+ * Lars Kristensen - llk@users.sourceforge.net
+ */
 package net.sf.jasperreports.renderers;
 
-import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ResourceRenderer extends AbstractRenderer
+public interface ImageRenderable
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	private final String resourceLocation;
-	private final boolean isLazy;
-	
 	/**
 	 *
 	 */
-	protected ResourceRenderer(
-		String resourceLocation,
-		boolean isLazy
-		)
-	{
-		this.resourceLocation = resourceLocation;
-		this.isLazy = isLazy;
-	}
+	public ImageTypeEnum getImageType();
 
 	/**
 	 *
 	 */
-	public static ResourceRenderer getInstance(String resourceLocation, boolean isLazy)
-	{
-		if (resourceLocation == null)
-		{
-			return null;
-		}
-		
-		return new ResourceRenderer(resourceLocation, isLazy);
-	}
-
-	/**
-	 *
-	 */
-	public String getResourceLocation()
-	{
-		return resourceLocation;
-	}
-
-	/**
-	 *
-	 */
-	public boolean isLazy()
-	{
-		return isLazy;
-	}
+	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException;
 }

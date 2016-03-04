@@ -26,13 +26,16 @@ package net.sf.jasperreports.engine;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
+
 
 /**
  * Image renderer able to produce image maps.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link AreaHyperlinksRenderable}.
  */
-public interface ImageMapRenderable extends Renderable
+public interface ImageMapRenderable extends Renderable, JRImageMapRenderer, AreaHyperlinksRenderable
 {
 
 	/**

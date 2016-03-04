@@ -30,9 +30,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.ref.SoftReference;
 
-import net.sf.jasperreports.engine.DimensionRenderable;
-import net.sf.jasperreports.engine.Graphics2DRenderable;
-import net.sf.jasperreports.engine.ImageRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -85,24 +82,6 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 
 
 	@Override
-	@SuppressWarnings("deprecation")
-	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
-	{
-		return net.sf.jasperreports.engine.type.RenderableTypeEnum.IMAGE;
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #getImageType()}.
-	 */
-	@Override
-	public ImageTypeEnum getImageTypeValue()
-	{
-		return getImageType();
-	}
-	
-
-	@Override
 	public ImageTypeEnum getImageType()
 	{
 		return renderer.getImageType();
@@ -110,7 +89,6 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 	
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		Image img = getImage(jasperReportsContext);
@@ -119,7 +97,6 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public byte[] getImageData(JasperReportsContext jasperReportsContext)
 			throws JRException
 	{
@@ -128,7 +105,6 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		Image img = getImage(jasperReportsContext);

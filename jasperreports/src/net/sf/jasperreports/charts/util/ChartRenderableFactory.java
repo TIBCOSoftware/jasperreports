@@ -29,7 +29,7 @@ import org.jfree.chart.JFreeChart;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.renderers.Renderable;
 
 
 /**

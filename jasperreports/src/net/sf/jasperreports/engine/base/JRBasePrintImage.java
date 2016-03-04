@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.PrintElementVisitor;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -45,6 +44,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
@@ -103,14 +103,32 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #getRenderer()}.
+	 */
 	@Override
-	public Renderable getRenderable()
+	public net.sf.jasperreports.engine.Renderable getRenderable()
+	{
+		return null;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setRenderer(net.sf.jasperreports.renderers.Renderable)}.
+	 */
+	@Override
+	public void setRenderable(net.sf.jasperreports.engine.Renderable renderable)
+	{
+		this.renderable = renderable;
+	}
+		
+	@Override
+	public Renderable getRenderer()
 	{
 		return renderable;
 	}
 		
 	@Override
-	public void setRenderable(Renderable renderable)
+	public void setRenderer(Renderable renderable)
 	{
 		this.renderable = renderable;
 	}

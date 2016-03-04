@@ -43,15 +43,14 @@ import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
@@ -220,7 +219,7 @@ public abstract class DocumentBuilder
 			// by the time we get here, the resource renderer has already been loaded from cache
 			
 			if (
-				renderer.getTypeValue() == RenderableTypeEnum.IMAGE //we do not cache imagePath for SVG images because they render width different width/height each time
+				renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
 				&& rendererToImagePathMap.containsKey(renderer.getId())
 				)
 			{
@@ -230,29 +229,26 @@ public abstract class DocumentBuilder
 			{
 				JRPrintElementIndex imageIndex = getElementIndex(gridCell);
 
-				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
-				{
-					renderer =
-						new JRWrappingSvgRenderer(
-							renderer,
-							dimension,
-							backcolor
-							);
-				}
+				ImageRenderable imageRenderer = 
+					RenderableUtil.getInstance(getJasperReportsContext()).getImageRenderable(
+						renderer, 
+						dimension, 
+						backcolor
+						);
 
 				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
 					new FileBufferedZipEntry(
 						"Pictures/" + DocumentBuilder.getImageName(imageIndex),
-						renderer.getImageData(getJasperReportsContext())
+						imageRenderer.getImageData(getJasperReportsContext())
 						)
 					);
 
 				String imageName = DocumentBuilder.getImageName(imageIndex);
 				imagePath = "Pictures/" + imageName;
 
-				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
+				if (imageRenderer == renderer)
 				{
-					//cache imagePath only for IMAGE renderers because the SVG ones render with different width/height each time
+					//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
 					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
 			}

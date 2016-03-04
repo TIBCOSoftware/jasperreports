@@ -25,7 +25,7 @@ package net.sf.jasperreports.components.barcode4j;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 

@@ -40,8 +40,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -51,6 +49,9 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
@@ -511,7 +512,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 			if (isUsingCache && filler.fillContext.hasLoadedImage(imgKey))
 			{
-				newRenderer = filler.fillContext.getLoadedImage(imgKey).getRenderable();
+				newRenderer = filler.fillContext.getLoadedImage(imgKey).getRenderer();
 			}
 			else
 			{
@@ -561,7 +562,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				{
 					@SuppressWarnings("deprecation")
 					Renderable wrappingRenderable = 
-						RenderableUtil.getWrappingRenderable(deprecatedRenderable);
+						net.sf.jasperreports.engine.RenderableUtil.getWrappingRenderable(deprecatedRenderable);
 					newRenderer = wrappingRenderable;
 				}
 				else
@@ -580,7 +581,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				{
 					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage(), 
 							printElementOriginator);//doesn't actually need a printElementId
-					img.setRenderable(newRenderer);
+					img.setRenderer(newRenderer);
 					filler.fillContext.registerLoadedImage(imgKey, img);
 				}
 			}
@@ -688,11 +689,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						// if renderer is null, it means the isRemoveLineWhenBlank was false further up; 
 						// no need to do anything here 
 					}
-					else
+					else if (renderer instanceof DimensionRenderable)
 					{
 						try
 						{
-							renderer.getDimension(filler.getJasperReportsContext());
+							((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext());
 						}
 						catch (Exception e)
 						{
@@ -712,7 +713,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							
 							boolean fits = true; 
 
-							Dimension2D imageSize = renderer.getDimension(filler.getJasperReportsContext());
+							Dimension2D imageSize = 
+								renderer instanceof DimensionRenderable 
+								? ((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext()) 
+								: null;
 							if (imageSize != null)
 							{
 								fits = 
@@ -918,7 +922,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			printImage.setWidth(imageWidth.intValue());
 		}
 		
-		printImage.setRenderable(getRenderable());
+		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
 		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
 		{
@@ -963,11 +967,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)//to avoid get dimension and thus unnecessarily load the image
 		{
-			if (renderer != null)
+			if (renderer instanceof DimensionRenderable)
 			{
 				try
 				{
-					renderer.getDimension(filler.getJasperReportsContext());
+					((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext());
 				}
 				catch (Exception e)
 				{
@@ -981,7 +985,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						renderer = filler.fillContext.getResourceRendererCache().getLoadedRenderer((ResourceRenderer)renderer);
 					}
 					
-					Dimension2D imageSize = renderer.getDimension(filler.getJasperReportsContext());
+					Dimension2D imageSize = 
+						renderer instanceof DimensionRenderable
+						? ((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext())
+						: null;
 					if (imageSize != null)
 					{
 						int padding = 

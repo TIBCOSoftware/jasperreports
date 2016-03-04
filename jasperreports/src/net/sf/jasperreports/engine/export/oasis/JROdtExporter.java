@@ -64,8 +64,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
@@ -90,6 +88,9 @@ import net.sf.jasperreports.export.OdtExporterConfiguration;
 import net.sf.jasperreports.export.OdtReportConfiguration;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
@@ -756,7 +757,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
-		Renderable renderer = image.getRenderable();
+		Renderable renderer = image.getRenderer();
 
 		if (
 			renderer != null 
@@ -886,7 +887,10 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 					if (!isLazy)
 					{
-						Dimension2D dimension = renderer.getDimension(jasperReportsContext);
+						Dimension2D dimension = 
+							renderer instanceof DimensionRenderable
+							? ((DimensionRenderable)renderer).getDimension(jasperReportsContext)
+							: null;
 						if (dimension != null)
 						{
 							normalWidth = dimension.getWidth();

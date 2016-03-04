@@ -23,9 +23,9 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.Graphics2DRenderable;
-import net.sf.jasperreports.engine.ImageRenderable;
-import net.sf.jasperreports.engine.SvgRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.SvgRenderable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
