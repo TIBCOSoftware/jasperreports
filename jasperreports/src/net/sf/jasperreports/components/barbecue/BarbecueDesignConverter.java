@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.components.barbecue;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
@@ -31,9 +34,6 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sourceforge.barbecue.Barcode;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -92,9 +92,9 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 			barcodeInfo.setBarHeight(component.getBarHeight());
 			
 			Barcode barcode = BarcodeProviders.createBarcode(barcodeInfo);
-			BarbecueRenderer renderer = new BarbecueRenderer(barcode);
+			BarbecueRendererImpl renderer = new BarbecueRendererImpl(barcode);
 			renderer.setRotation(BarbecueStyleResolver.getRotationValue(element));
-			image.setRenderable(renderer);
+			image.setRenderer(renderer);
 			return image;
 		}
 		catch (Exception e)

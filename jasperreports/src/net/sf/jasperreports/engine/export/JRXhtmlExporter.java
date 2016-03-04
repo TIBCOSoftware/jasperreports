@@ -1678,7 +1678,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 			writer.write("\"></a>");
 		}
 		
-		Renderable renderer = image.getRenderable();
+		Renderable renderer = image.getRenderer();
 
 		if (renderer != null)
 		{

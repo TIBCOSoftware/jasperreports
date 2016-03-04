@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link DrawChartRendererImpl}.
  */
 public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable
 {

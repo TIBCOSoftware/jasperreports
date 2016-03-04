@@ -1298,7 +1298,7 @@ public class JExcelApiExporter extends
 				element 
 				);
 				
-		Renderable renderer = element.getRenderable();
+		Renderable renderer = element.getRenderer();
 
 		if (
 			renderer != null 

@@ -21,69 +21,57 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Contributors:
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.renderers;
+package net.sf.jasperreports.charts.util;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
-import org.jfree.ui.Drawable;
+import org.jfree.chart.JFreeChart;
 
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.renderers.AbstractRenderer;
+import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 
 /**
- * A wrapper for the Drawable interface in the JCommon library: you will need the
- * JCommon classes in your classpath to compile this class. In particular this can be
- * used to allow JFreeChart objects to be included in the output report in vector form.
- *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link JCommonDrawableRendererImpl}.
  */
-public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
+public class DrawChartRendererImpl extends AbstractRenderer implements AreaHyperlinksRenderable, Graphics2DRenderable
 {
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 *
-	 */	
-	private Drawable drawable;
-
-
-	/**
-	 *
-	 */	
-	public JCommonDrawableRenderer(Drawable drawable) 
+	private JFreeChart chart;
+	private ChartHyperlinkProvider chartHyperlinkProvider;
+	
+	public DrawChartRendererImpl(JFreeChart chart, ChartHyperlinkProvider chartHyperlinkProvider)
 	{
-		this.drawable = drawable;
-	}
-
-	@Override
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) 
-	{
-		return null;
+		this.chart = chart;
+		this.chartHyperlinkProvider = chartHyperlinkProvider;
 	}
 
 	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
-		if (drawable != null) 
+		if (chart != null)
 		{
-			drawable.draw(grx, rectangle);
+			chart.draw(grx, rectangle);
 		}
 	}
 	
+	@Override
+	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
+	{
+		return ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, null, renderingArea);
+	}
+
+	@Override
+	public boolean hasImageAreaHyperlinks()
+	{
+		return chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks();
+	}
 }

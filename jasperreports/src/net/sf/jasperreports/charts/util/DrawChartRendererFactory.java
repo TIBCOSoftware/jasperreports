@@ -28,7 +28,7 @@ import java.awt.geom.Rectangle2D;
 import org.jfree.chart.JFreeChart;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.renderers.Renderable;
 
 
 /**
@@ -45,7 +45,7 @@ public class DrawChartRendererFactory extends AbstractChartRenderableFactory
 		Rectangle2D rectangle
 		)
 	{
-		return new DrawChartRenderer(chart, chartHyperlinkProvider);
+		return new DrawChartRendererImpl(chart, chartHyperlinkProvider);
 	}
 
 }

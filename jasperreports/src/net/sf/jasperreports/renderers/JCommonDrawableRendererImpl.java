@@ -31,12 +31,10 @@
 package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.ui.Drawable;
 
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -47,9 +45,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * used to allow JFreeChart objects to be included in the output report in vector form.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link JCommonDrawableRendererImpl}.
  */
-public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
+public class JCommonDrawableRendererImpl extends AbstractRenderer implements Graphics2DRenderable
 {
 
 	/**
@@ -66,15 +63,9 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */	
-	public JCommonDrawableRenderer(Drawable drawable) 
+	public JCommonDrawableRendererImpl(Drawable drawable) 
 	{
 		this.drawable = drawable;
-	}
-
-	@Override
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) 
-	{
-		return null;
 	}
 
 	@Override

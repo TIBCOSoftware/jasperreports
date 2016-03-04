@@ -21,69 +21,66 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Contributors:
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
 package net.sf.jasperreports.renderers;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import org.jfree.ui.Drawable;
-
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
-import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
- * A wrapper for the Drawable interface in the JCommon library: you will need the
- * JCommon classes in your classpath to compile this class. In particular this can be
- * used to allow JFreeChart objects to be included in the output report in vector form.
- *
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link JCommonDrawableRendererImpl}.
+ * 
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
+public class AwtComponentRendererImpl extends AbstractRenderer implements Graphics2DRenderable, DimensionRenderable
 {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */	
-	private Drawable drawable;
+	private static final long serialVersionUID = 1L;
+	
+	private Component component;
 
 
-	/**
-	 *
-	 */	
-	public JCommonDrawableRenderer(Drawable drawable) 
+	public AwtComponentRendererImpl(Component component) 
 	{
-		this.drawable = drawable;
+		this.component = component;
 	}
-
+	
 	@Override
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) 
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
-		return null;
+		return component.getSize();
 	}
 
 	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
-		if (drawable != null) 
+		AffineTransform origTransform = grx.getTransform();
+		try
 		{
-			drawable.draw(grx, rectangle);
+			Dimension size = component.getSize();
+
+			grx.translate(rectangle.getX(), rectangle.getY());
+			if (rectangle.getWidth() != size.getWidth() 
+					|| rectangle.getHeight() != size.getHeight())
+			{
+				grx.scale(rectangle.getWidth() / size.getWidth(), 
+						rectangle.getHeight() / size.getHeight());
+			}
+			component.paint(grx);
+		}
+		catch (Exception e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			grx.setTransform(origTransform);
 		}
 	}
-	
 }

@@ -29,10 +29,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.renderers.AbstractRenderer;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.output.OutputException;
 
@@ -40,9 +42,8 @@ import net.sourceforge.barbecue.output.OutputException;
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @deprecated Replaced by {@link BarbecueRendererImpl}.
  */
-public class BarbecueRenderer extends JRAbstractSvgRenderer
+public class BarbecueRendererImpl extends AbstractRenderer implements Graphics2DRenderable, DimensionRenderable
 {
 
 	private static final long serialVersionUID = 1L;
@@ -51,7 +52,7 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 	
 	private RotationEnum rotation;
 
-	public BarbecueRenderer(Barcode barcode) 
+	public BarbecueRendererImpl(Barcode barcode) 
 	{
 		this.barcode = barcode;
 	}

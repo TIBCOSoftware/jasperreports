@@ -505,4 +505,72 @@
 		<differenceType>7002</differenceType>
 		<method>*getImage*Type(byte*)</method>
 	</difference>
+	
+	
+	
+	
+	
+	<difference>
+		<className>net/sf/jasperreports/charts/**/*ChartRender*Factory</className>
+		<differenceType>7006</differenceType>
+		<method>*getRenderable(net.sf.jasperreports.engine.JasperReportsContext, org.jfree.chart.JFreeChart, net.sf.jasperreports.charts.util.ChartHyperlinkProvider, java.awt.geom.Rectangle2D)</method>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/barcode4j/*</className>
+		<differenceType>7006</differenceType>
+		<method>*</method>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/barcode4j/AbstractBarcodeEvaluator</className>
+		<differenceType>6004</differenceType>
+		<field>renderable</field>
+		<from>net.sf.jasperreports.engine.Renderable</from>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/spiderchart/*SpiderChart*</className>
+		<differenceType>7006</differenceType>
+		<method>*</method>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/**/JR*PrintImage</className>
+		<differenceType>7006</differenceType>
+		<method>*getRenderer()</method>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/base/JRBasePrintImage</className>
+		<differenceType>6004</differenceType>
+		<field>renderable</field>
+		<from>net.sf.jasperreports.engine.Renderable</from>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillChart</className>
+		<differenceType>6004</differenceType>
+		<field>renderer</field>
+		<from>net.sf.jasperreports.engine.Renderable</from>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFill*</className>
+		<differenceType>7006</differenceType>
+		<method>*getRenderable()</method>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/**/JR*PrintImage</className>
+		<differenceType>7005</differenceType>
+		<method>*setRenderer(net.sf.jasperreports.engine.JRRenderable)</method>
+		<to>*setRenderer(net.sf.jasperreports.renderers.Renderable)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/**/*ImageMapPanel</className>
+		<differenceType>7005</differenceType>
+		<method>*ImageMapPanel(*JRViewer*, java.awt.Rectangle, net.sf.jasperreports.engine.ImageMapRenderable)</method>
+		<to>*ImageMapPanel(*JRViewer*, java.awt.Rectangle, net.sf.jasperreports.renderers.AreaHyperlinksRenderable)</to>
+	</difference>
 </differences>

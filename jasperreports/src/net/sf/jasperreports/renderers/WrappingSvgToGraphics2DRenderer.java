@@ -23,9 +23,8 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.batik.dom.svg.SVGDocumentFactory;
@@ -43,23 +42,23 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  *
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class SvgTextRenderer extends AbstractSvgRenderer
+public class WrappingSvgToGraphics2DRenderer extends AbstractSvgRenderer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private String svgText;
+	private SvgRenderable svgRenderer;
 
 	/**
-	 * Creates a SVG renderer.
 	 *
-	 * @param svgText the SVG text
-	 * @param areaHyperlinks a list of {@link JRPrintImageAreaHyperlink area hyperlinks}
 	 */
-	public SvgTextRenderer(String svgText, List<JRPrintImageAreaHyperlink> areaHyperlinks)
+	public WrappingSvgToGraphics2DRenderer(
+		SvgRenderable svgRenderer, 
+		List<JRPrintImageAreaHyperlink> areaHyperlinks
+		)
 	{
 		super(areaHyperlinks);
 		
-		this.svgText = svgText;
+		this.svgRenderer = svgRenderer;
 	}
 
 	@Override
@@ -73,7 +72,9 @@ public class SvgTextRenderer extends AbstractSvgRenderer
 			return 
 				documentFactory.createSVGDocument(
 					null, 
-					new StringReader(svgText)
+					new ByteArrayInputStream(
+						svgRenderer.getSvgData(jasperReportsContext)
+						)
 					);
 		}
 		catch (IOException e)
@@ -82,27 +83,9 @@ public class SvgTextRenderer extends AbstractSvgRenderer
 		}
 	}
 
-	/**
-	 * Creates a SVG renderer from SVG text.
-	 *
-	 * @param svgText the SVG text
-	 * @return a SVG renderer
-	 */
-	public static SvgTextRenderer getInstance(String svgText)
-	{
-		return new SvgTextRenderer(svgText, null);
-	}
-
 	@Override
 	public byte[] getSvgData(JasperReportsContext jasperReportsContext) throws JRException 
 	{
-		try
-		{
-			return svgText.getBytes("UTF-8");
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		return svgRenderer.getSvgData(jasperReportsContext);
 	}
 }

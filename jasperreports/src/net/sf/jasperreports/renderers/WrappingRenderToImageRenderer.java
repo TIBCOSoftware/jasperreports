@@ -24,7 +24,6 @@
 package net.sf.jasperreports.renderers;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
@@ -33,7 +32,6 @@ import java.awt.image.BufferedImage;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
 
 
 /**
@@ -51,6 +49,7 @@ public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
 	 *
 	 */
 	private final Graphics2DRenderable renderer;
+	private final DimensionRenderable dimensionRenderer;
 	private final Dimension2D dimension;
 	private final Color backcolor;
 
@@ -66,6 +65,23 @@ public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
 	{
 		this.renderer = renderer;
 		this.dimension = dimension;
+		this.dimensionRenderer = null;
+		this.backcolor = backcolor;
+	}
+
+	
+	/**
+	 *
+	 */
+	public WrappingRenderToImageRenderer(
+		Graphics2DRenderable renderer, 
+		DimensionRenderable dimensionRender,
+		Color backcolor
+		)
+	{
+		this.renderer = renderer;
+		this.dimension = null;
+		this.dimensionRenderer = dimensionRender;
 		this.backcolor = backcolor;
 	}
 
@@ -75,14 +91,28 @@ public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
 	{
 		Dimension2D imageDimension = null;
 		
-		DimensionRenderable dimensionRenderable = renderer instanceof DimensionRenderable ? (DimensionRenderable)renderer : null;
-		
-		if (dimensionRenderable != null)
+		if (renderer instanceof DimensionRenderable)
 		{
 			try
 			{
 				// use original dimension if possible
-				imageDimension = dimensionRenderable.getDimension(jasperReportsContext);
+				imageDimension = ((DimensionRenderable)renderer).getDimension(jasperReportsContext);
+			}
+			catch (JRException e)
+			{
+				// ignore
+			}
+		}
+		
+		if (
+			imageDimension == null
+			&& dimensionRenderer != null
+			)
+		{
+			// fallback to supplied dimension renderable
+			try
+			{
+				imageDimension = dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			catch (JRException e)
 			{
@@ -106,7 +136,6 @@ public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		renderer.render(jasperReportsContext, grx, rectangle);

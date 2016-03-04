@@ -128,7 +128,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	@Override
 	public net.sf.jasperreports.engine.Renderable getRenderable()
 	{
-		return null;//FIXMEIMAGE check all
+		return net.sf.jasperreports.engine.RenderableUtil.getWrappingRenderable(renderable);
 	}
 		
 	/**

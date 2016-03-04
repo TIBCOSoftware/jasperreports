@@ -29,7 +29,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
@@ -126,33 +125,29 @@ public abstract class AbstractSvgRenderer extends AbstractRenderToImageAwareRend
 			return;
 		}
 
-		try
-		{
-			UserAgent userAgent = new BatikUserAgent(jasperReportsContext);
-			
-			SVGDocumentFactory documentFactory =
-				new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
-			documentFactory.setValidating(userAgent.isXMLParserValidating());
+		UserAgent userAgent = new BatikUserAgent(jasperReportsContext);
+		
+		SVGDocumentFactory documentFactory =
+			new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
+		documentFactory.setValidating(userAgent.isXMLParserValidating());
 
-			SVGDocument document = getSvgDocument(documentFactory);
+		SVGDocument document = getSvgDocument(jasperReportsContext, documentFactory);
 
-			BridgeContext ctx = new BridgeContext(userAgent);
-			ctx.setDynamic(true);
-			GVTBuilder builder = new GVTBuilder();
-			rootNode = builder.build(ctx, document);
-			documentSize = ctx.getDocumentSize();
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+		BridgeContext ctx = new BridgeContext(userAgent);
+		ctx.setDynamic(true);
+		GVTBuilder builder = new GVTBuilder();
+		rootNode = builder.build(ctx, document);
+		documentSize = ctx.getDocumentSize();
 	}
 	
 
 	/**
 	 * 
 	 */
-	protected abstract SVGDocument getSvgDocument(SVGDocumentFactory documentFactory) throws IOException;
+	protected abstract SVGDocument getSvgDocument(
+		JasperReportsContext jasperReportsContext,
+		SVGDocumentFactory documentFactory
+		) throws JRException;
 
 	
 	@Override

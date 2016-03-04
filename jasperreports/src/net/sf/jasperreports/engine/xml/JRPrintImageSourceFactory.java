@@ -41,8 +41,8 @@ public class JRPrintImageSourceFactory extends JRBaseFactory
 		JRPrintImage printImage = (JRPrintImage)digester.peek();
 		
   	 	boolean isLazy = 
-  	 		printImage.getRenderable() instanceof ResourceRenderer
-  	 		? ((ResourceRenderer)printImage.getRenderable()).isLazy()
+  	 		printImage.getRenderer() instanceof ResourceRenderer
+  	 		? ((ResourceRenderer)printImage.getRenderer()).isLazy()
   	 		: false;
 
 		JRPrintImageSourceObject imageSource = new JRPrintImageSourceObject(isLazy);

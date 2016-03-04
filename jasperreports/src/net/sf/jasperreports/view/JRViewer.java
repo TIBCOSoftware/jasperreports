@@ -79,7 +79,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintAnchorIndex;
@@ -97,7 +96,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.PrintPart;
 import net.sf.jasperreports.engine.PrintParts;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -107,6 +105,8 @@ import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
+import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
+import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRendererCache;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
@@ -1874,13 +1874,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			{
 				JRPrintElement element = it.next();
 
-				ImageMapRenderable imageMap = null;
+				AreaHyperlinksRenderable imageMap = null;
 				if (element instanceof JRPrintImage)
 				{
-					Renderable renderer = ((JRPrintImage) element).getRenderable();
-					if (renderer instanceof ImageMapRenderable)
+					Renderable renderer = ((JRPrintImage) element).getRenderer();
+					if (renderer instanceof AreaHyperlinksRenderable)
 					{
-						imageMap = (ImageMapRenderable) renderer;
+						imageMap = (AreaHyperlinksRenderable) renderer;
 						if (!imageMap.hasImageAreaHyperlinks())
 						{
 							imageMap = null;
@@ -1959,7 +1959,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 		protected final List<JRPrintImageAreaHyperlink> imageAreaHyperlinks;
 
-		public ImageMapPanel(Rectangle renderingArea, ImageMapRenderable imageMap)
+		public ImageMapPanel(Rectangle renderingArea, AreaHyperlinksRenderable imageMap)
 		{
 			try
 			{

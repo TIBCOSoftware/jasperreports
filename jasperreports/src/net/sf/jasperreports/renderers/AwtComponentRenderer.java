@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * @deprecated Replaced by {@link AwtComponentRendererImpl}.
  */
 public class AwtComponentRenderer extends JRAbstractSvgRenderer
 {

@@ -36,10 +36,18 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.ImageRenderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.SvgRenderable;
+import net.sf.jasperreports.renderers.WrappingImageToGraphics2DRenderer;
+import net.sf.jasperreports.renderers.WrappingRenderToImageRenderer;
+import net.sf.jasperreports.renderers.WrappingDeprecatedRenderable;
+import net.sf.jasperreports.renderers.WrappingSvgToGraphics2DRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -105,7 +113,7 @@ public class RenderableUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link ResourceRenderer#getInstance(String, boolean)} and {@link #getNonLazyRenderable(String, OnErrorTypeEnum)}.
+	 * @deprecated Replaced by {@link ResourceRenderer#getInstance(String, boolean)} and {@link net.sf.jasperreports.renderers.RenderableUtil#getNonLazyRenderable(String, OnErrorTypeEnum)}.
 	 */
 	public Renderable getRenderable(String imageLocation, OnErrorTypeEnum onErrorType, boolean isLazy) throws JRException
 	{
@@ -451,5 +459,96 @@ public class RenderableUtil
 			}
 		}
 		return renderable;
+	}
+
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	public static Renderable getWrappingRenderable(net.sf.jasperreports.renderers.Renderable renderable)
+	{
+		Renderable deprecatedRenderable = null;
+		if (renderable != null)
+		{
+			deprecatedRenderable = renderable instanceof Renderable ? (Renderable)renderable : null;
+			if (deprecatedRenderable == null)
+			{
+				Graphics2DRenderable grxRenderable = null;
+				ImageRenderable imageRenderable = null;
+
+				DimensionRenderable dimensionRenderable = 
+					renderable instanceof DimensionRenderable 
+					? (DimensionRenderable)renderable
+					: null;
+					
+				RenderableTypeEnum type = null;
+
+				if (renderable instanceof Graphics2DRenderable)
+				{
+					grxRenderable = (Graphics2DRenderable)renderable;
+					type = RenderableTypeEnum.SVG;
+				}
+				else if (renderable instanceof SvgRenderable)
+				{
+					grxRenderable = new WrappingSvgToGraphics2DRenderer((SvgRenderable)renderable, null);
+					type = RenderableTypeEnum.SVG;
+				}
+				else if (renderable instanceof ImageRenderable)
+				{
+					grxRenderable = new WrappingImageToGraphics2DRenderer((ImageRenderable)renderable);
+					type = RenderableTypeEnum.IMAGE;
+				}
+				
+				if (dimensionRenderable == null)
+				{
+					dimensionRenderable = 
+						renderable instanceof DimensionRenderable 
+						? (DimensionRenderable)grxRenderable
+						: null;
+				}
+				
+				if (renderable instanceof ImageRenderable)
+				{
+					imageRenderable = (ImageRenderable)renderable;
+					if (type == null)
+					{
+						type = RenderableTypeEnum.IMAGE;
+					}
+				}
+				else if (grxRenderable != null)
+				{
+					imageRenderable = 
+						new WrappingRenderToImageRenderer(
+							grxRenderable,
+							dimensionRenderable, 
+							null
+							);
+				}
+				
+				if (type == null)
+				{
+					throw 
+						new JRRuntimeException(
+							net.sf.jasperreports.renderers.RenderableUtil.EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
+							new Object[]{
+								renderable.getClass().getName(),
+								ImageRenderable.class.getName() 
+									+ ", " + Graphics2DRenderable.class.getName() 
+									+ " or " + SvgRenderable.class.getName()
+								}
+							);
+				}
+				
+				deprecatedRenderable = 
+					new WrappingDeprecatedRenderable(
+						renderable.getId(),
+						type,
+						grxRenderable, 
+						imageRenderable, 
+						dimensionRenderable
+						);
+			}
+		}
+		return deprecatedRenderable;
 	}
 }

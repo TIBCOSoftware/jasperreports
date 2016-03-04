@@ -36,6 +36,7 @@ import org.w3c.dom.svg.SVGDocument;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
@@ -66,13 +67,23 @@ public class SvgDataRenderer extends AbstractSvgRenderer
 	}
 
 	@Override
-	protected SVGDocument getSvgDocument(SVGDocumentFactory documentFactory) throws IOException
+	protected SVGDocument getSvgDocument(
+		JasperReportsContext jasperReportsContext,
+		SVGDocumentFactory documentFactory
+		) throws JRException
 	{
-		return 
-			documentFactory.createSVGDocument(
-				null, 
-				new ByteArrayInputStream(svgData)
-				);
+		try
+		{
+			return 
+				documentFactory.createSVGDocument(
+					null, 
+					new ByteArrayInputStream(svgData)
+					);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	/**

@@ -38,8 +38,6 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -81,11 +79,12 @@ public class ElementIconConverter extends ElementConverter
 	/**
 	 * @deprecated To be removed.
 	 */
-	protected Renderable getRenderer(JasperReportsContext jasperReportsContext)
+	protected net.sf.jasperreports.engine.Renderable getRenderer(JasperReportsContext jasperReportsContext)
 	{
 		try
 		{
-			return RenderableUtil.getInstance(jasperReportsContext).getRenderable(
+			return 
+				net.sf.jasperreports.engine.RenderableUtil.getInstance(jasperReportsContext).getRenderable(
 					iconLocation, 
 					OnErrorTypeEnum.ERROR);
 		}
