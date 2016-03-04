@@ -194,7 +194,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 
 	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
 	{
-		return JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
+		return JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_IMAGE_DPI, 72);
 	}
 
 

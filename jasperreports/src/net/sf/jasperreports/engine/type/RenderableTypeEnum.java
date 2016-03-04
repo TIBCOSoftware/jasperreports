@@ -29,7 +29,7 @@ import net.sf.jasperreports.renderers.SvgRenderable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
-	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
+ * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
  */
 public enum RenderableTypeEnum implements JREnum
 {

@@ -35,9 +35,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -52,6 +49,9 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A print page that can be virtualized to free heap memory.
@@ -144,7 +144,7 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	 * virtualization context based on the ID.
 	 */
 	// we have to keep these two classes here so that we're able to deserialize old reports
-	public static class JRIdHolderRenderer implements Renderable, net.sf.jasperreports.engine.JRRenderable
+	public static class JRIdHolderRenderer implements Renderable
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		

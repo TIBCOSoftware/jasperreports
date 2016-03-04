@@ -37,7 +37,7 @@ import net.sf.jasperreports.renderers.AbstractRenderer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @deprecated Replaced by {@link AbstractRenderer}.
  */
-public abstract class JRAbstractRenderer implements Renderable, JRRenderable
+public abstract class JRAbstractRenderer implements Renderable
 {
 
 	/**

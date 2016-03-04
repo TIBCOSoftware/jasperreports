@@ -47,7 +47,7 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public Renderable getRenderable();
 		
 	/**
-	 * @deprecated Replaced by {@link #setRender(net.sf.jasperreports.renderers.Renderable)}.
+	 * @deprecated Replaced by {@link #setRenderer(net.sf.jasperreports.renderers.Renderable)}.
 	 */
 	public void setRenderable(Renderable renderer);
 		

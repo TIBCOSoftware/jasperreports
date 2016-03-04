@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.PrintElementVisitor;
-import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -464,7 +463,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 			}
 			else
 			{
-				renderable = RenderableUtil.getWrappingRenderable(renderer);
+				renderable = net.sf.jasperreports.engine.RenderableUtil.getWrappingRenderable(renderer);
 			}
 		}
 	}
