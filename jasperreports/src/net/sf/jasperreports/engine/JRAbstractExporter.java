@@ -68,6 +68,7 @@ import net.sf.jasperreports.export.PropertiesDefaultsConfigurationFactory;
 import net.sf.jasperreports.export.PropertiesNoDefaultsConfigurationFactory;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -189,6 +190,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	protected JasperReportsContext jasperReportsContext;
 	protected JRPropertiesUtil propertiesUtil;
+	protected RendererUtil rendererUtil;
 	protected JRStyledTextAttributeSelector allSelector;
 	protected JRStyledTextAttributeSelector noBackcolorSelector;
 	protected JRStyledTextAttributeSelector noneSelector;
@@ -425,6 +427,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.rendererUtil = RendererUtil.getInstance(jasperReportsContext);
 		this.allSelector = JRStyledTextAttributeSelector.getAllSelector(jasperReportsContext);
 		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
 		this.noneSelector = JRStyledTextAttributeSelector.getNoneSelector(jasperReportsContext);
@@ -452,6 +455,15 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	public JRPropertiesUtil getPropertiesUtil()
 	{
 		return propertiesUtil;
+	}
+
+	
+	/**
+	 *
+	 */
+	public RendererUtil getRendererUtil()
+	{
+		return rendererUtil;
 	}
 
 	

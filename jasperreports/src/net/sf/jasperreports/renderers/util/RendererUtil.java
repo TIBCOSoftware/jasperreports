@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.renderers;
+package net.sf.jasperreports.renderers.util;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,15 +29,10 @@ import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
-import org.apache.batik.bridge.UserAgent;
-import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -48,16 +43,24 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.renderers.DataRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderersCache;
+import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.SimpleDataRenderer;
+import net.sf.jasperreports.renderers.WrappingRenderToImageDataRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class RenderableUtil
+public class RendererUtil
 {
 	
-	private static final Log log = LogFactory.getLog(RenderableUtil.class);
+	private static final Log log = LogFactory.getLog(RendererUtil.class);
 	
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_ERROR = "engine.renderable.util.image.error";
 	public static final String EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE = "engine.renderable.must.implement.interface";
@@ -67,12 +70,13 @@ public class RenderableUtil
 	/**
 	 *
 	 */
-	private JasperReportsContext jasperReportsContext;
+	private final JasperReportsContext jasperReportsContext;
+	private SvgDataSniffer svgDataSniffer;
 
 	/**
 	 *
 	 */
-	private RenderableUtil(JasperReportsContext jasperReportsContext)
+	private RendererUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
 	}
@@ -81,25 +85,9 @@ public class RenderableUtil
 	/**
 	 *
 	 */
-	public static RenderableUtil getInstance(JasperReportsContext jasperReportsContext)
+	public static RendererUtil getInstance(JasperReportsContext jasperReportsContext)
 	{
-		return new RenderableUtil(jasperReportsContext);
-	}
-
-
-	/**
-	 *
-	 */
-	public Renderable getRenderable(byte[] data)
-	{
-		if (isSvgData(data))
-		{
-			return SvgDataRenderer.getInstance(data);
-		}
-		else
-		{
-			return ImageRenderer.getInstance(data);
-		}
+		return new RendererUtil(jasperReportsContext);
 	}
 
 
@@ -108,26 +96,37 @@ public class RenderableUtil
 	 */
 	public boolean isSvgData(byte[] data)
 	{
-		UserAgent userAgent = new BatikUserAgent(jasperReportsContext);
+		if (JRTypeSniffer.getImageTypeValue(data) == ImageTypeEnum.UNKNOWN)
+		{
+			if (XmlDataSniffer.isXmlData(data))
+			{
+				return getSvgDataSniffer().isSvgData(data);
+			}
+		}
 		
-		SVGDocumentFactory documentFactory =
-			new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
-		documentFactory.setValidating(userAgent.isXMLParserValidating());
+		return false;
+	}
 
-		try
+
+	/**
+	 *
+	 */
+	public boolean isSvgData(DataRenderable dataRenderable) throws JRException
+	{
+		return isSvgData(dataRenderable.getData(jasperReportsContext));
+	}
+
+
+	/**
+	 *
+	 */
+	public SvgDataSniffer getSvgDataSniffer()
+	{
+		if (svgDataSniffer == null)
 		{
-			//SVGDocument document = 
-				documentFactory.createSVGDocument(
-					null,
-					new ByteArrayInputStream(data)
-					);
+			svgDataSniffer = SvgDataSniffer.getInstance(jasperReportsContext);
 		}
-		catch (IOException e)
-		{
-			return false;
-		}
-		
-		return true;
+		return svgDataSniffer;
 	}
 
 
@@ -152,7 +151,7 @@ public class RenderableUtil
 			return handleImageError(e, onErrorType); 
 		}
 		
-		return getRenderable(data);
+		return SimpleDataRenderer.getInstance(data);
 	}
 
 	
@@ -202,7 +201,7 @@ public class RenderableUtil
 
 			return handleImageError(e, onErrorType);
 		}
-		return getRenderable(data);
+		return SimpleDataRenderer.getInstance(data);
 	}
 
 
@@ -225,7 +224,7 @@ public class RenderableUtil
 
 			return handleImageError(e, onErrorType); 
 		}
-		return getRenderable(data);
+		return SimpleDataRenderer.getInstance(data);
 	}
 
 
@@ -248,7 +247,7 @@ public class RenderableUtil
 
 			return handleImageError(e, onErrorType); 
 		}
-		return getRenderable(data);
+		return SimpleDataRenderer.getInstance(data);
 	}
 
 
@@ -271,7 +270,7 @@ public class RenderableUtil
 
 			return handleImageError(e, onErrorType); 
 		}
-		return getRenderable(data);
+		return SimpleDataRenderer.getInstance(data);
 	}
 
 
@@ -429,19 +428,19 @@ public class RenderableUtil
 	/**
 	 * 
 	 */
-	public ImageRenderable getImageRenderable(
+	public DataRenderable getDataRenderable(
 		Renderable renderer, 
 		Dimension dimension, 
 		Color backcolor
 		) throws JRException
 	{
-		ImageRenderable imageRenderer = null;
+		DataRenderable imageRenderer = null;
 		
 		if (renderer != null)
 		{
-			if (renderer instanceof ImageRenderable)
+			if (renderer instanceof DataRenderable)
 			{
-				imageRenderer = (ImageRenderable)renderer;
+				imageRenderer = (DataRenderable)renderer;
 			}
 			else
 			{
@@ -451,10 +450,6 @@ public class RenderableUtil
 				{
 					grxRenderer = (Graphics2DRenderable)renderer;
 				}
-				else if (renderer instanceof SvgRenderable)
-				{
-					grxRenderer = SvgDataRenderer.getInstance(((SvgRenderable)renderer).getSvgData(jasperReportsContext));
-				}
 				else
 				{
 					throw 
@@ -462,15 +457,14 @@ public class RenderableUtil
 							EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
 							new Object[]{
 								renderer.getClass().getName(),
-								ImageRenderable.class.getName() 
-									+ ", " + Graphics2DRenderable.class.getName() 
-									+ " or " + SvgRenderable.class.getName()
+								DataRenderable.class.getName() 
+									+ " or " + Graphics2DRenderable.class.getName() 
 								}
 							);
 				}
 
 				imageRenderer =
-					new WrappingRenderToImageRenderer(
+					new WrappingRenderToImageDataRenderer(
 						grxRenderer,
 						dimension,
 						backcolor
@@ -485,43 +479,64 @@ public class RenderableUtil
 	/**
 	 * 
 	 */
-	public Graphics2DRenderable getGraphics2DRenderable(Renderable renderer) throws JRException
+	public DataRenderable getImageDataRenderable(
+		RenderersCache renderersCache,
+		Renderable renderer, 
+		Dimension dimension, 
+		Color backcolor
+		) throws JRException
 	{
-		Graphics2DRenderable grxRenderer = null;
+		DataRenderable imageRenderer = null;
 		
 		if (renderer != null)
 		{
-			if (renderer instanceof Graphics2DRenderable)
+			if (renderer instanceof DataRenderable)
 			{
-				grxRenderer = (Graphics2DRenderable)renderer;
-			}
-			else if (renderer instanceof SvgRenderable)
-			{
-				byte[] svgData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
-				if (svgData != null)
+				boolean isSvgData = isSvgData((DataRenderable)renderer);
+				if (isSvgData)
 				{
-					grxRenderer = SvgDataRenderer.getInstance(svgData);
+					imageRenderer =
+						new WrappingRenderToImageDataRenderer(
+							(Graphics2DRenderable)renderersCache.getWrappingRenderable(renderer.getId(), (DataRenderable)renderer), 
+							dimension, 
+							backcolor
+							);
 				}
-			}
-			else if (renderer instanceof ImageRenderable)
-			{
-				grxRenderer = new WrappingImageToGraphics2DRenderer((ImageRenderable)renderer);
+				else
+				{
+					imageRenderer = (DataRenderable)renderer;
+				}
 			}
 			else
 			{
-				throw 
-					new JRException(
-						EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
-						new Object[]{
-							renderer.getClass().getName(),
-							ImageRenderable.class.getName() 
-								+ ", " + Graphics2DRenderable.class.getName() 
-								+ " or " + SvgRenderable.class.getName()
-							}
+				Graphics2DRenderable grxRenderer = null;
+				
+				if (renderer instanceof Graphics2DRenderable)
+				{
+					grxRenderer = (Graphics2DRenderable)renderer;
+				}
+				else
+				{
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
+							new Object[]{
+								renderer.getClass().getName(),
+								DataRenderable.class.getName() 
+									+ " or " + Graphics2DRenderable.class.getName() 
+								}
+							);
+				}
+
+				imageRenderer =
+					new WrappingRenderToImageDataRenderer(
+						grxRenderer,
+						dimension,
+						backcolor
 						);
 			}
 		}
-		
-		return grxRenderer;
+			
+		return imageRenderer;
 	}
 }

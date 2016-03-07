@@ -198,6 +198,29 @@
 					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
 				</image>
 			</band>
+			<band height="50">
+				<image>
+					<reportElement x="0" y="0" width="150" height="40" uuid="e37c3ef3-010c-482b-965e-a48565d5736d"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<imageExpression><![CDATA["jilagan-butterfly.svg"]]></imageExpression>
+				</image>
+				<image hAlign="Center" vAlign="Middle" scaleImage="Clip">
+					<reportElement x="200" y="0" width="150" height="40" uuid="399ad0a8-08fe-4eb2-8750-c67fc8d9145a"/>
+					<box padding="5">
+						<pen lineWidth="0.5"/>
+					</box>
+					<imageExpression><![CDATA["jilagan-butterfly.svg"]]></imageExpression>
+				</image>
+				<image scaleImage="FillFrame">
+					<reportElement mode="Opaque" x="400" y="0" width="150" height="40" backcolor="#DDDDFF" uuid="858e3729-6b20-4761-bfef-ed371e8efad9"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<imageExpression><![CDATA["jilagan-butterfly.svg"]]></imageExpression>
+				</image>
+			</band>
 			<band height="150">
 				<image scaleImage="Clip" hAlign="Right" vAlign="Bottom" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
 					<reportElement mode="Opaque" x="0" y="0" width="150" height="140" backcolor="#DDFFDD" uuid="98193509-96ae-4edf-9a23-94b4090ac615"/>
@@ -226,27 +249,27 @@
 				</image>
 			</band>
 			<band height="150">
-				<image scaleImage="Clip" hAlign="Right" vAlign="Bottom" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+				<image scaleImage="Clip" hAlign="Right" vAlign="Bottom" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
 					<reportElement mode="Opaque" x="0" y="0" width="150" height="140" backcolor="#DDFFDD"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
-				<image scaleImage="Clip" vAlign="Middle" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+				<image scaleImage="Clip" vAlign="Middle" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
 					<reportElement mode="Opaque" x="200" y="0" width="40" height="140" backcolor="#DDFFDD"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
-				<image scaleImage="FillFrame" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+				<image scaleImage="FillFrame" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
 					<reportElement mode="Opaque" x="250" y="0" width="40" height="140" backcolor="#DDFFDD"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
-				<image scaleImage="RetainShape" vAlign="Middle" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+				<image scaleImage="RetainShape" vAlign="Middle" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
 					<reportElement mode="Opaque" x="300" y="0" width="40" height="140" backcolor="#DDFFDD"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
-				<image scaleImage="RetainShape" isLazy="false" onErrorType="Icon" hyperlinkType="Reference">
+				<image scaleImage="RetainShape" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
 					<reportElement mode="Opaque" x="400" y="0" width="150" height="140" backcolor="#DDFFDD"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>

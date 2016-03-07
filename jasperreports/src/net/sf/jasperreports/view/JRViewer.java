@@ -107,7 +107,7 @@ import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
 
@@ -172,7 +172,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected float zoom;
 
 	private JRGraphics2DExporter exporter;
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 
 	/**
 	 * the screen resolution.
@@ -430,7 +430,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		emptyContainer(this);
 		jasperPrint = null;
-		resourceRendererCache = null;
+		renderersCache = null;
 	}
 
 
@@ -1403,7 +1403,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					log.error("Reload error.", e);
 				}
 				jasperPrint = null;
-				resourceRendererCache = null;
+				renderersCache = null;
 				refreshTabs();
 				setPageIndex(0);
 				refreshPage();
@@ -1619,7 +1619,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
 		}
 
-		resourceRendererCache = null;
+		renderersCache = null;
 
 		refreshTabs();
 
@@ -1654,7 +1654,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			jasperPrint = (JasperPrint)JRLoader.loadObject(is);
 		}
 
-		resourceRendererCache = null;
+		renderersCache = null;
 		
 		refreshTabs();
 
@@ -1670,7 +1670,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected void loadReport(JasperPrint jrPrint)
 	{
 		jasperPrint = jrPrint;
-		resourceRendererCache = null;
+		renderersCache = null;
 
 		refreshTabs();
 
@@ -2251,9 +2251,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			new JRGraphics2DExporter(jasperReportsContext)
 			{
 				@Override
-				protected ResourceRendererCache getResourceRendererCache()
+				protected RenderersCache getRenderersCache()
 				{
-					return getResourceRendererCache();
+					return getRenderersCache();
 				}
 			};
 	}
@@ -2262,13 +2262,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 * 
 	 */
-	protected ResourceRendererCache getResourceRendererCache()
+	protected RenderersCache getRenderersCache()
 	{
-		if (resourceRendererCache == null)
+		if (renderersCache == null)
 		{
-			resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+			renderersCache = new RenderersCache(getJasperReportsContext());
 		}
-		return resourceRendererCache;
+		return renderersCache;
 	}
 
 	/**

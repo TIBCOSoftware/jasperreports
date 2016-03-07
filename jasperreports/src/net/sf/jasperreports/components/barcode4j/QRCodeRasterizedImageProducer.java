@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -85,7 +85,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 					hints
 					);
 			BufferedImage image = getImage(matrix, componentElement.getForecolor());
-			return RenderableUtil.getInstance(jasperReportsContext).getRenderable(image, ImageTypeEnum.PNG, OnErrorTypeEnum.ERROR);
+			return RendererUtil.getInstance(jasperReportsContext).getRenderable(image, ImageTypeEnum.PNG, OnErrorTypeEnum.ERROR);
 		}
 		catch (WriterException e)
 		{

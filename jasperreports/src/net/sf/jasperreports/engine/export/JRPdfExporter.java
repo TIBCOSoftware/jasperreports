@@ -141,16 +141,14 @@ import net.sf.jasperreports.export.type.PdfPermissionsEnum;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
-import net.sf.jasperreports.renderers.SvgDataRenderer;
-import net.sf.jasperreports.renderers.SvgRenderable;
-import net.sf.jasperreports.renderers.WrappingImageToGraphics2DRenderer;
+import net.sf.jasperreports.renderers.WrappingImageDataToGraphics2DRenderer;
+import net.sf.jasperreports.renderers.WrappingSvgDataToGraphics2DRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -285,7 +283,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * <p/>
  * In JasperReports, SVG elements are rendered using 
  * {@link net.sf.jasperreports.renderers.Renderable} implementations,
- * which are most likely subclasses of the {@link net.sf.jasperreports.renderers.AbstractRenderToImageRenderer} 
+ * which are most likely subclasses of the {@link net.sf.jasperreports.renderers.AbstractRenderToImageDataRenderer} 
  * class. SVG renderer implementations should be concerned only with
  * implementing the 
  * <p/>
@@ -427,7 +425,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	/**
 	 *
 	 */
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 	protected Map<String,Image> loadedImagesMap;
 	protected Image pxImage;
 
@@ -598,7 +596,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 		initGlyphRenderer();
 
-		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		renderersCache = new RenderersCache(getJasperReportsContext());
 		loadedImagesMap = new HashMap<String,Image>();
 	}
 
@@ -1481,7 +1479,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = RenderableUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, printImage.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1571,44 +1569,52 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			if (renderer instanceof Graphics2DRenderable)
 			{
 				imageProcessorResult = processGraphics2D((Graphics2DRenderable)renderer);
 			}
-			else if (renderer instanceof SvgRenderable)
+			else if (renderer instanceof DataRenderable)
 			{
-				byte[] svgData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
-				if (svgData != null)
+				boolean isSvgData = getRendererUtil().isSvgData((DataRenderable)renderer);
+				
+				if (isSvgData)
 				{
-					imageProcessorResult = processGraphics2D(SvgDataRenderer.getInstance(svgData));
+					imageProcessorResult = 
+						processGraphics2D(
+							new WrappingSvgDataToGraphics2DRenderer((DataRenderable)renderer)
+							);
+				}
+				else
+				{
+					switch(printImage.getScaleImageValue())
+					{
+						case CLIP :
+						{
+							imageProcessorResult = 
+								processImageClip(
+									new WrappingImageDataToGraphics2DRenderer((DataRenderable)renderer)
+									);
+							break;
+						}
+						case FILL_FRAME :
+						{
+							imageProcessorResult = processImageFillFrame(renderer.getId(), (DataRenderable)renderer);
+							break;
+						}
+						case RETAIN_SHAPE :
+						default :
+						{
+							imageProcessorResult = processImageRetainShape(renderer.getId(), (DataRenderable)renderer);
+						}
+					}
 				}
 			}
-			else if (renderer instanceof ImageRenderable)
+			else
 			{
-				switch(printImage.getScaleImageValue())
-				{
-					case CLIP :
-					{
-						imageProcessorResult = 
-							processImageClip(
-								new WrappingImageToGraphics2DRenderer((ImageRenderable)renderer)
-								);
-						break;
-					}
-					case FILL_FRAME :
-					{
-						imageProcessorResult = processImageFillFrame(renderer.getId(), (ImageRenderable)renderer);
-						break;
-					}
-					case RETAIN_SHAPE :
-					default :
-					{
-						imageProcessorResult = processImageRetainShape(renderer.getId(), (ImageRenderable)renderer);
-					}
-				}
+				//FIXMEIMAGE do something?
 			}
 
 			return imageProcessorResult;
@@ -1620,7 +1626,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			Dimension2D dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
+			Dimension2D dimension = 
+				renderer instanceof DimensionRenderable 
+				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
+				: null;
 			if (dimension != null)
 			{
 				normalWidth = (int)dimension.getWidth();
@@ -1678,7 +1687,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					);
 		}
 
-		private InternalImageProcessorResult processImageFillFrame(String rendererId, ImageRenderable renderer) throws JRException
+		private InternalImageProcessorResult processImageFillFrame(String rendererId, DataRenderable renderer) throws JRException
 		{
 			Image image = null;
 			
@@ -1690,7 +1699,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				try
 				{
-					image = Image.getInstance(renderer.getImageData(jasperReportsContext));
+					image = Image.getInstance(renderer.getData(jasperReportsContext));
 					imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
 				}
 				catch (Exception e)
@@ -1716,7 +1725,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					);
 		}
 
-		private InternalImageProcessorResult processImageRetainShape(String rendererId, ImageRenderable renderer) throws JRException
+		private InternalImageProcessorResult processImageRetainShape(String rendererId, DataRenderable renderer) throws JRException
 		{
 			Image image = null;
 			
@@ -1728,7 +1737,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				try
 				{
-					image = Image.getInstance(renderer.getImageData(jasperReportsContext));
+					image = Image.getInstance(renderer.getData(jasperReportsContext));
 					imageTesterPdfContentByte.addImage(image, 10, 0, 0, 10, 0, 0);
 				}
 				catch (Exception e)
@@ -1855,9 +1864,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			pdfContentByte.addTemplate(
 				template,
 				(float)ratioX, 0f, 0f, (float)ratioY,
-				printImage.getX() + getOffsetX() + xoffset,
+				printImage.getX() 
+					+ leftPadding + getOffsetX() + xoffset,
 				pageFormat.getPageHeight()
-					- printImage.getY() - getOffsetY()
+					- printImage.getY() - topPadding - getOffsetY()
 					- (int)normalHeight
 					- yoffset
 				);

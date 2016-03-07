@@ -25,6 +25,7 @@ package net.sf.jasperreports.charts.util;
 
 import java.awt.geom.Rectangle2D;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.apache.batik.dom.GenericDOMImplementation;
@@ -38,7 +39,7 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.SvgTextRenderer;
+import net.sf.jasperreports.renderers.SimpleRenderToImageAwareDataRenderer;
 
 
 /**
@@ -79,7 +80,16 @@ public class SvgChartRendererFactory extends AbstractChartRenderableFactory
 		{
 			StringWriter swriter = new StringWriter();
 			grx.stream(swriter);
-			return new SvgTextRenderer(swriter.getBuffer().toString(), areaHyperlinks);
+			byte[] svgData = null;
+			try
+			{
+				svgData = swriter.getBuffer().toString().getBytes("UTF-8");
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			return new SimpleRenderToImageAwareDataRenderer(svgData, areaHyperlinks);
 		}
 		catch (SVGGraphics2DIOException e)
 		{

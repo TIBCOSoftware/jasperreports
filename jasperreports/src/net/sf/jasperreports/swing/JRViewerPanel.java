@@ -83,7 +83,7 @@ import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.view.JRHyperlinkListener;
 
 /**
@@ -553,9 +553,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			new JRGraphics2DExporter(viewerContext.getJasperReportsContext())
 			{
 				@Override
-				protected ResourceRendererCache getResourceRendererCache()
+				protected RenderersCache getRenderersCache()
 				{
-					return viewerContext.getResourceRendererCache();
+					return viewerContext.getRenderersCache();
 				}
 			};
 	}

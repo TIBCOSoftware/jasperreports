@@ -26,12 +26,12 @@ package net.sf.jasperreports.components.list;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.renderers.AbstractRenderer;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 /**
  * Am image renderer used to mark the unused vertical space in a list
@@ -39,9 +39,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
+public class UnusedSpaceImageRenderer extends AbstractRenderer implements Graphics2DRenderable
 {
-
 	private static final long serialVersionUID = 1L;
 
 	// transparent light grey
@@ -61,12 +60,6 @@ public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 	public UnusedSpaceImageRenderer(Shape clip)
 	{
 		this.clip = clip;
-	}
-	
-	@Override
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) 
-	{
-		return null;
 	}
 	
 	@Override
@@ -109,5 +102,4 @@ public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 			graphics.dispose();
 		}
 	}
-
 }

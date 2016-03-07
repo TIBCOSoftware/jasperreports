@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImageAwareRenderer implements Graphics2DRenderable, ImageRenderable, DimensionRenderable
+public abstract class AbstractRenderToImageDataRenderer extends AbstractRenderToImageAwareRenderer implements Graphics2DRenderable, DataRenderable, DimensionRenderable
 {
 	/**
 	 *
@@ -50,13 +50,6 @@ public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImag
 	public static final String EXCEPTION_MESSAGE_KEY_DIMENSION_NULL_NOT_ALLOWED = "engine.renderable.svg.dimension.null.not.allowed";
 
 	
-	@Override
-	public ImageTypeEnum getImageType()
-	{
-		return ImageTypeEnum.PNG;
-	}
-
-
 	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
 	{
@@ -69,7 +62,7 @@ public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImag
 
 
 	@Override
-	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
+	public byte[] getData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		Dimension2D dimension = getDimension(jasperReportsContext);
 		
@@ -85,15 +78,11 @@ public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImag
 		int dpi = getImageDataDPI(jasperReportsContext);
 		double scale = dpi/72d;
 		
-		ImageTypeEnum imageType = getImageType();
 		BufferedImage bi =
 			new BufferedImage(
 				(int) (scale * dimension.getWidth()),
 				(int) (scale * dimension.getHeight()),
-				// avoid creating JPEG images with transparency that would result 
-				// in invalid image files for some viewers (browsers)
-				(imageType == ImageTypeEnum.GIF || imageType == ImageTypeEnum.PNG)  
-					? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB 
+				BufferedImage.TYPE_INT_ARGB // always produce PNGs with transparency
 				);
 
 		Graphics2D g = createGraphics(bi);
@@ -113,7 +102,7 @@ public abstract class AbstractRenderToImageRenderer extends AbstractRenderToImag
 			g.dispose();
 		}
 		
-		return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageType());
+		return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG); // always produce PNGs with transparency
 	}
 
 

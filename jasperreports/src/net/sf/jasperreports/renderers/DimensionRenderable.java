@@ -21,13 +21,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Contributors:
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
 package net.sf.jasperreports.renderers;
 
 import java.awt.geom.Dimension2D;
@@ -37,6 +30,11 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
+ * This interface is implemented by renderable objects that want to provide a dimention for the graphics they render,
+ * usually by also implementing the {@link Graphics2DRenderable} interface.
+ * Data renderables such as images or SVG files do not need to provide a dimension as that will be read from the files themselves when needed.
+ * Reading the dimension of images and SVG documents is performed using wrapping rendeable implementations that wrap the original data renderable and only ask them for their data.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public interface DimensionRenderable

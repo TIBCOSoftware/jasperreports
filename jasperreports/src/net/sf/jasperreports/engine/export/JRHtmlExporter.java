@@ -96,18 +96,18 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
-import net.sf.jasperreports.renderers.SvgRenderable;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -172,7 +172,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	protected Writer writer;
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 	
 	protected Map<String, HtmlFont> fontsToProcess;
 	
@@ -292,7 +292,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 		rendererToImagePathMap = new HashMap<String,String>();
 		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
-		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		renderersCache = new RenderersCache(getJasperReportsContext());
 
 		fontsToProcess = new HashMap<String, HtmlFont>();
 
@@ -1736,7 +1736,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		
 		Renderable renderer = image.getRenderer();
 
-		boolean isLazy = RenderableUtil.isLazy(renderer);
+		boolean isLazy = RendererUtil.isLazy(renderer);
 		
 		boolean isUsingImagesToAlign = getCurrentConfiguration().isUsingImagesToAlign();
 		if (renderer != null || isUsingImagesToAlign)
@@ -1781,20 +1781,20 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 				if (isLazy)
 				{
 					// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-					imagePath = RenderableUtil.getResourceLocation(renderer);
+					imagePath = RendererUtil.getResourceLocation(renderer);
 				}
 				else
 				{
 					if (renderer instanceof ResourceRenderer)
 					{
-						renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+						renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 					}
 
 					boolean isEmbedImage = isEmbedImage(image);
 					
 					if (
 						!isEmbedImage //we do not cache imagePath for embedded images because it is too big
-						&& renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
+						&& renderer instanceof DataRenderable //we do not cache imagePath for non-data renderers because they render width different width/height each time
 						&& rendererToImagePathMap.containsKey(renderer.getId())
 						)
 					{
@@ -1804,26 +1804,19 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					{
 						if (isEmbedImage)
 						{
-							byte[] imageData = null;
-							String imageType = null;
+							DataRenderable dataRenderer = 
+								getRendererUtil().getDataRenderable(
+									renderer,
+									new Dimension(availableImageWidth, availableImageHeight),
+									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+									);
 
-							if (renderer instanceof SvgRenderable)
-							{
-								imageData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
-								imageType = "image/svg+xml";
-							}
-							else
-							{
-								ImageRenderable imageRenderer = 
-									RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
-										renderer,
-										new Dimension(availableImageWidth, availableImageHeight),
-										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-										);
+							byte[] imageData = dataRenderer.getData(jasperReportsContext);
 
-								imageData = imageRenderer.getImageData(jasperReportsContext);
-								imageType = imageRenderer.getImageType().getMimeType();
-							}
+							String imageMimeType = 
+								getRendererUtil().isSvgData(imageData)
+								? "image/svg+xml"
+								: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 							
 							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1833,7 +1826,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 							
 							String encoding = getExporterOutput().getEncoding();
 							
-							imagePath = "data:" + imageType + ";base64," + new String(baos.toByteArray(), encoding);
+							imagePath = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), encoding);
 							//don't cache the base64 encoded image as imagePath because they are too big
 						}
 						else
@@ -1844,21 +1837,27 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 								: getImageHandler();
 							if (imageHandler != null)
 							{
-								JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-								String imageName = getImageName(imageIndex);
-
-								ImageRenderable imageRenderer = 
-									RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+								DataRenderable dataRenderer = 
+									getRendererUtil().getDataRenderable(
 										renderer,
 										new Dimension(availableImageWidth, availableImageHeight),
 										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 										);
 
-								imageHandler.handleResource(imageName, imageRenderer.getImageData(jasperReportsContext));
+								byte[] imageData = dataRenderer.getData(jasperReportsContext);
+
+								String fileExtension = 
+									getRendererUtil().isSvgData(imageData)
+									? "svg"
+									: JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
+
+								String imageName = getImageName(getElementIndex(gridCell), fileExtension);
+
+								imageHandler.handleResource(imageName, imageData);
 
 								imagePath = imageHandler.getResourcePath(imageName);
 
-								if (imageRenderer == renderer)
+								if (dataRenderer == renderer)
 								{
 									//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
 									rendererToImagePathMap.put(renderer.getId(), imagePath);
@@ -1872,7 +1871,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					{
 						Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
 						
-						if (renderer instanceof ImageRenderable)
+						if (renderer instanceof DataRenderable)
 						{
 							imageMapName = imageMaps.get(new Pair<String, Rectangle>(renderer.getId(), renderingArea));
 						}
@@ -1883,7 +1882,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 							imageMapName = "map_" + getElementIndex(gridCell).toString();
 							imageMapAreas = ((AreaHyperlinksRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 							
-							if (renderer instanceof ImageRenderable)
+							if (renderer instanceof DataRenderable)
 							{
 								imageMaps.put(new Pair<String, Rectangle>(renderer.getId(), renderingArea), imageMapName);
 							}
@@ -1928,11 +1927,14 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					{
 						// Image load might fail. 
 						Renderable tmpRenderer = 
-							net.sf.jasperreports.engine.RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						// If renderer was replaced, ignore image dimension.
-						if (tmpRenderer == renderer)
+							net.sf.jasperreports.engine.RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(
+								renderersCache,
+								renderer, 
+								image.getOnErrorTypeValue()
+								);
+						if (tmpRenderer instanceof DimensionRenderable)
 						{
-							Dimension2D dimension = ((DimensionRenderable)renderer).getDimension(jasperReportsContext);
+							Dimension2D dimension = ((DimensionRenderable)tmpRenderer).getDimension(jasperReportsContext);
 							if (dimension != null)
 							{
 								normalWidth = dimension.getWidth();
@@ -2095,7 +2097,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			: getImageHandler();
 		if (imageHandler != null)
 		{
-			byte[] imageData = ((ImageRenderable)pxRenderer).getImageData(jasperReportsContext);
+			byte[] imageData = ((DataRenderable)pxRenderer).getData(jasperReportsContext);
 			
 			imageHandler.handleResource(imageName, imageData);
 

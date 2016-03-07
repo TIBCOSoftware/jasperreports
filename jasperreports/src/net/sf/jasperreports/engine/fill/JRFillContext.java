@@ -37,7 +37,6 @@ import net.sf.jasperreports.data.cache.DataSnapshot;
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTemplate;
@@ -50,7 +49,8 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.Pair;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderersCache;
 
 /**
  * Context class shared by all the fillers involved in a report (master and subfillers).
@@ -64,8 +64,8 @@ public class JRFillContext
 {
 	private final BaseReportFiller masterFiller;
 	
-	private Map<Object,JRPrintImage> loadedImages;
-	private ResourceRendererCache resourceRendererCache;
+	private Map<Object,Renderable> loadedImageRenderers;
+	private RenderersCache renderersCache;
 	private Map<Object,JasperReport> loadedSubreports;
 	private Map<Object,JRTemplate> loadedTemplates;
 	private DeduplicableRegistry deduplicableRegistry;
@@ -107,8 +107,8 @@ public class JRFillContext
 		this.masterFiller = masterFiller;
 		this.jasperReportsContext = masterFiller.getJasperReportsContext();
 		
-		loadedImages = new HashMap<Object,JRPrintImage>();
-		resourceRendererCache = new ResourceRendererCache(jasperReportsContext);
+		loadedImageRenderers = new HashMap<Object,Renderable>();
+		renderersCache = new RenderersCache(jasperReportsContext);
 		loadedSubreports = new HashMap<Object,JasperReport>();
 		loadedTemplates = new HashMap<Object,JRTemplate>();
 		deduplicableRegistry = new DeduplicableRegistry();
@@ -127,47 +127,47 @@ public class JRFillContext
 	}
 
 	/**
-	 * Checks whether an image given by source has already been loaded and cached.
+	 * Checks whether an image renderer given by source has already been loaded and cached.
 	 * 
-	 * @param source the source of the image
-	 * @return whether the image has been cached
-	 * @see #getLoadedImage(Object)
-	 * @see #registerLoadedImage(Object, JRPrintImage)
+	 * @param source the source of the image renderer
+	 * @return whether the image renderer has been cached
+	 * @see #getLoadedRenderer(Object)
+	 * @see #registerLoadedRenderer(Object, Renderable)
 	 */
-	public boolean hasLoadedImage(Object source)
+	public boolean hasLoadedRenderer(Object source)
 	{
-		return loadedImages.containsKey(source); 
+		return loadedImageRenderers.containsKey(source); 
 	}
 	
 	
 	/**
-	 * Gets a cached image.
+	 * Gets a cached image renderer.
 	 * 
-	 * @param source the source of the image
-	 * @return the cached image
-	 * @see #registerLoadedImage(Object, JRPrintImage)
+	 * @param source the source renderer of the image
+	 * @return the cached image renderer
+	 * @see #registerLoadedRenderer(Object, Renderable)
 	 */
-	public JRPrintImage getLoadedImage(Object source)
+	public Renderable getLoadedRenderer(Object source)
 	{
-		return loadedImages.get(source); 
+		return loadedImageRenderers.get(source); 
 	}
 	
 	
 	/**
-	 * Registers an image loaded from a source.
+	 * Registers an image renderer loaded from a source.
 	 * <p>
-	 * The image is cached for further use.
+	 * The image renderer is cached for further use.
 	 * 
-	 * @param source the source that was used to load the image
-	 * @param image the loaded image
-	 * @see #getLoadedImage(Object)
+	 * @param source the source that was used to load the image renderer
+	 * @param renderer the loaded image renderer
+	 * @see #getLoadedRenderer(Object)
 	 */
-	public void registerLoadedImage(Object source, JRPrintImage image)
+	public void registerLoadedRenderer(Object source, Renderable renderer)
 	{
-		loadedImages.put(source, image);
+		loadedImageRenderers.put(source, renderer);
 		if (usingVirtualizer)
 		{
-			virtualizationContext.cacheRenderer(image);
+			virtualizationContext.cacheRenderer(renderer);
 		}
 	}
 
@@ -175,9 +175,9 @@ public class JRFillContext
 	/**
 	 * 
 	 */
-	public ResourceRendererCache getResourceRendererCache()
+	public RenderersCache getRenderersCache()
 	{
-		return resourceRendererCache;
+		return renderersCache;
 	}
 
 

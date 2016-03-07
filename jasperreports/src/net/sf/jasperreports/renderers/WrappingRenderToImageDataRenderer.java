@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
+public class WrappingRenderToImageDataRenderer extends AbstractRenderToImageDataRenderer
 {
 
 	/**
@@ -57,7 +57,7 @@ public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
 	/**
 	 *
 	 */
-	public WrappingRenderToImageRenderer(
+	public WrappingRenderToImageDataRenderer(
 		Graphics2DRenderable renderer, 
 		Dimension2D dimension,
 		Color backcolor
@@ -73,7 +73,7 @@ public class WrappingRenderToImageRenderer extends AbstractRenderToImageRenderer
 	/**
 	 *
 	 */
-	public WrappingRenderToImageRenderer(
+	public WrappingRenderToImageDataRenderer(
 		Graphics2DRenderable renderer, 
 		DimensionRenderable dimensionRender,
 		Color backcolor

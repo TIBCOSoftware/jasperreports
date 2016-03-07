@@ -22,31 +22,7 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Contributors:
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
-package net.sf.jasperreports.renderers;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
-
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Contains classes and interfaces for the item based components.
  */
-public interface ImageRenderable
-{
-	/**
-	 *
-	 */
-	public ImageTypeEnum getImageType();
-
-	/**
-	 *
-	 */
-	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException;
-}
+package net.sf.jasperreports.components.items;

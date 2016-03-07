@@ -82,17 +82,17 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.RtfExporterConfiguration;
 import net.sf.jasperreports.export.RtfReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 /**
  * Exports a JasperReports document to RTF format. 
@@ -155,7 +155,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
 
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 	
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{
@@ -261,7 +261,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	{
 		super.initReport();
 		
-		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		renderersCache = new RenderersCache(getJasperReportsContext());
 	}
 	
 
@@ -1101,7 +1101,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, printImage.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, printImage.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1345,27 +1345,31 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
+				DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
-			ImageRenderable imageRenderer = 
-				RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+			DataRenderable imageRenderer = 
+				getRendererUtil().getImageDataRenderable(
+					renderersCache,
 					renderer,
 					new Dimension(availableImageWidth, availableImageHeight),
 					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 					);
 
+			byte[] imageData = imageRenderer.getData(jasperReportsContext);
+			
 			return 
 				new InternalImageProcessorResult(
-					imageRenderer.getImageData(jasperReportsContext), 
+					imageData, 
 					dimension, 
-					imageRenderer.getImageType()
+					JRTypeSniffer.getImageTypeValue(imageData)
 					);
 		}
 	}

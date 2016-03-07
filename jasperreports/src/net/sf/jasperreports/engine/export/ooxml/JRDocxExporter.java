@@ -88,18 +88,18 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
 import net.sf.jasperreports.export.DocxReportConfiguration;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -176,7 +176,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected Writer docWriter;
 
 	protected Map<String, String> rendererToImagePathMap;
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 //	protected Map imageMaps;
 
 	protected int reportIndex;
@@ -336,7 +336,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				!configuration.isFramesAsNestedTables()
 				);
 
-		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		renderersCache = new RenderersCache(getJasperReportsContext());
 	}
 
 	
@@ -940,7 +940,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1207,14 +1207,15 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
+				DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
 			
@@ -1227,7 +1228,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 //			else
 //			{
 				if (
-					renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
+					renderer instanceof DataRenderable //we do not cache imagePath for non-data renderers because they render width different width/height each time
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
@@ -1237,15 +1238,17 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				{
 					JRPrintElementIndex imageIndex = getElementIndex(cell);
 
-					ImageRenderable imageRenderer = 
-						RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+					DataRenderable imageRenderer = 
+						getRendererUtil().getImageDataRenderable(
+							renderersCache,
 							renderer,
 							new Dimension(availableImageWidth, availableImageHeight),
 							ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 							);
 
-					String mimeType = imageRenderer.getImageType().getMimeType();
-					if (mimeType == null)
+					byte[] imageData = imageRenderer.getData(jasperReportsContext);
+					String mimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
+					if (mimeType == null)//FIXMEIMAGE do we need these tests? check all
 					{
 						mimeType = ImageTypeEnum.JPEG.getMimeType();
 					}
@@ -1255,7 +1258,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
 							"word/media/" + imageName,
-							imageRenderer.getImageData(jasperReportsContext)
+							imageData
 							)
 						);
 					

@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.renderers.ImageRenderer;
+import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.Renderable;
 
 /**
@@ -82,7 +82,7 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 			provider.finish();
 			
 			byte[] imageData = out.toByteArray();
-			return ImageRenderer.getInstance(imageData);
+			return SimpleDataRenderer.getInstance(imageData);
 		}
 		catch (Exception e)
 		{

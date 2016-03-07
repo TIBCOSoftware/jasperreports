@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.output.OutputException;
 
@@ -42,7 +44,7 @@ import net.sourceforge.barbecue.output.OutputException;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @deprecated Replaced by {@link BarbecueRendererImpl}.
  */
-public class BarbecueRenderer extends JRAbstractSvgRenderer
+public class BarbecueRenderer extends JRAbstractSvgRenderer implements Graphics2DRenderable, DimensionRenderable
 {
 
 	private static final long serialVersionUID = 1L;

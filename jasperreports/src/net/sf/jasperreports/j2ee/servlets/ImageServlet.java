@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.j2ee.servlets;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.List;
@@ -41,11 +42,11 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.SvgRenderable;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -98,39 +99,35 @@ public class ImageServlet extends BaseHttpServlet
 			
 			Renderable renderer = image.getRenderer();
 			
+			Dimension dimension = new Dimension(image.getWidth(), image.getHeight());
+			Color backcolor = ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null;
+			
+			RendererUtil rendererUtil = RendererUtil.getInstance(getJasperReportsContext());
+			
 			try
 			{
-				if (renderer instanceof ResourceRenderer)
-				{
-					renderer = //hard to use a cache here and it would be just for some icon type of images, if any 
-						RenderableUtil.getInstance(getJasperReportsContext()).getNonLazyRenderable(
-							((ResourceRenderer)renderer).getResourceLocation(), 
-							OnErrorTypeEnum.ERROR
-							);
-				}
-
-				if (renderer instanceof SvgRenderable)
-				{
-					imageData = ((SvgRenderable)renderer).getSvgData(getJasperReportsContext());
-					imageMimeType = "image/svg+xml";//FIXMEIMAGE use constant everywhere
-				}
-				else
-				{
-					ImageRenderable imageRenderer = 
-						RenderableUtil.getInstance(getJasperReportsContext()).getImageRenderable(
-							renderer,
-							new Dimension(image.getWidth(), image.getHeight()),
-							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-							);
-
-					imageData = imageRenderer.getImageData(getJasperReportsContext());
-					imageMimeType = imageRenderer.getImageType().getMimeType();
-				}
+				imageData = process(renderer, dimension, backcolor);
 			}
-			catch (JRException e)
+			catch (Exception e)
 			{
-				throw new ServletException(e);
+				try
+				{
+					Renderable onErrorRenderer = rendererUtil.handleImageError(e, image.getOnErrorTypeValue());
+					if (onErrorRenderer != null)
+					{
+						imageData = process(onErrorRenderer, dimension, backcolor);
+					}
+				}
+				catch (Exception ex)
+				{
+					throw new ServletException(ex);
+				}
 			}
+			
+			imageMimeType = 
+				rendererUtil.isSvgData(imageData)
+				? "image/svg+xml" //FIXMEIMAGE use constant everywhere
+				: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 		}
 
 		if (imageData != null && imageData.length > 0)
@@ -147,5 +144,31 @@ public class ImageServlet extends BaseHttpServlet
 		}
 	}
 
+	
+	protected byte[] process(
+		Renderable renderer,
+		Dimension dimension,
+		Color backcolor
+		) throws JRException
+	{
+		RendererUtil rendererUtil = RendererUtil.getInstance(getJasperReportsContext());
+		
+		if (renderer instanceof ResourceRenderer)
+		{
+			renderer = //hard to use a cache here and it would be just for some icon type of images, if any 
+					rendererUtil.getNonLazyRenderable(
+					((ResourceRenderer)renderer).getResourceLocation(), 
+					OnErrorTypeEnum.ERROR
+					);
+		}
 
+		DataRenderable dataRenderer = 
+				rendererUtil.getDataRenderable(
+				renderer,
+				dimension,
+				backcolor
+				);
+		
+		return dataRenderer.getData(getJasperReportsContext());
+	}
 }

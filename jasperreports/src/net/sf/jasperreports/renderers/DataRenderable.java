@@ -21,25 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Contributors:
- * Adrian Jackson - iapetus@users.sourceforge.net
- * David Taylor - exodussystems@users.sourceforge.net
- * Lars Kristensen - llk@users.sourceforge.net
- */
 package net.sf.jasperreports.renderers;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
+
 /**
+ * The {@link net.sf.jasperreports.renderers.DataRenderable} interface has a method called 
+ * {@link DataRenderable#getData(JasperReportsContext)},
+ * which gets called by the engine each time it needs the actual image data either to embed it
+ * directly into the exported documents, or to use it to draw the image or the graphic onto a device 
+ * or graphic context.
+ *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface SvgRenderable
+public interface DataRenderable
 {
 	/**
 	 *
 	 */
-	public byte[] getSvgData(JasperReportsContext jasperReportsContext) throws JRException;
+	public byte[] getData(JasperReportsContext jasperReportsContext) throws JRException;
 }

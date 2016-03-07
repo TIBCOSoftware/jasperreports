@@ -49,7 +49,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @deprecated Replaced by {@link JCommonDrawableRendererImpl}.
  */
-public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
+public class JCommonDrawableRenderer extends JRAbstractSvgRenderer implements Graphics2DRenderable
 {
 
 	/**

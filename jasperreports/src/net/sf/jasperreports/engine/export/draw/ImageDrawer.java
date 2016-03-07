@@ -44,9 +44,9 @@ import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -54,16 +54,16 @@ import net.sf.jasperreports.renderers.ResourceRendererCache;
  */
 public class ImageDrawer extends ElementDrawer<JRPrintImage>
 {
-	private final ResourceRendererCache resourceRendererCache;
+	private final RenderersCache renderersCache;
 
 	/**
-	 * @deprecated Replaced by {@link #ImageDrawer(JasperReportsContext, ResourceRendererCache)}.
+	 * @deprecated Replaced by {@link #ImageDrawer(JasperReportsContext, RenderersCache)}.
 	 */
 	public ImageDrawer(JasperReportsContext jasperReportsContext)
 	{
 		this(
 			jasperReportsContext,
-			new ResourceRendererCache(jasperReportsContext)
+			new RenderersCache(jasperReportsContext)
 			);
 	}
 	
@@ -72,12 +72,12 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 	 */
 	public ImageDrawer(
 		JasperReportsContext jasperReportsContext,
-		ResourceRendererCache resourceRendererCache
+		RenderersCache renderersCache
 		)
 	{
 		super(jasperReportsContext);
 		
-		this.resourceRendererCache = resourceRendererCache;
+		this.renderersCache = renderersCache;
 	}
 	
 	
@@ -117,7 +117,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = RenderableUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorTypeValue());
+				Renderable onErrorRenderer = RendererUtil.getInstance(getJasperReportsContext()).handleImageError(e, printImage.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
 					internalImageDrawer.draw(grx, onErrorRenderer);
@@ -191,10 +191,10 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
-			Graphics2DRenderable grxRenderer = RenderableUtil.getInstance(getJasperReportsContext()).getGraphics2DRenderable(renderer);
+			Graphics2DRenderable grxRenderer = renderersCache.getGraphics2DRenderable(renderer);
 			
 			switch (printImage.getScaleImageValue())
 			{

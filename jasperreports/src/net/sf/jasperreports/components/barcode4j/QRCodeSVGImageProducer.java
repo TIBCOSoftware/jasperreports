@@ -24,7 +24,7 @@
 package net.sf.jasperreports.components.barcode4j;
 
 import java.awt.Color;
-import java.io.StringWriter;
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.SvgTextRenderer;
+import net.sf.jasperreports.renderers.SimpleRenderToImageAwareDataRenderer;
 
 
 /**
@@ -162,8 +162,8 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		}        
 
 		Source source = new DOMSource(svgDoc);
-		StringWriter outWriter = new StringWriter();
-		Result output = new StreamResult(outWriter);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		Result output = new StreamResult(baos);
 
 		try
 		{
@@ -177,8 +177,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 			throw new JRRuntimeException(e);
 		}
 
-		String svgString = outWriter.toString();
-		return SvgTextRenderer.getInstance(svgString);
+		return SimpleRenderToImageAwareDataRenderer.getInstance(baos.toByteArray());
 	}
 
 }

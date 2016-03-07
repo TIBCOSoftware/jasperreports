@@ -40,16 +40,16 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
-import net.sf.jasperreports.renderers.ImageRenderer;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link ResourceRenderer} and {@link ImageRenderer}.
+ * @deprecated Replaced by {@link ResourceRenderer} and {@link DataRenderable}.
  */
-public class JRImageRenderer extends JRAbstractRenderer
+public class JRImageRenderer extends JRAbstractRenderer implements DataRenderable
 {
 
 	/**
@@ -245,6 +245,14 @@ public class JRImageRenderer extends JRAbstractRenderer
 		}
 
 		return imageData;
+	}
+
+
+	@Override
+	public byte[] getData(JasperReportsContext jasperReportsContext)
+			throws JRException
+	{
+		return getImageData(jasperReportsContext);
 	}
 
 

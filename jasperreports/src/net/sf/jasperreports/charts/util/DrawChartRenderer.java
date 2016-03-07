@@ -37,13 +37,15 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @deprecated Replaced by {@link DrawChartRendererImpl}.
  */
-public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable
+public class DrawChartRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable, Graphics2DRenderable, DimensionRenderable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

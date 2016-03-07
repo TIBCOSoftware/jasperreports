@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
- * @deprecated Replaced by {@link SimpleImageMapRenderer}.
+ * @deprecated Replaced by {@link SimpleAreaHyperlinksDataRenderer}.
  */
 public class JRSimpleImageMapRenderer extends JRImageRenderer implements ImageMapRenderable
 {

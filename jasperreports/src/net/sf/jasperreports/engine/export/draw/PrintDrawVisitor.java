@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.Graphics2DReportConfiguration;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.RenderersCache;
 
 
 /**
@@ -70,7 +70,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private FrameDrawer frameDrawer;
 
 	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, ResourceRendererCache, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean)}.
 	 */
 	public PrintDrawVisitor(JasperReportsContext jasperReportsContext)
 	{
@@ -78,12 +78,12 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.lineDrawer = new LineDrawer(jasperReportsContext);
 		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
 		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
-		this.imageDrawer = new ImageDrawer(jasperReportsContext, new ResourceRendererCache(jasperReportsContext));
+		this.imageDrawer = new ImageDrawer(jasperReportsContext, new RenderersCache(jasperReportsContext));
 	}
 	
 	public PrintDrawVisitor(
 		JasperReportsContext jasperReportsContext,
-		ResourceRendererCache resourceRendererCache,
+		RenderersCache renderersCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont
 		)
@@ -92,7 +92,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.lineDrawer = new LineDrawer(jasperReportsContext);
 		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
 		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
-		this.imageDrawer = new ImageDrawer(jasperReportsContext, resourceRendererCache);
+		this.imageDrawer = new ImageDrawer(jasperReportsContext, renderersCache);
 
 		AwtTextRenderer textRenderer = 
 			new AwtTextRenderer(
@@ -107,6 +107,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	
 	public PrintDrawVisitor(
 		JRGraphics2DExporterContext exporterContext, 
+		RenderersCache renderersCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont
 		)
@@ -115,7 +116,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		this.lineDrawer = new LineDrawer(jasperReportsContext);
 		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
 		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
-		this.imageDrawer = new ImageDrawer(jasperReportsContext);
+		this.imageDrawer = new ImageDrawer(jasperReportsContext, renderersCache);
 
 		AwtTextRenderer textRenderer = 
 			new AwtTextRenderer(
@@ -129,7 +130,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, ResourceRendererCache, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean)}.
 	 */
 	public void setTextRenderer(JRReport report)
 	{

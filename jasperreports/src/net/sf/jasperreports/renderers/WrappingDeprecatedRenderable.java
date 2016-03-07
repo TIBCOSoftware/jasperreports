@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -49,10 +50,10 @@ public class WrappingDeprecatedRenderable implements net.sf.jasperreports.engine
 	 *
 	 */
 	private final String id;
-	private final RenderableTypeEnum type;
 	private final Graphics2DRenderable grxRenderable;
-	private final ImageRenderable imageRenderable;
+	private final DataRenderable dataRenderable;
 	private final DimensionRenderable dimensionRenderable;
+	private ImageTypeEnum imageType = null;
 	
 	
 	/**
@@ -60,16 +61,14 @@ public class WrappingDeprecatedRenderable implements net.sf.jasperreports.engine
 	 */
 	public WrappingDeprecatedRenderable(
 		String id,
-		RenderableTypeEnum type,
 		Graphics2DRenderable grxRenderable,
-		ImageRenderable imageRenderable,
+		DataRenderable dataRenderable,
 		DimensionRenderable dimensionRenderable
 		)
 	{
 		this.id = id;
-		this.type = type;
 		this.grxRenderable = grxRenderable;
-		this.imageRenderable = imageRenderable;
+		this.dataRenderable = dataRenderable;
 		this.dimensionRenderable = dimensionRenderable;
 	}
 	
@@ -122,14 +121,30 @@ public class WrappingDeprecatedRenderable implements net.sf.jasperreports.engine
 	@Override
 	public RenderableTypeEnum getTypeValue() 
 	{
-		return type;
+		if (grxRenderable instanceof WrappingDataToGraphics2DRenderer)
+		{
+			return ((WrappingDataToGraphics2DRenderer)grxRenderable).getRenderableType();
+		}
+		return RenderableTypeEnum.SVG;
 	}
 
 
 	@Override
 	public ImageTypeEnum getImageTypeValue() 
 	{
-		return imageRenderable.getImageType();
+		if (imageType == null)
+		{
+			try
+			{
+				return JRTypeSniffer.getImageTypeValue(getImageData());
+			}
+			catch (JRException e)
+			{
+				return ImageTypeEnum.UNKNOWN;
+			}
+		}
+		
+		return imageType;
 	}
 
 
@@ -143,7 +158,9 @@ public class WrappingDeprecatedRenderable implements net.sf.jasperreports.engine
 	@Override
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException 
 	{
-		return imageRenderable.getImageData(jasperReportsContext);
+		byte[] imageData = dataRenderable.getData(jasperReportsContext);
+		imageType = JRTypeSniffer.getImageTypeValue(imageData);
+		return imageData;
 	}
 
 

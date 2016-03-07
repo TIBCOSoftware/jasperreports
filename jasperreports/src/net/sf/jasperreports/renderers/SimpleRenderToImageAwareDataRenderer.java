@@ -25,131 +25,78 @@ package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
-import org.apache.batik.bridge.BridgeContext;
-import org.apache.batik.bridge.GVTBuilder;
-import org.apache.batik.bridge.UserAgent;
-import org.apache.batik.bridge.ViewBox;
-import org.apache.batik.dom.svg.SVGDocumentFactory;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
-import org.apache.batik.gvt.GraphicsNode;
-import org.w3c.dom.svg.SVGDocument;
-import org.w3c.dom.svg.SVGPreserveAspectRatio;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
- * SVG renderer implementation based on <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
- *
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * This class a renderable implementation for wrapping SVG data.
+ * It is better suited for SVG data then the {@link SimpleDataRenderer} because it it allows providing additional 
+ * information about required resolution of the graphic, when converted to
+ * and image, as the engine needs to do that for certain document formats at export time.
+ * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class AbstractSvgRenderer extends AbstractRenderToImageAwareRenderer implements SvgRenderable, Graphics2DRenderable, DimensionRenderable, AreaHyperlinksRenderable
+public class SimpleRenderToImageAwareDataRenderer extends AbstractRenderToImageAwareRenderer implements DataRenderable, AreaHyperlinksRenderable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	private final byte[] data;
 	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
 
 	private int minDPI;
 	private boolean antiAlias;
 
-	private transient GraphicsNode rootNode;
-	private transient Dimension2D documentSize;
+	
+	/**
+	 *
+	 */
+	protected SimpleRenderToImageAwareDataRenderer(byte[] data)
+	{
+		this(data, null);
+	}
 
 	/**
 	 * Creates a SVG renderer.
 	 *
 	 * @param areaHyperlinks a list of {@link JRPrintImageAreaHyperlink area hyperlinks}
 	 */
-	protected AbstractSvgRenderer(List<JRPrintImageAreaHyperlink> areaHyperlinks)
+	public SimpleRenderToImageAwareDataRenderer(
+		byte[] data,
+		List<JRPrintImageAreaHyperlink> areaHyperlinks
+		)
 	{
+		this.data = data;
 		this.areaHyperlinks = areaHyperlinks;
 	}
 
-	@Override
-	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		ensureSvg(jasperReportsContext);
-
-		AffineTransform transform = ViewBox.getPreserveAspectRatioTransform(
-				new float[]{0, 0, (float) documentSize.getWidth(), (float) documentSize.getHeight()},
-				SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true,
-				(float) rectangle.getWidth(), (float) rectangle.getHeight());
-		Graphics2D graphics = (Graphics2D) grx.create();
-		try
-		{
-			graphics.translate(rectangle.getX(), rectangle.getY());
-			graphics.transform(transform);
-
-			// CompositeGraphicsNode not thread safe
-			synchronized (rootNode)
-			{
-				rootNode.paint(graphics);
-			}
-		}
-		finally
-		{
-			graphics.dispose();
-		}
-	}
-
-	@Override
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
-	{
-		try
-		{
-			ensureSvg(jasperReportsContext);
-			return documentSize;
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
-	protected synchronized void ensureSvg(JasperReportsContext jasperReportsContext) throws JRException
-	{
-		if (rootNode != null)
-		{
-			// already loaded
-			return;
-		}
-
-		UserAgent userAgent = new BatikUserAgent(jasperReportsContext);
-		
-		SVGDocumentFactory documentFactory =
-			new SAXSVGDocumentFactory(userAgent.getXMLParserClassName(), true);
-		documentFactory.setValidating(userAgent.isXMLParserValidating());
-
-		SVGDocument document = getSvgDocument(jasperReportsContext, documentFactory);
-
-		BridgeContext ctx = new BridgeContext(userAgent);
-		ctx.setDynamic(true);
-		GVTBuilder builder = new GVTBuilder();
-		rootNode = builder.build(ctx, document);
-		documentSize = ctx.getDocumentSize();
-	}
-	
-
 	/**
-	 * 
+	 *
 	 */
-	protected abstract SVGDocument getSvgDocument(
-		JasperReportsContext jasperReportsContext,
-		SVGDocumentFactory documentFactory
-		) throws JRException;
+	public static SimpleRenderToImageAwareDataRenderer getInstance(byte[] data)
+	{
+		if (data != null) 
+		{
+			return new SimpleRenderToImageAwareDataRenderer(data);
+		}
+		return null;
+	}
 
-	
+
+	@Override
+	public byte[] getData(JasperReportsContext jasperReportsContext) throws JRException
+	{
+		return data;
+	}
+
 	@Override
 	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{

@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.renderers;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -40,25 +43,24 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * SVG renderer implementation based on <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
  *
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class WrappingSvgToGraphics2DRenderer extends AbstractSvgRenderer
+public class WrappingSvgDataToGraphics2DRenderer extends AbstractSvgDataToGraphics2DRenderer
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private SvgRenderable svgRenderer;
+	private final DataRenderable dataRenderer;
+	private final AreaHyperlinksRenderable areaHyperlinksRenderer;
 
 	/**
 	 *
 	 */
-	public WrappingSvgToGraphics2DRenderer(
-		SvgRenderable svgRenderer, 
-		List<JRPrintImageAreaHyperlink> areaHyperlinks
-		)
+	public WrappingSvgDataToGraphics2DRenderer(DataRenderable dataRenderer)
 	{
-		super(areaHyperlinks);
+		super(null);
 		
-		this.svgRenderer = svgRenderer;
+		this.dataRenderer = dataRenderer;
+		this.areaHyperlinksRenderer = dataRenderer instanceof AreaHyperlinksRenderable ? (AreaHyperlinksRenderable)dataRenderer : null;
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class WrappingSvgToGraphics2DRenderer extends AbstractSvgRenderer
 				documentFactory.createSVGDocument(
 					null, 
 					new ByteArrayInputStream(
-						svgRenderer.getSvgData(jasperReportsContext)
+						dataRenderer.getData(jasperReportsContext)
 						)
 					);
 		}
@@ -84,8 +86,42 @@ public class WrappingSvgToGraphics2DRenderer extends AbstractSvgRenderer
 	}
 
 	@Override
-	public byte[] getSvgData(JasperReportsContext jasperReportsContext) throws JRException 
+	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
-		return svgRenderer.getSvgData(jasperReportsContext);
+		return areaHyperlinksRenderer == null ? super.getImageAreaHyperlinks(renderingArea) : areaHyperlinksRenderer.getImageAreaHyperlinks(renderingArea);
+	}
+
+	@Override
+	public boolean hasImageAreaHyperlinks()
+	{
+		return areaHyperlinksRenderer == null ? super.hasImageAreaHyperlinks() : areaHyperlinksRenderer.hasImageAreaHyperlinks();
+	}
+
+	@Override
+	public byte[] getData(JasperReportsContext jasperReportsContext) throws JRException 
+	{
+		return dataRenderer.getData(jasperReportsContext);
+	}
+
+	@Override
+	public int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	{
+		if (dataRenderer instanceof RenderToImageAwareRenderable)
+		{
+			return ((RenderToImageAwareRenderable) dataRenderer).getImageDataDPI(jasperReportsContext);
+		}
+		
+		return super.getImageDataDPI(jasperReportsContext);
+	}
+
+	@Override
+	public Graphics2D createGraphics(BufferedImage bi)
+	{
+		if (dataRenderer instanceof RenderToImageAwareRenderable)
+		{
+			return ((RenderToImageAwareRenderable) dataRenderer).createGraphics(bi);
+		}
+		
+		return super.createGraphics(bi);
 	}
 }

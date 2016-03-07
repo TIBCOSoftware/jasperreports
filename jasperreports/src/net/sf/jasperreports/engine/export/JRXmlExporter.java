@@ -96,12 +96,11 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.XmlExporterOutput;
-import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
-import net.sf.jasperreports.renderers.SvgRenderable;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -203,7 +202,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	protected VersionComparator versionComparator = new VersionComparator();
 	
 	protected Map<String,String> rendererToImagePathMap;
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 //	protected Map fontsMap = new HashMap();
 	protected Map<String,JRStyle> stylesMap = new HashMap<String,JRStyle>();
 
@@ -296,7 +295,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			rendererToImagePathMap = new HashMap<String,String>();
 		}
 
-		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		renderersCache = new RenderersCache(getJasperReportsContext());
 
 		Writer writer = getExporterOutput().getWriter();
 
@@ -805,7 +804,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalImageAlign());
 		
 		Renderable renderer = image.getRenderer();
-		boolean isLazy = RenderableUtil.isLazy(renderer);
+		boolean isLazy = RendererUtil.isLazy(renderer);
 
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isLazy, isLazy, false);
 
@@ -848,18 +847,18 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imageSource = RenderableUtil.getResourceLocation(renderer);
+				imageSource = RendererUtil.getResourceLocation(renderer);
 			}
 			else
 			{
 				if (renderer instanceof ResourceRenderer)
 				{
-					renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+					renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 				}
 
 				if (
 					!isEmbeddingImages //we do not cache imageSource for embedded images because it is too big
-					&& renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
+					&& renderer instanceof DataRenderable //we do not cache imagePath for non-data renderers because they render width different width/height each time
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
@@ -869,27 +868,16 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 				{
 					if (isEmbeddingImages)
 					{
-						byte[] imageData = null;
-
-						if (renderer instanceof SvgRenderable)
-						{
-							imageData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
-						}
-						else
-						{
-							ImageRenderable imageRenderer = 
-								RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
-									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
-									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-									);
-
-							imageData = imageRenderer.getImageData(jasperReportsContext);
-						}
+						DataRenderable dataRenderer = 
+							getRendererUtil().getDataRenderable(
+								renderer,
+								new Dimension(image.getWidth(), image.getHeight()),
+								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+								);
 							
 						try
 						{
-							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+							ByteArrayInputStream bais = new ByteArrayInputStream(dataRenderer.getData(jasperReportsContext));
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
 							
 							Base64Encoder encoder = new Base64Encoder(bais, baos);
@@ -914,22 +902,22 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 						XmlResourceHandler imageHandler = getExporterOutput().getImageHandler();
 						if (imageHandler != null)
 						{
-							String imageName = IMAGE_PREFIX + getNextImageId();
-							
-							ImageRenderable imageRenderer = 
-								RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+							DataRenderable dataRenderer = 
+								getRendererUtil().getDataRenderable(
 									renderer,
 									new Dimension(image.getWidth(), image.getHeight()),
 									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 									);
 
-							imageHandler.handleResource(imageName, imageRenderer.getImageData(jasperReportsContext));
+							String imageName = IMAGE_PREFIX + getNextImageId();
+							
+							imageHandler.handleResource(imageName, dataRenderer.getData(jasperReportsContext));
 							
 							imageSource = imageHandler.getResourceSource(imageName);
 
-							if (imageRenderer == renderer)
+							if (dataRenderer == renderer)
 							{
-								//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
+								//cache imagePath only for true DataRenderable instances because the wrapping ones render with different width/height each time
 								rendererToImagePathMap.put(renderer.getId(), imageSource);
 							}
 						}

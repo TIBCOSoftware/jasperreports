@@ -21,29 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.renderers;
-
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-
-
 /**
- * This interface has a method called 
- * {@link Graphics2DRenderable#render(JasperReportsContext, Graphics2D, Rectangle2D)},
- * which gets called by the engine each time it needs to draw the image
- * on a given device or graphic context. This approach provides the best quality for the
- * SVG images when they must be drawn on unknown devices or zoomed into without
- * losing sharpness.
- * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Contains utility classes for working with image renderers.
  */
-public interface Graphics2DRenderable // does not need to extend DimensionRenderable because some renderers, such as the JFreeChart renderer, can accommodate any dimension
-{
-	/**
-	 *
-	 */
-	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException;
-}
+package net.sf.jasperreports.renderers.util;

@@ -30,6 +30,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
+ * This interface should be implemented by renderable object which want to benefit from better resolution and control
+ * the way the graphic context is created when they are converted to image data, during export to certain document formats.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public interface RenderToImageAwareRenderable

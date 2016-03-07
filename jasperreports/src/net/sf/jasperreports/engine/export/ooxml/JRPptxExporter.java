@@ -76,17 +76,17 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
 import net.sf.jasperreports.export.PptxReportConfiguration;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
 
 
 /**
@@ -151,7 +151,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected Writer presentationWriter;
 
 	protected Map<String, String> rendererToImagePathMap;
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 //	protected Map imageMaps;
 //	protected Map hyperlinksMap;
 
@@ -288,7 +288,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
 
-		resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+		renderersCache = new RenderersCache(getJasperReportsContext());
 	}
 
 	
@@ -1015,7 +1015,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1345,14 +1345,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
+				DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
 			
@@ -1365,7 +1366,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //			else
 //			{
 				if (
-					renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
+					renderer instanceof DataRenderable //we do not cache imagePath for non-data renderers because they render width different width/height each time
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
@@ -1375,14 +1376,16 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				{
 					JRPrintElementIndex imageIndex = getElementIndex();
 
-					ImageRenderable imageRenderer = 
-							RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+					DataRenderable imageRenderer = 
+							getRendererUtil().getImageDataRenderable(
+								renderersCache,
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								);
 
-					String mimeType = imageRenderer.getImageType().getMimeType();//FIXMEEXPORT this code for file extension is duplicated; is it now?
+					byte[] imageData = imageRenderer.getData(jasperReportsContext);
+					String mimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();//FIXMEEXPORT this code for file extension is duplicated; is it now?
 					if (mimeType == null)
 					{
 						mimeType = ImageTypeEnum.JPEG.getMimeType();
@@ -1393,7 +1396,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
 							"ppt/media/" + imageName,
-							imageRenderer.getImageData(jasperReportsContext)
+							imageData
 							)
 						);
 					

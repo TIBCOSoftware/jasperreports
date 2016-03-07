@@ -36,24 +36,23 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.SvgRenderable;
-import net.sf.jasperreports.renderers.WrappingImageToGraphics2DRenderer;
-import net.sf.jasperreports.renderers.WrappingRenderToImageRenderer;
+import net.sf.jasperreports.renderers.WrappingDataToGraphics2DRenderer;
 import net.sf.jasperreports.renderers.WrappingDeprecatedRenderable;
-import net.sf.jasperreports.renderers.WrappingSvgToGraphics2DRenderer;
+import net.sf.jasperreports.renderers.WrappingRenderToImageDataRenderer;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.renderers.RenderableUtil}.
+ * @deprecated Replaced by {@link RendererUtil}.
  */
 public class RenderableUtil
 {
@@ -113,7 +112,7 @@ public class RenderableUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link ResourceRenderer#getInstance(String, boolean)} and {@link net.sf.jasperreports.renderers.RenderableUtil#getNonLazyRenderable(String, OnErrorTypeEnum)}.
+	 * @deprecated Replaced by {@link ResourceRenderer#getInstance(String, boolean)} and {@link RendererUtil#getNonLazyRenderable(String, OnErrorTypeEnum)}.
 	 */
 	public Renderable getRenderable(String imageLocation, OnErrorTypeEnum onErrorType, boolean isLazy) throws JRException
 	{
@@ -291,15 +290,22 @@ public class RenderableUtil
 	/**
 	 * @deprecated To be removed.
 	 */
-	public net.sf.jasperreports.renderers.Renderable getOnErrorRendererForDimension(net.sf.jasperreports.renderers.Renderable renderer, OnErrorTypeEnum onErrorType) throws JRException
+	public net.sf.jasperreports.renderers.Renderable getOnErrorRendererForDimension(
+		RenderersCache renderersCache,
+		net.sf.jasperreports.renderers.Renderable renderer, 
+		OnErrorTypeEnum onErrorType
+		) throws JRException
 	{
 		net.sf.jasperreports.renderers.Renderable result = null;
-		if (renderer instanceof DimensionRenderable)
+		
+		DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+		
+		if (dimensionRenderer != null)
 		{
 			try
 			{
-				((DimensionRenderable)renderer).getDimension(jasperReportsContext);
-				result = renderer;
+				dimensionRenderer.getDimension(jasperReportsContext);
+				result = (net.sf.jasperreports.renderers.Renderable)dimensionRenderer;
 			}
 			catch (Exception e)
 			{
@@ -474,29 +480,50 @@ public class RenderableUtil
 			if (deprecatedRenderable == null)
 			{
 				Graphics2DRenderable grxRenderable = null;
-				ImageRenderable imageRenderable = null;
+				DataRenderable dataRenderable = null;
 
 				DimensionRenderable dimensionRenderable = 
 					renderable instanceof DimensionRenderable 
 					? (DimensionRenderable)renderable
 					: null;
 					
-				RenderableTypeEnum type = null;
-
 				if (renderable instanceof Graphics2DRenderable)
 				{
-					grxRenderable = (Graphics2DRenderable)renderable;
-					type = RenderableTypeEnum.SVG;
+					if (renderable instanceof DataRenderable)
+					{
+						grxRenderable = (Graphics2DRenderable)renderable;
+						dataRenderable = (DataRenderable)renderable;
+					}
+					else
+					{
+						grxRenderable = (Graphics2DRenderable)renderable;
+						dataRenderable = 
+							new WrappingRenderToImageDataRenderer(
+								grxRenderable,
+								dimensionRenderable, 
+								null
+								);
+					}
 				}
-				else if (renderable instanceof SvgRenderable)
+				else
 				{
-					grxRenderable = new WrappingSvgToGraphics2DRenderer((SvgRenderable)renderable, null);
-					type = RenderableTypeEnum.SVG;
-				}
-				else if (renderable instanceof ImageRenderable)
-				{
-					grxRenderable = new WrappingImageToGraphics2DRenderer((ImageRenderable)renderable);
-					type = RenderableTypeEnum.IMAGE;
+					if (renderable instanceof DataRenderable)
+					{
+						dataRenderable = (DataRenderable)renderable;
+						grxRenderable = new WrappingDataToGraphics2DRenderer((DataRenderable)renderable);
+					}
+					else
+					{
+						throw 
+							new JRRuntimeException(
+								RendererUtil.EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
+								new Object[]{
+									renderable.getClass().getName(),
+									DataRenderable.class.getName() 
+										+ " or " + Graphics2DRenderable.class.getName() 
+									}
+								);
+					}
 				}
 				
 				if (dimensionRenderable == null)
@@ -507,44 +534,11 @@ public class RenderableUtil
 						: null;
 				}
 				
-				if (renderable instanceof ImageRenderable)
-				{
-					imageRenderable = (ImageRenderable)renderable;
-					if (type == null)
-					{
-						type = RenderableTypeEnum.IMAGE;
-					}
-				}
-				else if (grxRenderable != null)
-				{
-					imageRenderable = 
-						new WrappingRenderToImageRenderer(
-							grxRenderable,
-							dimensionRenderable, 
-							null
-							);
-				}
-				
-				if (type == null)
-				{
-					throw 
-						new JRRuntimeException(
-							net.sf.jasperreports.renderers.RenderableUtil.EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
-							new Object[]{
-								renderable.getClass().getName(),
-								ImageRenderable.class.getName() 
-									+ ", " + Graphics2DRenderable.class.getName() 
-									+ " or " + SvgRenderable.class.getName()
-								}
-							);
-				}
-				
 				deprecatedRenderable = 
 					new WrappingDeprecatedRenderable(
 						renderable.getId(),
-						type,
 						grxRenderable, 
-						imageRenderable, 
+						dataRenderable, 
 						dimensionRenderable
 						);
 			}

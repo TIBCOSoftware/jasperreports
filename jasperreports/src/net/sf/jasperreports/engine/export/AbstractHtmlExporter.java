@@ -150,11 +150,20 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getImageName(JRPrintElementIndex, String)}.
 	 */
 	public static String getImageName(JRPrintElementIndex printElementIndex)
 	{
-		return IMAGE_NAME_PREFIX + printElementIndex.toString();
+		return getImageName(printElementIndex, null);
+	}
+
+	
+	/**
+	 * 
+	 */
+	public static String getImageName(JRPrintElementIndex printElementIndex, String fileExtension)
+	{
+		return IMAGE_NAME_PREFIX + printElementIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
 	}
 
 	
@@ -192,7 +201,10 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 					new Object[]{imageName});
 		}
 
-		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH));
+		int fileExtensionStart = imageName.lastIndexOf('.');
+		fileExtensionStart = fileExtensionStart < 0 ? imageName.length() : fileExtensionStart;
+		
+		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH, fileExtensionStart));
 	}
 
 

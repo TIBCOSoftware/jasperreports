@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.RenderersCache;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -69,7 +69,7 @@ public class JRViewerController
 	protected boolean reloadSupported;
 	
 	protected JasperPrint jasperPrint;
-	protected ResourceRendererCache resourceRendererCache;
+	protected RenderersCache renderersCache;
 	private int pageIndex;
 	private float zoom;
 	private boolean fitPage;
@@ -147,7 +147,7 @@ public class JRViewerController
 			jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
 		}
 
-		resourceRendererCache = null;
+		renderersCache = null;
 	}
 
 	public void loadReport(String fileName, boolean isXmlReport) throws JRException
@@ -183,7 +183,7 @@ public class JRViewerController
 			jasperPrint = (JasperPrint)JRLoader.loadObject(is);
 		}
 
-		resourceRendererCache = null;
+		renderersCache = null;
 	}
 
 	public void loadReport(InputStream is, boolean isXmlReport) throws JRException
@@ -200,7 +200,7 @@ public class JRViewerController
 	public void loadReport(JasperPrint jrPrint)
 	{
 		jasperPrint = jrPrint;
-		resourceRendererCache = null;
+		renderersCache = null;
 		type = TYPE_OBJECT;
 		isXML = false;
 		reloadSupported = false;
@@ -223,7 +223,7 @@ public class JRViewerController
 					log.debug("Reload failed.", e);
 				}
 				jasperPrint = null;
-				resourceRendererCache = null;
+				renderersCache = null;
 				setPageIndex(0);
 				refreshPage();
 
@@ -322,19 +322,19 @@ public class JRViewerController
 		return getJasperPrint().getPageFormat(getPageIndex());
 	}
 	
-	protected ResourceRendererCache getResourceRendererCache()
+	protected RenderersCache getRenderersCache()
 	{
-		if (resourceRendererCache == null)
+		if (renderersCache == null)
 		{
-			resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+			renderersCache = new RenderersCache(getJasperReportsContext());
 		}
-		return resourceRendererCache;
+		return renderersCache;
 	}
 
 	public void clear()
 	{
 		jasperPrint = null;
-		resourceRendererCache = null;
+		renderersCache = null;
 	}
 
 	public int getPageIndex()

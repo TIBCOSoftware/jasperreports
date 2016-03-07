@@ -27,31 +27,24 @@
  */
 package net.sf.jasperreports.engine.base;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * A print page that can be virtualized to free heap memory.
@@ -119,17 +112,19 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 		}
 	}
 
+	@Override
 	public List<JRPrintElement> getElements()
 	{
 		return elements;
 	}
 
+	@Override
 	public void setElements(List<JRPrintElement> elements)
 	{
 		this.elements.set(elements);
 	}
 
-	
+	@Override
 	public void addElement(JRPrintElement element)
 	{
 		elements.add(element);
@@ -155,62 +150,10 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 			this.id = renderer.getId();
 		}
 
+		@Override
 		public String getId()
 		{
 			return id;
-		}
-
-		@SuppressWarnings("deprecation")
-		public byte getType()
-		{
-			return RenderableTypeEnum.IMAGE.getValue();
-		}
-
-		@SuppressWarnings("deprecation")
-		public byte getImageType()
-		{
-			return ImageTypeEnum.UNKNOWN.getValue();
-		}
-
-		@SuppressWarnings("deprecation")
-		public Dimension2D getDimension() throws JRException
-		{
-			return null;
-		}
-
-		@SuppressWarnings("deprecation")
-		public byte[] getImageData() throws JRException
-		{
-			return null;
-		}
-
-		@SuppressWarnings("deprecation")
-		public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException
-		{
-		}
-
-		public RenderableTypeEnum getTypeValue()
-		{
-			return RenderableTypeEnum.IMAGE;
-		}
-
-		public ImageTypeEnum getImageTypeValue()
-		{
-			return ImageTypeEnum.UNKNOWN;
-		}
-
-		public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
-		{
-			return null;
-		}
-
-		public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
-		{
-			return null;
-		}
-
-		public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectanle) throws JRException
-		{
 		}
 	}
 	
@@ -224,11 +167,13 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 			super(id);
 		}
 
+		@Override
 		public int getHashCode()
 		{
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean isIdentical(Object object)
 		{
 			throw new UnsupportedOperationException();
@@ -258,12 +203,19 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 			in.readFully(buffer);
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
 			VirtualizationObjectInputStream elementsStream = new VirtualizationObjectInputStream(inputStream, virtualizationContext);
-			@SuppressWarnings("unchecked")
-			List<JRPrintElement> elementsList = (List<JRPrintElement>) elementsStream.readObject();
-			
-			// create a new list for the elements
-			elements = new VirtualizableElementList(virtualizationContext, this);
-			elements.addAll(elementsList);
+			try
+			{
+				@SuppressWarnings("unchecked")
+				List<JRPrintElement> elementsList = (List<JRPrintElement>) elementsStream.readObject();
+				
+				// create a new list for the elements
+				elements = new VirtualizableElementList(virtualizationContext, this);
+				elements.addAll(elementsList);
+			}
+			finally
+			{
+				elementsStream.close();
+			}
 		}
 	}
 

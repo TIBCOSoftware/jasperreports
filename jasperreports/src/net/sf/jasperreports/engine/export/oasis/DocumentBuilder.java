@@ -48,10 +48,10 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.RenderersCache;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 
@@ -71,7 +71,7 @@ public abstract class DocumentBuilder
 	 *
 	 */
 	protected final Map<String, String> rendererToImagePathMap = new HashMap<String, String>();
-	protected final ResourceRendererCache resourceRendererCache = new ResourceRendererCache(getJasperReportsContext());
+	protected final RenderersCache renderersCache = new RenderersCache(getJasperReportsContext());
 	protected final OasisZip oasisZip;
 	
 	
@@ -191,9 +191,9 @@ public abstract class DocumentBuilder
 	/**
 	 *
 	 */
-	protected ResourceRendererCache getResourceRendererCache()
+	protected RenderersCache getRenderersCache()
 	{
-		return resourceRendererCache;
+		return renderersCache;
 	}
 
 	/**
@@ -212,14 +212,14 @@ public abstract class DocumentBuilder
 		if (isLazy)
 		{
 			// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-			imagePath = RenderableUtil.getResourceLocation(renderer);
+			imagePath = RendererUtil.getResourceLocation(renderer);
 		}
 		else
 		{
 			// by the time we get here, the resource renderer has already been loaded from cache
 			
 			if (
-				renderer instanceof ImageRenderable //we do not cache imagePath for non-image renderers because they render width different width/height each time
+				renderer instanceof DataRenderable //we do not cache imagePath for non-data renderers because they render width different width/height each time
 				&& rendererToImagePathMap.containsKey(renderer.getId())
 				)
 			{
@@ -228,9 +228,10 @@ public abstract class DocumentBuilder
 			else
 			{
 				JRPrintElementIndex imageIndex = getElementIndex(gridCell);
-
-				ImageRenderable imageRenderer = 
-					RenderableUtil.getInstance(getJasperReportsContext()).getImageRenderable(
+				
+				DataRenderable imageRenderer = 
+					RendererUtil.getInstance(getJasperReportsContext()).getImageDataRenderable(
+						renderersCache,
 						renderer, 
 						dimension, 
 						backcolor
@@ -239,7 +240,7 @@ public abstract class DocumentBuilder
 				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
 					new FileBufferedZipEntry(
 						"Pictures/" + DocumentBuilder.getImageName(imageIndex),
-						imageRenderer.getImageData(getJasperReportsContext())
+						imageRenderer.getData(getJasperReportsContext())
 						)
 					);
 

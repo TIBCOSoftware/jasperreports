@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.RenderersCache;
 
 
 /**
@@ -227,9 +227,9 @@ public class JRDesignViewer extends JRViewer
 				}
 
 				@Override
-				protected ResourceRendererCache getResourceRendererCache()
+				protected RenderersCache getRenderersCache()
 				{
-					return JRDesignViewer.this.getResourceRendererCache();
+					return JRDesignViewer.this.getRenderersCache();
 				}
 			};
 	}

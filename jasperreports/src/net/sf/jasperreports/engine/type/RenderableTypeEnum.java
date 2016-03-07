@@ -23,13 +23,12 @@
  */
 package net.sf.jasperreports.engine.type;
 
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
-import net.sf.jasperreports.renderers.SvgRenderable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
+ * @deprecated Replaced by {@link DataRenderable} and {@link Graphics2DRenderable}.
  */
 public enum RenderableTypeEnum implements JREnum
 {

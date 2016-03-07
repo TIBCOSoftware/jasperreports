@@ -573,4 +573,52 @@
 		<method>*ImageMapPanel(*JRViewer*, java.awt.Rectangle, net.sf.jasperreports.engine.ImageMapRenderable)</method>
 		<to>*ImageMapPanel(*JRViewer*, java.awt.Rectangle, net.sf.jasperreports.renderers.AreaHyperlinksRenderable)</to>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/list/UnusedSpaceImageRenderer</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/engine/*Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/list/UnusedSpaceImageRenderer</className>
+		<differenceType>5001</differenceType>
+		<to>net/sf/jasperreports/engine/JRAbstract*Renderer</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/list/UnusedSpaceImageRenderer</className>
+		<differenceType>7002</differenceType>
+		<method>*render(java.awt.Graphics2D, java.awt.geom.Rectangle2D)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/base/JRVirtualPrintPage$JRIdHolderRenderer</className>
+		<differenceType>7002</differenceType>
+		<method>*</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/base/JRVirtualPrintPage$JRIdHolderRenderer</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/engine/*Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/base/JRVirtualPrintPage$JRIdHolderRenderer</className>
+		<differenceType>7005</differenceType>
+		<method>*JRVirtualPrintPage$JRIdHolderRenderer(net.sf.jasperreports.engine.Renderable)</method>
+		<to>*JRVirtualPrintPage$JRIdHolderRenderer(net.sf.jasperreports.renderers.Renderable)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillContext</className>
+		<differenceType>7002</differenceType>
+		<method>*LoadedImage(java.lang.Object*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRVirtualizationContext</className>
+		<differenceType>7005</differenceType>
+		<method>*cacheRenderer(net.sf.jasperreports.engine.JRPrintImage)</method>
+		<to>*cacheRenderer(net.sf.jasperreports.renderers.Renderable)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRVirtualizationContext</className>
+		<differenceType>7006</differenceType>
+		<method>*net.sf.jasperreports.engine.Renderable getCachedRenderer(java.lang.String)</method>
+		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
 </differences>

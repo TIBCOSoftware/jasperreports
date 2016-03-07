@@ -90,8 +90,8 @@ import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -781,7 +781,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 			}
 			catch (Exception e)
 			{
-				Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, image.getOnErrorTypeValue());
+				Renderable onErrorRenderer = getRendererUtil().handleImageError(e, image.getOnErrorTypeValue());
 				if (onErrorRenderer != null)
 				{
 					imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -850,13 +850,13 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
 		{
-			boolean isLazy = RenderableUtil.isLazy(renderer);
+			boolean isLazy = RendererUtil.isLazy(renderer);
 
 			if (!isLazy)
 			{
 				if (renderer instanceof ResourceRenderer)
 				{
-					renderer = documentBuilder.getResourceRendererCache().getLoadedRenderer((ResourceRenderer)renderer);
+					renderer = documentBuilder.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
 				}
 			}
 
@@ -887,10 +887,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 					if (!isLazy)
 					{
-						Dimension2D dimension = 
-							renderer instanceof DimensionRenderable
-							? ((DimensionRenderable)renderer).getDimension(jasperReportsContext)
-							: null;
+						DimensionRenderable dimensionRenderer = documentBuilder.getRenderersCache().getDimensionRenderable(renderer);
+						Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 						if (dimension != null)
 						{
 							normalWidth = dimension.getWidth();

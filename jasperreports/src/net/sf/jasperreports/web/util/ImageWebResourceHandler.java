@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.web.util;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Collections;
@@ -42,11 +43,11 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.renderers.ImageRenderable;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.SvgRenderable;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
@@ -118,39 +119,35 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			
 			Renderable renderer = image.getRenderer();
 			
+			Dimension dimension = new Dimension(image.getWidth(), image.getHeight());
+			Color backcolor = ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null;
+
+			RendererUtil rendererUtil = RendererUtil.getInstance(jasperReportsContext);
+			
 			try
 			{
-				if (renderer instanceof ResourceRenderer)
-				{
-					renderer = //hard to use a cache here and it would be just for some icon type of images, if any 
-						RenderableUtil.getInstance(jasperReportsContext).getNonLazyRenderable(
-							((ResourceRenderer)renderer).getResourceLocation(), 
-							OnErrorTypeEnum.ERROR
-							);
-				}
-				
-				if (renderer instanceof SvgRenderable)
-				{
-					imageData = ((SvgRenderable)renderer).getSvgData(jasperReportsContext);
-					imageMimeType = "image/svg+xml";//FIXMEIMAGE use constant everywhere
-				}
-				else
-				{
-					ImageRenderable imageRenderer = 
-						RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
-							renderer,
-							new Dimension(image.getWidth(), image.getHeight()),
-							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-							);
-
-					imageData = imageRenderer.getImageData(jasperReportsContext);
-					imageMimeType = imageRenderer.getImageType().getMimeType();
-				}
+				imageData = process(jasperReportsContext, renderer, dimension, backcolor);
 			}
-			catch (JRException e)
+			catch (Exception e)
 			{
-				throw new JRRuntimeException(e);
+				try
+				{
+					Renderable onErrorRenderer = rendererUtil.handleImageError(e, image.getOnErrorTypeValue());
+					if (onErrorRenderer != null)
+					{
+						imageData = process(jasperReportsContext, onErrorRenderer, dimension, backcolor);
+					}
+				}
+				catch (JRException je)
+				{
+					throw new JRRuntimeException(je);
+				}
 			}
+			
+			imageMimeType =
+				RendererUtil.getInstance(jasperReportsContext).isSvgData(imageData)
+				? "image/svg+xml" //FIXMEIMAGE use constant everywhere
+				: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 		}
 
 		if (imageData != null && imageData.length > 0)
@@ -190,5 +187,32 @@ public class ImageWebResourceHandler implements WebResourceHandler
 		return true;
 	}
 
+	
+	protected byte[] process(
+		JasperReportsContext jasperReportsContext,
+		Renderable renderer,
+		Dimension dimension,
+		Color backcolor
+		) throws JRException
+	{
+		RendererUtil rendererUtil = RendererUtil.getInstance(jasperReportsContext);
+		
+		if (renderer instanceof ResourceRenderer)
+		{
+			renderer = //hard to use a cache here and it would be just for some icon type of images, if any 
+				rendererUtil.getNonLazyRenderable(
+					((ResourceRenderer)renderer).getResourceLocation(), 
+					OnErrorTypeEnum.ERROR
+					);
+		}
+		
+		DataRenderable dataRenderer = 
+			rendererUtil.getDataRenderable(
+				renderer,
+				dimension,
+				backcolor
+				);
 
+		return dataRenderer.getData(jasperReportsContext);
+	}
 }

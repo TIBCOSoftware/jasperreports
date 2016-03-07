@@ -32,27 +32,27 @@ public enum ImageTypeEnum implements JREnum
 	/**
 	 * Specifies that the image is of unknown type.
 	 */ 
-	UNKNOWN((byte)0, "Unknown", null),
+	UNKNOWN((byte)0, "Unknown", null, null),
 	
 	/**
 	 * Specifies that the image is of GIF type.
 	 */ 
-	GIF((byte)1, "GIF", "image/gif"),
+	GIF((byte)1, "GIF", "image/gif", "gif"),
 	
 	/**
 	 * Specifies that the image is of JPEG type.
 	 */ 
-	JPEG((byte)2, "JPEG", "image/jpeg"),
+	JPEG((byte)2, "JPEG", "image/jpeg", "jpg"),
 	
 	/**
 	 * Specifies that the image is of PNG type.
 	 */ 
-	PNG((byte)3, "PNG", "image/png"),
+	PNG((byte)3, "PNG", "image/png", "png"),
 	
 	/**
 	 * Specifies that the image is of TIFF type.
 	 */ 
-	TIFF((byte)3, "TIFF", "image/tiff");
+	TIFF((byte)3, "TIFF", "image/tiff", "tiff");
 
 	/**
 	 *
@@ -60,17 +60,25 @@ public enum ImageTypeEnum implements JREnum
 	private final transient byte value;
 	private final transient String name;
 	private final transient String mimeType;
+	private final transient String fileExtension;
 
-	private ImageTypeEnum(byte value, String name, String mimeType)
+	private ImageTypeEnum(
+		byte value, 
+		String name, 
+		String mimeType,
+		String fileExtension
+		)
 	{
 		this.value = value;
 		this.name = name;
 		this.mimeType = mimeType;
+		this.fileExtension = fileExtension;
 	}
 
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public Byte getValueByte()
 	{
 		return new Byte(value);
@@ -79,6 +87,7 @@ public enum ImageTypeEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public final byte getValue()
 	{
 		return value;
@@ -87,6 +96,7 @@ public enum ImageTypeEnum implements JREnum
 	/**
 	 *
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -98,6 +108,14 @@ public enum ImageTypeEnum implements JREnum
 	public String getMimeType()
 	{
 		return mimeType;
+	}
+	
+	/**
+	 *
+	 */
+	public String getFileExtension()
+	{
+		return fileExtension;
 	}
 	
 	/**

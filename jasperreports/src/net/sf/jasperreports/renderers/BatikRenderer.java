@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.List;
 
@@ -64,9 +65,9 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * SVG renderer implementation based on <a href="http://xmlgraphics.apache.org/batik/">Batik</a>.
  *
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @deprecated Replaced by {@link ResourceRenderer}, {@link SvgDataRenderer} and {@link SvgTextRenderer}.
+ * @deprecated Replaced by {@link ResourceRenderer} and {@link DataRenderable}.
  */
-public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable
+public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable, DataRenderable, RenderToImageAwareRenderable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -165,6 +166,29 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		}
 	}
 
+
+	@Override
+	public byte[] getData(JasperReportsContext jasperReportsContext) throws JRException
+	{
+		ensureData(jasperReportsContext);
+		
+		if (svgText != null)
+		{
+			try
+			{
+				return svgText.getBytes("UTF-8");
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		else
+		{
+			return svgData;
+		}
+	}
+
 	protected synchronized void ensureData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		if (svgText == null
@@ -244,7 +268,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	}
 
 	@Override
-	protected Graphics2D createGraphics(BufferedImage bi)
+	public Graphics2D createGraphics(BufferedImage bi)
 	{
 		Graphics2D graphics = GraphicsUtil.createGraphics(bi);
 		if (antiAlias)
@@ -364,7 +388,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	}
 
 	@Override
-	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	public int getImageDataDPI(JasperReportsContext jasperReportsContext)
 	{
 		int dpi = super.getImageDataDPI(jasperReportsContext);
 		if (minDPI > 0 && dpi < minDPI)

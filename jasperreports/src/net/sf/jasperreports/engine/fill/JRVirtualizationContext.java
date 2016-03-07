@@ -33,11 +33,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
@@ -46,15 +49,11 @@ import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementVisitor;
-import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
 import net.sf.jasperreports.engine.util.DeepPrintElementVisitor;
 import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * Context used to store data shared by virtualized objects resulted from a report fill process.
@@ -155,6 +154,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		}
 	}
 
+	@Override
 	public void beforeExternalization(JRVirtualizable<VirtualElementsData> object)
 	{
 		if (listeners != null)
@@ -170,6 +170,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	{
 	}
 	
+	@Override
 	public void afterInternalization(JRVirtualizable<VirtualElementsData> object)
 	{
 		if (listeners != null)
@@ -184,11 +185,10 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	/**
 	 * Caches an image renderer.
 	 * 
-	 * @param image the image whose renderer should be cached
+	 * @param renderer the image whose renderer should be cached
 	 */
-	public void cacheRenderer(JRPrintImage image)
+	public void cacheRenderer(Renderable renderer)
 	{
-		Renderable renderer = image.getRenderable();
 		if (renderer != null)
 		{
 			cachedRenderers.put(renderer.getId(), renderer);

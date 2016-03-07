@@ -30,7 +30,7 @@ import org.w3c.tools.codec.Base64Decoder;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.renderers.ImageRenderer;
+import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
@@ -114,7 +114,7 @@ public class JRPrintImageSourceObject
 					Base64Decoder decoder = new Base64Decoder(bais, baos);
 					decoder.process();
 					
-					renderable = ImageRenderer.getInstance(baos.toByteArray());//, JRImage.ON_ERROR_TYPE_ERROR));
+					renderable = SimpleDataRenderer.getInstance(baos.toByteArray());//, JRImage.ON_ERROR_TYPE_ERROR));
 				}
 				catch (Exception e)
 				{

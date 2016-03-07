@@ -33,14 +33,13 @@ import java.lang.ref.SoftReference;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implements ImageRenderable, Graphics2DRenderable, DimensionRenderable
+public class WrappingImageDataToGraphics2DRenderer extends AbstractRenderer implements DataRenderable, Graphics2DRenderable, DimensionRenderable
 {
 	/**
 	 *
@@ -50,7 +49,7 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 	/**
 	 *
 	 */
-	private final ImageRenderable renderer;
+	private final DataRenderable dataRenderer;
 
 	/**
 	 *
@@ -61,9 +60,9 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 	/**
 	 *
 	 */
-	public WrappingImageToGraphics2DRenderer(ImageRenderable renderer)
+	public WrappingImageDataToGraphics2DRenderer(DataRenderable dataRenderer) throws JRException
 	{
-		this.renderer = renderer;
+		this.dataRenderer = dataRenderer;
 	}
 
 
@@ -74,19 +73,12 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 	{
 		if (awtImageRef == null || awtImageRef.get() == null)
 		{
-			Image awtImage = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(getImageData(jasperReportsContext));
+			Image awtImage = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(getData(jasperReportsContext));
 			awtImageRef = new SoftReference<Image>(awtImage);
 		}
 		return awtImageRef.get();
 	}
 
-
-	@Override
-	public ImageTypeEnum getImageType()
-	{
-		return renderer.getImageType();
-	}
-	
 
 	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
@@ -97,10 +89,10 @@ public class WrappingImageToGraphics2DRenderer extends AbstractRenderer implemen
 
 
 	@Override
-	public byte[] getImageData(JasperReportsContext jasperReportsContext)
+	public byte[] getData(JasperReportsContext jasperReportsContext)
 			throws JRException
 	{
-		return renderer.getImageData(jasperReportsContext);
+		return dataRenderer.getData(jasperReportsContext);
 	}
 
 

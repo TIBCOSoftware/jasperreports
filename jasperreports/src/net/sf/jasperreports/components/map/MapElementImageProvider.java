@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -198,7 +198,7 @@ public class MapElementImageProvider
 
 		if (cacheRenderer == null)
 		{
-			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
+			cacheRenderer = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(imageLocation, onErrorType);
 			if (cacheRenderer != null)
 			{
 				element.setParameterValue(MapComponent.PARAMETER_CACHE_RENDERER, cacheRenderer);

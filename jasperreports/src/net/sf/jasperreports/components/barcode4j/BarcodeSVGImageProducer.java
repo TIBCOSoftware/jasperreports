@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
-import java.io.StringWriter;
+import java.io.ByteArrayOutputStream;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.SvgTextRenderer;
+import net.sf.jasperreports.renderers.SimpleRenderToImageAwareDataRenderer;
 
 /**
  * 
@@ -68,14 +68,13 @@ public class BarcodeSVGImageProducer implements BarcodeImageProducer
 			Document svgDoc = provider.getDOM();
 
 			Source source = new DOMSource(svgDoc);
-			StringWriter outWriter = new StringWriter();
-			Result output = new StreamResult(outWriter);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			Result output = new StreamResult(baos);
 			Transformer transformer = TransformerFactory.newInstance()
 					.newTransformer();
 			transformer.transform(source, output);
 
-			String svgString = outWriter.toString();
-			return SvgTextRenderer.getInstance(svgString);
+			return SimpleRenderToImageAwareDataRenderer.getInstance(baos.toByteArray());
 		}
 		catch (Exception e)
 		{

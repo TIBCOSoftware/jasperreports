@@ -35,10 +35,10 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
-import net.sf.jasperreports.renderers.SvgRenderable;
 
 
 /**
@@ -53,12 +53,12 @@ public interface Renderable extends JRRenderable, net.sf.jasperreports.renderers
 	public static final String PROPERTY_IMAGE_DPI = JRPropertiesUtil.PROPERTY_PREFIX + "image.dpi";
 
 	/**
-	 * @deprecated Replaced by {@link ImageRenderable}, {@link SvgRenderable} and {@link Graphics2DRenderable}.
+	 * @deprecated Replaced by {@link DataRenderable} and {@link Graphics2DRenderable}.
 	 */
 	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue();
 
 	/**
-	 * @deprecated Replaced by {@link ImageRenderable#getImageType()}.
+	 * @deprecated Replaced by {@link JRTypeSniffer#getImageTypeValue(byte[])}.
 	 */
 	public ImageTypeEnum getImageTypeValue();
 
@@ -68,7 +68,7 @@ public interface Renderable extends JRRenderable, net.sf.jasperreports.renderers
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException;
 
 	/**
-	 * @deprecated Replaced by {@link ImageRenderable#getImageData(JasperReportsContext)}.
+	 * @deprecated Replaced by {@link DataRenderable#getData(JasperReportsContext)}.
 	 */
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException;
 

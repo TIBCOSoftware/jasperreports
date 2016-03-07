@@ -26,7 +26,7 @@ package net.sf.jasperreports.swing;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.renderers.ResourceRendererCache;
+import net.sf.jasperreports.renderers.RenderersCache;
 
 
 /**
@@ -54,9 +54,9 @@ public class JRDesignViewerPanel extends JRViewerPanel
 					drawVisitor.setClip(true);//FIXMENOW thick border of margin elements is clipped
 				}
 				@Override
-				protected ResourceRendererCache getResourceRendererCache()
+				protected RenderersCache getRenderersCache()
 				{
-					return viewerContext.getResourceRendererCache();
+					return viewerContext.getRenderersCache();
 				}
 			};
 	}

@@ -51,8 +51,8 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -504,15 +504,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				isUsingCache = source instanceof String;
 			}
 			
-			Object imgKey = source;
+			Object srcKey = source;
 			if (source instanceof String)
 			{
-				imgKey = new Pair<Boolean, String>(isLazy(), (String)source);
+				srcKey = new Pair<Boolean, String>(isLazy(), (String)source);
 			}
 
-			if (isUsingCache && filler.fillContext.hasLoadedImage(imgKey))
+			if (isUsingCache && filler.fillContext.hasLoadedRenderer(srcKey))
 			{
-				newRenderer = filler.fillContext.getLoadedImage(imgKey).getRenderer();
+				newRenderer = filler.fillContext.getLoadedRenderer(srcKey);
 			}
 			else
 			{
@@ -531,28 +531,28 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					}
 					else
 					{
-						newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+						newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getNonLazyRenderable(strSource, getOnErrorTypeValue());
 					}
 				}
 				else if (source instanceof Image)
 				{
 					Image img = (Image) source;
-					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorTypeValue());
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorTypeValue());
 				}
 				else if (source instanceof InputStream)
 				{
 					InputStream is = (InputStream) source;
-					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
 				}
 				else if (source instanceof URL)
 				{
 					URL url = (URL) source;
-					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(url, getOnErrorTypeValue());
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(url, getOnErrorTypeValue());
 				}
 				else if (source instanceof File)
 				{
 					File file = (File) source;
-					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(file, getOnErrorTypeValue());
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(file, getOnErrorTypeValue());
 				}
 				else if (source instanceof Renderable)
 				{
@@ -568,7 +568,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				else
 				{
 					newRenderer = 
-						RenderableUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRenderer(
+						RendererUtil.getInstance(filler.getJasperReportsContext()).getOnErrorRenderer(
 							getOnErrorTypeValue(), 
 							new JRException(
 									EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS,  
@@ -579,10 +579,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 				if (isUsingCache)
 				{
-					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage(), 
-							printElementOriginator);//doesn't actually need a printElementId
-					img.setRenderer(newRenderer);
-					filler.fillContext.registerLoadedImage(imgKey, img);
+					filler.fillContext.registerLoadedRenderer(srcKey, newRenderer);
 				}
 			}
 		}
@@ -689,58 +686,65 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						// if renderer is null, it means the isRemoveLineWhenBlank was false further up; 
 						// no need to do anything here 
 					}
-					else if (renderer instanceof DimensionRenderable)
+					else
 					{
-						try
-						{
-							((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext());
-						}
-						catch (Exception e)
-						{
-							renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
-						}
+						// image fill does not normally produce non-lazy ResourceRenderer instances, 
+						// so we do not need to attempt load resource renderers from cache here, as we do in the catch below
 						
-						if (renderer == null) // OnErrorTypeEnum.BLANK can return null above
+						DimensionRenderable dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
+						
+						if (dimensionRenderer != null)
 						{
-							isToPrint = !isRemoveLineWhenBlank();
-						}
-						else
-						{
-							if (renderer instanceof ResourceRenderer)
+							try
 							{
-								renderer = filler.fillContext.getResourceRendererCache().getLoadedRenderer((ResourceRenderer)renderer);
+								dimensionRenderer.getDimension(filler.getJasperReportsContext());
+							}
+							catch (Exception e)
+							{
+								renderer = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+
+								if (renderer instanceof ResourceRenderer)
+								{
+									renderer = filler.fillContext.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
+								}
+
+								dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
 							}
 							
-							boolean fits = true; 
-
-							Dimension2D imageSize = 
-								renderer instanceof DimensionRenderable 
-								? ((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext()) 
-								: null;
-							if (imageSize != null)
+							if (dimensionRenderer == null) // OnErrorTypeEnum.BLANK can return null above
 							{
-								fits = 
-									fitImage(
-										imageSize, 
-										availableHeight - getRelativeY() - padding, 
-										imageOverflowAllowed, 
-										getHorizontalImageAlign()
-										);
-							}
-
-							if (fits)
-							{
-								if (imageHeight != null)
-								{
-									setPrepareHeight(imageHeight.intValue() + padding);
-								}
+								isToPrint = !isRemoveLineWhenBlank();
 							}
 							else
 							{
-								hasOverflowed = true;
-								isToPrint = false;
-								willOverflow = true;
-								setPrepareHeight(availableHeight - getRelativeY() - padding);
+								boolean fits = true; 
+
+								Dimension2D imageSize = dimensionRenderer.getDimension(filler.getJasperReportsContext()); 
+								if (imageSize != null)
+								{
+									fits = 
+										fitImage(
+											imageSize, 
+											availableHeight - getRelativeY() - padding, 
+											imageOverflowAllowed, 
+											getHorizontalImageAlign()
+											);
+								}
+
+								if (fits)
+								{
+									if (imageHeight != null)
+									{
+										setPrepareHeight(imageHeight.intValue() + padding);
+									}
+								}
+								else
+								{
+									hasOverflowed = true;
+									isToPrint = false;
+									willOverflow = true;
+									setPrepareHeight(availableHeight - getRelativeY() - padding);
+								}
 							}
 						}
 					}
@@ -967,28 +971,33 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)//to avoid get dimension and thus unnecessarily load the image
 		{
-			if (renderer instanceof DimensionRenderable)
+			// image fill does not normally produce non-lazy ResourceRenderer instances, 
+			// so we do not need to attempt load resource renderers from cache here, as we do in the catch below
+
+			DimensionRenderable dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
+			
+			if (dimensionRenderer != null)
 			{
 				try
 				{
-					((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext());
+					dimensionRenderer.getDimension(filler.getJasperReportsContext());
 				}
 				catch (Exception e)
 				{
-					renderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
-				}
-				
-				if (renderer != null) // OnErrorTypeEnum.BLANK can return null above
-				{
+					renderer = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+
 					if (renderer instanceof ResourceRenderer)
 					{
-						renderer = filler.fillContext.getResourceRendererCache().getLoadedRenderer((ResourceRenderer)renderer);
+						renderer = filler.fillContext.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
 					}
 					
-					Dimension2D imageSize = 
-						renderer instanceof DimensionRenderable
-						? ((DimensionRenderable)renderer).getDimension(filler.getJasperReportsContext())
-						: null;
+					dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
+				}
+				
+				if (dimensionRenderer != null) // OnErrorTypeEnum.BLANK can return null above
+				{
+					
+					Dimension2D imageSize = dimensionRenderer.getDimension(filler.getJasperReportsContext());
 					if (imageSize != null)
 					{
 						int padding = 

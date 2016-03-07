@@ -29,14 +29,17 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import net.sf.jasperreports.renderers.WrappingRenderToImageRenderer;
+import net.sf.jasperreports.renderers.DimensionRenderable;
+import net.sf.jasperreports.renderers.Graphics2DRenderable;
+import net.sf.jasperreports.renderers.RenderToImageAwareRenderable;
+import net.sf.jasperreports.renderers.WrappingRenderToImageDataRenderer;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link WrappingRenderToImageRenderer}.
+ * @deprecated Replaced by {@link WrappingRenderToImageDataRenderer}.
  */
-public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
+public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer implements Graphics2DRenderable, DimensionRenderable, RenderToImageAwareRenderable
 {
 
 	/**
@@ -103,7 +106,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	}
 
 	@Override
-	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	public int getImageDataDPI(JasperReportsContext jasperReportsContext)
 	{
 		if (renderer instanceof JRAbstractSvgRenderer)
 		{
@@ -114,7 +117,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	}
 
 	@Override
-	protected Graphics2D createGraphics(BufferedImage bi)
+	public Graphics2D createGraphics(BufferedImage bi)
 	{
 		if (renderer instanceof JRAbstractSvgRenderer)
 		{

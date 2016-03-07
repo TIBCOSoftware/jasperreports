@@ -125,11 +125,10 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
-import net.sf.jasperreports.renderers.ImageRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.RenderableUtil;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -1246,7 +1245,7 @@ public class JExcelApiMetadataExporter extends
 				}
 				catch (Exception e)
 				{
-					Renderable onErrorRenderer = RenderableUtil.getInstance(jasperReportsContext).handleImageError(e, element.getOnErrorTypeValue());
+					Renderable onErrorRenderer = getRendererUtil().handleImageError(e, element.getOnErrorTypeValue());
 					if (onErrorRenderer != null)
 					{
 						imageProcessorResult = imageProcessor.process(onErrorRenderer);
@@ -1366,7 +1365,7 @@ public class JExcelApiMetadataExporter extends
 
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = resourceRendererCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			switch (imageElement.getScaleImageValue())
@@ -1375,7 +1374,7 @@ public class JExcelApiMetadataExporter extends
 				{
 					imageProcessorResult = 
 						processImageClip(
-							RenderableUtil.getInstance(jasperReportsContext).getGraphics2DRenderable(renderer)
+							renderersCache.getGraphics2DRenderable(renderer)
 							);
 	
 					break;
@@ -1384,7 +1383,8 @@ public class JExcelApiMetadataExporter extends
 				{
 					imageProcessorResult = 
 						processImageFillFrame(
-							RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+							getRendererUtil().getImageDataRenderable(
+								renderersCache,
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
@@ -1398,7 +1398,8 @@ public class JExcelApiMetadataExporter extends
 				{
 					imageProcessorResult = 
 						processImageRetainShape(
-							RenderableUtil.getInstance(jasperReportsContext).getImageRenderable(
+							getRendererUtil().getImageDataRenderable(
+								renderersCache,
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
@@ -1471,15 +1472,15 @@ public class JExcelApiMetadataExporter extends
 					);
 		}
 
-		private InternalImageProcessorResult processImageFillFrame(ImageRenderable renderer) throws JRException
+		private InternalImageProcessorResult processImageFillFrame(DataRenderable renderer) throws JRException
 		{
 			return 
 				new InternalImageProcessorResult(
-					renderer.getImageData(jasperReportsContext)
+					renderer.getData(jasperReportsContext)
 					);
 		}
 
-		private InternalImageProcessorResult processImageRetainShape(ImageRenderable renderer) throws JRException
+		private InternalImageProcessorResult processImageRetainShape(DataRenderable renderer) throws JRException
 		{
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
@@ -1509,7 +1510,7 @@ public class JExcelApiMetadataExporter extends
 
 			return 
 				new InternalImageProcessorResult(
-					renderer.getImageData(jasperReportsContext)
+					renderer.getData(jasperReportsContext)
 					);
 		}
 	}

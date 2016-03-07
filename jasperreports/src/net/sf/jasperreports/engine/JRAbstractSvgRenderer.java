@@ -33,12 +33,12 @@ import java.awt.image.BufferedImage;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.renderers.AbstractRenderToImageRenderer;
+import net.sf.jasperreports.renderers.AbstractRenderToImageDataRenderer;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link AbstractRenderToImageRenderer}.
+ * @deprecated Replaced by {@link AbstractRenderToImageDataRenderer}.
  */
 public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 {
