@@ -381,8 +381,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 					(Object[])null);
 		}
 		
-		rowGroupsMap.put(groupName, Integer.valueOf(rowGroups.size()));
 		rowGroups.add(index, group);
+		for (ListIterator<JRCrosstabRowGroup> it = rowGroups.listIterator(index); it.hasNext();)
+		{
+			JRCrosstabRowGroup rowGroup = it.next();
+			rowGroupsMap.put(rowGroup.getName(), it.previousIndex());
+		}
 		
 		addRowGroupVars(group);
 		
@@ -464,8 +468,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 					(Object[])null);
 		}
 		
-		columnGroupsMap.put(groupName, Integer.valueOf(columnGroups.size()));
 		columnGroups.add(index, group);
+		for (ListIterator<JRCrosstabColumnGroup> it = columnGroups.listIterator(index); it.hasNext();)
+		{
+			JRCrosstabColumnGroup columnGroup = it.next();
+			columnGroupsMap.put(columnGroup.getName(), it.previousIndex());
+		}
 		
 		addColGroupVars(group);
 		
@@ -544,8 +552,12 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		measure.addPropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
 		
-		measuresMap.put(measureName, Integer.valueOf(measures.size()));
 		measures.add(index, measure);
+		for (ListIterator<JRCrosstabMeasure> it = measures.listIterator(index); it.hasNext();)
+		{
+			JRCrosstabMeasure itMeasure = it.next();
+			measuresMap.put(itMeasure.getName(), it.previousIndex());
+		}
 		
 		addMeasureVars(measure);
 		

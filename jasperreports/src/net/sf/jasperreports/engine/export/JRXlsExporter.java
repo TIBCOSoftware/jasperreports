@@ -854,13 +854,20 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				public void handle(StringTextValue textValue)
 				{
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-					if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+					if (textValue.getText() == null || textValue.getText().length() == 0)
 					{
-						setStringCellValue(textValue.getText());
+						cell.setCellType(HSSFCell.CELL_TYPE_BLANK);
 					}
 					else
 					{
-						setRichTextStringCellValue(styledText, forecolor, textElement, getTextLocale(textElement));
+						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+						{
+							setStringCellValue(textValue.getText());
+						}
+						else
+						{
+							setRichTextStringCellValue(styledText, forecolor, textElement, getTextLocale(textElement));
+						}
 					}
 					endCreateCell(cellStyle);
 				}

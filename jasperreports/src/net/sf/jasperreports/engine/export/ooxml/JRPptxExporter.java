@@ -37,14 +37,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -62,6 +61,7 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
+import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
@@ -82,6 +82,9 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
 import net.sf.jasperreports.export.PptxReportConfiguration;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -805,12 +808,13 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		if (text.getLineBox().getPen().getLineWidth() > 0)
+		JRPen pen = getPptxPen(text.getLineBox());
+		if (pen != null)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(text.getLineBox().getPen().getLineWidth()) + "\">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\">\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
-			switch (text.getLineBox().getPen().getLineStyleValue())
+			switch (pen.getLineStyleValue())
 			{
 				case DASHED :
 				{
@@ -1270,12 +1274,13 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				{
 					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
 				}
-				if (image.getLineBox().getPen().getLineWidth() > 0)
+				JRPen pen = getPptxPen(image.getLineBox());
+				if (pen != null)
 				{
-					slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(image.getLineBox().getPen().getLineWidth()) + "\">\n");
-					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
+					slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\">\n");
+					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 					slideHelper.write("<a:prstDash val=\"");
-					switch (image.getLineBox().getPen().getLineStyleValue())
+					switch (pen.getLineStyleValue())
 					{
 						case DASHED :
 						{
@@ -1550,12 +1555,13 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		if (frame.getLineBox().getPen().getLineWidth() > 0)
+		JRPen pen = getPptxPen(frame.getLineBox());
+		if (pen != null)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(frame.getLineBox().getPen().getLineWidth()) + "\">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\">\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
-			switch (frame.getLineBox().getPen().getLineStyleValue())
+			switch (pen.getLineStyleValue())
 			{
 				case DASHED :
 				{
@@ -1816,6 +1822,37 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		int hashCode = element.hashCode();
 		// OOXML object ids are xsd:unsignedInt 
 		return Long.toString(hashCode & 0xFFFFFFFFL); 
+	}
+	
+	protected JRPen getPptxPen(JRLineBox box)
+	{
+		JRBasePen pen = null;
+		Float lineWidth = box.getPen().getLineWidth();
+		if(lineWidth == 0)
+		{
+			// PPTX does not support side borders
+			// in case side borders are defined for the report element, ensure that all 4 are declared and all of them come with the same settings
+			if(
+				((JRBasePen)box.getTopPen()).isIdentical(box.getLeftPen())
+				&& ((JRBasePen)box.getTopPen()).isIdentical(box.getBottomPen())
+				&& ((JRBasePen)box.getTopPen()).isIdentical(box.getRightPen())
+				&& box.getTopPen().getLineWidth() > 0
+				)
+			{
+				pen = new JRBasePen(box);
+				pen.setLineWidth(box.getTopPen().getLineWidth());
+				pen.setLineColor(box.getTopPen().getLineColor());
+				pen.setLineStyle(box.getTopPen().getLineStyleValue());
+			}
+		}
+		else
+		{
+			pen = new JRBasePen(box);
+			pen.setLineWidth(lineWidth);
+			pen.setLineColor(box.getPen().getLineColor());
+			pen.setLineStyle(box.getPen().getLineStyleValue());
+		}
+		return pen;
 	}
 }
 
