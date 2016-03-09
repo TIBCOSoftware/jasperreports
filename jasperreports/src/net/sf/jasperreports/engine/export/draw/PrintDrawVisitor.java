@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.Graphics2DReportConfiguration;
 
@@ -102,6 +103,29 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		frameDrawer = new FrameDrawer(jasperReportsContext, null, this);
 	}
 	
+	public PrintDrawVisitor(
+		JRGraphics2DExporterContext exporterContext, 
+		boolean minimizePrinterJobSize,
+		boolean ignoreMissingFont
+		)
+	{
+		this.jasperReportsContext = exporterContext.getJasperReportsContext();
+		this.lineDrawer = new LineDrawer(jasperReportsContext);
+		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
+		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
+		this.imageDrawer = new ImageDrawer(jasperReportsContext);
+
+		AwtTextRenderer textRenderer = 
+			new AwtTextRenderer(
+				jasperReportsContext,
+				minimizePrinterJobSize,
+				ignoreMissingFont
+				);
+		
+		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);
+		frameDrawer = new FrameDrawer(exporterContext, null, this);
+	}
+		
 	/**
 	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, boolean, boolean)}.
 	 */
