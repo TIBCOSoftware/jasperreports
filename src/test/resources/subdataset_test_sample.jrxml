@@ -59,6 +59,7 @@
 				<reportElement x="0" y="0" width="555" height="380" uuid="fbb36477-0a3a-4763-98ce-94237b08671e"/>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
 					<cvc:itemProperty name="script" value="subdataset_test.min.js"/>
+                                        <cvc:itemProperty name="css" value="d3Circle.css"/>
 					<cvc:itemProperty name="module" value="subdataset_test"/>
 					<cvc:cvData>
 						<dataset incrementType="Group" incrementGroup="Country">
