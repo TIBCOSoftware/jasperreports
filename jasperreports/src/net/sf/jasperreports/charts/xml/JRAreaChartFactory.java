@@ -40,6 +40,7 @@ public class JRAreaChartFactory extends JRBaseFactory {
 	 * @return an instance of {@link net.sf.jasperreports.engine.design.JRDesignChart JRDesignChart} 
 	 * representing the Area chart
 	 */
+	@Override
 	public Object createObject( Attributes atts ){
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 

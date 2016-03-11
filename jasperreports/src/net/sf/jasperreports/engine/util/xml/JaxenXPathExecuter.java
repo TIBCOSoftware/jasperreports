@@ -76,6 +76,7 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 		return xPath;
 	}
 	
+	@Override
 	public NodeList selectNodeList(Node contextNode, String expression) throws JRException
 	{
 		try
@@ -104,6 +105,7 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 		}		
 	}
 
+	@Override
 	public Object selectObject(Node contextNode, String expression) throws JRException
 	{
 		try
@@ -153,11 +155,13 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 			this.nodes = nodes;
 		}
 		
+		@Override
 		public int getLength()
 		{
 			return nodes.size();
 		}
 
+		@Override
 		public Node item(int index)
 		{
 			return (Node)nodes.get(index);

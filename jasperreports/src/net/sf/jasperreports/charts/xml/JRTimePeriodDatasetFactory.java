@@ -35,6 +35,7 @@ import org.xml.sax.Attributes;
  */
 public class JRTimePeriodDatasetFactory extends JRBaseFactory {
 	
+	@Override
 	public Object createObject( Attributes attrs ){
 		JRDesignChart chart = (JRDesignChart)digester.peek();
 

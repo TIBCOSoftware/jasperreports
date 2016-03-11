@@ -135,9 +135,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		this.id = id;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpressionChunk[] getChunks()
 	{
 		JRExpressionChunk[] chunkArray = null;
@@ -432,6 +430,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -445,9 +444,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		return eventSupport;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignExpression clone = (JRDesignExpression)super.clone();

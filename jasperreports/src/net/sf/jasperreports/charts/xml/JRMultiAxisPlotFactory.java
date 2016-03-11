@@ -37,9 +37,7 @@ import org.xml.sax.Attributes;
 public class JRMultiAxisPlotFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts) throws JRException
 	{
 		JRDesignChart chart = (JRDesignChart)digester.peek();

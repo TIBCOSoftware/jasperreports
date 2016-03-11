@@ -50,9 +50,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isRemoveEmptySpaceBetweenRows()
 	{
 		return isRemoveEmptySpaceBetweenRows;
@@ -66,9 +64,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.isRemoveEmptySpaceBetweenRows = isRemoveEmptySpaceBetweenRows;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isWhitePageBackground()
 	{
 		return isWhitePageBackground;
@@ -82,9 +78,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.isWhitePageBackground = isWhitePageBackground;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isWrapBreakWord()
 	{
 		return isWrapBreakWord;
@@ -98,9 +92,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.isWrapBreakWord = isWrapBreakWord;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public HtmlSizeUnitEnum getSizeUnit()
 	{
 		return sizeUnit;
@@ -114,9 +106,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.sizeUnit = sizeUnit;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getBorderCollapse()
 	{
 		return borderCollapse;
@@ -130,9 +120,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.borderCollapse = borderCollapse;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnorePageMargins()
 	{
 		return isIgnorePageMargins;
@@ -146,9 +134,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.isIgnorePageMargins = isIgnorePageMargins;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isAccessibleHtml()
 	{
 		return accessibleHtml;
@@ -162,9 +148,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.accessibleHtml = accessibleHtml;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Float getZoomRatio()
 	{
 		return zoomRatio;
@@ -178,9 +162,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.zoomRatio = zoomRatio;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;
@@ -194,9 +176,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 		this.isIgnoreHyperlink = isIgnoreHyperlink;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isEmbedImage()
 	{
 		return isEmbedImage;

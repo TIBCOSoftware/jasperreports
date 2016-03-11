@@ -113,150 +113,112 @@ public class JRFillGroup implements JRGroup
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return parent.getName();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return parent.getExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStartNewColumn()
 	{
 		return startNewColumn;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setStartNewColumn(boolean isStart)
 	{
 		this.startNewColumn = isStart;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStartNewPage()
 	{
 		return startNewPage;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setStartNewPage(boolean isStart)
 	{
 		this.startNewPage = isStart;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isResetPageNumber()
 	{
 		return resetPageNumber;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setResetPageNumber(boolean isReset)
 	{
 		this.resetPageNumber = isReset;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isReprintHeaderOnEachPage()
 	{
 		return parent.isReprintHeaderOnEachPage();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setReprintHeaderOnEachPage(boolean isReprint)
 	{
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public int getMinHeightToStartNewPage()
 	{
 		return parent.getMinHeightToStartNewPage();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setMinHeightToStartNewPage(int minHeight)
 	{
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public FooterPositionEnum getFooterPositionValue()
 	{
 		return parent.getFooterPositionValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setFooterPosition(FooterPositionEnum footerPosition)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isKeepTogether()
 	{
 		return parent.isKeepTogether();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setKeepTogether(boolean keepTogether)
 	{
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRSection getGroupHeaderSection()
 	{
 		return groupHeaderSection;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRSection getGroupFooterSection()
 	{
 		return groupFooterSection;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRVariable getCountVariable()
 	{
 		return countVariable;
@@ -326,9 +288,7 @@ public class JRFillGroup implements JRGroup
 		this.isFooterPrinted = isFooterPrinted;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

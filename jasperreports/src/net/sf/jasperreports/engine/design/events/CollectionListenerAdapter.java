@@ -40,6 +40,7 @@ public class CollectionListenerAdapter implements PropertyChangeListener
 		this.listener = listener;
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
 		if (evt instanceof CollectionElementAddedEvent)

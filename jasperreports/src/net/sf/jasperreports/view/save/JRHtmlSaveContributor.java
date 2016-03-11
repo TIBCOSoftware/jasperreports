@@ -70,9 +70,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 		super(jasperReportsContext, locale, resBundle);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -83,17 +81,13 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 		return (name.endsWith(EXTENSION_HTM) || name.endsWith(EXTENSION_HTML));
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getDescription()
 	{
 		return getBundleString("file.desc.html");
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
 		if (

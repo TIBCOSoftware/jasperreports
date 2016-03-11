@@ -86,9 +86,7 @@ public class SimpleTextFormat implements TextFormat, Serializable
 				+ timeZoneId + "}";
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
@@ -102,9 +100,7 @@ public class SimpleTextFormat implements TextFormat, Serializable
 		this.valueClassName = valueClassName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPattern()
 	{
 		return pattern;
@@ -118,9 +114,7 @@ public class SimpleTextFormat implements TextFormat, Serializable
 		this.pattern = pattern;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getFormatFactoryClass()
 	{
 		return formatFactoryClass;
@@ -134,9 +128,7 @@ public class SimpleTextFormat implements TextFormat, Serializable
 		this.formatFactoryClass = formatFactoryClass;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getLocaleCode()
 	{
 		return localeCode;
@@ -150,9 +142,7 @@ public class SimpleTextFormat implements TextFormat, Serializable
 		this.localeCode = localeCode;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getTimeZoneId()
 	{
 		return timeZoneId;

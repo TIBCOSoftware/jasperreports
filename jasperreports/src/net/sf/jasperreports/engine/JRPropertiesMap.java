@@ -273,15 +273,14 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		return this.cloneProperties();
 	}
 	
 	
+	@Override
 	public String toString()
 	{
 		return propertiesMap == null ? "" : propertiesMap.toString();

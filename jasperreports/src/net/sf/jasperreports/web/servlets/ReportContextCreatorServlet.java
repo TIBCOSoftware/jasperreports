@@ -50,9 +50,7 @@ public class ReportContextCreatorServlet extends AbstractServlet {
 
 	private static final Log log = LogFactory.getLog(ReportContextCreatorServlet.class);
 
-	/**
-	 *
-	 */
+	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType(JSON_CONTENT_TYPE);
 		setNoExpire(response);

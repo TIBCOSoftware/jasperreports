@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class IconLabelComponentFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

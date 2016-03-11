@@ -87,11 +87,13 @@ public class ColumnFactory implements ColumnVisitor<BaseColumn>
 		return newCells;
 	}
 	
+	@Override
 	public BaseColumn visitColumn(Column column)
 	{
 		return new StandardColumn(column, this);
 	}
 
+	@Override
 	public BaseColumn visitColumnGroup(ColumnGroup columnGroup)
 	{
 		return new StandardColumnGroup(columnGroup, this);

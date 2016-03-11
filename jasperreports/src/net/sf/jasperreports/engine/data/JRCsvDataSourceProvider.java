@@ -81,27 +81,21 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 		this.reader = reader;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean supportsGetFieldsOperation()
 	{
 		return false;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRField[] getFields(JasperReport report) throws JRException, UnsupportedOperationException
 	{
 		return null;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataSource create(JasperReport report) throws JRException
 	{
 		JRCsvDataSource ds;
@@ -127,9 +121,7 @@ public class JRCsvDataSourceProvider implements JRDataSourceProvider
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void dispose(JRDataSource dataSource) throws JRException
 	{
 	}

@@ -45,9 +45,7 @@ public class ContentTypeMappingExtensionsRegistryFactory implements ExtensionsRe
 	 */
 	public final static String CONTENT_TYPE_MAPPING_PROPERTY_PREFIX = DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "content.type.mapping.";
 
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) {
 		List<PropertySuffix> contentTypeMappingProperties = JRPropertiesUtil.getProperties(properties, CONTENT_TYPE_MAPPING_PROPERTY_PREFIX);
 		List<ContentTypeMapping> contentTypeMappings = new ArrayList<ContentTypeMapping>();

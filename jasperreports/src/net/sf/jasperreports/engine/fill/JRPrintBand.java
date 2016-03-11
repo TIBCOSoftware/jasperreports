@@ -48,25 +48,19 @@ public class JRPrintBand implements JRPrintElementContainer
 	private boolean iterated = false;
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		return this.height;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHeight(int height)
 	{
 		this.height = height;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<JRPrintElement> getElements()
 	{
 		// should not be called
@@ -87,9 +81,7 @@ public class JRPrintBand implements JRPrintElementContainer
 		return new ElementsIterator(elements);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void addElement(JRPrintElement element)
 	{
 		this.elements.add(element);
@@ -134,11 +126,13 @@ public class JRPrintBand implements JRPrintElementContainer
 			this.iterator = elements.iterator();
 		}
 
+		@Override
 		public boolean hasNext()
 		{
 			return (subIterator != null && subIterator.hasNext()) || iterator.hasNext();
 		}
 
+		@Override
 		public JRPrintElement next()
 		{
 			JRPrintElement element = null;
@@ -193,6 +187,7 @@ public class JRPrintBand implements JRPrintElementContainer
 			element.setY(subElements.offsetY + element.getY());
 		}
 
+		@Override
 		public void remove()
 		{
 			throw new UnsupportedOperationException();

@@ -51,9 +51,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getStartPageIndex()
 	{
 		return startPageIndex;
@@ -69,9 +67,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getEndPageIndex()
 	{
 		return endPageIndex;
@@ -87,9 +83,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getPageIndex()
 	{
 		return pageIndex;
@@ -105,9 +99,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExportProgressMonitor getProgressMonitor()
 	{
 		return progressMonitor;
@@ -123,9 +115,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public ExporterFilter getExporterFilter()
 	{
 		return filter;
@@ -141,9 +131,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getOffsetX()
 	{
 		return offsetX;
@@ -159,9 +147,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getOffsetY()
 	{
 		return offsetY;
@@ -177,9 +163,7 @@ public class SimpleReportExportConfiguration extends SimpleCommonExportConfigura
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRHyperlinkProducerFactory getHyperlinkProducerFactory()
 	{
 		return hyperlinkProducerFactory;

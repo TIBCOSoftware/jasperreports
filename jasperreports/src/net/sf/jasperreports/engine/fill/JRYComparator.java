@@ -35,9 +35,7 @@ public class JRYComparator implements Comparator<JRElement>
 {
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public int compare(JRElement elem1, JRElement elem2)
 	{
 		return elem1.getY() - elem2.getY();

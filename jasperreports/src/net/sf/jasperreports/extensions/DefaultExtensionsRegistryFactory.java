@@ -93,11 +93,13 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 	private static final GenericElementHandlerBundle HANDLER_BUNDLE = 
 		new GenericElementHandlerBundle()
 		{
+			@Override
 			public String getNamespace()
 			{
 				return JRXmlConstants.JASPERREPORTS_NAMESPACE;
 			}
 			
+			@Override
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
@@ -264,6 +266,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 	private static final ExtensionsRegistry defaultExtensionsRegistry = 
 		new ExtensionsRegistry()
 		{
+			@Override
 			public <T> List<T> getExtensions(Class<T> extensionType) 
 			{
 				if (JRQueryExecuterFactoryBundle.class.equals(extensionType))
@@ -290,6 +293,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 			}
 		};
 	
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		return defaultExtensionsRegistry;

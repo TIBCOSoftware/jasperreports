@@ -123,9 +123,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 		setFileHandlers(new File(fileName));
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public HtmlResourceHandler getImageHandler() 
 	{
 		return imageHandler;
@@ -139,9 +137,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 		this.imageHandler = imageHandler;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public HtmlResourceHandler getFontHandler() 
 	{
 		return fontHandler;
@@ -155,9 +151,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 		this.fontHandler = fontHandler;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public HtmlResourceHandler getResourceHandler() 
 	{
 		return resourceHandler;

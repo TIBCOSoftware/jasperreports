@@ -92,9 +92,7 @@ public class JRFillSection implements JRSection, JROriginProvider
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JROrigin getOrigin()
 	{
 		return origin;
@@ -125,26 +123,20 @@ public class JRFillSection implements JRSection, JROriginProvider
 		return bands;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRBand[] getBands() 
 	{
 		return bands;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPart[] getParts() 
 	{
 		return null;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

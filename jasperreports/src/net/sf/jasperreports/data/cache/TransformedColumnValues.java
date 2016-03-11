@@ -59,11 +59,13 @@ public class TransformedColumnValues implements ColumnValues, Serializable
 		this.transformer = (ValueTransformer) in.readObject();
 	}
 
+	@Override
 	public int size()
 	{
 		return rawValues.size();
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		return new TransformedIterator();
@@ -78,16 +80,19 @@ public class TransformedColumnValues implements ColumnValues, Serializable
 			rawIterator = rawValues.iterator();
 		}
 		
+		@Override
 		public void moveFirst()
 		{
 			rawIterator.moveFirst();
 		}
 
+		@Override
 		public boolean next()
 		{
 			return rawIterator.next();
 		}
 
+		@Override
 		public Object get()
 		{
 			Object rawValue = rawIterator.get();

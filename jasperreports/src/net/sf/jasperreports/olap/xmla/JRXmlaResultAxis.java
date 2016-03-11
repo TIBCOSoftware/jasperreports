@@ -55,11 +55,13 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 		return axisName;
 	}
 
+	@Override
 	public JROlapHierarchy[] getHierarchiesOnAxis()
 	{
 		return ensureHierarchyArray();
 	}
 
+	@Override
 	public JROlapMemberTuple getTuple(int index)
 	{
 		if (index < 0 || index >= tuples.size())
@@ -70,6 +72,7 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 		return tuples.get(index);
 	}
 
+	@Override
 	public int getTupleCount()
 	{
 		return tuples.size();

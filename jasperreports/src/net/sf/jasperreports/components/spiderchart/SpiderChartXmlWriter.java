@@ -92,12 +92,14 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	}
 
 
+	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter)
 	{
 		return isNewerVersionOrEqual(version, JRConstants.VERSION_3_7_4);
 	}
 	
 	
+	@Override
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
 	{
 		Component component = componentElement.getComponent();

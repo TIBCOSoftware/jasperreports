@@ -60,30 +60,33 @@ public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 	}
 	
 	
+	@Override
 	public JRExpression getSeriesExpression(){
 		return seriesExpression;
 	}
 	
+	@Override
 	public JRExpression getXValueExpression(){
 		return xValueExpression;
 	}
 	
+	@Override
 	public JRExpression getYValueExpression(){
 		return yValueExpression;
 	}
 	
+	@Override
 	public JRExpression getZValueExpression(){
 		return zValueExpression;
 	}
 	
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseXyzSeries clone = null;

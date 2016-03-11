@@ -84,36 +84,43 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 		this.variable = factory.getVariable(measure.getVariable());
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
 	}
 
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return expression;
 	}
 
+	@Override
 	public CalculationEnum getCalculationValue()
 	{
 		return calculationValue;
 	}
 
+	@Override
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
 	}
 
+	@Override
 	public CrosstabPercentageEnum getPercentageType()
 	{
 		return percentageType;
 	}
 
+	@Override
 	public Class<?> getIncrementerFactoryClass()
 	{
 		if (incrementerFactoryClass == null)
@@ -152,6 +159,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 		return incrementerFactoryClassRealName;
 	}
 
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -190,16 +198,19 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 		return valueClassRealName;
 	}
 
+	@Override
 	public JRVariable getVariable()
 	{
 		return variable;
 	}
 
+	@Override
 	public String getPercentageCalculatorClassName()
 	{
 		return percentageCalculatorClassName;
 	}
 
+	@Override
 	public Class<?> getPercentageCalculatorClass()
 	{
 		if (percentageCalculatorClass == null)
@@ -238,9 +249,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable, C
 		return percentageCalculatorClassRealName;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseCrosstabMeasure clone = null;

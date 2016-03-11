@@ -70,6 +70,7 @@ public class StandardMeasureValue implements MeasureValue
 		this.value = value;
 	}
 	
+	@Override
 	public String toString()
 	{
 		return value + " (" + measure + ")";

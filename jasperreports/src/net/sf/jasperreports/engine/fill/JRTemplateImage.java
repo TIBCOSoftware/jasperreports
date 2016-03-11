@@ -167,41 +167,31 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		this.lineBox = box.clone(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleImageEnum getScaleImageValue()
 	{
 		return getStyleResolver().getScaleImageValue(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleImageEnum getOwnScaleImageValue()
 	{
 		return this.scaleImageValue;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setScaleImage(ScaleImageEnum scaleImageValue)
 	{
 		this.scaleImageValue = scaleImageValue;
@@ -234,6 +224,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
@@ -242,6 +233,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
@@ -250,6 +242,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
@@ -258,6 +251,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
@@ -266,6 +260,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
@@ -274,54 +269,43 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
 		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return horizontalImageAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
 		this.horizontalImageAlign = horizontalImageAlign;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
 		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return verticalImageAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
 	{
 		this.verticalImageAlign = verticalImageAlign;
@@ -464,9 +448,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 	
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Float getDefaultLineWidth() 
 	{
 		return JRPen.LINE_WIDTH_0;
@@ -548,6 +530,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		}
 	}
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -564,6 +547,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		return hash.getHashCode();
 	}
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

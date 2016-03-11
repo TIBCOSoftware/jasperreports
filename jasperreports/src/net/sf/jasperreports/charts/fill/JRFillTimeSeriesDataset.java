@@ -83,11 +83,13 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		}
 	}
 	
+	@Override
 	public JRTimeSeries[] getSeries()
 	{
 		return timeSeries;
 	}
 	
+	@Override
 	protected void customInitialize()
 	{
 		seriesNames = null;
@@ -96,6 +98,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		itemHyperlinks = null;
 	}
 	
+	@Override
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException 
 	{
 		if(timeSeries != null && timeSeries.length > 0)
@@ -108,6 +111,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 	
 	
+	@Override
 	protected void customIncrement()
 	{
 		if (timeSeries != null && timeSeries.length > 0)
@@ -177,6 +181,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		}
 	}
 	
+	@Override
 	public Dataset getCustomDataset()
 	{
 		TimeSeriesCollection dataset = new TimeSeriesCollection(getTimeZone());
@@ -192,29 +197,28 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 
 
+	@Override
 	public Class<?> getTimePeriod() {
 		return ((JRTimeSeriesDataset)parent).getTimePeriod();
 	}
 
+	@Override
 	public void setTimePeriod(Class<?> timePeriod) {	
 	}
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.TIMESERIES_DATASET;
 	}
 	
 	
+	@Override
 	public Object getLabelGenerator(){
 		return new TimeSeriesLabelGenerator(labelsMap);//FIXMETHEME this and other similar implementations should be able to return null and chart themes should be protected agains null;
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -241,6 +245,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

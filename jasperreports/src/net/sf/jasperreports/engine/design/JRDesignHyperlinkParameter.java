@@ -84,9 +84,7 @@ public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter impleme
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignHyperlinkParameter clone = (JRDesignHyperlinkParameter)super.clone();
@@ -96,6 +94,7 @@ public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter impleme
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

@@ -43,9 +43,7 @@ public class SimpleGraphics2DExporterOutput implements Graphics2DExporterOutput
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Graphics2D getGraphics2D()
 	{
 		return grx;

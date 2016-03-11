@@ -45,6 +45,7 @@ public class JRFloatLocaleConverter extends DecimalLocaleConverter
 		super(locale);
 	}
 
+	@Override
 	protected Object parse(Object value, String pattern) throws ParseException
 	{
 		final Number parsed = (Number) super.parse(value, pattern);

@@ -52,9 +52,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRAbstractStyleFactory.class);
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignStyle style = new JRDesignStyle();

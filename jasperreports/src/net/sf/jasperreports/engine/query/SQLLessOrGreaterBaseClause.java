@@ -73,6 +73,7 @@ public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 	 * will always evaluate to true (e.g. <code>0 = 0</code>).
 	 * </p>
 	 */
+	@Override
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
 		String clauseId = clauseTokens.getToken(POSITION_CLAUSE_ID);

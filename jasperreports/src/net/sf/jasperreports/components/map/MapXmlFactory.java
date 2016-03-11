@@ -64,9 +64,7 @@ public class MapXmlFactory extends JRBaseFactory
 	 */
 	public static final String ELEMENT_markerProperty = "markerProperty";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		StandardMapComponent map = new StandardMapComponent();

@@ -76,11 +76,13 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
 	}
 
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
 	}
 
+	@Override
 	@Deprecated
 	public SortOrderEnum getOrderValue()
 	{
@@ -93,21 +95,25 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		return bucketOrder;
 	}
 
+	@Override
 	public JRExpression getExpression()
 	{
 		return expression;
 	}
 
+	@Override
 	public JRExpression getOrderByExpression()
 	{
 		return orderByExpression;
 	}
 
+	@Override
 	public JRExpression getComparatorExpression()
 	{
 		return comparatorExpression;
 	}
 	
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -146,6 +152,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		return valueClassRealName;
 	}
 
+	@Override
 	public Object clone()
 	{
 		JRBaseCrosstabBucket clone = null;

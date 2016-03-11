@@ -56,9 +56,7 @@ public final class JRComparableIncrementerFactory extends JRAbstractExtendedIncr
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		JRExtendedIncrementer incrementer = null;
@@ -121,9 +119,7 @@ final class JRComparableLowestIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object increment(
 		JRCalculable variable, 
@@ -146,6 +142,7 @@ final class JRComparableLowestIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return null;
@@ -178,9 +175,7 @@ final class JRComparableHighestIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object increment(
 		JRCalculable variable, 
@@ -203,6 +198,7 @@ final class JRComparableHighestIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return null;

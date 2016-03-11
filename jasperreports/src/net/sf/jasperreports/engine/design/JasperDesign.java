@@ -649,6 +649,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets an array of report level styles. These styles can be referenced by report elements.
 	 */
+	@Override
 	public JRStyle[] getStyles()
 	{
 		JRStyle[] stylesArray = new JRStyle[stylesList.size()];
@@ -1024,6 +1025,7 @@ public class JasperDesign extends JRBaseReport
 	}
 
 
+	@Override
 	public JRDataset[] getDatasets()
 	{
 		JRDataset[] datasetArray = new JRDataset[datasetList.size()];
@@ -1171,6 +1173,7 @@ public class JasperDesign extends JRBaseReport
 		final List<JRCrosstab> crosstabs = new ArrayList<JRCrosstab>();
 		JRElementsVisitor.visitReport(this, new JRVisitorSupport()
 		{
+			@Override
 			public void visitCrosstab(JRCrosstab crosstab)
 			{
 				crosstabs.add(crosstab);
@@ -1261,6 +1264,7 @@ public class JasperDesign extends JRBaseReport
 		return false;
 	}
 
+	@Override
 	public JRReportTemplate[] getTemplates()
 	{
 		return templateList.toArray(new JRReportTemplate[templateList.size()]);

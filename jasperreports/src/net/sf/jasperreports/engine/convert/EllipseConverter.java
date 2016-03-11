@@ -63,9 +63,7 @@ public final class EllipseConverter extends ElementConverter
 		return INSTANCE;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintEllipse printEllipse = new JRBasePrintEllipse(reportConverter.getDefaultStyleProvider());

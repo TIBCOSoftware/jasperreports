@@ -55,11 +55,13 @@ public class JRBaseCrosstabColumnGroup extends JRBaseCrosstabGroup implements JR
 		crosstabHeader = factory.getCell(group.getCrosstabHeader());
 	}
 
+	@Override
 	public CrosstabColumnPositionEnum getPositionValue()
 	{
 		return positionValue;
 	}
 
+	@Override
 	public int getHeight()
 	{
 		return height;

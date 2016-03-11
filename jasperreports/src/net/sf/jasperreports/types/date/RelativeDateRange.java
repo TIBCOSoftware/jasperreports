@@ -82,6 +82,7 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 		}
 	}
 
+	@Override
 	public String getExpression() {
 		return expression;
 	}
@@ -157,6 +158,7 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 		return RelativeDateRange.props;
 	}
 
+	@Override
 	public Date getStart() {
 		Calendar calendar = getCalendar();
 
@@ -194,6 +196,7 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 		return calendar.getTime();
 	}
 
+	@Override
 	public Date getEnd() {
 		Calendar calendar = getCalendar();
 

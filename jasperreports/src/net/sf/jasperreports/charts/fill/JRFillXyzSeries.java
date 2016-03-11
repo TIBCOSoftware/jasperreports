@@ -53,18 +53,22 @@ public class JRFillXyzSeries implements JRXyzSeries {
 		parent = xyzSeries;
 	}
 	
+	@Override
 	public JRExpression getSeriesExpression(){
 		return parent.getSeriesExpression();
 	}
 	
+	@Override
 	public JRExpression getXValueExpression(){
 		return parent.getXValueExpression();
 	}
 	
+	@Override
 	public JRExpression getYValueExpression(){
 		return parent.getYValueExpression();
 	}
 	
+	@Override
 	public JRExpression getZValueExpression(){
 		return parent.getZValueExpression();
 	}
@@ -119,6 +123,7 @@ public class JRFillXyzSeries implements JRXyzSeries {
 		}
 	}
 
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return parent.getItemHyperlink();
@@ -129,9 +134,7 @@ public class JRFillXyzSeries implements JRXyzSeries {
 		return !JRHyperlinkHelper.isEmpty(getItemHyperlink()); 
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

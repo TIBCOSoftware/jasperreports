@@ -75,6 +75,7 @@ public class BaseDataAxis implements DataAxis, Serializable
 		return levels;
 	}
 
+	@Override
 	public Object clone() 
 	{
 		BaseDataAxis clone = null;

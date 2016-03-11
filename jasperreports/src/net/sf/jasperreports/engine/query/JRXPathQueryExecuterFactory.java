@@ -102,11 +102,13 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory
 		XML_TIME_ZONE, "java.util.TimeZone",
 		};
 
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return XPATH_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
@@ -116,6 +118,7 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory
 		return new JRXPathQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;

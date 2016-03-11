@@ -184,6 +184,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 * {@link JRHibernateIterateDataSource JRHibernateIterateDataSource} or
 	 * {@link JRHibernateScrollDataSource JRHibernateScrollDataSource}, depending on the 
 	 */
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		JRDataSource datasource = null;
@@ -361,6 +362,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	/**
 	 * Closes the scrollable result when <em>scroll</em> execution type is used.
 	 */
+	@Override
 	public synchronized void close()
 	{
 		closeScrollableResults();
@@ -388,6 +390,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 	
+	@Override
 	public synchronized boolean cancelQuery() throws JRException
 	{
 		if (queryRunning)
@@ -399,6 +402,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		return false;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return ':' + getHqlParameterName(parameterName);

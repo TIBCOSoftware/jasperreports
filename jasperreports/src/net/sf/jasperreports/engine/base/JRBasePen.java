@@ -86,14 +86,13 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	/**
 	 * @deprecated Replaced by {@link #getPenContainer()}.
 	 */
+	@Override
 	public JRStyleContainer getStyleContainer()
 	{
 		return penContainer;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPenContainer getPenContainer()
 	{
 		return penContainer;
@@ -111,33 +110,25 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		return StyleResolver.getInstance();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Float getLineWidth()
 	{
 		return getStyleResolver().getLineWidth(this, penContainer.getDefaultLineWidth());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getOwnLineWidth()
 	{
 		return lineWidth;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLineWidth(float lineWidth)
 	{
 		setLineWidth(new Float(lineWidth));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLineWidth(Float lineWidth)
 	{
 		Object old = this.lineWidth;
@@ -145,25 +136,19 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_LINE_WIDTH, old, this.lineWidth);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public LineStyleEnum getLineStyleValue()
 	{
 		return getStyleResolver().getLineStyleValue(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public LineStyleEnum getOwnLineStyleValue()
 	{
 		return lineStyleValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLineStyle(LineStyleEnum lineStyleValue)
 	{
 		Object old = this.lineStyleValue;
@@ -171,25 +156,19 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_LINE_STYLE, old, this.lineStyleValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getLineColor()
 	{
 		return getStyleResolver().getLineColor(this, penContainer.getDefaultLineColor());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnLineColor()
 	{
 		return lineColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLineColor(Color lineColor)
 	{
 		Object old = this.lineColor;
@@ -203,9 +182,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		return null;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRPen clone(JRPenContainer penContainer)
 	{
 		JRBasePen clone = null;
@@ -226,6 +203,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -263,6 +241,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	}
 
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -273,6 +252,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	}
 
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

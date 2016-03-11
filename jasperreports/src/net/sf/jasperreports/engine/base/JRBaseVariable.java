@@ -107,17 +107,13 @@ public class JRBaseVariable implements JRVariable, Serializable
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return this.name;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -139,9 +135,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		return valueClass;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
@@ -160,9 +154,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		return valueClassRealName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getIncrementerFactoryClass()
 	{
 		if (incrementerFactoryClass == null)
@@ -184,9 +176,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 		return incrementerFactoryClass;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
@@ -205,73 +195,55 @@ public class JRBaseVariable implements JRVariable, Serializable
 		return incrementerFactoryClassRealName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ResetTypeEnum getResetTypeValue()
 	{
 		return this.resetTypeValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public IncrementTypeEnum getIncrementTypeValue()
 	{
 		return this.incrementTypeValue;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public CalculationEnum getCalculationValue()
 	{
 		return this.calculationValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isSystemDefined()
 	{
 		return this.isSystemDefined;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return this.expression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getInitialValueExpression()
 	{
 		return this.initialValueExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getResetGroup()
 	{
 		return this.resetGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getIncrementGroup()
 	{
 		return this.incrementGroup;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseVariable clone = null;

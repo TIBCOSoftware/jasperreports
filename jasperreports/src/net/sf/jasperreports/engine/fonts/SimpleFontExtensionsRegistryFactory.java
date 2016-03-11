@@ -48,9 +48,7 @@ public class SimpleFontExtensionsRegistryFactory implements ExtensionsRegistryFa
 	public final static String PROPERTY_SIMPLE_FONT_FAMILIES_REGISTRY_FACTORY =
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_FACTORY_PREFIX + "simple.font.families";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> fontFamiliesProperties = JRPropertiesUtil.getProperties(properties, SIMPLE_FONT_FAMILIES_PROPERTY_PREFIX);

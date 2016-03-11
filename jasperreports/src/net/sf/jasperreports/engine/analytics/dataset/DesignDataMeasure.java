@@ -62,6 +62,7 @@ public class DesignDataMeasure extends BaseDataMeasure implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
 	}
 
+	@Override
 	public void setValueClassName(String valueClassName)
 	{
 		Object old = this.valueClassName;
@@ -83,6 +84,7 @@ public class DesignDataMeasure extends BaseDataMeasure implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_CALCULATION, old, this.calculation);
 	}
 
+	@Override
 	public void setIncrementerFactoryClassName(String incrementerFactoryClassName)
 	{
 		Object old = this.incrementerFactoryClassName;
@@ -92,6 +94,7 @@ public class DesignDataMeasure extends BaseDataMeasure implements JRChangeEvents
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

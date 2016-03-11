@@ -93,11 +93,13 @@ public class Olap4jMondrianQueryExecuter extends JRAbstractQueryExecuter
 		return Olap4jQueryExecuterFactory.CANONICAL_LANGUAGE;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
 	}
 
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		JRDataSource dataSource = null;
@@ -173,6 +175,7 @@ public class Olap4jMondrianQueryExecuter extends JRAbstractQueryExecuter
 		return dataSource;
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		return false;

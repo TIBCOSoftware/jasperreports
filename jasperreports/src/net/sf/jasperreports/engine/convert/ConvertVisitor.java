@@ -100,17 +100,13 @@ public class ConvertVisitor implements JRVisitor
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitBreak(JRBreak breakElement)
 	{
 		//FIXMECONVERT
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitChart(JRChart chart)
 	{
 		JRPrintElement printImage = ChartConverter.getInstance().convert(reportConverter, chart);
@@ -118,9 +114,7 @@ public class ConvertVisitor implements JRVisitor
 		addContour(reportConverter, parentFrame, printImage);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
 		JRPrintElement printFrame = CrosstabConverter.getInstance().convert(reportConverter, crosstab); 
@@ -128,9 +122,7 @@ public class ConvertVisitor implements JRVisitor
 		addContour(reportConverter, parentFrame, printFrame);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		List<JRChild> children = elementGroup.getChildren();
@@ -143,17 +135,13 @@ public class ConvertVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitEllipse(JREllipse ellipse)
 	{
 		addElement(parentFrame, EllipseConverter.getInstance().convert(reportConverter, ellipse));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitFrame(JRFrame frame)
 	{
 		JRPrintElement printFrame = FrameConverter.getInstance().convert(reportConverter, frame); 
@@ -161,9 +149,7 @@ public class ConvertVisitor implements JRVisitor
 		addContour(reportConverter, parentFrame, printFrame);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitImage(JRImage image)
 	{
 		JRPrintElement printImage = ImageConverter.getInstance().convert(reportConverter, image);
@@ -171,25 +157,19 @@ public class ConvertVisitor implements JRVisitor
 		addContour(reportConverter, parentFrame, printImage);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitLine(JRLine line)
 	{
 		addElement(parentFrame, LineConverter.getInstance().convert(reportConverter, line));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitRectangle(JRRectangle rectangle)
 	{
 		addElement(parentFrame, RectangleConverter.getInstance().convert(reportConverter, rectangle));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitStaticText(JRStaticText staticText)
 	{
 		JRPrintElement printText = StaticTextConverter.getInstance().convert(reportConverter, staticText);
@@ -197,9 +177,7 @@ public class ConvertVisitor implements JRVisitor
 		addContour(reportConverter, parentFrame, printText);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitSubreport(JRSubreport subreport)
 	{
 		JRPrintElement printImage = SubreportConverter.getInstance().convert(reportConverter, subreport);
@@ -207,9 +185,7 @@ public class ConvertVisitor implements JRVisitor
 		addContour(reportConverter, parentFrame, printImage);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitTextField(JRTextField textField)
 	{
 		JRPrintElement printText = TextFieldConverter.getInstance().convert(reportConverter, textField);
@@ -269,6 +245,7 @@ public class ConvertVisitor implements JRVisitor
 		}
 	}
 
+	@Override
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		JRPrintElement image = ComponentElementConverter.getInstance()
@@ -277,6 +254,7 @@ public class ConvertVisitor implements JRVisitor
 		addContour(reportConverter, parentFrame, image);
 	}
 
+	@Override
 	public void visitGenericElement(JRGenericElement element)
 	{
 		JRPrintElement image = GenericElementConverter.getInstance()

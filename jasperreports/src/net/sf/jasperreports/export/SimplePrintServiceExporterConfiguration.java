@@ -48,9 +48,7 @@ public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExp
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public PrintRequestAttributeSet getPrintRequestAttributeSet()
 	{
 		return printRequestAttributeSet;
@@ -64,9 +62,7 @@ public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExp
 		this.printRequestAttributeSet = printRequestAttributeSet;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public PrintServiceAttributeSet getPrintServiceAttributeSet()
 	{
 		return printServiceAttributeSet;
@@ -80,9 +76,7 @@ public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExp
 		this.printServiceAttributeSet = printServiceAttributeSet;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isDisplayPageDialog()
 	{
 		return isDisplayPageDialog;
@@ -96,9 +90,7 @@ public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExp
 		this.isDisplayPageDialog = isDisplayPageDialog;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isDisplayPageDialogOnlyOnce()
 	{
 		return isDisplayPageDialogOnlyOnce;
@@ -112,9 +104,7 @@ public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExp
 		this.isDisplayPageDialogOnlyOnce = isDisplayPageDialogOnlyOnce;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isDisplayPrintDialog()
 	{
 		return isDisplayPrintDialog;
@@ -128,9 +118,7 @@ public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExp
 		this.isDisplayPrintDialog = isDisplayPrintDialog;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isDisplayPrintDialogOnlyOnce()
 	{
 		return isDisplayPrintDialogOnlyOnce;
@@ -144,9 +132,7 @@ public class SimplePrintServiceExporterConfiguration extends SimpleGraphics2DExp
 		this.isDisplayPrintDialogOnlyOnce = isDisplayPrintDialogOnlyOnce;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public PrintService getPrintService()
 	{
 		return printService;

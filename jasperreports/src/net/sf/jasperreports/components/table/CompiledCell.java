@@ -75,46 +75,55 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 		this.propertiesMap = JRPropertiesMap.getPropertiesClone(cell);
 	}
 
+	@Override
 	public Integer getHeight()
 	{
 		return height;
 	}
 
+	@Override
 	public Color getDefaultLineColor()
 	{
 		return Color.BLACK;
 	}
 
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return box;
 	}
 
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
 
+	@Override
 	public JRStyle getStyle()
 	{
 		return style;
 	}
 
+	@Override
 	public String getStyleNameReference()
 	{
 		return styleNameReference;
 	}
 
+	@Override
 	public Integer getRowSpan()
 	{
 		return rowSpan;
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -124,11 +133,13 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 	
+	@Override
 	public Object clone() 
 	{
 		CompiledCell clone = (CompiledCell) super.clone();

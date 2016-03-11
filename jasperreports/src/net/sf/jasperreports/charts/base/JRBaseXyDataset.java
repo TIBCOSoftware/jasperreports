@@ -79,9 +79,7 @@ public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRXySeries[] getSeries()
 	{
 		return xySeries;
@@ -91,28 +89,26 @@ public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
 	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.XY_DATASET;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseXyDataset clone = (JRBaseXyDataset)super.clone();

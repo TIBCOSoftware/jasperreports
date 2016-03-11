@@ -34,18 +34,22 @@ public class DataSourceDataAdapterImpl extends AbstractClasspathAwareDataAdapter
 	private String factoryClass;
 	private String methodToCall;
 	
+	@Override
 	public String getFactoryClass() {
 		return factoryClass;
 	}
 
+	@Override
 	public void setFactoryClass(String factoryClass) {
 		this.factoryClass = factoryClass;
 	}
 
+	@Override
 	public String getMethodToCall() {
 		return methodToCall;
 	}
 
+	@Override
 	public void setMethodToCall(String methodToCall) {
 		this.methodToCall = methodToCall;
 	}

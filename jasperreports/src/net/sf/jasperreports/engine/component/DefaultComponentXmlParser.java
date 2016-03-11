@@ -37,6 +37,7 @@ public class DefaultComponentXmlParser implements ComponentsXmlParser
 	private String internalSchemaResource;
 	private XmlDigesterConfigurer digesterConfigurer;
 	
+	@Override
 	public String getNamespace()
 	{
 		return namespace;
@@ -53,6 +54,7 @@ public class DefaultComponentXmlParser implements ComponentsXmlParser
 		this.namespace = namespace;
 	}
 	
+	@Override
 	public XmlDigesterConfigurer getDigesterConfigurer()
 	{
 		return digesterConfigurer;
@@ -69,6 +71,7 @@ public class DefaultComponentXmlParser implements ComponentsXmlParser
 		this.digesterConfigurer = digesterConfigurer;
 	}
 
+	@Override
 	public String getPublicSchemaLocation()
 	{
 		return publicSchemaLocation;
@@ -85,6 +88,7 @@ public class DefaultComponentXmlParser implements ComponentsXmlParser
 		this.publicSchemaLocation = publicSchemaLocation;
 	}
 
+	@Override
 	public String getInternalSchemaResource()
 	{
 		return internalSchemaResource;

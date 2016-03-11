@@ -38,6 +38,7 @@ import org.apache.commons.digester.Rule;
 public class TextLineBreakOffsetsRule extends Rule
 {
 
+	@Override
 	public void body(String namespace, String name, String text)
 			throws Exception
 	{

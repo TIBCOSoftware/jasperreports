@@ -54,6 +54,7 @@ public final class NumberToBigIntegerTransformer implements ValueTransformer, Se
 		return BigInteger.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return BigInteger.valueOf(((Number) value).longValue());

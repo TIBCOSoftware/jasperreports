@@ -116,9 +116,7 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next() throws JRException
 	{
 		boolean hasNext = false;
@@ -143,9 +141,7 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField field) throws JRException
 	{
 		Object objValue = null;

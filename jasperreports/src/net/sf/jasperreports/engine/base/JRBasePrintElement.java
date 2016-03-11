@@ -85,9 +85,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
@@ -105,25 +103,19 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 		return StyleResolver.getInstance();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public UUID getUUID()
 	{
 		return uuid;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUUID(UUID uuid)
 	{
 		this.uuid = uuid;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JROrigin getOrigin()
 	{
 		return origin;
@@ -137,160 +129,122 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 		this.origin = origin;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle()
 	{
 		return style;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setStyle(JRStyle style)
 	{
 		this.style = style;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getOwnModeValue()
 	{
 		return modeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMode(ModeEnum modeValue)
 	{
 		this.modeValue = modeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getX()
 	{
 		return this.x;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setX(int x)
 	{
 		this.x = x;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getY()
 	{
 		return this.y;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setY(int y)
 	{
 		this.y = y;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getWidth()
 	{
 		return this.width;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setWidth(int width)
 	{
 		this.width = width;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		return this.height;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setHeight(int height)
 	{
 		this.height = height;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getForecolor()
 	{
 		return getStyleResolver().getForecolor(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnForecolor()
 	{
 		return forecolor;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setForecolor(Color forecolor)
 	{
 		this.forecolor = forecolor;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return getStyleResolver().getBackcolor(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnBackcolor()
 	{
 		return backcolor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBackcolor(Color backcolor)
 	{
 		this.backcolor = backcolor;
 	}
 
 
-	
+	@Override
 	public String getKey()
 	{
 		return key;
@@ -312,17 +266,20 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	/**
 	 * Returns null as external style references are not allowed for print objects.
 	 */
+	@Override
 	public String getStyleNameReference()
 	{
 		return null;
 	}
 	
 
+	@Override
 	public synchronized boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public synchronized JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -332,6 +289,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
@@ -361,11 +319,13 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	}
 
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public int getSourceElementId()
 	{
 		return sourceElementId;

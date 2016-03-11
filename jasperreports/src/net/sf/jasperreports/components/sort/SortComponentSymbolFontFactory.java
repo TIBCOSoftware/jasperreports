@@ -42,6 +42,7 @@ import org.xml.sax.Attributes;
 public class SortComponentSymbolFontFactory extends JRFontFactory
 {
 
+	@Override
 	public JRFont getFont()
 	{
 		int i = 0;
@@ -56,6 +57,7 @@ public class SortComponentSymbolFontFactory extends JRFontFactory
 		return new JRDesignFont(component);
 	}
 	
+	@Override
 	public void setStyle(JRFont font, Attributes atts)
 	{
 		JRDesignFont designFont = (JRDesignFont)font;

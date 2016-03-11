@@ -87,6 +87,7 @@ public class DesignCommonReturnValue extends BaseCommonReturnValue implements JR
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENTER_FACTORY_CLASS_NAME, old, this.incrementerFactoryClassName);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		DesignCommonReturnValue clone = (DesignCommonReturnValue)super.clone();
@@ -96,6 +97,7 @@ public class DesignCommonReturnValue extends BaseCommonReturnValue implements JR
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

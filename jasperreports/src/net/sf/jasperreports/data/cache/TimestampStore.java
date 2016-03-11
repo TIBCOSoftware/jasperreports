@@ -57,6 +57,7 @@ public class TimestampStore implements BufferColumnStore
 		return Timestamp.class;
 	}
 	
+	@Override
 	public void addValue(Object object)
 	{
 		if (!(object instanceof Timestamp))
@@ -71,17 +72,20 @@ public class TimestampStore implements BufferColumnStore
 		nanoStore.add(nanos);
 	}
 
+	@Override
 	public boolean full()
 	{
 		return timeStore.full() || nanoStore.full();
 	}
 
+	@Override
 	public void resetValues()
 	{
 		timeStore.resetValues();
 		nanoStore.resetValues();
 	}
 
+	@Override
 	public ColumnValues createValues()
 	{
 		ColumnValues timeValues = timeStore.createValues();
@@ -90,6 +94,7 @@ public class TimestampStore implements BufferColumnStore
 		return new TimestampValues(timeValues, nanoValues);
 	}
 
+	@Override
 	public String toString()
 	{
 		return "TimestampStore@" + hashCode();

@@ -222,9 +222,7 @@ public class JRPrinterAWT implements Printable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException
 	{
 		if (Thread.interrupted())

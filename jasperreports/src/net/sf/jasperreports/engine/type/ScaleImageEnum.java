@@ -115,9 +115,6 @@ public enum ScaleImageEnum implements JREnum
 		return value;
 	}
 	
-	/**
-	 *
-	 */
 	@Override
 	public String getName()
 	{

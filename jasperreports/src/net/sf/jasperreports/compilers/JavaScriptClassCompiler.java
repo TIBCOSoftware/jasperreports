@@ -95,6 +95,7 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 		super(jasperReportsContext);
 	}
 
+	@Override
 	protected String compileUnits(JRCompilationUnit[] units, String classpath,
 			File tempDirFile) throws JRException
 	{

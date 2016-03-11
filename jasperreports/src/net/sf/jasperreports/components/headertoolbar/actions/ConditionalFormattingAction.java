@@ -57,6 +57,7 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 		columnData = conditionalFormattingData;
 	}
 
+	@Override
 	public void performAction() throws ActionException {
 		// execute command
 		try {

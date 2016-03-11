@@ -74,6 +74,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 		super(defaultStyleProvider);
 	}
 
+	@Override
 	public JRGenericElementParameter[] getParameters()
 	{
 		return parameters.toArray(new JRGenericElementParameter[parameters.size()]);
@@ -154,6 +155,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 		return removed;
 	}
 
+	@Override
 	public JRGenericElementType getGenericType()
 	{
 		return genericType;
@@ -172,16 +174,19 @@ public class JRDesignGenericElement extends JRDesignElement implements
 		getEventSupport().firePropertyChange(PROPERTY_GENERIC_TYPE, old, this.genericType);
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitGenericElement(this);
 	}
 
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return evaluationTimeValue;
@@ -213,6 +218,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 				old, this.evaluationTimeValue);
 	}
 
+	@Override
 	public String getEvaluationGroupName()
 	{
 		return evaluationGroupName;
@@ -232,9 +238,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 				old, this.evaluationGroupName);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignGenericElement clone = (JRDesignGenericElement)super.clone();

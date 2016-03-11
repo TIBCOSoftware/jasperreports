@@ -52,9 +52,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next()
 	{
 		index++;
@@ -68,9 +66,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField field)
 	{
 		Object value = null;
@@ -86,9 +82,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		this.index = -1;

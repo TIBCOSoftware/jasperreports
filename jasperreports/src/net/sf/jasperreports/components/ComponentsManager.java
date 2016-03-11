@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.component.DefaultComponentManager;
 public class ComponentsManager extends DefaultComponentManager
 {
 
+	@Override
 	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		return new ComponentsXmlWriter(jasperReportsContext);

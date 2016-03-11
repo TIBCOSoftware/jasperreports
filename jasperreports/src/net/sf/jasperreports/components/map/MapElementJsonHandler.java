@@ -47,6 +47,7 @@ public class MapElementJsonHandler implements GenericElementJsonHandler
 		return INSTANCE;
 	}
 
+	@Override
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
 		Map<String, Object> contextMap = new HashMap<String, Object>();
@@ -86,6 +87,7 @@ public class MapElementJsonHandler implements GenericElementJsonHandler
 		return VelocityUtil.processTemplate(MAP_ELEMENT_JSON_TEMPLATE, contextMap);
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element)
     {
 		return true;

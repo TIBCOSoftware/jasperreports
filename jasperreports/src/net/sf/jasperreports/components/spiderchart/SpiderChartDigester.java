@@ -44,6 +44,7 @@ import org.apache.commons.digester.Digester;
  */
 public class SpiderChartDigester implements XmlDigesterConfigurer
 {
+	@Override
 	public void configureDigester(Digester digester)
 	{
 		addSpiderChartRules(digester);

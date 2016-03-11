@@ -477,17 +477,13 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		return getMasterFiller().jasperPrint.getPages().size();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getDefaultStyle()
 	{
 		return defaultStyle;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public StyleResolver getStyleResolver()
 	{
 		return styleResolver;
@@ -672,10 +668,12 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	private static final JRStyleSetter DUMMY_STYLE_SETTER = new JRStyleSetter()
 	{
+		@Override
 		public void setStyle(JRStyle style)
 		{
 		}
 
+		@Override
 		public void setStyleNameReference(String name)
 		{
 		}
@@ -828,6 +826,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		{
 			factory.registerDelayedStyleSetter(new JRStyleSetter()
 			{
+				@Override
 				public void setStyle(JRStyle style)
 				{
 					if (style.isDefault())
@@ -836,6 +835,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 					}
 				}
 
+				@Override
 				public void setStyleNameReference(String name)
 				{
 				}

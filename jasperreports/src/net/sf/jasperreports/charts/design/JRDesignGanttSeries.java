@@ -142,9 +142,7 @@ public class JRDesignGanttSeries extends JRBaseGanttSeries implements JRChangeEv
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignGanttSeries clone = (JRDesignGanttSeries)super.clone();
@@ -154,6 +152,7 @@ public class JRDesignGanttSeries extends JRBaseGanttSeries implements JRChangeEv
 
 	private transient JRPropertyChangeSupport eventSupport;
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

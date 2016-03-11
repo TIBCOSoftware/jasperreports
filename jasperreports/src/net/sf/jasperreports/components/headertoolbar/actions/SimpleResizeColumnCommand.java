@@ -43,16 +43,19 @@ public class SimpleResizeColumnCommand implements Command
 		this.oldWidth = column.getWidth();
 	}
 
+	@Override
 	public void execute() 
 	{
 		column.setWidth(width);
 	}
 	
+	@Override
 	public void undo() 
 	{
 		column.setWidth(oldWidth);
 	}
 
+	@Override
 	public void redo() 
 	{
 		execute();

@@ -141,9 +141,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next()
 	{
 		boolean hasNext = false;
@@ -162,9 +160,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField jrField)
 	{
 		Integer fieldIndex = fieldIndexMap.get(jrField.getName());
@@ -181,9 +177,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		iterator = records.iterator();
@@ -238,6 +232,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 			this.collatorFlags = collatorFlags;
 		}
 
+		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public int compare(Object[] record1, Object[] record2)
 		{

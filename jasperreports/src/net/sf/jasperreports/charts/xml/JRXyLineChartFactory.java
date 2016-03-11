@@ -35,6 +35,7 @@ import org.xml.sax.Attributes;
  */
 public class JRXyLineChartFactory extends JRBaseFactory {
 	
+	@Override
 	public Object createObject( Attributes attrs ){
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 

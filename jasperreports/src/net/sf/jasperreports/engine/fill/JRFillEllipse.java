@@ -64,6 +64,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		return (JRTemplateEllipse) getElementTemplate();
 	}
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		return new JRTemplateEllipse(
@@ -73,9 +74,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(
 		byte evaluation
 		) throws JRException
@@ -90,9 +89,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill()
 	{
 		JRTemplatePrintEllipse printEllipse = new JRTemplatePrintEllipse(this.getJRTemplateEllipse(), printElementOriginator);
@@ -107,31 +104,26 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitEllipse(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillEllipse(this, factory);

@@ -54,49 +54,37 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 		this.lineBox = box;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getBox() 
 	{
 		return lineBox;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getLineWidth()
 	{
 		return getStyleResolver().getLineWidth(this, penContainer.getDefaultLineWidth());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public LineStyleEnum getLineStyleValue()
 	{
 		return getStyleResolver().getLineStyleValue(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getLineColor()
 	{
 		return getStyleResolver().getLineColor(this, penContainer.getDefaultLineColor());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPen getPen(JRLineBox box) 
 	{
 		return box.getPen();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRBoxPen clone(JRLineBox lineBox)
 	{
 		JRBaseBoxPen clone = (JRBaseBoxPen)super.clone(lineBox);

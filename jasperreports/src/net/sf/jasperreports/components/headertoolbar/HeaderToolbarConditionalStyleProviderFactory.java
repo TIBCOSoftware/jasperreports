@@ -48,9 +48,7 @@ public final class HeaderToolbarConditionalStyleProviderFactory implements Style
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public StyleProvider getStyleProvider(StyleProviderContext context, JasperReportsContext jasperreportsContext)
 	{
 		return new HeaderToolbarConditionalStyleProvider(context, jasperreportsContext);

@@ -53,11 +53,13 @@ public class SingleObjectValue implements ColumnValues, Serializable
 		value = in.readObject();
 	}
 
+	@Override
 	public int size()
 	{
 		return 1;
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		return new SingleColumnValueIterator(value);

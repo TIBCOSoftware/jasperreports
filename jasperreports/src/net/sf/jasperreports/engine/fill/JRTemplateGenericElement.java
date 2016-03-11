@@ -108,6 +108,7 @@ public class JRTemplateGenericElement extends JRTemplateElement
 		this.genericType = genericType;
 	}
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -116,6 +117,7 @@ public class JRTemplateGenericElement extends JRTemplateElement
 		return hash.getHashCode();
 	}
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

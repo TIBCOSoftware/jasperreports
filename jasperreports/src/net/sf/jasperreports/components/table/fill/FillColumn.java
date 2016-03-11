@@ -125,16 +125,19 @@ public class FillColumn implements JRPropertiesHolder
 		return hash;
 	}
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return properties != null && properties.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return properties;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

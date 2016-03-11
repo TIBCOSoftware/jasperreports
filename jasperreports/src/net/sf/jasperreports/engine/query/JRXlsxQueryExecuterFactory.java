@@ -201,10 +201,12 @@ public class JRXlsxQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 			XLS_SHEET_SELECTION, "java.lang.String"
 			};
 	
+	@Override
 	public Object[] getBuiltinParameters() {
 		return XLSX_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
@@ -214,6 +216,7 @@ public class JRXlsxQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 		return new JRXlsxQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className) {
 		return true;
 	}

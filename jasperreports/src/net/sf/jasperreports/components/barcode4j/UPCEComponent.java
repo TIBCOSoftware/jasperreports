@@ -57,6 +57,7 @@ public class UPCEComponent extends Barcode4jComponent
 		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
 	}
 
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitUPCE(this);

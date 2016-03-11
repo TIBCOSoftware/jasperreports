@@ -41,6 +41,7 @@ public class HeaderToolbarConditionalStyleProviderExtensionFactory implements Ex
 			new SingletonExtensionRegistry<StyleProviderFactory>(StyleProviderFactory.class, 
 					HeaderToolbarConditionalStyleProviderFactory.getInstance());
 
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		return REGISTRY;

@@ -168,6 +168,7 @@ public final class JREvaluationTime implements Serializable
 	}
 
 
+	@Override
 	public boolean equals(Object obj)
 	{
 		if (obj == this)
@@ -196,6 +197,7 @@ public final class JREvaluationTime implements Serializable
 	}
 
 
+	@Override
 	public int hashCode()
 	{
 		return hash;

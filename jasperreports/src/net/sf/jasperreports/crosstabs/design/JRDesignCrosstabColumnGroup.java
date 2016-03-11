@@ -60,6 +60,7 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 		super();
 	}
 
+	@Override
 	public CrosstabColumnPositionEnum getPositionValue()
 	{
 		return positionValue;
@@ -79,6 +80,7 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 		getEventSupport().firePropertyChange(PROPERTY_POSITION, old, this.positionValue);
 	}
 
+	@Override
 	public int getHeight()
 	{
 		return height;
@@ -98,6 +100,7 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
 	}
 
+	@Override
 	public void setHeader(JRDesignCellContents header)
 	{
 		super.setHeader(header);
@@ -107,6 +110,7 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 						null, getName()));
 	}
 
+	@Override
 	public void setTotalHeader(JRDesignCellContents totalHeader)
 	{
 		super.setTotalHeader(totalHeader);
@@ -116,6 +120,7 @@ public class JRDesignCrosstabColumnGroup extends JRDesignCrosstabGroup implement
 						null, getName()));
 	}
 
+	@Override
 	void setParent(JRDesignCrosstab parent)
 	{
 		super.setParent(parent);

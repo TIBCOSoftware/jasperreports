@@ -131,55 +131,58 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setText(String text)
 	{
 		this.text = text;
 		//this.truncatedText = null;
 	}
 
+	@Override
 	public Integer getTextTruncateIndex()
 	{
 		return textTruncateIndex;
 	}
 
+	@Override
 	public void setTextTruncateIndex(Integer textTruncateIndex)
 	{
 		this.textTruncateIndex = textTruncateIndex;
 		//this.truncatedText = null;
 	}
 
+	@Override
 	public String getTextTruncateSuffix()
 	{
 		return textTruncateSuffix;
 	}
 
+	@Override
 	public void setTextTruncateSuffix(String textTruncateSuffix)
 	{
 		this.textTruncateSuffix = textTruncateSuffix;
 		//this.truncatedText = null;
 	}
 	
+	@Override
 	public short[] getLineBreakOffsets()
 	{
 		return lineBreakOffsets;
 	}
 
+	@Override
 	public void setLineBreakOffsets(short[] lineBreakOffsets)
 	{
 		this.lineBreakOffsets = lineBreakOffsets;
 	}
 
+	@Override
 	public String getFullText()
 	{
 		String fullText = this.text;
@@ -190,11 +193,13 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return fullText;
 	}
 
+	@Override
 	public String getOriginalText()
 	{
 		return text;
 	}
 
+	@Override
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
 	{
 		if (getFullText() == null)
@@ -211,49 +216,37 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 				);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getValue()
 	{
 		return value;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setValue(Object value)
 	{
 		this.value = value;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getLineSpacingFactor()
 	{
 		return lineSpacingFactor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setLineSpacingFactor(float lineSpacingFactor)
 	{
 		this.lineSpacingFactor = lineSpacingFactor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getLeadingOffset()
 	{
 		return leadingOffset;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setLeadingOffset(float leadingOffset)
 	{
 		this.leadingOffset = leadingOffset;
@@ -262,6 +255,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalTextAlign());
@@ -270,6 +264,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalTextAlign());
@@ -278,6 +273,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalTextAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue));
@@ -286,6 +282,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalTextAlign());
@@ -294,6 +291,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalTextAlign());
@@ -302,106 +300,84 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalTextAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
 		return getStyleResolver().getHorizontalTextAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
 	{
 		return horizontalTextAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalTextAlign)
 	{
 		this.horizontalTextAlign = horizontalTextAlign;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
 		return getStyleResolver().getVerticalTextAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getOwnVerticalTextAlign()
 	{
 		return verticalTextAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalTextAlign)
 	{
 		this.verticalTextAlign = verticalTextAlign;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RotationEnum getRotationValue()
 	{
 		return getStyleResolver().getRotationValue(this);
 	}
 		
+	@Override
 	public RotationEnum getOwnRotationValue()
 	{
 		return rotationValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRotation(RotationEnum rotationValue)
 	{
 		this.rotationValue = rotationValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RunDirectionEnum getRunDirectionValue()
 	{
 		return this.runDirectionValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRunDirection(RunDirectionEnum runDirectionValue)
 	{
 		this.runDirectionValue = runDirectionValue;
 	}
-	/**
-	 *
-	 */
+	@Override
 	public float getTextHeight()
 	{
 		return textHeight;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setTextHeight(float textHeight)
 	{
 		this.textHeight = textHeight;
@@ -410,6 +386,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -418,6 +395,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
 		return getParagraph().getOwnLineSpacing();
@@ -426,43 +404,37 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
+	@Override
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
 		getParagraph().setLineSpacing(lineSpacing);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getMarkup()
 	{
 		return getStyleResolver().getMarkup(this);
 	}
 		
+	@Override
 	public String getOwnMarkup()
 	{
 		return markup;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMarkup(String markup)
 	{
 		this.markup = markup;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRParagraph getParagraph()
 	{
 		return paragraph;
@@ -484,105 +456,79 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		this.paragraph = paragraph.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTextFormat(TextFormat textFormat)
 	{
 		this.textFormat = textFormat;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getAnchorName()
 	{
 		return anchorName;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setAnchorName(String anchorName)
 	{
 		this.anchorName = anchorName;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkReference()
 	{
 		return hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkReference(String hyperlinkReference)
 	{
 		this.hyperlinkReference = hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkAnchor()
 	{
 		return hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkAnchor(String hyperlinkAnchor)
 	{
 		this.hyperlinkAnchor = hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Integer getHyperlinkPage()
 	{
 		return hyperlinkPage;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkPage(Integer hyperlinkPage)
 	{
 		this.hyperlinkPage = hyperlinkPage;
@@ -597,61 +543,51 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
 	}
 
 
+	@Override
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
 		this.bookmarkLevel = bookmarkLevel;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getFontName()
 	{
 		return getStyleResolver().getFontName(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnFontName()
 	{
 		return fontName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setFontName(String fontName)
 	{
 		this.fontName = fontName;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBold()
 	{
 		return getStyleResolver().isBold(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBold()
 	{
 		return isBold;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBold(boolean isBold)
 	{
 		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
@@ -661,31 +597,26 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
+	@Override
 	public void setBold(Boolean isBold)
 	{
 		this.isBold = isBold;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isItalic()
 	{
 		return getStyleResolver().isItalic(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnItalic()
 	{
 		return isItalic;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setItalic(boolean isItalic)
 	{
 		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
@@ -695,30 +626,25 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 * Alternative setItalic method which allows also to reset
 	 * the "own" isItalic property.
 	 */
+	@Override
 	public void setItalic(Boolean isItalic)
 	{
 		this.isItalic = isItalic;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isUnderline()
 	{
 		return getStyleResolver().isUnderline(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnUnderline()
 	{
 		return isUnderline;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUnderline(boolean isUnderline)
 	{
 		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
@@ -728,30 +654,25 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
+	@Override
 	public void setUnderline(Boolean isUnderline)
 	{
 		this.isUnderline = isUnderline;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStrikeThrough()
 	{
 		return getStyleResolver().isStrikeThrough(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnStrikeThrough()
 	{
 		return isStrikeThrough;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
 		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
@@ -761,22 +682,19 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
 	 */
+	@Override
 	public void setStrikeThrough(Boolean isStrikeThrough)
 	{
 		this.isStrikeThrough = isStrikeThrough;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getFontsize()
 	{
 		return getStyleResolver().getFontsize(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getOwnFontsize()
 	{
 		return fontsize;
@@ -785,6 +703,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * Method which allows also to reset the "own" size property.
 	 */
+	@Override
 	public void setFontSize(Float fontSize)
 	{
 		this.fontsize = fontSize;
@@ -793,6 +712,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #getFontsize()}.
 	 */
+	@Override
 	public int getFontSize()
 	{
 		return (int)getFontsize();
@@ -801,6 +721,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #getOwnFontsize()}.
 	 */
+	@Override
 	public Integer getOwnFontSize()
 	{
 		return fontsize == null ? null : fontsize.intValue();
@@ -809,6 +730,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(int fontSize)
 	{
 		setFontSize((float)fontSize);
@@ -817,80 +739,63 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(Integer fontSize)
 	{
 		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfFontName()
 	{
 		return getStyleResolver().getPdfFontName(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfFontName()
 	{
 		return pdfFontName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfFontName(String pdfFontName)
 	{
 		this.pdfFontName = pdfFontName;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfEncoding()
 	{
 		return getStyleResolver().getPdfEncoding(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfEncoding()
 	{
 		return pdfEncoding;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEncoding(String pdfEncoding)
 	{
 		this.pdfEncoding = pdfEncoding;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPdfEmbedded()
 	{
 		return getStyleResolver().isPdfEmbedded(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnPdfEmbedded()
 	{
 		return isPdfEmbedded;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
 		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
@@ -900,12 +805,14 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 * Alternative setPdfEmbedded method which allows also to reset
 	 * the "own" isPdfEmbedded property.
 	 */
+	@Override
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
 		this.isPdfEmbedded = isPdfEmbedded;
 	}
 
 	
+	@Override
 	public String getPattern()
 	{
 		return pattern;
@@ -918,6 +825,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
@@ -930,6 +838,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	
+	@Override
 	public String getFormatFactoryClass()
 	{
 		return formatFactoryClass;
@@ -942,6 +851,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	
+	@Override
 	public String getLocaleCode()
 	{
 		return localeCode;
@@ -954,6 +864,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	
+	@Override
 	public String getTimeZoneId()
 	{
 		return timeZoneId;
@@ -966,12 +877,14 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	
+	@Override
 	public JRPrintHyperlinkParameters getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 
 	
+	@Override
 	public void setHyperlinkParameters(JRPrintHyperlinkParameters hyperlinkParameters)
 	{
 		this.hyperlinkParameters = hyperlinkParameters;
@@ -995,6 +908,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 	
 	
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
@@ -1002,11 +916,13 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 
 
 	
+	@Override
 	public void setLinkType(String linkType)
 	{
 		this.linkType = linkType;
 	}
 	
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
@@ -1014,12 +930,14 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 
 
 	
+	@Override
 	public void setLinkTarget(String linkTarget)
 	{
 		this.linkTarget = linkTarget;
 	}
 	
 	
+	@Override
 	public String getHyperlinkTooltip()
 	{
 		return hyperlinkTooltip;
@@ -1027,14 +945,13 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 
 
 	
+	@Override
 	public void setHyperlinkTooltip(String hyperlinkTooltip)
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
@@ -1153,6 +1070,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		}
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

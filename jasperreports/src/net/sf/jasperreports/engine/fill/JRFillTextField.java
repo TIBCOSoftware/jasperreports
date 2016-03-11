@@ -126,24 +126,18 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isStretchWithOverflow()
 	{
 		return ((JRTextField)parent).isStretchWithOverflow();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setStretchWithOverflow(boolean isStretchWithOverflow)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return ((JRTextField)parent).getEvaluationTimeValue();
@@ -157,9 +151,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return textFormat;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPattern()
 	{
 		if (getPatternExpression() == null)
@@ -233,44 +225,35 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return value;
 	}
 		
+	@Override
 	public String getOwnPattern()
 	{
 		return providerStyle == null || providerStyle.getOwnPattern() == null ? ((JRTextField)this.parent).getOwnPattern() : providerStyle.getOwnPattern();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPattern(String pattern)
 	{
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBlankWhenNull()
 	{
 		return getStyleResolver().isBlankWhenNull(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBlankWhenNull()
 	{
 		return providerStyle == null || providerStyle.isOwnBlankWhenNull() == null ? ((JRTextField)this.parent).isOwnBlankWhenNull() : providerStyle.isOwnBlankWhenNull();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBlankWhenNull(boolean isBlank)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBlankWhenNull(Boolean isBlank)
 	{
 	}
@@ -283,89 +266,67 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return getHyperlinkTypeValue().getValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return ((JRTextField)parent).getHyperlinkTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return ((JRTextField)parent).getHyperlinkTarget();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getLinkTarget()
 	{
 		return ((JRTextField)parent).getLinkTarget();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return evaluationGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return ((JRTextField)parent).getExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPatternExpression()
 	{
 		return ((JRTextField)parent).getPatternExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return ((JRTextField)parent).getAnchorNameExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkReferenceExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkWhenExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkAnchorExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkPageExpression();
@@ -428,6 +389,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		JRTemplateText template = 
@@ -530,9 +492,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void evaluate(
 		byte evaluation
 		) throws JRException
@@ -683,9 +643,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean prepare(
 		int availableHeight,
 		boolean isOverflow
@@ -885,9 +843,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement fill() throws JRException
 	{
 		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
@@ -1045,23 +1001,20 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitTextField(this);
 	}
 	
 
+	@Override
 	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		evaluateText(evaluation);
@@ -1075,17 +1028,20 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return ((JRTextField)parent).getBookmarkLevel();
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillTextField(this, factory);
 	}
 	
+	@Override
 	protected void collectDelayedEvaluations()
 	{
 		super.collectDelayedEvaluations();
@@ -1100,24 +1056,28 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		return ((JRTextField) parent).getHyperlinkParameters();
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return ((JRTextField) parent).getLinkType();
 	}
 
 
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return ((JRTextField) parent).getHyperlinkTooltipExpression();
 	}
 
 
+	@Override
 	protected boolean canOverflow()
 	{
 		return isStretchWithOverflow()

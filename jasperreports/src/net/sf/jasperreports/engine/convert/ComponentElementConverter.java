@@ -67,6 +67,7 @@ public final class ComponentElementConverter extends ElementConverter
 	{
 	}
 
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRElement element)
 	{

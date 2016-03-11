@@ -87,11 +87,13 @@ public class ConvertChartContext implements ChartContext
 		this.chart = chart;
 	}
 	
+	@Override
 	public JasperReportsContext getJasperReportsContext()
 	{
 		return DefaultJasperReportsContext.getInstance();//FIXMECONTEXT
 	}
 	
+	@Override
 	public String evaluateTextExpression(JRExpression expression) throws JRException 
 	{
 		if (expression != null)
@@ -101,18 +103,18 @@ public class ConvertChartContext implements ChartContext
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object evaluateExpression(JRExpression expression) throws JRException 
 	{
 		return null;
 	}
 
+	@Override
 	public JRChart getChart() {
 		return chart;
 	}
 
+	@Override
 	public Dataset getDataset()
 	{//FIXMETHEME make different datasets
 		Dataset dataset = null;
@@ -148,14 +150,17 @@ public class ConvertChartContext implements ChartContext
 		return dataset;
 	}
 
+	@Override
 	public Object getLabelGenerator() {
 		return null;
 	}
 
+	@Override
 	public Locale getLocale() {
 		return reportConverter.getLocale();
 	}
 
+	@Override
 	public TimeZone getTimeZone() {
 		return reportConverter.getTimeZone();
 	}

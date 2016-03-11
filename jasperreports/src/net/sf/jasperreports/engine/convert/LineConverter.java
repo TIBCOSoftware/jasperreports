@@ -63,9 +63,7 @@ public final class LineConverter extends ElementConverter
 		return INSTANCE;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintLine printLine = new JRBasePrintLine(reportConverter.getDefaultStyleProvider());

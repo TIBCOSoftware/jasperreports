@@ -143,6 +143,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		return CANONICAL_LANGUAGE;
 	}
 	
+	@Override
 	public JRDataSource createDatasource() throws JRException {
 		JRDataSource datasource = null;
 		String queryString = getQueryString();
@@ -248,14 +249,17 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 		return resDatasource;
 	}
 
+	@Override
 	public synchronized void close() {
 		query = null;
 	}
 
+	@Override
 	public synchronized boolean cancelQuery() throws JRException {
 		return false;
 	}
 	
+	@Override
 	protected String getParameterReplacement(String parameterName) {
 		return ':' + getEjbqlParameterName(parameterName);
 	}

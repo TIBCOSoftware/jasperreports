@@ -77,6 +77,7 @@ public class BaseCrosstabColumnCell implements CrosstabColumnCell, Serializable
 		return cellContents;
 	}
 	
+	@Override
 	public Object clone()
 	{
 		try

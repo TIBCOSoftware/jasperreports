@@ -51,9 +51,7 @@ public final class HeaderToolbarParameterContributorFactory implements Parameter
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<ParameterContributor> getContributors(ParameterContributorContext context) throws JRException
 	{
 		return Collections.<ParameterContributor>singletonList(new HeaderToolbarParameterContributor(context));

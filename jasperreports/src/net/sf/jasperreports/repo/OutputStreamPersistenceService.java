@@ -35,9 +35,7 @@ import java.io.OutputStream;
 public class OutputStreamPersistenceService implements PersistenceService
 {
 
-	/**
-	 * 
-	 */
+	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
 		OutputStreamResource resource = null; 
@@ -54,9 +52,7 @@ public class OutputStreamPersistenceService implements PersistenceService
 		return resource;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void save(Resource resource, String uri, RepositoryService repositoryService)
 	{
 		//FIXMEREPO probably nothing to do

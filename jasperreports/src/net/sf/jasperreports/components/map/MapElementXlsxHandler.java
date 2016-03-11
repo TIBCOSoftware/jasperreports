@@ -43,6 +43,7 @@ public class MapElementXlsxHandler implements GenericElementXlsxHandler
 		return INSTANCE;
 	}
 	
+	@Override
 	public void exportElement(
 		JRXlsxExporterContext exporterContext,
 		JRGenericPrintElement element,
@@ -62,10 +63,12 @@ public class MapElementXlsxHandler implements GenericElementXlsxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}
 	
+	@Override
 	public JRPrintImage getImage(JRXlsxExporterContext exporterContext, JRGenericPrintElement element) throws JRException
 	{
 		return MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element);

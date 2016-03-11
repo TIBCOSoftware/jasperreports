@@ -39,9 +39,7 @@ import org.xml.sax.Attributes;
 public class JRPenFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRCommonGraphicElement graphicElement = (JRCommonGraphicElement) digester.peek();
@@ -77,6 +75,7 @@ public class JRPenFactory extends JRBaseFactory
 	 */
 	public static class Style extends JRPenFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRStyle style = (JRStyle) digester.peek();
@@ -90,6 +89,7 @@ public class JRPenFactory extends JRBaseFactory
 	 */
 	public static class Box extends JRPenFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRLineBox box = (JRLineBox) digester.peek();
@@ -103,6 +103,7 @@ public class JRPenFactory extends JRBaseFactory
 	 */
 	public static class Top extends JRPenFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRLineBox box = (JRLineBox) digester.peek();
@@ -116,6 +117,7 @@ public class JRPenFactory extends JRBaseFactory
 	 */
 	public static class Left extends JRPenFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRLineBox box = (JRLineBox) digester.peek();
@@ -129,6 +131,7 @@ public class JRPenFactory extends JRBaseFactory
 	 */
 	public static class Bottom extends JRPenFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRLineBox box = (JRLineBox) digester.peek();
@@ -142,6 +145,7 @@ public class JRPenFactory extends JRBaseFactory
 	 */
 	public static class Right extends JRPenFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRLineBox box = (JRLineBox) digester.peek();

@@ -51,11 +51,13 @@ public class JRBaseCrosstabRowGroup extends JRBaseCrosstabGroup implements JRCro
 		positionValue = group.getPositionValue();
 	}
 
+	@Override
 	public CrosstabRowPositionEnum getPositionValue()
 	{
 		return positionValue;
 	}
 
+	@Override
 	public int getWidth()
 	{
 		return width;

@@ -252,9 +252,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		return getEventSupport();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignCrosstabMeasure clone = (JRDesignCrosstabMeasure) super.clone();
@@ -266,6 +264,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

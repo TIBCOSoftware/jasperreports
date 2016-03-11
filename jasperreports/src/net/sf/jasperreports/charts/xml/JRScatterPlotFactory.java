@@ -36,6 +36,7 @@ public class JRScatterPlotFactory extends JRBaseFactory {
 	private static final String ATTRIBUTE_isShowShapes = "isShowShapes";
 	private static final String ATTRIBUTE_isShowLines = "isShowLines";
 	
+	@Override
 	public Object createObject( Attributes attrs ){
 		JRChart chart = (JRChart)digester.peek();
 		JRDesignScatterPlot plot = (JRDesignScatterPlot)chart.getPlot();

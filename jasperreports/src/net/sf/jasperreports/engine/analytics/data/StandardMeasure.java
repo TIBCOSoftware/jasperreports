@@ -66,6 +66,7 @@ public class StandardMeasure implements Measure
 		this.valueType = valueType;
 	}
 	
+	@Override
 	public String toString()
 	{
 		return name;

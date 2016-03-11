@@ -68,6 +68,7 @@ public class DesignDataAxis extends BaseDataAxis implements JRChangeEventsSuppor
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

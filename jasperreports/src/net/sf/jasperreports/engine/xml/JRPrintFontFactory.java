@@ -40,9 +40,7 @@ public class JRPrintFontFactory extends JRBaseFactory
 {
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_STYLE = "xml.print.font.factory.unknown.style";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRPrintText element = (JRPrintText) digester.peek();

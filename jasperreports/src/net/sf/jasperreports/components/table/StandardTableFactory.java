@@ -36,9 +36,7 @@ public class StandardTableFactory extends JRBaseFactory
 {
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		StandardTable table = new StandardTable();

@@ -36,9 +36,7 @@ public class JRXySeriesFactory extends JRBaseFactory
 {
 	private static final String ATTRIBUTE_autoSort = "autoSort";
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignXySeries xySeries = new JRDesignXySeries();

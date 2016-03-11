@@ -62,6 +62,7 @@ public class CompositeFillListener implements FillListener
 	
 	private final List<FillListener> listeners = new ArrayList<FillListener>();
 	
+	@Override
 	public void pageGenerated(JasperPrint jasperPrint, int pageIndex)
 	{
 		for (FillListener listener : listeners)
@@ -70,6 +71,7 @@ public class CompositeFillListener implements FillListener
 		}
 	}
 
+	@Override
 	public void pageUpdated(JasperPrint jasperPrint, int pageIndex)
 	{
 		for (FillListener listener : listeners)

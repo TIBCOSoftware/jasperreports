@@ -61,9 +61,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		super( dataset );
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRTimeSeries[] getSeries()
 	{
 		JRTimeSeries[] timeSeriesArray = new JRTimeSeries[ timeSeriesList.size() ];
@@ -118,17 +116,13 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		return timeSeries;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Class<?> getTimePeriod() 
 	{
 		return timePeriod;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setTimePeriod( Class<?> timePeriod )
 	{
 		Object old = this.timePeriod;
@@ -136,31 +130,26 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);
 	}
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() 
 	{
 		return JRChartDataset.TIMESERIES_DATASET;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignTimeSeriesDataset clone = (JRDesignTimeSeriesDataset)super.clone();

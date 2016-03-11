@@ -64,17 +64,13 @@ public enum OrientationEnum implements NamedValueEnum<Integer>
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Integer getValue()
 	{
 		return value;

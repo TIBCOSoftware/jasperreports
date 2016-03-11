@@ -180,6 +180,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		return style;
 	}
 	
+	@Override
 	public void visitCodabar(CodabarComponent codabar)
 	{
 		CodabarBean codabarBean = new CodabarBean();
@@ -195,6 +196,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateCodabar(CodabarComponent codabar);
 
+	@Override
 	public void visitCode128(Code128Component code128)
 	{
 		barcodeBean = new Code128Bean();
@@ -205,6 +207,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateCode128(Code128Component code128);
 
+	@Override
 	public void visitDataMatrix(DataMatrixComponent dataMatrix)
 	{
 		DataMatrixBean dataMatrixBean = new DataMatrixBean();
@@ -220,6 +223,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateDataMatrix(DataMatrixComponent dataMatrix);
 
+	@Override
 	public void visitEANCode128(EAN128Component ean128)
 	{
 		EAN128Bean ean128Bean = new EAN128Bean();
@@ -235,6 +239,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateEANCode128(EAN128Component ean128);
 
+	@Override
 	public void visitCode39(Code39Component code39)
 	{
 		Code39Bean code39Bean = new Code39Bean();
@@ -272,6 +277,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5);
 
+	@Override
 	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		Interleaved2Of5Bean interleaved2Of5Bean = new Interleaved2Of5Bean();
@@ -293,6 +299,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		evaluateBarcodeRenderable(interleaved2Of5);
 	}
 
+	@Override
 	public void visitUPCA(UPCAComponent upcA)
 	{
 		UPCABean upcABean = new UPCABean();
@@ -308,6 +315,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateUPCA(UPCAComponent upcA);
 
+	@Override
 	public void visitUPCE(UPCEComponent upcE)
 	{
 		UPCEBean upcEBean = new UPCEBean();
@@ -323,6 +331,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateUPCE(UPCEComponent upcE);
 
+	@Override
 	public void visitEAN13(EAN13Component ean13)
 	{
 		EAN13Bean ean13Bean = new EAN13Bean();
@@ -338,6 +347,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateEAN13(EAN13Component ean13);
 
+	@Override
 	public void visitEAN8(EAN8Component ean8)
 	{
 		EAN8Bean ean8Bean = new EAN8Bean();
@@ -353,6 +363,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluateEAN8(EAN8Component ean8);
 
+	@Override
 	public void visitRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{
@@ -396,6 +407,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	protected abstract void evaluateRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer);
 
+	@Override
 	public void visitUSPSIntelligentMail(
 			USPSIntelligentMailComponent intelligentMail)
 	{
@@ -410,6 +422,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	protected abstract void evaluateUSPSIntelligentMail(
 			USPSIntelligentMailComponent intelligentMail);
 
+	@Override
 	public void visitPostnet(POSTNETComponent postnet)
 	{
 		POSTNETBean postnetBean = new POSTNETBean();
@@ -452,6 +465,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 	protected abstract void evaluatePOSTNET(
 			POSTNETComponent intelligentMail);
 
+	@Override
 	public void visitPDF417(PDF417Component pdf417)
 	{
 		PDF417Bean pdf417Bean = new PDF417Bean();
@@ -490,6 +504,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected abstract void evaluatePDF417(PDF417Component pdf417);
 
+	@Override
 	public void visitQRCode(QRCodeComponent qrCode)
 	{
 		qrCodeBean = new QRCodeBean();

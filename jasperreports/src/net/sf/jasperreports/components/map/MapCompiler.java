@@ -50,6 +50,7 @@ public class MapCompiler implements ComponentCompiler
 		addressMap.put(MapComponent.ITEM_PROPERTY_longitude, MapComponent.ITEM_PROPERTY_address);
 	}
 	
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
 		MapComponent map = (MapComponent) component;
@@ -121,6 +122,7 @@ public class MapCompiler implements ComponentCompiler
 		}
 	}
 
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory)
 	{
@@ -128,6 +130,7 @@ public class MapCompiler implements ComponentCompiler
 		return new StandardMapComponent(map, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier)
 	{
 		MapComponent map = (MapComponent) component;

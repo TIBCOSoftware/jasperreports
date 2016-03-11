@@ -38,9 +38,7 @@ public class SimpleJsonReportConfiguration extends SimpleReportExportConfigurati
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;

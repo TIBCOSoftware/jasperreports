@@ -48,9 +48,7 @@ public class RemoveSortFieldCommand implements Command
 		this.sortField = sortField;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void execute() 
 	{
 		removeIndex = dataset.getSortFieldsList().indexOf(sortField);
@@ -60,9 +58,7 @@ public class RemoveSortFieldCommand implements Command
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void undo() 
 	{
 		if (removeIndex >= 0)
@@ -78,9 +74,7 @@ public class RemoveSortFieldCommand implements Command
 		}
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void redo() 
 	{
 		execute();

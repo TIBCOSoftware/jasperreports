@@ -65,6 +65,7 @@ public class VirtualizationOutput extends ObjectOutputStream
 		return virtualizationContext;
 	}
 
+	@Override
 	protected void annotateClass(Class<?> clazz) throws IOException
 	{
 		super.annotateClass(clazz);

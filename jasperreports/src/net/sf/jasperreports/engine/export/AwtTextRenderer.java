@@ -77,9 +77,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	}
 		
 
-	/**
-	 * 
-	 */
+	@Override
 	public void draw()
 	{
 		TabSegment segment = segments.get(segmentIndex);
@@ -93,9 +91,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public FontRenderContext getFontRenderContext()
 	{
 		return grx.getFontRenderContext();

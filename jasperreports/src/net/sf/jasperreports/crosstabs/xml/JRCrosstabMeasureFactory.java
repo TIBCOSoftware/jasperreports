@@ -46,6 +46,7 @@ public class JRCrosstabMeasureFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_percentageOf = "percentageOf";
 	public static final String ATTRIBUTE_percentageCalculatorClass = "percentageCalculatorClass";
 
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabMeasure measure = new JRDesignCrosstabMeasure();

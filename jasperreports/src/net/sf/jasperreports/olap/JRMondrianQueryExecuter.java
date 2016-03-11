@@ -86,11 +86,13 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 		return JRMdxQueryExecuterFactory.CANONICAL_LANGUAGE;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
 	}
 
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		JRDataSource dataSource = null;
@@ -113,6 +115,7 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 		return dataSource;
 	}
 
+	@Override
 	public void close()
 	{
 		if (result != null)
@@ -122,6 +125,7 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 		}
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		return false;

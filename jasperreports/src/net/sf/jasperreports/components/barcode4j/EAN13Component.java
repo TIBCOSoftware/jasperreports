@@ -57,6 +57,7 @@ public class EAN13Component extends Barcode4jComponent
 		setChecksumMode(checksumMode == null ? null : checksumMode.getName());
 	}
 
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitEAN13(this);

@@ -127,6 +127,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 		Arrays.sort(queryParameterClassNames);
 	}
 	
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
@@ -136,11 +137,13 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 		return new JRJdbcQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return null;
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className)
 	{
 		return Arrays.binarySearch(queryParameterClassNames, className) >= 0;

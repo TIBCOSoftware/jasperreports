@@ -39,9 +39,7 @@ public class SimpleRtfReportConfiguration extends SimpleReportExportConfiguratio
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;

@@ -119,11 +119,13 @@ public final class JRQueryExecuterUtils
 			this.factory = factory;
 		}
 
+		@Override
 		public Object[] getBuiltinParameters() 
 		{
 			return factory.getBuiltinParameters();
 		}
 
+		@Override
 		public JRQueryExecuter createQueryExecuter(
 			JasperReportsContext jasperReportsContext, 
 			JRDataset dataset,
@@ -133,6 +135,7 @@ public final class JRQueryExecuterUtils
 			return factory.createQueryExecuter(dataset, parameters);
 		}
 
+		@Override
 		public JRQueryExecuter createQueryExecuter(
 			JRDataset dataset,
 			Map<String, ? extends JRValueParameter> parameters
@@ -141,6 +144,7 @@ public final class JRQueryExecuterUtils
 			return factory.createQueryExecuter(dataset, parameters);
 		}
 
+		@Override
 		public boolean supportsQueryParameterType(String className) 
 		{
 			return factory.supportsQueryParameterType(className);

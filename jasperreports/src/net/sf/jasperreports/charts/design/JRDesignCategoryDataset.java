@@ -63,9 +63,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRCategorySeries[] getSeries()
 	{
 		JRCategorySeries[] categorySeriesArray = new JRCategorySeries[categorySeriesList.size()];
@@ -125,32 +123,27 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	}
 
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.CATEGORY_DATASET;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignCategoryDataset clone = (JRDesignCategoryDataset)super.clone();

@@ -67,11 +67,13 @@ public class BaseReturnValue extends BaseCommonReturnValue implements ReturnValu
 	 * 
 	 * @return the name of the variable whose value should be copied.
 	 */
+	@Override
 	public String getFromVariable()
 	{
 		return this.fromVariable;
 	}
 
+	@Override
 	public Object clone() 
 	{
 		return super.clone();

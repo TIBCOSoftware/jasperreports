@@ -50,17 +50,13 @@ public class EmptyZipEntry implements ExportZipEntry
 		this.name = name;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Writer getWriter()
 	{
 		throw 
@@ -69,9 +65,7 @@ public class EmptyZipEntry implements ExportZipEntry
 				(Object[])null);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public OutputStream getOutputStream()
 	{
 		throw 
@@ -80,16 +74,12 @@ public class EmptyZipEntry implements ExportZipEntry
 				(Object[])null);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void writeData(OutputStream os) throws IOException
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void dispose()
 	{
 	}

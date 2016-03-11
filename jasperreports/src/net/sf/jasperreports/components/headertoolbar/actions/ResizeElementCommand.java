@@ -42,14 +42,17 @@ public class ResizeElementCommand implements Command
 		this.oldWidth = receiver.getWidth();
 	}
 
+	@Override
 	public void execute() {
 		receiver.setWidth(width);
 	}		
 	
+	@Override
 	public void undo() {
 		receiver.setWidth(oldWidth);
 	}
 
+	@Override
 	public void redo() {
 		execute();
 	}

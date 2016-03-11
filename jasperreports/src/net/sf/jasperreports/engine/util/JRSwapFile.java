@@ -259,6 +259,7 @@ public class JRSwapFile
 	}
 
 
+	@Override
 	protected void finalize() throws Throwable //NOSONAR
 	{
 		dispose();

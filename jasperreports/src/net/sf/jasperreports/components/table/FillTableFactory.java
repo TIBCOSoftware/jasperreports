@@ -38,12 +38,14 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class FillTableFactory implements ComponentFillFactory
 {
 
+	@Override
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{
 		return new FillTable((FillTable) component, factory);
 	}
 
+	@Override
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{

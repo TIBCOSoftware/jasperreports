@@ -33,9 +33,7 @@ import net.sf.jasperreports.engine.xml.JRTextFieldFactory;
 public class IconTextFieldFactory extends JRTextFieldFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDesignTextField getTextField()
 	{
 		IconLabelComponent iconLabelComponent = (IconLabelComponent)digester.peek();

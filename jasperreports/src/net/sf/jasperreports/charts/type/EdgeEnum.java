@@ -68,6 +68,7 @@ public enum EdgeEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public Byte getValueByte()
 	{
 		return new Byte(value);
@@ -76,14 +77,13 @@ public enum EdgeEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public final byte getValue()
 	{
 		return value;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

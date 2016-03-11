@@ -96,11 +96,13 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 		elements = new ArrayList<JRPrintElement>();
 	}
 
+	@Override
 	public List<JRPrintElement> getElements()
 	{
 		return elements;
 	}
 
+	@Override
 	public void addElement(JRPrintElement element)
 	{
 		elements.add(element);
@@ -111,22 +113,19 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 		this.elements.addAll(elements);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return ((JRTemplateFrame)template).getLineBox();
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

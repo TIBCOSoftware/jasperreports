@@ -41,11 +41,13 @@ public class JRXmlaHierarchyLevel implements JROlapHierarchyLevel
 		this.depth = depth;
 	}
 
+	@Override
 	public int getDepth()
 	{
 		return depth;
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;

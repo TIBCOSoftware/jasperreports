@@ -93,9 +93,7 @@ public abstract class BorderStyle extends Style
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getId()
 	{
 		return 

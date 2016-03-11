@@ -71,6 +71,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 
 	private static final String SORT_DATASET = "exporter_first_attempt";
 
+	@Override
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
@@ -218,6 +219,7 @@ public class SortElementJsonHandler implements GenericElementJsonHandler
 		return null;
 	}
 	
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 public class IconLabelComponentCompiler implements ComponentCompiler 
 {
 
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector) 
 	{
 		IconLabelComponent iconLabelComponent = (IconLabelComponent) component;
@@ -42,12 +43,14 @@ public class IconLabelComponentCompiler implements ComponentCompiler
 		collector.collect(iconLabelComponent.getIconTextField());
 	}
 	
+	@Override
 	public Component toCompiledComponent(Component component, JRBaseObjectFactory baseFactory) 
 	{
 		IconLabelComponent iconLabelComponent = (IconLabelComponent) component;
 		return new IconLabelComponent(iconLabelComponent, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier) 
 	{
 		// TODO

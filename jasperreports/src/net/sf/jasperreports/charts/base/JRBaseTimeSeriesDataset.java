@@ -68,14 +68,17 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 		}
 	}
 	
+	@Override
 	public JRTimeSeries[] getSeries(){
 		return timeSeries;
 	}
 	
+	@Override
 	public Class<?> getTimePeriod(){
 		return timePeriod;
 	}
 	
+	@Override
 	public void setTimePeriod( Class<?> timePeriod ){
 		Object old = this.timePeriod;
 		this.timePeriod = timePeriod;
@@ -83,31 +86,26 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	}
 
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.TIMESERIES_DATASET;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseTimeSeriesDataset clone = (JRBaseTimeSeriesDataset)super.clone();
@@ -118,6 +116,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

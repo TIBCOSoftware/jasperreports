@@ -40,9 +40,7 @@ public class SimpleOdtReportConfiguration extends SimpleReportExportConfiguratio
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isFlexibleRowHeight()
 	{
 		return isFlexibleRowHeight;
@@ -56,9 +54,7 @@ public class SimpleOdtReportConfiguration extends SimpleReportExportConfiguratio
 		this.isFlexibleRowHeight = isFlexibleRowHeight;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;

@@ -87,18 +87,14 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRGanttSeries[] getSeries()
 	{
 		return ganttSeries;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customInitialize()
 	{
 		seriesNames = null;
@@ -108,9 +104,7 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		if (ganttSeries != null && ganttSeries.length > 0)
@@ -123,9 +117,7 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customIncrement()
 	{
 		if (ganttSeries != null && ganttSeries.length > 0)
@@ -215,9 +207,7 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Dataset getCustomDataset()
 	{
 		TaskSeriesCollection dataset = new TaskSeriesCollection();
@@ -233,25 +223,19 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.GANTT_DATASET;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getLabelGenerator(){
 		return new CategoryLabelGenerator(labelsMap);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -279,6 +263,7 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

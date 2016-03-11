@@ -121,6 +121,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 				old, this.codeExpression);
 	}
 
+	@Override
 	public Object clone()
 	{
 		BarcodeComponent clone = null;
@@ -156,6 +157,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	
 	public abstract void receive(BarcodeVisitor visitor);
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

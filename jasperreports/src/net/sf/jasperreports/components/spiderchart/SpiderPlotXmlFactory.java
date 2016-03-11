@@ -39,6 +39,7 @@ import org.xml.sax.Attributes;
  */
 public class SpiderPlotXmlFactory extends JRBaseFactory
 {
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		StandardSpiderPlot plot = new StandardSpiderPlot();

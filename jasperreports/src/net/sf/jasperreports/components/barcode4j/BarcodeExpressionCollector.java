@@ -39,11 +39,13 @@ public class BarcodeExpressionCollector extends UniformBarcodeVisitor
 		this.collector = collector;
 	}
 	
+	@Override
 	protected void visitBarcode(BarcodeComponent barcode)
 	{
 		collector.addExpression(barcode.getCodeExpression());
 	}
 
+	@Override
 	protected void visitBarcode(Barcode4jComponent barcode)
 	{
 		visitBarcode((BarcodeComponent)barcode);

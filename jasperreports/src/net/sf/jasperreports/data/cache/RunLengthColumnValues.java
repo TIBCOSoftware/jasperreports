@@ -68,11 +68,13 @@ public class RunLengthColumnValues implements ColumnValues, Serializable
 		this.runLengths = (ColumnValues) in.readUnshared();
 	}
 
+	@Override
 	public int size()
 	{
 		return size;
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		ColumnValuesIterator valuesIterator = values.iterator();
@@ -101,6 +103,7 @@ class RunLengthIterator implements ColumnValuesIterator
 		currentValue = null;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		values.moveFirst();
@@ -110,6 +113,7 @@ class RunLengthIterator implements ColumnValuesIterator
 		currentValue = null;
 	}
 
+	@Override
 	public boolean next()
 	{
 		if (currentCount > 1)
@@ -133,6 +137,7 @@ class RunLengthIterator implements ColumnValuesIterator
 		return true;
 	}
 
+	@Override
 	public Object get()
 	{
 		return currentValue;

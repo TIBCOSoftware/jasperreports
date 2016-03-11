@@ -96,9 +96,7 @@ public class XlsDataSource extends AbstractPoiXlsDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Workbook loadWorkbook(InputStream inputStream) throws IOException
 	{
 		return new HSSFWorkbook(inputStream);

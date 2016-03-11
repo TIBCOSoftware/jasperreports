@@ -64,6 +64,7 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 	 * 
 	 * @see #PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX
 	 */
+	@Override
 	public ExporterFilter getFilter(JRExporterContext exporterContext) throws JRException
 	{
 		List<ExporterFilterFactory> factories = getAllFilterFactories(exporterContext.getJasperReportsContext(), exporterContext.getExportedReport());

@@ -58,18 +58,14 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeReportInit() throws JRScriptletException
 	{
 		startTime = System.currentTimeMillis();
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeDetailEval() throws JRScriptletException
 	{
 		long ellapsedTime = System.currentTimeMillis() - startTime;

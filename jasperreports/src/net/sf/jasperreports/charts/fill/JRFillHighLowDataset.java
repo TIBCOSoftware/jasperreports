@@ -84,6 +84,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	@Override
 	protected void customInitialize()
 	{
 		elements = new ArrayList<HighLowElement>();
@@ -91,6 +92,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	@Override
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		series = (String) calculator.evaluate(getSeriesExpression());
@@ -125,6 +127,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	@Override
 	protected void customIncrement()
 	{
 		elements.add(new HighLowElement(date, high, low, open, close, volume));
@@ -136,6 +139,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	@Override
 	public Dataset getCustomDataset()
 	{
 		int size = elements.size();
@@ -165,48 +169,56 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	@Override
 	public Object getLabelGenerator()
 	{
 		return null;
 	}
 
 
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return ((JRHighLowDataset)parent).getSeriesExpression();
 	}
 
 
+	@Override
 	public JRExpression getDateExpression()
 	{
 		return ((JRHighLowDataset)parent).getDateExpression();
 	}
 
 
+	@Override
 	public JRExpression getHighExpression()
 	{
 		return ((JRHighLowDataset)parent).getHighExpression();
 	}
 
 
+	@Override
 	public JRExpression getLowExpression()
 	{
 		return ((JRHighLowDataset)parent).getLowExpression();
 	}
 
 
+	@Override
 	public JRExpression getOpenExpression()
 	{
 		return ((JRHighLowDataset)parent).getOpenExpression();
 	}
 
 
+	@Override
 	public JRExpression getCloseExpression()
 	{
 		return ((JRHighLowDataset)parent).getCloseExpression();
 	}
 
 
+	@Override
 	public JRExpression getVolumeExpression()
 	{
 		return ((JRHighLowDataset)parent).getVolumeExpression();
@@ -321,23 +333,20 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 		}
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.HIGHLOW_DATASET;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return ((JRHighLowDataset) parent).getItemHyperlink();
@@ -356,6 +365,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

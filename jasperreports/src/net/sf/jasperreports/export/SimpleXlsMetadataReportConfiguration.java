@@ -39,9 +39,7 @@ public class SimpleXlsMetadataReportConfiguration extends AbstractXlsReportConfi
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isWriteHeader()
 	{
 		return isWriteHeader;
@@ -55,9 +53,7 @@ public class SimpleXlsMetadataReportConfiguration extends AbstractXlsReportConfi
 		this.isWriteHeader = isWriteHeader;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String[] getColumnNames()
 	{
 		return columnNames;

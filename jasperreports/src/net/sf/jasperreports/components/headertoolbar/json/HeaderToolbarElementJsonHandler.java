@@ -157,6 +157,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	
 	private static final String TABLE_UUID = "exporter_first_attempt";
 
+	@Override
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
 		boolean templateAlreadyLoaded = false;
@@ -469,6 +470,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return null;
 	}
 	
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

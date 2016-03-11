@@ -56,9 +56,7 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 		this.deepGrid = deepGrid;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		boolean isToExport = true;
@@ -76,9 +74,7 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 		return isToExport && super.isToExport(element);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isDeep(JRPrintFrame frame)
 	{
 		if (

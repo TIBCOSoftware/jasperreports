@@ -200,17 +200,20 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			final Iterator<CacheReference> valsIt = map.values().iterator();
 			return new Iterator<String>()
 			{
+				@Override
 				public boolean hasNext()
 				{
 					return valsIt.hasNext();
 				}
 
+				@Override
 				public String next()
 				{
 					CacheReference ref = valsIt.next();
 					return ref.getId();
 				}
 
+				@Override
 				public void remove()
 				{
 					valsIt.remove();
@@ -329,6 +332,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		return readOnly || o.getContext().isReadOnly();
 	}
 
+	@Override
 	public void registerObject(JRVirtualizable o)
 	{
 		if (log.isDebugEnabled())
@@ -424,6 +428,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	@Override
 	public void deregisterObject(JRVirtualizable o)
 	{
 		String uid = o.getUID();
@@ -482,6 +487,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	@Override
 	public void touch(JRVirtualizable o)
 	{
 		// If we just touched this object, don't touch it again.
@@ -499,6 +505,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	@Override
 	public void requestData(JRVirtualizable o)
 	{
 		String uid = o.getUID();
@@ -548,6 +555,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	@Override
 	public void clearData(JRVirtualizable o)
 	{
 		String uid = o.getUID();
@@ -563,6 +571,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	@Override
 	public void virtualizeData(JRVirtualizable o)
 	{
 		String uid = o.getUID();
@@ -598,6 +607,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
+	@Override
 	protected void finalize() throws Throwable //NOSONAR
 	{
 		cleanup();

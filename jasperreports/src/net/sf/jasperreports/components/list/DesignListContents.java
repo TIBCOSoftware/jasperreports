@@ -42,6 +42,7 @@ public class DesignListContents extends JRDesignElementGroup implements
 	private int height;
 	private Integer width;
 
+	@Override
 	public int getHeight()
 	{
 		return height;
@@ -60,6 +61,7 @@ public class DesignListContents extends JRDesignElementGroup implements
 		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
 	}
 
+	@Override
 	public Integer getWidth()
 	{
 		return width;

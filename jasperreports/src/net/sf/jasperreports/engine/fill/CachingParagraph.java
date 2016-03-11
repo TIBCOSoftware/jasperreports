@@ -62,6 +62,7 @@ public class CachingParagraph implements JRParagraph
 	/**
 	 * @deprecated Replaced by {@link #getParagraphContainer()}.
 	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return base.getParagraphContainer().getDefaultStyleProvider();
@@ -70,6 +71,7 @@ public class CachingParagraph implements JRParagraph
 	/**
 	 * @deprecated Replaced by {@link #getParagraphContainer()}.
 	 */
+	@Override
 	public JRStyle getStyle()
 	{
 		return base.getParagraphContainer().getStyle();
@@ -78,6 +80,7 @@ public class CachingParagraph implements JRParagraph
 	/**
 	 * @deprecated Replaced by {@link #getParagraphContainer()}.
 	 */
+	@Override
 	public String getStyleNameReference()
 	{
 		return base.getParagraphContainer().getStyleNameReference();

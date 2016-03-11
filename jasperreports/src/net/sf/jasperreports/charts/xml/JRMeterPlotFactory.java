@@ -49,9 +49,7 @@ public class JRMeterPlotFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_tickColor = "tickColor";
 	public static final String ATTRIBUTE_tickCount = "tickCount";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts) throws JRException
 	{
 		JRChart chart = (JRChart)digester.peek();

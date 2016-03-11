@@ -61,34 +61,30 @@ public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset
 		}
 	}
 	
+	@Override
 	public JRXyzSeries[] getSeries(){
 		return xyzSeries;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.XYZ_DATASET;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseXyzDataset clone = (JRBaseXyzDataset)super.clone();

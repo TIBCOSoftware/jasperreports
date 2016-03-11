@@ -57,17 +57,13 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public LineDirectionEnum getDirectionValue()
 	{
 		return ((JRLine)this.parent).getDirectionValue();
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public void setDirection(LineDirectionEnum direction)
 	{
 		throw new UnsupportedOperationException();
@@ -81,6 +77,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		return (JRTemplateLine) getElementTemplate();
 	}
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		return new JRTemplateLine(
@@ -91,9 +88,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(
 		byte evaluation
 		) throws JRException
@@ -108,9 +103,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill()
 	{
 		JRTemplatePrintLine printLine = new JRTemplatePrintLine(this.getJRTemplateLine(), printElementOriginator);
@@ -125,31 +118,26 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitLine(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillLine(this, factory);

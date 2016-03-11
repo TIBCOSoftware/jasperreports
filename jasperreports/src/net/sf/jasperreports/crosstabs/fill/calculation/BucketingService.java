@@ -606,26 +606,31 @@ public abstract class BucketingService
 			this.value = value;
 		}
 
+		@Override
 		public Bucket getKey()
 		{
 			return key;
 		}
 
+		@Override
 		public Object getValue()
 		{
 			return value;
 		}
 
+		@Override
 		public Object setValue(Object value)
 		{
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public int compareTo(MapEntry o)
 		{
 			return key.compareTo(o.key);
 		}
 		
+		@Override
 		public String toString()
 		{
 			return key + "=" + value;
@@ -682,21 +687,25 @@ public abstract class BucketingService
 			this.map = sortedMap ? new TreeMap<Bucket, Object>() : new LinkedHashMap<Bucket, Object>();
 		}
 		
+		@Override
 		void clear()
 		{
 			map.clear();
 		}
 
+		@Override
 		public Iterator<Map.Entry<Bucket, Object>> entryIterator()
 		{
 			return map.entrySet().iterator();
 		}
 
+		@Override
 		public Object get(Bucket key)
 		{
 			return map.get(key);
 		}
 
+		@Override
 		MeasureValue[] insertMeasureValues(Bucket[] bucketValues, boolean createValues, int offset)
 		{
 			BucketMapMap levelMap = this;
@@ -731,21 +740,25 @@ public abstract class BucketingService
 			return values;
 		}
 
+		@Override
 		public int size()
 		{
 			return map.size();
 		}
 
+		@Override
 		void addTotalEntry(Object value)
 		{
 			map.put(totalKey, value);
 		}
 		
+		@Override
 		public Object getTotal()
 		{
 			return get(totalKey);
 		}
 		
+		@Override
 		public MapEntry getTotalEntry()
 		{
 			Object value = get(totalKey);
@@ -799,6 +812,7 @@ public abstract class BucketingService
 			}
 		}
 		
+		@Override
 		public String toString()
 		{
 			return map.toString();
@@ -820,12 +834,14 @@ public abstract class BucketingService
 			entryMap = new HashMap<Bucket, Object>();
 		}
 
+		@Override
 		void clear()
 		{
 			entries.clear();
 			entryMap.clear();
 		}
 		
+		@Override
 		public Iterator<Map.Entry<Bucket, Object>> entryIterator()
 		{
 			return entries.iterator();
@@ -837,11 +853,13 @@ public abstract class BucketingService
 			entryMap.put(key, value);
 		}
 
+		@Override
 		public Object get(Bucket key)
 		{
 			return entryMap.get(key);
 		}
 
+		@Override
 		MeasureValue[] insertMeasureValues(Bucket[] bucketValues, boolean createValues, int offset)
 		{
 			int i = offset;
@@ -894,11 +912,13 @@ public abstract class BucketingService
 			return values;
 		}
 
+		@Override
 		public int size()
 		{
 			return entries.size();
 		}
 
+		@Override
 		void addTotalEntry(Object value)
 		{
 			add(totalKey, value);
@@ -911,6 +931,7 @@ public abstract class BucketingService
 			return totalEntry == null ? null : totalEntry.getValue();
 		}
 		
+		@Override
 		public MapEntry getTotalEntry()
 		{
 			MapEntry lastEntry = (MapEntry)entries.get(entries.size() - 1);
@@ -922,6 +943,7 @@ public abstract class BucketingService
 			return null;
 		}
 		
+		@Override
 		public String toString()
 		{
 			StringBuffer sb = new StringBuffer();

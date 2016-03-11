@@ -54,9 +54,7 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<JRAbstractScriptlet> getScriplets(ScriptletFactoryContext context) throws JRException
 	{
 		List<JRAbstractScriptlet> scriptlets = new ArrayList<JRAbstractScriptlet>();

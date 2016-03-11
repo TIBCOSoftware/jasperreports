@@ -173,9 +173,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JROrigin getOrigin()
 	{
 		return origin;
@@ -251,9 +249,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		return (parent == null ? 0 : parent.getHeight());
@@ -267,25 +263,19 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		return breakHeight;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public SplitTypeEnum getSplitTypeValue()
 	{
 		return splitType;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setSplitType(SplitTypeEnum splitType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPrintWhenExpression()
 	{
 		return (parent == null ? null : parent.getPrintWhenExpression());
@@ -445,12 +435,14 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
+	@Override
 	protected int getContainerHeight()
 	{
 		return getHeight();
 	}
 
 
+	@Override
 	protected int getActualContainerHeight()
 	{
 		return getContainerHeight(); 
@@ -500,6 +492,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
+	@Override
 	protected void evaluate(byte evaluation) throws JRException
 	{
 		resetSavedVariables();
@@ -556,17 +549,20 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		return isPageBreakInhibited;
 	}
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return parent.hasProperties();
 	}
 
 	// not doing anything with the properties at fill time
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return parent.getPropertiesMap();
 	}
 	
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

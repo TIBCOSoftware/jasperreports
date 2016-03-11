@@ -50,6 +50,7 @@ public class JiveWebResourceHandler extends AbstractWebResourceHandler
 		this.keyToFileMappings = new HashMap<String, String>();
 	}
 
+	@Override
 	public WebResource getResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, String resourceKey) 
 	{
 		SimpleWebResource resource = null;

@@ -70,6 +70,7 @@ public class SortCommand implements Command
 		this.individualCommandStack = new CommandStack();
 	}
 
+	@Override
 	public void execute() throws CommandException 
 	{
 		SortOrderEnum sortOrder = HeaderToolbarElementUtils.getSortOrder(sortData.getSortOrder());//FIXMEJIVE use labels in JR enum, even if they are longer
@@ -141,11 +142,13 @@ public class SortCommand implements Command
 		}
 	}
 	
+	@Override
 	public void undo() 
 	{
 		individualCommandStack.undoAll();
 	}
 
+	@Override
 	public void redo() 
 	{
 		individualCommandStack.redoAll();

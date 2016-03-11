@@ -102,11 +102,13 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		return uuid;
 	}
 
+	@Override
 	public PartComponent getComponent()
 	{
 		return component;
 	}
 
+	@Override
 	public ComponentKey getComponentKey()
 	{
 		return componentKey;
@@ -118,9 +120,7 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		return evaluationTime;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPrintWhenExpression()
 	{
 		return this.printWhenExpression;
@@ -132,11 +132,13 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		return partNameExpression;
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -146,6 +148,7 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
@@ -153,6 +156,7 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -166,9 +170,7 @@ public class JRBasePart implements JRPart, Serializable, JRChangeEventsSupport
 		return eventSupport;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBasePart clone = null;

@@ -36,9 +36,7 @@ import org.xml.sax.Attributes;
 public class MarkerPropertyXmlFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		StandardMarkerProperty markerProperty = new StandardMarkerProperty();

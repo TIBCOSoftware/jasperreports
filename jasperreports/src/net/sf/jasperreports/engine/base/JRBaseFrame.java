@@ -74,19 +74,19 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 		this.borderSplitType = frame.getBorderSplitType();
 	}
 
+	@Override
 	public JRElement[] getElements()
 	{
 		return JRBaseElementGroup.getElements(children);
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitFrame(this);
@@ -97,33 +97,32 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 		}
 	}
 	
+	@Override
 	public List<JRChild> getChildren()
 	{
 		return children;
 	}
 
+	@Override
 	public JRElement getElementByKey(String elementKey)
 	{
 		return JRBaseElementGroup.getElementByKey(getElements(), elementKey);
 	}
 	
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();

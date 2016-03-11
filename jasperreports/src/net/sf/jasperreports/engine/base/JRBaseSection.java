@@ -102,25 +102,19 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand[] getBands() 
 	{
 		return bands;
 	}	
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPart[] getParts() 
 	{
 		return parts;
 	}	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseSection clone = null;
@@ -143,6 +137,7 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

@@ -88,17 +88,13 @@ public class FileBufferedZipEntry implements ExportZipEntry
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Writer getWriter()
 	{
 		if (writer == null)
@@ -116,25 +112,19 @@ public class FileBufferedZipEntry implements ExportZipEntry
 		return writer;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public OutputStream getOutputStream()
 	{
 		return fbos;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void writeData(OutputStream os) throws IOException
 	{
 		fbos.writeData(os);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void dispose()
 	{
 		fbos.dispose();

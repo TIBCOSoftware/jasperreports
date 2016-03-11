@@ -68,10 +68,12 @@ public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 			XLS_FORMAT, "net.sf.jasperreports.data.excel.ExcelFormatEnum"
 			};
 	
+	@Override
 	public Object[] getBuiltinParameters() {
 		return XLS_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
@@ -81,6 +83,7 @@ public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 		return new ExcelQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className) {
 		return true;
 	}

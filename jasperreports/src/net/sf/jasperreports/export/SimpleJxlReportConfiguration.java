@@ -39,9 +39,7 @@ public class SimpleJxlReportConfiguration extends AbstractXlsReportConfiguration
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isComplexFormat()
 	{
 		return isComplexFormat;

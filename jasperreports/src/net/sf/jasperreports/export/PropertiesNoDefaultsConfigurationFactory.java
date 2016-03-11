@@ -117,9 +117,7 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 			this.propertiesHolder = propertiesHolder;
 		}
 		
-		/**
-		 * 
-		 */
+		@Override
 		public Object invoke(
 			Object proxy, 
 			Method method, 

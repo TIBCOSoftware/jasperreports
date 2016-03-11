@@ -398,6 +398,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * 
 	 * @see net.sf.jasperreports.engine.JRRewindableDataSource#moveFirst()
 	 */
+	@Override
 	public void moveFirst() throws JRException {
 		if (document == null)
 		{
@@ -427,6 +428,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * 
 	 * @see net.sf.jasperreports.engine.JRDataSource#next()
 	 */
+	@Override
 	public boolean next() 
 	{
 		if(currentNodeIndex == nodeListLength - 1)
@@ -442,6 +444,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * 
 	 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
 	 */
+	@Override
 	public Object getFieldValue(JRField jrField) throws JRException 
 	{
 		if(currentNode == null)

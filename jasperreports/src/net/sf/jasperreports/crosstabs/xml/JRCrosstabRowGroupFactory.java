@@ -40,6 +40,7 @@ public class JRCrosstabRowGroupFactory extends JRCrosstabGroupFactory
 	public static final String ATTRIBUTE_width = "width";
 	public static final String ATTRIBUTE_headerPosition = "headerPosition";
 
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabRowGroup group = new JRDesignCrosstabRowGroup();

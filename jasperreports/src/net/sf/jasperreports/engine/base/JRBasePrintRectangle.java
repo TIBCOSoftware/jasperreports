@@ -55,38 +55,31 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRadius()
 	{
 		return getStyleResolver().getRadius(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnRadius()
 	{
 		return radius;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(int radius)
 	{
 		this.radius = Integer.valueOf(radius);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(Integer radius)
 	{
 		this.radius = radius;
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

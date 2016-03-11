@@ -38,6 +38,7 @@ public class JRCrosstabDatasetFactory extends JRBaseFactory
 
 	public static final String ATTRIBUTE_isDataPreSorted = "isDataPreSorted";
 
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignCrosstab crosstab = (JRDesignCrosstab) digester.peek();

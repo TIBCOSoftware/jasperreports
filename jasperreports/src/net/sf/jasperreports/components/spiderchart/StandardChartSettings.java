@@ -221,9 +221,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 			}
 		}
 	}
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowLegend()
 	{
 		return this.showLegend;
@@ -239,9 +237,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LEGEND, old, this.showLegend);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return this.backcolor;
@@ -257,17 +253,13 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getTitleFont()
 	{
 		return this.titleFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EdgeEnum getTitlePosition()
 	{
 		return this.titlePosition;
@@ -283,9 +275,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_POSITION, old, this.titlePosition);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTitleColor()
 	{
 		return this.titleColor;
@@ -301,17 +291,13 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_COLOR, old, this.titleColor);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getSubtitleFont()
 	{
 		return this.subtitleFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getSubtitleColor()
 	{
 		return this.subtitleColor;
@@ -327,23 +313,17 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_COLOR, old, this.subtitleColor);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getLegendBackgroundColor() {
 		return this.legendBackgroundColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getLegendColor() {
 		return this.legendColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getLegendFont() {
 		return this.legendFont;
 	}
@@ -366,9 +346,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_COLOR, old, this.legendColor);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EdgeEnum getLegendPosition()
 	{
 		return this.legendPosition;
@@ -392,86 +370,67 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		return getHyperlinkTypeValue().getValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTitleExpression()
 	{
 		return this.titleExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSubtitleExpression()
 	{
 		return this.subtitleExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return this.anchorNameExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return this.hyperlinkReferenceExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return this.hyperlinkWhenExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return this.hyperlinkAnchorExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return this.hyperlinkPageExpression;
 	}
 	
+	@Override
 	public byte getChartType()
 	{
 		return this.chartType;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getRenderType()
 	{
 		return this.renderType;
@@ -487,6 +446,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_RENDER_TYPE, old, this.renderType);
 	}
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return this.bookmarkLevel;
@@ -503,16 +463,19 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return this.linkType;
 	}
 	
+	@Override
 	public String getLinkTarget()
 	{
 		return this.linkTarget;
 	}
 
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return this.hyperlinkTooltipExpression;
@@ -522,6 +485,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	/**
 	 * @return the customizerClass
 	 */
+	@Override
 	public String getCustomizerClass()
 	{
 		return this.customizerClass;
@@ -674,6 +638,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		SpiderChartCompiler.collectExpressions(this, collector);
 	}
 
+	@Override
 	public Object clone() 
 	{
 		StandardChartSettings clone = null;
@@ -700,6 +665,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -713,6 +679,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		return eventSupport;
 	}
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		JRHyperlinkParameter[] parameters = null;

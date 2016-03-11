@@ -33,9 +33,7 @@ import org.xml.sax.Attributes;
  */
 public class JRScriptletFactory extends JRBaseFactory
 {
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignScriptlet scriptlet = new JRDesignScriptlet();

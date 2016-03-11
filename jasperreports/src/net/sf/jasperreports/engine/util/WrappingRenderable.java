@@ -60,59 +60,70 @@ public class WrappingRenderable implements Renderable
 	}
 
 
+	@Override
 	public String getId() {
 		return renderable.getId();
 	}
 
 
+	@Override
 	public byte getType() {
 		return renderable.getType();
 	}
 
 
+	@Override
 	public byte getImageType() {
 		return renderable.getImageType();
 	}
 
 
+	@Override
 	public Dimension2D getDimension() throws JRException {
 		return renderable.getDimension();
 	}
 
 
+	@Override
 	public byte[] getImageData() throws JRException {
 		return renderable.getImageData();
 	}
 
 
+	@Override
 	public void render(Graphics2D grx, Rectangle2D rectangle)
 			throws JRException {
 		renderable.render(grx, rectangle);
 	}
 
 
+	@Override
 	public RenderableTypeEnum getTypeValue() {
 		return RenderableTypeEnum.getByValue(renderable.getType());
 	}
 
 
+	@Override
 	public ImageTypeEnum getImageTypeValue() {
 		return ImageTypeEnum.getByValue(renderable.getImageType());
 	}
 
 
+	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 			throws JRException {
 		return renderable.getDimension();
 	}
 
 
+	@Override
 	public byte[] getImageData(JasperReportsContext jasperReportsContext)
 			throws JRException {
 		return renderable.getImageData();
 	}
 
 
+	@Override
 	public void render(JasperReportsContext jasperReportsContext,
 			Graphics2D grx, Rectangle2D rectangle) throws JRException {
 		renderable.render(grx, rectangle);

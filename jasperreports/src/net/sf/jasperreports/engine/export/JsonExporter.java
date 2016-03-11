@@ -98,27 +98,20 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<JsonExporterConfiguration> getConfigurationInterface()
 	{
 		return JsonExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<JsonReportConfiguration> getItemConfigurationInterface()
 	{
 		return JsonReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()

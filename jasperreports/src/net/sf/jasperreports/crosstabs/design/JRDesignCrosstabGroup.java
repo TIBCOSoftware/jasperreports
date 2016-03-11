@@ -190,9 +190,7 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignCrosstabGroup clone = (JRDesignCrosstabGroup) super.clone();
@@ -211,6 +209,7 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

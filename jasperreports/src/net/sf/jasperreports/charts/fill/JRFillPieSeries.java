@@ -67,25 +67,19 @@ public class JRFillPieSeries implements JRPieSeries
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getKeyExpression()
 	{
 		return parent.getKeyExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return parent.getValueExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return parent.getLabelExpression();
@@ -164,14 +158,13 @@ public class JRFillPieSeries implements JRPieSeries
 	}
 
 
+	@Override
 	public JRHyperlink getSectionHyperlink()
 	{
 		return parent.getSectionHyperlink();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

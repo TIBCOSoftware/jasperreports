@@ -59,6 +59,7 @@ public class Olap4jHierarchy implements JROlapHierarchy
 		}
 	}
 
+	@Override
 	public String getDimensionName()
 	{
 		if (hierarchy != null)
@@ -71,12 +72,14 @@ public class Olap4jHierarchy implements JROlapHierarchy
 		}
 	}
 
+	@Override
 	public JROlapHierarchyLevel[] getLevels()
 	{
 		return levels;
 	}
 
 	// MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+	@Override
 	public String getHierarchyUniqueName()
 	{
 		if (hierarchy != null) 

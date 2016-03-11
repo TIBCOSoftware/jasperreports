@@ -38,9 +38,7 @@ public class SimpleXlsxExporterConfiguration extends SimpleXlsExporterConfigurat
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getMacroTemplate()
 	{
 		return macroTemplate;

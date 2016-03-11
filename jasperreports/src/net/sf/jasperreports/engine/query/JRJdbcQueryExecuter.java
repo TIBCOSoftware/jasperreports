@@ -270,6 +270,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return "?";
@@ -279,6 +280,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.util.JRQueryExecuter#createDatasource()
 	 */
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		JRResultSetDataSource dataSource = null;
@@ -823,6 +825,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.util.JRQueryExecuter#close()
 	 */
+	@Override
 	public synchronized void close()
 	{
 		if (resultSet != null)
@@ -861,6 +864,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.util.JRQueryExecuter#cancelQuery()
 	 */
+	@Override
 	public synchronized boolean cancelQuery() throws JRException
 	{
 		if (statement != null)

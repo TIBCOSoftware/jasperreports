@@ -65,9 +65,7 @@ public enum ZoomTypeEnum implements NamedEnum
 		this.htmlValue = htmlValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

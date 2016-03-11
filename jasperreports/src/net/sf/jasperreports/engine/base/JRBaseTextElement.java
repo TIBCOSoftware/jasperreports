@@ -116,6 +116,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalTextAlign());
@@ -124,6 +125,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalTextAlign());
@@ -132,6 +134,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalTextAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue));
@@ -140,6 +143,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalTextAlign());
@@ -148,6 +152,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalTextAlign());
@@ -156,30 +161,25 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalTextAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue));
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
 		return getStyleResolver().getHorizontalTextAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
 	{
 		return horizontalTextAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalTextAlign)
 	{
 		Object old = this.horizontalTextAlign;
@@ -187,25 +187,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_TEXT_ALIGNMENT, old, this.horizontalTextAlign);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
 		return getStyleResolver().getVerticalTextAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getOwnVerticalTextAlign()
 	{
 		return verticalTextAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalTextAlign)
 	{
 		Object old = this.verticalTextAlign;
@@ -213,25 +207,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_TEXT_ALIGNMENT, old, this.verticalTextAlign);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RotationEnum getRotationValue()
 	{
 		return getStyleResolver().getRotationValue(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RotationEnum getOwnRotationValue()
 	{
 		return this.rotationValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRotation(RotationEnum rotationValue)
 	{
 		Object old = this.rotationValue;
@@ -242,6 +230,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -250,6 +239,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
 		return getParagraph().getOwnLineSpacing();
@@ -258,27 +248,25 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
+	@Override
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
 		getParagraph().setLineSpacing(lineSpacing);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getMarkup()
 	{
 		return getStyleResolver().getMarkup(this);
 	}
 		
+	@Override
 	public String getOwnMarkup()
 	{
 		return markup;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMarkup(String markup)
 	{
 		Object old = this.markup;
@@ -286,17 +274,13 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MARKUP, old, this.markup);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRParagraph getParagraph()
 	{
 		return paragraph;
@@ -310,33 +294,25 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		return this;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getFontName()
 	{
 		return getStyleResolver().getFontName(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnFontName()
 	{
 		return fontName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setFontName(String fontName)
 	{
 		Object old = this.fontName;
@@ -345,25 +321,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBold()
 	{
 		return getStyleResolver().isBold(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBold()
 	{
 		return isBold;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBold(boolean isBold)
 	{
 		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
@@ -373,6 +343,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
+	@Override
 	public void setBold(Boolean isBold)
 	{
 		Object old = this.isBold;
@@ -381,25 +352,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isItalic()
 	{
 		return getStyleResolver().isItalic(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnItalic()
 	{
 		return isItalic;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setItalic(boolean isItalic)
 	{
 		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
@@ -409,6 +374,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 * Alternative setItalic method which allows also to reset
 	 * the "own" isItalic property.
 	 */
+	@Override
 	public void setItalic(Boolean isItalic)
 	{
 		Object old = this.isItalic;
@@ -416,25 +382,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_ITALIC, old, this.isItalic);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isUnderline()
 	{
 		return getStyleResolver().isUnderline(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnUnderline()
 	{
 		return isUnderline;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUnderline(boolean isUnderline)
 	{
 		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
@@ -444,6 +404,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
+	@Override
 	public void setUnderline(Boolean isUnderline)
 	{
 		Object old = this.isUnderline;
@@ -451,25 +412,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_UNDERLINE, old, this.isUnderline);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStrikeThrough()
 	{
 		return getStyleResolver().isStrikeThrough(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnStrikeThrough()
 	{
 		return isStrikeThrough;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
 		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
@@ -479,6 +434,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
 	 */
+	@Override
 	public void setStrikeThrough(Boolean isStrikeThrough)
 	{
 		Object old = this.isStrikeThrough;
@@ -486,17 +442,13 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_STRIKE_THROUGH, old, this.isStrikeThrough);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getFontsize()
 	{
 		return getStyleResolver().getFontsize(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getOwnFontsize()
 	{
 		return fontsize;
@@ -505,6 +457,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * Method which allows also to reset the "own" size property.
 	 */
+	@Override
 	public void setFontSize(Float fontSize)
 	{
 		Object old = this.fontsize;
@@ -515,6 +468,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #getFontsize()}.
 	 */
+	@Override
 	public int getFontSize()
 	{
 		return (int)getFontsize();
@@ -523,6 +477,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #getOwnFontsize()}.
 	 */
+	@Override
 	public Integer getOwnFontSize()
 	{
 		return fontsize == null ? null : fontsize.intValue();
@@ -531,6 +486,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(int fontSize)
 	{
 		setFontSize((float)fontSize);
@@ -539,30 +495,25 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(Integer fontSize)
 	{
 		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfFontName()
 	{
 		return getStyleResolver().getPdfFontName(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfFontName()
 	{
 		return pdfFontName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfFontName(String pdfFontName)
 	{
 		Object old = this.pdfFontName;
@@ -571,25 +522,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfEncoding()
 	{
 		return getStyleResolver().getPdfEncoding(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfEncoding()
 	{
 		return pdfEncoding;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEncoding(String pdfEncoding)
 	{
 		Object old = this.pdfEncoding;
@@ -598,25 +543,19 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPdfEmbedded()
 	{
 		return getStyleResolver().isPdfEmbedded(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnPdfEmbedded()
 	{
 		return isPdfEmbedded;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
 		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
@@ -626,6 +565,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 * Alternative setPdfEmbedded method which allows also to reset
 	 * the "own" isPdfEmbedded property.
 	 */
+	@Override
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
 		Object old = this.isPdfEmbedded;
@@ -633,17 +573,13 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseTextElement clone = (JRBaseTextElement)super.clone();

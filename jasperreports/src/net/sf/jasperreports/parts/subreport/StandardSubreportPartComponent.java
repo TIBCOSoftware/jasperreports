@@ -108,12 +108,14 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 		}
 	}
 	
+	@Override
 	public Boolean getUsingCache()
 	{
 		return usingCache;
 	}
 
 
+	@Override
 	public void setUsingCache(Boolean usingCache)
 	{
 		Object old = this.usingCache;
@@ -122,9 +124,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return this.parametersMapExpression;
@@ -140,9 +140,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 		getEventSupport().firePropertyChange(JRDesignSubreport.PROPERTY_PARAMETERS_MAP_EXPRESSION, old, this.parametersMapExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRSubreportParameter[] getParameters()
 	{
 		JRSubreportParameter[] parametersArray = new JRSubreportParameter[parametersMap.size()];
@@ -209,6 +207,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 	 * 
 	 * @return the list of values to be copied from the subreport into the master.
 	 */
+	@Override
 	public JRSubreportReturnValue[] getReturnValues()
 	{
 		JRSubreportReturnValue[] returnValuesArray = new JRSubreportReturnValue[returnValues.size()];
@@ -246,9 +245,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 		return false;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return this.expression;
@@ -264,6 +261,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 		getEventSupport().firePropertyChange(JRDesignSubreport.PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		StandardSubreportPartComponent clone = null;
@@ -297,6 +295,7 @@ public class StandardSubreportPartComponent implements Serializable, SubreportPa
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

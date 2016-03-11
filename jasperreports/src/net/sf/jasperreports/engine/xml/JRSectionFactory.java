@@ -42,9 +42,7 @@ public abstract class JRSectionFactory extends JRBaseFactory
 	public abstract JRSection getSection();
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		return getSection();
@@ -56,6 +54,7 @@ public abstract class JRSectionFactory extends JRBaseFactory
 	 */
 	public static class DetailSectionFactory extends JRSectionFactory
 	{
+		@Override
 		public JRSection getSection()
 		{
 			return ((JasperDesign)digester.peek(digester.getCount() - 2)).getDetailSection();
@@ -68,6 +67,7 @@ public abstract class JRSectionFactory extends JRBaseFactory
 	 */
 	public static class GroupHeaderSectionFactory extends JRSectionFactory
 	{
+		@Override
 		public JRSection getSection()
 		{
 			return ((JRDesignGroup)digester.peek()).getGroupHeaderSection();
@@ -80,6 +80,7 @@ public abstract class JRSectionFactory extends JRBaseFactory
 	 */
 	public static class GroupFooterSectionFactory extends JRSectionFactory
 	{
+		@Override
 		public JRSection getSection()
 		{
 			return ((JRDesignGroup)digester.peek()).getGroupFooterSection();

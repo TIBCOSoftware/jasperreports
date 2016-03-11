@@ -37,6 +37,7 @@ import org.xml.sax.Attributes;
 public class JRHyperlinkFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes atts) throws Exception
 	{
 		JRDesignHyperlink link = new JRDesignHyperlink();

@@ -252,9 +252,6 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		return areaHyperlinks;
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{

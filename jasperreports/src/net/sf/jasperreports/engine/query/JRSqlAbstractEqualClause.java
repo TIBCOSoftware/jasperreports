@@ -70,6 +70,7 @@ public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 	 * <code>column IS NOT NULL</code> clause, depending on the parameter's value.
 	 * </p>
 	 */
+	@Override
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
 		String col = clauseTokens.getToken(POSITION_DB_COLUMN);

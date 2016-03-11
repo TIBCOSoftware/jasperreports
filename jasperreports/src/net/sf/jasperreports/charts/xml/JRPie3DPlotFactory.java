@@ -42,9 +42,7 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_depthFactor = "depthFactor";
 	private static final String ATTRIBUTE_isShowLabels = "isShowLabels";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();

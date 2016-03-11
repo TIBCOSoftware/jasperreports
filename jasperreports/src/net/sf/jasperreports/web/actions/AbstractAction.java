@@ -93,6 +93,7 @@ public abstract class AbstractAction implements Action {
 		return reportContext;
 	}
 	
+	@Override
 	public void run() throws ActionException {
 		performAction();
 	}

@@ -36,9 +36,7 @@ public class JRPrintEllipseFactory extends JRBaseFactory
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);

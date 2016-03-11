@@ -140,182 +140,136 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		this.template = elementTemplate;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return template.getDefaultStyleProvider();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public UUID getUUID()
 	{
 		return uuid;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUUID(UUID uuid)
 	{
 		this.uuid = uuid;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JROrigin getOrigin()
 	{
 		return template.getOrigin();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle()
 	{
 		return template.getStyle();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setStyle(JRStyle style)
 	{
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return template.getModeValue();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getOwnModeValue()
 	{
 		return template.getOwnModeValue();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setMode(ModeEnum modeValue)
 	{
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getX()
 	{
 		return x;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setX(int x)
 	{
 		this.x = x;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getY()
 	{
 		return y;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setY(int y)
 	{
 		this.y = y;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getWidth()
 	{
 		return width;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setWidth(int width)
 	{
 		this.width = width;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		return height;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setHeight(int height)
 	{
 		this.height = height;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getForecolor()
 	{
 		return template.getForecolor();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnForecolor()
 	{
 		return template.getOwnForecolor();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setForecolor(Color color)
 	{
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return template.getBackcolor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnBackcolor()
 	{
 		return template.getOwnBackcolor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBackcolor(Color color)
 	{
 	}
@@ -343,6 +297,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		}
 	}
 
+	@Override
 	public String getKey()
 	{
 		return template.getKey();
@@ -351,6 +306,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 	/**
 	 * Returns null as external style references are not allowed for print objects.
 	 */
+	@Override
 	public String getStyleNameReference()
 	{
 		return null;
@@ -365,12 +321,14 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 	}
 
 	//FIXME lucianc optimize by making unsynchronized 
+	@Override
 	public synchronized boolean hasProperties()
 	{
 		return properties != null && properties.hasProperties()
 				|| template.hasProperties();
 	}
 
+	@Override
 	public synchronized JRPropertiesMap getPropertiesMap()
 	{
 		if (properties == null)
@@ -387,6 +345,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		return properties;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
@@ -403,11 +362,13 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 	}
 
 	// we need to implement this method because the class is not abstract
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public int getSourceElementId()
 	{
 		return sourceElementId;
@@ -449,6 +410,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 		// UNSET_PRINT_ELEMENT_ID is 0, so it will be assigned automatically when missing
 	}
 	
+	@Override
 	public void writeVirtualized(VirtualizationOutput out) throws IOException
 	{
 		JRVirtualizationContext virtualizationContext = out.getVirtualizationContext();

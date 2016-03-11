@@ -64,9 +64,7 @@ public abstract class JRDesignChartDataset extends JRDesignElementDataset implem
 		super(dataset, factory);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return -1;
 	}

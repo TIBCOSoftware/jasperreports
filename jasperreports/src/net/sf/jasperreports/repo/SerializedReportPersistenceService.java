@@ -32,9 +32,7 @@ import net.sf.jasperreports.engine.JasperReport;
 public class SerializedReportPersistenceService extends SerializedObjectPersistenceService
 {
 
-	/**
-	 * 
-	 */
+	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
 		ReportResource reportResource = null;

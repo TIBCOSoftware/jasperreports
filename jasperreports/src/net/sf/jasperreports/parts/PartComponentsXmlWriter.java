@@ -56,6 +56,7 @@ public class PartComponentsXmlWriter extends AbstractPartComponentXmlWriter
 		super(jasperReportsContext);
 	}
 
+	@Override
 	public void writeToXml(JRPart part, JRXmlWriter reportWriter) throws IOException
 	{
 		PartComponent component = part.getComponent();

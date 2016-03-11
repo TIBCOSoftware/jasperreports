@@ -96,6 +96,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 		initIterator();
 	}
 
+	@Override
 	public boolean next() {
 		if (iterator == null) {
 			return false;
@@ -114,6 +115,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 		return hasNext;
 	}
 
+	@Override
 	public void moveFirst() {
 		if (pageCount == 1) {
 			initIterator();
@@ -128,6 +130,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 		iterator = returnValues == null ? null : returnValues.iterator();
 	}
 	
+	@Override
 	public Object getFieldValue(JRField field) throws JRException {
 		FieldValueReader reader = getFieldValueReader(field);
 		return reader.getValue();
@@ -203,6 +206,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 			this.property = property;
 		}
 		
+		@Override
 		public Object getValue() throws JRException
 		{
 			return getBeanProperty(currentRow, property);
@@ -218,6 +222,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 			this.position = position;
 		}
 		
+		@Override
 		public Object getValue() throws JRException
 		{
 			Object[] values = (Object[]) currentRow;
@@ -243,6 +248,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 			this.property = property;
 		}
 		
+		@Override
 		public Object getValue() throws JRException
 		{
 			Object[] values = (Object[]) currentRow;

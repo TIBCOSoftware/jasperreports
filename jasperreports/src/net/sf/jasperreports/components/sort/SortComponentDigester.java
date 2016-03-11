@@ -36,6 +36,7 @@ import org.apache.commons.digester.Digester;
  */
 public class SortComponentDigester implements XmlDigesterConfigurer
 {
+	@Override
 	public void configureDigester(Digester digester)
 	{
 		addSortComponentRules(digester);

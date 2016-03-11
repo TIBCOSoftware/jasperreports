@@ -36,21 +36,25 @@ public class PopulatedSnapshotCacheHandler implements DataCacheHandler
 		this.snapshot = snapshot;
 	}
 
+	@Override
 	public boolean isRecordingEnabled()
 	{
 		return false;
 	}
 
+	@Override
 	public DataRecorder createDataRecorder()
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean isSnapshotPopulated()
 	{
 		return true;
 	}
 
+	@Override
 	public DataSnapshot getDataSnapshot()
 	{
 		return snapshot;

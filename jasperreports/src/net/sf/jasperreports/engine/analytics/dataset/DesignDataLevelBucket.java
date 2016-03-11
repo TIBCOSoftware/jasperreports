@@ -158,6 +158,7 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 		}
 	}
 	
+	@Override
 	public Object clone()
 	{
 		DesignDataLevelBucket clone = (DesignDataLevelBucket) super.clone();
@@ -167,6 +168,7 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

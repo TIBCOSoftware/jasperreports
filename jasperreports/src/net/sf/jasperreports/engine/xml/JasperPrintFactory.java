@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class JasperPrintFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperPrint jasperPrint = new JasperPrint();

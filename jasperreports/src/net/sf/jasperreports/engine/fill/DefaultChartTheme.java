@@ -259,9 +259,7 @@ public class DefaultChartTheme implements ChartTheme
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JFreeChart createChart(ChartContext chartContext) throws JRException
 	{
 		this.chartContext = chartContext;
@@ -2303,11 +2301,13 @@ public class DefaultChartTheme implements ChartTheme
 		{
 			private static final String NAME = "default";
 
+			@Override
 			public String[] getChartThemeNames() 
 			{
 				return new String[]{NAME};
 			}
 		
+			@Override
 			public ChartTheme getChartTheme(String themeName) 
 			{
 				if (NAME.equals(themeName))

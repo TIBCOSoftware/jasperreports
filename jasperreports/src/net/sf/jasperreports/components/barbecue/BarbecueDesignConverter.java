@@ -46,6 +46,7 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 	
 	private static final String DEFAULT_PREVIEW_CODE = "01234567890";
 
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
 	{

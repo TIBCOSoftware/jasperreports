@@ -181,6 +181,7 @@ public class JaxenXmlDataSource extends AbstractXmlDataSource {
 	 * 
 	 * @see net.sf.jasperreports.engine.JRRewindableDataSource#moveFirst()
 	 */
+	@Override
 	public void moveFirst() throws JRException {
 		if (document == null)
 		{
@@ -214,6 +215,7 @@ public class JaxenXmlDataSource extends AbstractXmlDataSource {
 	 * 
 	 * @see net.sf.jasperreports.engine.JRDataSource#next()
 	 */
+	@Override
 	public boolean next() throws JRException 
 	{
 		if(mustBeMovedFirst) 
@@ -230,6 +232,7 @@ public class JaxenXmlDataSource extends AbstractXmlDataSource {
 	}
 
 	
+	@Override
 	public Document subDocument() throws JRException
 	{
 		if(currentNode == null)

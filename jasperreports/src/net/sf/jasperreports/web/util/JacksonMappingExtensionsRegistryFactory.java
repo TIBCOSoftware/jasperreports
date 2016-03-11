@@ -47,9 +47,7 @@ public class JacksonMappingExtensionsRegistryFactory implements ExtensionsRegist
 	public final static String JACKSON_MAPPING_PROPERTY_PREFIX = 
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "jackson.mapping.";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> jacksonMappingProperties = JRPropertiesUtil.getProperties(properties, JACKSON_MAPPING_PROPERTY_PREFIX);

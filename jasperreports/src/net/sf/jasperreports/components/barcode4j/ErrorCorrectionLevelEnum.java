@@ -66,9 +66,7 @@ public enum ErrorCorrectionLevelEnum implements NamedEnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

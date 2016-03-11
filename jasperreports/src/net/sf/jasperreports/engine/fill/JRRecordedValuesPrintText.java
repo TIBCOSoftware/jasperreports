@@ -78,16 +78,19 @@ public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JR
 		super(text, originator);
 	}
 
+	@Override
 	public JRRecordedValues getRecordedValues()
 	{
 		return recordedValues;
 	}
 
+	@Override
 	public void deleteRecordedValues()
 	{
 		recordedValues = null;
 	}
 
+	@Override
 	public void initRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
 		recordedValues = new JRRecordedValues(evaluationTimes);

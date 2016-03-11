@@ -79,72 +79,57 @@ public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return seriesExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTaskExpression()
 	{
 		return taskExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSubtaskExpression()
 	{
 		return subtaskExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getStartDateExpression()
 	{
 		return startDateExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getEndDateExpression()
 	{
 		return endDateExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPercentExpression()
 	{
 		return percentExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return labelExpression;
 	}
 
 
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRBaseGanttSeries clone = null;

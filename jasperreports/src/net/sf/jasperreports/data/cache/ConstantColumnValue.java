@@ -57,15 +57,18 @@ public class ConstantColumnValue implements ColumnValues, Serializable
 		value = in.readObject();
 	}
 
+	@Override
 	public int size()
 	{
 		return size;
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		return new IndexColumnValueIterator(size)
 		{
+			@Override
 			public Object get()
 			{
 				return value;

@@ -35,6 +35,7 @@ import org.xml.sax.Attributes;
 public class JRPropertyExpressionFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		JRDesignPropertyExpression propertyExpression = new JRDesignPropertyExpression();

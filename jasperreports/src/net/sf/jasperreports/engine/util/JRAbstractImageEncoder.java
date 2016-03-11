@@ -38,9 +38,7 @@ public abstract class JRAbstractImageEncoder implements JRImageEncoder
 {
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public byte[] encode(Image image, ImageTypeEnum imageType) throws JRException
 	{
 		BufferedImage bi = null;

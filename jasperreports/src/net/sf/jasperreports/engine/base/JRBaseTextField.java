@@ -115,17 +115,13 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStretchWithOverflow()
 	{
 		return this.isStretchWithOverflow;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setStretchWithOverflow(boolean isStretchWithOverflow)
 	{
 		boolean old = this.isStretchWithOverflow;
@@ -133,30 +129,25 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		getEventSupport().firePropertyChange(PROPERTY_STRETCH_WITH_OVERFLOW, old, this.isStretchWithOverflow);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return this.evaluationTimeValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getPattern()
 	{
 		return getStyleResolver().getPattern(this);
 	}
 		
+	@Override
 	public String getOwnPattern()
 	{
 		return this.pattern;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPattern(String pattern)
 	{
 		Object old = this.pattern;
@@ -164,25 +155,19 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_PATTERN, old, this.pattern);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBlankWhenNull()
 	{
 		return getStyleResolver().isBlankWhenNull(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBlankWhenNull()
 	{
 		return isBlankWhenNull;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBlankWhenNull(Boolean isBlank)
 	{
 		Object old = this.isBlankWhenNull;
@@ -190,9 +175,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBlankWhenNull(boolean isBlank)
 	{
 		setBlankWhenNull(isBlank ? Boolean.TRUE : Boolean.FALSE);
@@ -206,134 +189,113 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		return getHyperlinkTypeValue().getValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return this.evaluationGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return this.expression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPatternExpression()
 	{
 		return this.patternExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return this.anchorNameExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return this.hyperlinkReferenceExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return this.hyperlinkWhenExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return this.hyperlinkAnchorExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return this.hyperlinkPageExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitTextField(this);
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
 	}
 
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 	
 
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseTextField clone = (JRBaseTextField)super.clone();

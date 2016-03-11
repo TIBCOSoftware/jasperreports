@@ -76,9 +76,7 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChart getChart()
 	{
 		return chart;
@@ -92,25 +90,19 @@ public class JRFillChartPlot implements JRChartPlot
 		return getChart().getDefaultStyleProvider().getStyleResolver();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return getStyleResolver().getBackcolor(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnBackcolor()
 	{
 		return parent.getOwnBackcolor();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setBackcolor(Color backcolor)
 	{
 	}
@@ -118,14 +110,13 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 * @deprecated Replaed by {@link #getOrientationValue()}.
 	 */
+	@Override
 	public PlotOrientation getOrientation()
 	{
 		return getOrientationValue().getOrientation();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public PlotOrientationEnum getOrientationValue()
 	{
 		return parent.getOrientationValue();
@@ -134,45 +125,36 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}.
 	 */
+	@Override
 	public void setOrientation(PlotOrientation orientation)
 	{
 		setOrientation(PlotOrientationEnum.getByValue(orientation));
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setOrientation(PlotOrientationEnum orientation)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Float getBackgroundAlphaFloat()
 	{
 		return parent.getBackgroundAlphaFloat();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setBackgroundAlpha(Float BackgroundAlpha)
 	{
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Float getForegroundAlphaFloat()
 	{
 		return parent.getForegroundAlphaFloat();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setForegroundAlpha(Float foregroundAlpha)
 	{
 	}
@@ -180,6 +162,7 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
+	@Override
 	public Double getLabelRotationDouble()
 	{
 		return parent.getLabelRotationDouble();
@@ -188,6 +171,7 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 * @deprecated Replaced by {@link JRCategoryAxisFormat#setCategoryAxisTickLabelRotation(Double)}.
 	 */
+	@Override
 	public void setLabelRotation(Double labelRotation)
 	{
 		throw new UnsupportedOperationException();
@@ -197,6 +181,7 @@ public class JRFillChartPlot implements JRChartPlot
 	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
 	 * If there are no defined series colors this method will return an empty list, not null. 
 	 */
+	@Override
 	public SortedSet<JRSeriesColor> getSeriesColors()
 	{
 		return parent.getSeriesColors();
@@ -205,6 +190,7 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 * Removes all defined series colors.
 	 */
+	@Override
 	public void clearSeriesColors()
 	{
 	}
@@ -212,33 +198,29 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 * Adds the specified series color to the plot.
 	 */
+	@Override
 	public void addSeriesColor(JRSeriesColor seriesColor)
 	{
 	}
 
+	@Override
 	public void setSeriesColors(Collection<JRSeriesColor> colors)
 	{
 		// NOOP
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		throw new UnsupportedOperationException();

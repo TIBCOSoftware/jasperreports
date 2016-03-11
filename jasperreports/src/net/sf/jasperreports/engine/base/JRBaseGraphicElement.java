@@ -82,30 +82,25 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPen getLinePen()
 	{
 		return linePen;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public FillEnum getFillValue()
 	{
 		return getStyleResolver().getFillValue(this);
 	}
 
+	@Override
 	public FillEnum getOwnFillValue()
 	{
 		return this.fillValue;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setFill(FillEnum fillValue)
 	{
 		FillEnum old = this.fillValue;
@@ -113,26 +108,20 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FILL, old, this.fillValue);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Float getDefaultLineWidth() 
 	{
 		return JRPen.LINE_WIDTH_1;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 		
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseGraphicElement clone = (JRBaseGraphicElement)super.clone();

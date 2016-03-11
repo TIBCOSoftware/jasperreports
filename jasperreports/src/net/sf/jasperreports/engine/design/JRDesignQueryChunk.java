@@ -97,9 +97,7 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk implements JRChangeEven
 		getEventSupport().firePropertyChange(PROPERTY_TOKEN_SEPARATOR, old, this.tokenSeparator);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignQueryChunk clone = (JRDesignQueryChunk)super.clone();
@@ -109,6 +107,7 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk implements JRChangeEven
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

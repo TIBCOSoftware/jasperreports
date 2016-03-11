@@ -366,6 +366,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 		}
 	}
 	
+	@Override
 	public void viewerEvent(JRViewerEvent event)
 	{
 		switch (event.getCode())

@@ -37,6 +37,7 @@ public class UndoAllAction extends AbstractAction {
 		return "undo_all_action";
 	}
 
+	@Override
 	public void performAction() {
 		// obtain command stack
 		CommandStack commandStack = getCommandStack();

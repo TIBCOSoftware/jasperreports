@@ -33,9 +33,7 @@ import org.xml.sax.Attributes;
  */
 public class JRGanttSeriesFactory extends JRBaseFactory {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		return new JRDesignGanttSeries();

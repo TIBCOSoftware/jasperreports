@@ -100,9 +100,7 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChange
 		getEventSupport().firePropertyChange(PROPERTY_FONT, old, this.font);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignValueDisplay clone = (JRDesignValueDisplay)super.clone();
@@ -112,6 +110,7 @@ public class JRDesignValueDisplay extends JRBaseValueDisplay implements JRChange
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

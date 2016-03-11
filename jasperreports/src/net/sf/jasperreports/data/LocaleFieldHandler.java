@@ -43,9 +43,7 @@ public class LocaleFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -55,9 +53,7 @@ public class LocaleFieldHandler extends GeneralizedFieldHandler
 		return JRDataUtils.getLocaleCode((Locale)value);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -67,17 +63,13 @@ public class LocaleFieldHandler extends GeneralizedFieldHandler
 		return JRDataUtils.getLocale((String)value);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return Locale.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		return null;

@@ -42,9 +42,7 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getFieldDelimiter()
 	{
 		return fieldDelimiter;
@@ -58,9 +56,7 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 		this.fieldDelimiter = fieldDelimiter;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getFieldEnclosure()
 	{
 		return fieldEnclosure;
@@ -74,9 +70,7 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 		this.fieldEnclosure = fieldEnclosure;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getRecordDelimiter()
 	{
 		return recordDelimiter;
@@ -90,9 +84,7 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 		this.recordDelimiter = recordDelimiter;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isWriteBOM()
 	{
 		return isWriteBOM;
@@ -106,9 +98,7 @@ public class SimpleCsvExporterConfiguration extends SimpleExporterConfiguration 
 		this.isWriteBOM = isWriteBOM;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getForceFieldEnclosure()
 	{
 		return forceFieldEnclosure;

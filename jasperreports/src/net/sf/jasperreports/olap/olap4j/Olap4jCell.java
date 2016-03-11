@@ -43,21 +43,25 @@ public class Olap4jCell implements JROlapCell
 		this.formattedValue = cell.getFormattedValue();
 	}
 
+	@Override
 	public String getFormattedValue()
 	{
 		return formattedValue;
 	}
 
+	@Override
 	public Object getValue()
 	{
 		return value;
 	}
 
+	@Override
 	public boolean isError()
 	{
 		return false;//FIXME cell.isError
 	}
 
+	@Override
 	public boolean isNull()
 	{
 		return value == null;//FIXME cell.isNull

@@ -69,9 +69,7 @@ public class JRPdfSaveContributor extends JRSaveContributor
 		super(jasperReportsContext, locale, resBundle);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -81,17 +79,13 @@ public class JRPdfSaveContributor extends JRSaveContributor
 		return file.getName().toLowerCase().endsWith(EXTENSION_PDF);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getDescription()
 	{
 		return getBundleString("file.desc.pdf");
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
 		if (!file.getName().toLowerCase().endsWith(EXTENSION_PDF))

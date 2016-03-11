@@ -84,21 +84,18 @@ public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implement
 		super(line, originator);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public LineDirectionEnum getDirectionValue()
 	{
 		return ((JRTemplateLine)this.template).getDirectionValue();
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public void setDirection(LineDirectionEnum direction)
 	{
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

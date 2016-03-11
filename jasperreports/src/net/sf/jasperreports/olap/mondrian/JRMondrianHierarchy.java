@@ -57,17 +57,20 @@ public class JRMondrianHierarchy implements JROlapHierarchy
 		}
 	}
 
+	@Override
 	public String getDimensionName()
 	{
 		return hierarchy == null ? null : hierarchy.getDimension().getName();
 	}
 
+	@Override
 	public JROlapHierarchyLevel[] getLevels()
 	{
 		return levels;
 	}
 
 	// MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+	@Override
 	public String getHierarchyUniqueName()
 	{
 		return hierarchy == null ? null : hierarchy.getUniqueName();

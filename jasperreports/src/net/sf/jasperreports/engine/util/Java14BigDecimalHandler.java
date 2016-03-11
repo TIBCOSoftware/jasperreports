@@ -38,6 +38,7 @@ public class Java14BigDecimalHandler implements BigDecimalHandler
 	 * Divides the values by using the dividend scale as result scale
 	 * and {@link BigDecimal#ROUND_HALF_UP} as round mode.
 	 */
+	@Override
 	public BigDecimal divide(BigDecimal dividend, BigDecimal divisor)
 	{
 		return dividend.divide(divisor, BigDecimal.ROUND_HALF_UP);

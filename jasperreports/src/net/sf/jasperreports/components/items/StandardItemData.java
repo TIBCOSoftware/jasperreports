@@ -164,6 +164,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);
 	}
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -177,6 +178,7 @@ public class StandardItemData implements Serializable, ItemData, JRChangeEventsS
 		return eventSupport;
 	}
 
+	@Override
 	public Object clone()
 	{
 		StandardItemData clone = null;

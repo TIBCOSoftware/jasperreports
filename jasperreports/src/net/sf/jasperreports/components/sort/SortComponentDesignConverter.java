@@ -58,9 +58,7 @@ public class SortComponentDesignConverter extends ElementIconConverter implement
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
 	{
 		return convert(reportConverter, (JRElement)element);

@@ -42,6 +42,7 @@ public class MapElementOdsHandler implements GenericElementOdsHandler
 		return INSTANCE;
 	}
 	
+	@Override
 	public void exportElement(
 		JROdsExporterContext exporterContext,
 		JRGenericPrintElement element,
@@ -72,6 +73,7 @@ public class MapElementOdsHandler implements GenericElementOdsHandler
 		}
 	}
 	
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

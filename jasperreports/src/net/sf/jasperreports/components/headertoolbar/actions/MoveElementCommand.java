@@ -42,14 +42,17 @@ public class MoveElementCommand implements Command
 		this.oldX = receiver.getX();
 	}
 
+	@Override
 	public void execute() {
 		receiver.setX(x);
 	}		
 	
+	@Override
 	public void undo() {
 		receiver.setX(oldX);
 	}
 
+	@Override
 	public void redo() {
 		execute();
 	}

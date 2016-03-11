@@ -241,26 +241,31 @@ public class TextMeasurer implements JRTextMeasurer
 			this.saveLineBreakOffsets = saveLineBreakOffsets;
 		}
 		
+		@Override
 		public boolean isLeftToRight()
 		{
 			return isLeftToRight;
 		}
 		
+		@Override
 		public int getTextOffset()
 		{
 			return textOffset;
 		}
 		
+		@Override
 		public float getTextWidth()
 		{
 			return textWidth;
 		}
 		
+		@Override
 		public float getTextHeight()
 		{
 			return textHeight;
 		}
 		
+		@Override
 		public float getLineSpacingFactor()
 		{
 			if (isMeasured && lines > 0 && fontSizeSum > 0)
@@ -270,6 +275,7 @@ public class TextMeasurer implements JRTextMeasurer
 			return 0;
 		}
 		
+		@Override
 		public float getLeadingOffset()
 		{
 			if (isMeasured && lines > 0 && fontSizeSum > 0)
@@ -279,6 +285,7 @@ public class TextMeasurer implements JRTextMeasurer
 			return 0;
 		}
 
+		@Override
 		public String getTextSuffix()
 		{
 			return textSuffix;
@@ -321,6 +328,7 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 		}
 		
+		@Override
 		public short[] getLineBreakOffsets()
 		{
 			if (!saveLineBreakOffsets)
@@ -509,9 +517,7 @@ public class TextMeasurer implements JRTextMeasurer
 		
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRMeasuredText measure(
 		JRStyledText styledText,
 		int remainingTextStart,

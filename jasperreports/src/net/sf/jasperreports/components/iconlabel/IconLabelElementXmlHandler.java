@@ -97,6 +97,7 @@ public class IconLabelElementXmlHandler implements GenericElementXmlHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

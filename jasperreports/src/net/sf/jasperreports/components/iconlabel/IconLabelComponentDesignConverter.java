@@ -58,9 +58,7 @@ public class IconLabelComponentDesignConverter extends ElementIconConverter impl
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
 	{
 		return convert(reportConverter, (JRElement)element);

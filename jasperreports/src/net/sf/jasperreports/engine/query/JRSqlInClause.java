@@ -49,16 +49,19 @@ public class JRSqlInClause extends JRSqlAbstractInClause
 		return singleton;
 	}
 	
+	@Override
 	protected void appendInOperator(StringBuffer sBuffer)
 	{
 		sBuffer.append(OPERATOR_IN);
 	}
 
+	@Override
 	protected void appendNullOperator(StringBuffer sBuffer)
 	{
 		sBuffer.append(OPERATOR_NULL);
 	}
 
+	@Override
 	protected void appendAndOrOperator(StringBuffer sBuffer)
 	{
 		sBuffer.append(OPERATOR_AND_OR);

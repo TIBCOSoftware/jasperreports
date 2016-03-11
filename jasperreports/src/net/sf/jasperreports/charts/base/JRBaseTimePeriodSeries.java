@@ -69,34 +69,38 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 		itemHyperlink = factory.getHyperlink(timePeriodSeries.getItemHyperlink());
 	}
 	
+	@Override
 	public JRExpression getSeriesExpression(){
 		return seriesExpression;
 	}
 	
+	@Override
 	public JRExpression getStartDateExpression(){
 		return startDateExpression;
 	}
 	
+	@Override
 	public JRExpression getEndDateExpression(){
 		return endDateExpression;
 	}
 	
+	@Override
 	public JRExpression getValueExpression(){
 		return valueExpression;
 	}
 	
+	@Override
 	public JRExpression getLabelExpression(){
 		return labelExpression;
 	}
 	
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseTimePeriodSeries clone = null;

@@ -58,25 +58,19 @@ public class JRFillItemLabel implements JRItemLabel
 		chart = (JRChart)factory.getVisitResult(itemLabel.getChart());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChart getChart()
 	{
 		return chart;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getColor()
 	{
 		return parent.getColor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackgroundColor()
 	{
 		return parent.getBackgroundColor();
@@ -89,17 +83,13 @@ public class JRFillItemLabel implements JRItemLabel
 //		return parent.getMask();
 //	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getFont()
 	{
 		return parent.getFont();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

@@ -44,6 +44,7 @@ public class SaveZoomCommand implements Command {
 	}
 
 
+	@Override
 	public void execute() {
 		oldZoomValue = jasperDesign.getProperty(PROPERTY_VIEWER_ZOOM);
 		if (oldZoomValue == null) {
@@ -57,11 +58,13 @@ public class SaveZoomCommand implements Command {
 	}
 
 
+	@Override
 	public void undo() {
 		jasperDesign.setProperty(PROPERTY_VIEWER_ZOOM, oldZoomValue);
 	}
 
 
+	@Override
 	public void redo() {
 		jasperDesign.setProperty(PROPERTY_VIEWER_ZOOM, zoomValue);
 	}

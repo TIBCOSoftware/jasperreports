@@ -50,6 +50,7 @@ public class ListExtensionRegistry<Type> implements ExtensionsRegistry
 		this.extensions = extension;
 	}
 	
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (type.equals(extensionType))

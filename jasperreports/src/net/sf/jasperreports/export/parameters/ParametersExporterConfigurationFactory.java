@@ -155,9 +155,7 @@ public class ParametersExporterConfigurationFactory<C extends CommonExportConfig
 			values = new ConcurrentHashMap<Method, Object>(16, 0.75f, 1);
 		}
 		
-		/**
-		 * 
-		 */
+		@Override
 		public Object invoke(
 			Object proxy, 
 			Method method, 

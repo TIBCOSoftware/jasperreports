@@ -64,12 +64,14 @@ public class SortComponentXmlWriter extends AbstractComponentXmlWriter
 	}
 
 
+	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
 		return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1);
 	}
 	
 	
+	@Override
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException 
 	{
 		Component component = componentElement.getComponent();

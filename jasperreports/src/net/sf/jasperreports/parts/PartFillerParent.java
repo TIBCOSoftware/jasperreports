@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.fill.PartReportFiller;
 public interface PartFillerParent extends FillerParent
 {
 	
+	@Override
 	PartReportFiller getFiller();
 
 }

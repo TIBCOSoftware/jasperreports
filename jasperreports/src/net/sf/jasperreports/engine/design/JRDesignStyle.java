@@ -93,9 +93,7 @@ public class JRDesignStyle extends JRBaseStyle
 		getEventSupport().firePropertyChange(PROPERTY_DEFAULT, old, this.isDefault);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setParentStyle(JRStyle parentStyle)
 	{
 		Object old = getStyle();
@@ -137,9 +135,7 @@ public class JRDesignStyle extends JRBaseStyle
 		return false;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRConditionalStyle[] getConditionalStyles()
 	{
 		return conditionalStylesList.toArray(new JRDesignConditionalStyle[conditionalStylesList.size()]);
@@ -170,6 +166,7 @@ public class JRDesignStyle extends JRBaseStyle
 		getEventSupport().firePropertyChange(PROPERTY_PARENT_STYLE_NAME_REFERENCE, old, this.parentStyleNameReference);
 	}
 
+	@Override
 	public Object clone()
 	{
 		JRDesignStyle clone = (JRDesignStyle) super.clone();

@@ -231,6 +231,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder,
 	/**
 	 * Returns the string value that uniquely identifies the element.
 	 */
+	@Override
 	public String getKey();
 
 	/**

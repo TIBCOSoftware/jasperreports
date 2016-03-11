@@ -40,9 +40,7 @@ public class SimpleCommonExportConfiguration implements CommonExportConfiguratio
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isOverrideHints()
 	{
 		return isOverrideHints;

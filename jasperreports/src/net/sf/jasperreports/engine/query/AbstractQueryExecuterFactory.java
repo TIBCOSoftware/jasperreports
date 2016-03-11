@@ -40,6 +40,7 @@ public abstract class AbstractQueryExecuterFactory implements QueryExecuterFacto
 	/**
 	 * @deprecated Replaced by {@link #createQueryExecuter(JasperReportsContext, JRDataset, Map)}.
 	 */
+	@Override
 	public final JRQueryExecuter createQueryExecuter(
 		JRDataset dataset, 
 		Map<String, ? extends JRValueParameter> parameters

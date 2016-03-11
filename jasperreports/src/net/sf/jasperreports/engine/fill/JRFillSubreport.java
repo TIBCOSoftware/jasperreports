@@ -196,9 +196,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
@@ -207,6 +205,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		return ((JRSubreport)parent).isUsingCache();
@@ -225,11 +224,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		return isUsingCache.booleanValue();
 	}
 		
+	@Override
 	public Boolean isRunToBottom()
 	{
 		return ((JRSubreport) parent).isRunToBottom();
 	}
 
+	@Override
 	public void setRunToBottom(Boolean runToBottom)
 	{
 		throw new UnsupportedOperationException();
@@ -247,41 +248,31 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return ((JRSubreport)parent).getParametersMapExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRSubreportParameter[] getParameters()
 	{
 		return parameters;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getConnectionExpression()
 	{
 		return ((JRSubreport)parent).getConnectionExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDataSourceExpression()
 	{
 		return ((JRSubreport)parent).getDataSourceExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return ((JRSubreport)parent).getExpression();
@@ -296,6 +287,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		return new JRTemplateRectangle(getElementOrigin(), 
@@ -334,9 +326,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(
 		byte evaluation
 		) throws JRException
@@ -751,9 +741,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected boolean prepare(
 		int availableHeight,
 		boolean isOverflow
@@ -929,9 +917,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void rewind() throws JRException
 	{
 		if (subreportFiller == null)
@@ -984,9 +970,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill()
 	{
 		//FIXME lucianc create a frame instead to avoid HTML layers
@@ -1031,23 +1015,20 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitSubreport(this);
 	}
 	
 
+	@Override
 	public JRSubreportReturnValue[] getReturnValues()
 	{
 		return ((JRSubreport) parent).getReturnValues();
@@ -1115,6 +1096,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 	
 	
+	@Override
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
@@ -1124,23 +1106,27 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public Boolean isOwnUsingCache()
 	{
 		return ((JRSubreport)parent).isOwnUsingCache();
 	}
 
 
+	@Override
 	public Boolean getUsingCache()
 	{
 		return ((JRSubreport)parent).getUsingCache();
 	}
 
 
+	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillSubreport(this, factory);

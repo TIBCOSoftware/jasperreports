@@ -315,6 +315,7 @@ public class BucketDefinition
 			return value;
 		}
 		
+		@Override
 		public boolean equals (Object o)
 		{
 			if (o == null || !(o instanceof Bucket))
@@ -337,6 +338,7 @@ public class BucketDefinition
 			return v.type == VALUE_TYPE_VALUE && value.equals(v.value);
 		}
 		
+		@Override
 		public int hashCode()
 		{
 			int hash = type;
@@ -349,6 +351,7 @@ public class BucketDefinition
 			return hash;
 		}
 		
+		@Override
 		public String toString()
 		{
 			switch(type)
@@ -363,6 +366,7 @@ public class BucketDefinition
 			}
 		}
 
+		@Override
 		public int compareTo(Object o)
 		{
 			Bucket val = (Bucket) o;

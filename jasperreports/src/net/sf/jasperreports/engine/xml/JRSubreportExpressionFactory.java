@@ -36,9 +36,7 @@ import org.xml.sax.Attributes;
 public class JRSubreportExpressionFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignExpression expression = new JRDesignExpression();

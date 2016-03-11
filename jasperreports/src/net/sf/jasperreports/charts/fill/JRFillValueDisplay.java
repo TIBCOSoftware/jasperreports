@@ -58,40 +58,30 @@ public class JRFillValueDisplay implements JRValueDisplay
 		chart = (JRChart)factory.getVisitResult(valueDisplay.getChart());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChart getChart()
 	{
 		return chart;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getColor()
 	{
 		return parent.getColor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getMask(){
 		return parent.getMask();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getFont()
 	{
 		return parent.getFont();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

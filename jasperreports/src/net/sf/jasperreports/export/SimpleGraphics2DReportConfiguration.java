@@ -40,9 +40,7 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Float getZoomRatio()
 	{
 		return zoomRatio;
@@ -56,9 +54,7 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 		this.zoomRatio = zoomRatio;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isMinimizePrinterJobSize()
 	{
 		return isMinimizePrinterJobSize;
@@ -72,9 +68,7 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreMissingFont()
 	{
 		return isIgnoreMissingFont;

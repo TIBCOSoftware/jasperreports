@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 public class TableCompiler implements ComponentCompiler
 {
 
+	@Override
 	public void collectExpressions(Component component,
 			JRExpressionCollector collector)
 	{
@@ -62,6 +63,7 @@ public class TableCompiler implements ComponentCompiler
 		columnCollector.collectColumns(table.getColumns());
 	}
 
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory)
 	{
@@ -69,6 +71,7 @@ public class TableCompiler implements ComponentCompiler
 		return new StandardTable(table, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier)
 	{
 		TableComponent table = (TableComponent) component;
@@ -119,11 +122,13 @@ public class TableCompiler implements ComponentCompiler
 			{
 				loop = column.visitColumn(new ColumnVisitor<Boolean>()
 				{
+					@Override
 					public Boolean visitColumn(Column column)
 					{
 						return false;
 					}
 
+					@Override
 					public Boolean visitColumnGroup(ColumnGroup columnGroup)
 					{
 						parents.add(columnGroup);
@@ -148,12 +153,14 @@ public class TableCompiler implements ComponentCompiler
 	{
 		ColumnVisitor<Void> columnVerifier = new ColumnVisitor<Void>()
 		{
+			@Override
 			public Void visitColumn(Column column)
 			{
 				verifyColumn(table, column, verifier);
 				return null;
 			}
 
+			@Override
 			public Void visitColumnGroup(ColumnGroup columnGroup)
 			{
 				verifyBaseColumn(table, columnGroup, verifier);
@@ -355,6 +362,7 @@ public class TableCompiler implements ComponentCompiler
 				return column.getTableHeader();
 			}
 
+			@Override
 			public String getCellName()
 			{
 				return "table header";
@@ -369,6 +377,7 @@ public class TableCompiler implements ComponentCompiler
 				return column.getTableFooter();
 			}
 
+			@Override
 			public String getCellName()
 			{
 				return "table footer";
@@ -397,6 +406,7 @@ public class TableCompiler implements ComponentCompiler
 								return column.getGroupHeader(groupName);
 							}
 
+							@Override
 							public String getCellName()
 							{
 								return "group " + groupName + " header";
@@ -411,6 +421,7 @@ public class TableCompiler implements ComponentCompiler
 								return column.getGroupFooter(groupName);
 							}
 
+							@Override
 							public String getCellName()
 							{
 								return "group " + groupName + " footer";
@@ -429,6 +440,7 @@ public class TableCompiler implements ComponentCompiler
 				return column.getColumnHeader();
 			}
 
+			@Override
 			public String getCellName()
 			{
 				return "column header";
@@ -443,6 +455,7 @@ public class TableCompiler implements ComponentCompiler
 				return column.getColumnFooter();
 			}
 
+			@Override
 			public String getCellName()
 			{
 				return "column footer";
@@ -451,16 +464,19 @@ public class TableCompiler implements ComponentCompiler
 		
 		verifyColumnHeights(table, verifier, new ColumnCellSelector()
 		{
+			@Override
 			public Cell getCell(Column column)
 			{
 				return column.getDetailCell();
 			}
 
+			@Override
 			public Cell getCell(ColumnGroup group)
 			{
 				return null;
 			}
 			
+			@Override
 			public String getCellName()
 			{
 				return "detail";
@@ -471,11 +487,13 @@ public class TableCompiler implements ComponentCompiler
 	protected abstract class BaseColumnCellSelector implements ColumnCellSelector
 	{
 
+		@Override
 		public Cell getCell(Column column)
 		{
 			return getCell((BaseColumn) column);
 		}
 
+		@Override
 		public Cell getCell(ColumnGroup group)
 		{
 			return getCell((BaseColumn) group);
@@ -507,6 +525,7 @@ public class TableCompiler implements ComponentCompiler
 				return tableCellRows.get(rowIdx);
 			}
 			
+			@Override
 			public Void visitColumn(Column column)
 			{
 				Cell cell = cellSelector.getCell(column);
@@ -517,6 +536,7 @@ public class TableCompiler implements ComponentCompiler
 				return null;
 			}
 
+			@Override
 			public Void visitColumnGroup(ColumnGroup columnGroup)
 			{
 				Cell cell = cellSelector.getCell(columnGroup);

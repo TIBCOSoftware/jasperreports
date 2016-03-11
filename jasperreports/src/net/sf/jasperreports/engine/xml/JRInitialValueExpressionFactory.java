@@ -37,9 +37,7 @@ public class JRInitialValueExpressionFactory extends JRBaseFactory
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignVariable variable = (JRDesignVariable)digester.peek();

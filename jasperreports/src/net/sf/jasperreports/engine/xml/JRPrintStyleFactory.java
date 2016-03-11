@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.design.JRDesignStyle;
 public class JRPrintStyleFactory extends JRAbstractStyleFactory
 {
 
+	@Override
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
 	{
 		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader) digester.peek(digester.getCount() - 1);

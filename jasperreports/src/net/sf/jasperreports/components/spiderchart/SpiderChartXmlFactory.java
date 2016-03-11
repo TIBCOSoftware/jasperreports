@@ -36,6 +36,7 @@ import org.xml.sax.Attributes;
 public class SpiderChartXmlFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		SpiderChartComponent chartComponent = new SpiderChartComponent();

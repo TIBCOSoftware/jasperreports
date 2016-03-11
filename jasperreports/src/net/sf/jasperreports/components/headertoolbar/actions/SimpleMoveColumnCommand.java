@@ -49,6 +49,7 @@ public class SimpleMoveColumnCommand implements Command
 	}
 
 	
+	@Override
 	public void execute() 
 	{
 		moveColumns(srcColIndex, destColIndex);
@@ -67,11 +68,13 @@ public class SimpleMoveColumnCommand implements Command
 		}
 	}
 
+	@Override
 	public void undo() 
 	{
 		moveColumns(destColIndex, srcColIndex);
 	}
 
+	@Override
 	public void redo() 
 	{
 		execute();

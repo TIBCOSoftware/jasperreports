@@ -33,6 +33,7 @@ import org.xml.sax.Attributes;
  */
 public class JRXyzDatasetFactory extends JRBaseFactory {
 	
+	@Override
 	public Object createObject( Attributes attrs ){
 		JRChart chart = (JRChart)digester.peek();
 		return chart.getDataset();

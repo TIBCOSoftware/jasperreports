@@ -54,6 +54,7 @@ public class SortAction extends AbstractAction
 		this.sortData = sortData;
 	}
 
+	@Override
 	public void performAction() throws ActionException
 	{
 		if (sortData != null) 

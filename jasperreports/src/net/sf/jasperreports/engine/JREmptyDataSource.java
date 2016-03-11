@@ -65,27 +65,21 @@ public class JREmptyDataSource implements JRRewindableDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next()
 	{
 		return (index++ < count);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField field)
 	{
 		return null;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		this.index = 0;

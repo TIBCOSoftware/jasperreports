@@ -102,6 +102,7 @@ public class SimpleTextLine implements TextLine
 		this.advance = advance;
 	}
 	
+	@Override
 	public String toString()
 	{
 		return "{ascent: " + ascent

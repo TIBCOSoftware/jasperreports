@@ -108,16 +108,19 @@ public class JRRecordedValuesGenericPrintElement extends
 		super(template, originator, parameterCount);
 	}
 
+	@Override
 	public JRRecordedValues getRecordedValues()
 	{
 		return recordedValues;
 	}
 
+	@Override
 	public void deleteRecordedValues()
 	{
 		recordedValues = null;
 	}
 
+	@Override
 	public void initRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
 		recordedValues = new JRRecordedValues(evaluationTimes);

@@ -48,6 +48,7 @@ public class ResizeColumnAction extends AbstractVerifiableTableAction {
 		return "resize_column_action";
 	}
 
+	@Override
 	public void performAction() throws ActionException
 	{
 		// execute command

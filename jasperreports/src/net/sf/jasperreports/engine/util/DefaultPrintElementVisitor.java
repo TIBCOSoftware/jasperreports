@@ -43,36 +43,43 @@ public abstract class DefaultPrintElementVisitor<T> implements
 		PrintElementVisitor<T>
 {
 	
+	@Override
 	public void visit(JRPrintText textElement, T arg)
 	{
 		//NOP
 	}
 
+	@Override
 	public void visit(JRPrintImage image, T arg)
 	{
 		//NOP
 	}
 
+	@Override
 	public void visit(JRPrintRectangle rectangle, T arg)
 	{
 		//NOP
 	}
 
+	@Override
 	public void visit(JRPrintLine line, T arg)
 	{
 		//NOP
 	}
 
+	@Override
 	public void visit(JRPrintEllipse ellipse, T arg)
 	{
 		//NOP
 	}
 
+	@Override
 	public void visit(JRPrintFrame frame, T arg)
 	{
 		//NOP
 	}
 
+	@Override
 	public void visit(JRGenericPrintElement printElement, T arg)
 	{
 		//NOP

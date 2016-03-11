@@ -218,36 +218,28 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<PrintServiceExporterConfiguration> getConfigurationInterface()
 	{
 		return PrintServiceExporterConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<PrintServiceReportConfiguration> getItemConfigurationInterface()
 	{
 		return PrintServiceReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected void ensureOutput()
 	{
 		//nothing to do
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -498,9 +490,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException
 	{
 		if (Thread.interrupted())
@@ -621,17 +611,13 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 		return printService;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return null;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return PRINT_SERVICE_EXPORTER_PROPERTIES_PREFIX;

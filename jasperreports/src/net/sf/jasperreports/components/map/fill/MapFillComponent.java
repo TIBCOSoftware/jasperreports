@@ -141,11 +141,13 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		return mapComponent;
 	}
 	
+	@Override
 	public FillContext getFillContext()
 	{
 		return fillContext;
 	}
 	
+	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
 		if (isEvaluateNow())
@@ -328,6 +330,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		return mapComponent.getEvaluationTime() == EvaluationTimeEnum.NOW;
 	}
 
+	@Override
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		return FillPrepareResult.PRINT_NO_STRETCH;
@@ -336,6 +339,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 //				: FillPrepareResult.PRINT_NO_STRETCH;
 	}
 
+	@Override
 	public JRPrintElement fill()
 	{
 		JRComponentElement element = fillContext.getComponentElement();
@@ -364,6 +368,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		return printElement;
 	}
 
+	@Override
 	public void evaluateDelayedElement(JRPrintElement element, byte evaluation)
 			throws JRException
 	{

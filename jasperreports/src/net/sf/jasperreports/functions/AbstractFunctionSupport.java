@@ -34,9 +34,7 @@ public abstract class AbstractFunctionSupport implements FunctionSupport
 	 */
 	private FunctionContext context;
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void init(FunctionContext context)
 	{
 		this.context = context;

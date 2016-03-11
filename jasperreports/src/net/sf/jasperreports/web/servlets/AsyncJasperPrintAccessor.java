@@ -101,6 +101,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		lock.unlock();
 	}
 	
+	@Override
 	public ReportPageStatus pageStatus(int pageIdx, Long pageTimestamp)
 	{
 		if (!done)
@@ -162,6 +163,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		return status;
 	}
 
+	@Override
 	public JasperPrint getJasperPrint()
 	{
 		return jasperPrint;
@@ -201,6 +203,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		return done;
 	}
 	
+	@Override
 	public JasperPrint getFinalJasperPrint()
 	{
 		if (!done)
@@ -249,6 +252,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		return jasperPrint;
 	}
 
+	@Override
 	public void reportFinished(JasperPrint jasperPrint)
 	{
 		if (log.isDebugEnabled())
@@ -279,6 +283,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		}
 	}
 
+	@Override
 	public void reportCancelled()
 	{
 		if (log.isDebugEnabled())
@@ -310,6 +315,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		}
 	}
 
+	@Override
 	public void reportFillError(Throwable t)
 	{
 		log.error("Error during report execution", t);
@@ -333,6 +339,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		}
 	}
 
+	@Override
 	public void pageGenerated(JasperPrint jasperPrint, int pageIndex)
 	{
 		if (log.isDebugEnabled())
@@ -358,6 +365,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		}
 	}
 
+	@Override
 	public void pageUpdated(JasperPrint jasperPrint, int pageIndex)
 	{
 		if (log.isDebugEnabled())

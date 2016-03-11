@@ -40,9 +40,7 @@ public class JRItemLabelFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_backgroundColor = "backgroundColor";
 //	private static final String ATTRIBUTE_mask = "mask";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignItemLabel itemLabel = new JRDesignItemLabel(null, ((JRChartPlot)digester.peek()).getChart());

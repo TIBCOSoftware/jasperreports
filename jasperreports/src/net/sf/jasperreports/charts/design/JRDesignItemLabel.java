@@ -114,9 +114,7 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_FONT, old, this.font);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignItemLabel clone = (JRDesignItemLabel)super.clone();
@@ -126,6 +124,7 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

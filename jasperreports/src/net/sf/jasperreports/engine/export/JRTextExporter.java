@@ -156,27 +156,21 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<TextExporterConfiguration> getConfigurationInterface()
 	{
 		return TextExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<TextReportConfiguration> getItemConfigurationInterface()
 	{
 		return TextReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -192,9 +186,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -699,25 +691,19 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
 		return styledTextUtil.getStyledText(textElement, noneSelector);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getExporterKey()
 	{
 		return null;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getExporterPropertiesPrefix()
 	{
 		return TXT_EXPORTER_PROPERTIES_PREFIX;

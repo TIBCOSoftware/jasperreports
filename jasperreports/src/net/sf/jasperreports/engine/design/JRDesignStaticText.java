@@ -69,17 +69,13 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getText()
 	{
 		return this.text;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setText(String text)
 	{
 		Object old = this.text;
@@ -87,17 +83,13 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 		getEventSupport().firePropertyChange(JRBaseStaticText.PROPERTY_TEXT, old, this.text);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitStaticText(this);

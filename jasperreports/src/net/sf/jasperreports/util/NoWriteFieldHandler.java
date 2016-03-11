@@ -36,17 +36,20 @@ public class NoWriteFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		// we don't want any value written when serializing the object
 		return null;
 	}
 
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		return value;
 	}
 	
+	@Override
 	public Class<?> getFieldType()
 	{
 		// limiting to Strings for now

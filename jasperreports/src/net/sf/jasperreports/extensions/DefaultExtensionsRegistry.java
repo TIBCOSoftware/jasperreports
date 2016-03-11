@@ -100,6 +100,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	private final ReferenceMap registryCache = 
 		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		List<ExtensionsRegistry> registries = getRegistries();

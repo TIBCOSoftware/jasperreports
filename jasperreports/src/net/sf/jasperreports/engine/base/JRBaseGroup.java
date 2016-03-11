@@ -119,25 +119,19 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return this.name;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStartNewColumn()
 	{
 		return this.isStartNewColumn;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setStartNewColumn(boolean isStart)
 	{
 		boolean old = this.isStartNewColumn;
@@ -145,17 +139,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_START_NEW_COLUMN, old, this.isStartNewColumn);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStartNewPage()
 	{
 		return this.isStartNewPage;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setStartNewPage(boolean isStart)
 	{
 		boolean old = this.isStartNewPage;
@@ -163,17 +153,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_START_NEW_PAGE, old, this.isStartNewPage);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isResetPageNumber()
 	{
 		return this.isResetPageNumber;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setResetPageNumber(boolean isReset)
 	{
 		boolean old = this.isResetPageNumber;
@@ -181,17 +167,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_RESET_PAGE_NUMBER, old, this.isResetPageNumber);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isReprintHeaderOnEachPage()
 	{
 		return this.isReprintHeaderOnEachPage;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setReprintHeaderOnEachPage(boolean isReprint)
 	{
 		boolean old = this.isReprintHeaderOnEachPage;
@@ -199,17 +181,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_REPRINT_HEADER_ON_EACH_PAGE, old, this.isReprintHeaderOnEachPage);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public int getMinHeightToStartNewPage()
 	{
 		return this.minHeightToStartNewPage;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMinHeightToStartNewPage(int minHeight)
 	{
 		int old = this.minHeightToStartNewPage;
@@ -217,17 +195,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE, old, this.minHeightToStartNewPage);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public FooterPositionEnum getFooterPositionValue()
 	{
 		return this.footerPositionValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setFooterPosition(FooterPositionEnum footerPositionValue)
 	{
 		FooterPositionEnum old = this.footerPositionValue;
@@ -235,17 +209,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_FOOTER_POSITION, old, this.footerPositionValue);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isKeepTogether()
 	{
 		return this.keepTogether;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setKeepTogether(boolean keepTogether)
 	{
 		boolean old = this.keepTogether;
@@ -253,42 +223,32 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_KEEP_TOGETHER, old, this.keepTogether);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return this.expression;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRSection getGroupHeaderSection()
 	{
 		return this.groupHeaderSection;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRSection getGroupFooterSection()
 	{
 		return this.groupFooterSection;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRVariable getCountVariable()
 	{
 		return this.countVariable;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseGroup clone = null;
@@ -314,6 +274,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

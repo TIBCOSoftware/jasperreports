@@ -38,6 +38,7 @@ public class DefaultDataAdapterServiceExtensionsRegistryFactory implements Exten
 			new SingletonExtensionRegistry<DataAdapterServiceFactory>(
 					DataAdapterServiceFactory.class, DefaultDataAdapterServiceFactory.getInstance());
 	
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		return extensionsRegistry;

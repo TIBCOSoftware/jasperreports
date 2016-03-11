@@ -63,6 +63,7 @@ public class ListExtensionsRegistry implements ExtensionsRegistry
 		return this;
 	}
 	
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		@SuppressWarnings("unchecked")

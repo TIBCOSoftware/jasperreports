@@ -36,12 +36,14 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 public class BarcodeCompiler implements ComponentCompiler
 {
 	
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
 		BarcodeComponent barcode = (BarcodeComponent) component;
 		barcode.receive(new BarcodeExpressionCollector(collector));
 	}
 
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory)
 	{
@@ -50,6 +52,7 @@ public class BarcodeCompiler implements ComponentCompiler
 		return factory.toCompiledComponent(barcode);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier)
 	{
 		BarcodeComponent barcode = (BarcodeComponent) component;

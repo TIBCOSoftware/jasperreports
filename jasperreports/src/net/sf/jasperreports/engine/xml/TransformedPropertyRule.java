@@ -52,6 +52,7 @@ public abstract class TransformedPropertyRule extends Rule
 		this.propertyName = propertyName;
 	}
 
+	@Override
 	public void begin(String namespace, String name, Attributes attributes)
 			throws Exception
 	{

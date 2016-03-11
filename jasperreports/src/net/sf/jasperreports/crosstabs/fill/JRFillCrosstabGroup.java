@@ -55,31 +55,37 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 		variable = factory.getVariable(group.getVariable());
 	}
 
+	@Override
 	public String getName()
 	{
 		return parentGroup.getName();
 	}
 
+	@Override
 	public CrosstabTotalPositionEnum getTotalPositionValue()
 	{
 		return parentGroup.getTotalPositionValue();
 	}
 
+	@Override
 	public boolean hasTotal()
 	{
 		return parentGroup.hasTotal();
 	}
 
+	@Override
 	public JRCrosstabBucket getBucket()
 	{
 		return parentGroup.getBucket();
 	}
 
+	@Override
 	public JRCellContents getHeader()
 	{
 		return header;
 	}
 
+	@Override
 	public JRCellContents getTotalHeader()
 	{
 		return totalHeader;
@@ -101,6 +107,7 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 		return totalHeader;
 	}
 	
+	@Override
 	public JRVariable getVariable()
 	{
 		return variable;
@@ -111,9 +118,7 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 		return variable;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

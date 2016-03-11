@@ -168,6 +168,7 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		setTextPosition(textPosition == null ? null : textPosition.getName());
 	}
 
+	@Override
 	public Object clone()
 	{
 		Barcode4jComponent clone = (Barcode4jComponent) super.clone();

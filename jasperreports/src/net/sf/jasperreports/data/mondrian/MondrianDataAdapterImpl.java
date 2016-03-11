@@ -36,10 +36,12 @@ public class MondrianDataAdapterImpl extends JdbcDataAdapterImpl implements
 		setName("New Mondrian Data Adapter");
 	}
 
+	@Override
 	public String getCatalogURI() {
 		return catalogURI;
 	}
 
+	@Override
 	public void setCatalogURI(String catalogURI) {
 		this.catalogURI = catalogURI;
 	}

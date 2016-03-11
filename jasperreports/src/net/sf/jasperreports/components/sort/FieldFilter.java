@@ -77,6 +77,7 @@ public class FieldFilter implements DatasetFilter {
 		this.filterTypeOperator = filterTypeOperator;
 	}
 
+	@Override
 	public void init(DatasetFillContext context) {
 		this.context = context;
 		this.filterTypeEnum = FilterTypesEnum.getByName(filterType);
@@ -125,6 +126,7 @@ public class FieldFilter implements DatasetFilter {
 		return timeZone;
 	}
 
+	@Override
 	public boolean matches(EvaluationType evaluation) {
 		Object value;
 		if (isField == null || Boolean.TRUE.equals(isField)) {

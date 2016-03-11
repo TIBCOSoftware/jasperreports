@@ -47,18 +47,12 @@ public class RowStyle extends Style
 		this.rowHeight = rowHeight;
 	}
 	
-	/**
-	 *
-	 */
 	@Override
 	public String getId()
 	{
 		return "" + rowHeight;
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void write(String rowStyleName) throws IOException
 	{

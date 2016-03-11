@@ -98,9 +98,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 
 
 
-	/**
-	 *
-	 */
+	@Override
 	public List<JRChartAxis> getAxes()
 	{
 		return axes;
@@ -113,6 +111,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	 *
 	 * @param collector the expression collector to use
 	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		Iterator<JRChartAxis> iter = axes.iterator();
@@ -123,9 +122,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseMultiAxisPlot clone = (JRBaseMultiAxisPlot)super.clone(parentChart);

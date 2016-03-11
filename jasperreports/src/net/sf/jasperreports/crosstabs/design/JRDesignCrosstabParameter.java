@@ -50,6 +50,7 @@ public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCr
 	{
 	}
 	
+	@Override
 	public JRExpression getExpression()
 	{
 		return valueExpression;
@@ -68,6 +69,7 @@ public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCr
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		JRDesignCrosstabParameter clone = (JRDesignCrosstabParameter) super.clone();

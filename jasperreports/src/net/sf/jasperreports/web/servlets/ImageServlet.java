@@ -48,9 +48,7 @@ public class ImageServlet extends AbstractServlet
 	public static final String REQUEST_PARAMETER_IMAGE_NAME = ImageWebResourceHandler.REQUEST_PARAMETER_IMAGE_NAME;
 
 			
-	/**
-	 *
-	 */
+	@Override
 	public void service(
 		HttpServletRequest request,
 		HttpServletResponse response

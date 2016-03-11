@@ -46,6 +46,7 @@ public class DefaultPartComponentsBundle implements PartComponentsBundle
 	private ComponentsXmlParser xmlParser;
 	private Map<String,PartComponentManager> componentManagers;
 
+	@Override
 	public ComponentsXmlParser getXmlParser()
 	{
 		return xmlParser;
@@ -62,11 +63,13 @@ public class DefaultPartComponentsBundle implements PartComponentsBundle
 		this.xmlParser = xmlParser;
 	}
 
+	@Override
 	public Set<String> getComponentNames()
 	{
 		return componentManagers.keySet();
 	}
 	
+	@Override
 	public PartComponentManager getComponentManager(String componentName)
 	{
 		PartComponentManager manager = componentManagers.get(componentName);

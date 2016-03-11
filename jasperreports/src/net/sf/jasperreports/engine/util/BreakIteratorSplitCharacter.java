@@ -60,6 +60,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 		this.breakIter = breakIter;
 	}
 
+	@Override
 	public boolean isSplitCharacter(int startIdx, int current, int endIdx, char[] cc, PdfChunk[] ck)
 	{
 		++current;
@@ -130,12 +131,14 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			this.end = end;
 		}
 
+		@Override
 		public char first()
 		{
 			curr = start;
 			return current();
 		}
 
+		@Override
 		public char last()
 		{
 			if (end == start)
@@ -149,6 +152,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			return current();
 		}
 
+		@Override
 		public char setIndex(int position)
 		{
 			if (position < start || position > end)
@@ -162,6 +166,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			return current();
 		}
 
+		@Override
 		public char current()
 		{
 			if (curr < start || curr >= end)
@@ -171,6 +176,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			return chars[curr];
 		}
 
+		@Override
 		public char next()
 		{
 			if (curr >= end - 1)
@@ -182,6 +188,7 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			return chars[curr];
 		}
 
+		@Override
 		public char previous()
 		{
 			if (curr <= start)
@@ -192,21 +199,25 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 			return chars[curr];
 		}
 
+		@Override
 		public int getBeginIndex()
 		{
 			return start;
 		}
 
+		@Override
 		public int getEndIndex()
 		{
 			return end;
 		}
 
+		@Override
 		public int getIndex()
 		{
 			return curr;
 		}
 
+		@Override
 		public Object clone()
 		{
 			try

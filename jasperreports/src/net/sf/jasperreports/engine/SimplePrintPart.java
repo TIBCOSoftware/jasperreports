@@ -60,6 +60,7 @@ public class SimplePrintPart implements PrintPart, Serializable
 	private String name;
 	private PrintPageFormat pageFormat;
 	
+	@Override
 	public String getName()
 	{
 		return name;
@@ -70,6 +71,7 @@ public class SimplePrintPart implements PrintPart, Serializable
 		this.name = name;
 	}
 	
+	@Override
 	public PrintPageFormat getPageFormat()
 	{
 		return pageFormat;

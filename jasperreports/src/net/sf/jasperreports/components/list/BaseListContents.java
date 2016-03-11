@@ -47,11 +47,13 @@ public class BaseListContents extends JRBaseElementGroup implements ListContents
 		this.width = listContents.getWidth();
 	}
 
+	@Override
 	public int getHeight()
 	{
 		return height;
 	}
 
+	@Override
 	public Integer getWidth()
 	{
 		return width;

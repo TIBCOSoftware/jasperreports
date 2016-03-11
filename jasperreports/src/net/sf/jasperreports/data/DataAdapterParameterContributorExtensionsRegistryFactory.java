@@ -45,6 +45,7 @@ public class DataAdapterParameterContributorExtensionsRegistryFactory implements
 		extensionsRegistry = registry;
 	}
 	
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		return extensionsRegistry;

@@ -116,27 +116,21 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<CsvMetadataExporterConfiguration> getConfigurationInterface()
 	{
 		return CsvMetadataExporterConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<CsvMetadataReportConfiguration> getItemConfigurationInterface()
 	{
 		return CsvMetadataReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -152,9 +146,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
 		List<JRPrintElement> elements = page.getElements();

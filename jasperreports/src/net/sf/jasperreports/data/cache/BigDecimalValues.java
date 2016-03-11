@@ -65,11 +65,13 @@ public class BigDecimalValues implements ColumnValues, Serializable
 		this.scaleValues = (ColumnValues) in.readUnshared();
 	}
 
+	@Override
 	public int size()
 	{
 		return unscaledValues.size();
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		ColumnValuesIterator unscaledIterator = unscaledValues.iterator();
@@ -92,17 +94,20 @@ class BigDecimalValuesIterator implements ColumnValuesIterator
 		this.scaleIterator = scaleIterator;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		unscaledIterator.moveFirst();
 		scaleIterator.moveFirst();
 	}
 
+	@Override
 	public boolean next()
 	{
 		return unscaledIterator.next() && scaleIterator.next();
 	}
 
+	@Override
 	public Object get()
 	{
 		BigInteger unscaled = (BigInteger) unscaledIterator.get();

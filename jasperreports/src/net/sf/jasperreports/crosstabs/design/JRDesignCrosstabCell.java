@@ -136,9 +136,7 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell implements JRChange
 		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignCrosstabCell clone = (JRDesignCrosstabCell)super.clone();
@@ -148,6 +146,7 @@ public class JRDesignCrosstabCell extends JRBaseCrosstabCell implements JRChange
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

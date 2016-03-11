@@ -37,9 +37,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public abstract class JRAbstractQueryExecuterFactory implements QueryExecuterFactory 
 {
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 

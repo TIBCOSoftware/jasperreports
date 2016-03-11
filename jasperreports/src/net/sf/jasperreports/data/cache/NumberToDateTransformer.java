@@ -54,6 +54,7 @@ public final class NumberToDateTransformer implements ValueTransformer, Serializ
 		return Date.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return new Date(((Number) value).longValue());

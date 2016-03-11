@@ -60,6 +60,7 @@ public class EditTextElementCommand implements Command
 	}
 
 
+	@Override
 	public void execute() {
 		if (textElement != null) {
 			Locale locale = (Locale)reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
@@ -115,6 +116,7 @@ public class EditTextElementCommand implements Command
 	}
 
 
+	@Override
 	public void undo() {
 		if (oldEditTextElementData != null) {
 			applyColumnHeaderData(oldEditTextElementData, textElement, false);
@@ -122,6 +124,7 @@ public class EditTextElementCommand implements Command
 	}
 
 
+	@Override
 	public void redo() {
 		applyColumnHeaderData(editTextElementData, textElement, true);
 	}

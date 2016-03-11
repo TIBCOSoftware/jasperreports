@@ -53,6 +53,7 @@ public class DesignExpressionReturnValue extends DesignCommonReturnValue impleme
 	 * 
 	 * @return the expression whose value should be copied.
 	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return expression;
@@ -71,6 +72,7 @@ public class DesignExpressionReturnValue extends DesignCommonReturnValue impleme
 		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		DesignExpressionReturnValue clone = (DesignExpressionReturnValue)super.clone();

@@ -70,9 +70,7 @@ public class JRBeanArrayDataSource extends JRAbstractBeanDataSource
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next()
 	{
 		this.index++;
@@ -86,18 +84,14 @@ public class JRBeanArrayDataSource extends JRAbstractBeanDataSource
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField field) throws JRException
 	{
 		return getFieldValue(data[this.index], field);
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		this.index = -1;

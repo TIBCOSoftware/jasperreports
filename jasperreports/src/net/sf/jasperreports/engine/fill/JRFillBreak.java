@@ -61,9 +61,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getWidth()
 	{
 		int width;
@@ -79,23 +77,20 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		return width;
 	}
 
+	@Override
 	public BreakTypeEnum getTypeValue()
 	{
 		return ((JRBreak)parent).getTypeValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setType(BreakTypeEnum type)
 	{
 		throw new UnsupportedOperationException();
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(
 		byte evaluation
 		) throws JRException
@@ -110,9 +105,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill()
 	{
 		return null;
@@ -129,6 +122,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 //		return printLine;
 	}
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		// not called
@@ -136,48 +130,39 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitBreak(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillBreak(this, factory);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void rewind()
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected boolean prepare(
 		int availableHeight,
 		boolean isOverflow

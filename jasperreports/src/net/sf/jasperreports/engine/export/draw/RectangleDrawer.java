@@ -57,9 +57,7 @@ public class RectangleDrawer extends ElementDrawer<JRPrintRectangle>
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void draw(Graphics2D grx, JRPrintRectangle rectangle, int offsetX, int offsetY)
 	{
 		int width = rectangle.getWidth();

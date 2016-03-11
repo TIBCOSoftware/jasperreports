@@ -66,11 +66,13 @@ public class JRFillExpressionReturnValue extends JRFillCommonReturnValue impleme
 		this.expression = fillReturnValue.expression;
 	}
 
+	@Override
 	public JRExpression getExpression()
 	{
 		return expression;
 	}
 
+	@Override
 	protected JRFillCommonReturnValue addDerivedReturnValue (
 			CommonReturnValue parentReturnValue, 
 			List<JRFillCommonReturnValue> returnValueList, 
@@ -82,6 +84,7 @@ public class JRFillExpressionReturnValue extends JRFillCommonReturnValue impleme
 		return addReturnValue(returnValue, returnValueList, factory, filler);
 	}
 	
+	@Override
 	protected CommonReturnValue createHelperReturnValue(CommonReturnValue returnValue, String nameSuffix, CalculationEnum calculation)
 	{
 		DesignExpressionReturnValue helper = new DesignExpressionReturnValue();
@@ -93,6 +96,7 @@ public class JRFillExpressionReturnValue extends JRFillCommonReturnValue impleme
 		return helper;
 	}
 
+	@Override
 	protected CommonReturnValue createDistinctCountHelperReturnValue(CommonReturnValue returnValue)
 	{
 		DesignExpressionReturnValue helper = new DesignExpressionReturnValue();

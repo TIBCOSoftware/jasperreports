@@ -59,6 +59,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		return INSTANCE;
 	}
 
+	@Override
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
         ReportContext reportContext = context.getExporterRef().getReportContext();
@@ -133,6 +134,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		return VelocityUtil.processTemplate(MAP_ELEMENT_HTML_TEMPLATE, contextMap);
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element)
     {
 		return true;

@@ -65,36 +65,43 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 		this.box = new JRBaseLineBox(this);
 	}
 	
+	@Override
 	public Integer getHeight()
 	{
 		return height;
 	}
 
+	@Override
 	public Color getDefaultLineColor()
 	{
 		return Color.BLACK;
 	}
 
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return box;
 	}
 
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
 
+	@Override
 	public JRStyle getStyle()
 	{
 		return style;
 	}
 
+	@Override
 	public String getStyleNameReference()
 	{
 		return styleNameReference;
 	}
 
+	@Override
 	public void setDefaultStyleProvider(
 			JRDefaultStyleProvider defaultStyleProvider)
 	{
@@ -104,6 +111,7 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 				old, this.defaultStyleProvider);
 	}
 
+	@Override
 	public void setStyle(JRStyle style)
 	{
 		Object old = this.style;
@@ -112,6 +120,7 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 				old, this.style);
 	}
 
+	@Override
 	public void setStyleNameReference(String styleName)
 	{
 		Object old = this.styleNameReference;
@@ -128,6 +137,7 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 				old, this.height);
 	}
 
+	@Override
 	public Integer getRowSpan()
 	{
 		return rowSpan;
@@ -141,11 +151,13 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 				old, this.rowSpan);
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -155,11 +167,13 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 	
+	@Override
 	public Object clone() 
 	{
 		DesignCell clone = (DesignCell) super.clone();

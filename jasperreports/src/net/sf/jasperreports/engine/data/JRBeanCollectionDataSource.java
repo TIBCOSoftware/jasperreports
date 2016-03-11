@@ -79,9 +79,7 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next()
 	{
 		boolean hasNext = false;
@@ -100,18 +98,14 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField field) throws JRException
 	{
 		return getFieldValue(currentBean, field);
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		if (this.data != null)

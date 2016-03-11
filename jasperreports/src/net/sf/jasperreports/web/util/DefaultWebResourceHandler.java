@@ -68,6 +68,7 @@ public class DefaultWebResourceHandler extends AbstractWebResourceHandler
 		return true;
 	}
 
+	@Override
 	public WebResource getResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, String resourceUri) 
 	{
 		SimpleWebResource resource = null;

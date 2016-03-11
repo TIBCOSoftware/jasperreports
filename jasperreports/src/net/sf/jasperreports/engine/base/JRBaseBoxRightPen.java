@@ -46,9 +46,7 @@ public class JRBaseBoxRightPen extends JRBaseBoxPen
 		super(box);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRPen getPen(JRLineBox box) 
 	{
 		return box.getRightPen();

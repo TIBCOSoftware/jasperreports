@@ -75,6 +75,7 @@ public class EAN128Component extends Code128Component
 				old, this.templateExpression);
 	}
 
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitEANCode128(this);

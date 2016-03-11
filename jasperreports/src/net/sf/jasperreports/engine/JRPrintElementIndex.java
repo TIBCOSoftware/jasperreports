@@ -92,6 +92,7 @@ public class JRPrintElementIndex
 	 * which can be used to recreate the elemetn index instance from a String representation.
 	 * </p>
 	 */
+	@Override
 	public String toString()
 	{
 		StringBuffer str = new StringBuffer();

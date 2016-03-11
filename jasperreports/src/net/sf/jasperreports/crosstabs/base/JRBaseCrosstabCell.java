@@ -64,34 +64,37 @@ public class JRBaseCrosstabCell implements JRCrosstabCell, Serializable
 		contents = factory.getCell(crosstabCell.getContents());
 	}
 
+	@Override
 	public String getRowTotalGroup()
 	{
 		return rowTotalGroup;
 	}
 
+	@Override
 	public String getColumnTotalGroup()
 	{
 		return columnTotalGroup;
 	}
 
+	@Override
 	public JRCellContents getContents()
 	{
 		return contents;
 	}
 
+	@Override
 	public Integer getHeight()
 	{
 		return height;
 	}
 
+	@Override
 	public Integer getWidth()
 	{
 		return width;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseCrosstabCell clone = null;

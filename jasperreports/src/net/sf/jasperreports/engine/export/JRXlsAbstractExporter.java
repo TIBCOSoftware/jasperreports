@@ -669,9 +669,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		/*   */
@@ -700,9 +698,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	}
 
 	
-	/**
-	 *
-	 */
 	@Override
 	protected void ensureInput()
 	{
@@ -714,9 +709,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -1403,9 +1396,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
 		JRStyledTextAttributeSelector selector = textElement.getModeValue() == ModeEnum.OPAQUE 

@@ -53,6 +53,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 	 * 
 	 * @throws JRRuntimeException if no handler is found
 	 */
+	@Override
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{
@@ -77,6 +78,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 		return handler;
 	}
 
+	@Override
 	public String getNamespace()
 	{
 		return namespace;

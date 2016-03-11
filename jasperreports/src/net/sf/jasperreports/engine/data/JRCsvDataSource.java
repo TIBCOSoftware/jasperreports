@@ -216,9 +216,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next() throws JRException
 	{
 		try {
@@ -241,9 +239,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
 		String fieldName = jrField.getName();

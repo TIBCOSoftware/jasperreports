@@ -40,18 +40,14 @@ public abstract class JRBaseFactory implements ObjectCreationFactory
 	protected transient Digester digester;
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Digester getDigester() 
 	{
 		return this.digester;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void setDigester(Digester digester) 
 	{
 		this.digester = digester;

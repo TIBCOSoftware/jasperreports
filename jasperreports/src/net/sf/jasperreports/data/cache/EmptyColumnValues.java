@@ -48,11 +48,13 @@ public class EmptyColumnValues implements ColumnValues, Serializable
 		return INSTANCE;
 	}
 	
+	@Override
 	public int size()
 	{
 		return 0;
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		return EmptyColumnValuesIterator.instance();
@@ -70,16 +72,19 @@ class EmptyColumnValuesIterator implements ColumnValuesIterator
 		return INSTANCE;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		// NOP
 	}
 
+	@Override
 	public boolean next()
 	{
 		return false;
 	}
 
+	@Override
 	public Object get()
 	{
 		throw new IllegalStateException();

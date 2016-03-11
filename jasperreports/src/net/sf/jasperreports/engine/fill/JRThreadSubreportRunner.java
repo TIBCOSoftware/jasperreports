@@ -48,6 +48,7 @@ public class JRThreadSubreportRunner extends AbstractThreadSubreportRunner
 		super(fillSubreport, subreportFiller);
 	}
 
+	@Override
 	public boolean isFilling()
 	{
 		return fillThread != null;
@@ -66,6 +67,7 @@ public class JRThreadSubreportRunner extends AbstractThreadSubreportRunner
 		fillThread.start();
 	}
 
+	@Override
 	public void reset()
 	{
 		fillThread = null;

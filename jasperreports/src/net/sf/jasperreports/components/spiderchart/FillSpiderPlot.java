@@ -67,6 +67,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the labelFont
 	 */
+	@Override
 	public JRFont getLabelFont() {
 		return parent.getLabelFont();
 	}
@@ -74,6 +75,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the maxValueExpression
 	 */
+	@Override
 	public JRExpression getMaxValueExpression() {
 		return parent.getMaxValueExpression();
 	}
@@ -81,6 +83,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the rotation
 	 */
+	@Override
 	public SpiderRotationEnum getRotation() {
 		return parent.getRotation();
 	}
@@ -88,6 +91,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the tableOrder
 	 */
+	@Override
 	public TableOrderEnum getTableOrder() {
 		return parent.getTableOrder();
 	}
@@ -95,6 +99,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the webFilled
 	 */
+	@Override
 	public Boolean getWebFilled() {
 		return parent.getWebFilled();
 	}
@@ -102,6 +107,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the startAngle
 	 */
+	@Override
 	public Double getStartAngle() {
 		return parent.getStartAngle();
 	}
@@ -109,6 +115,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the headPercent
 	 */
+	@Override
 	public Double getHeadPercent() {
 		return parent.getHeadPercent();
 	}
@@ -116,6 +123,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the interiorGap
 	 */
+	@Override
 	public Double getInteriorGap() {
 		return parent.getInteriorGap();
 	}
@@ -123,6 +131,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the axisLineColor
 	 */
+	@Override
 	public Color getAxisLineColor() {
 		return parent.getAxisLineColor();
 	}
@@ -130,6 +139,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the axisLineWidth
 	 */
+	@Override
 	public Float getAxisLineWidth() {
 		return parent.getAxisLineWidth();
 	}
@@ -137,6 +147,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the labelGap
 	 */
+	@Override
 	public Double getLabelGap() {
 		return parent.getLabelGap();
 	}
@@ -144,33 +155,36 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 * @return the labelColor
 	 */
+	@Override
 	public Color getLabelColor() {
 		return parent.getLabelColor();
 	}
 
 
+	@Override
 	public Color getBackcolor() {
 		return parent.getBackcolor();
 	}
 
 
+	@Override
 	public Float getBackgroundAlpha() {
 		return parent.getBackgroundAlpha();
 	}
 
 
+	@Override
 	public Float getForegroundAlpha() {
 		return parent.getForegroundAlpha();
 	}
 
+	@Override
 	public PlotOrientation getOrientation()
 	{
 		return parent.getOrientation();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

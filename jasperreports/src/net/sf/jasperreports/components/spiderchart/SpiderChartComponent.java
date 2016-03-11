@@ -83,6 +83,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	/**
 	 * @return the chart
 	 */
+	@Override
 	public ChartSettings getChartSettings() {
 		return chartSettings;
 	}
@@ -99,6 +100,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	/**
 	 * @return the dataset
 	 */
+	@Override
 	public ChartDataset getDataset() {
 		return this.dataset;
 	}
@@ -107,6 +109,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	/**
 	 * @return the plot
 	 */
+	@Override
 	public ChartPlot getPlot() {
 		return this.plot;
 	}
@@ -126,6 +129,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	/**
 	 * @return the evaluationTime
 	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTime() {
 		return evaluationTime;
 	}
@@ -142,6 +146,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	/**
 	 * @return the evaluationGroup
 	 */
+	@Override
 	public String getEvaluationGroup() {
 		return evaluationGroup;
 	}
@@ -155,9 +160,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, old, this.evaluationGroup);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		SpiderChartComponent clone = null;
@@ -181,6 +184,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -194,10 +198,12 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 		return eventSupport;
 	}
 	
+	@Override
 	public ComponentContext getContext() {
 		return context;
 	}
 
+	@Override
 	public void setContext(ComponentContext context) {
 		this.context = context;
 	}

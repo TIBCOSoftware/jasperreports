@@ -40,6 +40,7 @@ public class MapElementRtfHandler implements GenericElementRtfHandler
 		return INSTANCE;
 	}
 	
+	@Override
 	public void exportElement(
 		JRRtfExporterContext exporterContext,
 		JRGenericPrintElement element
@@ -56,6 +57,7 @@ public class MapElementRtfHandler implements GenericElementRtfHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

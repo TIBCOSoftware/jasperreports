@@ -54,6 +54,7 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 		}
 	}
 	
+	@Override
 	public Void visitColumn(Column column)
 	{
 		mainCollector.collectPropertyExpressions(column.getPropertyExpressions());
@@ -70,6 +71,7 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 		return null;
 	}
 
+	@Override
 	public Void visitColumnGroup(ColumnGroup columnGroup)
 	{
 		mainCollector.collectPropertyExpressions(columnGroup.getPropertyExpressions());

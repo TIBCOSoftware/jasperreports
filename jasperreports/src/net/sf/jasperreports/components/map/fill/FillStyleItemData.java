@@ -46,6 +46,7 @@ public class FillStyleItemData extends FillItemData
 		super(fillContextProvider, itemData, factory);
 	}
 	
+	@Override
 	public FillItem getFillItem(Item item, JRFillObjectFactory factory){
 		return new FillStyleItem(item, factory);
 	}

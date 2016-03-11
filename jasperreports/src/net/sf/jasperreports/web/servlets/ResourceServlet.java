@@ -41,9 +41,7 @@ public class ResourceServlet extends AbstractServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 * 
-	 */
+	@Override
 	public void service(
 		HttpServletRequest request,
 		HttpServletResponse response

@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class JRPieSeriesFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		return new JRDesignPieSeries();

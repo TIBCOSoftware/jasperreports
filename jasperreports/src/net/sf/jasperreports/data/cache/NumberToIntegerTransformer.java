@@ -53,6 +53,7 @@ public final class NumberToIntegerTransformer implements ValueTransformer, Seria
 		return Integer.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return ((Number) value).intValue();

@@ -41,6 +41,7 @@ public class MapElementJExcelApiHandler implements net.sf.jasperreports.engine.e
 		return INSTANCE;
 	}
 	
+	@Override
 	public void exportElement(
 		net.sf.jasperreports.engine.export.JExcelApiExporterContext exporterContext,
 		JRGenericPrintElement element,
@@ -64,6 +65,7 @@ public class MapElementJExcelApiHandler implements net.sf.jasperreports.engine.e
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

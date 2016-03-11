@@ -79,31 +79,37 @@ public class JRBaseGenericElement extends JRBaseElement implements
 		}
 	}
 
+	@Override
 	public JRGenericElementType getGenericType()
 	{
 		return genericType;
 	}
 
+	@Override
 	public JRGenericElementParameter[] getParameters()
 	{
 		return parameters.toArray(new JRGenericElementParameter[parameters.size()]);
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitGenericElement(this);
 	}
 
+	@Override
 	public String getEvaluationGroupName()
 	{
 		return evaluationGroupName;
 	}
 
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return evaluationTimeValue;

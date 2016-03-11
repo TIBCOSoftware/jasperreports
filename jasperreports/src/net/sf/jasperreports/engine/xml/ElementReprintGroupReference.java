@@ -42,16 +42,19 @@ public class ElementReprintGroupReference implements XmlGroupReference
 		this.element = element;
 	}
 
+	@Override
 	public JRGroup getGroupReference()
 	{
 		return element.getPrintWhenGroupChanges();
 	}
 
+	@Override
 	public void assignGroup(JRGroup group)
 	{
 		element.setPrintWhenGroupChanges(group);
 	}
 
+	@Override
 	public void groupNotFound(String groupName) throws JRValidationException
 	{
 		throw new JRValidationException("Unknown reprint group '" + groupName + "' for element.", element);

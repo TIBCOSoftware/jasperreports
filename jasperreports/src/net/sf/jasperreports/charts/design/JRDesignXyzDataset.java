@@ -56,9 +56,7 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRXyzSeries[] getSeries()
 	{
 		JRXyzSeries[] xyzSeriesArray = new JRXyzSeries[ xyzSeriesList.size() ];
@@ -111,31 +109,26 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 		return xyzSeries;
 	}
 	
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.XYZ_DATASET;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignXyzDataset clone = (JRDesignXyzDataset)super.clone();

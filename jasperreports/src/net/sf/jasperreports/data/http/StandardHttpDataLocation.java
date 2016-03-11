@@ -41,6 +41,7 @@ public class StandardHttpDataLocation implements HttpDataLocation
 	private List<HttpLocationParameter> urlParameters;
 	private List<HttpLocationParameter> postParameters;
 
+	@Override
 	public RequestMethod getMethod()
 	{
 		return method;
@@ -101,6 +102,7 @@ public class StandardHttpDataLocation implements HttpDataLocation
 		}
 	}
 
+	@Override
 	public List<HttpLocationParameter> getUrlParameters()
 	{
 		return urlParameters;
@@ -111,6 +113,7 @@ public class StandardHttpDataLocation implements HttpDataLocation
 		this.urlParameters = urlParameters;
 	}
 
+	@Override
 	public List<HttpLocationParameter> getPostParameters()
 	{
 		return postParameters;

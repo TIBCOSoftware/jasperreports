@@ -146,11 +146,13 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 		originsToExclude.remove(origin);
 	}
 	
+	@Override
 	public void reset()
 	{
 		firstOccurrences = new HashMap<Integer,JRPrintElement>();
 	}
 	
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		JROrigin origin = element.getOrigin();

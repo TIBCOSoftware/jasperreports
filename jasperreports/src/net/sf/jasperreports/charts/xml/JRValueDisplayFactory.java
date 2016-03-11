@@ -39,9 +39,7 @@ public class JRValueDisplayFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_color = "color";
 	private static final String ATTRIBUTE_mask = "mask";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignValueDisplay valueDisplay = new JRDesignValueDisplay(null, ((JRChartPlot)digester.peek()).getChart());

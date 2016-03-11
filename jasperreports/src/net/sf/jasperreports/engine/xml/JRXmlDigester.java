@@ -189,9 +189,7 @@ public class JRXmlDigester extends Digester
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public InputSource resolveEntity(
 		String pubId,
 		String systemId
@@ -245,6 +243,7 @@ public class JRXmlDigester extends Digester
 	}
 
 
+	@Override
 	public void endElement(String namespaceURI, String localName, String qName)
 			throws SAXException
 	{

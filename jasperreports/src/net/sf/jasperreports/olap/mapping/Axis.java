@@ -72,6 +72,7 @@ public class Axis
 		return idx;
 	}
 
+	@Override
 	public String toString ()
 	{
 		return "Axis(" + idx +")";

@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class MatcherExporterFilterFactory implements ExporterFilterFactory
 {
 
+	@Override
 	public ExporterFilter getFilter(JRExporterContext exporterContext)
 	{
 		return MatcherExporterFilter.getInstance(exporterContext);

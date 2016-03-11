@@ -38,9 +38,7 @@ public class JRPieDatasetFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_minPercentage = "minPercentage";
 	private static final String ATTRIBUTE_maxCount = "maxCount";
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes attrs)
 	{
 		JRChart chart = (JRChart) digester.peek();

@@ -54,6 +54,7 @@ public class CompositeClassloader extends ClassLoader
 		this.fallback = fallback;
 	}
 
+	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException
 	{
 		// this method is only called when the parent classloader cannot

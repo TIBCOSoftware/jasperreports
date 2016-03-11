@@ -59,6 +59,7 @@ public class JRBaseGenericPrintElement extends JRBasePrintElement
 		super(defaultStyleProvider);
 	}
 
+	@Override
 	public JRGenericElementType getGenericType()
 	{
 		return genericType;
@@ -75,26 +76,31 @@ public class JRBaseGenericPrintElement extends JRBasePrintElement
 		this.genericType = genericType;
 	}
 
+	@Override
 	public Set<String> getParameterNames()
 	{
 		return parameters.keySet();
 	}
 
+	@Override
 	public Object getParameterValue(String name)
 	{
 		return parameters.get(name);
 	}
 
+	@Override
 	public boolean hasParameter(String name)
 	{
 		return parameters.containsKey(name);
 	}
 
+	@Override
 	public void setParameterValue(String name, Object value)
 	{
 		parameters.put(name, value);
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

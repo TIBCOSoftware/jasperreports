@@ -56,6 +56,7 @@ public class DateStore implements BufferColumnStore
 		return valueTransformer.getResultType();
 	}
 	
+	@Override
 	public void addValue(Object object)
 	{
 		if (!(object instanceof Date))
@@ -68,22 +69,26 @@ public class DateStore implements BufferColumnStore
 		timeStore.add(time);
 	}
 
+	@Override
 	public boolean full()
 	{
 		return timeStore.full();
 	}
 
+	@Override
 	public void resetValues()
 	{
 		timeStore.resetValues();
 	}
 
+	@Override
 	public ColumnValues createValues()
 	{
 		ColumnValues timeValues = timeStore.createValues();
 		return new TransformedColumnValues(timeValues, valueTransformer);
 	}
 
+	@Override
 	public String toString()
 	{
 		return "DateStore@" + hashCode();

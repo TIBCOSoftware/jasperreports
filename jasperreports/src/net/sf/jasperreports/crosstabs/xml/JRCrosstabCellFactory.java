@@ -40,6 +40,7 @@ public class JRCrosstabCellFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_width = "width";
 	public static final String ATTRIBUTE_height = "height";
 	
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabCell cell = new JRDesignCrosstabCell();

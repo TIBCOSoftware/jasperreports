@@ -40,9 +40,7 @@ import net.sf.jasperreports.engine.util.JRSaver;
 public class SerializedObjectPersistenceService implements PersistenceService
 {
 
-	/**
-	 * 
-	 */
+	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
 		SerializableResource<Serializable> resource = null; 
@@ -76,9 +74,7 @@ public class SerializedObjectPersistenceService implements PersistenceService
 		return resource;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void save(Resource resource, String uri, RepositoryService repositoryService)
 	{
 		@SuppressWarnings("unchecked")

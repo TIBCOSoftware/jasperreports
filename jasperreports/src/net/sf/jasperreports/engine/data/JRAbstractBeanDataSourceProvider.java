@@ -71,6 +71,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	/**
 	 * @see net.sf.jasperreports.engine.JRDataSourceProvider#supportsGetFieldsOperation()
 	 */
+	@Override
 	public boolean supportsGetFieldsOperation() {
 		return true;
 	}
@@ -78,6 +79,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	/**
 	 * @see net.sf.jasperreports.engine.JRDataSourceProvider#getFields(net.sf.jasperreports.engine.JasperReport)
 	 */
+	@Override
 	public JRField[] getFields(JasperReport report) throws JRException {
 		BeanInfo beanInfo = null;
 

@@ -43,9 +43,7 @@ public class TimeZoneFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -55,9 +53,7 @@ public class TimeZoneFieldHandler extends GeneralizedFieldHandler
 		return JRDataUtils.getTimeZoneId((TimeZone)value);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -67,17 +63,13 @@ public class TimeZoneFieldHandler extends GeneralizedFieldHandler
 		return JRDataUtils.getTimeZone((String)value);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return TimeZone.class;//FIXMECONTEXT is this correct?
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		return null;

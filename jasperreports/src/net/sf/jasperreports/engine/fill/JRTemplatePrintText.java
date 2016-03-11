@@ -144,47 +144,52 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		super(text, originator);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setText(String text)
 	{
 		this.text = text;
 		//this.truncatedText = null;
 	}
 
+	@Override
 	public Integer getTextTruncateIndex()
 	{
 		return textTruncateIndex;
 	}
 
+	@Override
 	public void setTextTruncateIndex(Integer textTruncateIndex)
 	{
 		this.textTruncateIndex = textTruncateIndex;
 		//this.truncatedText = null;
 	}
 
+	@Override
 	public String getTextTruncateSuffix()
 	{
 		return textTruncateSuffix;
 	}
 
+	@Override
 	public void setTextTruncateSuffix(String textTruncateSuffix)
 	{
 		this.textTruncateSuffix = textTruncateSuffix;
 		//this.truncatedText = null;
 	}
 
+	@Override
 	public short[] getLineBreakOffsets()
 	{
 		return lineBreakOffsets;
 	}
 
+	@Override
 	public void setLineBreakOffsets(short[] lineBreakOffsets)
 	{
 		this.lineBreakOffsets = lineBreakOffsets;
 	}
 
+	@Override
 	public String getFullText()
 	{
 		String fullText = this.text;
@@ -195,11 +200,13 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return fullText;
 	}
 
+	@Override
 	public String getOriginalText()
 	{
 		return text;
 	}
 	
+	@Override
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
 	{
 		if (getFullText() == null)
@@ -216,49 +223,37 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 				);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object getValue()
 	{
 		return value;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setValue(Object value)
 	{
 		this.value = value;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getLineSpacingFactor()
 	{
 		return lineSpacingFactor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setLineSpacingFactor(float lineSpacingFactor)
 	{
 		this.lineSpacingFactor = lineSpacingFactor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getLeadingOffset()
 	{
 		return leadingOffset;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setLeadingOffset(float leadingOffset)
 	{
 		this.leadingOffset = leadingOffset;
@@ -267,6 +262,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return ((JRTemplateText)this.template).getHorizontalAlignmentValue();
@@ -275,6 +271,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return ((JRTemplateText)this.template).getOwnHorizontalAlignmentValue();
@@ -283,6 +280,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
@@ -291,6 +289,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return ((JRTemplateText)this.template).getVerticalAlignmentValue();
@@ -299,6 +298,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return ((JRTemplateText)this.template).getOwnVerticalAlignmentValue();
@@ -307,110 +307,86 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
 		return ((JRTemplateText)this.template).getHorizontalTextAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
 	{
 		return ((JRTemplateText)this.template).getOwnHorizontalTextAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
 		return ((JRTemplateText)this.template).getVerticalTextAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getOwnVerticalTextAlign()
 	{
 		return ((JRTemplateText)this.template).getOwnVerticalTextAlign();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public RotationEnum getRotationValue()
 	{
 		return ((JRTemplateText)this.template).getRotationValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public RotationEnum getOwnRotationValue()
 	{
 		return ((JRTemplateText)this.template).getOwnRotationValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setRotation(RotationEnum rotation)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
 	
-	/**
-	 *
-	 */
+	@Override
 	public RunDirectionEnum getRunDirectionValue()
 	{
 		return this.runDirectionValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRunDirection(RunDirectionEnum runDirectionValue)
 	{
 		this.runDirectionValue = runDirectionValue;
 	}
-	/**
-	 *
-	 */
+
+	@Override
 	public float getTextHeight()
 	{
 		return textHeight;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setTextHeight(float textHeight)
 	{
 		this.textHeight = textHeight;
@@ -419,6 +395,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -427,6 +404,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
 		return getParagraph().getOwnLineSpacing();
@@ -435,67 +413,55 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
+	@Override
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getMarkup()
 	{
 		return ((JRTemplateText)template).getMarkup();
 	}
 		
+	@Override
 	public String getOwnMarkup()
 	{
 		return ((JRTemplateText)template).getOwnMarkup();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMarkup(String markup)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return ((JRTemplateText)template).getLineBox();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRParagraph getParagraph()
 	{
 		return ((JRTemplateText)template).getParagraph();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setTextFormat(TextFormat textFormat)
 	{
 		this.textFormat = textFormat;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getAnchorName()
 	{
 		return anchorName;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setAnchorName(String anchorName)
 	{
 		this.anchorName = anchorName;
@@ -506,49 +472,37 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		this.hyperlinkOmitted = hyperlinkOmitted;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return hyperlinkOmitted ? HyperlinkTypeEnum.NONE : ((JRTemplateText)this.template).getHyperlinkTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
 		return ((JRTemplateText)this.template).getHyperlinkTargetValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getLinkTarget()
 	{
 		return ((JRTemplateText)template).getLinkTarget();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setLinkTarget(String linkTarget)
 	{
 	}
@@ -559,109 +513,87 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkReference()
 	{
 		return hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkReference(String hyperlinkReference)
 	{
 		this.hyperlinkReference = hyperlinkReference;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlinkAnchor()
 	{
 		return hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkAnchor(String hyperlinkAnchor)
 	{
 		this.hyperlinkAnchor = hyperlinkAnchor;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Integer getHyperlinkPage()
 	{
 		return hyperlinkPage;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHyperlinkPage(Integer hyperlinkPage)
 	{
 		this.hyperlinkPage = hyperlinkPage;
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
 	}
 
 
+	@Override
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
 		this.bookmarkLevel = bookmarkLevel;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getFontName()
 	{
 		return ((JRTemplateText)template).getFontName();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnFontName()
 	{
 		return ((JRTemplateText)template).getOwnFontName();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setFontName(String fontName)
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBold()
 	{
 		return ((JRTemplateText)template).isBold();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBold()
 	{
 		return ((JRTemplateText)template).isOwnBold();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBold(boolean isBold)
 	{
 	}
@@ -670,30 +602,25 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
+	@Override
 	public void setBold(Boolean isBold)
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isItalic()
 	{
 		return ((JRTemplateText)template).isItalic();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnItalic()
 	{
 		return ((JRTemplateText)template).isOwnItalic();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setItalic(boolean isItalic)
 	{
 	}
@@ -702,29 +629,24 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * Alternative setItalic method which allows also to reset
 	 * the "own" isItalic property.
 	 */
+	@Override
 	public void setItalic(Boolean isItalic)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isUnderline()
 	{
 		return ((JRTemplateText)template).isUnderline();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnUnderline()
 	{
 		return ((JRTemplateText)template).isOwnUnderline();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUnderline(boolean isUnderline)
 	{
 	}
@@ -733,29 +655,24 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
+	@Override
 	public void setUnderline(Boolean isUnderline)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStrikeThrough()
 	{
 		return ((JRTemplateText)template).isStrikeThrough();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnStrikeThrough()
 	{
 		return ((JRTemplateText)template).isOwnStrikeThrough();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
 		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
@@ -765,21 +682,18 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
 	 */
+	@Override
 	public void setStrikeThrough(Boolean isStrikeThrough)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getFontsize()
 	{
 		return ((JRTemplateText)template).getFontsize();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getOwnFontsize()
 	{
 		return ((JRTemplateText)template).getOwnFontsize();
@@ -788,6 +702,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * Method which allows also to reset the "own" size property.
 	 */
+	@Override
 	public void setFontSize(Float fontSize)
 	{
 	}
@@ -795,6 +710,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getFontsize()}.
 	 */
+	@Override
 	public int getFontSize()
 	{
 		return (int)getFontsize();
@@ -803,6 +719,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getOwnFontsize()}.
 	 */
+	@Override
 	public Integer getOwnFontSize()
 	{
 		Float fontSize = getOwnFontsize();
@@ -812,6 +729,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(int fontSize)
 	{
 		setFontSize((float)fontSize);
@@ -820,78 +738,61 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(Integer fontSize)
 	{
 		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfFontName()
 	{
 		return ((JRTemplateText)template).getPdfFontName();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfFontName()
 	{
 		return ((JRTemplateText)template).getOwnPdfFontName();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfFontName(String pdfFontName)
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfEncoding()
 	{
 		return ((JRTemplateText)template).getPdfEncoding();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfEncoding()
 	{
 		return ((JRTemplateText)template).getOwnPdfEncoding();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEncoding(String pdfEncoding)
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPdfEmbedded()
 	{
 		return ((JRTemplateText)template).isPdfEmbedded();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnPdfEmbedded()
 	{
 		return ((JRTemplateText)template).isOwnPdfEmbedded();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
 	}
@@ -900,64 +801,76 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * Alternative setPdfEmbedded method which allows also to reset
 	 * the "own" isPdfEmbedded property.
 	 */
+	@Override
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
 	}
 
 
+	@Override
 	public String getValueClassName()
 	{
 		return  textFormat == null ? ((JRTemplateText) template).getValueClassName() : textFormat.getValueClassName();
 	}
 
+	@Override
 	public String getPattern()
 	{
 		return textFormat == null ? ((JRTemplateText) template).getPattern() : textFormat.getPattern();
 	}
 
+	@Override
 	public String getFormatFactoryClass()
 	{
 		return textFormat == null ? ((JRTemplateText) template).getFormatFactoryClass() : textFormat.getFormatFactoryClass();
 	}
 
+	@Override
 	public String getLocaleCode()
 	{
 		return textFormat == null ? ((JRTemplateText) template).getLocaleCode() : textFormat.getLocaleCode();
 	}
 
+	@Override
 	public String getTimeZoneId()
 	{
 		return textFormat == null ? ((JRTemplateText) template).getTimeZoneId() : textFormat.getTimeZoneId();
 	}
 
 	
+	@Override
 	public JRPrintHyperlinkParameters getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 
 	
+	@Override
 	public void setHyperlinkParameters(JRPrintHyperlinkParameters hyperlinkParameters)
 	{
 		this.hyperlinkParameters = hyperlinkParameters;
 	}
 
+	@Override
 	public String getLinkType()
 	{
 		return hyperlinkOmitted ? null : ((JRTemplateText) template).getLinkType();
 	}
 
+	@Override
 	public void setLinkType(String type)
 	{
 	}
 
 	
+	@Override
 	public String getHyperlinkTooltip()
 	{
 		return hyperlinkTooltip;
 	}
 
 	
+	@Override
 	public void setHyperlinkTooltip(String hyperlinkTooltip)
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
@@ -983,6 +896,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		}
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

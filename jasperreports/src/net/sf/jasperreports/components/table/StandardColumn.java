@@ -55,6 +55,7 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		}
 	}
 
+	@Override
 	public Cell getDetailCell()
 	{
 		return detail;
@@ -67,6 +68,7 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, this.detail);
 	}
 
+	@Override
 	public <R> R visitColumn(ColumnVisitor<R> visitor)
 	{
 		return visitor.visitColumn(this);

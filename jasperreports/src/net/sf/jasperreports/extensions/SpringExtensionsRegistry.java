@@ -61,6 +61,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	/**
 	 * Returns all beans that match the extension class.
 	 */
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		String[] beanNames = getExtensionBeanNames(extensionType);

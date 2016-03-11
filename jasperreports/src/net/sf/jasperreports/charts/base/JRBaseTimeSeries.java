@@ -76,47 +76,38 @@ public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return seriesExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTimePeriodExpression()
 	{
 		return timePeriodExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return labelExpression;
 	}
 
 	
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseTimeSeries clone = null;

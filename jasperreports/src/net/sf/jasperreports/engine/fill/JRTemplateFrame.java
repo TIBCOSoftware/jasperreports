@@ -93,9 +93,7 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 		this.lineBox = new JRBaseLineBox(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
@@ -109,23 +107,20 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 		this.lineBox = lineBox.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -135,6 +130,7 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBoxContainer
 	}
 
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

@@ -46,6 +46,7 @@ public class POSTNETComponent extends Barcode4jComponent
 	private Boolean displayChecksum;
 	private Double intercharGapWidth;
 	
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitPostnet(this);

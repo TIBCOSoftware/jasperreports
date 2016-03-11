@@ -46,9 +46,7 @@ public abstract class AbstractWebResourceHandler implements WebResourceHandler
 	 */
 	public static final String PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX = "net.sf.jasperreports.web.resource.pattern.";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean handleResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, HttpServletResponse response) 
 	{
 		WebUtil webUtil = WebUtil.getInstance(jasperReportsContext);

@@ -128,6 +128,7 @@ public class LongArrayStore implements BufferColumnStore, ArrayStore
 		runLengthStore.valueAdded();
 	}
 
+	@Override
 	public void addValue(Object value)
 	{
 		if (value instanceof Integer
@@ -147,16 +148,19 @@ public class LongArrayStore implements BufferColumnStore, ArrayStore
 		}
 	}
 
+	@Override
 	public boolean full()
 	{
 		return count >= values.length;
 	}
 	
+	@Override
 	public void resetValues()
 	{
 		reset();
 	}
 	
+	@Override
 	public ColumnValues createValues()
 	{
 		if (count == 0)
@@ -283,6 +287,7 @@ public class LongArrayStore implements BufferColumnStore, ArrayStore
 		return b;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "LongArrayStore@" + hashCode();

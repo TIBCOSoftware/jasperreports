@@ -56,6 +56,7 @@ public class StandardColumnGroup extends StandardBaseColumn implements
 		children = factory.createColumns(columnGroup.getColumns());
 	}
 	
+	@Override
 	public List<BaseColumn> getColumns()
 	{
 		return children;
@@ -95,6 +96,7 @@ public class StandardColumnGroup extends StandardBaseColumn implements
 		return idx >= 0;
 	}
 
+	@Override
 	public <R> R visitColumn(ColumnVisitor<R> visitor)
 	{
 		return visitor.visitColumnGroup(this);

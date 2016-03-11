@@ -86,25 +86,19 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return this.name;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getDescription()
 	{
 		return this.description;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setDescription(String description)
 	{
 		Object old = this.description;
@@ -112,9 +106,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_DESCRIPTION, old, this.description);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -136,9 +128,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 		return valueClass;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getValueClassName()
 	{
 		return this.valueClassName;
@@ -158,27 +148,28 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	}
 
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
 	}
 
 	
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseField clone = null;
@@ -205,6 +196,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

@@ -69,6 +69,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 		this.ignoreWidth = list.getIgnoreWidth();
 	}
 	
+	@Override
 	public JRDatasetRun getDatasetRun()
 	{
 		return datasetRun;
@@ -87,6 +88,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 		getEventSupport().firePropertyChange(PROPERTY_DATASET_RUN, old, this.datasetRun);
 	}
 	
+	@Override
 	public ListContents getContents()
 	{
 		return contents;
@@ -103,6 +105,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 		this.contents = contents;
 	}
 	
+	@Override
 	public Object clone()
 	{
 		StandardListComponent clone = null;
@@ -121,9 +124,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 		return clone;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public PrintOrderEnum getPrintOrderValue()
 	{
 		return printOrderValue;
@@ -148,6 +149,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -161,6 +163,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 		return eventSupport;
 	}
 
+	@Override
 	public Boolean getIgnoreWidth()
 	{
 		return ignoreWidth;

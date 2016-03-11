@@ -142,6 +142,7 @@ public class Code39Component extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_WIDE_FACTOR, old, this.wideFactor);
 	}
 
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitCode39(this);

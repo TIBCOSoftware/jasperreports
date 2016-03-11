@@ -72,6 +72,7 @@ public class Pair<T, U> implements Serializable
 		return hashCode;
 	}
 
+	@Override
 	public boolean equals(Object o)
 	{
 		if (o == this)
@@ -90,11 +91,13 @@ public class Pair<T, U> implements Serializable
 			(p.o2 == null ? o2 == null : (o2 != null && p.o2.equals(o2)));
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return hash;
 	}
 	
+	@Override
 	public String toString()
 	{
 		return "(" + String.valueOf(o1) + ", " + String.valueOf(o2) + ")";

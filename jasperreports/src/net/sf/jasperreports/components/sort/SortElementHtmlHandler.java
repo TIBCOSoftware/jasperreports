@@ -76,6 +76,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	protected static final String FILTER_SYMBOL_ACTIVE = "Active";
 	protected static final String FILTER_SYMBOL_INACTIVE = "Inactive";
 
+	@Override
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
@@ -201,6 +202,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return null;
 	}
 	
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

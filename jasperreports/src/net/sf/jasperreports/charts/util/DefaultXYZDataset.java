@@ -76,6 +76,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 	/** 
 	 *
 	 */
+	@Override
 	public int getSeriesCount() {
 		int retVal = 0;
 		if( dataset != null ){
@@ -85,9 +86,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		return retVal;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Number getZ(int series, int index ) {
 		Number retVal = null;
 		if( dataset != null ){
@@ -99,9 +98,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		return retVal;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public int getItemCount(int series ) {
 		int retVal = 0;
 		if( dataset != null ){
@@ -113,9 +110,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		return retVal;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Number getX(int series, int index ) {
 		Number retVal = null;
 		if( dataset != null ){
@@ -127,9 +122,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		return retVal;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Number getY(int series, int index ) {
 		Number retVal = null;
 		if( dataset != null ){
@@ -141,9 +134,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		return retVal;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Comparable<?> getSeriesKey(int index) {
 		String retVal = null;
 		if( dataset != null ){

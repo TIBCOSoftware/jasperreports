@@ -79,9 +79,7 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRCategorySeries[] getSeries()
 	{
 		return categorySeries;
@@ -91,29 +89,27 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
 	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.CATEGORY_DATASET;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseCategoryDataset clone = (JRBaseCategoryDataset)super.clone();

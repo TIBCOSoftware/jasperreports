@@ -43,6 +43,7 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 		this.fontFamiliesLocations = fontFamiliesLocations;
 	}
 	
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (FontFamily.class.equals(extensionType)) 

@@ -98,45 +98,39 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public ResetTypeEnum getResetTypeValue()
 	{
 		return this.resetTypeValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public IncrementTypeEnum getIncrementTypeValue()
 	{
 		return this.incrementTypeValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getResetGroup()
 	{
 		return resetGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getIncrementGroup()
 	{
 		return incrementGroup;
 	}
 
 
+	@Override
 	public JRDatasetRun getDatasetRun()
 	{
 		return datasetRun;
 	}
 
 
+	@Override
 	public JRExpression getIncrementWhenExpression()
 	{
 		return incrementWhenExpression;
@@ -177,9 +171,7 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseElementDataset clone = null;

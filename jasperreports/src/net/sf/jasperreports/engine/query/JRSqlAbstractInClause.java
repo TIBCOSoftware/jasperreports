@@ -108,6 +108,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * @param queryContext
 	 * 
 	 */
+	@Override
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
 		String col = clauseTokens.getToken(POSITION_DB_COLUMN);

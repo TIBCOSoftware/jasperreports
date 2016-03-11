@@ -66,11 +66,13 @@ public class StandardSpiderDataset extends JRDesignElementDataset implements Spi
 		}
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		SpiderChartCompiler.collectExpressions(this, collector);
 	}
 
+	@Override
 	public JRCategorySeries[] getSeries()
 	{
 		JRCategorySeries[] categorySeriesArray = new JRCategorySeries[categorySeriesList.size()];

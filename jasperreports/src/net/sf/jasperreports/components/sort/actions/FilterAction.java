@@ -56,6 +56,7 @@ public class FilterAction extends AbstractAction {
 		this.filterData = filterData;
 	}
 
+	@Override
 	public void performAction() throws ActionException {
 		
 		if (filterData != null) {

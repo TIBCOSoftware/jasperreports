@@ -48,9 +48,7 @@ public class JRThermometerPlotFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_valueLocation = "valueLocation";
 	public static final String ATTRIBUTE_mercuryColor = "mercuryColor";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts) throws JRException
 	{
 		JRChart chart = (JRChart)digester.peek();

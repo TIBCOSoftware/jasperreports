@@ -43,6 +43,7 @@ public class BarcodeDesignConverter implements ComponentDesignConverter
 
 	private static final Log log = LogFactory.getLog(BarcodeDesignConverter.class);
 	
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
 	{

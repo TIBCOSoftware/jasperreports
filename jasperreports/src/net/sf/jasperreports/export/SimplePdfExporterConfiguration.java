@@ -64,9 +64,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isCreatingBatchModeBookmarks()
 	{
 		return isCreatingBatchModeBookmarks;
@@ -80,9 +78,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.isCreatingBatchModeBookmarks = isCreatingBatchModeBookmarks;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isCompressed()
 	{
 		return isCompressed;
@@ -96,9 +92,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.isCompressed = isCompressed;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isEncrypted()
 	{
 		return isEncrypted;
@@ -112,9 +106,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.isEncrypted = isEncrypted;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean is128BitKey()
 	{
 		return is128BitKey;
@@ -128,9 +120,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.is128BitKey = is128BitKey;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getUserPassword()
 	{
 		return userPassword;
@@ -144,9 +134,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.userPassword = userPassword;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getOwnerPassword()
 	{
 		return ownerPassword;
@@ -160,9 +148,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.ownerPassword = ownerPassword;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public PdfVersionEnum getPdfVersion()
 	{
 		return pdfVersion;
@@ -176,9 +162,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.pdfVersion = pdfVersion;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getPdfJavaScript()
 	{
 		return pdfJavaScript;
@@ -192,9 +176,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.pdfJavaScript = pdfJavaScript;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public PdfPrintScalingEnum getPrintScaling()
 	{
 		return printScaling;
@@ -208,9 +190,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.printScaling = printScaling;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isTagged()
 	{
 		return isTagged;
@@ -224,9 +204,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.isTagged = isTagged;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getTagLanguage()
 	{
 		return tagLanguage;
@@ -240,9 +218,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.tagLanguage = tagLanguage;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public PdfaConformanceEnum getPdfaConformance()
 	{
 		return pdfaConformance;
@@ -256,9 +232,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.pdfaConformance = pdfaConformance;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getIccProfilePath()
 	{
 		return iccProfilePath;
@@ -272,9 +246,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.iccProfilePath = iccProfilePath;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getPermissions()
 	{
 		return permissions;
@@ -288,9 +260,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.permissions = permissions;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getAllowedPermissions()
 	{
 		return allowedPermissionsHint;
@@ -304,9 +274,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.allowedPermissionsHint = allowedPermissionsHint;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getDeniedPermissions()
 	{
 		return deniedPermissionsHint;
@@ -320,9 +288,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.deniedPermissionsHint = deniedPermissionsHint;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getMetadataTitle()
 	{
 		return metadataTitle;
@@ -336,9 +302,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.metadataTitle = metadataTitle;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getMetadataAuthor()
 	{
 		return metadataAuthor;
@@ -352,9 +316,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.metadataAuthor = metadataAuthor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getMetadataSubject()
 	{
 		return metadataSubject;
@@ -368,9 +330,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.metadataSubject = metadataSubject;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getMetadataKeywords()
 	{
 		return metadataKeywords;
@@ -384,9 +344,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.metadataKeywords = metadataKeywords;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getMetadataCreator()
 	{
 		return metadataCreator;
@@ -400,9 +358,7 @@ public class SimplePdfExporterConfiguration extends SimpleExporterConfiguration 
 		this.metadataCreator = metadataCreator;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isDisplayMetadataTitle() {
 		return displayMetadataTitle;
 	}

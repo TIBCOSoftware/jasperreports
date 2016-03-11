@@ -37,6 +37,7 @@ import org.xml.sax.Attributes;
 public class JRPropertyDigesterRule extends Rule
 {
 
+	@Override
 	public void begin(String namespace, String name, Attributes attributes)
 	{
 		JRPropertiesHolder propertiesHolder = (JRPropertiesHolder) digester.peek();

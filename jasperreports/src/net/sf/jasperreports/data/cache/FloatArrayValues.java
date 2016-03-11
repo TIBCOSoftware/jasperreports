@@ -63,11 +63,13 @@ public class FloatArrayValues implements ColumnValues, Serializable
 		}
 	}
 	
+	@Override
 	public int size()
 	{
 		return values.length;
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		return new ValuesIterator();
@@ -81,6 +83,7 @@ public class FloatArrayValues implements ColumnValues, Serializable
 			super(values.length);
 		}
 
+		@Override
 		public Object get()
 		{
 			return values[currentIndex];

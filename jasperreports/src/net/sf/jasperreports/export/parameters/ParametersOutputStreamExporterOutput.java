@@ -95,17 +95,13 @@ public class ParametersOutputStreamExporterOutput extends AbstractParametersExpo
 		}
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public OutputStream getOutputStream()
 	{
 		return outputStream;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void close()
 	{
 		if (toClose)

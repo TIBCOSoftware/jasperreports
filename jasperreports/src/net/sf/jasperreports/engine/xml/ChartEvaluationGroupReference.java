@@ -43,16 +43,19 @@ public class ChartEvaluationGroupReference implements XmlGroupReference
 		this.chart = chart;
 	}
 
+	@Override
 	public JRGroup getGroupReference()
 	{
 		return chart.getEvaluationGroup();
 	}
 
+	@Override
 	public void assignGroup(JRGroup group)
 	{
 		chart.setEvaluationGroup(group);
 	}
 
+	@Override
 	public void groupNotFound(String groupName) throws JRValidationException
 	{
 		throw new JRValidationException("Unknown evaluation group '" + groupName + "' for chart.", chart);

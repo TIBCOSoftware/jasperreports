@@ -53,6 +53,7 @@ public class JRComponentRule extends Rule
 		return new JRComponentRule();
 	}
 	
+	@Override
 	public void end(String namespace, String name) throws JRException
 	{
 		Object top = getDigester().peek();

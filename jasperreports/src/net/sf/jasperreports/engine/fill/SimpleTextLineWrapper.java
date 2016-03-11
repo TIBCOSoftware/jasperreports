@@ -841,6 +841,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 					&& ((locale == null) ? (info.locale == null) : (info.locale != null && locale.equals(info.locale)));
 		}
 		
+		@Override
 		public String toString()
 		{
 			return "{family: " + family
@@ -865,6 +866,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			this.fontStatistics = new FontStatistics();
 		}
 		
+		@Override
 		public String toString()
 		{
 			return font.toString();
@@ -925,6 +927,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			fontInfo.fontStatistics.recordMeasurement(avgWidth);
 		}
 		
+		@Override
 		public String toString()
 		{
 			return fontInfo.font.toString();

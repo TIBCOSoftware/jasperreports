@@ -42,9 +42,7 @@ public class JRTextElementFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRTextElementFactory.class);
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignTextElement textElement = (JRDesignTextElement)digester.peek();

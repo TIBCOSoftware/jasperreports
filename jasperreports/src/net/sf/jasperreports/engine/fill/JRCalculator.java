@@ -558,9 +558,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object evaluate(
 		JRExpression expression,
 		byte evaluationType
@@ -619,6 +617,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	}
 
 
+	@Override
 	public JRFillDataset getFillDataset()
 	{
 		return dataset;

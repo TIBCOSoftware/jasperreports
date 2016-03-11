@@ -84,9 +84,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		returnValues = new ArrayList<ExpressionReturnValue>(2);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		return height;
@@ -102,17 +100,13 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, old, this.height);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public SplitTypeEnum getSplitTypeValue()
 	{
 		return splitTypeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setSplitType(SplitTypeEnum splitTypeValue)
 	{
 		SplitTypeEnum old = this.splitTypeValue;
@@ -120,9 +114,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		getEventSupport().firePropertyChange(JRBaseBand.PROPERTY_splitType, old, this.splitTypeValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPrintWhenExpression()
 	{
 		return this.printWhenExpression;
@@ -209,9 +201,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignBand clone = (JRDesignBand)super.clone();
@@ -260,11 +250,13 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		}
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -274,6 +266,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

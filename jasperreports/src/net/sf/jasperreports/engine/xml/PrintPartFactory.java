@@ -39,9 +39,7 @@ public class PrintPartFactory extends JRBaseFactory
 {
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		SimplePrintPart part = new SimplePrintPart();

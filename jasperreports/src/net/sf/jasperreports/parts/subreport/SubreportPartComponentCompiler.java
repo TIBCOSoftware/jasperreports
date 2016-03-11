@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.part.PartComponentCompiler;
 public class SubreportPartComponentCompiler implements PartComponentCompiler
 {
 
+	@Override
 	public void collectExpressions(PartComponent component, JRExpressionCollector collector)
 	{
 		SubreportPartComponent subreport = (SubreportPartComponent) component;
@@ -58,6 +59,7 @@ public class SubreportPartComponentCompiler implements PartComponentCompiler
 		collector.addExpression(subreport.getExpression());
 	}
 
+	@Override
 	public PartComponent toCompiledComponent(PartComponent component,
 			JRBaseObjectFactory baseFactory)
 	{
@@ -67,6 +69,7 @@ public class SubreportPartComponentCompiler implements PartComponentCompiler
 		return compiledComponent;
 	}
 
+	@Override
 	public void verify(PartComponent component, JRVerifier verifier)
 	{
 		// largely copied from JRVerifier.verifySubreport

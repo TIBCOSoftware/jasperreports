@@ -39,9 +39,7 @@ public class SimpleJxlMetadataExporterConfiguration extends SimpleXlsMetadataExp
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isUseTempFile()
 	{
 		return isUseTempFile;

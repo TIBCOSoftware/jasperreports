@@ -110,9 +110,7 @@ public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries implements 
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignTimePeriodSeries clone = (JRDesignTimePeriodSeries)super.clone();
@@ -122,6 +120,7 @@ public class JRDesignTimePeriodSeries extends JRBaseTimePeriodSeries implements 
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

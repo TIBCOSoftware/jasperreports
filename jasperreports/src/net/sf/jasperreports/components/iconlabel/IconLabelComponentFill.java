@@ -101,12 +101,14 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		return iconLabelComponent;
 	}
 	
+	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
 		labelTextField.evaluate(evaluation);
 		iconTextField.evaluate(evaluation);
 	}
 	
+	@Override
 	public JRPrintElement fill()
 	{
 		JRComponentElement element = fillContext.getComponentElement();
@@ -524,17 +526,20 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		}
 	}
 
+	@Override
 	public void setStretchHeight(int stretchHeight)
 	{
 		this.stretchHeight = stretchHeight;
 	}
 	
+	@Override
 	public void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
 	{
 		labelTextField.setConditionalStylesContainer(conditionalStylesContainer);
 		iconTextField.setConditionalStylesContainer(conditionalStylesContainer);
 	}
 
+	@Override
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		float paddingDiff = 
@@ -691,6 +696,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void evaluateDelayedElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		evaluate(evaluation);
@@ -750,6 +756,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
@@ -758,6 +765,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
@@ -766,6 +774,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
@@ -774,6 +783,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	/**
 	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
@@ -782,6 +792,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
@@ -790,48 +801,43 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	/**
 	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
 		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
+	@Override
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return iconLabelComponent.getOwnHorizontalImageAlign();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
 		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
+	@Override
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return iconLabelComponent.getOwnVerticalImageAlign();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();

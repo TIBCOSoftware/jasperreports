@@ -52,71 +52,85 @@ import net.sf.jasperreports.engine.JRVisitor;
 public abstract class JRVisitorSupport implements JRVisitor
 {
 
+	@Override
 	public void visitBreak(JRBreak breakElement)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitChart(JRChart chart)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitEllipse(JREllipse ellipse)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitFrame(JRFrame frame)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitImage(JRImage image)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitLine(JRLine line)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitRectangle(JRRectangle rectangle)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitStaticText(JRStaticText staticText)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitSubreport(JRSubreport subreport)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitTextField(JRTextField textField)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		// NOOP
 	}
 
+	@Override
 	public void visitGenericElement(JRGenericElement element)
 	{
 		// NOOP

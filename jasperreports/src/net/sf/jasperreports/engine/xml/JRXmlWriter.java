@@ -3429,6 +3429,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
+	@Override
 	protected boolean toWriteConditionalStyles()
 	{
 		return true;

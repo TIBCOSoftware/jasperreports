@@ -45,6 +45,7 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 	}
 
 
+	@Override
 	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
 	{
 		File[] sources = new File[units.length];
@@ -87,6 +88,7 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 	}
 
 
+	@Override
 	protected void checkLanguage(String language) throws JRException
 	{		
 		if (!JRReport.LANGUAGE_JAVA.equals(language))
@@ -99,12 +101,14 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 	}
 
 	
+	@Override
 	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
 		return JRClassGenerator.generateClass(sourceTask);
 	}
 
 
+	@Override
 	protected String getSourceFileName(String unitName)
 	{
 		return unitName + ".java";

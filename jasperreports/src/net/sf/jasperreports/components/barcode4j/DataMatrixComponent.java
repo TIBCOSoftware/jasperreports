@@ -40,6 +40,7 @@ public class DataMatrixComponent extends Barcode4jComponent
 
 	private String shape;
 	
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitDataMatrix(this);

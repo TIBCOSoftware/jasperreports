@@ -128,46 +128,37 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStretchWithOverflow()
 	{
 		return this.isStretchWithOverflow;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return this.evaluationTimeValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getPattern()
 	{
 		return getStyleResolver().getPattern(this);
 	}
 
+	@Override
 	public String getOwnPattern()
 	{
 		return this.pattern;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBlankWhenNull()
 	{
 		return getStyleResolver().isBlankWhenNull(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBlankWhenNull()
 	{
 		return isBlankWhenNull;
@@ -181,89 +172,67 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		return getHyperlinkTypeValue().getValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return this.evaluationGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return this.expression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPatternExpression()
 	{
 		return this.patternExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return this.anchorNameExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return this.hyperlinkReferenceExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return this.hyperlinkWhenExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return this.hyperlinkAnchorExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return this.hyperlinkPageExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setStretchWithOverflow(boolean isStretch)
 	{
 		boolean old = this.isStretchWithOverflow;
@@ -281,9 +250,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTimeValue);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setPattern(String pattern)
 	{
 		Object old = this.pattern;
@@ -291,17 +258,13 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_PATTERN, old, this.pattern);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBlankWhenNull(boolean isBlank)
 	{
 		setBlankWhenNull(isBlank ? Boolean.TRUE : Boolean.FALSE);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBlankWhenNull(Boolean isBlank)
 	{
 		Object old = this.isBlankWhenNull;
@@ -423,23 +386,20 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_PAGE_EXPRESSION, old, this.hyperlinkPageExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitTextField(this);
 	}
 	
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
@@ -460,6 +420,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
@@ -482,6 +443,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TYPE, old, this.linkType);
 	}
 
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
@@ -505,6 +467,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		JRHyperlinkParameter[] parameters;
@@ -586,6 +549,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 	
 	
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -605,9 +569,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignTextField clone = (JRDesignTextField)super.clone();

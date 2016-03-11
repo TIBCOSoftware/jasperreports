@@ -75,6 +75,7 @@ public MappingLexer(LexerSharedInputState state) {
 	literals.put(new ANTLRHashString("Pages", this), Integer.valueOf(9));
 }
 
+@Override
 public Token nextToken() throws TokenStreamException {
 	Token theRetToken=null;
 tryAgain:

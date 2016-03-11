@@ -82,6 +82,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	}
 
 
+	@Override
 	protected JREvaluator loadEvaluator(Serializable compileData, String className) throws JRException
 	{
 		JREvaluator evaluator = null;

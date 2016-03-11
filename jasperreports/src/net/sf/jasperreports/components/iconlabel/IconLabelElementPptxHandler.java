@@ -90,6 +90,7 @@ public class IconLabelElementPptxHandler implements GenericElementPptxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

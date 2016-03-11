@@ -69,9 +69,7 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public AWTFontFamily resolve(String familyName, FontFace fontFace) 
 	{
 		Font awtFont = 
@@ -91,17 +89,13 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 		return new AWTFontFamily(fontFace, awtFont);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public GVTFontFamily loadFont(InputStream in, FontFace ff) throws Exception 
 	{
 		return DefaultFontFamilyResolver.SINGLETON.loadFont(in, ff);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public GVTFontFamily resolve(String familyName) 
 	{
 		Font awtFont = 
@@ -129,17 +123,13 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 		return gvtFontFamily;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public GVTFontFamily getFamilyThatCanDisplay(char c) 
 	{
 		return DefaultFontFamilyResolver.SINGLETON.getFamilyThatCanDisplay(c);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public GVTFontFamily getDefault() 
 	{
 		return DefaultFontFamilyResolver.SINGLETON.getDefault();

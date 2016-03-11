@@ -50,16 +50,19 @@ public class SimpleJasperPrintAccessor implements JasperPrintAccessor, Serializa
 		this.jasperPrint = jasperPrint;
 	}
 
+	@Override
 	public ReportPageStatus pageStatus(int pageIdx, Long pageTimestamp)
 	{
 		return pageIdx < jasperPrint.getPages().size() ? ReportPageStatus.PAGE_FINAL : ReportPageStatus.NO_SUCH_PAGE;
 	}
 
+	@Override
 	public JasperPrint getJasperPrint()
 	{
 		return jasperPrint;
 	}
 
+	@Override
 	public JasperPrint getFinalJasperPrint()
 	{
 		return jasperPrint;

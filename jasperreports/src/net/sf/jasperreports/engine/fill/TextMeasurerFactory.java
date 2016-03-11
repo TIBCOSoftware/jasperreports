@@ -40,6 +40,7 @@ public class TextMeasurerFactory extends AbstractTextMeasurerFactory
 	/**
 	 * Returns a {@link TextMeasurer} instance for the text object.
 	 */
+	@Override
 	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
 	{
 		return new TextMeasurer(jasperReportsContext, text);

@@ -45,6 +45,7 @@ public class JRHibernateScrollDataSource extends JRHibernateAbstractDataSource i
 		scrollableResults = queryExecuter.scroll();
 	}
 
+	@Override
 	public boolean next() throws JRException
 	{
 		if (scrollableResults != null && scrollableResults.next())
@@ -56,6 +57,7 @@ public class JRHibernateScrollDataSource extends JRHibernateAbstractDataSource i
 		return false;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		queryExecuter.closeScrollableResults();

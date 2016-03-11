@@ -39,58 +39,72 @@ public class XmlaDataAdapterImpl extends AbstractDataAdapter implements
 	private String password = null;
 	private boolean savePassword;
 
+	@Override
 	public String getXmlaUrl() {
 		return xmlaUrl;
 	}
 
+	@Override
 	public void setXmlaUrl(String xmlaUrl) {
 		this.xmlaUrl = xmlaUrl;
 	}
 
+	@Override
 	public String getDatasource() {
 		return datasource;
 	}
 
+	@Override
 	public void setDatasource(String datasource) {
 		this.datasource = datasource;
 	}
 
+	@Override
 	public String getCatalog() {
 		return catalog;
 	}
 
+	@Override
 	public void setCatalog(String catalog) {
 		this.catalog = catalog;
 	}
 
+	@Override
 	public String getCube() {
 		return cube;
 	}
 
+	@Override
 	public void setCube(String cube) {
 		this.cube = cube;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
 
+	@Override
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	@Override
 	public boolean isSavePassword() {
 		return savePassword;
 	}
 
+	@Override
 	public void setSavePassword(boolean savePassword) {
 		this.savePassword = savePassword;
 	}
 
+	@Override
 	public String getUsername() {
 		return username;
 	}
 
+	@Override
 	public void setUsername(String username) {
 		this.username = username;
 	}

@@ -77,9 +77,7 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder, JRI
 	 */
 	public void setY(int y);
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getWidth();
 	
 	/**
@@ -87,9 +85,7 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder, JRI
 	 */
 	public void setWidth(int width);
 	
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight();
 	
 	/**
@@ -107,6 +103,7 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder, JRI
 	 * appear on the same page/filled report.
 	 * </p>
 	 */
+	@Override
 	public String getKey();
 	
 	/**

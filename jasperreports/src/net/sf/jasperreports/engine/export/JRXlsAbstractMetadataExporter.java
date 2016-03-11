@@ -392,17 +392,13 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
 		return textElement.getFullStyledText(noneSelector);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected int getImageBorderCorrection(JRPen pen)
 	{
 		float lineWidth = pen.getLineWidth().floatValue();
@@ -480,9 +476,8 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		sheetInfo.tabColor = configuration.getSheetTabColor();
 		return sheetInfo;
 	}
-	/**
-	 * 
-	 */
+
+	@Override
 	protected String getFormula(JRPrintText text)
 	{
 		String formula = text.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_CELL_FORMULA);
@@ -517,34 +512,42 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		return indexOfLastFilledColumn < columnNames.indexOf(currentColumnName);
 	}
 	
+	@Override
 	protected void exportText(JRPrintText text, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
 	{
 	}
 
+	@Override
 	public void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
 	{
 	}
 
+	@Override
 	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
 	{
 	}
 
+	@Override
 	protected void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
 	{
 	}
 
+	@Override
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
 	{
 	}
 
+	@Override
 	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
 	{
 	}
 	
+	@Override
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
 	{
 	}
 
+	@Override
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) throws JRException
 	{
 	}
@@ -553,10 +556,13 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 //	{
 //	}
 	
+	@Override
 	protected abstract ExporterNature getNature();
 
+	@Override
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
 
+	@Override
 	protected void createSheet(CutsInfo xCuts, SheetInfo sheetInfo)
 	{
 		createSheet(sheetInfo);
@@ -564,6 +570,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 
 	protected abstract void createSheet(SheetInfo sheetInfo);
 
+	@Override
 	protected abstract void closeWorkbook(OutputStream os) throws JRException;
 
 	protected void setColumnWidth(int col, int width)
@@ -571,6 +578,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		setColumnWidth(col, width, false);
 	}
 
+	@Override
 	protected abstract void setColumnWidth(int col, int width, boolean autoFit);
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight) throws JRException
@@ -578,6 +586,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		setRowHeight(rowIndex, lastRowHeight, null, null);
 	}
 
+	@Override
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException;
 
 	protected abstract void exportText(JRPrintText textElement) throws JRException;

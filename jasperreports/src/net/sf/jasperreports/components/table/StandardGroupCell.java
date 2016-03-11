@@ -64,11 +64,13 @@ public class StandardGroupCell implements GroupCell, Serializable,
 		this.cell = columnFactory.createCell(groupCell.getCell());
 	}
 
+	@Override
 	public Cell getCell()
 	{
 		return cell;
 	}
 
+	@Override
 	public String getGroupName()
 	{
 		return groupName;
@@ -89,6 +91,7 @@ public class StandardGroupCell implements GroupCell, Serializable,
 		getEventSupport().firePropertyChange(PROPERTY_CELL, old, this.cell);
 	}
 
+	@Override
 	public Object clone()
 	{
 		StandardGroupCell clone = null;
@@ -107,6 +110,7 @@ public class StandardGroupCell implements GroupCell, Serializable,
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

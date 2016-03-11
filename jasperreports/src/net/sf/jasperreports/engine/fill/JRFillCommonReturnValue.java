@@ -83,16 +83,19 @@ public abstract class JRFillCommonReturnValue implements CommonReturnValue
 		this.filler = fillReturnValue.filler;
 	}
 
+	@Override
 	public String getToVariable()
 	{
 		return toVariable;
 	}
 		
+	@Override
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
 	}
 		
+	@Override
 	public CalculationEnum getCalculation()
 	{
 		return calculation;
@@ -200,9 +203,7 @@ public abstract class JRFillCommonReturnValue implements CommonReturnValue
 
 	protected abstract CommonReturnValue createDistinctCountHelperReturnValue(CommonReturnValue returnValue);
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

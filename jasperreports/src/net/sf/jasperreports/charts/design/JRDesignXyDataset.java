@@ -63,9 +63,7 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRXySeries[] getSeries()
 	{
 		JRXySeries[] xySeriesArray = new JRXySeries[xySeriesList.size()];
@@ -125,32 +123,27 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	}
 
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.XY_DATASET;
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignXyDataset clone = (JRDesignXyDataset)super.clone();

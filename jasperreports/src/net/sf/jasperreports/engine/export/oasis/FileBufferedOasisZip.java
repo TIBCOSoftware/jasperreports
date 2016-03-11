@@ -51,9 +51,7 @@ public class FileBufferedOasisZip extends OasisZip
 		super(mimeType);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public ExportZipEntry createEntry(String name)
 	{
 		return new FileBufferedZipEntry(name);

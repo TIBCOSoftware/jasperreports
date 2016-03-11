@@ -67,33 +67,25 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public int getX()
 	{
 		return 0;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		return 1;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public BreakTypeEnum getTypeValue()
 	{
 		return this.typeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setType(BreakTypeEnum typeValue)
 	{
 		Object old = this.typeValue;
@@ -101,17 +93,13 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.typeValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitBreak(this);

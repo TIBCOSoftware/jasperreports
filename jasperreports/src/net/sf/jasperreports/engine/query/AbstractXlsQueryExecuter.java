@@ -330,12 +330,14 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 		}
 	}
 
+	@Override
 	public void close() {
 		if(datasource != null){
 			datasource.close();
 		}
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException {
 		return false;
 	}

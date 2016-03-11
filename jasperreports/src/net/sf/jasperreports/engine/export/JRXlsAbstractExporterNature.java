@@ -77,17 +77,13 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		this.isIgnorePageMargins = isIgnorePageMargins;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPropertiesUtil getPropertiesUtil()
 	{
 		return propertiesUtil;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		return 
@@ -95,33 +91,25 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			&& (filter == null || filter.isToExport(element));
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isDeep(JRPrintFrame frame)
 	{
 		return true;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isSpanCells()
 	{
 		return true;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isIgnoreLastRow()
 	{
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isHorizontallyMergeEmptyCells()
 	{
 		return false;
@@ -130,23 +118,20 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	/**
 	 * Specifies whether empty page margins should be ignored
 	 */
+	@Override
 	public boolean isIgnorePageMargins()
 	{
 		return isIgnorePageMargins;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return element.hasProperties() 
 				&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_BREAK_BEFORE_ROW));
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return element.hasProperties()
@@ -359,6 +344,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		return null;
 	}
 
+	@Override
 	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
@@ -388,6 +374,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		
 	}
 	
+	@Override
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
 		Float widthRatio = getColumnWidthRatio(element);
@@ -398,6 +385,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		}
 	}
 	
+	@Override
 	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		Map<String,Object> yCutsProperties = yCuts.getPropertiesMap();
@@ -506,6 +494,7 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		setYProperties(yCutsProperties, element);
 	}
 	
+	@Override
 	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
 	{
 		// nothing to do here

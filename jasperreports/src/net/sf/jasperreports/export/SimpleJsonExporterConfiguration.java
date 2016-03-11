@@ -39,9 +39,7 @@ public class SimpleJsonExporterConfiguration extends SimpleExporterConfiguration
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isFlushOutput()
 	{
 		return flushOutput;
@@ -55,9 +53,7 @@ public class SimpleJsonExporterConfiguration extends SimpleExporterConfiguration
 		this.flushOutput = flushOutput;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isReportComponentsExportOnly()
 	{
 		return reportComponentsExportOnly;

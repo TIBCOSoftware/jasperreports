@@ -79,6 +79,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		super(defaultStyleProvider);
 	}
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -92,11 +93,13 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		return eventSupport;
 	}
 	
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitComponentElement(this);
@@ -107,6 +110,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		}
 	}
 
+	@Override
 	public Component getComponent()
 	{
 		return component;
@@ -137,6 +141,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		}
 	}
 
+	@Override
 	public ComponentKey getComponentKey()
 	{
 		return componentKey;
@@ -155,6 +160,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		getEventSupport().firePropertyChange(PROPERTY_COMPONENT_KEY, old, this.componentKey);
 	}
 
+	@Override
 	public Object clone()
 	{
 		JRDesignComponentElement clone = (JRDesignComponentElement) super.clone();

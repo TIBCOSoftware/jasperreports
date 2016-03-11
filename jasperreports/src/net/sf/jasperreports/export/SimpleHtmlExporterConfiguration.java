@@ -43,9 +43,7 @@ public class SimpleHtmlExporterConfiguration extends SimpleExporterConfiguration
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getHtmlHeader()
 	{
 		return htmlHeader;
@@ -59,9 +57,7 @@ public class SimpleHtmlExporterConfiguration extends SimpleExporterConfiguration
 		this.htmlHeader = htmlHeader;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getBetweenPagesHtml()
 	{
 		return betweenPagesHtml;
@@ -75,9 +71,7 @@ public class SimpleHtmlExporterConfiguration extends SimpleExporterConfiguration
 		this.betweenPagesHtml = betweenPagesHtml;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getHtmlFooter()
 	{
 		return htmlFooter;
@@ -91,9 +85,7 @@ public class SimpleHtmlExporterConfiguration extends SimpleExporterConfiguration
 		this.htmlFooter = htmlFooter;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isFlushOutput()
 	{
 		return flushOutput;

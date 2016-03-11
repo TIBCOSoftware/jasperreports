@@ -95,31 +95,37 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		return parameters;
 	}
 	
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return hyperlinkAnchorExpression;
 	}
 
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return hyperlinkPageExpression;
 	}
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return hyperlinkReferenceExpression;
 	}
 
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return hyperlinkWhenExpression;
 	}
 
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
@@ -133,29 +139,31 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		return getHyperlinkTypeValue().getValue();
 	}
 
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
 	}
 	
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
 	}
 	
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseHyperlink clone = null;

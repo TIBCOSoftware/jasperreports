@@ -47,6 +47,7 @@ public class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator
 		this.labelsMap = labelsMap;
 	}
 	
+	@Override
 	public String generateLabel(XYDataset dataset, int series, int item)
 	{
 		Comparable<?> seriesName = dataset.getSeriesKey(series);

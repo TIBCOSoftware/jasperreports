@@ -51,6 +51,7 @@ public class MemberMapping implements Mapping
 		return property;
 	}
 
+	@Override
 	public Iterator memberMappings()
 	{
 		return new SingleIt(member);
@@ -67,11 +68,13 @@ public class MemberMapping implements Mapping
 			first = true;
 		}
 		
+		@Override
 		public void remove()
 		{
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean hasNext()
 		{
 			boolean next = first;
@@ -79,6 +82,7 @@ public class MemberMapping implements Mapping
 			return next;
 		}
 
+		@Override
 		public Object next()
 		{
 			return o;

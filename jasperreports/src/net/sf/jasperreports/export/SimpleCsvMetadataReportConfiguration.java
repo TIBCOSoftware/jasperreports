@@ -39,9 +39,7 @@ public class SimpleCsvMetadataReportConfiguration extends SimpleCsvReportConfigu
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isWriteHeader()
 	{
 		return isWriteHeader;
@@ -55,9 +53,7 @@ public class SimpleCsvMetadataReportConfiguration extends SimpleCsvReportConfigu
 		this.isWriteHeader = isWriteHeader;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String[] getColumnNames()
 	{
 		return columnNames;

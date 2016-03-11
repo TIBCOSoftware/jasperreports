@@ -345,6 +345,7 @@ public class JRStyledText implements Cloneable
 			this.endIndex = endIndex;
 		}
 
+		@Override
 		protected Object clone()
 		{
 			return cloneRun();
@@ -383,6 +384,7 @@ public class JRStyledText implements Cloneable
 		return globalAttributes;
 	}
 	
+	@Override
 	protected Object clone() throws CloneNotSupportedException
 	{
 		// TODO Auto-generated method stub

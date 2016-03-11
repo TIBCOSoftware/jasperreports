@@ -96,6 +96,7 @@ public class ObjectArrayStore<T> implements BufferColumnStore, ArrayStore
 		this.count = count;
 	}
 
+	@Override
 	public void addValue(Object object)
 	{
 		values[count] = object;
@@ -104,16 +105,19 @@ public class ObjectArrayStore<T> implements BufferColumnStore, ArrayStore
 		runLengthStore.valueAdded();
 	}
 
+	@Override
 	public boolean full()
 	{
 		return count >= values.length;
 	}
 	
+	@Override
 	public void resetValues()
 	{
 		reset();
 	}
 	
+	@Override
 	public ColumnValues createValues()
 	{
 		if (count == 0)
@@ -171,6 +175,7 @@ public class ObjectArrayStore<T> implements BufferColumnStore, ArrayStore
 		return finalValues;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "ObjectArrayStore@" + hashCode();

@@ -56,31 +56,37 @@ public class DeepPrintElementVisitor<T> implements PrintElementVisitor<T>
 		this.visitor = visitor;
 	}
 	
+	@Override
 	public void visit(JRPrintText textElement, T arg)
 	{
 		visitor.visit(textElement, arg);
 	}
 
+	@Override
 	public void visit(JRPrintImage image, T arg)
 	{
 		visitor.visit(image, arg);
 	}
 
+	@Override
 	public void visit(JRPrintRectangle rectangle, T arg)
 	{
 		visitor.visit(rectangle, arg);
 	}
 
+	@Override
 	public void visit(JRPrintLine line, T arg)
 	{
 		visitor.visit(line, arg);
 	}
 
+	@Override
 	public void visit(JRPrintEllipse ellipse, T arg)
 	{
 		visitor.visit(ellipse, arg);
 	}
 
+	@Override
 	public void visit(JRPrintFrame frame, T arg)
 	{
 		visitor.visit(frame, arg);
@@ -95,6 +101,7 @@ public class DeepPrintElementVisitor<T> implements PrintElementVisitor<T>
 		}
 	}
 
+	@Override
 	public void visit(JRGenericPrintElement printElement, T arg)
 	{
 		visitor.visit(printElement, arg);

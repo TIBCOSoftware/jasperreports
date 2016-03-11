@@ -178,9 +178,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 		this.alphaDouble = alpha;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRMeterInterval clone = null;

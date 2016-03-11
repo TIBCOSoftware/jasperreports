@@ -58,12 +58,14 @@ public class JRBshCompiler extends JRAbstractCompiler
 	}
 
 
+	@Override
 	protected JREvaluator loadEvaluator(Serializable compileData, String unitName) throws JRException
 	{
 		return new JRBshEvaluator((String) compileData);
 	}
 
 
+	@Override
 	protected void checkLanguage(String language) throws JRException
 	{
 		if (
@@ -79,12 +81,14 @@ public class JRBshCompiler extends JRAbstractCompiler
 	}
 
 
+	@Override
 	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
 		return new JRDefaultCompilationSourceCode(JRBshGenerator.generateScript(sourceTask), null);
 	}
 
 
+	@Override
 	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
 	{
 		verifyScripts(units);
@@ -133,6 +137,7 @@ public class JRBshCompiler extends JRAbstractCompiler
 	}
 
 
+	@Override
 	protected String getSourceFileName(String unitName)
 	{
 		return unitName + ".bsh";

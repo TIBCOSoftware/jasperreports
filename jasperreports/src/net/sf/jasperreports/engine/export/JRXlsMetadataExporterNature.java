@@ -52,6 +52,7 @@ public class JRXlsMetadataExporterNature extends JRXlsExporterNature
 		super(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		return element.hasProperties() && element.getPropertiesMap().containsProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME) && super.isToExport(element);

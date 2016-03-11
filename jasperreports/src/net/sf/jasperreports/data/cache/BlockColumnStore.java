@@ -66,12 +66,14 @@ public class BlockColumnStore implements ColumnStore
 		}
 	}
 	
+	@Override
 	public void addValue(Object value)
 	{
 		preAdd();
 		bufferStore.addValue(value);
 	}
 
+	@Override
 	public ColumnValues createValues()
 	{
 		ColumnValues currentValues = bufferStore.createValues();
@@ -91,6 +93,7 @@ public class BlockColumnStore implements ColumnStore
 		return blockColumnValues;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "BlockColumnStore@" + hashCode();

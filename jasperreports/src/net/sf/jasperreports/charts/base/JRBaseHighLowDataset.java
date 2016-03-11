@@ -83,42 +83,48 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	}
 
 
-
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return seriesExpression;
 	}
 
 
+	@Override
 	public JRExpression getDateExpression()
 	{
 		return dateExpression;
 	}
 
 
+	@Override
 	public JRExpression getHighExpression()
 	{
 		return highExpression;
 	}
 
 
+	@Override
 	public JRExpression getLowExpression()
 	{
 		return lowExpression;
 	}
 
 
+	@Override
 	public JRExpression getOpenExpression()
 	{
 		return openExpression;
 	}
 
 
+	@Override
 	public JRExpression getCloseExpression()
 	{
 		return closeExpression;
 	}
 
+	@Override
 	public JRExpression getVolumeExpression()
 	{
 		return volumeExpression;
@@ -128,35 +134,34 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
 	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.HIGHLOW_DATASET;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 	
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseHighLowDataset clone = (JRBaseHighLowDataset)super.clone();

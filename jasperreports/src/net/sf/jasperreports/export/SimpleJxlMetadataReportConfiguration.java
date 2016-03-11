@@ -39,9 +39,7 @@ public class SimpleJxlMetadataReportConfiguration extends SimpleXlsMetadataRepor
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isComplexFormat()
 	{
 		return isComplexFormat;

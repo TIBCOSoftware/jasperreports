@@ -47,35 +47,31 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 		super(piePlot, factory);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getCircular()
 	{
 		return ((JRPiePlot)parent).getCircular();
 	}
 	
+	@Override
 	public String getLabelFormat()
 	{
 		return ((JRPiePlot)parent).getLabelFormat();
 	}
 	
+	@Override
 	public String getLegendLabelFormat()
 	{
 		return ((JRPiePlot)parent).getLegendLabelFormat();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRItemLabel getItemLabel()
 	{
 		return ((JRPiePlot)parent).getItemLabel();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getShowLabels(){
 		return ((JRPiePlot)parent).getShowLabels();
 	}

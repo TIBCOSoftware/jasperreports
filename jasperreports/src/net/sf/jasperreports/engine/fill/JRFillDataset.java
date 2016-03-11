@@ -1489,6 +1489,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return getVariableValue(variableName, EvaluationType.DEFAULT);
 	}
 
+	@Override
 	public Object getVariableValue(String variableName, EvaluationType evaluation)
 	{
 		JRFillVariable var = variablesMap.get(variableName);
@@ -1514,6 +1515,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 * @param parameterName the parameter name
 	 * @return the parameter value
 	 */
+	@Override
 	public Object getParameterValue(String parameterName)
 	{
 		return getParameterValue(parameterName, false);
@@ -1565,6 +1567,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return getFieldValue(fieldName, EvaluationType.DEFAULT);
 	}
 	
+	@Override
 	public Object getFieldValue(String fieldName, EvaluationType evaluation)
 	{
 		JRFillField field = fieldsMap.get(fieldName);
@@ -1599,6 +1602,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			this.calculation = calculation;
 		}
 
+		@Override
 		public boolean equals(Object o)
 		{
 			if (o == null || !(o instanceof VariableCalculationReq))
@@ -1611,6 +1615,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			return variableName.equals(r.variableName) && calculation == r.calculation;
 		}
 
+		@Override
 		public int hashCode()
 		{
 			return 31 * calculation.ordinal() + variableName.hashCode();
@@ -1715,21 +1720,25 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return parent.getUUID();
 	}
 
+	@Override
 	public String getName()
 	{
 		return parent.getName();
 	}
 
+	@Override
 	public String getScriptletClass()
 	{
 		return parent.getScriptletClass();
 	}
 
+	@Override
 	public JRScriptlet[] getScriptlets()
 	{
 		return parent.getScriptlets();
 	}
 
+	@Override
 	public JRParameter[] getParameters()
 	{
 		return parameters;
@@ -1740,66 +1749,78 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return parametersMap;
 	}
 
+	@Override
 	public JRQuery getQuery()
 	{
 		return query;
 	}
 
+	@Override
 	public JRField[] getFields()
 	{
 		return fields;
 	}
 
+	@Override
 	public JRSortField[] getSortFields()
 	{
 		return parent.getSortFields();
 	}
 
+	@Override
 	public JRVariable[] getVariables()
 	{
 		return variables;
 	}
 
+	@Override
 	public JRGroup[] getGroups()
 	{
 		return groups;
 	}
 
+	@Override
 	public boolean isMainDataset()
 	{
 		return isMain;
 	}
 
+	@Override
 	public String getResourceBundle()
 	{
 		return parent.getResourceBundle();
 	}
 
 
+	@Override
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return whenResourceMissingType;
 	}
 
 
+	@Override
 	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		this.whenResourceMissingType = whenResourceMissingType;
 	}
 
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return parent.hasProperties();
 	}
 
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return parent.getPropertiesMap();
 	}
 
 	
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		// report properties propagate to subdatasets
@@ -1807,14 +1828,13 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	}
 
 
+	@Override
 	public JRExpression getFilterExpression()
 	{
 		return parent.getFilterExpression();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();
@@ -1832,6 +1852,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return calculator.evaluate(expression, evaluation);
 	}
 	
+	@Override
 	public Locale getLocale()
 	{
 		return locale;

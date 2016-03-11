@@ -36,6 +36,7 @@ public class RequestMethodFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -45,6 +46,7 @@ public class RequestMethodFieldHandler extends GeneralizedFieldHandler
 		return ((RequestMethod) value).name();
 	}
 
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -54,11 +56,13 @@ public class RequestMethodFieldHandler extends GeneralizedFieldHandler
 		return RequestMethod.valueOf((String) value);
 	}
 	
+	@Override
 	public Class<?> getFieldType()
 	{
 		return RequestMethod.class;
 	}
 
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		return null;

@@ -66,9 +66,7 @@ public final class TextFieldConverter extends TextElementConverter
 		return INSTANCE;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintText printText = new JRBasePrintText(reportConverter.getDefaultStyleProvider());

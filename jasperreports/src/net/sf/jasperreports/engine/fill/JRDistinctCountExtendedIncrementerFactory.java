@@ -59,9 +59,7 @@ public class JRDistinctCountExtendedIncrementerFactory extends JRAbstractExtende
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		return new JRDistinctCountExtendedIncrementer();
@@ -92,9 +90,7 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -118,9 +114,7 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object combine(JRCalculable calculable1, JRCalculable calculable2, AbstractValueProvider valueProvider)
 	{
 		Set<Object> distinctValues = new HashSet<Object>();
@@ -149,9 +143,7 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object initialValue()
 	{
 		return null;

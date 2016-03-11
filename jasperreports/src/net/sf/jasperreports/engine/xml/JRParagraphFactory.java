@@ -36,9 +36,7 @@ import org.xml.sax.Attributes;
 public class JRParagraphFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRParagraphContainer paragraphContainer = (JRParagraphContainer) digester.peek();

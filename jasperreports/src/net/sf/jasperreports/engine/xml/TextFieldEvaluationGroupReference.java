@@ -43,16 +43,19 @@ public class TextFieldEvaluationGroupReference implements XmlGroupReference
 		this.textField = textField;
 	}
 
+	@Override
 	public JRGroup getGroupReference()
 	{
 		return textField.getEvaluationGroup();
 	}
 
+	@Override
 	public void assignGroup(JRGroup group)
 	{
 		textField.setEvaluationGroup(group);
 	}
 
+	@Override
 	public void groupNotFound(String groupName) throws JRValidationException
 	{
 		throw new JRValidationException("Unknown evaluation group '" + groupName + "' for text field.", textField);

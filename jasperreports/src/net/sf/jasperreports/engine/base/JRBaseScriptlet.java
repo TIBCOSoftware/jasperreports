@@ -89,25 +89,19 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return this.name;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getDescription()
 	{
 		return this.description;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setDescription(String description)
 	{
 		Object old = this.description;
@@ -115,9 +109,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 		getEventSupport().firePropertyChange(PROPERTY_DESCRIPTION, old, this.description);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -139,9 +131,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 		return valueClass;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
@@ -161,27 +151,28 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 	}
 
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
 	}
 
 	
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseScriptlet clone = null;
@@ -208,6 +199,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

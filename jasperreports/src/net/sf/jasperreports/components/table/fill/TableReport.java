@@ -461,6 +461,7 @@ public class TableReport implements JRReport
 			return cell == null;
 		}
 		
+		@Override
 		public Void visitColumn(Column column)
 		{
 			Cell cell = columnCell(column);
@@ -497,6 +498,7 @@ public class TableReport implements JRReport
 					xOffset, yOffset, column.hashCode(), forceFrame);
 		}
 		
+		@Override
 		public Void visitColumnGroup(ColumnGroup columnGroup)
 		{
 			Cell cell = columnGroupCell(columnGroup);
@@ -1466,6 +1468,7 @@ public class TableReport implements JRReport
 		private JRValueParameter tableScriptletParam;
 		private TableReportScriptlet tableScriptlet;
 		
+		@Override
 		public void init(Map<String, JRFillParameter> parametersMap, 
 				Map<String, JRFillField> fieldsMap, 
 				Map<String, JRFillVariable> variablesMap, 
@@ -1484,18 +1487,21 @@ public class TableReport implements JRReport
 			}
 		}
 		
+		@Override
 		public Object evaluate(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			ensureValue();
 			return tableScriptlet.hasDetailOnPage();
 		}
 
+		@Override
 		public Object evaluateEstimated(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			ensureValue();
 			return tableScriptlet.hasDetailOnPage();
 		}
 
+		@Override
 		public Object evaluateOld(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			ensureValue();
@@ -1738,41 +1744,49 @@ public class TableReport implements JRReport
 		return section;
 	}
 	
+	@Override
 	public JRBand getBackground()
 	{
 		return null;
 	}
 
+	@Override
 	public int getBottomMargin()
 	{
 		return 0;
 	}
 
+	@Override
 	public int getColumnCount()
 	{
 		return 1;
 	}
 
+	@Override
 	public JRBand getColumnFooter()
 	{
 		return null;
 	}
 
+	@Override
 	public JRBand getColumnHeader()
 	{
 		return columnHeader;
 	}
 
+	@Override
 	public int getColumnSpacing()
 	{
 		return 0;
 	}
 
+	@Override
 	public int getColumnWidth()
 	{
 		return fillContext.getComponentElement().getWidth();
 	}
 
+	@Override
 	public JRDataset[] getDatasets()
 	{
 		return parentReport.getDatasets();
@@ -1785,11 +1799,13 @@ public class TableReport implements JRReport
 		return null;
 	}
 
+	@Override
 	public JRSection getDetailSection()
 	{
 		return detail;
 	}
 
+	@Override
 	public JRField[] getFields()
 	{
 		return mainDataset.getFields();
@@ -1809,157 +1825,188 @@ public class TableReport implements JRReport
 		return found;
 	}
 
+	@Override
 	public String getFormatFactoryClass()
 	{
 		return parentReport.getFormatFactoryClass();
 	}
 
+	@Override
 	public JRGroup[] getGroups()
 	{
 		return mainDataset.getGroups();
 	}
 
+	@Override
 	public String[] getImports()
 	{
 		return parentReport.getImports();
 	}
 
+	@Override
 	public String getLanguage()
 	{
 		return parentReport.getLanguage();
 	}
 
+	@Override
 	public JRBand getLastPageFooter()
 	{
 		return lastPageFooter;
 	}
 
+	@Override
 	public int getLeftMargin()
 	{
 		return 0;
 	}
 
+	@Override
 	public JRDataset getMainDataset()
 	{
 		return mainDataset;
 	}
 
+	@Override
 	public String getName()
 	{
 		return mainDataset.getName();
 	}
 
+	@Override
 	public JRBand getNoData()
 	{
 		return null;
 	}
 
+	@Override
 	public OrientationEnum getOrientationValue()
 	{
 		return OrientationEnum.PORTRAIT;
 	}
 
+	@Override
 	public JRBand getPageFooter()
 	{
 		return pageFooter;
 	}
 
+	@Override
 	public JRBand getPageHeader()
 	{
 		return null;
 	}
 
+	@Override
 	public int getPageHeight()
 	{
 		return parentReport.getPageHeight();
 	}
 
+	@Override
 	public int getPageWidth()
 	{
 		return fillContext.getComponentElement().getWidth();
 	}
 
+	@Override
 	public JRParameter[] getParameters()
 	{
 		return mainDataset.getParameters();
 	}
 
+	@Override
 	public PrintOrderEnum getPrintOrderValue()
 	{
 		return PrintOrderEnum.VERTICAL;
 	}
 
+	@Override
 	public RunDirectionEnum getColumnDirection()
 	{
 		return RunDirectionEnum.LTR;
 	}
 
+	@Override
 	public String getProperty(String name)
 	{
 		return mainDataset.getPropertiesMap().getProperty(name);	
 	}
 
+	@Override
 	public String[] getPropertyNames()
 	{
 		return mainDataset.getPropertiesMap().getPropertyNames();
 	}
 
+	@Override
 	public JRQuery getQuery()
 	{
 		return mainDataset.getQuery();
 	}
 
+	@Override
 	public String getResourceBundle()
 	{
 		return mainDataset.getResourceBundle();
 	}
 
+	@Override
 	public int getRightMargin()
 	{
 		return 0;
 	}
 
+	@Override
 	public String getScriptletClass()
 	{
 		return mainDataset.getScriptletClass();
 	}
 
+	@Override
 	public JRScriptlet[] getScriptlets()
 	{
 		return mainDataset.getScriptlets();
 	}
 
+	@Override
 	public JRSortField[] getSortFields()
 	{
 		return mainDataset.getSortFields();
 	}
 
+	@Override
 	public JRStyle[] getStyles()
 	{
 		return parentReport.getStyles();
 	}
 
+	@Override
 	public JRBand getSummary()
 	{
 		return summary;
 	}
 
+	@Override
 	public JRReportTemplate[] getTemplates()
 	{
 		// the parent report's templates are always used for the subreport
 		return null;
 	}
 
+	@Override
 	public JRBand getTitle()
 	{
 		return title;
 	}
 
+	@Override
 	public int getTopMargin()
 	{
 		return 0;
 	}
 
+	@Override
 	public JRVariable[] getVariables()
 	{
 		return mainDataset.getVariables();
@@ -1979,6 +2026,7 @@ public class TableReport implements JRReport
 		return found;
 	}
 	
+	@Override
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
 	{
 		WhenNoDataTypeTableEnum whenNoDataType = table.getWhenNoDataType(); 
@@ -2007,82 +2055,98 @@ public class TableReport implements JRReport
 		}
 	}
 
+	@Override
 	public SectionTypeEnum getSectionType()
 	{
 		return SectionTypeEnum.BAND;
 	}
 
+	@Override
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return mainDataset.getWhenResourceMissingTypeValue();
 	}
 
+	@Override
 	public boolean isFloatColumnFooter()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isIgnorePagination()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isSummaryNewPage()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isSummaryWithPageHeaderAndFooter()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isTitleNewPage()
 	{
 		return false;
 	}
 
+	@Override
 	public void removeProperty(String name)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setProperty(String name, String value)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setWhenResourceMissingType(
 			WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JRStyle getDefaultStyle()
 	{
 		return parentReport.getDefaultStyle();
 	}
 
+	@Override
 	public StyleResolver getStyleResolver()
 	{
 		return parentReport.getStyleResolver();
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return mainDataset.getPropertiesMap();
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return mainDataset.hasProperties();

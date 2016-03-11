@@ -36,9 +36,7 @@ import org.xml.sax.Attributes;
 public class JRSortFieldFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignSortField sortField = new JRDesignSortField();

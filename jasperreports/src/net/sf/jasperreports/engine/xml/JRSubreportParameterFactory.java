@@ -34,9 +34,7 @@ import org.xml.sax.Attributes;
 public class JRSubreportParameterFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignSubreportParameter subreportParameter = new JRDesignSubreportParameter();

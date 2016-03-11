@@ -57,11 +57,13 @@ public class JavaScriptCompiler extends JavaScriptCompilerBase
 		super(jasperReportsContext);
 	}
 
+	@Override
 	protected void checkLanguage(String language) throws JRException
 	{
 		//NOOP
 	}
 
+	@Override
 	protected String compileUnits(JRCompilationUnit[] units, String classpath,
 			File tempDirFile) throws JRException
 	{

@@ -47,18 +47,12 @@ public class ColumnStyle extends Style
 		this.columnWidth = columnWidth;
 	}
 	
-	/**
-	 *
-	 */
 	@Override
 	public String getId()
 	{
 		return "" + columnWidth;
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void write(String columnStyleName) throws IOException
 	{

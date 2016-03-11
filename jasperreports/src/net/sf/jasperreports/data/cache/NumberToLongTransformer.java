@@ -53,6 +53,7 @@ public final class NumberToLongTransformer implements ValueTransformer, Serializ
 		return Long.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return ((Number) value).longValue();

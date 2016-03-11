@@ -116,6 +116,7 @@ public class SortedDataSource implements JRRewindableDataSource, IndexedDataSour
 		this.currentIndex = 0;
 	}
 
+	@Override
 	public boolean next()
 	{
 		if (currentIndex >= recordIndexes.length)
@@ -136,6 +137,7 @@ public class SortedDataSource implements JRRewindableDataSource, IndexedDataSour
 		currentRecord.setRecordIndex(index);
 	}
 
+	@Override
 	public Object getFieldValue(JRField jrField)
 	{
 		Integer fieldIndex = columnNamesMap.get(jrField.getName());
@@ -149,6 +151,7 @@ public class SortedDataSource implements JRRewindableDataSource, IndexedDataSour
 		return currentRecord.fieldValue(fieldIndex);
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		currentIndex = 0;

@@ -44,6 +44,7 @@ public class ArbitraryRankComparator implements Comparator<Object>
 	private final ReferenceMap ranks = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 	private long rankCounter = Long.MIN_VALUE;
 	
+	@Override
 	public int compare(Object o1, Object o2)
 	{
 		if (o1 == o2 || o1.equals(o2))

@@ -35,6 +35,7 @@ import org.xml.sax.Attributes;
 public class JRGenericElementTypeFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		String namespace = attrs.getValue(JRXmlConstants.ATTRIBUTE_namespace);

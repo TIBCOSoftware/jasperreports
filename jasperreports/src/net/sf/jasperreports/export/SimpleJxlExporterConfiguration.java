@@ -39,9 +39,7 @@ public class SimpleJxlExporterConfiguration extends AbstractXlsExporterConfigura
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isUseTempFile()
 	{
 		return isUseTempFile;

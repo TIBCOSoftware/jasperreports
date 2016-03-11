@@ -321,6 +321,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 	}
 	
+	@Override
 	public JRBaseStyle getStyle(JRStyle style)
 	{
 		JRBaseStyle fillStyle = null;
@@ -372,6 +373,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void setStyle(JRStyleSetter setter, JRStyleContainer styleContainer)
 	{
 		JRStyle style = styleContainer.getStyle();
@@ -527,9 +529,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		JRFillElementGroup fillElementGroup = null;
@@ -547,9 +547,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitBreak(JRBreak breakElement)
 	{
 		JRFillBreak fillBreak = null;
@@ -567,9 +565,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitLine(JRLine line)
 	{
 		JRFillLine fillLine = null;
@@ -587,9 +583,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitRectangle(JRRectangle rectangle)
 	{
 		JRFillRectangle fillRectangle = null;
@@ -607,9 +601,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitEllipse(JREllipse ellipse)
 	{
 		JRFillEllipse fillEllipse = null;
@@ -627,9 +619,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitImage(JRImage image)
 	{
 		JRFillImage fillImage = null;
@@ -647,9 +637,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitStaticText(JRStaticText staticText)
 	{
 		JRFillStaticText fillStaticText = null;
@@ -667,9 +655,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitTextField(JRTextField textField)
 	{
 		JRFillTextField fillTextField = null;
@@ -687,9 +673,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitSubreport(JRSubreport subreport)
 	{
 		JRFillSubreport fillSubreport = null;
@@ -707,6 +691,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitChart(JRChart chart)
 	{
 		JRFillChart fillChart = null;
@@ -724,9 +709,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPieDataset getPieDataset(JRPieDataset pieDataset)
 	{
 		JRFillPieDataset fillPieDataset = null;
@@ -745,9 +728,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPiePlot getPiePlot(JRPiePlot piePlot)
 	{
 		JRFillPiePlot fillPiePlot = null;
@@ -765,9 +746,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
 		JRFillPie3DPlot fillPie3DPlot = null;
@@ -785,9 +764,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset)
 	{
 		JRFillCategoryDataset fillCategoryDataset = null;
@@ -805,6 +782,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillCategoryDataset;
 	}
 
+	@Override
 	public JRXyzDataset getXyzDataset( JRXyzDataset xyzDataset ){
 		JRFillXyzDataset fillXyzDataset = null;
 		if( xyzDataset != null ){
@@ -841,9 +819,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset ){
 		JRFillTimeSeriesDataset fillTimeSeriesDataset = null;
 
@@ -860,6 +836,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillTimeSeriesDataset;
 	}
 
+	@Override
 	public JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset ){
 		JRFillTimePeriodDataset fillTimePeriodDataset = null;
 		if( timePeriodDataset != null ){
@@ -892,9 +869,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillGanttDataset;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPieSeries getPieSeries(JRPieSeries pieSeries)
 	{
 		JRFillPieSeries fillPieSeries = null;
@@ -912,9 +887,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRCategorySeries getCategorySeries(JRCategorySeries categorySeries)
 	{
 		JRFillCategorySeries fillCategorySeries = null;
@@ -932,6 +905,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public JRXyzSeries getXyzSeries( JRXyzSeries xyzSeries ){
 		JRFillXyzSeries fillXyzSeries = null;
 
@@ -987,9 +961,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRBarPlot getBarPlot(JRBarPlot barPlot)
 	{
 		JRFillBarPlot fillBarPlot = null;
@@ -1007,9 +979,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
 	{
 		JRFillTimeSeries fillTimeSeries = null;
@@ -1026,6 +996,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillTimeSeries;
 	}
 
+	@Override
 	public JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
 		JRFillTimePeriodSeries fillTimePeriodSeries = null;
 		if( timePeriodSeries != null ){
@@ -1039,9 +1010,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
 		JRFillBar3DPlot fillBarPlot = null;
 
@@ -1056,9 +1025,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLinePlot getLinePlot(JRLinePlot linePlot) {
 		JRFillLinePlot fillLinePlot = null;
 
@@ -1090,9 +1057,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
 		JRFillAreaPlot fillAreaPlot = null;
 
@@ -1112,6 +1077,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBubblePlot(net.sf.jasperreports.charts.JRBubblePlot)
 	 */
+	@Override
 	public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
 		JRFillBubblePlot fillBubblePlot = null;
 
@@ -1166,6 +1132,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot)
 	{
 		JRFillCandlestickPlot fillCandlestickPlot = null;
@@ -1326,6 +1293,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitCrosstab(JRCrosstab crosstabElement)
 	{
 		JRFillCrosstab fillCrosstab = null;
@@ -1489,6 +1457,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitFrame(JRFrame frame)
 	{
 		Object fillFrame = null;
@@ -1526,9 +1495,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRConditionalStyle getConditionalStyle(JRConditionalStyle conditionalStyle, JRStyle style)
 	{
 		JRBaseConditionalStyle baseConditionalStyle = null;
@@ -1544,6 +1511,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
 	{
 		return expression;
@@ -1697,12 +1665,14 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 	}
 
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return filler.getJasperPrint().getDefaultStyleProvider();
 	}
 
 
+	@Override
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		JRFillComponentElement fill = null;
@@ -1720,6 +1690,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitGenericElement(JRGenericElement element)
 	{
 		JRFillGenericElement fill = null;

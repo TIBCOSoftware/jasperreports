@@ -41,6 +41,7 @@ public class HeaderToolbarParameterContributorExtensionFactory implements Extens
 			new SingletonExtensionRegistry<ParameterContributorFactory>(ParameterContributorFactory.class, 
 					HeaderToolbarParameterContributorFactory.getInstance());
 
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		return REGISTRY;

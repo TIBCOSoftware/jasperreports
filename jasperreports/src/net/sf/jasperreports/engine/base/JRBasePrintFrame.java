@@ -57,9 +57,7 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 		lineBox = new JRBaseLineBox(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
@@ -73,34 +71,33 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 		this.lineBox = lineBox.clone(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 
+	@Override
 	public void addElement(JRPrintElement element)
 	{
 		elements.add(element);
 	}
 	
+	@Override
 	public List<JRPrintElement> getElements()
 	{
 		return elements;
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

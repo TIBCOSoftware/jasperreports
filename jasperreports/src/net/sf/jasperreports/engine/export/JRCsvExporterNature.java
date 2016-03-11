@@ -49,9 +49,7 @@ public class JRCsvExporterNature extends AbstractExporterNature
 		super(jasperReportsContext, filter);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 //		JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
@@ -77,30 +75,25 @@ public class JRCsvExporterNature extends AbstractExporterNature
 			&& (filter == null || filter.isToExport(element));
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isDeep(JRPrintFrame frame)
 	{
 		return true;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isSpanCells()
 	{
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isIgnoreLastRow()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isHorizontallyMergeEmptyCells()
 	{
 		return false;
@@ -109,22 +102,19 @@ public class JRCsvExporterNature extends AbstractExporterNature
 	/**
 	 * Specifies whether empty page margins should be ignored
 	 */
+	@Override
 	public boolean isIgnorePageMargins()
 	{
 		return false;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return false;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return false;

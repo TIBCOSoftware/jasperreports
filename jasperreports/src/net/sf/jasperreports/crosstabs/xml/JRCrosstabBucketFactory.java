@@ -43,6 +43,7 @@ public class JRCrosstabBucketFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_class = "class";
 	public static final String ATTRIBUTE_order = "order";
 	
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabBucket bucket = new JRDesignCrosstabBucket();

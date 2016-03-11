@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class MapFillFactory implements ComponentFillFactory
 {
 
+	@Override
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{
@@ -44,6 +45,7 @@ public class MapFillFactory implements ComponentFillFactory
 		return new MapFillComponent(map, factory);
 	}
 
+	@Override
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{

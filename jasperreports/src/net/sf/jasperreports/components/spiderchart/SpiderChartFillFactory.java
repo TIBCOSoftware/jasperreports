@@ -36,12 +36,14 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class SpiderChartFillFactory implements ComponentFillFactory
 {
 
+	@Override
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{
 		return new FillSpiderChart((SpiderChartComponent) component, factory);
 	}
 
+	@Override
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{

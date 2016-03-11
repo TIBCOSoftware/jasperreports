@@ -60,14 +60,13 @@ public class BaseExpressionReturnValue extends BaseCommonReturnValue implements 
 	/**
 	 * The expression producing the value to return.
 	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return expression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		BaseExpressionReturnValue clone = (BaseExpressionReturnValue)super.clone();

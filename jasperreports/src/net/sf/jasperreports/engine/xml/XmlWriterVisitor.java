@@ -67,9 +67,7 @@ public class XmlWriterVisitor implements JRVisitor
 		this.xmlWriter = xmlWriter;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitBreak(JRBreak breakElement)
 	{
 		try
@@ -82,9 +80,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitChart(JRChart chart)
 	{
 		try
@@ -97,9 +93,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
 		try
@@ -112,9 +106,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		try
@@ -127,9 +119,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitEllipse(JREllipse ellipse)
 	{
 		try
@@ -142,9 +132,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitFrame(JRFrame frame)
 	{
 		try
@@ -157,9 +145,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitImage(JRImage image)
 	{
 		try
@@ -172,9 +158,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitLine(JRLine line)
 	{
 		try
@@ -187,9 +171,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitRectangle(JRRectangle rectangle)
 	{
 		try
@@ -202,9 +184,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitStaticText(JRStaticText staticText)
 	{
 		try
@@ -217,9 +197,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitSubreport(JRSubreport subreport)
 	{
 		try
@@ -232,9 +210,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitTextField(JRTextField textField)
 	{
 		try
@@ -247,6 +223,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 	
+	@Override
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		try
@@ -259,6 +236,7 @@ public class XmlWriterVisitor implements JRVisitor
 		}
 	}
 
+	@Override
 	public void visitGenericElement(JRGenericElement element)
 	{
 		try

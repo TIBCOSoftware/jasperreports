@@ -71,9 +71,7 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public void setWidth(int width)
 	{
 		if (width == 0)
@@ -84,9 +82,7 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 		super.setWidth(width);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setHeight(int height)
 	{
 		if (height == 0)
@@ -97,17 +93,13 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 		super.setHeight(height);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public LineDirectionEnum getDirectionValue()
 	{
 		return directionValue;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setDirection(LineDirectionEnum directionValue)
 	{
 		LineDirectionEnum old = this.directionValue;
@@ -115,17 +107,13 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 		getEventSupport().firePropertyChange(JRBaseLine.PROPERTY_DIRECTION, old, this.directionValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitLine(this);

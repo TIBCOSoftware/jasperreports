@@ -126,211 +126,157 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getTimeAxisLabelExpression(){
 		return timeAxisLabelExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getTimeAxisLabelFont()
 	{
 		return timeAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getTimeAxisLabelColor()
 	{
 		return getStyleResolver().getTimeAxisLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnTimeAxisLabelColor()
 	{
 		return timeAxisLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getTimeAxisTickLabelFont()
 	{
 		return timeAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getTimeAxisTickLabelColor()
 	{
 		return getStyleResolver().getTimeAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnTimeAxisTickLabelColor()
 	{
 		return timeAxisTickLabelColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getTimeAxisTickLabelMask()
 	{
 		return timeAxisTickLabelMask;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getTimeAxisVerticalTickLabels()
 	{
 		return timeAxisVerticalTickLabels;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getTimeAxisLineColor()
 	{
 		return getStyleResolver().getTimeAxisLineColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnTimeAxisLineColor()
 	{
 		return timeAxisLineColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMinValueExpression(){
 		return domainAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMaxValueExpression(){
 		return domainAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMinValueExpression(){
 		return rangeAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMaxValueExpression(){
 		return rangeAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getValueAxisLabelFont()
 	{
 		return valueAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getValueAxisLabelColor()
 	{
 		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnValueAxisLabelColor()
 	{
 		return valueAxisLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getValueAxisTickLabelFont()
 	{
 		return valueAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getValueAxisTickLabelColor()
 	{
 		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnValueAxisTickLabelColor()
 	{
 		return valueAxisTickLabelColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getValueAxisTickLabelMask()
 	{
 		return valueAxisTickLabelMask;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getValueAxisVerticalTickLabels()
 	{
 		return valueAxisVerticalTickLabels;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getValueAxisLineColor()
 	{
 		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnValueAxisLineColor()
 	{
 		return valueAxisLineColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowVolume()
 	{
 		return showVolume;
@@ -347,17 +293,13 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_VOLUME, old, this.showVolume);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseCandlestickPlot clone = (JRBaseCandlestickPlot)super.clone(parentChart);

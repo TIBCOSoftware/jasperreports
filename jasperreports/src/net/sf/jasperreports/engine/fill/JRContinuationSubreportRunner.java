@@ -42,32 +42,38 @@ public class JRContinuationSubreportRunner extends JRSubreportRunnable implement
 		super(fillSubreport);
 	}
 
+	@Override
 	public boolean isFilling()
 	{
 		return continuation != null;
 	}
 
+	@Override
 	public JRSubreportRunResult start()
 	{
 		continuation = Continuation.startWith(this);
 		return runResult();
 	}
 
+	@Override
 	public JRSubreportRunResult resume()
 	{
 		continuation = Continuation.continueWith(continuation);
 		return runResult();
 	}
 
+	@Override
 	public void reset()
 	{
 		continuation = null;
 	}
 
+	@Override
 	public void cancel()
 	{
 	}
 
+	@Override
 	public void suspend()
 	{
 		Continuation.suspend();

@@ -152,6 +152,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			measureClassChanged((JRDesignCrosstabMeasure) evt.getSource(), (String) evt.getNewValue());
@@ -251,11 +252,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	/**
 	 * The ID of the crosstab is only generated at compile time.
 	 */
+	@Override
 	public int getId()
 	{
 		return 0;
 	}
 
+	@Override
 	public JRCrosstabDataset getDataset()
 	{
 		return dataset;
@@ -272,6 +275,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return dataset;
 	}
 
+	@Override
 	public JRCrosstabRowGroup[] getRowGroups()
 	{
 		JRCrosstabRowGroup[] groups = new JRCrosstabRowGroup[rowGroups.size()];
@@ -279,6 +283,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return groups;
 	}
 
+	@Override
 	public JRCrosstabColumnGroup[] getColumnGroups()
 	{
 		JRCrosstabColumnGroup[] groups = new JRCrosstabColumnGroup[columnGroups.size()];
@@ -286,6 +291,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return groups;
 	}
 
+	@Override
 	public JRCrosstabMeasure[] getMeasures()
 	{
 		JRCrosstabMeasure[] measureArray = new JRCrosstabMeasure[measures.size()];
@@ -293,14 +299,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return measureArray;
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitCrosstab(this);
@@ -834,6 +839,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return removeMeasure(measure.getName());
 	}
 
+	@Override
 	public boolean isRepeatColumnHeaders()
 	{
 		return repeatColumnHeaders;
@@ -853,6 +859,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		getEventSupport().firePropertyChange(PROPERTY_REPEAT_COLUMN_HEADERS, old, this.repeatColumnHeaders);
 	}
 
+	@Override
 	public boolean isRepeatRowHeaders()
 	{
 		return repeatRowHeaders;
@@ -872,6 +879,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		getEventSupport().firePropertyChange(PROPERTY_REPEAT_ROW_HEADERS, old, this.repeatRowHeaders);
 	}
 
+	@Override
 	public JRCrosstabCell[][] getCells()
 	{
 		return crossCells;
@@ -984,6 +992,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	}
 	
 
+	@Override
 	public JRCrosstabParameter[] getParameters()
 	{
 		JRCrosstabParameter[] parameters = new JRCrosstabParameter[parametersList.size()];
@@ -1013,6 +1022,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return parametersMap;
 	}
 
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return parametersMapExpression;
@@ -1150,6 +1160,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * @see JRCrosstab#VARIABLE_ROW_COUNT
 	 * @see JRCrosstab#VARIABLE_COLUMN_COUNT
 	 */
+	@Override
 	public JRVariable[] getVariables()
 	{
 		JRVariable[] variables = new JRVariable[variablesList.size()];
@@ -1158,6 +1169,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	}
 	
 
+	@Override
 	public int getColumnBreakOffset()
 	{
 		return columnBreakOffset;
@@ -1512,6 +1524,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		}
 	}
 
+	@Override
 	public JRCellContents getWhenNoDataCell()
 	{
 		return whenNoDataCell;
@@ -1533,17 +1546,20 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	}
 
 	
+	@Override
 	public JRElement getElementByKey(String elementKey)
 	{
 		return JRBaseCrosstab.getElementByKey(this, elementKey);
 	}
 	
 	
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
+	@Override
 	public CrosstabColumnCell getTitleCell()
 	{
 		return titleCell;
@@ -1560,6 +1576,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_CELL, old, this.titleCell);
 	}
 
+	@Override
 	public JRCellContents getHeaderCell()
 	{
 		return headerCell;
@@ -1629,17 +1646,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public RunDirectionEnum getRunDirectionValue()
 	{
 		return this.runDirectionValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRunDirection(RunDirectionEnum runDirectionValue)
 	{
 		RunDirectionEnum old = this.runDirectionValue;
@@ -1685,9 +1698,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignCrosstab clone = (JRDesignCrosstab)super.clone();
@@ -1875,11 +1886,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		return measuresMap;
 	}
 
+	@Override
 	public Boolean getIgnoreWidth()
 	{
 		return ignoreWidth;
 	}
 
+	@Override
 	public void setIgnoreWidth(Boolean ignoreWidth)
 	{
 		Object old = this.ignoreWidth;
@@ -1888,16 +1901,19 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				old, this.ignoreWidth);
 	}
 
+	@Override
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
 		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
 
+	@Override
 	public Color getDefaultLineColor()
 	{
 		return getForecolor();
 	}
 
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;

@@ -56,9 +56,7 @@ public class LineDrawer extends ElementDrawer<JRPrintLine>
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void draw(Graphics2D grx, JRPrintLine line, int offsetX, int offsetY)
 	{
 		grx.setColor(line.getLinePen().getLineColor());

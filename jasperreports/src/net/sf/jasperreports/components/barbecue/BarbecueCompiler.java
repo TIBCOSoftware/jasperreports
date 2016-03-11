@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 public class BarbecueCompiler implements ComponentCompiler
 {
 	
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
 		BarbecueComponent barcode = (BarbecueComponent) component;
@@ -45,6 +46,7 @@ public class BarbecueCompiler implements ComponentCompiler
 		collector.addExpression(barcode.getApplicationIdentifierExpression());
 	}
 
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory)
 	{
@@ -52,6 +54,7 @@ public class BarbecueCompiler implements ComponentCompiler
 		return new StandardBarbecueComponent(barcode, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier)
 	{
 		BarbecueComponent barcode = (BarbecueComponent) component;

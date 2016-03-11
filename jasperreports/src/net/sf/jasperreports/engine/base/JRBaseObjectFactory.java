@@ -220,18 +220,14 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		this.defaultStyleProvider = defaultStyleProvider;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle(JRStyle style)
 	{
 		JRBaseStyle baseStyle = null;
@@ -255,6 +251,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	 *
 	 * @see JRAbstractObjectFactory#setStyle(JRStyleSetter, JRStyleContainer)
 	 */
+	@Override
 	public void setStyle(JRStyleSetter setter, JRStyleContainer styleContainer)
 	{
 		JRStyle style = styleContainer.getStyle();
@@ -416,6 +413,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
 	{
 		JRBaseExpression baseExpression = null;
@@ -559,9 +557,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		JRElementGroup baseElementGroup = null;
@@ -579,9 +575,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitBreak(JRBreak breakElement)
 	{
 		JRBaseBreak baseBreak = null;
@@ -599,9 +593,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitLine(JRLine line)
 	{
 		JRBaseLine baseLine = null;
@@ -619,9 +611,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitRectangle(JRRectangle rectangle)
 	{
 		JRBaseRectangle baseRectangle = null;
@@ -639,9 +629,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitEllipse(JREllipse ellipse)
 	{
 		JRBaseEllipse baseEllipse = null;
@@ -659,9 +647,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitImage(JRImage image)
 	{
 		JRBaseImage baseImage = null;
@@ -679,9 +665,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitStaticText(JRStaticText staticText)
 	{
 		JRBaseStaticText baseStaticText = null;
@@ -699,9 +683,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitTextField(JRTextField textField)
 	{
 		JRBaseTextField baseTextField = null;
@@ -719,9 +701,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitSubreport(JRSubreport subreport)
 	{
 		JRBaseSubreport baseSubreport = null;
@@ -778,9 +758,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPieDataset getPieDataset(JRPieDataset pieDataset)
 	{
 		JRBasePieDataset basePieDataset = null;
@@ -798,9 +776,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPiePlot getPiePlot(JRPiePlot piePlot)
 	{
 		JRBasePiePlot basePiePlot = null;
@@ -818,9 +794,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPie3DPlot getPie3DPlot(JRPie3DPlot pie3DPlot)
 	{
 		JRBasePie3DPlot basePie3DPlot = null;
@@ -838,9 +812,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRCategoryDataset getCategoryDataset(JRCategoryDataset categoryDataset)
 	{
 		JRBaseCategoryDataset baseCategoryDataset = null;
@@ -857,6 +829,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseCategoryDataset;
 	}
 
+	@Override
 	public JRTimeSeriesDataset getTimeSeriesDataset( JRTimeSeriesDataset timeSeriesDataset ){
 		JRBaseTimeSeriesDataset baseTimeSeriesDataset = null;
 		if( timeSeriesDataset != null ){
@@ -870,6 +843,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public JRTimePeriodDataset getTimePeriodDataset( JRTimePeriodDataset timePeriodDataset ){
 		JRBaseTimePeriodDataset baseTimePeriodDataset = null;
 		if( timePeriodDataset != null ){
@@ -901,9 +875,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPieSeries getPieSeries(JRPieSeries pieSeries)
 	{
 		JRBasePieSeries basePieSeries = null;
@@ -921,9 +893,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRCategorySeries getCategorySeries(JRCategorySeries categorySeries)
 	{
 		JRBaseCategorySeries baseCategorySeries = null;
@@ -961,9 +931,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRTimeSeries getTimeSeries(JRTimeSeries timeSeries)
 	{
 		JRBaseTimeSeries baseTimeSeries = null;
@@ -980,9 +948,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseTimeSeries;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRTimePeriodSeries getTimePeriodSeries( JRTimePeriodSeries timePeriodSeries ){
 		JRBaseTimePeriodSeries baseTimePeriodSeries = null;
 		if( timePeriodSeries != null ){
@@ -1016,9 +982,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBarPlot getBarPlot(JRBarPlot barPlot)
 	{
 		JRBaseBarPlot baseBarPlot = null;
@@ -1039,6 +1003,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRAbstractObjectFactory#getBar3DPlot(net.sf.jasperreports.charts.JRBar3DPlot)
 	 */
+	@Override
 	public JRBar3DPlot getBar3DPlot(JRBar3DPlot barPlot) {
 		JRBaseBar3DPlot baseBarPlot = null;
 
@@ -1055,9 +1020,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLinePlot getLinePlot(JRLinePlot linePlot) {
 		JRBaseLinePlot baseLinePlot = null;
 
@@ -1074,9 +1037,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRAreaPlot getAreaPlot(JRAreaPlot areaPlot) {
 		JRBaseAreaPlot baseAreaPlot = null;
 
@@ -1093,9 +1054,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/*
-	 *
-	 */
+	@Override
 	public JRXyzDataset getXyzDataset(JRXyzDataset xyzDataset) {
 		JRBaseXyzDataset baseXyzDataset = null;
 
@@ -1149,9 +1108,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRXyzSeries getXyzSeries(JRXyzSeries xyzSeries) {
 		JRBaseXyzSeries baseXyzSeries = null;
 
@@ -1168,9 +1125,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBubblePlot getBubblePlot(JRBubblePlot bubblePlot) {
 		JRBaseBubblePlot baseBubblePlot = null;
 
@@ -1187,10 +1142,8 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	 /**
-	  *
-	  */
-	 public JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot)
+	@Override
+	public JRCandlestickPlot getCandlestickPlot(JRCandlestickPlot candlestickPlot)
 	{
 		JRBaseCandlestickPlot baseCandlestickPlot = null;
 
@@ -1341,9 +1294,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitChart(JRChart chart)
 	{
 		JRBaseChart baseChart = null;
@@ -1417,9 +1368,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRConditionalStyle getConditionalStyle(JRConditionalStyle conditionalStyle, JRStyle style)
 	{
 		JRBaseConditionalStyle baseConditionalStyle = null;
@@ -1520,6 +1469,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
 		JRBaseCrosstab baseCrosstab = null;
@@ -1637,6 +1587,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitFrame(JRFrame frame)
 	{
 		JRBaseFrame baseFrame = null;
@@ -1729,6 +1680,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		JRBaseComponentElement base = null;
@@ -1763,6 +1715,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	}
 
 
+	@Override
 	public void visitGenericElement(JRGenericElement element)
 	{
 		JRBaseGenericElement base = null;

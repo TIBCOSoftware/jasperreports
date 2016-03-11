@@ -63,9 +63,7 @@ public final class RectangleConverter extends ElementConverter
 		return INSTANCE;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintRectangle printRectangle = new JRBasePrintRectangle(reportConverter.getDefaultStyleProvider());

@@ -43,6 +43,7 @@ public class QRCodeComponent extends BarcodeComponent
 	private Integer margin;
 	private ErrorCorrectionLevelEnum errorCorrectionLevel;
 	
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitQRCode(this);

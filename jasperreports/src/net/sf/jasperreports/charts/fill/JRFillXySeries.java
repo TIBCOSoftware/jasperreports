@@ -69,42 +69,32 @@ public class JRFillXySeries implements JRXySeries
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return parent.getSeriesExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getXValueExpression()
 	{
 		return parent.getXValueExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getYValueExpression()
 	{
 		return parent.getYValueExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return parent.getLabelExpression();
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getAutoSort()
 	{
 		return parent.getAutoSort();
@@ -183,6 +173,7 @@ public class JRFillXySeries implements JRXySeries
 	}
 
 
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return parent.getItemHyperlink();
@@ -194,9 +185,7 @@ public class JRFillXySeries implements JRXySeries
 		return !JRHyperlinkHelper.isEmpty(getItemHyperlink()); 
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

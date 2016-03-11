@@ -43,6 +43,7 @@ public abstract class JRAbstractSingleClassCompiler extends JRAbstractClassCompi
 		super(jasperReportsContext);
 	}
 
+	@Override
 	public String compileClasses(File[] sourceFiles, String classpath) throws JRException
 	{
 		if (sourceFiles.length == 1)

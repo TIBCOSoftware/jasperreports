@@ -60,9 +60,7 @@ public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducer
 		return new ReportExecutionHyperlinkProducerFactory(jasperReportsContext, request);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRHyperlinkProducer getHandler(String linkType)
 	{
 		if (linkType != null)

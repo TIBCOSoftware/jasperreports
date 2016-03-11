@@ -55,6 +55,7 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 		this.properties = properties;
 	}
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -68,6 +69,7 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 		return eventSupport;
 	}
 
+	@Override
 	public Object clone()
 	{
 		try

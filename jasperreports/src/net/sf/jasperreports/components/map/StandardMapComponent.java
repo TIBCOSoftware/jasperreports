@@ -139,6 +139,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		}
 	}
 	
+	@Override
 	public JRExpression getLatitudeExpression()
 	{
 		return latitudeExpression;
@@ -151,6 +152,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_LATITUDE_EXPRESSION, old, this.latitudeExpression);
 	}
 
+	@Override
 	public JRExpression getLongitudeExpression()
 	{
 		return longitudeExpression;
@@ -163,6 +165,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_LONGITUDE_EXPRESSION, old, this.longitudeExpression);
 	}
 	
+	@Override
 	public JRExpression getAddressExpression()
 	{
 		return addressExpression;
@@ -175,6 +178,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_ADDRESS_EXPRESSION, old, this.addressExpression);
 	}
 
+	@Override
 	public JRExpression getZoomExpression()
 	{
 		return zoomExpression;
@@ -187,6 +191,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_ZOOM_EXPRESSION, old, this.zoomExpression);
 	}
 	
+	@Override
 	public JRExpression getLanguageExpression()
 	{
 		return languageExpression;
@@ -199,6 +204,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_LANGUAGE_EXPRESSION, old, this.languageExpression);
 	}
 
+	@Override
 	public EvaluationTimeEnum getEvaluationTime()
 	{
 		return evaluationTime;
@@ -211,6 +217,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 
+	@Override
 	public String getEvaluationGroup()
 	{
 		return evaluationGroup;
@@ -224,6 +231,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 				old, this.evaluationGroup);
 	}
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -237,6 +245,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		return eventSupport;
 	}
 	
+	@Override
 	public Object clone()
 	{
 		StandardMapComponent clone = null;
@@ -261,6 +270,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		return clone;
 	}
 
+	@Override
 	public MapTypeEnum getMapType() {
 		return mapType;
 	}
@@ -271,6 +281,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_MAP_TYPE, old, this.mapType);
 	}
 
+	@Override
 	public MapScaleEnum getMapScale() {
 		return mapScale;
 	}
@@ -281,6 +292,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_MAP_SCALE, old, this.mapScale);
 	}
 	
+	@Override
 	public MapImageTypeEnum getImageType() {
 		return imageType;
 	}
@@ -294,6 +306,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	/**
 	 * @deprecated Replaced by {@link #getMarkerDataList()}.
 	 */
+	@Override
 	public ItemData getMarkerData() {
 		return !markerDataList.isEmpty() ? markerDataList.get(0) : null;
 	}
@@ -306,6 +319,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	}
 
 
+	@Override
 	public OnErrorTypeEnum getOnErrorType() {
 		return onErrorType;
 	}
@@ -320,6 +334,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	/**
 	 * @deprecated Replaced by {@link #getMarkerData()}.
 	 */
+	@Override
 	public MarkerDataset getMarkerDataset() {
 		return markerDataset; //FIXMEMAP make dummy marker dataset
 	}

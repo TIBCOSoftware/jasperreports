@@ -91,6 +91,7 @@ public class Interleaved2Of5Component extends Barcode4jComponent
 		getEventSupport().firePropertyChange(PROPERTY_WIDE_FACTOR, old, this.wideFactor);
 	}
 
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitInterleaved2Of5(this);

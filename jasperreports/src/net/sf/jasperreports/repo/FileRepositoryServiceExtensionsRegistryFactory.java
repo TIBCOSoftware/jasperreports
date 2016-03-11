@@ -54,9 +54,7 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 	 */
 	public final static String PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH = FILE_REPOSITORY_PROPERTY_PREFIX + "resolve.absolute.path";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		String root = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty(properties, PROPERTY_FILE_REPOSITORY_ROOT);

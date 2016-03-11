@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class JRValueDatasetFactory extends JRBaseFactory
 {
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();

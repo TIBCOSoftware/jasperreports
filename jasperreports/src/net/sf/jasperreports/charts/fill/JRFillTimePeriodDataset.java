@@ -89,11 +89,13 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 		}
 	}
 
+	@Override
 	public JRTimePeriodSeries[] getSeries()
 	{
 		return timePeriodSeries;
 	}
 
+	@Override
 	protected void customInitialize()
 	{
 		seriesNames = null;
@@ -102,6 +104,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 		itemHyperlinks = null;
 	}
 
+	@Override
 	protected void customEvaluate(JRCalculator calculator)
 			throws JRExpressionEvalException
 	{
@@ -114,6 +117,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 		}
 	}
 
+	@Override
 	protected void customIncrement()
 	{
 		if (timePeriodSeries != null && timePeriodSeries.length > 0)
@@ -183,6 +187,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 		}
 	}
 
+	@Override
 	public Dataset getCustomDataset()
 	{
 		TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
@@ -197,25 +202,19 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 		return dataset;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public byte getDatasetType()
 	{
 		return JRChartDataset.TIMEPERIOD_DATASET;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object getLabelGenerator()
 	{
 		return new TimePeriodDatasetLabelGenerator(labelsMap);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -242,6 +241,7 @@ public class JRFillTimePeriodDataset extends JRFillChartDataset implements JRTim
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

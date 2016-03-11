@@ -43,12 +43,14 @@ public class BatikUserAgent extends UserAgentAdapter
 		fontFamilyResolver = BatikFontFamilyResolver.getInstance(jasperReportsContext);
 	}
 	
+	@Override
 	public float getPixelUnitToMillimeter()
 	{
 		// JR works at 72dpi
 		return 0.35277777777777777777777777777778f;
 	}
 
+	@Override
 	public FontFamilyResolver getFontFamilyResolver() 
 	{
 		return fontFamilyResolver;

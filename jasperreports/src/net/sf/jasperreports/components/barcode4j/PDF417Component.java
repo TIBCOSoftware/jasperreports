@@ -48,6 +48,7 @@ public class PDF417Component extends Barcode4jComponent
 	private Double widthToHeightRatio;
 	private Integer errorCorrectionLevel;
 	
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitPDF417(this);

@@ -61,6 +61,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 		this.barcodeComponent = barcode.barcodeComponent;
 	}
 	
+	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
 		if (isEvaluateNow())
@@ -82,6 +83,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 		renderable = evaluator.getRenderable();
 	}
 	
+	@Override
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		if (isEvaluateNow() && renderable == null)
@@ -92,6 +94,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 		return FillPrepareResult.PRINT_NO_STRETCH;
 	}
 
+	@Override
 	public JRPrintElement fill()
 	{
 		JRTemplateImage templateImage = getTemplateImage();
@@ -145,6 +148,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 		}
 	}
 
+	@Override
 	public void evaluateDelayedElement(JRPrintElement element, byte evaluation)
 			throws JRException
 	{

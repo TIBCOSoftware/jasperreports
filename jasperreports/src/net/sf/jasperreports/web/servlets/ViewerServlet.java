@@ -110,9 +110,7 @@ public class ViewerServlet extends AbstractServlet
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void service(
 		HttpServletRequest request,
 		HttpServletResponse response

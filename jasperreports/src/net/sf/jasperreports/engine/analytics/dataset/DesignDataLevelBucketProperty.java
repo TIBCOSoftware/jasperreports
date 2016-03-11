@@ -58,6 +58,7 @@ public class DesignDataLevelBucketProperty extends BaseDataLevelBucketProperty
 		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		DesignDataLevelBucketProperty clone = (DesignDataLevelBucketProperty) super.clone();

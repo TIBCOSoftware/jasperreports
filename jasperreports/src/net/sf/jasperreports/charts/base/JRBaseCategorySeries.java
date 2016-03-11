@@ -76,47 +76,38 @@ public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return seriesExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getCategoryExpression()
 	{
 		return categoryExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return labelExpression;
 	}
 
 	
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseCategorySeries clone = null;

@@ -62,9 +62,7 @@ public final class JRFloatIncrementerFactory extends JRAbstractExtendedIncrement
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		JRExtendedIncrementer incrementer = null;
@@ -149,9 +147,7 @@ final class JRFloatCountIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -174,6 +170,7 @@ final class JRFloatCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		Number value = (Number)calculable.getIncrementedValue();
@@ -193,6 +190,7 @@ final class JRFloatCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRFloatIncrementerFactory.ZERO;
@@ -225,9 +223,7 @@ final class JRFloatDistinctCountIncrementer extends JRAbstractExtendedIncremente
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -245,6 +241,7 @@ final class JRFloatDistinctCountIncrementer extends JRAbstractExtendedIncremente
 		return new Float(holder.getCount());
 	}
 
+	@Override
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		DistinctCountHolder holder = 
@@ -253,6 +250,7 @@ final class JRFloatDistinctCountIncrementer extends JRAbstractExtendedIncremente
 		return new Float(holder.getCount());
 	}
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRFloatIncrementerFactory.ZERO;
@@ -285,9 +283,7 @@ final class JRFloatSumIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -316,6 +312,7 @@ final class JRFloatSumIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRFloatIncrementerFactory.ZERO;
@@ -348,9 +345,7 @@ final class JRFloatAverageIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -371,6 +366,7 @@ final class JRFloatAverageIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRFloatIncrementerFactory.ZERO;
@@ -403,9 +399,7 @@ final class JRFloatStandardDeviationIncrementer extends JRAbstractExtendedIncrem
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -425,6 +419,7 @@ final class JRFloatStandardDeviationIncrementer extends JRAbstractExtendedIncrem
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRFloatIncrementerFactory.ZERO;
@@ -457,9 +452,7 @@ final class JRFloatVarianceIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -496,6 +489,7 @@ final class JRFloatVarianceIncrementer extends JRAbstractExtendedIncrementer
 		}
 	}
 
+	@Override
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		Number value = (Number)calculable.getIncrementedValue();
@@ -537,6 +531,7 @@ final class JRFloatVarianceIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRFloatIncrementerFactory.ZERO;

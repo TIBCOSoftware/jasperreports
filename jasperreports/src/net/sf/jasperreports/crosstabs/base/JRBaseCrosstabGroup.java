@@ -78,36 +78,43 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		this.variable = factory.getVariable(group.getVariable());
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public JRCrosstabBucket getBucket()
 	{
 		return bucket;
 	}
 
+	@Override
 	public CrosstabTotalPositionEnum getTotalPositionValue()
 	{
 		return totalPositionValue;
 	}
 
+	@Override
 	public boolean hasTotal()
 	{
 		return totalPositionValue != CrosstabTotalPositionEnum.NONE;
 	}
 
+	@Override
 	public JRCellContents getHeader()
 	{
 		return header;
 	}
 
+	@Override
 	public JRCellContents getTotalHeader()
 	{
 		return totalHeader;
 	}
 
+	@Override
 	public JRVariable getVariable()
 	{
 		return variable;
@@ -119,9 +126,7 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		return mergeHeaderCells;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseCrosstabGroup clone = null;

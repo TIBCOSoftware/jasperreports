@@ -38,11 +38,13 @@ public class SingleColumnValueIterator implements ColumnValuesIterator
 		this.used = false;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		this.used = false;
 	}
 
+	@Override
 	public boolean next()
 	{
 		if (used)
@@ -54,6 +56,7 @@ public class SingleColumnValueIterator implements ColumnValuesIterator
 		return true;
 	}
 
+	@Override
 	public Object get()
 	{
 		if (!used)

@@ -71,16 +71,19 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 		}
 	}
 	
+	@Override
 	public JRXyzSeries[] getSeries(){
 		return xyzSeries;
 	}
 	
+	@Override
 	protected void customInitialize()
 	{
 		dataset = new DefaultXYZDataset();
 		itemHyperlinks = new HashMap<Comparable<?>, Map<Pair, JRPrintHyperlink>>();
 	}
 	
+	@Override
 	protected void customEvaluate( JRCalculator calculator ) throws JRExpressionEvalException 
 	{
 		if (xyzSeries != null && xyzSeries.length > 0)
@@ -92,6 +95,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 		}
 	}
 	
+	@Override
 	protected void customIncrement()
 	{
 		if (xyzSeries != null && xyzSeries .length > 0)
@@ -132,29 +136,24 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 		}
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object getLabelGenerator()
 	{
 		return null;
 	}
 
+	@Override
 	public Dataset getCustomDataset() {
 		return dataset;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.XYZ_DATASET;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -182,6 +181,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

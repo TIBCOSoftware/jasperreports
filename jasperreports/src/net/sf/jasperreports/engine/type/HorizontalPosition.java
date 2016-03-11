@@ -40,6 +40,7 @@ public enum HorizontalPosition implements NamedEnum
 		this.name = name;
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;

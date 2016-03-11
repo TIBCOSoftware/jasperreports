@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.part.PartFillComponent;
 public class FillSubreportPartFactory implements PartComponentFillFactory
 {
 
+	@Override
 	public PartFillComponent cloneFillComponent(PartFillComponent component,
 			JRFillCloneFactory factory)
 	{
@@ -46,6 +47,7 @@ public class FillSubreportPartFactory implements PartComponentFillFactory
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public PartFillComponent toFillComponent(PartComponent component,
 			JRFillObjectFactory factory)
 	{

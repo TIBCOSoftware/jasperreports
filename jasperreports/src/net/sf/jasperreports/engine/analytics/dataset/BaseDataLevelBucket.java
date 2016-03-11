@@ -83,11 +83,13 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		}
 	}
 
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
 	}
 
+	@Override
 	@Deprecated
 	public SortOrderEnum getOrderValue()
 	{
@@ -100,16 +102,19 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		return order;
 	}
 
+	@Override
 	public JRExpression getExpression()
 	{
 		return expression;
 	}
 
+	@Override
 	public JRExpression getComparatorExpression()
 	{
 		return comparatorExpression;
 	}
 	
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -152,6 +157,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		return bucketProperties;
 	}
 
+	@Override
 	public Object clone()
 	{
 		BaseDataLevelBucket clone = null;

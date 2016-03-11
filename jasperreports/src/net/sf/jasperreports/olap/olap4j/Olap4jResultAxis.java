@@ -64,11 +64,13 @@ public class Olap4jResultAxis implements JROlapResultAxis
 		}
 	}
 
+	@Override
 	public JROlapHierarchy[] getHierarchiesOnAxis()
 	{
 		return ensureHierarchyArray();
 	}
 
+	@Override
 	public JROlapMemberTuple getTuple(int index)
 	{
 		if (index < 0 || index >= tuples.size())
@@ -79,6 +81,7 @@ public class Olap4jResultAxis implements JROlapResultAxis
 		return tuples.get(index);
 	}
 
+	@Override
 	public int getTupleCount()
 	{
 		return tuples.size();

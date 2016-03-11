@@ -104,6 +104,7 @@ public class FileBufferedOutputStream extends OutputStream
 		}
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		checkClosed();
 		
@@ -136,6 +137,7 @@ public class FileBufferedOutputStream extends OutputStream
 		return fileOutput;
 	}
 
+	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		checkClosed();
 		
@@ -164,6 +166,7 @@ public class FileBufferedOutputStream extends OutputStream
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (!closed && fileOutput != null) {
 			fileOutput.flush();
@@ -173,6 +176,7 @@ public class FileBufferedOutputStream extends OutputStream
 		closed = true;
 	}
 
+	@Override
 	public void flush() throws IOException {
 		if (fileOutput != null) {
 			fileOutput.flush();
@@ -238,6 +242,7 @@ public class FileBufferedOutputStream extends OutputStream
 		disposed = success;
 	}
 
+	@Override
 	protected void finalize() throws Throwable //NOSONAR 
 	{
 		dispose();
@@ -267,6 +272,7 @@ public class FileBufferedOutputStream extends OutputStream
 			fileInput = file == null ? null : new BufferedInputStream(new FileInputStream(file));
 		}
 		
+		@Override
 		public synchronized int read() throws IOException
 		{
 			int read;
@@ -286,6 +292,7 @@ public class FileBufferedOutputStream extends OutputStream
 			return read;
 		}
 		
+		@Override
 		public synchronized int read(byte b[], int off, int len) throws IOException
 		{
 			if (len <= 0)
@@ -322,6 +329,7 @@ public class FileBufferedOutputStream extends OutputStream
 			return read == 0 ? -1 : read;
 		}
 
+		@Override
 		public void close() throws IOException
 		{
 			if (fileInput != null)
@@ -330,6 +338,7 @@ public class FileBufferedOutputStream extends OutputStream
 			}
 		}
 
+		@Override
 		public synchronized int available() throws IOException
 		{
 			int available = memoryData.length - memoryIdx;
@@ -340,6 +349,7 @@ public class FileBufferedOutputStream extends OutputStream
 			return available;
 		}
 
+		@Override
 		public synchronized long skip(long n) throws IOException
 		{
 			if (n <= 0)

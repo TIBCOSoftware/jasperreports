@@ -38,9 +38,7 @@ import org.xml.sax.Attributes;
 public class JRVariableFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignVariable variable = new JRDesignVariable();

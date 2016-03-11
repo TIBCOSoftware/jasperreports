@@ -63,9 +63,7 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 		super(jasperReportsContext);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String compileClasses(File[] sourceFiles, String classpath) throws JRException
 	{
 		String[] source = new String[sourceFiles.length + 2];

@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.design.JRDesignStyle;
 public class JRTemplateStyleFactory extends JRAbstractStyleFactory
 {
 
+	@Override
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
 	{
 		JRSimpleTemplate template = (JRSimpleTemplate) digester.peek(digester.getCount() - 1);

@@ -53,6 +53,7 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	/**
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
+	@Override
 	@Deprecated
 	public String getFileName() {
 		if (dataFile instanceof RepositoryDataLocation) {
@@ -64,6 +65,7 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	/**
 	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
+	@Override
 	@Deprecated
 	public void setFileName(String fileName) {
 		if (fileName != null) {
@@ -72,92 +74,114 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 		}
 	}
 
+	@Override
 	public String getEncoding() {
 		return encoding;
 	}
 
+	@Override
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
 
+	@Override
 	public boolean isUseFirstRowAsHeader() {
 		return useFirstRowAsHeader;
 	}
 
+	@Override
 	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader) {
 		this.useFirstRowAsHeader = useFirstRowAsHeader;
 	}
 	
+	@Override
 	public String getRecordDelimiter() {
 		return recordDelimiter;
 	}
 
+	@Override
 	public void setRecordDelimiter(String recordDelimiter) {
 		this.recordDelimiter = recordDelimiter;
 	}
 	
+	@Override
 	public String getFieldDelimiter() {
 		return fieldDelimiter;
 	}
 
+	@Override
 	public void setFieldDelimiter(String fieldDelimiter) {
 		this.fieldDelimiter = fieldDelimiter;
 	}
 
+	@Override
 	public Locale getLocale() {
 		return locale;
 	}
 
+	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
+	@Override
 	public TimeZone getTimeZone() {
 		return timeZone;
 	}
 
+	@Override
 	public void setTimeZone(TimeZone timeZone) {
 		this.timeZone = timeZone;
 	}
 
+	@Override
 	public String getDatePattern() {
 		return datePattern;
 	}
 
+	@Override
 	public void setDatePattern(String datePattern) {
 		this.datePattern = datePattern;
 	}
 
+	@Override
 	public String getNumberPattern() {
 		return numberPattern;
 	}
 
+	@Override
 	public void setNumberPattern(String numberPattern) {
 		this.numberPattern = numberPattern;
 	}
 
+	@Override
 	public boolean isQueryExecuterMode() {
 		return queryExecuterMode;
 	}
 
+	@Override
 	public void setQueryExecuterMode(boolean queryExecuterMode) {
 		this.queryExecuterMode = queryExecuterMode;
 	}
 
+	@Override
 	public List<String> getColumnNames() {
 		return columnNames;
 	}
 
+	@Override
 	public void setColumnNames(List<String> columnNames) {
 		this.columnNames = columnNames;
 	}
 
 	// FIXME lucianc use auto-naming="deriveByClass" in Castor?
+	@Override
 	public DataFile getDataFile()
 	{
 		return dataFile;
 	}
 
+	@Override
 	public void setDataFile(DataFile dataFile)
 	{
 		this.dataFile = dataFile;

@@ -56,25 +56,19 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 		
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<JRPrintElement> getElements()
 	{
 		return this.elements;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setElements(List<JRPrintElement> elements)
 	{
 		this.elements = elements;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void addElement(JRPrintElement element)
 	{
 		this.elements.add(element);

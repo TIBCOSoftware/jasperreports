@@ -49,9 +49,7 @@ public class RequirejsModuleMappingExtensionsRegistryFactory implements Extensio
 
 	public static final String URL_SUFFIX = "$url";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> requirejsModuleProperties = JRPropertiesUtil.getProperties(properties, REQUIREJS_MAPPING_PROPERTY_PREFIX);

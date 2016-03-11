@@ -41,12 +41,14 @@ public class JRFillCrosstabRowGroup extends JRFillCrosstabGroup implements JRCro
 	}
 
 
+	@Override
 	public CrosstabRowPositionEnum getPositionValue()
 	{
 		return ((JRCrosstabRowGroup) parentGroup).getPositionValue();
 	}
 
 
+	@Override
 	public int getWidth()
 	{
 		return ((JRCrosstabRowGroup) parentGroup).getWidth();

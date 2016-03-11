@@ -80,6 +80,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return seriesExpression;
@@ -93,6 +94,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 		getEventSupport().firePropertyChange(PROPERTY_SERIES_EXPRESSION, old, this.seriesExpression);
 	}
 
+	@Override
 	public JRExpression getDateExpression()
 	{
 		return dateExpression;
@@ -107,6 +109,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	@Override
 	public JRExpression getHighExpression()
 	{
 		return highExpression;
@@ -121,6 +124,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	@Override
 	public JRExpression getLowExpression()
 	{
 		return lowExpression;
@@ -135,6 +139,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	@Override
 	public JRExpression getOpenExpression()
 	{
 		return openExpression;
@@ -149,6 +154,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	@Override
 	public JRExpression getCloseExpression()
 	{
 		return closeExpression;
@@ -163,6 +169,7 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	@Override
 	public JRExpression getVolumeExpression()
 	{
 		return volumeExpression;
@@ -176,23 +183,20 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 		getEventSupport().firePropertyChange(PROPERTY_VOLUME_EXPRESSION, old, this.volumeExpression);
 	}
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.HIGHLOW_DATASET;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 	
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
@@ -213,15 +217,14 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignHighLowDataset clone = (JRDesignHighLowDataset)super.clone();

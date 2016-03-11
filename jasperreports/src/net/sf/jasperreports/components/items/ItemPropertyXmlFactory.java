@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class ItemPropertyXmlFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		StandardItemProperty itemProperty = new StandardItemProperty();

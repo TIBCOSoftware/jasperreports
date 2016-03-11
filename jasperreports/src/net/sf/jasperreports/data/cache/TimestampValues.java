@@ -63,11 +63,13 @@ public class TimestampValues implements ColumnValues, Serializable
 		this.nanoValues = (ColumnValues) in.readUnshared();
 	}
 
+	@Override
 	public int size()
 	{
 		return timeValues.size();
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		ColumnValuesIterator timeIterator = timeValues.iterator();
@@ -90,17 +92,20 @@ class TimestampValuesIterator implements ColumnValuesIterator
 		this.nanoIterator = nanoIterator;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		timeIterator.moveFirst();
 		nanoIterator.moveFirst();
 	}
 
+	@Override
 	public boolean next()
 	{
 		return timeIterator.next() && nanoIterator.next();
 	}
 
+	@Override
 	public Object get()
 	{
 		long time = ((Number) timeIterator.get()).longValue();

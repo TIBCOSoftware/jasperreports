@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 public class TableDesignConverter implements ComponentDesignConverter
 {
 
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter,
 			JRComponentElement element)
 	{

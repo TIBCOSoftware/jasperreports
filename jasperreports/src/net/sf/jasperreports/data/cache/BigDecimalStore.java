@@ -58,6 +58,7 @@ public class BigDecimalStore implements BufferColumnStore
 		return BigDecimal.class;
 	}
 	
+	@Override
 	public void addValue(Object object)
 	{
 		if (!(object instanceof BigDecimal))
@@ -73,17 +74,20 @@ public class BigDecimalStore implements BufferColumnStore
 		scaleStore.addValue(scale);
 	}
 
+	@Override
 	public boolean full()
 	{
 		return valueStore.full() || scaleStore.full();
 	}
 
+	@Override
 	public void resetValues()
 	{
 		valueStore.resetValues();
 		scaleStore.resetValues();
 	}
 
+	@Override
 	public ColumnValues createValues()
 	{
 		// TODO lucianc check empty
@@ -92,6 +96,7 @@ public class BigDecimalStore implements BufferColumnStore
 		return new BigDecimalValues(unscaledValues, scaleValues);
 	}
 
+	@Override
 	public String toString()
 	{
 		return "BigDecimalStore@" + hashCode();

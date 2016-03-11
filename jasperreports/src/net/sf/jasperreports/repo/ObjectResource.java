@@ -32,17 +32,13 @@ public class ObjectResource<T> implements Resource
 	private String name;
 	private T value;
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setName(String name)
 	{
 		this.name = name;

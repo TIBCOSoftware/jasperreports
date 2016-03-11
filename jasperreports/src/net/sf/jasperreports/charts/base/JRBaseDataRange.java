@@ -88,16 +88,12 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLowExpression()
 	{
 		return lowExpression;
 	}
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHighExpression()
 	{
 		return highExpression;
@@ -116,9 +112,7 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseDataRange clone = null;

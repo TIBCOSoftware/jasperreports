@@ -49,9 +49,7 @@ public class FontWebResourceHandler implements WebResourceHandler
 	public static final String REQUEST_PARAMETER_FONT_NAME = "font";
 
 			
-	/**
-	 *
-	 */
+	@Override
 	public boolean handleResource(JasperReportsContext jasperReportsContext, HttpServletRequest request, HttpServletResponse response) 
 	{
 		String fontName = request.getParameter(REQUEST_PARAMETER_FONT_NAME);

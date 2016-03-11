@@ -32,6 +32,7 @@ public class SimpleWebResource implements WebResource
 	String type;
 	byte[] data;
 	
+	@Override
 	public String getType()
 	{
 		return type;
@@ -42,6 +43,7 @@ public class SimpleWebResource implements WebResource
 		this.type = type;
 	}
 
+	@Override
 	public byte[] getData()
 	{
 		return data;

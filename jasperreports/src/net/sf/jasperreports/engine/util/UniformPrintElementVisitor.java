@@ -67,31 +67,37 @@ public abstract class UniformPrintElementVisitor<T> implements
 	
 	protected abstract void visitElement(JRPrintElement element, T arg);
 	
+	@Override
 	public void visit(JRPrintText textElement, T arg)
 	{
 		visitElement(textElement, arg);
 	}
 
+	@Override
 	public void visit(JRPrintImage image, T arg)
 	{
 		visitElement(image, arg);
 	}
 
+	@Override
 	public void visit(JRPrintRectangle rectangle, T arg)
 	{
 		visitElement(rectangle, arg);
 	}
 
+	@Override
 	public void visit(JRPrintLine line, T arg)
 	{
 		visitElement(line, arg);
 	}
 
+	@Override
 	public void visit(JRPrintEllipse ellipse, T arg)
 	{
 		visitElement(ellipse, arg);
 	}
 
+	@Override
 	public void visit(JRPrintFrame frame, T arg)
 	{
 		visitElement(frame, arg);
@@ -109,6 +115,7 @@ public abstract class UniformPrintElementVisitor<T> implements
 		}
 	}
 
+	@Override
 	public void visit(JRGenericPrintElement printElement, T arg)
 	{
 		visitElement(printElement, arg);

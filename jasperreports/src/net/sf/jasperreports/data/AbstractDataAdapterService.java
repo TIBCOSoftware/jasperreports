@@ -91,21 +91,15 @@ public abstract class AbstractDataAdapterService implements DataAdapterService
 		this.dataAdapter = dataAdapter;
 	}
 	  
-	/**
-	 *
-	 */
+	@Override
 	public abstract void contributeParameters(Map<String, Object> parameters) throws JRException;
 	
-	/**
-	 *
-	 */
+	@Override
 	public void dispose() 
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		contributeParameters(new HashMap<String, Object>());

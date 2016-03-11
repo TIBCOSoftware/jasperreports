@@ -133,34 +133,26 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleImageEnum getScaleImageValue()
 	{
 		return getStyleResolver().getScaleImageValue(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleImageEnum getOwnScaleImageValue()
 	{
 		return this.scaleImageValue;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setScaleImage(ScaleImageEnum scaleImageValue)
 	{
 		Object old = this.scaleImageValue;
@@ -171,6 +163,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalImageAlign());
@@ -179,6 +172,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalImageAlign());
@@ -187,6 +181,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
@@ -195,6 +190,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalImageAlign());
@@ -203,6 +199,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalImageAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalImageAlign());
@@ -211,30 +208,25 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getHorizontalImageAlign()
 	{
 		return getStyleResolver().getHorizontalImageAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalImageAlignEnum getOwnHorizontalImageAlign()
 	{
 		return horizontalImageAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalImageAlign(HorizontalImageAlignEnum horizontalImageAlign)
 	{
 		Object old = this.horizontalImageAlign;
@@ -242,25 +234,19 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_IMAGE_ALIGNMENT, old, this.horizontalImageAlign);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getVerticalImageAlign()
 	{
 		return getStyleResolver().getVerticalImageAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalImageAlignEnum getOwnVerticalImageAlign()
 	{
 		return verticalImageAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalImageAlign(VerticalImageAlignEnum verticalImageAlign)
 	{
 		Object old = this.verticalImageAlign;
@@ -271,6 +257,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		if (isUsingCache == null)
@@ -287,30 +274,25 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public Boolean isOwnUsingCache()
 	{
 		return isUsingCache;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getUsingCache()
 	{
 		return isUsingCache;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return evaluationTimeValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
@@ -324,90 +306,68 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		return getHyperlinkTypeValue().getValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return evaluationGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return expression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return anchorNameExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return hyperlinkReferenceExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return hyperlinkWhenExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return hyperlinkAnchorExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return hyperlinkPageExpression;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{
 		setUsingCache(isUsingCache ? Boolean.TRUE : Boolean.FALSE);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
 		Object old = this.isUsingCache;
@@ -415,17 +375,13 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRBaseImage.PROPERTY_USING_CACHE, old, this.isUsingCache);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isLazy()
 	{
 		return isLazy;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLazy(boolean isLazy)
 	{
 		boolean old = this.isLazy;
@@ -433,17 +389,13 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRBaseImage.PROPERTY_LAZY, old, this.isLazy);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public OnErrorTypeEnum getOnErrorTypeValue()
 	{
 		return this.onErrorTypeValue;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
 	{
 		OnErrorTypeEnum old = this.onErrorTypeValue;
@@ -567,23 +519,20 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_PAGE_EXPRESSION, old, this.hyperlinkPageExpression);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitImage(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
@@ -603,19 +552,19 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(PROPERTY_BOOKMARK_LEVEL, old, this.bookmarkLevel);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Float getDefaultLineWidth() 
 	{
 		return JRPen.LINE_WIDTH_0;
 	}
 
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
 	}
 
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
@@ -654,6 +603,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TARGET, old, this.linkTarget);
 	}
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		JRHyperlinkParameter[] parameters;
@@ -735,6 +685,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 	
 	
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -754,9 +705,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignImage clone = (JRDesignImage)super.clone();

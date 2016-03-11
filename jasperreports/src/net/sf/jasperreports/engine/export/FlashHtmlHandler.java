@@ -47,6 +47,7 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 	/**
 	 * Always exports.
 	 */
+	@Override
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return true;
@@ -58,6 +59,7 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 	 * @see FlashPrintElement#PARAMETER_SWF_URL
 	 * @see FlashPrintElement#PARAMETER_FLASH_VAR_PREFIX
 	 */
+	@Override
 	public String getHtmlFragment(JRHtmlExporterContext exporterContext,
 			JRGenericPrintElement element)
 	{

@@ -35,9 +35,7 @@ public class PrintBookmarkFactory extends JRBaseFactory
 {
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		String label = atts.getValue(JRXmlConstants.ATTRIBUTE_label);

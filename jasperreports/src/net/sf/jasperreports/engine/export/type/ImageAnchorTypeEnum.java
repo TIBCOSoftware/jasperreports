@@ -68,9 +68,7 @@ public enum ImageAnchorTypeEnum implements NamedEnum
 		return value;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

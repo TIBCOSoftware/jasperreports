@@ -62,6 +62,7 @@ public class EditTextElementAction extends AbstractVerifiableTableAction {
 		return (EditTextElementData)columnData;
 	}
 
+	@Override
 	public void performAction() throws ActionException {
 		// execute command
 		try {

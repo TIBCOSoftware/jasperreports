@@ -4256,113 +4256,85 @@ class JRApiWriterVisitor implements JRVisitor
 		this.apiWriter = apiWriter;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitBreak(JRBreak breakElement)
 	{
 		apiWriter.writeBreak(breakElement, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitChart(JRChart chart)
 	{
 		apiWriter.writeChartTag(chart, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
 		apiWriter.writeCrosstab(crosstab, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
 		apiWriter.writeElementGroup(elementGroup, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitEllipse(JREllipse ellipse)
 	{
 		apiWriter.writeEllipse(ellipse, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitFrame(JRFrame frame)
 	{
 		apiWriter.writeFrame(frame, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitImage(JRImage image)
 	{
 		apiWriter.writeImage(image, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitLine(JRLine line)
 	{
 		apiWriter.writeLine(line, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitRectangle(JRRectangle rectangle)
 	{
 		apiWriter.writeRectangle(rectangle, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitStaticText(JRStaticText staticText)
 	{
 		apiWriter.writeStaticText(staticText, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitSubreport(JRSubreport subreport)
 	{
 		apiWriter.writeSubreport(subreport, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitTextField(JRTextField textField)
 	{
 		apiWriter.writeTextField(textField, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		apiWriter.writeComponentElement(componentElement, name);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visitGenericElement(JRGenericElement element)
 	{
 		apiWriter.writeGenericElement(element, name);

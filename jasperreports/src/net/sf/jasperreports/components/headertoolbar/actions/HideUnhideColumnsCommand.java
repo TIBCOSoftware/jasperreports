@@ -49,6 +49,7 @@ public class HideUnhideColumnsCommand implements Command {
 	}
 
 
+	@Override
 	public void execute() throws CommandException {
 		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
 		int[] columnIndexes = columnData.getColumnIndexes();
@@ -61,11 +62,13 @@ public class HideUnhideColumnsCommand implements Command {
 	}
 
 
+	@Override
 	public void undo() {
 		individualResizeCommandStack.undoAll();
 	}
 
 
+	@Override
 	public void redo() {
 		individualResizeCommandStack.redoAll();
 	}

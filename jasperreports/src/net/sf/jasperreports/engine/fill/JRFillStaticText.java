@@ -70,9 +70,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setText(String text)
 	{
 	}
@@ -87,6 +85,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		JRTemplateText template = new JRTemplateText(
@@ -100,9 +99,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(
 		byte evaluation
 		) throws JRException
@@ -119,9 +116,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected boolean prepare(
 		int availableHeight,
 		boolean isOverflow
@@ -193,9 +188,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill()
 	{
 		JRTemplatePrintText text = new JRTemplatePrintText(getJRTemplateText(), printElementOriginator);
@@ -224,35 +217,34 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitStaticText(this);
 	}
 
 	
+	@Override
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillStaticText(this, factory);
 	}
 
 
+	@Override
 	protected boolean canOverflow()
 	{
 		return false;

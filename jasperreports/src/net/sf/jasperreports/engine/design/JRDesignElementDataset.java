@@ -155,9 +155,7 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_WHEN_EXPRESSION, old, this.incrementWhenExpression);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignElementDataset clone = (JRDesignElementDataset)super.clone();
@@ -167,6 +165,7 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

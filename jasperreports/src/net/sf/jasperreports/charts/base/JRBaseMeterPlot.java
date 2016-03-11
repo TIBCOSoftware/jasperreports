@@ -182,96 +182,72 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		tickLabelFont = factory.getFont(this.getChart(), meterPlot.getTickLabelFont());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getDataRange()
 	{
 		return dataRange;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRValueDisplay getValueDisplay()
 	{
 		return valueDisplay;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public MeterShapeEnum getShapeValue()
 	{
 		return shapeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<JRMeterInterval> getIntervals(){
 		return intervals;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getMeterAngleInteger()
 	{
 		return meterAngleInteger;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getUnits()
 	{
 		return units;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Double getTickIntervalDouble()
 	{
 		return tickIntervalDouble;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getMeterBackgroundColor()
 	{
 		return meterBackgroundColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getNeedleColor()
 	{
 		return needleColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTickColor()
 	{
 		return tickColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getTickCount()
 	{
 		return tickCount;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getTickLabelFont()
 	{
 		return tickLabelFont;
@@ -284,14 +260,13 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 *
 	 * @param collector the expression collector to use
 	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseMeterPlot clone = (JRBaseMeterPlot)super.clone(parentChart);

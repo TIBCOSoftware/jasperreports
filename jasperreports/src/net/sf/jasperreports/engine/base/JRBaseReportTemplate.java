@@ -57,14 +57,13 @@ public class JRBaseReportTemplate implements JRReportTemplate, Serializable, JRC
 		sourceExpression = factory.getExpression(reportTemplate.getSourceExpression());
 	}
 	
+	@Override
 	public JRExpression getSourceExpression()
 	{
 		return sourceExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRBaseReportTemplate clone = null;

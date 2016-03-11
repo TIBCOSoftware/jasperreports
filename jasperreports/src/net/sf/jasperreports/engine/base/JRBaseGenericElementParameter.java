@@ -67,24 +67,25 @@ public class JRBaseGenericElementParameter implements JRGenericElementParameter,
 		factory.put(parameter, this);
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
 	}
 
+	@Override
 	public boolean isSkipWhenEmpty()
 	{
 		return skipWhenEmpty;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignGenericElementParameter clone = null;

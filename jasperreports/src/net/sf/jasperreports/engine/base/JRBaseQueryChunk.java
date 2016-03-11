@@ -84,17 +84,13 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public byte getType()
 	{
 		return this.type;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getText()
 	{
 		if (type == TYPE_CLAUSE_TOKENS)
@@ -106,21 +102,21 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	}
 
 
+	@Override
 	public String[] getTokens()
 	{
 		return tokens;
 	}
 		
 
+	@Override
 	public Character getTokenSeparator()
 	{
 		return tokenSeparator;
 	}
 		
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		try

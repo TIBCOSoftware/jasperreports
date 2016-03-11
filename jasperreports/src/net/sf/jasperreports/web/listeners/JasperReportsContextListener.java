@@ -39,9 +39,7 @@ import net.sf.jasperreports.web.servlets.AbstractServlet;
  */
 public class JasperReportsContextListener implements ServletContextListener
 {
-	/**
-	 * 
-	 */
+	@Override
 	public void	contextInitialized(ServletContextEvent ce) 
 	{
 		LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(DefaultJasperReportsContext.getInstance());
@@ -57,9 +55,7 @@ public class JasperReportsContextListener implements ServletContextListener
 		AbstractServlet.setJasperReportsContext(localJasperReportsContext);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void	contextDestroyed(ServletContextEvent ce) 
 	{
 	}

@@ -61,6 +61,7 @@ public class StandardMarkerProperty implements MarkerProperty, JRChangeEventsSup
 		this.value = value;
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
@@ -73,6 +74,7 @@ public class StandardMarkerProperty implements MarkerProperty, JRChangeEventsSup
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
+	@Override
 	public String getValue()
 	{
 		return value;
@@ -85,6 +87,7 @@ public class StandardMarkerProperty implements MarkerProperty, JRChangeEventsSup
 		getEventSupport().firePropertyChange(PROPERTY_VALUE, old, this.value);
 	}
 	
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
@@ -97,6 +100,7 @@ public class StandardMarkerProperty implements MarkerProperty, JRChangeEventsSup
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -110,6 +114,7 @@ public class StandardMarkerProperty implements MarkerProperty, JRChangeEventsSup
 		return eventSupport;
 	}
 
+	@Override
 	public Object clone()
 	{
 		try

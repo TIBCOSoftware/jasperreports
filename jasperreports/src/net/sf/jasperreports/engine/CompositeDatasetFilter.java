@@ -77,6 +77,7 @@ public class CompositeDatasetFilter implements DatasetFilter
 		this.filters = filters;
 	}
 	
+	@Override
 	public void init(DatasetFillContext context)
 	{
 		for (DatasetFilter filter : filters)
@@ -85,6 +86,7 @@ public class CompositeDatasetFilter implements DatasetFilter
 		}
 	}
 
+	@Override
 	public boolean matches(EvaluationType evaluation)
 	{
 		boolean matches = true;

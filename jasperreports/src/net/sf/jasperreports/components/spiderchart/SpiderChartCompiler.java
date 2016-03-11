@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 public class SpiderChartCompiler implements ComponentCompiler
 {
 
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
 		SpiderChartComponent chart = (SpiderChartComponent) component;
@@ -109,6 +110,7 @@ public class SpiderChartCompiler implements ComponentCompiler
 		}
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier)
 	{
 		SpiderChartComponent chartComponent = (SpiderChartComponent) component;
@@ -190,6 +192,7 @@ public class SpiderChartCompiler implements ComponentCompiler
 	{
 	}
 
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory)
 	{

@@ -34,9 +34,7 @@ import org.xml.sax.Attributes;
 public class JRElementGroupFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignElementGroup elementGroup = new JRDesignElementGroup();

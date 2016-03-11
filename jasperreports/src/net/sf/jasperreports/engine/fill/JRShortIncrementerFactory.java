@@ -62,9 +62,7 @@ public final class JRShortIncrementerFactory extends JRAbstractExtendedIncrement
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		JRExtendedIncrementer incrementer = null;
@@ -149,9 +147,7 @@ final class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -174,6 +170,7 @@ final class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		Number value = (Number)calculable.getIncrementedValue();
@@ -193,6 +190,7 @@ final class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRShortIncrementerFactory.ZERO;
@@ -225,9 +223,7 @@ final class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncremente
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -245,6 +241,7 @@ final class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncremente
 		return new Short((short)holder.getCount());
 	}
 
+	@Override
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		DistinctCountHolder holder = 
@@ -253,6 +250,7 @@ final class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncremente
 		return new Short((short)holder.getCount());
 	}
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRShortIncrementerFactory.ZERO;
@@ -285,9 +283,7 @@ final class JRShortSumIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -316,6 +312,7 @@ final class JRShortSumIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRShortIncrementerFactory.ZERO;
@@ -348,9 +345,7 @@ final class JRShortAverageIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -371,6 +366,7 @@ final class JRShortAverageIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRShortIncrementerFactory.ZERO;
@@ -403,9 +399,7 @@ final class JRShortStandardDeviationIncrementer extends JRAbstractExtendedIncrem
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -425,6 +419,7 @@ final class JRShortStandardDeviationIncrementer extends JRAbstractExtendedIncrem
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRShortIncrementerFactory.ZERO;
@@ -457,9 +452,7 @@ final class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
 		return mainInstance;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -495,6 +488,7 @@ final class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
 		}
 	}
 
+	@Override
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider)
 	{
 		Number value = (Number)calculable.getIncrementedValue();
@@ -537,6 +531,7 @@ final class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
 	}
 
 	
+	@Override
 	public Object initialValue()
 	{
 		return JRShortIncrementerFactory.ZERO;

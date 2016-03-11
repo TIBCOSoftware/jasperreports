@@ -66,6 +66,7 @@ public class IconLabelElementDocxHandler implements GenericElementDocxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

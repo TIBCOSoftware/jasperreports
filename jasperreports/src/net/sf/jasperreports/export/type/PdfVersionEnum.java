@@ -72,9 +72,7 @@ public enum PdfVersionEnum implements NamedEnum
 		this.name = name;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

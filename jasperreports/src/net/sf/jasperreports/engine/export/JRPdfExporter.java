@@ -3127,9 +3127,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	}
 
 
-	/**
-	 * 
-	 */
 	@Override
 	protected int getOffsetX()
 	{
@@ -3141,9 +3138,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	}
 
 
-	/**
-	 * 
-	 */
 	@Override
 	protected int getOffsetY()
 	{

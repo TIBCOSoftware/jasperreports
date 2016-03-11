@@ -57,11 +57,13 @@ public class BooleanValues implements ColumnValues, Serializable
 		longValues = (ColumnValues) in.readUnshared();
 	}
 
+	@Override
 	public int size()
 	{
 		return size;
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		return new BooleanIterator();
@@ -80,6 +82,7 @@ public class BooleanValues implements ColumnValues, Serializable
 			currentLong = 0;
 		}
 
+		@Override
 		public void moveFirst()
 		{
 			longIterator.moveFirst();
@@ -87,6 +90,7 @@ public class BooleanValues implements ColumnValues, Serializable
 			currentLong = 0;
 		}
 
+		@Override
 		public boolean next()
 		{
 			if (index + 1 >= size)
@@ -108,6 +112,7 @@ public class BooleanValues implements ColumnValues, Serializable
 			return true;
 		}
 
+		@Override
 		public Object get()
 		{
 			return (currentLong & (1L << index)) != 0;

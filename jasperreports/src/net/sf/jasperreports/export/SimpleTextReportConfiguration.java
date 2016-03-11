@@ -42,9 +42,7 @@ public class SimpleTextReportConfiguration extends SimpleReportExportConfigurati
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Float getCharWidth()
 	{
 		return charWidth;
@@ -58,9 +56,7 @@ public class SimpleTextReportConfiguration extends SimpleReportExportConfigurati
 		this.charWidth = charWidth;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Float getCharHeight()
 	{
 		return charHeight;
@@ -74,9 +70,7 @@ public class SimpleTextReportConfiguration extends SimpleReportExportConfigurati
 		this.charHeight = charHeight;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getPageWidthInChars()
 	{
 		return pageWidthInChars;
@@ -90,9 +84,7 @@ public class SimpleTextReportConfiguration extends SimpleReportExportConfigurati
 		this.pageWidthInChars = pageWidthInChars;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getPageHeightInChars()
 	{
 		return pageHeightInChars;

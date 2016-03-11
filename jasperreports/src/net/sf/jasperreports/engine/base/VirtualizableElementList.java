@@ -34,6 +34,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVirtualizable;
@@ -41,9 +44,6 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectOutputStream;
 import net.sf.jasperreports.engine.util.DeepPrintElementCounter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * List implementation that can virtualize blocks of elements.
@@ -269,6 +269,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 				+ "_" + uidRandom.nextInt();
 	}
 
+	@Override
 	public int size()
 	{
 		return size;
@@ -279,6 +280,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		return size == 0;
 	}
 
+	@Override
 	public JRPrintElement get(int index)
 	{
 		lockContext();
@@ -348,6 +350,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 	
+	@Override
 	public boolean add(JRPrintElement element)
 	{
 		return add(element, false);
@@ -372,11 +375,13 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 	
+	@Override
 	public boolean add(int index, JRPrintElement element)
 	{
 		return add(index, element, false);
 	}
 
+	@Override
 	public JRPrintElement set(int index, JRPrintElement element)
 	{
 		lockContext();
@@ -396,6 +401,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
+	@Override
 	public JRPrintElement remove(int index)
 	{
 		lockContext();
@@ -424,6 +430,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 	
+	@Override
 	public String getUID()
 	{
 		return uid;
@@ -444,6 +451,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 	
+	@Override
 	public void ensureVirtualData()
 	{
 		lockContext();
@@ -468,6 +476,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
+	@Override
 	public void setVirtualData(VirtualElementsData virtualData)
 	{
 		lockContext();
@@ -483,11 +492,13 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
+	@Override
 	public VirtualElementsData getVirtualData()
 	{
 		return virtualData;
 	}
 
+	@Override
 	public void removeVirtualData()
 	{
 		lockContext();
@@ -502,6 +513,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
+	@Override
 	public void beforeExternalization()
 	{
 		lockContext();
@@ -516,6 +528,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
+	@Override
 	public void afterExternalization()
 	{
 		lockContext();
@@ -529,6 +542,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
+	@Override
 	public void afterInternalization()
 	{
 		lockContext();
@@ -543,6 +557,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 
+	@Override
 	public JRVirtualizationContext getContext()
 	{
 		return context;
@@ -621,6 +636,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		super.finalize();
 	}
 */
+	@Override
 	public void dispose()
 	{
 		lockContext();
@@ -647,6 +663,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 	}
 	
+	@Override
 	public JRVirtualPrintPage getPage()
 	{
 		return page;
@@ -711,17 +728,20 @@ class ElementsBlockList implements ElementStore, Serializable
 		}
 	}
 
+	@Override
 	public int size()
 	{
 		return size;
 	}
 
+	@Override
 	public JRPrintElement get(int index)
 	{
 		int blockIndex = blockIndex(index);
 		return blocks[blockIndex].get(index - offsets[blockIndex]);
 	}
 
+	@Override
 	public boolean add(JRPrintElement element)
 	{
 		// allow the last block to overflow.
@@ -738,6 +758,7 @@ class ElementsBlockList implements ElementStore, Serializable
 		return true;
 	}
 
+	@Override
 	public boolean add(int index, JRPrintElement element)
 	{
 		int blockIndex = blockIndex(index);
@@ -774,12 +795,14 @@ class ElementsBlockList implements ElementStore, Serializable
 		return true;
 	}
 
+	@Override
 	public JRPrintElement set(int index, JRPrintElement element)
 	{
 		int blockIndex = blockIndex(index);
 		return blocks[blockIndex].set(index - offsets[blockIndex], element);
 	}
 
+	@Override
 	public JRPrintElement remove(int index)
 	{
 		// FIXME removing elements from an existing block without moving elements
@@ -817,6 +840,7 @@ class ElementsBlockList implements ElementStore, Serializable
 		return element;
 	}
 
+	@Override
 	public void dispose()
 	{
 		for (int idx = 0; idx < blockCount; ++idx)
@@ -853,6 +877,7 @@ class ElementsBlockList implements ElementStore, Serializable
 		return blockIndex;
 	}
 
+	@Override
 	public JRVirtualPrintPage getPage()
 	{
 		return blocks[0].getPage();

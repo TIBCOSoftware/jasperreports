@@ -62,11 +62,13 @@ public final class GenericElementReportTransformer
 			this.report = report;
 		}
 
+		@Override
 		public JasperReportsContext getJasperReportsContext()
 		{
 			return jasperReportsContext;
 		}
 
+		@Override
 		public JasperPrint getReport()
 		{
 			return report;

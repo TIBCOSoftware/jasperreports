@@ -35,9 +35,7 @@ public class Xml4SwfServlet extends XmlServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRXmlExporter getExporter()
 	{
 		return new JRXml4SwfExporter(DefaultJasperReportsContext.getInstance());

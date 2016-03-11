@@ -122,9 +122,7 @@ public class SimpleFontFace implements FontFace, JRCloneable
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getName()
 	{
 		//(String)font.getAttributes().get(TextAttribute.FAMILY);
@@ -134,14 +132,13 @@ public class SimpleFontFace implements FontFace, JRCloneable
 	/**
 	 * @deprecated Replaced by {@link #getTtf()}.
 	 */
+	@Override
 	public String getFile()
 	{
 		return getTtf();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getTtf()
 	{
 		return ttf;
@@ -200,17 +197,13 @@ public class SimpleFontFace implements FontFace, JRCloneable
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Font getFont()
 	{
 		return font;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getPdf()
 	{
 		return pdf;
@@ -224,9 +217,7 @@ public class SimpleFontFace implements FontFace, JRCloneable
 		this.pdf = pdf;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getEot()
 	{
 		return eot;
@@ -240,9 +231,7 @@ public class SimpleFontFace implements FontFace, JRCloneable
 		this.eot = eot;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getSvg()
 	{
 		return svg;
@@ -256,9 +245,7 @@ public class SimpleFontFace implements FontFace, JRCloneable
 		this.svg = svg;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getWoff()
 	{
 		return woff;

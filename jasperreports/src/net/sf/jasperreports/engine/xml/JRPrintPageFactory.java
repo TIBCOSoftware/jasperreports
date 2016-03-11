@@ -35,9 +35,7 @@ public class JRPrintPageFactory extends JRBaseFactory
 {
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRBasePrintPage page = new JRBasePrintPage();

@@ -70,33 +70,25 @@ public class JRFillTimeSeries implements JRTimeSeries
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return parent.getSeriesExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTimePeriodExpression()
 	{
 		return parent.getTimePeriodExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return parent.getValueExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return parent.getLabelExpression();
@@ -170,6 +162,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	}
 
 
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return parent.getItemHyperlink();
@@ -187,9 +180,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 		return itemHyperlink;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

@@ -99,11 +99,13 @@ public class TableReportDataset implements JRDataset
 		}
 	}
 	
+	@Override
 	public JRField[] getFields()
 	{
 		return tableSubdataset.getFields();
 	}
 
+	@Override
 	public JRExpression getFilterExpression()
 	{
 		return tableSubdataset.getFilterExpression();
@@ -114,6 +116,7 @@ public class TableReportDataset implements JRDataset
 		return tableGroups;
 	}
 
+	@Override
 	public JRGroup[] getGroups()
 	{
 		return groups.toArray(new JRGroup[groups.size()]);
@@ -130,78 +133,93 @@ public class TableReportDataset implements JRDataset
 		return tableSubdataset.getUUID();
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public JRParameter[] getParameters()
 	{
 		return parameters.toArray(new JRParameter[parameters.size()]);
 	}
 
+	@Override
 	public JRQuery getQuery()
 	{
 		return tableSubdataset.getQuery();
 	}
 
+	@Override
 	public String getResourceBundle()
 	{
 		return tableSubdataset.getResourceBundle();
 	}
 
+	@Override
 	public String getScriptletClass()
 	{
 		return tableSubdataset.getScriptletClass();
 	}
 
+	@Override
 	public JRScriptlet[] getScriptlets()
 	{
 		return scriptlets.toArray(new JRScriptlet[scriptlets.size()]);
 	}
 
+	@Override
 	public JRSortField[] getSortFields()
 	{
 		return tableSubdataset.getSortFields();
 	}
 
+	@Override
 	public JRVariable[] getVariables()
 	{
 		return tableSubdataset.getVariables();
 	}
 
+	@Override
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return tableSubdataset.getWhenResourceMissingTypeValue();
 	}
 
+	@Override
 	public boolean isMainDataset()
 	{
 		// used as main dataset
 		return true;
 	}
 
+	@Override
 	public void setWhenResourceMissingType(
 			WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return tableSubdataset.getParentProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return properties;
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return properties.hasProperties();
 	}
 	
+	@Override
 	public Object clone()
 	{
 		throw new UnsupportedOperationException();

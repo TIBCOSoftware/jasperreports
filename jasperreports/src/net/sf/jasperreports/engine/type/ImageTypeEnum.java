@@ -93,9 +93,6 @@ public enum ImageTypeEnum implements JREnum
 		return value;
 	}
 	
-	/**
-	 *
-	 */
 	@Override
 	public String getName()
 	{

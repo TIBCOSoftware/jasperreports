@@ -76,9 +76,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	protected JRSubreportReturnValue[] returnValues;
 
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
@@ -130,6 +128,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		if (isUsingCache == null)
@@ -145,61 +144,47 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return this.parametersMapExpression;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRSubreportParameter[] getParameters()
 	{
 		return this.parameters;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getConnectionExpression()
 	{
 		return this.connectionExpression;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDataSourceExpression()
 	{
 		return this.dataSourceExpression;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return this.expression;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitSubreport(this);
@@ -211,6 +196,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	 * 
 	 * @return the list of values to be copied from the subreport into the master.
 	 */
+	@Override
 	public JRSubreportReturnValue[] getReturnValues()
 	{
 		return this.returnValues;
@@ -220,18 +206,21 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public Boolean isOwnUsingCache()
 	{
 		return isUsingCache;
 	}
 
 
+	@Override
 	public Boolean getUsingCache()
 	{
 		return isUsingCache;
 	}
 
 
+	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
 		Object old = this.isUsingCache;
@@ -240,12 +229,14 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	}
 
 	
+	@Override
 	public Boolean isRunToBottom()
 	{
 		return runToBottom;
 	}
 
 
+	@Override
 	public void setRunToBottom(Boolean runToBottom)
 	{
 		Object old = this.runToBottom;
@@ -267,9 +258,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 		getEventSupport().firePropertyChange(PROPERTY_OVERFLOW_TYPE, old, this.overflowType);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseSubreport clone = (JRBaseSubreport)super.clone();

@@ -132,23 +132,20 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		return splitType;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 
 	
+	@Override
 	protected void evaluate(byte evaluation) throws JRException
 	{
 		reset();
@@ -173,6 +170,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		filling = false;
 	}
 
+	@Override
 	protected void rewind() throws JRException
 	{
 		frameContainer.rewind();
@@ -190,6 +188,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		return borderSplitType == BorderSplitType.DRAW_BORDERS;
 	}
 	
+	@Override
 	protected boolean prepare(int availableHeight, boolean isOverflow) throws JRException
 	{
 		super.prepare(availableHeight, isOverflow);
@@ -268,6 +267,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		return willOverflow;
 	}
 
+	@Override
 	protected void setStretchHeight(int stretchHeight)
 	{
 		super.setStretchHeight(stretchHeight);
@@ -281,6 +281,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	/**
 	 * @deprecated To be removed.
 	 */
+	@Override
 	protected void stretchHeightFinal()
 	{
 		// only do this if the frame is printing
@@ -297,6 +298,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	}
 
 
+	@Override
 	protected boolean stretchElementToHeight(int stretchHeight)
 	{
 		boolean applied = super.stretchElementToHeight(stretchHeight); 
@@ -309,6 +311,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	}
 
 
+	@Override
 	protected JRPrintElement fill() throws JRException
 	{		
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplate(), printElementOriginator);
@@ -396,34 +399,37 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 				filler.getJasperPrint().getDefaultStyleProvider(), this);
 	}
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		return createFrameTemplate();
 	}
 
+	@Override
 	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
 
+	@Override
 	public JRElement[] getElements()
 	{
 		return frameContainer.getElements();
 	}
 	
+	@Override
 	public List<JRChild> getChildren()
 	{
 		return frameContainer.getChildren();
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
@@ -436,9 +442,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		return borderSplitType;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitFrame(this);
@@ -450,11 +454,13 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	}
 	
 	
+	@Override
 	public JRElement getElementByKey(String key)
 	{
 		return JRBaseElementGroup.getElementByKey(getElements(), key);
 	}
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillFrame(this, factory);
@@ -478,11 +484,13 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			initElements();
 		}
 
+		@Override
 		protected int getContainerHeight()
 		{
 			return JRFillFrame.this.getHeight() - getLineBox().getTopPadding().intValue() - getLineBox().getBottomPadding().intValue(); 
 		}
 
+		@Override
 		protected int getActualContainerHeight()
 		{
 			int containerHeight = JRFillFrame.this.getHeight() - getLineBox().getTopPadding().intValue() - getLineBox().getBottomPadding().intValue(); 

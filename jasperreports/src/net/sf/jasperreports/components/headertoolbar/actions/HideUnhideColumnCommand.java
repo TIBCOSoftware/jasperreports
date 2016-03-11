@@ -52,6 +52,7 @@ public class HideUnhideColumnCommand implements Command {
 	}
 
 
+	@Override
 	public void execute() {
 		if (column.getPrintWhenExpression() != null) {
 			oldPrintWhenExpressionText = column.getPrintWhenExpression().getText();
@@ -64,6 +65,7 @@ public class HideUnhideColumnCommand implements Command {
 	}
 
 
+	@Override
 	public void undo() {
 		if (oldPrintWhenExpressionText != null) {
 			((JRDesignExpression)column.getPrintWhenExpression()).setText(oldPrintWhenExpressionText);
@@ -73,6 +75,7 @@ public class HideUnhideColumnCommand implements Command {
 	}
 
 
+	@Override
 	public void redo() {
 		if (newPrintWhenExpression != null) {
 			column.setPrintWhenExpression(newPrintWhenExpression);

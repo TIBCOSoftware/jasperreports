@@ -43,9 +43,7 @@ public class JRDesignGenericElementParameter extends JRBaseGenericElementParamet
 	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 	public static final String PROPERTY_SKIP_WHEN_EMPTY = "skipWhenEmpty";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignGenericElementParameter clone = (JRDesignGenericElementParameter)super.clone();

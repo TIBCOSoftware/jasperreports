@@ -36,9 +36,7 @@ import org.xml.sax.Attributes;
  */
 public class JRStackedBarChartFactory extends JRBaseFactory
 {
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

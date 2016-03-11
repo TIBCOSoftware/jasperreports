@@ -57,18 +57,12 @@ public class TableStyle extends Style
 		this.tabColor = tabColor;
 	}
 	
-	/**
-	 *
-	 */
 	@Override
 	public String getId()
 	{
 		return "" + width + "|" + pageFormatIndex + "|" + isFrame + "|" + isPageBreak + "|" + tabColor; 
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void write(String tableStyleName) throws IOException
 	{

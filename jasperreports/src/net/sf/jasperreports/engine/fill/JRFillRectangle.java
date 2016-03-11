@@ -57,29 +57,24 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public int getRadius()
 	{
 		return getStyleResolver().getRadius(this);
 	}
 		
+	@Override
 	public Integer getOwnRadius()
 	{
 		return providerStyle == null || providerStyle.getOwnRadius() == null ? ((JRRectangle)this.parent).getOwnRadius() : providerStyle.getOwnRadius();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(int radius)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(Integer radius)
 	{
 	}
@@ -93,6 +88,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		return new JRTemplateRectangle(
@@ -103,9 +99,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluate(
 		byte evaluation
 		) throws JRException
@@ -120,9 +114,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JRPrintElement fill()
 	{
 		JRPrintRectangle printRectangle = null;
@@ -139,31 +131,26 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitRectangle(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
 
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillRectangle(this, factory);

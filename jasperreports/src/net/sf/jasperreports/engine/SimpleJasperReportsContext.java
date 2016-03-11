@@ -68,9 +68,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 		this.parent = parent;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getValue(String key)
 	{
 		if (values.containsKey(key))
@@ -90,9 +88,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 		return values.get(key);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setValue(String key, Object value)
 	{
 		values.put(key, value);
@@ -113,6 +109,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	 * @param <T> generic extension type
 	 * @return a list of extension objects
 	 */
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (extensionsMap == null || !extensionsMap.containsKey(extensionType))
@@ -192,6 +189,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	 * @param key the key
 	 * @return the property value
 	 */
+	@Override
 	public String getProperty(String key)
 	{
 		if (properties != null && properties.containsKey(key))
@@ -211,9 +209,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setProperty(String key, String value)
 	{
 		if (properties == null)
@@ -224,9 +220,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 		properties.put(key, value);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void removeProperty(String key)
 	{
 		if (properties != null)
@@ -235,9 +229,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Map<String, String> getProperties()
 	{
 		if (properties == null)

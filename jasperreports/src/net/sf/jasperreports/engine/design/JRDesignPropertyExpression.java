@@ -44,6 +44,7 @@ public class JRDesignPropertyExpression extends JRBasePropertyExpression
 	 * 
 	 * @param valueExpression the value expression
 	 */
+	@Override
 	public void setValueExpression(JRExpression valueExpression)
 	{
 		super.setValueExpression(valueExpression);

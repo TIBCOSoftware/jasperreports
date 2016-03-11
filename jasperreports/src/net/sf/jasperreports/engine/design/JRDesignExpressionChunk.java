@@ -64,9 +64,7 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk implements JR
 		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, this.text);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignExpressionChunk clone = (JRDesignExpressionChunk)super.clone();
@@ -76,6 +74,7 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk implements JR
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

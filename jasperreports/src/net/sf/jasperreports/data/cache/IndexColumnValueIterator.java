@@ -38,11 +38,13 @@ public abstract class IndexColumnValueIterator implements ColumnValuesIterator
 		this.currentIndex = -1;
 	}
 	
+	@Override
 	public void moveFirst()
 	{
 		this.currentIndex = -1;
 	}
 
+	@Override
 	public boolean next()
 	{
 		if (currentIndex + 1 >= size)

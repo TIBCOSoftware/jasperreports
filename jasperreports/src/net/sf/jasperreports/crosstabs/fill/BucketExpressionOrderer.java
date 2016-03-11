@@ -63,6 +63,7 @@ public class BucketExpressionOrderer implements BucketOrderer
 		return serviceContext.evaluateMeasuresExpression(orderByExpression, bucketTotals);
 	}
 	
+	@Override
 	public int compareOrderValues(Object value1, Object value2)
 	{
 		// FIXME lucianc handle nulls

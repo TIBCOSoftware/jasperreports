@@ -110,9 +110,7 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries implements JRCh
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignCategorySeries clone = (JRDesignCategorySeries)super.clone();
@@ -123,6 +121,7 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries implements JRCh
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

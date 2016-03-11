@@ -50,10 +50,12 @@ public class JRDesignCrosstabDataset extends JRDesignElementDataset implements J
 		super();
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 	}
 
+	@Override
 	public boolean isDataPreSorted()
 	{
 		return dataPreSorted;

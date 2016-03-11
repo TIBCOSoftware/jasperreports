@@ -41,22 +41,26 @@ public class JRXmlaCell implements JROlapCell
 		this.formattedValue = formattedValue;
 	}
 	
+	@Override
 	public String getFormattedValue()
 	{
 		return formattedValue;
 	}
 
+	@Override
 	public Object getValue()
 	{
 		return value;
 	}
 
+	@Override
 	public boolean isError()
 	{
 		//TODO 
 		return false;
 	}
 
+	@Override
 	public boolean isNull()
 	{
 		return value == null;

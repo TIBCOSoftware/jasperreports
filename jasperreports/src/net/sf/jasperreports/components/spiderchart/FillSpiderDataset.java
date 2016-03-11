@@ -88,18 +88,14 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRCategorySeries[] getSeries()
 	{
 		return categorySeries;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customInitialize()
 	{
 		dataset = null;
@@ -107,9 +103,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 		itemHyperlinks = null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		if (categorySeries != null && categorySeries.length > 0)
@@ -121,9 +115,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customIncrement()
 	{
 		if (categorySeries != null && categorySeries.length > 0)
@@ -198,9 +190,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		SpiderChartCompiler.collectExpressions(this, collector);

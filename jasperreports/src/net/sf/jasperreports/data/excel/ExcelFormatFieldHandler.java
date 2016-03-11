@@ -39,9 +39,7 @@ public class ExcelFormatFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -51,9 +49,7 @@ public class ExcelFormatFieldHandler extends GeneralizedFieldHandler
 		return ((ExcelFormatEnum)value).getName();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -63,17 +59,13 @@ public class ExcelFormatFieldHandler extends GeneralizedFieldHandler
 		return ExcelFormatEnum.getByName((String)value);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return ExcelFormatEnum.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		//-- Since it's marked as a string...just return null,

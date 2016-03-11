@@ -40,9 +40,7 @@ import org.xml.sax.Attributes;
  */
 public class SortComponentSymbolFactory extends JRBaseFactory
 {
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts) throws JRException
 	{
 		SortComponent sortComponent = (SortComponent)digester.peek();

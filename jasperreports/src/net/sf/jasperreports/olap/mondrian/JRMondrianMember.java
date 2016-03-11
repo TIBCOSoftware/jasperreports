@@ -42,31 +42,37 @@ public class JRMondrianMember implements JROlapMember
 		this.parent = factory.createMember(member.getParentMember());
 	}
 	
+	@Override
 	public int getDepth()
 	{
 		return member.getDepth();
 	}
 
+	@Override
 	public String getName()
 	{
 		return member.getName();
 	}
 
+	@Override
 	public JROlapMember getParentMember()
 	{
 		return parent;
 	}
 
+	@Override
 	public Object getPropertyValue(String propertyName)
 	{
 		return member.getPropertyValue(propertyName);
 	}
 
+	@Override
 	public String getUniqueName()
 	{
 		return member.getUniqueName();
 	}
 
+	@Override
 	public Object getMember()
 	{
 		return member;

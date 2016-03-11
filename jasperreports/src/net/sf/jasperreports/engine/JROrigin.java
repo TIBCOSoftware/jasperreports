@@ -106,9 +106,7 @@ public class JROrigin implements JRCloneable, Serializable
 		return bandTypeValue;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean equals(Object obj) 
 	{
 		if (obj instanceof JROrigin)
@@ -124,9 +122,7 @@ public class JROrigin implements JRCloneable, Serializable
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public int hashCode() 
 	{
 		if (hashCode == null)
@@ -141,9 +137,7 @@ public class JROrigin implements JRCloneable, Serializable
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		try

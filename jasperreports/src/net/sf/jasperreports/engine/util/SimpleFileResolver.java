@@ -79,9 +79,7 @@ public class SimpleFileResolver implements FileResolver
 		this.isResolveAbsolutePath = isResolveAbsolutePath;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public File resolveFile(String fileName)
 	{
 		if (fileName != null)

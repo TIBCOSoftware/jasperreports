@@ -37,9 +37,7 @@ public class JExcelApiServlet extends AbstractXlsServlet
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	
-	/**
-	 *
-	 */
+	@Override
 	protected JRXlsAbstractExporter getXlsExporter()
 	{
 		return new net.sf.jasperreports.engine.export.JExcelApiExporter(DefaultJasperReportsContext.getInstance());

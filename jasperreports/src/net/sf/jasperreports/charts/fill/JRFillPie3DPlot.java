@@ -48,49 +48,37 @@ public class JRFillPie3DPlot extends JRFillChartPlot implements JRPie3DPlot
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public Double getDepthFactorDouble()
 	{
 		return ((JRPie3DPlot)parent).getDepthFactorDouble();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getCircular()
 	{
 		return ((JRPie3DPlot)parent).getCircular();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getLabelFormat()
 	{
 		return ((JRPie3DPlot)parent).getLabelFormat();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getLegendLabelFormat()
 	{
 		return ((JRPie3DPlot)parent).getLegendLabelFormat();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRItemLabel getItemLabel()
 	{
 		return ((JRPie3DPlot)parent).getItemLabel();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getShowLabels()
 	{
 		return ((JRPie3DPlot)parent).getShowLabels();

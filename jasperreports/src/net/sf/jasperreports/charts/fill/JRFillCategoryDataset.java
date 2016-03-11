@@ -85,18 +85,14 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRCategorySeries[] getSeries()
 	{
 		return categorySeries;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customInitialize()
 	{
 		dataset = null;
@@ -104,9 +100,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 		itemHyperlinks = null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		if (categorySeries != null && categorySeries.length > 0)
@@ -118,9 +112,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customIncrement()
 	{
 		if (categorySeries != null && categorySeries.length > 0)
@@ -178,35 +170,27 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Dataset getCustomDataset()
 	{
 		return dataset;
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.CATEGORY_DATASET;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object getLabelGenerator()
 	{
 		return new CategoryLabelGenerator(labelsMap);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -234,6 +218,7 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

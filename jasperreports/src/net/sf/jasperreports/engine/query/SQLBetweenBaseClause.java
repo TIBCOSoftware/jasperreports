@@ -95,6 +95,7 @@ public abstract class SQLBetweenBaseClause implements JRClauseFunction
 	 * @param clauseTokens
 	 * @param queryContext
 	 */
+	@Override
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
 		String clauseId = clauseTokens.getToken(POSITION_CLAUSE_ID);

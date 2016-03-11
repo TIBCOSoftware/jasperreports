@@ -53,6 +53,7 @@ public final class SingleValue implements Comparable<SingleValue>
 		return 0;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "SingleValue";

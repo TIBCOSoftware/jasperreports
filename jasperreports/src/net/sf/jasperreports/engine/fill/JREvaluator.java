@@ -124,6 +124,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @param resourceMissingType the resource missing type
 	 * @throws JRException
 	 */
+	@Override
 	public void init(
 			Map<String, JRFillParameter> parametersMap, 
 			Map<String, JRFillField> fieldsMap, 
@@ -263,9 +264,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object evaluate(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
@@ -296,9 +295,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object evaluateOld(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
@@ -329,9 +326,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object evaluateEstimated(JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;

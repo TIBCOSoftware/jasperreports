@@ -129,6 +129,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	}
 
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -138,6 +139,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	}
 
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

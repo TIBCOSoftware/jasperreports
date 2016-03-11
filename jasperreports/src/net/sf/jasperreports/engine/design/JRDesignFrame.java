@@ -89,14 +89,13 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	}
 
 	
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitFrame(this);
@@ -107,6 +106,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		}
 	}
 
+	@Override
 	public JRElement[] getElements()
 	{
 		return JRBaseElementGroup.getElements(children);
@@ -219,25 +219,26 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	}
 
 	
+	@Override
 	public List<JRChild> getChildren()
 	{
 		return children;
 	}
 
+	@Override
 	public JRElement getElementByKey(String elementKey)
 	{
 		return JRBaseElementGroup.getElementByKey(getElements(), elementKey);
 	}
 	
 	
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
@@ -251,9 +252,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		this.lineBox = lineBox.clone(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
@@ -278,9 +277,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		getEventSupport().firePropertyChange(PROPERTY_BORDER_SPLIT_TYPE, old, this.borderSplitType);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignFrame clone = (JRDesignFrame)super.clone();

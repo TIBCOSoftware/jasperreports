@@ -39,9 +39,7 @@ public class ClassNameFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -51,25 +49,19 @@ public class ClassNameFieldHandler extends GeneralizedFieldHandler
 		return ((Class<?>)value).getName();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		return null;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return Class.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		return null;

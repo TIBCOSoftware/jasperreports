@@ -44,16 +44,19 @@ public class JRFillCrosstabCell implements JRCrosstabCell
 		contents = factory.getCell(cell.getContents(), JRCellContents.TYPE_DATA);
 	}
 
+	@Override
 	public String getRowTotalGroup()
 	{
 		return parentCell.getRowTotalGroup();
 	}
 
+	@Override
 	public String getColumnTotalGroup()
 	{
 		return parentCell.getColumnTotalGroup();
 	}
 
+	@Override
 	public JRCellContents getContents()
 	{
 		return contents;
@@ -64,19 +67,19 @@ public class JRFillCrosstabCell implements JRCrosstabCell
 		return contents;
 	}
 
+	@Override
 	public Integer getWidth()
 	{
 		return parentCell.getWidth();
 	}
 
+	@Override
 	public Integer getHeight()
 	{
 		return parentCell.getHeight();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

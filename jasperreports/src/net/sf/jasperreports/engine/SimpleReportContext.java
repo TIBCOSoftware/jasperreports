@@ -46,26 +46,31 @@ public class SimpleReportContext implements ReportContext
 		this.parameters = new HashMap<String, Object>();
 	}
 	
+	@Override
 	public String getId()
 	{
 		return id;
 	}
 
+	@Override
 	public Object getParameterValue(String parameterName)
 	{
 		return parameters.get(parameterName);
 	}
 
+	@Override
 	public void setParameterValue(String parameterName, Object value)
 	{
 		parameters.put(parameterName, value);
 	}
 
+	@Override
 	public boolean containsParameter(String parameterName)
 	{
 		return parameters.containsKey(parameterName);
 	}
 
+	@Override
 	public Map<String, Object> getParameterValues() {
 		return parameters;
 	}

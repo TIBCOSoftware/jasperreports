@@ -60,22 +60,26 @@ public class JRBaseComponentElement extends JRBaseElement implements
 				element.getComponent(), factory);
 	}
 
+	@Override
 	public Component getComponent()
 	{
 		return component;
 	}
 
+	@Override
 	public ComponentKey getComponentKey()
 	{
 		return componentKey;
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		ComponentManager manager = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(componentKey);
 		manager.getComponentCompiler(DefaultJasperReportsContext.getInstance()).collectExpressions(component, collector);
 	}
 
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitComponentElement(this);

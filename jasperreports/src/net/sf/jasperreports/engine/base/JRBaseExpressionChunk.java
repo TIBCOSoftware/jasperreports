@@ -69,26 +69,20 @@ public class JRBaseExpressionChunk implements JRExpressionChunk, Serializable
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public byte getType()
 	{
 		return this.type;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getText()
 	{
 		return this.text;
 	}
 		
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		try

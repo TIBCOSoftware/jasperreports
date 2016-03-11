@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class JRXyzSeriesFactory extends JRBaseFactory 
 {
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object createObject( Attributes attrs )
 	{
 		return new JRDesignXyzSeries();

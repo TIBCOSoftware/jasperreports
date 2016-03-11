@@ -106,6 +106,7 @@ public abstract class JRStyledTextAttributeSelector
 			super(jasperReportsContext);
 		}
 		
+		@Override
 		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
 			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
@@ -142,6 +143,7 @@ public abstract class JRStyledTextAttributeSelector
 			super(jasperReportsContext);
 		}
 		
+		@Override
 		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
 			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
@@ -172,6 +174,7 @@ public abstract class JRStyledTextAttributeSelector
 			super(jasperReportsContext);
 		}
 		
+		@Override
 		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
 			return null;

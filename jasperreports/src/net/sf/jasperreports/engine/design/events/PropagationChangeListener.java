@@ -40,6 +40,7 @@ public class PropagationChangeListener implements PropertyChangeListener
 		this.propertyChangeSupport = propertyChangeSupport;
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
 		propertyChangeSupport.firePropertyChange(evt);

@@ -65,9 +65,7 @@ public class JRDateLocaleConverter extends DateLocaleConverter
 		this.timeZone = timeZone;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected Object parse(Object value, String pattern) throws ParseException 
 	{
 		SimpleDateFormat formatter = getFormatter(pattern, locale);

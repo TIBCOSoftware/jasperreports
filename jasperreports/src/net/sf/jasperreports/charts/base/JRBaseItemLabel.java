@@ -112,25 +112,19 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChart getChart()
 	{
 		return chart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getColor()
 	{
 		return color;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackgroundColor()
 	{
 		return backgroundColor;
@@ -142,9 +136,7 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 //	{
 //		return mask;
 //	}
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getFont()
 	{
 		return font;
@@ -161,9 +153,7 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		try

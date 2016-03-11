@@ -88,32 +88,38 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 		}
 	}
 
+	@Override
 	public JRExpression getConnectionExpression()
 	{
 		return datasetRun.getConnectionExpression();
 	}
 
+	@Override
 	public JRExpression getDataSourceExpression()
 	{
 		return datasetRun.getDataSourceExpression();
 	}
 
+	@Override
 	public JRExpression getExpression()
 	{
 		// no report expression
 		return null;
 	}
 
+	@Override
 	public JRSubreportParameter[] getParameters()
 	{
 		return parameters;
 	}
 
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return datasetRun.getParametersMapExpression();
 	}
 
+	@Override
 	public JRSubreportReturnValue[] getReturnValues()
 	{
 		return returnValues;
@@ -122,16 +128,19 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public Boolean isOwnUsingCache()
 	{
 		return false;
 	}
 
+	@Override
 	public Boolean getUsingCache()
 	{
 		return Boolean.FALSE;
 	}
 
+	@Override
 	public Boolean isRunToBottom()
 	{
 		return false;
@@ -140,16 +149,19 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		return false;
 	}
 
+	@Override
 	public void setRunToBottom(Boolean runToBottom)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
 		throw new UnsupportedOperationException();

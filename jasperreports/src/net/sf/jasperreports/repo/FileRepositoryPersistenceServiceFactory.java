@@ -41,9 +41,7 @@ public class FileRepositoryPersistenceServiceFactory implements PersistenceServi
 		return INSTANCE;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public <K extends RepositoryService, L extends Resource> PersistenceService getPersistenceService(
 		JasperReportsContext jasperReportsContext,
 		Class<K> repositoryServiceType, 

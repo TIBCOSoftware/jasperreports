@@ -49,10 +49,12 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 	private boolean queryExecuterMode = false;
 	private String sheetSelection;
 	
+	@Override
 	public String getDatePattern() {
 		return datePattern;
 	}
 
+	@Override
 	public String getNumberPattern() {
 		return numberPattern;
 	}
@@ -60,6 +62,7 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 	/**
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
+	@Override
 	@Deprecated
 	public String getFileName() {
 		if (dataFile instanceof RepositoryDataLocation) {
@@ -71,6 +74,7 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 	/**
 	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
+	@Override
 	@Deprecated
 	public void setFileName(String filename) {
 		if (filename != null) {
@@ -79,76 +83,94 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 		}
 	}
 	
+	@Override
 	public boolean isUseFirstRowAsHeader() {
 		return useFirstRowAsHeader;
 	}
 	
+	@Override
 	public List<String> getColumnNames() {
 		return columnNames;
 	}
 
+	@Override
 	public List<Integer> getColumnIndexes() {
 		return columnIndexes;
 	}
 	
+	@Override
 	public void setColumnNames(List<String> columnNames) {
 		this.columnNames = columnNames;
 	}
 
+	@Override
 	public void setColumnIndexes(List<Integer> columnIndexes) {
 		this.columnIndexes = columnIndexes;
 	}
 
+	@Override
 	public void setUseFirstRowAsHeader(boolean useFirstRowAsHeader) {
 		this.useFirstRowAsHeader = useFirstRowAsHeader;
 	}
 
+	@Override
 	public void setDatePattern(String datePattern) {
 		this.datePattern = datePattern;
 	}
 
+	@Override
 	public void setNumberPattern(String numberPattern) {
 		this.numberPattern = numberPattern;
 	}
 	
+	@Override
 	public boolean isQueryExecuterMode() {
 		return queryExecuterMode;
 	}
 
+	@Override
 	public void setQueryExecuterMode(boolean queryExecuterMode) {
 		this.queryExecuterMode = queryExecuterMode;
 	}
 	
+	@Override
 	public String getSheetSelection() {
 		return sheetSelection;
 	}
 
+	@Override
 	public void setSheetSelection(String sheetSelection) {
 		this.sheetSelection = sheetSelection;
 	}
 	
+	@Override
 	public DataFile getDataFile()
 	{
 		return dataFile;
 	}
 
+	@Override
 	public void setDataFile(DataFile dataFile)
 	{
 		this.dataFile = dataFile;
 	}
 	
+	@Override
 	public Locale getLocale() {
 		return locale;
 	}
 
+	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
+	@Override
 	public TimeZone getTimeZone() {
 		return timeZone;
 	}
 
+	@Override
 	public void setTimeZone(TimeZone timeZone) {
 		this.timeZone = timeZone;
 	}

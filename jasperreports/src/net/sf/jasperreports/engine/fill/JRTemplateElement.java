@@ -123,9 +123,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		return origin;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
@@ -143,9 +141,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		return StyleResolver.getInstance();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle()
 	{
 		return parentStyle;
@@ -167,89 +163,67 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getWidth()
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getOwnModeValue()
 	{
 		return modeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMode(ModeEnum modeValue)
 	{
 		this.modeValue = modeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getForecolor()
 	{
 		return getStyleResolver().getForecolor(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnForecolor()
 	{
 		return this.forecolor;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setForecolor(Color forecolor)
 	{
 		this.forecolor = forecolor;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return getStyleResolver().getBackcolor(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnBackcolor()
 	{
 		return this.backcolor;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setBackcolor(Color backcolor)
 	{
 		this.backcolor = backcolor;
@@ -264,6 +238,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	}
 
 	
+	@Override
 	public String getKey()
 	{
 		return key;
@@ -279,18 +254,21 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 * Returns null as external style references are not allowed for print objects.
 	 */
+	@Override
 	public String getStyleNameReference()
 	{
 		return null;
 	}
 
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
 	// we don't need any locking as properties are only set at creation time
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -300,6 +278,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

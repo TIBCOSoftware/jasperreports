@@ -43,9 +43,7 @@ public class JasperDesignFactory extends JRBaseFactory
 {
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);

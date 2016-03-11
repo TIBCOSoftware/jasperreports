@@ -72,9 +72,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void setPageHeight(int pageHeight)
 	{
 		this.pageHeight = pageHeight;
@@ -107,9 +105,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected synchronized void fillReport() throws JRException
 	{
 		setLastPageFooter(false);

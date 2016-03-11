@@ -54,6 +54,7 @@ public final class NumberToSQLTimeTransformer implements ValueTransformer, Seria
 		return Time.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return new Time(((Number) value).longValue());

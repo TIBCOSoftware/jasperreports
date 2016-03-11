@@ -138,6 +138,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class BytePercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			Byte totalVal = (Byte) total.getValue();
@@ -158,6 +159,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class ShortPercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			Short totalVal = (Short) total.getValue();
@@ -178,6 +180,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class IntegerPercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			Integer totalVal = (Integer) total.getValue();
@@ -198,6 +201,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class LongPercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			Long totalVal = (Long) total.getValue();
@@ -218,6 +222,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class FloatPercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			Float totalVal = (Float) total.getValue();
@@ -237,6 +242,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class DoublePercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			Double totalVal = (Double) total.getValue();
@@ -257,6 +263,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class BigDecimalPercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			BigDecimal totalVal = (BigDecimal) total.getValue();
@@ -281,6 +288,7 @@ public final class JRPercentageCalculatorFactory
 	 */
 	public static class BigIntegerPercentageCalculator implements JRPercentageCalculator
 	{
+		@Override
 		public Object calculatePercentage(JRCalculable value, JRCalculable total)
 		{
 			BigInteger totalVal = (BigInteger) total.getValue();

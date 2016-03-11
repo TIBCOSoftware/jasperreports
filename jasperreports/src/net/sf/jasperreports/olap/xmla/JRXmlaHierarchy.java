@@ -62,11 +62,13 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 		this.levels = new ArrayList<JRXmlaHierarchyLevel>();
 	}
 
+	@Override
 	public String getDimensionName()
 	{
 		return dimensionName;
 	}
 
+	@Override
 	public JROlapHierarchyLevel[] getLevels()
 	{
 		return ensureLevelArray();
@@ -101,6 +103,7 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 	}
 	
 	// MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+	@Override
 	public String getHierarchyUniqueName()
 	{
 		return uniqueName;

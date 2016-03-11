@@ -50,6 +50,7 @@ public class JRMondrianTuple implements JROlapMemberTuple
 		}
 	}
 
+	@Override
 	public JROlapMember[] getMembers()
 	{
 		return members;

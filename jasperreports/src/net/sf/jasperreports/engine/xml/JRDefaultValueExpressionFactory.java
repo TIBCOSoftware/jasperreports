@@ -37,9 +37,7 @@ public class JRDefaultValueExpressionFactory extends JRBaseFactory
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignParameter parameter = (JRDesignParameter)digester.peek();

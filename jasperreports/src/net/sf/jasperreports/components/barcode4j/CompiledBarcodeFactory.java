@@ -48,6 +48,7 @@ public class CompiledBarcodeFactory extends UniformBarcodeVisitor
 		return compiledComponent;
 	}
 
+	@Override
 	protected void visitBarcode(BarcodeComponent barcode)
 	{
 		compiledComponent = barcode.cloneObject();
@@ -57,6 +58,7 @@ public class CompiledBarcodeFactory extends UniformBarcodeVisitor
 		compiledComponent.setCodeExpression(compiledCodeExpression);
 	}
 	
+	@Override
 	protected void visitBarcode(Barcode4jComponent barcode)
 	{
 		visitBarcode((BarcodeComponent)barcode);

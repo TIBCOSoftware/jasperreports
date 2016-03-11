@@ -45,32 +45,38 @@ public class Olap4jMember implements JROlapMember
 		this.parent = factory.createMember(member.getParentMember());
 	}
 	
+	@Override
 	public int getDepth()
 	{
 		return member.getDepth();
 	}
 
+	@Override
 	public String getName()
 	{
 		return member.getName();
 	}
 
+	@Override
 	public JROlapMember getParentMember()
 	{
 		return parent;
 	}
 
+	@Override
 	public Object getPropertyValue(String propertyName)
 	{
 		NamedList<Property> properties = member.getProperties();
 		return properties.get(propertyName);
 	}
 
+	@Override
 	public String getUniqueName()
 	{
 		return member.getUniqueName();
 	}
 
+	@Override
 	public Object getMember()
 	{
 		return member;

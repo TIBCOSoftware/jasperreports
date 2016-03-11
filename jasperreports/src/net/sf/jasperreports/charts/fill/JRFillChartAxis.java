@@ -69,19 +69,19 @@ public class JRFillChartAxis implements JRChartAxis
 		return fillChart;
 	}
 
+	@Override
 	public JRChart getChart()
 	{
 		return parent.getChart();
 	}
 
+	@Override
 	public AxisPositionEnum getPositionValue()
 	{
 		return parent.getPositionValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

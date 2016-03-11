@@ -39,9 +39,7 @@ public class SimplePptxReportConfiguration extends SimpleReportExportConfigurati
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;

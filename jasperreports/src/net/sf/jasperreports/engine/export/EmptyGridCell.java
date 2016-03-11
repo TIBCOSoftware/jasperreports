@@ -50,6 +50,7 @@ public class EmptyGridCell extends JRExporterGridCell
 		return size;
 	}
 
+	@Override
 	public byte getType()
 	{
 		return TYPE_EMPTY_CELL;

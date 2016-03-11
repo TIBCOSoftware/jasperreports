@@ -62,6 +62,7 @@ public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport
 		this.value = value;
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;
@@ -74,6 +75,7 @@ public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
+	@Override
 	public String getValue()
 	{
 		return value;
@@ -86,6 +88,7 @@ public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_VALUE, old, this.value);
 	}
 	
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
@@ -98,6 +101,7 @@ public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -111,6 +115,7 @@ public class StandardItemProperty implements ItemProperty, JRChangeEventsSupport
 		return eventSupport;
 	}
 
+	@Override
 	public Object clone()
 	{
 		try

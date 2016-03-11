@@ -54,6 +54,7 @@ public class MoveColumnCommand implements Command
 	}
 
 	
+	@Override
 	public void execute() throws CommandException 
 	{
 		moveColumns(moveColumnData);
@@ -102,11 +103,13 @@ public class MoveColumnCommand implements Command
 		}
 	}
 
+	@Override
 	public void undo() 
 	{
 		individualResizeCommandStack.undoAll();
 	}
 
+	@Override
 	public void redo() 
 	{
 		individualResizeCommandStack.redoAll();

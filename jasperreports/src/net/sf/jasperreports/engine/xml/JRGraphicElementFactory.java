@@ -41,9 +41,7 @@ public class JRGraphicElementFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRGraphicElementFactory.class);
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignGraphicElement graphicElement = (JRDesignGraphicElement)digester.peek();

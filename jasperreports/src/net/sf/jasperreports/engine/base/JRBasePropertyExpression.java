@@ -61,11 +61,13 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 		this.valueExpression = factory.getExpression(propertyExpression.getValueExpression());
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public void setName(String name)
 	{
 		Object old = this.name;
@@ -73,6 +75,7 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
@@ -85,9 +88,7 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 		getEventSupport().firePropertyChange(pROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRBasePropertyExpression clone = null;
@@ -109,6 +110,7 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

@@ -81,21 +81,25 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 		}
 	}
 
+	@Override
 	protected void evaluateCodabar(CodabarComponent codabar)
 	{
 		evaluateBaseBarcode(codabar);
 	}
 
+	@Override
 	protected void evaluateCode128(Code128Component code128)
 	{
 		evaluateBaseBarcode(code128);
 	}
 
+	@Override
 	protected void evaluateDataMatrix(DataMatrixComponent dataMatrix)
 	{
 		evaluateBaseBarcode(dataMatrix);
 	}
 
+	@Override
 	protected void evaluateEANCode128(EAN128Component ean128)
 	{
 		evaluateBaseBarcode(ean128);
@@ -106,58 +110,69 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 		}
 	}
 
+	@Override
 	protected void evaluateCode39(Code39Component code39)
 	{
 		evaluateBaseBarcode(code39);
 	}
 
+	@Override
 	protected void evaluateUPCA(UPCAComponent upcA)
 	{
 		evaluateBaseBarcode(upcA);
 	}
 
+	@Override
 	protected void evaluateUPCE(UPCEComponent upcE)
 	{
 		evaluateBaseBarcode(upcE);
 	}
 
+	@Override
 	protected void evaluateEAN13(EAN13Component ean13)
 	{
 		evaluateBaseBarcode(ean13);
 	}
 
+	@Override
 	protected void evaluateEAN8(EAN8Component ean8)
 	{
 		evaluateBaseBarcode(ean8);
 	}
 
+	@Override
 	protected void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		evaluateBaseBarcode(interleaved2Of5);
 	}
 
+	@Override
 	protected void evaluateRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{
 		evaluateBaseBarcode(royalMailCustomer);
 	}
 
+	@Override
 	protected void evaluateUSPSIntelligentMail(
 			USPSIntelligentMailComponent intelligentMail)
 	{
 		evaluateBaseBarcode(intelligentMail);
 	}
 
+	@Override
 	protected void evaluatePOSTNET(POSTNETComponent intelligentMail)
 	{
 		evaluateBaseBarcode(intelligentMail);
 	}
 
+	@Override
 	protected void evaluatePDF417(PDF417Component pdf417)
 	{
 		evaluateBaseBarcode(pdf417);
 	}
 	
+	@Override
 	protected void evaluateQRCode(QRCodeComponent qrCode)
 	{
 		evaluateBaseBarcode(qrCode);

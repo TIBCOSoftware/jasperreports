@@ -65,9 +65,7 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void draw(Graphics2D grx, JRPrintText text, int offsetX, int offsetY)
 	{
 		textRenderer.initialize(grx, text, offsetX, offsetY);

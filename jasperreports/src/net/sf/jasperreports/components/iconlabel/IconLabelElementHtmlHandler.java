@@ -56,6 +56,7 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 		return INSTANCE;
 	}
 
+	@Override
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT);
@@ -111,6 +112,7 @@ public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 		return "";
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

@@ -76,11 +76,13 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 		return CANONICAL_LANGUAGE;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
 	}
 
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		TextDataSourceAttributes textAttributes = getTextAttributes();
@@ -154,11 +156,13 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 		return attributes;
 	}
 
+	@Override
 	public void close()
 	{
 		//NOP
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		//nothing to cancel

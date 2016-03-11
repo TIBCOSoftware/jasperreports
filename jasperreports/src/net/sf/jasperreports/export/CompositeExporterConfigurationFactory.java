@@ -146,9 +146,7 @@ public class CompositeExporterConfigurationFactory<C extends CommonExportConfigu
 			this.child = child;
 		}
 		
-		/**
-		 * 
-		 */
+		@Override
 		public Object invoke(
 			Object proxy, 
 			Method method, 

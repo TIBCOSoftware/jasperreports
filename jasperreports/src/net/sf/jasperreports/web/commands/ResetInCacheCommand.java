@@ -51,6 +51,7 @@ public class ResetInCacheCommand implements Command
 		this.uri = uri;
 	}
 
+	@Override
 	public void execute() throws CommandException
 	{
 		command.execute();
@@ -58,6 +59,7 @@ public class ResetInCacheCommand implements Command
 		JasperDesignCache.getInstance(jasperReportsContext, reportContext).resetJasperReport(uri);
 	}
 	
+	@Override
 	public void undo() 
 	{
 		command.undo();
@@ -65,6 +67,7 @@ public class ResetInCacheCommand implements Command
 		JasperDesignCache.getInstance(jasperReportsContext, reportContext).resetJasperReport(uri);
 	}
 
+	@Override
 	public void redo() 
 	{
 		command.redo();

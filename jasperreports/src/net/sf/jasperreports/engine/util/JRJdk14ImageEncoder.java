@@ -40,9 +40,7 @@ public class JRJdk14ImageEncoder extends JRAbstractImageEncoder
 {
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_WRITER_NOT_FOUND = "util.jdk14.image.writer.not.found";
 	
-	/**
-	 *
-	 */
+	@Override
 	public byte[] encode(BufferedImage bi, ImageTypeEnum imageType) throws JRException
 	{
 		String formatName = null;

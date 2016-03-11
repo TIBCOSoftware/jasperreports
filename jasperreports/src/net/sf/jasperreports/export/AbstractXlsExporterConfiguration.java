@@ -42,9 +42,7 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isCreateCustomPalette()
 	{
 		return isCreateCustomPalette;
@@ -60,9 +58,7 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getWorkbookTemplate()
 	{
 		return workbookTemplate;
@@ -78,9 +74,7 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isKeepWorkbookTemplateSheets()
 	{
 		return isKeepWorkbookTemplateSheets;

@@ -171,9 +171,7 @@ public class SimpleExporterInput implements ExporterInput
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public List<ExporterInputItem> getItems()
 	{
 		return items;

@@ -33,10 +33,12 @@ public class DataSourceProviderDataAdapterImpl extends AbstractClasspathAwareDat
 {
 	private String providerClass;
 
+	@Override
 	public String getProviderClass() {
 		return providerClass;
 	}
 
+	@Override
 	public void setProviderClass(String providerClass) {
 		this.providerClass = providerClass;
 	}

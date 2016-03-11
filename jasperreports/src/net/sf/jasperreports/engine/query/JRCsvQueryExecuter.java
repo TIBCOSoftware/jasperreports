@@ -74,6 +74,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 		super(jasperReportsContext, dataset, parametersMap);
 	}
 
+	@Override
 	public JRDataSource createDatasource() throws JRException {
 		String csvCharset = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_ENCODING);
 		
@@ -239,12 +240,14 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 		return datasource;
 	}
 
+	@Override
 	public void close() {
 		if(datasource != null){
 			datasource.close();
 		}
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException {
 		return false;
 	}

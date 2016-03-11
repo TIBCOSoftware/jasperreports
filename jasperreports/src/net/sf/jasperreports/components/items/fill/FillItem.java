@@ -82,9 +82,7 @@ public abstract class FillItem implements Item
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

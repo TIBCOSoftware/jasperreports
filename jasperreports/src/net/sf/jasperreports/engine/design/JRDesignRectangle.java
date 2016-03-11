@@ -68,30 +68,25 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRadius()
 	{
 		return getStyleResolver().getRadius(this);
 	}
 
+	@Override
 	public Integer getOwnRadius()
 	{
 		return this.radius;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(int radius)
 	{
 		setRadius(Integer.valueOf(radius));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(Integer radius)
 	{
 		Object old = this.radius;
@@ -99,25 +94,19 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_RADIUS, old, this.radius);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitRectangle(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignRectangle clone = (JRDesignRectangle)super.clone();
@@ -127,6 +116,7 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

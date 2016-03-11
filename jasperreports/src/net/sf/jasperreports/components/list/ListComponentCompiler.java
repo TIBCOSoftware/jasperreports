@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
 public class ListComponentCompiler implements ComponentCompiler
 {
 
+	@Override
 	public void collectExpressions(Component component,
 			JRExpressionCollector collector)
 	{
@@ -59,6 +60,7 @@ public class ListComponentCompiler implements ComponentCompiler
 		}
 	}
 
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory)
 	{
@@ -68,6 +70,7 @@ public class ListComponentCompiler implements ComponentCompiler
 		return compiledComponent;
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier)
 	{
 		ListComponent listComponent = (ListComponent) component;

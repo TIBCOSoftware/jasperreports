@@ -311,17 +311,13 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 		
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowLegend()
 	{
 		return this.showLegend;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setShowLegend(Boolean isShowLegend)
 	{
 		Boolean old = this.showLegend;
@@ -329,49 +325,37 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LEGEND, old, this.showLegend);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return evaluationTimeValue;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return evaluationGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getTitleFont()
 	{
 		return titleFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public EdgeEnum getTitlePositionValue()
 	{
 		return titlePositionValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTitlePosition(EdgeEnum titlePositionValue)
 	{
 		EdgeEnum old = this.titlePositionValue;
@@ -379,25 +363,19 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_POSITION, old, this.titlePositionValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTitleColor()
 	{
 		return getStyleResolver().getTitleColor(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnTitleColor()
 	{
 		return titleColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTitleColor(Color titleColor)
 	{
 		Object old = this.titleColor;
@@ -405,33 +383,25 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_COLOR, old, this.titleColor);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getSubtitleFont()
 	{
 		return subtitleFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnSubtitleColor()
 	{
 		return subtitleColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getSubtitleColor()
 	{
 		return getStyleResolver().getSubtitleColor(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setSubtitleColor(Color subtitleColor)
 	{
 		Object old = this.subtitleColor;
@@ -439,28 +409,34 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_COLOR, old, this.subtitleColor);
 	}
 
+	@Override
 	public Color getLegendBackgroundColor() {
 		return getStyleResolver().getLegendBackgroundColor(this);
 	}
 
+	@Override
 	public Color getOwnLegendBackgroundColor() {
 		return legendBackgroundColor;
 	}
 
 
+	@Override
 	public Color getOwnLegendColor() {
 		return legendColor;
 	}
 
+	@Override
 	public Color getLegendColor() {
 		return getStyleResolver().getLegendColor(this);
 	}
 
+	@Override
 	public JRFont getLegendFont() {
 		return legendFont;
 	}
 
 
+	@Override
 	public void setLegendBackgroundColor(Color legendBackgroundColor) {
 		Object old = this.legendBackgroundColor;
 		this.legendBackgroundColor = legendBackgroundColor;
@@ -468,23 +444,20 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 
+	@Override
 	public void setLegendColor(Color legendColor) {
 		Object old = this.legendColor;
 		this.legendColor = legendColor;
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_COLOR, old, this.legendColor);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public EdgeEnum getLegendPositionValue()
 	{
 		return legendPositionValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLegendPosition(EdgeEnum legendPositionValue)
 	{
 		EdgeEnum old = this.legendPositionValue;
@@ -492,110 +465,85 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_POSITION, old, this.legendPositionValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return JRHyperlinkHelper.getHyperlinkTarget(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTitleExpression()
 	{
 		return titleExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSubtitleExpression()
 	{
 		return subtitleExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return anchorNameExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return hyperlinkReferenceExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression()
 	{
 		return hyperlinkWhenExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return hyperlinkAnchorExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return hyperlinkPageExpression;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRChartDataset getDataset()
 	{
 		return dataset;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChartPlot getPlot()
 	{
 		return plot;
 	}
 
+	@Override
 	public byte getChartType()
 	{
 		return chartType;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getRenderType()
 	{
 		return renderType;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRenderType(String renderType)
 	{
 		String old = this.renderType;
@@ -603,17 +551,13 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_RENDER_TYPE, old, this.renderType);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getTheme()
 	{
 		return theme;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTheme(String theme)
 	{
 		String old = this.theme;
@@ -621,75 +565,74 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		getEventSupport().firePropertyChange(PROPERTY_THEME, old, this.theme);
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitChart(this);
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return bookmarkLevel;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getCustomizerClass()
 	{
 		return customizerClass;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
 	}
 	
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 	
 	
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseChart clone = (JRBaseChart)super.clone();

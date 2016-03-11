@@ -40,21 +40,25 @@ public class JRMondrianCell implements JROlapCell
 		this.cell = cell;
 	}
 
+	@Override
 	public String getFormattedValue()
 	{
 		return cell.getFormattedValue();
 	}
 
+	@Override
 	public Object getValue()
 	{
 		return cell.getValue();
 	}
 
+	@Override
 	public boolean isError()
 	{
 		return cell.isError();
 	}
 
+	@Override
 	public boolean isNull()
 	{
 		return cell.isNull();

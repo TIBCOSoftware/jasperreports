@@ -49,6 +49,7 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 	/**
 	 * @deprecated replaced by {@link #getDataFile()}
 	 */
+	@Override
 	@Deprecated
 	public String getFileName() {
 		if (dataFile instanceof RepositoryDataLocation) {
@@ -60,6 +61,7 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 	/**
 	 * @deprecated replaced by {@link #setDataFile(net.sf.jasperreports.data.DataFile)} and {@link StandardRepositoryDataLocation}
 	 */
+	@Override
 	@Deprecated
 	public void setFileName(String fileName) {
 		if (fileName != null) {
@@ -68,54 +70,67 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 		}
 	}
 	
+	@Override
 	public String getSelectExpression() {
 		return selectExpression;
 	}
 
+	@Override
 	public void setSelectExpression(String selectExpression) {
 		this.selectExpression = selectExpression;
 	}
 	
+	@Override
 	public Locale getLocale() {
 		return locale;
 	}
 
+	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
+	@Override
 	public String getDatePattern() {
 		return datePattern;
 	}
 
+	@Override
 	public void setDatePattern(String datePattern) {
 		this.datePattern = datePattern;
 	}
 
+	@Override
 	public String getNumberPattern() {
 		return numberPattern;
 	}
 
+	@Override
 	public void setNumberPattern(String numberPattern) {
 		this.numberPattern = numberPattern;
 	}
 
+	@Override
 	public TimeZone getTimeZone() {
 		return timeZone;
 	}
 
+	@Override
 	public void setTimeZone(TimeZone timeZone) {
 		this.timeZone = timeZone;
 	}
 
+	@Override
 	public boolean isUseConnection() {
 		return useConnection;
 	}
 	
+	@Override
 	public void setUseConnection(boolean useConnection) {
 		this.useConnection = useConnection;
 	}
 
+	@Override
 	public boolean isNamespaceAware() {
 		return namespaceAware;
 	}
@@ -124,11 +139,13 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 		this.namespaceAware = namespaceAware;
 	}
 
+	@Override
 	public DataFile getDataFile()
 	{
 		return dataFile;
 	}
 
+	@Override
 	public void setDataFile(DataFile dataFile)
 	{
 		this.dataFile = dataFile;

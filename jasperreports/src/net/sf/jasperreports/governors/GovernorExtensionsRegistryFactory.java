@@ -39,6 +39,7 @@ public class GovernorExtensionsRegistryFactory implements ExtensionsRegistryFact
 			new SingletonExtensionRegistry<ScriptletFactory>(
 					ScriptletFactory.class, GovernorFactory.getInstance());
 	
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		return governorExtensionsRegistry;

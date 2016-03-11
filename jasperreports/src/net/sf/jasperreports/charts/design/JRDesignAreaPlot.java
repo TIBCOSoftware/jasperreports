@@ -79,9 +79,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void setCategoryAxisLabelExpression(JRExpression categoryAxisLabelExpression)
 	{
 		Object old = this.categoryAxisLabelExpression;
@@ -159,9 +157,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_LINE_COLOR, old, this.categoryAxisLineColor);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setValueAxisLabelExpression(JRExpression valueAxisLabelExpression)
 	{
 		Object old = this.valueAxisLabelExpression;
@@ -169,9 +165,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_EXPRESSION, old, this.valueAxisLabelExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setDomainAxisMinValueExpression(JRExpression domainAxisMinValueExpression)
 	{
 		Object old = this.domainAxisMinValueExpression;
@@ -179,9 +173,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 		getEventSupport().firePropertyChange(PROPERTY_DOMAIN_AXIS_MINVALUE_EXPRESSION, old, this.domainAxisMinValueExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setDomainAxisMaxValueExpression(JRExpression domainAxisMaxValueExpression)
 	{
 		Object old = this.domainAxisMaxValueExpression;
@@ -189,9 +181,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 		getEventSupport().firePropertyChange(PROPERTY_DOMAIN_AXIS_MAXVALUE_EXPRESSION, old, this.domainAxisMaxValueExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRangeAxisMinValueExpression(JRExpression rangeAxisMinValueExpression)
 	{
 		Object old = this.rangeAxisMinValueExpression;
@@ -199,9 +189,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 		getEventSupport().firePropertyChange(PROPERTY_RANGE_AXIS_MINVALUE_EXPRESSION, old, this.rangeAxisMinValueExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRangeAxisMaxValueExpression(JRExpression rangeAxisMaxValueExpression)
 	{
 		Object old = this.rangeAxisMaxValueExpression;
@@ -279,9 +267,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LINE_COLOR, old, this.valueAxisLineColor);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setCategoryAxisFormat(JRAxisFormat axisFormat)
 	{
 		setCategoryAxisLabelFont(axisFormat.getLabelFont());
@@ -293,9 +279,7 @@ public class JRDesignAreaPlot extends JRBaseAreaPlot implements JRDesignCategory
 		setCategoryAxisLineColor(axisFormat.getLineColor());
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setValueAxisFormat(JRAxisFormat axisFormat)
 	{
 		setValueAxisLabelFont(axisFormat.getLabelFont());

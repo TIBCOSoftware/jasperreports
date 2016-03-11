@@ -49,57 +49,43 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getDataRange()
 	{
 		return ((JRThermometerPlot)parent).getDataRange();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRValueDisplay getValueDisplay()
 	{
 		return ((JRThermometerPlot)parent).getValueDisplay();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ValueLocationEnum getValueLocationValue()
 	{
 		return ((JRThermometerPlot)parent).getValueLocationValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getMercuryColor()
 	{
 		return ((JRThermometerPlot)parent).getMercuryColor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getLowRange()
 	{
 		return ((JRThermometerPlot)parent).getLowRange();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getMediumRange()
 	{
 		return ((JRThermometerPlot)parent).getMediumRange();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getHighRange()
 	{
 		return ((JRThermometerPlot)parent).getHighRange();

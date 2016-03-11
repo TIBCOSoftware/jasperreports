@@ -58,9 +58,7 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next()
 	{
 		boolean hasNext = false;
@@ -79,9 +77,7 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField field)
 	{
 		Object value = null;
@@ -95,9 +91,7 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		if (records != null)

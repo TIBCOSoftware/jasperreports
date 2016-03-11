@@ -52,9 +52,7 @@ public enum IconPositionEnum implements NamedEnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 public class JRStyleFactory extends JRAbstractStyleFactory
 {
 
+	@Override
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
 	{
 		JasperDesign jasperDesign = (JasperDesign) digester.peek(digester.getCount() - 2);

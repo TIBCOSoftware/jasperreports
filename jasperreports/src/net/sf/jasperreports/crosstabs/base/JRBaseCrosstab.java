@@ -120,9 +120,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		lineBox = crosstab.getLineBox().clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
@@ -211,36 +209,43 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		}
 	}
 	
+	@Override
 	public int getId()
 	{
 		return id;
 	}
 
+	@Override
 	public JRCrosstabDataset getDataset()
 	{
 		return dataset;
 	}
 
+	@Override
 	public JRCrosstabRowGroup[] getRowGroups()
 	{
 		return rowGroups;
 	}
 
+	@Override
 	public JRCrosstabColumnGroup[] getColumnGroups()
 	{
 		return columnGroups;
 	}
 
+	@Override
 	public JRCrosstabMeasure[] getMeasures()
 	{
 		return measures;
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitCrosstab(this);
@@ -251,36 +256,43 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		}
 	}
 
+	@Override
 	public int getColumnBreakOffset()
 	{
 		return columnBreakOffset;
 	}
 
+	@Override
 	public boolean isRepeatColumnHeaders()
 	{
 		return repeatColumnHeaders;
 	}
 
+	@Override
 	public boolean isRepeatRowHeaders()
 	{
 		return repeatRowHeaders;
 	}
 
+	@Override
 	public JRCrosstabCell[][] getCells()
 	{
 		return cells;
 	}
 
+	@Override
 	public JRCrosstabParameter[] getParameters()
 	{
 		return parameters;
 	}
 
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return parametersMapExpression;
 	}
 
+	@Override
 	public JRCellContents getWhenNoDataCell()
 	{
 		return whenNoDataCell;
@@ -380,6 +392,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	}
 
 	
+	@Override
 	public JRElement getElementByKey(String elementKey)
 	{
 		return getElementByKey(this, elementKey);
@@ -391,28 +404,26 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		return titleCell;
 	}
 
+	@Override
 	public JRCellContents getHeaderCell()
 	{
 		return headerCell;
 	}
 
+	@Override
 	public JRVariable[] getVariables()
 	{
 		return variables;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public RunDirectionEnum getRunDirectionValue()
 	{
 		return this.runDirectionValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRunDirection(RunDirectionEnum runDirectionValue)
 	{
 		RunDirectionEnum old = this.runDirectionValue;
@@ -434,9 +445,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		getEventSupport().firePropertyChange(PROPERTY_RUN_DIRECTION, old, this.horizontalPosition);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		CrosstabBaseCloneFactory factory = new CrosstabBaseCloneFactory();
@@ -472,11 +481,13 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		return clone;
 	}
 
+	@Override
 	public Boolean getIgnoreWidth()
 	{
 		return ignoreWidth;
 	}
 
+	@Override
 	public void setIgnoreWidth(Boolean ignoreWidth)
 	{
 		Object old = this.ignoreWidth;
@@ -485,16 +496,19 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 				old, this.ignoreWidth);
 	}
 
+	@Override
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
 		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
 	
+	@Override
 	public Color getDefaultLineColor()
 	{
 		return getForecolor();
 	}
 
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;

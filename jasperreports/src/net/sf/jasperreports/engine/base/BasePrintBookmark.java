@@ -72,16 +72,19 @@ public class BasePrintBookmark implements PrintBookmark, Serializable
 		this.level = level;
 	}
 	
+	@Override
 	public String getLabel()
 	{
 		return label;
 	}
 	
+	@Override
 	public int getPageIndex()
 	{
 		return pageIndex;
 	}
 	
+	@Override
 	public String getElementAddress()
 	{
 		return elementAddress;
@@ -96,6 +99,7 @@ public class BasePrintBookmark implements PrintBookmark, Serializable
 		bookmarks.add(child);
 	}
 	
+	@Override
 	public List<PrintBookmark> getBookmarks()
 	{
 		return bookmarks;

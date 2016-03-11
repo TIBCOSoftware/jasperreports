@@ -50,6 +50,7 @@ public class MondrianDataAdapterService extends JdbcDataAdapterService {
 		super(jasperReportsContext, jdbcDataAdapter);
 	}
 
+	@Override
 	public MondrianDataAdapter getJdbcDataAdapter() {
 		return (MondrianDataAdapter) getDataAdapter();
 	}

@@ -231,6 +231,7 @@ class DataSourceComparator implements Comparator<Integer>
 		this.records = records;
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public int compare(Integer idx1, Integer idx2)
 	{

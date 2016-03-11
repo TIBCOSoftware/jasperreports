@@ -50,6 +50,7 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 	private final List<JRStyle> styles = new ArrayList<JRStyle>();
 	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport() {
 		synchronized (this) {
 			if (eventSupport == null) {
@@ -167,6 +168,7 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		return styles;
 	}
 
+	@Override
 	public JRStyle[] getStyles() {
 		return styles.toArray(new JRStyle[styles.size()]);
 	}
@@ -248,6 +250,7 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		return removed;
 	}
 
+	@Override
 	public JRTemplateReference[] getIncludedTemplates() {
 		return includedTemplates.toArray(new JRTemplateReference[includedTemplates.size()]);
 	}

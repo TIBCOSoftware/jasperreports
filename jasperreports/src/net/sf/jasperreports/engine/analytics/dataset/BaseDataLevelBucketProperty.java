@@ -66,6 +66,7 @@ public class BaseDataLevelBucketProperty implements DataLevelBucketProperty, Ser
 		return expression;
 	}
 
+	@Override
 	public Object clone()
 	{
 		BaseDataLevelBucketProperty clone = null;

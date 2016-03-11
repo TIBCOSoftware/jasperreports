@@ -34,10 +34,12 @@ public abstract class AbstractClasspathAwareDataAdapter extends AbstractDataAdap
 {
 	private List<String> classpath = new ArrayList<String>();
 
+	@Override
 	public void setClasspath(List<String> classpath) {
 		this.classpath = classpath;
 	}
 
+	@Override
 	public List<String> getClasspath() {
 		return classpath;
 	}

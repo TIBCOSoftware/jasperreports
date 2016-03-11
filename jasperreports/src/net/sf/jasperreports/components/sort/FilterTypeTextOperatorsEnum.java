@@ -58,9 +58,7 @@ public enum FilterTypeTextOperatorsEnum implements NamedEnum
 		this.name = name;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

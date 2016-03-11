@@ -52,11 +52,13 @@ public class Olap4jMondrianQueryExecuterFactory extends AbstractQueryExecuterFac
 		PARAMETER_CATALOG,  "java.lang.String",
 		};
 	
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return MONDRIAN_OLAP4J_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
@@ -66,6 +68,7 @@ public class Olap4jMondrianQueryExecuterFactory extends AbstractQueryExecuterFac
 		return new JRMondrianQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;

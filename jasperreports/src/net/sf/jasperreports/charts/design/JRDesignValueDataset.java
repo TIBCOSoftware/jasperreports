@@ -77,9 +77,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
@@ -107,6 +105,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	 * @return the type of this dataset - always
 	 *    {@link net.sf.jasperreports.engine.JRChartDataset#VALUE_DATASET VALUE_DATASET}
 	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.VALUE_DATASET;
 	}
@@ -118,20 +117,20 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	 *
 	 * @param collector the expression collector to use
 	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignValueDataset clone = (JRDesignValueDataset)super.clone();

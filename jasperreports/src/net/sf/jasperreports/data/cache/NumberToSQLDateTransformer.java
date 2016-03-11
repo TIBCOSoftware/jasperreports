@@ -54,6 +54,7 @@ public final class NumberToSQLDateTransformer implements ValueTransformer, Seria
 		return Date.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return new Date(((Number) value).longValue());

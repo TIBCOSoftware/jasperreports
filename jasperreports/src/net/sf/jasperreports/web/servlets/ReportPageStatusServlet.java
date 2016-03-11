@@ -53,9 +53,7 @@ public class ReportPageStatusServlet extends AbstractServlet
 	
 	private static final Log log = LogFactory.getLog(ReportPageStatusServlet.class);
 		
-	/**
-	 *
-	 */
+	@Override
 	public void service(
 			HttpServletRequest request,
 			HttpServletResponse response

@@ -159,6 +159,7 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			queryLanguageChanged((String) evt.getOldValue(), (String) evt.getNewValue());
@@ -444,6 +445,7 @@ public class JRDesignDataset extends JRBaseDataset
 
 	
 	
+	@Override
 	public JRScriptlet[] getScriptlets()
 	{
 		JRScriptlet[] scriptletsArray = new JRScriptlet[scriptletsList.size()];
@@ -558,6 +560,7 @@ public class JRDesignDataset extends JRBaseDataset
 	}
 
 	
+	@Override
 	public JRParameter[] getParameters()
 	{
 		JRParameter[] parametersArray = new JRParameter[parametersList.size()];
@@ -712,6 +715,7 @@ public class JRDesignDataset extends JRBaseDataset
 	}
 
 	
+	@Override
 	public JRField[] getFields()
 	{
 		JRField[] fieldsArray = new JRField[fieldsList.size()];
@@ -816,6 +820,7 @@ public class JRDesignDataset extends JRBaseDataset
 	}
 
 	
+	@Override
 	public JRSortField[] getSortFields()
 	{
 		JRSortField[] sortFieldsArray = new JRSortField[sortFieldsList.size()];
@@ -921,6 +926,7 @@ public class JRDesignDataset extends JRBaseDataset
 	}
 
 	
+	@Override
 	public JRVariable[] getVariables()
 	{
 		JRVariable[] variablesArray = new JRVariable[variablesList.size()];
@@ -1074,6 +1080,7 @@ public class JRDesignDataset extends JRBaseDataset
 	}
 
 	
+	@Override
 	public JRGroup[] getGroups()
 	{
 		JRGroup[] groupsArray = new JRGroup[groupsList.size()];
@@ -1248,6 +1255,7 @@ public class JRDesignDataset extends JRBaseDataset
 	{
 		Collections.sort(parametersList, new Comparator<JRParameter>()
 				{
+					@Override
 					public int compare(JRParameter p1, JRParameter p2)
 					{
 //						JRParameter p1 = (JRParameter) o1;
@@ -1342,9 +1350,7 @@ public class JRDesignDataset extends JRBaseDataset
 		}
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignDataset clone = (JRDesignDataset)super.clone();

@@ -58,9 +58,7 @@ public class MaxPagesGovernor extends JRDefaultScriptlet
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterPageInit() throws JRScriptletException
 	{
 		// cannot use PAGE_NUMBER variable because of timing issues and because of isResetPageNumber flag

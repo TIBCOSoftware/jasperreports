@@ -71,6 +71,7 @@ public class BooleanStore implements BufferColumnStore
 		return Boolean.class;
 	}
 	
+	@Override
 	public void addValue(Object object)
 	{
 		if (!(object instanceof Boolean))
@@ -96,17 +97,20 @@ public class BooleanStore implements BufferColumnStore
 		max |= value;
 	}
 
+	@Override
 	public boolean full()
 	{
 		return count >= size;
 	}
 
+	@Override
 	public void resetValues()
 	{
 		reset();
 		longArrayStore.resetValues();
 	}
 
+	@Override
 	public ColumnValues createValues()
 	{
 		if (count == 0)
@@ -155,6 +159,7 @@ public class BooleanStore implements BufferColumnStore
 	}
 
 
+	@Override
 	public String toString()
 	{
 		return "BooleanStore@" + hashCode();

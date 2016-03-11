@@ -44,6 +44,7 @@ public class JRFillCrosstabParameter extends JRFillParameter implements JRCrosst
 		parentParameter = parameter;
 	}
 	
+	@Override
 	public JRExpression getExpression()
 	{
 		return parentParameter.getExpression();

@@ -122,6 +122,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		return "virt" + virtualId;
 	}
 
+	@Override
 	protected void pageOut(JRVirtualizable o) throws IOException {
 		// Store data to a file.
 		String filename = makeFilename(o);
@@ -157,6 +158,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		}
 	}
 
+	@Override
 	protected void pageIn(JRVirtualizable o) throws IOException {
 		// Load data from a file.
 		String filename = makeFilename(o);
@@ -184,6 +186,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		}
 	}
 
+	@Override
 	protected void dispose(String virtualId) {
 		String filename = makeFilename(virtualId);
 		File file = new File(directory, filename);
@@ -195,6 +198,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 * Called when we are done with the virtualizer and wish to
 	 * cleanup any resources it has.
 	 */
+	@Override
 	public synchronized void cleanup()
 	{
 		disposeAll();

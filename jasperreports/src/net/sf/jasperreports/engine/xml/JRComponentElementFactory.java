@@ -36,6 +36,7 @@ import org.xml.sax.Attributes;
 public class JRComponentElementFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

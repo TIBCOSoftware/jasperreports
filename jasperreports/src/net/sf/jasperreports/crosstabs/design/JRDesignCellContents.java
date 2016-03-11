@@ -79,6 +79,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		lineBox = new JRBaseLineBox(this);
 	}
 	
+	@Override
 	public Color getBackcolor()
 	{
 		return backcolor;
@@ -98,12 +99,14 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 	
 	
+	@Override
 	public int getHeight()
 	{
 		return height;
@@ -125,6 +128,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		this.height = height;
 	}
 
+	@Override
 	public int getWidth()
 	{
 		return width;
@@ -142,11 +146,13 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		this.width = width;
 	}
 
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
 
+	@Override
 	public JRStyle getStyle()
 	{
 		return style;
@@ -168,6 +174,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		getEventSupport().firePropertyChange(PROPERTY_STYLE, old, this.style);
 	}
 
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return modeValue;
@@ -186,6 +193,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.modeValue);
 	}
 
+	@Override
 	public String getStyleNameReference()
 	{
 		return styleNameReference;
@@ -219,17 +227,13 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		this.origin = origin;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return Color.black;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignCellContents clone = (JRDesignCellContents) super.clone();
@@ -261,11 +265,13 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		}
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -275,6 +281,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

@@ -42,6 +42,7 @@ public class ColorPropertyRule extends TransformedPropertyRule
 		super(attributeName);
 	}
 
+	@Override
 	protected Object toPropertyValue(String attributeValue)
 	{
 		return JRColorUtil.getColor(attributeValue, null);

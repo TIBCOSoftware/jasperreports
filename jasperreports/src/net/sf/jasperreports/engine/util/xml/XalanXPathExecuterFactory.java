@@ -33,6 +33,7 @@ package net.sf.jasperreports.engine.util.xml;
 public class XalanXPathExecuterFactory implements JRXPathExecuterFactory
 {
 
+	@Override
 	public JRXPathExecuter getXPathExecuter()
 	{
 		return new XalanXPathExecuter();

@@ -51,6 +51,7 @@ public class HeaderToolbarParameterContributor implements ParameterContributor
 		this.context = context;
 	}
 	
+	@Override
 	public void contributeParameters(Map<String, Object> parameterValues) throws JRException
 	{
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
@@ -75,6 +76,7 @@ public class HeaderToolbarParameterContributor implements ParameterContributor
 		return null;
 	}
 	
+	@Override
 	public void dispose() {
 	}
 

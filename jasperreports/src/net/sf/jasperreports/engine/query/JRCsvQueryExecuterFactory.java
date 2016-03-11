@@ -182,10 +182,12 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory
 			CSV_TIMEZONE_ID, "java.lang.String"
 			};
 	
+	@Override
 	public Object[] getBuiltinParameters() {
 		return CSV_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
@@ -195,6 +197,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory
 		return new JRCsvQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className) {
 		return true;
 	}

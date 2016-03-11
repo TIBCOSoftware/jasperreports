@@ -72,6 +72,7 @@ public class FixedDate extends AbstractDateRange
 		}
 	}
 
+	@Override
 	public Date getStart() {
 		if (value == null) {
 			try {
@@ -85,6 +86,7 @@ public class FixedDate extends AbstractDateRange
 		return value;
 	}
 
+	@Override
 	public Date getEnd() {
 		return getStart();
 	}

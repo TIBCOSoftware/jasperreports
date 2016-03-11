@@ -46,11 +46,13 @@ public class Olap4jXmlaQueryExecuterFactory extends JRXmlaQueryExecuterFactory
 		PARAMETER_XMLA_PASSWORD, "java.lang.String",
 	};
 
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return XMLA_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 

@@ -32,10 +32,12 @@ public class EjbqlDataAdapterImpl extends AbstractDataAdapter implements
 		EjbqlDataAdapter {
 	private String persistanceUnitName;
 
+	@Override
 	public String getPersistanceUnitName() {
 		return persistanceUnitName;
 	}
 
+	@Override
 	public void setPersistanceUnitName(String persistanceUnitName) {
 		this.persistanceUnitName = persistanceUnitName;
 	}

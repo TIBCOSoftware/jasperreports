@@ -36,6 +36,7 @@ import org.xml.sax.Attributes;
  */
 public class JRCrosstabMeasureExpressionFactory extends JRBaseFactory
 {
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabMeasure measure = (JRDesignCrosstabMeasure) digester.peek();

@@ -34,15 +34,18 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  */
 public class SortComponentCompiler implements ComponentCompiler {
 
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector) {
 	}
 	
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory) {
 		SortComponent sortComponent = (SortComponent) component;
 		return new SortComponent(sortComponent, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier) {
 		// TODO
 	}

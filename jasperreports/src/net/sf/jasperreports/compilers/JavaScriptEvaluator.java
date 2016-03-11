@@ -76,6 +76,7 @@ public class JavaScriptEvaluator extends JREvaluator implements JasperReportsCon
 		this.functionsUtil = FunctionsUtil.getInstance(context);
 	}
 
+	@Override
 	protected void customizedInit(
 			Map<String, JRFillParameter> parametersMap, 
 			Map<String, JRFillField> fieldsMap,
@@ -86,18 +87,21 @@ public class JavaScriptEvaluator extends JREvaluator implements JasperReportsCon
 		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	
+	@Override
 	protected Object evaluate(int id) throws Throwable //NOSONAR
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
 		return evaluateExpression(expression.getDefaultExpression());
 	}
 
+	@Override
 	protected Object evaluateEstimated(int id) throws Throwable //NOSONAR
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
 		return evaluateExpression(expression.getEstimatedExpression());
 	}
 
+	@Override
 	protected Object evaluateOld(int id) throws Throwable //NOSONAR
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);

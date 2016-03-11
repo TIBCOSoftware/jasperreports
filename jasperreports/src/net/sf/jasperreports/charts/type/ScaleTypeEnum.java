@@ -62,17 +62,13 @@ public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public final Integer getValue()
 	{
 		return value;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

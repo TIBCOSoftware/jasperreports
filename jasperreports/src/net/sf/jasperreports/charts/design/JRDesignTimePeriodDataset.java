@@ -58,9 +58,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 		super( dataset );
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRTimePeriodSeries[] getSeries()
 	{
 		JRTimePeriodSeries[] timePeriodSeriesArray = new JRTimePeriodSeries[timePeriodSeriesList.size()];
@@ -116,31 +114,26 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 		return timePeriodSeries;
 	}
 	
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() 
 	{
 		return JRChartDataset.TIMEPERIOD_DATASET;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignTimePeriodDataset clone = (JRDesignTimePeriodDataset)super.clone();

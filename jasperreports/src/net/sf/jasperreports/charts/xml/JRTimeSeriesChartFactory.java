@@ -35,6 +35,7 @@ import org.xml.sax.Attributes;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  */
 public class JRTimeSeriesChartFactory extends JRBaseFactory {
+	@Override
 	public Object createObject( Attributes attrs ){
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 

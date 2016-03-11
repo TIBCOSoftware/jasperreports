@@ -43,39 +43,48 @@ public class SimpleSQLDataSource implements DataSource {
 		this.connection = connection;
 	}
 
+	@Override
 	public PrintWriter getLogWriter() throws SQLException {
 		return pw;
 	}
 
+	@Override
 	public void setLogWriter(PrintWriter out) throws SQLException {
 		pw = out;
 	}
 
+	@Override
 	public void setLoginTimeout(int seconds) throws SQLException {
 		loginTimeout = seconds;
 	}
 
+	@Override
 	public int getLoginTimeout() throws SQLException {
 		return loginTimeout;
 	}
 
+	@Override
 	public <T> T unwrap(Class<T> iface) throws SQLException {
 		return null;
 	}
 
+	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
 		return false;
 	}
 
+	@Override
 	public Connection getConnection() throws SQLException {
 		return connection.getConnection();
 	}
 
+	@Override
 	public Connection getConnection(String username, String password)
 			throws SQLException {
 		return connection.getConnection();
 	}
 
+	@Override
 	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
 		throw new SQLFeatureNotSupportedException();
 	}

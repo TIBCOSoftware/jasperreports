@@ -105,72 +105,54 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getMinPercentage()
 	{
 		return ((JRPieDataset)parent).getMinPercentage();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMinPercentage(Float minPercentage)
 	{	
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getMaxCount()
 	{
 		return ((JRPieDataset)parent).getMaxCount();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMaxCount(Integer maxCount)
 	{	
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPieSeries[] getSeries()
 	{
 		return pieSeries;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getOtherKeyExpression()
 	{
 		return ((JRPieDataset)parent).getOtherKeyExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getOtherLabelExpression()
 	{
 		return ((JRPieDataset)parent).getOtherLabelExpression();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRHyperlink getOtherSectionHyperlink()
 	{
 		return ((JRPieDataset) parent).getOtherSectionHyperlink();
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	protected void customInitialize()
 	{
 		values = new LinkedHashMap<Comparable<?>, Number>();
@@ -186,9 +168,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 				);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		if (pieSeries != null && pieSeries.length > 0)
@@ -225,9 +205,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customIncrement()
 	{
 		if (pieSeries != null && pieSeries.length > 0)
@@ -273,9 +251,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Dataset getCustomDataset()
 	{
 		double total = 0;
@@ -348,20 +324,20 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetType()
 	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.PIE_DATASET;
 	}
 
 
+	@Override
 	public Object getLabelGenerator()//FIXMECHART is this OK?
 	{
 		JRExpression labelExpression = (pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getLabelExpression() : null);
 		return (labelExpression == null) ? null : new PieLabelGenerator( labels );
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
@@ -374,6 +350,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

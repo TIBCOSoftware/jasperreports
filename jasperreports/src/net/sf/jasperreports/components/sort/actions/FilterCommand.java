@@ -54,6 +54,7 @@ public class FilterCommand implements Command
 		this.filterData = filterData;
 	}
 
+	@Override
 	public void execute() 
 	{
 		// get existing filter as JSON string
@@ -131,11 +132,13 @@ public class FilterCommand implements Command
 		propertiesMap.setProperty(DATASET_FILTER_PROPERTY, newSerializedFilters);
 	}
 	
+	@Override
 	public void undo() 
 	{
 		dataset.getPropertiesMap().setProperty(DATASET_FILTER_PROPERTY, oldSerializedFilters);
 	}
 
+	@Override
 	public void redo() 
 	{
 		dataset.getPropertiesMap().setProperty(DATASET_FILTER_PROPERTY, newSerializedFilters);

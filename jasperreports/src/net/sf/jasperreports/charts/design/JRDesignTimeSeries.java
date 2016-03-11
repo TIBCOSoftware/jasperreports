@@ -103,9 +103,7 @@ public class JRDesignTimeSeries extends JRBaseTimeSeries implements JRChangeEven
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignTimeSeries clone = (JRDesignTimeSeries)super.clone();
@@ -115,6 +113,7 @@ public class JRDesignTimeSeries extends JRBaseTimeSeries implements JRChangeEven
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

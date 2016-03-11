@@ -50,6 +50,7 @@ public class ConditionalFormattingCommand implements Command
 		this.conditionalFormattingData = conditionalFormattingData;
 	}
 
+	@Override
 	public void execute() 
 	{
 		if (textElement != null)
@@ -77,6 +78,7 @@ public class ConditionalFormattingCommand implements Command
 		}
 	}
 	
+	@Override
 	public void undo() 
 	{
 		if (textElement != null) 
@@ -85,6 +87,7 @@ public class ConditionalFormattingCommand implements Command
 		}
 	}
 
+	@Override
 	public void redo() 
 	{
 		if (textElement != null) 

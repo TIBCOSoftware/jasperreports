@@ -37,9 +37,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporterContext;
  */
 public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 {
-	/**
-	 * 
-	 */
+	@Override
 	public void exportElement(JRPdfExporterContext exporterContext, JRGenericPrintElement element)
 	{
 		JRPrintText labelPrintText = (JRPrintText)element.getParameterValue(IconLabelElement.PARAMETER_LABEL_TEXT_ELEMENT);
@@ -82,9 +80,7 @@ public class IconLabelElementPdfHandler implements GenericElementPdfHandler
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return true;

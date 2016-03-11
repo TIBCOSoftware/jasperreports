@@ -48,9 +48,7 @@ public class JROdtExporterNature extends JROpenDocumentExporterNature
 		super(jasperReportsContext, filter);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		if (element instanceof JRGenericPrintElement)

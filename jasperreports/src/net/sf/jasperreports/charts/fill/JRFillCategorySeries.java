@@ -68,33 +68,25 @@ public class JRFillCategorySeries implements JRCategorySeries
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return parent.getSeriesExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getCategoryExpression()
 	{
 		return parent.getCategoryExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return parent.getValueExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return parent.getLabelExpression();
@@ -179,14 +171,13 @@ public class JRFillCategorySeries implements JRCategorySeries
 	}
 
 
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return parent.getItemHyperlink();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

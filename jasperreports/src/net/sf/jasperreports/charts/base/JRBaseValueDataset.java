@@ -83,18 +83,14 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.VALUE_DATASET;
 	}
@@ -106,19 +102,19 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 	 *
 	 * @param collector the expression collector to use
 	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseValueDataset clone = (JRBaseValueDataset)super.clone();

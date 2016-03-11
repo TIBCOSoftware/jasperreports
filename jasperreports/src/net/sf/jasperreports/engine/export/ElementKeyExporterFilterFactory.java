@@ -65,6 +65,7 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 	 * 
 	 * @see #PROPERTY_EXCLUDED_KEY_PREFIX
 	 */
+	@Override
 	public ExporterFilter getFilter(JRExporterContext exporterContext)
 			throws JRException
 	{

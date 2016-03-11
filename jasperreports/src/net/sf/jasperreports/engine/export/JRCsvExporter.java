@@ -100,27 +100,21 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<CsvExporterConfiguration> getConfigurationInterface()
 	{
 		return CsvExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<CsvReportConfiguration> getItemConfigurationInterface()
 	{
 		return CsvReportConfiguration.class;
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
 	{
@@ -136,9 +130,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
 		CsvExporterConfiguration configuration = getCurrentConfiguration();

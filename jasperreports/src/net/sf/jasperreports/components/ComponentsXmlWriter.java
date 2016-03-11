@@ -81,6 +81,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		super(jasperReportsContext);
 	}
 
+	@Override
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
 	{
 		Component component = componentElement.getComponent();
@@ -428,6 +429,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 		
 		ColumnVisitor<Void> columnWriter = new ColumnVisitor<Void>()
 		{
+			@Override
 			public Void visitColumn(Column column)
 			{
 				try
@@ -463,6 +465,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 				return null;
 			}
 
+			@Override
 			public Void visitColumnGroup(ColumnGroup columnGroup)
 			{
 				try

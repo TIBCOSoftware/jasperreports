@@ -56,6 +56,7 @@ public class IconLabelComponentXmlWriter implements ComponentXmlWriter
 	}
 
 
+	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
 		String version = ComponentsXmlWriter.getVersion(jasperReportsContext, componentElement, reportWriter);
@@ -63,6 +64,7 @@ public class IconLabelComponentXmlWriter implements ComponentXmlWriter
 	}
 	
 	
+	@Override
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException 
 	{
 		Component component = componentElement.getComponent();

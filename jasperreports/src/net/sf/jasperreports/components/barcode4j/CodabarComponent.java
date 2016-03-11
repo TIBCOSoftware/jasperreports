@@ -38,6 +38,7 @@ public class CodabarComponent extends Barcode4jComponent
 	
 	private Double wideFactor;
 	
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitCodabar(this);

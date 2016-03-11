@@ -40,9 +40,7 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
 public class JRPrintImageFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);

@@ -119,6 +119,7 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 		}
 	}
 
+	@Override
 	public NodeList selectNodeList(Node contextNode, String expression)
 			throws JRException {
 		try {
@@ -137,6 +138,7 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 		}
 	}
 
+	@Override
 	public Object selectObject(Node contextNode, String expression)
 			throws JRException {
 		try {

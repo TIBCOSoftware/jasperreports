@@ -47,6 +47,7 @@ public class HighLowChartHyperlinkProvider implements ChartHyperlinkProvider
 	}
 
 
+	@Override
 	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
 		JRPrintHyperlink printHyperlink = null;
@@ -62,6 +63,7 @@ public class HighLowChartHyperlinkProvider implements ChartHyperlinkProvider
 		return printHyperlink;
 	}
 
+	@Override
 	public boolean hasHyperlinks()
 	{
 		return itemHyperlinks != null && itemHyperlinks.size() > 0;

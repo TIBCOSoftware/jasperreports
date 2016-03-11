@@ -47,11 +47,13 @@ public class JRMondrianQueryExecuterFactory extends AbstractQueryExecuterFactory
 		PARAMETER_MONDRIAN_CONNECTION,  "mondrian.olap.Connection",
 		};
 	
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return MONDRIAN_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
@@ -61,6 +63,7 @@ public class JRMondrianQueryExecuterFactory extends AbstractQueryExecuterFactory
 		return new JRMondrianQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;

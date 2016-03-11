@@ -58,11 +58,13 @@ public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 		super(jasperReportsContext, false);
 	}
 
+	@Override
 	protected void checkLanguage(String language) throws JRException
 	{
 		//NOOP
 	}
 
+	@Override
 	protected JRCompilationSourceCode generateSourceCode(
 			JRSourceCompileTask sourceTask) throws JRException
 	{
@@ -70,11 +72,13 @@ public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 		return null;
 	}
 
+	@Override
 	protected String getSourceFileName(String unitName)
 	{
 		return unitName + ".js";
 	}
 
+	@Override
 	protected JREvaluator loadEvaluator(Serializable compileData,
 			String unitName) throws JRException
 	{

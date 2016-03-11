@@ -49,6 +49,7 @@ public class MoveColumnAction extends AbstractVerifiableTableAction {
 		return "move_column_action";
 	}
 	
+	@Override
 	public void performAction() throws ActionException {
 		// execute command
 		try {

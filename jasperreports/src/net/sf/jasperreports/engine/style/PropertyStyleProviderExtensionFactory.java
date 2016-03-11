@@ -41,6 +41,7 @@ public class PropertyStyleProviderExtensionFactory implements ExtensionsRegistry
 			new SingletonExtensionRegistry<StyleProviderFactory>(StyleProviderFactory.class, 
 					PropertyStyleProviderFactory.getInstance());
 
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		return REGISTRY;

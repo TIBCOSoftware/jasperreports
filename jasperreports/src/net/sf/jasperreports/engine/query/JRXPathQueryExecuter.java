@@ -80,11 +80,13 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		return CANONICAL_LANGUAGE;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
 	}
 
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		JRXmlDataSource datasource = null;
@@ -134,6 +136,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		return datasource;
 	}
 
+	@Override
 	public void close()
 	{
 		if(datasource != null){
@@ -141,6 +144,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		}
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		//nothing to cancel

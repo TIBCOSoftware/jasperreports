@@ -50,9 +50,7 @@ public enum FilterTypeBooleanOperatorsEnum implements NamedEnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

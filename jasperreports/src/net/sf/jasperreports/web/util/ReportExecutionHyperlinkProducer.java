@@ -74,9 +74,7 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getHyperlink(JRPrintHyperlink hyperlink) 
 	{
 		String applicationDomain = null;

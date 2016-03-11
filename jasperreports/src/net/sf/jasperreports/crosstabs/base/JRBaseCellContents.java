@@ -74,49 +74,55 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		this.propertiesMap = JRPropertiesMap.getPropertiesClone(cell);
 	}
 
+	@Override
 	public Color getBackcolor()
 	{
 		return backcolor;
 	}
 
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 
+	@Override
 	public int getWidth()
 	{
 		return width;
 	}
 
+	@Override
 	public int getHeight()
 	{
 		return height;
 	}
 
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
 
+	@Override
 	public JRStyle getStyle()
 	{
 		return style;
 	}
 
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return modeValue;
 	}
 
+	@Override
 	public String getStyleNameReference()
 	{
 		return styleNameReference;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return Color.black;
@@ -145,6 +151,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		}
 	}
 	
+	@Override
 	public Object clone() 
 	{
 		JRBaseCellContents clone = (JRBaseCellContents) super.clone();
@@ -153,11 +160,13 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		return clone;
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -167,6 +176,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

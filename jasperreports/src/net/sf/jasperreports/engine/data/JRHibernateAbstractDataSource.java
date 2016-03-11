@@ -241,6 +241,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	}
 	
 	
+	@Override
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
 		FieldReader reader = fieldReaders.get(jrField.getName());
@@ -274,6 +275,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	
 	protected static class IdentityFieldReader implements FieldReader
 	{
+		@Override
 		public Object getFieldValue(Object resultValue)
 		{
 			return resultValue;
@@ -289,6 +291,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 			this.idx = idx;
 		}
 		
+		@Override
 		public Object getFieldValue(Object resultValue)
 		{
 			return ((Object[]) resultValue)[idx];
@@ -304,6 +307,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 			this.property = property;
 		}
 		
+		@Override
 		public Object getFieldValue(Object resultValue) throws JRException
 		{
 			return JRAbstractBeanDataSource.getBeanProperty(resultValue, property);
@@ -321,6 +325,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 			this.property = property;
 		}
 		
+		@Override
 		public Object getFieldValue(Object resultValue) throws JRException
 		{
 			return JRAbstractBeanDataSource.getBeanProperty(((Object[]) resultValue)[idx], property);

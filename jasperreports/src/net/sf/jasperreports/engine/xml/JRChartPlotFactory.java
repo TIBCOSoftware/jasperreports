@@ -39,9 +39,7 @@ import org.xml.sax.Attributes;
 public class JRChartPlotFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public Object createObject(Attributes atts)
 	{
@@ -78,6 +76,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 	
 	public static class JRSeriesColorFactory extends JRBaseFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			int seriesIndex = -1;

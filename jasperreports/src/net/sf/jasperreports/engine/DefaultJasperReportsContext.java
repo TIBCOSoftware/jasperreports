@@ -237,9 +237,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getValue(String key)
 	{
 		return values.get(key);
@@ -251,9 +249,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 		return values.get(key);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setValue(String key, Object value)
 	{
 		values.put(key, value);
@@ -266,6 +262,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	 * @param <T> generic extension type
 	 * @return a list of extension objects
 	 */
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		return ExtensionsEnvironment.getExtensionsRegistry().getExtensions(extensionType);
@@ -277,30 +274,25 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	 * @param key the key
 	 * @return the property value
 	 */
+	@Override
 	public String getProperty(String key)
 	{
 		return properties.get(key);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setProperty(String key, String value)
 	{
 		properties.put(key, value);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void removeProperty(String key)
 	{
 		properties.remove(key);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Map<String, String> getProperties()
 	{
 		return properties;

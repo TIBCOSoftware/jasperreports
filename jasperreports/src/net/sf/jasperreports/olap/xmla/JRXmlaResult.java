@@ -51,11 +51,13 @@ public class JRXmlaResult implements JROlapResult
 	private int[] cellOrdinalFactors;
 	private final List<JRXmlaCell> cells = new ArrayList<JRXmlaCell>();
 
+	@Override
 	public JROlapResultAxis[] getAxes()
 	{
 		return ensureAxisArray();
 	}
 
+	@Override
 	public JROlapCell getCell(int[] axisPositions)
 	{
 		int cellOrdinal = getCellOrdinal(axisPositions);

@@ -34,26 +34,32 @@ public class BeanDataAdapterImpl extends AbstractClasspathAwareDataAdapter imple
 	private String factoryClass;
 	private String methodName;
 
+	@Override
 	public boolean isUseFieldDescription() {
 		return isUseFieldDescription;
 	}
 
+	@Override
 	public void setUseFieldDescription(boolean isUseFieldDescription) {
 		this.isUseFieldDescription = isUseFieldDescription;
 	}
 
+	@Override
 	public String getFactoryClass() {
 		return factoryClass;
 	}
 
+	@Override
 	public void setFactoryClass(String factoryClass) {
 		this.factoryClass = factoryClass;
 	}
 
+	@Override
 	public String getMethodName() {
 		return methodName;
 	}
 
+	@Override
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
 	}

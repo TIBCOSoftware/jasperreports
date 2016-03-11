@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class BarbecueFillFactory implements ComponentFillFactory
 {
 
+	@Override
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{
@@ -43,6 +44,7 @@ public class BarbecueFillFactory implements ComponentFillFactory
 		return new BarbecueFillComponent(barcode);
 	}
 
+	@Override
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{

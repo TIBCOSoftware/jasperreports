@@ -43,16 +43,19 @@ public class DelegatePropertiesHolder implements JRPropertiesHolder
 		this.parentProperties = parentProperties;
 	}
 	
+	@Override
 	public boolean hasProperties() 
 	{
 		return propertiesHolder == null ? false : propertiesHolder.hasProperties();
 	}
 	
+	@Override
 	public JRPropertiesMap getPropertiesMap() 
 	{
 		return propertiesHolder == null ? null : propertiesHolder.getPropertiesMap();
 	}
 	
+	@Override
 	public JRPropertiesHolder getParentProperties() 
 	{
 		return 

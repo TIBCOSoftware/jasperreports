@@ -34,26 +34,32 @@ public class HibernateDataAdapterImpl extends AbstractClasspathAwareDataAdapter 
 	private String propertiesFile;
 	private boolean useAnnotation;
 
+	@Override
 	public String getXMLFileName() {
 		return xmlFile;
 	}
 
+	@Override
 	public void setXMLFileName(String fileName) {
 		this.xmlFile = fileName;
 	}
 
+	@Override
 	public String getPropertiesFileName() {
 		return propertiesFile;
 	}
 
+	@Override
 	public void setPropertiesFileName(String fileName) {
 		this.propertiesFile = fileName;
 	}
 
+	@Override
 	public boolean isUseAnnotation() {
 		return useAnnotation;
 	}
 
+	@Override
 	public void setUseAnnotation(boolean useAnnotation) {
 		this.useAnnotation = useAnnotation;
 	}

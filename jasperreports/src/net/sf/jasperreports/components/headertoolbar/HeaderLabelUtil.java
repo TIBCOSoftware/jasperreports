@@ -86,6 +86,7 @@ public class HeaderLabelUtil
 				new Class<?>[]{JRStaticText.class}, 
 				new InvocationHandler() 
 				{
+					@Override
 					public Object invoke(
 						Object proxy, 
 						Method method, 
@@ -159,6 +160,7 @@ public class HeaderLabelUtil
 			this.suffix = suffix;
 		}
 		
+		@Override
 		public void init(Map<String, JRFillParameter> parametersMap,
 				Map<String, JRFillField> fieldsMap, 
 				Map<String, JRFillVariable> variablesMap,
@@ -167,16 +169,19 @@ public class HeaderLabelUtil
 			// NOP
 		}
 
+		@Override
 		public Object evaluate(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			return evaluator.evaluate(expression) + suffix;
 		}
 
+		@Override
 		public Object evaluateOld(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			return evaluator.evaluateOld(expression) + suffix;
 		}
 
+		@Override
 		public Object evaluateEstimated(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			return evaluator.evaluateEstimated(expression) + suffix;

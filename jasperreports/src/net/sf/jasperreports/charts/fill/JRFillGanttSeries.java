@@ -70,49 +70,41 @@ public class JRFillGanttSeries implements JRGanttSeries {
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return parent.getSeriesExpression();
 	}
 
+	@Override
 	public JRExpression getStartDateExpression(){
 		return parent.getStartDateExpression();
 	}
 
+	@Override
 	public JRExpression getEndDateExpression(){
 		return parent.getEndDateExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTaskExpression()
 	{
 		return parent.getTaskExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSubtaskExpression()
 	{
 		return parent.getSubtaskExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPercentExpression()
 	{
 		return parent.getPercentExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return parent.getLabelExpression();
@@ -210,6 +202,7 @@ public class JRFillGanttSeries implements JRGanttSeries {
 	}
 
 
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return parent.getItemHyperlink();

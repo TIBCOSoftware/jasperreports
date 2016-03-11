@@ -69,9 +69,7 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next()
 	{
 		boolean hasNext = false;
@@ -90,9 +88,7 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField jrField)
 	{
 		Integer fieldIndex = columnNamesMap.get(jrField.getName());
@@ -109,9 +105,7 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		iterator = records.listIterator();

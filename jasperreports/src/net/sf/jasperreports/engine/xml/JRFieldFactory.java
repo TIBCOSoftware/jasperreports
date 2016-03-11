@@ -34,9 +34,7 @@ import org.xml.sax.Attributes;
 public class JRFieldFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignField field = new JRDesignField();

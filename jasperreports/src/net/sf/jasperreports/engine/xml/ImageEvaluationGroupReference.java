@@ -42,16 +42,19 @@ public class ImageEvaluationGroupReference implements XmlGroupReference
 		this.image = image;
 	}
 
+	@Override
 	public JRGroup getGroupReference()
 	{
 		return image.getEvaluationGroup();
 	}
 
+	@Override
 	public void assignGroup(JRGroup group)
 	{
 		image.setEvaluationGroup(group);
 	}
 
+	@Override
 	public void groupNotFound(String groupName) throws JRValidationException
 	{
 		throw new JRValidationException("Unknown evaluation group '" + groupName + "' for image.", image);

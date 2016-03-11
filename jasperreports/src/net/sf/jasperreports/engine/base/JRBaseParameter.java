@@ -102,25 +102,19 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return this.name;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getDescription()
 	{
 		return this.description;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setDescription(String description)
 	{
 		Object old = this.description;
@@ -128,9 +122,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		getEventSupport().firePropertyChange(PROPERTY_DESCRIPTION, old, this.description);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -152,9 +144,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		return valueClass;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
@@ -173,6 +163,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		return valueClassRealName;
 	}
 
+	@Override
 	public Class<?> getNestedType()
 	{
 		if (nestedTypeName != null && nestedType == null)
@@ -191,57 +182,53 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	}
 
 
+	@Override
 	public String getNestedTypeName()
 	{
 		return nestedTypeName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isSystemDefined()
 	{
 		return this.isSystemDefined;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isForPrompting()
 	{
 		return this.isForPrompting;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDefaultValueExpression()
 	{
 		return this.defaultValueExpression;
 	}
 
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
 	}
 
 	
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseParameter clone = null;
@@ -268,6 +255,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

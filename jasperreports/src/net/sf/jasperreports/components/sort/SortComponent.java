@@ -94,11 +94,13 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 		this.symbolFont = component.getSymbolFont();
 	}
 
+	@Override
 	public void setContext(ComponentContext context)
 	{
 		this.context = context;
 	}
 	
+	@Override
 	public ComponentContext getContext()
 	{
 		return context;
@@ -248,6 +250,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 				old, this.handlerHorizontalImageAlign);
 	}
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport() {
 		synchronized (this)
 		{

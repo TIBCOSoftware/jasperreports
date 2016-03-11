@@ -61,9 +61,7 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<ParameterContributor> getContributors(ParameterContributorContext context) throws JRException
 	{
 		List<ParameterContributor> contributors = new ArrayList<ParameterContributor>();

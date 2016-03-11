@@ -64,6 +64,7 @@ public class VirtualizationInput extends ObjectInputStream
 		return virtualizationContext;
 	}
 
+	@Override
 	protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
 	{
 		Class<?> clazz;

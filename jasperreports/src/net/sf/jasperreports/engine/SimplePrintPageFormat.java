@@ -47,6 +47,7 @@ public class SimplePrintPageFormat implements PrintPageFormat, Serializable
 	/**
 	 * @return Returns the page width
 	 */
+	@Override
 	public Integer getPageWidth()
 	{
 		return pageWidth;
@@ -63,6 +64,7 @@ public class SimplePrintPageFormat implements PrintPageFormat, Serializable
 	/**
 	 * @return Returns the page height.
 	 */
+	@Override
 	public Integer getPageHeight()
 	{
 		return pageHeight;
@@ -79,6 +81,7 @@ public class SimplePrintPageFormat implements PrintPageFormat, Serializable
 	/**
 	 * @return Returns the top page margin
 	 */
+	@Override
 	public Integer getTopMargin()
 	{
 		return topMargin;
@@ -95,6 +98,7 @@ public class SimplePrintPageFormat implements PrintPageFormat, Serializable
 	/**
 	 * @return Returns the left page margin
 	 */
+	@Override
 	public Integer getLeftMargin()
 	{
 		return leftMargin;
@@ -111,6 +115,7 @@ public class SimplePrintPageFormat implements PrintPageFormat, Serializable
 	/**
 	 * @return Returns the bottom page margin
 	 */
+	@Override
 	public Integer getBottomMargin()
 	{
 		return bottomMargin;
@@ -127,6 +132,7 @@ public class SimplePrintPageFormat implements PrintPageFormat, Serializable
 	/**
 	 * @return Returns the right page margin
 	 */
+	@Override
 	public Integer getRightMargin()
 	{
 		return rightMargin;
@@ -143,6 +149,7 @@ public class SimplePrintPageFormat implements PrintPageFormat, Serializable
 	/**
 	 * Returns the page orientation.
 	 */
+	@Override
 	public OrientationEnum getOrientation()
 	{
 		return orientation;

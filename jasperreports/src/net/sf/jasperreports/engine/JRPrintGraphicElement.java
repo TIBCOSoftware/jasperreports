@@ -36,6 +36,7 @@ public interface JRPrintGraphicElement extends JRPrintElement, JRCommonGraphicEl
 	 * Sets the fill type used for this element.
 	 * @param fill one of the pen constants in {@link FillEnum}.
 	 */
+	@Override
 	public void setFill(FillEnum fill);
 	
 	

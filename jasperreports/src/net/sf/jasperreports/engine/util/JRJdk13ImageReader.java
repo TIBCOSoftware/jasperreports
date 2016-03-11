@@ -38,9 +38,7 @@ public class JRJdk13ImageReader implements JRImageReader
 {
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_READ_FAILED = "util.jdk13.image.read.failed";
 
-	/**
-	 *
-	 */
+	@Override
 	public Image readImage(byte[] bytes) throws JRException
 	{
 		Image image = Toolkit.getDefaultToolkit().createImage(bytes);

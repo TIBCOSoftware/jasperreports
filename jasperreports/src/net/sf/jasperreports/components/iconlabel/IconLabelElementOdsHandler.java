@@ -68,6 +68,7 @@ public class IconLabelElementOdsHandler implements GenericElementOdsHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

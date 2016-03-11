@@ -55,9 +55,7 @@ public class FileBufferedZip extends AbstractZip
 		this.memoryThreshold = memoryThreshold;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public ExportZipEntry createEntry(String name)
 	{
 		return memoryThreshold == null ? new FileBufferedZipEntry(name) : new FileBufferedZipEntry(name, memoryThreshold);

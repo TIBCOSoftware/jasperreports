@@ -83,17 +83,13 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getMinPercentage()
 	{
 		return minPercentage;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setMinPercentage(Float minPercentage)
 	{
 		Object old = this.minPercentage;
@@ -101,17 +97,13 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		getEventSupport().firePropertyChange(PROPERTY_MIN_PERCENTAGE, old, this.minPercentage);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getMaxCount()
 	{
 		return maxCount;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setMaxCount(Integer maxCount)
 	{
 		Object old = this.maxCount;
@@ -119,9 +111,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		getEventSupport().firePropertyChange(PROPERTY_MAX_COUNT, old, this.maxCount);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPieSeries[] getSeries()
 	{
 		JRPieSeries[] pieSeriesArray = new JRPieSeries[pieSeriesList.size()];
@@ -263,9 +253,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getOtherKeyExpression()
 	{
 		return otherKeyExpression;
@@ -281,9 +269,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		getEventSupport().firePropertyChange(PROPERTY_OTHER_KEY_EXPRESSION, old, this.otherKeyExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getOtherLabelExpression()
 	{
 		return otherLabelExpression;
@@ -299,9 +285,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		getEventSupport().firePropertyChange(PROPERTY_OTHER_LABEL_EXPRESSION, old, this.otherLabelExpression);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRHyperlink getOtherSectionHyperlink()
 	{
 		return otherSectionHyperlink;
@@ -318,32 +302,27 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	}
 
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.PIE_DATASET;
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 	
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignPieDataset clone = (JRDesignPieDataset)super.clone();

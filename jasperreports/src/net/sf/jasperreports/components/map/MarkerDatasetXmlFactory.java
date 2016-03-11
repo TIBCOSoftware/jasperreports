@@ -34,6 +34,7 @@ import org.xml.sax.Attributes;
 public class MarkerDatasetXmlFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		StandardMarkerDataset dataset = new StandardMarkerDataset();

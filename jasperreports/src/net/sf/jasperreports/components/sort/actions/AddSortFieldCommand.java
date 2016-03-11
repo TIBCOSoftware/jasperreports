@@ -47,9 +47,7 @@ public class AddSortFieldCommand implements Command
 		this.sortField = sortField;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void execute() 
 	{
 		try
@@ -62,17 +60,13 @@ public class AddSortFieldCommand implements Command
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void undo() 
 	{
 		dataset.removeSortField(sortField);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void redo() 
 	{
 		execute();

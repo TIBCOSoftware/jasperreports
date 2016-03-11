@@ -79,17 +79,13 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public SortOrderEnum getOrderValue()
 	{
 		return orderValue;
@@ -105,17 +101,13 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.orderValue);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public SortFieldTypeEnum getType()
 	{
 		return type;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		try
@@ -132,6 +124,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

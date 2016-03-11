@@ -84,6 +84,7 @@ import org.apache.commons.digester.Digester;
  */
 public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 {
+	@Override
 	public void configureDigester(Digester digester)
 	{
 		addListRules(digester);

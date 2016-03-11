@@ -65,9 +65,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void render()
 	{
 		ColumnText colText = new ColumnText(pdfContentByte);
@@ -106,9 +104,7 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public void draw()
 	{
 		//nothing to do

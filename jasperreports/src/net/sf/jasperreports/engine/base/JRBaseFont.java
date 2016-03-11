@@ -221,9 +221,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return styleContainer == null ? null : styleContainer.getDefaultStyleProvider();
@@ -241,41 +239,31 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		return StyleResolver.getInstance();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle()
 	{
 		return style == null ? (styleContainer == null ? null : styleContainer.getStyle()) : style;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getStyleNameReference()
 	{
 		return styleNameReference == null ? (styleContainer == null ? null : styleContainer.getStyleNameReference()) : styleNameReference;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getFontName()
 	{
 		return getStyleResolver().getFontName(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnFontName()
 	{
 		return fontName;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setFontName(String fontName)
 	{
 		Object old = this.fontName;
@@ -284,25 +272,19 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBold()
 	{
 		return getStyleResolver().isBold(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBold()
 	{
 		return isBold;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setBold(boolean isBold)
 	{
 		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
@@ -312,6 +294,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
+	@Override
 	public void setBold(Boolean isBold)
 	{
 		Object old = this.isBold;
@@ -320,25 +303,19 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isItalic()
 	{
 		return getStyleResolver().isItalic(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnItalic()
 	{
 		return isItalic;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setItalic(boolean isItalic)
 	{
 		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
@@ -348,6 +325,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 * Alternative setItalic method which allows also to reset
 	 * the "own" isItalic property.
 	 */
+	@Override
 	public void setItalic(Boolean isItalic) 
 	{
 		Object old = this.isItalic;
@@ -355,25 +333,19 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		getEventSupport().firePropertyChange(PROPERTY_ITALIC, old, this.isItalic);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isUnderline()
 	{
 		return getStyleResolver().isUnderline(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnUnderline()
 	{
 		return isUnderline;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setUnderline(boolean isUnderline)
 	{
 		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
@@ -383,6 +355,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
+	@Override
 	public void setUnderline(Boolean isUnderline) 
 	{
 		Object old = this.isUnderline;
@@ -390,25 +363,19 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		getEventSupport().firePropertyChange(PROPERTY_UNDERLINE, old, this.isUnderline);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStrikeThrough()
 	{
 		return getStyleResolver().isStrikeThrough(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnStrikeThrough()
 	{
 		return isStrikeThrough;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
 		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
@@ -418,6 +385,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
 	 */
+	@Override
 	public void setStrikeThrough(Boolean isStrikeThrough) 
 	{
 		Object old = this.isStrikeThrough;
@@ -425,17 +393,13 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		getEventSupport().firePropertyChange(PROPERTY_STRIKE_THROUGH, old, this.isStrikeThrough);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getFontsize()
 	{
 		return getStyleResolver().getFontsize(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Float getOwnFontsize()
 	{
 		return fontsize;
@@ -444,6 +408,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	/**
 	 * Method which allows also to reset the "own" size property.
 	 */
+	@Override
 	public void setFontSize(Float fontSize) 
 	{
 		Object old = this.fontsize;
@@ -454,6 +419,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	/**
 	 * @deprecated Replaced by {@link #getFontsize()}.
 	 */
+	@Override
 	public int getFontSize()
 	{
 		return (int)getFontsize();
@@ -462,6 +428,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	/**
 	 * @deprecated Replaced by {@link #getOwnFontsize()}.
 	 */
+	@Override
 	public Integer getOwnFontSize()
 	{
 		return fontsize == null ? null : fontsize.intValue();
@@ -470,6 +437,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(int fontSize)
 	{
 		setFontSize((float)fontSize);
@@ -478,30 +446,25 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}.
 	 */
+	@Override
 	public void setFontSize(Integer fontSize) 
 	{
 		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfFontName()
 	{
 		return getStyleResolver().getPdfFontName(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfFontName()
 	{
 		return pdfFontName;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfFontName(String pdfFontName)
 	{
 		Object old = this.pdfFontName;
@@ -510,25 +473,19 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfEncoding()
 	{
 		return getStyleResolver().getPdfEncoding(this);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfEncoding()
 	{
 		return pdfEncoding;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEncoding(String pdfEncoding)
 	{
 		Object old = this.pdfEncoding;
@@ -537,25 +494,19 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPdfEmbedded()
 	{
 		return getStyleResolver().isPdfEmbedded(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnPdfEmbedded()
 	{
 		return isPdfEmbedded;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
 		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
@@ -565,6 +516,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	 * Alternative setPdfEmbedded method which allows also to reset
 	 * the "own" isPdfEmbedded property.
 	 */
+	@Override
 	public void setPdfEmbedded(Boolean isPdfEmbedded) 
 	{
 		Object old = this.isPdfEmbedded;
@@ -572,9 +524,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRBaseFont clone = null;
@@ -595,6 +545,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

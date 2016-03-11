@@ -139,25 +139,19 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 				);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getEncoding()
 	{
 		return encoding;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Writer getWriter()
 	{
 		return writer;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void close()
 	{
 		if (toClose)

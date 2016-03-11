@@ -54,18 +54,14 @@ public class SimpleExporterInputItem implements ExporterInputItem
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JasperPrint getJasperPrint()
 	{
 		return jasperPrint;
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ReportExportConfiguration getConfiguration()
 	{
 		return configuration;

@@ -74,6 +74,7 @@ public class MultiAxisChartHyperlinkProvider implements ChartHyperlinkProvider
 	/**
 	 * Returns <code>true</code> if any of the registered providers has hyperlinks.
 	 */
+	@Override
 	public boolean hasHyperlinks()
 	{
 		boolean hasHyperlinks = false;
@@ -96,6 +97,7 @@ public class MultiAxisChartHyperlinkProvider implements ChartHyperlinkProvider
 	 * Determines the provider for the chart entity based on its dataset,
 	 * and delegates the call to it.
 	 */
+	@Override
 	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
 		JRPrintHyperlink hyperlink = null;

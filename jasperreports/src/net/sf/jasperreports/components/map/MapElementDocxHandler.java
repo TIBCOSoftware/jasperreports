@@ -41,6 +41,7 @@ public class MapElementDocxHandler implements GenericElementDocxHandler
 		return INSTANCE;
 	}
 	
+	@Override
 	public void exportElement(
 		JRDocxExporterContext exporterContext,
 		JRGenericPrintElement element,
@@ -62,6 +63,7 @@ public class MapElementDocxHandler implements GenericElementDocxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

@@ -53,6 +53,7 @@ public final class NumberToShortTransformer implements ValueTransformer, Seriali
 		return Short.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return ((Number) value).shortValue();

@@ -117,6 +117,7 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 		return (Class<? extends Script>) scriptClass;
 	}
 	
+	@Override
 	public String toString()
 	{
 		return getClass().getSimpleName() + '@' + hashCode();

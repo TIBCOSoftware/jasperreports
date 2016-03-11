@@ -62,25 +62,19 @@ public enum VerticalAlignEnum implements JREnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Byte getValueByte()
 	{
 		return new Byte(value);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public final byte getValue()
 	{
 		return value;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

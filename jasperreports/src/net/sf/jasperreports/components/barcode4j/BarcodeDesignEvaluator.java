@@ -86,21 +86,25 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		return value;
 	}
 	
+	@Override
 	protected void evaluateCodabar(CodabarComponent codabar)
 	{
 		evaluateBaseBarcode(codabar, "0123456789");
 	}
 
+	@Override
 	protected void evaluateCode128(Code128Component code128)
 	{
 		evaluateBaseBarcode(code128, "0123456789");
 	}
 
+	@Override
 	protected void evaluateDataMatrix(DataMatrixComponent dataMatrix)
 	{
 		evaluateBaseBarcode(dataMatrix, "0123456789");
 	}
 
+	@Override
 	protected void evaluateEANCode128(EAN128Component ean128)
 	{
 		evaluateBaseBarcode(ean128, "0101234567890128");
@@ -112,11 +116,13 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		}
 	}
 
+	@Override
 	protected void evaluateCode39(Code39Component code39)
 	{
 		evaluateBaseBarcode(code39, "01234567892");
 	}
 
+	@Override
 	protected void evaluateUPCA(UPCAComponent upcA)
 	{
 		String defaultMessage;
@@ -134,6 +140,7 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(upcA, defaultMessage);
 	}
 
+	@Override
 	protected void evaluateUPCE(UPCEComponent upcE)
 	{
 		String defaultMessage;
@@ -151,6 +158,7 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(upcE, defaultMessage);
 	}
 
+	@Override
 	protected void evaluateEAN13(EAN13Component ean13)
 	{
 		String defaultMessage;
@@ -168,6 +176,7 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(ean13, defaultMessage);
 	}
 
+	@Override
 	protected void evaluateEAN8(EAN8Component ean8)
 	{
 		String defaultMessage;
@@ -185,11 +194,13 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(ean8, defaultMessage);
 	}
 
+	@Override
 	protected void evaluateInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		evaluateBaseBarcode(interleaved2Of5, "0123456784");
 	}
 
+	@Override
 	protected void evaluateRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{
@@ -208,6 +219,7 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 		evaluateBaseBarcode(royalMailCustomer, defaultMessage);
 	}
 
+	@Override
 	protected void evaluateUSPSIntelligentMail(
 			USPSIntelligentMailComponent intelligentMail)
 	{
@@ -215,16 +227,19 @@ public class BarcodeDesignEvaluator extends AbstractBarcodeEvaluator
 				"00040123456200800001987654321");
 	}
 
+	@Override
 	protected void evaluatePOSTNET(POSTNETComponent intelligentMail)
 	{
 		evaluateBaseBarcode(intelligentMail, "01234");
 	}
 
+	@Override
 	protected void evaluatePDF417(PDF417Component pdf417)
 	{
 		evaluateBaseBarcode(pdf417, "01234");
 	}
 	
+	@Override
 	protected void evaluateQRCode(QRCodeComponent qrCode)
 	{
 		evaluateBaseBarcode(qrCode, "0123456789");

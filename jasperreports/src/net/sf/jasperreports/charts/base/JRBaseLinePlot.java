@@ -126,88 +126,66 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		valueAxisLineColor = linePlot.getOwnValueAxisLineColor();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getCategoryAxisLabelExpression(){
 		return categoryAxisLabelExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getCategoryAxisLabelFont()
 	{
 		return categoryAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getCategoryAxisLabelColor()
 	{
 		return getStyleResolver().getCategoryAxisLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnCategoryAxisLabelColor()
 	{
 		return categoryAxisLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getCategoryAxisTickLabelFont()
 	{
 		return categoryAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getCategoryAxisTickLabelColor()
 	{
 		return getStyleResolver().getCategoryAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnCategoryAxisTickLabelColor()
 	{
 		return categoryAxisTickLabelColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getCategoryAxisTickLabelMask()
 	{
 		return categoryAxisTickLabelMask;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getCategoryAxisVerticalTickLabels()
 	{
 		return categoryAxisVerticalTickLabels;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Double getCategoryAxisTickLabelRotation()
 	{
 		return labelRotationDouble;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setCategoryAxisTickLabelRotation(Double labelRotationDouble)
 	{
 		Object old = this.labelRotationDouble;
@@ -215,180 +193,134 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 		getEventSupport().firePropertyChange(PROPERTY_CATEGORY_AXIS_TICK_LABEL_ROTATION, old, this.labelRotationDouble);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getCategoryAxisLineColor()
 	{
 		return getStyleResolver().getCategoryAxisLineColor(this, this);
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnCategoryAxisLineColor()
 	{
 		return categoryAxisLineColor;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getValueAxisLabelExpression(){
 		return valueAxisLabelExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMinValueExpression(){
 		return rangeAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMaxValueExpression(){
 		return rangeAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMinValueExpression(){
 		return domainAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMaxValueExpression(){
 		return domainAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getValueAxisLabelFont()
 	{
 		return valueAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getValueAxisLabelColor()
 	{
 		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnValueAxisLabelColor()
 	{
 		return valueAxisLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getValueAxisTickLabelFont()
 	{
 		return valueAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getValueAxisTickLabelColor()
 	{
 		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnValueAxisTickLabelColor()
 	{
 		return valueAxisTickLabelColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getValueAxisTickLabelMask()
 	{
 		return valueAxisTickLabelMask;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getValueAxisVerticalTickLabels()
 	{
 		return valueAxisVerticalTickLabels;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getValueAxisLineColor()
 	{
 		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnValueAxisLineColor()
 	{
 		return valueAxisLineColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowShapes(){
 		return showShapes;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowLines(){
 		return showLines;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setShowShapes( Boolean value ){
 		Boolean old = this.showShapes;
 		this.showShapes = value;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.showShapes);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setShowLines( Boolean value ){
 		Boolean old = this.showLines;
 		this.showLines = value;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.showLines);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseLinePlot clone = (JRBaseLinePlot)super.clone(parentChart);

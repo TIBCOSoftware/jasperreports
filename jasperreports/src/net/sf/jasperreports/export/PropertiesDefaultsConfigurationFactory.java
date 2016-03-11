@@ -112,9 +112,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 		{
 		}
 		
-		/**
-		 * 
-		 */
+		@Override
 		public Object invoke(
 			Object proxy, 
 			Method method, 

@@ -34,6 +34,7 @@ public class RoyalMailCustomerComponent extends FourStateBarcodeComponent
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitRoyalMailCustomer(this);

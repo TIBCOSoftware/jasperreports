@@ -42,6 +42,7 @@ public class UuidPropertyRule extends TransformedPropertyRule
 		super(attributeName);
 	}
 
+	@Override
 	protected Object toPropertyValue(String attributeValue)
 	{
 		return UUID.fromString(attributeValue);

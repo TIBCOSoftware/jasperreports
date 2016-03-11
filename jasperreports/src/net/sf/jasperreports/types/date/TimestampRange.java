@@ -30,7 +30,9 @@ import java.sql.Timestamp;
  */
 public interface TimestampRange extends DateRange 
 {
+	@Override
 	public Timestamp getStart();
 	
+	@Override
 	public Timestamp getEnd();
 }

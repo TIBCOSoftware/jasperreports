@@ -49,6 +49,7 @@ public class SortAction extends AbstractVerifiableTableAction {
 		columnData = sortData;
 	}
 
+	@Override
 	public void performAction() throws ActionException {
 		JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 		

@@ -93,11 +93,13 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 	}
 
 
+	@Override
 	public JRExpression getConditionExpression()
 	{
 		return conditionExpression;
 	}
 
+	@Override
 	public Object clone()
 	{
 		JRBaseConditionalStyle clone = (JRBaseConditionalStyle) super.clone();

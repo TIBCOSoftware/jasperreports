@@ -59,6 +59,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 	}
 	
 	
+	@Override
 	public String getStringParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property)
 	{
 		String value;
@@ -79,6 +80,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 		return value;
 	}
 
+	@Override
 	public String[] getStringArrayParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String propertyPrefix)
 	{
 		String[] values = null;
@@ -102,6 +104,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 		return values;
 	}
 
+	@Override
 	public String getStringParameterOrDefault(net.sf.jasperreports.engine.JRExporterParameter parameter, String property)
 	{
 		String value;
@@ -123,6 +126,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 		return value;
 	}
 
+	@Override
 	public boolean getBooleanParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property, boolean defaultValue)
 	{
 		boolean value;
@@ -154,6 +158,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 		return value;
 	}
 
+	@Override
 	public int getIntegerParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property, int defaultValue)
 	{
 		int value;
@@ -185,6 +190,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 		return value;
 	}
 	
+	@Override
 	public float getFloatParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property, float defaultValue)
 	{
 		float value;
@@ -216,6 +222,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 		return value;
 	}
 	
+	@Override
 	public Character getCharacterParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property)
 	{
 		Character value;

@@ -121,6 +121,7 @@ public final class BarcodeProviders
 
 	public static class Barcode2of7Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -130,6 +131,7 @@ public final class BarcodeProviders
 
 	public static class Barcode3of9Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -140,6 +142,7 @@ public final class BarcodeProviders
 
 	public static class BooklandProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -149,6 +152,7 @@ public final class BarcodeProviders
 
 	public static class CodabarProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -158,6 +162,7 @@ public final class BarcodeProviders
 
 	public static class Code128Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -167,6 +172,7 @@ public final class BarcodeProviders
 
 	public static class Code128AProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -176,6 +182,7 @@ public final class BarcodeProviders
 
 	public static class Code128BProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -185,6 +192,7 @@ public final class BarcodeProviders
 
 	public static class Code128CProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -194,6 +202,7 @@ public final class BarcodeProviders
 
 	public static class Code39Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -204,6 +213,7 @@ public final class BarcodeProviders
 
 	public static class Code39ExtendedProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -214,6 +224,7 @@ public final class BarcodeProviders
 
 	public static class EAN128Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -223,6 +234,7 @@ public final class BarcodeProviders
 
 	public static class EAN13Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -232,6 +244,7 @@ public final class BarcodeProviders
 
 	public static class GlobalTradeItemNumberProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -241,6 +254,7 @@ public final class BarcodeProviders
 
 	public static class Int2of5Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -251,6 +265,7 @@ public final class BarcodeProviders
 
 	public static class MonarchProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -260,6 +275,7 @@ public final class BarcodeProviders
 
 	public static class NW7Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -269,6 +285,7 @@ public final class BarcodeProviders
 
 	public static class PDF417Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -278,6 +295,7 @@ public final class BarcodeProviders
 
 	public static class PostNetProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -287,6 +305,7 @@ public final class BarcodeProviders
 
 	public static class RandomWeightUPCAProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -296,6 +315,7 @@ public final class BarcodeProviders
 
 	public static class SCC14ShippingCodeProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -305,6 +325,7 @@ public final class BarcodeProviders
 
 	public static class ShipmentIdentificationNumberProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -314,6 +335,7 @@ public final class BarcodeProviders
 
 	public static class SSCC18Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -325,6 +347,7 @@ public final class BarcodeProviders
 
 	public static class Std2of5Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -335,6 +358,7 @@ public final class BarcodeProviders
 
 	public static class UCC128Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -345,6 +369,7 @@ public final class BarcodeProviders
 
 	public static class UPCAProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -354,6 +379,7 @@ public final class BarcodeProviders
 
 	public static class USD3Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -364,6 +390,7 @@ public final class BarcodeProviders
 
 	public static class USD4Provider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
@@ -373,6 +400,7 @@ public final class BarcodeProviders
 
 	public static class USPSProvider extends BaseBarcodeProvider
 	{
+		@Override
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{

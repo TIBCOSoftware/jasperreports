@@ -75,6 +75,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 *
 	 * @return the position of this axis
 	 */
+	@Override
 	public AxisPositionEnum getPositionValue()
 	{
 		return positionValue;
@@ -87,14 +88,13 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 *
 	 * @return the chart that contains the dataset and plot for this axis
 	 */
+	@Override
 	public JRChart getChart()
 	{
 		return chart;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseChartAxis clone = null;

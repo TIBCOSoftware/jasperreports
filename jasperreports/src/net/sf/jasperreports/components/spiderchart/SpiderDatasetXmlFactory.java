@@ -34,6 +34,7 @@ import org.xml.sax.Attributes;
 public class SpiderDatasetXmlFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		StandardSpiderDataset dataset = new StandardSpiderDataset();

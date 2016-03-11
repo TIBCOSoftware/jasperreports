@@ -36,6 +36,7 @@ public class JRCrosstabBucketExpressionFactory extends JRBaseFactory
 {
 	public static final String ATTRIBUTE_class = "class";
 	
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabBucket bucket = (JRDesignCrosstabBucket)digester.peek();

@@ -47,30 +47,25 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 		super(jasperReportsContext, filter);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		return (filter == null || filter.isToExport(element));
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isSpanCells()
 	{
 		return true;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isIgnoreLastRow()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isHorizontallyMergeEmptyCells()
 	{
 		return false;
@@ -79,22 +74,19 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 	/**
 	 * Specifies whether empty page margins should be ignored
 	 */
+	@Override
 	public boolean isIgnorePageMargins()
 	{
 		return false;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return false;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return false;

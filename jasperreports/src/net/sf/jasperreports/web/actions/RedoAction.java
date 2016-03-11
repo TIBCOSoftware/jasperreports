@@ -37,6 +37,7 @@ public class RedoAction extends AbstractAction {
 		return "redo_action";
 	}
 
+	@Override
 	public void performAction() {
 		// obtain command stack
 		CommandStack commandStack = getCommandStack();

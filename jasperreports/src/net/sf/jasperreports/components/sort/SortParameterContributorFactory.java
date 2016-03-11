@@ -51,9 +51,7 @@ public final class SortParameterContributorFactory implements ParameterContribut
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<ParameterContributor> getContributors(ParameterContributorContext context) throws JRException
 	{
 		return Collections.<ParameterContributor>singletonList(new SortParameterContributor(context));

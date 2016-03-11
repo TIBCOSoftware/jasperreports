@@ -51,27 +51,21 @@ public class FillStyleProviderContext implements StyleProviderContext
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JasperReportsContext getJasperReportsContext()
 	{
 		return element.filler.getJasperReportsContext();
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRElement getElement()
 	{
 		return element;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object evaluateExpression(JRExpression expression, byte evaluation)
 	{
 		try
@@ -85,36 +79,28 @@ public class FillStyleProviderContext implements StyleProviderContext
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(String fieldName, byte evaluation)
 	{
 		return element.getField(fieldName).getValue(evaluation);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getVariableValue(String variableName, byte evaluation)
 	{
 		return element.getVariable(variableName).getValue(evaluation);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Locale getLocale()
 	{
 		return element.filler.getLocale();
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public TimeZone getTimeZone()
 	{
 		return element.filler.getTimeZone();

@@ -274,81 +274,61 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		styleResolver = new StyleResolver(jasperReportsContext);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getLanguage()
 	{
 		return language;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getColumnCount()
 	{
 		return columnCount;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public PrintOrderEnum getPrintOrderValue()
 	{
 		return printOrderValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RunDirectionEnum getColumnDirection()
 	{
 		return columnDirection;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getPageWidth()
 	{
 		return pageWidth;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getPageHeight()
 	{
 		return pageHeight;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public OrientationEnum getOrientationValue()
 	{
 		return orientationValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
 	{
 		return whenNoDataTypeValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataTypeValue)
 	{
 		Object old = this.whenNoDataTypeValue;
@@ -356,9 +336,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, whenNoDataTypeValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public SectionTypeEnum getSectionType()
 	{
 		return sectionType;
@@ -374,145 +352,109 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_SECTION_TYPE, old, sectionType);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getColumnWidth()
 	{
 		return columnWidth;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getColumnSpacing()
 	{
 		return columnSpacing;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getLeftMargin()
 	{
 		return leftMargin;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRightMargin()
 	{
 		return rightMargin;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getTopMargin()
 	{
 		return topMargin;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getBottomMargin()
 	{
 		return bottomMargin;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isTitleNewPage()
 	{
 		return isTitleNewPage;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isSummaryNewPage()
 	{
 		return isSummaryNewPage;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isSummaryWithPageHeaderAndFooter()
 	{
 		return isSummaryWithPageHeaderAndFooter;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isFloatColumnFooter()
 	{
 		return isFloatColumnFooter;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getScriptletClass()
 	{
 		return mainDataset.getScriptletClass();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getFormatFactoryClass()
 	{
 		return formatFactoryClass;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getResourceBundle()
 	{
 		return mainDataset.getResourceBundle();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String[] getPropertyNames()
 	{
 		return mainDataset.getPropertiesMap().getPropertyNames();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getProperty(String propName)
 	{
 		return mainDataset.getPropertiesMap().getProperty(propName);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setProperty(String propName, String value)
 	{
 		mainDataset.getPropertiesMap().setProperty(propName, value);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void removeProperty(String propName)
 	{
 		mainDataset.getPropertiesMap().removeProperty(propName);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String[] getImports()
 	{
 		if (importsSet != null)
@@ -522,25 +464,19 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getDefaultStyle()
 	{
 		return defaultStyle;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle[] getStyles()
 	{
 		return styles;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public StyleResolver getStyleResolver()
 	{
 		return styleResolver;
@@ -549,6 +485,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 * Gets an array of report scriptlets (excluding the scriptletClass one).
 	 */
+	@Override
 	public JRScriptlet[] getScriptlets()
 	{
 		return mainDataset.getScriptlets();
@@ -557,14 +494,13 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 * Gets an array of report parameters (including built-in ones).
 	 */
+	@Override
 	public JRParameter[] getParameters()
 	{
 		return mainDataset.getParameters();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRQuery getQuery()
 	{
 		return mainDataset.getQuery();
@@ -573,6 +509,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 *  Gets an array of report fields.
 	 */
+	@Override
 	public JRField[] getFields()
 	{
 		return mainDataset.getFields();
@@ -581,6 +518,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 *  Gets an array of sort report fields.
 	 */
+	@Override
 	public JRSortField[] getSortFields()
 	{
 		return mainDataset.getSortFields();
@@ -589,141 +527,125 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 * Gets an array of report variables.
 	 */
+	@Override
 	public JRVariable[] getVariables()
 	{
 		return mainDataset.getVariables();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup[] getGroups()
 	{
 		return mainDataset.getGroups();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getBackground()
 	{
 		return background;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getTitle()
 	{
 		return title;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getPageHeader()
 	{
 		return pageHeader;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getColumnHeader()
 	{
 		return columnHeader;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRSection getDetailSection()
 	{
 		return detailSection;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getColumnFooter()
 	{
 		return columnFooter;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getPageFooter()
 	{
 		return pageFooter;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getLastPageFooter()
 	{
 		return lastPageFooter;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand getSummary()
 	{
 		return summary;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return mainDataset.getWhenResourceMissingTypeValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		mainDataset.setWhenResourceMissingType(whenResourceMissingType);
 	}
 
 
+	@Override
 	public JRDataset getMainDataset()
 	{
 		return mainDataset;
 	}
 
 
+	@Override
 	public JRDataset[] getDatasets()
 	{
 		return datasets;
 	}
 
 
+	@Override
 	public boolean isIgnorePagination()
 	{
 		return ignorePagination;
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return mainDataset.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return mainDataset.getPropertiesMap();
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 
+	@Override
 	public JRReportTemplate[] getTemplates()
 	{
 		return templates;
@@ -732,6 +654,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 * @return the noData
 	 */
+	@Override
 	public JRBand getNoData() {
 		return noData;
 	}
@@ -797,6 +720,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		}
 	}
 
+	@Override
 	public UUID getUUID()
 	{
 		return mainDataset.getUUID();
@@ -804,6 +728,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	
 	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE cloneable for reset?
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

@@ -34,9 +34,7 @@ import org.xml.sax.Attributes;
 public class JRQueryFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignQuery query = new JRDesignQuery();

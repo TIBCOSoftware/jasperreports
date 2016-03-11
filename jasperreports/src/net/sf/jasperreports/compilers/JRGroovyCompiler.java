@@ -74,6 +74,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	}
 	
 
+	@Override
 	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
 	{
 		CompilerConfiguration config = new CompilerConfiguration();
@@ -146,6 +147,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		 *      groovyjarjarasm.asm.ClassVisitor, 
 		 *      org.codehaus.groovy.ast.ClassNode)
 		 */
+		@Override
 		public void call(ClassVisitor writer, ClassNode node) throws CompilationFailedException 
 		{
 			classCount++;
@@ -159,6 +161,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	}
 
 
+	@Override
 	protected void checkLanguage(String language) throws JRException
 	{
 		if (
@@ -174,12 +177,14 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	}
 
 
+	@Override
 	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
 		return new JRDefaultCompilationSourceCode(JRGroovyGenerator.generateClass(sourceTask), null);
 	}
 
 
+	@Override
 	protected String getSourceFileName(String unitName)
 	{
 		return unitName + ".groovy";

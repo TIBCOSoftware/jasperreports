@@ -53,9 +53,7 @@ public final class PropertyStyleProviderFactory implements StyleProviderFactory
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public StyleProvider getStyleProvider(StyleProviderContext context, JasperReportsContext jasperreportsContext)
 	{
 		Map<String, JRPropertyExpression> stylePropertyExpressions = null;

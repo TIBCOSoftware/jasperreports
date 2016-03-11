@@ -52,6 +52,7 @@ public class MatcherExporterFilter implements ExporterFilter
 	private Set<String> includes;
 	private Set<String> excludes;
 
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		if (element.hasProperties() && element.getPropertiesMap().containsProperty(PROPERTY_MATCHER_EXPORT_FILTER_KEY))

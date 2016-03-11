@@ -59,9 +59,7 @@ public class MapDesignConverter extends ElementIconConverter implements Componen
 		return INSTANCE;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
 	{
 		return convert(reportConverter, (JRElement)element);

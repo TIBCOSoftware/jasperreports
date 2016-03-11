@@ -120,39 +120,32 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRadius()
 	{
 		return getStyleResolver().getRadius(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnRadius()
 	{
 		return radius;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(int radius)
 	{
 		this.radius = Integer.valueOf(radius);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(Integer radius)
 	{
 		this.radius = radius;
 	}
 
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -162,6 +155,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 	}
 
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

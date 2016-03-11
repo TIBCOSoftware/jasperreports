@@ -84,33 +84,28 @@ public class JRBaseQuery implements JRQuery, Serializable
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public JRQueryChunk[] getChunks()
 	{
 		return this.chunks;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getText()
 	{
 		return JRQueryParser.instance().asText(getChunks());
 	}
 
 
+	@Override
 	public String getLanguage()
 	{
 		return language;
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseQuery clone = null;

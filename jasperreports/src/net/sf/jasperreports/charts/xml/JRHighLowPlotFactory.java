@@ -40,9 +40,7 @@ public class JRHighLowPlotFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_isShowCloseTicks = "isShowCloseTicks";
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRChart chart = (JRChart) digester.peek();

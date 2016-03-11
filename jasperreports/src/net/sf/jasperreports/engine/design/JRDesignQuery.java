@@ -65,9 +65,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	
 	private transient JRQueryChunkHandler chunkAdder;
 
-	/**
-	 *
-	 */
+	@Override
 	public JRQueryChunk[] getChunks()
 	{
 		JRQueryChunk[] chunkArray = null;
@@ -174,21 +172,25 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 		{
 			chunkAdder = new JRQueryChunkHandler()
 			{
+				@Override
 				public void handleParameterChunk(String text)
 				{
 					addParameterChunk(text);
 				}
 
+				@Override
 				public void handleParameterClauseChunk(String text)
 				{
 					addParameterClauseChunk(text);
 				}
 
+				@Override
 				public void handleTextChunk(String text)
 				{
 					addTextChunk(text);
 				}
 
+				@Override
 				public void handleClauseChunk(String[] tokens, char tokenSeparator)
 				{
 					addClauseChunk(tokens, tokenSeparator);
@@ -224,6 +226,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 		getPropertyChangeSupport().firePropertyChange(PROPERTY_LANGUAGE, oldValue, this.language);
 	}
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -296,9 +299,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 		getPropertyChangeSupport().removePropertyChangeListener(propName, l);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignQuery clone = (JRDesignQuery)super.clone();

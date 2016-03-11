@@ -87,6 +87,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * @return the name of the subreport variable whose value should be copied.
 	 * @deprecated Replaced by {@link #getFromVariable()}.
 	 */
+	@Override
 	public String getSubreportVariable()
 	{
 		return getFromVariable();
@@ -97,6 +98,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * 
 	 * @return the name of the variable whose value should be copied.
 	 */
+	@Override
 	public String getFromVariable()
 	{
 		return this.subreportVariable;
@@ -107,6 +109,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * 
 	 * @return the name of the master report variable where the value should be copied.
 	 */
+	@Override
 	public String getToVariable()
 	{
 		return this.toVariable;
@@ -121,6 +124,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * @return the calculation type.
 	 * @deprecated Replaced by {@link #getCalculation()}.
 	 */
+	@Override
 	public CalculationEnum getCalculationValue()
 	{
 		return getCalculation();
@@ -134,6 +138,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * 
 	 * @return the calculation type.
 	 */
+	@Override
 	public CalculationEnum getCalculation()
 	{
 		return calculationValue;
@@ -147,6 +152,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	 * 
 	 * @return the incrementer factory class name.
 	 */
+	@Override
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
@@ -173,9 +179,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 		
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		try

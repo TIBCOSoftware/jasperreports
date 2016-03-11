@@ -43,25 +43,19 @@ public class JRFillDataRange  implements JRDataRange
 		parent = dataRange;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLowExpression()
 	{
 		return parent.getLowExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getHighExpression()
 	{
 		return parent.getHighExpression();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

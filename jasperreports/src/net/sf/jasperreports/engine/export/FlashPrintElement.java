@@ -100,11 +100,13 @@ public final class FlashPrintElement
 	
 	private static final GenericElementHandlerBundle HANDLER_BUNDLE = new GenericElementHandlerBundle()
 	{
+		@Override
 		public String getNamespace()
 		{
 			return JRXmlConstants.JASPERREPORTS_NAMESPACE;
 		}
 		
+		@Override
 		public GenericElementHandler getHandler(String elementName,
 				String exporterKey)
 		{

@@ -76,6 +76,7 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	/**
 	 * Resolves instances being deserialized to the predefined constants.
 	*/
+	@Override
 	protected Object readResolve() throws InvalidObjectException 
 	{
 		if (this.getClass() != JRTextAttribute.class)

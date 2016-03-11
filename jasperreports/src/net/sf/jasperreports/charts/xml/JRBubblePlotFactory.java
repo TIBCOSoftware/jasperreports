@@ -37,6 +37,7 @@ public class JRBubblePlotFactory extends JRBaseFactory {
 	
 	private static final String ATTRIBUTE_scaleType = "scaleType";
 	
+	@Override
 	public Object createObject( Attributes attributes ){
 		JRChart chart = (JRChart)digester.peek();
 		JRDesignBubblePlot plot = (JRDesignBubblePlot)chart.getPlot();

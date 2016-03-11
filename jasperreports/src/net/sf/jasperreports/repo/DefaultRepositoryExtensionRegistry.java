@@ -47,9 +47,7 @@ public class DefaultRepositoryExtensionRegistry implements ExtensionsRegistry
 		return INSTANCE;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (RepositoryService.class.equals(extensionType))

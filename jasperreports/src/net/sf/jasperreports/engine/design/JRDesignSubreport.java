@@ -106,9 +106,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
@@ -118,6 +116,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public boolean isUsingCache()
 	{
 		if (isUsingCache == null)
@@ -132,9 +131,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		return isUsingCache.booleanValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return this.parametersMapExpression;
@@ -150,9 +147,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		getEventSupport().firePropertyChange(PROPERTY_PARAMETERS_MAP_EXPRESSION, old, this.parametersMapExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRSubreportParameter[] getParameters()
 	{
 		JRSubreportParameter[] parametersArray = new JRSubreportParameter[parametersMap.size()];
@@ -201,9 +196,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		return removed;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getConnectionExpression()
 	{
 		return this.connectionExpression;
@@ -223,9 +216,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		getEventSupport().firePropertyChange(PROPERTY_CONNECTION_EXPRESSION, old, this.connectionExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDataSourceExpression()
 	{
 		return this.dataSourceExpression;
@@ -245,9 +236,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		getEventSupport().firePropertyChange(PROPERTY_DATASOURCE_EXPRESSION, old, this.dataSourceExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return this.expression;
@@ -263,17 +252,13 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitSubreport(this);
@@ -298,6 +283,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 * 
 	 * @return the list of values to be copied from the subreport into the master.
 	 */
+	@Override
 	public JRSubreportReturnValue[] getReturnValues()
 	{
 		JRSubreportReturnValue[] returnValuesArray = new JRSubreportReturnValue[returnValues.size()];
@@ -341,21 +327,21 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
+	@Override
 	public Boolean isOwnUsingCache()
 	{
 		return isUsingCache;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getUsingCache()
 	{
 		return isUsingCache;
 	}
 
 
+	@Override
 	public void setUsingCache(Boolean isUsingCache)
 	{
 		Object old = this.isUsingCache;
@@ -364,12 +350,14 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	}
 
 	
+	@Override
 	public Boolean isRunToBottom()
 	{
 		return runToBottom;
 	}
 
 	
+	@Override
 	public void setRunToBottom(Boolean runToBottom)
 	{
 		Object old = this.runToBottom;
@@ -392,9 +380,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignSubreport clone = (JRDesignSubreport)super.clone();

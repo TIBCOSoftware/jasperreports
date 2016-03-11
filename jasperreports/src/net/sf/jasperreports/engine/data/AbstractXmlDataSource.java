@@ -119,6 +119,7 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 	 * 
 	 * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
 	 */
+	@Override
 	public Object getFieldValue(JRField jrField) throws JRException 
 	{
 		if(getCurrentNode() == null)

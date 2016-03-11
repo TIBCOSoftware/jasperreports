@@ -57,9 +57,7 @@ public class EllipseDrawer extends ElementDrawer<JRPrintEllipse>
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void draw(Graphics2D grx, JRPrintEllipse ellipse, int offsetX, int offsetY)
 	{
 		int width = ellipse.getWidth();

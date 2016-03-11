@@ -295,9 +295,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return filler.getPropertiesUtil().getBooleanProperty(PROPERTY_IGNORE_WIDTH);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
@@ -445,6 +443,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
+	@Override
 	public JRBaseFiller getFiller()
 	{
 		return filler;
@@ -582,6 +581,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return crosstabEvaluator.evaluate(expression, JRExpression.EVALUATION_DEFAULT);
 	}
 	
+	@Override
 	protected void reset()
 	{
 		super.reset();
@@ -595,6 +595,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		printFrames = null;
 	}
 
+	@Override
 	protected void evaluate(byte evaluation) throws JRException
 	{
 		reset();
@@ -723,6 +724,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
+	@Override
 	protected boolean prepare(int availableHeight, boolean isOverflow) throws JRException
 	{
 		super.prepare(availableHeight, isOverflow);
@@ -1051,6 +1053,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return columnValues;
 	}
 	
+	@Override
 	protected JRPrintElement fill()
 	{
 		// don't return anything, see getPrintElements()
@@ -1062,6 +1065,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return (JRTemplateFrame) getElementTemplate();
 	}
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
 		JRTemplateFrame template = new JRTemplateFrame(getElementOrigin(), 
@@ -1071,6 +1075,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return template;
 	}
 
+	@Override
 	protected void rewind()
 	{
 		crosstabFiller.initCrosstab();
@@ -1093,19 +1098,19 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
+	@Override
 	protected void resolveElement(JRPrintElement element, byte evaluation)
 	{
 		// nothing
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitCrosstab(this);
@@ -1116,26 +1121,31 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
+	@Override
 	public int getId()
 	{
 		return parentCrosstab.getId();
 	}
 
+	@Override
 	public JRCrosstabDataset getDataset()
 	{
 		return dataset;
 	}
 
+	@Override
 	public JRCrosstabRowGroup[] getRowGroups()
 	{
 		return rowGroups;
 	}
 
+	@Override
 	public JRCrosstabColumnGroup[] getColumnGroups()
 	{
 		return columnGroups;
 	}
 
+	@Override
 	public JRCrosstabMeasure[] getMeasures()
 	{
 		return measures;
@@ -1185,11 +1195,13 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			this.measureValues = new Object[measures.length];
 		}
 
+		@Override
 		protected void customInitialize()
 		{
 			initBucketingService();
 		}
 
+		@Override
 		protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 		{
 			for (int i = 0; i < rowGroups.length; i++)
@@ -1208,6 +1220,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 		}
 
+		@Override
 		protected void customIncrement()
 		{
 			try
@@ -1224,10 +1237,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 		}
 
+		@Override
 		public void collectExpressions(JRExpressionCollector collector)
 		{
 		}
 
+		@Override
 		public boolean isDataPreSorted()
 		{
 			return ((JRCrosstabDataset) parent).isDataPreSorted();
@@ -2980,47 +2995,56 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
+	@Override
 	public int getColumnBreakOffset()
 	{
 		return parentCrosstab.getColumnBreakOffset();
 	}
 
+	@Override
 	public boolean isRepeatColumnHeaders()
 	{
 		return parentCrosstab.isRepeatColumnHeaders();
 	}
 
+	@Override
 	public boolean isRepeatRowHeaders()
 	{
 		return parentCrosstab.isRepeatRowHeaders();
 	}
 
+	@Override
 	public JRCrosstabCell[][] getCells()
 	{
 		return crossCells;
 	}
 
+	@Override
 	public JRCellContents getWhenNoDataCell()
 	{
 		return whenNoDataCell;
 	}
 
+	@Override
 	public JRCrosstabParameter[] getParameters()
 	{
 		return parameters;
 	}
 
+	@Override
 	public JRExpression getParametersMapExpression()
 	{
 		return parentCrosstab.getParametersMapExpression();
 	}
 
 	
+	@Override
 	public JRElement getElementByKey(String elementKey)
 	{
 		return JRBaseCrosstab.getElementByKey(this, elementKey);
 	}
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		//not needed
@@ -3033,27 +3057,25 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return parentCrosstab.getTitleCell();
 	}
 
+	@Override
 	public JRCellContents getHeaderCell()
 	{
 		return headerCell;
 	}
 
+	@Override
 	public JRVariable[] getVariables()
 	{
 		return variables;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RunDirectionEnum getRunDirectionValue()
 	{
 		return parentCrosstab.getRunDirectionValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRunDirection(RunDirectionEnum runDirection)
 	{
 		throw new UnsupportedOperationException();
@@ -3071,31 +3093,37 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JROrigin getOrigin()
 	{
 		return getElementOrigin();
 	}
 
+	@Override
 	public Boolean getIgnoreWidth()
 	{
 		return parentCrosstab.getIgnoreWidth();
 	}
 
+	@Override
 	public void setIgnoreWidth(Boolean ignoreWidth)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Color getDefaultLineColor()
 	{
 		return parentCrosstab.getDefaultLineColor();
 	}
 
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;

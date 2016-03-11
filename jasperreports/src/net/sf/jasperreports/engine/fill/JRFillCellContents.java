@@ -162,14 +162,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		verticalPositionType = cellContents.verticalPositionType;
 	}
 
+	@Override
 	public Color getBackcolor()
 	{
 		return parentCell.getBackcolor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
@@ -185,12 +184,14 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		initTemplatesMap();
 	}
 	
+	@Override
 	public int getHeight()
 	{
 		return height;
 	}
 	
 	
+	@Override
 	public int getWidth()
 	{
 		return width;
@@ -543,6 +544,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			hashCode = hash;
 		}
 
+		@Override
 		public boolean equals(Object obj)
 		{
 			if (obj == this)
@@ -556,6 +558,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 				b.left == left && b.right == right && b.top == top;
 		}
 
+		@Override
 		public int hashCode()
 		{
 			return hashCode;
@@ -585,6 +588,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			hashCode = hash;
 		}
 		
+		@Override
 		public boolean equals(Object o)
 		{
 			if (o == this)
@@ -599,17 +603,20 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 				s.xPosition == xPosition && s.yPosition == yPosition;
 		}
 		
+		@Override
 		public int hashCode()
 		{
 			return hashCode;
 		}
 	}
 
+	@Override
 	protected int getContainerHeight()
 	{
 		return getHeight() - getTopPadding() - getBottomPadding();
 	}
 
+	@Override
 	protected int getActualContainerHeight()
 	{
 		return getContainerHeight(); 
@@ -631,6 +638,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		return createClone(factory);
 	}
 
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillCellContents(this, factory);
@@ -684,6 +692,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 
 
+	@Override
 	protected void evaluate(byte evaluation) throws JRException
 	{
 		printProperties.clear();
@@ -692,11 +701,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		super.evaluate(evaluation);
 	}
 
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
 	}
 
+	@Override
 	public JRStyle getStyle()
 	{
 		JRStyle crtStyle = initStyle;
@@ -718,52 +729,58 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		return evalStyle;
 	}
 
+	@Override
 	protected void initConditionalStyles()
 	{
 		super.initConditionalStyles();
 		collectConditionalStyle(initStyle);
 	}
 
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return parentCell.getModeValue();
 	}
 
+	@Override
 	public String getStyleNameReference()
 	{
 		return null;
 	}
 
+	@Override
 	public void setStyle(JRStyle style)
 	{
 		this.initStyle = style;
 		collectConditionalStyle(style);
 	}
 
+	@Override
 	public void setStyleNameReference(String name)
 	{
 		throw new UnsupportedOperationException("Style name references not allowed at fill time");
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return parentCell.getDefaultLineColor();
 	}
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return parentCell.hasProperties();
 	}
 
 	// not doing anything with the properties at fill time
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return parentCell.getPropertiesMap();
 	}
 	
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

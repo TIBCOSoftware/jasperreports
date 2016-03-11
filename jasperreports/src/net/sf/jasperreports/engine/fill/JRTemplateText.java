@@ -211,9 +211,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
@@ -222,6 +220,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalTextAlign());
@@ -230,6 +229,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalTextAlign());
@@ -238,6 +238,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
 	 */
+	@Override
 	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		setHorizontalTextAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue));
@@ -246,6 +247,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalTextAlign());
@@ -254,6 +256,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
 	 */
+	@Override
 	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalTextAlign());
@@ -262,70 +265,55 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
 	 */
+	@Override
 	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
 	{
 		setVerticalTextAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
 		return getStyleResolver().getHorizontalTextAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public HorizontalTextAlignEnum getOwnHorizontalTextAlign()
 	{
 		return horizontalTextAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setHorizontalTextAlign(HorizontalTextAlignEnum horizontalTextAlign)
 	{
 		this.horizontalTextAlign = horizontalTextAlign;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getVerticalTextAlign()
 	{
 		return getStyleResolver().getVerticalTextAlign(this);
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public VerticalTextAlignEnum getOwnVerticalTextAlign()
 	{
 		return verticalTextAlign;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setVerticalTextAlign(VerticalTextAlignEnum verticalTextAlign)
 	{
 		this.verticalTextAlign = verticalTextAlign;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RotationEnum getRotationValue()
 	{
 		return getStyleResolver().getRotationValue(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public RotationEnum getOwnRotationValue()
 	{
 		return this.rotationValue;
@@ -344,6 +332,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 * values, or <code>null</code> if this template
 	 * should not specify a rotation attribute of its own
 	 */
+	@Override
 	public void setRotation(RotationEnum rotationValue)
 	{
 		this.rotationValue = rotationValue;
@@ -352,6 +341,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -360,6 +350,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
 		return getParagraph().getOwnLineSpacing();
@@ -368,19 +359,19 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
+	@Override
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
 		getParagraph().setLineSpacing(lineSpacing);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getMarkup()
 	{
 		return getStyleResolver().getMarkup(this);
 	}
 		
+	@Override
 	public String getOwnMarkup()
 	{
 		return markup;
@@ -392,22 +383,19 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 * @param markup the markup attribute
 	 * @see #getMarkup()
 	 */
+	@Override
 	public void setMarkup(String markup)
 	{
 		this.markup = markup;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRParagraph getParagraph()
 	{
 		return paragraph;
@@ -462,50 +450,38 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getFontName()
 	{
 		return getStyleResolver().getFontName(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnFontName()
 	{
 		return fontName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setFontName(String fontName)
 	{
 		this.fontName = fontName;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBold()
 	{
 		return getStyleResolver().isBold(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnBold()
 	{
 		return isBold;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBold(boolean isBold)
 	{
 		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
@@ -515,31 +491,26 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
+	@Override
 	public void setBold(Boolean isBold)
 	{
 		this.isBold = isBold;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isItalic()
 	{
 		return getStyleResolver().isItalic(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnItalic()
 	{
 		return isItalic;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setItalic(boolean isItalic)
 	{
 		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
@@ -549,30 +520,25 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * Alternative setItalic method which allows also to reset
 	 * the "own" isItalic property.
 	 */
+	@Override
 	public void setItalic(Boolean isItalic)
 	{
 		this.isItalic = isItalic;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isUnderline()
 	{
 		return getStyleResolver().isUnderline(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnUnderline()
 	{
 		return isUnderline;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setUnderline(boolean isUnderline)
 	{
 		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
@@ -582,30 +548,25 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
+	@Override
 	public void setUnderline(Boolean isUnderline)
 	{
 		this.isUnderline = isUnderline;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isStrikeThrough()
 	{
 		return getStyleResolver().isStrikeThrough(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnStrikeThrough()
 	{
 		return isStrikeThrough;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
 		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
@@ -615,22 +576,19 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
 	 */
+	@Override
 	public void setStrikeThrough(Boolean isStrikeThrough)
 	{
 		this.isStrikeThrough = isStrikeThrough;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public float getFontsize()
 	{
 		return getStyleResolver().getFontsize(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getOwnFontsize()
 	{
 		return fontsize;
@@ -639,6 +597,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * Method which allows also to reset the "own" size property.
 	 */
+	@Override
 	public void setFontSize(Float fontSize)
 	{
 		this.fontsize = fontSize;
@@ -647,6 +606,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated Replaced by {@link #getFontsize()}. 
 	 */
+	@Override
 	public int getFontSize()
 	{
 		return (int)getFontsize();
@@ -655,6 +615,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated Replaced by {@link #getOwnFontsize()}. 
 	 */
+	@Override
 	public Integer getOwnFontSize()
 	{
 		return fontsize == null ? null : fontsize.intValue();
@@ -663,6 +624,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}. 
 	 */
+	@Override
 	public void setFontSize(int fontSize)
 	{
 		setFontSize((float)fontSize);
@@ -671,80 +633,63 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated Replaced by {@link #setFontSize(Float)}. 
 	 */
+	@Override
 	public void setFontSize(Integer fontSize)
 	{
 		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfFontName()
 	{
 		return getStyleResolver().getPdfFontName(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfFontName()
 	{
 		return pdfFontName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfFontName(String pdfFontName)
 	{
 		this.pdfFontName = pdfFontName;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getPdfEncoding()
 	{
 		return getStyleResolver().getPdfEncoding(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnPdfEncoding()
 	{
 		return pdfEncoding;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEncoding(String pdfEncoding)
 	{
 		this.pdfEncoding = pdfEncoding;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPdfEmbedded()
 	{
 		return getStyleResolver().isPdfEmbedded(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean isOwnPdfEmbedded()
 	{
 		return isPdfEmbedded;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
 		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
@@ -754,20 +699,20 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	 * Alternative setPdfEmbedded method which allows also to reset
 	 * the "own" isPdfEmbedded property.
 	 */
+	@Override
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
 		this.isPdfEmbedded = isPdfEmbedded;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle()
 	{
 		return parentStyle;
 	}
 
 	
+	@Override
 	public String getPattern()
 	{
 		return pattern;
@@ -780,6 +725,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
@@ -792,6 +738,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	
+	@Override
 	public String getFormatFactoryClass()
 	{
 		return formatFactoryClass;
@@ -804,6 +751,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	
+	@Override
 	public String getLocaleCode()
 	{
 		return localeCode;
@@ -816,6 +764,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	
+	@Override
 	public String getTimeZoneId()
 	{
 		return timeZoneId;
@@ -881,9 +830,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
@@ -997,6 +944,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		}
 	}
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -1026,6 +974,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		return hash.getHashCode();
 	}
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

@@ -89,18 +89,14 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public List<JRChild> getChildren()
 	{
 		return this.children;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRElementGroup getElementGroup()
 	{
 		return this.elementGroup;
@@ -144,6 +140,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	}
 
 	
+	@Override
 	public JRElement[] getElements()
 	{
 		return getElements(children);
@@ -186,15 +183,14 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	}
 
 	
+	@Override
 	public JRElement getElementByKey(String key)
 	{
 		return getElementByKey(getElements(), key);
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitElementGroup(this);
@@ -206,9 +202,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseElementGroup clone = null;
@@ -234,9 +228,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 		return clone;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone(JRElementGroup parentGroup) 
 	{
 		JRBaseElementGroup clone = (JRBaseElementGroup)this.clone();

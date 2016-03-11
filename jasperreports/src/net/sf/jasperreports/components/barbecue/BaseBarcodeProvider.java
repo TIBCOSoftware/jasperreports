@@ -33,6 +33,7 @@ import net.sourceforge.barbecue.BarcodeException;
 public abstract class BaseBarcodeProvider implements BarcodeProvider
 {
 
+	@Override
 	public Barcode createBarcode(BarcodeInfo barcodeInfo)
 			throws BarcodeException
 	{

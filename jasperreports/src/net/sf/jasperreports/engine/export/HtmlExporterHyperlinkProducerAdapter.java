@@ -45,6 +45,7 @@ public class HtmlExporterHyperlinkProducerAdapter implements JRHyperlinkProducer
 		this.exporterContext = exporterContext;
 	}
 
+	@Override
 	public String getHyperlink(JRPrintHyperlink hyperlink)
 	{
 		return exporterContext.getHyperlinkURL(hyperlink);

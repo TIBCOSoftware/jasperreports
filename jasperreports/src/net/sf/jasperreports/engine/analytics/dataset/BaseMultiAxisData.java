@@ -146,6 +146,7 @@ public class BaseMultiAxisData implements MultiAxisData, Serializable
 		return measures;
 	}
 
+	@Override
 	public Object clone() 
 	{
 		BaseMultiAxisData clone = null;

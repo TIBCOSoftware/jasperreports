@@ -85,6 +85,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 	 * 
 	 * @see #PROPERTY_MINIMUM_PRECISION
 	 */
+	@Override
 	public BigDecimal divide(BigDecimal dividend, BigDecimal divisor)
 	{
 		int precision = getDivisionPrecision(dividend, divisor);

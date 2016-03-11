@@ -70,9 +70,7 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 		super(jasperReportsContext, locale, resBundle);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean accept(File file)
 	{
 		if (file.isDirectory())
@@ -83,17 +81,13 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 		return (name.endsWith(EXTENSION_XML) || name.endsWith(EXTENSION_JRPXML));
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getDescription()
 	{
 		return getBundleString("file.desc.xml.embedded.images");
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void save(JasperPrint jasperPrint, File file) throws JRException
 	{
 		if (

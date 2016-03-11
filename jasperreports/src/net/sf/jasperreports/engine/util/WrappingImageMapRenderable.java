@@ -59,18 +59,21 @@ public class WrappingImageMapRenderable extends WrappingRenderable implements Im
 	}
 
 
+	@Override
 	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx,
 			Rectangle2D rectangle) throws JRException {
 		return imageMapRenderer.renderWithHyperlinks(grx, rectangle);
 	}
 
 
+	@Override
 	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(
 			Rectangle2D renderingArea) throws JRException {
 		return imageMapRenderer.getImageAreaHyperlinks(renderingArea);
 	}
 
 
+	@Override
 	public boolean hasImageAreaHyperlinks() {
 		return imageMapRenderer.hasImageAreaHyperlinks();
 	}

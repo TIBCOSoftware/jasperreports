@@ -52,38 +52,31 @@ public abstract class JROpenDocumentExporterNature extends AbstractExporterNatur
 		super(jasperReportsContext, filter);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		return (filter == null || filter.isToExport(element));
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isDeep(JRPrintFrame frame)
 	{
 		return false;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isSpanCells()
 	{
 		return true;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isIgnoreLastRow()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isHorizontallyMergeEmptyCells()
 	{
 		return false;
@@ -92,42 +85,43 @@ public abstract class JROpenDocumentExporterNature extends AbstractExporterNatur
 	/**
 	 * Specifies whether empty page margins should be ignored
 	 */
+	@Override
 	public boolean isIgnorePageMargins()
 	{
 		return false;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return false;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return false;
 	}
 	
+	@Override
 	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		// nothing to do here
 	}
 	
+	@Override
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
 		// nothing to do here
 	}
 	
+	@Override
 	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		// nothing to do here
 	}
 	
+	@Override
 	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
 	{
 		// nothing to do here

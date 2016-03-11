@@ -99,105 +99,79 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return parent.getName();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getValueClass()
 	{
 		return parent.getValueClass();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getValueClassName()
 	{
 		return parent.getValueClassName();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getIncrementerFactoryClass()
 	{
 		return parent.getIncrementerFactoryClass();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getIncrementerFactoryClassName()
 	{
 		return parent.getIncrementerFactoryClassName();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return parent.getExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getInitialValueExpression()
 	{
 		return parent.getInitialValueExpression();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public ResetTypeEnum getResetTypeValue()
 	{
 		return parent.getResetTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public IncrementTypeEnum getIncrementTypeValue()
 	{
 		return parent.getIncrementTypeValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public CalculationEnum getCalculationValue()
 	{
 		return parent.getCalculationValue();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public boolean isSystemDefined()
 	{
 		return parent.isSystemDefined();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getResetGroup()
 	{
 		return resetGroup;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getIncrementGroup()
 	{
 		return incrementGroup;
@@ -235,9 +209,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 		this.estimatedValue = estimatedValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getIncrementedValue()
 	{
 		return incrementedValue;
@@ -251,9 +223,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 		this.incrementedValue = incrementedValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getValue()
 	{
 		return value;
@@ -267,17 +237,13 @@ public class JRFillVariable implements JRVariable, JRCalculable
 		this.value = value;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isInitialized()
 	{
 		return isInitialized;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setInitialized(boolean isInitialized)
 	{
 		this.isInitialized = isInitialized;
@@ -331,6 +297,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	 * @param type the helper type
 	 * @return the helper variable for the specified type
 	 */
+	@Override
 	public JRCalculable getHelperVariable(byte type)
 	{
 		return helperVariables[type];
@@ -405,9 +372,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 		this.previousOldValue = previousOldValue;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

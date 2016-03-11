@@ -65,30 +65,25 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRadius()
 	{
 		return getStyleResolver().getRadius(this);
 	}
 
+	@Override
 	public Integer getOwnRadius()
 	{
 		return this.radius;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(int radius)
 	{
 		setRadius(Integer.valueOf(radius));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(Integer radius)
 	{
 		Object old = this.radius;
@@ -96,17 +91,13 @@ public class JRBaseRectangle extends JRBaseGraphicElement implements JRRectangle
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_RADIUS, old, this.radius);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitRectangle(this);

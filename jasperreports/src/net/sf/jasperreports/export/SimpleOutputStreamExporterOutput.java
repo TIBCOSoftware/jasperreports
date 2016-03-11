@@ -84,17 +84,13 @@ public class SimpleOutputStreamExporterOutput implements OutputStreamExporterOut
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public OutputStream getOutputStream()
 	{
 		return outputStream;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void close()
 	{
 		if (toClose)

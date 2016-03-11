@@ -106,31 +106,23 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRChart getChart()
 	{
 		return chart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getColor()
 	{
 		return color;
 	}
-	/**
-	 *
-	 */
+	@Override
 	public String getMask()
 	{
 		return mask;
 	}
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getFont()
 	{
 		return font;
@@ -147,9 +139,7 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		try

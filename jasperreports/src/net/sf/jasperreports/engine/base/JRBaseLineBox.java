@@ -98,9 +98,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider() 
 	{
 		if (boxContainer != null)
@@ -122,9 +120,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return StyleResolver.getInstance();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle() 
 	{
 		if (boxContainer != null)
@@ -134,9 +130,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getStyleNameReference()
 	{
 		if (boxContainer != null)
@@ -146,25 +140,19 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBoxContainer getBoxContainer()
 	{
 		return boxContainer;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getDefaultLineWidth()
 	{
 		return JRPen.LINE_WIDTH_0;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getDefaultLineColor()
 	{
 		if (boxContainer != null)
@@ -174,110 +162,85 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return Color.black;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBoxPen getPen()
 	{
 		return pen;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void copyPen(JRBoxPen pen)
 	{
 		this.pen = pen.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBoxPen getTopPen()
 	{
 		return topPen;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void copyTopPen(JRBoxPen topPen)
 	{
 		this.topPen = topPen.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBoxPen getLeftPen()
 	{
 		return leftPen;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void copyLeftPen(JRBoxPen leftPen)
 	{
 		this.leftPen = leftPen.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBoxPen getBottomPen()
 	{
 		return bottomPen;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void copyBottomPen(JRBoxPen bottomPen)
 	{
 		this.bottomPen = bottomPen.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBoxPen getRightPen()
 	{
 		return rightPen;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void copyRightPen(JRBoxPen rightPen)
 	{
 		this.rightPen = rightPen.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getPadding()
 	{
 		return getStyleResolver().getPadding(this);
 	}
 
+	@Override
 	public Integer getOwnPadding()
 	{
 		return padding;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setPadding(int padding)
 	{
 		setPadding(Integer.valueOf(padding));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPadding(Integer padding)
 	{
 		Object old = this.padding;
@@ -285,33 +248,25 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		getEventSupport().firePropertyChange(PROPERTY_PADDING, old, this.padding);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getTopPadding()
 	{
 		return getStyleResolver().getTopPadding(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnTopPadding()
 	{
 		return topPadding;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTopPadding(int topPadding)
 	{
 		setTopPadding(Integer.valueOf(topPadding));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setTopPadding(Integer topPadding)
 	{
 		Object old = this.topPadding;
@@ -319,33 +274,25 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		getEventSupport().firePropertyChange(PROPERTY_TOP_PADDING, old, this.topPadding);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getLeftPadding()
 	{
 		return getStyleResolver().getLeftPadding(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnLeftPadding()
 	{
 		return leftPadding;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLeftPadding(int leftPadding)
 	{
 		setLeftPadding(Integer.valueOf(leftPadding));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setLeftPadding(Integer leftPadding)
 	{
 		Object old = this.leftPadding;
@@ -353,33 +300,25 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		getEventSupport().firePropertyChange(PROPERTY_LEFT_PADDING, old, this.leftPadding);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getBottomPadding()
 	{
 		return getStyleResolver().getBottomPadding(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnBottomPadding()
 	{
 		return bottomPadding;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBottomPadding(int bottomPadding)
 	{
 		setBottomPadding(Integer.valueOf(bottomPadding));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBottomPadding(Integer bottomPadding)
 	{
 		Object old = this.bottomPadding;
@@ -387,33 +326,25 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		getEventSupport().firePropertyChange(PROPERTY_BOTTOM_PADDING, old, this.bottomPadding);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getRightPadding()
 	{
 		return getStyleResolver().getRightPadding(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnRightPadding()
 	{
 		return rightPadding;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRightPadding(int rightPadding)
 	{
 		setRightPadding(Integer.valueOf(rightPadding));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRightPadding(Integer rightPadding)
 	{
 		Object old = this.rightPadding;
@@ -422,9 +353,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRLineBox clone(JRBoxContainer boxContainer)
 	{
 		JRBaseLineBox clone = null;
@@ -453,6 +382,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -467,6 +397,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	}
 
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -483,6 +414,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		return hash.getHashCode();
 	}
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

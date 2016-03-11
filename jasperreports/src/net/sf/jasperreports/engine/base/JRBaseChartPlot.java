@@ -131,33 +131,25 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRChart getChart()
 	{
 		return chart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return getStyleResolver().getBackcolor(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnBackcolor()
 	{
 		return this.backcolor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBackcolor(Color backcolor)
 	{
 		Object old = this.backcolor;
@@ -168,14 +160,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 * @deprecated Replaced by {@link #getOrientationValue()}.
 	 */
+	@Override
 	public PlotOrientation getOrientation()
 	{
 		return getOrientationValue().getOrientation();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public PlotOrientationEnum getOrientationValue()
 	{
 		return orientationValue;
@@ -184,14 +175,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}.
 	 */
+	@Override
 	public void setOrientation(PlotOrientation orientation)
 	{
 		setOrientation(PlotOrientationEnum.getByValue(orientation));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setOrientation(PlotOrientationEnum orientationValue)
 	{
 		Object old = this.orientationValue;
@@ -199,17 +189,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientationValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getBackgroundAlphaFloat()
 	{
 		return backgroundAlphaFloat;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBackgroundAlpha(Float backgroundAlpha)
 	{
 		Float old = this.backgroundAlphaFloat;
@@ -217,17 +203,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND_ALPHA, old, this.backgroundAlphaFloat);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getForegroundAlphaFloat()
 	{
 		return foregroundAlphaFloat;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setForegroundAlpha(Float foregroundAlpha)
 	{
 		Float old = this.foregroundAlphaFloat;
@@ -241,6 +223,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 * @deprecated Replaced by {@link JRCategoryAxisFormat#getCategoryAxisTickLabelRotation()}.
 	 */
+	@Override
 	public Double getLabelRotationDouble()
 	{
 		return labelRotationDouble;
@@ -252,6 +235,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * use a category based axis (such as line or bar charts) support label rotation.
 	 * @deprecated Replaced by {@link JRCategoryAxisFormat#setCategoryAxisTickLabelRotation(Double)}.
 	 */
+	@Override
 	public void setLabelRotation(Double labelRotation)
 	{
 		Double old = this.labelRotationDouble;
@@ -264,6 +248,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
 	 * If there are no defined series colors this method will return an empty list, not null. 
 	 */
+	@Override
 	public SortedSet<JRSeriesColor> getSeriesColors()
 	{
 		return seriesColors;
@@ -272,6 +257,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 * Removes all defined series colors.
 	 */
+	@Override
 	public void clearSeriesColors()
 	{
 		setSeriesColors(null);
@@ -280,6 +266,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 * Adds the specified series color to the plot.
 	 */
+	@Override
 	public void addSeriesColor(JRSeriesColor seriesColor)
 	{
 		seriesColors.add(seriesColor);
@@ -287,6 +274,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 				seriesColor, seriesColors.size() - 1);
 	}
 	
+	@Override
 	public void setSeriesColors(Collection<JRSeriesColor> colors)
 	{
 		Object old = new TreeSet<JRSeriesColor>(seriesColors);
@@ -317,6 +305,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		/**
 		 * Returns the series number (0 based) that this color applies to.
 		 */
+		@Override
 		public int getSeriesOrder()
 		{
 			return seriesOrder;
@@ -325,11 +314,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		/**
 		 * Returns the color to use for this series.
 		 */
+		@Override
 		public Color getColor()
 		{
 			return color;
 		}
 
+		@Override
 		public int compareTo(JRBaseSeriesColor obj) {
 			if (obj == null)
 			{
@@ -339,6 +330,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			return seriesOrder - obj.getSeriesOrder();
 		}
 		
+		@Override
 		public Object clone()
 		{
 			try
@@ -353,9 +345,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseChartPlot clone = null;
@@ -382,9 +372,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseChartPlot clone = (JRBaseChartPlot)this.clone();
@@ -396,6 +384,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

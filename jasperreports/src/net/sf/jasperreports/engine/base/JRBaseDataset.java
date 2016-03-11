@@ -167,6 +167,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	}
 
 	
+	@Override
 	public UUID getUUID()
 	{
 		if (uuid == null)
@@ -176,93 +177,79 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		return uuid;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getScriptletClass()
 	{
 		return scriptletClass;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRQuery getQuery()
 	{
 		return query;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRScriptlet[] getScriptlets()
 	{
 		return scriptlets;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRParameter[] getParameters()
 	{
 		return parameters;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRField[] getFields()
 	{
 		return fields;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRSortField[] getSortFields()
 	{
 		return sortFields;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRVariable[] getVariables()
 	{
 		return variables;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup[] getGroups()
 	{
 		return groups;
 	}
 
+	@Override
 	public boolean isMainDataset()
 	{
 		return isMain;
 	}
 
+	@Override
 	public String getResourceBundle()
 	{
 		return resourceBundle;
 	}
 
+	@Override
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return whenResourceMissingTypeValue;
 	}
 
+	@Override
 	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingTypeValue)
 	{
 		Object old = this.whenResourceMissingTypeValue;
@@ -270,29 +257,31 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		getEventSupport().firePropertyChange(PROPERTY_WHEN_RESOURCE_MISSING_TYPE, old, this.whenResourceMissingTypeValue);
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 
+	@Override
 	public JRExpression getFilterExpression()
 	{
 		return filterExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseDataset clone = null;
@@ -327,6 +316,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

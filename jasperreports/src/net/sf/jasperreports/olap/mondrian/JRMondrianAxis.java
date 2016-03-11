@@ -62,11 +62,13 @@ public class JRMondrianAxis implements JROlapResultAxis
 		}
 	}
 
+	@Override
 	public JROlapHierarchy[] getHierarchiesOnAxis()
 	{
 		return hierarchies;
 	}
 
+	@Override
 	public JROlapMemberTuple getTuple(int index)
 	{
 		if (index < 0 || index >= tuples.length)
@@ -77,6 +79,7 @@ public class JRMondrianAxis implements JROlapResultAxis
 		return tuples[index];
 	}
 
+	@Override
 	public int getTupleCount()
 	{
 		return tuples.length;

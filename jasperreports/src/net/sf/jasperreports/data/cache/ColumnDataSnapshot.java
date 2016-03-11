@@ -76,11 +76,13 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 		in.defaultReadObject();
 	}
 
+	@Override
 	public boolean hasCachedData(Object key)
 	{
 		return cachedData.containsKey(key);
 	}
 
+	@Override
 	public CachedDataset getCachedData(Object key) throws DataSnapshotException
 	{
 		ColumnCacheData cacheData = cachedData.get(key);
@@ -111,6 +113,7 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 		cachedData.put(key, data);
 	}
 
+	@Override
 	public boolean isPersistable()
 	{
 		return persistable;

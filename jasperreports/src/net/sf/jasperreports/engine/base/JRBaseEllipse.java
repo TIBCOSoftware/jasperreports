@@ -58,18 +58,14 @@ public class JRBaseEllipse extends JRBaseGraphicElement implements JREllipse
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitEllipse(this);

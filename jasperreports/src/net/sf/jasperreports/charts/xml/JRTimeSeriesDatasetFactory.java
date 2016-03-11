@@ -38,9 +38,7 @@ public class JRTimeSeriesDatasetFactory extends JRBaseFactory {
 	
 	private static final String ATTRIBUTE_timePeriod = "timePeriod";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object createObject( Attributes attrs ){	
 		JRDesignChart chart = (JRDesignChart)digester.peek();
 		

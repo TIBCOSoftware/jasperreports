@@ -84,9 +84,7 @@ public class JRDesignDataRange extends JRBaseDataRange implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_HIGH_EXPRESSION, old, this.highExpression);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignDataRange clone = (JRDesignDataRange)super.clone();
@@ -96,6 +94,7 @@ public class JRDesignDataRange extends JRBaseDataRange implements JRChangeEvents
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

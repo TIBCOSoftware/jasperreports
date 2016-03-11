@@ -58,9 +58,7 @@ public class ParametersGraphics2DExporterOutput implements Graphics2DExporterOut
 		}
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Graphics2D getGraphics2D()
 	{
 		return grx;

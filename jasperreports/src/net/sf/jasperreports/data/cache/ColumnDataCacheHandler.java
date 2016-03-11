@@ -57,11 +57,13 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		recordingEnabled = true;
 	}
 	
+	@Override
 	public boolean isRecordingEnabled()
 	{
 		return recordingEnabled;
 	}
 
+	@Override
 	public DataRecorder createDataRecorder()
 	{
 		if (log.isDebugEnabled())
@@ -72,6 +74,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		return new DataCollector();
 	}
 
+	@Override
 	public DataSnapshot getDataSnapshot()
 	{
 		return snapshot;
@@ -92,6 +95,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		this.snapshot = snapshot;
 	}
 
+	@Override
 	public boolean isSnapshotPopulated()
 	{
 		return snapshot != null;
@@ -190,6 +194,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			this.dataSnapshot = new ColumnDataSnapshot();
 		}
 
+		@Override
 		public DatasetRecorder createRecorder()
 		{
 			if (log.isDebugEnabled())
@@ -201,6 +206,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			return collector;
 		}
 		
+		@Override
 		public void addRecordResult(Object key, Object result)
 		{
 			ColumnCacheData data = (ColumnCacheData) result;
@@ -223,6 +229,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			dataSnapshot.addCachedData(key, data);
 		}
 
+		@Override
 		public void setSnapshotPopulated()
 		{
 			if (isEnabled())
@@ -262,6 +269,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		{
 		}
 
+		@Override
 		public void start(JRField[] datasetFields)
 		{
 			fields = (datasetFields == null) ? new JRField[0] : datasetFields;
@@ -307,6 +315,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			parameters.put(name, value);
 		}
 
+		@Override
 		public void addRecord(Object[] values)
 		{
 			if (!isRecordingEnabled())
@@ -328,6 +337,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			++size;
 		}
 
+		@Override
 		public Object end()
 		{
 			if (!isRecordingEnabled())
@@ -367,6 +377,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			return data;
 		}
 
+		@Override
 		public boolean hasEnded()
 		{
 			return ended;

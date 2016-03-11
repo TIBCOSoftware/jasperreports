@@ -100,9 +100,6 @@ public class DrawVisitor extends UniformElementVisitor
 		drawVisitor.setTextRenderer(report);
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void visitBreak(JRBreak breakElement)
 	{

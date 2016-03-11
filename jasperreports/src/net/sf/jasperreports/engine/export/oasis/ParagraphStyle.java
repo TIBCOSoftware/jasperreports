@@ -263,9 +263,7 @@ public class ParagraphStyle extends Style
 		}
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getId()
 	{
 		StringBuffer sbuffer = new StringBuffer();
@@ -291,9 +289,7 @@ public class ParagraphStyle extends Style
 		return sbuffer.toString();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void write(String paragraphStyleName)
 	{
 		styleWriter.write("<style:style style:name=\"" + paragraphStyleName + "\"");

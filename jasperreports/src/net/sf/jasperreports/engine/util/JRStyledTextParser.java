@@ -1003,6 +1003,7 @@ public class JRStyledTextParser implements ErrorHandler
 		return null;
 	}
 
+	@Override
 	public void error(SAXParseException e) {
 		if(log.isErrorEnabled())
 		{
@@ -1010,6 +1011,7 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 	}
 
+	@Override
 	public void fatalError(SAXParseException e) {
 		if(log.isFatalEnabled())
 		{
@@ -1017,6 +1019,7 @@ public class JRStyledTextParser implements ErrorHandler
 		}
 	}
 
+	@Override
 	public void warning(SAXParseException e) {
 		if(log.isWarnEnabled())
 		{

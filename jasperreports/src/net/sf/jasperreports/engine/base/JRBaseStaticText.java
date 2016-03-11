@@ -60,17 +60,13 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public String getText()
 	{
 		return this.text;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setText(String text)
 	{
 		Object old = this.text;
@@ -78,17 +74,13 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, this.text);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitStaticText(this);

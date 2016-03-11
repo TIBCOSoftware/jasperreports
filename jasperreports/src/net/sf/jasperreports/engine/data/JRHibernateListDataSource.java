@@ -73,6 +73,7 @@ public class JRHibernateListDataSource extends JRHibernateAbstractDataSource imp
 		initIterator();
 	}
 
+	@Override
 	public boolean next()
 	{
 		if (iterator == null)
@@ -95,6 +96,7 @@ public class JRHibernateListDataSource extends JRHibernateAbstractDataSource imp
 		return hasNext;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		if (pageCount == 1)

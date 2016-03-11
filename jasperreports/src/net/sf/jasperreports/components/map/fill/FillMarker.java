@@ -78,9 +78,7 @@ public class FillMarker implements net.sf.jasperreports.components.map.Marker
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

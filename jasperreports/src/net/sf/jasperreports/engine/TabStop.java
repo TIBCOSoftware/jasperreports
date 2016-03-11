@@ -90,9 +90,7 @@ public class TabStop implements JRCloneable, Serializable, Deduplicable
 		this.position = position;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		TabStop clone = null;
@@ -109,6 +107,7 @@ public class TabStop implements JRCloneable, Serializable, Deduplicable
 		return clone;
 	}
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -117,6 +116,7 @@ public class TabStop implements JRCloneable, Serializable, Deduplicable
 		return hash.getHashCode();
 	}
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

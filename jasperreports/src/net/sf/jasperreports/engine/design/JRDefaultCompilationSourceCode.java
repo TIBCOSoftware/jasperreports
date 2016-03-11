@@ -52,11 +52,13 @@ public class JRDefaultCompilationSourceCode implements JRCompilationSourceCode
 		this.lineExpressions = lineExpressions;
 	}
 
+	@Override
 	public String getCode()
 	{
 		return sourceCode;
 	}
 
+	@Override
 	public JRExpression getExpressionAtLine(int line)
 	{
 		if (lineExpressions == null || line <= 0 || line > lineExpressions.length)

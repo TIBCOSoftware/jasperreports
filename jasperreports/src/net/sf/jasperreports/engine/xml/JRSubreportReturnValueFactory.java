@@ -46,6 +46,7 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 	 * @param atts the element attributes
 	 * @return a {@link JRDesignSubreportReturnValue JRDesignSubreportReturnValue} object
 	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader) digester.peek(digester.getCount() - 1);

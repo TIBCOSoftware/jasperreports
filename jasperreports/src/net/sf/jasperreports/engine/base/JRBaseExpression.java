@@ -147,6 +147,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 * @deprecated To be removed.
 	 */
+	@Override
 	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
@@ -171,6 +172,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 * @deprecated To be removed.
 	 */
+	@Override
 	public String getValueClassName()
 	{
 		return valueClassName;
@@ -189,25 +191,19 @@ public class JRBaseExpression implements JRExpression, Serializable
 		return valueClassRealName;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getId()
 	{
 		return id;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpressionChunk[] getChunks()
 	{
 		return chunks;
 	}
 			
-	/**
-	 *
-	 */
+	@Override
 	public String getText()
 	{
 		String text = "";
@@ -293,9 +289,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseExpression clone = null;

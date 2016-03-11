@@ -116,17 +116,13 @@ public enum ColorEnum implements NamedValueEnum<Color>
 		return color;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public final Color getValue()
 	{
 		return color;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

@@ -47,6 +47,7 @@ public class PieChartHyperlinkProvider implements ChartHyperlinkProvider
 	}
 
 	
+	@Override
 	public JRPrintHyperlink getEntityHyperlink(ChartEntity entity)
 	{
 		JRPrintHyperlink printHyperlink = null;
@@ -58,6 +59,7 @@ public class PieChartHyperlinkProvider implements ChartHyperlinkProvider
 		return printHyperlink;
 	}
 
+	@Override
 	public boolean hasHyperlinks()
 	{
 		return sectionHyperlinks != null && sectionHyperlinks.size() > 0;

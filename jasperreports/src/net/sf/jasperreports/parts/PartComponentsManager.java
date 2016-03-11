@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.part.PartComponentXmlWriter;
 public class PartComponentsManager extends DefaultPartComponentManager
 {
 
+	@Override
 	public PartComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		return new PartComponentsXmlWriter(jasperReportsContext);

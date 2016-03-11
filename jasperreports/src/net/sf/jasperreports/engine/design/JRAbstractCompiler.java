@@ -139,6 +139,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		return JRStringUtil.getJavaIdentifier(report.getName()) + "_CROSSTAB" + crosstabId + nameSuffix;
 	}
 	
+	@Override
 	public final JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
 		// check if the language is supported by the compiler
@@ -335,11 +336,13 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		}
 	}
 
+	@Override
 	public JREvaluator loadEvaluator(JasperReport jasperReport) throws JRException
 	{
 		return loadEvaluator(jasperReport, jasperReport.getMainDataset());
 	}
 
+	@Override
 	public JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
 	{
 		JRReportCompileData reportCompileData = (JRReportCompileData) jasperReport.getCompileData();
@@ -348,6 +351,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		return loadEvaluator(compileData, unitName);
 	}
 
+	@Override
 	public JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
 	{
 		JRReportCompileData reportCompileData = (JRReportCompileData) jasperReport.getCompileData();

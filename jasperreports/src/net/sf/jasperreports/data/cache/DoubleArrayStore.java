@@ -82,6 +82,7 @@ public class DoubleArrayStore implements BufferColumnStore, ArrayStore
 		this.count = count;
 	}
 
+	@Override
 	public void addValue(Object object)
 	{
 		if (!(object instanceof Double))
@@ -96,16 +97,19 @@ public class DoubleArrayStore implements BufferColumnStore, ArrayStore
 		runLengthStore.valueAdded();
 	}
 
+	@Override
 	public boolean full()
 	{
 		return count >= values.length;
 	}
 	
+	@Override
 	public void resetValues()
 	{
 		reset();
 	}
 	
+	@Override
 	public ColumnValues createValues()
 	{
 		if (count == 0)
@@ -153,6 +157,7 @@ public class DoubleArrayStore implements BufferColumnStore, ArrayStore
 		return finalValues;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "DoubleArrayStore@" + hashCode();

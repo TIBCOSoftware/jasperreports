@@ -44,9 +44,7 @@ public class JRPrintTextFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRPrintTextFactory.class);
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);

@@ -62,9 +62,7 @@ public class FunctionsRegistryFactory  implements ExtensionsRegistryFactory
 	public final static String FUNCTIONS_CLASSES_PROPERTY_PREFIX = 
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "functions.";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<String> classNames = new ArrayList<String>();

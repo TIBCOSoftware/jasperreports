@@ -55,6 +55,7 @@ public class TypedColumnStore implements ColumnStore
 		return baseType;
 	}
 	
+	@Override
 	public void addValue(Object value)
 	{
 		if (value == null)
@@ -149,6 +150,7 @@ public class TypedColumnStore implements ColumnStore
 		return true;
 	}
 
+	@Override
 	public ColumnValues createValues()
 	{
 		ColumnValues values = valueStore == null ? EmptyColumnValues.instance() : valueStore.createValues();
@@ -177,6 +179,7 @@ public class TypedColumnStore implements ColumnStore
 		return finalValues;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "TypedColumnStore@" + hashCode();

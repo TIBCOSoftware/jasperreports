@@ -68,6 +68,7 @@ public class SpringExtensionsRegistryFactory implements
 	public static final String PROPERTY_SUFFIX_SPRING_BEANS_RESOURCE = 
 		".spring.beans.resource";
 
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId,
 			JRPropertiesMap properties)
 	{

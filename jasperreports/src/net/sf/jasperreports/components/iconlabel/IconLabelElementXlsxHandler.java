@@ -68,6 +68,7 @@ public class IconLabelElementXlsxHandler implements GenericElementXlsxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

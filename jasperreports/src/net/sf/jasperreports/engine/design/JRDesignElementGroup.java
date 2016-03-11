@@ -136,9 +136,7 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 		return elemGrp;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignElementGroup clone = (JRDesignElementGroup)super.clone();
@@ -148,6 +146,7 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

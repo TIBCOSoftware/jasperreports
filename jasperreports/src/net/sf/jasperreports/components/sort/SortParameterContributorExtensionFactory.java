@@ -41,6 +41,7 @@ public class SortParameterContributorExtensionFactory implements ExtensionsRegis
 			new SingletonExtensionRegistry<ParameterContributorFactory>(ParameterContributorFactory.class, 
 					SortParameterContributorFactory.getInstance());
 
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		return REGISTRY;

@@ -66,9 +66,7 @@ public class FrameConverter extends ElementConverter
 		return INSTANCE;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRElement element)
 	{
 		JRBasePrintFrame printFrame = new JRBasePrintFrame(reportConverter.getDefaultStyleProvider());

@@ -478,21 +478,25 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			String clauseText = String.valueOf(parameterValue);
 			JRQueryChunkHandler nestedChunkHandler = new JRQueryChunkHandler()
 			{
+				@Override
 				public void handleParameterChunk(String text)
 				{
 					appendParameterChunk(sbuffer, text);
 				}
 
+				@Override
 				public void handleParameterClauseChunk(String text)
 				{
 					appendParameterClauseChunk(sbuffer, text);
 				}
 
+				@Override
 				public void handleTextChunk(String text)
 				{
 					appendTextChunk(sbuffer, text);
 				}
 
+				@Override
 				public void handleClauseChunk(String[] tokens, char tokenSeparator)
 				{
 					appendClauseChunk(sbuffer, tokens);
@@ -544,16 +548,19 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	{
 		function.apply(tokens, new JRQueryClauseContext()
 		{
+			@Override
 			public void addQueryMultiParameters(String parameterName, int count)
 			{
 				addQueryMultiParameters(parameterName, count, false);
 			}
 
+			@Override
 			public void addQueryMultiParameters(String parameterName, int count, boolean ignoreNulls)
 			{
 				JRAbstractQueryExecuter.this.addQueryMultiParameters(parameterName, count, ignoreNulls);
 			}
 
+			@Override
 			public void addQueryParameter(String parameterName)
 			{
 				JRAbstractQueryExecuter.this.addQueryParameter(parameterName);
@@ -565,11 +572,13 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 				JRAbstractQueryExecuter.this.addQueryParameter(type, value);
 			}
 
+			@Override
 			public JRValueParameter getValueParameter(String parameterName)
 			{
 				return JRAbstractQueryExecuter.this.getValueParameter(parameterName);
 			}
 
+			@Override
 			public StringBuffer queryBuffer()
 			{
 				return sbuffer;

@@ -91,9 +91,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider() 
 	{
 		if (paragraphContainer != null)
@@ -115,9 +113,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		return StyleResolver.getInstance();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRStyle getStyle() 
 	{
 		if (paragraphContainer != null)
@@ -127,9 +123,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getStyleNameReference()
 	{
 		if (paragraphContainer != null)
@@ -139,33 +133,25 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRParagraphContainer getParagraphContainer()
 	{
 		return paragraphContainer;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public LineSpacingEnum getLineSpacing()
 	{
 		return getStyleResolver().getLineSpacing(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public LineSpacingEnum getOwnLineSpacing()
 	{
 		return lineSpacing;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
 		Object old = this.lineSpacing;
@@ -173,25 +159,19 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING, old, this.lineSpacing);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getLineSpacingSize()
 	{
 		return getStyleResolver().getLineSpacingSize(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Float getOwnLineSpacingSize()
 	{
 		return lineSpacingSize;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setLineSpacingSize(Float lineSpacingSize)
 	{
 		Object old = this.lineSpacingSize;
@@ -199,25 +179,19 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING_SIZE, old, this.lineSpacingSize);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getFirstLineIndent()
 	{
 		return getStyleResolver().getFirstLineIndent(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnFirstLineIndent()
 	{
 		return firstLineIndent;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setFirstLineIndent(Integer firstLineIndent)
 	{
 		Object old = this.firstLineIndent;
@@ -225,25 +199,19 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_FIRST_LINE_INDENT, old, this.firstLineIndent);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getLeftIndent()
 	{
 		return getStyleResolver().getLeftIndent(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnLeftIndent()
 	{
 		return leftIndent;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setLeftIndent(Integer leftIndent)
 	{
 		Object old = this.leftIndent;
@@ -251,25 +219,19 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_LEFT_INDENT, old, this.leftIndent);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getRightIndent()
 	{
 		return getStyleResolver().getRightIndent(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnRightIndent()
 	{
 		return rightIndent;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setRightIndent(Integer rightIndent)
 	{
 		Object old = this.rightIndent;
@@ -277,25 +239,19 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_RIGHT_INDENT, old, this.rightIndent);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getSpacingBefore()
 	{
 		return getStyleResolver().getSpacingBefore(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnSpacingBefore()
 	{
 		return spacingBefore;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setSpacingBefore(Integer spacingBefore)
 	{
 		Object old = this.spacingBefore;
@@ -303,25 +259,19 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_SPACING_BEFORE, old, this.spacingBefore);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getSpacingAfter()
 	{
 		return getStyleResolver().getSpacingAfter(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnSpacingAfter()
 	{
 		return spacingAfter;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setSpacingAfter(Integer spacingAfter)
 	{
 		Object old = this.spacingAfter;
@@ -329,25 +279,19 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_SPACING_AFTER, old, this.spacingAfter);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getTabStopWidth()
 	{
 		return getStyleResolver().getTabStopWidth(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnTabStopWidth()
 	{
 		return tabStopWidth;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setTabStopWidth(Integer tabStopWidth)
 	{
 		Object old = this.tabStopWidth;
@@ -355,18 +299,14 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().firePropertyChange(PROPERTY_TAB_STOP_WIDTH, old, this.tabStopWidth);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public TabStop[] getTabStops()
 	{
 		return getStyleResolver().getTabStops(this);
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public TabStop[] getOwnTabStops()
 	{
 		if (tabStops == null || tabStops.size() == 0)
@@ -377,9 +317,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		return tabStops.toArray(new TabStop[tabStops.size()]);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void addTabStop(TabStop tabStop)
 	{
 		if (tabStops == null)
@@ -392,9 +330,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TAB_STOPS, tabStop, tabStops.size() - 1);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void addTabStop(int index, TabStop tabStop)
 	{
 		if (tabStops == null)
@@ -407,9 +343,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TAB_STOPS, tabStop, index);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void removeTabStop(TabStop tabStop)
 	{
 		if (tabStops != null)
@@ -423,9 +357,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		}
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void removeTabStop(int index)
 	{
 		if (tabStops != null)
@@ -439,9 +371,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRParagraph clone(JRParagraphContainer paragraphContainer)
 	{
 		JRBaseParagraph clone = null;
@@ -464,6 +394,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -478,6 +409,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	}
 
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -494,6 +426,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	}
 
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

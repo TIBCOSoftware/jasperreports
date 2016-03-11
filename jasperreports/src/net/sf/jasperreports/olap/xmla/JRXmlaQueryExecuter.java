@@ -119,6 +119,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		return JRMdxQueryExecuterFactory.CANONICAL_LANGUAGE;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
@@ -150,6 +151,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		return xmlaResult;
 	}
 	
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		getResult();
@@ -187,11 +189,13 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		return soapUrl;
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		return false;
 	}
 
+	@Override
 	public void close()
 	{
 		if (connection != null)

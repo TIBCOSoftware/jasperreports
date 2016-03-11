@@ -48,6 +48,7 @@ public abstract class JRSubreportRunnable implements Runnable
 		return new JRSubreportRunResult(!running, error);
 	}
 	
+	@Override
 	public void run()
 	{
 		running = true;		

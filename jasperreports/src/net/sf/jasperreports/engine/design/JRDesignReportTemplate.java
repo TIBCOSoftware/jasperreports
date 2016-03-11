@@ -74,9 +74,7 @@ public class JRDesignReportTemplate extends JRBaseReportTemplate implements JRCh
 		getEventSupport().firePropertyChange(PROPERTY_SOURCE_EXPRESSION, old, this.sourceExpression);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignReportTemplate clone = (JRDesignReportTemplate)super.clone();
@@ -86,6 +84,7 @@ public class JRDesignReportTemplate extends JRBaseReportTemplate implements JRCh
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

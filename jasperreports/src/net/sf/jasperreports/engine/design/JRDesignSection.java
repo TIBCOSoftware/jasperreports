@@ -94,9 +94,7 @@ public class JRDesignSection extends JRBaseSection
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRBand[] getBands()
 	{
 		JRBand[] bandsArray = new JRBand[bandsList.size()];
@@ -179,9 +177,7 @@ public class JRDesignSection extends JRBaseSection
 		return band;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPart[] getParts()
 	{
 		JRPart[] partsArray = new JRPart[partsList.size()];

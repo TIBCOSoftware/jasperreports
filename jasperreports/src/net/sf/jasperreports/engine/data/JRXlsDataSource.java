@@ -132,9 +132,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next() throws JRException
 	{
 		if (workbook != null)
@@ -223,9 +221,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void moveFirst()
 	{
 		this.recordIndex = -1;
@@ -233,9 +229,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
 		String fieldName = jrField.getName();
@@ -354,6 +348,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	/**
 	 * Closes the reader. Users of this data source should close it after usage.
 	 */
+	@Override
 	public void close()
 	{
 		try
@@ -370,6 +365,7 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	}
 
 
+	@Override
 	protected void checkReadStarted()
 	{
 		if (sheetIndex >= 0)

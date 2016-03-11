@@ -36,6 +36,7 @@ public abstract class JRAbstractExtendedIncrementer implements JRExtendedIncreme
 	/**
 	 * This implementation simply calls {@link JRExtendedIncrementer#increment(JRCalculable, Object, AbstractValueProvider) increment(JRCalculable, Object, AbstractValueProvider)}.
 	 */
+	@Override
 	public Object increment(JRFillVariable variable, Object expressionValue, AbstractValueProvider valueProvider) throws JRException
 	{
 		return increment((JRCalculable) variable, expressionValue, valueProvider);
@@ -44,6 +45,7 @@ public abstract class JRAbstractExtendedIncrementer implements JRExtendedIncreme
 	/**
 	 * This implementation calls {@link JRExtendedIncrementer#increment(JRCalculable, Object, AbstractValueProvider) increment(calculable, calculableValue.getValue(), valueProvider)}.
 	 */
+	@Override
 	public Object combine(JRCalculable calculable, JRCalculable calculableValue, AbstractValueProvider valueProvider) throws JRException
 	{
 		return increment(calculable, calculableValue.getValue(), valueProvider);
@@ -55,6 +57,7 @@ public abstract class JRAbstractExtendedIncrementer implements JRExtendedIncreme
 	 * Incrementer implementations can override this to specify that
 	 * <code>null</code> values should not be ignored.
 	 */
+	@Override
 	public boolean ignoresNullValues()
 	{
 		return true;

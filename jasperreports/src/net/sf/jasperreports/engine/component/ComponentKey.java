@@ -65,6 +65,7 @@ public class ComponentKey implements Serializable
 		this.name = name;
 	}
 	
+	@Override
 	public int hashCode()
 	{
 		int hash = 17;
@@ -74,6 +75,7 @@ public class ComponentKey implements Serializable
 		return hash;
 	}
 	
+	@Override
 	public boolean equals(Object o)
 	{
 		if (o == this)

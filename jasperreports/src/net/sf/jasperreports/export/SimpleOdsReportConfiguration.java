@@ -38,9 +38,7 @@ public class SimpleOdsReportConfiguration extends AbstractXlsReportConfiguration
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isFlexibleRowHeight()
 	{
 		return isFlexibleRowHeight;

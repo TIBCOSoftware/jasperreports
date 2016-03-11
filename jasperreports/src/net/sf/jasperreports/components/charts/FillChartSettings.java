@@ -69,6 +69,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRAnchor#getAnchorNameExpression()
 	 */
+	@Override
 	public JRExpression getAnchorNameExpression() {
 		return parent.getAnchorNameExpression();
 	}
@@ -76,6 +77,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRAnchor#getBookmarkLevel()
 	 */
+	@Override
 	public int getBookmarkLevel() {
 		
 		return parent.getBookmarkLevel();
@@ -84,6 +86,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Object clone() {
 		
 		ChartSettings clone = null;
@@ -102,6 +105,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getChartType()
 	 */
+	@Override
 	public byte getChartType() {
 		
 		return parent.getChartType();
@@ -110,6 +114,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendBackgroundColor()
 	 */
+	@Override
 	public Color getLegendBackgroundColor() {
 		
 		return parent.getLegendBackgroundColor();
@@ -118,6 +123,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendColor()
 	 */
+	@Override
 	public Color getLegendColor() {
 		
 		return parent.getLegendColor();
@@ -126,6 +132,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendFont()
 	 */
+	@Override
 	public JRFont getLegendFont() {
 		
 		return parent.getLegendFont();
@@ -134,6 +141,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendPosition()
 	 */
+	@Override
 	public EdgeEnum getLegendPosition() {
 		
 		return parent.getLegendPosition();
@@ -142,6 +150,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getRenderType()
 	 */
+	@Override
 	public String getRenderType() {
 		
 		return parent.getRenderType() == null ? JRChart.RENDER_TYPE_DRAW : parent.getRenderType();
@@ -150,6 +159,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getShowLegend()
 	 */
+	@Override
 	public Boolean getShowLegend() {
 		
 		return parent.getShowLegend();
@@ -158,6 +168,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getSubtitleColor()
 	 */
+	@Override
 	public Color getSubtitleColor() {
 		
 		return parent.getSubtitleColor();
@@ -166,6 +177,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getSubtitleExpression()
 	 */
+	@Override
 	public JRExpression getSubtitleExpression() {
 		
 		return parent.getSubtitleExpression();
@@ -174,6 +186,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getSubtitleFont()
 	 */
+	@Override
 	public JRFont getSubtitleFont() {
 		
 		return parent.getSubtitleFont();
@@ -182,6 +195,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitleColor()
 	 */
+	@Override
 	public Color getTitleColor() {
 		
 		return parent.getTitleColor();
@@ -190,6 +204,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitleExpression()
 	 */
+	@Override
 	public JRExpression getTitleExpression() {
 		
 		return parent.getTitleExpression();
@@ -198,6 +213,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitleFont()
 	 */
+	@Override
 	public JRFont getTitleFont() {
 		
 		return parent.getTitleFont();
@@ -206,6 +222,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitlePosition()
 	 */
+	@Override
 	public EdgeEnum getTitlePosition() {
 		
 		return parent.getTitlePosition();
@@ -214,6 +231,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkAnchorExpression()
 	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression() {
 		
 		return parent.getHyperlinkAnchorExpression();
@@ -222,6 +240,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkPageExpression()
 	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression() {
 		
 		return parent.getHyperlinkPageExpression();
@@ -230,6 +249,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkParameters()
 	 */
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters() {
 		
 		return parent.getHyperlinkParameters();
@@ -238,6 +258,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkReferenceExpression()
 	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression() {
 		
 		return parent.getHyperlinkReferenceExpression();
@@ -246,6 +267,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkWhenExpression()
 	 */
+	@Override
 	public JRExpression getHyperlinkWhenExpression() {
 		
 		return parent.getHyperlinkWhenExpression();
@@ -254,6 +276,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTarget()
 	 */
+	@Override
 	public byte getHyperlinkTarget() {
 		
 		return parent.getHyperlinkTarget();
@@ -262,6 +285,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTooltipExpression()
 	 */
+	@Override
 	public JRExpression getHyperlinkTooltipExpression() {
 		
 		return parent.getHyperlinkTooltipExpression();
@@ -270,6 +294,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getHyperlinkTypeValue()
 	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue() {
 		
 		return parent.getHyperlinkTypeValue();
@@ -278,6 +303,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getLinkTarget()
 	 */
+	@Override
 	public String getLinkTarget() {
 		
 		return parent.getLinkTarget();
@@ -286,6 +312,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.engine.JRHyperlink#getLinkType()
 	 */
+	@Override
 	public String getLinkType() {
 		
 		return parent.getLinkType();
@@ -294,14 +321,13 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendColor()
 	 */
+	@Override
 	public Color getBackcolor() {
 		
 		return parent.getBackcolor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getCustomizerClass()
 	{
 		return parent.getCustomizerClass();

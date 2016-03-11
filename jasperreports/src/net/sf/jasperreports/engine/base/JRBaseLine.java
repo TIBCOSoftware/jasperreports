@@ -69,9 +69,7 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public void setWidth(int width)
 	{
 		if (width == 0)
@@ -82,17 +80,13 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 		super.setWidth(width);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public LineDirectionEnum getDirectionValue()
 	{
 		return directionValue;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setDirection(LineDirectionEnum directionValue)
 	{
 		LineDirectionEnum old = this.directionValue;
@@ -100,17 +94,13 @@ public class JRBaseLine extends JRBaseGraphicElement implements JRLine
 		getEventSupport().firePropertyChange(PROPERTY_DIRECTION, old, this.directionValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitLine(this);

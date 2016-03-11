@@ -36,6 +36,7 @@ import org.xml.sax.Attributes;
 
 public class JRBubbleChartFactory extends JRBaseFactory {
 	
+	@Override
 	public Object createObject( Attributes attrs ){
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 

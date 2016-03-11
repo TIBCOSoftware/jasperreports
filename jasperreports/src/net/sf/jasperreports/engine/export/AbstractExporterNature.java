@@ -67,21 +67,25 @@ public abstract class AbstractExporterNature implements ExporterNature
 		return propertiesUtil;
 	}
 
+	@Override
 	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		// nothing to do here
 	}
 	
+	@Override
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
 		// nothing to do here
 	}
 	
+	@Override
 	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		// nothing to do here
 	}
 	
+	@Override
 	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
 	{
 		// nothing to do here

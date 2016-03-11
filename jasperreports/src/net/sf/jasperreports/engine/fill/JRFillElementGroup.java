@@ -113,27 +113,21 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public List<JRChild> getChildren()
 	{
 		return this.children;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRElementGroup getElementGroup()
 	{
 		return this.elementGroup;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRElement[] getElements()
 	{
 		if (this.elements == null)
@@ -169,9 +163,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRElement getElementByKey(String key)
 	{
 		return null;
@@ -289,9 +281,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void visit(JRVisitor visitor)
 	{
 		visitor.visitElementGroup(this);
@@ -303,22 +293,19 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	}
 
 	
+	@Override
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
 	{
 		return new JRFillElementGroup(this, factory);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRElementGroup parentGroup) 
 	{
 		throw new UnsupportedOperationException();

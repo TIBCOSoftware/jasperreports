@@ -61,9 +61,7 @@ public class MatcherExportFilterMappingExtensionsRegistryFactory implements Exte
 	 */
 	public final static String MATCHER_EXPORT_FILTER_MAPPING_EXCLUDES_PROPERTY_SUFFIX = ".excludes";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> exportFilterMappingProperties = JRPropertiesUtil.getProperties(properties, MATCHER_EXPORT_FILTER_MAPPING_PROPERTY_PREFIX);

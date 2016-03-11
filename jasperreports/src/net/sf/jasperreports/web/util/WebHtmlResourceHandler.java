@@ -47,9 +47,7 @@ public class WebHtmlResourceHandler implements HtmlResourceHandler
 		this.pathPattern = pathPattern;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getResourcePath(String id)
 	{
 		if (pathPattern == null)
@@ -59,9 +57,7 @@ public class WebHtmlResourceHandler implements HtmlResourceHandler
 		return MessageFormat.format(pathPattern, new Object[]{id});
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void handleResource(String id, byte[] data)
 	{
 		//nothing to do

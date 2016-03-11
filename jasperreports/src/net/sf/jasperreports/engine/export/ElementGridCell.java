@@ -80,6 +80,7 @@ public class ElementGridCell extends JRExporterGridCell
 		return container.getElement(parentIndex, elementIndex);
 	}
 	
+	@Override
 	public String getProperty(String propName)
 	{
 		JRPrintElement element = getElement();

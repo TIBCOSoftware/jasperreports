@@ -61,9 +61,7 @@ public class JRDesignConditionalStyle extends JRBaseConditionalStyle
 		getEventSupport().firePropertyChange(PROPERTY_CONDITION_EXPRESSION, old, this.conditionExpression);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setParentStyle(JRStyle parentStyle)
 	{
 		Object old = this.parentStyle;

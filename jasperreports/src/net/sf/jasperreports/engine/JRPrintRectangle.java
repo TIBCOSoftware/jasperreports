@@ -31,14 +31,10 @@ public interface JRPrintRectangle extends JRPrintGraphicElement, JRCommonRectang
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(int radius);
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(Integer radius);
 
 

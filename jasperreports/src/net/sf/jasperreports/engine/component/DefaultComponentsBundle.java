@@ -45,6 +45,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	
 	public static final String EXCEPTION_MESSAGE_KEY_COMPONENT_MANAGER_NOT_FOUND = "components.component.manager.not.found";
 
+	@Override
 	public ComponentsXmlParser getXmlParser()
 	{
 		return xmlParser;
@@ -61,11 +62,13 @@ public class DefaultComponentsBundle implements ComponentsBundle
 		this.xmlParser = xmlParser;
 	}
 
+	@Override
 	public Set<String> getComponentNames()
 	{
 		return componentManagers.keySet();
 	}
 	
+	@Override
 	public ComponentManager getComponentManager(String componentName)
 	{
 		ComponentManager manager = componentManagers.get(componentName);

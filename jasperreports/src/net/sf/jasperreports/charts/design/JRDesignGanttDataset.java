@@ -58,9 +58,7 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRGanttSeries[] getSeries()
 	{
 		JRGanttSeries[] ganttSeriesArray = new JRGanttSeries[ganttSeriesList.size()];
@@ -118,23 +116,20 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.GANTT_DATASET;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

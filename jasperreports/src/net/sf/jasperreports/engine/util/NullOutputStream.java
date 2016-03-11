@@ -36,16 +36,19 @@ public class NullOutputStream extends OutputStream
 	{
 	}
 
+	@Override
 	public void write(int b)
 	{
 		// discard the data
 	}
 
+	@Override
 	public void write(byte[] b, int off, int len)
 	{
 		// discard the data
 	}
 
+	@Override
 	public void write(byte[] b)
 	{
 		// discard the data

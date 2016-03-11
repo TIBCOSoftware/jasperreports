@@ -86,6 +86,7 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 	{
 		return new RuleSetBase()
 		{
+			@Override
 			public void addRuleInstances(Digester digester)
 			{
 				digester.addObjectCreate(PATTERN_ROOT, JRSimpleTemplate.class);
@@ -145,16 +146,19 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 		digester.addRuleSet(rules);
 	}
 	
+	@Override
 	public void error(SAXParseException exception) throws SAXException 
 	{
 		throw exception;
 	}
 
+	@Override
 	public void fatalError(SAXParseException exception) throws SAXException 
 	{
 		throw exception;
 	}
 
+	@Override
 	public void warning(SAXParseException exception) throws SAXException 
 	{
 		throw exception;

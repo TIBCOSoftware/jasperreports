@@ -67,9 +67,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	protected void evaluateStyle(
 		byte evaluation
 		) throws JRException
@@ -86,67 +84,51 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPen getLinePen()
 	{
 		return pen == null ? initPen : pen;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public FillEnum getFillValue()
 	{
 		return getStyleResolver().getFillValue(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public FillEnum getOwnFillValue()
 	{
 		return providerStyle == null || providerStyle.getOwnFillValue() == null ? ((JRGraphicElement)this.parent).getOwnFillValue() : providerStyle.getOwnFillValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setFill(FillEnum fill)
 	{
 		throw new UnsupportedOperationException();
 	}
 	
 
-	/**
-	 * 
-	 */
+	@Override
 	public Float getDefaultLineWidth() 
 	{
 		return ((JRGraphicElement)this.parent).getDefaultLineWidth();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
 	}
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public void rewind()
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected boolean prepare(
 		int availableHeight,
 		boolean isOverflow

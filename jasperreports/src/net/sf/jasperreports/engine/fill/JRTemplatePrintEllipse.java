@@ -81,6 +81,7 @@ public class JRTemplatePrintEllipse extends JRTemplatePrintGraphicElement implem
 		super(ellipse, originator);
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

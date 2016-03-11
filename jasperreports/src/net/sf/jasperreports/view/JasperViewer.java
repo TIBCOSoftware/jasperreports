@@ -330,6 +330,7 @@ public class JasperViewer extends javax.swing.JFrame
 		setTitle("JasperViewer");
 		setIconImage(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jasperreports/view/images/jricon.GIF")).getImage());
 		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				exitForm();
 			}

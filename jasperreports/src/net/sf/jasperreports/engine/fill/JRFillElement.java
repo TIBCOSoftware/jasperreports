@@ -266,9 +266,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return defaultStyleProvider;
@@ -282,103 +280,77 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return getDefaultStyleProvider().getStyleResolver();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public UUID getUUID()
 	{
 		return parent.getUUID();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getKey()
 	{
 		return parent.getKey();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public PositionTypeEnum getPositionTypeValue()
 	{
 		return parent.getPositionTypeValue();//FIXME optimize this by consolidating style properties
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPositionType(PositionTypeEnum positionType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public StretchTypeEnum getStretchTypeValue()
 	{
 		return parent.getStretchTypeValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setStretchType(StretchTypeEnum stretchType)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPrintRepeatedValues()
 	{
 		return parent.isPrintRepeatedValues();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPrintRepeatedValues(boolean isPrintRepeatedValues)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return getStyleResolver().getMode(this, ModeEnum.OPAQUE);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public ModeEnum getOwnModeValue()
 	{
 		return providerStyle == null || providerStyle.getOwnModeValue() == null ? parent.getOwnModeValue() : providerStyle.getOwnModeValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setMode(ModeEnum modeValue)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getX()
 	{
 		return x;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setX(int x)
 	{
 		this.x = x;
@@ -392,25 +364,19 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		this.y = y;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getY()
 	{
 		return y;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getWidth()
 	{
 		return width;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setWidth(int width)
 	{
 		this.width = width;
@@ -424,121 +390,92 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		this.height = height;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public int getHeight()
 	{
 		return height;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isRemoveLineWhenBlank()
 	{
 		return parent.isRemoveLineWhenBlank();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRemoveLineWhenBlank(boolean isRemoveLine)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPrintInFirstWholeBand()
 	{
 		return parent.isPrintInFirstWholeBand();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPrintInFirstWholeBand(boolean isPrint)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean isPrintWhenDetailOverflows()
 	{
 		return parent.isPrintWhenDetailOverflows();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setPrintWhenDetailOverflows(boolean isPrint)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getForecolor()
 	{
 		return getStyleResolver().getForecolor(this);
 	}
 
+	@Override
 	public Color getOwnForecolor()
 	{
 		return providerStyle == null || providerStyle.getOwnForecolor() == null ? parent.getOwnForecolor() : providerStyle.getOwnForecolor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setForecolor(Color forecolor)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getBackcolor()
 	{
 		return getStyleResolver().getBackcolor(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnBackcolor()
 	{
 		return providerStyle == null || providerStyle.getOwnBackcolor() == null ? parent.getOwnBackcolor() : providerStyle.getOwnBackcolor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setBackcolor(Color backcolor)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getPrintWhenExpression()
 	{
 		return parent.getPrintWhenExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRGroup getPrintWhenGroupChanges()
 	{
 		return printWhenGroupChanges;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRElementGroup getElementGroup()
 	{
 		return elementGroup;
@@ -1611,9 +1548,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return conditionalStylesContainer;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRStyle getStyle()
 	{
 		// the current style overrides other style objects
@@ -1721,11 +1656,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && !isAutoEvaluateNow();
 	}
 
+	@Override
 	public String getStyleNameReference()
 	{
 		return null;
 	}
 
+	@Override
 	public void setStyle(JRStyle style)
 	{
 		initStyle = style;
@@ -1735,22 +1672,19 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		}
 	}
 
+	@Override
 	public void setStyleNameReference(String name)
 	{
 		throw new UnsupportedOperationException("Style name references not allowed at fill time");
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRElementGroup parentGroup) 
 	{
 		throw new UnsupportedOperationException();
@@ -1762,16 +1696,19 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return mergedProperties != null && mergedProperties.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return mergedProperties;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		//element properties default to report properties
@@ -1779,6 +1716,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 
+	@Override
 	public JRPropertyExpression[] getPropertyExpressions()
 	{
 		return propertyExpressions.toArray(new JRPropertyExpression[propertyExpressions.size()]);

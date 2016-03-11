@@ -77,6 +77,7 @@ public class BaseCommonReturnValue implements CommonReturnValue, Serializable
 	 * 
 	 * @return the name of the report variable where the value should be copied.
 	 */
+	@Override
 	public String getToVariable()
 	{
 		return this.toVariable;
@@ -90,6 +91,7 @@ public class BaseCommonReturnValue implements CommonReturnValue, Serializable
 	 * 
 	 * @return the calculation type.
 	 */
+	@Override
 	public CalculationEnum getCalculation()
 	{
 		return calculation;
@@ -103,11 +105,13 @@ public class BaseCommonReturnValue implements CommonReturnValue, Serializable
 	 * 
 	 * @return the incrementer factory class name.
 	 */
+	@Override
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
 	}
 
+	@Override
 	public Object clone() 
 	{
 		try

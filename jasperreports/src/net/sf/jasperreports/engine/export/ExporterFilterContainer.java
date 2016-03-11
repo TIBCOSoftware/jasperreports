@@ -64,6 +64,7 @@ public class ExporterFilterContainer implements ResetableExporterFilter
 	 * Returns <code>true</code> if the element is not filtered by any of
 	 * the contained filters.
 	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		boolean export = true;

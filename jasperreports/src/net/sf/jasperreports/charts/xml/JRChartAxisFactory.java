@@ -41,9 +41,7 @@ public class JRChartAxisFactory	extends	JRBaseFactory
 	public static final	String ELEMENT_axis	= "axis";
 	public static final	String ATTRIBUTE_position =	"position";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)	throws JRException
 	{
 		JRDesignChart parentChart =	(JRDesignChart)digester.peek(1);

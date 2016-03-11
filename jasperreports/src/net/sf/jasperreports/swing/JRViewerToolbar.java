@@ -38,15 +38,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.view.JRSaveContributor;
 import net.sf.jasperreports.view.SaveContributorUtils;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -132,6 +132,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnSave.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnSave.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnSave.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnSaveActionPerformed(evt);
 			}
@@ -145,6 +146,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnPrint.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnPrint.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnPrint.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnPrintActionPerformed(evt);
 			}
@@ -158,6 +160,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnReload.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnReload.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnReload.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnReloadActionPerformed(evt);
 			}
@@ -174,6 +177,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnFirst.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnFirst.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFirst.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnFirstActionPerformed(evt);
 			}
@@ -187,6 +191,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnPrevious.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnPrevious.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnPreviousActionPerformed(evt);
 			}
@@ -200,6 +205,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnNext.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnNext.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnNext.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnNextActionPerformed(evt);
 			}
@@ -213,6 +219,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnLast.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnLast.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnLast.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnLastActionPerformed(evt);
 			}
@@ -224,6 +231,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		txtGoTo.setMinimumSize(new java.awt.Dimension(40, 23));
 		txtGoTo.setPreferredSize(new java.awt.Dimension(40, 23));
 		txtGoTo.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				txtGoToActionPerformed(evt);
 			}
@@ -240,6 +248,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnActualSize.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnActualSize.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnActualSize.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnActualSizeActionPerformed(evt);
 			}
@@ -253,6 +262,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnFitPage.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnFitPage.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFitPage.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnFitPageActionPerformed(evt);
 			}
@@ -266,6 +276,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnFitWidth.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnFitWidth.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnFitWidth.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnFitWidthActionPerformed(evt);
 			}
@@ -282,6 +293,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnZoomIn.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnZoomIn.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomIn.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnZoomInActionPerformed(evt);
 			}
@@ -295,6 +307,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnZoomOut.setMinimumSize(new java.awt.Dimension(23, 23));
 		btnZoomOut.setPreferredSize(new java.awt.Dimension(23, 23));
 		btnZoomOut.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnZoomOutActionPerformed(evt);
 			}
@@ -307,11 +320,13 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		cmbZoom.setMinimumSize(new java.awt.Dimension(80, 23));
 		cmbZoom.setPreferredSize(new java.awt.Dimension(80, 23));
 		cmbZoom.addActionListener(new java.awt.event.ActionListener() {
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				cmbZoomActionPerformed(evt);
 			}
 		});
 		cmbZoom.addItemListener(new java.awt.event.ItemListener() {
+			@Override
 			public void itemStateChanged(java.awt.event.ItemEvent evt) {
 				cmbZoomItemStateChanged(evt);
 			}
@@ -424,6 +439,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 			new Thread(
 				new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						try
@@ -759,6 +775,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		btnFitWidth.setSelected(true);
 	}
 
+	@Override
 	public void viewerEvent(JRViewerEvent event)
 	{
 		switch (event.getCode())

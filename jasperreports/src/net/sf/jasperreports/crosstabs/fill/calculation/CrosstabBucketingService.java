@@ -176,6 +176,7 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 	}
 
 	
+	@Override
 	public MeasureValue[] getMeasureTotals(BucketMap bucketMap, Bucket bucket)
 	{
 		Object bucketValue = bucketMap.get(bucket);
@@ -530,6 +531,7 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			}
 		}
 		
+		@Override
 		public String toString()
 		{
 			return key + "/" + span + ": " + super.toString();
@@ -548,11 +550,13 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			list = new LinkedList<CollectedList>();
 		}
 
+		@Override
 		public Iterator<CollectedList> iterator()
 		{
 			return list.iterator();
 		}
 
+		@Override
 		protected void addSublist(CollectedList sublist)
 		{
 			if (sublist.key.isTotal() && totalPosition == CrosstabTotalPositionEnum.START)
@@ -579,11 +583,13 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 			list = new TreeSet<CollectedList>(comparator);
 		}
 
+		@Override
 		public Iterator<CollectedList> iterator()
 		{
 			return list.iterator();
 		}
 
+		@Override
 		protected void addSublist(CollectedList sublist)
 		{
 			list.add(sublist);
@@ -603,6 +609,7 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 					== CrosstabTotalPositionEnum.START;
 		}
 
+		@Override
 		public int compare(CollectedList l1, CollectedList l2)
 		{
 			if (l1 == l2)

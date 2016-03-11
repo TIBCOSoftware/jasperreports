@@ -65,6 +65,7 @@ public class XmlConstantPropertyRule extends TransformedPropertyRule
 		this.values = values;
 	}
 
+	@Override
 	protected Object toPropertyValue(String attributeValue)
 	{
 		Object value = EnumUtil.getEnumByName(values, attributeValue);

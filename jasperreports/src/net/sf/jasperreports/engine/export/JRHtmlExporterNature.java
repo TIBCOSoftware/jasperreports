@@ -54,9 +54,7 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		this.ignorePageMargins = ignorePageMargins;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		if (element instanceof JRGenericPrintElement)
@@ -73,9 +71,7 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		return filter == null || filter.isToExport(element);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isDeep(JRPrintFrame frame)
 	{
 		if (
@@ -90,22 +86,19 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		return deep;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isSpanCells()
 	{
 		return true;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public boolean isIgnoreLastRow()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isHorizontallyMergeEmptyCells()
 	{
 		return true;
@@ -114,22 +107,19 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 	/**
 	 * Specifies whether empty page margins should be ignored
 	 */
+	@Override
 	public boolean isIgnorePageMargins()
 	{
 		return ignorePageMargins;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakBeforeRow(JRPrintElement element)
 	{
 		return false;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public boolean isBreakAfterRow(JRPrintElement element)
 	{
 		return false;

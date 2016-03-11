@@ -48,6 +48,7 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 		this.subreportFiller = subreportFiller;
 	}
 
+	@Override
 	public JRSubreportRunResult start()
 	{
 		doStart();
@@ -56,6 +57,7 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 
 	protected abstract void doStart();
 
+	@Override
 	public JRSubreportRunResult resume()
 	{
 		if (log.isDebugEnabled())
@@ -116,6 +118,7 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 		return runResult();
 	}
 	
+	@Override
 	public void cancel() throws JRException
 	{
 		if (log.isDebugEnabled())
@@ -160,6 +163,7 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 		}
 	}
 
+	@Override
 	public void suspend() throws JRException
 	{
 		if (log.isDebugEnabled())
@@ -211,6 +215,7 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		super.run();

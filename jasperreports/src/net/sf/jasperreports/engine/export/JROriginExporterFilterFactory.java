@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class JROriginExporterFilterFactory implements ExporterFilterFactory
 {
 
+	@Override
 	public ExporterFilter getFilter(JRExporterContext exporterContext)
 	{
 		JRAbstractExporter<?, ?, ?, ?> exporter = 

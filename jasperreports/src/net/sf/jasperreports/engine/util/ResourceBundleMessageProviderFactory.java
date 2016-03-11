@@ -53,9 +53,7 @@ public class ResourceBundleMessageProviderFactory implements MessageProviderFact
 		this.classLoader = classLoader;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public MessageProvider getMessageProvider(String name)
 	{
 		return new ResourceBundleMessageProvider(name, classLoader);

@@ -44,6 +44,7 @@ public class DateRangeSQLEqualClause extends DateRangeBaseSQLEqualityClause
 	{
 	}
 
+	@Override
 	protected void applyDateRange(JRQueryClauseContext queryContext,
 			String column, DateRange dateRange)
 	{

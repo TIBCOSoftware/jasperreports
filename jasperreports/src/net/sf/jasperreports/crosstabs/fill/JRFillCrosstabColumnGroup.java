@@ -46,12 +46,14 @@ public class JRFillCrosstabColumnGroup extends JRFillCrosstabGroup implements JR
 	}
 
 
+	@Override
 	public CrosstabColumnPositionEnum getPositionValue()
 	{
 		return ((JRCrosstabColumnGroup) parentGroup).getPositionValue();
 	}
 
 
+	@Override
 	public int getHeight()
 	{
 		return ((JRCrosstabColumnGroup) parentGroup).getHeight();

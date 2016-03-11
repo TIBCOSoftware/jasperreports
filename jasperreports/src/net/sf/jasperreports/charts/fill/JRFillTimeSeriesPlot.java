@@ -73,33 +73,25 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 		valueAxisLineColor = plot.getOwnValueAxisTickLabelColor();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getTimeAxisLabelExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getTimeAxisLabelExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getTimeAxisLabelFont()
 	{
 		return timeAxisLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTimeAxisLabelColor()
 	{
 		return getStyleResolver().getTimeAxisLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnTimeAxisLabelColor()
 	{
 		return timeAxisLabelColor;
@@ -112,25 +104,19 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getTimeAxisTickLabelFont()
 	{
 		return timeAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTimeAxisTickLabelColor()
 	{
 		return getStyleResolver().getTimeAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnTimeAxisTickLabelColor()
 	{
 		return timeAxisTickLabelColor;
@@ -143,33 +129,25 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getTimeAxisTickLabelMask()
 	{
 		return ((JRTimeSeriesPlot)parent).getTimeAxisTickLabelMask();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getTimeAxisVerticalTickLabels()
 	{
 		return ((JRTimeSeriesPlot)parent).getTimeAxisVerticalTickLabels();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTimeAxisLineColor()
 	{
 		return getStyleResolver().getTimeAxisLineColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnTimeAxisLineColor()
 	{
 		return timeAxisLineColor;
@@ -182,65 +160,49 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueAxisLabelExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getValueAxisLabelExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDomainAxisMinValueExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getDomainAxisMinValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDomainAxisMaxValueExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getDomainAxisMaxValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getRangeAxisMinValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getRangeAxisMaxValueExpression()
 	{
 		return ((JRTimeSeriesPlot)parent).getRangeAxisMaxValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getValueAxisLabelFont()
 	{
 		return valueAxisLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getValueAxisLabelColor()
 	{
 		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnValueAxisLabelColor()
 	{
 		return valueAxisLabelColor;
@@ -253,25 +215,19 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getValueAxisTickLabelFont()
 	{
 		return valueAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getValueAxisTickLabelColor()
 	{
 		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnValueAxisTickLabelColor()
 	{
 		return valueAxisTickLabelColor;
@@ -284,61 +240,45 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getValueAxisTickLabelMask()
 	{
 		return ((JRTimeSeriesPlot)parent).getValueAxisTickLabelMask();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getValueAxisVerticalTickLabels()
 	{
 		return ((JRTimeSeriesPlot)parent).getValueAxisVerticalTickLabels();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getValueAxisLineColor()
 	{
 		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnValueAxisLineColor()
 	{
 		return valueAxisLineColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowLines(){
 		return ((JRTimeSeriesPlot)parent).getShowLines();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setShowLines(Boolean showLines){
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowShapes(){
 		return ((JRTimeSeriesPlot)parent).getShowShapes();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setShowShapes(Boolean showLines){
 	}
 }

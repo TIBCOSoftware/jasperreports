@@ -78,52 +78,44 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getSeriesExpression()
 	{
 		return seriesExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getXValueExpression()
 	{
 		return xValueExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getYValueExpression()
 	{
 		return yValueExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return labelExpression;
 	}
 
 	
+	@Override
 	public JRHyperlink getItemHyperlink()
 	{
 		return itemHyperlink;
 	}
 	
+	@Override
 	public Boolean getAutoSort()
 	{
 		return autoSort;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseXySeries clone = null;

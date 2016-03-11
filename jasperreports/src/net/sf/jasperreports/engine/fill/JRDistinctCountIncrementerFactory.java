@@ -59,9 +59,7 @@ public class JRDistinctCountIncrementerFactory implements JRIncrementerFactory
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRIncrementer getIncrementer(byte calculation)
 	{
 		return new JRDistinctCountIncrementer();
@@ -86,9 +84,7 @@ class JRDistinctCountIncrementer implements JRIncrementer
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object increment(
 		JRFillVariable variable, 
 		Object expressionValue,

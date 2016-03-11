@@ -47,10 +47,12 @@ public class JRBaseCrosstabDataset extends JRBaseElementDataset implements JRCro
 		dataPreSorted = dataset.isDataPreSorted();
 	}
 
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 	}
 
+	@Override
 	public boolean isDataPreSorted()
 	{
 		return dataPreSorted;

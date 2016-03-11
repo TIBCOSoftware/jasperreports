@@ -144,9 +144,7 @@ public class GraphicStyle extends Style
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getId()
 	{
 		//return fill + "|" + backcolor
@@ -165,9 +163,7 @@ public class GraphicStyle extends Style
 		return id.toString();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void write(String lineStyleName)
 	{
 		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");

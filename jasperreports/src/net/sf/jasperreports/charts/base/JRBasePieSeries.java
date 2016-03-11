@@ -74,39 +74,32 @@ public class JRBasePieSeries implements JRPieSeries, Serializable
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getKeyExpression()
 	{
 		return keyExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getLabelExpression()
 	{
 		return labelExpression;
 	}
 
 	
+	@Override
 	public JRHyperlink getSectionHyperlink()
 	{
 		return sectionHyperlink;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBasePieSeries clone = null;

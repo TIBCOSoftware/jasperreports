@@ -41,9 +41,7 @@ public class JRPartFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRPartFactory.class);
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignPart part = new JRDesignPart();

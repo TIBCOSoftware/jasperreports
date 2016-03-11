@@ -670,11 +670,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		return legacyElementStretchEnabled;
 	}
 
+	@Override
 	public boolean isCurrentOverflow()
 	{
 		return currentOverflow;
 	}
 
+	@Override
 	public boolean isCurrentOverflowAllowed()
 	{
 		return currentOverflowAllowed;
@@ -1139,6 +1141,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	protected void initConditionalStyles()
 	{
 		filler.addDefaultStyleListener(new JRBaseFiller.DefaultStyleListener(){
+			@Override
 			public void defaultStyleSet(JRStyle style)
 			{
 				collectConditionalStyle(style);

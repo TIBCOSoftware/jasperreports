@@ -80,6 +80,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 	 * {@link ClassNotFoundException} attempts to load the class using the
 	 * context class loader.
 	 */
+	@Override
 	protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException,
 			ClassNotFoundException
 	{
@@ -116,6 +117,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 	 * {@link ClassNotFoundException} attempts to load the class using the
 	 * context class loader.
 	 */
+	@Override
 	protected Object resolveObject(Object obj) throws IOException//FIXMENOW fix the javadoc comment
 	{
 		Font font = (obj instanceof Font) ? (Font)obj : null;

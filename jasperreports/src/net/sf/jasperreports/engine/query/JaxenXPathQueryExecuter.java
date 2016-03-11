@@ -97,11 +97,13 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 		return JRXPathQueryExecuter.CANONICAL_LANGUAGE;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
 	}
 
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		JaxenXmlDataSource datasource = null;
@@ -135,11 +137,13 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 		return datasource;
 	}
 
+	@Override
 	public void close()
 	{
 		//nothing to do
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		//nothing to cancel

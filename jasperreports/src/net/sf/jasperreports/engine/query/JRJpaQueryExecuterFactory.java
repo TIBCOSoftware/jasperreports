@@ -64,6 +64,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory
 		PARAMETER_JPA_QUERY_HINTS_MAP, "java.util.Map"
 	};	
 	
+	@Override
 	public Object[] getBuiltinParameters() {
 		return JPA_BUILTIN_PARAMETERS;
 	}
@@ -82,6 +83,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 */
 	public static final String PROPERTY_JPA_QUERY_HINT_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.hint.";
 	
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
@@ -94,6 +96,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory
 	/**
 	 * Returns <code>true</code> for all parameter types.
 	 */
+	@Override
 	public boolean supportsQueryParameterType(String className) {
 		return true;
 	}

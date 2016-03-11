@@ -60,10 +60,12 @@ public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 		this.zippedData = Collections.synchronizedMap(new HashMap<String,byte[]>());
 	}
 
+	@Override
 	protected void dispose(String virtualId) {
 		zippedData.remove(virtualId);
 	}
 
+	@Override
 	protected void pageOut(JRVirtualizable o) throws IOException {
 		if (!zippedData.containsKey(o.getUID())) {
 			GZIPOutputStream gos = null;
@@ -92,6 +94,7 @@ public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 		}
 	}
 
+	@Override
 	protected void pageIn(JRVirtualizable o) throws IOException {
 		GZIPInputStream gis = null;
 		try {
@@ -118,6 +121,7 @@ public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 		}
 	}
 
+	@Override
 	public void cleanup()
 	{
 		zippedData.clear();

@@ -68,6 +68,7 @@ public class IconLabelElementJExcelApiHandler implements net.sf.jasperreports.en
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

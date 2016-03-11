@@ -60,6 +60,7 @@ public class DataMapping implements Mapping
 		return positions;
 	}
 
+	@Override
 	public Iterator memberMappings()
 	{
 		return filter == null ? new EmptyIt() : filter.iterator();
@@ -67,16 +68,19 @@ public class DataMapping implements Mapping
 	
 	protected static class EmptyIt implements Iterator
 	{
+		@Override
 		public void remove()
 		{
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public boolean hasNext()
 		{
 			return false;
 		}
 
+		@Override
 		public Object next()
 		{
 			return null;

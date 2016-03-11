@@ -51,6 +51,7 @@ public class DesignMultiAxisData extends BaseMultiAxisData implements JRChangeEv
 		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);
 	}
 	
+	@Override
 	public void addDataAxis(DataAxis axis)
 	{
 		super.addDataAxis(axis);
@@ -84,6 +85,7 @@ public class DesignMultiAxisData extends BaseMultiAxisData implements JRChangeEv
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

@@ -119,9 +119,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		setChart((JRDesignChart)element);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignChartAxis clone = (JRDesignChartAxis)super.clone();
@@ -139,6 +137,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

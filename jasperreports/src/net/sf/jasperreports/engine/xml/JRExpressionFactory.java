@@ -40,6 +40,7 @@ import org.xml.sax.Attributes;
 public class JRExpressionFactory extends JRBaseFactory
 {
 	
+	@Override
 	public Object createObject( Attributes attrs )
 	{
 		return new JRDesignExpression();
@@ -49,6 +50,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class ObjectExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Object.class.getName() );
@@ -60,6 +62,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class ConnectionExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Connection.class.getName() );
@@ -71,6 +74,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class DataSourceExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( JRDataSource.class.getName() );
@@ -82,6 +86,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class StringExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( String.class.getName() );
@@ -93,6 +98,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class DateExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Date.class.getName() );
@@ -104,6 +110,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class ComparableExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Comparable.class.getName() );
@@ -115,6 +122,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class IntegerExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Integer.class.getName() );
@@ -126,6 +134,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class DoubleExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Double.class.getName() );
@@ -137,6 +146,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class NumberExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Number.class.getName() );
@@ -148,6 +158,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class BooleanExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Boolean.class.getName() );
@@ -159,6 +170,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 * @deprecated To be removed.
 	 */
 	public static class MapExpressionFactory extends JRBaseFactory {
+		@Override
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( Map.class.getName() );
@@ -171,6 +183,7 @@ public class JRExpressionFactory extends JRBaseFactory
 	 */
 	public static class ComparatorExpressionFactory extends JRBaseFactory
 	{
+		@Override
 		public Object createObject(Attributes attrs)
 		{
 			JRDesignExpression expression = new JRDesignExpression();
@@ -205,6 +218,7 @@ public class JRExpressionFactory extends JRBaseFactory
 			this(defaultValueClass == null ? null : defaultValueClass.getName());
 		}
 
+		@Override
 		public Object createObject(Attributes attrs)
 		{
 			JRDesignExpression expression = new JRDesignExpression();

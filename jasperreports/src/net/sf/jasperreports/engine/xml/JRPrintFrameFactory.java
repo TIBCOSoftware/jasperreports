@@ -34,6 +34,7 @@ import org.xml.sax.Attributes;
 public class JRPrintFrameFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);

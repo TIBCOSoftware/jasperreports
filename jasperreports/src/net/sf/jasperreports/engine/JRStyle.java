@@ -322,9 +322,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 
 	public VerticalImageAlignEnum getOwnVerticalImageAlign();
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRLineBox getLineBox();
 
 

@@ -64,40 +64,30 @@ public class JRFillField implements JRField
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return parent.getName();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getDescription()
 	{
 		return parent.getDescription();
 	}
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setDescription(String description)
 	{
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getValueClass()
 	{
 		return parent.getValueClass();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getValueClassName()
 	{
 		return parent.getValueClassName();
@@ -194,26 +184,27 @@ public class JRFillField implements JRField
 	}
 
 	
+	@Override
 	public boolean hasProperties()
 	{
 		return parent.hasProperties();
 	}
 
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return parent.getPropertiesMap();
 	}
 
 	
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

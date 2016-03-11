@@ -40,9 +40,7 @@ import org.xml.sax.Attributes;
  */
 public class ChartSettingsXmlFactory extends JRBaseFactory
 {
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		StandardChartSettings chartSettings = new StandardChartSettings();
@@ -80,6 +78,7 @@ public class ChartSettingsXmlFactory extends JRBaseFactory
 	 */
 	public static class ChartTitleFactory extends JRBaseFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			StandardChartSettings chartSettings = (StandardChartSettings) digester.peek();
@@ -106,6 +105,7 @@ public class ChartSettingsXmlFactory extends JRBaseFactory
 	 */
 	public static class ChartSubtitleFactory extends JRBaseFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			StandardChartSettings chartSettings = (StandardChartSettings) digester.peek();
@@ -126,9 +126,7 @@ public class ChartSettingsXmlFactory extends JRBaseFactory
 	 */
 	public static class ChartLegendFactory extends JRBaseFactory
 	{
-		/**
-		 *
-		 */
+		@Override
 		public Object createObject(Attributes atts) throws JRException
 		{
 			// Grab the chart from the object stack.

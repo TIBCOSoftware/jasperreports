@@ -67,19 +67,19 @@ public class JRBaseHyperlinkParameter implements JRHyperlinkParameter, Serializa
 		this.valueExpression = factory.getExpression(parameter.getValueExpression());
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return valueExpression;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseHyperlinkParameter clone = null;

@@ -43,9 +43,7 @@ import org.xml.sax.Attributes;
 public class JRChartFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
@@ -102,6 +100,7 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRChartTitleFactory extends JRBaseFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
@@ -128,6 +127,7 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRChartSubtitleFactory extends JRBaseFactory
 	{
+		@Override
 		public Object createObject(Attributes atts)
 		{
 			JRDesignChart chart = (JRDesignChart) digester.peek();
@@ -150,9 +150,7 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRChartLegendFactory extends JRBaseFactory
 	{
-		/**
-		 *
-		 */
+		@Override
 		public Object createObject(Attributes atts) throws JRException
 		{
 			// Grab the chart from the object stack.
@@ -193,9 +191,7 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRChartAxisFormatFactory extends JRBaseFactory
 	{
-		/**
-		 *
-		 */
+		@Override
 		public Object createObject(Attributes atts) throws JRException
 		{
 			// Create an empty axis formatting object
@@ -251,9 +247,7 @@ public class JRChartFactory extends JRBaseFactory
 	 */
 	public static class JRCategoryAxisFormatFactory extends JRBaseFactory
 	{
-		/**
-		 *
-		 */
+		@Override
 		public Object createObject(Attributes atts) throws JRException
 		{
 			JRCategoryAxisFormat categoryAxisFormat = (JRCategoryAxisFormat)digester.peek();

@@ -39,6 +39,7 @@ public class JdkGlyphFixTextMeasurerFactory extends AbstractTextMeasurerFactory
 	/**
 	 * Creates a {@link JdkGlyphFixTextMeasurer} instance.
 	 */
+	@Override
 	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
 	{
 		return new JdkGlyphFixTextMeasurer(jasperReportsContext, text);

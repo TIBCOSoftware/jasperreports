@@ -34,6 +34,7 @@ public class USPSIntelligentMailComponent extends FourStateBarcodeComponent
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	@Override
 	public void receive(BarcodeVisitor visitor)
 	{
 		visitor.visitUSPSIntelligentMail(this);

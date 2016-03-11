@@ -76,6 +76,7 @@ public class HitTermInfo implements JRCloneable {
 		return pageNo;
 	}
 
+	@Override
 	public Object clone() {
 		try {
 			return super.clone();

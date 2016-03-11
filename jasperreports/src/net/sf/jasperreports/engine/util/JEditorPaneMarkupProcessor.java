@@ -43,6 +43,7 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 	 */
 	public static final class RtfFactory implements MarkupProcessorFactory
 	{ 
+		@Override
 		public MarkupProcessor createMarkupProcessor()
 		{
 			return JEditorPaneRtfMarkupProcessor.getInstance();
@@ -54,6 +55,7 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 	 */
 	public static final class HtmlFactory implements MarkupProcessorFactory
 	{ 
+		@Override
 		public MarkupProcessor createMarkupProcessor()
 		{
 			return JEditorPaneHtmlMarkupProcessor.getInstance();
@@ -150,9 +152,7 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 		return attrMap;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public abstract String convert(String srcText);
 	
 }

@@ -47,9 +47,7 @@ public class DefaultHyperlinkTargetProducerFactory extends JRHyperlinkTargetProd
 		this.jasperReportsContext = jasperReportsContext;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRHyperlinkTargetProducer getHyperlinkTargetProducer(String linkTarget)
 	{
 		if (linkTarget == null)

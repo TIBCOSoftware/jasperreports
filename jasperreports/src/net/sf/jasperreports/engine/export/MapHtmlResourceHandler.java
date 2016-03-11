@@ -70,9 +70,7 @@ public class MapHtmlResourceHandler implements HtmlResourceHandler
 		this((HtmlResourceHandler)null);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getResourcePath(String id)
 	{
 		if (parentHandler == null)
@@ -82,9 +80,7 @@ public class MapHtmlResourceHandler implements HtmlResourceHandler
 		return parentHandler.getResourcePath(id);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void handleResource(String id, byte[] data)
 	{
 		if (parentHandler != null)

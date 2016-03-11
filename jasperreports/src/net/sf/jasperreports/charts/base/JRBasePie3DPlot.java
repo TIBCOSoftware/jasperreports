@@ -101,17 +101,13 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	}
 
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Double getDepthFactorDouble()
 	{
 		return depthFactorDouble;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRItemLabel getItemLabel()
 	{
 		return itemLabel;
@@ -127,17 +123,13 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		getEventSupport().firePropertyChange(PROPERTY_DEPTH_FACTOR, old, this.depthFactorDouble);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 	}
 
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getCircular() {
 		return circular;
 	}
@@ -154,6 +146,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	/**
 	 * @return the labelFormat
 	 */
+	@Override
 	public String getLabelFormat() {
 		return labelFormat;
 	}
@@ -172,6 +165,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	/**
 	 * @return the legendLabelFormat
 	 */
+	@Override
 	public String getLegendLabelFormat() {
 		return legendLabelFormat;
 	}
@@ -195,9 +189,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getShowLabels(){
 		return showLabels;
 	}
@@ -211,6 +203,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
 	
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBasePie3DPlot clone = (JRBasePie3DPlot) super.clone(parentChart);

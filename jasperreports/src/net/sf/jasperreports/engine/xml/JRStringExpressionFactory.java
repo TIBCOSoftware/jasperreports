@@ -35,6 +35,7 @@ import org.xml.sax.Attributes;
 public class JRStringExpressionFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignExpression expression = new JRDesignExpression();

@@ -46,6 +46,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_mode = "mode";
 	public static final String ATTRIBUTE_style = "style";
 
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCellContents cell = new JRDesignCellContents();

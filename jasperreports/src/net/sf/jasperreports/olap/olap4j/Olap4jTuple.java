@@ -51,6 +51,7 @@ public class Olap4jTuple implements JROlapMemberTuple
 		}
 	}
 
+	@Override
 	public JROlapMember[] getMembers()
 	{
 		return members;

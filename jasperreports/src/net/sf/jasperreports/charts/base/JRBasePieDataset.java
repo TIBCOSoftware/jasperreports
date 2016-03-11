@@ -101,17 +101,13 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public Float getMinPercentage()
 	{
 		return minPercentage;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setMinPercentage(Float minPercentage)
 	{
 		Object old = this.minPercentage;
@@ -119,17 +115,13 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		getEventSupport().firePropertyChange(PROPERTY_MIN_PERCENTAGE, old, this.minPercentage);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getMaxCount()
 	{
 		return maxCount;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setMaxCount(Integer maxCount)
 	{
 		Object old = this.maxCount;
@@ -137,69 +129,53 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 		getEventSupport().firePropertyChange(PROPERTY_MAX_COUNT, old, this.maxCount);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPieSeries[] getSeries()
 	{
 		return pieSeries;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getOtherKeyExpression()
 	{
 		return otherKeyExpression;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getOtherLabelExpression()
 	{
 		return otherLabelExpression;
 	}
 
 
-	/** 
-	 * 
-	 */
+	@Override
 	public JRHyperlink getOtherSectionHyperlink()
 	{
 		return otherSectionHyperlink;
 	}
 
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.PIE_DATASET;
 	}
 		
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBasePieDataset clone = (JRBasePieDataset)super.clone();
@@ -213,6 +189,7 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

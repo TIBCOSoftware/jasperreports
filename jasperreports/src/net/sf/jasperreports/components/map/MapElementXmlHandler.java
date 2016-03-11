@@ -39,6 +39,7 @@ public class MapElementXmlHandler implements GenericElementXmlHandler
 	{
 		return INSTANCE;
 	}
+	@Override
 	public void exportElement(
 			JRXmlExporterContext exporterContext,
 		JRGenericPrintElement element
@@ -55,6 +56,7 @@ public class MapElementXmlHandler implements GenericElementXmlHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

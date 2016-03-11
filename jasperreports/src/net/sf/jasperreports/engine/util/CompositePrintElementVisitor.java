@@ -51,6 +51,7 @@ public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 		this.visitors = visitors;
 	}
 	
+	@Override
 	public void visit(JRPrintText textElement, T arg)
 	{
 		for (PrintElementVisitor<T> visitor : visitors)
@@ -59,6 +60,7 @@ public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 		}
 	}
 
+	@Override
 	public void visit(JRPrintImage image, T arg)
 	{
 		for (PrintElementVisitor<T> visitor : visitors)
@@ -67,6 +69,7 @@ public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 		}
 	}
 
+	@Override
 	public void visit(JRPrintRectangle rectangle, T arg)
 	{
 		for (PrintElementVisitor<T> visitor : visitors)
@@ -75,6 +78,7 @@ public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 		}
 	}
 
+	@Override
 	public void visit(JRPrintLine line, T arg)
 	{
 		for (PrintElementVisitor<T> visitor : visitors)
@@ -83,6 +87,7 @@ public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 		}
 	}
 
+	@Override
 	public void visit(JRPrintEllipse ellipse, T arg)
 	{
 		for (PrintElementVisitor<T> visitor : visitors)
@@ -91,6 +96,7 @@ public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 		}
 	}
 
+	@Override
 	public void visit(JRPrintFrame frame, T arg)
 	{
 		for (PrintElementVisitor<T> visitor : visitors)
@@ -99,6 +105,7 @@ public class CompositePrintElementVisitor<T> implements PrintElementVisitor<T>
 		}
 	}
 
+	@Override
 	public void visit(JRGenericPrintElement printElement, T arg)
 	{
 		for (PrintElementVisitor<T> visitor : visitors)

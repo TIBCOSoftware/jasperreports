@@ -39,6 +39,7 @@ import org.xml.sax.Attributes;
 public class JRPrintHyperlinkParameterFactory extends JRBaseFactory
 {
 	
+	@Override
 	public Object createObject(Attributes attrs)
 	{
 		JRPrintHyperlinkParameter parameter = new JRPrintHyperlinkParameter();

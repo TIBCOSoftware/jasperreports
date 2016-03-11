@@ -67,6 +67,7 @@ public interface QueryExecuterFactory extends JRQueryExecuterFactory
 	 * 
 	 * @return array of built-in parameter names and types associated with this query type
 	 */
+	@Override
 	public Object[] getBuiltinParameters();
 	
 	
@@ -99,6 +100,7 @@ public interface QueryExecuterFactory extends JRQueryExecuterFactory
 	 * @param className the value class name of the parameter
 	 * @return whether the parameter value type is supported
 	 */
+	@Override
 	public boolean supportsQueryParameterType(String className);
 
 

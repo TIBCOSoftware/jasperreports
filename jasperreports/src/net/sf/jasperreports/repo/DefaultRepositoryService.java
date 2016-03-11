@@ -88,9 +88,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		this.fileResolver = fileResolver;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public InputStream getInputStream(String uri)
 	{
 		try
@@ -121,17 +119,13 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		return null;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public OutputStream getOutputStream(String uri)
 	{
 		throw new UnsupportedOperationException();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Resource getResource(String uri)
 	{
 		throw 
@@ -140,17 +134,13 @@ public class DefaultRepositoryService implements StreamRepositoryService
 				(Object[])null);//FIXMEREPO
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void saveResource(String uri, Resource resource)
 	{
 		throw new UnsupportedOperationException();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
 		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(DefaultRepositoryService.class, resourceType);

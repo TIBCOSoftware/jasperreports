@@ -48,6 +48,7 @@ public class HideUnhideColumnsAction extends AbstractVerifiableTableAction {
 		return "hide_unhide_column_action";
 	}
 
+	@Override
 	public void performAction() throws ActionException
 	{
 		// execute command

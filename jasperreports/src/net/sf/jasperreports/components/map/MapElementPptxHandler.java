@@ -40,6 +40,7 @@ public class MapElementPptxHandler implements GenericElementPptxHandler
 		return INSTANCE;
 	}
 	
+	@Override
 	public void exportElement(
 		JRPptxExporterContext exporterContext,
 		JRGenericPrintElement element
@@ -56,6 +57,7 @@ public class MapElementPptxHandler implements GenericElementPptxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

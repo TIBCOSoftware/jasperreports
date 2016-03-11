@@ -61,11 +61,13 @@ public class Olap4jQueryExecuterFactory extends AbstractQueryExecuterFactory
 		System.arraycopy(xmlaParams, 0, MDX_BUILTIN_PARAMETERS, mondrianParams.length, xmlaParams.length);
 	}
 	
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return MDX_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
@@ -95,6 +97,7 @@ public class Olap4jQueryExecuterFactory extends AbstractQueryExecuterFactory
 		return valueParam == null ? null : valueParam.getValue();
 	}
 	
+	@Override
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;

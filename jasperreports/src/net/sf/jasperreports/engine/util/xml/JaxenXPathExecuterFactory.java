@@ -32,6 +32,7 @@ package net.sf.jasperreports.engine.util.xml;
 public class JaxenXPathExecuterFactory implements JRXPathExecuterFactory
 {
 
+	@Override
 	public JRXPathExecuter getXPathExecuter()
 	{
 		return new JaxenXPathExecuter();

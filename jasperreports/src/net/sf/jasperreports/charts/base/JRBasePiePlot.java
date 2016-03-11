@@ -95,9 +95,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		showLabels = piePlot.getShowLabels();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 	}
@@ -106,6 +104,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 * @return the circular
 	 */
+	@Override
 	public Boolean getCircular() {
 		return circular;
 	}
@@ -123,6 +122,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 * @return the labelFormat
 	 */
+	@Override
 	public String getLabelFormat() {
 		return labelFormat;
 	}
@@ -141,13 +141,12 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 * @return the legendLabelFormat
 	 */
+	@Override
 	public String getLegendLabelFormat() {
 		return legendLabelFormat;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRItemLabel getItemLabel()
 	{
 		return itemLabel;
@@ -171,9 +170,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getShowLabels(){
 		return showLabels;
 	}
@@ -187,9 +184,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBasePiePlot clone = (JRBasePiePlot)super.clone(parentChart);

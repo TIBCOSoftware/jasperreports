@@ -109,12 +109,14 @@ public class Olap4jXmlaQueryExecuter extends JRAbstractQueryExecuter
 		return JRMdxQueryExecuterFactory.CANONICAL_LANGUAGE;
 	}
 
+	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
 	}
 
 	
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		
@@ -181,11 +183,13 @@ public class Olap4jXmlaQueryExecuter extends JRAbstractQueryExecuter
 		return new JROlapDataSource(dataset, xmlaResult);
 	}
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		return false;
 	}
 
+	@Override
 	public void close()
 	{
 		if (rConnection != null)

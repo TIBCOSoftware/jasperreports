@@ -42,81 +42,61 @@ public class JRDefaultScriptlet extends JRAbstractScriptlet
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeReportInit() throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterReportInit() throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforePageInit() throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterPageInit() throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeColumnInit() throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterColumnInit() throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeGroupInit(String groupName) throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterGroupInit(String groupName) throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeDetailEval() throws JRScriptletException
 	{
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterDetailEval() throws JRScriptletException
 	{
 	}

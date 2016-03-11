@@ -71,9 +71,6 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	}
 
 
-	/**
-	 *
-	 */
 	@Override
 	public RenderableTypeEnum getTypeValue()
 	{
@@ -81,9 +78,6 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	}
 
 
-	/**
-	 *
-	 */
 	@Override
 	public ImageTypeEnum getImageTypeValue()
 	{
@@ -91,9 +85,6 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	}
 
 
-	/**
-	 *
-	 */
 	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
 	{

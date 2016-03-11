@@ -52,16 +52,19 @@ public class TableReportGroup implements JRGroup
 		this.datasetGroup = datasetGroup;
 	}
 
+	@Override
 	public JRVariable getCountVariable()
 	{
 		return datasetGroup.getCountVariable();
 	}
 
+	@Override
 	public JRExpression getExpression()
 	{
 		return datasetGroup.getExpression();
 	}
 
+	@Override
 	public FooterPositionEnum getFooterPositionValue()
 	{
 		return datasetGroup.getFooterPositionValue();
@@ -92,6 +95,7 @@ public class TableReportGroup implements JRGroup
 		return section;
 	}
 	
+	@Override
 	public JRSection getGroupFooterSection()
 	{
 		return footerSection;
@@ -109,81 +113,97 @@ public class TableReportGroup implements JRGroup
 		this.headerSection = wrapBand(header, BandTypeEnum.GROUP_HEADER);
 	}
 
+	@Override
 	public JRSection getGroupHeaderSection()
 	{
 		return headerSection;
 	}
 
+	@Override
 	public int getMinHeightToStartNewPage()
 	{
 		return datasetGroup.getMinHeightToStartNewPage();
 	}
 
+	@Override
 	public String getName()
 	{
 		return datasetGroup.getName();
 	}
 
+	@Override
 	public boolean isKeepTogether()
 	{
 		return datasetGroup.isKeepTogether();
 	}
 
+	@Override
 	public boolean isReprintHeaderOnEachPage()
 	{
 		return datasetGroup.isReprintHeaderOnEachPage();
 	}
 
+	@Override
 	public boolean isResetPageNumber()
 	{
 		return datasetGroup.isResetPageNumber();
 	}
 
+	@Override
 	public boolean isStartNewColumn()
 	{
 		return datasetGroup.isStartNewColumn();
 	}
 
+	@Override
 	public boolean isStartNewPage()
 	{
 		return datasetGroup.isStartNewPage();
 	}
 
+	@Override
 	public void setFooterPosition(FooterPositionEnum footerPosition)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setKeepTogether(boolean keepTogether)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setMinHeightToStartNewPage(int minHeight)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setReprintHeaderOnEachPage(boolean isReprint)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setResetPageNumber(boolean isReset)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setStartNewColumn(boolean isStart)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setStartNewPage(boolean isStart)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object clone()
 	{
 		throw new UnsupportedOperationException();

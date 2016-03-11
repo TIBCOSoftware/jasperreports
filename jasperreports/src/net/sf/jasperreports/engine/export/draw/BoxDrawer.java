@@ -54,9 +54,7 @@ public class BoxDrawer extends ElementDrawer<JRPrintElement>
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY) throws JRException
 	{
 		drawBox(grx, (JRLineBox)element, element, offsetX, offsetY);

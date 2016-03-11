@@ -91,6 +91,7 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		return store;
 	}
 	
+	@Override
 	protected void pageOut(JRVirtualizable o) throws IOException
 	{
 		VirtualizerStore store = store(o, true);
@@ -101,6 +102,7 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		}
 	}
 
+	@Override
 	protected void pageIn(JRVirtualizable o) throws IOException
 	{
 		VirtualizerStore store = store(o, false);
@@ -132,6 +134,7 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		store.remove(o.getUID());
 	}
 	
+	@Override
 	protected void dispose(String id)
 	{
 		// should not get here
@@ -163,6 +166,7 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		}
 	}
 	
+	@Override
 	public void cleanup()
 	{
 		if (log.isDebugEnabled())

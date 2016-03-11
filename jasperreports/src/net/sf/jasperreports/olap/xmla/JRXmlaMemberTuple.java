@@ -40,6 +40,7 @@ public class JRXmlaMemberTuple implements JROlapMemberTuple
 		this.members = new JRXmlaMember[memberCount];
 	}
 	
+	@Override
 	public JROlapMember[] getMembers()
 	{
 		return members;

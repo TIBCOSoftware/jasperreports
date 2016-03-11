@@ -43,6 +43,7 @@ public class StoreVirtualizer extends JRAbstractLRUVirtualizer
 		this.store = store;
 	}
 
+	@Override
 	protected void pageOut(JRVirtualizable o) throws IOException
 	{
 		boolean stored = store.store(o, serializer);
@@ -52,16 +53,19 @@ public class StoreVirtualizer extends JRAbstractLRUVirtualizer
 		}
 	}
 
+	@Override
 	protected void pageIn(JRVirtualizable o) throws IOException
 	{
 		store.retrieve(o, !isReadOnly(o), serializer);
 	}
 
+	@Override
 	protected void dispose(String id)
 	{
 		store.remove(id);
 	}
 	
+	@Override
 	public void cleanup()
 	{
 		store.dispose();

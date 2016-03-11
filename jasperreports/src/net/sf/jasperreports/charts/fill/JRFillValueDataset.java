@@ -59,70 +59,55 @@ public class JRFillValueDataset extends JRFillChartDataset implements JRValueDat
 		super(valueDataset, factory);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return ((JRValueDataset)parent).getValueExpression();
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customInitialize()
 	{
 		valueDataset = new DefaultValueDataset();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		value = (Number)calculator.evaluate(getValueExpression());
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void customIncrement()
 	{
 		valueDataset.setValue(value);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Dataset getCustomDataset()
 	{
 		return valueDataset;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getLabelGenerator()
 	{
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.VALUE_DATASET;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);

@@ -54,9 +54,7 @@ public enum VerticalImageAlignEnum implements NamedEnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

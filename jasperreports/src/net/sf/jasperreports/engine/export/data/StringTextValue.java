@@ -37,6 +37,7 @@ public class StringTextValue extends TextValue
 		super(text);
 	}
 
+	@Override
 	public void handle(TextValueHandler handler) throws JRException
 	{
 		handler.handle(this);

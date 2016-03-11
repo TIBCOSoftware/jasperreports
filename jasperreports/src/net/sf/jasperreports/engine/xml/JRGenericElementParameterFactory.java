@@ -35,6 +35,7 @@ import org.xml.sax.Attributes;
 public class JRGenericElementParameterFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		JRDesignGenericElementParameter param = new JRDesignGenericElementParameter();

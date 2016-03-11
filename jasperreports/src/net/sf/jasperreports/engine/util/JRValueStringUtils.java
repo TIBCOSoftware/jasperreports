@@ -179,11 +179,13 @@ public final class JRValueStringUtils
 	
 	protected static class StringSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			return data;
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return (String) value;
@@ -195,6 +197,7 @@ public final class JRValueStringUtils
 	{
 		public static final String EXCEPTION_MESSAGE_KEY_SINGLE_CHARACTER_EXPECTED = "util.character.serializer.single.character.expected";
 
+		@Override
 		public Object deserialize(String data)
 		{
 			if (data.length() != 1)
@@ -207,6 +210,7 @@ public final class JRValueStringUtils
 			return new Character(data.charAt(0));
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return String.valueOf(new char[]{((Character) value).charValue()});
@@ -218,6 +222,7 @@ public final class JRValueStringUtils
 	{
 		public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_DATA = "util.boolean.serializer.unknown.data";
 
+		@Override
 		public Object deserialize(String data)
 		{
 			if (data.equals("true"))
@@ -234,6 +239,7 @@ public final class JRValueStringUtils
 					new Object[]{data});
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((Boolean) value).booleanValue() ? "true" : "false";
@@ -243,6 +249,7 @@ public final class JRValueStringUtils
 	
 	protected static class ByteSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -259,6 +266,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((Byte) value).toString();
@@ -268,6 +276,7 @@ public final class JRValueStringUtils
 	
 	protected static class ShortSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -284,6 +293,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((Short) value).toString();
@@ -293,6 +303,7 @@ public final class JRValueStringUtils
 	
 	protected static class IntegerSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -309,6 +320,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((Integer) value).toString();
@@ -318,6 +330,7 @@ public final class JRValueStringUtils
 	
 	protected static class LongSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -334,6 +347,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((Long) value).toString();
@@ -343,6 +357,7 @@ public final class JRValueStringUtils
 	
 	protected static class FloatSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -359,6 +374,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((Float) value).toString();
@@ -368,6 +384,7 @@ public final class JRValueStringUtils
 	
 	protected static class DoubleSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -384,6 +401,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((Double) value).toString();
@@ -393,6 +411,7 @@ public final class JRValueStringUtils
 	
 	protected static class BigIntegerSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -409,6 +428,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((java.math.BigInteger) value).toString();
@@ -418,6 +438,7 @@ public final class JRValueStringUtils
 	
 	protected static class BigDecimalSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -434,6 +455,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return ((java.math.BigDecimal) value).toString();
@@ -443,6 +465,7 @@ public final class JRValueStringUtils
 	
 	protected static class DateSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -460,6 +483,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			return Long.toString(((java.util.Date) value).getTime());
@@ -469,6 +493,7 @@ public final class JRValueStringUtils
 	
 	protected static class TimestampSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -485,6 +510,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			java.sql.Timestamp timestamp = (java.sql.Timestamp) value;
@@ -495,6 +521,7 @@ public final class JRValueStringUtils
 	
 	protected static class TimeSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -511,6 +538,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			java.sql.Time timestamp = (java.sql.Time) value;
@@ -521,6 +549,7 @@ public final class JRValueStringUtils
 	
 	protected static class DefaultSerializer implements ValueSerializer
 	{
+		@Override
 		public Object deserialize(String data)
 		{
 			try
@@ -548,6 +577,7 @@ public final class JRValueStringUtils
 			}
 		}
 
+		@Override
 		public String serialize(Object value)
 		{
 			try

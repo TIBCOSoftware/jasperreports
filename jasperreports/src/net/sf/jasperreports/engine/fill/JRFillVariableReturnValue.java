@@ -65,11 +65,13 @@ public class JRFillVariableReturnValue extends JRFillCommonReturnValue implement
 		this.fromVariable = fillReturnValue.fromVariable;
 	}
 
+	@Override
 	public String getFromVariable()
 	{
 		return fromVariable;
 	}
 
+	@Override
 	protected JRFillCommonReturnValue addDerivedReturnValue (
 			CommonReturnValue parentReturnValue, 
 			List<JRFillCommonReturnValue> returnValueList, 
@@ -81,6 +83,7 @@ public class JRFillVariableReturnValue extends JRFillCommonReturnValue implement
 		return addReturnValue(returnValue, returnValueList, factory, filler);
 	}
 	
+	@Override
 	protected CommonReturnValue createHelperReturnValue(CommonReturnValue returnValue, String nameSuffix, CalculationEnum calculation)
 	{
 		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();
@@ -92,6 +95,7 @@ public class JRFillVariableReturnValue extends JRFillCommonReturnValue implement
 		return helper;
 	}
 
+	@Override
 	protected CommonReturnValue createDistinctCountHelperReturnValue(CommonReturnValue returnValue)
 	{
 		JRDesignSubreportReturnValue helper = new JRDesignSubreportReturnValue();

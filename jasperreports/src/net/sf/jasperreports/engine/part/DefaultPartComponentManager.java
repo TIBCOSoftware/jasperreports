@@ -38,6 +38,7 @@ public class DefaultPartComponentManager implements PartComponentManager
 	private PartComponentXmlWriter componentXmlWriter;
 	private PartComponentFillFactory componentFillFactory;
 
+	@Override
 	public PartComponentFillFactory getComponentFillFactory(JasperReportsContext jasperReportsContext)
 	{
 		return componentFillFactory;
@@ -55,6 +56,7 @@ public class DefaultPartComponentManager implements PartComponentManager
 	}
 
 	
+	@Override
 	public PartComponentCompiler getComponentCompiler(JasperReportsContext jasperReportsContext)
 	{
 		return componentCompiler;
@@ -71,6 +73,7 @@ public class DefaultPartComponentManager implements PartComponentManager
 		this.componentCompiler = componentCompiler;
 	}
 	
+	@Override
 	public PartComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		return componentXmlWriter;

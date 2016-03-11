@@ -56,46 +56,55 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		percentageCalculator = createPercentageCalculator();
 	}
 
+	@Override
 	public String getName()
 	{
 		return parentMeasure.getName();
 	}
 
+	@Override
 	public String getValueClassName()
 	{
 		return parentMeasure.getValueClassName();
 	}
 
+	@Override
 	public Class<?> getValueClass()
 	{
 		return parentMeasure.getValueClass();
 	}
 
+	@Override
 	public JRExpression getValueExpression()
 	{
 		return parentMeasure.getValueExpression();
 	}
 
+	@Override
 	public CalculationEnum getCalculationValue()
 	{
 		return parentMeasure.getCalculationValue();
 	}
 
+	@Override
 	public String getIncrementerFactoryClassName()
 	{
 		return parentMeasure.getIncrementerFactoryClassName();
 	}
 
+	@Override
 	public Class<?> getIncrementerFactoryClass()
 	{
 		return parentMeasure.getIncrementerFactoryClass();
 	}
 
+	@Override
 	public CrosstabPercentageEnum getPercentageType()
 	{
 		return parentMeasure.getPercentageType();
 	}
 
+	@Override
 	public JRVariable getVariable()
 	{
 		return variable;
@@ -152,19 +161,19 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		return percentageCalc;
 	}
 
+	@Override
 	public String getPercentageCalculatorClassName()
 	{
 		return parentMeasure.getPercentageCalculatorClassName();
 	}
 
+	@Override
 	public Class<?> getPercentageCalculatorClass()
 	{
 		return parentMeasure.getPercentageCalculatorClass();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();

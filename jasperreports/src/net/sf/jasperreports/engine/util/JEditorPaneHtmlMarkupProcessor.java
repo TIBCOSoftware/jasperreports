@@ -71,9 +71,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		return instance;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String convert(String srcText)
 	{
 		JEditorPane editorPane = new JEditorPane("text/html", srcText);
@@ -264,9 +262,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		}
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	protected Map<Attribute,Object> getAttributes(AttributeSet attrSet) 
 	{
 		Map<Attribute,Object> attrMap = new HashMap<Attribute,Object>();

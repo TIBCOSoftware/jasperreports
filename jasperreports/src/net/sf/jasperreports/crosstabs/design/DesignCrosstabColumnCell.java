@@ -75,6 +75,7 @@ public class DesignCrosstabColumnCell extends BaseCrosstabColumnCell implements 
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

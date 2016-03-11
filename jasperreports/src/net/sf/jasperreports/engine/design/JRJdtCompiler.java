@@ -137,9 +137,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	}	
 	
 
-	/**
-	 *
-	 */
+	@Override
 	protected String compileUnits(final JRCompilationUnit[] units, String classpath, File tempDirFile)
 	{
 		final INameEnvironment env = getNameEnvironment(units);
@@ -176,6 +174,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	{
 		final INameEnvironment env = new INameEnvironment() 
 		{
+			@Override
 			public NameEnvironmentAnswer findType(char[][] compoundTypeName) 
 			{
 				StringBuffer result = new StringBuffer();
@@ -188,6 +187,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				return findType(result.toString());
 			}
 
+			@Override
 			public NameEnvironmentAnswer findType(char[] typeName, char[][] packageName) 
 			{
 				StringBuffer result = new StringBuffer();
@@ -354,6 +354,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				return isPackage;
 			}
 
+			@Override
 			public boolean isPackage(char[][] parentPackageName, char[] packageName) 
 			{
 				StringBuffer result = new StringBuffer();
@@ -379,6 +380,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				return isPackage(result.toString());
 			}
 
+			@Override
 			public void cleanup() 
 			{
 			}
@@ -489,6 +491,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	}
 
 	
+	@Override
 	protected void checkLanguage(String language) throws JRException
 	{		
 		if (!JRReport.LANGUAGE_JAVA.equals(language))
@@ -517,18 +520,21 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	}
 
 	
+	@Override
 	protected JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException
 	{
 		return JRClassGenerator.generateClass(sourceTask);
 	}
 
 	
+	@Override
 	protected String getSourceFileName(String unitName)
 	{
 		return unitName + ".java";
 	}
 
 
+	@Override
 	protected String getCompilerClass()
 	{
 		return JRJavacCompiler.class.getName();
@@ -558,6 +564,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			reset();
 		}
 			
+		@Override
 		public void acceptResult(CompilationResult result) 
 		{
 			String className = ((CompilationUnit) result.getCompilationUnit()).className;
@@ -810,26 +817,31 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			this.className = className;
 		}
 
+		@Override
 		public char[] getFileName() 
 		{
 			return className.toCharArray();
 		}
 
+		@Override
 		public char[] getContents() 
 		{
 			return srcCode.toCharArray();
 		}
 
+		@Override
 		public char[] getMainTypeName() 
 		{
 			return className.toCharArray();
 		}
 
+		@Override
 		public char[][] getPackageName() 
 		{
 			return new char[0][0];
 		}
 
+		@Override
 		public boolean ignoreOptionalProblems() 
 		{
 			return false;

@@ -40,9 +40,7 @@ public class JRPrintGraphicElementFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRPrintGraphicElementFactory.class);
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRBasePrintGraphicElement graphicElement = (JRBasePrintGraphicElement)digester.peek();

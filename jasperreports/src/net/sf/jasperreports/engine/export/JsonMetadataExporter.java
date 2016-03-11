@@ -257,27 +257,20 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<JsonExporterConfiguration> getConfigurationInterface()
 	{
 		return JsonExporterConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected Class<JsonMetadataReportConfiguration> getItemConfigurationInterface()
 	{
 		return JsonMetadataReportConfiguration.class;
 	}
 
 
-	/**
-	 *
-	 */
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void ensureOutput()
@@ -1229,6 +1222,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			name = _name;
 		}
 
+		@Override
 		public String getName() 
 		{
 			return name;
@@ -1257,10 +1251,12 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			return value;
 		}
 
+		@Override
 		public void handle(StringTextValue textValue) {
 			value = textValue.getText();
 		}
 
+		@Override
 		public void handle(NumberTextValue textValue) {
 			if (hasDataProp) {
 				if (textStr != null) {
@@ -1275,6 +1271,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			}
 		}
 
+		@Override
 		public void handle(DateTextValue textValue) {
 			if (hasDataProp) {
 				if (textStr != null) {
@@ -1293,6 +1290,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			}
 		}
 
+		@Override
 		public void handle(BooleanTextValue textValue) {
 			value = hasDataProp ? Boolean.valueOf(textStr) : textValue.getValue();
 		}

@@ -54,6 +54,7 @@ public class BaseComponentContext implements ComponentContext, Serializable
 		this.element = element;
 	}
 	
+	@Override
 	public JRComponentElement getComponentElement()
 	{
 		return element;

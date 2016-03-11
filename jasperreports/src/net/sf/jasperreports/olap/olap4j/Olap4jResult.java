@@ -61,11 +61,13 @@ public class Olap4jResult implements JROlapResult
 		}
 	}
 
+	@Override
 	public JROlapResultAxis[] getAxes()
 	{
 		return axes;
 	}
 
+	@Override
 	public JROlapCell getCell(int[] axisPositions)
 	{
 		List<Integer> positions = new ArrayList<Integer>(axisPositions.length);

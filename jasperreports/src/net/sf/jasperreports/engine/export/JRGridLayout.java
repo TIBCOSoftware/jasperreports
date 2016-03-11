@@ -915,6 +915,7 @@ public class JRGridLayout
 			hashCode = hash;
 		}
 
+		@Override
 		public boolean equals(Object obj)
 		{
 			if (obj == this)
@@ -929,6 +930,7 @@ public class JRGridLayout
 				b.left == left && b.right == right && b.top == top && b.bottom == bottom;
 		}
 
+		@Override
 		public int hashCode()
 		{
 			return hashCode;

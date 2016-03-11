@@ -124,6 +124,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		writeExpression("patternExpression", barcode.getPatternExpression(), false);
 	}
 	
+	@Override
 	public void visitCodabar(CodabarComponent codabar)
 	{
 		try
@@ -140,6 +141,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitCode128(Code128Component code128)
 	{
 		try
@@ -155,6 +157,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitDataMatrix(DataMatrixComponent dataMatrix)
 	{
 		try
@@ -171,6 +174,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitEANCode128(EAN128Component ean128)
 	{
 		try
@@ -191,6 +195,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitCode39(Code39Component code39)
 	{
 		try
@@ -212,6 +217,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitUPCA(UPCAComponent upcA)
 	{
 		try
@@ -228,6 +234,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitUPCE(UPCEComponent upcE)
 	{
 		try
@@ -244,6 +251,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitEAN13(EAN13Component ean13)
 	{
 		try
@@ -260,6 +268,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitEAN8(EAN8Component ean8)
 	{
 		try
@@ -276,6 +285,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitInterleaved2Of5(Interleaved2Of5Component interleaved2Of5)
 	{
 		try
@@ -302,6 +312,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		xmlWriteHelper.addAttribute("trackHeight", barcode.getTrackHeight());
 	}
 	
+	@Override
 	public void visitRoyalMailCustomer(
 			RoyalMailCustomerComponent royalMailCustomer)
 	{
@@ -319,6 +330,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitUSPSIntelligentMail(
 			USPSIntelligentMailComponent intelligentMail)
 	{
@@ -336,6 +348,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitPostnet(POSTNETComponent postnet)
 	{
 		try
@@ -356,6 +369,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 
+	@Override
 	public void visitPDF417(PDF417Component pdf417)
 	{
 		try
@@ -377,6 +391,7 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		}
 	}
 	
+	@Override
 	public void visitQRCode(QRCodeComponent qrCode)
 	{
 		try

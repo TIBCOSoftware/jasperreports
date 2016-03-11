@@ -68,9 +68,7 @@ public class ReportOutputServlet extends AbstractServlet
 	private static final String TEMPLATE_FOOTER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplateNoPages.vm";
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void service(
 		HttpServletRequest request,
 		HttpServletResponse response

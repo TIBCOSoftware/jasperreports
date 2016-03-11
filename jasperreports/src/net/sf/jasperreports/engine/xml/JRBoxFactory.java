@@ -43,9 +43,7 @@ public class JRBoxFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRBoxFactory.class);
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRBoxContainer boxContainer = (JRBoxContainer) digester.peek();

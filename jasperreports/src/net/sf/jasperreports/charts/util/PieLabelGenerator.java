@@ -47,11 +47,13 @@ public class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
 		this.labels = labels;
 	}
 	
+	@Override
 	public String generateSectionLabel(PieDataset arg0, @SuppressWarnings("rawtypes") Comparable arg1)
 	{
 		return labels.get( arg1 );
 	}
 
+	@Override
 	public AttributedString generateAttributedSectionLabel(PieDataset arg0, @SuppressWarnings("rawtypes") Comparable arg1)
 	{
 		return new AttributedString(generateSectionLabel(arg0, arg1));//FIXMECHART check this

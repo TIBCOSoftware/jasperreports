@@ -122,9 +122,7 @@ public class JRDesignXySeries extends JRBaseXySeries implements JRChangeEventsSu
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignXySeries clone = (JRDesignXySeries)super.clone();
@@ -134,6 +132,7 @@ public class JRDesignXySeries extends JRBaseXySeries implements JRChangeEventsSu
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

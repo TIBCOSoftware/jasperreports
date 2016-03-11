@@ -33,9 +33,7 @@ import org.xml.sax.Attributes;
  */
 public class JRParameterFactory extends JRBaseFactory
 {
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignParameter parameter = new JRDesignParameter();

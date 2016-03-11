@@ -126,235 +126,175 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		rangeAxisMaxValueExpression = factory.getExpression( bubblePlot.getRangeAxisMaxValueExpression() );
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getXAxisLabelExpression(){
 		return xAxisLabelExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getXAxisLabelFont()
 	{
 		return xAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisLabelColor()
 	{
 		return getStyleResolver().getXAxisLabelColor(this, this);
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisLabelColor()
 	{
 		return xAxisLabelColor;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getXAxisTickLabelFont()
 	{
 		return xAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisTickLabelColor()
 	{
 		return getStyleResolver().getXAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisTickLabelColor()
 	{
 		return xAxisTickLabelColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getXAxisTickLabelMask()
 	{
 		return xAxisTickLabelMask;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getXAxisVerticalTickLabels()
 	{
 		return xAxisVerticalTickLabels;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisLineColor()
 	{
 		return getStyleResolver().getXAxisLineColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisLineColor()
 	{
 		return xAxisLineColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getYAxisLabelExpression(){
 		return yAxisLabelExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getYAxisLabelFont()
 	{
 		return yAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisLabelColor()
 	{
 		return getStyleResolver().getYAxisLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisLabelColor()
 	{
 		return yAxisLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getYAxisTickLabelFont()
 	{
 		return yAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisTickLabelColor()
 	{
 		return getStyleResolver().getYAxisTickLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisTickLabelColor()
 	{
 		return yAxisTickLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getYAxisTickLabelMask()
 	{
 		return yAxisTickLabelMask;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getYAxisVerticalTickLabels()
 	{
 		return yAxisVerticalTickLabels;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisLineColor()
 	{
 		return getStyleResolver().getYAxisLineColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisLineColor()
 	{
 		return yAxisLineColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleTypeEnum getScaleTypeValue(){
 		return scaleTypeValue;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMinValueExpression(){
 		return domainAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMaxValueExpression(){
 		return domainAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMinValueExpression(){
 		return rangeAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMaxValueExpression(){
 		return rangeAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setScaleType( ScaleTypeEnum scaleTypeValue ){
 		ScaleTypeEnum old = this.scaleTypeValue;
 		this.scaleTypeValue = scaleTypeValue;
 		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, old, this.scaleTypeValue);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseBubblePlot clone = (JRBaseBubblePlot)super.clone(parentChart);

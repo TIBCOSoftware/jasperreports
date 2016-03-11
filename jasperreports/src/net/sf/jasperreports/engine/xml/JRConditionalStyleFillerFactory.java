@@ -38,9 +38,7 @@ public class JRConditionalStyleFillerFactory extends JRAbstractStyleFactory
 	private static final Log log = LogFactory.getLog(JRConditionalStyleFillerFactory.class);
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignConditionalStyle style = (JRDesignConditionalStyle) digester.peek();
@@ -69,6 +67,7 @@ public class JRConditionalStyleFillerFactory extends JRAbstractStyleFactory
 		return style;
 	}
 
+	@Override
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
 	{
 		//nothing to do

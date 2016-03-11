@@ -80,50 +80,38 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 		super(graphicElement, originator);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPen getLinePen()
 	{
 		return ((JRTemplateGraphicElement)template).getLinePen();
 	}
 		
 
-	/**
-	 * 
-	 */
+	@Override
 	public FillEnum getFillValue()
 	{
 		return ((JRTemplateGraphicElement)this.template).getFillValue();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public FillEnum getOwnFillValue()
 	{
 		return ((JRTemplateGraphicElement)this.template).getOwnFillValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setFill(FillEnum fill)
 	{
 		throw new UnsupportedOperationException();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Float getDefaultLineWidth() 
 	{
 		return ((JRTemplateGraphicElement)template).getDefaultLineWidth();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return ((JRTemplateGraphicElement)template).getDefaultLineColor();

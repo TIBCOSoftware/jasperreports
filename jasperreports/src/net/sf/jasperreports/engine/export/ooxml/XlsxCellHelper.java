@@ -182,18 +182,22 @@ class TypeTextValueHandler implements TextValueHandler
 	TypeTextValueHandler(){
 	}
 	
+	@Override
 	public void handle(BooleanTextValue textValue) throws JRException {
 		type = "b";
 	}
 	
+	@Override
 	public void handle(DateTextValue textValue) throws JRException {
 		type = null;//"d"; //mantis #5192 : invalid file in ms office 2010
 	}
 	
+	@Override
 	public void handle(NumberTextValue textValue) throws JRException {
 		type = "n";
 	}
 	
+	@Override
 	public void handle(StringTextValue textValue) throws JRException {
 		type = "inlineStr";
 	}

@@ -58,11 +58,13 @@ public class JRXmlaQueryExecuterFactory extends AbstractQueryExecuterFactory
 		PARAMETER_XMLA_PASSWORD, "java.lang.String",
 	};
 
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return XMLA_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
@@ -72,6 +74,7 @@ public class JRXmlaQueryExecuterFactory extends AbstractQueryExecuterFactory
 		return new JRXmlaQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;

@@ -97,9 +97,7 @@ public class JRDesignPieSeries extends JRBasePieSeries implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_SECTION_HYPERLINK, old, this.sectionHyperlink);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignPieSeries clone = (JRDesignPieSeries)super.clone();
@@ -109,6 +107,7 @@ public class JRDesignPieSeries extends JRBasePieSeries implements JRChangeEvents
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

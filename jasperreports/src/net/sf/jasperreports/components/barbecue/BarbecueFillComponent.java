@@ -63,6 +63,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 		return barcodeComponent;
 	}
 	
+	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
 		if (isEvaluateNow())
@@ -83,6 +84,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 		return barcodeComponent.getEvaluationTimeValue() == EvaluationTimeEnum.NOW;
 	}
 
+	@Override
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		//FIXMENOW do like for map and spider chart, because it crashes with null code one evaluationTime != NOW; check barbecue too
@@ -91,6 +93,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 				: FillPrepareResult.PRINT_NO_STRETCH;
 	}
 
+	@Override
 	public JRPrintElement fill()
 	{
 		JRTemplateImage templateImage = getTemplateImage();
@@ -117,6 +120,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 		return image;
 	}
 
+	@Override
 	public void evaluateDelayedElement(JRPrintElement element, byte evaluation)
 			throws JRException
 	{

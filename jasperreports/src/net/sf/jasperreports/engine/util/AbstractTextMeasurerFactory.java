@@ -40,6 +40,7 @@ public abstract class AbstractTextMeasurerFactory implements JRTextMeasurerFacto
 	/**
 	 * @deprecated Replaced by {@link #createMeasurer(JasperReportsContext, JRCommonText)}.
 	 */
+	@Override
 	public final JRTextMeasurer createMeasurer(JRCommonText text)
 	{
 		return createMeasurer(DefaultJasperReportsContext.getInstance(), text);

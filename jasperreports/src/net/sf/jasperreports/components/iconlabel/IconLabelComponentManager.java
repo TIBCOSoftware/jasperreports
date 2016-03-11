@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.component.DefaultComponentManager;
 public class IconLabelComponentManager extends DefaultComponentManager
 {
 
+	@Override
 	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		return new IconLabelComponentXmlWriter(jasperReportsContext);

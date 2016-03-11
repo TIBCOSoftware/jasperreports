@@ -264,6 +264,7 @@ public abstract class JRDesignElement extends JRBaseElement
 		return propertyExpressions;
 	}
 	
+	@Override
 	public JRPropertyExpression[] getPropertyExpressions()
 	{
 		JRPropertyExpression[] props;

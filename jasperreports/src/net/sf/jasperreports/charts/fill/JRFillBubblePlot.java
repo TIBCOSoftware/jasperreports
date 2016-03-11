@@ -73,225 +73,169 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 		yAxisLineColor = bubblePlot.getOwnYAxisLineColor();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getXAxisLabelExpression()
 	{
 		return ((JRBubblePlot)parent).getXAxisLabelExpression();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getXAxisLabelFont()
 	{
 		return xAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisLabelColor()
 	{
 		return getStyleResolver().getXAxisLabelColor(this, this);
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisLabelColor()
 	{
 		return xAxisLabelColor;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getXAxisTickLabelFont()
 	{
 		return xAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisTickLabelColor()
 	{
 		return getStyleResolver().getXAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisTickLabelColor()
 	{
 		return xAxisTickLabelColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getXAxisTickLabelMask()
 	{
 		return ((JRBubblePlot)parent).getXAxisTickLabelMask();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getXAxisVerticalTickLabels()
 	{
 		return ((JRBubblePlot)parent).getXAxisVerticalTickLabels();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisLineColor()
 	{
 		return getStyleResolver().getXAxisLineColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisLineColor()
 	{
 		return xAxisLineColor;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getYAxisLabelExpression()
 	{
 		return ((JRBubblePlot)parent).getYAxisLabelExpression();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getYAxisLabelFont()
 	{
 		return yAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisLabelColor()
 	{
 		return getStyleResolver().getYAxisLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisLabelColor()
 	{
 		return yAxisLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getYAxisTickLabelFont()
 	{
 		return yAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisTickLabelColor()
 	{
 		return getStyleResolver().getYAxisTickLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisTickLabelColor()
 	{
 		return yAxisTickLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getYAxisTickLabelMask()
 	{
 		return ((JRBubblePlot)parent).getYAxisTickLabelMask();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getYAxisVerticalTickLabels()
 	{
 		return ((JRBubblePlot)parent).getYAxisVerticalTickLabels();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisLineColor()
 	{
 		return getStyleResolver().getYAxisLineColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisLineColor()
 	{
 		return yAxisLineColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ScaleTypeEnum getScaleTypeValue()
 	{
 		return ((JRBubblePlot)parent).getScaleTypeValue();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setScaleType( ScaleTypeEnum scaleType )
 	{
 		throw new UnsupportedOperationException();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDomainAxisMinValueExpression()
 	{
 		return ((JRBubblePlot)parent).getDomainAxisMinValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDomainAxisMaxValueExpression()
 	{
 		return ((JRBubblePlot)parent).getDomainAxisMaxValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRBubblePlot)parent).getRangeAxisMinValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getRangeAxisMaxValueExpression()
 	{
 		return ((JRBubblePlot)parent).getRangeAxisMaxValueExpression();

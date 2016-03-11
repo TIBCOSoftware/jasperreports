@@ -62,6 +62,7 @@ public class OccupiedGridCell extends JRExporterGridCell
 		return occupier;
 	}
 
+	@Override
 	public byte getType()
 	{
 		return TYPE_OCCUPIED_CELL;

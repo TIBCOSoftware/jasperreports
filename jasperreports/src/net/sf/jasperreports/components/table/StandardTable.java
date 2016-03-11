@@ -72,6 +72,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		columns = columnFactory.createColumns(table.getColumns());
 	}
 	
+	@Override
 	public List<BaseColumn> getColumns()
 	{
 		return columns;
@@ -111,6 +112,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		return idx >= 0;
 	}
 
+	@Override
 	public JRDatasetRun getDatasetRun()
 	{
 		return datasetRun;
@@ -124,6 +126,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 				old, this.datasetRun);
 	}
 	
+	@Override
 	public WhenNoDataTypeTableEnum getWhenNoDataType()
 	{
 		return whenNoDataType;
@@ -136,6 +139,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, this.whenNoDataType);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		StandardTable clone = null;
@@ -156,6 +160,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

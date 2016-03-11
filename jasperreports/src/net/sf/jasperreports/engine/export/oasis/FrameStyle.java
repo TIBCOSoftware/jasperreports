@@ -59,17 +59,13 @@ public class FrameStyle extends BorderStyle
 		}
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getId()
 	{
 		return fill + "|" + backcolor + "|" + super.getId(); 
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void write(String frameStyleName) throws IOException
 	{
 		styleWriter.write("<style:style style:name=\"");

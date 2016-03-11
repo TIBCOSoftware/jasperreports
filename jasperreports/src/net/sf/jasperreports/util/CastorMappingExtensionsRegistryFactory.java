@@ -49,9 +49,7 @@ public class CastorMappingExtensionsRegistryFactory implements ExtensionsRegistr
 	
 	public final static char CASTOR_MAPPING_VERSION_SEPARATOR = '@';
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> castorMappingProperties = JRPropertiesUtil.getProperties(properties, CASTOR_MAPPING_PROPERTY_PREFIX);

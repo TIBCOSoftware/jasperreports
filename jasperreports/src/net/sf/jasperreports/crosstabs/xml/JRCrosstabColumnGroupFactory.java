@@ -37,6 +37,7 @@ public class JRCrosstabColumnGroupFactory extends JRCrosstabGroupFactory
 	public static final String ATTRIBUTE_height = "height";
 	public static final String ATTRIBUTE_headerPosition = "headerPosition";
 
+	@Override
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabColumnGroup group = new JRDesignCrosstabColumnGroup();

@@ -51,6 +51,7 @@ public class SingletonExtensionRegistry<Type> implements ExtensionsRegistry
 		this.extensions = Collections.singletonList(extension);
 	}
 	
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (type.equals(extensionType))

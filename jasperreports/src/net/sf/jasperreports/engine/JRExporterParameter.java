@@ -74,9 +74,7 @@ public class JRExporterParameter
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String toString()
 	{
 		return this.name;

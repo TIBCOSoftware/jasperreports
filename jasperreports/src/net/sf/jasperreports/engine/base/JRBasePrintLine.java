@@ -60,9 +60,7 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void setWidth(int width)
 	{
 		if (width == 0)
@@ -73,9 +71,7 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 		super.setWidth(width);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setHeight(int height)
 	{
 		if (height == 0)
@@ -86,17 +82,13 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 		super.setHeight(height);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public LineDirectionEnum getDirectionValue()
 	{
 		return this.directionValue;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setDirection(LineDirectionEnum directionValue)
 	{
 		this.directionValue = directionValue;
@@ -123,6 +115,7 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 		
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

@@ -50,6 +50,7 @@ public class JRCrosstabFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_isRepeatRowHeaders = "isRepeatRowHeaders";
 	public static final String ATTRIBUTE_ignoreWidth = "ignoreWidth";
 	
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

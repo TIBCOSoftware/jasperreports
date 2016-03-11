@@ -743,6 +743,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	}
 
 
+	@Override
 	public void error(SAXParseException e) {
 		if(log.isErrorEnabled())
 		{
@@ -750,6 +751,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		}
 	}
 
+	@Override
 	public void fatalError(SAXParseException e) {
 		if(log.isFatalEnabled())
 		{
@@ -757,6 +759,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		}
 	}
 
+	@Override
 	public void warning(SAXParseException e) {
 		if(log.isWarnEnabled())
 		{

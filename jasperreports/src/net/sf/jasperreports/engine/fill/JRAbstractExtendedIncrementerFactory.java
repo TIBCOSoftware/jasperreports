@@ -35,6 +35,7 @@ public abstract class JRAbstractExtendedIncrementerFactory implements JRExtended
 	/**
 	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
 	 */
+	@Override
 	public JRIncrementer getIncrementer(byte calculation)
 	{
 		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
@@ -51,6 +52,7 @@ public abstract class JRAbstractExtendedIncrementerFactory implements JRExtended
 	/**
 	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
 	 */
+	@Override
 	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
 	{
 		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));

@@ -77,9 +77,7 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 		return new DefaultQueryExecuterFactoryBundle(jasperReportsContext);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String[] getLanguages()
 	{
 		List<String> languages = new ArrayList<String>();
@@ -92,9 +90,7 @@ public final class DefaultQueryExecuterFactoryBundle implements JRQueryExecuterF
 		return languages.toArray(new String[languages.size()]);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public QueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
 	{

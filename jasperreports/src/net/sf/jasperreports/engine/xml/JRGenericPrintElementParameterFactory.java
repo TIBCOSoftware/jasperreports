@@ -38,6 +38,7 @@ import org.xml.sax.Attributes;
 public class JRGenericPrintElementParameterFactory extends JRBaseFactory
 {
 
+	@Override
 	public Object createObject(Attributes attributes) throws Exception
 	{
 		JRGenericPrintElement element = (JRGenericPrintElement) digester.peek();
@@ -90,6 +91,7 @@ public class JRGenericPrintElementParameterFactory extends JRBaseFactory
 	public static class ParameterValueFactory extends JRBaseFactory
 	{
 
+		@Override
 		public Object createObject(Attributes attributes) throws Exception
 		{
 			String valueClass = attributes.getValue(JRXmlConstants.ATTRIBUTE_class);

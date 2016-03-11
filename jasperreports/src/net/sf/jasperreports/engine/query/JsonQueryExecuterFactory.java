@@ -105,11 +105,13 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 		JSON_TIMEZONE_ID, "java.lang.String"
 		};
 
+	@Override
 	public Object[] getBuiltinParameters()
 	{
 		return JSON_BUILTIN_PARAMETERS;
 	}
 
+	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
@@ -119,6 +121,7 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 		return new JsonQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
+	@Override
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;

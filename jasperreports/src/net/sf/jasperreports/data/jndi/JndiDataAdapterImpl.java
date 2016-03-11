@@ -37,10 +37,12 @@ public class JndiDataAdapterImpl extends AbstractDataAdapter implements JndiData
 		setName("New JNDI Data Adapter");
 	}
 
+	@Override
 	public String getDataSourceName() {
 		return dataSourceName;
 	}
 
+	@Override
 	public void setDataSourceName(String dataSourceName) {
 		this.dataSourceName = dataSourceName;
 	}

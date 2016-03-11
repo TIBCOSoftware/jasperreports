@@ -164,9 +164,7 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 				this.valueClassName);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignCrosstabBucket clone = (JRDesignCrosstabBucket)super.clone();
@@ -176,6 +174,7 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

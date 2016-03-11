@@ -232,10 +232,12 @@ public final class JRTextMeasurerUtil
 			this.factory = factory;
 		}
 
+		@Override
 		public JRTextMeasurer createMeasurer(JRCommonText text) {
 			return factory.createMeasurer(text);
 		}
 
+		@Override
 		public JRTextMeasurer createMeasurer(
 				JasperReportsContext jasperReportsContext, JRCommonText text) {
 			return factory.createMeasurer(text);

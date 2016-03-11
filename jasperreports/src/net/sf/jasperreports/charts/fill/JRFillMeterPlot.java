@@ -49,93 +49,72 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 		super(meterPlot, factory);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDataRange getDataRange()
 	{
 		return ((JRMeterPlot)parent).getDataRange();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRValueDisplay getValueDisplay()
 	{
 		return ((JRMeterPlot)parent).getValueDisplay();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public MeterShapeEnum getShapeValue()
 	{
 		return ((JRMeterPlot)parent).getShapeValue();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public List<JRMeterInterval> getIntervals(){
 		return ((JRMeterPlot)parent).getIntervals();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getMeterAngleInteger()
 	{
 		return ((JRMeterPlot)parent).getMeterAngleInteger();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getUnits()
 	{
 		return ((JRMeterPlot)parent).getUnits();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Double getTickIntervalDouble()
 	{
 		return ((JRMeterPlot)parent).getTickIntervalDouble();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getMeterBackgroundColor()
 	{
 		return ((JRMeterPlot)parent).getMeterBackgroundColor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getNeedleColor()
 	{
 		return ((JRMeterPlot)parent).getNeedleColor();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getTickColor()
 	{
 		return ((JRMeterPlot)parent).getTickColor();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Integer getTickCount()
 	{
 		return ((JRMeterPlot)parent).getTickCount();
 	}
 
+	@Override
 	public JRFont getTickLabelFont()
 	{
 		return ((JRMeterPlot)parent).getTickLabelFont();

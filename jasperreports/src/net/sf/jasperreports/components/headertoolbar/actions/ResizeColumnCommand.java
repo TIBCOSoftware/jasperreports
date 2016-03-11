@@ -60,6 +60,7 @@ public class ResizeColumnCommand implements Command
 		this.individualResizeCommandStack = new CommandStack();
 	}
 
+	@Override
 	public void execute() throws CommandException 
 	{
 		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
@@ -212,11 +213,13 @@ public class ResizeColumnCommand implements Command
 		}
 	}
 	
+	@Override
 	public void undo() 
 	{
 		individualResizeCommandStack.undoAll();
 	}
 
+	@Override
 	public void redo() 
 	{
 		individualResizeCommandStack.redoAll();

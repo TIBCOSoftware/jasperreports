@@ -96,6 +96,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			this.defaultStyle = style;
 		}
 
+		@Override
 		public JRStyle getDefaultStyle()
 		{
 			return defaultStyle;
@@ -111,6 +112,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			styleResolver = new StyleResolver(jasperReportsContext);
 		}
 
+		@Override
 		public StyleResolver getStyleResolver()
 		{
 			return styleResolver;
@@ -401,19 +403,19 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		this.orientationValue = orientationValue;
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;

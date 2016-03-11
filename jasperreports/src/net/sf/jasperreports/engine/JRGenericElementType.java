@@ -78,6 +78,7 @@ public class JRGenericElementType implements Serializable
 		return name;
 	}
 	
+	@Override
 	public int hashCode()
 	{
 		int hash = 17;
@@ -86,6 +87,7 @@ public class JRGenericElementType implements Serializable
 		return hash;
 	}
 	
+	@Override
 	public boolean equals(Object o)
 	{
 		if (o == this)
@@ -103,6 +105,7 @@ public class JRGenericElementType implements Serializable
 				&& name.equals(key.name);
 	}
 
+	@Override
 	public String toString()
 	{
 		return namespace + "#" + name;

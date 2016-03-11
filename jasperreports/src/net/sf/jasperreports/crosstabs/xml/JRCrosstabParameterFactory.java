@@ -40,6 +40,7 @@ public class JRCrosstabParameterFactory extends JRParameterFactory
 	public static final String ATTRIBUTE_name = "name";
 	public static final String ATTRIBUTE_class = "class";
 	
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignCrosstabParameter parameter = new JRDesignCrosstabParameter();

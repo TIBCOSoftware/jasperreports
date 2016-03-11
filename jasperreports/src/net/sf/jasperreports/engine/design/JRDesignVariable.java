@@ -198,9 +198,7 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_GROUP, old, this.incrementGroup);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignVariable clone = (JRDesignVariable)super.clone();
@@ -210,6 +208,7 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

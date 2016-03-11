@@ -39,9 +39,7 @@ public class JRMeterIntervalFactory extends JRBaseFactory
 	private static final String ATTRIBUTE_color = "color";
 	private static final String ATTRIBUTE_alpha = "alpha";
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRMeterInterval interval = new JRMeterInterval();

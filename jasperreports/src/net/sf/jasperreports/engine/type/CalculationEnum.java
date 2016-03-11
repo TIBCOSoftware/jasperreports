@@ -125,23 +125,20 @@ public enum CalculationEnum implements JREnum
 	/**
 	 * @deprecated Used only by deprecated serialized fields.
 	 */
+	@Override
 	public Byte getValueByte()
 	{
 		return new Byte(value);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	@SuppressWarnings("deprecation")
 	public final byte getValue()
 	{
 		return value;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

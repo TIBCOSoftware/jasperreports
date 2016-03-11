@@ -73,33 +73,25 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 		valueAxisLineColor = plot.getOwnValueAxisLineColor();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getCategoryAxisLabelExpression()
 	{
 		return ((JRLinePlot)parent).getCategoryAxisLabelExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getCategoryAxisLabelFont()
 	{
 		return categoryAxisLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getCategoryAxisLabelColor()
 	{
 		return getStyleResolver().getCategoryAxisLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnCategoryAxisLabelColor()
 	{
 		return categoryAxisLabelColor;
@@ -112,25 +104,19 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getCategoryAxisTickLabelFont()
 	{
 		return categoryAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getCategoryAxisTickLabelColor()
 	{
 		return getStyleResolver().getCategoryAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnCategoryAxisTickLabelColor()
 	{
 		return categoryAxisTickLabelColor;
@@ -143,48 +129,36 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getCategoryAxisTickLabelMask()
 	{
 		return ((JRLinePlot)parent).getCategoryAxisTickLabelMask();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getCategoryAxisVerticalTickLabels()
 	{
 		return ((JRLinePlot)parent).getCategoryAxisVerticalTickLabels();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Double getCategoryAxisTickLabelRotation()
 	{
 		return ((JRLinePlot)parent).getCategoryAxisTickLabelRotation();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setCategoryAxisTickLabelRotation(Double labelRotation)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getCategoryAxisLineColor()
 	{
 		return getStyleResolver().getCategoryAxisLineColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnCategoryAxisLineColor()
 	{
 		return categoryAxisLineColor;
@@ -197,65 +171,49 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getValueAxisLabelExpression()
 	{
 		return ((JRLinePlot)parent).getValueAxisLabelExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDomainAxisMinValueExpression()
 	{
 		return ((JRLinePlot)parent).getDomainAxisMinValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getDomainAxisMaxValueExpression()
 	{
 		return ((JRLinePlot)parent).getDomainAxisMaxValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getRangeAxisMinValueExpression()
 	{
 		return ((JRLinePlot)parent).getRangeAxisMinValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRExpression getRangeAxisMaxValueExpression()
 	{
 		return ((JRLinePlot)parent).getRangeAxisMaxValueExpression();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getValueAxisLabelFont()
 	{
 		return valueAxisLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getValueAxisLabelColor()
 	{
 		return getStyleResolver().getValueAxisLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnValueAxisLabelColor()
 	{
 		return valueAxisLabelColor;
@@ -268,25 +226,19 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRFont getValueAxisTickLabelFont()
 	{
 		return valueAxisTickLabelFont;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getValueAxisTickLabelColor()
 	{
 		return getStyleResolver().getValueAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnValueAxisTickLabelColor()
 	{
 		return valueAxisTickLabelColor;
@@ -299,33 +251,25 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getValueAxisTickLabelMask()
 	{
 		return ((JRLinePlot)parent).getValueAxisTickLabelMask();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getValueAxisVerticalTickLabels()
 	{
 		return ((JRLinePlot)parent).getValueAxisVerticalTickLabels();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getValueAxisLineColor()
 	{
 		return getStyleResolver().getValueAxisLineColor(this, this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Color getOwnValueAxisLineColor()
 	{
 		return valueAxisLineColor;
@@ -338,29 +282,21 @@ public class JRFillLinePlot extends JRFillChartPlot implements JRLinePlot
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getShowShapes(){
 		return ((JRLinePlot)parent).getShowShapes();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setShowShapes( Boolean value ){
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Boolean getShowLines(){
 		return ((JRLinePlot)parent).getShowLines();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void setShowLines( Boolean value ){
 	}
 	

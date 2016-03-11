@@ -48,9 +48,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isForceSvgShapes()
 	{
 		return isForceSvgShapes;
@@ -64,9 +62,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.isForceSvgShapes = isForceSvgShapes;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isCollapseMissingBookmarkLevels()
 	{
 		return isCollapseMissingBookmarkLevels;
@@ -80,9 +76,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.isCollapseMissingBookmarkLevels = isCollapseMissingBookmarkLevels;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isSizePageToContent()
 	{
 		return isSizePageToContent;
@@ -96,9 +90,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.isSizePageToContent = isSizePageToContent;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;
@@ -112,9 +104,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.isIgnoreHyperlink = isIgnoreHyperlink;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isForceLineBreakPolicy()
 	{
 		return isForceLineBreakPolicy;
@@ -128,9 +118,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.isForceLineBreakPolicy = isForceLineBreakPolicy;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getOddPageOffsetX()
 	{
 		return oddPageOffsetX;
@@ -144,9 +132,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.oddPageOffsetX = oddPageOffsetX;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getOddPageOffsetY()
 	{
 		return oddPageOffsetY;
@@ -160,9 +146,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.oddPageOffsetY = oddPageOffsetY;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getEvenPageOffsetX()
 	{
 		return evenPageOffsetX;
@@ -176,9 +160,7 @@ public class SimplePdfReportConfiguration extends SimpleReportExportConfiguratio
 		this.evenPageOffsetX = evenPageOffsetX;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Integer getEvenPageOffsetY()
 	{
 		return evenPageOffsetY;

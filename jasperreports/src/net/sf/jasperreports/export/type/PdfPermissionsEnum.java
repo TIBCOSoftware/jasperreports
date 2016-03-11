@@ -106,9 +106,7 @@ public enum PdfPermissionsEnum implements NamedEnum
 		return value;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName() 
 	{
 		return name;

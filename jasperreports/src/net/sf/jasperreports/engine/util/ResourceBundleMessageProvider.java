@@ -59,9 +59,7 @@ public class ResourceBundleMessageProvider implements MessageProvider
 		this.classLoader = classLoader;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public String getMessage(String code, Object[] args, Locale locale)
 	{
 		String pattern = getMessage(code, locale);

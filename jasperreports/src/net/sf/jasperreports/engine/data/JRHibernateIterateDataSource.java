@@ -45,6 +45,7 @@ public class JRHibernateIterateDataSource extends JRHibernateAbstractDataSource 
 		moveFirst();
 	}
 
+	@Override
 	public boolean next() throws JRException
 	{
 		if (iterator != null && iterator.hasNext())
@@ -56,6 +57,7 @@ public class JRHibernateIterateDataSource extends JRHibernateAbstractDataSource 
 		return false;
 	}
 
+	@Override
 	public void moveFirst()
 	{
 		iterator = queryExecuter.iterate();

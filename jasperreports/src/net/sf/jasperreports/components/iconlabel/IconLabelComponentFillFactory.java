@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class IconLabelComponentFillFactory implements ComponentFillFactory
 {
 
+	@Override
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{
@@ -42,6 +43,7 @@ public class IconLabelComponentFillFactory implements ComponentFillFactory
 		return new IconLabelComponentFill(iconLabelComponent, factory);
 	}
 
+	@Override
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{

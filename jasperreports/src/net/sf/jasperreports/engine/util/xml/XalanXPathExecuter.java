@@ -51,6 +51,7 @@ public class XalanXPathExecuter implements JRXPathExecuter {
 	public XalanXPathExecuter() {
 	}
 	
+	@Override
 	public NodeList selectNodeList(Node contextNode, String expression) throws JRException
 	{
 		try {
@@ -64,6 +65,7 @@ public class XalanXPathExecuter implements JRXPathExecuter {
 		}
 	}
 
+	@Override
 	public Object selectObject(Node contextNode, String expression) throws JRException {
 		try {
 			Object value;

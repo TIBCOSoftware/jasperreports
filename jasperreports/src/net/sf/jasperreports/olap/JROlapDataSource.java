@@ -131,6 +131,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		}
 	}
 
+	@Override
 	public boolean next() throws JRException
 	{
 		boolean next;
@@ -236,6 +237,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	 * @return value of field in the requested type
 	 *
 	 */
+	@Override
 	public Object getFieldValue(JRField jrField) throws JRException {
 		Class<?> valueClass = jrField.getValueClass();
 		Object value = fieldValues.get(jrField.getName());
@@ -446,6 +448,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	}
 
 
+	@Override
 	public int getDimensionIndex(net.sf.jasperreports.olap.mapping.Axis axis, String dimension)
 	{
 		JROlapHierarchy[] hierarchies = axes[axis.getIdx()].getHierarchiesOnAxis();
@@ -483,6 +486,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		return hierName.equals(hierarchy.getHierarchyUniqueName());
 	}
 
+	@Override
 	public int getLevelDepth(TuplePosition pos, String levelName)
 	{
 		JROlapHierarchy hierarchy = axes[pos.getAxis().getIdx()].getHierarchiesOnAxis()[pos.getIdx()];
@@ -551,6 +555,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			this.property = mapping.getProperty();
 		}
 
+		@Override
 		public boolean matches()
 		{
 			member = member(memberInfo, axisPositions);
@@ -559,6 +564,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			return member != null;
 		}
 
+		@Override
 		public Object value()
 		{
 			Object value;
@@ -646,6 +652,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			}
 		}
 
+		@Override
 		public boolean matches()
 		{
 			if (dataPositions != null)
@@ -672,6 +679,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			return matches;
 		}
 
+		@Override
 		public Object value()
 		{
 			JROlapCell cell = olapResult.getCell(positions);
@@ -713,6 +721,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	}
 
 
+	@Override
 	public int getTuplePosition(int axisIndex, Tuple tuple)
 	{
 		if (axisIndex > axes.length)

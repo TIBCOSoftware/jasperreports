@@ -155,12 +155,14 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	 * Gets the text own rotation.
 	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
+	@Override
 	public RotationEnum getOwnRotationValue();
 	
 	/**
 	 * Sets the text rotation.
 	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
+	@Override
 	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
@@ -188,21 +190,19 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
+	@Override
 	public LineSpacingEnum getOwnLineSpacingValue();
 		
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
+	@Override
 	public void setLineSpacing(LineSpacingEnum lineSpacing);
 		
-	/**
-	 *
-	 */
+	@Override
 	public String getOwnMarkup();
 		
-	/**
-	 *
-	 */
+	@Override
 	public void setMarkup(String markup);
 		
 	/**
@@ -215,6 +215,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	 * 
 	 * @return the type of the original value used to generate the text
 	 */
+	@Override
 	public String getValueClassName();
 	
 	/**
@@ -226,6 +227,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	 * @return the pattern used to format this text's source value
 	 * @see #getValueClassName()
 	 */
+	@Override
 	public String getPattern();
 	
 
@@ -233,6 +235,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	 * Returns the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
 	 * interface to use with this text element, in case it is not the same as the one for the overall document.
 	 */
+	@Override
 	public String getFormatFactoryClass();
 	
 	
@@ -252,6 +255,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	 * 
 	 * @return the code of the <code>java.util.Locale</code> used when formatting this text's source value
 	 */
+	@Override
 	public String getLocaleCode();
 	
 	
@@ -266,6 +270,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	 * @return the {@link java.util.TimeZone#getID() ID} of the <code>java.util.TimeZone</code>
 	 * used to format this text's date source value
 	 */
+	@Override
 	public String getTimeZoneId();
 
 	

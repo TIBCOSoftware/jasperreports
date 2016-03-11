@@ -113,9 +113,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		}
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public UUID getUUID()
 	{
 		if (uuid == null)
@@ -133,16 +131,19 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		this.uuid = uuid;
 	}
 		
+	@Override
 	public Cell getColumnHeader()
 	{
 		return columnHeader;
 	}
 	
+	@Override
 	public Cell getColumnFooter()
 	{
 		return columnFooter;
 	}
 
+	@Override
 	public JRExpression getPrintWhenExpression()
 	{
 		return printWhenExpression;
@@ -172,6 +173,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 				old, this.columnFooter);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		StandardBaseColumn clone = null;
@@ -197,6 +199,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		return clone;
 	}
 
+	@Override
 	public Cell getTableHeader()
 	{
 		return tableHeader;
@@ -210,6 +213,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 				old, this.tableHeader);
 	}
 
+	@Override
 	public Cell getTableFooter()
 	{
 		return tableFooter;
@@ -223,6 +227,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 				old, this.tableFooter);
 	}
 
+	@Override
 	public Integer getWidth()
 	{
 		return width;
@@ -238,6 +243,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -251,11 +257,13 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		return eventSupport;
 	}
 
+	@Override
 	public List<GroupCell> getGroupHeaders()
 	{
 		return groupHeaders;
 	}
 
+	@Override
 	public List<GroupCell> getGroupFooters()
 	{
 		return groupFooters;
@@ -275,12 +283,14 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		return idx;
 	}
 	
+	@Override
 	public Cell getGroupFooter(String groupName)
 	{
 		int idx = findGroupCellIndex(groupFooters, groupName);
 		return idx < 0 ? null : groupFooters.get(idx).getCell();
 	}
 
+	@Override
 	public Cell getGroupHeader(String groupName)
 	{
 		int idx = findGroupCellIndex(groupHeaders, groupName);
@@ -401,11 +411,13 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		}
 	}
 
+	@Override
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();
 	}
 
+	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
 		if (propertiesMap == null)
@@ -415,11 +427,13 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		return propertiesMap;
 	}
 
+	@Override
 	public JRPropertiesHolder getParentProperties()
 	{
 		return null;
 	}
 
+	@Override
 	public JRPropertyExpression[] getPropertyExpressions()
 	{
 		JRPropertyExpression[] props;

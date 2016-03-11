@@ -58,11 +58,13 @@ public class JRMondrianResult implements JROlapResult
 		}
 	}
 
+	@Override
 	public JROlapResultAxis[] getAxes()
 	{
 		return axes;
 	}
 
+	@Override
 	public JROlapCell getCell(int[] axisPositions)
 	{
 		Cell dataCell = result.getCell(axisPositions);

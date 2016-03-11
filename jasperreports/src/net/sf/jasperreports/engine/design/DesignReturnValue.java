@@ -51,6 +51,7 @@ public class DesignReturnValue extends DesignCommonReturnValue implements Return
 	 * 
 	 * @return the name of the variable whose value should be copied.
 	 */
+	@Override
 	public String getFromVariable()
 	{
 		return this.fromVariable;
@@ -69,6 +70,7 @@ public class DesignReturnValue extends DesignCommonReturnValue implements Return
 		getEventSupport().firePropertyChange(PROPERTY_FROM_VARIABLE, old, this.fromVariable);
 	}
 	
+	@Override
 	public Object clone()
 	{
 		return super.clone();

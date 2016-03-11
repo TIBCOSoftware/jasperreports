@@ -37,6 +37,7 @@ public class UndoAction extends AbstractAction {
 		return "undo_action";//FIXMEJIVE create interface for getName() or rather getShortName(), if we really plan to use this in javascript
 	}
 
+	@Override
 	public void performAction() {
 		// obtain command stack
 		CommandStack commandStack = getCommandStack();

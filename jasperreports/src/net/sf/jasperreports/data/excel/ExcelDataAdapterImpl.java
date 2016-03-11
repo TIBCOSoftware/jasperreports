@@ -32,10 +32,12 @@ public class ExcelDataAdapterImpl  extends XlsDataAdapterImpl implements ExcelDa
 {
 	private ExcelFormatEnum format;
 	
+	@Override
 	public ExcelFormatEnum getFormat() {
 		return format;
 	}
 
+	@Override
 	public void setFormat(ExcelFormatEnum format) {
 		this.format = format;
 	}

@@ -177,6 +177,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		REGISTRY = registry;
 	}
 	
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId,
 			JRPropertiesMap properties)
 	{

@@ -64,9 +64,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPen getLinePen()
 	{
 		return linePen;
@@ -80,43 +78,33 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 		this.linePen = linePen.clone(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public FillEnum getFillValue()
 	{
 		return getStyleResolver().getFillValue(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public FillEnum getOwnFillValue()
 	{
 		return this.fillValue;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void setFill(FillEnum fillValue)
 	{
 		this.fillValue = fillValue;
 	}
 		
 
-	/**
-	 * 
-	 */
+	@Override
 	public Float getDefaultLineWidth() 
 	{
 		return JRPen.LINE_WIDTH_1;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();

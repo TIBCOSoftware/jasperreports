@@ -82,36 +82,29 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRadius()
 	{
 		return ((JRTemplateRectangle)this.template).getRadius();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Integer getOwnRadius()
 	{
 		return ((JRTemplateRectangle)this.template).getOwnRadius();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(int radius)
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void setRadius(Integer radius)
 	{
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

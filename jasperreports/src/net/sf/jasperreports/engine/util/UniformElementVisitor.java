@@ -55,66 +55,79 @@ public abstract class UniformElementVisitor implements JRVisitor
 	 */
 	protected abstract void visitElement(JRElement element);
 	
+	@Override
 	public void visitBreak(JRBreak breakElement)
 	{
 		visitElement(breakElement);
 	}
 
+	@Override
 	public void visitChart(JRChart chart)
 	{
 		visitElement(chart);
 	}
 
+	@Override
 	public void visitComponentElement(JRComponentElement componentElement)
 	{
 		visitElement(componentElement);
 	}
 
+	@Override
 	public void visitCrosstab(JRCrosstab crosstab)
 	{
 		visitElement(crosstab);
 	}
 
+	@Override
 	public void visitEllipse(JREllipse ellipse)
 	{
 		visitElement(ellipse);
 	}
 
+	@Override
 	public void visitFrame(JRFrame frame)
 	{
 		visitElement(frame);
 	}
 
+	@Override
 	public void visitGenericElement(JRGenericElement element)
 	{
 		visitElement(element);
 	}
 
+	@Override
 	public void visitImage(JRImage image)
 	{
 		visitElement(image);
 	}
 
+	@Override
 	public void visitLine(JRLine line)
 	{
 		visitElement(line);
 	}
 
+	@Override
 	public void visitRectangle(JRRectangle rectangle)
 	{
 		visitElement(rectangle);
 	}
 
+	@Override
 	public void visitStaticText(JRStaticText staticText)
 	{
 		visitElement(staticText);
 	}
 
+	@Override
 	public void visitSubreport(JRSubreport subreport)
 	{
 		visitElement(subreport);
 	}
 
+	@Override
 	public void visitTextField(JRTextField textField)
 	{
 		visitElement(textField);

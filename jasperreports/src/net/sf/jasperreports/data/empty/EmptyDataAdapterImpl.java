@@ -33,10 +33,12 @@ public class EmptyDataAdapterImpl extends AbstractDataAdapter implements EmptyDa
 {
 	private Integer recordCount;
 
+	@Override
 	public Integer getRecordCount() {
 		return recordCount;
 	}
 
+	@Override
 	public void setRecordCount(Integer recordCount) {
 		this.recordCount = recordCount;
 	}

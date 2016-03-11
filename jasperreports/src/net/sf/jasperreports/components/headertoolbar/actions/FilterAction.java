@@ -57,6 +57,7 @@ public class FilterAction extends AbstractVerifiableTableAction {
 		columnData = filterData;
 	}
 
+	@Override
 	public void performAction() throws ActionException {
 		JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 

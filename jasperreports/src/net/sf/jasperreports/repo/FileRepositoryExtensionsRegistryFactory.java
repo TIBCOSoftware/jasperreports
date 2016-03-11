@@ -38,6 +38,7 @@ public class FileRepositoryExtensionsRegistryFactory implements ExtensionsRegist
 			new SingletonExtensionRegistry<PersistenceServiceFactory>(
 					PersistenceServiceFactory.class, FileRepositoryPersistenceServiceFactory.getInstance());
 	
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		return extensionsRegistry;

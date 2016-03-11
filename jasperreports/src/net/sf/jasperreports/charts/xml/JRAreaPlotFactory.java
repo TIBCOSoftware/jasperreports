@@ -34,6 +34,7 @@ import org.xml.sax.Attributes;
  */
 public class JRAreaPlotFactory extends JRBaseFactory {
 
+	@Override
 	public Object createObject( Attributes attrs ){
 		JRChart chart = (JRChart)digester.peek();
 		JRDesignAreaPlot plot = (JRDesignAreaPlot)chart.getPlot();

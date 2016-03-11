@@ -130,9 +130,7 @@ public enum PaperSizeEnum implements NamedEnum
 		return height;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public String getName()
 	{
 		return name;

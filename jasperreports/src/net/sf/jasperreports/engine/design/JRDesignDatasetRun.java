@@ -191,6 +191,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		getEventSupport().firePropertyChange(PROPERTY_PARAMETERS_MAP_EXPRESSION, old, this.parametersMapExpression);
 	}
 
+	@Override
 	public JRDatasetParameter[] getParameters()
 	{
 		JRDatasetParameter[] params = new JRDatasetParameter[parametersList.size()];
@@ -246,9 +247,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		return false;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRDesignDatasetRun clone = (JRDesignDatasetRun)super.clone();
@@ -272,6 +271,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

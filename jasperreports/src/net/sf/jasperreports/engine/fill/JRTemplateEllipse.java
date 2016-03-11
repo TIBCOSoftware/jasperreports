@@ -80,6 +80,7 @@ public class JRTemplateEllipse extends JRTemplateGraphicElement
 		super.setGraphicElement(ellipse);
 	}
 
+	@Override
 	public int getHashCode()
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
@@ -87,6 +88,7 @@ public class JRTemplateEllipse extends JRTemplateGraphicElement
 		return hash.getHashCode();
 	}
 
+	@Override
 	public boolean isIdentical(Object object)
 	{
 		if (this == object)

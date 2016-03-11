@@ -92,6 +92,7 @@ public class IconLabelElementRtfHandler implements GenericElementRtfHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

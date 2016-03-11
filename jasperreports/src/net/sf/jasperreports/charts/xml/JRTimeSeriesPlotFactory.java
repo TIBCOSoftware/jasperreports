@@ -37,6 +37,7 @@ public class JRTimeSeriesPlotFactory extends JRBaseFactory {
 	private static final String ATTRIBUTE_isShowShapes = "isShowShapes";
 	private static final String ATTRIBUTE_isShowLines = "isShowLines";
 	
+	@Override
 	public Object createObject( Attributes attrs ){
 		JRChart chart = (JRChart)digester.peek();
 		JRDesignTimeSeriesPlot plot = (JRDesignTimeSeriesPlot)chart.getPlot();

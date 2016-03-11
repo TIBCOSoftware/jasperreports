@@ -40,6 +40,7 @@ public class MapElementPdfHandler implements GenericElementPdfHandler
 		return INSTANCE;
 	}
 	
+	@Override
 	public void exportElement(
 		JRPdfExporterContext exporterContext,
 		JRGenericPrintElement element
@@ -56,6 +57,7 @@ public class MapElementPdfHandler implements GenericElementPdfHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

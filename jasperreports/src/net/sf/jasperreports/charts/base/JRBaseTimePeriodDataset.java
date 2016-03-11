@@ -62,34 +62,30 @@ public class JRBaseTimePeriodDataset extends JRBaseChartDataset implements JRTim
 		}
 	}
 	
+	@Override
 	public JRTimePeriodSeries[] getSeries(){
 		return timePeriodSeries;
 	}
 
-	/** 
-	 * 
-	 */
+	@Override
 	public byte getDatasetType() {
 		return JRChartDataset.TIMEPERIOD_DATASET;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
 
+	@Override
 	public void validate(JRVerifier verifier)
 	{
 		verifier.verify(this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone() 
 	{
 		JRBaseTimePeriodDataset clone = (JRBaseTimePeriodDataset)super.clone();

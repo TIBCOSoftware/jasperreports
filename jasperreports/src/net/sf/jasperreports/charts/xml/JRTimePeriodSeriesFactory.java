@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class JRTimePeriodSeriesFactory extends JRBaseFactory 
 {
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object createObject( Attributes attrs )
 	{
 		return new JRDesignTimePeriodSeries();

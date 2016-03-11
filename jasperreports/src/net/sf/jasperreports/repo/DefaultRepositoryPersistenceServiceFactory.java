@@ -41,9 +41,7 @@ public class DefaultRepositoryPersistenceServiceFactory implements PersistenceSe
 		return INSTANCE;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public <K extends RepositoryService, L extends Resource> PersistenceService getPersistenceService(
 		JasperReportsContext jasperReportsContext,
 		Class<K> repositoryServiceType, 

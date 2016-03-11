@@ -40,11 +40,13 @@ public class JRMondrianLevel implements JROlapHierarchyLevel
 		this.level = level;
 	}
 
+	@Override
 	public int getDepth()
 	{
 		return level.getDepth();
 	}
 
+	@Override
 	public String getName()
 	{
 		return level.getName();

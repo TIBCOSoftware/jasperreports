@@ -151,6 +151,7 @@ public class MeasureDefinition
 	 */
 	protected static final AbstractValueProvider VALUE_PROVIDER = new AbstractValueProvider()
 	{
+		@Override
 		public Object getValue(JRCalculable calculable)
 		{
 			return calculable.getValue();
@@ -223,11 +224,13 @@ public class MeasureDefinition
 			}
 		}
 		
+		@Override
 		public Object getValue()
 		{
 			return value;
 		}
 		
+		@Override
 		public String toString()
 		{
 			return String.valueOf(getValue());
@@ -248,21 +251,25 @@ public class MeasureDefinition
 			return old;
 		}
 
+		@Override
 		public boolean isInitialized()
 		{
 			return initialized;
 		}
 
+		@Override
 		public Object getIncrementedValue()
 		{
 			return value;
 		}
 
+		@Override
 		public JRCalculable getHelperVariable(byte helperType)
 		{
 			return helpers[helperType];
 		}
 
+		@Override
 		public void setInitialized(boolean isInitialized)
 		{
 			this.initialized = isInitialized;

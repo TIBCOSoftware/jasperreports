@@ -53,9 +53,7 @@ public abstract class JRFontFactory extends JRBaseFactory
 	public abstract void setStyle(JRFont font, Attributes atts);
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRFont font = getFont();
@@ -109,11 +107,13 @@ public abstract class JRFontFactory extends JRBaseFactory
 	 */
 	public static class TextElementFontFactory extends JRFontFactory
 	{
+		@Override
 		public JRFont getFont()
 		{
 			return (JRFont)digester.peek();
 		}
 
+		@Override
 		public void setStyle(JRFont font, Attributes atts)
 		{
 			JRDesignElement element = (JRDesignElement)font;
@@ -149,6 +149,7 @@ public abstract class JRFontFactory extends JRBaseFactory
 	 */
 	public static class ChartFontFactory extends JRFontFactory
 	{
+		@Override
 		public JRFont getFont()
 		{
 			int i = 0;
@@ -163,6 +164,7 @@ public abstract class JRFontFactory extends JRBaseFactory
 			return new JRDesignFont(chart);
 		}
 		
+		@Override
 		public void setStyle(JRFont font, Attributes atts)
 		{
 			JRDesignFont designFont = (JRDesignFont)font;

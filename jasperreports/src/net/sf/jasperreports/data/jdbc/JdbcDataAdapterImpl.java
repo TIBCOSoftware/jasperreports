@@ -46,66 +46,82 @@ public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter imple
 		setName("New JDBC Data Adapter");
 	}
 
+	@Override
 	public String getDatabase() {
 		return database;
 	}
 	
+	@Override
 	public void setDatabase(String database) {
 		this.database = database;
 	}
 	
+	@Override
 	public String getDriver() {
 		return driver;
 	}
 	
+	@Override
 	public void setDriver(String driver) {
 		this.driver = driver;
 	}
 	
+	@Override
 	public String getPassword() {
 		return password;
 	}
 	
+	@Override
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
+	@Override
 	public boolean isSavePassword() {
 		return savePassword;
 	}
 	
+	@Override
 	public void setSavePassword(boolean savePassword) {
 		this.savePassword = savePassword;
 	}
 	
+	@Override
 	public String getUrl() {
 		return url;
 	}
 	
+	@Override
 	public void setUrl(String url) {
 		this.url = url;
 	}
 	
+	@Override
 	public String getUsername() {
 		return username;
 	}
 	
+	@Override
 	public void setUsername(String username) {
 		this.username = username;
 	}
 	
+	@Override
 	public String getServerAddress() {
 		return this.serverAddress;
 	}
 	
+	@Override
 	public void setServerAddress(String serverAddress) {
 		this.serverAddress = serverAddress;
 	}
 
+	@Override
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
 	}
 
+	@Override
 	public Map<String, String> getProperties() {
 		return properties;
 	}

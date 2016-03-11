@@ -38,9 +38,7 @@ public class JRBandFactory extends JRBaseFactory
 {
 	private static final Log log = LogFactory.getLog(JRBandFactory.class);
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRDesignBand band = new JRDesignBand();

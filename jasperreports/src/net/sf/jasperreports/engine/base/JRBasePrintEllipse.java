@@ -48,6 +48,7 @@ public class JRBasePrintEllipse extends JRBasePrintGraphicElement implements JRP
 		super(defaultStyleProvider);
 	}
 
+	@Override
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		visitor.visit(this, arg);

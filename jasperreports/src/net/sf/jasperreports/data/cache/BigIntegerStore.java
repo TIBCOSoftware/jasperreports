@@ -68,6 +68,7 @@ public class BigIntegerStore implements BufferColumnStore
 		return BigInteger.class;
 	}
 
+	@Override
 	public void addValue(Object object)
 	{
 		if (!(object instanceof BigInteger))
@@ -82,16 +83,19 @@ public class BigIntegerStore implements BufferColumnStore
 		max = max.max(value);
 	}
 
+	@Override
 	public boolean full()
 	{
 		return rawStore.full();
 	}
 	
+	@Override
 	public void resetValues()
 	{
 		reset();
 	}
 	
+	@Override
 	public ColumnValues createValues()
 	{
 		int count = rawStore.count();
@@ -183,6 +187,7 @@ public class BigIntegerStore implements BufferColumnStore
 		return primitiveValues;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "BigIntegerStore@" + hashCode();

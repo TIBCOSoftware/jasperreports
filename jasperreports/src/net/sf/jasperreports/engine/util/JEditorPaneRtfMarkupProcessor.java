@@ -59,9 +59,7 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 		return instance;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String convert(String srcText)
 	{
 		JEditorPane editorPane = new JEditorPane("text/rtf", srcText);

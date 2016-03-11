@@ -74,11 +74,13 @@ public class BlockColumnValues implements ColumnValues, Serializable
 		}
 	}
 	
+	@Override
 	public int size()
 	{
 		return size;
 	}
 
+	@Override
 	public ColumnValuesIterator iterator()
 	{
 		return new ValuesIterator();
@@ -94,12 +96,14 @@ public class BlockColumnValues implements ColumnValues, Serializable
 			blockIndex = -1;
 		}
 		
+		@Override
 		public void moveFirst()
 		{
 			blockIndex = -1;
 			blockIterator = null;
 		}
 
+		@Override
 		public boolean next()
 		{
 			do
@@ -125,6 +129,7 @@ public class BlockColumnValues implements ColumnValues, Serializable
 			while (true);// exit through one of the returns
 		}
 
+		@Override
 		public Object get()
 		{
 			if (blockIterator == null)

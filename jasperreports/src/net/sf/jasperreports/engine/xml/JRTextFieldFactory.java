@@ -47,9 +47,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 		return new JRDesignTextField(jasperDesign);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);

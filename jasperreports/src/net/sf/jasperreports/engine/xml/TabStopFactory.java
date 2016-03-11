@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class TabStopFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		TabStop tabStop = new TabStop();

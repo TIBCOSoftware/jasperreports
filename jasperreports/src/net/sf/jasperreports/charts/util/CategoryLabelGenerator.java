@@ -45,6 +45,7 @@ public class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator
 		this.labelsMap = labelsMap;
 	}
 
+	@Override
 	public String generateLabel(CategoryDataset dataset, int series, int category) 
 	{
 		Comparable<?> seriesName = dataset.getRowKey(series);

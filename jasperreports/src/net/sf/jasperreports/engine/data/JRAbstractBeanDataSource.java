@@ -54,6 +54,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	protected static final PropertyNameProvider FIELD_NAME_PROPERTY_NAME_PROVIDER =
 		new PropertyNameProvider()
 		{
+			@Override
 			public String getPropertyName(JRField field) 
 			{
 				return field.getName();
@@ -63,6 +64,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	protected static final PropertyNameProvider FIELD_DESCRIPTION_PROPERTY_NAME_PROVIDER =
 		new PropertyNameProvider()
 		{
+			@Override
 			public String getPropertyName(JRField field) 
 			{
 				if (field.getDescription() == null)

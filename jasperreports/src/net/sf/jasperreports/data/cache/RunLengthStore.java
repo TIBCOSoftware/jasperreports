@@ -147,6 +147,7 @@ public class RunLengthStore
 		return maxRunLength;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "RunLengthStore@" + hashCode();

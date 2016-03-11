@@ -62,81 +62,97 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	{
 	}
 	
+	@Override
 	public String getHyperlinkAnchor()
 	{
 		return hyperlinkAnchor;
 	}
 
+	@Override
 	public Integer getHyperlinkPage()
 	{
 		return hyperlinkPage;
 	}
 
+	@Override
 	public JRPrintHyperlinkParameters getHyperlinkParameters()
 	{
 		return hyperlinkParameters;
 	}
 
+	@Override
 	public String getHyperlinkReference()
 	{
 		return hyperlinkReference;
 	}
 
+	@Override
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
 	}
 
+	@Override
 	public String getLinkType()
 	{
 		return linkType;
 	}
 
+	@Override
 	public String getLinkTarget()
 	{
 		return linkTarget;
 	}
 
+	@Override
 	public void setHyperlinkAnchor(String hyperlinkAnchor)
 	{
 		this.hyperlinkAnchor = hyperlinkAnchor;
 	}
 
+	@Override
 	public void setHyperlinkPage(Integer hyperlinkPage)
 	{
 		this.hyperlinkPage = hyperlinkPage;
 	}
 
+	@Override
 	public void setHyperlinkParameters(JRPrintHyperlinkParameters parameters)
 	{
 		this.hyperlinkParameters = parameters;
 	}
 
+	@Override
 	public void setHyperlinkReference(String hyperlinkReference)
 	{
 		this.hyperlinkReference = hyperlinkReference;
 	}
 
+	@Override
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
 	}
 
+	@Override
 	public void setLinkTarget(String linkTarget)
 	{
 		this.linkTarget = linkTarget;
 	}
 
+	@Override
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 
+	@Override
 	public void setLinkType(String type)
 	{
 		this.linkType = type;
@@ -160,12 +176,14 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	}
 
 	
+	@Override
 	public String getHyperlinkTooltip()
 	{
 		return hyperlinkTooltip;
 	}
 
 	
+	@Override
 	public void setHyperlinkTooltip(String hyperlinkTooltip)
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;

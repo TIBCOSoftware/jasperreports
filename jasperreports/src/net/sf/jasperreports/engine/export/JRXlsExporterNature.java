@@ -53,6 +53,7 @@ public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 		super(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
+	@Override
 	public boolean isToExport(JRPrintElement element)
 	{
 		boolean isToExport = true;

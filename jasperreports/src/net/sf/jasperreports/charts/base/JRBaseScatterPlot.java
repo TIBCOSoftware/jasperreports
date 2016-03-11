@@ -127,251 +127,187 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		rangeAxisMaxValueExpression = factory.getExpression( scatterPlot.getRangeAxisMaxValueExpression() );
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getXAxisLabelExpression(){
 		return xAxisLabelExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getXAxisLabelFont()
 	{
 		return xAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisLabelColor()
 	{
 		return getStyleResolver().getXAxisLabelColor(this, this);
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisLabelColor()
 	{
 		return xAxisLabelColor;
 	}
 		
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getXAxisTickLabelFont()
 	{
 		return xAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisTickLabelColor()
 	{
 		return getStyleResolver().getXAxisTickLabelColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisTickLabelColor()
 	{
 		return xAxisTickLabelColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getXAxisTickLabelMask()
 	{
 		return xAxisTickLabelMask;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getXAxisVerticalTickLabels()
 	{
 		return xAxisVerticalTickLabels;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getXAxisLineColor()
 	{
 		return getStyleResolver().getXAxisLineColor(this, this);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnXAxisLineColor()
 	{
 		return xAxisLineColor;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getYAxisLabelExpression() {
 		return yAxisLabelExpression;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getYAxisLabelFont()
 	{
 		return yAxisLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisLabelColor()
 	{
 		return getStyleResolver().getYAxisLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisLabelColor()
 	{
 		return yAxisLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRFont getYAxisTickLabelFont()
 	{
 		return yAxisTickLabelFont;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisTickLabelColor()
 	{
 		return getStyleResolver().getYAxisTickLabelColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisTickLabelColor()
 	{
 		return yAxisTickLabelColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getYAxisTickLabelMask()
 	{
 		return yAxisTickLabelMask;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getYAxisVerticalTickLabels()
 	{
 		return yAxisVerticalTickLabels;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Color getYAxisLineColor()
 	{
 		return getStyleResolver().getYAxisLineColor(this, this);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Color getOwnYAxisLineColor()
 	{
 		return yAxisLineColor;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowShapes(){
 		return showShapes;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean getShowLines(){
 		return showLines;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMinValueExpression(){
 		return domainAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getDomainAxisMaxValueExpression(){
 		return domainAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMinValueExpression(){
 		return rangeAxisMinValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public JRExpression getRangeAxisMaxValueExpression(){
 		return rangeAxisMaxValueExpression;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public void setShowShapes( Boolean value ){
 		Boolean old = this.showShapes;
 		this.showShapes = value;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.showShapes);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public void setShowLines( Boolean value ){
 		Boolean old = this.showLines;
 		this.showLines = value;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LINES, old, this.showLines);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseScatterPlot clone = (JRBaseScatterPlot)super.clone(parentChart);

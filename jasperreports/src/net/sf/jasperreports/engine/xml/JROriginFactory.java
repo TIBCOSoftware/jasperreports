@@ -36,9 +36,7 @@ public class JROriginFactory extends JRBaseFactory
 {
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		return 

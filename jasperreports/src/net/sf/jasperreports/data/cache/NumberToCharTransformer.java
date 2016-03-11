@@ -53,6 +53,7 @@ public final class NumberToCharTransformer implements ValueTransformer, Serializ
 		return Character.class;
 	}
 	
+	@Override
 	public Object get(Object value)
 	{
 		return (char) ((Number) value).intValue();

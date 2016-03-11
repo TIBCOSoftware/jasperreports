@@ -33,6 +33,7 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
  */
 public class DefaultRepositoryExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
 		return DefaultRepositoryExtensionRegistry.getInstance();

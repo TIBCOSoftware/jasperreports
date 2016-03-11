@@ -41,9 +41,7 @@ public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration
 	{
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public String getPageSeparator()
 	{
 		return pageSeparator;
@@ -57,9 +55,7 @@ public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration
 		this.pageSeparator = pageSeparator;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String getLineSeparator()
 	{
 		return lineSeparator;
@@ -73,9 +69,7 @@ public class SimpleTextExporterConfiguration extends SimpleExporterConfiguration
 		this.lineSeparator = lineSeparator;
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isTrimLineRight()
 	{
 		return isTrimLineRight;

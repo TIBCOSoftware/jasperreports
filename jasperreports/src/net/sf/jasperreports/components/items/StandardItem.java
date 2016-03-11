@@ -54,6 +54,7 @@ public class StandardItem implements Item, JRChangeEventsSupport, Serializable
 		this.properties = properties;
 	}
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
@@ -67,6 +68,7 @@ public class StandardItem implements Item, JRChangeEventsSupport, Serializable
 		return eventSupport;
 	}
 
+	@Override
 	public Object clone()
 	{
 		StandardItem clone = null;

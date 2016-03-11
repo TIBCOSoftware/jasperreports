@@ -50,6 +50,7 @@ public class SingleProtectionDomainFactory implements ProtectionDomainFactory
 	/**
 	 * Returns the wrapped protection domain.
 	 */
+	@Override
 	public ProtectionDomain getProtectionDomain(ClassLoader classloader)
 	{
 		return protectionDomain;

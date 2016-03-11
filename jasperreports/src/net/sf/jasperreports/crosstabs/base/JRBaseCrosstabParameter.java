@@ -52,11 +52,13 @@ public class JRBaseCrosstabParameter extends JRBaseParameter implements JRCrosst
 		valueExpression = factory.getExpression(parameter.getExpression());
 	}
 	
+	@Override
 	public JRExpression getExpression()
 	{
 		return valueExpression;
 	}
 	
+	@Override
 	public Object clone()
 	{
 		JRBaseCrosstabParameter clone = (JRBaseCrosstabParameter) super.clone();

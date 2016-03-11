@@ -42,9 +42,7 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 	{
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isFramesAsNestedTables()
 	{
 		return isFramesAsNestedTables;
@@ -58,9 +56,7 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 		this.isFramesAsNestedTables = isFramesAsNestedTables;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isFlexibleRowHeight()
 	{
 		return isFlexibleRowHeight;
@@ -74,9 +70,7 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 		this.isFlexibleRowHeight = isFlexibleRowHeight;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isIgnoreHyperlink()
 	{
 		return isIgnoreHyperlink;
@@ -90,9 +84,7 @@ public class SimpleDocxReportConfiguration extends SimpleReportExportConfigurati
 		this.isIgnoreHyperlink = isIgnoreHyperlink;
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Boolean isNewLineAsParagraph()
 	{
 		return isNewLineAsParagraph;

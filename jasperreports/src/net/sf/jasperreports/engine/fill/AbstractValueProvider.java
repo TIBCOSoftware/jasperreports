@@ -37,6 +37,7 @@ public abstract class AbstractValueProvider
 	private static AbstractValueProvider currentValueProvider = 
 		new AbstractValueProvider()
 		{
+			@Override
 			public Object getValue(JRCalculable calculable)
 			{
 				return calculable.getValue();
@@ -49,6 +50,7 @@ public abstract class AbstractValueProvider
 	private static AbstractValueProvider estimatedValueProvider = 
 		new AbstractValueProvider()
 		{
+			@Override
 			public Object getValue(JRCalculable calculable)
 			{
 				return ((JRFillVariable) calculable).getEstimatedValue();

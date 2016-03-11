@@ -33,6 +33,7 @@ import org.xml.sax.Attributes;
  */
 public class ItemDataXmlFactory extends JRBaseFactory
 {
+	@Override
 	public Object createObject(Attributes attrs) throws Exception
 	{
 		return new StandardItemData();

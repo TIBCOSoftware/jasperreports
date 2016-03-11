@@ -35,9 +35,7 @@ public class JRYXComparator implements Comparator<JRPrintElement>
 {
 	
 
-	/**
-	 *
-	 */
+	@Override
 	public int compare(JRPrintElement elem1, JRPrintElement elem2)
 	{
 		if (elem1.getY() == elem2.getY())

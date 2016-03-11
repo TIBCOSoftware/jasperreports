@@ -33,18 +33,22 @@ public class SpringHibernateDataAdapterImpl extends AbstractDataAdapter
 	private String springConfig;
 	private String beanId;
 
+	@Override
 	public String getSpringConfig() {
 		return springConfig;
 	}
 
+	@Override
 	public void setSpringConfig(String springConfig) {
 		this.springConfig = springConfig;
 	}
 
+	@Override
 	public String getBeanId() {
 		return beanId;
 	}
 
+	@Override
 	public void setBeanId(String beanId) {
 		this.beanId = beanId;
 	}

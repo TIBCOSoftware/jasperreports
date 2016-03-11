@@ -109,6 +109,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 	}
 	
 	
+	@Override
 	public NodeList selectNodeList(Node contextNode, String expression) throws JRException
 	{
 		try
@@ -137,6 +138,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		}		
 	}
 
+	@Override
 	public Object selectObject(Node contextNode, String expression) throws JRException
 	{
 		try
@@ -234,6 +236,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			if (context == null) {
 				context = new NamespaceContext() {
 					
+					@Override
 					public String translateNamespacePrefixToUri(String prefix) {
 						return xmlNamespaceMap.get(prefix);
 					}

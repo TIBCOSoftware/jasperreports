@@ -33,16 +33,19 @@ import net.sf.jasperreports.engine.JRException;
 public class JREmptyQueryExecuter implements JRQueryExecuter
 {
 
+	@Override
 	public boolean cancelQuery() throws JRException
 	{
 		return false;
 	}
 
+	@Override
 	public void close()
 	{
 		//nothing
 	}
 
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		return null;

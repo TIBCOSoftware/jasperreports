@@ -210,6 +210,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		JRHyperlinkParameter[] parameters;
@@ -305,9 +306,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTooltipExpression);
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public Object clone()
 	{
 		JRDesignHyperlink clone = (JRDesignHyperlink)super.clone();
@@ -317,6 +316,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)
