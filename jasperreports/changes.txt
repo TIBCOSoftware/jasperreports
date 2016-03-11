@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.2.1 (2015-12-xx)
+JasperReports 6.2.1 (2016-03-1x)
 ---------------------------------------------
 
 - minor bug fixes and improvements;
