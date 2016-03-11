@@ -2466,9 +2466,16 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected boolean canUseGlyphRendering(JRPrintText text, JRStyledText styledText)
 	{
 		Locale locale = getTextLocale(text);
-		for (Run run : styledText.getRuns()) 
+		AttributedCharacterIterator attributesIterator = styledText.getAttributedString().getIterator();
+		int index = 0;
+		while (index < styledText.length())
 		{
-			FontKey fontKey = extractFontKey(run, locale);
+			FontKey fontKey = extractFontKey(attributesIterator.getAttributes(), locale);
+			if (fontKey.family == null)
+			{
+				return false;
+			}
+			
 			Boolean canUse = glyphRendererFonts.get(fontKey);
 			if (canUse == null)
 			{
@@ -2480,18 +2487,21 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				return false;
 			}
+			
+			index = attributesIterator.getRunLimit();
+			attributesIterator.setIndex(index);
 		}
 		return true;
 	}
 
-	protected FontKey extractFontKey(Run run, Locale locale)
+	protected FontKey extractFontKey(Map<Attribute, Object> attributes, Locale locale)
 	{
-		String family = (String) run.attributes.get(TextAttribute.FAMILY);
+		String family = (String) attributes.get(TextAttribute.FAMILY);
 		
-		Number posture = (Number) run.attributes.get(TextAttribute.POSTURE);
+		Number posture = (Number) attributes.get(TextAttribute.POSTURE);
 		boolean italic = TextAttribute.POSTURE_OBLIQUE.equals(posture);//FIXME check for non standard posture
 
-		Number weight = (Number) run.attributes.get(TextAttribute.WEIGHT);
+		Number weight = (Number) attributes.get(TextAttribute.WEIGHT);
 		boolean bold = TextAttribute.WEIGHT_BOLD.equals(weight);
 		
 		return new FontKey(family, italic, bold, locale);
