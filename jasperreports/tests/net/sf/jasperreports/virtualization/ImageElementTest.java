@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.virtualization;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -32,17 +34,19 @@ import java.util.Set;
 import java.util.UUID;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluationTime;
 import net.sf.jasperreports.engine.fill.JRRecordedValues;
 import net.sf.jasperreports.engine.fill.JRRecordedValuesPrintImage;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.renderers.AbstractRenderToImageDataRenderer;
+import net.sf.jasperreports.renderers.DataRenderable;
+import net.sf.jasperreports.renderers.SimpleDataRenderer;
 
 import org.testng.annotations.Test;
 
@@ -67,8 +71,8 @@ public class ImageElementTest extends BaseElementsTests
 	{
 		JRTemplatePrintImage image = imageElement();
 		JRTemplatePrintImage readImage = passThroughImageSerialization(image);
-		assert readImage.getRenderable() != null;
-		assert readImage.getRenderable() == image.getRenderable();
+		assert readImage.getRenderer() != null;
+		assert readImage.getRenderer() == image.getRenderer();
 	}
 
 	@Test
@@ -76,23 +80,23 @@ public class ImageElementTest extends BaseElementsTests
 	{
 		JRTemplatePrintImage image = imageElement();
 		JRTemplatePrintImage readImage = passThroughElementSerialization(image);
-		assert readImage.getRenderable() != null;
-		assert readImage.getRenderable() != image.getRenderable();
+		assert readImage.getRenderer() != null;
+		assert readImage.getRenderer() != image.getRenderer();
 		DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance();
-		assert Arrays.equals(readImage.getRenderable().getImageData(context),
-				image.getRenderable().getImageData(context));
+		assert Arrays.equals(((DataRenderable) readImage.getRenderer()).getData(context),
+				((DataRenderable) image.getRenderer()).getData(context));
 	}
 
 	@Test
 	public void customRenderer()
 	{
 		JRTemplatePrintImage image = imageElement();
-		image.setRenderable(new CustomRenderer("x"));
+		image.setRenderer(new CustomRenderer("x"));
 		JRTemplatePrintImage readImage = compareSerialized(image);
-		assert readImage.getRenderable() != null;
-		assert readImage.getRenderable() != image.getRenderable();
-		assert readImage.getRenderable() instanceof CustomRenderer;
-		assert ((CustomRenderer) readImage.getRenderable()).a.equals("x");
+		assert readImage.getRenderer() != null;
+		assert readImage.getRenderer() != image.getRenderer();
+		assert readImage.getRenderer() instanceof CustomRenderer;
+		assert ((CustomRenderer) readImage.getRenderer()).a.equals("x");
 	}
 	
 	@Test
@@ -213,7 +217,7 @@ public class ImageElementTest extends BaseElementsTests
 	protected JRTemplatePrintImage passThroughImageSerialization(JRTemplatePrintImage image)
 	{
 		JRVirtualizationContext virtualizationContext = createVirtualizationContext();
-		virtualizationContext.cacheRenderer(image);
+		virtualizationContext.cacheRenderer(image.getRenderer());
 		return passThroughSerialization(virtualizationContext, image);
 	}
 	
@@ -233,11 +237,11 @@ public class ImageElementTest extends BaseElementsTests
 		image.setWidth(50);
 		image.setHeight(30);
 		
-		JRImageRenderer renderer = JRImageRenderer.getInstance(DUMMY_IMAGE_DATA);
-		image.setRenderable(renderer);
+		SimpleDataRenderer renderer = SimpleDataRenderer.getInstance(DUMMY_IMAGE_DATA);
+		image.setRenderer(renderer);
 	}
 
-	private static final class CustomRenderer extends JRAbstractSvgRenderer
+	private static final class CustomRenderer extends AbstractRenderToImageDataRenderer
 	{
 		private static final long serialVersionUID = 1L;
 		
@@ -248,11 +252,16 @@ public class ImageElementTest extends BaseElementsTests
 			this.a = a;
 		}
 		
-		@SuppressWarnings("deprecation")
 		@Override
-		public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
+		public void render(JasperReportsContext context, Graphics2D grx, Rectangle2D rectangle) throws JRException
 		{
 			// NOP
+		}
+		
+		@Override
+		public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
+		{
+			return new Dimension(1, 1);
 		}
 	}
 	
