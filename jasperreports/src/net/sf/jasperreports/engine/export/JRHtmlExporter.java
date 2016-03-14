@@ -1848,7 +1848,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 								String fileExtension = 
 									getRendererUtil().isSvgData(imageData)
-									? "svg"
+									? RendererUtil.SVG_FILE_EXTENSION
 									: JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
 
 								String imageName = getImageName(getElementIndex(gridCell), fileExtension);

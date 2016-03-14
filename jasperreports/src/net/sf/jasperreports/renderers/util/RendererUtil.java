@@ -67,6 +67,9 @@ public class RendererUtil
 	
 	public static final Renderable NO_IMAGE_RENDERER = ResourceRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE, false);//FIXMEIMAGE consider moving constant from loader to here 
 
+	public static final String SVG_MIME_TYPE = "image/svg+xml";
+	public static final String SVG_FILE_EXTENSION = "svg";
+
 	/**
 	 *
 	 */
