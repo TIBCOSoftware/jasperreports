@@ -95,6 +95,7 @@
 				<directory>tests</directory>
 				<includes>
 					<include>**/*.jrxml</include>
+					<include>**/*.jrpxml</include>
 					<include>**/*.xml</include>
 					<include>**/*.csv</include>
 					<include>**/*.png</include>

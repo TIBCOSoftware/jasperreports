@@ -69,10 +69,9 @@ public class ReportTest
 
 	private static final Log log = LogFactory.getLog(ReportTest.class);
 	
-	private final String DIGEST = "ece1c2b966beca403f642d6e0f72d5d460852554";
-	
 	private JasperReport report;
 	private JasperFillManager fillManager;
+	private String referenceJRPXMLDigest;
 
 	@BeforeClass
 	public void compileReport() throws JRException, IOException
@@ -99,6 +98,16 @@ public class ReportTest
 		
 		fillManager = JasperFillManager.getInstance(jasperReportsContext);
 	}
+
+	@BeforeClass
+	public void readReferenceDigest() throws JRException, NoSuchAlgorithmException
+	{
+		byte[] jrpxmlBytes = JRLoader.loadBytesFromResource("net/sf/jasperreports/virtualization/FirstJasper.reference.jrpxml");
+		MessageDigest digest = MessageDigest.getInstance("SHA-1");
+		digest.update(jrpxmlBytes);
+		referenceJRPXMLDigest = toDigestString(digest);
+		log.debug("Reference report digest is " + referenceJRPXMLDigest);
+	}
 	
 	@Test
 	public void baseReport() throws JRException, NoSuchAlgorithmException, IOException
@@ -111,7 +120,7 @@ public class ReportTest
 		
 		String digestString = xmlDigest(print);
 		log.debug("Plain report got " + digestString);
-		assert digestString.equals(DIGEST);
+		assert digestString.equals(referenceJRPXMLDigest);
 	}
 	
 	@Test
@@ -130,7 +139,7 @@ public class ReportTest
 		
 		String digestString = xmlDigest(print);
 		log.debug("Virtualized report got " + digestString);
-		assert digestString.equals(DIGEST);
+		assert digestString.equals(referenceJRPXMLDigest);
 	}
 
 	protected String xmlDigest(JasperPrint print) 
@@ -151,6 +160,11 @@ public class ReportTest
 			output.close();
 		}
 		
+		return toDigestString(digest);
+	}
+
+	protected String toDigestString(MessageDigest digest)
+	{
 		byte[] digestBytes = digest.digest();
 		StringBuilder digestString = new StringBuilder(digestBytes.length * 2);
 		for (byte b : digestBytes)
