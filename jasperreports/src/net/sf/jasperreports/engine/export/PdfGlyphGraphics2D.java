@@ -41,6 +41,9 @@ import com.lowagie.text.pdf.PdfGraphics2D;
 public class PdfGlyphGraphics2D extends PdfGraphics2D
 {
 
+	private static final float BOLD_STRIKE_FACTOR = 1f / 30f;
+	private static final float ITALIC_ANGLE = .21256f;
+	
 	private boolean initialized;
 	private PdfContentByte pdfContentByte;
 	private JRPdfExporter pdfExporter;
@@ -78,6 +81,8 @@ public class PdfGlyphGraphics2D extends PdfGraphics2D
 		fontAttrs.putAll(awtFontAttributes);
 		
 		com.lowagie.text.Font currentFont = pdfExporter.getFont(fontAttrs, locale, false);
+		boolean bold = (currentFont.getStyle() & com.lowagie.text.Font.BOLD) != 0;
+		boolean italic = (currentFont.getStyle() & com.lowagie.text.Font.ITALIC) != 0;
         
         PdfContentByte text = pdfContentByte.getDuplicate();
         text.beginText();
@@ -85,18 +90,33 @@ public class PdfGlyphGraphics2D extends PdfGraphics2D
         float[] originalCoords = new float[]{x, y};
         float[] transformedCoors = new float[2];
         getTransform().transform(originalCoords, 0, transformedCoors, 0, 1);
-        text.setTextMatrix(transformedCoors[0], pdfExporter.getCurrentPageFormat().getPageHeight() - transformedCoors[1]);
+        text.setTextMatrix(1, 0, italic ? ITALIC_ANGLE : 0f, 1, 
+        		transformedCoors[0], pdfExporter.getCurrentPageFormat().getPageHeight() - transformedCoors[1]);
         
         double scaleX = awtFont.getTransform().getScaleX();
         double scaleY = awtFont.getTransform().getScaleY();
         double minScale = Math.min(scaleX, scaleY);
         text.setFontAndSize(currentFont.getBaseFont(), (float) (minScale * awtFont.getSize2D()));
         
+		if (bold)
+		{
+			text.setTextRenderingMode(PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE);
+			text.setLineWidth(currentFont.getSize() * BOLD_STRIKE_FACTOR);
+			text.setColorStroke(getColor());
+		}
+
 		text.setColorFill(getColor());
 		//FIXME find a way to determine the characters that correspond to this glyph vector
 		// so that we can map the font glyphs that do not directly map to a character
 		text.showText(glyphVector);
 		text.resetRGBColorFill();
+		
+		if (bold)
+		{
+			text.setTextRenderingMode(PdfContentByte.TEXT_RENDER_MODE_FILL);
+			text.setLineWidth(1f);
+			text.resetRGBColorStroke();
+		}
         
         text.endText();
         pdfContentByte.add(text);
