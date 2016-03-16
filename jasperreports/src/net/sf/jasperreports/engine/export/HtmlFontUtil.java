@@ -94,7 +94,7 @@ public class HtmlFontUtil
 				|| htmlFont.getWoff() != null
 				)
 			{
-				sbuffer.append("\tsrc: local('☺')");
+				sbuffer.append("\tsrc: local('\u263A')");
 				if (htmlFont.getWoff() != null)
 				{
 					String woffId = htmlFont.getId() + ".woff";
