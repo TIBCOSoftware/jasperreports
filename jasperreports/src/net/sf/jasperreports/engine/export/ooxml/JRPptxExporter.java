@@ -524,7 +524,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		slideHelper.write("    <p:nvPr/>\n");
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
-		slideHelper.write("    <a:xfrm" + (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN ? " flipV=\"1\"" : "") + ">\n");
+		slideHelper.write("    <a:xfrm" + (line.getDirectionValue() == LineDirectionEnum.BOTTOM_UP ? " flipV=\"1\"" : "") + ">\n");
 		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(x) + "\" y=\"" + LengthUtil.emu(y) + "\"/>\n");
 		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"line\"><a:avLst/></a:prstGeom>\n");
