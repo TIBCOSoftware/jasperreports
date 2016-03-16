@@ -70,7 +70,6 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -1385,13 +1384,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
-					String mimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();//FIXMEEXPORT this code for file extension is duplicated; is it now?
-					if (mimeType == null)
-					{
-						mimeType = ImageTypeEnum.JPEG.getMimeType();
-					}
-					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+					String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
+					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
 
 					pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
 						new FileBufferedZipEntry(

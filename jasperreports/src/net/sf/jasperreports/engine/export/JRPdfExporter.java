@@ -128,7 +128,6 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledText.Run;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.NullOutputStream;
@@ -149,6 +148,7 @@ import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.WrappingImageDataToGraphics2DRenderer;
 import net.sf.jasperreports.renderers.WrappingSvgDataToGraphics2DRenderer;
+import net.sf.jasperreports.renderers.util.RendererUtil;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -1614,7 +1614,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 			else
 			{
-				//FIXMEIMAGE do something?
+				throw 
+					new JRException(
+						RendererUtil.EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE,
+						new Object[]{
+							renderer.getClass().getName(),
+							DataRenderable.class.getName() 
+								+ " or " + Graphics2DRenderable.class.getName() 
+							}
+						);
 			}
 
 			return imageProcessorResult;

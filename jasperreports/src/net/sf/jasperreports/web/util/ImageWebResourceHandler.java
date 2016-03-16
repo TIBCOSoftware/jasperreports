@@ -146,7 +146,7 @@ public class ImageWebResourceHandler implements WebResourceHandler
 			
 			imageMimeType =
 				RendererUtil.getInstance(jasperReportsContext).isSvgData(imageData)
-				? "image/svg+xml" //FIXMEIMAGE use constant everywhere
+				? RendererUtil.SVG_MIME_TYPE
 				: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 		}
 

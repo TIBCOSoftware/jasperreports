@@ -65,7 +65,10 @@ public class RendererUtil
 	public static final String EXCEPTION_MESSAGE_KEY_IMAGE_ERROR = "engine.renderable.util.image.error";
 	public static final String EXCEPTION_MESSAGE_KEY_RENDERABLE_MUST_IMPLEMENT_INTERFACE = "engine.renderable.must.implement.interface";
 	
-	public static final Renderable NO_IMAGE_RENDERER = ResourceRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE, false);//FIXMEIMAGE consider moving constant from loader to here 
+	public static final Renderable NO_IMAGE_RENDERER = ResourceRenderer.getInstance(JRImageLoader.NO_IMAGE_RESOURCE, false); 
+
+	public static final String SVG_MIME_TYPE = "image/svg+xml";
+	public static final String SVG_FILE_EXTENSION = "svg";
 
 	/**
 	 *

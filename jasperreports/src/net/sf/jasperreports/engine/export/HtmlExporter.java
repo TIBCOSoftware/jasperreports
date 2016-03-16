@@ -1291,7 +1291,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 						String imageMimeType = 
 							getRendererUtil().isSvgData(imageData)
-							? "image/svg+xml"
+							? RendererUtil.SVG_MIME_TYPE
 							: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 
 						ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
@@ -1325,7 +1325,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							
 							String fileExtension = 
 								getRendererUtil().isSvgData(imageData)
-								? "svg"
+								? RendererUtil.SVG_FILE_EXTENSION
 								: JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
 
 							String imageName = getImageName(getElementIndex(cell), fileExtension);

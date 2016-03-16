@@ -87,7 +87,6 @@ import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -104,7 +103,6 @@ import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
 /**
@@ -1258,13 +1256,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
-					String mimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();//FIXMEPPTX this code for file extension is duplicated
-					if (mimeType == null)
-					{
-						mimeType = ImageTypeEnum.JPEG.getMimeType();
-					}
-					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+					String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
+					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
 
 					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 						new FileBufferedZipEntry(

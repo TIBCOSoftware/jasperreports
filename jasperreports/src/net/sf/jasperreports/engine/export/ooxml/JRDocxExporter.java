@@ -81,7 +81,6 @@ import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -1247,13 +1246,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							);
 
 					byte[] imageData = imageRenderer.getData(jasperReportsContext);
-					String mimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
-					if (mimeType == null)//FIXMEIMAGE do we need these tests? check all
-					{
-						mimeType = ImageTypeEnum.JPEG.getMimeType();
-					}
-					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+					String fileExtension = JRTypeSniffer.getImageTypeValue(imageData).getFileExtension();
+					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + (fileExtension == null ? "" : ("." + fileExtension));
 					
 					docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
