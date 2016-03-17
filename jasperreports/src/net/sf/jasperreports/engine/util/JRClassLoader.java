@@ -373,18 +373,18 @@ public class JRClassLoader extends ClassLoader
 
 		if (arrayDimension > 0)
 		{
-			StringBuffer sbuffer = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			
 			for(int i = 0; i < arrayDimension; i++)
 			{
-				sbuffer.append('[');
+				sb.append('[');
 			}
 			
-			sbuffer.append('L');
-			sbuffer.append(className.substring(0, classNameEnd));
-			sbuffer.append(';');
+			sb.append('L');
+			sb.append(className.substring(0, classNameEnd));
+			sb.append(';');
 
-			return sbuffer.toString();
+			return sb.toString();
 		}
 		
 		return className;

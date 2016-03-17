@@ -34,7 +34,8 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class XlsxWorkbookHelper extends BaseHelper
 {
-	StringBuffer definedNames;
+	StringBuilder definedNames;
+	
 	/**
 	 * 
 	 */
@@ -46,7 +47,7 @@ public class XlsxWorkbookHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public XlsxWorkbookHelper(JasperReportsContext jasperReportsContext, Writer writer, StringBuffer definedNames)
+	public XlsxWorkbookHelper(JasperReportsContext jasperReportsContext, Writer writer, StringBuilder definedNames)
 	{
 		super(jasperReportsContext, writer);
 		this.definedNames = definedNames;

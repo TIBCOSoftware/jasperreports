@@ -70,7 +70,7 @@ public class OhlohWidgetHtmlHandler implements
 
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
-		StringBuffer script = new StringBuffer(128);
+		StringBuilder script = new StringBuilder(128);
 		script.append("<script type='text/javascript' src='https://www.openhub.net/p/");
 		script.append(getProjectID(element));
 		script.append("/widgets/");

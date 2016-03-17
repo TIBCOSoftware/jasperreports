@@ -36,7 +36,7 @@ public class HtmlElementHtmlHandler implements GenericElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext exporterContext,
 			JRGenericPrintElement element)
 	{
-		StringBuffer script = new StringBuffer(128);
+		StringBuilder script = new StringBuilder(128);
 		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
 		
 		script.append("<div style='width:" + (element.getWidth() - 0) + "px;height:" + (element.getHeight() - 0) + "px;");

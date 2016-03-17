@@ -32,6 +32,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -135,10 +139,6 @@ import net.sf.jasperreports.engine.analytics.dataset.FillMultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
-
-import org.apache.commons.collections.map.LinkedMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -1649,7 +1649,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	{
 		if (!delayedStyleSettersByName.isEmpty())
 		{
-			StringBuffer errorMsg = new StringBuffer();
+			StringBuilder errorMsg = new StringBuilder();
 			for (Iterator<String> it = delayedStyleSettersByName.keySet().iterator(); it.hasNext();)
 			{
 				String name = it.next();

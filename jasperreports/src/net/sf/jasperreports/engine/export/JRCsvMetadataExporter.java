@@ -303,24 +303,24 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 		String fieldDelimiter = configuration.getFieldDelimiter();
 		String recordDelimiter = configuration.getRecordDelimiter();
 		
-		StringBuffer rowBuffer = new StringBuffer();
+		StringBuilder rowBuilder = new StringBuilder();
 		
 		for (int i = 0; i < columnNames.size(); i++)
 		{
-			rowBuffer.append(columnNames.get(i));
+			rowBuilder.append(columnNames.get(i));
 
 			if (i < (columnNames.size()-1))
 			{
-				rowBuffer.append(fieldDelimiter);
+				rowBuilder.append(fieldDelimiter);
 			} else
 			{
-				rowBuffer.append(recordDelimiter);
+				rowBuilder.append(recordDelimiter);
 			}
 		}
 		
-		if (rowBuffer.length() > 0)
+		if (rowBuilder.length() > 0)
 		{
-			writer.write(rowBuffer.toString());
+			writer.write(rowBuilder.toString());
 		}
 	}
 	
@@ -344,7 +344,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 		String fieldDelimiter = configuration.getFieldDelimiter();
 		String recordDelimiter = configuration.getRecordDelimiter();
 
-		StringBuffer rowBuffer = new StringBuffer();
+		StringBuilder rowBuilder = new StringBuilder();
 		boolean isEmptyRow = true;
 		
 		for (int i = 0; i < columnNames.size(); i++)
@@ -353,28 +353,28 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 			if (currentTextValue != null && currentTextValue.length() > 0)
 			{
 				isEmptyRow = false;
-				rowBuffer.append(prepareText(currentTextValue));
+				rowBuilder.append(prepareText(currentTextValue));
 			} else
 			{
 				String repeatedValue = repeatedValues.get(columnNames.get(i));
 				if (repeatedValue != null && repeatedValue.length() > 0)
 				{
-					rowBuffer.append(prepareText(repeatedValue));
+					rowBuilder.append(prepareText(repeatedValue));
 				}
 			}
 			
 			if (i < (columnNames.size()-1))
 			{
-				rowBuffer.append(fieldDelimiter);
+				rowBuilder.append(fieldDelimiter);
 			} else
 			{
-				rowBuffer.append(recordDelimiter);
+				rowBuilder.append(recordDelimiter);
 			}
 		}
 		
 		if (!isEmptyRow)
 		{
-			writer.write(rowBuffer.toString());
+			writer.write(rowBuilder.toString());
 		}
 	}
 	

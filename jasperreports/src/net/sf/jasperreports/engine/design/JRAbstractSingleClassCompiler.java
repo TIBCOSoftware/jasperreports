@@ -51,7 +51,7 @@ public abstract class JRAbstractSingleClassCompiler extends JRAbstractClassCompi
 			return compileClass(sourceFiles[0], classpath);
 		}
 		
-		StringBuffer errors = new StringBuffer();
+		StringBuilder errors = new StringBuilder();
 		for (int i = 0; i < sourceFiles.length; ++i)
 		{
 			errors.append(compileClass(sourceFiles[i], classpath));

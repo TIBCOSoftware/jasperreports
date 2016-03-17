@@ -94,7 +94,7 @@ public class HeaderToolbarElementUtils
 	}
 	
 	public static String packSortColumnInfo(String columnName, String columnType, String sortOrder) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(columnName)
 			.append(HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR)
 			.append(columnType)

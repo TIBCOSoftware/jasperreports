@@ -1005,7 +1005,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		short[] lineBreakOffsets = text.getLineBreakOffsets();
 		if (lineBreakOffsets != null)
 		{
-			StringBuffer offsetsString = formatTextLineBreakOffsets(lineBreakOffsets);
+			StringBuilder offsetsString = formatTextLineBreakOffsets(lineBreakOffsets);
 			xmlWriter.writeCDATAElement(JRXmlConstants.ELEMENT_lineBreakOffsets, 
 					offsetsString.toString());
 		}
@@ -1019,9 +1019,9 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	}
 
 
-	protected StringBuffer formatTextLineBreakOffsets(short[] lineBreakOffsets)
+	protected StringBuilder formatTextLineBreakOffsets(short[] lineBreakOffsets)
 	{
-		StringBuffer offsetsString = new StringBuffer();
+		StringBuilder offsetsString = new StringBuilder();
 		for (int i = 0; i < lineBreakOffsets.length; i++)
 		{
 			if (i > 0)

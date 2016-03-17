@@ -148,7 +148,7 @@ public class GraphicStyle extends Style
 	public String getId()
 	{
 		//return fill + "|" + backcolor
-		StringBuffer id = new StringBuffer();
+		StringBuilder id = new StringBuilder();
 		id.append(backcolor);
 		id.append("|");
 		id.append(forecolor);

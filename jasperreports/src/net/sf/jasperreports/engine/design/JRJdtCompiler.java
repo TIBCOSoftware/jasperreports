@@ -177,7 +177,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			@Override
 			public NameEnvironmentAnswer findType(char[][] compoundTypeName) 
 			{
-				StringBuffer result = new StringBuffer();
+				StringBuilder result = new StringBuilder();
 				String sep = "";
 				for (int i = 0; i < compoundTypeName.length; i++) {
 					result.append(sep);
@@ -190,7 +190,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			@Override
 			public NameEnvironmentAnswer findType(char[] typeName, char[][] packageName) 
 			{
-				StringBuffer result = new StringBuffer();
+				StringBuilder result = new StringBuilder();
 				String sep = "";
 				for (int i = 0; i < packageName.length; i++) {
 					result.append(sep);
@@ -357,7 +357,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 			@Override
 			public boolean isPackage(char[][] parentPackageName, char[] packageName) 
 			{
-				StringBuffer result = new StringBuffer();
+				StringBuilder result = new StringBuilder();
 				String sep = "";
 				if (parentPackageName != null) 
 				{
@@ -639,7 +639,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		 */
 		public String getFormattedProblems() 
 		{
-			StringBuffer problemBuffer = new StringBuffer();
+			StringBuilder problemBuilder = new StringBuilder();
 			
 			for (int u = 0; u < units.length; u++) 
 			{
@@ -653,9 +653,9 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 					{
 						IProblem problem = problems[i];
 			
-						problemBuffer.append(i + 1);
-						problemBuffer.append(". ");
-						problemBuffer.append(problem.getMessage());
+						problemBuilder.append(i + 1);
+						problemBuilder.append(". ");
+						problemBuilder.append(problem.getMessage());
 			
 						if (
 							problem.getSourceStart() >= 0
@@ -669,42 +669,42 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 								problemEndIndex = sourceCode.length();
 							}
 							
-							problemBuffer.append("\n");
-							problemBuffer.append(
+							problemBuilder.append("\n");
+							problemBuilder.append(
 								sourceCode.substring(
 									problemStartIndex,
 									problemEndIndex
 									)
 								);
-							problemBuffer.append("\n");
+							problemBuilder.append("\n");
 							for(int j = problemStartIndex; j < problem.getSourceStart(); j++)
 							{
-								problemBuffer.append(" ");
+								problemBuilder.append(" ");
 							}
 							if (problem.getSourceStart() == problem.getSourceEnd())
 							{
-								problemBuffer.append("^");
+								problemBuilder.append("^");
 							}
 							else
 							{
-								problemBuffer.append("<");
+								problemBuilder.append("<");
 								for(int j = problem.getSourceStart() + 1; j < problem.getSourceEnd(); j++)
 								{
-									problemBuffer.append("-");
+									problemBuilder.append("-");
 								}
-								problemBuffer.append(">");
+								problemBuilder.append(">");
 							}
 			
-							problemBuffer.append("\n");
+							problemBuilder.append("\n");
 						}
 					}
 					
-					problemBuffer.append(problems.length);
-					problemBuffer.append(" errors\n");
+					problemBuilder.append(problems.length);
+					problemBuilder.append(" errors\n");
 				}
 			}
 			
-			return problemBuffer.length() > 0 ? problemBuffer.toString() : null;
+			return problemBuilder.length() > 0 ? problemBuilder.toString() : null;
 		}
 
 		/**

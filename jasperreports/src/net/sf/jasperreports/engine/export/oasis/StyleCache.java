@@ -329,15 +329,15 @@ public class StyleCache
 		}
 		fontFaces.add(fontFamily);
 		
-		StringBuffer textSpanStyleIdBuffer = new StringBuffer();
-		textSpanStyleIdBuffer.append(fontFamily);
+		StringBuilder textSpanStyleIdBuilder = new StringBuilder();
+		textSpanStyleIdBuilder.append(fontFamily);
 
 		String forecolorHexa = null;
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!Color.black.equals(forecolor))
 		{
 			forecolorHexa = JRColorUtil.getColorHexa(forecolor);
-			textSpanStyleIdBuffer.append(forecolorHexa);
+			textSpanStyleIdBuilder.append(forecolorHexa);
 		}
 
 		String backcolorHexa = null;
@@ -345,35 +345,35 @@ public class StyleCache
 		if (runBackcolor != null)
 		{
 			backcolorHexa = JRColorUtil.getColorHexa(runBackcolor);
-			textSpanStyleIdBuffer.append(backcolorHexa);
+			textSpanStyleIdBuilder.append(backcolorHexa);
 		}
 
 		String size = String.valueOf(attributes.get(TextAttribute.SIZE));
-		textSpanStyleIdBuffer.append(size);
+		textSpanStyleIdBuilder.append(size);
 
 		String weight = null;
 		if (TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT)))
 		{
 			weight = "bold";
-			textSpanStyleIdBuffer.append(weight);
+			textSpanStyleIdBuilder.append(weight);
 		}
 		String posture = null;
 		if (TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE)))
 		{
 			posture = "italic";
-			textSpanStyleIdBuffer.append(posture);
+			textSpanStyleIdBuilder.append(posture);
 		}
 		String underline = null;
 		if (TextAttribute.UNDERLINE_ON.equals(attributes.get(TextAttribute.UNDERLINE)))
 		{
 			underline = "single";
-			textSpanStyleIdBuffer.append(underline);
+			textSpanStyleIdBuilder.append(underline);
 		}
 		String strikeThrough = null;
 		if (TextAttribute.STRIKETHROUGH_ON.equals(attributes.get(TextAttribute.STRIKETHROUGH)))
 		{
 			strikeThrough = "single";
-			textSpanStyleIdBuffer.append(strikeThrough);
+			textSpanStyleIdBuilder.append(strikeThrough);
 		}
 
 //		if (TextAttribute.SUPERSCRIPT_SUPER.equals(attributes.get(TextAttribute.SUPERSCRIPT)))
@@ -385,7 +385,7 @@ public class StyleCache
 //			textSpanStyleIdBuffer.append(" vertical-align: sub;");
 //		}
 
-		String textSpanStyleId = textSpanStyleIdBuffer.toString();
+		String textSpanStyleId = textSpanStyleIdBuilder.toString();
 		String textSpanStyleName = textSpanStyles.get(textSpanStyleId);
 		
 		if (textSpanStyleName == null)

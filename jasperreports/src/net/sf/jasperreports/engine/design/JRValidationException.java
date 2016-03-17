@@ -113,14 +113,14 @@ public class JRValidationException extends JRException
 			header = "Report design not valid : ";
 		}
 
-		StringBuffer sbuffer = new StringBuffer();
-		sbuffer.append(header);
+		StringBuilder sb = new StringBuilder();
+		sb.append(header);
 		int i = 1;
 		for(Iterator<JRValidationFault> it = faults.iterator(); it.hasNext(); i++)
 		{
 			JRValidationFault fault = it.next();
-			sbuffer.append("\n\t " + i + ". " + fault.getMessage());
+			sb.append("\n\t " + i + ". " + fault.getMessage());
 		}
-		return sbuffer.toString();
+		return sb.toString();
 	}
 }

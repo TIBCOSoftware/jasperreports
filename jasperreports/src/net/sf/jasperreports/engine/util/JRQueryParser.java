@@ -65,7 +65,7 @@ public class JRQueryParser
 	{
 		if (text != null)
 		{
-			StringBuffer textChunk = new StringBuffer();
+			StringBuilder textChunk = new StringBuilder();
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "$", true);
 			boolean wasDelim = false;
@@ -95,7 +95,7 @@ public class JRQueryParser
 							}
 							String parameterChunk = token.substring(2, end);
 							chunkHandler.handleParameterChunk(parameterChunk);					
-							textChunk = new StringBuffer(token.substring(end + 1));
+							textChunk = new StringBuilder(token.substring(end + 1));
 						}
 						else
 						{
@@ -117,7 +117,7 @@ public class JRQueryParser
 							}
 							String parameterClauseChunk = token.substring(3, end);
 							chunkHandler.handleParameterClauseChunk(parameterClauseChunk);					
-							textChunk = new StringBuffer(token.substring(end + 1));
+							textChunk = new StringBuilder(token.substring(end + 1));
 						}
 						else
 						{
@@ -139,7 +139,7 @@ public class JRQueryParser
 							}
 							String clauseChunk = token.substring(2, end);
 							parseClause(chunkHandler, clauseChunk);
-							textChunk = new StringBuffer(token.substring(end + 1));
+							textChunk = new StringBuilder(token.substring(end + 1));
 						}
 						else
 						{
@@ -252,7 +252,7 @@ public class JRQueryParser
 		
 		if (chunks != null && chunks.length > 0)
 		{
-			StringBuffer sbuffer = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			for(int i = 0; i < chunks.length; i++)
 			{
@@ -261,35 +261,35 @@ public class JRQueryParser
 				{
 					case JRQueryChunk.TYPE_PARAMETER :
 					{
-						sbuffer.append("$P{");
-						sbuffer.append( queryChunk.getText() );
-						sbuffer.append("}");
+						sb.append("$P{");
+						sb.append( queryChunk.getText() );
+						sb.append("}");
 						break;
 					}
 					case JRQueryChunk.TYPE_PARAMETER_CLAUSE :
 					{
-						sbuffer.append("$P!{");
-						sbuffer.append( queryChunk.getText() );
-						sbuffer.append("}");
+						sb.append("$P!{");
+						sb.append( queryChunk.getText() );
+						sb.append("}");
 						break;
 					}
 					case JRQueryChunk.TYPE_CLAUSE_TOKENS :
 					{
-						sbuffer.append("$X{");
-						sbuffer.append(queryChunk.getText());
-						sbuffer.append("}");
+						sb.append("$X{");
+						sb.append(queryChunk.getText());
+						sb.append("}");
 						break;
 					}
 					case JRQueryChunk.TYPE_TEXT :
 					default :
 					{
-						sbuffer.append( queryChunk.getText() );
+						sb.append( queryChunk.getText() );
 						break;
 					}
 				}
 			}
 
-			text = sbuffer.toString();
+			text = sb.toString();
 		}
 		
 		return text;
@@ -323,7 +323,7 @@ public class JRQueryParser
 			separator = defaultTokenSeparator();
 		}
 		
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (tokens != null && tokens.length > 0)
 		{
 			for (int i = 0; i < tokens.length; i++)

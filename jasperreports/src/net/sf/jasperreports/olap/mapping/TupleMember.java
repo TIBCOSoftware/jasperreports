@@ -44,7 +44,7 @@ public class TupleMember
 	{
 		names.add(name);
 		
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (uniqueName != null)
 		{
 			sb.append(uniqueName);

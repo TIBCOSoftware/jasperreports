@@ -32,15 +32,15 @@ import java.io.InputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.JsonOperatorEnum;
-import net.sf.jasperreports.repo.RepositoryUtil;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.type.JsonOperatorEnum;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -75,7 +75,7 @@ public class JsonUtil {
 		}
 		
 		if (operator == null) {
-			StringBuffer possibleOperations = new StringBuffer();
+			StringBuilder possibleOperations = new StringBuilder();
 			for (JsonOperatorEnum op: JsonOperatorEnum.values()) {
 				possibleOperations.append(op.getValue()).append(",");
 			}

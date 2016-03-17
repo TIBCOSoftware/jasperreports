@@ -114,7 +114,7 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 		}
 		catch (Exception e)
 		{
-			StringBuffer files = new StringBuffer();
+			StringBuilder files = new StringBuilder();
 			for (int i = 0; i < sourceFiles.length; ++i)
 			{
 				files.append(sourceFiles[i].getPath());

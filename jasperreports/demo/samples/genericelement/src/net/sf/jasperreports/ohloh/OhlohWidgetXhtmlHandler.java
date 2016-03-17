@@ -39,7 +39,7 @@ public class OhlohWidgetXhtmlHandler extends OhlohWidgetHtmlHandler
 	
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
-		StringBuffer script = new StringBuffer(128);
+		StringBuilder script = new StringBuilder(128);
 		
 		script.append("<div");
 		String dataAttr = ((net.sf.jasperreports.engine.export.JRXhtmlExporter)context.getExporter()).getDataAttributes(element);
@@ -48,15 +48,15 @@ public class OhlohWidgetXhtmlHandler extends OhlohWidgetHtmlHandler
 			script.append(dataAttr);
 		}
 		
-		StringBuffer styleBuffer = new StringBuffer();
-		appendPositionStyle(context, element.getX(), element.getY(), styleBuffer);
-		appendSizeStyle(context, element.getWidth(), element.getHeight(), styleBuffer);
-		appendBackcolorStyle(element, styleBuffer);
+		StringBuilder styleBuilder = new StringBuilder();
+		appendPositionStyle(context, element.getX(), element.getY(), styleBuilder);
+		appendSizeStyle(context, element.getWidth(), element.getHeight(), styleBuilder);
+		appendBackcolorStyle(element, styleBuilder);
 		
-		if (styleBuffer.length() > 0)
+		if (styleBuilder.length() > 0)
 		{
 			script.append(" style=\"");
-			script.append(styleBuffer.toString());
+			script.append(styleBuilder.toString());
 			script.append("\"");
 		}
 
@@ -67,37 +67,37 @@ public class OhlohWidgetXhtmlHandler extends OhlohWidgetHtmlHandler
 		return script.toString();
 	}
 	
-	protected void appendPositionStyle(JRHtmlExporterContext context, int x, int y, StringBuffer styleBuffer)
+	protected void appendPositionStyle(JRHtmlExporterContext context, int x, int y, StringBuilder styleBuilder)
 	{
-		styleBuffer.append("position:absolute;");
-		styleBuffer.append("left:");
-		styleBuffer.append(toSizeUnit(context, x));
-		styleBuffer.append(";");
-		styleBuffer.append("top:");
-		styleBuffer.append(toSizeUnit(context, y));
-		styleBuffer.append(";");
+		styleBuilder.append("position:absolute;");
+		styleBuilder.append("left:");
+		styleBuilder.append(toSizeUnit(context, x));
+		styleBuilder.append(";");
+		styleBuilder.append("top:");
+		styleBuilder.append(toSizeUnit(context, y));
+		styleBuilder.append(";");
 	}
 
 
-	protected void appendBackcolorStyle(JRPrintElement element, StringBuffer styleBuffer)
+	protected void appendBackcolorStyle(JRPrintElement element, StringBuilder styleBuilder)
 	{
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
-			styleBuffer.append("background-color:#");
-			styleBuffer.append(JRColorUtil.getColorHexa(element.getBackcolor()));
-			styleBuffer.append(";");
+			styleBuilder.append("background-color:#");
+			styleBuilder.append(JRColorUtil.getColorHexa(element.getBackcolor()));
+			styleBuilder.append(";");
 		}
 	}
 
-	protected void appendSizeStyle(JRHtmlExporterContext context, int width, int height, StringBuffer styleBuffer)
+	protected void appendSizeStyle(JRHtmlExporterContext context, int width, int height, StringBuilder styleBuilder)
 	{
-		styleBuffer.append("width:");
-		styleBuffer.append(toSizeUnit(context, width));
-		styleBuffer.append(";");
+		styleBuilder.append("width:");
+		styleBuilder.append(toSizeUnit(context, width));
+		styleBuilder.append(";");
 
-		styleBuffer.append("height:");
-		styleBuffer.append(toSizeUnit(context, height));
-		styleBuffer.append(";");
+		styleBuilder.append("height:");
+		styleBuilder.append(toSizeUnit(context, height));
+		styleBuilder.append(";");
 	}
 	
 	protected String toSizeUnit(JRHtmlExporterContext context, int size)

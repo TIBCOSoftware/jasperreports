@@ -219,7 +219,7 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 				putQuotes = true;
 			}
 			
-			StringBuffer sbuffer = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			StringTokenizer tkzer = new StringTokenizer(source, quotes+"\n", true);
 			String token = null;
 			while(tkzer.hasMoreTokens())
@@ -228,21 +228,21 @@ public abstract class JRAbstractCsvExporter<RC extends CsvReportConfiguration, C
 				if (quotes.equals(token))
 				{
 					putQuotes = true;
-					sbuffer.append(quotes+quotes);
+					sb.append(quotes+quotes);
 				}
 				else if ("\n".equals(token))
 				{
 					//sbuffer.append(" ");
 					putQuotes = true;
-					sbuffer.append("\n");
+					sb.append("\n");
 				}
 				else
 				{
-					sbuffer.append(token);
+					sb.append(token);
 				}
 			}
 			
-			str = sbuffer.toString();
+			str = sb.toString();
 			
 			if (putQuotes)
 			{

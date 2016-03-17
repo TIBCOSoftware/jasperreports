@@ -205,7 +205,7 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 				for (int i = 0; i < axis.getTupleCount(); i++)
 				{
 					JROlapMemberTuple memberTuple = axis.getTuple(i);
-					// StringBuffer sb = new StringBuffer();
+					// StringBuilder sb = new StringBuilder();
 					for (int j = 0; j < memberTuple.getMembers().length; j++)
 					{
 						// if (j > 0) { sb.append(", "); }

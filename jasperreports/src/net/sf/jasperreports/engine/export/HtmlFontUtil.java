@@ -72,19 +72,19 @@ public class HtmlFontUtil
 	 */
 	public void handleHtmlFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
 	{
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		try
 		{
-			sbuffer.append("@charset \"UTF-8\";\n");
-			sbuffer.append("@font-face {\n");
-			sbuffer.append("\tfont-family: " + htmlFont.getShortId() + ";\n");
+			sb.append("@charset \"UTF-8\";\n");
+			sb.append("@font-face {\n");
+			sb.append("\tfont-family: " + htmlFont.getShortId() + ";\n");
 			if (htmlFont.getEot() != null)
 			{
 				String eotId = htmlFont.getId() + ".eot";
 				String eotFileName = resourceHandler.getResourcePath(eotId);
-				sbuffer.append("\tsrc: url('" + eotFileName + "');\n");
-				sbuffer.append("\tsrc: url('" + eotFileName + "?#iefix') format('embedded-opentype');\n");
+				sb.append("\tsrc: url('" + eotFileName + "');\n");
+				sb.append("\tsrc: url('" + eotFileName + "?#iefix') format('embedded-opentype');\n");
 				//sbuffer.append("\tsrc: url('" + eotFileName + "?#iefix') format('eot');\n");
 				resourceHandler.handleResource(eotId, repositoryUtil.getBytesFromLocation(htmlFont.getEot()));
 			}
@@ -94,33 +94,33 @@ public class HtmlFontUtil
 				|| htmlFont.getWoff() != null
 				)
 			{
-				sbuffer.append("\tsrc: local('\u263A')");
+				sb.append("\tsrc: local('\u263A')");
 				if (htmlFont.getWoff() != null)
 				{
 					String woffId = htmlFont.getId() + ".woff";
 					String woffFileName = resourceHandler.getResourcePath(woffId);
-					sbuffer.append(",\n\t\turl('" + woffFileName + "') format('woff')"); 
+					sb.append(",\n\t\turl('" + woffFileName + "') format('woff')"); 
 					resourceHandler.handleResource(woffId, repositoryUtil.getBytesFromLocation(htmlFont.getWoff()));
 				}
 				if (htmlFont.getTtf() != null)
 				{
 					String ttfId = htmlFont.getId() + ".ttf";
 					String ttfFileName = resourceHandler.getResourcePath(ttfId);
-					sbuffer.append(",\n\t\turl('" + ttfFileName + "') format('truetype')"); 
+					sb.append(",\n\t\turl('" + ttfFileName + "') format('truetype')"); 
 					resourceHandler.handleResource(ttfId, repositoryUtil.getBytesFromLocation(htmlFont.getTtf()));
 				}
 				if (htmlFont.getSvg() != null)
 				{
 					String svgId = htmlFont.getId() + ".svg";
 					String svgFileName = resourceHandler.getResourcePath(svgId);
-					sbuffer.append(",\n\t\turl('" + svgFileName + "') format('svg')");
+					sb.append(",\n\t\turl('" + svgFileName + "') format('svg')");
 					resourceHandler.handleResource(svgId, repositoryUtil.getBytesFromLocation(htmlFont.getSvg()));
 				}
-				sbuffer.append(";\n");
+				sb.append(";\n");
 			}
-			sbuffer.append("\tfont-weight: normal;\n");
-			sbuffer.append("\tfont-style: normal;\n");
-			sbuffer.append("}");
+			sb.append("\tfont-weight: normal;\n");
+			sb.append("\tfont-style: normal;\n");
+			sb.append("}");
 		}
 		catch (JRException e)
 		{
@@ -131,7 +131,7 @@ public class HtmlFontUtil
 		{
 			try
 			{
-				resourceHandler.handleResource(htmlFont.getId(), sbuffer.toString().getBytes("UTF-8"));
+				resourceHandler.handleResource(htmlFont.getId(), sb.toString().getBytes("UTF-8"));
 			}
 			catch (UnsupportedEncodingException e)
 			{

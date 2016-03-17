@@ -400,19 +400,19 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	public static String getFontsXml(List<FontFamily> fontFamilies)
 	{
-		StringBuffer buffer = null;
+		StringBuilder sb = null;
 		
-		if(fontFamilies != null)
+		if (fontFamilies != null)
 		{
-			buffer = new StringBuffer();
-			buffer.append("<?xml version=\"1.0\" encoding=\"" + DEFAULT_ENCODING + "\"?>\n");
-			buffer.append("<fontFamilies>\n");
+			sb = new StringBuilder();
+			sb.append("<?xml version=\"1.0\" encoding=\"" + DEFAULT_ENCODING + "\"?>\n");
+			sb.append("<fontFamilies>\n");
 			for (FontFamily fontFamily : fontFamilies)
 			{
-				writeFontFamily(buffer, fontFamily);
+				writeFontFamily(sb, fontFamily);
 			}
-			buffer.append("</fontFamilies>\n");
-			return buffer.toString();
+			sb.append("</fontFamilies>\n");
+			return sb.toString();
 		}
 		else
 		{
@@ -424,75 +424,75 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private static void writeFontFamily(StringBuffer buffer, FontFamily fontFamily) 
+	private static void writeFontFamily(StringBuilder sb, FontFamily fontFamily) 
 	{
-		if(fontFamily != null)
+		if (fontFamily != null)
 		{
-			if(fontFamily.getName() == null)
+			if (fontFamily.getName() == null)
 			{
 				log.error("Font family name is required.");
 				return;
 			}
 			
 			String indent = "  ";
-			buffer.append(indent + "<fontFamily name=\"" + fontFamily.getName() + "\""); 
+			sb.append(indent + "<fontFamily name=\"" + fontFamily.getName() + "\""); 
 			if (!fontFamily.isVisible())
 			{
-				buffer.append(" visible=\"" + fontFamily.isVisible() + "\""); 
+				sb.append(" visible=\"" + fontFamily.isVisible() + "\""); 
 			}
-			buffer.append(">\n");
+			sb.append(">\n");
 			indent = "    ";
 			
-			writeFontFace(buffer, fontFamily.getNormalFace(), NODE_normal);
-			writeFontFace(buffer, fontFamily.getBoldFace(), NODE_bold);
-			writeFontFace(buffer, fontFamily.getItalicFace(), NODE_italic);
-			writeFontFace(buffer, fontFamily.getBoldItalicFace(), NODE_boldItalic);
+			writeFontFace(sb, fontFamily.getNormalFace(), NODE_normal);
+			writeFontFace(sb, fontFamily.getBoldFace(), NODE_bold);
+			writeFontFace(sb, fontFamily.getItalicFace(), NODE_italic);
+			writeFontFace(sb, fontFamily.getBoldItalicFace(), NODE_boldItalic);
 
-			if(fontFamily.getPdfEncoding() != null)
+			if (fontFamily.getPdfEncoding() != null)
 			{
-				buffer.append(indent + "<pdfEncoding>" + fontFamily.getPdfEncoding() +"</pdfEncoding>\n");
+				sb.append(indent + "<pdfEncoding>" + fontFamily.getPdfEncoding() +"</pdfEncoding>\n");
 				
 			}
-			if(fontFamily.isPdfEmbedded() != null)
+			if (fontFamily.isPdfEmbedded() != null)
 			{
-				buffer.append(indent + "<pdfEmbedded>" + fontFamily.isPdfEmbedded() +"</pdfEmbedded>\n");
+				sb.append(indent + "<pdfEmbedded>" + fontFamily.isPdfEmbedded() +"</pdfEmbedded>\n");
 				
 			}
 			
-			if(fontFamily instanceof SimpleFontFamily)
+			if (fontFamily instanceof SimpleFontFamily)
 			{
 				SimpleFontFamily simpleFontFamily = (SimpleFontFamily)fontFamily;
 				
 				Map<String, String> exportFonts = simpleFontFamily.getExportFonts();
 				
-				if(exportFonts != null)
+				if (exportFonts != null)
 				{
-					buffer.append(indent + "<exportFonts>\n");
+					sb.append(indent + "<exportFonts>\n");
 					indent = "      ";
 					for(String key : exportFonts.keySet())
 					{
-						buffer.append(indent + "<export key=\"" + key +"\">" + exportFonts.get(key) + "</export>\n");
+						sb.append(indent + "<export key=\"" + key +"\">" + exportFonts.get(key) + "</export>\n");
 					}
 					indent = "    ";
-					buffer.append(indent + "</exportFonts>\n");
+					sb.append(indent + "</exportFonts>\n");
 				}
 				
 				Set<String> locales = simpleFontFamily.getLocales();
 				
-				if(locales != null)
+				if (locales != null)
 				{
-					buffer.append(indent + "<locales>\n");
+					sb.append(indent + "<locales>\n");
 					indent = "      ";
 					for(String locale : locales)
 					{
-						buffer.append(indent + "<locale>" + locale + "</locale>\n");
+						sb.append(indent + "<locale>" + locale + "</locale>\n");
 					}
 					indent = "    ";
-					buffer.append(indent + "</locales>\n");
+					sb.append(indent + "</locales>\n");
 				}
 			}
 			indent = "  ";
-			buffer.append(indent + "</fontFamily>\n\n");
+			sb.append(indent + "</fontFamily>\n\n");
 		}		
 		else
 		{
@@ -505,10 +505,10 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private static void writeFontFace(StringBuffer buffer, FontFace fontFace, String faceTypeName) 
+	private static void writeFontFace(StringBuilder sb, FontFace fontFace, String faceTypeName) 
 	{
 		String indent = "    ";
-		if(fontFace != null)
+		if (fontFace != null)
 		{
 			if (
 				fontFace.getPdf() == null
@@ -519,33 +519,33 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			{
 				if (fontFace.getTtf() != null)
 				{
-					buffer.append(indent + "<" + faceTypeName + ">"	+ fontFace.getTtf() + "</" + faceTypeName + ">\n");
+					sb.append(indent + "<" + faceTypeName + ">"	+ fontFace.getTtf() + "</" + faceTypeName + ">\n");
 				}
 			}
 			else
 			{
-				buffer.append(indent + "<" + faceTypeName + ">\n");
+				sb.append(indent + "<" + faceTypeName + ">\n");
 				if (fontFace.getTtf() != null)
 				{
-					buffer.append(indent + "  <ttf>"	+ fontFace.getTtf() + "</ttf>\n");
+					sb.append(indent + "  <ttf>"	+ fontFace.getTtf() + "</ttf>\n");
 				}
 				if (fontFace.getPdf() != null)
 				{
-					buffer.append(indent + "  <pdf>"	+ fontFace.getPdf() + "</pdf>\n");
+					sb.append(indent + "  <pdf>"	+ fontFace.getPdf() + "</pdf>\n");
 				}
 				if (fontFace.getEot() != null)
 				{
-					buffer.append(indent + "  <eot>"	+ fontFace.getEot() + "</eot>\n");
+					sb.append(indent + "  <eot>"	+ fontFace.getEot() + "</eot>\n");
 				}
 				if (fontFace.getSvg() != null)
 				{
-					buffer.append(indent + "  <svg>"	+ fontFace.getSvg() + "</svg>\n");
+					sb.append(indent + "  <svg>"	+ fontFace.getSvg() + "</svg>\n");
 				}
 				if (fontFace.getWoff() != null)
 				{
-					buffer.append(indent + "  <woff>"	+ fontFace.getWoff() + "</woff>\n");
+					sb.append(indent + "  <woff>"	+ fontFace.getWoff() + "</woff>\n");
 				}
-				buffer.append(indent + "</" + faceTypeName + ">\n");
+				sb.append(indent + "</" + faceTypeName + ">\n");
 			}
 		}
 	}
@@ -745,7 +745,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 	@Override
 	public void error(SAXParseException e) {
-		if(log.isErrorEnabled())
+		if (log.isErrorEnabled())
 		{
 			log.error("Error parsing styled text.", e);
 		}
@@ -753,7 +753,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 	@Override
 	public void fatalError(SAXParseException e) {
-		if(log.isFatalEnabled())
+		if (log.isFatalEnabled())
 		{
 			log.fatal("Error parsing styled text.", e);
 		}
@@ -761,7 +761,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 	@Override
 	public void warning(SAXParseException e) {
-		if(log.isWarnEnabled())
+		if (log.isWarnEnabled())
 		{
 			log.warn("Error parsing styled text.", e);
 		}

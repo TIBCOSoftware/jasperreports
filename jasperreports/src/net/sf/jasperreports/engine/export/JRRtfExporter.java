@@ -1031,7 +1031,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	private String handleUnicodeText(String sourceText)
 	{
-		StringBuffer unicodeText = new StringBuffer();
+		StringBuilder unicodeText = new StringBuilder();
 		
 		for(int i = 0; i < sourceText.length(); i++ )
 		{

@@ -28,13 +28,13 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRRewindableDataSource;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
  * Abstract XML data source implementation that allows to access the data from a xml
@@ -249,7 +249,7 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 		{
 			return node.getNodeValue();
 		}
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		NodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {

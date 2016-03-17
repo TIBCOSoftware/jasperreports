@@ -533,7 +533,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 
 	protected void handleResultFault(SOAPFault fault)
 	{
-		StringBuffer errorMsg = new StringBuffer();
+		StringBuilder errorMsg = new StringBuilder();
 		errorMsg.append("XML/A fault: ");
 		
 		String faultString = fault.getFaultString();
@@ -719,7 +719,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	{
 		SOAPElement errorElem = (SOAPElement) errorElems.next();
 		
-		StringBuffer errorMsg = new StringBuffer();
+		StringBuilder errorMsg = new StringBuilder();
 		errorMsg.append("Cell error: ");
 		
 		Iterator<?> descriptionElems = errorElem.getChildElements(sf.createName("Description", "", MDD_URI));

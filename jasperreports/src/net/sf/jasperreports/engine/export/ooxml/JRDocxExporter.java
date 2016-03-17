@@ -1331,7 +1331,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		int[] coords = area.getCoordinates();
 		if (coords != null && coords.length > 0)
 		{
-			StringBuffer coordsEnum = new StringBuffer(coords.length * 4);
+			StringBuilder coordsEnum = new StringBuilder(coords.length * 4);
 			coordsEnum.append(coords[0]);
 			for (int i = 1; i < coords.length; i++)
 			{

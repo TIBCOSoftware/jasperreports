@@ -1739,54 +1739,54 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	public String getDataAttributes(JRPrintElement element, TableCell cell)
 	{
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		String id = getCellProperty(element, cell, PROPERTY_HTML_ID);
 		if (id != null)
 		{
-			sbuffer.append(" id=\"" + id +"\"");
+			sb.append(" id=\"" + id +"\"");
 		}
 		String clazz = getCellProperty(element, cell, PROPERTY_HTML_CLASS);
 		if (clazz != null)
 		{
-			sbuffer.append(" class=\"" + clazz +"\"");
+			sb.append(" class=\"" + clazz +"\"");
 		}
 		String colUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_UUID);//FIXMEJIVE register properties like this in a pluggable way; extensions?
 		if (colUuid != null)
 		{
-			sbuffer.append(" data-coluuid=\"" + colUuid + "\"");
+			sb.append(" data-coluuid=\"" + colUuid + "\"");
 		}
 		String cellId = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_CELL_ID);
 		if (cellId != null)
 		{
-			sbuffer.append(" data-cellid=\"" + cellId + "\"");
+			sb.append(" data-cellid=\"" + cellId + "\"");
 		}
 		String tableUuid = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_TABLE_UUID);
 		if (tableUuid != null)
 		{
-			sbuffer.append(" data-tableuuid=\"" + tableUuid + "\"");
+			sb.append(" data-tableuuid=\"" + tableUuid + "\"");
 		}
 		String columnIndex = getCellProperty(element, cell, HeaderToolbarElement.PROPERTY_COLUMN_INDEX);
 		if (columnIndex != null)
 		{
-			sbuffer.append(" data-colidx=\"" + columnIndex + "\"");
+			sb.append(" data-colidx=\"" + columnIndex + "\"");
 		}
 		
 		String xtabId = getCellProperty(element, cell, CrosstabInteractiveJsonHandler.PROPERTY_CROSSTAB_ID);
 		if (xtabId != null)
 		{
-			sbuffer.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_CROSSTAB_ID + "=\"" 
+			sb.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_CROSSTAB_ID + "=\"" 
 					+ JRStringUtil.htmlEncode(xtabId) + "\"");
 		}
 		
 		String xtabColIdx = getCellProperty(element, cell, CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX);
 		if (xtabColIdx != null)
 		{
-			sbuffer.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_COLUMN_INDEX + "=\"" 
+			sb.append(" " + CrosstabInteractiveJsonHandler.ATTRIBUTE_COLUMN_INDEX + "=\"" 
 					+ JRStringUtil.htmlEncode(xtabColIdx) + "\"");
 		}
 		
-		return sbuffer.length() > 0 ? sbuffer.toString() : null;
+		return sb.length() > 0 ? sb.toString() : null;
 	}
 	
 	protected String getCellProperty(JRPrintElement element, TableCell cell, String key)

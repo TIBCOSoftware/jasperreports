@@ -108,7 +108,7 @@ public class JRBshGenerator
 	
 	protected String generateScript()
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		generateScriptStart(sb);
 
@@ -138,7 +138,7 @@ public class JRBshGenerator
 	}
 
 
-	protected final void generateScriptStart(StringBuffer sb)
+	protected final void generateScriptStart(StringBuilder sb)
 	{
 		/*   */
 		sb.append("//\n");
@@ -180,7 +180,7 @@ public class JRBshGenerator
 	}
 
 
-	protected final void generateDeclarations(StringBuffer sb)
+	protected final void generateDeclarations(StringBuilder sb)
 	{
 		/*   */
 		if (parametersMap != null && parametersMap.size() > 0)
@@ -225,7 +225,7 @@ public class JRBshGenerator
 	}
 
 
-	protected final void generateInitMethod(StringBuffer sb)
+	protected final void generateInitMethod(StringBuilder sb)
 	{
 		/*   */
 		sb.append("\n");
@@ -298,7 +298,7 @@ public class JRBshGenerator
 	}
 
 
-	protected void generateScriptEnd(StringBuffer sb)
+	protected void generateScriptEnd(StringBuilder sb)
 	{
 		sb.append("\n"); 
 		sb.append("    str(String key)\n");
@@ -336,7 +336,7 @@ public class JRBshGenerator
 	 */
 	protected final String generateMethod(byte evaluationType, List<JRExpression> expressionsList)
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		/*   */
 		sb.append("    Object evaluate");
@@ -394,7 +394,7 @@ public class JRBshGenerator
 		JRField jrField = null;
 		JRVariable jrVariable = null;
 
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		JRExpressionChunk[] chunks = expression.getChunks();
 		JRExpressionChunk chunk = null;
@@ -415,18 +415,18 @@ public class JRBshGenerator
 				{
 					case JRExpressionChunk.TYPE_TEXT :
 					{
-						sbuffer.append(chunkText);
+						sb.append(chunkText);
 						break;
 					}
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
 						jrParameter = parametersMap.get(chunkText);
 	
-						sbuffer.append("((");
-						sbuffer.append(jrParameter.getValueClassName());
-						sbuffer.append(")super.parameter_");
-						sbuffer.append(JRStringUtil.getJavaIdentifier(chunkText));
-						sbuffer.append(".getValue())");
+						sb.append("((");
+						sb.append(jrParameter.getValueClassName());
+						sb.append(")super.parameter_");
+						sb.append(JRStringUtil.getJavaIdentifier(chunkText));
+						sb.append(".getValue())");
 	
 						break;
 					}
@@ -434,13 +434,13 @@ public class JRBshGenerator
 					{
 						jrField = fieldsMap.get(chunkText);
 	
-						sbuffer.append("((");
-						sbuffer.append(jrField.getValueClassName());
-						sbuffer.append(")super.field_");
-						sbuffer.append(JRStringUtil.getJavaIdentifier(chunkText));
-						sbuffer.append(".get");
-						sbuffer.append(fieldPrefixMap.get(new Byte(evaluationType)));
-						sbuffer.append("Value())");
+						sb.append("((");
+						sb.append(jrField.getValueClassName());
+						sb.append(")super.field_");
+						sb.append(JRStringUtil.getJavaIdentifier(chunkText));
+						sb.append(".get");
+						sb.append(fieldPrefixMap.get(new Byte(evaluationType)));
+						sb.append("Value())");
 	
 						break;
 					}
@@ -448,13 +448,13 @@ public class JRBshGenerator
 					{
 						jrVariable = variablesMap.get(chunkText);
 	
-						sbuffer.append("((");
-						sbuffer.append(jrVariable.getValueClassName());
-						sbuffer.append(")super.variable_");
-						sbuffer.append(JRStringUtil.getJavaIdentifier(chunkText));
-						sbuffer.append(".get");
-						sbuffer.append(variablePrefixMap.get(new Byte(evaluationType)));
-						sbuffer.append("Value())");
+						sb.append("((");
+						sb.append(jrVariable.getValueClassName());
+						sb.append(")super.variable_");
+						sb.append(JRStringUtil.getJavaIdentifier(chunkText));
+						sb.append(".get");
+						sb.append(variablePrefixMap.get(new Byte(evaluationType)));
+						sb.append("Value())");
 	
 						break;
 					}
@@ -462,9 +462,9 @@ public class JRBshGenerator
 					{
 						jrParameter = parametersMap.get(chunkText);
 	
-						sbuffer.append("super.evaluator.str(\"");
-						sbuffer.append(chunkText);
-						sbuffer.append("\")");
+						sb.append("super.evaluator.str(\"");
+						sb.append(chunkText);
+						sb.append("\")");
 	
 						break;
 					}
@@ -472,11 +472,11 @@ public class JRBshGenerator
 			}
 		}
 		
-		if (sbuffer.length() == 0)
+		if (sb.length() == 0)
 		{
-			sbuffer.append("null");
+			sb.append("null");
 		}
 
-		return sbuffer.toString();
+		return sb.toString();
 	}
 }

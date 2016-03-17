@@ -128,23 +128,23 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 	}
 	
 	private Document getHtmlDocument(String htmlContent) {
-		StringBuffer buf = new StringBuffer();
-		buf.append("<html>");
-		buf.append("<head><style language='text/css'>");
-		buf.append("@page{ margin: 0; }");
-		buf.append("body{ margin:0;}");
-		buf.append("</style></head>");
-		buf.append("<body>");
-		buf.append(htmlContent);
-		buf.append("</body>");
-		buf.append("</html>");
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html>");
+		sb.append("<head><style language='text/css'>");
+		sb.append("@page{ margin: 0; }");
+		sb.append("body{ margin:0;}");
+		sb.append("</style></head>");
+		sb.append("<body>");
+		sb.append(htmlContent);
+		sb.append("</body>");
+		sb.append("</html>");
 		
 		Tidy tidy = new Tidy();
 		tidy.setXHTML(true);
 		tidy.setQuiet(true);
 		tidy.setShowWarnings(false);
 		
-		return tidy.parseDOM(new ByteArrayInputStream(buf.toString().getBytes()), null);
+		return tidy.parseDOM(new ByteArrayInputStream(sb.toString().getBytes()), null);
 	}
 
 }

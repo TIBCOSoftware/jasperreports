@@ -598,7 +598,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		{
 			return node.getNodeValue();
 		}
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		NodeList list = node.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {

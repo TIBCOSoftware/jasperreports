@@ -103,7 +103,7 @@ public final class JRStringUtil
 		}
 		
 		int length = text.length();
-		StringBuffer ret = new StringBuffer(length * 12 / 10);
+		StringBuilder ret = new StringBuilder(length * 12 / 10);
 		int last = 0;
 		
 		for (int i = 0; i < length; i++)
@@ -169,7 +169,7 @@ public final class JRStringUtil
 		}
 		
 		int length = text.length();
-		StringBuffer ret = new StringBuffer(length * 12 / 10);//FIXME avoid creating this when not necessary
+		StringBuilder ret = new StringBuilder(length * 12 / 10);//FIXME avoid creating this when not necessary
 		int last = 0;
 		for (int i = 0; i < length; i++)
 		{
@@ -225,7 +225,7 @@ public final class JRStringUtil
 		return ret.toString();
 	}
 	
-	private static int appendText(String text, StringBuffer ret, int current, int old)
+	private static int appendText(String text, StringBuilder ret, int current, int old)
 	{
 		if(old < current)
 		{
@@ -245,7 +245,7 @@ public final class JRStringUtil
 		}
 		
 		int length = text.length();
-		StringBuffer ret = new StringBuffer(length * 12 / 10);
+		StringBuilder ret = new StringBuilder(length * 12 / 10);
 
 		boolean isEncodeSpace = true;
 		int last = 0;
@@ -361,7 +361,7 @@ public final class JRStringUtil
 			return name;
 		}
 
-		StringBuffer buffer = new StringBuffer(name.length() + 5);
+		StringBuilder sb = new StringBuilder(name.length() + 5);
 		
 		char[] literalChars = new char[name.length()];
 		name.getChars(0, literalChars.length, literalChars, 0);
@@ -370,20 +370,20 @@ public final class JRStringUtil
 		{
 			if (i == 0 && !Character.isJavaIdentifierStart(literalChars[i]))
 			{
-				buffer.append(JAVA_IDENTIFIER_PREFIX);
-				buffer.append((int)literalChars[i]);
+				sb.append(JAVA_IDENTIFIER_PREFIX);
+				sb.append((int)literalChars[i]);
 			}
 			else if (i != 0 && !Character.isJavaIdentifierPart(literalChars[i]))
 			{
-				buffer.append((int)literalChars[i]);
+				sb.append((int)literalChars[i]);
 			}
 			else
 			{
-				buffer.append(literalChars[i]);
+				sb.append(literalChars[i]);
 			}
 		}
 		
-		return buffer.toString();
+		return sb.toString();
 	}
 	
 	
@@ -430,7 +430,7 @@ public final class JRStringUtil
 			return text;
 		}
 		
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		StringTokenizer tkzer = new StringTokenizer(text, "\\\"\n\r\t", true);
 		while(tkzer.hasMoreTokens())
 		{
@@ -438,31 +438,31 @@ public final class JRStringUtil
 			//TODO optimize ifs?
 			if ("\\".equals(token))
 			{
-				sbuffer.append("\\\\");
+				sb.append("\\\\");
 			}
 			else if ("\"".equals(token))
 			{
-				sbuffer.append("\\\"");
+				sb.append("\\\"");
 			}
 			else if ("\n".equals(token))
 			{
-				sbuffer.append("\\n");
+				sb.append("\\n");
 			}
 			else if ("\r".equals(token))
 			{
-				sbuffer.append("\\r");
+				sb.append("\\r");
 			}
 			else if ("\t".equals(token))
 			{
-				sbuffer.append("\\t");
+				sb.append("\\t");
 			}
 			else
 			{
-				sbuffer.append(token);
+				sb.append(token);
 			}
 		}
 		
-		return sbuffer.toString();
+		return sb.toString();
 	}
 	
 	/**

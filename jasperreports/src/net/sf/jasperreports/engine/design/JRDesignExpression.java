@@ -263,7 +263,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 
 	protected void legacyParseText(String text)
 	{
-		StringBuffer textChunk = new StringBuffer();
+		StringBuilder textChunk = new StringBuilder();
 		
 		StringTokenizer tkzer = new StringTokenizer(text, "$", true);
 		int behindDelims = 0;
@@ -328,7 +328,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 							}
 							
 							addChunk(chunkType, token.substring(2, end));					
-							textChunk = new StringBuffer(token.substring(end + 1));
+							textChunk = new StringBuilder(token.substring(end + 1));
 						}
 					}
 					else

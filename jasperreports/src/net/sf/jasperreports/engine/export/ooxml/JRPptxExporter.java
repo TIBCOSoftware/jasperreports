@@ -1426,19 +1426,19 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 	protected JRPrintElementIndex getElementIndex()
 	{
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < frameIndexStack.size(); i++)
 		{
 			Integer frameIndex = frameIndexStack.get(i);
 
-			sbuffer.append(frameIndex).append("_");
+			sb.append(frameIndex).append("_");
 		}
 		
 		JRPrintElementIndex imageIndex =
 			new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
-					sbuffer.append(elementIndex).toString()
+					sb.append(elementIndex).toString()
 					);
 		return imageIndex;
 	}
@@ -1478,7 +1478,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		int[] coords = area.getCoordinates();
 		if (coords != null && coords.length > 0)
 		{
-			StringBuffer coordsEnum = new StringBuffer(coords.length * 4);
+			StringBuilder coordsEnum = new StringBuilder(coords.length * 4);
 			coordsEnum.append(coords[0]);
 			for (int i = 1; i < coords.length; i++)
 			{

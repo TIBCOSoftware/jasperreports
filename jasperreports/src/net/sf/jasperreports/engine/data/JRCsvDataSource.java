@@ -562,7 +562,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	private String getRow() throws IOException
 	{
-		StringBuffer row = new StringBuffer();
+		StringBuilder row = new StringBuilder();
 		char c;
 
 		while (true) 
@@ -770,7 +770,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	private String replaceAll(String string, String substring, String replacement)
 	{
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		int index = string.indexOf(substring);
 		int oldIndex = 0;
 		while (index >= 0) {

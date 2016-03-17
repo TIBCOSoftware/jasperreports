@@ -160,7 +160,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected XlsxDrawingRelsHelper drawingRelsHelper;
 	protected XlsxStyleHelper styleHelper;
 	protected XlsxCellHelper cellHelper;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
-	protected StringBuffer definedNames;
+	protected StringBuilder definedNames;
 	protected String firstSheetName;
 	protected String currentSheetName;
 
@@ -366,7 +366,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int[] coords = area.getCoordinates();
 		if (coords != null && coords.length > 0)
 		{
-			StringBuffer coordsEnum = new StringBuffer(coords.length * 4);
+			StringBuilder coordsEnum = new StringBuilder(coords.length * 4);
 			coordsEnum.append(coords[0]);
 			for (int i = 1; i < coords.length; i++)
 			{
@@ -1554,7 +1554,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		rendererToImagePathMap = new HashMap<String,String>();
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
-		definedNames = new StringBuffer();
+		definedNames = new StringBuilder();
 		try
 		{
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);

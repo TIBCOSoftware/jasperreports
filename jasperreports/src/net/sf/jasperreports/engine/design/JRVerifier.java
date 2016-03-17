@@ -1329,7 +1329,7 @@ public class JRVerifier
 						&& element2.getY() < element1.getY() + element1.getHeight()))
 		{
 			// we have an overlap
-			StringBuffer message = new StringBuffer();
+			StringBuilder message = new StringBuilder();
 			message.append("Element ");
 			if (element2.getKey() != null)
 			{

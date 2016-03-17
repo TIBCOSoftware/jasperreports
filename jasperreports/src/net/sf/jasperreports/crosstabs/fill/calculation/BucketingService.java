@@ -946,7 +946,7 @@ public abstract class BucketingService
 		@Override
 		public String toString()
 		{
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append('{');
 			for (Iterator<Map.Entry<Bucket, Object>> it = entries.iterator(); it.hasNext();)
 			{

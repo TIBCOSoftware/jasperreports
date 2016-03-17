@@ -140,7 +140,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	protected PrintPageFormat oldPageFormat;
 	protected int pageFormatIndex;
 	
-	protected StringBuffer namedExpressions;
+	protected StringBuilder namedExpressions;
 
 	protected Map<Integer, String> rowStyles = new HashMap<Integer, String>();
 	protected Map<Integer, String> columnStyles = new HashMap<Integer, String>();
@@ -167,7 +167,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		styleBuilder = new StyleBuilder(stylesWriter);
 		styleBuilder.buildBeforeAutomaticStyles(jasperPrint);
 
-		namedExpressions = new StringBuffer("<table:named-expressions>\n");
+		namedExpressions = new StringBuilder("<table:named-expressions>\n");
 		
 		pageFormatIndex = -1;
 		

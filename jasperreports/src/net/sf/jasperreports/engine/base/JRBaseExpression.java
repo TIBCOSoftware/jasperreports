@@ -211,7 +211,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 		chunks = getChunks();
 		if (chunks != null && chunks.length > 0)
 		{
-			StringBuffer sbuffer = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			for(int i = 0; i < chunks.length; i++)
 			{
@@ -219,30 +219,30 @@ public class JRBaseExpression implements JRExpression, Serializable
 				{
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
-						sbuffer.append("$P{");
-						sbuffer.append( chunks[i].getText() );
-						sbuffer.append("}");
+						sb.append("$P{");
+						sb.append( chunks[i].getText() );
+						sb.append("}");
 						break;
 					}
 					case JRExpressionChunk.TYPE_FIELD :
 					{
-						sbuffer.append("$F{");
-						sbuffer.append( chunks[i].getText() );
-						sbuffer.append("}");
+						sb.append("$F{");
+						sb.append( chunks[i].getText() );
+						sb.append("}");
 						break;
 					}
 					case JRExpressionChunk.TYPE_VARIABLE :
 					{
-						sbuffer.append("$V{");
-						sbuffer.append( chunks[i].getText() );
-						sbuffer.append("}");
+						sb.append("$V{");
+						sb.append( chunks[i].getText() );
+						sb.append("}");
 						break;
 					}
 					case JRExpressionChunk.TYPE_RESOURCE :
 					{
-						sbuffer.append("$R{");
-						sbuffer.append( chunks[i].getText() );
-						sbuffer.append("}");
+						sb.append("$R{");
+						sb.append( chunks[i].getText() );
+						sb.append("}");
 						break;
 					}
 					case JRExpressionChunk.TYPE_TEXT :
@@ -250,13 +250,13 @@ public class JRBaseExpression implements JRExpression, Serializable
 					{
 						String textChunk = chunks[i].getText();
 						String escapedText = escapeTextChunk(textChunk);
-						sbuffer.append(escapedText);
+						sb.append(escapedText);
 						break;
 					}
 				}
 			}
 
-			text = sbuffer.toString();
+			text = sb.toString();
 		}
 		
 		return text;
@@ -269,7 +269,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 			return text;
 		}
 		
-		StringBuffer sb = new StringBuffer(text.length() + 4);
+		StringBuilder sb = new StringBuilder(text.length() + 4);
 		StringTokenizer tkzer = new StringTokenizer(text, "$", true);
 		boolean wasDelim = false;
 		while (tkzer.hasMoreElements())

@@ -55,11 +55,11 @@ public abstract class AbstractSampleApp
 	 */
 	public String usage()
 	{
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		String appName = this.getClass().getName(); 
 		
-		sbuffer.append(appName + " usage:" + "\n\tjava " + appName + " task" + "\n\tTasks : ");
+		sb.append(appName + " usage:" + "\n\tjava " + appName + " task" + "\n\tTasks : ");
 		
 		TreeSet<String> tasks = new TreeSet<String>();
 		Method[] methods = getClass().getMethods();
@@ -75,10 +75,10 @@ public abstract class AbstractSampleApp
 		}
 		for (String task:tasks)
 		{
-			sbuffer.append(task).append(" | ");
+			sb.append(task).append(" | ");
 		}
 		
-		return sbuffer.toString().substring(0, sbuffer.length() - 3);
+		return sb.toString().substring(0, sb.length() - 3);
 	}
 
 	

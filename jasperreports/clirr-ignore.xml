@@ -505,11 +505,6 @@
 		<differenceType>7002</differenceType>
 		<method>*getImage*Type(byte*)</method>
 	</difference>
-	
-	
-	
-	
-	
 	<difference>
 		<className>net/sf/jasperreports/charts/**/*ChartRender*Factory</className>
 		<differenceType>7006</differenceType>
@@ -620,5 +615,67 @@
 		<differenceType>7006</differenceType>
 		<method>*net.sf.jasperreports.engine.Renderable getCachedRenderer(java.lang.String)</method>
 		<to>net.sf.jasperreports.renderers.Renderable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/compilers/JR*Generator</className>
+		<differenceType>7005</differenceType>
+		<method>*generate*(java.lang.StringBuffer)</method>
+		<to>*generate*(java.lang.StringBuilder)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/design/JRClassGenerator</className>
+		<differenceType>7005</differenceType>
+		<method>*(*java.lang.StringBuffer*)</method>
+		<to>*(*java.lang.StringBuilder*)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JR*tmlExporter</className>
+		<differenceType>7005</differenceType>
+		<method>*append*(*java.lang.StringBuffer)</method>
+		<to>*append*(*java.lang.StringBuilder)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRXmlExporter</className>
+		<differenceType>7006</differenceType>
+		<method>*formatTextLineBreakOffsets(short[])</method>
+		<to>java.lang.StringBuilder</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/oasis/ContentBuilder</className>
+		<differenceType>7005</differenceType>
+		<method>*ContentBuilder(*java.lang.StringBuffer)</method>
+		<to>*ContentBuilder(*java.lang.StringBuilder)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/oasis/JROdsExporter</className>
+		<differenceType>6004</differenceType>
+		<field>namedExpressions</field>
+		<from>java.lang.StringBuffer</from>
+		<to>java.lang.StringBuilder</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter</className>
+		<differenceType>6004</differenceType>
+		<field>definedNames</field>
+		<from>java.lang.StringBuffer</from>
+		<to>java.lang.StringBuilder</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/XlsxWorkbookHelper</className>
+		<differenceType>7005</differenceType>
+		<method>*XlsxWorkbookHelper(*java.lang.StringBuffer)</method>
+		<to>*XlsxWorkbookHelper(*java.lang.StringBuilder)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillElementContainer</className>
+		<differenceType>7005</differenceType>
+		<method>*buildConsolidatedStyle(*java.lang.StringBuffer*)</method>
+		<to>*buildConsolidatedStyle(*java.lang.StringBuilder*)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/JRStyledTextParser</className>
+		<differenceType>7005</differenceType>
+		<method>*writeChunk(java.lang.StringBuffer*)</method>
+		<to>*writeChunk(java.lang.StringBuilder*)</to>
 	</difference>
 </differences>

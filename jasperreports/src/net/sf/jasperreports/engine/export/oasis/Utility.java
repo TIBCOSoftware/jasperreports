@@ -55,7 +55,7 @@ public final class Utility
 		
 		if (source != null)
 		{
-			StringBuffer sbuffer = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			StringTokenizer tkzer = new StringTokenizer(source, "\n\t", true);
 			String token = null;
 			while(tkzer.hasMoreTokens())
@@ -63,19 +63,19 @@ public final class Utility
 				token = tkzer.nextToken();
 				if ("\n".equals(token))
 				{
-					sbuffer.append("<text:line-break/>");
+					sb.append("<text:line-break/>");
 				}
 				else if ("\t".equals(token))
 				{
-					sbuffer.append("<text:tab/>");
+					sb.append("<text:tab/>");
 				}
 				else
 				{
-					sbuffer.append(token);
+					sb.append(token);
 				}
 			}
 			
-			str = sbuffer.toString();
+			str = sb.toString();
 		}
 		
 		return str;

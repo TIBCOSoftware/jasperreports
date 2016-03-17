@@ -460,8 +460,8 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 		}
 
 		// uses an array of string buffers, since the maximum number of rows is already calculated
-		StringBuffer[] rows = new StringBuffer[rowSpan];
-		rows[0] = new StringBuffer();
+		StringBuilder[] rows = new StringBuilder[rowSpan];
+		rows[0] = new StringBuilder();
 		int rowIndex = 0;
 		int rowPosition = 0;
 		boolean isFirstLine = true;
@@ -480,7 +480,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 					break label;
 				}
 				rowPosition = 0;
-				rows[rowIndex] = new StringBuffer();
+				rows[rowIndex] = new StringBuilder();
 				line = lfTokenizer.nextToken();
 			}
 
@@ -505,7 +505,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 						break label;
 					}
 					rowPosition = 0;
-					rows[rowIndex] = new StringBuffer();
+					rows[rowIndex] = new StringBuilder();
 					//if this is the last empty line:
 					if(!lfTokenizer.hasMoreTokens() && line.equals("\n"))
 					{
@@ -534,7 +534,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 							break label;
 						}
 						rowPosition = 0;
-						rows[rowIndex] = new StringBuffer();
+						rows[rowIndex] = new StringBuilder();
 					}
 	
 					// situation: word is larger than remaining space on the current line
@@ -547,7 +547,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 							break label;
 						}
 						rowPosition = 0;
-						rows[rowIndex] = new StringBuffer();
+						rows[rowIndex] = new StringBuilder();
 					}
 	
 					// situation: the word is actually a space and it situated at the beginning of a new line
@@ -569,7 +569,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 					break;
 				}
 				rowPosition = 0;
-				rows[rowIndex] = new StringBuffer();
+				rows[rowIndex] = new StringBuilder();
 			}
 		}
 
@@ -634,7 +634,7 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 	 */
 	private String justifyText(String s, int width)
 	{
-		StringBuffer justified = new StringBuffer();
+		StringBuilder justified = new StringBuilder();
 
 		StringTokenizer t = new StringTokenizer(s, " ");
 		int tokenCount = t.countTokens();

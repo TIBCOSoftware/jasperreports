@@ -167,7 +167,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>clirr-maven-plugin</artifactId>
 				<configuration>
-					<comparisonVersion>6.2.1-SNAPSHOT</comparisonVersion>
+					<comparisonVersion>6.2.1</comparisonVersion>
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>

@@ -163,7 +163,7 @@ public final class TextFunctions  extends AbstractFunctionSupport
 			}
 			return null;
 		}
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		for (int i=0;i<strings.length;i++){
 			sb.append(strings[i]);
 		}
@@ -252,7 +252,7 @@ public final class TextFunctions  extends AbstractFunctionSupport
 		// 123456.789	###,###.###	123,456.789
 		// 123456.789	###.##	123456.79
 		// 123.78	000000.000	000123.780
-		StringBuffer patternBuf=new StringBuffer("###");
+		StringBuilder patternBuf=new StringBuilder("###");
 		if(!omitSeparators){
 			patternBuf.append(",###");
 		}
@@ -419,7 +419,7 @@ public final class TextFunctions  extends AbstractFunctionSupport
 		}
 		else {
 			String lowerCaseString=LOWER(text);
-			StringBuffer result=new StringBuffer();
+			StringBuilder result=new StringBuilder();
 			result.append(Character.toTitleCase(lowerCaseString.charAt(0)));
 			boolean capitalizeNext=false;
 			
@@ -460,7 +460,7 @@ public final class TextFunctions  extends AbstractFunctionSupport
 			return null;		
 		}
 		else {
-			StringBuffer output=new StringBuffer();
+			StringBuilder output=new StringBuilder();
 			output.append(originalText.substring(0, startPosition-1));
 			output.append(newText);
 			output.append(originalText.substring(startPosition+charsNum-1, originalText.length()));
@@ -482,7 +482,7 @@ public final class TextFunctions  extends AbstractFunctionSupport
 			return null;
 		}
 		else{
-			StringBuffer output=new StringBuffer();
+			StringBuilder output=new StringBuilder();
 			for(int i=0;i<numberOfTimes;i++){
 				output.append(originalText);
 			}

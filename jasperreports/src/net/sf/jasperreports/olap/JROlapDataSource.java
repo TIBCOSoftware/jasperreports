@@ -32,6 +32,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import antlr.ANTLRException;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -56,11 +60,6 @@ import net.sf.jasperreports.olap.result.JROlapMember;
 import net.sf.jasperreports.olap.result.JROlapMemberTuple;
 import net.sf.jasperreports.olap.result.JROlapResult;
 import net.sf.jasperreports.olap.result.JROlapResultAxis;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import antlr.ANTLRException;
 
 
 /**
@@ -762,7 +761,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 		if (pos == -1)
 		{
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append('(');
 			for (int i = 0; i < memberUniqueNames.length; i++)
 			{

@@ -527,7 +527,7 @@ public class JRResultSetDataSource implements JRDataSource
 			char[] buf = new char[bufSize];
 			
 			Reader reader = new BufferedReader(clob.getCharacterStream(), bufSize);
-			StringBuffer str = new StringBuffer((int) clob.length());
+			StringBuilder str = new StringBuilder((int) clob.length());
 			
 			for (int read = reader.read(buf); read > 0; read = reader.read(buf))
 			{

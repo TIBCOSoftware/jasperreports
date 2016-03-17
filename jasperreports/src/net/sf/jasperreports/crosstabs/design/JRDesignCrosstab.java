@@ -613,7 +613,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	public static String getTotalVariableName(JRCrosstabMeasure measure, JRCrosstabRowGroup rowGroup, JRCrosstabColumnGroup colGroup)
 	{
-		StringBuffer name = new StringBuffer();
+		StringBuilder name = new StringBuilder();
 		name.append(measure.getName());
 		if (rowGroup != null)
 		{

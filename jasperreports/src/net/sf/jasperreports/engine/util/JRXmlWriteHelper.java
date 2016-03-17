@@ -59,7 +59,7 @@ public class JRXmlWriteHelper
 	
 	private int indent;
 	private final List<StackElement> elementStack;
-	private StringBuffer buffer;
+	private StringBuilder builder;
 	private StackElement lastElement;
 		
 	protected static class Attribute
@@ -259,10 +259,10 @@ public class JRXmlWriteHelper
 		{
 			writeParents(true);
 
-			buffer.append(getIndent(indent));
-			buffer.append("<![CDATA[");
-			buffer.append(encodeCDATA(data));
-			buffer.append("]]>\n");
+			builder.append(getIndent(indent));
+			builder.append("<![CDATA[");
+			builder.append(encodeCDATA(data));
+			builder.append("]]>\n");
 			flushBuffer();
 		}
 	}
@@ -279,15 +279,15 @@ public class JRXmlWriteHelper
 		{
 			writeParents(true);
 
-			buffer.append(getIndent(indent));
-			buffer.append('<');
+			builder.append(getIndent(indent));
+			builder.append('<');
 			String qName = getQualifiedName(name, namespace);
-			buffer.append(qName);
-			buffer.append("><![CDATA[");
-			buffer.append(encodeCDATA(data));
-			buffer.append("]]></");
-			buffer.append(qName);
-			buffer.append(">\n");
+			builder.append(qName);
+			builder.append("><![CDATA[");
+			builder.append(encodeCDATA(data));
+			builder.append("]]></");
+			builder.append(qName);
+			builder.append(">\n");
 			flushBuffer();
 		}
 	}
@@ -309,49 +309,49 @@ public class JRXmlWriteHelper
 		{
 			writeParents(true);
 
-			buffer.append(getIndent(indent));
-			buffer.append('<');
+			builder.append(getIndent(indent));
+			builder.append('<');
 			String qName = getQualifiedName(name, namespace);
-			buffer.append(qName);
+			builder.append(qName);
 			if (attValue != null)
 			{
-				buffer.append(' ');
-				buffer.append(attName);
-				buffer.append("=\"");
-				buffer.append(attValue);
-				buffer.append("\"");
+				builder.append(' ');
+				builder.append(attName);
+				builder.append("=\"");
+				builder.append(attValue);
+				builder.append("\"");
 			}
-			buffer.append("><![CDATA[");
-			buffer.append(encodeCDATA(data));
-			buffer.append("]]></");
-			buffer.append(qName);
-			buffer.append(">\n");
+			builder.append("><![CDATA[");
+			builder.append(encodeCDATA(data));
+			builder.append("]]></");
+			builder.append(qName);
+			builder.append(">\n");
 			flushBuffer();
 		}
 	}
 	
 	protected void writeElementAttributes(StackElement element, int level) throws IOException
 	{
-		buffer.append(getIndent(level));
-		buffer.append('<');
-		buffer.append(element.qName);
+		builder.append(getIndent(level));
+		builder.append('<');
+		builder.append(element.qName);
 		for (Iterator<Attribute> i = element.atts.iterator(); i.hasNext();)
 		{
 			Attribute att = i.next();
-			buffer.append(' ');
-			buffer.append(att.name);
-			buffer.append("=\"");
-			buffer.append(att.value);
-			buffer.append('"');
+			builder.append(' ');
+			builder.append(att.name);
+			builder.append("=\"");
+			builder.append(att.value);
+			builder.append('"');
 		}
 		
 		if (element.hasChildren)
 		{
-			buffer.append(">\n");
+			builder.append(">\n");
 		}
 		else
 		{
-			buffer.append("/>\n");
+			builder.append("/>\n");
 		}
 		
 		flushBuffer();
@@ -376,10 +376,10 @@ public class JRXmlWriteHelper
 			
 			if (lastElement.hasChildren)
 			{
-				buffer.append(getIndent(indent));
-				buffer.append("</");
-				buffer.append(lastElement.qName);
-				buffer.append(">\n");
+				builder.append(getIndent(indent));
+				builder.append("</");
+				builder.append(lastElement.qName);
+				builder.append(">\n");
 				flushBuffer();
 			}
 		}
@@ -405,13 +405,13 @@ public class JRXmlWriteHelper
 	
 	protected void flushBuffer() throws IOException
 	{
-		writer.write(buffer.toString());
+		writer.write(builder.toString());
 		clearBuffer();
 	}
 
 	protected void clearBuffer()
 	{
-		buffer = new StringBuffer();
+		builder = new StringBuilder();
 	}
 	
 

@@ -95,7 +95,7 @@ public class JRPrintElementIndex
 	@Override
 	public String toString()
 	{
-		StringBuffer str = new StringBuffer();
+		StringBuilder str = new StringBuilder();
 		str.append(reportIndex);
 		str.append('_');
 		str.append(pageIndex);

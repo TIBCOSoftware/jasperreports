@@ -1185,7 +1185,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	{
 		JRStyle consolidatedStyle = initialStyle;
 
-		StringBuffer code = new StringBuffer();
+		StringBuilder code = new StringBuilder();
 		List<JRStyle> condStylesToApply = new ArrayList<JRStyle>();
 		
 		boolean anyTrue = buildConsolidatedStyle(initialStyle, evaluation, code, condStylesToApply);
@@ -1216,7 +1216,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	}
 
 
-	protected boolean buildConsolidatedStyle(JRStyle style, byte evaluation, StringBuffer code, List<JRStyle> condStylesToApply) throws JRException
+	protected boolean buildConsolidatedStyle(JRStyle style, byte evaluation, StringBuilder code, List<JRStyle> condStylesToApply) throws JRException
 	{
 		boolean anyTrue = false;
 		

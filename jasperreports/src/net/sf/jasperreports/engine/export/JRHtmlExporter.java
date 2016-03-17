@@ -723,14 +723,14 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			writer.write(" colspan=\"" + cell.getColSpan() + "\"");
 		}
 
-		StringBuffer styleBuffer = new StringBuffer();
-		appendBackcolorStyle(cell, styleBuffer);
-		appendBorderStyle(cell.getBox(), styleBuffer);
+		StringBuilder styleBuilder = new StringBuilder();
+		appendBackcolorStyle(cell, styleBuilder);
+		appendBorderStyle(cell.getBox(), styleBuilder);
 
-		if (styleBuffer.length() > 0)
+		if (styleBuilder.length() > 0)
 		{
 			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
+			writer.write(styleBuilder.toString());
 			writer.write("\"");
 		}
 
@@ -746,9 +746,9 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	{
 		writeCellStart(gridCell);
 
-		StringBuffer styleBuffer = new StringBuffer();
+		StringBuilder styleBuilder = new StringBuilder();
 
-		appendBackcolorStyle(gridCell, styleBuffer);
+		appendBackcolorStyle(gridCell, styleBuilder);
 		
 		String side = null;
 		float ratio = line.getWidth() / line.getHeight();
@@ -776,15 +776,15 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		}
 
 		appendPen(
-			styleBuffer,
+			styleBuilder,
 			line.getLinePen(),
 			side
 			);
 
-		if (styleBuffer.length() > 0)
+		if (styleBuilder.length() > 0)
 		{
 			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
+			writer.write(styleBuilder.toString());
 			writer.write("\"");
 		}
 
@@ -873,20 +873,20 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	{
 		writeCellStart(gridCell);
 
-		StringBuffer styleBuffer = new StringBuffer();
+		StringBuilder styleBuilder = new StringBuilder();
 
-		appendBackcolorStyle(gridCell, styleBuffer);
+		appendBackcolorStyle(gridCell, styleBuilder);
 		
 		appendPen(
-			styleBuffer,
+			styleBuilder,
 			element.getLinePen(),
 			null
 			);
 
-		if (styleBuffer.length() > 0)
+		if (styleBuilder.length() > 0)
 		{
 			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
+			writer.write(styleBuilder.toString());
 			writer.write("\"");
 		}
 
@@ -1179,7 +1179,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			writer.write(" dir=\"rtl\"");
 		}
 
-		StringBuffer styleBuffer = new StringBuffer();
+		StringBuilder styleBuilder = new StringBuilder();
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
@@ -1205,14 +1205,14 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
-			styleBuffer.append(" vertical-align: ");
-			styleBuffer.append(verticalAlignment);
-			styleBuffer.append(";");
+			styleBuilder.append(" vertical-align: ");
+			styleBuilder.append(verticalAlignment);
+			styleBuilder.append(";");
 		}
 
-		appendBackcolorStyle(gridCell, styleBuffer);
-		appendBorderStyle(gridCell.getBox(), styleBuffer);
-		appendPaddingStyle(text.getLineBox(), styleBuffer);
+		appendBackcolorStyle(gridCell, styleBuilder);
+		appendBorderStyle(gridCell.getBox(), styleBuilder);
+		appendPaddingStyle(text.getLineBox(), styleBuilder);
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
@@ -1249,9 +1249,9 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					&& !horizontalAlignment.equals(CSS_TEXT_ALIGN_RIGHT))
 				)
 			{
-				styleBuffer.append("text-align: ");
-				styleBuffer.append(horizontalAlignment);
-				styleBuffer.append(";");
+				styleBuilder.append("text-align: ");
+				styleBuilder.append(horizontalAlignment);
+				styleBuilder.append(";");
 			}
 		}
 
@@ -1259,21 +1259,21 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		
 		if (isWrapBreakWord)
 		{
-			styleBuffer.append("width: " + toSizeUnit(gridCell.getWidth()) + "; ");
-			styleBuffer.append("word-wrap: break-word; ");
+			styleBuilder.append("width: " + toSizeUnit(gridCell.getWidth()) + "; ");
+			styleBuilder.append("word-wrap: break-word; ");
 		}
 		
 		if (text.getLineBreakOffsets() != null)
 		{
 			//if we have line breaks saved in the text, set nowrap so that
 			//the text only wraps at the explicit positions
-			styleBuffer.append("white-space: nowrap; ");
+			styleBuilder.append("white-space: nowrap; ");
 		}
 		
-		if (styleBuffer.length() > 0)
+		if (styleBuilder.length() > 0)
 		{
 			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
+			writer.write(styleBuilder.toString());
 			writer.write("\"");
 		}
 		
@@ -1500,7 +1500,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	}
 
 
-	protected boolean appendBorderStyle(JRLineBox box, StringBuffer styleBuffer)
+	protected boolean appendBorderStyle(JRLineBox box, StringBuilder styleBuilder)
 	{
 		boolean addedToStyle = false;
 
@@ -1543,28 +1543,28 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 					tpc.equals(box.getRightPen().getLineColor())) 
 			{
 				addedToStyle |= appendPen(
-						styleBuffer,
+						styleBuilder,
 						box.getTopPen(),
 						null
 						);
 			} else {
 				addedToStyle |= appendPen(
-					styleBuffer,
+					styleBuilder,
 					box.getTopPen(),
 					"top"
 					);
 				addedToStyle |= appendPen(
-					styleBuffer,
+					styleBuilder,
 					box.getLeftPen(),
 					"left"
 					);
 				addedToStyle |= appendPen(
-					styleBuffer,
+					styleBuilder,
 					box.getBottomPen(),
 					"bottom"
 					);
 				addedToStyle |= appendPen(
-					styleBuffer,
+					styleBuilder,
 					box.getRightPen(),
 					"right"
 					);
@@ -1575,7 +1575,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	}
 
 
-	protected boolean appendPaddingStyle(JRLineBox box, StringBuffer styleBuffer)
+	protected boolean appendPaddingStyle(JRLineBox box, StringBuilder styleBuilder)
 	{
 		boolean addedToStyle = false;
 		
@@ -1590,29 +1590,29 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			if (tp == lp && tp == bp && tp == rp)
 			{
 				addedToStyle |= appendPadding(
-						styleBuffer,
+						styleBuilder,
 						tp,
 						null
 						);
 			} else 
 			{
 				addedToStyle |= appendPadding(
-						styleBuffer,
+						styleBuilder,
 						box.getTopPadding(),
 						"top"
 						);
 				addedToStyle |= appendPadding(
-						styleBuffer,
+						styleBuilder,
 						box.getLeftPadding(),
 						"left"
 						);
 				addedToStyle |= appendPadding(
-						styleBuffer,
+						styleBuilder,
 						box.getBottomPadding(),
 						"bottom"
 						);
 				addedToStyle |= appendPadding(
-						styleBuffer,
+						styleBuilder,
 						box.getRightPadding(),
 						"right"
 						);
@@ -1623,14 +1623,14 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	}
 
 
-	protected Color appendBackcolorStyle(JRExporterGridCell gridCell, StringBuffer styleBuffer)
+	protected Color appendBackcolorStyle(JRExporterGridCell gridCell, StringBuilder styleBuilder)
 	{
 		Color cellBackcolor = gridCell.getCellBackcolor();
 		if (cellBackcolor != null && (backcolor == null || cellBackcolor.getRGB() != backcolor.getRGB()))
 		{
-			styleBuffer.append("background-color: ");
-			styleBuffer.append(JRColorUtil.getCssColor(cellBackcolor));
-			styleBuffer.append("; ");
+			styleBuilder.append("background-color: ");
+			styleBuilder.append(JRColorUtil.getCssColor(cellBackcolor));
+			styleBuilder.append("; ");
 
 			return cellBackcolor;
 		}
@@ -1646,7 +1646,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	{
 		writeCellStart(gridCell);
 
-		StringBuffer styleBuffer = new StringBuffer();
+		StringBuilder styleBuilder = new StringBuilder();
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
@@ -1671,9 +1671,9 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
 		{
-			styleBuffer.append("text-align: ");
-			styleBuffer.append(horizontalAlignment);
-			styleBuffer.append(";");
+			styleBuilder.append("text-align: ");
+			styleBuilder.append(horizontalAlignment);
+			styleBuilder.append(";");
 		}
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
@@ -1699,29 +1699,29 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 
 		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
-			styleBuffer.append(" vertical-align: ");
-			styleBuffer.append(verticalAlignment);
-			styleBuffer.append(";");
+			styleBuilder.append(" vertical-align: ");
+			styleBuilder.append(verticalAlignment);
+			styleBuilder.append(";");
 		}
 
-		appendBackcolorStyle(gridCell, styleBuffer);
+		appendBackcolorStyle(gridCell, styleBuilder);
 		
-		boolean addedToStyle = appendBorderStyle(gridCell.getBox(), styleBuffer);
+		boolean addedToStyle = appendBorderStyle(gridCell.getBox(), styleBuilder);
 		if (!addedToStyle)
 		{
 			appendPen(
-				styleBuffer,
+				styleBuilder,
 				image.getLinePen(),
 				null
 				);
 		}
 
-		appendPaddingStyle(image.getLineBox(), styleBuffer);
+		appendPaddingStyle(image.getLineBox(), styleBuilder);
 
-		if (styleBuffer.length() > 0)
+		if (styleBuilder.length() > 0)
 		{
 			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
+			writer.write(styleBuilder.toString());
 			writer.write("\"");
 		}
 
@@ -2039,7 +2039,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	{
 		if (coords != null && coords.length > 0)
 		{
-			StringBuffer coordsEnum = new StringBuffer(coords.length * 4);
+			StringBuilder coordsEnum = new StringBuilder(coords.length * 4);
 			coordsEnum.append(toZoom(coords[0]));
 			for (int i = 1; i < coords.length; i++)
 			{
@@ -2131,7 +2131,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	/**
 	 *
 	 */
-	private boolean appendPadding(StringBuffer sb, Integer padding, String side)
+	private boolean appendPadding(StringBuilder sb, Integer padding, String side)
 	{
 		boolean addedToStyle = false;
 		
@@ -2157,7 +2157,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	/**
 	 *
 	 */
-	private boolean appendPen(StringBuffer sb, JRPen pen, String side)
+	private boolean appendPen(StringBuilder sb, JRPen pen, String side)
 	{
 		boolean addedToStyle = false;
 		
@@ -2223,15 +2223,15 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	{
 		writeCellStart(gridCell);
 
-		StringBuffer styleBuffer = new StringBuffer();
-		Color frameBackcolor = appendBackcolorStyle(gridCell, styleBuffer);
-		appendBorderStyle(gridCell.getBox(), styleBuffer);
+		StringBuilder styleBuilder = new StringBuilder();
+		Color frameBackcolor = appendBackcolorStyle(gridCell, styleBuilder);
+		appendBorderStyle(gridCell.getBox(), styleBuilder);
 		//no padding style for frames, because padding is in the grid
 
-		if (styleBuffer.length() > 0)
+		if (styleBuilder.length() > 0)
 		{
 			writer.write(" style=\"");
-			writer.write(styleBuffer.toString());
+			writer.write(styleBuilder.toString());
 			writer.write("\"");
 		}
 
@@ -2292,13 +2292,13 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		{
 			writeCellStart(gridCell);
 
-			StringBuffer styleBuffer = new StringBuffer();
-			appendBackcolorStyle(gridCell, styleBuffer);
-			appendBorderStyle(gridCell.getBox(), styleBuffer);
-			if (styleBuffer.length() > 0)
+			StringBuilder styleBuilder = new StringBuilder();
+			appendBackcolorStyle(gridCell, styleBuilder);
+			appendBorderStyle(gridCell.getBox(), styleBuilder);
+			if (styleBuilder.length() > 0)
 			{
 				writer.write(" style=\"");
-				writer.write(styleBuffer.toString());
+				writer.write(styleBuilder.toString());
 				writer.write("\"");
 			}
 

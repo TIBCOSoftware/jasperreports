@@ -61,7 +61,7 @@ public class ContentBuilder
 	
 	private String mimeType;
 	
-	private StringBuffer namedExpressions;
+	private StringBuilder namedExpressions;
 	
 	/**
 	 * 
@@ -113,7 +113,7 @@ public class ContentBuilder
 		ExportZipEntry bodyEntry,
 		Collection<String> fontFaces,
 		String mimeType,
-		StringBuffer namedExpressions
+		StringBuilder namedExpressions
 		)
 	{
 		this.contentEntry = contentEntry;

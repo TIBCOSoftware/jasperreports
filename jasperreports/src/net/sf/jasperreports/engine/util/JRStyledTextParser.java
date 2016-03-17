@@ -46,16 +46,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
-import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.engine.util.JRStyledText.Run;
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -66,6 +56,16 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.util.JRStyledText.Run;
+import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 
 /**
@@ -296,7 +296,7 @@ public class JRStyledTextParser implements ErrorHandler
 	 */
 	public String write(Map<Attribute,Object> parentAttrs, AttributedCharacterIterator iterator, String text)
 	{
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		int runLimit = 0;
 
@@ -305,27 +305,27 @@ public class JRStyledTextParser implements ErrorHandler
 			String chunk = text.substring(iterator.getIndex(), runLimit);
 			Map<Attribute,Object> attrs = iterator.getAttributes();
 			
-			StringBuffer styleBuffer = writeStyleAttributes(parentAttrs, attrs);
-			if (styleBuffer.length() > 0)
+			StringBuilder styleBuilder = writeStyleAttributes(parentAttrs, attrs);
+			if (styleBuilder.length() > 0)
 			{
-				sbuffer.append(LESS);
-				sbuffer.append(NODE_style);
-				sbuffer.append(styleBuffer.toString());
-				sbuffer.append(GREATER);
-				writeChunk(sbuffer, parentAttrs, attrs, chunk);
-				sbuffer.append(LESS_SLASH);
-				sbuffer.append(NODE_style);
-				sbuffer.append(GREATER);
+				sb.append(LESS);
+				sb.append(NODE_style);
+				sb.append(styleBuilder.toString());
+				sb.append(GREATER);
+				writeChunk(sb, parentAttrs, attrs, chunk);
+				sb.append(LESS_SLASH);
+				sb.append(NODE_style);
+				sb.append(GREATER);
 			}
 			else
 			{
-				writeChunk(sbuffer, parentAttrs, attrs, chunk);
+				writeChunk(sb, parentAttrs, attrs, chunk);
 			}
 
 			iterator.setIndex(runLimit);
 		}
 		
-		return sbuffer.toString();
+		return sb.toString();
 	}
 
 	/**
@@ -351,7 +351,7 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	public void writeChunk(StringBuffer sbuffer, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
+	public void writeChunk(StringBuilder sb, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
 	{
 		Object value = attrs.get(TextAttribute.SUPERSCRIPT);
 		Object oldValue = parentAttrs.get(TextAttribute.SUPERSCRIPT);
@@ -369,90 +369,90 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (isSuper || isSub)
 		{
-			sbuffer.append(LESS);
-			sbuffer.append(scriptNode);
-			sbuffer.append(GREATER);
+			sb.append(LESS);
+			sb.append(scriptNode);
+			sb.append(GREATER);
 		}
 
 		JRPrintHyperlink hlink = (JRPrintHyperlink)attrs.get(JRTextAttribute.HYPERLINK);
 		if (hlink != null)
 		{
-			sbuffer.append(LESS);
-			sbuffer.append(NODE_a);
+			sb.append(LESS);
+			sb.append(NODE_a);
 
 			String href = hlink.getHyperlinkReference();
 			if (href != null && href.trim().length() > 0)
 			{
-				sbuffer.append(SPACE);
-				sbuffer.append(ATTRIBUTE_href);
-				sbuffer.append(EQUAL_QUOTE);
-				sbuffer.append(JRStringUtil.htmlEncode(href));
-				sbuffer.append(QUOTE);
+				sb.append(SPACE);
+				sb.append(ATTRIBUTE_href);
+				sb.append(EQUAL_QUOTE);
+				sb.append(JRStringUtil.htmlEncode(href));
+				sb.append(QUOTE);
 			}
 			
 			String type = hlink.getLinkType();
 			if (type != null && type.trim().length() > 0)
 			{
-				sbuffer.append(SPACE);
-				sbuffer.append(ATTRIBUTE_type);
-				sbuffer.append(EQUAL_QUOTE);
-				sbuffer.append(type);
-				sbuffer.append(QUOTE);
+				sb.append(SPACE);
+				sb.append(ATTRIBUTE_type);
+				sb.append(EQUAL_QUOTE);
+				sb.append(type);
+				sb.append(QUOTE);
 			}
 			
 			String target = hlink.getLinkTarget();
 			if (target != null && target.trim().length() > 0)
 			{
-				sbuffer.append(SPACE);
-				sbuffer.append(ATTRIBUTE_target);
-				sbuffer.append(EQUAL_QUOTE);
-				sbuffer.append(target);
-				sbuffer.append(QUOTE);
+				sb.append(SPACE);
+				sb.append(ATTRIBUTE_target);
+				sb.append(EQUAL_QUOTE);
+				sb.append(target);
+				sb.append(QUOTE);
 			}
 			
-			sbuffer.append(GREATER);
+			sb.append(GREATER);
 			
 			JRPrintHyperlinkParameters parameters = hlink.getHyperlinkParameters();
 			if (parameters != null && parameters.getParameters() != null)
 			{
 				for (JRPrintHyperlinkParameter parameter : parameters.getParameters())
 				{
-					sbuffer.append(LESS);
-					sbuffer.append(NODE_param);
-					sbuffer.append(SPACE);
-					sbuffer.append(ATTRIBUTE_name);
-					sbuffer.append(EQUAL_QUOTE);
-					sbuffer.append(parameter.getName());
-					sbuffer.append(QUOTE);
-					sbuffer.append(GREATER);
+					sb.append(LESS);
+					sb.append(NODE_param);
+					sb.append(SPACE);
+					sb.append(ATTRIBUTE_name);
+					sb.append(EQUAL_QUOTE);
+					sb.append(parameter.getName());
+					sb.append(QUOTE);
+					sb.append(GREATER);
 					
 					if (parameter.getValue() != null)
 					{
 						String strValue = JRValueStringUtils.serialize(parameter.getValueClass(), parameter.getValue());
-						sbuffer.append(JRStringUtil.xmlEncode(strValue));
+						sb.append(JRStringUtil.xmlEncode(strValue));
 					}
 
-					sbuffer.append(LESS_SLASH);
-					sbuffer.append(NODE_param);
-					sbuffer.append(GREATER);
+					sb.append(LESS_SLASH);
+					sb.append(NODE_param);
+					sb.append(GREATER);
 				}
 			}
 		}
 
-		sbuffer.append(JRStringUtil.xmlEncode(chunk));
+		sb.append(JRStringUtil.xmlEncode(chunk));
 
 		if (hlink != null)
 		{
-			sbuffer.append(LESS_SLASH);
-			sbuffer.append(NODE_a);
-			sbuffer.append(GREATER);
+			sb.append(LESS_SLASH);
+			sb.append(NODE_a);
+			sb.append(GREATER);
 		}
 
 		if (isSuper || isSub)
 		{
-			sbuffer.append(LESS_SLASH);
-			sbuffer.append(scriptNode);
-			sbuffer.append(GREATER);
+			sb.append(LESS_SLASH);
+			sb.append(scriptNode);
+			sb.append(GREATER);
 		}
 	}
 
@@ -833,20 +833,20 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	private StringBuffer writeStyleAttributes(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs)
+	private StringBuilder writeStyleAttributes(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs)
 	{
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		Object value = attrs.get(TextAttribute.FAMILY);
 		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
 		
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_fontName);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value);
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_fontName);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value);
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(TextAttribute.WEIGHT);
@@ -854,11 +854,11 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_isBold);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value.equals(TextAttribute.WEIGHT_BOLD));
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_isBold);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value.equals(TextAttribute.WEIGHT_BOLD));
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(TextAttribute.POSTURE);
@@ -866,11 +866,11 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_isItalic);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value.equals(TextAttribute.POSTURE_OBLIQUE));
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_isItalic);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value.equals(TextAttribute.POSTURE_OBLIQUE));
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(TextAttribute.UNDERLINE);
@@ -881,11 +881,11 @@ public class JRStyledTextParser implements ErrorHandler
 			|| (value != null && !value.equals(oldValue))
 			)
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_isUnderline);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value != null);
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_isUnderline);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value != null);
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(TextAttribute.STRIKETHROUGH);
@@ -896,11 +896,11 @@ public class JRStyledTextParser implements ErrorHandler
 			|| (value != null && !value.equals(oldValue))
 			)
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_isStrikeThrough);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value != null);
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_isStrikeThrough);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value != null);
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(TextAttribute.SIZE);
@@ -908,11 +908,11 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_size);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value);
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_size);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value);
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(JRTextAttribute.PDF_FONT_NAME);
@@ -920,11 +920,11 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_pdfFontName);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value);
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_pdfFontName);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value);
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(JRTextAttribute.PDF_ENCODING);
@@ -932,11 +932,11 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_pdfEncoding);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value);
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_pdfEncoding);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value);
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(JRTextAttribute.IS_PDF_EMBEDDED);
@@ -944,11 +944,11 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_isPdfEmbedded);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(value);
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_isPdfEmbedded);
+			sb.append(EQUAL_QUOTE);
+			sb.append(value);
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(TextAttribute.FOREGROUND);
@@ -956,11 +956,11 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_forecolor);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(JRColorUtil.getCssColor((Color)value));
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_forecolor);
+			sb.append(EQUAL_QUOTE);
+			sb.append(JRColorUtil.getCssColor((Color)value));
+			sb.append(QUOTE);
 		}
 
 		value = attrs.get(TextAttribute.BACKGROUND);
@@ -968,14 +968,14 @@ public class JRStyledTextParser implements ErrorHandler
 
 		if (value != null && !value.equals(oldValue))
 		{
-			sbuffer.append(SPACE);
-			sbuffer.append(ATTRIBUTE_backcolor);
-			sbuffer.append(EQUAL_QUOTE);
-			sbuffer.append(JRColorUtil.getCssColor((Color)value));
-			sbuffer.append(QUOTE);
+			sb.append(SPACE);
+			sb.append(ATTRIBUTE_backcolor);
+			sb.append(EQUAL_QUOTE);
+			sb.append(JRColorUtil.getCssColor((Color)value));
+			sb.append(QUOTE);
 		}
 		
-		return sbuffer;
+		return sb;
 	}
 	
 	/**

@@ -110,16 +110,16 @@ public class Scriptlet extends JRDefaultScriptlet
 		
 			String allCities = (String)this.getVariableValue("AllCities");
 			String city = (String)this.getFieldValue("City");
-			StringBuffer sbuffer = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 		
 			if (allCities != null)
 			{
-				sbuffer.append(allCities);
-				sbuffer.append(", ");
+				sb.append(allCities);
+				sb.append(", ");
 			}
 		
-			sbuffer.append(city);
-			this.setVariableValue("AllCities", sbuffer.toString());
+			sb.append(city);
+			this.setVariableValue("AllCities", sb.toString());
 		}
 	}
 

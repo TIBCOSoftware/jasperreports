@@ -124,7 +124,7 @@ public class JRGroovyGenerator
 	
 	protected String generateClass() throws JRException
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		generateClassStart(sb);
 
@@ -158,7 +158,7 @@ public class JRGroovyGenerator
 	}
 
 
-	private void generateInitMethod(StringBuffer sb)
+	private void generateInitMethod(StringBuilder sb)
 	{
 		sb.append("\n");
 		sb.append("\n");
@@ -183,7 +183,7 @@ public class JRGroovyGenerator
 	}
 
 	
-	protected final void generateClassStart(StringBuffer sb)
+	protected final void generateClassStart(StringBuilder sb)
 	{
 		/*   */
 		sb.append("/*\n");
@@ -235,7 +235,7 @@ public class JRGroovyGenerator
 	}
 
 
-	protected final void generateDeclarations(StringBuffer sb)
+	protected final void generateDeclarations(StringBuilder sb)
 	{
 		if (parametersMap != null && parametersMap.size() > 0)
 		{
@@ -271,7 +271,7 @@ public class JRGroovyGenerator
 	}
 
 
-	protected final void generateInitParamsMethod(StringBuffer sb) throws JRException
+	protected final void generateInitParamsMethod(StringBuilder sb) throws JRException
 	{
 		Iterator<String> parIt = null;
 		if (parametersMap != null && parametersMap.size() > 0) 
@@ -287,7 +287,7 @@ public class JRGroovyGenerator
 	}
 
 
-	protected final void generateInitFieldsMethod(StringBuffer sb) throws JRException
+	protected final void generateInitFieldsMethod(StringBuilder sb) throws JRException
 	{
 		Iterator<String> fieldIt = null;
 		if (fieldsMap != null && fieldsMap.size() > 0) 
@@ -303,7 +303,7 @@ public class JRGroovyGenerator
 	}
 
 
-	protected final void generateInitVarsMethod(StringBuffer sb) throws JRException
+	protected final void generateInitVarsMethod(StringBuilder sb) throws JRException
 	{
 		Iterator<JRVariable> varIt = null;
 		if (variables != null && variables.length > 0) 
@@ -322,7 +322,7 @@ public class JRGroovyGenerator
 	/**
 	 *
 	 */
-	private void generateInitParamsMethod(StringBuffer sb, Iterator<String> it, int index) throws JRException
+	private void generateInitParamsMethod(StringBuilder sb, Iterator<String> it, int index) throws JRException
 	{
 		sb.append("    /**\n");
 		sb.append("     *\n");
@@ -363,7 +363,7 @@ public class JRGroovyGenerator
 	/**
 	 *
 	 */
-	private void generateInitFieldsMethod(StringBuffer sb, Iterator<String> it, int index) throws JRException
+	private void generateInitFieldsMethod(StringBuilder sb, Iterator<String> it, int index) throws JRException
 	{
 		sb.append("    /**\n");
 		sb.append("     *\n");
@@ -404,7 +404,7 @@ public class JRGroovyGenerator
 	/**
 	 *
 	 */
-	private void generateInitVarsMethod(StringBuffer sb, Iterator<JRVariable> it, int index) throws JRException
+	private void generateInitVarsMethod(StringBuilder sb, Iterator<JRVariable> it, int index) throws JRException
 	{
 		sb.append("    /**\n");
 		sb.append("     *\n");
@@ -447,7 +447,7 @@ public class JRGroovyGenerator
 	 */
 	protected final String generateMethod(byte evaluationType, List<JRExpression> expressionsList) throws JRException 
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		if (expressionsList != null && !expressionsList.isEmpty())
 		{
@@ -590,7 +590,7 @@ public class JRGroovyGenerator
 		byte evaluationType
 		)
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		JRExpressionChunk[] chunks = expression.getChunks();
 		if (chunks != null && chunks.length > 0)

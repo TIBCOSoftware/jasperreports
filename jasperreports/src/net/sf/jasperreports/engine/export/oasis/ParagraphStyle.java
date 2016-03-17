@@ -266,8 +266,8 @@ public class ParagraphStyle extends Style
 	@Override
 	public String getId()
 	{
-		StringBuffer sbuffer = new StringBuffer();
-		sbuffer.append(verticalAlignment).append("|").append(horizontalAlignment)
+		StringBuilder sb = new StringBuilder();
+		sb.append(verticalAlignment).append("|").append(horizontalAlignment)
 			.append("|").append(runDirection).append("|").append(textRotation)
 			.append("|").append(paragraph.getLineSpacing().getName())
 			.append("|").append(paragraph.getLineSpacingSize())
@@ -282,11 +282,11 @@ public class ParagraphStyle extends Style
 			for (int i = 0; i < tabStops.length; i++)
 			{
 				TabStop tabStop = tabStops[i];
-				sbuffer.append("|").append(tabStop.getPosition()).append("|").append(tabStop.getAlignment().getName());
+				sb.append("|").append(tabStop.getPosition()).append("|").append(tabStop.getAlignment().getName());
 			}
 		}
 		
-		return sbuffer.toString();
+		return sb.toString();
 	}
 
 	@Override

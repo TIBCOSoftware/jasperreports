@@ -36,7 +36,7 @@ public class HtmlElementXhtmlHandler implements GenericElementHtmlHandler
 {
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
-		StringBuffer script = new StringBuffer(128);
+		StringBuilder script = new StringBuilder(128);
 		
 		String elementX = ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX());
 		String elementY = ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY());

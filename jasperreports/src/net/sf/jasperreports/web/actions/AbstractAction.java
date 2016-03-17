@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRParameter;
@@ -46,8 +48,6 @@ import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.commands.CommandTarget;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 
 /**
@@ -146,15 +146,15 @@ public abstract class AbstractAction implements Action {
 		
 		public void throwAll() throws ActionException {
 			if (!errorMessages.isEmpty()) {
-				StringBuffer errBuff = new StringBuffer();
+				StringBuilder errBuilder = new StringBuilder();
 				for (int i = 0, ln = errorMessages.size(); i < ln; i++) {
 					String errMsg = errorMessages.get(i);
-					errBuff.append(errMsg);
+					errBuilder.append(errMsg);
 					if (i < ln -1) {
-						errBuff.append(ERR_CONCAT_STRING);
+						errBuilder.append(ERR_CONCAT_STRING);
 					}
 				}
-				throw new ActionException(errBuff.toString());
+				throw new ActionException(errBuilder.toString());
 			}	
 		}
 	}

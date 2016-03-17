@@ -158,7 +158,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 		CutsInfo xCuts = layout.getXCuts();
 		CutsInfo yCuts = layout.getYCuts();
 
-		StringBuffer rowbuffer = null;
+		StringBuilder rowBuilder = null;
 		
 		boolean isFirstColumn = true;
 		int rowCount = grid.getRowCount();
@@ -166,7 +166,7 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 		{
 			Cut yCut = yCuts.getCut(y);
 
-			rowbuffer = new StringBuffer();
+			rowBuilder = new StringBuilder();
 
 			if (yCut.isCutNotEmpty())
 			{
@@ -219,9 +219,9 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 						{
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(fieldDelimiter);
+								rowBuilder.append(fieldDelimiter);
 							}
-							rowbuffer.append(
+							rowBuilder.append(
 								prepareText(text)
 								);
 							isFirstColumn = false;
@@ -233,16 +233,16 @@ public class JRCsvExporter extends JRAbstractCsvExporter<CsvReportConfiguration,
 						{
 							if (!isFirstColumn)
 							{
-								rowbuffer.append(fieldDelimiter);
+								rowBuilder.append(fieldDelimiter);
 							}
 							isFirstColumn = false;
 						}
 					}
 				}
 				
-				if (rowbuffer.length() > 0)
+				if (rowBuilder.length() > 0)
 				{
-					writer.write(rowbuffer.toString());
+					writer.write(rowBuilder.toString());
 					writer.write(recordDelimiter);
 				}
 			}

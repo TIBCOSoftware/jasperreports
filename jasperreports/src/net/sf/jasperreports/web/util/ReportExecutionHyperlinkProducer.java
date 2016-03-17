@@ -90,7 +90,7 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 			applicationDomain = request.getContextPath();
 		}
 		
-		StringBuffer allParams = new StringBuffer();
+		StringBuilder allParams = new StringBuilder();
 		
 		if (hyperlink.getHyperlinkParameters() != null)
 		{
