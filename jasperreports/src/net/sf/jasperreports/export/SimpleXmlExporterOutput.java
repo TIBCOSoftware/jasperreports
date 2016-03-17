@@ -63,6 +63,17 @@ public class SimpleXmlExporterOutput extends SimpleWriterExporterOutput implemen
 	/**
 	 * 
 	 */
+	public SimpleXmlExporterOutput(StringBuilder sbuilder)
+	{
+		super(sbuilder);
+		
+		destFile = null;
+	}
+
+	
+	/**
+	 * 
+	 */
 	public SimpleXmlExporterOutput(Writer writer)
 	{
 		super(writer);

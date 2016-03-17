@@ -28,10 +28,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 
+import org.codehaus.groovy.runtime.StringBufferWriter;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.util.StringBuilderWriter;
 
 
 /**
@@ -44,7 +46,6 @@ public class SimpleWriterExporterOutput implements WriterExporterOutput
 	 */
 	private final String encoding;
 	private Writer writer;
-	private StringBuffer sbuffer;
 	private boolean toClose;
 
 	
@@ -55,12 +56,25 @@ public class SimpleWriterExporterOutput implements WriterExporterOutput
 	public SimpleWriterExporterOutput(StringBuffer sbuffer)
 	{
 		this.encoding = "UTF-8";
-		this.sbuffer = sbuffer;
 		
 		if (sbuffer != null)
 		{
-			writer = new StringWriter();
-			toClose = true;
+			writer = new StringBufferWriter(sbuffer);
+		}
+	}
+
+	
+	/**
+	 * Creates a {@link WriterExporterOutput} instance which stores its result into the provided string builder. 
+	 * Useful for just storing the result in a string for later use.
+	 */
+	public SimpleWriterExporterOutput(StringBuilder sbuilder)
+	{
+		this.encoding = "UTF-8";
+		
+		if (sbuilder != null)
+		{
+			writer = new StringBuilderWriter(sbuilder);
 		}
 	}
 
@@ -190,11 +204,6 @@ public class SimpleWriterExporterOutput implements WriterExporterOutput
 			}
 			catch (IOException e)
 			{
-			}
-
-			if (sbuffer != null)
-			{
-				sbuffer.append(writer.toString());
 			}
 		}
 	}

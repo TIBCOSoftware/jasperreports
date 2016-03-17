@@ -28,9 +28,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
+
+import org.codehaus.groovy.runtime.StringBufferWriter;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -73,8 +74,7 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 		StringBuffer sb = (StringBuffer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb != null)
 		{
-			writer = new StringBufferWrapperWriter(sb);
-			toClose = true;
+			writer = new StringBufferWriter(sb);
 		}
 		else
 		{
@@ -164,26 +164,5 @@ public class ParametersWriterExporterOutput extends AbstractParametersExporterOu
 			{
 			}
 		}
-	}
-}
-
-class StringBufferWrapperWriter extends StringWriter
-{
-	private final StringBuffer sb;
-	
-	public StringBufferWrapperWriter(StringBuffer sb)
-	{
-		super();
-		this.sb = sb;
-	}
-
-	@Override
-	public void close() throws IOException
-	{
-		super.close();
-		
-		// this preserves existing functionality
-		// implementing a writer that directly writes to sb might be better
-		sb.append(toString());
 	}
 }

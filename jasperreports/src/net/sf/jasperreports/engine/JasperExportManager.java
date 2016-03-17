@@ -376,16 +376,16 @@ public final class JasperExportManager
 	 */
 	public String exportToXml(JasperPrint jasperPrint) throws JRException
 	{
-		StringBuffer sbuffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		JRXmlExporter exporter = new JRXmlExporter(jasperReportsContext);
 		
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleXmlExporterOutput(sbuffer));
+		exporter.setExporterOutput(new SimpleXmlExporterOutput(sb));
 		
 		exporter.exportReport();
 		
-		return sbuffer.toString();
+		return sb.toString();
 	}
 
 

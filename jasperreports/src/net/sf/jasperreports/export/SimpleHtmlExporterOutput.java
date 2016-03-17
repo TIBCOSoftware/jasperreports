@@ -56,6 +56,15 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
+	public SimpleHtmlExporterOutput(StringBuilder sbuilder)
+	{
+		super(sbuilder);
+	}
+
+	
+	/**
+	 * 
+	 */
 	public SimpleHtmlExporterOutput(Writer writer)
 	{
 		super(writer);
