@@ -771,6 +771,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 				}
 				sb.append(memberUniqueNames[i]);
 			}
+			sb.append(')');
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_OLAP_TUPLE_NOT_FOUND,
