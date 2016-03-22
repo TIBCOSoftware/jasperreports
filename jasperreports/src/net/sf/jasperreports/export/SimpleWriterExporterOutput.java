@@ -30,9 +30,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import org.codehaus.groovy.runtime.StringBufferWriter;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.util.StringBufferWriter;
 import net.sf.jasperreports.util.StringBuilderWriter;
 
 

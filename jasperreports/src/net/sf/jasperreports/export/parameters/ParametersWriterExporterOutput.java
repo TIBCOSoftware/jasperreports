@@ -31,12 +31,11 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Map;
 
-import org.codehaus.groovy.runtime.StringBufferWriter;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.util.StringBufferWriter;
 
 
 /**
