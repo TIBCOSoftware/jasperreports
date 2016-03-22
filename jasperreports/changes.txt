@@ -2,8 +2,20 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.2.1 (2016-03-1x)
+JasperReports 6.2.1 (2016-03-22)
 ---------------------------------------------
+
+- removed all JAR dependencies from project and introduced Apache Ivy dependency management
+for building the distribution files and running the samples;
+
+- support for embedding Base64 encoded images in HTML export using the new 
+"net.sf.jasperreports.export.html.embed.image" configuration property;
+
+- new CSV export configuration properties for controlling the field encoding character 
+(net.sf.jasperreports.export.csv.field.enclosure) and also for forcing field enclosure
+(net.sf.jasperreports.export.csv.force.field.enclosure);
+
+- rendering of ellipses and round corner rectangles using SVG in HTML export;
 
 - minor bug fixes and improvements;
 
