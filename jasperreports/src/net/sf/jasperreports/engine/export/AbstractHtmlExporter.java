@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.export;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -34,6 +36,9 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
@@ -82,6 +87,8 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	 * @deprecated To be removed.
 	 */
 	protected HtmlResourceHandler resourceHandler;
+	
+	protected Map<String, HtmlFont> fontsToProcess;
 	
 	/**
 	 * 
@@ -206,6 +213,73 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH, fileExtensionStart));
 	}
+	
+	
+	protected String getFontFamily(
+		String fontFamily,
+		boolean isBold,
+		boolean isItalic,
+		Locale locale
+		)
+	{
+		return getFontFamily(false, fontFamily, isBold, isItalic, locale);
+	}
+	
+	
+	protected String getFontFamily(
+		boolean ignoreCase,
+		String fontFamily,
+		boolean isBold,
+		boolean isItalic,
+		Locale locale
+		)
+	{
+		FontInfo fontInfo =
+			ignoreCase
+			? FontUtil.getInstance(jasperReportsContext).getFontInfoIgnoreCase(fontFamily, locale)
+			: FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamily, locale);
+			
+		if (fontInfo != null)
+		{
+			//fontName found in font extensions
+			FontFamily family = fontInfo.getFontFamily();
+			String exportFont = family.getExportFont(getExporterKey());
+			if (exportFont == null)
+			{
+				HtmlExporterOutput output = getExporterOutput();
+				HtmlResourceHandler fontHandler = 
+					output.getFontHandler() == null
+					? getFontHandler()
+					: output.getFontHandler();
+				HtmlResourceHandler resourceHandler = 
+					getExporterOutput().getResourceHandler() == null
+					? getResourceHandler()
+					: getExporterOutput().getResourceHandler();
+				if (fontHandler != null && resourceHandler != null)
+				{
+					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
+					
+					if (htmlFont != null)
+					{
+						if (!fontsToProcess.containsKey(htmlFont.getId()))
+						{
+							fontsToProcess.put(htmlFont.getId(), htmlFont);
+
+							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
+						}
+						
+						fontFamily = htmlFont.getShortId();
+					}
+				}
+			}
+			else
+			{
+				fontFamily = exportFont;
+			}
+		}
+
+		return fontFamily;
+	}
 
 
 	/**
@@ -223,6 +297,24 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, getCurrentItemConfiguration().isEmbedImage());
 		}
 		return getCurrentItemConfiguration().isEmbedImage();
+	}
+
+
+	/**
+	 * 
+	 */
+	protected boolean isEmbeddedSvgUseFonts(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, getCurrentItemConfiguration().isEmbeddedSvgUseFonts());
+		}
+		return getCurrentItemConfiguration().isEmbeddedSvgUseFonts();
 	}
 
 }

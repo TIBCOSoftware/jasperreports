@@ -23,17 +23,24 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRImageAlignment;
+import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public final class ImageUtil
 {
-	public static float getXAlignFactor(JRPrintImage printImage)
+	public static float getXAlignFactor(JRImageAlignment imageAlignment)
+	{
+		return getXAlignFactor(imageAlignment.getHorizontalImageAlign());
+	}
+
+	public static float getXAlignFactor(HorizontalImageAlignEnum horizontalAlign)
 	{
 		float xalignFactor = 0f;
-		switch (printImage.getHorizontalImageAlign())
+		switch (horizontalAlign)
 		{
 			case RIGHT :
 			{
@@ -55,10 +62,15 @@ public final class ImageUtil
 		return xalignFactor;
 	}
 
-	public static float getYAlignFactor(JRPrintImage printImage)
+	public static float getYAlignFactor(JRImageAlignment imageAlignment)
+	{
+		return getYAlignFactor(imageAlignment.getVerticalImageAlign());
+	}
+
+	public static float getYAlignFactor(VerticalImageAlignEnum verticalAlign)
 	{
 		float yalignFactor = 0f;
-		switch (printImage.getVerticalImageAlign())
+		switch (verticalAlign)
 		{
 			case BOTTOM :
 			{

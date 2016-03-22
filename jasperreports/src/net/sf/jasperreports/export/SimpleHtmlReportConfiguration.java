@@ -41,6 +41,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	private Float zoomRatio;
 	private Boolean isIgnoreHyperlink;
 	private Boolean isEmbedImage;
+	private Boolean isEmbeddedSvgUseFonts;
 
 	
 	/**
@@ -188,5 +189,19 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	public void setEmbedImage(Boolean isEmbedImage)
 	{
 		this.isEmbedImage = isEmbedImage;
+	}
+	
+	@Override
+	public Boolean isEmbeddedSvgUseFonts()
+	{
+		return isEmbeddedSvgUseFonts;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEmbeddedSvgUseFonts(Boolean isEmbeddedSvgUseFonts)
+	{
+		this.isEmbeddedSvgUseFonts = isEmbeddedSvgUseFonts;
 	}
 }

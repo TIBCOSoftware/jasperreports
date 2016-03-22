@@ -116,6 +116,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.renderers.Renderable;
 
 
@@ -916,6 +917,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		printImage.setWidth(getWidth());
 		printImage.setHeight(getStretchHeight());
 		printImage.setBookmarkLevel(getBookmarkLevel());
+		printImage.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, Boolean.TRUE.toString());
+		printImage.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, Boolean.TRUE.toString());
 
 		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
 		if (evaluationTime == EvaluationTimeEnum.NOW)

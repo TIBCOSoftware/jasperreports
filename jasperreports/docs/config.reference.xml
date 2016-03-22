@@ -222,6 +222,7 @@
       <property ref="net.sf.jasperreports.export.html.border.collapse"/>
       <property ref="net.sf.jasperreports.export.html.class"/>
       <property ref="net.sf.jasperreports.export.html.embed.image"/>
+      <property ref="net.sf.jasperreports.export.html.embedded.svg.use.fonts"/>
       <property ref="net.sf.jasperreports.export.html.header"/>
       <property ref="net.sf.jasperreports.export.html.flush.output"/>
       <property ref="net.sf.jasperreports.export.html.footer"/>
@@ -3007,6 +3008,19 @@ This property specifies whether the image should be Base64 encoded and embedded 
     <default>false</default>
     <scope>Global | Report | Element</scope>
     <since>6.2.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.embedded.svg.use.fonts -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.embedded.svg.use.fonts">
+    <description>
+This property specifies whether the HTML embedded SVG should have the font family names replaced with the web fonts coming from font extensions, similar to what we do for text elements.
+    </description>
+    <api>net/sf/jasperreports/engine/export/HtmlReportConfiguration.html#PROPERTY_EMBEDDED_SVG_USE_FONTS</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.2.2</since>
   </configProperty>
   
   

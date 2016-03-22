@@ -36,15 +36,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRFontNotFoundException;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -219,6 +219,46 @@ public final class FontUtil
 	}
 
 
+	public FontInfo getFontInfoIgnoreCase(String name, Locale locale)
+	{
+		//FIXMEFONT do some cache
+		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
+		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
+		{
+			FontFamily family = itf.next();
+			if (locale == null || family.supportsLocale(locale))
+			{
+				if (name.equalsIgnoreCase(family.getName()))
+				{
+					return new FontInfo(family, null, Font.PLAIN);
+				}
+				FontFace face = family.getNormalFace();
+				if (face != null && name.equalsIgnoreCase(face.getName()))
+				{
+					return new FontInfo(family, face, Font.PLAIN);
+				}
+				face = family.getBoldFace();
+				if (face != null && name.equalsIgnoreCase(face.getName()))
+				{
+					return new FontInfo(family, face, Font.BOLD);
+				}
+				face = family.getItalicFace();
+				if (face != null && name.equalsIgnoreCase(face.getName()))
+				{
+					return new FontInfo(family, face, Font.ITALIC);
+				}
+				face = family.getBoldItalicFace();
+				if (face != null && name.equalsIgnoreCase(face.getName()))
+				{
+					return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+				}
+			}
+		}
+		//throw new JRRuntimeException("Font family/face named '" + name + "' not found.");
+		return null;
+	}
+
+
 	/**
 	 * Returns the font family names available through extensions, in alphabetical order.
 	 */
@@ -319,7 +359,7 @@ public final class FontUtil
 
 				awtFont = awtFont.deriveFont(size);
 				
-				awtFont = awtFont.deriveFont(style & ~faceStyle);
+				awtFont = awtFont.deriveFont(style);// & ~faceStyle);
 			}
 		}
 		

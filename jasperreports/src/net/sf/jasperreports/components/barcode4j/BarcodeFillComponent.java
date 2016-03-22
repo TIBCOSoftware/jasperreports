@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.renderers.Renderable;
 
 /**
@@ -106,6 +107,8 @@ public class BarcodeFillComponent extends BaseFillComponent
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());
 		image.setHeight(element.getHeight());
+		image.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE, Boolean.TRUE.toString());
+		image.getPropertiesMap().setProperty(HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, Boolean.TRUE.toString());
 		
 		if (isEvaluateNow())
 		{

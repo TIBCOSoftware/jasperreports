@@ -36,18 +36,33 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class BatikUserAgent extends UserAgentAdapter
 {
-	private final BatikFontFamilyResolver fontFamilyResolver;
+	public static final float PIXEL_TO_MM_72_DPI = 0.35277777777777777777777777777778f; // 72dpi
+	public static final float PIXEL_TO_MM_96_DPI = 0.26458333333333333333333333333333f; // 96dpi
+
+	private final FontFamilyResolver fontFamilyResolver;
+	private final float pixel2mm;
 	
-	public BatikUserAgent(JasperReportsContext jasperReportsContext) 
+	public BatikUserAgent(
+		JasperReportsContext jasperReportsContext
+		) 
 	{
-		fontFamilyResolver = BatikFontFamilyResolver.getInstance(jasperReportsContext);
+		this.fontFamilyResolver = BatikFontFamilyResolver.getInstance(jasperReportsContext);
+		this.pixel2mm = PIXEL_TO_MM_72_DPI;
+	}
+	
+	public BatikUserAgent(
+		FontFamilyResolver fontFamilyResolver,
+		float pixel2mm
+		) 
+	{
+		this.fontFamilyResolver = fontFamilyResolver;
+		this.pixel2mm = pixel2mm;
 	}
 	
 	@Override
 	public float getPixelUnitToMillimeter()
 	{
-		// JR works at 72dpi
-		return 0.35277777777777777777777777777778f;
+		return pixel2mm;
 	}
 
 	@Override

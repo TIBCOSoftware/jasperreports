@@ -95,9 +95,6 @@ import net.sf.jasperreports.engine.export.tabulator.Table;
 import net.sf.jasperreports.engine.export.tabulator.TableCell;
 import net.sf.jasperreports.engine.export.tabulator.TablePosition;
 import net.sf.jasperreports.engine.export.tabulator.Tabulator;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -109,8 +106,10 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.HyperlinkData;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -119,7 +118,6 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
 import net.sf.jasperreports.renderers.DataRenderable;
@@ -128,6 +126,7 @@ import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.renderers.util.SvgFontProcessor;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
 
@@ -182,8 +181,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
 	protected RenderersCache renderersCache;
 
-	protected Map<String, HtmlFont> fontsToProcess;
-	
 	protected Writer writer;
 	protected int reportIndex;
 	protected int pageIndex;
@@ -1001,7 +998,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				}
 			}
 
-			boolean useBackgroundImage = 
+			boolean useBackgroundLazyImage = 
 				isLazy 
 				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
 					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP));
@@ -1010,7 +1007,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				new InternalImageProcessor(
 					image,
 					isLazy,
-					!useBackgroundImage && scaleImage != ScaleImageEnum.FILL_FRAME && !isLazy,
+					!useBackgroundLazyImage && scaleImage != ScaleImageEnum.FILL_FRAME && !isLazy,
 					cell,
 					availableImageWidth,
 					availableImageHeight
@@ -1033,10 +1030,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 			if (imageProcessorResult != null)
 			{
-				if (useBackgroundImage)
+				if (useBackgroundLazyImage)
 				{
 					writer.write("<div style=\"width: 100%; height: 100%; background-image: url('");
-					String imagePath = imageProcessorResult.imagePath;
+					String imagePath = imageProcessorResult.imageSource;
 					if (imagePath != null)
 					{
 						writer.write(imagePath);
@@ -1068,11 +1065,114 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					}
 					writer.write(";\"></div>");
 				}
+				else if (imageProcessorResult.isEmbededSvgData)
+				{
+					writer.write("<svg");
+
+					switch (scaleImage)
+					{
+						case FILL_FRAME :
+						{
+							Dimension2D dimension = imageProcessorResult.dimension;
+							if (dimension != null)
+							{
+								writer.write(" viewBox=\"0 0 ");
+								writer.write(String.valueOf(dimension.getWidth()));
+								writer.write(" ");
+								writer.write(String.valueOf(dimension.getHeight()));
+								writer.write("\"");
+							}
+				
+							writer.write(" width=\"");
+							writer.write(String.valueOf(availableImageWidth));
+							writer.write("\"");
+							writer.write(" height=\"");
+							writer.write(String.valueOf(availableImageHeight));
+							writer.write("\"");
+							writer.write(" preserveAspectRatio=\"none\"");
+
+							break;
+						}
+						case CLIP :
+						{
+							double normalWidth = availableImageWidth;
+							double normalHeight = availableImageHeight;
+	
+							Dimension2D dimension = imageProcessorResult.dimension;
+							if (dimension != null)
+							{
+								normalWidth = dimension.getWidth();
+								normalHeight = dimension.getHeight();
+	
+								writer.write(" viewBox=\"");
+								writer.write(String.valueOf((int)(ImageUtil.getXAlignFactor(image) * (normalWidth - availableImageWidth))));
+								writer.write(" ");
+								writer.write(String.valueOf((int)(ImageUtil.getYAlignFactor(image) * (normalHeight - availableImageHeight))));
+								writer.write(" ");
+								writer.write(String.valueOf(availableImageWidth));
+								writer.write(" ");
+								writer.write(String.valueOf(availableImageHeight));
+								writer.write("\"");
+							}
+
+							writer.write(" width=\"");
+							writer.write(String.valueOf(availableImageWidth));
+							writer.write("\"");
+							writer.write(" height=\"");
+							writer.write(String.valueOf(availableImageHeight));
+							writer.write("\"");
+
+							break;
+						}
+						case RETAIN_SHAPE :
+						default :
+						{
+							//considering the IF above, if we get here, then for sure isLazy() is false, so we can ask the renderer for its dimension
+							if (availableImageHeight > 0)
+							{
+								double normalWidth = availableImageWidth;
+								double normalHeight = availableImageHeight;
+
+								Dimension2D dimension = imageProcessorResult.dimension;
+								if (dimension != null)
+								{
+									normalWidth = dimension.getWidth();
+									normalHeight = dimension.getHeight();
+
+									writer.write(" viewBox=\"0 0 ");
+									writer.write(String.valueOf(normalWidth));
+									writer.write(" ");
+									writer.write(String.valueOf(normalHeight));
+									writer.write("\"");
+								}
+								
+								double ratio = normalWidth / normalHeight;
+				
+								if ( ratio > (double)availableImageWidth / (double)availableImageHeight )
+								{
+									writer.write(" width=\"");
+									writer.write(String.valueOf(availableImageWidth));
+									writer.write("\"");
+								}
+								else
+								{
+									writer.write(" height=\"");
+									writer.write(String.valueOf(availableImageHeight));
+									writer.write("\"");
+								}
+							}
+						}
+					}
+
+					writer.write("><g>\n");
+					writer.write(imageProcessorResult.imageSource);
+					writer.write("</g></svg>");
+				}
 				else
 				{
 					writer.write("<img");
 					writer.write(" src=\"");
-					String imagePath = imageProcessorResult.imagePath;
+					String imagePath = imageProcessorResult.imageSource;
 					if (imagePath != null)
 					{
 						writer.write(imagePath);
@@ -1121,12 +1221,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								
 								// these calculations assume that the image td does not stretch due to other cells.
 								// when that happens, the image will not be properly aligned.
-								float xAlignFactor = horizontalAlign == HorizontalImageAlignEnum.RIGHT ? 1f
-										: (horizontalAlign == HorizontalImageAlignEnum.CENTER ? 0.5f : 0f);
-								float yAlignFactor = verticalAlign == VerticalImageAlignEnum.BOTTOM ? 1f
-										: (verticalAlign == VerticalImageAlignEnum.MIDDLE ? 0.5f : 0f);
-								positionLeft = (int) (xAlignFactor * (availableImageWidth - normalWidth));
-								positionTop = (int) (yAlignFactor * (availableImageHeight - normalHeight));
+								positionLeft = (int) (ImageUtil.getXAlignFactor(horizontalAlign) * (availableImageWidth - normalWidth));
+								positionTop = (int) (ImageUtil.getYAlignFactor(verticalAlign) * (availableImageHeight - normalHeight));
 							}
 							
 							writer.write(" style=\"position: absolute; left:");
@@ -1246,13 +1342,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		protected InternalImageProcessorResult process(Renderable renderer) throws JRException, IOException
 		{
-			String imagePath = null;
+			String imageSource = null;
 			Dimension2D dimension = null;
+			boolean isEmbededSvgData = false;
 			
 			if (isLazy)
 			{
 				// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-				imagePath = RendererUtil.getResourceLocation(renderer);
+				imageSource = RendererUtil.getResourceLocation(renderer);
 			}
 			else
 			{
@@ -1274,7 +1371,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					&& rendererToImagePathMap.containsKey(renderer.getId())
 					)
 				{
-					imagePath = rendererToImagePathMap.get(renderer.getId());
+					imageSource = rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
@@ -1289,21 +1386,60 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 						byte[] imageData = dataRenderer.getData(jasperReportsContext);
 
-						String imageMimeType = 
-							getRendererUtil().isSvgData(imageData)
-							? RendererUtil.SVG_MIME_TYPE
-							: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
+						isEmbededSvgData = getRendererUtil().isSvgData(imageData);
+						
+						if (isEmbededSvgData)
+						{
+							if (isEmbeddedSvgUseFonts(imageElement))
+							{
+								Locale locale = null;
 
-						ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+								String localeCode = jasperPrint.getLocaleCode();
+								if (localeCode != null)
+								{
+									locale = JRDataUtils.getLocale(localeCode);
+								}
+								
+								SvgFontProcessor svgFontProcessor = new SvgFontProcessor(jasperReportsContext, locale) 
+								{
+									@Override
+									public String getFontFamily(String fontFamily, boolean isBold, boolean isItalic, Locale locale) 
+									{
+										return HtmlExporter.this.getFontFamily(true, fontFamily, isBold, isItalic, locale);
+									}
+								};
+								
+								imageData = svgFontProcessor.process(imageData);
+							}
+							
+							String encoding = getExporterOutput().getEncoding();
+							
+							imageSource = new String(imageData, encoding);
+							
+							// we might have received needDimension false above, as a hint, but if we arrive here, 
+							// we definitely need to attempt getting the dimension of the SVG, regardless of scale image type
+							DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+							dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
+						}
+						else
+						{
+							String imageMimeType = 
+								isEmbededSvgData
+								? RendererUtil.SVG_MIME_TYPE
+								: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
+
+							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+							ByteArrayOutputStream baos = new ByteArrayOutputStream();
+							
+							Base64Encoder encoder = new Base64Encoder(bais, baos);
+							encoder.process();
+							
+							String encoding = getExporterOutput().getEncoding();
+							
+							imageSource = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), encoding);
+						}
 						
-						Base64Encoder encoder = new Base64Encoder(bais, baos);
-						encoder.process();
-						
-						String encoding = getExporterOutput().getEncoding();
-						
-						imagePath = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), encoding);
-						//don't cache the base64 encoded image as imagePath because they are too big
+						//don't cache embedded imageSource as they are not image paths
 					}
 					else
 					{
@@ -1332,12 +1468,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 							imageHandler.handleResource(imageName, imageData);
 							
-							imagePath = imageHandler.getResourcePath(imageName);
+							imageSource = imageHandler.getResourcePath(imageName);
 
 							if (dataRenderer == renderer)
 							{
 								//cache imagePath only for true ImageRenderable instances because the wrapping ones render with different width/height each time
-								rendererToImagePathMap.put(renderer.getId(), imagePath);
+								rendererToImagePathMap.put(renderer.getId(), imageSource);
 							}
 						}
 						//does not make sense to cache null imagePath, in the absence of an image handler
@@ -1345,20 +1481,31 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				}
 			}
 			
-			return new InternalImageProcessorResult(imagePath, dimension);
+			return 
+				new InternalImageProcessorResult(
+					imageSource, 
+					dimension,
+					isEmbededSvgData
+					);
 		}
 	}
 	
 	
 	private static class InternalImageProcessorResult
 	{
-		protected final String imagePath;
+		protected final String imageSource;
 		protected final Dimension2D dimension;
+		protected final boolean isEmbededSvgData;
 		
-		protected InternalImageProcessorResult(String imagePath, Dimension2D dimension)
+		protected InternalImageProcessorResult(
+			String imagePath, 
+			Dimension2D dimension,
+			boolean isEmbededSvgData
+			)
 		{
-			this.imagePath = imagePath;
+			this.imageSource = imagePath;
 			this.dimension = dimension;
+			this.isEmbededSvgData = isEmbededSvgData;
 		}
 	}
 
@@ -2532,60 +2679,18 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			boolean hyperlinkStarted
 			) throws IOException
 	{
-		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
-		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
-
-		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = fontFamilyAttr;
-
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-		if (fontInfo != null)
-		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(getExporterKey());
-			if (exportFont == null)
-			{
-				HtmlExporterOutput output = getExporterOutput();
-				@SuppressWarnings("deprecation")
-				HtmlResourceHandler fontHandler = 
-					output.getFontHandler() == null
-					? getFontHandler()
-					: output.getFontHandler();
-				@SuppressWarnings("deprecation")
-				HtmlResourceHandler resourceHandler = 
-					getExporterOutput().getResourceHandler() == null
-					? getResourceHandler()
-					: getExporterOutput().getResourceHandler();
-				if (fontHandler != null && resourceHandler != null)
-				{
-					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
-					
-					if (htmlFont != null)
-					{
-						if (!fontsToProcess.containsKey(htmlFont.getId()))
-						{
-							fontsToProcess.put(htmlFont.getId(), htmlFont);
-
-							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
-						}
-						
-						fontFamily = htmlFont.getShortId();
-					}
-				}
-			}
-			else
-			{
-				fontFamily = exportFont;
-			}
-		}
-			
 		boolean localHyperlink = false;
 		JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
 		if (!hyperlinkStarted && hyperlink != null)
 		{
 			localHyperlink = startHyperlink(hyperlink);
 		}
+
+		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
+		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
+
+		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		String fontFamily = getFontFamily(fontFamilyAttr, isBold, isItalic, locale);
 
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
@@ -2724,7 +2829,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			endHyperlink();
 		}
 	}
-	
+
 	protected class TableVisitor implements CellVisitor<TablePosition, Void, IOException>
 	{
 		private final Tabulator tabulator;

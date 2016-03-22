@@ -81,9 +81,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -173,8 +170,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair<String, Rectangle>,String> imageMaps;
 	protected RenderersCache renderersCache;
-	
-	protected Map<String, HtmlFont> fontsToProcess;
 	
 	protected int reportIndex;
 	protected int pageIndex;
@@ -966,51 +961,6 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		Color backcolor
 		) throws IOException
 	{
-		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
-		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
-
-		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = fontFamilyAttr;
-
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-		if (fontInfo != null)
-		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(getExporterKey());
-			if (exportFont == null)
-			{
-				HtmlResourceHandler fontHandler = 
-					getExporterOutput().getFontHandler() == null
-					? getFontHandler()
-					: getExporterOutput().getFontHandler();
-				HtmlResourceHandler resourceHandler = 
-					getExporterOutput().getResourceHandler() == null
-					? getResourceHandler()
-					: getExporterOutput().getResourceHandler();
-				if (fontHandler != null && resourceHandler != null)
-				{
-					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
-					
-					if (htmlFont != null)
-					{
-						if (!fontsToProcess.containsKey(htmlFont.getId()))
-						{
-							fontsToProcess.put(htmlFont.getId(), htmlFont);
-
-							HtmlFontUtil.handleFont(resourceHandler, htmlFont);
-						}
-						
-						fontFamily = htmlFont.getShortId();
-					}
-				}
-			}
-			else
-			{
-				fontFamily = exportFont;
-			}
-		}
-		
 		boolean localHyperlink = false;
 		JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
 		if (!hyperlinkStarted && hyperlink != null)
@@ -1019,6 +969,12 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 			localHyperlink = true;
 		}
 		
+		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
+		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
+
+		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		String fontFamily = getFontFamily(fontFamilyAttr, isBold, isItalic, locale);
+
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
 		writer.write("; ");
