@@ -77,10 +77,14 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 	{
 		ensureSvg(jasperReportsContext);
 
-		AffineTransform transform = ViewBox.getPreserveAspectRatioTransform(
+		AffineTransform transform = 
+			ViewBox.getPreserveAspectRatioTransform(
 				new float[]{0, 0, (float) documentSize.getWidth(), (float) documentSize.getHeight()},
-				SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, true,
-				(float) rectangle.getWidth(), (float) rectangle.getHeight());
+				SVGPreserveAspectRatio.SVG_PRESERVEASPECTRATIO_NONE, 
+				true,
+				(float) rectangle.getWidth(), 
+				(float) rectangle.getHeight()
+				);
 		Graphics2D graphics = (Graphics2D) grx.create();
 		try
 		{

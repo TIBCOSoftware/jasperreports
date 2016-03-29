@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.renderers;
 
-import java.awt.Font;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +30,9 @@ import java.util.Map;
 import org.apache.batik.bridge.DefaultFontFamilyResolver;
 import org.apache.batik.bridge.FontFace;
 import org.apache.batik.bridge.FontFamilyResolver;
-import org.apache.batik.gvt.font.AWTFontFamily;
 import org.apache.batik.gvt.font.GVTFontFamily;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 
 
 /**
@@ -70,23 +67,9 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 
 
 	@Override
-	public AWTFontFamily resolve(String familyName, FontFace fontFace) 
+	public GVTFontFamily resolve(String familyName, FontFace fontFace) 
 	{
-		Font awtFont = 
-			FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(
-				fontFace.getFamilyName(), 
-				Font.PLAIN, 
-				1f, 
-				null,//FIXMEBATIK locale 
-				true
-				);
-		
-		if (awtFont == null)
-		{
-			return DefaultFontFamilyResolver.SINGLETON.resolve(familyName, fontFace);
-		}
-		
-		return new AWTFontFamily(fontFace, awtFont);
+		return DefaultFontFamilyResolver.SINGLETON.resolve(familyName, fontFace);
 	}
 
 	@Override
@@ -98,25 +81,11 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 	@Override
 	public GVTFontFamily resolve(String familyName) 
 	{
-		Font awtFont = 
-			FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(
-				familyName, 
-				Font.PLAIN, 
-				1f, 
-				null,//FIXMEBATIK locale 
-				true
-				);
-		
-		if (awtFont == null)
-		{
-			return DefaultFontFamilyResolver.SINGLETON.resolve(familyName);
-		}
-		
 		GVTFontFamily gvtFontFamily = resolvedFontFamilies.get(familyName);
 		
 		if (gvtFontFamily == null)
 		{
-			gvtFontFamily = new AWTFontFamily(new AWTFontFamily(familyName).getFontFace(), awtFont);
+			gvtFontFamily = new BatikAWTFontFamily(jasperReportsContext, familyName);
 			resolvedFontFamilies.put(familyName, gvtFontFamily);
 		}
 		
