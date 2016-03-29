@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
@@ -454,6 +455,22 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void copyParagraph(JRParagraph paragraph)
 	{
 		this.paragraph = paragraph.clone(this);
+	}
+
+	/**
+	 *
+	 */
+	public void setFont(JRFont font)
+	{
+		fontName = font.getOwnFontName();
+		isBold = font.isOwnBold();
+		isItalic = font.isOwnItalic();
+		isUnderline = font.isOwnUnderline();
+		isStrikeThrough = font.isOwnStrikeThrough();
+		fontsize = font.getOwnFontsize();
+		pdfFontName = font.getOwnPdfFontName();
+		pdfEncoding = font.getOwnPdfEncoding();
+		isPdfEmbedded = font.isOwnPdfEmbedded();
 	}
 
 	@Override

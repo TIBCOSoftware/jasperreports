@@ -338,6 +338,11 @@
 		<method>*getImageNormalSize(net.sf.jasperreports.engine.JRPrintImage, net.sf.jasperreports.engine.Renderable, int, int)</method>
 	</difference>
 	<difference>
+		<className>net/sf/jasperreports/engine/export/HtmlExporter</className>
+		<differenceType>6001</differenceType>
+		<field>fontsToProcess</field>
+	</difference>
+	<difference>
 		<className>net/sf/jasperreports/engine/export/JRXmlExporter</className>
 		<differenceType>6011</differenceType>
 		<field>EXCEPTION_MESSAGE_KEY_IMAGE_WRITE_ERROR</field>
@@ -677,5 +682,16 @@
 		<differenceType>7005</differenceType>
 		<method>*writeChunk(java.lang.StringBuffer*)</method>
 		<to>*writeChunk(java.lang.StringBuilder*)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*isEmbeddedSvgUseFonts()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRPdfExporter</className>
+		<differenceType>7005</differenceType>
+		<method>*extractFontKey(net.sf.jasperreports.engine.util.JRStyledText$Run, java.util.Locale)</method>
+		<to>*extractFontKey(java.util.Map, java.util.Locale)</to>
 	</difference>
 </differences>
