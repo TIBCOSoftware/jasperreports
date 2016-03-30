@@ -2358,7 +2358,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	public void exportText(JRPrintText text) throws DocumentException
 	{
-		JRStyledText styledText = JRStyledTextUtil.getInstance(jasperReportsContext).getStyledText(text, noBackcolorSelector);
+		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector);
 		if (styledText == null)
 		{
 			return;

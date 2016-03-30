@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UnicodeReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="9df06543-a919-4db2-9dcd-ed4c8a66dec7">
 	<style name="label" fontName="DejaVu Sans" fontSize="14"/>
+	<style name="noto" fontName="Noto" fontSize="14" vTextAlign="Middle"/>
 	<parameter name="GreekText" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["\u0393 \u0394 \u0398 \u039B \u039E \u03A0 \u03A3 \u03A6 \u03A8 \u03A9"]]></defaultValueExpression>
 	</parameter>
@@ -118,10 +119,7 @@
 					<text><![CDATA[Hindi]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="e56fa8fd-ab2e-47df-a35f-7e1bb61dd9c3"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Devanagari" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="e56fa8fd-ab2e-47df-a35f-7e1bb61dd9c3"/>
 					<textFieldExpression><![CDATA["एक पल का क्रोध आपका भविष्य बिगाड़ सकता है"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -133,10 +131,7 @@
 					<text><![CDATA[Bengali]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="dc7420ca-0033-4dfc-93cb-c0bd22674ae0"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Bengali" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="dc7420ca-0033-4dfc-93cb-c0bd22674ae0"/>
 					<textFieldExpression><![CDATA["আমার পথ চলা আমার পথে যেনো বেলা শেষে হারায় পথে আমার স্বপ্ন"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -148,10 +143,7 @@
 					<text><![CDATA[Telugu]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="e2f7a61f-5c48-497f-8e3d-97dd1a672232"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Telugu" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="e2f7a61f-5c48-497f-8e3d-97dd1a672232"/>
 					<textFieldExpression><![CDATA["ఆకుకూరలు, ఎండుఫలాలు, కాయధాన్యములు ఎక్కువగా ఇనుము కలిగి ఉంటాయి"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -163,10 +155,7 @@
 					<text><![CDATA[Marathi]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="89405bee-a4b4-459f-b2e1-ab69dd65862e"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Devanagari" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="89405bee-a4b4-459f-b2e1-ab69dd65862e"/>
 					<textFieldExpression><![CDATA["त्यामुळे शुक्रावर सूर्य पश्चिम दिशेला उगवतो व पूर्व दिशेला मावळतो"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -178,10 +167,7 @@
 					<text><![CDATA[Tamil]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="26feb550-cca7-48bb-a8ef-cb4e2670e92c"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Tamil" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="26feb550-cca7-48bb-a8ef-cb4e2670e92c"/>
 					<textFieldExpression><![CDATA["தெற்காசியாவிற்கு குங்குமப்பூவின் வருகை பற்றி விளக்கும் முரண்பட்ட கோட்பாடுகள் உள்ளன"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -193,10 +179,7 @@
 					<text><![CDATA[Gujarati]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="2da9c9f3-7894-48e4-8b7a-cac181f43d63"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Gujarati" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="2da9c9f3-7894-48e4-8b7a-cac181f43d63"/>
 					<textFieldExpression><![CDATA["આજ દિવાળી, કાલ દિવાળી, ગામનાં છોકરાં ખાય સુંવાળી, મેઘ મેઘ રાજા"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -208,10 +191,7 @@
 					<text><![CDATA[Kannada]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="812994c2-1715-4ce5-ac8e-bb887145de72"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Kannada" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="812994c2-1715-4ce5-ac8e-bb887145de72"/>
 					<textFieldExpression><![CDATA["ಅಂದಿನ ನಾಗರಿಕತೆಯ ಹೆಚ್ಚಿನ ಜನತೆ ಮತ್ತು ಎಲ್ಲಾ ನಗರಗಳೂ ನೈಲ್ ನದಿಯ"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -223,10 +203,7 @@
 					<text><![CDATA[Malayalam]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="f9c1c952-538e-4a58-985c-92a719da1ba1"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Malayalam" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="f9c1c952-538e-4a58-985c-92a719da1ba1"/>
 					<textFieldExpression><![CDATA["ശരീരത്തിലെ മൊത്തം അസ്ഥികളിൽ പകുതിയിൽ കൂടുതൽ കൈയിലും കാലിലും ആണുള്ളത്"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -240,10 +217,7 @@
 					<text><![CDATA[Odia]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="8a43e9d7-4bae-4657-88ed-cc479eb01089"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Odia" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="8a43e9d7-4bae-4657-88ed-cc479eb01089"/>
 					<textFieldExpression><![CDATA["ଦୟା କାରି ଟିକିଏ ଆସ୍ତେ କୁହନ୍ତୁ"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -255,10 +229,7 @@
 					<text><![CDATA[Punjabi]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="4c57aea7-898c-4276-9778-c03cd6653531"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Gurmukhi" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="4c57aea7-898c-4276-9778-c03cd6653531"/>
 					<textFieldExpression><![CDATA["ਗਿਣਤੀ ਜਾਂ ਅੰਕ ਗਣਿਤ ਹਿਸਾਬ ਦੀ ਇੱਕ ਸ਼ਾਖਾ ਹੈ ਜੋ ਕਿ ਪੂਰਨ ਅੰਕਾਂ, ਜਾਂ ਮੋਟੇ ਤੌਰ ਤੇ, ਨੰਬਰਾਂ ਦੀ ਗਿਣਤੀ ਨਾਲ ਸੰਬੰਧ ਰੱਖਦੀ ਹੈ"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -270,10 +241,7 @@
 					<text><![CDATA[Assamese]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="229bfdb1-c55f-4e5d-86ee-456f391eaaa2"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Bengali" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="229bfdb1-c55f-4e5d-86ee-456f391eaaa2"/>
 					<textFieldExpression><![CDATA["অসমৰ সংস্কৃতি আৰু সভ্যতাৰ সৈতে ব্ৰহ্মপুত্ৰ নদী অংগাংগীভাৱে জড়িত৷ সভ্যতা সদায় নদী-কেন্দ্ৰিক"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -285,10 +253,7 @@
 					<text><![CDATA[Sinhala]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="7771a184-fd26-4078-9b02-bb0318f959ef"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Sinhala" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="7771a184-fd26-4078-9b02-bb0318f959ef"/>
 					<textFieldExpression><![CDATA["මතක කාලය, ස්වභාවය, තොරතුරු ගබඩා කර ගන්නා ආකාරය අනුව මතකය වර්ගීකරණය කළ හැකි ක්‍රම ගණනාවක් ඇත."]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -300,10 +265,7 @@
 					<text><![CDATA[Nepali]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="fb607061-6811-4c72-8edd-304cdb291045"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Devanagari" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="fb607061-6811-4c72-8edd-304cdb291045"/>
 					<textFieldExpression><![CDATA["हिउँ चितुवा हिमाली क्षेत्रका जंगल तथा पत्थरीला पहाडहरूमा बसोबास गर्ने गर्दछ।"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -315,10 +277,7 @@
 					<text><![CDATA[Tibetan]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="3879444c-bb01-48ae-83c9-060cf4798cba"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Tibetan" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="3879444c-bb01-48ae-83c9-060cf4798cba"/>
 					<textFieldExpression><![CDATA["པོ་ཏ་ལ་ནི་བོད་ཀྱི་རྒྱལ་ས་སྟེ་མིང་གཞན་ལ་ལྷ་ལྡན་གྲོང་ཁྱེར་ཞེས་སུ་འབོད།"]]></textFieldExpression>
 				</textField>
 			</frame>
@@ -330,10 +289,7 @@
 					<text><![CDATA[Khmer]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="120" y="0" width="400" height="30" uuid="ded0ca59-f5a3-41ff-8f60-85fd8080a89e"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Noto Khmer" size="14"/>
-					</textElement>
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="ded0ca59-f5a3-41ff-8f60-85fd8080a89e"/>
 					<textFieldExpression><![CDATA["ឆ្អឹងឈប់លូតលាស់នៅពេលមនុស្សមានអាយុ២៥ឆ្នាំ។"]]></textFieldExpression>
 				</textField>
 			</frame>

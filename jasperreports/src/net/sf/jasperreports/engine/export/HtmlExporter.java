@@ -2396,7 +2396,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
-		JRStyledText styledText = super.getStyledText(textElement, setBackcolor);
+		JRStyledText styledText = styledTextUtil.getProcessedStyledText(textElement, 
+				setBackcolor ? allSelector : noBackcolorSelector);
 		
 		if (styledText != null)
 		{

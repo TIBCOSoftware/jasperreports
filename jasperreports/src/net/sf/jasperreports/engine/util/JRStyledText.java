@@ -103,6 +103,12 @@ public class JRStyledText implements Cloneable
 		this.locale = locale;
 	}
 
+	public JRStyledText(Locale locale, String text)
+	{
+		this.locale = locale;
+		this.text = text;
+	}
+
 	public JRStyledText(Locale locale, String text, Map<Attribute,Object> globalAttributes)
 	{
 		this.locale = locale;

@@ -89,6 +89,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String textTruncateSuffix;
 	private String rawText;
 	private JRStyledText styledText;
+	private JRStyledText processedStyledText;
 	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<JRStyle,Map<Attribute,Object>>();
 	
 	protected final JRLineBox initLineBox;
@@ -567,6 +568,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		this.rawText = rawText;
 		styledText = null;
+		processedStyledText = null;
 	}
 
 
@@ -608,9 +610,23 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						filler.getLocale()
 						);
 			}
+			processedStyledText = null;
 		}
 		
 		return styledText;
+	}
+	
+	protected JRStyledText getProcessedStyledText()
+	{
+		if (processedStyledText == null)
+		{
+			JRStyledText text = getStyledText();
+			if (text != null)
+			{
+				processedStyledText = filler.getStyledTextUtil().matchFonts(text, filler.getLocale());
+			}
+		}
+		return processedStyledText;
 	}
 
 	/**
@@ -651,8 +667,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		}
 
 		boolean canOverflow = canOverflow();
+		JRStyledText processedText = getProcessedStyledText();
 		JRMeasuredText measuredText = textMeasurer.measure(
-			tmpStyledText,
+			processedText,
 			getTextEnd(),
 			availableStretchHeight,
 			canOverflow

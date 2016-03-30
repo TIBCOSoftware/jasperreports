@@ -26,7 +26,9 @@ package net.sf.jasperreports.engine.fonts;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,6 +38,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -43,8 +48,6 @@ import net.sf.jasperreports.engine.util.JRFontNotFoundException;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -216,6 +219,37 @@ public final class FontUtil
 		}
 		//throw new JRRuntimeException("Font family/face named '" + name + "' not found.");
 		return null;
+	}
+	
+	public List<FontFamily> getFontFamilies(String name, Locale locale)
+	{
+		//FIXMEFONT do some cache
+		List<FontFamily> families = java.util.Collections.emptyList();
+		List<FontFamily> allFamilies = jasperReportsContext.getExtensions(FontFamily.class);
+		for (Iterator<FontFamily> itf = allFamilies.iterator(); itf.hasNext();)
+		{
+			FontFamily family = itf.next();
+			if (locale == null || family.supportsLocale(locale))
+			{
+				if (name.equals(family.getName()))
+				{
+					if (families.isEmpty())
+					{
+						families = Collections.singletonList(family);
+					}
+					else
+					{
+						if (families.size() == 1)
+						{
+							families = new ArrayList<FontFamily>(families);
+						}
+						
+						families.add(family);
+					}
+				}
+			}
+		}
+		return families;
 	}
 
 
