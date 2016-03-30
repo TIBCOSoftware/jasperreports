@@ -1909,6 +1909,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			List<JRChild> cellElements = cell.getChildren();
 			BucketDefinition[] rowBuckets = bucketingService.getRowBuckets();
 			int[] headerTextIndices = new int[rowBuckets.length];
+			Arrays.fill(headerTextIndices, -1);
 			boolean[] alignedText = new boolean[rowBuckets.length];
 			boolean foundHeader = false;
 			for (int bucketIdx = 0, bucketXOffset = 0; bucketIdx < rowBuckets.length; 
@@ -1927,7 +1928,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				BucketDefinition rowBucket = rowBuckets[bucketIdx];
 				if (bucketOrder(rowBucket) == BucketOrder.NONE && !aligned)
 				{
-					headerTextIndices[bucketIdx] = -1;
 					continue;
 				}
 				
