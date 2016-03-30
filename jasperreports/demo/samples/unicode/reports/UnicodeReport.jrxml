@@ -110,7 +110,7 @@
 		</band>
 	</title>
 	<summary>
-		<band height="600" splitType="Immediate">
+		<band height="630" splitType="Immediate">
 			<frame>
 				<reportElement positionType="Float" x="0" y="10" width="520" height="30" uuid="75d0ac93-66cb-450c-8873-08a40e73bec4"/>
 				<staticText>
@@ -291,6 +291,18 @@
 				<textField isStretchWithOverflow="true">
 					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="ded0ca59-f5a3-41ff-8f60-85fd8080a89e"/>
 					<textFieldExpression><![CDATA["ឆ្អឹងឈប់លូតលាស់នៅពេលមនុស្សមានអាយុ២៥ឆ្នាំ។"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="600" width="520" height="30" uuid="f65e248a-6a67-4144-a22f-f56ac1574fb6"/>
+				<staticText>
+					<reportElement style="label" x="0" y="0" width="100" height="30" uuid="98c0c4f6-d1a1-4f93-ad32-e4adfad240bf"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Mixed]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="noto" x="120" y="0" width="400" height="30" uuid="ded0ca59-f5a3-41ff-8f60-85fd8080a89e"/>
+					<textFieldExpression><![CDATA["ශ්‍රී ලංකාව දෙමළ இலங்கை சிங்களம்"]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
