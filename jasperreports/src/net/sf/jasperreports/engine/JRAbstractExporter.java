@@ -731,8 +731,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	protected void initReport()
 	{
-		String localeCode = jasperPrint.getLocaleCode();
-		JRStyledTextParser.setLocale(localeCode == null ? null : JRDataUtils.getLocale(localeCode));
+		JRStyledTextParser.setLocale(getLocale());
 
 		setOffset();
 		
@@ -920,7 +919,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		return formatFactoryClass;
 	}
 
-	protected Locale getLocale()
+	public Locale getLocale()
 	{
 		String localeCode = jasperPrint.getLocaleCode();
 		return localeCode == null ? null : JRDataUtils.getLocale(localeCode);

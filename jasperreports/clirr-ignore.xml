@@ -694,4 +694,9 @@
 		<method>*extractFontKey(net.sf.jasperreports.engine.util.JRStyledText$Run, java.util.Locale)</method>
 		<to>*extractFontKey(java.util.Map, java.util.Locale)</to>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxStyleHelper</className>
+		<differenceType>7004</differenceType>
+		<method>*DocxStyleHelper(net.sf.jasperreports.engine.JasperReportsContext, java.io.Writer, java.lang.String)</method>
+	</difference>
 </differences>

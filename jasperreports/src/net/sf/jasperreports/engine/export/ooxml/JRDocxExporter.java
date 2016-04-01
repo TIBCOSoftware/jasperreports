@@ -358,9 +358,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		DocxStyleHelper styleHelper = 
 			new DocxStyleHelper(
-				jasperReportsContext,
-				docxZip.getStylesEntry().getWriter(), 
-				getExporterKey()
+				this,
+				docxZip.getStylesEntry().getWriter()
 				);
 		styleHelper.export(exporterInput);
 		styleHelper.close();

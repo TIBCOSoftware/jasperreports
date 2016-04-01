@@ -109,7 +109,6 @@ import net.sf.jasperreports.engine.util.HyperlinkData;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -1392,14 +1391,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						{
 							if (isEmbeddedSvgUseFonts(imageElement))
 							{
-								Locale locale = null;
+								Locale locale = getLocale();
 
-								String localeCode = jasperPrint.getLocaleCode();
-								if (localeCode != null)
-								{
-									locale = JRDataUtils.getLocale(localeCode);
-								}
-								
 								SvgFontProcessor svgFontProcessor = new SvgFontProcessor(jasperReportsContext, locale) 
 								{
 									@Override

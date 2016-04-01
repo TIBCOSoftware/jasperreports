@@ -29,9 +29,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
-import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.ExporterInputItem;
 
@@ -44,18 +42,21 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private DocxParagraphHelper paragraphHelper;
-	private DocxRunHelper runHelper;
+	private final JRDocxExporter exporter;
+	private final DocxParagraphHelper paragraphHelper;
+	private final DocxRunHelper runHelper;
 	
 	/**
 	 * 
 	 */
-	public DocxStyleHelper(JasperReportsContext jasperReportsContext, Writer writer, String exporterKey)
+	public DocxStyleHelper(JRDocxExporter exporter, Writer writer)
 	{
-		super(jasperReportsContext, writer);
+		super(exporter.getJasperReportsContext(), writer);
+		
+		this.exporter = exporter;
 		
 		paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, false);
-		runHelper = new DocxRunHelper(jasperReportsContext, writer, exporterKey);
+		runHelper = new DocxRunHelper(jasperReportsContext, writer, exporter.getExporterKey());
 	}
 
 	/**
@@ -87,8 +88,6 @@ public class DocxStyleHelper extends BaseHelper
 			ExporterInputItem item = items.get(reportIndex);
 			JasperPrint jasperPrint = item.getJasperPrint();
 			
-			String localeCode = jasperPrint.getLocaleCode();
-			
 			if (reportIndex == 0)
 			{
 				JRDesignStyle style = new JRDesignStyle(jasperPrint.getDefaultStyleProvider());
@@ -97,7 +96,7 @@ public class DocxStyleHelper extends BaseHelper
 				style.setFontSize(0f);
 				exportHeader(jasperPrint.getDefaultStyleProvider(), style);
 				paragraphHelper.exportProps(style);
-				runHelper.exportProps(jasperPrint.getDefaultStyleProvider(), style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
+				runHelper.exportProps(jasperPrint.getDefaultStyleProvider(), style, exporter.getLocale());
 				exportFooter();
 			}
 			
@@ -109,7 +108,7 @@ public class DocxStyleHelper extends BaseHelper
 					JRStyle style = styles[i];
 					exportHeader(jasperPrint.getDefaultStyleProvider(), style);
 					paragraphHelper.exportProps(style);
-					runHelper.exportProps(jasperPrint.getDefaultStyleProvider(), style, (localeCode == null ? null : JRDataUtils.getLocale(localeCode)));//FIXMEDOCX reuse exporter
+					runHelper.exportProps(jasperPrint.getDefaultStyleProvider(), style, exporter.getLocale());
 					exportFooter();
 				}
 			}
