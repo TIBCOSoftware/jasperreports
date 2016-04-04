@@ -186,6 +186,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	 */
 	public StandardCategoryItemLabelGenerator getLabelGenerator()
 	{
+		//do we need to use the fill locale here?  apparently not.
 		return labelsMap != null ? new CategoryLabelGenerator(labelsMap) : new StandardCategoryItemLabelGenerator();
 	}
 

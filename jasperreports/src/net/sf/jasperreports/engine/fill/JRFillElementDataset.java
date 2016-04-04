@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -124,6 +125,11 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		return filler;
 	}
 
+	protected Locale getLocale()
+	{
+		return filler.getLocale();
+	}
+	
 	/**
 	 *
 	 */

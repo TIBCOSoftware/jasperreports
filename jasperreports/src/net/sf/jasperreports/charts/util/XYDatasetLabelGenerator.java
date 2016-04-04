@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.util;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -43,6 +45,15 @@ public class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator
 	
 	public XYDatasetLabelGenerator(Map<Comparable<?>, Map<Number,String>> labelsMap)
 	{
+		this(labelsMap, Locale.getDefault());
+	}
+	
+	public XYDatasetLabelGenerator(Map<Comparable<?>, Map<Number,String>> labelsMap, Locale locale)
+	{
+		super(DEFAULT_ITEM_LABEL_FORMAT,
+				NumberFormat.getInstance(locale),
+				NumberFormat.getInstance(locale));
+		
 		this.labelsMap = labelsMap;
 	}
 	

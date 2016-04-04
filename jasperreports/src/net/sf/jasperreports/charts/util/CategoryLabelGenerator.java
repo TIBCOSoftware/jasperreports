@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.charts.util;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -42,6 +44,15 @@ public class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator
 	
 	public CategoryLabelGenerator(Map<Comparable<?>, Map<Comparable<?>, String>> labelsMap)
 	{
+		this(labelsMap, Locale.getDefault());
+	}
+
+	public CategoryLabelGenerator(Map<Comparable<?>, Map<Comparable<?>, String>> labelsMap, Locale locale)
+	{
+		super(DEFAULT_LABEL_FORMAT_STRING, 
+				NumberFormat.getNumberInstance(locale),
+				NumberFormat.getPercentInstance(locale));
+		
 		this.labelsMap = labelsMap;
 	}
 

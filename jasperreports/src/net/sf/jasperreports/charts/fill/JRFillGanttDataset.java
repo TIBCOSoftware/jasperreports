@@ -231,7 +231,7 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 
 	@Override
 	public Object getLabelGenerator(){
-		return new CategoryLabelGenerator(labelsMap);
+		return new CategoryLabelGenerator(labelsMap, getLocale());
 	}
 
 
