@@ -17,7 +17,7 @@ http://ant.apache.org/
 
 You can get a copy of the Apache Ivy dependency management plugin and details
 about how to install it in Ant at this address:
-http://ant.apache.org/ivy/index.html
+http://ant.apache.org/ivy/
 
 There are several Ant specific build.xml files in this project that 
 help perform different tasks. Each task has a description explaining

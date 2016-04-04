@@ -6,7 +6,7 @@ this sample application.
 The Apache Ant build tool can be downloaded from this location:
 http://ant.apache.org/
 The Apache Ivy dependency management plugin can be downloaded from this location:
-http://ant.apache.org/ivy/index.html
+http://ant.apache.org/ivy/
 
 Please follow their installing instructions to have Apache Ant and Apache Ivy 
 working on your system before trying our sample application.
