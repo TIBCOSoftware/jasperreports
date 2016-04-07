@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -56,6 +58,9 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 	private Map<String, String> exportFonts;
 	private Set<String> locales;
 	private boolean isVisible = true;
+	
+	private List<String> includedScripts;
+	private List<String> excludedScripts;
 
 	/**
 	 * @see #SimpleFontFamily(JasperReportsContext)
@@ -352,6 +357,48 @@ public class SimpleFontFamily implements FontFamily, JRCloneable {
 	 */
 	public void setVisible(boolean isVisible) {
 		this.isVisible = isVisible;
+	}
+
+	@Override
+	public List<String> getIncludedScripts()
+	{
+		return includedScripts;
+	}
+
+	public void setIncludedScripts(List<String> includedScripts)
+	{
+		this.includedScripts = includedScripts;
+	}
+	
+	public void addIncludedScript(String script)
+	{
+		if (includedScripts == null)
+		{
+			includedScripts = new ArrayList<String>(4);
+		}
+		
+		includedScripts.add(script);
+	}
+
+	@Override
+	public List<String> getExcludedScripts()
+	{
+		return excludedScripts;
+	}
+
+	public void setExcludedScripts(List<String> excludedScripts)
+	{
+		this.excludedScripts = excludedScripts;
+	}
+	
+	public void addExcludedScript(String script)
+	{
+		if (excludedScripts == null)
+		{
+			excludedScripts = new ArrayList<String>(4);
+		}
+		
+		excludedScripts.add(script);
 	}
 
 }

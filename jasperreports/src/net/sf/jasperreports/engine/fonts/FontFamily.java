@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.util.List;
 import java.util.Locale;
 
 
@@ -103,4 +104,8 @@ public interface FontFamily
 	 */
 	public boolean isVisible();
 
+	public List<String> getIncludedScripts();
+
+	public List<String> getExcludedScripts();
+	
 }

@@ -23,6 +23,7 @@
 		<dependency org="commons-javaflow" name="commons-javaflow" rev="20060411"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6"/>
 		<dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
+		<dependency org="com.ibm.icu" name="icu4j" rev="57.1"/>
 		<dependency org="javax.persistence" name="persistence-api" rev="1.0"/>
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
 		<dependency org="jaxen" name="jaxen" rev="1.1.1"/>

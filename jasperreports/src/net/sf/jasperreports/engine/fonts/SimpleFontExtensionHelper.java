@@ -109,6 +109,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	private static final String NODE_export = "export";
 	private static final String NODE_locales = "locales";
 	private static final String NODE_locale = "locale";
+	private static final String NODE_includedScript = "includedScript";
+	private static final String NODE_excludedScript = "excludedScript";
 	private static final String ATTRIBUTE_name = "name";
 	private static final String ATTRIBUTE_visible = "visible";
 	private static final String ATTRIBUTE_key = "key";
@@ -309,6 +311,14 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 				else if (NODE_locales.equals(node.getNodeName()))
 				{
 					fontFamily.setLocales(parseLocales(node));
+				}
+				else if (NODE_includedScript.equals(node.getNodeName()))
+				{
+					fontFamily.addIncludedScript(node.getTextContent());
+				}
+				else if (NODE_excludedScript.equals(node.getNodeName()))
+				{
+					fontFamily.addExcludedScript(node.getTextContent());
 				}
 			}
 		}

@@ -29,12 +29,16 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.ibm.icu.lang.UScript;
 
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -288,9 +292,9 @@ public class JRStyledTextUtil
 		int endIndex;
 	}
 	
-	protected FontMatch fontMatchRun(String text, int startIndex, int endIndex, List<FontFace> fonts)
+	protected FontMatch fontMatchRun(String text, int startIndex, int endIndex, List<Face> fonts)
 	{
-		LinkedList<FontFace> validFonts = new LinkedList<FontFace>(fonts);
+		LinkedList<Face> validFonts = new LinkedList<Face>(fonts);
 		FontFace lastValid = null;
 		int charIndex = startIndex;
 		int nextCharIndex = charIndex;
@@ -322,11 +326,12 @@ public class JRStyledTextUtil
 				codePoint = textChar;
 			}
 
-			for (ListIterator<FontFace> fontIt = validFonts.listIterator(); fontIt.hasNext();)
+			for (ListIterator<Face> fontIt = validFonts.listIterator(); fontIt.hasNext();)
 			{
-				FontFace fontFace = fontIt.next();
+				Face face = fontIt.next();
 				
-				if (!fontFace.getFont().canDisplay(codePoint))
+				if (!face.family.includesCharacter(codePoint)
+						|| !face.fontFace.getFont().canDisplay(codePoint))
 				{
 					fontIt.remove();
 				}
@@ -337,7 +342,7 @@ public class JRStyledTextUtil
 				break;
 			}
 			
-			lastValid = validFonts.getFirst();
+			lastValid = validFonts.getFirst().fontFace;
 			charIndex = nextCharIndex;
 		}
 		
@@ -364,34 +369,38 @@ public class JRStyledTextUtil
 		FamilyFonts fonts = new FamilyFonts();
 		if (name == null)
 		{
-			fonts.families = Collections.<FontFamily>emptyList();
+			fonts.families = Collections.<Family>emptyList();
 		}
 		else
 		{
-			fonts.families = fontUtil.getFontFamilies(name, locale);
+			List<FontFamily> fontFamilies = fontUtil.getFontFamilies(name, locale);
+			fonts.families = new ArrayList<Family>(fontFamilies.size());
+			fonts.normalFonts = new ArrayList<Face>(fontFamilies.size());
+			fonts.boldFonts = new ArrayList<Face>(fontFamilies.size());
+			fonts.italicFonts = new ArrayList<Face>(fontFamilies.size());
+			fonts.boldItalicFonts = new ArrayList<Face>(fontFamilies.size());
 			
-			fonts.normalFonts = new ArrayList<FontFace>(fonts.families.size());
-			fonts.boldFonts = new ArrayList<FontFace>(fonts.families.size());
-			fonts.italicFonts = new ArrayList<FontFace>(fonts.families.size());
-			fonts.boldItalicFonts = new ArrayList<FontFace>(fonts.families.size());
-			
-			for (FontFamily family : fonts.families)
+			for (FontFamily fontFamily : fontFamilies)
 			{
-				if (family.getNormalFace() != null && family.getNormalFace().getFont() != null)
+				Family family = new Family(fontFamily);
+				fonts.families.add(family);
+				
+				if (fontFamily.getNormalFace() != null && fontFamily.getNormalFace().getFont() != null)
 				{
-					fonts.normalFonts.add(family.getNormalFace());
+					fonts.normalFonts.add(new Face(family, fontFamily.getNormalFace()));
 				}
-				if (family.getBoldFace() != null && family.getBoldFace().getFont() != null)
+				
+				if (fontFamily.getBoldFace() != null && fontFamily.getBoldFace().getFont() != null)
 				{
-					fonts.boldFonts.add(family.getBoldFace());
+					fonts.boldFonts.add(new Face(family, fontFamily.getBoldFace()));
 				}
-				if (family.getItalicFace() != null && family.getItalicFace().getFont() != null)
+				if (fontFamily.getItalicFace() != null && fontFamily.getItalicFace().getFont() != null)
 				{
-					fonts.italicFonts.add(family.getItalicFace());
+					fonts.italicFonts.add(new Face(family, fontFamily.getItalicFace()));
 				}
-				if (family.getBoldItalicFace() != null && family.getBoldItalicFace().getFont() != null)
+				if (fontFamily.getBoldItalicFace() != null && fontFamily.getBoldItalicFace().getFont() != null)
 				{
-					fonts.boldItalicFonts.add(family.getBoldItalicFace());
+					fonts.boldItalicFonts.add(new Face(family, fontFamily.getBoldItalicFace()));
 				}
 			}
 		}
@@ -400,10 +409,147 @@ public class JRStyledTextUtil
 
 	private static class FamilyFonts
 	{
-		List<FontFamily> families;
-		List<FontFace> normalFonts;
-		List<FontFace> boldFonts;
-		List<FontFace> italicFonts;
-		List<FontFace> boldItalicFonts;
+		List<Family> families;
+		List<Face> normalFonts;
+		List<Face> boldFonts;
+		List<Face> italicFonts;
+		List<Face> boldItalicFonts;
+	}
+	
+	private static class Family
+	{
+		final FontFamily fontFamily;
+		Set<Integer> includedScripts;
+		Set<Integer> excludedScripts;
+		boolean excludedCommon;
+		boolean excludedInherited;
+		
+		public Family(FontFamily fontFamily)
+		{
+			this.fontFamily = fontFamily;
+			
+			initScripts();
+		}
+
+		private void initScripts()
+		{
+			List<String> familyIncludedScripts = fontFamily.getIncludedScripts();
+			if (familyIncludedScripts != null)
+			{
+				includedScripts = new HashSet<Integer>(familyIncludedScripts.size() * 4 / 3, .75f);
+				for (String script : familyIncludedScripts)
+				{
+					int scriptCode = resolveScript(script);
+					if (scriptCode != UScript.INVALID_CODE)
+					{
+						includedScripts.add(scriptCode);
+					}
+				}
+				
+				if (includedScripts.isEmpty())
+				{
+					includedScripts = null;
+				}
+			}
+			
+			List<String> familyExcludedScripts = fontFamily.getExcludedScripts();
+			if (familyExcludedScripts != null)
+			{
+				excludedScripts = new HashSet<Integer>(familyExcludedScripts.size() * 4 / 3, .75f);
+				for (String script : familyExcludedScripts)
+				{
+					int scriptCode = resolveScript(script);
+					if (scriptCode != UScript.INVALID_CODE)
+					{
+						excludedScripts.add(scriptCode);
+					}
+				}
+				
+				if (excludedScripts.isEmpty())
+				{
+					excludedScripts = null;
+				}
+				else
+				{
+					excludedCommon = excludedScripts.contains(UScript.COMMON);
+					excludedInherited = excludedScripts.contains(UScript.INHERITED);
+				}
+			}
+		}
+		
+		private int resolveScript(String script)
+		{
+			int scriptCode = UScript.getCodeFromName(script);
+			return scriptCode;
+		}
+		
+		public boolean includesCharacter(int codePoint)
+		{
+			if (includedScripts == null && excludedScripts == null)
+			{
+				return true;
+			}
+			
+			int codeScript = UScript.getScript(codePoint);
+			if (codeScript == UScript.UNKNOWN)
+			{
+				//include by default
+				return true;
+			}
+			
+			if (codeScript == UScript.COMMON)
+			{
+				//COMMON is included unless explicitly excluded
+				return !excludedCommon;
+			}
+			
+			if (codeScript == UScript.INHERITED)
+			{
+				//INHERITED is included unless explicitly excluded
+				return !excludedInherited;
+			}
+			
+			if (includedScripts != null && includedScripts.contains(codeScript))
+			{
+				//the codepoint script is explicitly included
+				return true;
+			}
+			
+			if (excludedScripts != null && excludedScripts.contains(codeScript))
+			{
+				//the codepoint script is explicitly excluded
+				return false;
+			}
+			
+			if (includedScripts == null)
+			{
+				//not excluded
+				return true;
+			}
+			
+			for (Integer script : includedScripts)
+			{
+				if (UScript.hasScript(codePoint, script))
+				{
+					//included as a secondary/extension script
+					return true;
+				}
+			}
+			
+			//not included
+			return false;
+		}
+	}
+	
+	private static class Face
+	{
+		final Family family;
+		final FontFace fontFace;
+		
+		public Face(Family family, FontFace fontFace)
+		{
+			this.family = family;
+			this.fontFace = fontFace;
+		}
 	}
 }
