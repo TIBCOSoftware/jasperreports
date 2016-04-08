@@ -190,7 +190,7 @@
  * For more details about deploying fonts as extensions, you can take a look at the
  * <code>/demo/samples/fonts</code> sample provided with the JasperReports project distribution
  * package, which adds one more font extension for another open source font called
- * <code>Gentium</code>.
+ * <code>Lobster Two</code>.
  * 
  * <h3>Related Documentation</h3>
  * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>

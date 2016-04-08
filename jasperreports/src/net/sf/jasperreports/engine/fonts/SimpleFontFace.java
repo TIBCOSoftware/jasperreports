@@ -153,7 +153,11 @@ public class SimpleFontFace implements FontFace, JRCloneable
 
 		if (ttf != null)
 		{
-			if (ttf.trim().toUpperCase().endsWith(".TTF"))
+			String upperCaseTtf = ttf.trim().toUpperCase();
+			if (
+				upperCaseTtf.endsWith(".TTF")
+				|| upperCaseTtf.endsWith(".OTF")
+				)
 			{
 				InputStream is = null;
 				try
