@@ -103,7 +103,7 @@ The bold, italic, and all text decorations properties are missing, which means t
 <br/>
 This sample shows some practical examples of using fonts and font attributes in order to get a particular text appearance. 
 <br/>
-Because this sample uses a font extension based on the Gentium open source font files, and logical JVM font names also, it is strongly  
+Because this sample uses a font extension based on the Lobster Two open source font files, and logical JVM font names also, it is strongly  
 recommended to consult first the <a href="#fontextensions">Font Extensions</a> section below, and then to compile and run the sample.
 <br/>
 <br/>
@@ -303,7 +303,7 @@ in order to make the new fonts available to your reports, wherever the applicati
 <br/>
 For more details about deploying fonts as extensions, you can take a look at the 
 <a href="#fonts">Fonts</a> sample provided with the JasperReports project distribution 
-package, which adds one more font extension for another open source font called Gentium. Running the 
+package, which adds one more font extension for another open source font called Lobster Two. Running the 
 sample using the <code>&gt; ant clean javac compile fontsXml</code> command will generate in the 
 <code>demo/samples/fonts/build/reports</code> a font extension xml file named <code>fonts.xml</code>. This file contains all font families 
 available in the already installed font extensions.

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="Lobster Two">
+		<normal>lobstertwo/LobsterTwo-Regular.otf</normal>
+		<bold>lobstertwo/LobsterTwo-Bold.otf</bold>
+		<italic>lobstertwo/LobsterTwo-Italic.otf</italic>
+		<boldItalic>lobstertwo/LobsterTwo-BoldItalic.otf</boldItalic>
+		<pdfEncoding>Identity-H</pdfEncoding>
+		<pdfEmbedded>true</pdfEmbedded>
+		<!--
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">'Lobster Two', 'Times New Roman', Times, serif</export>
+			<export key="net.sf.jasperreports.xhtml">'Lobster Two', 'Times New Roman', Times, serif</export>
+		</exportFonts>
+		-->
+	</fontFamily>
+
+</fontFamilies>

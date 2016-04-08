@@ -24,24 +24,24 @@
 			<staticText>
 				<reportElement x="0" y="150" width="150" height="40" uuid="2a2117f5-ea77-409f-a44c-9fd0551f8862"/>
 				<textElement>
-					<font fontName="Gentium" size="12"/>
+					<font fontName="Lobster Two" size="12"/>
 				</textElement>
 				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="160" y="150" width="390" height="40" uuid="39ce42dd-d5fa-43dd-a0de-de90b9e4b977"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="150" width="150" height="40"/><textElement><font fontName="Gentium" size="12"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
+				<text><![CDATA[<staticText><reportElement x="0" y="150" width="150" height="40"/><textElement><font fontName="Lobster Two" size="12"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="200" width="150" height="40" uuid="3828a320-c835-4eed-98d2-e6cb0324817b"/>
 				<textElement>
-					<font fontName="Gentium" size="12" isBold="true" isItalic="true"/>
+					<font fontName="Lobster Two" size="12" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="160" y="200" width="390" height="40" uuid="441f2d58-78bf-413b-bc9b-dd7d1713c1a6"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="200" width="150" height="40"/><textElement><font fontName="Gentium" size="12" isBold="true" isItalic="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
+				<text><![CDATA[<staticText><reportElement x="0" y="200" width="150" height="40"/><textElement><font fontName="Lobster Two" size="12" isBold="true" isItalic="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="250" width="150" height="40" uuid="f96f1263-2d31-4eef-951e-2e39ada33878"/>
