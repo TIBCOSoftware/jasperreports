@@ -501,6 +501,39 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					buffer.append(indent + "</locales>\n");
 				}
 			}
+			
+			List<String> includedScripts = fontFamily.getIncludedScripts();
+			if (includedScripts != null)
+			{
+				for (String script : includedScripts)
+				{
+					buffer.append(indent);
+					buffer.append('<');
+					buffer.append(NODE_includedScript);
+					buffer.append('>');
+					buffer.append(script);
+					buffer.append("</");
+					buffer.append(NODE_includedScript);
+					buffer.append(">\n");
+				}
+			}
+			
+			List<String> excludedScripts = fontFamily.getExcludedScripts();
+			if (excludedScripts != null)
+			{
+				for (String script : excludedScripts)
+				{
+					buffer.append(indent);
+					buffer.append('<');
+					buffer.append(NODE_excludedScript);
+					buffer.append('>');
+					buffer.append(script);
+					buffer.append("</");
+					buffer.append(NODE_excludedScript);
+					buffer.append(">\n");
+				}
+			}
+			
 			indent = "  ";
 			buffer.append(indent + "</fontFamily>\n\n");
 		}		
