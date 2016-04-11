@@ -2514,8 +2514,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected boolean canUseGlyphRendering(FontKey fontKey) 
 	{
 		Map<Attribute, Object> fontAttributes = new HashMap<Attribute, Object>();
-		fontAttributes.put(TextAttribute.FAMILY, fontKey.fontAttribute.getFamily());
-		fontAttributes.put(JRTextAttribute.FONT_INFO, fontKey.fontAttribute.getFontInfo());
+		fontKey.fontAttribute.putAttributes(fontAttributes);
 		fontAttributes.put(TextAttribute.SIZE, 10f);
 
 		int style = 0;

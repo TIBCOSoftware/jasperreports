@@ -66,6 +66,15 @@ public class AwtFontAttribute
 	{
 		return fontInfo;
 	}
+	
+	public void putAttributes(Map<Attribute,Object> attributes)
+	{
+		attributes.put(TextAttribute.FAMILY, family);
+		if (fontInfo != null)
+		{
+			attributes.put(JRTextAttribute.FONT_INFO, fontInfo);
+		}
+	}
 
 	@Override
 	public int hashCode()
