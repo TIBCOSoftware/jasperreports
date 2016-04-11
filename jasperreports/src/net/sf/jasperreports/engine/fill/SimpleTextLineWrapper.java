@@ -43,14 +43,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
 import net.sf.jasperreports.engine.util.Pair;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -198,10 +199,10 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			// not handling this case, see JRStyledText.getAwtAttributedString
 			return false;
 		}
-		
-		String family = (String) run.attributes.get(TextAttribute.FAMILY);
+
+		AwtFontAttribute fontAttribute = AwtFontAttribute.fromAttributes(run.attributes);
 		Number size = (Number) run.attributes.get(TextAttribute.SIZE);
-		if (family == null || size == null)
+		if (!fontAttribute.hasAttribute() || size == null)
 		{
 			// this should not happen, but still checking
 			return false;
@@ -236,7 +237,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			}
 		}
 		
-		fontKey = new FontKey(family, size.floatValue(), style, styledText.getLocale());
+		fontKey = new FontKey(fontAttribute, size.floatValue(), style, styledText.getLocale());
 		createFontInfo(run.attributes);
 		
 		return true;
@@ -361,11 +362,11 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	{
 		// check bundled fonts
 		FontUtil fontUtil = FontUtil.getInstance(context.getJasperReportsContext());
-		Font font = fontUtil.getAwtFontFromBundles(fontKey.family, fontKey.style, fontKey.size, fontKey.locale, false);
+		Font font = fontUtil.getAwtFontFromBundles(fontKey.fontAttribute, fontKey.style, fontKey.size, fontKey.locale, false);
 		if (font == null)
 		{
 			// checking AWT font
-			fontUtil.checkAwtFont(fontKey.family, context.isIgnoreMissingFont());
+			fontUtil.checkAwtFont(fontKey.fontAttribute.getFamily(), context.isIgnoreMissingFont());
 			// creating AWT font
 			// FIXME using the current text attributes might be slightly dangerous as we are sharing font metrics
 			font = Font.getFont(textAttributes);
@@ -808,15 +809,15 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	
 	protected static class FontKey
 	{
-		String family;
+		AwtFontAttribute fontAttribute;
 		float size;
 		int style;
 		Locale locale;
 		
-		public FontKey(String family, float size, int style, Locale locale)
+		public FontKey(AwtFontAttribute fontAttribute, float size, int style, Locale locale)
 		{
 			super();
-			this.family = family;
+			this.fontAttribute = fontAttribute;
 			this.size = size;
 			this.style = style;
 			this.locale = locale;
@@ -826,7 +827,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		public int hashCode()
 		{
 			int hash = 43;
-			hash = hash*29 + family.hashCode();
+			hash = hash*29 + fontAttribute.hashCode();
 			hash = hash*29 + Float.floatToIntBits(size);
 			hash = hash*29 + style;
 			hash = hash*29 + (locale == null ? 0 : locale.hashCode());
@@ -837,14 +838,14 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		public boolean equals(Object obj)
 		{
 			FontKey info = (FontKey) obj;
-			return family.equals(info.family) && size == info.size && style == info.style
+			return fontAttribute.equals(info.fontAttribute) && size == info.size && style == info.style
 					&& ((locale == null) ? (info.locale == null) : (info.locale != null && locale.equals(info.locale)));
 		}
 		
 		@Override
 		public String toString()
 		{
-			return "{family: " + family
+			return "{font: " + fontAttribute
 					+ ", size: " + size
 					+ ", style: " + style
 					+ "}";

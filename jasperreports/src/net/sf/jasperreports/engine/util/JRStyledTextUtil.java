@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -46,6 +47,7 @@ import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
 
@@ -240,25 +242,25 @@ public class JRStyledTextUtil
 				fontMatch = fontMatchRun(text, index, endIndex, familyFonts.boldItalicFonts);
 			}
 			
-			if (bold && (fontMatch == null || fontMatch.font == null))
+			if (bold && (fontMatch == null || fontMatch.fontInfo == null))
 			{
 				fontMatch = fontMatchRun(text, index, endIndex, familyFonts.boldFonts);
 			}
 			
-			if (italic && (fontMatch == null || fontMatch.font == null))
+			if (italic && (fontMatch == null || fontMatch.fontInfo == null))
 			{
 				fontMatch = fontMatchRun(text, index, endIndex, familyFonts.italicFonts);
 			}
 			
-			if (fontMatch == null || fontMatch.font == null)
+			if (fontMatch == null || fontMatch.fontInfo == null)
 			{
 				fontMatch = fontMatchRun(text, index, endIndex, familyFonts.normalFonts);
 			}
 			
-			if (fontMatch.font != null)
+			if (fontMatch.fontInfo != null)
 			{
 				//we have a font that matched a part of the text
-				addRun(newRuns, attributes, index, fontMatch.endIndex, fontMatch.font);
+				addRun(newRuns, attributes, index, fontMatch.endIndex, fontMatch.fontInfo);
 			}
 			else
 			{
@@ -273,14 +275,14 @@ public class JRStyledTextUtil
 	}
 	
 	protected void addRun(List<Run> newRuns, Map<Attribute, Object> attributes,  
-			int startIndex, int endIndex, FontFace font)
+			int startIndex, int endIndex, FontInfo fontInfo)
 	{
+		//TODO lucianc decorate the map instead of copying it
 		Map<Attribute, Object> newAttributes = new HashMap<Attribute, Object>(attributes);
-		if (font != null)
+		if (fontInfo != null)
 		{
-			//using the font face name as family
-			//this could cause collisions if we have several font faces with the same name
-			newAttributes.put(TextAttribute.FAMILY, font.getName());
+			//directly putting the FontInfo as an attribute
+			newAttributes.put(JRTextAttribute.FONT_INFO, fontInfo);
 		}
 		Run newRun = new Run(newAttributes, startIndex, endIndex);
 		newRuns.add(newRun);
@@ -288,14 +290,14 @@ public class JRStyledTextUtil
 	
 	protected static class FontMatch
 	{
-		FontFace font;
+		FontInfo fontInfo;
 		int endIndex;
 	}
 	
 	protected FontMatch fontMatchRun(String text, int startIndex, int endIndex, List<Face> fonts)
 	{
 		LinkedList<Face> validFonts = new LinkedList<Face>(fonts);
-		FontFace lastValid = null;
+		Face lastValid = null;
 		int charIndex = startIndex;
 		int nextCharIndex = charIndex;
 		while (charIndex < endIndex)
@@ -331,7 +333,7 @@ public class JRStyledTextUtil
 				Face face = fontIt.next();
 				
 				if (!face.family.includesCharacter(codePoint)
-						|| !face.fontFace.getFont().canDisplay(codePoint))
+						|| !face.fontInfo.getFontFace().getFont().canDisplay(codePoint))
 				{
 					fontIt.remove();
 				}
@@ -342,13 +344,13 @@ public class JRStyledTextUtil
 				break;
 			}
 			
-			lastValid = validFonts.getFirst().fontFace;
+			lastValid = validFonts.getFirst();
 			charIndex = nextCharIndex;
 		}
 		
 		FontMatch fontMatch = new FontMatch();
 		fontMatch.endIndex = lastValid == null ? nextCharIndex : charIndex;
-		fontMatch.font = lastValid;
+		fontMatch.fontInfo = lastValid.fontInfo;
 		return fontMatch;
 	}
 	
@@ -383,24 +385,24 @@ public class JRStyledTextUtil
 			for (FontFamily fontFamily : fontFamilies)
 			{
 				Family family = new Family(fontFamily);
+				
 				fonts.families.add(family);
 				
 				if (fontFamily.getNormalFace() != null && fontFamily.getNormalFace().getFont() != null)
 				{
-					fonts.normalFonts.add(new Face(family, fontFamily.getNormalFace()));
+					fonts.normalFonts.add(new Face(family, fontFamily.getNormalFace(), Font.PLAIN));
 				}
-				
 				if (fontFamily.getBoldFace() != null && fontFamily.getBoldFace().getFont() != null)
 				{
-					fonts.boldFonts.add(new Face(family, fontFamily.getBoldFace()));
+					fonts.boldFonts.add(new Face(family, fontFamily.getBoldFace(), Font.BOLD));
 				}
 				if (fontFamily.getItalicFace() != null && fontFamily.getItalicFace().getFont() != null)
 				{
-					fonts.italicFonts.add(new Face(family, fontFamily.getItalicFace()));
+					fonts.italicFonts.add(new Face(family, fontFamily.getItalicFace(), Font.ITALIC));
 				}
 				if (fontFamily.getBoldItalicFace() != null && fontFamily.getBoldItalicFace().getFont() != null)
 				{
-					fonts.boldItalicFonts.add(new Face(family, fontFamily.getBoldItalicFace()));
+					fonts.boldItalicFonts.add(new Face(family, fontFamily.getBoldItalicFace(), Font.BOLD | Font.ITALIC));
 				}
 			}
 		}
@@ -544,12 +546,12 @@ public class JRStyledTextUtil
 	private static class Face
 	{
 		final Family family;
-		final FontFace fontFace;
+		final FontInfo fontInfo;
 		
-		public Face(Family family, FontFace fontFace)
+		public Face(Family family, FontFace fontFace, int style)
 		{
 			this.family = family;
-			this.fontFace = fontFace;
+			this.fontInfo = new FontInfo(family.fontFamily, fontFace, style);
 		}
 	}
 }

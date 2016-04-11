@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 
 
@@ -67,6 +68,7 @@ public class JRStyledText implements Cloneable
 	static
 	{
 		FONT_ATTRS.add(TextAttribute.FAMILY);
+		FONT_ATTRS.add(JRTextAttribute.FONT_INFO);
 		FONT_ATTRS.add(TextAttribute.WEIGHT);
 		FONT_ATTRS.add(TextAttribute.POSTURE);
 		FONT_ATTRS.add(TextAttribute.SIZE);
@@ -267,11 +269,11 @@ public class JRStyledText implements Cloneable
 			{
 				Map<Attribute,Object> attrs = iterator.getAttributes();
 					
-				String familyName = (String)attrs.get(TextAttribute.FAMILY); 
+				AwtFontAttribute fontAttribute = AwtFontAttribute.fromAttributes(attrs);
 				
-				Font awtFont = 
-					FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(
-						familyName, 
+				FontUtil fontUtil = FontUtil.getInstance(jasperReportsContext);
+				Font awtFont = fontUtil.getAwtFontFromBundles(
+						fontAttribute, 
 						((TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT))?Font.BOLD:Font.PLAIN)
 							|(TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE))?Font.ITALIC:Font.PLAIN)), 
 						(Float)attrs.get(TextAttribute.SIZE),
@@ -282,7 +284,7 @@ public class JRStyledText implements Cloneable
 				{
 					// The font was not found in any of the font extensions, so it is expected that the TextAttribute.FAMILY attribute
 					// will be used by AWT. In that case, we want make sure the font family name is available to the JVM.
-					FontUtil.getInstance(jasperReportsContext).checkAwtFont(familyName, ignoreMissingFont);
+					fontUtil.checkAwtFont(fontAttribute.getFamily(), ignoreMissingFont);
 				}
 				else
 				{

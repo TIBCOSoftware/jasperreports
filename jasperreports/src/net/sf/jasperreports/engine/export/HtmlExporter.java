@@ -2539,7 +2539,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		String fontFamily = fontFamilyAttr;
 
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+		FontInfo fontInfo = (FontInfo) attributes.get(JRTextAttribute.FONT_INFO);
+		if (fontInfo == null)
+		{
+			fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+		}
+		
 		if (fontInfo != null)
 		{
 			//fontName found in font extensions

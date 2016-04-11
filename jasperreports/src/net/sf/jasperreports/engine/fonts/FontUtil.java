@@ -292,71 +292,96 @@ public final class FontUtil
 		
 		if (fontInfo != null)
 		{
-			int faceStyle = Font.PLAIN;
-			FontFamily family = fontInfo.getFontFamily();
-			FontFace face = fontInfo.getFontFace();
-			if (face == null)
+			awtFont = getAwtFontFromBundles(fontInfo, style, size, ignoreMissingFont);
+		}
+		
+		return awtFont;
+	}
+
+
+	public Font getAwtFontFromBundles(AwtFontAttribute fontAttribute, int style, float size, Locale locale, boolean ignoreMissingFont)
+	{
+		FontInfo fontInfo = fontAttribute.getFontInfo();
+		if (fontInfo == null)
+		{
+			fontInfo = getFontInfo(fontAttribute.getFamily(), locale);
+		}
+		
+		Font awtFont = null;
+		if (fontInfo != null)
+		{
+			awtFont = getAwtFontFromBundles(fontInfo, style, size, ignoreMissingFont);
+		}
+		return awtFont;
+	}
+
+
+	protected Font getAwtFontFromBundles(FontInfo fontInfo, int style, float size, boolean ignoreMissingFont)
+	{
+		Font awtFont;
+		int faceStyle = Font.PLAIN;
+		FontFamily family = fontInfo.getFontFamily();
+		FontFace face = fontInfo.getFontFace();
+		if (face == null)
+		{
+			if (((style & Font.BOLD) > 0) && ((style & Font.ITALIC) > 0))
 			{
-				if (((style & Font.BOLD) > 0) && ((style & Font.ITALIC) > 0))
-				{
-					face = family.getBoldItalicFace();
-					faceStyle = Font.BOLD | Font.ITALIC;
-				}
+				face = family.getBoldItalicFace();
+				faceStyle = Font.BOLD | Font.ITALIC;
+			}
+			
+			if ((face == null || face.getFont() == null) && ((style & Font.BOLD) > 0))
+			{
+				face = family.getBoldFace();
+				faceStyle = Font.BOLD;
+			}
+			
+			if ((face == null || face.getFont() == null) && ((style & Font.ITALIC) > 0))
+			{
+				face = family.getItalicFace();
+				faceStyle = Font.ITALIC;
+			}
+			
+			if (face == null || face.getFont() == null)
+			{
+				face = family.getNormalFace();
+				faceStyle = Font.PLAIN;
+			}
 				
-				if ((face == null || face.getFont() == null) && ((style & Font.BOLD) > 0))
-				{
-					face = family.getBoldFace();
-					faceStyle = Font.BOLD;
-				}
-				
-				if ((face == null || face.getFont() == null) && ((style & Font.ITALIC) > 0))
-				{
-					face = family.getItalicFace();
-					faceStyle = Font.ITALIC;
-				}
-				
-				if (face == null || face.getFont() == null)
-				{
-					face = family.getNormalFace();
-					faceStyle = Font.PLAIN;
-				}
-					
 //				if (face == null)
 //				{
 //					throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
 //				}
-			}
-			else
-			{
-				faceStyle = fontInfo.getStyle();
-			}
-
-			if (face == null || face.getFont() == null)
-			{
-				// None of the family's font faces was found to match, neither by name, nor by style and the font family does not even specify a normal face font.
-				// In such case, we take the family name and consider it as JVM available font name.
-				checkAwtFont(family.getName(), ignoreMissingFont);
-				
-				awtFont = new Font(family.getName(), style, (int)size);
-				awtFont = awtFont.deriveFont(size);
-			}
-			else
-			{
-				awtFont = face.getFont();
-				if (awtFont == null)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NULL_FONT,
-							new Object[]{face.getName(), family.getName()});
-				}
-
-				awtFont = awtFont.deriveFont(size);
-				
-				awtFont = awtFont.deriveFont(style & ~faceStyle);
-			}
 		}
-		
+		else
+		{
+			faceStyle = fontInfo.getStyle();
+		}
+
+		if (face == null || face.getFont() == null)
+		{
+			// None of the family's font faces was found to match, neither by name, nor by style and the font family does not even specify a normal face font.
+			// In such case, we take the family name and consider it as JVM available font name.
+			checkAwtFont(family.getName(), ignoreMissingFont);
+			
+			awtFont = new Font(family.getName(), style, (int)size);
+			awtFont = awtFont.deriveFont(size);
+		}
+		else
+		{
+			awtFont = face.getFont();
+			if (awtFont == null)
+			{
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NULL_FONT,
+						new Object[]{face.getName(), family.getName()});
+			}
+
+			awtFont = awtFont.deriveFont(size);
+			
+			awtFont = awtFont.deriveFont(style & ~faceStyle);
+		}
 		return awtFont;
 	}
 

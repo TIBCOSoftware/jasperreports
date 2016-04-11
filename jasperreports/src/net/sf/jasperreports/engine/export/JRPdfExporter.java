@@ -113,6 +113,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
@@ -128,8 +129,6 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledText.Run;
-import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.NullOutputStream;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -2193,7 +2192,12 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		boolean isPdfSimulatedBold = false;
 		boolean isPdfSimulatedItalic = false;
 
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(jrFont.getFontName(), locale);
+		FontInfo fontInfo = (FontInfo) attributes.get(JRTextAttribute.FONT_INFO);
+		if (fontInfo == null)
+		{
+			fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(jrFont.getFontName(), locale);
+		}
+		
 		if (fontInfo == null)
 		{
 			//fontName NOT found in font extensions
@@ -2471,7 +2475,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		while (index < styledText.length())
 		{
 			FontKey fontKey = extractFontKey(attributesIterator.getAttributes(), locale);
-			if (fontKey.family == null)
+			if (!fontKey.fontAttribute.hasAttribute())
 			{
 				return false;
 			}
@@ -2496,7 +2500,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected FontKey extractFontKey(Map<Attribute, Object> attributes, Locale locale)
 	{
-		String family = (String) attributes.get(TextAttribute.FAMILY);
+		AwtFontAttribute fontAttribute = AwtFontAttribute.fromAttributes(attributes);
 		
 		Number posture = (Number) attributes.get(TextAttribute.POSTURE);
 		boolean italic = TextAttribute.POSTURE_OBLIQUE.equals(posture);//FIXME check for non standard posture
@@ -2504,13 +2508,14 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		Number weight = (Number) attributes.get(TextAttribute.WEIGHT);
 		boolean bold = TextAttribute.WEIGHT_BOLD.equals(weight);
 		
-		return new FontKey(family, italic, bold, locale);
+		return new FontKey(fontAttribute, italic, bold, locale);
 	}
 	
 	protected boolean canUseGlyphRendering(FontKey fontKey) 
 	{
 		Map<Attribute, Object> fontAttributes = new HashMap<Attribute, Object>();
-		fontAttributes.put(TextAttribute.FAMILY, fontKey.family);
+		fontAttributes.put(TextAttribute.FAMILY, fontKey.fontAttribute.getFamily());
+		fontAttributes.put(JRTextAttribute.FONT_INFO, fontKey.fontAttribute.getFontInfo());
 		fontAttributes.put(TextAttribute.SIZE, 10f);
 
 		int style = 0;
@@ -2539,7 +2544,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			return false;
 		}
 		
-		java.awt.Font awtFont = fontUtil.getAwtFontFromBundles(fontKey.family, style,
+		java.awt.Font awtFont = fontUtil.getAwtFontFromBundles(fontKey.fontAttribute, style,
 				10f, fontKey.locale, awtIgnoreMissingFont);
 		if (awtFont == null)
 		{
@@ -3233,14 +3238,14 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	
 	protected static class FontKey
 	{
-		String family;
+		AwtFontAttribute fontAttribute;
 		boolean italic;
 		boolean bold;
 		Locale locale;
 		
-		public FontKey(String family, boolean italic, boolean bold, Locale locale)
+		public FontKey(AwtFontAttribute fontAttribute, boolean italic, boolean bold, Locale locale)
 		{
-			this.family = family;
+			this.fontAttribute = fontAttribute;
 			this.italic = italic;
 			this.bold = bold;
 			this.locale = locale;
@@ -3250,7 +3255,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		public int hashCode()
 		{
 			int hash = 43;
-			hash = hash*29 + family.hashCode();
+			hash = hash*29 + fontAttribute.hashCode();
 			hash = hash*29 + (italic ? 1231 : 1237);
 			hash = hash*29 + (bold ? 1231 : 1237);
 			hash = hash*29 + (locale == null ? 0 : locale.hashCode());
@@ -3261,14 +3266,14 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		public boolean equals(Object obj)
 		{
 			FontKey key = (FontKey) obj;
-			return family.equals(key.family) && italic == key.italic && bold == key.bold
+			return fontAttribute.equals(key.fontAttribute) && italic == key.italic && bold == key.bold
 					&& ((locale == null) ? (key.locale == null) : (key.locale != null && locale.equals(key.locale)));
 		}
 		
 		@Override
 		public String toString()
 		{
-			return "{family: " + family
+			return "{font: " + fontAttribute
 					+ ", italic: " + italic
 					+ ", bold: " + bold
 					+ "}";
