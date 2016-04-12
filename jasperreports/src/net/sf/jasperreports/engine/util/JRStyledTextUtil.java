@@ -165,36 +165,29 @@ public class JRStyledTextUtil
 		//TODO lucianc inhibiting property
 		//TODO lucianc trace logging
 		String text = styledText.getText();
-		List<Run> newRuns = new ArrayList<Run>(styledText.getRuns().size() + 2);
+		List<Run> runs = styledText.getRuns();
+		List<Run> newRuns = new ArrayList<Run>(runs.size() + 2);
 		boolean dirty = false;
-		AttributedCharacterIterator attributesIt = styledText.getAttributedString().getIterator();
-		int index = 0;
-		while (index < styledText.length())
+		
+		if (runs.size() == 1)
 		{
-			int runEndIndex = attributesIt.getRunLimit();
-			Map<Attribute, Object> runAttributes = attributesIt.getAttributes();
-			String family = (String) runAttributes.get(TextAttribute.FAMILY);
-			FamilyFonts familyFonts = getFamilyFonts(family, locale);
-			if (familyFonts.families.size() < 2)
+			//avoid styledText.getAttributedString() because it's slow
+			Map<Attribute, Object> attributes = runs.get(0).attributes;
+			dirty = matchFonts(text, locale, 0, styledText.length(), attributes, newRuns);
+		}
+		else
+		{
+			AttributedCharacterIterator attributesIt = styledText.getAttributedString().getIterator();
+			int index = 0;
+			while (index < styledText.length())
 			{
-				//a single family, not performing any processing
-				//TODO lucianc avoid creating new run objects unless necessary
-				addRun(newRuns, runAttributes, index, runEndIndex, null);
+				int runEndIndex = attributesIt.getRunLimit();
+				Map<Attribute, Object> runAttributes = attributesIt.getAttributes();
+				dirty = matchFonts(text, locale, index, runEndIndex, runAttributes, newRuns);
+				
+				index = runEndIndex;
+				attributesIt.setIndex(index);
 			}
-			else
-			{
-				dirty = true;
-				boolean matched = matchFonts(text, runAttributes, familyFonts, index, runEndIndex, newRuns);
-				if (!matched)
-				{
-					//we have unmatched characters, adding a run with the original font for the entire chunk.
-					//we're relying on the JRStyledText to apply the runs in the reverse order.
-					addRun(newRuns, runAttributes, index, runEndIndex, null);
-				}
-			}
-			
-			index = runEndIndex;
-			attributesIt.setIndex(index);
 		}
 
 		if (!dirty)
@@ -220,6 +213,33 @@ public class JRStyledTextUtil
 				: globalAttributes);
 		
 		return processedText;
+	}
+
+	public boolean matchFonts(String text, Locale locale, 
+			int startIndex, int endIndex, Map<Attribute, Object> runAttributes, 
+			List<Run> newRuns)
+	{
+		boolean dirty = false;
+		String family = (String) runAttributes.get(TextAttribute.FAMILY);
+		FamilyFonts familyFonts = getFamilyFonts(family, locale);
+		if (familyFonts.families.size() < 2)
+		{
+			//a single family, not performing any processing
+			//TODO lucianc avoid creating new run objects unless necessary
+			addRun(newRuns, runAttributes, startIndex, endIndex, null);
+		}
+		else
+		{
+			dirty = true;
+			boolean matched = matchFonts(text, runAttributes, familyFonts, startIndex, endIndex, newRuns);
+			if (!matched)
+			{
+				//we have unmatched characters, adding a run with the original font for the entire chunk.
+				//we're relying on the JRStyledText to apply the runs in the reverse order.
+				addRun(newRuns, runAttributes, startIndex, endIndex, null);
+			}
+		}
+		return dirty;
 	}
 
 	protected boolean matchFonts(String text, Map<Attribute, Object> attributes, FamilyFonts familyFonts, 
