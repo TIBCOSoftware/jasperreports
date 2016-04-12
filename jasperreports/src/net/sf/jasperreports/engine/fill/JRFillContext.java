@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -74,6 +75,7 @@ public class JRFillContext
 	private JRQueryExecuter queryExecuter;
 	
 	private JasperReportsContext jasperReportsContext;
+	private JRStyledTextUtil styledTextUtil;
 	private ReportContext reportContext;
 	private DataCacheHandler cacheHandler;
 	private DataSnapshot dataSnapshot;
@@ -106,6 +108,7 @@ public class JRFillContext
 	{
 		this.masterFiller = masterFiller;
 		this.jasperReportsContext = masterFiller.getJasperReportsContext();
+		this.styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
 		
 		loadedImageRenderers = new HashMap<Object,Renderable>();
 		renderersCache = new RenderersCache(jasperReportsContext);
@@ -124,6 +127,11 @@ public class JRFillContext
 	public BaseReportFiller getMasterFiller()
 	{
 		return masterFiller;
+	}
+	
+	protected JRStyledTextUtil getStyledTextUtil()
+	{
+		return styledTextUtil;
 	}
 
 	/**

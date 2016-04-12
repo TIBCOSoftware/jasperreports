@@ -105,7 +105,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected BandReportFillerParent bandReportParent;
 
 	private JRStyledTextParser styledTextParser = JRStyledTextParser.getInstance();
-	private JRStyledTextUtil styledTextUtil;
 
 	/**
 	 *
@@ -242,8 +241,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		) throws JRException
 	{
 		super(jasperReportsContext, jasperReport, parent);
-		
-		this.styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
 		
 		this.bandReportParent = parent;
 
@@ -473,7 +470,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	
 	protected JRStyledTextUtil getStyledTextUtil()
 	{
-		return styledTextUtil;
+		return fillContext.getStyledTextUtil();
 	}
 
 	/**
