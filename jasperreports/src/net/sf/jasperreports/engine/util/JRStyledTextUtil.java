@@ -215,7 +215,7 @@ public class JRStyledTextUtil
 		return processedText;
 	}
 
-	public boolean matchFonts(String text, Locale locale, 
+	protected boolean matchFonts(String text, Locale locale, 
 			int startIndex, int endIndex, Map<Attribute, Object> runAttributes, 
 			List<Run> newRuns)
 	{
@@ -297,13 +297,19 @@ public class JRStyledTextUtil
 	protected void addRun(List<Run> newRuns, Map<Attribute, Object> attributes,  
 			int startIndex, int endIndex, FontInfo fontInfo)
 	{
-		//TODO lucianc decorate the map instead of copying it
-		Map<Attribute, Object> newAttributes = new HashMap<Attribute, Object>(attributes);
-		if (fontInfo != null)
+		Map<Attribute, Object> newAttributes;
+		if (fontInfo == null)
 		{
+			newAttributes = Collections.unmodifiableMap(attributes);
+		}
+		else
+		{
+			//TODO lucianc decorate the map instead of copying it
+			newAttributes = new HashMap<Attribute, Object>(attributes);
 			//directly putting the FontInfo as an attribute
 			newAttributes.put(JRTextAttribute.FONT_INFO, fontInfo);
 		}
+		
 		Run newRun = new Run(newAttributes, startIndex, endIndex);
 		newRuns.add(newRun);
 	}
