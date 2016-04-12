@@ -197,6 +197,7 @@ public final class JRTextMeasurerUtil
 				JRStyledTextAttributeSelector.getTextLocale(printText)
 				);
 		
+		//TODO lucianc match fonts
 		JRMeasuredText measuredText = textMeasurer.measure(
 				styledText, 
 				0,
