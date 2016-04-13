@@ -973,7 +973,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = getFontFamily(fontFamilyAttr, isBold, isItalic, locale);
+		String fontFamily = getFontFamily(true, fontFamilyAttr, isBold, isItalic, locale);
 
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);

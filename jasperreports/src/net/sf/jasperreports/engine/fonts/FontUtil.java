@@ -181,6 +181,8 @@ public final class FontUtil
 	 */
 	public FontInfo getFontInfo(String name, Locale locale)
 	{
+		FontInfo awtFamilyMatchFontInfo = null;
+
 		//FIXMEFONT do some cache
 		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
@@ -192,35 +194,81 @@ public final class FontUtil
 				{
 					return new FontInfo(family, null, Font.PLAIN);
 				}
+
 				FontFace face = family.getNormalFace();
-				if (face != null && name.equals(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.PLAIN);
+					if (name.equals(face.getName()))
+					{
+						return new FontInfo(family, face, Font.PLAIN);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equals(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.PLAIN);
+					}
 				}
+				
 				face = family.getBoldFace();
-				if (face != null && name.equals(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.BOLD);
+					if (name.equals(face.getName()))
+					{
+						return new FontInfo(family, face, Font.BOLD);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equals(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD);
+					}
 				}
+				
 				face = family.getItalicFace();
-				if (face != null && name.equals(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.ITALIC);
+					if (name.equals(face.getName()))
+					{
+						return new FontInfo(family, face, Font.ITALIC);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equals(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.ITALIC);
+					}
 				}
+				
 				face = family.getBoldItalicFace();
-				if (face != null && name.equals(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					if (name.equals(face.getName()))
+					{
+						return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equals(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					}
 				}
 			}
 		}
-		//throw new JRRuntimeException("Font family/face named '" + name + "' not found.");
-		return null;
+		
+		return awtFamilyMatchFontInfo;
 	}
 
 
 	public FontInfo getFontInfoIgnoreCase(String name, Locale locale)
 	{
+		FontInfo awtFamilyMatchFontInfo = null;
+
 		//FIXMEFONT do some cache
 		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
@@ -232,30 +280,74 @@ public final class FontUtil
 				{
 					return new FontInfo(family, null, Font.PLAIN);
 				}
+				
 				FontFace face = family.getNormalFace();
-				if (face != null && name.equalsIgnoreCase(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.PLAIN);
+					if (name.equalsIgnoreCase(face.getName()))
+					{
+						return new FontInfo(family, face, Font.PLAIN);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equalsIgnoreCase(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.PLAIN);
+					}
 				}
+
 				face = family.getBoldFace();
-				if (face != null && name.equalsIgnoreCase(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.BOLD);
+					if (name.equalsIgnoreCase(face.getName()))
+					{
+						return new FontInfo(family, face, Font.BOLD);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equalsIgnoreCase(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD);
+					}
 				}
+
 				face = family.getItalicFace();
-				if (face != null && name.equalsIgnoreCase(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.ITALIC);
+					if (name.equalsIgnoreCase(face.getName()))
+					{
+						return new FontInfo(family, face, Font.ITALIC);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equalsIgnoreCase(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.ITALIC);
+					}
 				}
+
 				face = family.getBoldItalicFace();
-				if (face != null && name.equalsIgnoreCase(face.getName()))
+				if (face != null)
 				{
-					return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					if (name.equalsIgnoreCase(face.getName()))
+					{
+						return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& name.equalsIgnoreCase(face.getFont().getFamily())
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					}
 				}
 			}
 		}
-		//throw new JRRuntimeException("Font family/face named '" + name + "' not found.");
-		return null;
+		
+		return awtFamilyMatchFontInfo;
 	}
 
 

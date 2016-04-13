@@ -1398,6 +1398,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 									@Override
 									public String getFontFamily(String fontFamily, boolean isBold, boolean isItalic, Locale locale) 
 									{
+										// Here we rely on the ability of FontUtil.getFontInfoIgnoreCase(fontFamily, locale) method to
+										// find fonts from font extensions based on the java.awt.Font.getFamily() of their font faces.
+										// This is because the SVG produced by Batik stores the family name of the AWT fonts used to
+										// render text on the Batik Graphics2D implementation, as it knows nothing about family names from JR extensions.
 										return HtmlExporter.this.getFontFamily(true, fontFamily, isBold, isItalic, locale);
 									}
 								};
@@ -2683,7 +2687,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = getFontFamily(fontFamilyAttr, isBold, isItalic, locale);
+		String fontFamily = getFontFamily(true, fontFamilyAttr, isBold, isItalic, locale);
 
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);

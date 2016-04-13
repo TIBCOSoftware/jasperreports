@@ -216,17 +216,6 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	
 	
 	protected String getFontFamily(
-		String fontFamily,
-		boolean isBold,
-		boolean isItalic,
-		Locale locale
-		)
-	{
-		return getFontFamily(false, fontFamily, isBold, isItalic, locale);
-	}
-	
-	
-	protected String getFontFamily(
 		boolean ignoreCase,
 		String fontFamily,
 		boolean isBold,

@@ -75,7 +75,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 		return jasperReportsContext;
 	}
 
-	/**.classpath
+	/**
 	 * Calls <code>super.resolveClass()</code> and in case this fails with
 	 * {@link ClassNotFoundException} attempts to load the class using the
 	 * context class loader.
@@ -112,23 +112,27 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 
 	
 	/**
-	 * Calls <code>super.resolveObject()</code> and in case the object is 
-	 * a <code>java.awt.Font</code>, it look up for it is fails with
-	 * {@link ClassNotFoundException} attempts to load the class using the
-	 * context class loader.
+	 * Checks to see if the object is an instance of <code>java.awt.Font</code>, 
+	 * and in case it is, it replaces it with the one looked up for in the font extensions.
 	 */
 	@Override
-	protected Object resolveObject(Object obj) throws IOException//FIXMENOW fix the javadoc comment
+	protected Object resolveObject(Object obj) throws IOException
 	{
 		Font font = (obj instanceof Font) ? (Font)obj : null;
 		
 		if (font != null)
 		{
-			//String fontName = (String)font.getAttributes().get(TextAttribute.FAMILY);//FIXMEFONT check this
+			// We use the font.getName() method here because the name field in the java.awt.Font class is the only font name related information that gets serialized,
+			// along with the size and style. The font.getFontName() and font.getFamily() both return runtime calculated values, which are not accurate in case of AWT fonts
+			// created at runtime through font extensions (both seem to return 'Dialog').
+			// For AWT fonts created from font extensions using the Font.createFont(int, InputStream), the name field is set to the same value as the font.getFontName(),
+			// which is the recommended method to get the name of an AWT font.
 			String fontName = font.getName();
-			// We load an instance of an AWT font, even if the specified fontName is not available (ignoreMissingFont=true),
+			// We load an instance of an AWT font, even if the specified font name is not available (ignoreMissingFont=true),
 			// because only third-party visualization packages such as JFreeChart (chart themes) store serialized java.awt.Font objects,
 			// and they are responsible for the drawing as well.
+			// Here we rely on the utility method ability to find a font by face name, not only family name. This is because font.getName() above returns an AWT font name,
+			// not a font family name.
 			Font newFont = FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(fontName, font.getStyle(), font.getSize2D(), null, true);
 			
 			if (newFont != null)
