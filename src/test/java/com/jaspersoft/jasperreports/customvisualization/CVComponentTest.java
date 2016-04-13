@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2005 - 2014 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2005 - 2016 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  * 
  * Unless you have purchased  a commercial license agreement from Jaspersoft,
@@ -130,7 +130,8 @@ public class CVComponentTest
     public void testCircleWithGroups() throws Exception
     {
         //testReport("d3_Circle_sample_with_groups.jrxml", false);
-        testReport("subdataset_test_sample.jrxml", false);
+        //testReport("subdataset_test_sample.jrxml", false);
+        testReport("sparkline_sample.jrxml", true);
     }
     
 //    public void testDendogram() throws Exception
