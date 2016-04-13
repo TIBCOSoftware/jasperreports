@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -533,7 +534,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		}
 		if (line.getLinePen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(line.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(line.getLinePen().getLineWidth()) + "\"");
+			if(LineStyleEnum.DOUBLE.equals(line.getLinePen().getLineStyleValue()))
+			{
+				slideHelper.write(" cmpd=\"dbl\"");
+			}
+			slideHelper.write(">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (line.getLinePen().getLineStyleValue())
@@ -605,7 +611,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		}
 		if (rectangle.getLinePen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(rectangle.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(rectangle.getLinePen().getLineWidth()) + "\"");
+			if(LineStyleEnum.DOUBLE.equals(rectangle.getLinePen().getLineStyleValue()))
+			{
+				slideHelper.write(" cmpd=\"dbl\"");
+			}
+			slideHelper.write(">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (rectangle.getLinePen().getLineStyleValue())
@@ -667,7 +678,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		}
 		if (ellipse.getLinePen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(ellipse.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(ellipse.getLinePen().getLineWidth()) + "\"");
+			if(LineStyleEnum.DOUBLE.equals(ellipse.getLinePen().getLineStyleValue()))
+			{
+				slideHelper.write(" cmpd=\"dbl\"");
+			}
+			slideHelper.write(">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (ellipse.getLinePen().getLineStyleValue())
@@ -815,7 +831,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		JRPen pen = getPptxPen(text.getLineBox());
 		if (pen != null)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
+			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
+			{
+				slideHelper.write(" cmpd=\"dbl\"");
+			}
+			slideHelper.write(">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (pen.getLineStyleValue())
@@ -1281,7 +1302,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				JRPen pen = getPptxPen(image.getLineBox());
 				if (pen != null)
 				{
-					slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\">\n");
+					slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
+					if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
+					{
+						slideHelper.write(" cmpd=\"dbl\"");
+					}
+					slideHelper.write(">\n");
 					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 					slideHelper.write("<a:prstDash val=\"");
 					switch (pen.getLineStyleValue())
@@ -1562,7 +1588,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		JRPen pen = getPptxPen(frame.getLineBox());
 		if (pen != null)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
+			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
+			{
+				slideHelper.write(" cmpd=\"dbl\"");
+			}
+			slideHelper.write(">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (pen.getLineStyleValue())

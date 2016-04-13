@@ -117,6 +117,11 @@ public class DocxBorderInfo
 					style = "dashSmallGap";
 					break;
 				}
+				case DOUBLE :
+				{
+					style = "double";
+					break;
+				}
 				case SOLID :
 				default :
 				{
