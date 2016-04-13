@@ -105,7 +105,7 @@ public class DocxBorderInfo
 
 		if (width > 0f)
 		{
-			switch (pen.getLineStyleValue())//FIXMEBORDER is this working? deal with double border too.
+			switch (pen.getLineStyleValue())
 			{
 				case DOTTED :
 				{
