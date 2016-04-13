@@ -40,19 +40,21 @@ public class HtmlFont
 {
 	private static final int IE_FONT_NAME_MAX_LENGTH = 31;
 	
+	private HtmlFontFamily family;
 	private Locale locale;
 	private String fontName;
 	private String ttf;
 	private String eot;
 	private String svg;
 	private String woff;
-	private int style;
+	private boolean isBold;
+	private boolean isItalic;
 	
 	private String id;
 	private String shortId;
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #HtmlFont(HtmlFontFamily, Locale, FontFace, boolean, boolean)}.
 	 */
 	private HtmlFont(Locale locale, FontFace fontFace, int style)
 	{
@@ -62,13 +64,38 @@ public class HtmlFont
 		this.eot = fontFace.getEot();
 		this.svg = fontFace.getSvg();
 		this.woff = fontFace.getWoff();
-		this.style = style;
+		this.isBold = (style & Font.BOLD) > 0;
+		this.isItalic = (style & Font.ITALIC) > 0;
 		
 		createIds();
 	}
 	
 	/**
 	 * 
+	 */
+	private HtmlFont(
+		HtmlFontFamily family, 
+		Locale locale, 
+		FontFace fontFace, 
+		boolean isBold, 
+		boolean isItalic
+		)
+	{
+		this.family = family;
+		this.locale = locale;
+		this.fontName = fontFace.getName();
+		this.ttf = fontFace.getTtf();
+		this.eot = fontFace.getEot();
+		this.svg = fontFace.getSvg();
+		this.woff = fontFace.getWoff();
+		this.isBold = isBold;
+		this.isItalic = isItalic;
+		
+		createIds();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getInstance(HtmlFontFamily, Locale, FontFace, boolean, boolean)}.
 	 */
 	public static HtmlFont getInstance(Locale locale, FontInfo fontInfo, boolean isBold, boolean isItalic)
 	{
@@ -159,7 +186,27 @@ public class HtmlFont
 	/**
 	 * 
 	 */
-	private static HtmlFont getInstance(Locale locale, FontFace fontFace, int style)
+	public static HtmlFont getInstance(HtmlFontFamily family, Locale locale, FontFace fontFace, boolean isBold, boolean isItalic)
+	{
+		HtmlFont htmlFont = null;
+
+		if (
+			fontFace.getTtf() != null
+			|| fontFace.getEot() != null
+			|| fontFace.getSvg() != null
+			|| fontFace.getWoff() != null
+			)
+		{
+			htmlFont = new HtmlFont(family, locale, fontFace, isBold, isItalic);
+		}
+
+		return htmlFont;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getInstance(HtmlFontFamily, Locale, FontFace, boolean, boolean)}.
+	 */
+	public static HtmlFont getInstance(Locale locale, FontFace fontFace, int style)
 	{
 		HtmlFont htmlFont = null;
 
@@ -183,9 +230,9 @@ public class HtmlFont
 	{
 		String prefix = fontName;
 		String suffix =
-			(((style & Font.BOLD) > 0 || (style & Font.ITALIC) > 0) ? "-" : "")
-			+ ((style & Font.BOLD) > 0 ? "Bold" : "")
-			+ ((style & Font.ITALIC) > 0 ? "Italic" : "")
+			((isBold || isItalic) ? "-" : "")
+			+ (isBold ? "Bold" : "")
+			+ (isItalic ? "Italic" : "")
 			+ (locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
 		
 		id = prefix + suffix;
@@ -197,9 +244,9 @@ public class HtmlFont
 		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
 		{
 			suffix =
-				(((style & Font.BOLD) > 0 || (style & Font.ITALIC) > 0) ? "-" : "")
-				+ ((style & Font.BOLD) > 0 ? "B" : "")
-				+ ((style & Font.ITALIC) > 0 ? "I" : "")
+				((isBold || isItalic) ? "-" : "")
+				+ (isBold ? "B" : "")
+				+ (isItalic ? "I" : "")
 				+ (locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
 		}
 		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
@@ -228,6 +275,11 @@ public class HtmlFont
 	public String getShortId()
 	{
 		return shortId;
+	}
+	
+	public HtmlFontFamily getFamily()
+	{
+		return family;
 	}
 	
 	public Locale getLocale()
@@ -260,8 +312,21 @@ public class HtmlFont
 		return woff;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #isBold()} and {@link #isItalic()}.
+	 */
 	public int getStyle()
 	{
-		return style;
+		return (isBold ? Font.BOLD : Font.PLAIN) | (isItalic ? Font.ITALIC : Font.PLAIN);
+	}
+	
+	public boolean isBold()
+	{
+		return isBold;
+	}
+	
+	public boolean isItalic()
+	{
+		return isItalic;
 	}
 }

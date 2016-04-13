@@ -289,7 +289,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
 		renderersCache = new RenderersCache(getJasperReportsContext());
 
-		fontsToProcess = new HashMap<String, HtmlFont>();
+		fontsToProcess = new HashMap<String, HtmlFontFamily>();
 
 		if (getCurrentConfiguration().isUsingImagesToAlign())
 		{
@@ -465,9 +465,9 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 				getExporterOutput().getFontHandler() == null
 				? getFontHandler()
 				: getExporterOutput().getFontHandler();
-			for (HtmlFont htmlFont : fontsToProcess.values())
+			for (HtmlFontFamily htmlFontFamily : fontsToProcess.values())
 			{
-				writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
+				writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFontFamily.getId()) + "\">\n");
 			}
 		}
 		
@@ -973,7 +973,7 @@ public class JRHtmlExporter extends AbstractHtmlExporter<JRHtmlReportConfigurati
 		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = getFontFamily(false, fontFamilyAttr, isBold, isItalic, locale);
+		String fontFamily = getFontFamily(false, fontFamilyAttr, locale);
 
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);

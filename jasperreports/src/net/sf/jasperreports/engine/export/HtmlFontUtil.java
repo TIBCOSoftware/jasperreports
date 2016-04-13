@@ -29,6 +29,8 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontFace;
+import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
@@ -68,17 +70,40 @@ public class HtmlFontUtil
 	
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #handleHtmlFont(HtmlResourceHandler, HtmlFontFamily)}.
 	 */
 	public void handleHtmlFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
 	{
 		StringBuilder sb = new StringBuilder();
 
+		sb.append("@charset \"UTF-8\";\n");
+		sb.append(getHtmlFont(resourceHandler, htmlFont));
+		
+		if (resourceHandler != null)
+		{
+			try
+			{
+				resourceHandler.handleResource(htmlFont.getId(), sb.toString().getBytes("UTF-8"));
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+	}
+	
+	
+	/**
+	 *
+	 */
+	private String getHtmlFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
+	{
+		StringBuilder sb = new StringBuilder();
+
 		try
 		{
-			sb.append("@charset \"UTF-8\";\n");
 			sb.append("@font-face {\n");
-			sb.append("\tfont-family: " + htmlFont.getShortId() + ";\n");
+			sb.append("\tfont-family: " + (htmlFont.getFamily() == null ? htmlFont.getShortId() : htmlFont.getFamily().getShortId()) + ";\n");
 			if (htmlFont.getEot() != null)
 			{
 				String eotId = htmlFont.getId() + ".eot";
@@ -118,8 +143,8 @@ public class HtmlFontUtil
 				}
 				sb.append(";\n");
 			}
-			sb.append("\tfont-weight: normal;\n");
-			sb.append("\tfont-style: normal;\n");
+			sb.append("\tfont-weight: " + (htmlFont.isBold() ? "bold" : "normal") + ";\n");
+			sb.append("\tfont-style: " + (htmlFont.isItalic() ? "italic" : "normal") + ";\n");
 			sb.append("}");
 		}
 		catch (JRException e)
@@ -127,16 +152,74 @@ public class HtmlFontUtil
 			throw new JRRuntimeException(e);
 		}
 		
+		return sb.toString();
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public void handleHtmlFont(HtmlResourceHandler resourceHandler, HtmlFontFamily htmlFontFamily)
+	{
+		String fontCss = getHtmlFont(resourceHandler, htmlFontFamily);
+
 		if (resourceHandler != null)
 		{
 			try
 			{
-				resourceHandler.handleResource(htmlFont.getId(), sb.toString().getBytes("UTF-8"));
+				resourceHandler.handleResource(htmlFontFamily.getId(), fontCss.getBytes("UTF-8"));
 			}
 			catch (UnsupportedEncodingException e)
 			{
 				throw new JRRuntimeException(e);
 			}
 		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public String getHtmlFont(HtmlResourceHandler resourceHandler, HtmlFontFamily htmlFontFamily)
+	{
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("@charset \"UTF-8\";\n\n");
+
+		FontFamily fontFamily = htmlFontFamily.getFontFamily();
+		
+		FontFace fontFace = fontFamily.getNormalFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, false);
+			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append("\n\n");
+		}
+		
+		fontFace = fontFamily.getBoldFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, false);
+			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append("\n\n");
+		}
+		
+		fontFace = fontFamily.getItalicFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, true);
+			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append("\n\n");
+		}
+		
+		fontFace = fontFamily.getBoldItalicFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, true);
+			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append("\n\n");
+		}
+		
+		return sb.toString();
 	}
 }

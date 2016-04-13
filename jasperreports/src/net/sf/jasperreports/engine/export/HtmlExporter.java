@@ -227,7 +227,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		imageMaps = new HashMap<Pair<String, Rectangle>,String>();
 		renderersCache = new RenderersCache(getJasperReportsContext());
 
-		fontsToProcess = new HashMap<String, HtmlFont>();
+		fontsToProcess = new HashMap<String, HtmlFontFamily>();
 		
 		//FIXMENOW check all exporter properties that are supposed to work at report level
 		
@@ -415,15 +415,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				reportContext.setParameterValue("net.sf.jasperreports.html.webfonts", webFonts);	// FIXME: use constant
 			}
 
-			for (HtmlFont htmlFont : fontsToProcess.values())
+			for (HtmlFontFamily htmlFontFamily : fontsToProcess.values())
 			{
 				if (reportContext != null) {
 					ObjectNode objNode = mapper.createObjectNode();
-					objNode.put("id", htmlFont.getId());
-					objNode.put("path", fontHandler.getResourcePath(htmlFont.getId()));
+					objNode.put("id", htmlFontFamily.getId());
+					objNode.put("path", fontHandler.getResourcePath(htmlFontFamily.getId()));
 					webFonts.add(objNode);
 				} else {
-					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFont.getId()) + "\">\n");
+					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFontFamily.getId()) + "\">\n");
 				}
 			}
 		}
@@ -1396,13 +1396,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								SvgFontProcessor svgFontProcessor = new SvgFontProcessor(jasperReportsContext, locale) 
 								{
 									@Override
-									public String getFontFamily(String fontFamily, boolean isBold, boolean isItalic, Locale locale) 
+									public String getFontFamily(String fontFamily, Locale locale) 
 									{
 										// Here we rely on the ability of FontUtil.getFontInfoIgnoreCase(fontFamily, locale) method to
 										// find fonts from font extensions based on the java.awt.Font.getFamily() of their font faces.
 										// This is because the SVG produced by Batik stores the family name of the AWT fonts used to
 										// render text on the Batik Graphics2D implementation, as it knows nothing about family names from JR extensions.
-										return HtmlExporter.this.getFontFamily(true, fontFamily, isBold, isItalic, locale);
+										return HtmlExporter.this.getFontFamily(true, fontFamily, locale);
 									}
 								};
 								
@@ -2687,7 +2687,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = getFontFamily(false, fontFamilyAttr, isBold, isItalic, locale);
+		String fontFamily = getFontFamily(false, fontFamilyAttr, locale);
 
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);

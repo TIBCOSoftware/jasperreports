@@ -59,10 +59,6 @@ public abstract class SvgFontProcessor
 	public static final String SVG_ELEMENT_text = "text";
 	public static final String SVG_ATTRIBUTE_style = "style";
 	public static final String SVG_ATTRIBUTE_fontFamily = "font-family";
-	public static final String SVG_ATTRIBUTE_fontWeight = "font-weight";
-	public static final String SVG_ATTRIBUTE_fontStyle = "font-style";
-	public static final String SVG_ATTRIBUTE_VALUE_bold = "bold";
-	public static final String SVG_ATTRIBUTE_VALUE_italic = "italic";
 	
 	private final SVGDocumentFactory documentFactory;
 	private final Locale locale;
@@ -96,7 +92,7 @@ public abstract class SvgFontProcessor
 					new ByteArrayInputStream(svgData)
 					);
 			
-			process(document, null);
+			process(document);
 			
 			TransformerFactory tFactory =
 				TransformerFactory.newInstance();
@@ -128,7 +124,7 @@ public abstract class SvgFontProcessor
 	}
 
 	
-	private void process(Node element, FontAttributes crtFontAttrs)
+	private void process(Node element)
 	{
 		NodeList children = element.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++)
@@ -141,25 +137,25 @@ public abstract class SvgFontProcessor
 					|| SVG_ELEMENT_text.equals(child.getNodeName())
 					)
 				{
-					crtFontAttrs = processFontAttributes((Element)child, crtFontAttrs);
+					processFontAttributes((Element)child);
 				}
 				
-				process(child, crtFontAttrs);
+				process(child);
 			}
 		}
 	}
 
 	
-	private FontAttributes processFontAttributes(Element styleElement, FontAttributes crtFontAttrs)
+	private void processFontAttributes(Element styleElement)
 	{
-		FontAttributes elementFontAttrs = new FontAttributes();
-		
+		String fontFamily = null;
+
 		NamedNodeMap attributes = styleElement.getAttributes();
 		
 		Node fontFamilyAttrNode = attributes.getNamedItem(SVG_ATTRIBUTE_fontFamily);
 		if (fontFamilyAttrNode != null)
 		{
-			String fontFamily = fontFamilyAttrNode.getNodeValue();
+			fontFamily = fontFamilyAttrNode.getNodeValue();
 			if (
 				fontFamily.startsWith("'")
 				&& fontFamily.endsWith("'")
@@ -167,19 +163,6 @@ public abstract class SvgFontProcessor
 			{
 				fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
 			}
-			elementFontAttrs.fontFamily = fontFamily;
-		}
-		
-		Node fontWeightAttrNode = attributes.getNamedItem(SVG_ATTRIBUTE_fontWeight);
-		if (fontWeightAttrNode != null)
-		{
-			elementFontAttrs.fontWeight = fontWeightAttrNode.getNodeValue();
-		}
-		
-		Node fontStyleAttrNode = attributes.getNamedItem(SVG_ATTRIBUTE_fontStyle);
-		if (fontStyleAttrNode != null)
-		{
-			elementFontAttrs.fontStyle = fontStyleAttrNode.getNodeValue();
 		}
 		
 		// values from style property takes precedence over values from attributes
@@ -187,47 +170,18 @@ public abstract class SvgFontProcessor
 		Node styleAttrNode = attributes.getNamedItem(SVG_ATTRIBUTE_style);
 		if (styleAttrNode != null)
 		{
-			FontAttributes styleFontAttrs = getFontAttributes(styleAttrNode.getNodeValue());
-			if (styleFontAttrs != null)
+			String styleFontFamily = getFontFamily(styleAttrNode.getNodeValue());
+			if (styleFontFamily != null)
 			{
-				elementFontAttrs.fontFamily = styleFontAttrs.fontFamily;
-				elementFontAttrs.fontWeight = styleFontAttrs.fontWeight;
-				elementFontAttrs.fontStyle = styleFontAttrs.fontStyle;
+				fontFamily = styleFontFamily;
 			}
 		}
 		
-		boolean hasFontAttrs = 
-			elementFontAttrs.fontFamily != null
-			|| elementFontAttrs.fontWeight != null
-			|| elementFontAttrs.fontStyle != null;
-		
-		// consolidate current font attributes for passing to child elements
-		if (crtFontAttrs != null)
+		if (fontFamily != null)
 		{
-			if (elementFontAttrs.fontFamily == null)
-			{
-				elementFontAttrs.fontFamily = crtFontAttrs.fontFamily;
-			}
-			if (elementFontAttrs.fontWeight == null)
-			{
-				elementFontAttrs.fontWeight = crtFontAttrs.fontWeight;
-			}
-			if (elementFontAttrs.fontStyle == null)
-			{
-				elementFontAttrs.fontStyle = crtFontAttrs.fontStyle;
-			}
-		}
-		
-		if (
-			hasFontAttrs
-			&& elementFontAttrs.fontFamily != null
-			)
-		{
-			String fontFamily = 
+			fontFamily = 
 				getFontFamily(
-					elementFontAttrs.fontFamily, 
-					SVG_ATTRIBUTE_VALUE_bold.equalsIgnoreCase(elementFontAttrs.fontWeight), 
-					SVG_ATTRIBUTE_VALUE_italic.equalsIgnoreCase(elementFontAttrs.fontStyle), 
+					fontFamily, 
 					locale
 					);
 
@@ -241,12 +195,10 @@ public abstract class SvgFontProcessor
 				styleElement.setAttribute(SVG_ATTRIBUTE_style, newStyleAttr);
 			}
 		}
-		
-		return elementFontAttrs;
 	}
 
 	
-	private FontAttributes getFontAttributes(String style)
+	private String getFontFamily(String style)
 	{
 		String fontFamily = null;
 		{
@@ -274,57 +226,7 @@ public abstract class SvgFontProcessor
 			}
 		}
 
-		String fontWeight = null;
-		{
-			int fontWeightStart = style.indexOf(SVG_ATTRIBUTE_fontWeight + ":");
-			if (fontWeightStart >= 0)
-			{
-				fontWeightStart = fontWeightStart + SVG_ATTRIBUTE_fontWeight.length() + 1;
-				int fontWeightEnd = style.indexOf(";", fontWeightStart);
-				if (fontWeightEnd >= 0)
-				{
-					fontWeight = style.substring(fontWeightStart, fontWeightEnd).trim();
-				}
-				else
-				{
-					fontWeight = style.substring(fontWeightStart).trim();
-				}
-			}
-		}
-
-		String fontStyle = null;
-		{
-			int fontStyleStart = style.indexOf(SVG_ATTRIBUTE_fontStyle + ":");
-			if (fontStyleStart >= 0)
-			{
-				fontStyleStart = fontStyleStart + SVG_ATTRIBUTE_fontWeight.length() + 1;
-				int fontStyleEnd = style.indexOf(";", fontStyleStart);
-				if (fontStyleEnd >= 0)
-				{
-					fontStyle = style.substring(fontStyleStart, fontStyleEnd).trim();
-				}
-				else
-				{
-					fontStyle = style.substring(fontStyleStart).trim();
-				}
-			}
-		}
-
-		if (
-			fontFamily != null
-			|| fontWeight != null
-			|| fontStyle != null
-			)
-		{
-			return 
-				new FontAttributes(
-					fontFamily,
-					fontWeight,
-					fontStyle
-					);
-		}
-
-		return null;
+		return fontFamily;
 	}
 
 
@@ -361,30 +263,5 @@ public abstract class SvgFontProcessor
 	/**
 	 * 
 	 */
-	public abstract String getFontFamily(String fontFamily, boolean isBold, boolean isItalic, Locale locale);
+	public abstract String getFontFamily(String fontFamily, Locale locale);
 }
-
-
-class FontAttributes
-{
-	protected String fontFamily;
-	protected String fontWeight;
-	protected String fontStyle;
-	
-	protected FontAttributes()
-	{
-	}
-	
-	protected FontAttributes(
-		String fontFamily,
-		String fontWeight,
-		String fontStyle
-		)
-	{
-		this.fontFamily = fontFamily;
-		this.fontWeight = fontWeight;
-		this.fontStyle = fontStyle;
-	}
-}
-
-

@@ -88,7 +88,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	 */
 	protected HtmlResourceHandler resourceHandler;
 	
-	protected Map<String, HtmlFont> fontsToProcess;
+	protected Map<String, HtmlFontFamily> fontsToProcess;
 	
 	/**
 	 * 
@@ -214,12 +214,12 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH, fileExtensionStart));
 	}
 	
-	
-	protected String getFontFamily(
+	/**
+	 * 
+	 */
+	public String getFontFamily(
 		boolean ignoreCase,
 		String fontFamily,
-		boolean isBold,
-		boolean isItalic,
 		Locale locale
 		)
 	{
@@ -246,18 +246,18 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 					: getExporterOutput().getResourceHandler();
 				if (fontHandler != null && resourceHandler != null)
 				{
-					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
+					HtmlFontFamily htmlFontFamily = HtmlFontFamily.getInstance(locale, fontInfo);
 					
-					if (htmlFont != null)
+					if (htmlFontFamily != null)
 					{
-						if (!fontsToProcess.containsKey(htmlFont.getId()))
+						if (!fontsToProcess.containsKey(htmlFontFamily.getId()))
 						{
-							fontsToProcess.put(htmlFont.getId(), htmlFont);
+							fontsToProcess.put(htmlFontFamily.getId(), htmlFontFamily);
 
-							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
+							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFontFamily);
 						}
 						
-						fontFamily = htmlFont.getShortId();
+						fontFamily = htmlFontFamily.getShortId();
 					}
 				}
 			}

@@ -24,6 +24,7 @@
 package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +35,11 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.HtmlFont;
+import net.sf.jasperreports.engine.export.HtmlFontFamily;
 import net.sf.jasperreports.engine.export.HtmlFontUtil;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
+import net.sf.jasperreports.engine.fonts.FontFace;
+import net.sf.jasperreports.engine.fonts.FontFamily;
 
 
 /**
@@ -55,9 +59,9 @@ public class FontWebResourceHandler implements WebResourceHandler
 		String fontName = request.getParameter(REQUEST_PARAMETER_FONT_NAME);
 		if (fontName != null) 
 		{
-			HtmlFont htmlFont = HtmlFont.getInstance(jasperReportsContext, fontName);
+			HtmlFontFamily htmlFontFamily = HtmlFontFamily.getInstance(jasperReportsContext, fontName);
 			
-			if (htmlFont != null)
+			if (htmlFontFamily != null)
 			{
 				response.setContentType("text/css");
 
@@ -65,7 +69,7 @@ public class FontWebResourceHandler implements WebResourceHandler
 				{
 					String basePath = getResourceBasePath(jasperReportsContext, request);
 					
-					byte[] resourceData = processFont(jasperReportsContext, basePath, htmlFont);
+					byte[] resourceData = processFont(jasperReportsContext, basePath, htmlFontFamily);
 					response.getOutputStream().write(resourceData);//FIXMEFONT close this properly
 				}
 				catch (IOException e) 
@@ -81,7 +85,7 @@ public class FontWebResourceHandler implements WebResourceHandler
 
 
 	/**
-	 * @deprecated Replaced by {@link #processFont(JasperReportsContext, String, HtmlFont)}.
+	 * @deprecated Replaced by {@link #processFont(JasperReportsContext, String, HtmlFontFamily)}.
 	 */
 	protected byte[] processFont(String basePath, HtmlFont htmlFont)
 	{
@@ -89,13 +93,32 @@ public class FontWebResourceHandler implements WebResourceHandler
 	}
 	
 
+	/**
+	 * @deprecated Replaced by {@link #processFont(JasperReportsContext, String, HtmlFontFamily)}.
+	 */
 	protected byte[] processFont(JasperReportsContext jasperReportsContext, String basePath, HtmlFont htmlFont)
 	{
-		FontHtmlResourceHandler resourceHandler = new FontHtmlResourceHandler(basePath, htmlFont);
+		return processFont(jasperReportsContext, basePath, htmlFont.getFamily());
+	}
+	
+
+	/**
+	 * 
+	 */
+	protected byte[] processFont(JasperReportsContext jasperReportsContext, String basePath, HtmlFontFamily htmlFontFamily)
+	{
+		FontFamilyHtmlResourceHandler resourceHandler = new FontFamilyHtmlResourceHandler(basePath, htmlFontFamily);
 		
-		HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
+		String fontCss = HtmlFontUtil.getInstance(jasperReportsContext).getHtmlFont(resourceHandler, htmlFontFamily);
 		
-		return resourceHandler.getFontCss();
+		try
+		{
+			return fontCss.getBytes("UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
 
@@ -112,6 +135,75 @@ public class FontWebResourceHandler implements WebResourceHandler
 
 /**
  * 
+ */
+class FontFamilyHtmlResourceHandler implements HtmlResourceHandler
+{
+	private String basePath;
+	private Map<String, String> fontFaceIds;
+	
+	protected FontFamilyHtmlResourceHandler(String basePath, HtmlFontFamily htmlFontFamily)
+	{
+		this.basePath = basePath;
+		fontFaceIds = new HashMap<String, String>();
+		
+		FontFamily fontFamily = htmlFontFamily.getFontFamily();
+		
+		FontFace fontFace = fontFamily.getNormalFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, false);
+			addHtmlFont(htmlFont);
+		}
+		
+		fontFace = fontFamily.getBoldFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, false);
+			addHtmlFont(htmlFont);
+		}
+		
+		fontFace = fontFamily.getItalicFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, true);
+			addHtmlFont(htmlFont);
+		}
+		
+		fontFace = fontFamily.getBoldItalicFace();
+		if (fontFace != null)
+		{
+			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, true);
+			addHtmlFont(htmlFont);
+		}
+	}
+
+	protected void addHtmlFont(HtmlFont htmlFont)
+	{
+		fontFaceIds.put(htmlFont.getId() + ".ttf", htmlFont.getTtf());
+		fontFaceIds.put(htmlFont.getId() + ".eot", htmlFont.getEot());
+		fontFaceIds.put(htmlFont.getId() + ".woff", htmlFont.getWoff());
+		fontFaceIds.put(htmlFont.getId() + ".svg", htmlFont.getSvg());
+	}
+
+	@Override
+	public String getResourcePath(String id) 
+	{
+		if (fontFaceIds.containsKey(id))
+		{
+			return basePath + fontFaceIds.get(id);
+		}
+		return basePath + id;
+	}
+
+	@Override
+	public void handleResource(String id, byte[] data) 
+	{
+	}
+}
+
+
+/**
+ * @deprecated Replaced by {@link #FontFamilyHtmlResourceHandler}.
  */
 class FontHtmlResourceHandler implements HtmlResourceHandler
 {
