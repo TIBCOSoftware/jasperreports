@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.engine.util.CharPredicateCache.Result;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
 
 
@@ -358,8 +359,7 @@ public class JRStyledTextUtil
 			{
 				Face face = fontIt.next();
 				
-				if (!face.family.includesCharacter(codePoint)
-						|| !face.fontInfo.getFontFace().getFont().canDisplay(codePoint))
+				if (!face.supports(codePoint))
 				{
 					fontIt.remove();
 				}
@@ -573,11 +573,44 @@ public class JRStyledTextUtil
 	{
 		final Family family;
 		final FontInfo fontInfo;
+		//TODO share caches across fills/exports
+		final CharPredicateCache cache;
 		
 		public Face(Family family, FontFace fontFace, int style)
 		{
 			this.family = family;
 			this.fontInfo = new FontInfo(family.fontFamily, fontFace, style);
+			this.cache = new CharPredicateCache();
+		}
+		
+		public boolean supports(int code)
+		{
+			Result cacheResult = cache.getCached(code);
+			boolean supports;
+			switch (cacheResult)
+			{
+			case TRUE:
+				supports = true;
+				break;
+			case FALSE:
+				supports = false;
+				break;
+			case NOT_FOUND:
+				supports = supported(code);
+				cache.set(code, supports);
+				break;
+			case NOT_CACHEABLE:
+			default:
+				supports = supported(code);
+				break;
+			}
+			return supports;			
+		}
+		
+		protected boolean supported(int code)
+		{
+			return family.includesCharacter(code)
+					&& fontInfo.getFontFace().getFont().canDisplay(code);			
 		}
 	}
 }
