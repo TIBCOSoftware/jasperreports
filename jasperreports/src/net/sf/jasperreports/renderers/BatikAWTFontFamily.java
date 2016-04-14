@@ -60,6 +60,7 @@ public class BatikAWTFontFamily extends AWTFontFamily
 
 		Font awtFont = 
 			FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(
+				true,
 				fontFace.getFamilyName(),
 				(TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT)) ? Font.BOLD : Font.PLAIN)
 				| (TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE)) ? Font.ITALIC : Font.PLAIN),

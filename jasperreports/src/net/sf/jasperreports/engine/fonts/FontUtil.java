@@ -381,15 +381,25 @@ public final class FontUtil
 
 
 	/**
-	 *
+	 * Calls {@link #getAwtFontFromBundles(boolean, String, int, float, Locale, boolean)} with the ignoreCase parameter set to false.
 	 */
 	public Font getAwtFontFromBundles(String name, int style, float size, Locale locale, boolean ignoreMissingFont)
 	{
+		return getAwtFontFromBundles(false, name, style, size, locale, ignoreMissingFont);
+	}
+
+
+	/**
+	 *
+	 */
+	public Font getAwtFontFromBundles(boolean ignoreCase, String name, int style, float size, Locale locale, boolean ignoreMissingFont)
+	{
 		Font awtFont = null;
-		FontInfo fontInfo = getFontInfo(name, locale);
+		FontInfo fontInfo = ignoreCase ? getFontInfoIgnoreCase(name, locale) : getFontInfo(name, locale);
 		
 		if (fontInfo != null)
 		{
+			@SuppressWarnings("unused")
 			int faceStyle = Font.PLAIN;
 			FontFamily family = fontInfo.getFontFamily();
 			FontFace face = fontInfo.getFontFace();
