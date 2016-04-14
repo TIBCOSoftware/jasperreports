@@ -55,6 +55,7 @@ import net.sf.jasperreports.renderers.BatikUserAgent;
  */
 public abstract class SvgFontProcessor
 {
+	public static final String SVG_ELEMENT_svg = "svg";
 	public static final String SVG_ELEMENT_g = "g";
 	public static final String SVG_ELEMENT_text = "text";
 	public static final String SVG_ATTRIBUTE_style = "style";
@@ -133,7 +134,8 @@ public abstract class SvgFontProcessor
 			if (Node.ELEMENT_NODE == child.getNodeType())
 			{
 				if (
-					SVG_ELEMENT_g.equals(child.getNodeName())
+					SVG_ELEMENT_svg.equals(child.getNodeName())
+					|| SVG_ELEMENT_g.equals(child.getNodeName())
 					|| SVG_ELEMENT_text.equals(child.getNodeName())
 					)
 				{
