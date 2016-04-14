@@ -18,7 +18,7 @@
 		<mkdir dir="./build/classes"/>
 		<ivy:configure file="./ivysettings.xml" override="true"/>
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
-		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6" 
+		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7" 
 				encoding="ISO-8859-1" includeantruntime="false" excludes="**/package-info.java">
 			<classpath refid="project-classpath"/>
 			<src path="./src"/>
