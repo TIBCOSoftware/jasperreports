@@ -49,10 +49,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.tools.codec.Base64Encoder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -399,51 +395,42 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 
 		ReportContext reportContext = getReportContext();
-		if (fontsToProcess != null && fontsToProcess.size() > 0)// when no fontHandler and/or resourceHandler, fonts are not processed 
+		if (fontsToProcess != null && fontsToProcess.size() > 0)// when no resourceHandler, fonts are not processed 
 		{
-			@SuppressWarnings("deprecation")
-			HtmlResourceHandler fontHandler = 
-				getExporterOutput().getFontHandler() == null
-				? getFontHandler()
-				: getExporterOutput().getFontHandler();
-			ObjectMapper mapper = null;
-			ArrayNode webFonts = null;
-
-			if (reportContext != null) {
-				mapper = new ObjectMapper();
-				webFonts = mapper.createArrayNode();
-				reportContext.setParameterValue("net.sf.jasperreports.html.webfonts", webFonts);	// FIXME: use constant
-			}
-
-			for (HtmlFontFamily htmlFontFamily : fontsToProcess.values())
+			if (reportContext == null) 
 			{
-				if (reportContext != null) {
-					ObjectNode objNode = mapper.createObjectNode();
-					objNode.put("id", htmlFontFamily.getId());
-					objNode.put("path", fontHandler.getResourcePath(htmlFontFamily.getId()));
-					webFonts.add(objNode);
-				} else {
-					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + fontHandler.getResourcePath(htmlFontFamily.getId()) + "\">\n");
+				@SuppressWarnings("deprecation")
+				HtmlResourceHandler resourceHandler = 
+					getExporterOutput().getResourceHandler() == null
+					? getResourceHandler()
+					: getExporterOutput().getResourceHandler();
+
+				for (HtmlFontFamily htmlFontFamily : fontsToProcess.values())
+				{
+					writer.write("<link class=\"jrWebFont\" rel=\"stylesheet\" href=\"" + resourceHandler.getResourcePath(htmlFontFamily.getId()) + "\">\n");
 				}
+				
+				// generate script tag on static export only
+				writer.write("<!--[if IE]>\n");
+				writer.write("<script>\n");
+				writer.write("var links = document.querySelectorAll('link.jrWebFont');\n");
+				writer.write("setTimeout(function(){ if (links) { for (var i = 0; i < links.length; i++) { links.item(i).href = links.item(i).href; } } }, 0);\n");
+				writer.write("</script>\n");
+				writer.write("<![endif]-->\n");
+			}
+			else
+			{
+				reportContext.setParameterValue(JsonExporter.REPORT_CONTEXT_PARAMETER_WEB_FONTS, fontsToProcess);
 			}
 		}
 
 		// place hyperlinksData on reportContext
-		if (hyperlinksData.size() > 0) {
+		if (hyperlinksData.size() > 0) 
+		{
+			//for sure reportContext is not null, because otherwise there would be no item in the hyperilnkData
 			reportContext.setParameterValue("net.sf.jasperreports.html.hyperlinks", hyperlinksData);
 		}
 		
-//		if (!isOutputResourcesToDir)
-		if (reportContext == null) // generate script tag on static export only
-		{
-			writer.write("<!--[if IE]>\n");
-			writer.write("<script>\n");
-			writer.write("var links = document.querySelectorAll('link.jrWebFont');\n");
-			writer.write("setTimeout(function(){ if (links) { for (var i = 0; i < links.length; i++) { links.item(i).href = links.item(i).href; } } }, 0);\n");
-			writer.write("</script>\n");
-			writer.write("<![endif]-->\n");
-		}
-
 		if (htmlFooter == null)
 		{
 			writer.write("</td><td width=\"50%\">&nbsp;</td></tr>\n");

@@ -29,20 +29,10 @@ import net.sf.jasperreports.engine.export.HtmlResourceHandler;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface HtmlExporterOutput extends WriterExporterOutput
+public interface JsonExporterOutput extends WriterExporterOutput
 {
 	/**
 	 * 
 	 */
-	public HtmlResourceHandler getImageHandler(); 
-
-	/**
-	 * @deprecated Replaced by {@link #getResourceHandler()} and {@link JsonExporterOutput#getFontHandler()}.
-	 */
 	public HtmlResourceHandler getFontHandler(); 
-
-	/**
-	 * 
-	 */
-	public HtmlResourceHandler getResourceHandler(); 
 }

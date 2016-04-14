@@ -44,7 +44,7 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.export.SimpleJsonExporterOutput;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
@@ -212,7 +212,7 @@ public class ReportOutputServlet extends AbstractServlet
 		exporter.setReportContext(webReportContext);
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
 
-		SimpleHtmlExporterOutput output = new SimpleHtmlExporterOutput(writer);
+		SimpleHtmlExporterOutput htmlOutput = new SimpleHtmlExporterOutput(writer);
 
 		String applicationDomain = (String) webReportContext.getParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
 		if (applicationDomain == null) {
@@ -220,10 +220,9 @@ public class ReportOutputServlet extends AbstractServlet
 		}
 
 		String resourcesPath = applicationDomain + webUtil.getResourcesPath() + "?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
-		output.setImageHandler(new WebHtmlResourceHandler(resourcesPath + "&image={0}"));
-		output.setResourceHandler(new WebHtmlResourceHandler(resourcesPath + "/{0}"));
-		output.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
-		exporter.setExporterOutput(output);
+		htmlOutput.setImageHandler(new WebHtmlResourceHandler(resourcesPath + "&image={0}"));
+		htmlOutput.setResourceHandler(new WebHtmlResourceHandler(resourcesPath + "/{0}"));
+		exporter.setExporterOutput(htmlOutput);
 
 		exporterConfig.setHtmlHeader(getHeader(request, webReportContext, hasPages, pageStatus));
 		exporterConfig.setBetweenPagesHtml(getBetweenPages(request, webReportContext));
@@ -245,7 +244,9 @@ public class ReportOutputServlet extends AbstractServlet
 
 			jsonExporter.setReportContext(webReportContext);
 			jsonExporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
-			jsonExporter.setExporterOutput(new SimpleWriterExporterOutput(sw));
+			SimpleJsonExporterOutput jsonOutput = new SimpleJsonExporterOutput(sw);
+			jsonOutput.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
+			jsonExporter.setExporterOutput(jsonOutput);
 			jsonExporter.exportReport();
 
 			String serializedJson = sw.getBuffer().toString();

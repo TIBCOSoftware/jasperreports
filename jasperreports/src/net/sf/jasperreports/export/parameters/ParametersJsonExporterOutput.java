@@ -33,27 +33,24 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.FileHtmlResourceHandler;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
-import net.sf.jasperreports.engine.export.MapHtmlResourceHandler;
-import net.sf.jasperreports.export.HtmlExporterOutput;
-import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
+import net.sf.jasperreports.export.JsonExporterOutput;
 
 
 /**
  * @deprecated To be removed.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput implements HtmlExporterOutput
+public class ParametersJsonExporterOutput extends ParametersWriterExporterOutput implements JsonExporterOutput
 {
 	/**
 	 * 
 	 */
-	private HtmlResourceHandler imageHandler;
-	private HtmlResourceHandler resourceHandler;
+	private HtmlResourceHandler fontHandler;
 	
 	/**
 	 * 
 	 */
-	public ParametersHtmlExporterOutput(
+	public ParametersJsonExporterOutput(
 		JasperReportsContext jasperReportsContext,
 		Map<net.sf.jasperreports.engine.JRExporterParameter, Object> parameters,
 		JasperPrint jasperPrint
@@ -65,35 +62,6 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 			jasperPrint
 			);
 		
-		Boolean isOutputImagesToDirParameter = (Boolean)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR);
-		String imagesUri = (String)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_URI);
-
-		if (imageHandler == null)
-		{
-			if (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
-			{
-				File imagesDir = (File)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_DIR);
-				if (imagesDir == null)
-				{
-					String imagesDirName = (String)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_DIR_NAME);
-					if (imagesDirName != null)
-					{
-						imagesDir = new File(imagesDirName);
-					}
-				}
-				
-				if (imagesDir != null)
-				{
-					imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
-				}
-			}
-
-			if (imageHandler == null && imagesUri != null)
-			{
-				imageHandler = new WebHtmlResourceHandler(imagesUri + "{0}");
-			}
-		}
-
 		StringBuffer sb = (StringBuffer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb == null)
 		{
@@ -120,51 +88,19 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 						}
 					}
 
-					if (
-						imageHandler == null
-						&& (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
-						)
-					{
-						File imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-						imageHandler = new FileHtmlResourceHandler(imagesDir, imagesUri == null ? imagesDir.getName() + "/{0}" : imagesUri + "{0}");
-					}
-
-					if (resourceHandler == null)
+					if (fontHandler == null)
 					{
 						File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-						resourceHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
+						fontHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
 					}
 				}
 			}
 		}
-		
-		@SuppressWarnings("unchecked")
-		Map<String,byte[]> imageNameToImageDataMap = 
-			(Map<String,byte[]>) parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_MAP);
-		if (imageNameToImageDataMap != null)
-		{
-			imageHandler = new MapHtmlResourceHandler(imageHandler, imageNameToImageDataMap);
-		}
 	}
 	
 	@Override
-	public HtmlResourceHandler getImageHandler() 
-	{
-		return imageHandler;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getResourceHandler()}.
-	 */
-	@Override
 	public HtmlResourceHandler getFontHandler() 
 	{
-		return getResourceHandler();
-	}
-
-	@Override
-	public HtmlResourceHandler getResourceHandler() 
-	{
-		return resourceHandler;
+		return fontHandler;
 	}
 }

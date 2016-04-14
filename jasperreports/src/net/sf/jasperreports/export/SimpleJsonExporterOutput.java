@@ -34,23 +34,18 @@ import net.sf.jasperreports.engine.export.HtmlResourceHandler;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput implements HtmlExporterOutput
+public class SimpleJsonExporterOutput extends SimpleWriterExporterOutput implements JsonExporterOutput
 {
 	/**
 	 * 
 	 */
-	private HtmlResourceHandler imageHandler;
-	/**
-	 * @deprecated To be removed.
-	 */
 	private HtmlResourceHandler fontHandler;
-	private HtmlResourceHandler resourceHandler;
 
 	
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(StringBuffer sbuffer)
+	public SimpleJsonExporterOutput(StringBuffer sbuffer)
 	{
 		super(sbuffer);
 	}
@@ -59,7 +54,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(StringBuilder sbuilder)
+	public SimpleJsonExporterOutput(StringBuilder sbuilder)
 	{
 		super(sbuilder);
 	}
@@ -68,7 +63,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(Writer writer)
+	public SimpleJsonExporterOutput(Writer writer)
 	{
 		super(writer);
 	}
@@ -77,7 +72,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(OutputStream outputStream)
+	public SimpleJsonExporterOutput(OutputStream outputStream)
 	{
 		super(outputStream);
 	}
@@ -86,7 +81,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(OutputStream outputStream, String encoding)
+	public SimpleJsonExporterOutput(OutputStream outputStream, String encoding)
 	{
 		super(outputStream, encoding);
 	}
@@ -95,7 +90,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(File file)
+	public SimpleJsonExporterOutput(File file)
 	{
 		super(file);
 		
@@ -106,7 +101,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(File file, String encoding)
+	public SimpleJsonExporterOutput(File file, String encoding)
 	{
 		super(file, encoding);
 		
@@ -117,7 +112,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(String fileName)
+	public SimpleJsonExporterOutput(String fileName)
 	{
 		super(fileName);
 		
@@ -128,7 +123,7 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	/**
 	 * 
 	 */
-	public SimpleHtmlExporterOutput(String fileName, String encoding)
+	public SimpleJsonExporterOutput(String fileName, String encoding)
 	{
 		super(fileName, encoding);
 		
@@ -136,48 +131,17 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	}
 	
 	@Override
-	public HtmlResourceHandler getImageHandler() 
-	{
-		return imageHandler;
-	}
-
-	/**
-	 * 
-	 */
-	public void setImageHandler(HtmlResourceHandler imageHandler)
-	{
-		this.imageHandler = imageHandler;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getResourceHandler()} and {@link JsonExporterOutput#getFontHandler()}.
-	 */
-	@Override
 	public HtmlResourceHandler getFontHandler() 
 	{
 		return fontHandler;
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setResourceHandler(HtmlResourceHandler)}.
+	 * 
 	 */
 	public void setFontHandler(HtmlResourceHandler fontHandler)
 	{
 		this.fontHandler = fontHandler;
-	}
-	
-	@Override
-	public HtmlResourceHandler getResourceHandler() 
-	{
-		return resourceHandler;
-	}
-
-	/**
-	 * 
-	 */
-	public void setResourceHandler(HtmlResourceHandler resourceHandler)
-	{
-		this.resourceHandler = resourceHandler;
 	}
 	
 	/**
@@ -187,8 +151,6 @@ public class SimpleHtmlExporterOutput extends SimpleWriterExporterOutput impleme
 	{
 		File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
 		String pathPattern = resourcesDir.getName() + "/{0}";
-		resourceHandler = new FileHtmlResourceHandler(resourcesDir, pathPattern);
-		imageHandler = resourceHandler;
-		fontHandler = resourceHandler;
+		fontHandler = new FileHtmlResourceHandler(resourcesDir, pathPattern);
 	}
 }

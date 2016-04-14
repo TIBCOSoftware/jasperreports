@@ -35,8 +35,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleJsonExporterOutput;
 import net.sf.jasperreports.export.SimpleJsonReportConfiguration;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.WebUtil;
@@ -142,7 +142,7 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 		
 		exporter.setReportContext(webReportContext);
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
-		exporter.setExporterOutput(new SimpleWriterExporterOutput(writer));
+		exporter.setExporterOutput(new SimpleJsonExporterOutput(writer));
 		
 		configuration.setHyperlinkProducerFactory( 
 			ReportExecutionHyperlinkProducerFactory.getInstance(getJasperReportsContext(), request)

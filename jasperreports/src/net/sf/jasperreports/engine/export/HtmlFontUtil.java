@@ -70,14 +70,14 @@ public class HtmlFontUtil
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #handleHtmlFont(HtmlResourceHandler, HtmlFontFamily)}.
+	 * @deprecated Replaced by {@link #handleHtmlFont(HtmlResourceHandler, HtmlResourceHandler, HtmlResourceHandler, HtmlFontFamily)}.
 	 */
 	public void handleHtmlFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
 	{
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("@charset \"UTF-8\";\n");
-		sb.append(getHtmlFont(resourceHandler, htmlFont));
+		sb.append(getHtmlFont(resourceHandler, resourceHandler, htmlFont));
 		
 		if (resourceHandler != null)
 		{
@@ -96,7 +96,11 @@ public class HtmlFontUtil
 	/**
 	 *
 	 */
-	private String getHtmlFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
+	private String getHtmlFont(
+		HtmlResourceHandler fontPathProvider,
+		HtmlResourceHandler fontResourceSaver,
+		HtmlFont htmlFont
+		)
 	{
 		StringBuilder sb = new StringBuilder();
 
@@ -107,11 +111,18 @@ public class HtmlFontUtil
 			if (htmlFont.getEot() != null)
 			{
 				String eotId = htmlFont.getId() + ".eot";
-				String eotFileName = resourceHandler.getResourcePath(eotId);
+				String eotFileName = eotId;
+				if (fontPathProvider != null)
+				{
+					eotFileName = fontPathProvider.getResourcePath(eotId);
+				}
+				if (fontResourceSaver != null)
+				{
+					fontResourceSaver.handleResource(eotId, repositoryUtil.getBytesFromLocation(htmlFont.getEot()));
+				}
 				sb.append("\tsrc: url('" + eotFileName + "');\n");
 				sb.append("\tsrc: url('" + eotFileName + "?#iefix') format('embedded-opentype');\n");
 				//sbuffer.append("\tsrc: url('" + eotFileName + "?#iefix') format('eot');\n");
-				resourceHandler.handleResource(eotId, repositoryUtil.getBytesFromLocation(htmlFont.getEot()));
 			}
 			if (
 				htmlFont.getTtf() != null
@@ -123,23 +134,44 @@ public class HtmlFontUtil
 				if (htmlFont.getWoff() != null)
 				{
 					String woffId = htmlFont.getId() + ".woff";
-					String woffFileName = resourceHandler.getResourcePath(woffId);
+					String woffFileName = woffId;
+					if (fontPathProvider != null)
+					{
+						woffFileName = fontPathProvider.getResourcePath(woffId);
+					}
+					if (fontResourceSaver != null)
+					{
+						fontResourceSaver.handleResource(woffId, repositoryUtil.getBytesFromLocation(htmlFont.getWoff()));
+					}
 					sb.append(",\n\t\turl('" + woffFileName + "') format('woff')"); 
-					resourceHandler.handleResource(woffId, repositoryUtil.getBytesFromLocation(htmlFont.getWoff()));
 				}
 				if (htmlFont.getTtf() != null)
 				{
 					String ttfId = htmlFont.getId() + ".ttf";
-					String ttfFileName = resourceHandler.getResourcePath(ttfId);
+					String ttfFileName = ttfId;
+					if (fontPathProvider != null)
+					{
+						ttfFileName = fontPathProvider.getResourcePath(ttfId);
+					}
+					if (fontResourceSaver != null)
+					{
+						fontResourceSaver.handleResource(ttfId, repositoryUtil.getBytesFromLocation(htmlFont.getTtf()));
+					}
 					sb.append(",\n\t\turl('" + ttfFileName + "') format('truetype')"); 
-					resourceHandler.handleResource(ttfId, repositoryUtil.getBytesFromLocation(htmlFont.getTtf()));
 				}
 				if (htmlFont.getSvg() != null)
 				{
 					String svgId = htmlFont.getId() + ".svg";
-					String svgFileName = resourceHandler.getResourcePath(svgId);
+					String svgFileName = svgId;
+					if (fontPathProvider != null)
+					{
+						svgFileName = fontPathProvider.getResourcePath(svgId);
+					}
+					if (fontResourceSaver != null)
+					{
+						fontResourceSaver.handleResource(svgId, repositoryUtil.getBytesFromLocation(htmlFont.getSvg()));
+					}
 					sb.append(",\n\t\turl('" + svgFileName + "') format('svg')");
-					resourceHandler.handleResource(svgId, repositoryUtil.getBytesFromLocation(htmlFont.getSvg()));
 				}
 				sb.append(";\n");
 			}
@@ -159,15 +191,20 @@ public class HtmlFontUtil
 	/**
 	 * 
 	 */
-	public void handleHtmlFont(HtmlResourceHandler resourceHandler, HtmlFontFamily htmlFontFamily)
+	public void handleHtmlFont(
+		HtmlResourceHandler cssResourceSaver,
+		HtmlResourceHandler fontPathProvider,
+		HtmlResourceHandler fontResourceSaver,
+		HtmlFontFamily htmlFontFamily
+		)
 	{
-		String fontCss = getHtmlFont(resourceHandler, htmlFontFamily);
-
-		if (resourceHandler != null)
+		if (cssResourceSaver != null)
 		{
+			String fontCss = getHtmlFont(fontPathProvider, fontResourceSaver, htmlFontFamily);
+
 			try
 			{
-				resourceHandler.handleResource(htmlFontFamily.getId(), fontCss.getBytes("UTF-8"));
+				cssResourceSaver.handleResource(htmlFontFamily.getId(), fontCss.getBytes("UTF-8"));
 			}
 			catch (UnsupportedEncodingException e)
 			{
@@ -180,7 +217,11 @@ public class HtmlFontUtil
 	/**
 	 * 
 	 */
-	public String getHtmlFont(HtmlResourceHandler resourceHandler, HtmlFontFamily htmlFontFamily)
+	public String getHtmlFont(
+		HtmlResourceHandler fontPathProvider,
+		HtmlResourceHandler fontResourceSaver,
+		HtmlFontFamily htmlFontFamily
+		)
 	{
 		StringBuilder sb = new StringBuilder();
 
@@ -192,7 +233,7 @@ public class HtmlFontUtil
 		if (fontFace != null)
 		{
 			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, false);
-			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append(getHtmlFont(fontPathProvider, fontResourceSaver, htmlFont));
 			sb.append("\n\n");
 		}
 		
@@ -200,7 +241,7 @@ public class HtmlFontUtil
 		if (fontFace != null)
 		{
 			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, false);
-			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append(getHtmlFont(fontPathProvider, fontResourceSaver, htmlFont));
 			sb.append("\n\n");
 		}
 		
@@ -208,7 +249,7 @@ public class HtmlFontUtil
 		if (fontFace != null)
 		{
 			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, true);
-			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append(getHtmlFont(fontPathProvider, fontResourceSaver, htmlFont));
 			sb.append("\n\n");
 		}
 		
@@ -216,7 +257,7 @@ public class HtmlFontUtil
 		if (fontFace != null)
 		{
 			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, true);
-			sb.append(getHtmlFont(resourceHandler, htmlFont));
+			sb.append(getHtmlFont(fontPathProvider, fontResourceSaver, htmlFont));
 			sb.append("\n\n");
 		}
 		

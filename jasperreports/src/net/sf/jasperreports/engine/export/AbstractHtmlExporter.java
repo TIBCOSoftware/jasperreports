@@ -236,15 +236,11 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			if (exportFont == null)
 			{
 				HtmlExporterOutput output = getExporterOutput();
-				HtmlResourceHandler fontHandler = 
-					output.getFontHandler() == null
-					? getFontHandler()
-					: output.getFontHandler();
 				HtmlResourceHandler resourceHandler = 
-					getExporterOutput().getResourceHandler() == null
+					output.getResourceHandler() == null
 					? getResourceHandler()
-					: getExporterOutput().getResourceHandler();
-				if (fontHandler != null && resourceHandler != null)
+					: output.getResourceHandler();
+				if (resourceHandler != null)
 				{
 					HtmlFontFamily htmlFontFamily = HtmlFontFamily.getInstance(locale, fontInfo);
 					
@@ -254,7 +250,17 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 						{
 							fontsToProcess.put(htmlFontFamily.getId(), htmlFontFamily);
 
-							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFontFamily);
+
+							if (getReportContext() == null)
+							{
+								// create font resources only in static HTML export
+								HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(
+									resourceHandler, 
+									null,
+									resourceHandler,
+									htmlFontFamily
+									);
+							}
 						}
 						
 						fontFamily = htmlFontFamily.getShortId();

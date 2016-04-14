@@ -27,9 +27,19 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -50,28 +60,20 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
+import net.sf.jasperreports.export.JsonExporterOutput;
 import net.sf.jasperreports.export.JsonReportConfiguration;
-import net.sf.jasperreports.export.WriterExporterOutput;
 import net.sf.jasperreports.web.util.JacksonUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.io.JsonStringEncoder;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, JsonExporterConfiguration, WriterExporterOutput, JsonExporterContext>
+public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, JsonExporterConfiguration, JsonExporterOutput, JsonExporterContext>
 {
-	
 	private static final Log log = LogFactory.getLog(JsonExporter.class);
 	
+	public static final String REPORT_CONTEXT_PARAMETER_WEB_FONTS = "net.sf.jasperreports.html.webfonts";
+
 	public static final String JSON_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "json";
 	
 	protected static final String JSON_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.json.";
@@ -119,7 +121,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		if (exporterOutput == null)
 		{
 			exporterOutput = 
-				new net.sf.jasperreports.export.parameters.ParametersWriterExporterOutput(
+				new net.sf.jasperreports.export.parameters.ParametersJsonExporterOutput(
 					getJasperReportsContext(),
 					getParameters(),
 					getCurrentJasperPrint()
@@ -373,10 +375,29 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 
 	protected void exportWebFonts() throws IOException
 	{
+		HtmlResourceHandler fontHandler = getExporterOutput().getFontHandler();
 		ReportContext reportContext = getReportContext();
-		String webFontsParameter = "net.sf.jasperreports.html.webfonts";
-		if (reportContext != null && reportContext.containsParameter(webFontsParameter)) {
-			ArrayNode webFonts = (ArrayNode) reportContext.getParameterValue(webFontsParameter);
+
+		if (
+			fontHandler != null
+			&& reportContext != null 
+			&& reportContext.containsParameter(REPORT_CONTEXT_PARAMETER_WEB_FONTS)
+			) 
+		{
+			Map<String, HtmlFontFamily> fontsToProcess = 
+				(Map<String, HtmlFontFamily>)reportContext.getParameterValue(REPORT_CONTEXT_PARAMETER_WEB_FONTS);
+
+			ObjectMapper mapper = new ObjectMapper();
+			ArrayNode webFonts = mapper.createArrayNode();
+
+			for (HtmlFontFamily htmlFontFamily : fontsToProcess.values())
+			{
+				ObjectNode objNode = mapper.createObjectNode();
+				objNode.put("id", htmlFontFamily.getId());
+				objNode.put("path", fontHandler.getResourcePath(htmlFontFamily.getId()));
+				webFonts.add(objNode);
+			}
+			
 			if (gotFirstJsonFragment)
 			{
 				writer.write(",\n");
@@ -554,6 +575,27 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 	 */
 	public void addHyperlinkData(HyperlinkData hyperlinkData) {
 		this.hyperlinksData.add(hyperlinkData);
+	}
+
+	/**
+	 *
+	 */
+	public void addFontFamily(HtmlFontFamily htmlFontFamily) 
+	{
+		ReportContext reportContext = getReportContext();
+		if (reportContext != null)
+		{
+			Map<String, HtmlFontFamily> fontsToProcess = 
+				(Map<String, HtmlFontFamily>)reportContext.getParameterValue(REPORT_CONTEXT_PARAMETER_WEB_FONTS);
+			
+			if (fontsToProcess == null)
+			{
+				fontsToProcess = new HashMap<String, HtmlFontFamily>();
+				reportContext.setParameterValue(REPORT_CONTEXT_PARAMETER_WEB_FONTS, fontsToProcess);
+			}
+			
+			fontsToProcess.put(htmlFontFamily.getId(), htmlFontFamily);
+		}
 	}
 
 	
