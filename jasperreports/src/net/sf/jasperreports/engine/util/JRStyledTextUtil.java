@@ -30,16 +30,12 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.ibm.icu.lang.UScript;
 
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -167,36 +163,71 @@ public class JRStyledTextUtil
 		//TODO lucianc trace logging
 		String text = styledText.getText();
 		List<Run> runs = styledText.getRuns();
-		List<Run> newRuns = new ArrayList<Run>(runs.size() + 2);
-		boolean dirty = false;
+		List<Run> newRuns = null;
 		
 		if (runs.size() == 1)
 		{
-			//avoid styledText.getAttributedString() because it's slow
+			//treating separately to avoid styledText.getAttributedString() because it's slow
 			Map<Attribute, Object> attributes = runs.get(0).attributes;
-			dirty = matchFonts(text, locale, 0, styledText.length(), attributes, newRuns);
+			FamilyFonts families = getFamilyFonts(attributes, locale);
+			if (families.needsFontMatching())
+			{
+				newRuns = new ArrayList<Run>(runs.size() + 2);
+				matchFonts(text, 0, styledText.length(), attributes, families, newRuns);
+			}
 		}
 		else
 		{
-			AttributedCharacterIterator attributesIt = styledText.getAttributedString().getIterator();
-			int index = 0;
-			while (index < styledText.length())
+			//quick test to avoid styledText.getAttributedString() when not needed
+			boolean needsFontMatching = false;
+			for (Run run : runs)
 			{
-				int runEndIndex = attributesIt.getRunLimit();
-				Map<Attribute, Object> runAttributes = attributesIt.getAttributes();
-				dirty = matchFonts(text, locale, index, runEndIndex, runAttributes, newRuns);
-				
-				index = runEndIndex;
-				attributesIt.setIndex(index);
+				FamilyFonts families = getFamilyFonts(run.attributes, locale);
+				if (families.needsFontMatching())
+				{
+					needsFontMatching = true;
+					break;
+				}			
+			}
+			
+			if (needsFontMatching)
+			{
+				newRuns = new ArrayList<Run>(runs.size() + 2);
+				AttributedCharacterIterator attributesIt = styledText.getAttributedString().getIterator();
+				int index = 0;
+				while (index < styledText.length())
+				{
+					int runEndIndex = attributesIt.getRunLimit();
+					Map<Attribute, Object> runAttributes = attributesIt.getAttributes();
+					FamilyFonts familyFonts = getFamilyFonts(runAttributes, locale);
+					if (familyFonts.needsFontMatching())
+					{
+						matchFonts(text, index, runEndIndex, runAttributes, familyFonts, newRuns);
+					}
+					else
+					{
+						//a single family, copying the run
+						addRun(newRuns, runAttributes, index, runEndIndex, null);
+					}
+					
+					index = runEndIndex;
+					attributesIt.setIndex(index);
+				}
 			}
 		}
 
-		if (!dirty)
+		if (newRuns == null)
 		{
 			//no changes
 			return styledText;
 		}
 		
+		JRStyledText processedText = createProcessedStyledText(styledText, text, newRuns);
+		return processedText;
+	}
+
+	protected JRStyledText createProcessedStyledText(JRStyledText styledText, String text, List<Run> newRuns)
+	{
 		Map<Attribute,Object> globalAttributes = null;
 		JRStyledText processedText = new JRStyledText(styledText.getLocale(), text);
 		for (Run newRun : newRuns)
@@ -212,39 +243,12 @@ public class JRStyledTextUtil
 		}
 		processedText.setGlobalAttributes(globalAttributes == null ? styledText.getGlobalAttributes() 
 				: globalAttributes);
-		
 		return processedText;
 	}
 
-	protected boolean matchFonts(String text, Locale locale, 
-			int startIndex, int endIndex, Map<Attribute, Object> runAttributes, 
+	protected void matchFonts(String text, int startIndex, int endIndex, 
+			Map<Attribute, Object> attributes, FamilyFonts familyFonts, 
 			List<Run> newRuns)
-	{
-		boolean dirty = false;
-		String family = (String) runAttributes.get(TextAttribute.FAMILY);
-		FamilyFonts familyFonts = getFamilyFonts(family, locale);
-		if (familyFonts.families.size() < 2)
-		{
-			//a single family, not performing any processing
-			//TODO lucianc avoid creating new run objects unless necessary
-			addRun(newRuns, runAttributes, startIndex, endIndex, null);
-		}
-		else
-		{
-			dirty = true;
-			boolean matched = matchFonts(text, runAttributes, familyFonts, startIndex, endIndex, newRuns);
-			if (!matched)
-			{
-				//we have unmatched characters, adding a run with the original font for the entire chunk.
-				//we're relying on the JRStyledText to apply the runs in the reverse order.
-				addRun(newRuns, runAttributes, startIndex, endIndex, null);
-			}
-		}
-		return dirty;
-	}
-
-	protected boolean matchFonts(String text, Map<Attribute, Object> attributes, FamilyFonts familyFonts, 
-			int startIndex, int endIndex, List<Run> newRuns)
 	{
 		Number posture = (Number) attributes.get(TextAttribute.POSTURE);
 		boolean italic = posture != null && !TextAttribute.POSTURE_REGULAR.equals(posture);
@@ -292,7 +296,12 @@ public class JRStyledTextUtil
 		}
 		while(index < endIndex);
 		
-		return !hadUnmatched;
+		if (hadUnmatched)
+		{
+			//we have unmatched characters, adding a run with the original font for the entire chunk.
+			//we're relying on the JRStyledText to apply the runs in the reverse order.
+			addRun(newRuns, attributes, startIndex, endIndex, null);
+		}
 	}
 	
 	protected void addRun(List<Run> newRuns, Map<Attribute, Object> attributes,  
@@ -380,6 +389,12 @@ public class JRStyledTextUtil
 		return fontMatch;
 	}
 	
+	private FamilyFonts getFamilyFonts(Map<Attribute, Object> attributes, Locale locale)
+	{
+		String family = (String) attributes.get(TextAttribute.FAMILY);
+		return getFamilyFonts(family, locale);
+	}
+	
 	protected FamilyFonts getFamilyFonts(String name, Locale locale)
 	{
 		Pair<String, Locale> key = new Pair<String, Locale>(name, locale);
@@ -402,34 +417,17 @@ public class JRStyledTextUtil
 		else
 		{
 			List<FontFamily> fontFamilies = fontUtil.getFontFamilies(name, locale);
-			fonts.families = new ArrayList<Family>(fontFamilies.size());
-			fonts.normalFonts = new ArrayList<Face>(fontFamilies.size());
-			fonts.boldFonts = new ArrayList<Face>(fontFamilies.size());
-			fonts.italicFonts = new ArrayList<Face>(fontFamilies.size());
-			fonts.boldItalicFonts = new ArrayList<Face>(fontFamilies.size());
 			
+			fonts.families = new ArrayList<Family>(fontFamilies.size());
 			for (FontFamily fontFamily : fontFamilies)
 			{
 				Family family = new Family(fontFamily);
-				
 				fonts.families.add(family);
-				
-				if (fontFamily.getNormalFace() != null && fontFamily.getNormalFace().getFont() != null)
-				{
-					fonts.normalFonts.add(new Face(family, fontFamily.getNormalFace(), Font.PLAIN));
-				}
-				if (fontFamily.getBoldFace() != null && fontFamily.getBoldFace().getFont() != null)
-				{
-					fonts.boldFonts.add(new Face(family, fontFamily.getBoldFace(), Font.BOLD));
-				}
-				if (fontFamily.getItalicFace() != null && fontFamily.getItalicFace().getFont() != null)
-				{
-					fonts.italicFonts.add(new Face(family, fontFamily.getItalicFace(), Font.ITALIC));
-				}
-				if (fontFamily.getBoldItalicFace() != null && fontFamily.getBoldItalicFace().getFont() != null)
-				{
-					fonts.boldItalicFonts.add(new Face(family, fontFamily.getBoldItalicFace(), Font.BOLD | Font.ITALIC));
-				}
+			}
+			
+			if (fonts.needsFontMatching())
+			{
+				fonts.init();
 			}
 		}
 		return fonts;
@@ -442,130 +440,68 @@ public class JRStyledTextUtil
 		List<Face> boldFonts;
 		List<Face> italicFonts;
 		List<Face> boldItalicFonts;
+		
+		public boolean needsFontMatching()
+		{
+			return families.size() > 1;
+		}
+
+		public void init()
+		{
+			this.normalFonts = new ArrayList<Face>(families.size());
+			this.boldFonts = new ArrayList<Face>(families.size());
+			this.italicFonts = new ArrayList<Face>(families.size());
+			this.boldItalicFonts = new ArrayList<Face>(families.size());
+			
+			for (Family family : families)
+			{
+				family.initScripts();
+				
+				FontFamily fontFamily = family.fontFamily;
+				if (fontFamily.getNormalFace() != null && fontFamily.getNormalFace().getFont() != null)
+				{
+					normalFonts.add(new Face(family, fontFamily.getNormalFace(), Font.PLAIN));
+				}
+				if (fontFamily.getBoldFace() != null && fontFamily.getBoldFace().getFont() != null)
+				{
+					boldFonts.add(new Face(family, fontFamily.getBoldFace(), Font.BOLD));
+				}
+				if (fontFamily.getItalicFace() != null && fontFamily.getItalicFace().getFont() != null)
+				{
+					italicFonts.add(new Face(family, fontFamily.getItalicFace(), Font.ITALIC));
+				}
+				if (fontFamily.getBoldItalicFace() != null && fontFamily.getBoldItalicFace().getFont() != null)
+				{
+					boldItalicFonts.add(new Face(family, fontFamily.getBoldItalicFace(), Font.BOLD | Font.ITALIC));
+				}
+			}
+		}
 	}
 	
 	private static class Family
 	{
 		final FontFamily fontFamily;
-		Set<Integer> includedScripts;
-		Set<Integer> excludedScripts;
-		boolean excludedCommon;
-		boolean excludedInherited;
+		CharScriptsSet scriptsSet;
 		
 		public Family(FontFamily fontFamily)
 		{
 			this.fontFamily = fontFamily;
-			
-			initScripts();
 		}
 
 		private void initScripts()
 		{
-			List<String> familyIncludedScripts = fontFamily.getIncludedScripts();
-			if (familyIncludedScripts != null)
+			List<String> includedScripts = fontFamily.getIncludedScripts();
+			List<String> excludedScripts = fontFamily.getExcludedScripts();
+			if ((includedScripts != null && !includedScripts.isEmpty())
+					|| (excludedScripts != null && !excludedScripts.isEmpty()))
 			{
-				includedScripts = new HashSet<Integer>(familyIncludedScripts.size() * 4 / 3, .75f);
-				for (String script : familyIncludedScripts)
-				{
-					int scriptCode = resolveScript(script);
-					if (scriptCode != UScript.INVALID_CODE)
-					{
-						includedScripts.add(scriptCode);
-					}
-				}
-				
-				if (includedScripts.isEmpty())
-				{
-					includedScripts = null;
-				}
+				scriptsSet = new CharScriptsSet(includedScripts, excludedScripts);
 			}
-			
-			List<String> familyExcludedScripts = fontFamily.getExcludedScripts();
-			if (familyExcludedScripts != null)
-			{
-				excludedScripts = new HashSet<Integer>(familyExcludedScripts.size() * 4 / 3, .75f);
-				for (String script : familyExcludedScripts)
-				{
-					int scriptCode = resolveScript(script);
-					if (scriptCode != UScript.INVALID_CODE)
-					{
-						excludedScripts.add(scriptCode);
-					}
-				}
-				
-				if (excludedScripts.isEmpty())
-				{
-					excludedScripts = null;
-				}
-				else
-				{
-					excludedCommon = excludedScripts.contains(UScript.COMMON);
-					excludedInherited = excludedScripts.contains(UScript.INHERITED);
-				}
-			}
-		}
-		
-		private int resolveScript(String script)
-		{
-			int scriptCode = UScript.getCodeFromName(script);
-			return scriptCode;
 		}
 		
 		public boolean includesCharacter(int codePoint)
 		{
-			if (includedScripts == null && excludedScripts == null)
-			{
-				return true;
-			}
-			
-			int codeScript = UScript.getScript(codePoint);
-			if (codeScript == UScript.UNKNOWN)
-			{
-				//include by default
-				return true;
-			}
-			
-			if (codeScript == UScript.COMMON)
-			{
-				//COMMON is included unless explicitly excluded
-				return !excludedCommon;
-			}
-			
-			if (codeScript == UScript.INHERITED)
-			{
-				//INHERITED is included unless explicitly excluded
-				return !excludedInherited;
-			}
-			
-			if (includedScripts != null && includedScripts.contains(codeScript))
-			{
-				//the codepoint script is explicitly included
-				return true;
-			}
-			
-			if (excludedScripts != null && excludedScripts.contains(codeScript))
-			{
-				//the codepoint script is explicitly excluded
-				return false;
-			}
-			
-			if (includedScripts == null)
-			{
-				//not excluded
-				return true;
-			}
-			
-			for (Integer script : includedScripts)
-			{
-				if (UScript.hasScript(codePoint, script))
-				{
-					//included as a secondary/extension script
-					return true;
-				}
-			}
-			
-			//not included
-			return false;
+			return scriptsSet == null || scriptsSet.includesCharacter(codePoint);
 		}
 	}
 	
