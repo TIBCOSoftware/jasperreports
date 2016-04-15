@@ -29,7 +29,6 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -207,7 +206,7 @@ public class JRStyledTextUtil
 					else
 					{
 						//a single family, copying the run
-						addRun(newRuns, runAttributes, index, runEndIndex, null);
+						copyRun(newRuns, runAttributes, index, runEndIndex);
 					}
 					
 					index = runEndIndex;
@@ -285,7 +284,7 @@ public class JRStyledTextUtil
 			if (fontMatch.fontInfo != null)
 			{
 				//we have a font that matched a part of the text
-				addRun(newRuns, attributes, index, fontMatch.endIndex, fontMatch.fontInfo);
+				addFontRun(newRuns, attributes, index, fontMatch.endIndex, fontMatch.fontInfo);
 			}
 			else
 			{
@@ -300,26 +299,24 @@ public class JRStyledTextUtil
 		{
 			//we have unmatched characters, adding a run with the original font for the entire chunk.
 			//we're relying on the JRStyledText to apply the runs in the reverse order.
-			addRun(newRuns, attributes, startIndex, endIndex, null);
+			copyRun(newRuns, attributes, startIndex, endIndex);
 		}
 	}
 	
-	protected void addRun(List<Run> newRuns, Map<Attribute, Object> attributes,  
+	protected void copyRun(List<Run> newRuns, Map<Attribute, Object> attributes,  
+			int startIndex, int endIndex)
+	{
+		Map<Attribute, Object> newAttributes = Collections.unmodifiableMap(attributes);
+		Run newRun = new Run(newAttributes, startIndex, endIndex);
+		newRuns.add(newRun);
+	}
+	
+	protected void addFontRun(List<Run> newRuns, Map<Attribute, Object> attributes,  
 			int startIndex, int endIndex, FontInfo fontInfo)
 	{
-		Map<Attribute, Object> newAttributes;
-		if (fontInfo == null)
-		{
-			newAttributes = Collections.unmodifiableMap(attributes);
-		}
-		else
-		{
-			//TODO lucianc decorate the map instead of copying it
-			newAttributes = new HashMap<Attribute, Object>(attributes);
-			//directly putting the FontInfo as an attribute
-			newAttributes.put(JRTextAttribute.FONT_INFO, fontInfo);
-		}
-		
+		//directly putting the FontInfo as an attribute
+		Map<Attribute, Object> newAttributes = new AdditionalEntryMap<Attribute, Object>(
+				attributes, JRTextAttribute.FONT_INFO, fontInfo);
 		Run newRun = new Run(newAttributes, startIndex, endIndex);
 		newRuns.add(newRun);
 	}
