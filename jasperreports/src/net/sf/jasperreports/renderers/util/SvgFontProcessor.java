@@ -47,6 +47,7 @@ import org.w3c.dom.svg.SVGDocument;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.HtmlFontFamily;
 import net.sf.jasperreports.renderers.BatikUserAgent;
 
 
@@ -97,18 +98,18 @@ public abstract class SvgFontProcessor
 			
 			TransformerFactory tFactory =
 				TransformerFactory.newInstance();
-		    Transformer transformer = 
-		    	tFactory.newTransformer();
-		    
-		    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-		    
-		    DOMSource source = new DOMSource(document);
-		    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		    StreamResult result = new StreamResult(baos);
-		    transformer.transform(source, result);
-		    
-		    return baos.toByteArray();
+			Transformer transformer = 
+				tFactory.newTransformer();
+			
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			
+			DOMSource source = new DOMSource(document);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			StreamResult result = new StreamResult(baos);
+			transformer.transform(source, result);
+			
+			return baos.toByteArray();
 		}
 		catch (TransformerConfigurationException e)
 		{
@@ -158,13 +159,6 @@ public abstract class SvgFontProcessor
 		if (fontFamilyAttrNode != null)
 		{
 			fontFamily = fontFamilyAttrNode.getNodeValue();
-			if (
-				fontFamily.startsWith("'")
-				&& fontFamily.endsWith("'")
-				)
-			{
-				fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
-			}
 		}
 		
 		// values from style property takes precedence over values from attributes
@@ -181,15 +175,30 @@ public abstract class SvgFontProcessor
 		
 		if (fontFamily != null)
 		{
+			if (
+				fontFamily.startsWith("'")
+				&& fontFamily.endsWith("'")
+				)
+			{
+				fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
+			}
+
+			// svg font-family could have locale suffix because it is needed in svg measured by phantomjs
+			int localeSeparatorPos = fontFamily.lastIndexOf(HtmlFontFamily.LOCALE_SEPARATOR);
+			if (localeSeparatorPos > 0)
+			{
+				fontFamily = fontFamily.substring(0, localeSeparatorPos);
+			}
+
 			fontFamily = 
 				getFontFamily(
 					fontFamily, 
-					locale
+					locale //FIXMEBATIK could use locale from svg above
 					);
 
 			if (styleAttrNode == null)
 			{
-				styleElement.setAttribute(SVG_ATTRIBUTE_fontFamily, fontFamily);
+				styleElement.setAttribute(SVG_ATTRIBUTE_fontFamily, "'" + fontFamily + "'");
 			}
 			else
 			{
@@ -217,14 +226,6 @@ public abstract class SvgFontProcessor
 				{
 					fontFamily = style.substring(fontFamilyStart).trim();
 				}
-				
-				if (
-					fontFamily.startsWith("'")
-					&& fontFamily.endsWith("'")
-					)
-				{
-					fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
-				}
 			}
 		}
 
@@ -241,7 +242,7 @@ public abstract class SvgFontProcessor
 		{
 			fontFamilyStart = fontFamilyStart + SVG_ATTRIBUTE_fontFamily.length() + 1;
 			sb.append(style.substring(0, fontFamilyStart));
-			sb.append(fontFamily);
+			sb.append("'" + fontFamily + "'");
 			int fontFamilyEnd = style.indexOf(";", fontFamilyStart);
 			if (fontFamilyEnd >= 0)
 			{
@@ -255,7 +256,7 @@ public abstract class SvgFontProcessor
 			{
 				sb.append(";");
 			}
-			sb.append(SVG_ATTRIBUTE_fontFamily + ": " + fontFamily + ";");
+			sb.append(SVG_ATTRIBUTE_fontFamily + ": '" + fontFamily + "';");
 		}
 		
 		return sb.toString();

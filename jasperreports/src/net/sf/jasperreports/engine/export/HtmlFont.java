@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
  */
 public class HtmlFont
 {
+	private static final String LOCALE_SEPARATOR = "_-";
 	private static final int IE_FONT_NAME_MAX_LENGTH = 31;
 	
 	private HtmlFontFamily family;
@@ -155,7 +156,7 @@ public class HtmlFont
 	 */
 	public static HtmlFont getInstance(JasperReportsContext jasperReportsContext, String htmlFontId)
 	{
-		int localeSeparatorPos = htmlFontId.lastIndexOf("-");
+		int localeSeparatorPos = htmlFontId.lastIndexOf(LOCALE_SEPARATOR);
 		String faceName = htmlFontId.substring(0, localeSeparatorPos);
 		boolean isBold = false;
 		boolean isItalic = false;
@@ -175,7 +176,7 @@ public class HtmlFont
 			isItalic = true;
 			isBold = true;
 		}
-		String localeCode = htmlFontId.substring(localeSeparatorPos + 1);
+		String localeCode = htmlFontId.substring(localeSeparatorPos + LOCALE_SEPARATOR.length());
 		Locale locale = JRDataUtils.getLocale(localeCode);
 		
 		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(faceName, locale);
@@ -233,7 +234,7 @@ public class HtmlFont
 			((isBold || isItalic) ? "-" : "")
 			+ (isBold ? "Bold" : "")
 			+ (isItalic ? "Italic" : "")
-			+ (locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
+			+ (locale == null ? "" : (LOCALE_SEPARATOR + JRDataUtils.getLocaleCode(locale)));
 		
 		id = prefix + suffix;
 		
@@ -247,7 +248,7 @@ public class HtmlFont
 				((isBold || isItalic) ? "-" : "")
 				+ (isBold ? "B" : "")
 				+ (isItalic ? "I" : "")
-				+ (locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
+				+ (locale == null ? "" : (LOCALE_SEPARATOR + JRDataUtils.getLocaleCode(locale)));
 		}
 		if (prefix.length() + suffix.length() > IE_FONT_NAME_MAX_LENGTH)
 		{

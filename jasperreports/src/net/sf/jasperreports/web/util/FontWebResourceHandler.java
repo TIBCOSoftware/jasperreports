@@ -109,7 +109,7 @@ public class FontWebResourceHandler implements WebResourceHandler
 	{
 		FontFamilyHtmlResourceHandler resourceHandler = new FontFamilyHtmlResourceHandler(basePath, htmlFontFamily);
 		
-		String fontCss = HtmlFontUtil.getInstance(jasperReportsContext).getHtmlFont(resourceHandler, null, htmlFontFamily);
+		String fontCss = HtmlFontUtil.getInstance(jasperReportsContext).getHtmlFont(resourceHandler, null, htmlFontFamily, true, true);
 		
 		try
 		{

@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
  */
 public class HtmlFontFamily
 {
+	public static final String LOCALE_SEPARATOR = "_-";
 	private static final int IE_FONT_NAME_MAX_LENGTH = 31;
 	
 	private Locale locale;
@@ -77,9 +78,9 @@ public class HtmlFontFamily
 	 */
 	public static HtmlFontFamily getInstance(JasperReportsContext jasperReportsContext, String htmlFontFamilyId)
 	{
-		int localeSeparatorPos = htmlFontFamilyId.lastIndexOf("-");
+		int localeSeparatorPos = htmlFontFamilyId.lastIndexOf(LOCALE_SEPARATOR);
 		String familyName = htmlFontFamilyId.substring(0, localeSeparatorPos);
-		String localeCode = htmlFontFamilyId.substring(localeSeparatorPos + 1);
+		String localeCode = htmlFontFamilyId.substring(localeSeparatorPos + LOCALE_SEPARATOR.length());
 		Locale locale = JRDataUtils.getLocale(localeCode);
 		
 		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(familyName, locale);
@@ -94,7 +95,7 @@ public class HtmlFontFamily
 	{
 		String prefix = fontFamily.getName();
 		String suffix =
-			(locale == null ? "" : ("-" + JRDataUtils.getLocaleCode(locale)));
+			(locale == null ? "" : (LOCALE_SEPARATOR + JRDataUtils.getLocaleCode(locale)));
 		
 		id = prefix + suffix;
 		

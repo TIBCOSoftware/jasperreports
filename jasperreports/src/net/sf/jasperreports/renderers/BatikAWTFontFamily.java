@@ -32,6 +32,7 @@ import org.apache.batik.gvt.font.AWTGVTFont;
 import org.apache.batik.gvt.font.GVTFont;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.HtmlFontFamily;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 
 
@@ -42,26 +43,42 @@ public class BatikAWTFontFamily extends AWTFontFamily
 {
 	private final JasperReportsContext jasperReportsContext;
 	
-    public BatikAWTFontFamily(
-    	JasperReportsContext jasperReportsContext,
-    	String familyName
-    	) 
-    {
-        super(familyName);
-        
-        this.jasperReportsContext = jasperReportsContext;
-    }
+	public BatikAWTFontFamily(
+		JasperReportsContext jasperReportsContext,
+		String familyName
+		) 
+	{
+		super(familyName);
+		
+		this.jasperReportsContext = jasperReportsContext;
+	}
 
-    @Override
+	@Override
 	public GVTFont deriveFont(float size, Map attrs) 
-    {
-        if (font != null)
-            return new AWTGVTFont(font, size);
+	{
+		if (font != null)
+			return new AWTGVTFont(font, size);
+
+		String fontFamilyName = fontFace.getFamilyName();
+		if (
+			fontFamilyName.startsWith("'")
+			&& fontFamilyName.endsWith("'")
+			)
+		{
+			fontFamilyName = fontFamilyName.substring(1, fontFamilyName.length() - 1);
+		}
+
+		// svg font-family could have locale suffix because it is needed in svg measured by phantomjs;
+		int localeSeparatorPos = fontFamilyName.lastIndexOf(HtmlFontFamily.LOCALE_SEPARATOR);
+		if (localeSeparatorPos > 0)
+		{
+			fontFamilyName = fontFamilyName.substring(0, localeSeparatorPos);
+		}
 
 		Font awtFont = 
 			FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(
 				true,
-				fontFace.getFamilyName(),
+				fontFamilyName,
 				(TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT)) ? Font.BOLD : Font.PLAIN)
 				| (TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE)) ? Font.ITALIC : Font.PLAIN),
 				size, 
@@ -71,9 +88,9 @@ public class BatikAWTFontFamily extends AWTFontFamily
 		
 		if (awtFont != null)
 		{
-	        return new AWTGVTFont(awtFont);
+			return new AWTGVTFont(awtFont);
 		}
 
 		return super.deriveFont(size, attrs);
-    }
+	}
 }
