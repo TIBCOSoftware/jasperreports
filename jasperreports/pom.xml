@@ -82,6 +82,7 @@
 					<include>**/*.js</include>
 					<include>**/*.css</include>
 					<include>**/*.ttf</include>
+					<include>**/*.otf</include>
 					<include>**/*.woff</include>
 					<include>**/*.eot</include>
 					<include>**/*.svg</include>

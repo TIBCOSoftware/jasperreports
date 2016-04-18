@@ -44,6 +44,10 @@
 					<include>**/jasperreports_extension.properties</include>
 					<include>**/fonts.xml</include>
 					<include>**/*.ttf</include>
+					<include>**/*.otf</include>
+					<include>**/*.eot</include>
+					<include>**/*.woff</include>
+					<include>**/*.svg</include>
 					<include>**/LICENSE</include>
 				</includes>
 			</resource>
