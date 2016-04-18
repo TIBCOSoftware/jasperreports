@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRParagraph;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -128,6 +129,24 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
+	public void exportProps(JRPrintImage image)
+	{
+		JRStyle baseStyle = image.getDefaultStyleProvider().getStyleResolver().getBaseStyle(image); 
+		exportPropsHeader(baseStyle == null ? null : baseStyle.getName(), null); 
+
+		exportAlignment(
+			getHorizontalImageAlign(
+				image.getOwnHorizontalImageAlign()
+				)
+			);
+		write("   <w:spacing w:lineRule=\"auto\" w:line=\"240\" w:after=\"0\" w:before=\"0\"/>\n");
+		exportPropsFooter();
+	}
+	
+	
+	/**
+	 *
+	 */
 	private void exportPropsHeader(String styleNameReference, JRParagraph paragraph)
 	{
 		write("      <w:pPr>\n");
@@ -135,20 +154,23 @@ public class DocxParagraphHelper extends BaseHelper
 		{
 			write("        <w:pStyle w:val=\"" + styleNameReference + "\"/>\n");
 		}
-		write("      <w:ind");
-		if (paragraph.getOwnFirstLineIndent() != null)
+		if(paragraph != null)
 		{
-			write(" w:firstLine=\"" + LengthUtil.twip(paragraph.getOwnFirstLineIndent().intValue()) + "\"");
+			write("      <w:ind");
+			if (paragraph.getOwnFirstLineIndent() != null)
+			{
+				write(" w:firstLine=\"" + LengthUtil.twip(paragraph.getOwnFirstLineIndent().intValue()) + "\"");
+			}
+			if (paragraph.getOwnLeftIndent() != null)
+			{
+				write(" w:left=\"" + LengthUtil.twip(paragraph.getOwnLeftIndent().intValue()) + "\"");
+			}
+			if (paragraph.getOwnRightIndent() != null)
+			{
+				write(" w:right=\"" + LengthUtil.twip(paragraph.getOwnRightIndent().intValue()) + "\"");
+			}
+			write("/>\n");
 		}
-		if (paragraph.getOwnLeftIndent() != null)
-		{
-			write(" w:left=\"" + LengthUtil.twip(paragraph.getOwnLeftIndent().intValue()) + "\"");
-		}
-		if (paragraph.getOwnRightIndent() != null)
-		{
-			write(" w:right=\"" + LengthUtil.twip(paragraph.getOwnRightIndent().intValue()) + "\"");
-		}
-		write("/>\n");
 		if (pageBreak)
 		{
 			write("        <w:pageBreakBefore/>\n");

@@ -911,7 +911,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		tableHelper.getCellHelper().exportHeader(image, gridCell);
 
-		docHelper.write("<w:p>");//FIXMEDOCX why is this here and not further down?
+		docHelper.write("<w:p>\n");//FIXMEDOCX why is this here and not further down?
+		tableHelper.getParagraphHelper().exportProps(image);
 
 		Renderable renderer = image.getRenderer();
 
@@ -1085,14 +1086,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 //				boolean startedHyperlink = startHyperlink(image,false);
 
 				docHelper.write("<w:r>\n"); 
+				docHelper.write("<w:rPr/>\n"); 
 				docHelper.write("<w:drawing>\n");
-				docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
-				docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-				docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalImageAlign(image.getHorizontalImageAlign()) + "</wp:align></wp:positionH>");
-				docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
-//				docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
+				docHelper.write("<wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\">\n");
 				docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
-				docHelper.write("<wp:wrapNone/>");
+				docHelper.write("<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>\n");
+
 				int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
 				String rId = IMAGE_LINK_PREFIX + getElementIndex(gridCell);
 				docHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\">\n");
@@ -1133,7 +1132,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				docHelper.write("</pic:pic>\n");
 				docHelper.write("</a:graphicData>\n");
 				docHelper.write("</a:graphic>\n");
-				docHelper.write("</wp:anchor>\n");
+				docHelper.write("</wp:inline>\n");
 				docHelper.write("</w:drawing>\n");
 				docHelper.write("</w:r>"); 
 

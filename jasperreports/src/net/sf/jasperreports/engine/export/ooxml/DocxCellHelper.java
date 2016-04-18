@@ -26,13 +26,16 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.awt.Color;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRImageAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -129,6 +132,16 @@ public class DocxCellHelper extends BaseHelper
 			String textRotation = getTextDirection(rotation);
 
 			exportAlignmentAndRotation(verticalAlignment, textRotation);
+		}
+		else if (element instanceof JRImageAlignment)
+		{
+			JRImageAlignment iAlign = (JRImageAlignment)element;
+			if (iAlign != null)
+			{
+				JRPrintImage image = element instanceof JRPrintImage ? (JRPrintImage)element : null;
+				String verticalAlignment = getVerticalImageAlign(image.getVerticalImageAlign());
+				exportAlignmentAndRotation(verticalAlignment, null);
+			}
 		}
 	}
 
@@ -233,6 +246,27 @@ public class DocxCellHelper extends BaseHelper
 					return VERTICAL_ALIGN_MIDDLE;
 				case TOP :
 				case JUSTIFIED : //DOCX does not support vertical text justification
+				default :
+					return VERTICAL_ALIGN_TOP;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 */
+	public static String getVerticalImageAlign(VerticalImageAlignEnum verticalAlignment)
+	{
+		if (verticalAlignment != null)
+		{
+			switch (verticalAlignment)
+			{
+				case BOTTOM :
+					return VERTICAL_ALIGN_BOTTOM;
+				case MIDDLE :
+					return VERTICAL_ALIGN_MIDDLE;
+				case TOP :
 				default :
 					return VERTICAL_ALIGN_TOP;
 			}
