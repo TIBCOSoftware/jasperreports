@@ -674,9 +674,11 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMENOW reuse this font lookup code everywhere
 		String fontFamily = getFontFamily(false, fontFamilyAttr, locale);
 
-		writer.write("<span style=\"font-family: '");
+		// do not put single quotes around family name here because the value might already contain quotes, 
+		// especially if it is coming from font extension export configuration
+		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
-		writer.write("'; ");
+		writer.write("; ");
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 		if (!hyperlinkStarted || !Color.black.equals(forecolor))
