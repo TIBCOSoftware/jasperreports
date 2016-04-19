@@ -248,7 +248,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 					{
 						addFontFamily(htmlFontFamily);
 						
-						fontFamily = htmlFontFamily.getShortId();
+						fontFamily = "'" + htmlFontFamily.getShortId() + "'";
 					}
 				}
 			}

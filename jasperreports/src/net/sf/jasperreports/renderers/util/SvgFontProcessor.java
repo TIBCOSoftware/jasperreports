@@ -198,7 +198,9 @@ public abstract class SvgFontProcessor
 
 			if (styleAttrNode == null)
 			{
-				styleElement.setAttribute(SVG_ATTRIBUTE_fontFamily, "'" + fontFamily + "'");
+				// do not put single quotes around family name here because the value might already contain quotes, 
+				// especially if it is coming from font extension export configuration
+				styleElement.setAttribute(SVG_ATTRIBUTE_fontFamily, fontFamily);
 			}
 			else
 			{
@@ -242,7 +244,9 @@ public abstract class SvgFontProcessor
 		{
 			fontFamilyStart = fontFamilyStart + SVG_ATTRIBUTE_fontFamily.length() + 1;
 			sb.append(style.substring(0, fontFamilyStart));
-			sb.append("'" + fontFamily + "'");
+			// do not put single quotes around family name here because the value might already contain quotes, 
+			// especially if it is coming from font extension export configuration
+			sb.append(fontFamily);
 			int fontFamilyEnd = style.indexOf(";", fontFamilyStart);
 			if (fontFamilyEnd >= 0)
 			{
@@ -256,7 +260,9 @@ public abstract class SvgFontProcessor
 			{
 				sb.append(";");
 			}
-			sb.append(SVG_ATTRIBUTE_fontFamily + ": '" + fontFamily + "';");
+			// do not put single quotes around family name here because the value might already contain quotes, 
+			// especially if it is coming from font extension export configuration
+			sb.append(SVG_ATTRIBUTE_fontFamily + ": " + fontFamily + ";");
 		}
 		
 		return sb.toString();
