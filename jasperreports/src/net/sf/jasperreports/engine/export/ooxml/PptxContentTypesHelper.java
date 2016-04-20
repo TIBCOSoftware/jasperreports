@@ -50,6 +50,7 @@ public class PptxContentTypesHelper extends BaseHelper
 		write("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">\n");
 		write("  <Default Extension=\"gif\" ContentType=\"image/gif\"/>\n");
 		write("  <Default Extension=\"jpeg\" ContentType=\"image/jpeg\"/>\n");
+		write("  <Default Extension=\"jpg\" ContentType=\"image/jpeg\"/>\n");
 		write("  <Default Extension=\"png\" ContentType=\"image/png\"/>\n");
 		write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
 		write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
