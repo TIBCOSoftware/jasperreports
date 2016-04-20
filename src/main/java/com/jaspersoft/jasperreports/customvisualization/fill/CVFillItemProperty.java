@@ -39,74 +39,71 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVFillItemProperty  implements Serializable  {
+public class CVFillItemProperty implements Serializable
+{
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-    protected String name;
-    protected JRExpression valueExpression;
-    protected String value;
-    
-    public CVFillItemProperty(ItemProperty itemProperty, JRFillObjectFactory factory)
-    {
-            this.valueExpression = factory.getExpression(itemProperty.getValueExpression());
-            this.value = itemProperty.getValue();
-            this.name = itemProperty.getName();
-    }
-    
-    public String getName() {
-        return name;
-    }
+	protected String name;
+	protected JRExpression valueExpression;
+	protected String value;
 
-    public String getValue() {
-        return value;
-    }
+	public CVFillItemProperty(ItemProperty itemProperty, JRFillObjectFactory factory)
+	{
+		this.valueExpression = factory.getExpression(itemProperty.getValueExpression());
+		this.value = itemProperty.getValue();
+		this.name = itemProperty.getName();
+	}
 
-    
-    
-    /**
-     *
-     */
-    public void evaluate(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
-    {
-           this.value = getEvaluatedValue(evaluator, evaluation);
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    
-    /**
-     *
-     */
-    public Object clone() 
-    {
-           throw new UnsupportedOperationException();
-    }
+	public String getValue()
+	{
+		return value;
+	}
 
-    public String getEvaluatedValue(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
-    {
-           
-           if(this.valueExpression == null || "".equals(valueExpression.getText()))
-           {
-                   return getValue();
-           }
-           else
-           {
-                   Object evaluatedValue = evaluator.evaluate(this.valueExpression, evaluation);
-                   verifyValue(evaluatedValue);
-                   return evaluatedValue == null ? null : evaluatedValue.toString();
-           }
-    }
+	/**
+	 *
+	 */
+	public void evaluate(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	{
+		this.value = getEvaluatedValue(evaluator, evaluation);
+	}
 
-    
-    /**
-     * Here we may add a validation handler to validate individual properties....
-     * By default we 
-     * 
-     * @param property
-     * @param value
-     * @throws JRException 
-     */
-    public void verifyValue(Object value) throws JRException
-    {
-        // Empty implementation. We don't do any verification.
-    }
+	@Override
+	public Object clone()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public String getEvaluatedValue(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
+	{
+
+		if (this.valueExpression == null || "".equals(valueExpression.getText()))
+		{
+			return getValue();
+		}
+		else
+		{
+			Object evaluatedValue = evaluator.evaluate(this.valueExpression, evaluation);
+			verifyValue(evaluatedValue);
+			return evaluatedValue == null ? null : evaluatedValue.toString();
+		}
+	}
+
+	/**
+	 * Here we may add a validation handler to validate individual
+	 * properties.... By default we
+	 * 
+	 * @param property
+	 * @param value
+	 * @throws JRException
+	 */
+	public void verifyValue(Object value) throws JRException
+	{
+		// Empty implementation. We don't do any verification.
+	}
 
 }

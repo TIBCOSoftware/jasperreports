@@ -31,30 +31,29 @@ import java.util.List;
 
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
-
-public interface CVComponent 
-    extends net.sf.jasperreports.engine.component.Component, 
-            net.sf.jasperreports.engine.component.ContextAwareComponent,
-            net.sf.jasperreports.engine.JRCloneable,
-            Serializable
+public interface CVComponent extends Component, ContextAwareComponent, JRCloneable, Serializable
 {
+	public EvaluationTimeEnum getEvaluationTime();
 
-       public EvaluationTimeEnum getEvaluationTime();
-       public String getEvaluationGroup();
-       
-       public String getProcessingClass();
-       
-       public List<ItemProperty> getItemProperties();
-       
-       public List<ItemData> getItemData();
-       
-       /**
+	public String getEvaluationGroup();
+
+	public String getProcessingClass();
+
+	public List<ItemProperty> getItemProperties();
+
+	public List<ItemData> getItemData();
+
+	/**
 	 * Indicates how the engine will treat a situation where there is an error.
-	 * @return a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
+	 * 
+	 * @return a value representing one of the missing image handling constants
+	 *         in {@link OnErrorTypeEnum}
 	 */
-       public OnErrorTypeEnum getOnErrorType();
-       
+	public OnErrorTypeEnum getOnErrorType();
 }

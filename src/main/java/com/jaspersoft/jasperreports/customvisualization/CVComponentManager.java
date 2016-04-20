@@ -26,21 +26,23 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization;
 
+import com.jaspersoft.jasperreports.customvisualization.xml.CVXmlWriter;
+
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
-
-import com.jaspersoft.jasperreports.customvisualization.xml.CVXmlWriter;
 
 /**
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVComponentManager extends DefaultComponentManager {
+public class CVComponentManager extends DefaultComponentManager
+{
 
-    @Override
-    public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext) {
-        return new CVXmlWriter(jasperReportsContext);
-    }
+	@Override
+	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
+	{
+		return new CVXmlWriter(jasperReportsContext);
+	}
 
 }

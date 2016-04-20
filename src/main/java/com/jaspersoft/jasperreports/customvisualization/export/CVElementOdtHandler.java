@@ -26,6 +26,9 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -34,43 +37,48 @@ import net.sf.jasperreports.engine.export.oasis.GenericElementOdtHandler;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporterContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
 /**
  * @author Giulio Toffoli
  */
-public class CVElementOdtHandler implements GenericElementOdtHandler {
-	
+public class CVElementOdtHandler implements GenericElementOdtHandler
+{
 	private static final CVElementOdtHandler INSTANCE = new CVElementOdtHandler();
 	private static final Log log = LogFactory.getLog(CVElementOdtHandler.class);
-	
-        
-        public static CVElementOdtHandler getInstance()
+
+	public static CVElementOdtHandler getInstance()
 	{
 		return INSTANCE;
 	}
 
 	@Override
-	public boolean toExport(JRGenericPrintElement element) {
+	public boolean toExport(JRGenericPrintElement element)
+	{
 		return true;
 	}
 
 	@Override
-	public void exportElement(JROdtExporterContext exporterContext,
-			JRGenericPrintElement element, JRExporterGridCell gridCell) {
-		if (log.isDebugEnabled()) {
+	public void exportElement(
+		JROdtExporterContext exporterContext,
+		JRGenericPrintElement element,
+		JRExporterGridCell gridCell
+		)
+	{
+		if (log.isDebugEnabled())
+		{
 			log.debug("Exporting to ODT " + element);
 		}
-		
-		try {
-			JRPrintImage chartImage = CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element, false);
+
+		try
+		{
+			JRPrintImage chartImage = 
+				CVElementImageProvider.getDefaultProvider()
+					.getImage(exporterContext.getJasperReportsContext(), element);
 			JROdtExporter exporter = (JROdtExporter) exporterContext.getExporterRef();
 			exporter.exportImage(exporterContext.getTableBuilder(), chartImage, gridCell);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new JRRuntimeException(e);
 		}
 	}
-
 }

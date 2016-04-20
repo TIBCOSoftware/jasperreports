@@ -25,7 +25,9 @@
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.xml;
- 
+
+import org.apache.commons.digester.Digester;
+
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.StandardItem;
@@ -40,98 +42,95 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
-import org.apache.commons.digester.Digester;
+public class CVDigester implements XmlDigesterConfigurer
+{
 
-public class CVDigester implements XmlDigesterConfigurer {
-
-	public void configureDigester(Digester digester) {
+	@Override
+	public void configureDigester(Digester digester)
+	{
 		addRules(digester);
 	}
 
-	public static void addRules(Digester digester) {
-		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
+	public static void addRules(Digester digester)
+	{
+		// String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
 		String namespace = digester.getRuleNamespaceURI();
 
 		String mainComponentPattern = "*/componentElement/customvisualization";
-		digester.addFactoryCreate(mainComponentPattern,
-				CVXmlFactory.class.getName());
+		digester.addFactoryCreate(mainComponentPattern, CVXmlFactory.class.getName());
 
 		addEvaluationPropertiesRules(digester, mainComponentPattern);
 
-		addItemPropertieyRules(digester, mainComponentPattern + "/"
-				+ CVXmlFactory.ELEMENT_itemProperty, namespace);
+		addItemPropertieyRules(digester, mainComponentPattern + "/" + CVXmlFactory.ELEMENT_itemProperty, namespace);
 
-		addCVItemDataRules(digester, mainComponentPattern + "/"
-				+ CVXmlFactory.ELEMENT_cvData, namespace);
+		addCVItemDataRules(digester, mainComponentPattern + "/" + CVXmlFactory.ELEMENT_cvData, namespace);
 
 	}
 
-	protected static void addExpressionRules(Digester digester,
-			String expressionPattern, String setterMethod, boolean jrNamespace) {
+	protected static void addExpressionRules(
+		Digester digester,
+		String expressionPattern,
+		String setterMethod,
+		boolean jrNamespace
+		)
+	{
 		String originalNamespace = digester.getRuleNamespaceURI();
-		if (jrNamespace) {
-			digester.setRuleNamespaceURI(JRXmlWriter.JASPERREPORTS_NAMESPACE
-					.getNamespaceURI());
+		if (jrNamespace)
+		{
+			digester.setRuleNamespaceURI(JRXmlWriter.JASPERREPORTS_NAMESPACE.getNamespaceURI());
 		}
 
 		digester.addFactoryCreate(expressionPattern, JRExpressionFactory.class);
 		digester.addCallMethod(expressionPattern, "setText", 0);
-		digester.addSetNext(expressionPattern, setterMethod,
-				JRExpression.class.getName());
+		digester.addSetNext(expressionPattern, setterMethod, JRExpression.class.getName());
 
-		if (jrNamespace) {
+		if (jrNamespace)
+		{
 			digester.setRuleNamespaceURI(originalNamespace);
 		}
 	}
 
-	protected static void addEvaluationPropertiesRules(Digester digester,
-			String pattern) {
-		digester.addSetProperties(pattern,
-		// properties to be ignored by this rule
-				new String[] { JRXmlConstants.ATTRIBUTE_evaluationTime,
-						CVXmlFactory.ATTRIBUTE_onErrorType }, new String[0]);
+	protected static void addEvaluationPropertiesRules(Digester digester, String pattern)
+	{
+		digester.addSetProperties(
+			pattern,
+			// properties to be ignored by this rule
+			new String[] { JRXmlConstants.ATTRIBUTE_evaluationTime, CVXmlFactory.ATTRIBUTE_onErrorType },
+			new String[0]
+			);
 
-		digester.addRule(pattern, new XmlConstantPropertyRule(
-				JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
-				EvaluationTimeEnum.values()));
+		digester.addRule(pattern, new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_evaluationTime,
+				"evaluationTimeValue", EvaluationTimeEnum.values()));
 
-		digester.addRule(pattern, new XmlConstantPropertyRule(
-				CVXmlFactory.ATTRIBUTE_onErrorType, OnErrorTypeEnum.values()));
+		digester.addRule(pattern,
+				new XmlConstantPropertyRule(CVXmlFactory.ATTRIBUTE_onErrorType, OnErrorTypeEnum.values()));
 	}
 
-	protected static void addItemPropertieyRules(Digester digester,
-			String itemPropertyPattern, String namespace) {
-		digester.addFactoryCreate(itemPropertyPattern,
-				CVItemPropertyXmlFactory.class);
-		digester.addSetNext(itemPropertyPattern, "addItemProperty",
-				ItemProperty.class.getName());
+	protected static void addItemPropertieyRules(Digester digester, String itemPropertyPattern, String namespace)
+	{
+		digester.addFactoryCreate(itemPropertyPattern, CVItemPropertyXmlFactory.class);
+		digester.addSetNext(itemPropertyPattern, "addItemProperty", ItemProperty.class.getName());
 
-		addExpressionRules(digester, itemPropertyPattern + "/"
-				+ JRXmlConstants.ELEMENT_valueExpression, "setValueExpression",
-				true);
+		addExpressionRules(digester, itemPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression,
+				"setValueExpression", true);
 	}
 
-	protected static void addCVItemDataRules(Digester digester, String pattern,
-			String namespace) {
+	protected static void addCVItemDataRules(Digester digester, String pattern, String namespace)
+	{
 		digester.addObjectCreate(pattern, StandardItemData.class);
-		digester.addSetNext(pattern, "addItemData",
-				StandardItemData.class.getName());
+		digester.addSetNext(pattern, "addItemData", StandardItemData.class.getName());
 
 		String itemPattern = pattern + "/item";
 
 		digester.addObjectCreate(itemPattern, StandardItem.class);
 		digester.addSetNext(itemPattern, "addItem", Item.class.getName());
 
-		addItemPropertieyRules(digester, itemPattern + "/itemProperty",
-				namespace);
+		addItemPropertieyRules(digester, itemPattern + "/itemProperty", namespace);
 
-		digester.setRuleNamespaceURI(JRXmlWriter.JASPERREPORTS_NAMESPACE
-				.getNamespaceURI());
+		digester.setRuleNamespaceURI(JRXmlWriter.JASPERREPORTS_NAMESPACE.getNamespaceURI());
 
-		digester.addFactoryCreate(pattern + "/dataset",
-				CVItemDatasetFactory.class.getName());
-		digester.addSetNext(pattern + "/dataset", "setDataset",
-				JRElementDataset.class.getName());
+		digester.addFactoryCreate(pattern + "/dataset", CVItemDatasetFactory.class.getName());
+		digester.addSetNext(pattern + "/dataset", "setDataset", JRElementDataset.class.getName());
 
 		digester.setRuleNamespaceURI(namespace);
 	}

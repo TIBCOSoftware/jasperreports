@@ -26,6 +26,9 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -35,52 +38,54 @@ import net.sf.jasperreports.engine.export.oasis.GenericElementOdsHandler;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporterContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVElementOdsHandler implements GenericElementOdsHandler {
-	
+public class CVElementOdsHandler implements GenericElementOdsHandler
+{
 	private static final CVElementOdsHandler INSTANCE = new CVElementOdsHandler();
 	private static final Log log = LogFactory.getLog(CVElementOdsHandler.class);
-	
-        
-        public static CVElementOdsHandler getInstance()
+
+	public static CVElementOdsHandler getInstance()
 	{
 		return INSTANCE;
 	}
-	
+
 	@Override
-	public boolean toExport(JRGenericPrintElement element) {
+	public boolean toExport(JRGenericPrintElement element)
+	{
 		return true;
 	}
 
 	@Override
 	public void exportElement(
 		JROdsExporterContext exporterContext,
-		JRGenericPrintElement element, 
+		JRGenericPrintElement element,
 		JRExporterGridCell gridCell,
 		int colIndex,
 		int rowIndex,
 		int emptyCols,
-		int yCutsRow, 
+		int yCutsRow,
 		JRGridLayout layout
-		) 
+		)
 	{
-		if (log.isDebugEnabled()) {
+		if (log.isDebugEnabled())
+		{
 			log.debug("Exporting to ODS " + element);
 		}
-		
-		try {
-			JRPrintImage chartImage = CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element, false);
+
+		try
+		{
+			JRPrintImage chartImage = 
+				CVElementImageProvider.getDefaultProvider()
+					.getImage(exporterContext.getJasperReportsContext(), element);
 			JROdsExporter exporter = (JROdsExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new JRRuntimeException(e);
 		}
 	}
-
 }

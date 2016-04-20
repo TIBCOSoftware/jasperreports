@@ -36,34 +36,32 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
  */
 public final class CVPrintElement
 {
-    
-        public static final String PARAMETER_ON_ERROR_TYPE = CVConstants.PROPERTY_ON_ERROR_TYPE;
+	public static final String PARAMETER_ON_ERROR_TYPE = CVConstants.PROPERTY_ON_ERROR_TYPE;
+
 	/**
-	 * The qualified type of the Custom Visualization generic elements. 
+	 * The qualified type of the Custom Visualization generic elements.
 	 */
-	public static final JRGenericElementType CV_ELEMENT_TYPE = 
+	public static final JRGenericElementType CV_ELEMENT_TYPE =
 		new JRGenericElementType(CVConstants.NAMESPACE, CVConstants.COMPONENT_NAME);
-	
+
 	public static final String CONFIGURATION = "configuration";
-        public static final String SCRIPT = "script";
-        public static final String SCRIPT_URI = "script_uri";
-        public static final String NAMESPACE = "namespace";
-        public static final String CSS = "css";
-        public static final String MODULE = "module";
-        public static final OnErrorTypeEnum DEFAULT_ON_ERROR_TYPE = OnErrorTypeEnum.ERROR;
-        
-        
-        /**
+	public static final String SCRIPT = "script";
+	public static final String SCRIPT_URI = "script_uri";
+	public static final String NAMESPACE = "namespace";
+	public static final String CSS = "css";
+	public static final String MODULE = "module";
+	public static final OnErrorTypeEnum DEFAULT_ON_ERROR_TYPE = OnErrorTypeEnum.ERROR;
+
+	/**
 	 * The cached image renderer.
 	 */
 	public static final String PARAMETER_SVG_CACHE_RENDERER = "cacheRenderer";
-        public static final String PARAMETER_PNG_CACHE_RENDERER = "pngCacheRenderer";
-        
-        
-        /**
+	public static final String PARAMETER_PNG_CACHE_RENDERER = "pngCacheRenderer";
+
+	/**
 	 * The temporary cached image renderer.
-         * 
-         * It is used to render the image for this component when the element itself if not ready yet.
+	 * It is used to render the image for this component when the element itself
+	 * if not ready yet.
 	 */
 	public static final String PARAMETER_TEMPORARY_CACHE_RENDERER = "temporaryCacheRenderer";
 

@@ -32,16 +32,14 @@ import java.util.Map;
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class DefaultProcessor implements Processor {
+public class DefaultProcessor implements Processor
+{
 
-    
-	
-    
-    @Override
-    public Map<String, Object> processConfiguration(Map<String, Object> configuration) {
-          
-        
-        return configuration;
-    }
+	@Override
+	public Map<String, Object> processConfiguration(Map<String, Object> configuration)
+	{
+
+		return configuration;
+	}
 
 }

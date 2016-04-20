@@ -26,6 +26,9 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -35,46 +38,54 @@ import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVElementXlsHandler implements GenericElementXlsHandler {
-	
+public class CVElementXlsHandler implements GenericElementXlsHandler
+{
 	private static final CVElementXlsHandler INSTANCE = new CVElementXlsHandler();
 	private static final Log log = LogFactory.getLog(CVElementXlsHandler.class);
-	
-        
-        public static CVElementXlsHandler getInstance()
+
+	public static CVElementXlsHandler getInstance()
 	{
 		return INSTANCE;
 	}
 
 	@Override
-	public boolean toExport(JRGenericPrintElement element) {
+	public boolean toExport(JRGenericPrintElement element)
+	{
 		return true;
 	}
 
 	@Override
-	public void exportElement(JRXlsExporterContext exporterContext,
-			JRGenericPrintElement element, JRExporterGridCell gridCell,
-			int colIndex, int rowIndex, int emptyCols, int yCutsRow,
-			JRGridLayout layout) {
-		if (log.isDebugEnabled()) {
+	public void exportElement(
+		JRXlsExporterContext exporterContext,
+		JRGenericPrintElement element,
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex, 
+		int emptyCols, 
+		int yCutsRow,
+		JRGridLayout layout
+		)
+	{
+		if (log.isDebugEnabled())
+		{
 			log.debug("Exporting to XLS " + element);
 		}
-		
-		try {
-			JRPrintImage chartImage = CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element, false);
-			JRXlsExporter exporter = (JRXlsExporter) exporterContext.getExporter();
+
+		try
+		{
+			JRPrintImage chartImage = 
+				CVElementImageProvider.getDefaultProvider()
+					.getImage(exporterContext.getJasperReportsContext(), element);
+			JRXlsExporter exporter = (JRXlsExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new JRRuntimeException(e);
 		}
 	}
-
-	
 }

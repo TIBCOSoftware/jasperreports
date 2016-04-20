@@ -25,13 +25,12 @@
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.xml;
- 
-import net.sf.jasperreports.components.items.StandardItemProperty;
-import net.sf.jasperreports.engine.xml.JRBaseFactory;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.xml.sax.Attributes;
 
+import net.sf.jasperreports.components.items.StandardItemProperty;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * @author Giulio Toffoli (gtoffoli@tibco.com)
@@ -39,20 +38,18 @@ import org.xml.sax.Attributes;
 public class CVItemPropertyXmlFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		StandardItemProperty itemProperty = new StandardItemProperty();
-		
+
 		String name = atts.getValue(JRXmlConstants.ATTRIBUTE_name);
-		if(name != null)
+		if (name != null)
 		{
 			itemProperty.setName(name);
 		}
 		String value = atts.getValue(JRXmlConstants.ATTRIBUTE_value);
-		if(value != null)
+		if (value != null)
 		{
 			itemProperty.setValue(value);
 		}

@@ -26,6 +26,9 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -33,45 +36,48 @@ import net.sf.jasperreports.engine.export.GenericElementRtfHandler;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporterContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
 /**
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVElementRtfHandler implements GenericElementRtfHandler {
-	
+public class CVElementRtfHandler implements GenericElementRtfHandler
+{
 	private static final CVElementRtfHandler INSTANCE = new CVElementRtfHandler();
 	private static final Log log = LogFactory.getLog(CVElementRtfHandler.class);
-	
-        
-        public static CVElementRtfHandler getInstance()
+
+	public static CVElementRtfHandler getInstance()
 	{
 		return INSTANCE;
 	}
 
 	@Override
-	public boolean toExport(JRGenericPrintElement element) {
+	public boolean toExport(JRGenericPrintElement element)
+	{
 		return true;
 	}
 
 	@Override
-	public void exportElement(JRRtfExporterContext exporterContext,
-			JRGenericPrintElement element) {
-		if (log.isDebugEnabled()) {
+	public void exportElement(
+		JRRtfExporterContext exporterContext,
+		JRGenericPrintElement element
+		)
+	{
+		if (log.isDebugEnabled())
+		{
 			log.debug("Exporting to RTF " + element);
 		}
-		
-		try {
-			JRPrintImage chartImage = CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element, false);
-			JRRtfExporter exporter = (JRRtfExporter) exporterContext.getExporter();
+
+		try
+		{
+			JRPrintImage chartImage = 
+				CVElementImageProvider.getDefaultProvider()
+					.getImage(exporterContext.getJasperReportsContext(), element);
+			JRRtfExporter exporter = (JRRtfExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new JRRuntimeException(e);
 		}
 	}
-
-	
 }

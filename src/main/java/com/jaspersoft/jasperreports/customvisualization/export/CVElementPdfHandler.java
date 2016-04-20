@@ -40,12 +40,13 @@ import net.sf.jasperreports.engine.export.JRPdfExporterContext;
 public class CVElementPdfHandler implements GenericElementPdfHandler
 {
 	private static final CVElementPdfHandler INSTANCE = new CVElementPdfHandler();
-	
+
 	public static CVElementPdfHandler getInstance()
 	{
 		return INSTANCE;
 	}
-	
+
+	@Override
 	public void exportElement(
 		JRPdfExporterContext exporterContext,
 		JRGenericPrintElement element
@@ -53,18 +54,25 @@ public class CVElementPdfHandler implements GenericElementPdfHandler
 	{
 		try
 		{
-			JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporter();
-                        JRPrintImage printImage = CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element, true);
-                        exporter.exportImage(printImage);
-		} catch (JRRuntimeException ex) {
-                    throw ex;
-                } catch (Exception ex) {
-                    throw new JRRuntimeException(ex);
-                }
+			JRPdfExporter exporter = (JRPdfExporter) exporterContext.getExporterRef();
+			JRPrintImage printImage = 
+				CVElementImageProvider.getDefaultProvider()
+					.getImage(exporterContext.getJasperReportsContext(), element);
+			exporter.exportImage(printImage);
+		}
+		catch (JRRuntimeException ex)
+		{
+			throw ex;
+		}
+		catch (Exception ex)
+		{
+			throw new JRRuntimeException(ex);
+		}
 	}
 
-	public boolean toExport(JRGenericPrintElement element) {
+	@Override
+	public boolean toExport(JRGenericPrintElement element)
+	{
 		return true;
 	}
-
 }

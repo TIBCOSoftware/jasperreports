@@ -29,6 +29,9 @@ package com.jaspersoft.jasperreports.customvisualization.xml;
 import java.io.IOException;
 import java.util.List;
 
+import com.jaspersoft.jasperreports.customvisualization.CVComponent;
+import com.jaspersoft.jasperreports.customvisualization.CVConstants;
+
 import net.sf.jasperreports.components.AbstractComponentXmlWriter;
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemData;
@@ -45,138 +48,148 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
-import com.jaspersoft.jasperreports.customvisualization.CVComponent;
-import com.jaspersoft.jasperreports.customvisualization.CVConstants;
-
-
-
 /**
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVXmlWriter extends AbstractComponentXmlWriter {
+public class CVXmlWriter extends AbstractComponentXmlWriter
+{
 
-    
-    public CVXmlWriter(JasperReportsContext jasperReportsContext)
-    {
-            super(jasperReportsContext);
-    }
-    
-    
-    
-    public void writeCV(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException {
+	public CVXmlWriter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
 
-        
-        Component component = componentElement.getComponent();
-        CVComponent comp = (CVComponent) component;
-        JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
-        ComponentKey componentKey = componentElement.getComponentKey();
+	public void writeCV(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
+	{
 
-        XmlNamespace namespace = new XmlNamespace(
-                CVConstants.NAMESPACE, 
-                componentKey.getNamespacePrefix(),
-                CVConstants.XSD_LOCATION);
-                
-        writer.startElement("customvisualization", namespace);
-        
-        writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
-				comp.getEvaluationTime(), EvaluationTimeEnum.NOW);
-        
-        if (comp.getEvaluationGroup() != null && comp.getEvaluationGroup().trim().length() > 0)
-        {
-            writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
-				comp.getEvaluationGroup());
-        }
-        
-        writer.addAttribute(CVXmlFactory.ATTRIBUTE_processingClass, 
-				comp.getProcessingClass());
+		Component component = componentElement.getComponent();
+		CVComponent comp = (CVComponent) component;
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		ComponentKey componentKey = componentElement.getComponentKey();
 
-        writer.addAttribute(CVXmlFactory.ATTRIBUTE_onErrorType, comp.getOnErrorType(), OnErrorTypeEnum.ERROR);
-        
-        List<ItemProperty> itemProperties = comp.getItemProperties();
-        for (ItemProperty itemProperty : itemProperties)
-        {
-                writeCVItemProperty(itemProperty, writer, reportWriter, namespace, componentElement);
-        }
-        
-        
-        List<ItemData> itemDataList = comp.getItemData();
-        for (ItemData itemData : itemDataList)
-        {
-                if (itemData == null) continue;
-                writeItemDataset(itemData, writer, reportWriter, namespace, componentElement);
-        }
-        
-        writer.closeElement();
-    }
-    
-    
-    
-    private void writeCVItemProperty(ItemProperty itemProperty, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
-    {
-            writer.startElement(CVXmlFactory.ELEMENT_itemProperty, namespace);
-            
-            writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, itemProperty.getName());
-            if(itemProperty.getValue() != null)
-            {
-                    writer.addAttribute(JRXmlConstants.ATTRIBUTE_value, itemProperty.getValue());
-            }
-            writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, itemProperty.getValueExpression(), false, componentElement, reportWriter);
-            writer.closeElement();
-    }
-    
-    
-    
-    private void writeItemDataset(ItemData itemDataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
-    {
-            writer.startElement(CVXmlFactory.ELEMENT_cvData, namespace);
-            	
-            JRElementDataset dataset = itemDataset.getDataset();
-            if (dataset != null)
-            {
-                    reportWriter.writeElementDataset(dataset, false);
-            }
+		XmlNamespace namespace = 
+			new XmlNamespace(
+				CVConstants.NAMESPACE,
+				componentKey.getNamespacePrefix(),
+				CVConstants.XSD_LOCATION
+				);
 
-            /*   */
-            List<Item> itemList = itemDataset.getItems();
-            if (itemList != null && !itemList.isEmpty())
-            {
-                    
-                    for(Item item : itemList)
-                    {
-                            writer.startElement(CVXmlFactory.ELEMENT_item, namespace);
-                            if(item.getProperties() != null && !item.getProperties().isEmpty())
-                            {
-                                for (ItemProperty itemProperty : item.getProperties())
-                                {
-                                    if (itemProperty == null) continue;
-                                    writeCVItemProperty(itemProperty, writer, reportWriter, namespace, componentElement);
-                                }
-                            }
-                            writer.closeElement();
-                    }
-                    
-            }
-            
-            
-            writer.closeElement();
-    }
+		writer.startElement("customvisualization", namespace);
 
-    
-    
-    public boolean isToWrite(JRComponentElement jrce, JRXmlWriter writer) {
-        return true;
-    }
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, comp.getEvaluationTime(), EvaluationTimeEnum.NOW);
 
+		if (comp.getEvaluationGroup() != null && comp.getEvaluationGroup().trim().length() > 0)
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, comp.getEvaluationGroup());
+		}
 
+		writer.addAttribute(CVXmlFactory.ATTRIBUTE_processingClass, comp.getProcessingClass());
 
-    public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException {
-        Component component = componentElement.getComponent();
-        if (component instanceof CVComponent)
-        {
-                writeCV(componentElement, reportWriter);
-        }
-    }
-    
+		writer.addAttribute(CVXmlFactory.ATTRIBUTE_onErrorType, comp.getOnErrorType(), OnErrorTypeEnum.ERROR);
+
+		List<ItemProperty> itemProperties = comp.getItemProperties();
+		for (ItemProperty itemProperty : itemProperties)
+		{
+			writeCVItemProperty(itemProperty, writer, reportWriter, namespace, componentElement);
+		}
+
+		List<ItemData> itemDataList = comp.getItemData();
+		for (ItemData itemData : itemDataList)
+		{
+			if (itemData == null)
+			{
+				continue;
+			}
+			writeItemDataset(itemData, writer, reportWriter, namespace, componentElement);
+		}
+
+		writer.closeElement();
+	}
+
+	private void writeCVItemProperty(
+		ItemProperty itemProperty, 
+		JRXmlWriteHelper writer, 
+		JRXmlWriter reportWriter,
+		XmlNamespace namespace, 
+		JRComponentElement componentElement
+		) throws IOException
+	{
+		writer.startElement(CVXmlFactory.ELEMENT_itemProperty, namespace);
+
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, itemProperty.getName());
+		if (itemProperty.getValue() != null)
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_value, itemProperty.getValue());
+		}
+		writeExpression(
+			JRXmlConstants.ELEMENT_valueExpression,
+			JRXmlWriter.JASPERREPORTS_NAMESPACE,
+			itemProperty.getValueExpression(), 
+			false, 
+			componentElement, 
+			reportWriter
+			);
+		writer.closeElement();
+	}
+
+	private void writeItemDataset(
+		ItemData itemDataset, 
+		JRXmlWriteHelper writer, 
+		JRXmlWriter reportWriter,
+		XmlNamespace namespace, 
+		JRComponentElement componentElement
+		) throws IOException
+	{
+		writer.startElement(CVXmlFactory.ELEMENT_cvData, namespace);
+
+		JRElementDataset dataset = itemDataset.getDataset();
+		if (dataset != null)
+		{
+			reportWriter.writeElementDataset(dataset, false);
+		}
+
+		/*   */
+		List<Item> itemList = itemDataset.getItems();
+		if (itemList != null && !itemList.isEmpty())
+		{
+
+			for (Item item : itemList)
+			{
+				writer.startElement(CVXmlFactory.ELEMENT_item, namespace);
+				if (item.getProperties() != null && !item.getProperties().isEmpty())
+				{
+					for (ItemProperty itemProperty : item.getProperties())
+					{
+						if (itemProperty == null)
+						{
+							continue;
+						}
+						writeCVItemProperty(itemProperty, writer, reportWriter, namespace, componentElement);
+					}
+				}
+				writer.closeElement();
+			}
+
+		}
+
+		writer.closeElement();
+	}
+
+	@Override
+	public boolean isToWrite(JRComponentElement jrce, JRXmlWriter writer)
+	{
+		return true;
+	}
+
+	@Override
+	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
+	{
+		Component component = componentElement.getComponent();
+		if (component instanceof CVComponent)
+		{
+			writeCV(componentElement, reportWriter);
+		}
+	}
 
 }

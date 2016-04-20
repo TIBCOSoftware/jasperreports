@@ -41,39 +41,41 @@ import net.sf.jasperreports.engine.export.draw.Offset;
 public class CVElementGraphics2DHandler implements GenericElementGraphics2DHandler
 {
 	private static final CVElementGraphics2DHandler INSTANCE = new CVElementGraphics2DHandler();
-	
+
 	public static CVElementGraphics2DHandler getInstance()
 	{
 		return INSTANCE;
 	}
-	
 
+	@Override
 	public void exportElement(
-			JRGraphics2DExporterContext exporterContext, 
-			JRGenericPrintElement element, 
-			Graphics2D grx, 
-			Offset offset)
+		JRGraphics2DExporterContext exporterContext,
+		JRGenericPrintElement element,
+		Graphics2D grx,
+		Offset offset
+		)
 	{
 		try
 		{
-                        JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporter();
-			ImageDrawer imageDrawer = exporter.getFrameDrawer().getDrawVisitor().getImageDrawer();
-			
-                        imageDrawer.draw(
-					grx,
-					CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element, true), 
-					offset.getX(), 
-					offset.getY()
-					);
+			JRGraphics2DExporter exporter = (JRGraphics2DExporter) exporterContext.getExporterRef();
+			ImageDrawer imageDrawer = exporter.getDrawVisitor().getImageDrawer();
+
+			imageDrawer.draw(
+				grx,
+				CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element),
+				offset.getX(),
+				offset.getY()
+				);
 		}
 		catch (Exception e)
 		{
-                        throw new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
-	public boolean toExport(JRGenericPrintElement element) {
+	@Override
+	public boolean toExport(JRGenericPrintElement element)
+	{
 		return true;
 	}
-
 }

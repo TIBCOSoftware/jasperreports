@@ -40,19 +40,24 @@ import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
-public class CVCompiler implements ComponentCompiler {
+public class CVCompiler implements ComponentCompiler
+{
 
-	public void collectExpressions(Component component, JRExpressionCollector collector) {
+	@Override
+	public void collectExpressions(Component component, JRExpressionCollector collector)
+	{
 		CVComponent cmp = (CVComponent) component;
 
-		for (ItemProperty p : cmp.getItemProperties()) {
+		for (ItemProperty p : cmp.getItemProperties())
+		{
 			collector.addExpression(p.getValueExpression());
 		}
 
 		List<ItemData> cvDataList = cmp.getItemData();
 		if (cvDataList != null) // cvDatasets should neber be null...
 		{
-			for (ItemData cvData : cvDataList) {
+			for (ItemData cvData : cvDataList)
+			{
 				ItemCompiler.collectExpressions(cvData, collector);
 			}
 		}
@@ -64,7 +69,8 @@ public class CVCompiler implements ComponentCompiler {
 	 *             {@link ItemCompiler#collectExpressions(ItemData, JRExpressionCollector)}
 	 *             .
 	 */
-	public static void collectExpressions(ItemData data, JRExpressionCollector collector) {
+	public static void collectExpressions(ItemData data, JRExpressionCollector collector)
+	{
 		ItemCompiler.collectExpressions(data, collector);
 	}
 	// /**
@@ -98,28 +104,39 @@ public class CVCompiler implements ComponentCompiler {
 	// }
 	// }
 
-	public Component toCompiledComponent(Component component, JRBaseObjectFactory baseFactory) {
+	@Override
+	public Component toCompiledComponent(Component component, JRBaseObjectFactory baseFactory)
+	{
 		CVComponent cmp = (CVComponent) component;
 		CVComponent compiledComponent = new CVDesignComponent(cmp, baseFactory);
 		return compiledComponent;
 	}
 
-	public void verify(Component component, JRVerifier verifier) {
+	@Override
+	public void verify(Component component, JRVerifier verifier)
+	{
 		CVComponent cmp = (CVComponent) component;
 
 		EvaluationTimeEnum evaluationTime = cmp.getEvaluationTime();
-		if (evaluationTime == EvaluationTimeEnum.AUTO) {
+		if (evaluationTime == EvaluationTimeEnum.AUTO)
+		{
 			verifier.addBrokenRule("Auto evaluation time is not supported for this component", cmp);
-		} else if (evaluationTime == EvaluationTimeEnum.GROUP) {
+		}
+		else if (evaluationTime == EvaluationTimeEnum.GROUP)
+		{
 			String evaluationGroup = cmp.getEvaluationGroup();
-			if (evaluationGroup == null || evaluationGroup.length() == 0) {
+			if (evaluationGroup == null || evaluationGroup.length() == 0)
+			{
 				verifier.addBrokenRule("No evaluation group set", cmp);
-			} else if (!verifier.getReportDesign().getGroupsMap().containsKey(evaluationGroup)) {
+			}
+			else if (!verifier.getReportDesign().getGroupsMap().containsKey(evaluationGroup))
+			{
 				verifier.addBrokenRule("Evalution group \"" + evaluationGroup + " not found", cmp);
 			}
 		}
 
-		for (ItemProperty p : cmp.getItemProperties()) {
+		for (ItemProperty p : cmp.getItemProperties())
+		{
 			verifier.verifyExpression(p.getValueExpression(), p, null);
 		}
 		List<ItemData> pathDataList = cmp.getItemData();

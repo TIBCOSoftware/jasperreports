@@ -32,18 +32,22 @@ import java.util.Map;
  *
  * @author gtoffoli
  */
-public class SampleProcessor implements Processor {
+public class SampleProcessor implements Processor
+{
 
-    @Override
-    public Map<String, Object> processConfiguration(Map<String, Object> configuration) {
-        
-        System.out.println("Modifying the configuration...");
-        
-        configuration.put("rootLabel", (configuration.containsKey("rootLabel") ? configuration.get("rootLabel") : "") + " modified");
-        
-        return configuration;
-        
-        
-    }
+	@Override
+	public Map<String, Object> processConfiguration(Map<String, Object> configuration)
+	{
+
+		System.out.println("Modifying the configuration...");
+
+		configuration.put(
+			"rootLabel",
+			(configuration.containsKey("rootLabel") ? configuration.get("rootLabel") : "") + " modified"
+			);
+
+		return configuration;
+
+	}
 
 }
