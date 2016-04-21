@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -37,6 +36,7 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 
 	private final List<String> fontFamiliesLocations;
 	private List<FontFamily> fontFamilies;
+	private List<FontSet> fontSets;
 	
 	public FontExtensionsRegistry(List<String> fontFamiliesLocations)
 	{
@@ -48,23 +48,41 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 	{
 		if (FontFamily.class.equals(extensionType)) 
 		{
-			if (fontFamilies == null && fontFamiliesLocations != null)
-			{
-				SimpleFontExtensionHelper fontExtensionHelper = SimpleFontExtensionHelper.getInstance();
-				DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance();
-				
-				fontFamilies = new ArrayList<FontFamily>();
-				for (String location : fontFamiliesLocations)
-				{
-					List<FontFamily> families = fontExtensionHelper.loadFontFamilies(context, location);
-					fontFamilies.addAll(families);
-				}
-			}
+			ensureFontExtensions();
+			
 			@SuppressWarnings("unchecked")
 			List<T> extensions = (List<T>) fontFamilies;
 			return extensions;
 		}
+		
+		if (FontSet.class.equals(extensionType)) 
+		{
+			ensureFontExtensions();
+			
+			@SuppressWarnings("unchecked")
+			List<T> extensions = (List<T>) fontSets;
+			return extensions;
+		}
+		
 		return null;
+	}
+
+	protected void ensureFontExtensions()
+	{
+		if ((fontFamilies == null || fontSets == null) && fontFamiliesLocations != null)
+		{
+			SimpleFontExtensionHelper fontExtensionHelper = SimpleFontExtensionHelper.getInstance();
+			DefaultJasperReportsContext context = DefaultJasperReportsContext.getInstance();
+			
+			FontExtensionsCollector extensionsCollector = new FontExtensionsCollector();
+			for (String location : fontFamiliesLocations)
+			{
+				fontExtensionHelper.loadFontFamilies(context, location, extensionsCollector);
+			}
+			
+			fontFamilies = extensionsCollector.getFontFamilies();
+			fontSets = extensionsCollector.getFontSets();
+		}
 	}
 
 }

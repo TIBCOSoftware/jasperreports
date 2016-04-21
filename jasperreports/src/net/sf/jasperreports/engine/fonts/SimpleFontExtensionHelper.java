@@ -30,7 +30,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -111,9 +110,13 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	private static final String NODE_locale = "locale";
 	private static final String NODE_includedScript = "includedScript";
 	private static final String NODE_excludedScript = "excludedScript";
+	private static final String NODE_fontSet = "fontSet";
+	private static final String NODE_family = "family";
 	private static final String ATTRIBUTE_name = "name";
 	private static final String ATTRIBUTE_visible = "visible";
 	private static final String ATTRIBUTE_key = "key";
+	private static final String ATTRIBUTE_familyName = "familyName";
+	private static final String ATTRIBUTE_primary = "primary";
 	
 	/**
 	 * Return a new instance.
@@ -163,12 +166,20 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	public List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, String file)
 	{
+		FontExtensionsCollector collector = new FontExtensionsCollector();
+		loadFontFamilies(jasperReportsContext, file, collector);
+		return collector.getFontFamilies();
+	}
+	
+	public void loadFontFamilies(JasperReportsContext jasperReportsContext, String file,
+			FontExtensionsReceiver receiver)
+	{
 		InputStream is = null; 
 		
 		try
 		{
 			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(file);
-			return loadFontFamilies(jasperReportsContext, is);
+			loadFontExtensions(jasperReportsContext, is, receiver);
 		}
 		catch (JRException e)
 		{
@@ -194,12 +205,18 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 */
 	public List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, InputStream is)
 	{
-		List<FontFamily> fontFamilies = null;
+		FontExtensionsCollector collector = new FontExtensionsCollector();
+		loadFontExtensions(jasperReportsContext, is, collector);
+		return collector.getFontFamilies();
+	}
 
+	public void loadFontExtensions(JasperReportsContext jasperReportsContext, InputStream is,
+			FontExtensionsReceiver receiver)
+	{
 		try
 		{
 			Document document = documentBuilder.parse(new InputSource(new InputStreamReader(is, "UTF-8")));
-			fontFamilies = parseFontFamilies(jasperReportsContext, document.getDocumentElement());
+			parseFontExtensions(jasperReportsContext, document.getDocumentElement(), receiver);
 		}
 		catch (SAXException e)
 		{
@@ -210,31 +227,32 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		{
 			throw new JRRuntimeException(e);
 		}
-		
-		return fontFamilies;
 	}
 
 	/**
 	 *
 	 */
-	private List<FontFamily> parseFontFamilies(JasperReportsContext jasperReportsContext, Node fontFamiliesNode) throws SAXException
+	private void parseFontExtensions(JasperReportsContext jasperReportsContext, Node fontFamiliesNode,
+			FontExtensionsReceiver receiver) throws SAXException
 	{
-		List<FontFamily> fontFamilies = new ArrayList<FontFamily>();
-		
 		NodeList nodeList = fontFamiliesNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
 		{
 			Node node = nodeList.item(i);
-			if (
-				node.getNodeType() == Node.ELEMENT_NODE
-				&& NODE_fontFamily.equals(node.getNodeName())
-				)
+			if (node.getNodeType() == Node.ELEMENT_NODE)
 			{
-				fontFamilies.add(parseFontFamily(jasperReportsContext, node));
+				if (NODE_fontFamily.equals(node.getNodeName()))
+				{
+					SimpleFontFamily fontFamily = parseFontFamily(jasperReportsContext, node);
+					receiver.acceptFontFamily(fontFamily);
+				}
+				else if (NODE_fontSet.equals(node.getNodeName()))
+				{
+					SimpleFontSet fontSet = parseFontSet(node);
+					receiver.acceptFontSet(fontSet);
+				}
 			}
 		}
-		
-		return fontFamilies;
 	}
 
 	/**
@@ -312,14 +330,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 				{
 					fontFamily.setLocales(parseLocales(node));
 				}
-				else if (NODE_includedScript.equals(node.getNodeName()))
-				{
-					fontFamily.addIncludedScript(node.getTextContent());
-				}
-				else if (NODE_excludedScript.equals(node.getNodeName()))
-				{
-					fontFamily.addExcludedScript(node.getTextContent());
-				}
 			}
 		}
 		
@@ -380,7 +390,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private Map<String,String> parseExportFonts(Node exportFontsNode) throws SAXException
+	private Map<String,String> parseExportFonts(Node exportFontsNode)
 	{
 		Map<String,String> exportFonts = new HashMap<String,String>();
 		
@@ -404,31 +414,116 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		
 		return exportFonts;
 	}
+	
+	private SimpleFontSet parseFontSet(Node fontSetNode)
+	{
+		SimpleFontSet fontSet = new SimpleFontSet();
+		
+		NamedNodeMap nodeAttrs = fontSetNode.getAttributes();
+		if (nodeAttrs.getNamedItem(ATTRIBUTE_name) != null)
+		{
+			fontSet.setName(nodeAttrs.getNamedItem(ATTRIBUTE_name).getNodeValue());
+		}
+
+		NodeList nodeList = fontSetNode.getChildNodes();
+		for(int i = 0; i < nodeList.getLength(); i++)
+		{
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE)
+			{
+				if (NODE_family.equals(node.getNodeName()))
+				{
+					SimpleFontSetFamily family = parsetFontSetFamily(node);
+					fontSet.addFamily(family);
+				}
+				else if (NODE_exportFonts.equals(node.getNodeName()))
+				{
+					fontSet.setExportFonts(parseExportFonts(node));
+				}
+			}
+		}
+		
+		return fontSet;
+	}
+	
+	private SimpleFontSetFamily parsetFontSetFamily(Node familyNode)
+	{
+		SimpleFontSetFamily family = new SimpleFontSetFamily();
+		
+		NamedNodeMap nodeAttrs = familyNode.getAttributes();
+		if (nodeAttrs.getNamedItem(ATTRIBUTE_familyName) != null)
+		{
+			family.setFamilyName(nodeAttrs.getNamedItem(ATTRIBUTE_familyName).getNodeValue());
+		}
+		if (nodeAttrs.getNamedItem(ATTRIBUTE_primary) != null)
+		{
+			family.setPrimary(Boolean.parseBoolean(nodeAttrs.getNamedItem(ATTRIBUTE_primary).getNodeValue()));
+		}
+
+		NodeList nodeList = familyNode.getChildNodes();
+		for(int i = 0; i < nodeList.getLength(); i++)
+		{
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE)
+			{
+				if (NODE_includedScript.equals(node.getNodeName()))
+				{
+					family.addIncludedScript(node.getTextContent());
+				}
+				else if (NODE_excludedScript.equals(node.getNodeName()))
+				{
+					family.addExcludedScript(node.getTextContent());
+				}
+			}
+		}
+		
+		return family;
+	}
 
 	/**
 	 *
 	 */
 	public static String getFontsXml(List<FontFamily> fontFamilies)
 	{
-		StringBuffer buffer = null;
-		
 		if(fontFamilies != null)
 		{
-			buffer = new StringBuffer();
-			buffer.append("<?xml version=\"1.0\" encoding=\"" + DEFAULT_ENCODING + "\"?>\n");
-			buffer.append("<fontFamilies>\n");
-			for (FontFamily fontFamily : fontFamilies)
-			{
-				writeFontFamily(buffer, fontFamily);
-			}
-			buffer.append("</fontFamilies>\n");
-			return buffer.toString();
+			FontExtensionsContainer extensions = new SimpleFontExtensionsContainer(fontFamilies, null);
+			return getFontExtensionsXml(extensions);
 		}
 		else
 		{
 			log.error("There are no font families in the list.");
 			return null;
 		}
+	}
+
+	public static String getFontExtensionsXml(FontExtensionsContainer extensions)
+	{
+		//FIXME use JRXmlWriteHelper
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("<?xml version=\"1.0\" encoding=\"" + DEFAULT_ENCODING + "\"?>\n");
+		buffer.append("<fontFamilies>\n");
+		
+		List<? extends FontFamily> fontFamilies = extensions.getFontFamilies();
+		if(fontFamilies != null)
+		{
+			for (FontFamily fontFamily : fontFamilies)
+			{
+				writeFontFamily(buffer, fontFamily);
+			}
+		}
+		
+		List<? extends FontSet> fontSets = extensions.getFontSets();
+		if (fontSets != null)
+		{
+			for (FontSet fontSet : fontSets)
+			{
+				writeFontSet(buffer, fontSet);
+			}
+		}
+		
+		buffer.append("</fontFamilies>\n");
+		return buffer.toString();
 	}
 
 	/**
@@ -474,18 +569,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 				SimpleFontFamily simpleFontFamily = (SimpleFontFamily)fontFamily;
 				
 				Map<String, String> exportFonts = simpleFontFamily.getExportFonts();
-				
-				if(exportFonts != null)
-				{
-					buffer.append(indent + "<exportFonts>\n");
-					indent = "      ";
-					for(String key : exportFonts.keySet())
-					{
-						buffer.append(indent + "<export key=\"" + key +"\">" + exportFonts.get(key) + "</export>\n");
-					}
-					indent = "    ";
-					buffer.append(indent + "</exportFonts>\n");
-				}
+				writeExportFonts(buffer, indent, exportFonts);
 				
 				Set<String> locales = simpleFontFamily.getLocales();
 				
@@ -501,45 +585,28 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 					buffer.append(indent + "</locales>\n");
 				}
 			}
-			
-			List<String> includedScripts = fontFamily.getIncludedScripts();
-			if (includedScripts != null)
-			{
-				for (String script : includedScripts)
-				{
-					buffer.append(indent);
-					buffer.append('<');
-					buffer.append(NODE_includedScript);
-					buffer.append('>');
-					buffer.append(script);
-					buffer.append("</");
-					buffer.append(NODE_includedScript);
-					buffer.append(">\n");
-				}
-			}
-			
-			List<String> excludedScripts = fontFamily.getExcludedScripts();
-			if (excludedScripts != null)
-			{
-				for (String script : excludedScripts)
-				{
-					buffer.append(indent);
-					buffer.append('<');
-					buffer.append(NODE_excludedScript);
-					buffer.append('>');
-					buffer.append(script);
-					buffer.append("</");
-					buffer.append(NODE_excludedScript);
-					buffer.append(">\n");
-				}
-			}
-			
 			indent = "  ";
 			buffer.append(indent + "</fontFamily>\n\n");
 		}		
 		else
 		{
 			log.info("Null font family encountered.");
+		}
+	}
+
+
+	protected static void writeExportFonts(StringBuffer buffer, String indent, 
+			Map<String, String> exportFonts)
+	{
+		if(exportFonts != null)
+		{
+			buffer.append(indent + "<exportFonts>\n");
+			String newIndent = indent + "  ";
+			for(String key : exportFonts.keySet())
+			{
+				buffer.append(newIndent + "<export key=\"" + key +"\">" + exportFonts.get(key) + "</export>\n");
+			}
+			buffer.append(indent + "</exportFonts>\n");
 		}
 	}
 	
@@ -593,6 +660,100 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		}
 	}
 	
+	private static void writeFontSet(StringBuffer buffer, FontSet fontSet)
+	{
+		if (fontSet == null)
+		{
+			log.info("Null font set encountered.");
+			return;
+		}
+		
+		if(fontSet.getName() == null)
+		{
+			log.error("Font set name is required.");
+			return;
+		}
+			
+		String indent = "  ";
+		buffer.append(indent + "<" + NODE_fontSet + " " + ATTRIBUTE_name + "=\"" + fontSet.getName() + "\""); 
+		buffer.append(">\n");
+		indent = "    ";
+			
+		if(fontSet instanceof SimpleFontSet)
+		{
+			Map<String, String> exportFonts = ((SimpleFontSet) fontSet).getExportFonts();
+			writeExportFonts(buffer, indent, exportFonts);
+		}
+			
+		List<FontSetFamily> families = fontSet.getFamilies();
+		if (families != null)
+		{
+			for (FontSetFamily family : families)
+			{
+				writeFontSetFamily(buffer, indent, family);
+			}
+		}
+			
+		indent = "  ";
+		buffer.append(indent + "</" + NODE_fontSet + ">\n\n");
+	}
+
+	private static void writeFontSetFamily(StringBuffer buffer, String indent, FontSetFamily family)
+	{
+		if (family == null)
+		{
+			log.info("Null font set family encountered.");
+			return;
+		}
+		
+		if(family.getFamilyName() == null)
+		{
+			log.error("Font set name is required.");
+			return;
+		}
+		
+		buffer.append(indent + "<" + NODE_family + " " + ATTRIBUTE_familyName + "=\"" + family.getFamilyName() + "\"");
+		if (family.isPrimary())
+		{
+			buffer.append(" " + ATTRIBUTE_primary + "=\"true\"");
+		}
+		buffer.append(">\n");
+		
+		String newIndent = indent + "  ";
+		List<String> includedScripts = family.getIncludedScripts();
+		if (includedScripts != null)
+		{
+			for (String script : includedScripts)
+			{
+				buffer.append(newIndent);
+				buffer.append('<');
+				buffer.append(NODE_includedScript);
+				buffer.append('>');
+				buffer.append(script);
+				buffer.append("</");
+				buffer.append(NODE_includedScript);
+				buffer.append(">\n");
+			}
+		}
+		
+		List<String> excludedScripts = family.getExcludedScripts();
+		if (excludedScripts != null)
+		{
+			for (String script : excludedScripts)
+			{
+				buffer.append(newIndent);
+				buffer.append('<');
+				buffer.append(NODE_excludedScript);
+				buffer.append('>');
+				buffer.append(script);
+				buffer.append("</");
+				buffer.append(NODE_excludedScript);
+				buffer.append(">\n");
+			}
+		}
+		buffer.append(indent + "</" + NODE_family + ">\n");
+	}
+
 
 	/**
 	 *
@@ -602,12 +763,21 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		List<FontFamily> fontFamilies
 		) throws JRException
 	{
+		FontExtensionsContainer extensions = new SimpleFontExtensionsContainer(fontFamilies, null);
+		writeFontExtensionsXml(destFileName, extensions);
+	}
+
+	public static void writeFontExtensionsXml(
+		String destFileName,
+		FontExtensionsContainer extensions
+		) throws JRException
+	{
 		FileOutputStream fos = null;
 
 		try
 		{
 			fos = new FileOutputStream(destFileName);
-			writeFontsXml(fos, fontFamilies);
+			writeFontExtensionsXml(fos, extensions);
 		}
 		catch (IOException e)
 		{
@@ -641,11 +811,20 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		List<FontFamily> fontFamilies
 		) throws JRException
 	{
+		FontExtensionsContainer extensions = new SimpleFontExtensionsContainer(fontFamilies, null);
+		writeFontExtensionsXml(outputStream, extensions);
+	}
+
+	public static void writeFontExtensionsXml(
+		OutputStream outputStream,
+		FontExtensionsContainer extensions
+		) throws JRException
+	{
 		Writer out = null;
 		try
 		{
 			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
-			out.write(getFontsXml(fontFamilies));
+			out.write(getFontExtensionsXml(extensions));
 			out.flush();
 		}
 		catch (Exception e)

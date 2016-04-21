@@ -28,10 +28,10 @@ import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -221,35 +221,82 @@ public final class FontUtil
 		return null;
 	}
 	
-	public List<FontFamily> getFontFamilies(String name, Locale locale)
+	public FontSetInfo getFontSetInfo(String name, Locale locale)
 	{
 		//FIXMEFONT do some cache
-		List<FontFamily> families = java.util.Collections.emptyList();
-		List<FontFamily> allFamilies = jasperReportsContext.getExtensions(FontFamily.class);
-		for (Iterator<FontFamily> itf = allFamilies.iterator(); itf.hasNext();)
+		List<FontFamily> allFontFamilies = jasperReportsContext.getExtensions(FontFamily.class);
+		HashMap<String, FontFamily> fontFamilies = new HashMap<String, FontFamily>(allFontFamilies.size() * 4 / 3, .75f);
+		for (FontFamily family : allFontFamilies)
 		{
-			FontFamily family = itf.next();
-			if (locale == null || family.supportsLocale(locale))
+			if (family.getName() != null
+					&& (locale == null || family.supportsLocale(locale)))
 			{
-				if (name.equals(family.getName()))
+				fontFamilies.put(family.getName(), family);
+			}
+		}
+		
+		Map<String, FontSetFamilyInfo> setFamilyInfos = new LinkedHashMap<String, FontSetFamilyInfo>();
+		List<FontSet> allSets = jasperReportsContext.getExtensions(FontSet.class);
+		FontSet foundFontSet = null;
+		FontSetFamilyInfo primaryFamily = null;
+		for (FontSet fontSet : allSets)
+		{
+			if (name.equals(fontSet.getName()))
+			{
+				foundFontSet = fontSet;
+				
+				List<FontSetFamily> setFamilies = fontSet.getFamilies();
+				for (FontSetFamily fontSetFamily : setFamilies)
 				{
-					if (families.isEmpty())
+					FontFamily fontFamily = fontFamilies.get(fontSetFamily.getFamilyName());
+					if (fontFamily != null)
 					{
-						families = Collections.singletonList(family);
-					}
-					else
-					{
-						if (families.size() == 1)
-						{
-							families = new ArrayList<FontFamily>(families);
-						}
+						FontSetFamilyInfo familyInfo = new FontSetFamilyInfo(fontSetFamily, fontFamily);
+						setFamilyInfos.put(fontSetFamily.getFamilyName(), familyInfo);
 						
-						families.add(family);
+						if (fontSetFamily.isPrimary())
+						{
+							primaryFamily = familyInfo;
+						}
 					}
 				}
 			}
 		}
-		return families;
+		
+		if (foundFontSet == null)
+		{
+			return null;
+		}
+		
+		//TODO lucianc handle sets with no families
+		List<FontSetFamilyInfo> familyInfoList = new ArrayList<FontSetFamilyInfo>(setFamilyInfos.values());
+		if (primaryFamily == null && !familyInfoList.isEmpty())
+		{
+			primaryFamily = familyInfoList.get(0);
+		}
+		return new FontSetInfo(foundFontSet, primaryFamily, familyInfoList);
+	}
+	
+	public String getExportFontFamily(String name, Locale locale, String exporterKey)
+	{
+		//FIXMEFONT do some cache
+		FontInfo fontInfo = getFontInfo(name, locale);
+		if (fontInfo != null)
+		{
+			FontFamily family = fontInfo.getFontFamily();
+			String exportFont = family.getExportFont(exporterKey);
+			return exportFont == null ? name : exportFont;
+		}
+		
+		FontSetInfo fontSetInfo = getFontSetInfo(name, locale);
+		if (fontSetInfo != null)
+		{
+			String exportFont = fontSetInfo.getFontSet().getExportFont(exporterKey);
+			//TODO also look at the primary family?
+			return exportFont == null ? name : exportFont;
+		}
+		
+		return name;
 	}
 
 

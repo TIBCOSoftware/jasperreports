@@ -95,9 +95,8 @@ import net.sf.jasperreports.engine.export.tabulator.Table;
 import net.sf.jasperreports.engine.export.tabulator.TableCell;
 import net.sf.jasperreports.engine.export.tabulator.TablePosition;
 import net.sf.jasperreports.engine.export.tabulator.Tabulator;
-import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.engine.fonts.FontSetInfo;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -2397,7 +2396,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
 		JRStyledText styledText = styledTextUtil.getProcessedStyledText(textElement, 
-				setBackcolor ? allSelector : noBackcolorSelector);
+				setBackcolor ? allSelector : noBackcolorSelector, getExporterKey());
 		
 		if (styledText != null)
 		{
@@ -2537,52 +2536,74 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
 
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = fontFamilyAttr;
-
 		FontInfo fontInfo = (FontInfo) attributes.get(JRTextAttribute.FONT_INFO);
+		
+		String defaultFontFamily;
 		if (fontInfo == null)
 		{
-			fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
+			//no resolved font, using the family
+			defaultFontFamily = fontFamilyAttr;
+			//check if the family is an extension font family
+			fontInfo = fontUtil.getFontInfo(fontFamilyAttr, locale);
+		}
+		else
+		{
+			//we have an already resolved font, using it
+			defaultFontFamily = fontInfo.getFontFamily().getName();
 		}
 		
-		if (fontInfo != null)
+		String exportFont = null;
+		if (fontInfo == null)
 		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(getExporterKey());
-			if (exportFont == null)
+			//we don't have a resolved font family, check if it's a font set
+			FontSetInfo fontSetInfo = fontUtil.getFontSetInfo(fontFamilyAttr, locale);
+			if (fontSetInfo != null)
 			{
-				HtmlExporterOutput output = getExporterOutput();
-				@SuppressWarnings("deprecation")
-				HtmlResourceHandler fontHandler = 
-					output.getFontHandler() == null
-					? getFontHandler()
-					: output.getFontHandler();
-				@SuppressWarnings("deprecation")
-				HtmlResourceHandler resourceHandler = 
-					getExporterOutput().getResourceHandler() == null
-					? getResourceHandler()
-					: getExporterOutput().getResourceHandler();
-				if (fontHandler != null && resourceHandler != null)
-				{
-					HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
-					
-					if (htmlFont != null)
-					{
-						if (!fontsToProcess.containsKey(htmlFont.getId()))
-						{
-							fontsToProcess.put(htmlFont.getId(), htmlFont);
-
-							HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
-						}
-						
-						fontFamily = htmlFont.getShortId();
-					}
-				}
+				//it's a font set, check the font mapping
+				exportFont = fontSetInfo.getFontSet().getExportFont(getExporterKey());
 			}
-			else
+		}
+		else
+		{
+			//it's a font family, check the font mapping
+			exportFont = fontInfo.getFontFamily().getExportFont(getExporterKey());
+		}
+
+		//by default the font family is used
+		String fontFamily = defaultFontFamily;
+		if (exportFont != null)
+		{
+			//we have a font mapping
+			fontFamily = exportFont;
+		}
+		else if (fontInfo != null)
+		{
+			HtmlExporterOutput output = getExporterOutput();
+			@SuppressWarnings("deprecation")
+			HtmlResourceHandler fontHandler = 
+				output.getFontHandler() == null
+				? getFontHandler()
+				: output.getFontHandler();
+			@SuppressWarnings("deprecation")
+			HtmlResourceHandler resourceHandler = 
+				getExporterOutput().getResourceHandler() == null
+				? getResourceHandler()
+				: getExporterOutput().getResourceHandler();
+			if (fontHandler != null && resourceHandler != null)
 			{
-				fontFamily = exportFont;
+				HtmlFont htmlFont = HtmlFont.getInstance(locale, fontInfo, isBold, isItalic);
+				
+				if (htmlFont != null)
+				{
+					if (!fontsToProcess.containsKey(htmlFont.getId()))
+					{
+						fontsToProcess.put(htmlFont.getId(), htmlFont);
+
+						HtmlFontUtil.getInstance(jasperReportsContext).handleHtmlFont(resourceHandler, htmlFont);
+					}
+					
+					fontFamily = htmlFont.getShortId();
+				}
 			}
 		}
 			

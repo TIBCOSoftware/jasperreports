@@ -39,8 +39,6 @@ import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -53,7 +51,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	private final JasperReportsContext jasperReportsContext;
+	private final FontUtil fontUtil;
 	private final WriterHelper styleWriter;
 	private Set<String> fontFaces = new HashSet<String>();
 	private final String exporterKey;
@@ -88,7 +86,7 @@ public class StyleCache
 		String exporterKey
 		)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.fontUtil = FontUtil.getInstance(jasperReportsContext);
 		this.styleWriter = styleWriter;
 		this.exporterKey = exporterKey;
 	}
@@ -315,18 +313,7 @@ public class StyleCache
 			return textSpanStyleName;
 		}
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
-		String fontFamily = fontFamilyAttr;
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-		if (fontInfo != null)
-		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(exporterKey);
-			if (exportFont != null)
-			{
-				fontFamily = exportFont;
-			}
-		}
+		String fontFamily = fontUtil.getExportFontFamily(fontFamilyAttr, locale, exporterKey);
 		fontFaces.add(fontFamily);
 		
 		StringBuffer textSpanStyleIdBuffer = new StringBuffer();

@@ -623,7 +623,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			JRStyledText text = getStyledText();
 			if (text != null)
 			{
-				processedStyledText = filler.getStyledTextUtil().matchFonts(text, filler.getLocale());
+				processedStyledText = filler.getStyledTextUtil().resolveFonts(text, filler.getLocale());
 			}
 		}
 		return processedStyledText;

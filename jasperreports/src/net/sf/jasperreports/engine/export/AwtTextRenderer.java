@@ -68,7 +68,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	 */
 	public void initialize(Graphics2D grx, JRPrintText text, int offsetX, int offsetY)
 	{
-		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector);
+		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector, null);
 		if (styledText == null)
 		{
 			return;

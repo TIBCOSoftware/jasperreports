@@ -29,6 +29,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -43,6 +44,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontSetFamilyInfo;
+import net.sf.jasperreports.engine.fonts.FontSetInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.CharPredicateCache.Result;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
@@ -142,7 +145,8 @@ public class JRStyledTextUtil
 			);
 	}
 	
-	public JRStyledText getProcessedStyledText(JRPrintText printText, JRStyledTextAttributeSelector attributeSelector)
+	public JRStyledText getProcessedStyledText(JRPrintText printText, JRStyledTextAttributeSelector attributeSelector,
+			String exporterKey)
 	{
 		String truncatedText = getTruncatedText(printText);
 		if (truncatedText == null)
@@ -152,13 +156,23 @@ public class JRStyledTextUtil
 		
 		Locale locale = JRStyledTextAttributeSelector.getTextLocale(printText);
 		JRStyledText styledText = getStyledText(printText, truncatedText, attributeSelector, locale);
-		JRStyledText processedStyledText = matchFonts(styledText, locale);
+		JRStyledText processedStyledText = resolveFonts(styledText, locale, exporterKey);
 		return processedStyledText;
 	}
 	
-	public JRStyledText matchFonts(JRStyledText styledText, Locale locale)
+	public JRStyledText resolveFonts(JRStyledText styledText, Locale locale)
 	{
-		//TODO lucianc inhibiting property
+		return resolveFonts(styledText, locale, null);
+	}
+	
+	protected JRStyledText resolveFonts(JRStyledText styledText, Locale locale, String exporterKey)
+	{
+		if (styledText == null || styledText.length() == 0)
+		{
+			return styledText;
+		}
+		
+		//TODO introduce an option to modify the existing object
 		//TODO lucianc trace logging
 		String text = styledText.getText();
 		List<Run> runs = styledText.getRuns();
@@ -169,7 +183,7 @@ public class JRStyledTextUtil
 			//treating separately to avoid styledText.getAttributedString() because it's slow
 			Map<Attribute, Object> attributes = runs.get(0).attributes;
 			FamilyFonts families = getFamilyFonts(attributes, locale);
-			if (families.needsFontMatching())
+			if (families.needsToResolveFonts(exporterKey))//TODO lucianc check for single family
 			{
 				newRuns = new ArrayList<Run>(runs.size() + 2);
 				matchFonts(text, 0, styledText.length(), attributes, families, newRuns);
@@ -182,7 +196,7 @@ public class JRStyledTextUtil
 			for (Run run : runs)
 			{
 				FamilyFonts families = getFamilyFonts(run.attributes, locale);
-				if (families.needsFontMatching())
+				if (families.needsToResolveFonts(exporterKey))
 				{
 					needsFontMatching = true;
 					break;
@@ -199,13 +213,13 @@ public class JRStyledTextUtil
 					int runEndIndex = attributesIt.getRunLimit();
 					Map<Attribute, Object> runAttributes = attributesIt.getAttributes();
 					FamilyFonts familyFonts = getFamilyFonts(runAttributes, locale);
-					if (familyFonts.needsFontMatching())
+					if (familyFonts.needsToResolveFonts(exporterKey))
 					{
 						matchFonts(text, index, runEndIndex, runAttributes, familyFonts, newRuns);
 					}
 					else
 					{
-						//a single family, copying the run
+						//not a font set, copying the run
 						copyRun(newRuns, runAttributes, index, runEndIndex);
 					}
 					
@@ -297,9 +311,9 @@ public class JRStyledTextUtil
 		
 		if (hadUnmatched)
 		{
-			//we have unmatched characters, adding a run with the original font for the entire chunk.
+			//we have unmatched characters, adding a run with the primary font for the entire chunk.
 			//we're relying on the JRStyledText to apply the runs in the reverse order.
-			copyRun(newRuns, attributes, startIndex, endIndex);
+			addFallbackRun(newRuns, attributes, startIndex, endIndex, familyFonts);
 		}
 	}
 	
@@ -307,6 +321,27 @@ public class JRStyledTextUtil
 			int startIndex, int endIndex)
 	{
 		Map<Attribute, Object> newAttributes = Collections.unmodifiableMap(attributes);
+		Run newRun = new Run(newAttributes, startIndex, endIndex);
+		newRuns.add(newRun);
+	}
+	
+	protected void addFallbackRun(List<Run> newRuns, Map<Attribute, Object> attributes,  
+			int startIndex, int endIndex, FamilyFonts familyFonts)
+	{
+		Map<Attribute, Object> newAttributes;
+		if (familyFonts.fontSet.getPrimaryFamily() != null)
+		{
+			//using the primary font as fallback for characters that are not found in any fonts
+			//TODO lucianc enhance AdditionalEntryMap to support overwriting an entry
+			newAttributes = new HashMap<Attribute, Object>(attributes);
+			String primaryFamilyName = familyFonts.fontSet.getPrimaryFamily().getFontFamily().getName();
+			newAttributes.put(TextAttribute.FAMILY, primaryFamilyName);
+		}
+		else
+		{
+			//not a normal case, leaving the font family as is
+			newAttributes = Collections.unmodifiableMap(attributes);
+		}
 		Run newRun = new Run(newAttributes, startIndex, endIndex);
 		newRuns.add(newRun);
 	}
@@ -382,7 +417,7 @@ public class JRStyledTextUtil
 		
 		FontMatch fontMatch = new FontMatch();
 		fontMatch.endIndex = lastValid == null ? nextCharIndex : charIndex;
-		fontMatch.fontInfo = lastValid.fontInfo;
+		fontMatch.fontInfo = lastValid == null ? null : lastValid.fontInfo;
 		return fontMatch;
 	}
 	
@@ -406,55 +441,62 @@ public class JRStyledTextUtil
 	
 	protected FamilyFonts loadFamilyFonts(String name, Locale locale)
 	{
-		FamilyFonts fonts = new FamilyFonts();
 		if (name == null)
 		{
-			fonts.families = Collections.<Family>emptyList();
+			return NULL_FAMILY_FONTS;
 		}
-		else
+		
+		FontInfo fontInfo = fontUtil.getFontInfo(name, locale);
+		if (fontInfo != null)
 		{
-			List<FontFamily> fontFamilies = fontUtil.getFontFamilies(name, locale);
-			
-			fonts.families = new ArrayList<Family>(fontFamilies.size());
-			for (FontFamily fontFamily : fontFamilies)
-			{
-				Family family = new Family(fontFamily);
-				fonts.families.add(family);
-			}
-			
-			if (fonts.needsFontMatching())
-			{
-				fonts.init();
-			}
+			//we found a font, not looking for font sets
+			return NULL_FAMILY_FONTS;
 		}
-		return fonts;
+		
+		FontSetInfo fontSetInfo = fontUtil.getFontSetInfo(name, locale);
+		if (fontSetInfo == null)
+		{
+			return NULL_FAMILY_FONTS;
+		}
+		
+		return new FamilyFonts(fontSetInfo);
 	}
 
+	private static FamilyFonts NULL_FAMILY_FONTS = new FamilyFonts(null);
+	
 	private static class FamilyFonts
 	{
-		List<Family> families;
+		FontSetInfo fontSet;
 		List<Face> normalFonts;
 		List<Face> boldFonts;
 		List<Face> italicFonts;
 		List<Face> boldItalicFonts;
 		
-		public boolean needsFontMatching()
+		public FamilyFonts(FontSetInfo fontSet)
 		{
-			return families.size() > 1;
+			this.fontSet = fontSet;
+			
+			init();
 		}
 
-		public void init()
+		private void init()
 		{
+			if (fontSet == null)
+			{
+				return;
+			}
+			
+			List<FontSetFamilyInfo> families = fontSet.getFamilies();
 			this.normalFonts = new ArrayList<Face>(families.size());
 			this.boldFonts = new ArrayList<Face>(families.size());
 			this.italicFonts = new ArrayList<Face>(families.size());
 			this.boldItalicFonts = new ArrayList<Face>(families.size());
 			
-			for (Family family : families)
+			for (FontSetFamilyInfo fontSetFamily : families)
 			{
-				family.initScripts();
+				Family family = new Family(fontSetFamily);
 				
-				FontFamily fontFamily = family.fontFamily;
+				FontFamily fontFamily = fontSetFamily.getFontFamily();
 				if (fontFamily.getNormalFace() != null && fontFamily.getNormalFace().getFont() != null)
 				{
 					normalFonts.add(new Face(family, fontFamily.getNormalFace(), Font.PLAIN));
@@ -473,22 +515,29 @@ public class JRStyledTextUtil
 				}
 			}
 		}
+		
+		public boolean needsToResolveFonts(String exporterKey)
+		{
+			return fontSet != null && (exporterKey == null 
+					|| fontSet.getFontSet().getExportFont(exporterKey) == null);
+		}
 	}
 	
 	private static class Family
 	{
-		final FontFamily fontFamily;
+		final FontSetFamilyInfo fontFamily;
 		CharScriptsSet scriptsSet;
 		
-		public Family(FontFamily fontFamily)
+		public Family(FontSetFamilyInfo fontSetFamily)
 		{
-			this.fontFamily = fontFamily;
+			this.fontFamily = fontSetFamily;
+			initScripts();
 		}
 
 		private void initScripts()
 		{
-			List<String> includedScripts = fontFamily.getIncludedScripts();
-			List<String> excludedScripts = fontFamily.getExcludedScripts();
+			List<String> includedScripts = fontFamily.getFontSetFamily().getIncludedScripts();
+			List<String> excludedScripts = fontFamily.getFontSetFamily().getExcludedScripts();
 			if ((includedScripts != null && !includedScripts.isEmpty())
 					|| (excludedScripts != null && !excludedScripts.isEmpty()))
 			{
@@ -512,7 +561,7 @@ public class JRStyledTextUtil
 		public Face(Family family, FontFace fontFace, int style)
 		{
 			this.family = family;
-			this.fontInfo = new FontInfo(family.fontFamily, fontFace, style);
+			this.fontInfo = new FontInfo(family.fontFamily.getFontFamily(), fontFace, style);
 			this.cache = new CharPredicateCache();
 		}
 		

@@ -23,84 +23,38 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
-import java.util.Locale;
-
-
+import java.util.List;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface FontFamily
+public class FontSetInfo
 {
 
-	/**
-	 * 
-	 */
-	public String getName();
+	private FontSet fontSet;
+	private FontSetFamilyInfo primaryFamily;
+	private List<FontSetFamilyInfo> families;
 	
-	/**
-	 * 
-	 */
-	public FontFace getNormalFace();
+	public FontSetInfo(FontSet fontSet, FontSetFamilyInfo primaryFamily, List<FontSetFamilyInfo> families)
+	{
+		this.fontSet = fontSet;
+		this.primaryFamily = primaryFamily;
+		this.families = families;
+	}
+
+	public FontSet getFontSet()
+	{
+		return fontSet;
+	}
+
+	public FontSetFamilyInfo getPrimaryFamily()
+	{
+		return primaryFamily;
+	}
 	
-	/**
-	 * 
-	 */
-	public FontFace getBoldFace();
-	
-	/**
-	 * 
-	 */
-	public FontFace getItalicFace();
-	
-	/**
-	 * 
-	 */
-	public FontFace getBoldItalicFace();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getNormalPdfFont();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getBoldPdfFont();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getItalicPdfFont();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getBoldItalicPdfFont();
-	
-	/**
-	 * 
-	 */
-	public String getPdfEncoding();
-	
-	/**
-	 * 
-	 */
-	public Boolean isPdfEmbedded();
-	
-	/**
-	 * 
-	 */
-	public String getExportFont(String key);
-	
-	/**
-	 * 
-	 */
-	public boolean supportsLocale(Locale locale);
-	
-	/**
-	 * 
-	 */
-	public boolean isVisible();
+	public List<FontSetFamilyInfo> getFamilies()
+	{
+		return families;
+	}
 	
 }

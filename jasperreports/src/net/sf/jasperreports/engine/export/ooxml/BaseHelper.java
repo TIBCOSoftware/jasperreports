@@ -28,6 +28,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 
 /**
@@ -39,6 +40,7 @@ public abstract class BaseHelper
 	 *
 	 */
 	protected final JasperReportsContext jasperReportsContext;
+	protected final FontUtil fontUtil;
 	protected final Writer writer;
 
 	/**
@@ -47,6 +49,7 @@ public abstract class BaseHelper
 	public BaseHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.fontUtil = FontUtil.getInstance(jasperReportsContext);
 		this.writer = writer;
 	}
 	

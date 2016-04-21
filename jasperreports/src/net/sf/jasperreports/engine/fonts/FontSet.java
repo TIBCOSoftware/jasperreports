@@ -23,84 +23,18 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
-import java.util.Locale;
-
-
+import java.util.List;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface FontFamily
+public interface FontSet
 {
+	
+	String getName();
 
-	/**
-	 * 
-	 */
-	public String getName();
+	List<FontSetFamily> getFamilies();
 	
-	/**
-	 * 
-	 */
-	public FontFace getNormalFace();
-	
-	/**
-	 * 
-	 */
-	public FontFace getBoldFace();
-	
-	/**
-	 * 
-	 */
-	public FontFace getItalicFace();
-	
-	/**
-	 * 
-	 */
-	public FontFace getBoldItalicFace();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getNormalPdfFont();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getBoldPdfFont();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getItalicPdfFont();
-	
-	/**
-	 * @deprecated Replaced by {@link FontFace#getPdf()}.
-	 */
-	public String getBoldItalicPdfFont();
-	
-	/**
-	 * 
-	 */
-	public String getPdfEncoding();
-	
-	/**
-	 * 
-	 */
-	public Boolean isPdfEmbedded();
-	
-	/**
-	 * 
-	 */
-	public String getExportFont(String key);
-	
-	/**
-	 * 
-	 */
-	public boolean supportsLocale(Locale locale);
-	
-	/**
-	 * 
-	 */
-	public boolean isVisible();
+	String getExportFont(String key);
 	
 }

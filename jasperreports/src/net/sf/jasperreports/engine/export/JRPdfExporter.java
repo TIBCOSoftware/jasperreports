@@ -117,7 +117,6 @@ import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -437,7 +436,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private int crtEvenPageOffsetY;
 	
 	private boolean awtIgnoreMissingFont;
-	private FontUtil fontUtil;
 	private Set<UnicodeBlock> glyphRendererBlocks;
 	private boolean glyphRendererAddActualText;
 	private PdfVersionEnum minimalVersion;
@@ -565,7 +563,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 		awtIgnoreMissingFont = getPropertiesUtil().getBooleanProperty(
 				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT);//FIXMECONTEXT replace with getPropertiesUtil in all exporters
-		fontUtil = FontUtil.getInstance(jasperReportsContext);
 		
 		glyphRendererAddActualText = propertiesUtil.getBooleanProperty( 
 				PdfReportConfiguration.PROPERTY_GLYPH_RENDERER_ADD_ACTUAL_TEXT, false);
@@ -983,7 +980,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected void writePageAnchor(int pageIndex) throws DocumentException 
 	{
 		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
-		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
+		fontUtil.getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
 		Font pdfFont = getFont(attributes, getLocale(), false);
 		Chunk chunk = new Chunk(" ", pdfFont);
 		
@@ -2195,7 +2192,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		FontInfo fontInfo = (FontInfo) attributes.get(JRTextAttribute.FONT_INFO);
 		if (fontInfo == null)
 		{
-			fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(jrFont.getFontName(), locale);
+			fontInfo = fontUtil.getFontInfo(jrFont.getFontName(), locale);
 		}
 		
 		if (fontInfo == null)
@@ -2362,7 +2359,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	public void exportText(JRPrintText text) throws DocumentException
 	{
-		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector);
+		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector, null);
 		if (styledText == null)
 		{
 			return;

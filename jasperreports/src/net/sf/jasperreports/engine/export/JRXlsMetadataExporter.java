@@ -109,9 +109,6 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -1856,16 +1853,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	protected HSSFFont getLoadedFont(JRFont font, short forecolor, Map<Attribute,Object> attributes, Locale locale) {
 
 		HSSFFont cellFont = null;
-		String fontName = font.getFontName();
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
-		if (fontInfo != null) {
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(getExporterKey());
-			if (exportFont != null) {
-				fontName = exportFont;
-			}
-		}
+		String fontName = fontUtil.getExportFontFamily(font.getFontName(), locale, getExporterKey());
 
 		boolean isFontSizeFixEnabled = getCurrentItemConfiguration().isFontSizeFixEnabled();
 		
