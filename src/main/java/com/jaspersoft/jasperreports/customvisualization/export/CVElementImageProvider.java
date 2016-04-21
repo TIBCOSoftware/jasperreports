@@ -26,6 +26,7 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
+import com.jaspersoft.jasperreports.customvisualization.CVConstants;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,10 +35,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
@@ -135,10 +140,25 @@ public abstract class CVElementImageProvider
 			{
 				String svgString = createSvgImage(jasperReportsContext, element);
 
-				SimpleRenderToImageAwareDataRenderer renderer =
-					new SimpleRenderToImageAwareDataRenderer(svgString.getBytes(), null);// FIXME force UTF-8 encoding
-				// renderer.setMinDPI(getMinDPI());
-				// renderer.setAntiAlias(isAntiAlias());
+				SimpleRenderToImageAwareDataRenderer renderer;
+                                try {
+                                    renderer = new SimpleRenderToImageAwareDataRenderer(svgString.getBytes("UTF-8"), null);
+
+                                    // Configure min DPI
+                                    int minDPI = JRPropertiesUtil.getInstance(jasperReportsContext)
+                                                .getIntegerProperty(CVConstants.CV_PNG_MIN_DPI, CVConstants.CV_PNG_MIN_DPI_DEFAULT_VALUE);
+
+                                    renderer.setMinDPI(minDPI);
+
+                                    // Configure Antialiasing
+                                    boolean useAntiAlias = JRPropertiesUtil.getInstance(jasperReportsContext)
+                                                .getBooleanProperty(CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE);
+
+                                    renderer.setAntiAlias(useAntiAlias);
+
+                                } catch (UnsupportedEncodingException ex) {
+                                    throw new JRException(ex); // Very unlikely UTF-8 is not supported.
+                                }
 
 				cacheRenderer = renderer;
 

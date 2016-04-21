@@ -31,6 +31,7 @@
 					<cvc:itemProperty name="circleColor" value="#FF0400"/>
 					<cvc:itemProperty name="circleOpacity" value="1"/>
 					<cvc:itemProperty name="circleRadius" value="4"/>
+                                        <cvc:itemProperty name="interpolation" value="linear"/>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
@@ -41,6 +42,9 @@
 							<cvc:itemProperty name="value" value="0">
 								<valueExpression><![CDATA[$F{value}]]></valueExpression>
 							</cvc:itemProperty>
+						</cvc:item>
+                                                <cvc:item>
+							<cvc:itemProperty name="value" value="35"/>
 						</cvc:item>
 					</cvc:cvData>
 				</cvc:customvisualization>
@@ -59,16 +63,19 @@
 					<cvc:itemProperty name="circleColor" value="#FF0400"/>
 					<cvc:itemProperty name="circleOpacity" value="1"/>
 					<cvc:itemProperty name="circleRadius" value="4"/>
+                                        <cvc:itemProperty name="interpolation" value="linear"/>
 					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98b">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
 						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
+							<cvc:itemProperty name="value" value="100"/>
+						</cvc:item>
+                                                <cvc:item>
+							<cvc:itemProperty name="value" value="-100"/>
+						</cvc:item>
+                                                <cvc:item>
+							<cvc:itemProperty name="value" value="50"/>
+						</cvc:item>
+                                                <cvc:item>
+							<cvc:itemProperty name="value" value="-50"/>
 						</cvc:item>
 					</cvc:cvData>
 				</cvc:customvisualization>
@@ -87,6 +94,7 @@
 					<cvc:itemProperty name="circleColor" value="#FF0400"/>
 					<cvc:itemProperty name="circleOpacity" value="1"/>
 					<cvc:itemProperty name="circleRadius" value="4"/>
+                                        <cvc:itemProperty name="interpolation" value="linear"/>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98c">

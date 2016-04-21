@@ -388,7 +388,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 
 	/**
 	 * Load a resource from a repository location, input stream, URL or File. If
-	 * fromClasspathOnly is set to true, the sourc is used as a string pointing
+	 * fromClasspathOnly is set to true, the source is used as a string pointing
 	 * to a resource inside the classpath. Classpath access is restricted by
 	 * PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX properties inside JasperReports.
 	 * 
@@ -456,7 +456,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 	}
 
 	/**
-	 * Function taked by the DefaultWebResourceHandler of JasperReports.
+	 * Function taken by the DefaultWebResourceHandler of JasperReports.
 	 * 
 	 * It checks if a specific resource name inside the classpath can be loaded
 	 * or no.
