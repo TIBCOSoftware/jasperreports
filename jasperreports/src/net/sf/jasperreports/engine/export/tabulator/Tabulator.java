@@ -171,37 +171,62 @@ public class Tabulator
 			}
 		}
 		
-		for (Row row : rowRange.rangeSet)
+		Bounds covered = null;
+		Bounds originalBounds;
+		do
 		{
-			for (Column col : colRange.rangeSet)
+			originalBounds = overlapBounds.cloneBounds();
+			
+			if (rowRange.start != overlapBounds.getStartY() || rowRange.end != overlapBounds.getEndY())
 			{
-				Cell cell = row.getCell(col);
-				if (!canOverwrite(cell, parentCell))
+				rowRange = table.rows.getRange(overlapBounds.getStartY(), overlapBounds.getEndY());
+			}
+			if (colRange.start != overlapBounds.getStartX() || colRange.end != overlapBounds.getEndX())
+			{
+				colRange = table.columns.getRange(overlapBounds.getStartX(), overlapBounds.getEndX());
+			}
+			
+			for (Row row : rowRange.rangeSet)
+			{
+				for (Column col : colRange.rangeSet)
 				{
-					overlap = true;
-					if (!allowOverlap)
+					if (covered != null && covered.contains(col.startCoord, col.endCoord, row.startCoord, row.endCoord))
 					{
-						break;
+						//we've been here before
+						continue;
 					}
+					
+					Cell cell = row.getCell(col);
+					if (!canOverwrite(cell, parentCell))
+					{
+						overlap = true;
+						if (!allowOverlap)
+						{
+							break;
+						}
 
-					// TODO lucianc see if we can avoid some of these checks
-					Cell overlapParentCell = overlapParentCell(cell, parentCell);
-					Pair<Column, Column> colSpanRange = getColumnSpanRange(table, col, row, overlapParentCell);
-					Pair<Row, Row> rowSpanRange = getRowSpanRange(table, col, row, overlapParentCell);
-					
-					if (log.isTraceEnabled())
-					{
-						log.trace("found overlap with cell " + cell 
-								+ ", overlap parent " + overlapParentCell
-								+ ", column span range " + colSpanRange.first().startCoord + " to " + colSpanRange.second().startCoord
-								+ ", row span range " + rowSpanRange.first().startCoord + " to " + rowSpanRange.second().startCoord);
+						// TODO lucianc see if we can avoid some of these checks
+						Cell overlapParentCell = overlapParentCell(cell, parentCell);
+						Pair<Column, Column> colSpanRange = getColumnSpanRange(table, col, row, overlapParentCell);
+						Pair<Row, Row> rowSpanRange = getRowSpanRange(table, col, row, overlapParentCell);
+						
+						if (log.isTraceEnabled())
+						{
+							log.trace("found overlap with cell " + cell 
+									+ ", overlap parent " + overlapParentCell
+									+ ", column span range " + colSpanRange.first().startCoord + " to " + colSpanRange.second().startCoord
+									+ ", row span range " + rowSpanRange.first().startCoord + " to " + rowSpanRange.second().startCoord);
+						}
+						
+						overlapBounds.grow(colSpanRange.first().startCoord, colSpanRange.second().startCoord, 
+								rowSpanRange.first().startCoord, rowSpanRange.second().startCoord);
 					}
-					
-					overlapBounds.grow(colSpanRange.first().startCoord, colSpanRange.second().startCoord, 
-							rowSpanRange.first().startCoord, rowSpanRange.second().startCoord);
 				}
 			}
+			
+			covered = originalBounds;
 		}
+		while (!originalBounds.equals(overlapBounds) || (overlap && !allowOverlap));
 		
 		if (!overlap)
 		{
