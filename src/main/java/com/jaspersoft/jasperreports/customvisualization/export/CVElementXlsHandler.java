@@ -79,7 +79,7 @@ public class CVElementXlsHandler implements GenericElementXlsHandler
 		{
 			JRPrintImage chartImage = 
 				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element);
+					.getImage(exporterContext.getJasperReportsContext(), element, false);
 			JRXlsExporter exporter = (JRXlsExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}

@@ -26,7 +26,6 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization.export;
 
-import com.jaspersoft.jasperreports.customvisualization.CVConstants;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,10 +33,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.jaspersoft.jasperreports.customvisualization.CVConstants;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
-import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -58,6 +58,8 @@ import net.sf.jasperreports.renderers.util.RendererUtil;
  */
 public abstract class CVElementImageProvider
 {
+	private static final Log log = LogFactory.getLog(CVElementImageProvider.class);
+
 	public static final String TEMP_RESOURCE_PREFIX = "cv_component_";
 
 	public static final String TEMPORARY_SVG = "com/jaspersoft/jasperreports/customvisualization/export/temporary.svg";
@@ -91,7 +93,8 @@ public abstract class CVElementImageProvider
 	 */
 	public JRPrintImage getImage(
 		JasperReportsContext jasperReportsContext, 
-		JRGenericPrintElement element
+		JRGenericPrintElement element,
+		boolean createSvg
 		) throws JRException
 	{
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
@@ -110,59 +113,60 @@ public abstract class CVElementImageProvider
 		printImage.setHorizontalImageAlign(HorizontalImageAlignEnum.LEFT);
 		printImage.setVerticalImageAlign(VerticalImageAlignEnum.TOP);
 
-		OnErrorTypeEnum onErrorType = OnErrorTypeEnum.BLANK; // CVPrintElement.DEFAULT_ON_ERROR_TYPE;
-		// OnErrorTypeEnum onErrorType =
-		// element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE) ==
-		// null
-		// ? CVPrintElement.DEFAULT_ON_ERROR_TYPE
-		// :
-		// OnErrorTypeEnum.getByName((String)element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE));
-		printImage.setOnErrorType(onErrorType);
+		//printImage.setOnErrorType(OnErrorTypeEnum.BLANK);
 
 		Renderable cacheRenderer = null;
-
+		
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null)
 		{
-			// We did not finished to export the chart yet, we wcan just return
+			//FIXME maybe we can just leave cacheRenderer null and nothing will show up in report
+			
+			// We did not finished to export the chart yet, we can just return
 			// an empty image....
 			cacheRenderer = (Renderable) element.getParameterValue(CVPrintElement.PARAMETER_TEMPORARY_CACHE_RENDERER);
 			if (cacheRenderer == null)
 			{
-				cacheRenderer = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(TEMPORARY_SVG,
-						onErrorType);
+				cacheRenderer = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(TEMPORARY_SVG, OnErrorTypeEnum.BLANK);//FIXME blank on error?
 				element.setParameterValue(CVPrintElement.PARAMETER_TEMPORARY_CACHE_RENDERER, cacheRenderer);
 			}
 		}
 		else
 		{
-			cacheRenderer = (Renderable) element.getParameterValue(CVPrintElement.PARAMETER_SVG_CACHE_RENDERER);
+			String cacheKey = createSvg ? CVPrintElement.PARAMETER_SVG_CACHE_RENDERER : CVPrintElement.PARAMETER_PNG_CACHE_RENDERER;
+			
+			cacheRenderer = (Renderable) element.getParameterValue(cacheKey);
 			if (cacheRenderer == null)
 			{
-				String svgString = createSvgImage(jasperReportsContext, element);
+				try
+				{
+					byte[] imageData = getImageData(jasperReportsContext, element, createSvg);
 
-				SimpleRenderToImageAwareDataRenderer renderer;
-                                try {
-                                    renderer = new SimpleRenderToImageAwareDataRenderer(svgString.getBytes("UTF-8"), null);
+					SimpleRenderToImageAwareDataRenderer renderer =
+						new SimpleRenderToImageAwareDataRenderer(imageData, null);
+					
+					JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+					renderer.setMinDPI(propUtil.getIntegerProperty(CVConstants.CV_PNG_MIN_DPI, CVConstants.CV_PNG_MIN_DPI_DEFAULT_VALUE));
+					renderer.setAntiAlias(propUtil.getBooleanProperty(CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE));
 
-                                    // Configure min DPI
-                                    int minDPI = JRPropertiesUtil.getInstance(jasperReportsContext)
-                                                .getIntegerProperty(CVConstants.CV_PNG_MIN_DPI, CVConstants.CV_PNG_MIN_DPI_DEFAULT_VALUE);
+					cacheRenderer = renderer;
+				}
+				catch (Exception e)
+				{
+					if (log.isErrorEnabled())
+					{
+						log.error("Generating image for Custom Visualization element " + element.hashCode() + " failed.", e);
+					}
 
-                                    renderer.setMinDPI(minDPI);
+					cacheRenderer =
+						RendererUtil.getInstance(jasperReportsContext).handleImageError(
+							e, 
+							element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE) == null
+								? CVPrintElement.DEFAULT_ON_ERROR_TYPE
+								: OnErrorTypeEnum.getByName((String) element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE))
+							);
+				}
 
-                                    // Configure Antialiasing
-                                    boolean useAntiAlias = JRPropertiesUtil.getInstance(jasperReportsContext)
-                                                .getBooleanProperty(CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE);
-
-                                    renderer.setAntiAlias(useAntiAlias);
-
-                                } catch (UnsupportedEncodingException ex) {
-                                    throw new JRException(ex); // Very unlikely UTF-8 is not supported.
-                                }
-
-				cacheRenderer = renderer;
-
-				element.setParameterValue(CVPrintElement.PARAMETER_SVG_CACHE_RENDERER, cacheRenderer);
+				element.setParameterValue(cacheKey, cacheRenderer);
 			}
 		}
 
@@ -171,7 +175,7 @@ public abstract class CVElementImageProvider
 		return printImage;
 	}
 
-	public abstract String createSvgImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element);
+	public abstract byte[] getImageData(JasperReportsContext jasperReportsContext, JRGenericPrintElement element, boolean createSvg) throws Exception;
 
 	/**
 	 * Save the given input stream inside the specified file

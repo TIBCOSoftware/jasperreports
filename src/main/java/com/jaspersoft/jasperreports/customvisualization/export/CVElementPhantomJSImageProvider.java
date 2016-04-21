@@ -46,7 +46,6 @@ import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 
 /**
  * @author Giulio Toffoli (gtoffoli@tibco.com)
@@ -65,97 +64,6 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 	public static final String SVG2PNG_SCRIPT = "com/jaspersoft/jasperreports/customvisualization/scripts/svg2png.js";
 	public static final String ERROR_SVG = "com/jaspersoft/jasperreports/customvisualization/export/error.svg";
 
-	@Override
-	public String createSvgImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element)
-	{
-		try
-		{//FIXME what's this? PNG?
-			// Generates a PNG by using Phantom JS
-			return new String(getImageData(jasperReportsContext, element, true), "UTF-8");
-		}
-		catch (Exception ex)
-		{
-			if (log.isErrorEnabled())
-			{
-				log.error("Generating image for Custom Visualization element " + element.hashCode() + " failed.", ex);
-			}
-
-			OnErrorTypeEnum onErrorType = 
-				element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE) == null
-				? CVPrintElement.DEFAULT_ON_ERROR_TYPE
-				: OnErrorTypeEnum.getByName((String) element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE));
-
-			switch (onErrorType)
-			{
-				case ICON:
-					return createErrorSVG(ex.getMessage());
-				case BLANK:
-					return createBlankSVG(element.getWidth(), element.getHeight());
-				case ERROR:
-				default:
-					throw new JRRuntimeException(ex);
-			}
-		}
-	}
-
-	public static String createErrorSVG(String error)
-	{
-		try
-		{
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			copyStream(CVElementPhantomJSImageProvider.class.getClassLoader().getResourceAsStream(ERROR_SVG), os);
-			String svg = os.toString("UTF-8");
-
-			// tokenize the message and prepare it...
-			if (error != null)
-			{
-				String[] errorLines = error.split("\n");
-
-				StringBuffer svgMessage = new StringBuffer();
-				int dy = 0;
-
-				for (int i = 0; i < errorLines.length; ++i)
-				{
-					String line = errorLines[i];
-
-					// Split string in max 55 characters...
-					while (line.length() > 0)
-					{
-						String printable = line.substring(0, Math.min(line.length(), 55));
-						line = line.length() <= 55 ? "" : line.substring(55);
-						svgMessage.append("<tspan x=\"280\" y=\"" + (255 + dy) + "\" id=\"line2" + i + "\"><![CDATA[" + printable.trim() + "]]></tspan>");
-						dy += 15;
-					}
-				}
-
-				if (svgMessage.length() > 0)
-				{
-					svg = 
-						svg.replaceFirst(
-							"<tspan x=\"280\" y=\"255\" id=\"line2\">Check the log for more details.</tspan>",
-							svgMessage.toString()
-							);
-				}
-			}
-
-			return svg;
-
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-
-		return null;
-	}
-
-	public static String createBlankSVG(int w, int h)
-	{
-		return 
-			"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width='" 
-			+ w + "px' height='" + h + "px'></svg>";
-	}
-
 	/**
 	 * Returns the location of a newly created image,
 	 * 
@@ -166,10 +74,11 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public byte[] getImageData(
 		JasperReportsContext jasperReportsContext, 
 		JRGenericPrintElement element, 
-		boolean svg
+		boolean createSvg
 		) throws Exception
 	{
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null)
@@ -283,9 +192,8 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 							"Error while executing the javascript file to generate the SVG image.");
 				}
 
-				if (svg)
+				if (createSvg)
 				{
-
 					ByteArrayOutputStream os = new ByteArrayOutputStream();
 					copyStream(new FileInputStream(outputSvgFile), os);
 
@@ -316,11 +224,9 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 				copyStream(new FileInputStream(outputPngFile), os);
 
 				return os.toByteArray();
-
 			}
 			finally
 			{
-
 				for (File cleanableResource : cleanableResourcePaths)
 				{
 					if (cleanableResource.exists() && cleanableResource.canWrite())
@@ -360,7 +266,6 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 	 */
 	private static void runCommand(String[] args, File currentDirectory, final int timeout)
 	{
-
 		Thread loggingThread = null;
 		Thread interruptingThread = null;
 
@@ -505,7 +410,6 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -518,7 +422,6 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 	 */
 	public static boolean killProcess(Process externalProcess, int millisDelay)
 	{
-
 		try
 		{
 			Thread.sleep(millisDelay);

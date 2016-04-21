@@ -38,13 +38,11 @@ public class CVConstants
 	public static final String CV_REQUIREJS_PROPERTY = "com.jaspersoft.jasperreports.components.customvisualization.require.js";
 	public static final String CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY = "com.jaspersoft.jasperreports.components.customvisualization.allow.scripts.in.classpath.only";
 
-        public static final String CV_PNG_MIN_DPI = "com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi";
-        public static final String CV_PNG_ANTIALIAS = "com.jaspersoft.jasperreports.components.customvisualization.png.antialias";
-        
-        public static final int CV_PNG_MIN_DPI_DEFAULT_VALUE = 300;
-        public static final boolean CV_PNG_ANTIALIAS_DEFAULT_VALUE = true;
-
-        
-        
+	public static final String CV_PNG_MIN_DPI = "com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi";
+	public static final String CV_PNG_ANTIALIAS = "com.jaspersoft.jasperreports.components.customvisualization.png.antialias";
+	
+	public static final int CV_PNG_MIN_DPI_DEFAULT_VALUE = 300;
+	public static final boolean CV_PNG_ANTIALIAS_DEFAULT_VALUE = true;
+		
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
 }

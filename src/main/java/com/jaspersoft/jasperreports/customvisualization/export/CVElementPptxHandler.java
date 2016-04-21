@@ -71,7 +71,7 @@ public class CVElementPptxHandler implements GenericElementPptxHandler
 		{
 			JRPrintImage chartImage = 
 				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element);
+					.getImage(exporterContext.getJasperReportsContext(), element, false);
 			JRPptxExporter exporter = (JRPptxExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage);
 		}

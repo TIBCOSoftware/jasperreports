@@ -57,7 +57,7 @@ public class CVElementPdfHandler implements GenericElementPdfHandler
 			JRPdfExporter exporter = (JRPdfExporter) exporterContext.getExporterRef();
 			JRPrintImage printImage = 
 				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element);
+					.getImage(exporterContext.getJasperReportsContext(), element, true);
 			exporter.exportImage(printImage);
 		}
 		catch (JRRuntimeException ex)
