@@ -129,7 +129,7 @@ public class CVComponentTest extends TestCase
 	{
 		// testReport("d3_Circle_sample_with_groups.jrxml", false);
 		// testReport("subdataset_test_sample.jrxml", false);
-		testReport("sparkline_sample.jrxml", true);
+		//testReport("sparkline_sample.jrxml", true);
 	}
 
 	// public void testDendogram() throws Exception
