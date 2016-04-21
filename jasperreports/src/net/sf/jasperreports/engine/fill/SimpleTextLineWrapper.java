@@ -467,6 +467,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			char ch = chars[i];
 			if (ch >= COMPEX_LAYOUT_START_CHAR && ch <= COMPEX_LAYOUT_END_CHAR)
 			{
+				//FIXME use icu4j or CharPredicateCache
 				UnicodeBlock chBlock = Character.UnicodeBlock.of(ch);
 				if (chBlock == null)
 				{
