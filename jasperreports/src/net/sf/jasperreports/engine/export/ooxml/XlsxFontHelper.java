@@ -31,9 +31,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
 
@@ -80,19 +77,7 @@ public class XlsxFontHelper extends BaseHelper
 			return -1;			
 		}
 
-		String fontName = font.getFontName();
-
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
-		if (fontInfo != null)
-		{
-			//fontName found in font extensions
-			FontFamily family = fontInfo.getFontFamily();
-			String exportFont = family.getExportFont(exporterKey);
-			if (exportFont != null)
-			{
-				fontName = exportFont;
-			}
-		}
+		String fontName = fontUtil.getExportFontFamily(font.getFontName(), locale, exporterKey);
 		
 		XlsxFontInfo xlsxFontInfo = new XlsxFontInfo(gridCell, fontName, configuration.isFontSizeFixEnabled());
 		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());

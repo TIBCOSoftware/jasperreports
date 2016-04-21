@@ -26,10 +26,12 @@ package net.sf.jasperreports.engine.fonts;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -349,6 +351,84 @@ public final class FontUtil
 		
 		return awtFamilyMatchFontInfo;
 	}
+	
+	public FontSetInfo getFontSetInfo(String name, Locale locale)
+	{
+		//FIXMEFONT do some cache
+		List<FontFamily> allFontFamilies = jasperReportsContext.getExtensions(FontFamily.class);
+		HashMap<String, FontFamily> fontFamilies = new HashMap<String, FontFamily>(allFontFamilies.size() * 4 / 3, .75f);
+		for (FontFamily family : allFontFamilies)
+		{
+			if (family.getName() != null
+					&& (locale == null || family.supportsLocale(locale)))
+			{
+				fontFamilies.put(family.getName(), family);
+			}
+		}
+		
+		Map<String, FontSetFamilyInfo> setFamilyInfos = new LinkedHashMap<String, FontSetFamilyInfo>();
+		List<FontSet> allSets = jasperReportsContext.getExtensions(FontSet.class);
+		FontSet foundFontSet = null;
+		FontSetFamilyInfo primaryFamily = null;
+		for (FontSet fontSet : allSets)
+		{
+			if (name.equals(fontSet.getName()))
+			{
+				foundFontSet = fontSet;
+				
+				List<FontSetFamily> setFamilies = fontSet.getFamilies();
+				for (FontSetFamily fontSetFamily : setFamilies)
+				{
+					FontFamily fontFamily = fontFamilies.get(fontSetFamily.getFamilyName());
+					if (fontFamily != null)
+					{
+						FontSetFamilyInfo familyInfo = new FontSetFamilyInfo(fontSetFamily, fontFamily);
+						setFamilyInfos.put(fontSetFamily.getFamilyName(), familyInfo);
+						
+						if (fontSetFamily.isPrimary())
+						{
+							primaryFamily = familyInfo;
+						}
+					}
+				}
+			}
+		}
+		
+		if (foundFontSet == null)
+		{
+			return null;
+		}
+		
+		//TODO lucianc handle sets with no families
+		List<FontSetFamilyInfo> familyInfoList = new ArrayList<FontSetFamilyInfo>(setFamilyInfos.values());
+		if (primaryFamily == null && !familyInfoList.isEmpty())
+		{
+			primaryFamily = familyInfoList.get(0);
+		}
+		return new FontSetInfo(foundFontSet, primaryFamily, familyInfoList);
+	}
+	
+	public String getExportFontFamily(String name, Locale locale, String exporterKey)
+	{
+		//FIXMEFONT do some cache
+		FontInfo fontInfo = getFontInfo(name, locale);
+		if (fontInfo != null)
+		{
+			FontFamily family = fontInfo.getFontFamily();
+			String exportFont = family.getExportFont(exporterKey);
+			return exportFont == null ? name : exportFont;
+		}
+		
+		FontSetInfo fontSetInfo = getFontSetInfo(name, locale);
+		if (fontSetInfo != null)
+		{
+			String exportFont = fontSetInfo.getFontSet().getExportFont(exporterKey);
+			//TODO also look at the primary family?
+			return exportFont == null ? name : exportFont;
+		}
+		
+		return name;
+	}
 
 
 	/**
@@ -399,72 +479,97 @@ public final class FontUtil
 		
 		if (fontInfo != null)
 		{
-			@SuppressWarnings("unused")
-			int faceStyle = Font.PLAIN;
-			FontFamily family = fontInfo.getFontFamily();
-			FontFace face = fontInfo.getFontFace();
-			if (face == null)
-			{
-				if (((style & Font.BOLD) > 0) && ((style & Font.ITALIC) > 0))
-				{
-					face = family.getBoldItalicFace();
-					faceStyle = Font.BOLD | Font.ITALIC;
-				}
-				
-				if ((face == null || face.getFont() == null) && ((style & Font.BOLD) > 0))
-				{
-					face = family.getBoldFace();
-					faceStyle = Font.BOLD;
-				}
-				
-				if ((face == null || face.getFont() == null) && ((style & Font.ITALIC) > 0))
-				{
-					face = family.getItalicFace();
-					faceStyle = Font.ITALIC;
-				}
-				
-				if (face == null || face.getFont() == null)
-				{
-					face = family.getNormalFace();
-					faceStyle = Font.PLAIN;
-				}
-					
-//				if (face == null)
-//				{
-//					throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
-//				}
-			}
-			else
-			{
-				faceStyle = fontInfo.getStyle();
-			}
-
-			if (face == null || face.getFont() == null)
-			{
-				// None of the family's font faces was found to match, neither by name, nor by style and the font family does not even specify a normal face font.
-				// In such case, we take the family name and consider it as JVM available font name.
-				checkAwtFont(family.getName(), ignoreMissingFont);
-				
-				awtFont = new Font(family.getName(), style, (int)size);
-				awtFont = awtFont.deriveFont(size);
-			}
-			else
-			{
-				awtFont = face.getFont();
-				if (awtFont == null)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_NULL_FONT,
-							new Object[]{face.getName(), family.getName()});
-				}
-
-				awtFont = awtFont.deriveFont(size);
-				
-				awtFont = awtFont.deriveFont(style);// & ~faceStyle);
-			}
+			awtFont = getAwtFont(fontInfo, style, size, ignoreMissingFont);
 		}
 		
+		return awtFont;
+	}
+
+
+	protected Font getAwtFont(FontInfo fontInfo, int style, float size, boolean ignoreMissingFont)
+	{
+		@SuppressWarnings("unused")
+		int faceStyle = Font.PLAIN;
+		FontFamily family = fontInfo.getFontFamily();
+		FontFace face = fontInfo.getFontFace();
+		if (face == null)
+		{
+			if (((style & Font.BOLD) > 0) && ((style & Font.ITALIC) > 0))
+			{
+				face = family.getBoldItalicFace();
+				faceStyle = Font.BOLD | Font.ITALIC;
+			}
+			
+			if ((face == null || face.getFont() == null) && ((style & Font.BOLD) > 0))
+			{
+				face = family.getBoldFace();
+				faceStyle = Font.BOLD;
+			}
+			
+			if ((face == null || face.getFont() == null) && ((style & Font.ITALIC) > 0))
+			{
+				face = family.getItalicFace();
+				faceStyle = Font.ITALIC;
+			}
+			
+			if (face == null || face.getFont() == null)
+			{
+				face = family.getNormalFace();
+				faceStyle = Font.PLAIN;
+			}
+				
+//			if (face == null)
+//			{
+//				throw new JRRuntimeException("Font family '" + family.getName() + "' does not have the normal font face.");
+//			}
+		}
+		else
+		{
+			faceStyle = fontInfo.getStyle();
+		}
+
+		Font awtFont;
+		if (face == null || face.getFont() == null)
+		{
+			// None of the family's font faces was found to match, neither by name, nor by style and the font family does not even specify a normal face font.
+			// In such case, we take the family name and consider it as JVM available font name.
+			checkAwtFont(family.getName(), ignoreMissingFont);
+			
+			awtFont = new Font(family.getName(), style, (int)size);
+			awtFont = awtFont.deriveFont(size);
+		}
+		else
+		{
+			awtFont = face.getFont();
+			if (awtFont == null)
+			{
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_NULL_FONT,
+						new Object[]{face.getName(), family.getName()});
+			}
+
+			awtFont = awtFont.deriveFont(size);
+
+			awtFont = awtFont.deriveFont(style);// & ~faceStyle);
+		}
+		return awtFont;
+	}
+
+
+	public Font getAwtFontFromBundles(AwtFontAttribute fontAttribute, int style, float size, Locale locale, boolean ignoreMissingFont)
+	{
+		FontInfo fontInfo = fontAttribute.getFontInfo();
+		if (fontInfo == null)
+		{
+			fontInfo = getFontInfo(fontAttribute.getFamily(), locale);
+		}
+		
+		Font awtFont = null;
+		if (fontInfo != null)
+		{
+			awtFont = getAwtFont(fontInfo, style, size, ignoreMissingFont);
+		}
 		return awtFont;
 	}
 

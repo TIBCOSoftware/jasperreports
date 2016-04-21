@@ -35,9 +35,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -97,18 +94,7 @@ public class XlsxRunHelper extends BaseHelper
 		if (value != null && !value.equals(oldValue))//FIXMEXLSX the text locale might be different from the report locale, resulting in different export font
 		{
 			String fontFamilyAttr = (String)value;
-			String fontFamily = fontFamilyAttr;
-			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
-			if (fontInfo != null)
-			{
-				//fontName found in font extensions
-				FontFamily family = fontInfo.getFontFamily();
-				String exportFont = family.getExportFont(exporterKey);
-				if (exportFont != null)
-				{
-					fontFamily = exportFont;
-				}
-			}
+			String fontFamily = fontUtil.getExportFontFamily(fontFamilyAttr, locale, exporterKey);
 			write("        <rFont val=\"" + fontFamily + "\"/>\n");
 			isOwnFont = true;
 		}
@@ -209,7 +195,7 @@ public class XlsxRunHelper extends BaseHelper
 		
 		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
-		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
+		fontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{

@@ -671,8 +671,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 		boolean isBold = TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT));
 		boolean isItalic = TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE));
 
-		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMENOW reuse this font lookup code everywhere
-		String fontFamily = getFontFamily(false, fontFamilyAttr, locale);
+		String fontFamily = resolveFontFamily(attributes, locale);
 
 		// do not put single quotes around family name here because the value might already contain quotes, 
 		// especially if it is coming from font extension export configuration
@@ -2410,27 +2409,6 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 	public int toZoom(int size)
 	{
 		return (int)toZoom((float)size);
-	}
-
-
-	@Override
-	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
-	{
-		JRStyledText styledText = super.getStyledText(textElement, setBackcolor);
-		
-		if (styledText != null)
-		{
-			short[] lineBreakOffsets = textElement.getLineBreakOffsets();
-			if (lineBreakOffsets != null && lineBreakOffsets.length > 0)
-			{
-				//insert new lines at the line break positions saved at fill time
-				//cloning the text first
-				styledText = styledText.cloneText();
-				styledText.insert("\n", lineBreakOffsets);
-			}
-		}
-		
-		return styledText;
 	}
 	
 	

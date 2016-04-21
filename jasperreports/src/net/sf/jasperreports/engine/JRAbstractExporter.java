@@ -195,6 +195,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	protected JRStyledTextAttributeSelector noBackcolorSelector;
 	protected JRStyledTextAttributeSelector noneSelector;
 	protected JRStyledTextUtil styledTextUtil;
+	protected FontUtil fontUtil;
 	
 	/**
 	 *
@@ -432,6 +433,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
 		this.noneSelector = JRStyledTextAttributeSelector.getNoneSelector(jasperReportsContext);
 		this.styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
+		this.fontUtil = FontUtil.getInstance(jasperReportsContext);
 	}
 
 	

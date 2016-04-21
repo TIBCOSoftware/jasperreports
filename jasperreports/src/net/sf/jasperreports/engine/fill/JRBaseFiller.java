@@ -80,6 +80,7 @@ import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.StyleResolver;
 
 
@@ -465,6 +466,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	public JRStyledTextParser getStyledTextParser()
 	{
 		return styledTextParser;
+	}
+	
+	protected JRStyledTextUtil getStyledTextUtil()
+	{
+		return fillContext.getStyledTextUtil();
 	}
 
 	/**

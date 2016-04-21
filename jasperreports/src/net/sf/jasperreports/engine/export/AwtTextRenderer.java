@@ -39,6 +39,8 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 public class AwtTextRenderer extends AbstractTextRenderer
 {
 	protected final JRStyledTextAttributeSelector noBackcolorSelector;
+	protected final JRStyledTextUtil styledTextUtil;
+	
 	/**
 	 * 
 	 */
@@ -57,6 +59,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 		super(jasperReportsContext, isMinimizePrinterJobSize, ignoreMissingFont);
 		
 		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
+		styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
 	}
 	
 
@@ -65,7 +68,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	 */
 	public void initialize(Graphics2D grx, JRPrintText text, int offsetX, int offsetY)
 	{
-		JRStyledText styledText = JRStyledTextUtil.getInstance(jasperReportsContext).getStyledText(text, noBackcolorSelector);
+		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector, null);
 		if (styledText == null)
 		{
 			return;

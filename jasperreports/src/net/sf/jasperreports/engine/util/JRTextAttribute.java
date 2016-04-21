@@ -60,6 +60,8 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	 */
 	public static final JRTextAttribute SEARCH_HIGHLIGHT = new JRTextAttribute("SEARCH_HIGHLIGHT");
 
+	public static final JRTextAttribute FONT_INFO = new JRTextAttribute("FONT_INFO");
+	
 	/**
 	 *
 	 */

@@ -73,5 +73,20 @@
 		<pdfEncoding>Identity-H</pdfEncoding>
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
+	
+	<fontSet name="Noto">
+		<family familyName="Noto Devanagari"/>
+		<family familyName="Noto Bengali"/>
+		<family familyName="Noto Telugu"/>
+		<family familyName="Noto Tamil"/>
+		<family familyName="Noto Gujarati"/>
+		<family familyName="Noto Kannada"/>
+		<family familyName="Noto Malayalam"/>
+		<family familyName="Noto Odia"/>
+		<family familyName="Noto Gurmukhi"/>
+		<family familyName="Noto Sinhala"/>
+		<family familyName="Noto Tibetan"/>
+		<family familyName="Noto Khmer"/>
+	</fontSet>
 
 </fontFamilies>

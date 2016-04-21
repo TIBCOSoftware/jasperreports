@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,12 +35,16 @@ import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontSetInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
@@ -214,6 +220,60 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		return JRPrintElementIndex.parsePrintElementIndex(imageName.substring(IMAGE_NAME_PREFIX_LEGTH, fileExtensionStart));
 	}
 	
+	protected String resolveFontFamily(Map<Attribute, Object> attributes, Locale locale)
+	{
+		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
+		FontInfo fontInfo = (FontInfo) attributes.get(JRTextAttribute.FONT_INFO);
+		
+		String defaultFontFamily;
+		if (fontInfo == null)
+		{
+			//no resolved font, using the family
+			defaultFontFamily = fontFamilyAttr;
+			//check if the family is an extension font family
+			fontInfo = fontUtil.getFontInfo(fontFamilyAttr, locale);
+		}
+		else
+		{
+			//we have an already resolved font, using it
+			defaultFontFamily = fontInfo.getFontFamily().getName();
+		}
+		
+		String exportFont = null;
+		if (fontInfo == null)
+		{
+			//we don't have a resolved font family, check if it's a font set
+			FontSetInfo fontSetInfo = fontUtil.getFontSetInfo(fontFamilyAttr, locale);
+			if (fontSetInfo != null)
+			{
+				//it's a font set, check the font mapping
+				exportFont = fontSetInfo.getFontSet().getExportFont(getExporterKey());
+			}
+		}
+		else
+		{
+			//it's a font family, check the font mapping
+			exportFont = fontInfo.getFontFamily().getExportFont(getExporterKey());
+		}
+
+		//by default the font family is used
+		String fontFamily = defaultFontFamily;
+		if (exportFont != null)
+		{
+			//we have a font mapping
+			fontFamily = exportFont;
+		}
+		else if (fontInfo != null)
+		{
+			String handlerFamily = handleFont(fontInfo, locale);
+			if (handlerFamily != null)
+			{
+				fontFamily = handlerFamily;
+			}
+		}
+		return fontFamily;
+	}
+	
 	/**
 	 * 
 	 */
@@ -227,7 +287,8 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			ignoreCase
 			? FontUtil.getInstance(jasperReportsContext).getFontInfoIgnoreCase(fontFamily, locale)
 			: FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamily, locale);
-			
+		
+		String htmlFamily = fontFamily;
 		if (fontInfo != null)
 		{
 			//fontName found in font extensions
@@ -235,30 +296,41 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			String exportFont = family.getExportFont(getExporterKey());
 			if (exportFont == null)
 			{
-				HtmlExporterOutput output = getExporterOutput();
-				HtmlResourceHandler resourceHandler = 
-					output.getResourceHandler() == null
-					? getResourceHandler()
-					: output.getResourceHandler();
-				if (resourceHandler != null)
+				String handlerFamily = handleFont(fontInfo, locale);
+				if (handlerFamily != null)
 				{
-					HtmlFontFamily htmlFontFamily = HtmlFontFamily.getInstance(locale, fontInfo);
-					
-					if (htmlFontFamily != null)
-					{
-						addFontFamily(htmlFontFamily);
-						
-						fontFamily = "'" + htmlFontFamily.getShortId() + "'";
-					}
+					htmlFamily = handlerFamily;
 				}
 			}
 			else
 			{
-				fontFamily = exportFont;
+				htmlFamily = exportFont;
 			}
 		}
 
-		return fontFamily;
+		return htmlFamily;
+	}
+
+	protected String handleFont(FontInfo fontInfo, Locale locale)
+	{
+		HtmlExporterOutput output = getExporterOutput();
+		HtmlResourceHandler resourceHandler = 
+			output.getResourceHandler() == null
+			? getResourceHandler()
+			: output.getResourceHandler();
+		String family = null;
+		if (resourceHandler != null)
+		{
+			HtmlFontFamily htmlFontFamily = HtmlFontFamily.getInstance(locale, fontInfo);
+			
+			if (htmlFontFamily != null)
+			{
+				addFontFamily(htmlFontFamily);
+				
+				family = "'" + htmlFontFamily.getShortId() + "'";
+			}
+		}
+		return family;
 	}
 
 	
@@ -326,6 +398,28 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_EMBEDDED_SVG_USE_FONTS, getCurrentItemConfiguration().isEmbeddedSvgUseFonts());
 		}
 		return getCurrentItemConfiguration().isEmbeddedSvgUseFonts();
+	}
+
+	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
+	{
+		JRStyledText styledText = styledTextUtil.getProcessedStyledText(textElement, 
+				setBackcolor ? allSelector : noBackcolorSelector, getExporterKey());
+		
+		if (styledText != null)
+		{
+			short[] lineBreakOffsets = textElement.getLineBreakOffsets();
+			if (lineBreakOffsets != null && lineBreakOffsets.length > 0)
+			{
+				//insert new lines at the line break positions saved at fill time
+				//cloning the text first
+				//FIXME do we need this?  styled text instances are no longer shared
+				styledText = styledText.cloneText();
+				styledText.insert("\n", lineBreakOffsets);
+			}
+		}
+		
+		return styledText;
 	}
 
 }

@@ -80,6 +80,7 @@ public class PdfGlyphGraphics2D extends PdfGraphics2D
 		Map<TextAttribute, ?> awtFontAttributes = awtFont.getAttributes();
 		fontAttrs.putAll(awtFontAttributes);
 		
+		//the following relies on FontInfo.getFontInfo matching the face/font name
 		com.lowagie.text.Font currentFont = pdfExporter.getFont(fontAttrs, locale, false);
 		boolean bold = (currentFont.getStyle() & com.lowagie.text.Font.BOLD) != 0;
 		boolean italic = (currentFont.getStyle() & com.lowagie.text.Font.ITALIC) != 0;

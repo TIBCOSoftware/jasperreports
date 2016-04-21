@@ -506,5 +506,10 @@
 			<version>2.3.0</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>57.1</version>
+		</dependency>
 	</dependencies>
 </project>
