@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.Locale;
+
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -189,16 +191,18 @@ public final class JRTextMeasurerUtil
 		{
 			text = "";
 		}
+		Locale textLocale = JRStyledTextAttributeSelector.getTextLocale(printText);
 		JRStyledText styledText = 
 			JRStyledTextParser.getInstance().getStyledText(
 				noBackcolorSelector.getStyledTextAttributes(printText), 
 				text, 
 				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()),//FIXMEMARKUP only static styled text appears on preview. no other markup
-				JRStyledTextAttributeSelector.getTextLocale(printText)
+				textLocale
 				);
-		
+
+		JRStyledText processedStyledText = styledTextUtil.resolveFonts(styledText, textLocale);
 		JRMeasuredText measuredText = textMeasurer.measure(
-				styledText, 
+				processedStyledText, 
 				0,
 				0,
 				false
