@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.qualifier using JasperReports Library version 6.2.2  -->
-<!-- 2016-04-12T16:04:13 -->
+<!-- 2016-04-21T15:49:06 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sparkline_test" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="Sample Dataset" uuid="389de2fa-2302-46df-88e2-d6ee19522008">
@@ -16,9 +16,13 @@
 		<![CDATA[]]>
 	</queryString>
 	<title>
-		<band height="376" splitType="Stretch">
+		<band height="600" splitType="Stretch">
 			<componentElement>
-				<reportElement x="20" y="10" width="240" height="50" uuid="9faf27c1-ee9e-4df7-8146-887159ffa206"/>
+				<reportElement x="20" y="80" width="240" height="50" uuid="9faf27c1-ee9e-4df7-8146-887159ffa206">
+					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.use.jr" value="true"/>
+					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="72"/>
+					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="false"/>
+				</reportElement>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
 					<cvc:itemProperty name="module" value="sparkline"/>
 					<cvc:itemProperty name="css" value="Sparkline.css"/>
@@ -31,7 +35,7 @@
 					<cvc:itemProperty name="circleColor" value="#FF0400"/>
 					<cvc:itemProperty name="circleOpacity" value="1"/>
 					<cvc:itemProperty name="circleRadius" value="4"/>
-                                        <cvc:itemProperty name="interpolation" value="linear"/>
+					<cvc:itemProperty name="interpolation" value="linear"/>
 					<cvc:cvData>
 						<dataset>
 							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
@@ -43,14 +47,71 @@
 								<valueExpression><![CDATA[$F{value}]]></valueExpression>
 							</cvc:itemProperty>
 						</cvc:item>
-                                                <cvc:item>
+						<cvc:item>
+							<cvc:itemProperty name="value" value="35"/>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
+			</componentElement>
+			<staticText>
+				<reportElement x="20" y="0" width="460" height="20" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Sparkline test]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="40" width="240" height="40" uuid="cfc83a6f-2a6f-47b6-b308-145ebe1644c9"/>
+				<text><![CDATA[Interpolation: linear
+PNG Export: JR - 72dpi - antialias: off
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="40" width="240" height="40" uuid="7879f87e-4224-4b98-9fa0-299020b691b2"/>
+				<text><![CDATA[Interpolation: linear
+PNG Export: PhantomJS
+]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="280" y="80" width="240" height="50" uuid="5cbaa6c3-0cfe-4c1c-8a4a-afa0b3faeb9b">
+					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.use.jr" value="false"/>
+				</reportElement>
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
+					<cvc:itemProperty name="module" value="sparkline"/>
+					<cvc:itemProperty name="css" value="Sparkline.css"/>
+					<cvc:itemProperty name="script" value="sparkline.min.js"/>
+					<cvc:itemProperty name="lineColor" value="#000000"/>
+					<cvc:itemProperty name="lineOpacity" value="1"/>
+					<cvc:itemProperty name="lineStroke" value="3"/>
+					<cvc:itemProperty name="fillColor" value="#0000FF"/>
+					<cvc:itemProperty name="fillOpacity" value="0.1"/>
+					<cvc:itemProperty name="circleColor" value="#FF0400"/>
+					<cvc:itemProperty name="circleOpacity" value="1"/>
+					<cvc:itemProperty name="circleRadius" value="4"/>
+					<cvc:itemProperty name="interpolation" value="linear"/>
+					<cvc:cvData>
+						<dataset>
+							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
+								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<cvc:item>
+							<cvc:itemProperty name="value" value="0">
+								<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							</cvc:itemProperty>
+						</cvc:item>
+						<cvc:item>
 							<cvc:itemProperty name="value" value="35"/>
 						</cvc:item>
 					</cvc:cvData>
 				</cvc:customvisualization>
 			</componentElement>
 			<componentElement>
-				<reportElement x="20" y="70" width="240" height="50" uuid="881f8314-3c74-4ed4-9115-557db6ea4ecc"/>
+				<reportElement x="20" y="190" width="240" height="50" uuid="b5e05a49-a338-4915-971f-00a4494fa6bd">
+					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.use.jr" value="true"/>
+					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
+					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="true"/>
+				</reportElement>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
 					<cvc:itemProperty name="module" value="sparkline"/>
 					<cvc:itemProperty name="css" value="Sparkline.css"/>
@@ -63,41 +124,10 @@
 					<cvc:itemProperty name="circleColor" value="#FF0400"/>
 					<cvc:itemProperty name="circleOpacity" value="1"/>
 					<cvc:itemProperty name="circleRadius" value="4"/>
-                                        <cvc:itemProperty name="interpolation" value="linear"/>
-					<cvc:cvData>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="100"/>
-						</cvc:item>
-                                                <cvc:item>
-							<cvc:itemProperty name="value" value="-100"/>
-						</cvc:item>
-                                                <cvc:item>
-							<cvc:itemProperty name="value" value="50"/>
-						</cvc:item>
-                                                <cvc:item>
-							<cvc:itemProperty name="value" value="-50"/>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="20" y="130" width="240" height="50" uuid="02e207fd-a9aa-4b7f-ad6d-e874fdde5c0b"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-                                        <cvc:itemProperty name="interpolation" value="linear"/>
+					<cvc:itemProperty name="interpolation" value="linear"/>
 					<cvc:cvData>
 						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98c">
+							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98a">
 								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
@@ -106,261 +136,17 @@
 								<valueExpression><![CDATA[$F{value}]]></valueExpression>
 							</cvc:itemProperty>
 						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="20" y="190" width="240" height="50" uuid="19ef7346-6823-4b13-b737-3c184ebe2fdd"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98d">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
 						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
+							<cvc:itemProperty name="value" value="35"/>
 						</cvc:item>
 					</cvc:cvData>
 				</cvc:customvisualization>
 			</componentElement>
-			<componentElement>
-				<reportElement x="20" y="250" width="240" height="50" uuid="564bbb57-cbd9-44f5-897b-67ed3a12b67a"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98e">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="20" y="310" width="240" height="50" uuid="dd8e88ce-a8f0-4f47-887b-fb3094589cd6"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a98f">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="290" y="10" width="240" height="50" uuid="6be30e8f-5aa8-481b-933a-1a92b37a25a4"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a980">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="290" y="70" width="240" height="50" uuid="b2ec17b2-6a50-46f8-ab8c-18dc2d27f39c"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a981">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="290" y="130" width="240" height="50" uuid="aaf8ff6b-16c3-46ea-ab60-04bc7f2cd6be"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a982">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="290" y="190" width="240" height="50" uuid="946fc110-9c65-4d49-9dd0-728404f178b2"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a983">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="290" y="250" width="240" height="50" uuid="f9e2bdd5-0dfd-492e-9232-d4f76d1c9e81"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a984">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
-			<componentElement>
-				<reportElement x="290" y="310" width="240" height="50" uuid="148a21cb-479a-44d8-ad47-bac0e5fc7ac2"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="Sparkline.css"/>
-					<cvc:itemProperty name="script" value="sparkline.min.js"/>
-					<cvc:itemProperty name="lineColor" value="#000000"/>
-					<cvc:itemProperty name="lineOpacity" value="1"/>
-					<cvc:itemProperty name="lineStroke" value="3"/>
-					<cvc:itemProperty name="fillColor" value="#0000FF"/>
-					<cvc:itemProperty name="fillOpacity" value="0.1"/>
-					<cvc:itemProperty name="circleColor" value="#FF0400"/>
-					<cvc:itemProperty name="circleOpacity" value="1"/>
-					<cvc:itemProperty name="circleRadius" value="4"/>
-					<cvc:cvData>
-						<dataset>
-							<datasetRun subDataset="Sample Dataset" uuid="0e1d87a7-9376-4927-9b1e-30835421a985">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource( new StringBufferInputStream( "[{ value: 0},{ value: 10},{ value: 12},{ value: 14},{ value: 40},{ value: -2},{ value: -30}]" ) )]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<cvc:item>
-							<cvc:itemProperty name="value" value="0">
-								<valueExpression><![CDATA[$F{value}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
+			<staticText>
+				<reportElement x="20" y="150" width="240" height="40" uuid="b877e3e8-89d7-4b50-be40-f17e2d2ac2e9"/>
+				<text><![CDATA[Interpolation: linear
+PNG Export: JR - 300dpi - antialias: on]]></text>
+			</staticText>
 		</band>
 	</title>
 </jasperReport>

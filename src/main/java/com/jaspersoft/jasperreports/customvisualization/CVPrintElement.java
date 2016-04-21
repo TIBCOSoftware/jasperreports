@@ -58,13 +58,6 @@ public final class CVPrintElement
 	public static final String PARAMETER_SVG_CACHE_RENDERER = "cacheRenderer";
 	public static final String PARAMETER_PNG_CACHE_RENDERER = "pngCacheRenderer";
 
-	/**
-	 * The temporary cached image renderer.
-	 * It is used to render the image for this component when the element itself
-	 * if not ready yet.
-	 */
-	public static final String PARAMETER_TEMPORARY_CACHE_RENDERER = "temporaryCacheRenderer";
-
 	private CVPrintElement()
 	{
 	}

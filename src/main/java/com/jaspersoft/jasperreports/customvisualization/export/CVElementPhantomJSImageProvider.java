@@ -62,8 +62,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 
 	public static final String DIV2SVG_SCRIPT = "com/jaspersoft/jasperreports/customvisualization/scripts/div2svg.js";
 	public static final String SVG2PNG_SCRIPT = "com/jaspersoft/jasperreports/customvisualization/scripts/svg2png.js";
-	public static final String ERROR_SVG = "com/jaspersoft/jasperreports/customvisualization/export/error.svg";
-
+	
 	/**
 	 * Returns the location of a newly created image,
 	 * 

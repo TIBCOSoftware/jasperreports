@@ -62,8 +62,6 @@ public abstract class CVElementImageProvider
 
 	public static final String TEMP_RESOURCE_PREFIX = "cv_component_";
 
-	public static final String TEMPORARY_SVG = "com/jaspersoft/jasperreports/customvisualization/export/temporary.svg";
-
 	private static final CVElementImageProvider defaultProvider = new CVElementPhantomJSImageProvider();
 
 	public static CVElementImageProvider getDefaultProvider()
@@ -79,11 +77,13 @@ public abstract class CVElementImageProvider
 	 * be painted (in example when the viewer is displaying the first page
 	 * containing this element, but this element has evaluation time report).
 	 * 
-	 * The method creates, based on the availability to the configuration
-	 * object, two cached images: a temporary image and the final image, cached
-	 * as CVPrintElement.PARAMETER_TEMPORARY_CACHE_RENDERER and
-	 * CVPrintElement.PARAMETER_CACHE_RENDERER.
-	 * 
+	 * The method return a JRPrintImage with a null renderer until the final image
+         * is not complete, in which case we look in the element for a cached renderer
+         * save as parameter with key CVPrintElement.PARAMETER_CACHE_RENDERER inside the element.
+         * If the renderer is not available (because this is the first time we try to draw this
+         * element after the image has been produced), the new renderer will be created.
+         * 
+         * The ability to set a null renderer works starting from 6.2.2.
 	 * 
 	 * @param jasperReportsContext
 	 * @param element
@@ -117,21 +117,25 @@ public abstract class CVElementImageProvider
 
 		Renderable cacheRenderer = null;
 		
-		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null)
+		if (element.getParameterValue(CVPrintElement.CONFIGURATION) != null)
 		{
-			//FIXME maybe we can just leave cacheRenderer null and nothing will show up in report
-			
-			// We did not finished to export the chart yet, we can just return
-			// an empty image....
-			cacheRenderer = (Renderable) element.getParameterValue(CVPrintElement.PARAMETER_TEMPORARY_CACHE_RENDERER);
-			if (cacheRenderer == null)
-			{
-				cacheRenderer = RendererUtil.getInstance(jasperReportsContext).getNonLazyRenderable(TEMPORARY_SVG, OnErrorTypeEnum.BLANK);//FIXME blank on error?
-				element.setParameterValue(CVPrintElement.PARAMETER_TEMPORARY_CACHE_RENDERER, cacheRenderer);
-			}
-		}
-		else
-		{
+                    
+                        JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+                    
+                        // If the exporter requested a PNG, we have two options:
+                        
+                        // 1. Ignore the fact that a PNG will be renderer on the exported document, and let JR to produce the PNG
+                        //    starting from the SVG (in that case min.dpi and antialias property are used to control the final rasterized image).
+                        //    This is the default behavior and can be changed by setting the property CVConstants.CV_PNG_USE_JR_TO_RENDER
+                        //    at global or element level.
+                        //
+                        // 2. Force the use of PhantomJS to render the PNG starting from the produced SVG.
+                        //
+                        
+                        if (propUtil. getBooleanProperty(element, CVConstants.CV_PNG_USE_JR_TO_RENDER, CVConstants.CV_PNG_USE_JR_TO_RENDER_DEFAULT_VALUE)) {
+                            createSvg = true;
+                        }
+                        
 			String cacheKey = createSvg ? CVPrintElement.PARAMETER_SVG_CACHE_RENDERER : CVPrintElement.PARAMETER_PNG_CACHE_RENDERER;
 			
 			cacheRenderer = (Renderable) element.getParameterValue(cacheKey);
@@ -144,9 +148,9 @@ public abstract class CVElementImageProvider
 					SimpleRenderToImageAwareDataRenderer renderer =
 						new SimpleRenderToImageAwareDataRenderer(imageData, null);
 					
-					JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-					renderer.setMinDPI(propUtil.getIntegerProperty(CVConstants.CV_PNG_MIN_DPI, CVConstants.CV_PNG_MIN_DPI_DEFAULT_VALUE));
-					renderer.setAntiAlias(propUtil.getBooleanProperty(CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE));
+					
+					renderer.setMinDPI(propUtil.getIntegerProperty(element, CVConstants.CV_PNG_MIN_DPI, CVConstants.CV_PNG_MIN_DPI_DEFAULT_VALUE));
+					renderer.setAntiAlias(propUtil.getBooleanProperty(element, CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE));
 
 					cacheRenderer = renderer;
 				}
