@@ -213,24 +213,26 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 		printElement.setY(fillContext.getElementPrintY());
 		printElement.setWidth(element.getWidth());
 		printElement.setHeight(element.getHeight());
-                
-                if (element.hasProperties() )
-                {
-                    if (element.getPropertiesMap().getProperty("cv.keepTemporaryFiles") != null
-			&& element.getPropertiesMap().getProperty("cv.keepTemporaryFiles").equals("true"))
-                    {
-                            printElement.getPropertiesMap().setProperty("cv.keepTemporaryFiles", "true");
-                    }
-                    
-                    // We also want to transfer to the component all the properties starting with CV_PREFIX
-                    for (String ownPropName : element.getPropertiesMap().getOwnPropertyNames())
-                    {
-                        if (ownPropName.startsWith(CVConstants.CV_PREFIX ))
-                        {
-                            printElement.getPropertiesMap().setProperty(ownPropName, element.getPropertiesMap().getProperty(ownPropName));
-                        }
-                    }
-                }
+				
+		if (element.hasProperties() )
+		{
+			if (
+				element.getPropertiesMap().getProperty("cv.keepTemporaryFiles") != null
+				&& element.getPropertiesMap().getProperty("cv.keepTemporaryFiles").equals("true")
+				)
+			{
+				printElement.getPropertiesMap().setProperty("cv.keepTemporaryFiles", "true");
+			}
+			
+			// We also want to transfer to the component all the properties starting with CV_PREFIX
+			for (String ownPropName : element.getPropertiesMap().getOwnPropertyNames())
+			{
+				if (ownPropName.startsWith(CVConstants.CV_PREFIX ))
+				{
+					printElement.getPropertiesMap().setProperty(ownPropName, element.getPropertiesMap().getProperty(ownPropName));
+				}
+			}
+		}
 
 		if (isEvaluateNow())
 		{

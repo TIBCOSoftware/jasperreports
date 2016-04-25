@@ -78,12 +78,12 @@ public abstract class CVElementImageProvider
 	 * containing this element, but this element has evaluation time report).
 	 * 
 	 * The method return a JRPrintImage with a null renderer until the final image
-         * is not complete, in which case we look in the element for a cached renderer
-         * save as parameter with key CVPrintElement.PARAMETER_CACHE_RENDERER inside the element.
-         * If the renderer is not available (because this is the first time we try to draw this
-         * element after the image has been produced), the new renderer will be created.
-         * 
-         * The ability to set a null renderer works starting from 6.2.2.
+		 * is not complete, in which case we look in the element for a cached renderer
+		 * save as parameter with key CVPrintElement.PARAMETER_CACHE_RENDERER inside the element.
+		 * If the renderer is not available (because this is the first time we try to draw this
+		 * element after the image has been produced), the new renderer will be created.
+		 * 
+		 * The ability to set a null renderer works starting from 6.2.2.
 	 * 
 	 * @param jasperReportsContext
 	 * @param element
@@ -119,23 +119,23 @@ public abstract class CVElementImageProvider
 		
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) != null)
 		{
-                    
-                        JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-                    
-                        // If the exporter requested a PNG, we have two options:
-                        
-                        // 1. Ignore the fact that a PNG will be renderer on the exported document, and let JR to produce the PNG
-                        //    starting from the SVG (in that case min.dpi and antialias property are used to control the final rasterized image).
-                        //    This is the default behavior and can be changed by setting the property CVConstants.CV_PNG_USE_JR_TO_RENDER
-                        //    at global or element level.
-                        //
-                        // 2. Force the use of PhantomJS to render the PNG starting from the produced SVG.
-                        //
-                        
-                        if (propUtil. getBooleanProperty(element, CVConstants.CV_PNG_USE_JR_TO_RENDER, CVConstants.CV_PNG_USE_JR_TO_RENDER_DEFAULT_VALUE)) {
-                            createSvg = true;
-                        }
-                        
+			JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		
+			// If the exporter requested a PNG, we have two options:
+			
+			// 1. Ignore the fact that a PNG will be renderer on the exported document, and let JR to produce the PNG
+			//	starting from the SVG (in that case min.dpi and antialias property are used to control the final rasterized image).
+			//	This is the default behavior and can be changed by setting the property CVConstants.CV_PNG_USE_JR_TO_RENDER
+			//	at global or element level.
+			//
+			// 2. Force the use of PhantomJS to render the PNG starting from the produced SVG.
+			//
+			
+			if (propUtil. getBooleanProperty(element, CVConstants.CV_PNG_USE_JR_TO_RENDER, CVConstants.CV_PNG_USE_JR_TO_RENDER_DEFAULT_VALUE)) 
+			{
+				createSvg = true;
+			}
+			
 			String cacheKey = createSvg ? CVPrintElement.PARAMETER_SVG_CACHE_RENDERER : CVPrintElement.PARAMETER_PNG_CACHE_RENDERER;
 			
 			cacheRenderer = (Renderable) element.getParameterValue(cacheKey);

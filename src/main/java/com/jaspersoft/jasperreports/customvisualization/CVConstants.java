@@ -34,56 +34,56 @@ public class CVConstants
 	public static final String XSD_RESOURCE = "com/jaspersoft/jasperreports/customvisualization/component.xsd";
 	protected static final String COMPONENT_NAME = "customvisualization";
 
-        
-        public static final String CV_PREFIX = "com.jaspersoft.jasperreports.components.customvisualization.";
-        
-        // com.jaspersoft.jasperreports.components.customvisualization.script.path.
+		
+	public static final String CV_PREFIX = "com.jaspersoft.jasperreports.components.customvisualization.";
+	
+	// com.jaspersoft.jasperreports.components.customvisualization.script.path.
 	public static final String CV_SCRIPT_PATH_PROPERTY = CV_PREFIX + "script.path.";
-        
-        /**
-         * com.jaspersoft.jasperreports.components.customvisualization.require.js
-         * 
-         * Property used to specify the location of the require.js script
-         */
-        public static final String CV_REQUIREJS_PROPERTY = CV_PREFIX + "require.js";
-        
-        /**
-         * If this property is set to true, scripts will be searched in classpath only.
-         * 
-         * com.jaspersoft.jasperreports.components.customvisualization.allow.scripts.in.classpath.only
-         */
-        public static final String CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY = CV_PREFIX + "allow.scripts.in.classpath.only";
+		
+	/**
+	 * com.jaspersoft.jasperreports.components.customvisualization.require.js
+	 * 
+	 * Property used to specify the location of the require.js script
+	 */
+	public static final String CV_REQUIREJS_PROPERTY = CV_PREFIX + "require.js";
+	
+	/**
+	 * If this property is set to true, scripts will be searched in classpath only.
+	 * 
+	 * com.jaspersoft.jasperreports.components.customvisualization.allow.scripts.in.classpath.only
+	 */
+	public static final String CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY = CV_PREFIX + "allow.scripts.in.classpath.only";
 
-        /**
-         * If set to true (default), JR will take care of generating a PNG trough Batik.
-         * Otherwise, PhantomJS will be used.
-         * 
-         * com.jaspersoft.jasperreports.components.customvisualization.png.use.jr
-         * Possible values: true|false
-         */
-        public static final String CV_PNG_USE_JR_TO_RENDER = CV_PREFIX + "png.use.jr";
-        
-        /**
-         * If JR is used to render a PNG, this property allows to set the minimum DPI of the rasterized image.
-         * 
-         * com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi
-         * Possible values: integer, usually between 72 and 300.
-         * Default value: 300 (see CV_PNG_MIN_DPI_DEFAULT_VALUE)
-         */
+	/**
+	 * If set to true (default), JR will take care of generating a PNG trough Batik.
+	 * Otherwise, PhantomJS will be used.
+	 * 
+	 * com.jaspersoft.jasperreports.components.customvisualization.png.use.jr
+	 * Possible values: true|false
+	 */
+	public static final String CV_PNG_USE_JR_TO_RENDER = CV_PREFIX + "png.use.jr";
+	
+	/**
+	 * If JR is used to render a PNG, this property allows to set the minimum DPI of the rasterized image.
+	 * 
+	 * com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi
+	 * Possible values: integer, usually between 72 and 300.
+	 * Default value: 300 (see CV_PNG_MIN_DPI_DEFAULT_VALUE)
+	 */
 	public static final String CV_PNG_MIN_DPI = CV_PREFIX + "png.min.dpi";
-        
-        /**
-         * If JR is used to render a PNG, this property allows to set the antialias on or off for the rasterized image.
-         * 
-         * com.jaspersoft.jasperreports.components.customvisualization.png.antialias
-         * Possible values: true|false
-         * Default value: true
-         */
+		
+	/**
+	 * If JR is used to render a PNG, this property allows to set the antialias on or off for the rasterized image.
+	 * 
+	 * com.jaspersoft.jasperreports.components.customvisualization.png.antialias
+	 * Possible values: true|false
+	 * Default value: true
+	 */
 	public static final String CV_PNG_ANTIALIAS = CV_PREFIX + "png.antialias";
 	
 	public static final int CV_PNG_MIN_DPI_DEFAULT_VALUE = 300;
 	public static final boolean CV_PNG_ANTIALIAS_DEFAULT_VALUE = true;
-        public static final boolean CV_PNG_USE_JR_TO_RENDER_DEFAULT_VALUE = true;
+	public static final boolean CV_PNG_USE_JR_TO_RENDER_DEFAULT_VALUE = true;
 		
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
 }
