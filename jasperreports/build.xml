@@ -9,11 +9,6 @@
 		<pathelement location="./build/classes"/>
 	</path>
 
-	<path id="project-classpath">
-		<path refid="project-lib"/>
-		<pathelement location="./build/classes"/>
-	</path>
-
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/>
 		<ivy:configure file="./ivysettings.xml" override="true"/>
@@ -183,7 +178,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="scm-tag" value="jr-6-2-0"/>
+	<property name="scm-tag" value="jr-6-2-1"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 

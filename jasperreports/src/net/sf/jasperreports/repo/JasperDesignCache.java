@@ -26,8 +26,8 @@ package net.sf.jasperreports.repo;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -57,7 +57,7 @@ public class JasperDesignCache
 	 * 
 	 */
 	private JasperReportsContext jasperReportsContext;
-	private Map<String, JasperDesignReportResource> cachedResourcesMap = new HashMap<String, JasperDesignReportResource>();
+	private Map<String, JasperDesignReportResource> cachedResourcesMap = new ConcurrentHashMap<String, JasperDesignReportResource>();
 	//private Map<UUID, String> cachedSubreportsMap = new HashMap<UUID, String>();
 
 	/**
