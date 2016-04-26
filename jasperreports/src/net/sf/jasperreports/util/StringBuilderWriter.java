@@ -47,6 +47,31 @@ public class StringBuilderWriter extends Writer
 	}
 
 	@Override
+	public void write(int c) throws IOException
+	{
+		sb.append((char) c);
+	}
+
+	@Override
+	public void write(String str) throws IOException
+	{
+		sb.append(str);
+	}
+
+	@Override
+	public void write(String str, int off, int len) throws IOException
+	{
+		sb.append(str.substring(off, off + len));
+	}
+
+	@Override
+	public Writer append(char c) throws IOException
+	{
+		sb.append(c);
+		return this;
+	}
+
+	@Override
 	public void close() throws IOException
 	{
 	}
