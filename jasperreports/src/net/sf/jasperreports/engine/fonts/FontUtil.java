@@ -438,18 +438,46 @@ public final class FontUtil
 	{
 		TreeSet<String> familyNames = new TreeSet<String>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
+		collectFontFamilyNames(familyNames);
+		return familyNames;
+	}
+
+	protected void collectFontFamilyNames(Collection<String> names)
+	{
 		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
 			FontFamily family = itf.next();
 			if (family.isVisible())
 			{
-				familyNames.add(family.getName());
+				names.add(family.getName());
 			}
 		}
-		return familyNames;
 	}
 
+	/**
+	 * Returns the font names available through extensions, in alphabetical order.
+	 * 
+	 * @return the list of font names provided by extensions
+	 */
+	public Collection<String> getFontNames()
+	{
+		TreeSet<String> fontNames = new TreeSet<String>();//FIXMEFONT use collator for order?
+		//FIXMEFONT do some cache
+		collectFontFamilyNames(fontNames);
+		collectFontSetNames(fontNames);
+		return fontNames;
+	}
+
+	protected void collectFontSetNames(Collection<String> names)
+	{
+		List<FontSet> fontSets = jasperReportsContext.getExtensions(FontSet.class);
+		for (Iterator<FontSet> itf = fontSets.iterator(); itf.hasNext();)
+		{
+			FontSet fontSet = itf.next();
+			names.add(fontSet.getName());
+		}
+	}
 
 	/**
 	 * @deprecated Replaced by {@link #getAwtFontFromBundles(String, int, float, Locale, boolean)}.

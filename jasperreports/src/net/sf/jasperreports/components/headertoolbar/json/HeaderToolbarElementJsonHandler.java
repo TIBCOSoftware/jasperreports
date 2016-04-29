@@ -974,7 +974,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 	private Set<String> getFontExtensionsFontNames(JasperReportsContext jasperReportsContext) {
 		Set<String> classes = new TreeSet<String>(); 
 
-		Collection<String> extensionFonts = FontUtil.getInstance(jasperReportsContext).getFontFamilyNames();
+		Collection<String> extensionFonts = FontUtil.getInstance(jasperReportsContext).getFontNames();
 		for (Iterator<String> it = extensionFonts.iterator(); it.hasNext();) {
 			String fname = it.next();
 			classes.add(fname);
