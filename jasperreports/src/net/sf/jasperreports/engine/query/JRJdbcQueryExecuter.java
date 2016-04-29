@@ -897,7 +897,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			return ResultSet.TYPE_SCROLL_INSENSITIVE;
 		}
-		else if (TYPE_SCROLL_SENSITIVE.equals(TYPE_SCROLL_SENSITIVE))
+		else if (TYPE_SCROLL_SENSITIVE.equals(type))
 		{
 			return ResultSet.TYPE_SCROLL_SENSITIVE;
 		}
