@@ -92,6 +92,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.export.ExporterInput;
@@ -612,7 +613,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		if(!getCurrentItemConfiguration().isIgnoreAnchors() && startPage)
 		{
 			String anchorPage = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (sheetIndex - sheetsBeforeCurrentReport);
-			String ref = "'" + currentSheetName + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
+			String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$A$1";		// + XlsxCellHelper.getColumIndexLetter(colIndex) + "$" + (rowIndex + 1);
 			definedNames.append("<definedName name=\"" + getDefinedName(anchorPage) +"\">"+ ref +"</definedName>\n");
 			startPage = false;
 		}
@@ -797,7 +798,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			if(sheetAutoFilter != null)
 			{
 				int index = Math.max(0, sheetIndex-1);
-				definedNames.append("<definedName name=\"_xlnm._FilterDatabase\" localSheetId=\"" + index + "\">'" + currentSheetName +"'!"+sheetAutoFilter+"</definedName>\n");
+				definedNames.append("<definedName name=\"_xlnm._FilterDatabase\" localSheetId=\"" + index + "\">'" + JRStringUtil.xmlEncode(currentSheetName) +"'!"+sheetAutoFilter+"</definedName>\n");
 			}
 			sheetHelper.close();
 
@@ -1089,7 +1090,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					insertPageAnchor(colIndex,rowIndex);
 					if (image.getAnchorName() != null)
 					{
-						String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
+						String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
 						definedNames.append("<definedName name=\"" + getDefinedName(image.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 					}
 				}
@@ -1435,7 +1436,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			insertPageAnchor(colIndex,rowIndex);
 			if (text.getAnchorName() != null)
 			{
-				String ref = "'" + currentSheetName + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
+				String ref = "'" + JRStringUtil.xmlEncode(currentSheetName) + "'!$" + JRXlsAbstractExporter.getColumIndexName(colIndex, maxColumnIndex) + "$" + (rowIndex + 1);
 				definedNames.append("<definedName name=\"" + getDefinedName(text.getAnchorName()) +"\">"+ ref +"</definedName>\n");
 			}
 		}
