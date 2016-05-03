@@ -28,12 +28,17 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -43,6 +48,10 @@ public final class JRStringUtil
 {
 
 	protected static final String JAVA_IDENTIFIER_PREFIX = "j";
+	
+	protected static final Pattern PATTERN_CSS_INVALID_CHARACTER = Pattern.compile("[^a-zA-Z0-9_-]+");
+	protected static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+			'a', 'b', 'c', 'd', 'e', 'f'};
 
 	/**
 	 * This method replaces all occurrences of the CR character with the LF character, 
@@ -651,6 +660,63 @@ public final class JRStringUtil
 		return String.valueOf(escapedChars);
 	}
 	
+	public static String getCSSClass(String name)
+	{
+		if (name == null || name.isEmpty())
+		{
+			return name;
+		}
+		
+		Matcher matcher = PATTERN_CSS_INVALID_CHARACTER.matcher(name);
+		StringBuffer sb = null;
+		while (matcher.find()) {
+			if (sb == null) {
+				sb = new StringBuffer(name.length() + 4);
+			}
+			
+			String text = matcher.group();
+			String replacement = cssClassReplacement(text);
+			matcher.appendReplacement(sb, replacement);
+		}
+		
+		String cssClass;
+		if (sb == null)
+		{
+			cssClass = name;
+		}
+		else
+		{
+			matcher.appendTail(sb);
+			cssClass = sb.toString();
+		}
+		
+		if (!Character.isLetter(cssClass.charAt(0)))
+		{
+			cssClass = 'c' + cssClass;
+		}
+		return cssClass;
+	}
+	
+	protected static String cssClassReplacement(String text)
+	{
+		try
+		{
+			byte[] bytes = text.getBytes("UTF-8");
+			char[] chars = new char[bytes.length * 2 + 1];
+			chars[0] = '-';
+			for (int i = 0; i < bytes.length; i++)
+			{
+				int code = bytes[i] & 0xff;
+				chars[2 * i + 1] = HEX_DIGITS[code >>> 4];
+				chars[2 * i + 2] = HEX_DIGITS[code & 0xf];
+			}
+			return new String(chars);
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
 
 	private JRStringUtil()
 	{
