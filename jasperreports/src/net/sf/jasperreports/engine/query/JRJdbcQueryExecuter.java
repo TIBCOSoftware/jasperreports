@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.query;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -37,6 +38,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.sql.rowset.CachedRowSet;
 
@@ -99,6 +102,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected static final String CLOSE_CURSORS_AT_COMMIT = "close";
 	
 	protected static final String CACHED_ROWSET_CLASS = "com.sun.rowset.CachedRowSetImpl";
+	
+	protected static final Pattern PROCEDURE_CALL_PATTERN = Pattern.compile("\\s*\\{\\s*call\\s+", 
+			Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
 	protected Connection connection;
 	
@@ -115,6 +121,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	private boolean parametersTimeZoneOverride;
 	private TimeZone fieldsTimeZone;
 	private boolean fieldsTimeZoneOverride;
+	
+	private boolean isProcedureCall;
+	private ProcedureCallHandler procedureCallHandler;
 	
 	/**
 	 * 
@@ -291,39 +300,39 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
+				ResultSet queryResult;
+				if (isProcedureCall)
+				{
+					queryResult = procedureCallHandler.execute();
+				}
+				else
+				{
+					queryResult = statement.executeQuery();
+				}
+				
 				if(isCachedRowSet)
 				{
+					CachedRowSet cachedRowSet;
 					try
 					{
 						Class<? extends CachedRowSet> clazz = (Class<? extends CachedRowSet>)Class.forName(CACHED_ROWSET_CLASS);
 						Constructor<? extends CachedRowSet> constructor = clazz.getConstructor();
-						resultSet = constructor.newInstance();
+						cachedRowSet = constructor.newInstance();
 					}
 					catch (Exception e)
 					{
 						throw new JRException(e);
 					}
 					
-					((CachedRowSet)resultSet).populate(statement.executeQuery());
-					
-					try
-					{
-						statement.close();
-					}
-					catch (SQLException e)
-					{
-						if (log.isErrorEnabled())
-							log.error("Error while closing statement.", e);
-					}
-					finally
-					{
-						statement = null;
-					}
+					cachedRowSet.populate(queryResult);
+					closeStatement();
+					resultSet = cachedRowSet;
 				}
 				else
 				{
-					resultSet = statement.executeQuery();
+					resultSet = queryResult;
 				}
+				
 				dataSource = new JRResultSetDataSource(getJasperReportsContext(), resultSet);
 				dataSource.setTimeZone(fieldsTimeZone, fieldsTimeZoneOverride);
 				
@@ -357,13 +366,23 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
+				isProcedureCall = isProcedureCall(queryString);
+				CallableStatement callableStatement = null;
+				
 				String type = getPropertiesUtil().getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE);
 				String concurrency = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY);
 				String holdability = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY);
 				
 				if (type == null && concurrency == null && holdability == null)
 				{
-					statement = connection.prepareStatement(queryString);
+					if (isProcedureCall)
+					{
+						statement = callableStatement = connection.prepareCall(queryString);
+					}
+					else
+					{
+						statement = connection.prepareStatement(queryString);
+					}
 				}
 				else
 				{
@@ -372,22 +391,47 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			
 					if (holdability == null)
 					{
-						statement = 
-							connection.prepareStatement(
-								queryString, 
-								getResultSetType(type), 
-								getConcurrency(concurrency)
-								);
+						if (isProcedureCall)
+						{
+							statement = callableStatement =
+									connection.prepareCall(
+										queryString, 
+										getResultSetType(type), 
+										getConcurrency(concurrency)
+										);
+						}
+						else
+						{
+							statement = 
+									connection.prepareStatement(
+										queryString, 
+										getResultSetType(type), 
+										getConcurrency(concurrency)
+										);
+						}
 					}
 					else
 					{
-						statement = 
-							connection.prepareStatement(
-								queryString, 
-								getResultSetType(type), 
-								getConcurrency(concurrency),
-								getHoldability(holdability, connection)
-								);
+						if (isProcedureCall)
+						{
+							statement = callableStatement =
+									connection.prepareCall(
+										queryString, 
+										getResultSetType(type), 
+										getConcurrency(concurrency),
+										getHoldability(holdability, connection)
+										);
+						}
+						else
+						{
+							statement = 
+									connection.prepareStatement(
+										queryString, 
+										getResultSetType(type), 
+										getConcurrency(concurrency),
+										getHoldability(holdability, connection)
+										);
+						}
 					}
 				}
 				
@@ -411,6 +455,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				if (reportMaxCount != null)
 				{
 					statement.setMaxRows(reportMaxCount.intValue());
+				}
+				
+				if (isProcedureCall)
+				{
+					initProcedureCall(callableStatement);
 				}
 
 				visitQueryParameters(new QueryParameterVisitor()
@@ -483,6 +532,24 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 						e);
 			}
 		}
+	}
+
+	protected boolean isProcedureCall(String queryString) throws SQLException
+	{
+		if (!OracleProcedureCallHandler.isOracle(connection))
+		{
+			//only supporting oracle for now
+			return false;
+		}
+		
+		Matcher matcher = PROCEDURE_CALL_PATTERN.matcher(queryString);
+		return matcher.find() && matcher.start() == 0;
+	}
+	
+	protected void initProcedureCall(CallableStatement callableStatement) throws SQLException
+	{
+		procedureCallHandler = new OracleProcedureCallHandler();
+		procedureCallHandler.init(callableStatement);
 	}
 
 
@@ -690,6 +757,15 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else
 		{
+			if (isProcedureCall)
+			{
+				boolean handled = procedureCallHandler.setParameterValue(parameterIndex, parameterType, parameterValue);
+				if (handled)
+				{
+					return;
+				}
+			}
+			
 			if (parameterValue == null)
 			{
 				statement.setNull(parameterIndex, Types.JAVA_OBJECT);
@@ -846,18 +922,23 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		
 		if (statement != null)
 		{
-			try
-			{
-				statement.close();
-			}
-			catch (SQLException e)
-			{
-				log.error("Error while closing statement.", e);
-			}
-			finally
-			{
-				statement = null;
-			}
+			closeStatement();
+		}
+	}
+
+	protected void closeStatement()
+	{
+		try
+		{
+			statement.close();
+		}
+		catch (SQLException e)
+		{
+			log.error("Error while closing statement.", e);
+		}
+		finally
+		{
+			statement = null;
 		}
 	}
 	
