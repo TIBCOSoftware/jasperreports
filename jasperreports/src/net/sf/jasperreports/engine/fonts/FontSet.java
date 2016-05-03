@@ -25,10 +25,12 @@ package net.sf.jasperreports.engine.fonts;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRCloneable;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface FontSet
+public interface FontSet extends JRCloneable
 {
 	
 	String getName();

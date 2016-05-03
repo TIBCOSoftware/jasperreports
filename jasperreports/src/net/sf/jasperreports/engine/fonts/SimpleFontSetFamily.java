@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.fonts;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
@@ -99,6 +101,28 @@ public class SimpleFontSetFamily implements FontSetFamily
 		}
 		
 		excludedScripts.add(script);
+	}
+
+	@Override
+	public Object clone()
+	{
+		try
+		{
+			SimpleFontSetFamily clone = (SimpleFontSetFamily) super.clone();
+			if (includedScripts != null)
+			{
+				clone.includedScripts = new ArrayList<>(includedScripts);
+			}
+			if (excludedScripts != null)
+			{
+				clone.excludedScripts = new ArrayList<>(excludedScripts);
+			}
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 }

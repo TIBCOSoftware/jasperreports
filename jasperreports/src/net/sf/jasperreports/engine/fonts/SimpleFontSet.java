@@ -24,8 +24,12 @@
 package net.sf.jasperreports.engine.fonts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -84,6 +88,25 @@ public class SimpleFontSet implements FontSet
 	{
 		String exportFont = exportFonts == null ? null : (String) exportFonts.get(key);
 		return exportFont;
+	}
+
+	@Override
+	public Object clone()
+	{
+		try
+		{
+			SimpleFontSet clone = (SimpleFontSet) super.clone();
+			clone.families = JRCloneUtils.cloneList(families);
+			if (exportFonts != null)
+			{
+				clone.exportFonts = new HashMap<>(exportFonts);
+			}
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 }
