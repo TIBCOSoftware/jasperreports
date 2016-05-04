@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+
+import org.xml.sax.Attributes;
 
 
 /**
@@ -82,6 +82,12 @@ public class JasperPrintFactory extends JRBaseFactory
 		if (orientation != null)
 		{
 			jasperPrint.setOrientation(orientation);
+		}
+		
+		String formatFactoryClass = atts.getValue(JRXmlConstants.ATTRIBUTE_formatFactoryClass);
+		if (formatFactoryClass != null)
+		{
+			jasperPrint.setFormatFactoryClass(formatFactoryClass);
 		}
 		
 		String locale = atts.getValue(JRXmlConstants.ATTRIBUTE_locale);

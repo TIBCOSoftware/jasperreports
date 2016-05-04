@@ -557,6 +557,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			jasperPrint.setRightMargin(rightMargin);
 			jasperPrint.setOrientation(orientation);
 
+			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
 			jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(getTimeZone()));
 
@@ -979,9 +980,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 
-	/**
-	 * @deprecated To be removed.
-	 */
 	protected boolean hasMasterFormatFactory()
 	{
 		return

@@ -355,18 +355,12 @@ public class ReadOnlyPartJasperPrint extends JasperPrint
 		return parentJasperPrint.getAnchorIndexes();
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
 	@Override
 	public String getFormatFactoryClass()
 	{
 		return parentJasperPrint.getFormatFactoryClass();
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
 	@Override
 	public void setFormatFactoryClass(String formatFactoryClass)
 	{

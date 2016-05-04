@@ -41,7 +41,7 @@ public interface TextFormat
 	public String getPattern();
 
 	/**
-	 * @deprecated To be removed.
+	 * 
 	 */
 	public String getFormatFactoryClass();
 

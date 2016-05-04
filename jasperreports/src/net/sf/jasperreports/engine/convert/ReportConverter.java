@@ -157,6 +157,7 @@ public class ReportConverter
 	{
 		jasperPrint = new JasperPrint();
 		
+		jasperPrint.setFormatFactoryClass(report.getFormatFactoryClass());
 		//FIXME locale and timezone settings jasperprint object
 		//jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(Locale.getDefault()));
 		//jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(TimeZone.getDefault()));

@@ -44,9 +44,6 @@ public class SimpleTextFormat implements TextFormat, Serializable
 	 */
 	private String valueClassName;
 	private String pattern;
-	/**
-	 * @deprecated To be removed.
-	 */
 	private String formatFactoryClass;
 	private String localeCode;
 	private String timeZoneId;
@@ -117,9 +114,6 @@ public class SimpleTextFormat implements TextFormat, Serializable
 		this.pattern = pattern;
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
 	@Override
 	public String getFormatFactoryClass()
 	{
@@ -127,7 +121,7 @@ public class SimpleTextFormat implements TextFormat, Serializable
 	}
 
 	/**
-	 * @deprecated To be removed.
+	 *
 	 */
 	public void setFormatFactoryClass(String formatFactoryClass)
 	{

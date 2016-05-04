@@ -419,7 +419,6 @@ public abstract class BaseReportFiller implements ReportFiller
 		mainDataset.setDatasourceParameterValue(parameterValues, ds);
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected void setParameters(Map<String,Object> parameterValues) throws JRException
 	{
 		initVirtualizationContext(parameterValues);

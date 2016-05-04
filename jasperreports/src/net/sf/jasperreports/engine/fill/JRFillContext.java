@@ -84,9 +84,6 @@ public class JRFillContext
 
 	private JRVirtualizationContext virtualizationContext;
 	
-	/**
-	 * @deprecated To be removed.
-	 */
 	private FormatFactory masterFormatFactory;
 	private Locale masterLocale;
 	private TimeZone masterTimeZone;
@@ -378,18 +375,12 @@ public class JRFillContext
 	}
 
 	
-	/**
-	 * @deprecated To be removed.
-	 */
 	public FormatFactory getMasterFormatFactory()
 	{
 		return masterFormatFactory;
 	}
 
 	
-	/**
-	 * @deprecated To be removed.
-	 */
 	public void setMasterFormatFactory(FormatFactory masterFormatFactory)
 	{
 		this.masterFormatFactory = masterFormatFactory;

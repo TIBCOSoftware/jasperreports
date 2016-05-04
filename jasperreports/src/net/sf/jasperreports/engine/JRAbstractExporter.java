@@ -229,12 +229,9 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	private int elementOffsetY;
 
 	/**
-	 * @deprecated To be removed.
+	 *
 	 */
 	protected Map<String, DateFormat> dateFormatCache = new HashMap<String, DateFormat>();
-	/**
-	 * @deprecated To be removed.
-	 */
 	protected Map<String, NumberFormat> numberFormatCache = new HashMap<String, NumberFormat>();
 
 	/*
@@ -914,9 +911,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	
-	/**
-	 * @deprecated To be removed.
-	 */
 	protected String getTextFormatFactoryClass(JRPrintText text)
 	{
 		String formatFactoryClass = text.getFormatFactoryClass();
@@ -1087,9 +1081,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		return new BooleanTextValue(textStr, value);
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
 	protected DateFormat getDateFormat(String formatFactoryClass, String pattern, Locale lc, TimeZone tz)
 	{
 		String key = formatFactoryClass 
@@ -1106,9 +1097,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		return dateFormat;
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
 	protected NumberFormat getNumberFormat(String formatFactoryClass, String pattern, Locale lc)
 	{
 		String key = formatFactoryClass 

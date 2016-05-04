@@ -95,9 +95,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	protected Boolean isPdfEmbedded;
 	protected String valueClassName;
 	protected String pattern;
-	/**
-	 * @deprecated To be removed.
-	 */
 	protected String formatFactoryClass;
 	protected String localeCode;
 	protected String timeZoneId;
@@ -187,6 +184,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		{
 			setValueClassName(textFormat.getValueClassName());
 			setPattern(textFormat.getPattern());
+			setFormatFactoryClass(textFormat.getFormatFactoryClass());
 			setLocaleCode(textFormat.getLocaleCode());
 			setTimeZoneId(textFormat.getTimeZoneId());
 		}
@@ -740,9 +738,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	
-	/**
-	 * @deprecated To be removed.
-	 */
 	@Override
 	public String getFormatFactoryClass()
 	{
@@ -750,9 +745,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	}
 
 	
-	/**
-	 * @deprecated To be removed.
-	 */
 	public void setFormatFactoryClass(String formatFactoryClass)
 	{
 		this.formatFactoryClass = formatFactoryClass;
