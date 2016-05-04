@@ -69,6 +69,8 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -233,7 +235,7 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			if (!tableUUID.equals(context.getValue(TABLE_UUID))) 
 			{
 				Map<String, ColumnInfo> columnNames = getAllColumnNames(element, jrContext, contextMap);
-				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, jasperDesign, dataset, table, tableUUID, locale, timeZone);
+				List<Map<String, Object>> columnGroupsData = getColumnGroupsData(jrContext, reportContext, target, jasperDesign, dataset, table, tableUUID, locale, timeZone);
 				// column names are normally set on the first column, but check if we got them
 				if (!columnNames.isEmpty()) {
 					context.setValue(TABLE_UUID, tableUUID);
@@ -300,8 +302,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames(jrContext));
 			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
 
-			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
-			EditTextElementData columnValueData = setColumnValueData(columnIndex, tableUUID, contextMap, jrContext, reportContext, locale);
+			setColumnHeaderData(columnLabel, columnIndex, target, contextMap, jrContext, reportContext, locale);
+			EditTextElementData columnValueData = setColumnValueData(columnIndex, target, contextMap, jrContext, reportContext, locale);
 
 			String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
 			String columnComponentName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_COMPONENT_NAME);
@@ -568,12 +570,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return filterData;
 	}
 
-	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
+	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, CommandTarget target, Map<String, Object> contextMap,
 			JasperReportsContext jasperReportsContext, ReportContext reportContext, Locale locale) {
-		FilterAction action = new FilterAction();
-		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
-
 		if (target != null){
 			JRIdentifiable identifiable = target.getIdentifiable();
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
@@ -591,7 +589,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 					textElementData.setHeadingName(JRStringUtil.htmlEncode(sortColumnLabel));
 					textElementData.setColumnIndex(columnIndex);
-					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
+					JRDesignTextElement styledElement = resolveElementStyle(textElement, reportContext, target);
+					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, styledElement, locale);
 
 					contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(textElementData));
 				}
@@ -599,11 +598,98 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		}
 	}
 	
-	private EditTextElementData setColumnValueData(Integer columnIndex, String tableUuid, Map<String, Object> contextMap,
+	private JRDesignTextElement resolveElementStyle(JRDesignTextElement element, ReportContext context, 
+			CommandTarget target)
+	{
+		JRStyle defaultStyle = element.getDefaultStyleProvider() == null ? null 
+				: element.getDefaultStyleProvider().getDefaultStyle();
+		boolean hasExternalStyle = hasExternalStyle(element) 
+				|| (defaultStyle != null && hasExternalStyle(defaultStyle));
+		if (!hasExternalStyle && defaultStyle != null)
+		{
+			//we have everything
+			return element;
+		}
+		
+		JasperDesignCache designCache = JasperDesignCache.getExistingInstance(context);
+		List<JRStyle> reportStyles = designCache == null ? null : designCache.getStyles(
+				target.getUri(), target.getIdentifiable() == null ? null : target.getIdentifiable().getUUID());
+		if (reportStyles == null || reportStyles.isEmpty())
+		{
+			return element;
+		}
+		
+		JRStyle externalDefault = null;
+		if (defaultStyle == null)
+		{
+			for (JRStyle style : reportStyles)
+			{
+				if (style.isDefault())
+				{
+					externalDefault = style;
+				}
+			}
+			
+			if (!hasExternalStyle && externalDefault == null)
+			{
+				//nothing to change
+				return element;
+			}
+		}
+		
+		JRStyle elementStyle;
+		if (element.getStyle() == null && element.getStyleNameReference() == null)
+		{
+			elementStyle = externalDefault;
+		}
+		else
+		{
+			String elementStyleName = element.getStyleNameReference() == null 
+					? element.getStyle().getName() : element.getStyleNameReference();
+					
+			elementStyle = null;
+			for (JRStyle style : reportStyles)
+			{
+				if (style.getName().equals(elementStyleName))
+				{
+					elementStyle = style;
+				}
+			}
+		}
+		
+		if (elementStyle == null)
+		{
+			//didn't find a style for the element
+			return element;
+		}
+		
+		JRDesignTextElement elementClone = (JRDesignTextElement) element.clone();
+		elementClone.setStyle(elementStyle);
+		return elementClone;
+	}
+	
+	private boolean hasExternalStyle(JRStyleContainer styleContainer)
+	{
+		if (styleContainer.getStyle() == null && styleContainer.getStyleNameReference() != null)
+		{
+			return true;
+		}
+		
+		JRStyle style = styleContainer.getStyle();
+		while (style != null)
+		{
+			if (style.getStyle() == null && style.getStyleNameReference() != null)
+			{
+				return true;
+			}
+			
+			style = style.getStyle();
+		}
+		return false;
+	}
+	
+	private EditTextElementData setColumnValueData(Integer columnIndex, CommandTarget target, Map<String, Object> contextMap,
 			JasperReportsContext jasperReportsContext, ReportContext reportContext, Locale locale) {
-		FilterAction action = new FilterAction();
-		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
 		EditTextElementData textElementData = new EditTextElementData();
 
 		if (target != null){
@@ -620,7 +706,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 
 				if (textElement != null) {
 					textElementData.setColumnIndex(columnIndex);
-					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
+					JRDesignTextElement styledElement = resolveElementStyle(textElement, reportContext, target);
+					HeaderToolbarElementUtils.copyTextElementStyle(textElementData, styledElement, locale);
 				}
 			}
 		}
@@ -736,7 +823,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		return result;
 	}
 
-	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, JasperDesign jasperDesign,
+	private List<Map<String, Object>> getColumnGroupsData(JasperReportsContext jasperReportsContext, 
+			ReportContext reportContext, CommandTarget target, JasperDesign jasperDesign,
 			JRDesignDataset dataset, StandardTable table, String tableUuid, Locale locale, TimeZone timeZone)
 	{
 		List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
@@ -827,7 +915,8 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 			EditTextElementData textElementData;
 			textElementData = new EditTextElementData();
 			textElementData.setGroupName(groupInfo.getName());
-			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, textElement, locale);
+			JRDesignTextElement styledElement = resolveElementStyle(textElement, reportContext, target);
+			HeaderToolbarElementUtils.copyTextElementStyle(textElementData, styledElement, locale);
 
 			Map<String, Object> groupData = new HashMap<String, Object>();
 			groupData.put("groupType", groupInfo.getType());

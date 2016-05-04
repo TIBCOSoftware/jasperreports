@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.parts.subreport;
 
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
@@ -35,6 +36,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -78,6 +80,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	private FillReturnValues returnValues;
 	private FillReturnValues.SourceContext returnValuesSource;
 
+	private Object reportSource;
 	private JasperReport jasperReport;
 	private Map<String, Object> parameterValues;
 	
@@ -135,7 +138,7 @@ public class SubreportFillPart extends BasePartFillComponent
 
 	private JasperReport evaluateReport(byte evaluation) throws JRException
 	{
-		Object reportSource = fillContext.evaluate(subreportPart.getExpression(), evaluation);
+		reportSource = fillContext.evaluate(subreportPart.getExpression(), evaluation);
 		return JRFillSubreport.loadReport(reportSource, fillContext.getFiller());//FIXMEBOOK cache
 	}
 
@@ -328,6 +331,18 @@ public class SubreportFillPart extends BasePartFillComponent
 			{
 				bookmarkHelper.updateBookmark(element);
 			}
+		}
+
+		@Override
+		public String getReportLocation()
+		{
+			return reportSource instanceof String ? (String) reportSource : null;
+		}
+
+		@Override
+		public void registerReportStyles(List<JRStyle> styles)
+		{
+			//NOP
 		}
 	}
 	

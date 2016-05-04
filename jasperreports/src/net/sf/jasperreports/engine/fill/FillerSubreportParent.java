@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRRuntimeException;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -150,6 +153,18 @@ public class FillerSubreportParent implements BandReportFillerParent
 	public void updateBookmark(JRPrintElement element)
 	{
 		parentFiller.updateBookmark(element);
+	}
+
+	@Override
+	public String getReportLocation()
+	{
+		return parentElement.getReportLocation();
+	}
+
+	@Override
+	public void registerReportStyles(List<JRStyle> styles)
+	{
+		parentElement.registerReportStyles(styles);
 	}
 
 }

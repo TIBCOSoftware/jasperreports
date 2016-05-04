@@ -26,16 +26,24 @@ package net.sf.jasperreports.repo;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -46,6 +54,9 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public class JasperDesignCache
 {
+	
+	private static final Log log = LogFactory.getLog(JasperDesignCache.class);
+	
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_ENTRY = "repo.invalid.entry";
 	
 	/**
@@ -58,6 +69,8 @@ public class JasperDesignCache
 	 */
 	private JasperReportsContext jasperReportsContext;
 	private Map<String, JasperDesignReportResource> cachedResourcesMap = new ConcurrentHashMap<String, JasperDesignReportResource>();
+	private Map<Pair<String, UUID>, List<JRStyle>> reportStyles = 
+			new ConcurrentHashMap<Pair<String, UUID>, List<JRStyle>>();
 	//private Map<UUID, String> cachedSubreportsMap = new HashMap<UUID, String>();
 
 	/**
@@ -256,5 +269,36 @@ public class JasperDesignCache
 	public Map<String, JasperDesignReportResource> getCachedResources()
 	{
 		return cachedResourcesMap;
+	}
+
+	public List<JRStyle> getStyles(String reportURI, UUID id)
+	{
+		return reportStyles.get(new Pair<String, UUID>(reportURI, id));
+	}
+
+	public void setStyles(String reportURI, UUID id, List<JRStyle> styles)
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Setting " + styles.size() + " styles for " + reportURI + " and " + id);
+		}
+
+		reportStyles.put(new Pair<String, UUID>(reportURI, id), styles);
+	}
+	
+	public String locateReport(JasperReport jasperReport)
+	{
+		for (Entry<String, JasperDesignReportResource> reportEntry : cachedResourcesMap.entrySet())
+		{
+			JasperReport entryReport = reportEntry.getValue().getReport();
+			//testing for object identity.
+			//should we also check for UUID?  it doesn't seem necessary for now.
+			if (entryReport == jasperReport) 
+			{
+				return reportEntry.getKey();
+			}
+		}
+		
+		return null;
 	}
 }

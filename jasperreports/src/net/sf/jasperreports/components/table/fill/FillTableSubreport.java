@@ -220,4 +220,10 @@ public class FillTableSubreport extends JRFillSubreport
 		// not actually used, but implemented for safety
 		return new FillTableSubreport(this, factory);
 	}
+
+	@Override
+	protected void registerReportStyles(List<JRStyle> styles)
+	{
+		filler.registerReportStyles(getUUID(), styles);
+	}
 }
