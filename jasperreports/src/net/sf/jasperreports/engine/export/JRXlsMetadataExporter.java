@@ -121,6 +121,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -819,6 +820,15 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						} else {
 							value = textValue.getValue();
 						}
+						
+						if (
+							value != null
+							&& DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern) 
+							)
+						{
+							value = value.doubleValue() / 86400;
+						}
+						
 						cellSettings.importValues(HSSFCell.CELL_TYPE_NUMERIC, getLoadedCellStyle(baseStyle), value);
 					}
 

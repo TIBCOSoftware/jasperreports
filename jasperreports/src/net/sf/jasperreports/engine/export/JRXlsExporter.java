@@ -50,6 +50,30 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFName;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonText;
@@ -89,36 +113,13 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFName;
-import org.apache.poi.hssf.usermodel.HSSFPalette;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HeaderFooter;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.CellReference;
 
 
 /**
@@ -763,33 +764,34 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
-		StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
-				? new StyleInfo(
-						mode,
-						whiteIndex,
-						horizontalAlignment,
-						verticalAlignment,
-						(short)0,
-						null,
-						(JRExporterGridCell)null, 
-						isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-						isCellLocked(textElement),
-						isCellHidden(textElement),
-						isShrinkToFit(textElement)
-						)
-				: new StyleInfo(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-					gridCell, 
-					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-					isCellLocked(textElement),
-					isCellHidden(textElement),
-					isShrinkToFit(textElement)
-					);
+		StyleInfo baseStyle = 
+			isIgnoreTextFormatting(textElement) 
+			? new StyleInfo(
+				mode,
+				whiteIndex,
+				horizontalAlignment,
+				verticalAlignment,
+				(short)0,
+				null,
+				(JRExporterGridCell)null, 
+				isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+				isCellLocked(textElement),
+				isCellHidden(textElement),
+				isShrinkToFit(textElement)
+				)
+			: new StyleInfo(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
+				gridCell, 
+				isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+				isCellLocked(textElement),
+				isCellHidden(textElement),
+				isShrinkToFit(textElement)
+				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
 
@@ -886,7 +888,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					else
 					{
-						cell.setCellValue(textValue.getValue().doubleValue());
+						double doubleValue = textValue.getValue().doubleValue();
+						if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
+						{
+							doubleValue = doubleValue / 86400;
+						}
+						cell.setCellValue(doubleValue);
 					}
 					endCreateCell(cellStyle);
 				}

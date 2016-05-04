@@ -41,6 +41,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
@@ -92,6 +95,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -100,9 +104,6 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.export.XlsxExporterConfiguration;
 import net.sf.jasperreports.export.XlsxReportConfiguration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -1403,9 +1404,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			}
 		}
 		
+		final String convertedPattern = getConvertedPattern(text, pattern);
+				
 		cellHelper.exportHeader(
 			gridCell, rowIndex, colIndex, maxColumnIndex, textValue, 
-			getConvertedPattern(text, pattern), 
+			convertedPattern, 
 			getTextLocale(text), 
 			isWrapText(gridCell.getElement()) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(gridCell.getElement())), 
 			isCellHidden(gridCell.getElement()), 
@@ -1481,12 +1484,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				}
 				
 				public void handle(NumberTextValue textValue) throws JRException {
-					Number number = textValue.getValue();
-					sheetHelper.write(
-						"<v>" 
-						+ (number == null ? "" : number) 
-						+ "</v>"
-						);
+					sheetHelper.write("<v>"); 
+					if (textValue.getValue() != null)
+					{
+						double doubleValue = textValue.getValue().doubleValue();
+						if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
+						{
+							doubleValue = doubleValue / 86400;
+						}
+						sheetHelper.write(String.valueOf(doubleValue));
+					}
+					sheetHelper.write("</v>");
 				}
 				
 				public void handle(StringTextValue textValue) throws JRException {
