@@ -118,6 +118,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -1106,7 +1107,12 @@ public class JExcelApiExporter extends
 			}
 			else
 			{
-				result = new Number(x, y, textValue.getValue().doubleValue(), cellStyle);
+				double doubleValue = textValue.getValue().doubleValue();
+				if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
+				{
+					doubleValue = doubleValue / 86400;
+				}
+				result = new Number(x, y, doubleValue, cellStyle);
 			}
 		}
 

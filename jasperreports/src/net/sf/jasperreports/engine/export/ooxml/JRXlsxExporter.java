@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -1396,9 +1397,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			}
 		}
 		
+		final String convertedPattern = getConvertedPattern(text, pattern);
+				
 		cellHelper.exportHeader(
 			gridCell, rowIndex, colIndex, maxColumnIndex, textValue, 
-			getConvertedPattern(text, pattern), 
+			convertedPattern, 
 			getTextLocale(text), 
 			isWrapText(gridCell.getElement()) || Boolean.TRUE.equals(((JRXlsxExporterNature)nature).getColumnAutoFit(gridCell.getElement())), 
 			isCellHidden(gridCell.getElement()), 
@@ -1477,12 +1480,17 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				
 				@Override
 				public void handle(NumberTextValue textValue) throws JRException {
-					Number number = textValue.getValue();
-					sheetHelper.write(
-						"<v>" 
-						+ (number == null ? "" : number) 
-						+ "</v>"
-						);
+					sheetHelper.write("<v>"); 
+					if (textValue.getValue() != null)
+					{
+						double doubleValue = textValue.getValue().doubleValue();
+						if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
+						{
+							doubleValue = doubleValue / 86400;
+						}
+						sheetHelper.write(String.valueOf(doubleValue));
+					}
+					sheetHelper.write("</v>");
 				}
 				
 				@Override

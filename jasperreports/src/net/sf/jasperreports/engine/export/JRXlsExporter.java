@@ -106,6 +106,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -763,33 +764,34 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
-		StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
-				? new StyleInfo(
-						mode,
-						whiteIndex,
-						horizontalAlignment,
-						verticalAlignment,
-						(short)0,
-						null,
-						(JRExporterGridCell)null, 
-						isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-						isCellLocked(textElement),
-						isCellHidden(textElement),
-						isShrinkToFit(textElement)
-						)
-				: new StyleInfo(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-					gridCell, 
-					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-					isCellLocked(textElement),
-					isCellHidden(textElement),
-					isShrinkToFit(textElement)
-					);
+		StyleInfo baseStyle = 
+			isIgnoreTextFormatting(textElement) 
+			? new StyleInfo(
+				mode,
+				whiteIndex,
+				horizontalAlignment,
+				verticalAlignment,
+				(short)0,
+				null,
+				(JRExporterGridCell)null, 
+				isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+				isCellLocked(textElement),
+				isCellHidden(textElement),
+				isShrinkToFit(textElement)
+				)
+			: new StyleInfo(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
+				gridCell, 
+				isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+				isCellLocked(textElement),
+				isCellHidden(textElement),
+				isShrinkToFit(textElement)
+				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
 
@@ -888,7 +890,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					else
 					{
-						cell.setCellValue(textValue.getValue().doubleValue());
+						double doubleValue = textValue.getValue().doubleValue();
+						if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
+						{
+							doubleValue = doubleValue / 86400;
+						}
+						cell.setCellValue(doubleValue);
 					}
 					endCreateCell(cellStyle);
 				}
