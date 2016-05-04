@@ -29,7 +29,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.data.cache.DataRecorder;
@@ -39,6 +43,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -52,6 +57,7 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
+import net.sf.jasperreports.repo.JasperDesignCache;
 
 /**
  * Context class shared by all the fillers involved in a report (master and subfillers).
@@ -63,6 +69,8 @@ import net.sf.jasperreports.renderers.RenderersCache;
  */
 public class JRFillContext
 {
+	private static final Log log = LogFactory.getLog(JRFillContext.class);
+	
 	private final BaseReportFiller masterFiller;
 	
 	private Map<Object,Renderable> loadedImageRenderers;
@@ -597,5 +605,33 @@ public class JRFillContext
 	public boolean isCollectingBookmarks()
 	{
 		return getMasterFiller().bookmarkHelper != null;
+	}
+	
+	public void registerReportStyles(JasperReport jasperReport, UUID id, List<JRStyle> styles)
+	{
+		JasperDesignCache designCache = JasperDesignCache.getExistingInstance(reportContext);
+		if (designCache != null)
+		{
+			String reportURI = designCache.locateReport(jasperReport);
+			if (reportURI == null)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Did not find report " + jasperReport.getName() + " " + jasperReport.getUUID());
+				}
+				return;
+			}
+			
+			designCache.setStyles(reportURI, id, styles);
+		}
+	}
+
+	public void registerReportStyles(String reportLocation, UUID id, List<JRStyle> styles)
+	{
+		JasperDesignCache designCache = JasperDesignCache.getExistingInstance(reportContext);
+		if (designCache != null)
+		{
+			designCache.setStyles(reportLocation, id, styles);
+		}
 	}
 }

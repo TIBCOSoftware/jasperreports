@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRStyle;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -40,5 +43,9 @@ public interface BandReportFillerParent extends FillerParent
 	boolean isPageBreakInhibited();
 
 	void addPage(FillerPageAddedEvent pageAdded) throws JRException;
+
+	String getReportLocation();
+	
+	void registerReportStyles(List<JRStyle> styles);
 
 }

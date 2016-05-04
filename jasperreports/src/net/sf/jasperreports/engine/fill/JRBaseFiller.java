@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
@@ -662,6 +663,10 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		}
 
 		List<JRStyle> includedStyles = factory.setStyles(styleList);
+		if (bandReportParent != null)
+		{
+			bandReportParent.registerReportStyles(includedStyles);
+		}
 
 		styles = includedStyles.toArray(new JRStyle[includedStyles.size()]);
 
@@ -671,6 +676,22 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		}
 	}
 
+	public void registerReportStyles(UUID id, List<JRStyle> styles)
+	{
+		if (bandReportParent == null)
+		{
+			fillContext.registerReportStyles(jasperReport, id, styles);
+		}
+		else
+		{
+			String reportLocation = bandReportParent.getReportLocation();
+			if (reportLocation != null)
+			{
+				fillContext.registerReportStyles(reportLocation, id, styles);
+			}
+		}
+		
+	}
 
 	private static final JRStyleSetter DUMMY_STYLE_SETTER = new JRStyleSetter()
 	{
@@ -692,7 +713,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		JRStyle[] reportStyles = jasperReport.getStyles();
 		if (reportStyles != null)
 		{
-			styles = new JRStyle[reportStyles.length];
+			styles = new JRStyle[reportStyles.length];//FIXME remove this
 
 			for (int i = 0; i < reportStyles.length; i++)
 			{

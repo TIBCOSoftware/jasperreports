@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
@@ -1149,5 +1150,15 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	protected int getContentsStretchHeight()
 	{
 		return subFillerParent.getCurrentPageStretchHeight();
+	}
+
+	protected String getReportLocation()
+	{
+		return source instanceof String ? (String) source : null;
+	}
+
+	protected void registerReportStyles(List<JRStyle> styles)
+	{
+		//NOP
 	}
 }
