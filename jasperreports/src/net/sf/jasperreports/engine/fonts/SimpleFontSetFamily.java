@@ -111,11 +111,11 @@ public class SimpleFontSetFamily implements FontSetFamily
 			SimpleFontSetFamily clone = (SimpleFontSetFamily) super.clone();
 			if (includedScripts != null)
 			{
-				clone.includedScripts = new ArrayList<>(includedScripts);
+				clone.includedScripts = new ArrayList<String>(includedScripts);
 			}
 			if (excludedScripts != null)
 			{
-				clone.excludedScripts = new ArrayList<>(excludedScripts);
+				clone.excludedScripts = new ArrayList<String>(excludedScripts);
 			}
 			return clone;
 		}

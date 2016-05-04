@@ -36,7 +36,7 @@
 	</target>
 
 	<target name="javac" description="Compiles the java source files of the web application." depends="prepare, prepare-compile-classpath">
-		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7"
+		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>

@@ -99,7 +99,7 @@ public class SimpleFontSet implements FontSet
 			clone.families = JRCloneUtils.cloneList(families);
 			if (exportFonts != null)
 			{
-				clone.exportFonts = new HashMap<>(exportFonts);
+				clone.exportFonts = new HashMap<String, String>(exportFonts);
 			}
 			return clone;
 		}
