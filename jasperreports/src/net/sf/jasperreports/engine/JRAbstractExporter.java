@@ -1018,12 +1018,76 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 
 	protected TextValue getDateCellValue(JRPrintText text, String textStr) throws ParseException
 	{
-		return new DateTextValue(textStr, (Date)text.getValue(), text.getPattern());
+		if (textStr != null && text.getValue() == null)
+		{
+			TextValue textValue;
+			String pattern = text.getPattern();
+			if (pattern == null || pattern.trim().length() == 0)
+			{
+				textValue = getTextValueString(text, textStr);
+			}
+			else
+			{
+				DateFormat dateFormat = getDateFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text), getTextTimeZone(text));
+				
+				Date value = null;
+				if (textStr != null && textStr.length() > 0)
+				{
+					value = dateFormat.parse(textStr);
+				}
+				textValue = new DateTextValue(textStr, value, text.getPattern());
+			}
+			return textValue;
+		}
+		else
+		{
+			return new DateTextValue(textStr, (Date)text.getValue(), text.getPattern());
+		}
 	}
 
 	protected TextValue getNumberCellValue(JRPrintText text, String textStr) throws ParseException, ClassNotFoundException
 	{
-		return new NumberTextValue(textStr, (Number)text.getValue(), text.getPattern());
+		if (textStr != null && text.getValue() == null)
+		{
+			TextValue textValue;
+			String pattern = text.getPattern();
+			if (pattern == null || pattern.trim().length() == 0)
+			{
+				if (textStr != null && textStr.length() > 0)
+				{
+					Number value = defaultParseNumber(textStr, JRClassLoader.loadClassForRealName(text.getValueClassName()));
+
+					if (value != null)
+					{
+						textValue = new NumberTextValue(textStr, value, text.getPattern());
+					}
+					else
+					{
+						textValue = getTextValueString(text, textStr);
+					}
+				}
+				else
+				{
+					textValue = new NumberTextValue(textStr, null, text.getPattern());
+				}
+			}
+			else
+			{
+				NumberFormat numberFormat = getNumberFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text));
+				
+				Number value = null;
+				if (textStr != null && textStr.length() > 0)
+				{
+					value = numberFormat.parse(textStr);
+				}
+				textValue = new NumberTextValue(textStr, value, text.getPattern());
+			}
+			return textValue;
+		}
+		else
+		{
+			return new NumberTextValue(textStr, (Number)text.getValue(), text.getPattern());
+		}
 	}
 
 	protected Number defaultParseNumber(String textStr, Class<?> valueClass)
