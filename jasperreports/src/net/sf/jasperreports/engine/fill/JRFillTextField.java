@@ -426,11 +426,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 					simpleTextFormat.setPattern(pattern);
 				}
 				
-				if (!filler.hasMasterFormatFactory())
-				{
-					simpleTextFormat.setFormatFactoryClass(filler.getFormatFactory().getClass().getName());
-				}
-				
 				if (!filler.hasMasterLocale())
 				{
 					simpleTextFormat.setLocaleCode(JRDataUtils.getLocaleCode(filler.getLocale()));

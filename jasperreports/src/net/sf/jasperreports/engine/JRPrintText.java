@@ -234,6 +234,7 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRTextAlignmen
 	/**
 	 * Returns the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
 	 * interface to use with this text element, in case it is not the same as the one for the overall document.
+	 * @deprecated To be removed.
 	 */
 	@Override
 	public String getFormatFactoryClass();

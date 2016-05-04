@@ -148,12 +148,6 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setPattern(pattern);
 		}
 		
-		String formatFactoryClass = atts.getValue(JRXmlConstants.ATTRIBUTE_formatFactoryClass);
-		if (formatFactoryClass != null)
-		{
-			text.setFormatFactoryClass(formatFactoryClass);
-		}
-		
 		String locale = atts.getValue(JRXmlConstants.ATTRIBUTE_locale);
 		if (locale != null)
 		{

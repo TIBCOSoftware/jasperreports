@@ -819,6 +819,9 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return textFormat == null ? ((JRTemplateText) template).getPattern() : textFormat.getPattern();
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	@Override
 	public String getFormatFactoryClass()
 	{

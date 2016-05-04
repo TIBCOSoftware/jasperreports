@@ -116,6 +116,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 
 	protected String valueClassName;
 	protected String pattern;
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected String formatFactoryClass;
 	protected String localeCode;
 	protected String timeZoneId;
@@ -855,6 +858,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	@Override
 	public String getFormatFactoryClass()
 	{
@@ -862,6 +868,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void setFormatFactoryClass(String formatFactoryClass)
 	{
 		this.formatFactoryClass = formatFactoryClass;

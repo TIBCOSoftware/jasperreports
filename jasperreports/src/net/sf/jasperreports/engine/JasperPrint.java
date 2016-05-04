@@ -195,6 +195,9 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private transient Map<String,JRPrintAnchorIndex> anchorIndexes;
 	private DefaultStyleProvider defaultStyleProvider;
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	private String formatFactoryClass;
 	private String localeCode;
 	private String timeZoneId;
@@ -780,6 +783,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 * Returns the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
 	 * interface to use with this document.
+	 * @deprecated To be removed.
 	 */
 	public String getFormatFactoryClass()
 	{
@@ -790,6 +794,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 * Sets the name of the class implementing the {@link net.sf.jasperreports.engine.util.FormatFactory FormatFactory}
 	 * interface to use with this document.
+	 * @deprecated To be removed.
 	 */
 	public void setFormatFactoryClass(String formatFactoryClass)
 	{
