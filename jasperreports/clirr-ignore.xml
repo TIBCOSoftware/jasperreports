@@ -699,4 +699,26 @@
 		<differenceType>7004</differenceType>
 		<method>*DocxStyleHelper(net.sf.jasperreports.engine.JasperReportsContext, java.io.Writer, java.lang.String)</method>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRPdfExporter$FontKey</className>
+		<differenceType>7005</differenceType>
+		<method>*JRPdfExporter$FontKey(java.lang.String, boolean, boolean, java.util.Locale)</method>
+		<to>*JRPdfExporter$FontKey(net.sf.jasperreports.engine.fonts.AwtFontAttribute, boolean, boolean, java.util.Locale)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/SimpleTextLineWrapper$FontKey</className>
+		<differenceType>7005</differenceType>
+		<method>*SimpleTextLineWrapper$FontKey(java.lang.String, float, int, java.util.Locale)</method>
+		<to>*SimpleTextLineWrapper$FontKey(net.sf.jasperreports.engine.fonts.AwtFontAttribute, float, int, java.util.Locale)</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/BandReportFillerParent</className>
+		<differenceType>7012</differenceType>
+		<method>*getReportLocation()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/BandReportFillerParent</className>
+		<differenceType>7012</differenceType>
+		<method>*registerReportStyles(java.util.List)</method>
+	</difference>
 </differences>
