@@ -178,7 +178,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="scm-tag" value="jr-6-2-1"/>
+	<property name="scm-tag" value="jr-6-2-2"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
