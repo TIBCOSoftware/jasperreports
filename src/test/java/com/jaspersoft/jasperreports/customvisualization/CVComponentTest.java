@@ -39,7 +39,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -122,14 +121,14 @@ public class CVComponentTest extends TestCase
 
 	// public void testCircle() throws Exception
 	// {
-	// testReport("d3_Circle_sample.jrxml", false);
+	// testReport("d3_Circle_sample.jrxml", true);
 	// }
 
 	public void testCircleWithGroups() throws Exception
 	{
-		// testReport("d3_Circle_sample_with_groups.jrxml", false);
-		// testReport("subdataset_test_sample.jrxml", false);
-		//testReport("sparkline_sample.jrxml", true);
+		// testReport("d3_Circle_sample_with_groups.jrxml", true);
+		// testReport("subdataset_test_sample.jrxml", true);
+		// testReport("sparkline_sample.jrxml", false);
 	}
 
 	// public void testDendogram() throws Exception
@@ -185,7 +184,7 @@ public class CVComponentTest extends TestCase
 	/**
 	 * Rigourous Test :-)
 	 */
-	private void testReport(String filename, boolean useEmptyDatasource) throws Exception
+	private void testReport(String filename, boolean useConnection) throws Exception
 	{
 		Connection connection = null;
 		InputStream jrxmlStream = null;
@@ -200,12 +199,7 @@ public class CVComponentTest extends TestCase
 			report = JasperCompileManager.compileReport(template);
 			Map<String, Object> params = new HashMap<String, Object>();
 
-			if (useEmptyDatasource)
-			{
-
-				params.put("REPORT_DATA_SOURCE", new JREmptyDataSource(1));
-			}
-			else
+			if (useConnection)
 			{
 				connection = getHsql();
 				params.put("REPORT_CONNECTION", connection);
