@@ -243,11 +243,10 @@ public class JRFillDatasetRun implements JRDatasetRun
 
 			copyConnectionParameter(parameterValues);
 			
+			dataset.filterElementDatasets(elementDataset);
 			dataset.initCalculator();
 			dataset.setParameterValues(parameterValues);
 			dataset.initDatasource();
-			
-			dataset.filterElementDatasets(elementDataset);
 
 			iterate();
 		}
