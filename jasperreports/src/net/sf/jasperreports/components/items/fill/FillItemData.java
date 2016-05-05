@@ -116,8 +116,7 @@ public abstract class FillItemData
 			fillItemDataset.setEvaluation(evaluation);
 			fillItemDataset.evaluateDatasetRun(evaluation);
 		}
-		
-		if (itemsList != null)
+		else if (itemsList != null)
 		{
 			if (getDataset() == null)
 			{

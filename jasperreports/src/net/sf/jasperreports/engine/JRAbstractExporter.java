@@ -1022,7 +1022,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		{
 			TextValue textValue;
 			String pattern = text.getPattern();
-			if (pattern == null || pattern.trim().length() == 0)
+			if (pattern == null || pattern.trim().length() == 0)//FIXMENOW there might be formatters that do not use pattern, in which case this test would skip them
 			{
 				textValue = getTextValueString(text, textStr);
 			}
@@ -1051,7 +1051,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		{
 			TextValue textValue;
 			String pattern = text.getPattern();
-			if (pattern == null || pattern.trim().length() == 0)
+			if (pattern == null || pattern.trim().length() == 0)//FIXMENOW there might be formatters that do not use pattern, in which case this test would skip them
 			{
 				if (textStr != null && textStr.length() > 0)
 				{
