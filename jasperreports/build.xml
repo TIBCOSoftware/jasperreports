@@ -67,11 +67,11 @@
 
 	<target name="javaflow" depends="compile" description="Builds the JavaFlow instrumentated JAR file.">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="javaflow"/> 
-		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">
+		<taskdef name="javaflow" classname="net.sf.jasperreports.ant.JavaflowRewriteTask">
 			<classpath refid="project-classpath"/>
 		</taskdef>
 
-		<copy todir="./build/javaflow">
+		<copy todir="./build/javaflow" overwrite="true">
 			<fileset dir="./build/classes"/>
 		</copy>
 
@@ -81,7 +81,7 @@
 			replace="net.sf.jasperreports.subreport.runner.factory=net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory">
 		</replaceregexp>
 
-		<javaflow srcdir="./build/javaflow" dstdir="./build/javaflow" mode="bcel">
+		<javaflow srcdir="./build/javaflow" destdir="./build/javaflow" mode="asm">
 			<include name="net/sf/jasperreports/engine/fill/BaseReportFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
