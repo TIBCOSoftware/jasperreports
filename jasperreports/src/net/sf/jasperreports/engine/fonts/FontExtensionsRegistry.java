@@ -77,7 +77,7 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 			FontExtensionsCollector extensionsCollector = new FontExtensionsCollector();
 			for (String location : fontFamiliesLocations)
 			{
-				fontExtensionHelper.loadFontFamilies(context, location, extensionsCollector);
+				fontExtensionHelper.loadFontExtensions(context, location, extensionsCollector);
 			}
 			
 			fontFamilies = extensionsCollector.getFontFamilies();

@@ -169,11 +169,11 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	public List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, String file)
 	{
 		FontExtensionsCollector collector = new FontExtensionsCollector();
-		loadFontFamilies(jasperReportsContext, file, collector);
+		loadFontExtensions(jasperReportsContext, file, collector);
 		return collector.getFontFamilies();
 	}
 	
-	public void loadFontFamilies(JasperReportsContext jasperReportsContext, String file,
+	public void loadFontExtensions(JasperReportsContext jasperReportsContext, String file,
 			FontExtensionsReceiver receiver)
 	{
 		InputStream is = null; 
