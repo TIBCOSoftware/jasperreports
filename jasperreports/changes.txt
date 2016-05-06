@@ -2,8 +2,33 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.2.2 (2016-05-05)
+JasperReports 6.2.2 (2016-05-06)
 ---------------------------------------------
+
+- adding new types of element stretch and deprecating some of the existing ones, 
+to differentiate between element group stretch and container stretch and to 
+also account for the current vertical displacement of the element;
+
+- introducing new generic Renderable interface for image rendering while 
+deprecating the existing one and its implementations, to better differentiate 
+between static visualizations such as images, SVGs, and dynamically generated 
+drawings, each identified by separate specialized renderable interface, 
+with convenience implementation classes;
+
+- built-in support for SVG as image format, including support for embedding 
+SVG in HTML export;
+
+- making use of fonts from JR font extensions when rendering SVG with Apache Batik 
+as well as use of Web fonts in the SVG embedded into the HTML export;
+
+- enhanced support for internationalization, with the addition of font set definitions 
+in JR font extensions, to allow grouping font families in super-sets that can cover 
+several languages/scripts; when using a font set, the font family resolution occurs 
+during text processing and is performed on a per character basis, allowing mixing of words 
+in different languages/scripts in the same text element;
+
+- support for calling PL/SQL stored procedures (Oracle), which was available 
+as a separate query executer extension, is now part of the JR core library;
 
 - minor bug fixes and improvements;
 
