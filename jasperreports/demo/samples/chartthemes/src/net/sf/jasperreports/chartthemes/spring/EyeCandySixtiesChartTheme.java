@@ -41,6 +41,8 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.charts.JRThermometerPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
@@ -208,9 +210,11 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	protected JFreeChart createPieChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createPieChart();
-
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
-		if(piePlot.getLabelGenerator() != null)
+		JRPiePlot jrPiePlot = (JRPiePlot)getPlot();
+		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels().booleanValue();
+
+		if(isShowLabels && piePlot.getLabelGenerator() != null)
 		{
 			piePlot.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			piePlot.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
@@ -243,7 +247,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createPie3DChart();
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-		if(piePlot3D.getLabelGenerator() != null)
+		JRPie3DPlot jrPiePlot = (JRPie3DPlot)getPlot();
+		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels().booleanValue();
+		if(isShowLabels && piePlot3D.getLabelGenerator() != null)
 		{
 			piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
