@@ -38,7 +38,6 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -68,6 +67,7 @@ public class JasperDesignCache
 	 * 
 	 */
 	private JasperReportsContext jasperReportsContext;
+	private ReportCompiler reportCompiler;
 	private Map<String, JasperDesignReportResource> cachedResourcesMap = new ConcurrentHashMap<String, JasperDesignReportResource>();
 	private Map<Pair<String, UUID>, List<JRStyle>> reportStyles = 
 			new ConcurrentHashMap<Pair<String, UUID>, List<JRStyle>>();
@@ -110,6 +110,7 @@ public class JasperDesignCache
 	private JasperDesignCache(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.reportCompiler = new DefaultReportCompiler(jasperReportsContext);
 	}
 	
 	/**
@@ -244,7 +245,7 @@ public class JasperDesignCache
 				{
 					try
 					{
-						jasperReport = JasperCompileManager.getInstance(jasperReportsContext).compile(jasperDesign);
+						jasperReport = reportCompiler.compile(jasperDesign);
 						resource.setReport(jasperReport);
 					}
 					catch (JRException e)
@@ -300,5 +301,10 @@ public class JasperDesignCache
 		}
 		
 		return null;
+	}
+
+	public void setReportCompiler(ReportCompiler reportCompiler)
+	{
+		this.reportCompiler = reportCompiler;
 	}
 }
