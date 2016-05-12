@@ -96,6 +96,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
                 if (hasFloatingHeaders) {
                     ic.setScrollableHeader(ic.isDashboard);
+                    ic.$scrollContainer = $('div#reportViewFrame .body').first();
                 }
 
 				ic.initialized = true;
@@ -113,7 +114,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
             var tblJrPage = $('table.jrPage');
 
 			tblJrPage.on('click touchend', 'td.jrxtcolheader[data-jrxtid=\'' + crosstab.getFragmentId() + '\']', function(evt){
-				if(!$(evt.target).parent().is('a')) {
+				if(!$(evt.target).parent().is('._jrHyperLink')) {
 					var columnHeader = $(this);
 					ixt.selectDataColumn(crosstab, columnHeader);
 					return false;
@@ -121,7 +122,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 			});
 
             tblJrPage.on('click touchend', 'td.jrxtdatacell[data-jrxtid=\'' + crosstab.getFragmentId() + '\']', function(evt){
-				if(!$(evt.target).parent().is('a')) {
+				if(!$(evt.target).parent().is('._jrHyperLink')) {
 					var dataCell = $(this);
 					ixt.selectDataColumn(crosstab, dataCell);
 					return false;
@@ -129,7 +130,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 			});
 
             tblJrPage.on('click touchend', 'td.jrxtrowheader[data-jrxtid=\'' + crosstab.getFragmentId() + '\']', function(evt){
-				if(!$(evt.target).parent().is('a')) {
+				if(!$(evt.target).parent().is('._jrHyperLink')) {
 					var rowHeader = $(this);
 					ixt.selectRowGroup(crosstab, rowHeader);
 					return false;
@@ -159,7 +160,13 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 		selectRowGroup: function(crosstab, cell, altCell) {
 			var columnIdx = cell.data('jrxtcolidx');
 			var fragmentId = cell.data('jrxtid');
-			var headers = $('td.jrxtrowheader[data-jrxtid=\'' + fragmentId + '\'][data-jrxtcolidx=\'' + columnIdx + '\']', cell.parents("table:first"));
+			var headers = $("td.jrxtrowheader[data-jrxtid='" + fragmentId + "'][data-jrxtcolidx='" + columnIdx + "']", cell.parents("table").first());
+
+            if (!headers.length) {
+                // nothing to select
+                return;
+            }
+
 			var firstHeader = $(headers[0]);
 			var lastHeader = $(headers[headers.length - 1]);
 
@@ -334,7 +341,6 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
             it.scrollData = {
                 bColMoved: false,
-                reportContainerPositionAtMove: null,
                 bRowMoved: false,
                 containerLeftAtMove: null
             };
@@ -414,9 +420,9 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 return;
             }
 
-            it.scrollColumnHeader(isDashboard, scrolledLeft, scrolledTop);
-            it.scrollRowHeader(isDashboard, scrolledLeft, scrolledTop);
-            it.scrollCrossSection(isDashboard, scrolledLeft, scrolledTop);
+            it.scrollColumnHeader();
+            it.scrollRowHeader();
+            it.scrollCrossSection();
         },
         hideFloatingElements: function() {
             var it = this;
@@ -431,113 +437,88 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 it.getFloatingTable('floatingCrossHeader').hide();
             }
         },
-        scrollColumnHeader: function(isDashboard, scrolledLeft, scrolledTop) {
+        scrollColumnHeader: function() {
             var it = this,
-                $win = $(window);
+                scrollContainer = this.$scrollContainer,
+                crosstabId,
+                isDashboard = false;
 
             var firstHeader = $('td.jrxtcolfloating').filter(':first');
             if (!firstHeader.length > 0) {
                 return;
             }
 
-            var floatingTbl = it.getFloatingTable('floatingColumnHeader', 'jrxtcolfloating', 'jrcolGroupHeader'),
-                containerTop = isDashboard ? $win.scrollTop() : $('div#reportViewFrame .body').offset().top,
-                headerTop = firstHeader.closest('tr').offset().top,
-                reportContainerTop = $('#reportContainer').offset().top,
-                firstHeaderCel = $('td.jrxtcolfloating.first'),
-                lastTableCel = firstHeaderCel.closest('table').find('td.jrxtdatacell:last'),
-                diff = lastTableCel.length ? lastTableCel.offset().top - floatingTbl.outerHeight() - containerTop: -1, // if last cell is not visible, hide the floating header
-                scrollTop = it.cachedScroll || 0,
-                zoom = ixt.reportInstance.zoom;
+            crosstabId = firstHeader.data("jrxtid");
 
-            it.isIPad && !it.cachedHeaderTop && (it.cachedHeaderTop = headerTop);
-            if (!isDashboard && it.isIPad) {
-                scrollTop += it.cachedHeaderTop - headerTop;
+            if (!this.floatingColumnHeader) {
+                this.floatingColumnHeader = this.getColumnHeaderFloatingTable(firstHeader, crosstabId);
             }
 
-            if (!it.scrollData.bColMoved && headerTop-containerTop < 0 && diff > 0) {
+            var floatingTbl = this.floatingColumnHeader,
+                containerTop = scrollContainer.offset().top,
+                headerTop = firstHeader.closest('tr').offset().top,
+                firstRowHeaderCel = scrollContainer.find('td.jrxtrowheader').first(),
+                lastTableCel = firstHeader.closest("table").find("td.jrxtdatacell[data-jrxtid='" + crosstabId + "']").last(),
+                diff = lastTableCel.length ? lastTableCel.offset().top - floatingTbl.outerHeight() - containerTop: -1, // if last cell is not visible, hide the floating header
+                zoom = ixt.reportInstance.zoom,
+                floatCondition = headerTop - containerTop < 0 && diff > 0;
+
+            if ((!it.scrollData.bColMoved && floatCondition) || (it.scrollData.bColMoved && floatCondition)) {
                 floatingTbl.show();
 
                 if (zoom) {
                     it.applyScaleTransform(floatingTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatingTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: firstHeaderCel.offset().left
-                    });
-                } else {
-                    floatingTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: firstHeaderCel.offset().left
-                    });
                 }
+                floatingTbl.offset({
+                    top: containerTop,
+                    left: firstRowHeaderCel.offset().left
+                });
 
                 it.setToolbarPositionWhenFloating(it.active, isDashboard);
-
                 it.scrollData.bColMoved = it.isFloatingColumnHeader = true;
-                if (!isDashboard) {
-                    if (!it.scrollData.reportContainerPositionAtMove) {
-                        it.scrollData.reportContainerPositionAtMove = reportContainerTop;
-                    }
-                }
-            } else if (it.scrollData.bColMoved && headerTop-containerTop < 0 && diff > 0) {
-                floatingTbl.show();
-                if (zoom) {
-                    it.applyScaleTransform(floatingTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatingTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: firstHeaderCel.offset().left
-                    });
-                } else /*if (scrolledLeft)*/ {
-                    floatingTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: firstHeaderCel.offset().left
-                    });
-                }
-
-                it.setToolbarPositionWhenFloating(it.active, isDashboard);
             } else if (it.scrollData.bColMoved) {
                 floatingTbl.hide();
                 it.scrollData.bColMoved = it.isFloatingColumnHeader = false;
-                it.cachedScroll = 0;
                 it.active && it.foobar.setToolbarPosition();
             }
-
-            it.isIPad && (it.cachedHeaderTop = headerTop);
-            it.isIPad && (it.cachedScroll = scrollTop);
         },
-        scrollRowHeader: function(isDashboard, scrolledLeft, scrolledTop) {
+        scrollRowHeader: function() {
             var it = this,
-                $win = $(window);
+                scrollContainer = this.$scrollContainer,
+                crosstabId;
 
             var firstHeader = $('td.jrxtrowheader').filter(':first');
             if (!firstHeader.length > 0) {
                 return;
             }
 
-            var floatingTbl = it.getFloatingTable('floatingRowHeader', 'jrxtrowheader'),
-                containerLeft = isDashboard ? $win.scrollLeft() : $('div#reportViewFrame .body').offset().left,
+            crosstabId = firstHeader.data("jrxtid");
+
+            if (!this.floatingRowHeader) {
+                this.floatingRowHeader = this.getFloatingTable(firstHeader, crosstabId, "jr_floating_row_header", "jrxtrowfloating");
+            }
+
+            var floatingTbl = this.floatingRowHeader,
+                containerLeft = scrollContainer.offset().left,
                 headerLeft = firstHeader.offset().left,
-                lastTableCel = $('td.jrxtrowheader.first').closest('table').find('td.jrxtdatacell:last'),
+                lastTableCel = firstHeader.closest('table').find('td.jrxtdatacell').last(),
                 diff = lastTableCel.length ? lastTableCel.offset().left - floatingTbl.width() - containerLeft: -1, // if last cell is not visible, hide the floating header
                 zoom = it.reportInstance.zoom,
-                zoomLevel = (zoom && it.reportInstance.zoom.level) ? it.reportInstance.zoom.level : 1,
-                floatingTblRight;
+                zoomLevel = (zoom && zoom.level) ? zoom.level : 1,
+                floatingTblRight,
+                floatCondition = headerLeft-containerLeft < 0 && diff > 0,
+                showCondition = 0.8 * scrollContainer.outerWidth() > floatingTbl.outerWidth() * zoomLevel;
 
-            if (!it.scrollData.bRowMoved && headerLeft-containerLeft < 0 && diff > 0) {
+            if (!it.scrollData.bRowMoved && floatCondition && showCondition) {
                 floatingTbl.show();
 
                 if (zoom) {
                     it.applyScaleTransform(floatingTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatingTbl.offset({
-                        top: firstHeader.offset().top,
-                        left: containerLeft
-                    });
-                } else {
-                    floatingTbl.offset({
-                        top: firstHeader.offset().top,
-                        left: containerLeft
-                    });
                 }
+                floatingTbl.offset({
+                    top: firstHeader.offset().top,
+                    left: containerLeft
+                });
 
                 floatingTblRight = floatingTbl.offset().left + floatingTbl.width() * zoomLevel;
 
@@ -547,21 +528,16 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
                 it.scrollData.bRowMoved = it.isFloatingRowHeader = true;
 
-            } else if (it.scrollData.bRowMoved && headerLeft-containerLeft < 0 && diff > 0) {
+            } else if (it.scrollData.bRowMoved && floatCondition && showCondition) {
                 floatingTbl.show();
 
                 if (zoom) {
                     it.applyScaleTransform(floatingTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatingTbl.offset({
-                        top: firstHeader.offset().top,
-                        left: containerLeft
-                    });
-                } else /*if (scrolledTop)*/ {
-                    floatingTbl.offset({
-                        top: firstHeader.offset().top,
-                        left: containerLeft
-                    });
                 }
+                floatingTbl.offset({
+                    top: firstHeader.offset().top,
+                    left: containerLeft
+                });
 
                 if (it.active) {
                     floatingTblRight = floatingTbl.offset().left + floatingTbl.width() * zoomLevel;
@@ -581,12 +557,15 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 it.scrollData.bRowMoved = it.isFloatingRowHeader = false;
             }
         },
-        scrollCrossSection: function(isDashboard, scrolledLeft, scrolledTop) {
-            var it = this,
-                firstHeader;
+        scrollCrossSection: function() {
+            var scrollContainer = this.$scrollContainer,
+                scrollData = this.scrollData,
+                firstHeader,
+                firstColHeader = scrollContainer.find("td.jrxtcolfloating").first(),
+                crosstabId = firstColHeader.data("jrxtid");
 
             if (!$('table.floatingCrossHeader').length) {
-                it.markCrossHeaderElements();
+                this.markCrossHeaderElements(crosstabId);
             }
 
             firstHeader = $('td.jrxtcrossheader').filter(':first');
@@ -594,72 +573,53 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 return;
             }
 
-            var floatingCrossTbl = it.getFloatingTable('floatingCrossHeader', 'jrxtcrossheader'),
-                floatingColumnTbl = it.getFloatingTable('floatingColumnHeader'),
-                floatingRowTbl = it.getFloatingTable('floatingRowHeader'),
-                zoom = ixt.reportInstance.zoom;
+            if (!this.floatingCrossHeader) {
+                this.floatingCrossHeader = this.getFloatingTable(firstHeader, crosstabId, "jr_floating_cross_header", "jrxtcrossheader");
+            }
 
-            if (it.scrollData.bColMoved || it.scrollData.bRowMoved) {
+            var floatingCrossTbl = this.floatingCrossHeader,
+                floatingColumnTbl = this.floatingColumnHeader || this.getFloatingTable(firstHeader, crosstabId, "jr_floating_column_header"),
+                floatingRowTbl = this.floatingRowHeader || this.getFloatingTable(firstHeader, crosstabId, "jr_floating_row_header"),
+                zoom = ixt.reportInstance.zoom,
+                zoomLevel = (zoom && zoom.level) ? zoom.level : 1,
+                showCondition = 0.8 * scrollContainer.outerWidth() > floatingRowTbl.outerWidth() * zoomLevel;
+
+            if ((scrollData.bColMoved || scrollData.bRowMoved) && showCondition) {
                 floatingCrossTbl.show();
 
                 if (zoom) {
-                    it.applyScaleTransform(floatingCrossTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
+                    this.applyScaleTransform(floatingCrossTbl, zoomLevel, zoom.overflow ? '0 0' : '50% 0');
                 }
 
                 floatingCrossTbl.offset({
-                    top: it.scrollData.bColMoved ? floatingColumnTbl.offset().top : firstHeader.offset().top,
-                    left: it.scrollData.bRowMoved ? floatingRowTbl.offset().left : firstHeader.offset().left
+                    top: scrollData.bColMoved ? floatingColumnTbl.offset().top : firstHeader.offset().top,
+                    left: scrollData.bRowMoved ? floatingRowTbl.offset().left : firstHeader.offset().left
                 });
 
-//                it.setToolbarPositionWhenFloating(it.active, isDashboard);
+                scrollData.bCrossMoved = this.isFloatingCrossHeader = true;
 
-                it.scrollData.bCrossMoved = it.isFloatingCrossHeader = true;
-
-            } else if (it.scrollData.bCrossMoved) {
+            } else if (scrollData.bCrossMoved) {
                 floatingCrossTbl.hide();
-                it.scrollData.bCrossMoved = it.isFloatingCrossHeader = false;
+                scrollData.bCrossMoved = this.isFloatingCrossHeader = false;
             }
         },
-        getFloatingTable: function(tableClass, elementClass, altElementClass) {
+        getFloatingTable: function(firstHeader, crosstabId, tableClass, elementClass, altElementClass) {
             var it = this,
-                tbl = $('table.' + tableClass);
+                tbl = this.$scrollContainer.find("table." + tableClass + "[data-jrxtid='" + crosstabId + "']");
 
-            if (tbl.length == 0) {
-                tbl = $("<table class='" + tableClass + "' style='display:none'/>").appendTo('div#reportContainer');
+            if (firstHeader && tbl.length === 0) {
+                tbl = $("<table class='" + tableClass + "' data-jrxtid='" + crosstabId + "' style='display:none'/>").appendTo(this.$scrollContainer);
 
-                if (elementClass == 'jrxtcolfloating') {
-                    tbl.on('click', '.jrxtcolfloating', function(evt){
-                        // keep html links functional
-                        if(!$(evt.target).parent().is('a')) {
+                if (elementClass == "jrxtrowfloating") {
+                    tbl.on("click", ".jrxtrowfloating", function(evt){
+                        // keep links functional
+                        if(!$(evt.target).parent().is("._jrHyperLink")) {
                             var jo = $(this),
-                                crosstabId = jo.attr('data-jrxtid'),
-                                colIdx = jo.attr('data-jrxtcolidx'),
-                                crosstabFloatingHeader = tbl.parent()
-                                    .find("table.jrPage td.jrxtcolheader[data-jrxtid='" + crosstabId + "']")
-                                    .filter("td[data-jrxtcolidx='" + colIdx + "']"),
-                                crosstab = null;
-
-                            $.each(ixt.reportInstance.components.crosstab, function(i, xtab) {
-                                if (crosstabId == xtab.getFragmentId()) {
-                                    crosstab = xtab;
-                                    return false; // break each
-                                }
-                            });
-
-                            crosstab && crosstabFloatingHeader.length && ixt.selectDataColumn(crosstab, crosstabFloatingHeader);
-                            return false;
-                        }
-                    });
-                } else if (elementClass == 'jrxtrowheader') {
-                    tbl.on('click', '.jrxtrowheader', function(evt){
-                        // keep html links functional
-                        if(!$(evt.target).parent().is('a')) {
-                            var jo = $(this),
-                                crosstabId = jo.attr('data-jrxtid'),
-                                colIdx = jo.attr('data-jrxtcolidx'),
+                                crosstabId = jo.attr("data-jrxtid"),
+                                colIdx = jo.attr("data-jrxtcolidx"),
                                 altJo = tbl.parent()
-                                    .find("table.jrPage td.jrxtrowheader[data-jrxtid='" + crosstabId + "']")
-                                    .filter("td[data-jrxtcolidx='" + colIdx + "']"),
+                                    .find("table.jrPage td.jrxtrowfloating[data-jrxtid='" + crosstabId + "']")
+                                    .filter("td[data-jrxtcolidx='" + colIdx + "']").eq(0),
                                 crosstab = null;
 
                             $.each(ixt.reportInstance.components.crosstab, function(i, xtab) {
@@ -673,10 +633,10 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                             return false;
                         }
                     });
-                } else if (elementClass == 'jrxtcrossheader') {
-                    tbl.on('click', '.jrxtcrossheader', function(evt){
-                        // keep html links functional
-                        if(!$(evt.target).parent().is('a')) {
+                } else if (elementClass == "jrxtcrossheader") {
+                    tbl.on("click", ".jrxtcrossheader", function(evt){
+                        // keep links functional
+                        if(!$(evt.target).parent().is('._jrHyperLink')) {
                             var jo = $(this),
                                 crosstabId = jo.attr('data-jrxtid'),
                                 colIdx = jo.attr('data-jrxtcolidx'),
@@ -684,7 +644,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                                 altJo;
 
                             if (it.isFloatingRowHeader) {
-                                altJo = it.getFloatingTable('floatingRowHeader')
+                                altJo = it.floatingRowHeader
                                     .find("td.jrxtrowheader[data-jrxtid='" + crosstabId + "']")
                                     .filter("td[data-jrxtcolidx='" + colIdx + "']");
                                 jo = altJo.eq(0);
@@ -708,28 +668,170 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     });
                 }
 
-                var elementSelector = 'td.' + elementClass,
-                    firstHeader = $(elementSelector).filter(':first'),
-                    parentTable = firstHeader.closest('table'),
-                    lastHeader = $(elementSelector, parentTable).filter(':last'),
+                var parentTable = firstHeader.closest("table"),
+                    lastHeader = parentTable.find("td." + elementClass + "[data-jrxtid='" + crosstabId + "']").last(),
                     rows = [], clone, cloneWidth = [],
                     row, $row, lastRow, cloneTD, rowTD, rowTDs, i, j, k,
                     tblJrPage, parentTableRows,
-                    bFoundFirst, cssHeight,
-                    // It seems to be necessary to adjust the height of the <td>s when cloning
-                    bAdjust = it.isIE || it.isFirefox,
-                    adjustAmount = 0.35;
+                    startIndex = 0, colSpanLength = 0, finishedCalculatedStartIndex = false;
 
                 if (firstHeader.length > 0) {
-                    firstHeader.addClass('first');
-                    row = firstHeader.closest('tr');
-                    lastRow = lastHeader.closest('tr');
-                    tblJrPage = firstHeader.closest('table');
+                    row = firstHeader.closest("tr");
+                    lastRow = lastHeader.closest("tr");
+                    tblJrPage = firstHeader.closest("table");
+                    parentTableRows = parentTable.find("tr");
 
-                    if (row === lastRow) {
+                    if (row.get(0) === lastRow.get(0)) {    // need to compare the actual dom nodes
                         rows.push(row);
                     } else {
-                        parentTableRows = parentTable.find('tr');
+                        i = parentTableRows.index(row);
+                        j = parentTableRows.index(lastRow);
+
+                        for (k = i; k <= j; k++) {
+                            rows.push(parentTableRows.get(k));
+                        }
+                    }
+
+                    /*
+                     * Need to compensate the cross section with rows due to rowspan variations
+                     */
+                    if (elementClass === "jrxtcrossheader") {
+                        lastRow = $(rows[rows.length - 1]);
+
+                        var lastRowIndex = parentTableRows.index(lastRow),
+                            allRowSpans = $.map(lastRow.find("td.jrxtcrossheader"), function(td) {
+                                return $(td).prop("rowspan");
+                            }),
+                            maxSpan = Math.max.apply(Math, allRowSpans);
+
+                        k = 1;
+                        if (maxSpan > 1) {
+                            for (k; k < maxSpan; k++) {
+                                rows.push(parentTableRows.get(lastRowIndex + k));
+                            }
+                        }
+                    }
+
+                    $.each(rows, function(idx, row) {
+                        $row = $(row);
+                        rowTDs = $row.find("td");
+                        clone = $("<tr></tr>");
+                        cloneWidth[idx] = 0;
+                        clone.attr("style", $row.attr("style"));
+                        clone.css("height", $row.css("height"));
+                        clone.attr("valign", $row.attr("valign"));
+
+                        // add only the tds with elementClass class
+                        for (i = 0; i < rowTDs.length; i++) {
+                            rowTD = $(rowTDs.get(i));
+                            !finishedCalculatedStartIndex && (startIndex += rowTD.prop("colspan"));
+                            if (rowTD.data("jrxtid") === crosstabId && (rowTD.is("." + elementClass) || (altElementClass && rowTD.is("." + altElementClass)))) {
+                                if (elementClass !== "jrxtrowfloating") {
+                                    if (idx === 0 && !finishedCalculatedStartIndex) {
+                                        startIndex -= rowTD.prop("colspan");
+                                        finishedCalculatedStartIndex = true;
+                                    }
+                                    colSpanLength += rowTD.prop("colspan");
+                                }
+
+                                // put empty TDs for the rowheader to prevent rowspans from interfering
+                                if (elementClass == "jrxtrowfloating" && rowTD.is(".jrxtinteractive")) {
+                                    cloneTD = $("<td class='jrxtrowfloating jrxtinteractive'></td>");
+                                    cloneTD.attr("data-jrxtid", rowTD.attr("data-jrxtid"));
+                                    cloneTD.attr("data-jrxtcolidx", rowTD.attr("data-jrxtcolidx"));
+                                } else {
+                                    cloneTD = rowTD.clone();
+
+                                    // Fix for bug #41786 - set width/height with css method to take box-sizing into account
+                                    cloneTD.css("width", rowTD.css("width"));
+                                    cloneTD.css("height", rowTD.css("height"));
+
+                                    cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
+                                }
+                                clone.append(cloneTD);
+                            }
+                        }
+
+                        /* First row of table.jrPage contains all the columns(with colspan = 1) with their respective
+                         * size, so we must copy all the columns from it, across which the floating column header
+                         * expands so that future columns with colspan will expand properly
+                         */
+                        if (idx === 0 && startIndex !== undefined && elementClass !== "jrxtrowfloating") {
+                            var firstRow = tblJrPage.find("tr").first(),
+                                firstRowTDs = firstRow.find("td"),
+                                firstRowClone = $("<tr></tr>"),
+                                j = startIndex;
+
+                            for (j; j < startIndex + colSpanLength; j ++) {
+                                firstRowClone.append($(firstRowTDs.get(j)).clone());
+                            }
+
+                            tbl.append(firstRowClone);
+                        }
+
+                        tbl.append(clone);
+                    });
+
+                    tbl.css({
+                        position: "absolute",
+                        width: Math.max.apply(Math, cloneWidth),
+                        "empty-cells": tblJrPage.css("empty-cells"),
+                        "border-collapse": tblJrPage.css("border-collapse"),
+                        "background-color": tblJrPage.css("background-color")
+                    });
+                    tbl.attr("cellpadding", tblJrPage.attr("cellpadding"));
+                    tbl.attr("cellspacing", tblJrPage.attr("cellspacing"));
+                    tbl.attr("border", tblJrPage.attr("border"));
+                }
+            }
+
+            return tbl;
+        },
+        getColumnHeaderFloatingTable: function(firstHeader, crosstabId) {
+            var tableClass = "jr_floating_column_header",
+                elementClass = "jrxtcolfloating",
+                tbl = this.$scrollContainer.find("table." + tableClass + "[data-jrxtid='" + crosstabId + "']");
+
+            if (firstHeader && tbl.length === 0) {
+                tbl = $("<table class='" + tableClass + "' data-jrxtid='" + crosstabId + "' style='display:none'/>").appendTo(this.$scrollContainer);
+
+                tbl.on("click", ".jrxtcolfloating", function(evt){
+                    // keep links functional
+                    if(!$(evt.target).parent().is("._jrHyperLink")) {
+                        var jo = $(this),
+                            crosstabId = jo.attr("data-jrxtid"),
+                            colIdx = jo.attr("data-jrxtcolidx"),
+                            crosstabFloatingHeader = tbl.parent()
+                                .find("table.jrPage td.jrxtcolheader[data-jrxtid='" + crosstabId + "']")
+                                .filter("td[data-jrxtcolidx='" + colIdx + "']").eq(0);
+
+                        crosstabFloatingHeader.length && crosstabFloatingHeader.trigger("click");
+                        return false;
+                    }
+                });
+
+                var parentTable = firstHeader.closest("table"),
+                    lastHeader = parentTable.find("td." + elementClass + "[data-jrxtid='" + crosstabId + "']").last(),
+                    lastInteractiveRowHeader = parentTable.find("td.jrxtrowheader.jrxtinteractive[data-jrxtid='" + crosstabId + "']").last(),
+                    rows = [], clone, cloneWidth = [],
+                    row, $row, lastRow, lastInteractiveRowHeaderRow, cloneTD, rowTD, rowTDs, i, j, k,
+                    tblJrPage, parentTableRows,
+                    startIndex = 0, colSpanLength = 0, finishedCalculatedStartIndex = false;
+
+                if (firstHeader.length > 0) {
+                    row = firstHeader.closest("tr");
+                    lastRow = lastHeader.closest("tr");
+                    lastInteractiveRowHeaderRow = lastInteractiveRowHeader.closest("tr");
+                    tblJrPage = parentTable;
+                    parentTableRows = parentTable.find("tr");
+
+                    if (lastInteractiveRowHeaderRow.length && parentTableRows.index(lastInteractiveRowHeaderRow) > parentTableRows.index(lastRow)) {
+                        lastRow = lastInteractiveRowHeaderRow;
+                    }
+
+                    if (row.get(0) === lastRow.get(0)) {    // need to compare the actual dom nodes
+                        rows.push(row);
+                    } else {
                         i = parentTableRows.index(row);
                         j = parentTableRows.index(lastRow);
 
@@ -740,53 +842,68 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
 
                     $.each(rows, function(idx, row) {
                         $row = $(row);
-                        rowTDs = $row.find('td');
+                        rowTDs = $row.find("td");
                         clone = $("<tr></tr>");
                         cloneWidth[idx] = 0;
-                        clone.attr('style', $row.attr('style'));
-                        clone.attr('valign', $row.attr('valign'));
-                        bFoundFirst = false;
 
-                        // add only the tds with elementClass class
+                        clone.attr("style", $row.attr("style"));
+                        clone.css("height", $row.css("height"));
+                        clone.attr("valign", $row.attr("valign"));
+
                         for (i = 0; i < rowTDs.length; i++) {
                             rowTD = $(rowTDs.get(i));
-                            if (rowTD.is('.' + elementClass) || (altElementClass && rowTD.is('.' + altElementClass))) {
-                                // put empty TDs for the rowheader to prevent rowspans from interfering
-                                if (elementClass == 'jrxtrowheader' && rowTD.is('.jrxtinteractive')) {
-                                    cloneTD = $("<td class='jrxtrowheader jrxtinteractive'></td>");
-                                    cloneTD.attr("data-jrxtid", rowTD.attr("data-jrxtid"));
-                                    cloneTD.attr("data-jrxtcolidx", rowTD.attr("data-jrxtcolidx"));
-                                } else {
-                                    cloneTD = rowTD.clone();
 
-                                    // Fix for bug #41786 - set width/height with css method to take box-sizing into account
-                                    cloneTD.css("width", rowTD.css("width"));
-                                    cssHeight = rowTD.css("height");
-                                    cloneTD.css("height", parseInt(cssHeight.substring(0, cssHeight.indexOf("px"))) - (bAdjust ? adjustAmount : 0) + "px");
+                            !finishedCalculatedStartIndex && (startIndex += rowTD.prop("colspan"));
 
-                                    cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
+                            if (rowTD.data("jrxtid") === crosstabId) {
+                                if (idx === 0 && !finishedCalculatedStartIndex) {
+                                    startIndex -= rowTD.prop("colspan");
+                                    finishedCalculatedStartIndex = true;
                                 }
+
+                                colSpanLength += rowTD.prop("colspan");
+                                cloneTD = rowTD.clone();
+
+                                // Fix for bug #41786 - set width/height with css method to take box-sizing into account
+                                cloneTD.css("width", rowTD.css("width"));
+                                cloneTD.css("height", rowTD.css("height"));
+
+                                cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
+
                                 clone.append(cloneTD);
-
-                                if (elementClass == 'jrxtrowheader') {
-                                    bAdjust && cloneTD.addClass('__adj');
-                                }
                             }
                         }
+
+                        /* First row of table.jrPage contains all the columns(with colspan = 1) with their respective
+                         * size, so we must copy all the columns from it, across which the floating column header
+                         * expands so that future columns with colspan will expand properly
+                         */
+                        if (idx === 0 && startIndex !== undefined) {
+                            var firstRow = tblJrPage.find("tr").first(),
+                                firstRowTDs = firstRow.find("td"),
+                                firstRowClone = $("<tr></tr>"),
+                                j = startIndex;
+
+                            for (j; j < startIndex + colSpanLength; j ++) {
+                                firstRowClone.append($(firstRowTDs.get(j)).clone());
+                            }
+
+                            tbl.append(firstRowClone);
+                        }
+
                         tbl.append(clone);
                     });
 
                     tbl.css({
-//                        position: 'fixed',
-                        position: 'absolute',
+                        position: "absolute",
                         width: Math.max.apply(Math, cloneWidth),
-                        'empty-cells': tblJrPage.css('empty-cells'),
-                        'border-collapse': tblJrPage.css('border-collapse'),
-                        'background-color': tblJrPage.css('background-color')
+                        "empty-cells": tblJrPage.css("empty-cells"),
+                        "border-collapse": tblJrPage.css("border-collapse"),
+                        "background-color": tblJrPage.css("background-color")
                     });
-                    tbl.attr('cellpadding', tblJrPage.attr('cellpadding'));
-                    tbl.attr('cellspacing', tblJrPage.attr('cellspacing'));
-                    tbl.attr('border', tblJrPage.attr('border'));
+                    tbl.attr("cellpadding", tblJrPage.attr("cellpadding"));
+                    tbl.attr("cellspacing", tblJrPage.attr("cellspacing"));
+                    tbl.attr("border", tblJrPage.attr("border"));
                 }
             }
 
@@ -796,7 +913,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
             var it = this, top, firstHeader, toolbarTop, firstHeaderTop;
 
             if (isActive) { // handle the toolbar position
-                firstHeader = $('td.jrxtcolfloating.first');
+                firstHeader = $('td.jrxtcolfloating').first();
                 top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top;
                 toolbarTop = it.foobar.jo.offset().top;
                 firstHeaderTop = firstHeader.offset().top;
@@ -826,71 +943,72 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 }
             }
         },
-        markCrossHeaderElements: function() {
+        markCrossHeaderElements: function(crosstabId) {
+            var scrollContainer = this.$scrollContainer;
             // Prepare the crosssection in case it doesn't exist
-            if (!$('td.jrxtcrossheader').length) {
-                var firstColHeader = $('td.jrxtcolfloating').filter(':first'),
-                    lastColHeader,
-                    firstRow,
-                    lastRow,
-                    lastRowGroupRow,
-                    parentTable, parentTableRows, i, j, k, l,
-                    rows = [],
-                    bFoundRowHeader = false,
-                    firstRowHeaderIdx = -1,
-                    remember = [];
+            if (!scrollContainer.find("td.jrxtcrossheader[data-jrxtid='" + crosstabId + "']").length) {
+                var firstColHeader = scrollContainer.find("td.jrxtcolfloating[data-jrxtid='" + crosstabId + "']").first(),
+                    firstRow, lastRow, parentTable, parentTableRows, i,
+                    firstRowIndex, lastRowIndex, rows = [],
+                    maxSpan = 1, row, currentRowMaxSpan, currentRowSpans,
+                    colSpanLength, colSpanStop, bFoundColHeader;
 
                 if (firstColHeader.length) {
-                    parentTable = firstColHeader.closest('table');
-                    firstRow = firstColHeader.closest('tr');
-                    lastColHeader = parentTable.find('td.jrxtcolfloating').filter(':last');
-                    lastRow = lastColHeader.closest('tr');
+                    parentTable = firstColHeader.closest("table");
+                    firstRow = firstColHeader.closest("tr");
+                    parentTableRows = parentTable.find("tr");
 
-                    if (firstRow === lastRow) {
-                        rows.push(firstRow);
-                    } else {
-                        lastRowGroupRow = parentTable.find('td.jrxtrowheader.jrxtinteractive').filter(':last').closest('tr');
-                        parentTableRows = parentTable.find('tr');
-                        i = parentTableRows.index(firstRow);
-                        j = parentTableRows.index(lastRow);
+                    lastRow = parentTable.find("td.jrxtrowheader.jrxtinteractive[data-jrxtid='" + crosstabId + "']").last().closest("tr");
 
-                        for (k = i; k <= j; k++) {
-                            rows.push(parentTableRows.get(k));
+                    if (!lastRow.length) {
+                        lastRow = parentTable.find("td.jrxtcolfloating[data-jrxtid='" + crosstabId + "']").last().closest("tr");
+                    }
+
+                    firstRowIndex = parentTableRows.index(firstRow);
+                    lastRowIndex = parentTableRows.index(lastRow);
+
+                    for (i = firstRowIndex; i <= lastRowIndex; i++) {
+                        rows.push(parentTableRows.get(i));
+
+                        row = $(parentTableRows.get(i));
+                        currentRowSpans = $.map(row.find("td"), function(td) {
+                            return $(td).prop("rowspan");
+                        });
+                        currentRowMaxSpan = Math.max.apply(Math, currentRowSpans);
+
+                        if (currentRowMaxSpan > maxSpan) {
+                            maxSpan = currentRowMaxSpan;
                         }
 
-                        l = parentTableRows.index(lastRowGroupRow);
-                        if (l > j) {
-                            for (k = j; k <=l; k++) {
-                                rows.push(parentTableRows.get(k))
-                            }
+                        maxSpan--;
+                    }
+
+                    i = 1;
+                    if (maxSpan > 1) {
+                        for (i; i < maxSpan; i++) {
+                            rows.push(parentTableRows.get(lastRowIndex + i));
                         }
                     }
 
                     $.each(rows, function(idx, row) {
-                        $(row).find('td').each(function(tdIdx, td) {
+                        colSpanLength = 0;
+
+                        $(row).find("td").each(function(tdIdx, td) {
                             var $td = $(td);
-                            if (!bFoundRowHeader && $td.is('.jrxtrowheader')) {
-                                bFoundRowHeader = true;
-                                firstRowHeaderIdx = tdIdx;
-                            }
-                            if ($td.is('.jrxtcolfloating')) {
-                                return false; // break each
-                            }
 
-                            remember.push({
-                                idx: tdIdx,
-                                $td: $td
-                            });
+                            colSpanLength += $td.prop("colspan");
+
+                            if ($td.data("jrxtid") === crosstabId) {
+                                if (idx === 0 && !bFoundColHeader && $td.is(".jrxtcolfloating")) {
+                                    bFoundColHeader = true;
+                                    colSpanStop = colSpanLength - $td.prop("colspan");
+                                }
+
+                                if (!bFoundColHeader || (colSpanLength <= colSpanStop && !$td.is(".jrxtcolfloating"))) {
+                                    $td.addClass("jrxtcrossheader");
+                                }
+                            }
                         });
-                    });
-
-                    bFoundRowHeader && $.each(remember, function(i, v) {
-                        if (v.idx >= firstRowHeaderIdx) {
-                            v.$td.addClass('jrxtcrossheader');
-//                            if (!v.$td.children().length) {
-//                                v.$td.css('background-color', ixt.defaultPageBgColor);
-//                            }
-                        }
                     });
                 }
             }
