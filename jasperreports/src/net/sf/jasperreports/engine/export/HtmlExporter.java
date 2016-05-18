@@ -1721,20 +1721,70 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			throws IOException
 	{		
 		startCell(line, cell);
-		finishStartCell();
-		
-		int width = line.getWidth();
-		int height = line.getHeight();
-		LineDirectionEnum lineDirection = line.getDirectionValue();
-		int y1 = lineDirection == LineDirectionEnum.BOTTOM_UP ? height : 0;
-		int y2 = lineDirection == LineDirectionEnum.BOTTOM_UP ? 0 : height;
-		
-		writer.write("<svg height=\"" + height + "\" width=\"" + width + "\">");
-		writer.write("<line x1=\"0\" y1=\"" + y1 +"\" x2=\"" + width + "\" y2=\"" + y2 + "\" ");
-		writeSvgStyle(line);
-		writer.write("\"/></svg>");
+		if(isOblique(line))
+		{
+			finishStartCell();
+			
+			int width = line.getWidth();
+			int height = line.getHeight();
+			LineDirectionEnum lineDirection = line.getDirectionValue();
+			int y1 = lineDirection == LineDirectionEnum.BOTTOM_UP ? height : 0;
+			int y2 = lineDirection == LineDirectionEnum.BOTTOM_UP ? 0 : height;
+			
+			writer.write("<svg height=\"" + height + "\" width=\"" + width + "\">");
+			writer.write("<line x1=\"0\" y1=\"" + y1 +"\" x2=\"" + width + "\" y2=\"" + y2 + "\" ");
+			writeSvgStyle(line);
+			writer.write("\"/></svg>");
+		}
+		else
+		{
+			StringBuilder styleBuffer = new StringBuilder();
+
+			appendElementCellGenericStyle(cell, styleBuffer);
+			appendBackcolorStyle(cell, styleBuffer);
+			
+			String side = null;
+			float ratio = line.getWidth() / line.getHeight();
+			if (ratio > 1)
+			{
+				if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+				{
+					side = "top";
+				}
+				else
+				{
+					side = "bottom";
+				}
+			}
+			else
+			{
+				if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+				{
+					side = "left";
+				}
+				else
+				{
+					side = "right";
+				}
+			}
+
+			appendPen(
+				styleBuffer,
+				line.getLinePen(),
+				side
+				);
+
+			writeStyle(styleBuffer);
+
+			finishStartCell();			
+		}
 		
 		endCell();
+	}
+	
+	
+	protected boolean isOblique(JRPrintLine line){
+		return line.getWidth() > 1 && line.getHeight() > 1;
 	}
 	
 	protected void writeGenericElement(JRGenericPrintElement element, TableCell cell) throws IOException
