@@ -173,6 +173,8 @@ public class Tabulator
 		
 		Bounds covered = null;
 		Bounds originalBounds;
+		
+		overlapLoop:
 		do
 		{
 			originalBounds = overlapBounds.cloneBounds();
@@ -202,7 +204,7 @@ public class Tabulator
 						overlap = true;
 						if (!allowOverlap)
 						{
-							break;
+							break overlapLoop;
 						}
 
 						// TODO lucianc see if we can avoid some of these checks
@@ -226,7 +228,7 @@ public class Tabulator
 			
 			covered = originalBounds;
 		}
-		while (!originalBounds.equals(overlapBounds) || (overlap && !allowOverlap));
+		while (!originalBounds.equals(overlapBounds));
 		
 		if (!overlap)
 		{
