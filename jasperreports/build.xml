@@ -266,7 +266,7 @@
 	
 	<target name="docs" depends="preparedocs, javadoc, schemaref, partschemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
 
-	<target name="resolvelibs" description="Retrieve dependencies with Apache Ivy">
+	<target name="retrievelibs" description="Retrieve dependencies with Apache Ivy">
 		<ivy:retrieve conf="compile, javaflow, test" pattern="dist/lib/[artifact](-[classifier])-[revision].[ext]"/>
 	</target>
 </project>
