@@ -2253,7 +2253,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				@Override
 				protected RenderersCache getRenderersCache()
 				{
-					return getRenderersCache();
+					return JRViewer.this.getRenderersCache();
 				}
 			};
 	}
