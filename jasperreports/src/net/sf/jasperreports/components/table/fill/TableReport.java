@@ -829,7 +829,9 @@ public class TableReport implements JRReport
 				}
 				
 				boolean isSortable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_SORTABLE, true) && fieldOrVariableName != null;
-				boolean isFilterable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_FILTERABLE, true) && fieldOrVariableName != null && TableUtil.isFilterable(sortTextField);
+				boolean isFilterable = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_COLUMN_FILTERABLE, true) 
+						&& fieldOrVariableName != null && TableUtil.isFilterable(sortTextField)
+						&& filterType != null;
 				
 				if (isSortable)
 				{	// column is sortable
