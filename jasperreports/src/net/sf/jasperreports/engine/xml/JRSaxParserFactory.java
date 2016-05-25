@@ -52,9 +52,19 @@ public interface JRSaxParserFactory
 	 * 
 	 * <p>
 	 * By default, this property is set to use {@link PrintSaxParserFactory}
-	 * as report parser factory.
+	 * as XML export parser factory.
 	 */
 	String PROPERTY_PRINT_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.parser.factory";
+
+	/**
+	 * A property that gives a parser factory class which should be used
+	 * for parsing style templates.
+	 * 
+	 * <p>
+	 * By default, this property is set to use {@link TemplateSaxParserFactory}
+	 * as style template parser factory.
+	 */
+	String PROPERTY_TEMPLATE_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "template.xml.parser.factory";
 	
 	/**
 	 * Creates a SAX parser.

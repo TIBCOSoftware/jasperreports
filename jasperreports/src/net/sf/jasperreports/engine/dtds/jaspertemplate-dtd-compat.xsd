@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+ <xsd:element name="jasperTemplate">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="template" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="style" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="template">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+ <xsd:element name="style">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="pen" type="pen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="paragraph" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required">
+   </xsd:attribute>
+   <xsd:attribute name="isDefault" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="style" type="xsd:string" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="mode" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Opaque"/>
+      <xsd:enumeration value="Transparent"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="forecolor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="backcolor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="pen" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="fill" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="radius" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="scaleImage" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Clip"/>
+      <xsd:enumeration value="FillFrame"/>
+      <xsd:enumeration value="RetainShape"/>
+      <xsd:enumeration value="RealHeight"/>
+      <xsd:enumeration value="RealSize"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="hAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="Justified"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="hTextAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="Justified"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="hImageAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="vAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Middle"/>
+      <xsd:enumeration value="Bottom"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="vTextAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Middle"/>
+      <xsd:enumeration value="Bottom"/>
+      <xsd:enumeration value="Justified"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="vImageAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Middle"/>
+      <xsd:enumeration value="Bottom"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="border" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="borderColor" type="xsd:string" use="optional">
+   </xsd:attribute>   
+   <xsd:attribute name="padding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>   
+   <xsd:attribute name="topBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="topBorderColor" type="xsd:string" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="topPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="leftBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="leftBorderColor" type="xsd:string" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="leftPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="bottomBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="bottomBorderColor" type="xsd:string" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="bottomPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="rightBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="rightBorderColor" type="xsd:string" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="rightPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="rotation" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="UpsideDown"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineSpacing" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Single"/>
+      <xsd:enumeration value="1_1_2"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStyledText" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="markup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="fontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="fontSize" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="isBold" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isItalic" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isUnderline" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStrikeThrough" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pdfFontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="pdfEncoding" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isPdfEmbedded" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pattern" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isBlankWhenNull" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:complexType name="pen">
+  <xsd:attribute name="lineWidth" type="xsd:NMTOKEN" use="optional">
+  </xsd:attribute>
+  <xsd:attribute name="lineStyle" use="optional">
+   <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+     <xsd:enumeration value="Solid">
+     </xsd:enumeration>
+     <xsd:enumeration value="Dashed">
+     </xsd:enumeration>
+     <xsd:enumeration value="Dotted">
+     </xsd:enumeration>
+     <xsd:enumeration value="Double">
+     </xsd:enumeration>
+    </xsd:restriction>
+   </xsd:simpleType>
+  </xsd:attribute>
+  <xsd:attribute name="lineColor" type="xsd:string" use="optional">
+  </xsd:attribute>
+ </xsd:complexType>
+
+ <xsd:element name="box">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element name="pen" type="pen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="topPen" type="pen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="leftPen" type="pen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="bottomPen" type="pen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element name="rightPen" type="pen" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="padding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="topPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="leftPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="bottomPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="rightPadding" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="paragraph">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="tabStop" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="lineSpacing" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Single">
+	  </xsd:enumeration>
+      <xsd:enumeration value="1_1_2">
+	  </xsd:enumeration>
+      <xsd:enumeration value="Double">
+	  </xsd:enumeration>
+      <xsd:enumeration value="AtLeast">
+	  </xsd:enumeration>
+      <xsd:enumeration value="Fixed">
+	  </xsd:enumeration>
+      <xsd:enumeration value="Proportional">
+	  </xsd:enumeration>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineSpacingSize" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="firstLineIndent" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="leftIndent" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="rightIndent" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="spacingBefore" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="spacingAfter" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+   <xsd:attribute name="tabStopWidth" type="xsd:NMTOKEN" use="optional">
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="tabStop">
+  <xsd:complexType>
+   <xsd:attribute name="alignment" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left">
+	  </xsd:enumeration>
+      <xsd:enumeration value="Center">
+	  </xsd:enumeration>
+      <xsd:enumeration value="Right">
+	  </xsd:enumeration>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="position" type="xsd:NMTOKEN" use="required">
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+</xsd:schema>

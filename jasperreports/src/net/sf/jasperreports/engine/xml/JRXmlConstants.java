@@ -102,6 +102,30 @@ public final class JRXmlConstants
 	 * DTD location for template XMLs.
 	 */
 	public static final String JASPERTEMPLATE_DTD = "net/sf/jasperreports/engine/dtds/jaspertemplate.dtd";
+	
+	/**
+	 * The namespace used by the template schema.
+	 */
+	public static final String JASPERTEMPLATE_NAMESPACE = 
+		"http://jasperreports.sourceforge.net/jasperreports/template";
+	
+	/**
+	 * The system location of the template schema.
+	 */
+	public static final String JASPERTEMPLATE_XSD_SYSTEM_ID = 
+		"http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd";
+	
+	/**
+	 * The internal location/resource name of the template schema.
+	 */
+	public static final String JASPERTEMPLATE_XSD_RESOURCE = 
+		"net/sf/jasperreports/engine/dtds/jaspertemplate.xsd";
+	
+	/**
+	 * The internal location/resource name of the DTD compatibility template schema.
+	 */
+	public static final String JASPERTEMPLATE_XSD_DTD_COMPAT_RESOURCE = 
+		"net/sf/jasperreports/engine/dtds/jaspertemplate-dtd-compat.xsd";
 
 	/**
 	 *	JasperDesignFactory associated constants

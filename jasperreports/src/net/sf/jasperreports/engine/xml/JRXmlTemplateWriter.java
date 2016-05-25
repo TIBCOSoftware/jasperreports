@@ -33,11 +33,16 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTemplateReference;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.XmlNamespace;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,6 +58,9 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 {
 
 	private static final Log log = LogFactory.getLog(JRXmlTemplateWriter.class);
+	
+	public static final XmlNamespace JASPERTEMPLATE_NAMESPACE = 
+			new XmlNamespace(JRXmlConstants.JASPERTEMPLATE_NAMESPACE, null, JRXmlConstants.JASPERTEMPLATE_XSD_SYSTEM_ID);
 	
 	/**
 	 * Default XML output encoding.
@@ -74,6 +82,20 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	
 	/**
 	 * Returns the XML representation of a template.
+	 * <p/>
+	 * Uses {@link #DEFAULT_ENCODING the default encoding}.
+	 * 
+	 * @param jasperReportsContext
+	 * @param template the template
+	 * @return the XML representation of the template
+	 */
+	public static String writeTemplate(JasperReportsContext jasperReportsContext, JRTemplate template)
+	{
+		return writeTemplate(jasperReportsContext, template, DEFAULT_ENCODING);
+	}
+	
+	/**
+	 * Returns the XML representation of a template.
 	 * 
 	 * @param template the template
 	 * @param encoding the XML encoding to use
@@ -81,10 +103,24 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 */
 	public static String writeTemplate(JRTemplate template, String encoding)
 	{
+		return writeTemplate(DefaultJasperReportsContext.getInstance(), template, encoding);
+	}
+	
+	/**
+	 * Returns the XML representation of a template.
+	 * 
+	 * @param jasperReportsContext
+	 * @param template the template
+	 * @param encoding the XML encoding to use
+	 * @return the XML representation of the template
+	 */
+	public static String writeTemplate(JasperReportsContext jasperReportsContext,
+			JRTemplate template, String encoding)
+	{
 		StringWriter stringOut = new StringWriter();
 		try
 		{
-			writeTemplate(template, stringOut, encoding);
+			writeTemplate(jasperReportsContext, template, stringOut, encoding);
 		}
 		catch (IOException e)
 		{
@@ -108,6 +144,21 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	
 	/**
 	 * Writes the XML representation of a template to an output stream.
+	 * <p/>
+	 * Uses {@link #DEFAULT_ENCODING the default encoding}.
+	 * 
+	 * @param jasperReportsContext
+	 * @param template the template
+	 * @param out the output stream
+	 */
+	public static void writeTemplate(JasperReportsContext jasperReportsContext,
+			JRTemplate template, OutputStream out)
+	{
+		writeTemplate(jasperReportsContext, template, out, DEFAULT_ENCODING);
+	}
+	
+	/**
+	 * Writes the XML representation of a template to an output stream.
 	 * 
 	 * @param template the template
 	 * @param out the output stream
@@ -115,10 +166,24 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 */
 	public static void writeTemplate(JRTemplate template, OutputStream out, String encoding)
 	{
+		writeTemplate(DefaultJasperReportsContext.getInstance(), template, out, encoding);
+	}
+	
+	/**
+	 * Writes the XML representation of a template to an output stream.
+	 *
+	 * @param jasperReportsContext
+	 * @param template the template
+	 * @param out the output stream
+	 * @param encoding the XML encoding to use
+	 */
+	public static void writeTemplate(JasperReportsContext jasperReportsContext,
+			JRTemplate template, OutputStream out, String encoding)
+	{
 		try
 		{
 			Writer writer = new OutputStreamWriter(out, encoding);
-			writeTemplate(template, writer, encoding);
+			writeTemplate(jasperReportsContext, template, writer, encoding);
 		}
 		catch (UnsupportedEncodingException e)
 		{
@@ -145,6 +210,21 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	
 	/**
 	 * Writes the XML representation of a template to a file.
+	 * <p/>
+	 * Uses {@link #DEFAULT_ENCODING the default encoding}.
+	 * 
+	 * @param jasperReportsContext
+	 * @param template the template
+	 * @param outputFile the output file name
+	 */
+	public static void writeTemplateToFile(JasperReportsContext jasperReportsContext, 
+			JRTemplate template, String outputFile)
+	{
+		writeTemplateToFile(jasperReportsContext, template, outputFile, DEFAULT_ENCODING);
+	}
+	
+	/**
+	 * Writes the XML representation of a template to a file.
 	 * 
 	 * @param template the template
 	 * @param outputFile the output file name
@@ -152,12 +232,27 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 */
 	public static void writeTemplateToFile(JRTemplate template, String outputFile, String encoding)
 	{
+		writeTemplateToFile(DefaultJasperReportsContext.getInstance(), 
+				template, outputFile, encoding);
+	}
+	
+	/**
+	 * Writes the XML representation of a template to a file.
+	 * 
+	 * @param jasperReportsContext
+	 * @param template the template
+	 * @param outputFile the output file name
+	 * @param encoding the XML encoding to use
+	 */
+	public static void writeTemplateToFile(JasperReportsContext jasperReportsContext,
+			JRTemplate template, String outputFile, String encoding)
+	{
 		BufferedOutputStream fileOut = null;
 		boolean close = true;
 		try
 		{
 			fileOut = new BufferedOutputStream(new FileOutputStream(outputFile));
-			writeTemplate(template, fileOut, encoding);
+			writeTemplate(jasperReportsContext, template, fileOut, encoding);
 			
 			fileOut.flush();
 			close = false;
@@ -187,9 +282,10 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 		}
 	}
 	
-	protected static void writeTemplate(JRTemplate template, Writer out, String encoding) throws IOException
+	protected static void writeTemplate(JasperReportsContext jasperReportsContext, 
+			JRTemplate template, Writer out, String encoding) throws IOException
 	{
-		JRXmlTemplateWriter writer = new JRXmlTemplateWriter(template, out, encoding);
+		JRXmlTemplateWriter writer = new JRXmlTemplateWriter(jasperReportsContext, template, out, encoding);
 		writer.write();
 		out.flush();
 	}
@@ -206,9 +302,25 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 */
 	public JRXmlTemplateWriter(JRTemplate template, Writer out, String encoding)
 	{
+		this(DefaultJasperReportsContext.getInstance(), template, out, encoding);
+	}
+	
+	/**
+	 * Creates an XML template writer.
+	 * 
+	 * @param jasperReportsContext
+	 * @param template the template to write
+	 * @param out the output writer
+	 * @param encoding the XML encoding to use
+	 */
+	public JRXmlTemplateWriter(JasperReportsContext jasperReportsContext, 
+			JRTemplate template, Writer out, String encoding)
+	{
 		this.template = template;
 		this.encoding = encoding;
-		useWriter(new JRXmlWriteHelper(out), null);//FIXMEVERSION
+		
+		String version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+		useWriter(new JRXmlWriteHelper(out), version);
 	}
 
 	/**
@@ -219,10 +331,20 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	public void write() throws IOException
 	{
 		writer.writeProlog(encoding);
-		writer.writePublicDoctype(JRXmlConstants.TEMPLATE_ELEMENT_ROOT, 
-				JRXmlConstants.JASPERTEMPLATE_PUBLIC_ID, JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID);
 		
-		writer.startElement(JRXmlConstants.TEMPLATE_ELEMENT_ROOT);
+		XmlNamespace namespace;
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_3_0))
+		{
+			namespace = JASPERTEMPLATE_NAMESPACE;
+		}
+		else
+		{
+			writer.writePublicDoctype(JRXmlConstants.TEMPLATE_ELEMENT_ROOT, 
+					JRXmlConstants.JASPERTEMPLATE_PUBLIC_ID, JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID);
+			namespace = null;
+		}
+		
+		writer.startElement(JRXmlConstants.TEMPLATE_ELEMENT_ROOT, namespace);
 		writeIncludedTemplates();
 		writeStyles();
 		writer.closeElement();

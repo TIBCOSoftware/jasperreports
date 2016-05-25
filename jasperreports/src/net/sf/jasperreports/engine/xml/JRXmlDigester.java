@@ -133,6 +133,10 @@ public class JRXmlDigester extends Digester
 				JRXmlConstants.JASPERPRINT_XSD_RESOURCE);
 		addEntityResource(null, 
 				JRXmlConstants.JASPERPRINT_XSD_DTD_COMPAT_RESOURCE);
+		addEntityResource(JRXmlConstants.JASPERTEMPLATE_XSD_SYSTEM_ID, 
+				JRXmlConstants.JASPERTEMPLATE_XSD_RESOURCE);
+		addEntityResource(null, 
+				JRXmlConstants.JASPERTEMPLATE_XSD_DTD_COMPAT_RESOURCE);
 		
 		loadUnknownEntities = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(
 				PROPERTY_LOAD_UNKNOWN_ENTITIES, false);

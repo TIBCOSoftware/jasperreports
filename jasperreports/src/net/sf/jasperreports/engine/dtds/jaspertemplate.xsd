@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/jasperreports/template"
+  xmlns:jrt="http://jasperreports.sourceforge.net/jasperreports/template"
+  elementFormDefault="qualified">
+
+ <element name="jasperTemplate">
+  <complexType>
+   <sequence>
+    <element ref="jrt:template" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jrt:style" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="template">
+  <complexType mixed="true">
+  </complexType>
+ </element>
+ <element name="style">
+  <complexType>
+   <sequence>
+    <element name="pen" type="jrt:pen" minOccurs="0" maxOccurs="1"/>
+    <element ref="jrt:box" minOccurs="0" maxOccurs="1"/>
+    <element ref="jrt:paragraph" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="name" type="string" use="required">
+   </attribute>
+   <attribute name="isDefault" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="style" type="string" use="optional">
+   </attribute>
+   <attribute name="mode" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Opaque"/>
+      <enumeration value="Transparent"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="forecolor" type="string" use="optional"/>
+   <attribute name="backcolor" type="string" use="optional"/>
+   <attribute name="pen" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="fill" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Solid"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="radius" type="NMTOKEN" use="optional"/>
+   <attribute name="scaleImage" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Clip"/>
+      <enumeration value="FillFrame"/>
+      <enumeration value="RetainShape"/>
+      <enumeration value="RealHeight"/>
+      <enumeration value="RealSize"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+      <enumeration value="Justified"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hTextAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+      <enumeration value="Justified"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hImageAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left"/>
+      <enumeration value="Center"/>
+      <enumeration value="Right"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="vAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="vTextAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+      <enumeration value="Justified"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="vImageAlign" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Top"/>
+      <enumeration value="Middle"/>
+      <enumeration value="Bottom"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="border" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="borderColor" type="string" use="optional">
+   </attribute>   
+   <attribute name="padding" type="NMTOKEN" use="optional">
+   </attribute>   
+   <attribute name="topBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="topBorderColor" type="string" use="optional">
+   </attribute>
+   <attribute name="topPadding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="leftBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="leftBorderColor" type="string" use="optional">
+   </attribute>
+   <attribute name="leftPadding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="bottomBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="bottomBorderColor" type="string" use="optional">
+   </attribute>
+   <attribute name="bottomPadding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="rightBorder" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Thin"/>
+      <enumeration value="1Point"/>
+      <enumeration value="2Point"/>
+      <enumeration value="4Point"/>
+      <enumeration value="Dotted"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="rightBorderColor" type="string" use="optional">
+   </attribute>
+   <attribute name="rightPadding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="rotation" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Left"/>
+      <enumeration value="Right"/>
+      <enumeration value="UpsideDown"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineSpacing" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Single"/>
+      <enumeration value="1_1_2"/>
+      <enumeration value="Double"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStyledText" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="markup" type="string" use="optional"/>
+   <attribute name="fontName" type="string" use="optional"/>
+   <attribute name="fontSize" type="NMTOKEN" use="optional"/>
+   <attribute name="isBold" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isItalic" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isUnderline" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="isStrikeThrough" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pdfFontName" type="string" use="optional"/>
+   <attribute name="pdfEncoding" type="string" use="optional"/>
+   <attribute name="isPdfEmbedded" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="pattern" type="string" use="optional"/>
+   <attribute name="isBlankWhenNull" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+ 
+ <complexType name="pen">
+  <attribute name="lineWidth" type="NMTOKEN" use="optional">
+  </attribute>
+  <attribute name="lineStyle" use="optional">
+   <simpleType>
+    <restriction base="string">
+     <enumeration value="Solid">
+     </enumeration>
+     <enumeration value="Dashed">
+     </enumeration>
+     <enumeration value="Dotted">
+     </enumeration>
+     <enumeration value="Double">
+     </enumeration>
+    </restriction>
+   </simpleType>
+  </attribute>
+  <attribute name="lineColor" type="string" use="optional">
+  </attribute>
+ </complexType>
+
+ <element name="box">
+  <complexType>
+   <sequence>
+    <element name="pen" type="jrt:pen" minOccurs="0" maxOccurs="1"/>
+    <element name="topPen" type="jrt:pen" minOccurs="0" maxOccurs="1"/>
+    <element name="leftPen" type="jrt:pen" minOccurs="0" maxOccurs="1"/>
+    <element name="bottomPen" type="jrt:pen" minOccurs="0" maxOccurs="1"/>
+    <element name="rightPen" type="jrt:pen" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="padding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="topPadding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="leftPadding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="bottomPadding" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="rightPadding" type="NMTOKEN" use="optional">
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="paragraph">
+  <complexType>
+   <sequence>
+    <element ref="jrt:tabStop" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="lineSpacing" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Single">
+	  </enumeration>
+      <enumeration value="1_1_2">
+	  </enumeration>
+      <enumeration value="Double">
+	  </enumeration>
+      <enumeration value="AtLeast">
+	  </enumeration>
+      <enumeration value="Fixed">
+	  </enumeration>
+      <enumeration value="Proportional">
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="lineSpacingSize" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="firstLineIndent" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="leftIndent" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="rightIndent" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="spacingBefore" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="spacingAfter" type="NMTOKEN" use="optional">
+   </attribute>
+   <attribute name="tabStopWidth" type="NMTOKEN" use="optional">
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="tabStop">
+  <complexType>
+   <attribute name="alignment" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left">
+	  </enumeration>
+      <enumeration value="Center">
+	  </enumeration>
+      <enumeration value="Right">
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="position" type="NMTOKEN" use="required">
+   </attribute>
+  </complexType>
+ </element>
+
+</schema>

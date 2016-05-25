@@ -24,10 +24,13 @@
 package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.RuleSet;
 import org.apache.commons.digester.RuleSetBase;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -49,6 +52,8 @@ import net.sf.jasperreports.engine.TabStop;
  */
 public class JRXmlTemplateDigesterFactory implements ErrorHandler
 {
+	
+	private static final Log log = LogFactory.getLog(JRXmlTemplateDigesterFactory.class);
 
 	protected static final String PATTERN_ROOT = JRXmlConstants.TEMPLATE_ELEMENT_ROOT;
 	protected static final String PATTERN_INCLUDED_TEMPLATE = PATTERN_ROOT + "/" + JRXmlConstants.TEMPLATE_ELEMENT_INCLUDED_TEMPLATE;
@@ -119,7 +124,8 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 	 */
 	public JRXmlDigester createDigester(JasperReportsContext jasperReportsContext)
 	{
-		JRXmlDigester digester = new JRXmlDigester();
+		SAXParser parser = createParser(jasperReportsContext);
+		JRXmlDigester digester = new JRXmlDigester(parser);
 		try
 		{
 			configureDigester(jasperReportsContext, digester);
@@ -135,8 +141,25 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 		return digester;
 	}
 
+	protected SAXParser createParser(JasperReportsContext jasperReportsContext)
+	{
+		String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
+				JRSaxParserFactory.PROPERTY_TEMPLATE_PARSER_FACTORY);
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Using template SAX parser factory class " + parserFactoryClass);
+		}
+		
+		JRSaxParserFactory factory = BaseSaxParserFactory.getFactory(jasperReportsContext, parserFactoryClass);
+		return factory.createParser();
+	}
+	
 	protected void configureDigester(JasperReportsContext jasperReportsContext, Digester digester) throws SAXException, ParserConfigurationException 
 	{
+		digester.setNamespaceAware(true);
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERTEMPLATE_NAMESPACE);
+		
 		boolean validating = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRReportSaxParserFactory.COMPILER_XML_VALIDATION);
 		
 		digester.setErrorHandler(this);
