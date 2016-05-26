@@ -498,6 +498,8 @@ public final class StyleResolver
 	 */
 	public Color getLineColor(JRBoxPen boxPen, Color defaultColor)
 	{
+		//FIXMENOW line color is resolved to base style forecolor before current pen container forecolor; 
+		// for example, rectangle with blue forecolor would have border drawn in red, if it uses style with red forecolor
 		Color ownLineColor = boxPen.getOwnLineColor();
 		if (ownLineColor != null)
 		{
