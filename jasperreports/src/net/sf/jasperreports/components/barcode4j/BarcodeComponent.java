@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.barcode4j;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectInputStream.GetField;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRCloneable;
@@ -175,19 +176,31 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private byte evaluationTime;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
-		in.defaultReadObject();
-
+		GetField fields = in.readFields();
+		this.PSEUDO_SERIAL_VERSION_UID = fields.get("PSEUDO_SERIAL_VERSION_UID", 0);
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
-			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
+			byte evaluationTime = fields.get("evaluationTime", (byte) 0);
+			this.evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
+		}
+		else
+		{
+			this.evaluationTimeValue = (EvaluationTimeEnum) fields.get("evaluationTimeValue", null);
+		}
+		this.evaluationGroup = (String) fields.get("evaluationGroup", null);
+		this.codeExpression = (JRExpression) fields.get("codeExpression", null);
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2
+				&& this instanceof Barcode4jComponent)
+		{
+			//up to 6.0.0 this class had several fields that were moved to Barcode4jComponent in 6.0.2.
+			//copying the values to the Barcode4jComponent fields.
+			Barcode4jComponent barcode4jComponent = (Barcode4jComponent) this;
+			barcode4jComponent.copyBarcodeComponentFields(fields);
 		}
 	}
 }

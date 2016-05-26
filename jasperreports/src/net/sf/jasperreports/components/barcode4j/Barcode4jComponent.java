@@ -24,13 +24,13 @@
 package net.sf.jasperreports.components.barcode4j;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.ObjectInputStream.GetField;
+
+import org.krysalis.barcode4j.HumanReadablePlacement;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-
-import org.krysalis.barcode4j.HumanReadablePlacement;
 
 /**
  * 
@@ -127,7 +127,7 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 	 */
 	public String getTextPosition()
 	{
-		return textPosition == null ? null : getTextPositionValue().getName();
+		return getTextPositionValue() == null ? null : getTextPositionValue().getName();
 	}
 
 	/**
@@ -203,32 +203,16 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		getEventSupport().firePropertyChange(PROPERTY_VERTICAL_QUIET_ZONE, 
 				old, this.verticalQuietZone);
 	}
-
-
-	/*
-	 * These fields are only for serialization backward compatibility.
-	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
-	/**
-	 * @deprecated
-	 */
-	private int orientation;
-	/**
-	 * @deprecated
-	 */
-	private String textPosition;
-
 	
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	protected final void copyBarcodeComponentFields(GetField fields) throws IOException
 	{
-		in.defaultReadObject();
-		
-		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_0_2)
-		{
-			orientationValue = OrientationEnum.getByValue(orientation);
-			textPositionValue = TextPositionEnum.getByName(textPosition);
-			
-			textPosition = null;
-		}
+		int orientation = fields.get("orientation", 0);
+		this.orientationValue = OrientationEnum.getByValue(orientation);
+		this.patternExpression = (JRExpression) fields.get("patternExpression", null);
+		this.moduleWidth = (Double) fields.get("moduleWidth", null);
+		String textPosition = (String) fields.get("textPosition", null);
+		this.textPositionValue = TextPositionEnum.getByName(textPosition);
+		this.quietZone = (Double) fields.get("quietZone", null);
+		this.verticalQuietZone = (Double) fields.get("verticalQuietZone", null);
 	}
 }
