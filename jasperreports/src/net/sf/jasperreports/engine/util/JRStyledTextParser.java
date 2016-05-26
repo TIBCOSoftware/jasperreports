@@ -78,17 +78,28 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final Set<String> AVAILABLE_FONT_FACE_NAMES = new HashSet<String>();
 	static
 	{
-		//FIXMEFONT do some cache
-		List<FontFamily> families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
-		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
+		//FIXME doing this in a static block obscures exceptions, move it to some other place
+		try
 		{
-			FontFamily family =itf.next();
-			AVAILABLE_FONT_FACE_NAMES.add(family.getName());
-		}
+			//FIXMEFONT do some cache
+			//FIXME these should be taken from the current JasperReportsContext
+			List<FontFamily> families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+			for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
+			{
+				FontFamily family =itf.next();
+				AVAILABLE_FONT_FACE_NAMES.add(family.getName());
+			}
 			
-		AVAILABLE_FONT_FACE_NAMES.addAll(
-			Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
-			);
+			//FIXME use JRGraphEnvInitializer
+			AVAILABLE_FONT_FACE_NAMES.addAll(
+				Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
+				);
+		}
+		catch (Exception e)
+		{
+			log.error("Error while loading available fonts", e);
+			throw e;
+		}
 	}
 
 	/**
