@@ -84,6 +84,16 @@ import org.apache.commons.digester.Digester;
  */
 public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 {
+	
+	private static final String[] BARCODE4J_IGNORED_PROPERTIES = {
+			JRXmlConstants.ATTRIBUTE_evaluationTime,
+			"orientation",
+			"textPosition"};
+
+	private static final String[] QRCODE_IGNORED_PROPERTIES = {
+			JRXmlConstants.ATTRIBUTE_evaluationTime,
+			"errorCorrectionLevel"};
+	
 	@Override
 	public void configureDigester(Digester digester)
 	{
@@ -194,7 +204,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	protected <T> void addBaseBarcode4jRules(Digester digester, 
 			String barcodePattern, Class<T> barcodeComponentClass)
 	{
-		addBarcodeRules(digester, barcodePattern, barcodeComponentClass);
+		addBarcodeRules(digester, barcodePattern, barcodeComponentClass, BARCODE4J_IGNORED_PROPERTIES);
 		addPatternExpressionRules(digester, barcodePattern);
 		
 		digester.addRule(barcodePattern, 
@@ -220,17 +230,13 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	
 	@SuppressWarnings("deprecation")
 	protected <T> void addBarcodeRules(Digester digester, 
-			String barcodePattern, Class<T> barcodeComponentClass)
+			String barcodePattern, Class<T> barcodeComponentClass,
+			String[] ignoredProperties)
 	{
 		digester.addObjectCreate(barcodePattern, barcodeComponentClass);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
-				new String[]{
-					JRXmlConstants.ATTRIBUTE_evaluationTime,
-					"orientation",
-					"textPosition",
-					"errorCorrectionLevel"
-					}, 
+				ignoredProperties, 
 				new String[0]);
 		//rule to set evaluation time
 		digester.addRule(barcodePattern, 
@@ -249,7 +255,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	protected <T> void addQRCodeRules(Digester digester, 
 			String barcodePattern, Class<T> barcodeComponentClass)
 	{
-		addBarcodeRules(digester, barcodePattern, barcodeComponentClass);
+		addBarcodeRules(digester, barcodePattern, barcodeComponentClass, QRCODE_IGNORED_PROPERTIES);
 
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
