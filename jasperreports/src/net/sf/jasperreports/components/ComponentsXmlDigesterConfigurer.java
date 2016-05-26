@@ -34,6 +34,7 @@ import net.sf.jasperreports.components.barcode4j.EAN8Component;
 import net.sf.jasperreports.components.barcode4j.ErrorCorrectionLevelEnum;
 import net.sf.jasperreports.components.barcode4j.Interleaved2Of5Component;
 import net.sf.jasperreports.components.barcode4j.OrientationEnum;
+import net.sf.jasperreports.components.barcode4j.OrientationRule;
 import net.sf.jasperreports.components.barcode4j.PDF417Component;
 import net.sf.jasperreports.components.barcode4j.POSTNETComponent;
 import net.sf.jasperreports.components.barcode4j.QRCodeComponent;
@@ -208,9 +209,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		addPatternExpressionRules(digester, barcodePattern);
 		
 		digester.addRule(barcodePattern, 
-				new XmlConstantPropertyRule(
-						"orientation", "orientationValue",
-						OrientationEnum.values()));
+				new OrientationRule("orientation", "orientationValue"));
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
 						"textPosition", "textPositionValue",
