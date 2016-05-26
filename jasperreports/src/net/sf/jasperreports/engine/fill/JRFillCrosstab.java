@@ -41,9 +41,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
@@ -126,6 +123,9 @@ import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Fill-time implementation of a {@link net.sf.jasperreports.crosstabs.JRCrosstab crosstab}.
  * 
@@ -139,9 +139,43 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public static final String EXCEPTION_MESSAGE_KEY_EVALUATOR_LOADING_ERROR = "crosstabs.evaluator.loading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_INFINITE_LOOP = "crosstabs.infinite.loop";
 	public static final String EXCEPTION_MESSAGE_KEY_NOT_ENOUGH_SPACE = "crosstabs.not.enough.space";
-	
+
+	/**
+	 *	Property that enables/disables the interactivity in the crosstab component.
+	 *
+	 * <p>
+	 * It can be set:
+	 * <ul>
+	 * 	<li>globally</li>
+	 * 	<li>at report level</li>
+	 * 	<li>at component level</li>
+	 * </ul>
+	 * </p>
+	 *
+	 * <p>
+	 * The default global value of this property is <code>true</code>
+	 * </p>
+	 */
 	public static final String PROPERTY_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.interactive";
 
+	/**
+	 *	Property that enables/disables the floating headers in the crosstab component when scrolling.
+	 *	If the interactivity has been disabled by setting {@link #PROPERTY_INTERACTIVE} to <code>false</code>, then
+	 *	setting this property will have no effect.
+	 *
+	 * <p>
+	 * It can be set:
+	 * <ul>
+	 * 	<li>globally</li>
+	 * 	<li>at report level</li>
+	 * 	<li>at component level</li>
+	 * </ul>
+	 * </p>
+	 *
+	 * <p>
+	 * The default global value of this property is <code>true</code>
+	 * </p>
+	 */
 	public static final String PROPERTY_FLOATING_HEADERS = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.floating.headers";
 
 	public static final String PROPERTY_ORDER_BY_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.order.by.column";

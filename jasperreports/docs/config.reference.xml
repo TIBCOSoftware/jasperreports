@@ -127,6 +127,8 @@
       <property ref="net.sf.jasperreports.crosstab.cell.row.span"/>
       <property ref="net.sf.jasperreports.crosstab.cell.column.span"/>
       <property ref="net.sf.jasperreports.crosstab.ignore.width"/>
+      <property ref="net.sf.jasperreports.crosstab.interactive"/>
+      <property ref="net.sf.jasperreports.crosstab.floating.headers"/>
     </content>
   </category>
   
@@ -1765,6 +1767,32 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.5.3</since>
+  </configProperty>
+
+  <!-- net.sf.jasperreports.crosstab.interactive -->
+
+  <configProperty name="net.sf.jasperreports.crosstab.interactive">
+    <description>
+Property that enables/disables the interactivity in the crosstab component.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/JRFillCrosstab.html#PROPERTY_INTERACTIVE</api>
+    <default>true</default>
+    <scope>Global | Report | Component</scope>
+    <since>5.5.0</since>
+  </configProperty>
+
+  <!-- net.sf.jasperreports.crosstab.floating.headers -->
+
+  <configProperty name="net.sf.jasperreports.crosstab.floating.headers">
+    <description>
+Property that enables/disables the floating headers in the crosstab component when scrolling.
+<br/>
+If the interactivity has been disabled by setting <a href="#net.sf.jasperreports.crosstab.interactive">net.sf.jasperreports.crosstab.interactive</a> to <code>false</code>, then setting this property will have no effect.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/JRFillCrosstab.html#PROPERTY_FLOATING_HEADERS</api>
+    <default>true</default>
+    <scope>Global | Report | Component</scope>
+    <since>6.0.0</since>
   </configProperty>
   
   
