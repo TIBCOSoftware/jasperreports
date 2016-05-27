@@ -28,6 +28,9 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRException;
@@ -46,6 +49,8 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public class SimpleFontFace implements FontFace, JRCloneable
 {
 
+	private static final Log log = LogFactory.getLog(SimpleFontFace.class);
+	
 	/**
 	 * 
 	 */
@@ -149,10 +154,29 @@ public class SimpleFontFace implements FontFace, JRCloneable
 	 */
 	public void setTtf(String ttf)
 	{
+		setTtf(ttf, true);
+	}
+	
+	public void setTtf(String ttf, boolean load)
+	{
 		this.ttf = ttf;
-
-		if (ttf != null)
+		this.font = null;
+		
+		if (load)
 		{
+			loadFont();
+		}
+	}
+	
+	public void loadFont() throws InvalidFontException
+	{
+		if (ttf != null && font == null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Loading font " + ttf);
+			}
+			
 			String upperCaseTtf = ttf.trim().toUpperCase();
 			if (
 				upperCaseTtf.endsWith(".TTF")
@@ -166,7 +190,7 @@ public class SimpleFontFace implements FontFace, JRCloneable
 				}
 				catch(JRException e)
 				{
-					throw new JRRuntimeException(e);
+					throw new InvalidFontException(ttf, e);
 				}
 				
 				try
@@ -175,11 +199,11 @@ public class SimpleFontFace implements FontFace, JRCloneable
 				}
 				catch(FontFormatException e)
 				{
-					throw new JRRuntimeException(e);
+					throw new InvalidFontException(ttf, e);
 				}
 				catch(IOException e)
 				{
-					throw new JRRuntimeException(e);
+					throw new InvalidFontException(ttf, e);
 				}
 				finally
 				{

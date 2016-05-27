@@ -25,7 +25,11 @@ package net.sf.jasperreports.engine.fonts;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
 /**
@@ -33,6 +37,8 @@ import net.sf.jasperreports.extensions.ExtensionsRegistry;
  */
 public class FontExtensionsRegistry implements ExtensionsRegistry
 {
+	
+	private static final Log log = LogFactory.getLog(FontExtensionsRegistry.class);
 
 	private final List<String> fontFamiliesLocations;
 	private List<FontFamily> fontFamilies;
@@ -77,7 +83,20 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 			FontExtensionsCollector extensionsCollector = new FontExtensionsCollector();
 			for (String location : fontFamiliesLocations)
 			{
-				fontExtensionHelper.loadFontExtensions(context, location, extensionsCollector);
+				if (log.isDebugEnabled())
+				{
+					log.debug("Loading font extensions from " + location);
+				}
+				
+				try
+				{
+					fontExtensionHelper.loadFontExtensions(context, location, extensionsCollector);
+				}
+				catch (JRRuntimeException e)//only catching JRRuntimeException for now
+				{
+					log.error("Error loading font extensions from " + location, e);
+					//keeping any font extensions collected so far, though it's a little weird
+				}
 			}
 			
 			fontFamilies = extensionsCollector.getFontFamilies();

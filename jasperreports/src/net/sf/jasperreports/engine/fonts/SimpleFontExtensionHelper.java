@@ -181,7 +181,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		try
 		{
 			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(file);
-			loadFontExtensions(jasperReportsContext, is, receiver);
+			loadFontExtensions(jasperReportsContext, is, receiver, true);
 		}
 		catch (JRException e)
 		{
@@ -215,10 +215,16 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	public void loadFontExtensions(JasperReportsContext jasperReportsContext, InputStream is,
 			FontExtensionsReceiver receiver)
 	{
+		loadFontExtensions(jasperReportsContext, is, receiver, true);
+	}
+
+	public void loadFontExtensions(JasperReportsContext jasperReportsContext, InputStream is,
+			FontExtensionsReceiver receiver, boolean loadFonts)
+	{
 		try
 		{
 			Document document = documentBuilder.parse(new InputSource(new InputStreamReader(is, "UTF-8")));
-			parseFontExtensions(jasperReportsContext, document.getDocumentElement(), receiver);
+			parseFontExtensions(jasperReportsContext, document.getDocumentElement(), receiver, loadFonts);
 		}
 		catch (SAXException e)
 		{
@@ -235,7 +241,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 *
 	 */
 	private void parseFontExtensions(JasperReportsContext jasperReportsContext, Node fontFamiliesNode,
-			FontExtensionsReceiver receiver) throws SAXException
+			FontExtensionsReceiver receiver, boolean loadFonts) throws SAXException
 	{
 		NodeList nodeList = fontFamiliesNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
@@ -245,8 +251,16 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			{
 				if (NODE_fontFamily.equals(node.getNodeName()))
 				{
-					SimpleFontFamily fontFamily = parseFontFamily(jasperReportsContext, node);
-					receiver.acceptFontFamily(fontFamily);
+					try
+					{
+						SimpleFontFamily fontFamily = parseFontFamily(jasperReportsContext, node, loadFonts);
+						receiver.acceptFontFamily(fontFamily);
+					}
+					catch (InvalidFontException e)//only catching the specific InvalidFontException for now
+					{
+						log.error("Error loading font family", e);
+						//discarding the whole family
+					}
 				}
 				else if (NODE_fontSet.equals(node.getNodeName()))
 				{
@@ -261,7 +275,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	 *
 	 */
 	@SuppressWarnings("deprecation")
-	private SimpleFontFamily parseFontFamily(JasperReportsContext jasperReportsContext, Node fontFamilyNode) throws SAXException
+	private SimpleFontFamily parseFontFamily(JasperReportsContext jasperReportsContext, Node fontFamilyNode,
+			boolean loadFonts) throws SAXException
 	{
 		SimpleFontFamily fontFamily = new SimpleFontFamily(jasperReportsContext);
 		
@@ -270,6 +285,10 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		if (nodeAttrs.getNamedItem(ATTRIBUTE_name) != null)
 		{
 			fontFamily.setName(nodeAttrs.getNamedItem(ATTRIBUTE_name).getNodeValue());
+			if (log.isDebugEnabled())
+			{
+				log.debug("Parsing font family " + fontFamily.getName());
+			}
 		}
 		if (nodeAttrs.getNamedItem(ATTRIBUTE_visible) != null)
 		{
@@ -286,19 +305,19 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			{
 				if (NODE_normal.equals(node.getNodeName()))
 				{
-					fontFamily.setNormalFace(parseFontFace(jasperReportsContext, node));
+					fontFamily.setNormalFace(parseFontFace(jasperReportsContext, node, loadFonts));
 				}
 				else if (NODE_bold.equals(node.getNodeName()))
 				{
-					fontFamily.setBoldFace(parseFontFace(jasperReportsContext, node));
+					fontFamily.setBoldFace(parseFontFace(jasperReportsContext, node, loadFonts));
 				}
 				else if (NODE_italic.equals(node.getNodeName()))
 				{
-					fontFamily.setItalicFace(parseFontFace(jasperReportsContext, node));
+					fontFamily.setItalicFace(parseFontFace(jasperReportsContext, node, loadFonts));
 				}
 				else if (NODE_boldItalic.equals(node.getNodeName()))
 				{
-					fontFamily.setBoldItalicFace(parseFontFace(jasperReportsContext, node));
+					fontFamily.setBoldItalicFace(parseFontFace(jasperReportsContext, node, loadFonts));
 				}
 				else if (NODE_normalPdfFont.equals(node.getNodeName()))
 				{
@@ -341,7 +360,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private SimpleFontFace parseFontFace(JasperReportsContext jasperReportsContext, Node fontFaceNode) throws SAXException
+	private SimpleFontFace parseFontFace(JasperReportsContext jasperReportsContext, Node fontFaceNode,
+			boolean loadFonts) throws SAXException
 	{
 		SimpleFontFace fontFace = new SimpleFontFace(jasperReportsContext);
 		
@@ -353,7 +373,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			|| fontFaceNode.getFirstChild().getNodeType() == Node.CDATA_SECTION_NODE)
 			)
 		{
-			fontFace.setTtf(fontFaceNode.getFirstChild().getTextContent());
+			fontFace.setTtf(fontFaceNode.getFirstChild().getTextContent(), loadFonts);
 		}
 		else
 		{
@@ -364,7 +384,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 				{
 					if (NODE_ttf.equals(node.getNodeName()))
 					{
-						fontFace.setTtf(node.getTextContent());
+						fontFace.setTtf(node.getTextContent(), loadFonts);
 					}
 					else if (NODE_pdf.equals(node.getNodeName()))
 					{
