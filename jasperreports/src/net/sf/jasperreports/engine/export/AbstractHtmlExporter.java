@@ -243,7 +243,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		if (fontInfo == null)
 		{
 			//we don't have a resolved font family, check if it's a font set
-			FontSetInfo fontSetInfo = fontUtil.getFontSetInfo(fontFamilyAttr, locale);
+			FontSetInfo fontSetInfo = fontUtil.getFontSetInfo(fontFamilyAttr, locale, true);
 			if (fontSetInfo != null)
 			{
 				//it's a font set, check the font mapping

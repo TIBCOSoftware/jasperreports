@@ -39,6 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fonts.FontFace;
@@ -60,6 +61,7 @@ public class JRStyledTextUtil
 	//private final JasperReportsContext jasperReportsContext;
 	private final JRStyledTextAttributeSelector allSelector;
 	private final FontUtil fontUtil;
+	private final boolean ignoreMissingFonts;
 	
 	private final Map<Pair<String, Locale>, FamilyFonts> familyFonts = 
 			new ConcurrentHashMap<Pair<String, Locale>, FamilyFonts>();
@@ -72,6 +74,9 @@ public class JRStyledTextUtil
 		//this.jasperReportsContext = jasperReportsContext;
 		this.allSelector = JRStyledTextAttributeSelector.getAllSelector(jasperReportsContext);
 		fontUtil = FontUtil.getInstance(jasperReportsContext);
+		//FIXME read from report/element
+		ignoreMissingFonts = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
+				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT);
 	}
 	
 	/**
@@ -453,7 +458,7 @@ public class JRStyledTextUtil
 			return NULL_FAMILY_FONTS;
 		}
 		
-		FontSetInfo fontSetInfo = fontUtil.getFontSetInfo(name, locale);
+		FontSetInfo fontSetInfo = fontUtil.getFontSetInfo(name, locale, ignoreMissingFonts);
 		if (fontSetInfo == null)
 		{
 			return NULL_FAMILY_FONTS;

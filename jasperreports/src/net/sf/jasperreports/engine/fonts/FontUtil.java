@@ -56,6 +56,7 @@ public final class FontUtil
 {
 	private static final Log log = LogFactory.getLog(FontUtil.class);
 	public static final String EXCEPTION_MESSAGE_KEY_NULL_FONT = "engine.fonts.null.font";
+	public static final String EXCEPTION_MESSAGE_KEY_FONT_SET_FAMILY_NOT_FOUND = "util.font.set.family.not.found";
 
 	private JasperReportsContext jasperReportsContext;
 
@@ -352,7 +353,7 @@ public final class FontUtil
 		return awtFamilyMatchFontInfo;
 	}
 	
-	public FontSetInfo getFontSetInfo(String name, Locale locale)
+	public FontSetInfo getFontSetInfo(String name, Locale locale, boolean ignoreMissingFonts)
 	{
 		//FIXMEFONT do some cache
 		List<FontFamily> allFontFamilies = jasperReportsContext.getExtensions(FontFamily.class);
@@ -390,6 +391,22 @@ public final class FontUtil
 							primaryFamily = familyInfo;
 						}
 					}
+					else 
+					{
+						if (ignoreMissingFonts)
+						{
+							if (log.isWarnEnabled())
+							{
+								log.warn("Font family " + fontSetFamily.getFamilyName()
+										+ " was not found for font set " + name);
+							}
+						}
+						else
+						{
+							throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_FONT_SET_FAMILY_NOT_FOUND,
+									new Object[]{fontSetFamily.getFamilyName(), name});
+						}
+					}
 				}
 			}
 		}
@@ -419,7 +436,7 @@ public final class FontUtil
 			return exportFont == null ? name : exportFont;
 		}
 		
-		FontSetInfo fontSetInfo = getFontSetInfo(name, locale);
+		FontSetInfo fontSetInfo = getFontSetInfo(name, locale, true);
 		if (fontSetInfo != null)
 		{
 			String exportFont = fontSetInfo.getFontSet().getExportFont(exporterKey);
