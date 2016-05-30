@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ComponentsXmlWriter.java 6251 2013-06-11 08:43:46Z shertage $
  * @see ComponentsExtensionsRegistryFactory
  */
 public abstract class AbstractPartComponentXmlWriter implements PartComponentXmlWriter

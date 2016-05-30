@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JasperPrint.java 6841 2014-01-28 14:51:00Z teodord $
  */
 public interface PrintPageFormat
 {

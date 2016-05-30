@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRException;
  * and create a print element to be included in the generated report.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: FillComponent.java 5878 2013-01-07 20:23:13Z teodord $
  */
 public interface PartFillComponent
 {

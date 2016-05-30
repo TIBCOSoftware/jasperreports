@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.component.ComponentsXmlParser;
  * share the same XML namespace and schema. 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ComponentsBundle.java 6929 2014-02-25 15:46:46Z teodord $
  */
 public interface PartComponentsBundle
 {

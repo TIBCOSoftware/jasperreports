@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
  * single part component type can be accessed.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ComponentManager.java 6929 2014-02-25 15:46:46Z teodord $
  * @see ComponentsEnvironment#getManager(ComponentKey)
  * @see ComponentsBundle#getComponentManager(String)
  */

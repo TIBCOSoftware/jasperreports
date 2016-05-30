@@ -40,7 +40,6 @@ import org.jfree.ui.TextAnchor;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id:ScaledDialScale.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class ScaledDialScale extends StandardDialScale
 {

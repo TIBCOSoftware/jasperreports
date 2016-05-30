@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.part.PartComponentXmlWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ComponentsManager.java 5877 2013-01-07 19:51:14Z teodord $
  */
 public class PartComponentsManager extends DefaultPartComponentManager
 {

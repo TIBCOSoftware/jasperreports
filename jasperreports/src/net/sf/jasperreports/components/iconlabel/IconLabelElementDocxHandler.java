@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class IconLabelElementDocxHandler implements GenericElementDocxHandler
 {

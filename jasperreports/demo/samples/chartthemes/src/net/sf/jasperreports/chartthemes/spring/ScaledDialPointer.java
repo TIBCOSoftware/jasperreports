@@ -47,7 +47,6 @@ import org.jfree.io.SerialUtilities;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id:ScaledDialPointer.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class ScaledDialPointer extends Pointer
 {

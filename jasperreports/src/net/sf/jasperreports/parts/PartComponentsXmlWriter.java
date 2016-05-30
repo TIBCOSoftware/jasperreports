@@ -43,7 +43,6 @@ import net.sf.jasperreports.parts.subreport.SubreportPartComponent;
  * XML writer for built-in part component implementations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ComponentsXmlWriter.java 6802 2014-01-09 11:38:46Z shertage $
  * @see ComponentsExtensionsRegistryFactory
  */
 public class PartComponentsXmlWriter extends AbstractPartComponentXmlWriter

@@ -28,7 +28,6 @@ import java.io.Serializable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JasperPrint.java 5878 2013-01-07 20:23:13Z teodord $
  */
 public class SimplePrintPart implements PrintPart, Serializable
 {

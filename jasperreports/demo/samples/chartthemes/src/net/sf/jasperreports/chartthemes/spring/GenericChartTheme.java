@@ -154,7 +154,6 @@ import org.jfree.util.UnitType;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id:GenericChartTheme.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class GenericChartTheme implements ChartTheme
 {

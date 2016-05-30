@@ -35,7 +35,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBandFactory.java 5878 2013-01-07 20:23:13Z teodord $
  */
 public class JRPartFactory extends JRBaseFactory
 {

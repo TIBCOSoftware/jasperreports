@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * A default {@link PartComponentManager component manager} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: DefaultComponentManager.java 5878 2013-01-07 20:23:13Z teodord $
  */
 public class DefaultPartComponentManager implements PartComponentManager
 {

@@ -113,7 +113,6 @@ import org.jfree.ui.TextAnchor;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id:EyeCandySixtiesChartTheme.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class EyeCandySixtiesChartTheme extends GenericChartTheme
 {

@@ -39,7 +39,6 @@ import org.jfree.ui.Size2D;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id:ScaledDialValueIndicator.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class ScaledDialValueIndicator extends DialValueIndicator
 {

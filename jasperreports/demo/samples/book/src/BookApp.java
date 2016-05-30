@@ -57,7 +57,6 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JasperApp.java 6805 2014-01-10 12:42:19Z teodord $
  */
 public class BookApp extends AbstractSampleApp
 {

@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.part.PartComponentCompiler;
  * Compile-time handler of {@link SubreportPartComponent list component} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ListComponentCompiler.java 5877 2013-01-07 19:51:14Z teodord $
  */
 public class SubreportPartComponentCompiler implements PartComponentCompiler
 {

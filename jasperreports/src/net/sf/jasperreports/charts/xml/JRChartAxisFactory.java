@@ -34,7 +34,6 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Barry Klawans (bklawans@users.sourceforge.net)
- * @version $Id: JRChartAxisFactory.java 1578 2007-02-09 16:27:52Z shertage	$
  */
 public class JRChartAxisFactory	extends	JRBaseFactory
 {

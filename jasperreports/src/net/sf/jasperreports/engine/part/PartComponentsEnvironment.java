@@ -47,7 +47,6 @@ import org.apache.commons.logging.LogFactory;
  * {@link ExtensionsEnvironment}).
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ComponentsEnvironment.java 6863 2014-02-06 09:59:27Z teodord $
  */
 public final class PartComponentsEnvironment
 {

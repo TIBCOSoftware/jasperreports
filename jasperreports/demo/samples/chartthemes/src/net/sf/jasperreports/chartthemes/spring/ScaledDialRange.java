@@ -37,7 +37,6 @@ import org.jfree.chart.plot.dial.StandardDialRange;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id:ScaledDialRange.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class ScaledDialRange extends StandardDialRange
 {

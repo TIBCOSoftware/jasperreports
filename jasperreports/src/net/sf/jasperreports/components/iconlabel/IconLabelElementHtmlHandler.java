@@ -45,7 +45,6 @@ import net.sf.jasperreports.export.HtmlExporterOutput;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
  */
 public class IconLabelElementHtmlHandler implements GenericElementHtmlHandler
 {

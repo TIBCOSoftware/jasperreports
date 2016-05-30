@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SimpleExporterInput.java 6699 2013-11-08 10:19:30Z teodord $
  */
 public class ReadOnlyPartJasperPrint extends JasperPrint
 {

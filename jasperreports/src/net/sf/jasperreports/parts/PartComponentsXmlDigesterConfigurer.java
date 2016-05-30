@@ -39,7 +39,6 @@ import org.apache.commons.digester.Digester;
  * XML digester for built-in part component implementations.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ComponentsXmlDigesterConfigurer.java 6771 2013-11-22 14:52:25Z shertage $
  * @see PartComponentsExtensionsRegistryFactory
  */
 public class PartComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer

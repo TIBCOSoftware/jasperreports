@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.component.ComponentsXmlParser;
  * instance and a map of {@link PartComponentManager component managers}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: DefaultComponentsBundle.java 5878 2013-01-07 20:23:13Z teodord $
  */
 public class DefaultPartComponentsBundle implements PartComponentsBundle
 {

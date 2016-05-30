@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.part.PartComponent;
  * and the node name is used as component name.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRComponentRule.java 5878 2013-01-07 20:23:13Z teodord $
  */
 public class JRPartComponentRule extends Rule
 {

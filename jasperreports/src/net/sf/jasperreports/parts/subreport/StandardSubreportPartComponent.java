@@ -47,7 +47,6 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * Standard {@link SubreportPartComponent} implementation.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: StandardListComponent.java 5877 2013-01-07 19:51:14Z teodord $
  */
 public class StandardSubreportPartComponent implements Serializable, SubreportPartComponent, JRChangeEventsSupport
 {

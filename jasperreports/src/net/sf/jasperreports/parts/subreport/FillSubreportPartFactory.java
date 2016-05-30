@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.part.PartFillComponent;
  * Factory of {@link BaseFillList list fill component} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: FillListFactory.java 5877 2013-01-07 19:51:14Z teodord $
  */
 public class FillSubreportPartFactory implements PartComponentFillFactory
 {

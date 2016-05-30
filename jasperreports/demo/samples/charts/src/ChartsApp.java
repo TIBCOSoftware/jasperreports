@@ -39,7 +39,6 @@ import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id:ChartsApp.java 2317 2008-08-27 09:06:42Z teodord $
  */
 public class ChartsApp extends AbstractSampleApp
 {

@@ -51,7 +51,6 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id:TableOfContentsApp.java 1908 2007-10-19 11:17:08Z teodord $
  */
 public class TableOfContentsApp extends AbstractSampleApp
 {

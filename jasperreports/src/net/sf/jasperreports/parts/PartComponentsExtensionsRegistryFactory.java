@@ -44,7 +44,6 @@ import net.sf.jasperreports.parts.subreport.SubreportPartComponentCompiler;
  * This registry factory is registered by default in JasperReports.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ComponentsExtensionsRegistryFactory.java 6436 2013-08-28 15:16:55Z lucianc $
  * @see ListComponent
  */
 public class PartComponentsExtensionsRegistryFactory implements
