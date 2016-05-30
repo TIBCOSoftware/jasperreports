@@ -150,20 +150,23 @@ class BookmarkStack
 			// creating empty bookmarks in order to preserve the bookmark level
 			for (int i = parent.getLevel() + 1; i < level; ++i)
 			{
-				BasePrintBookmark emptyBookmark = createBookmark(parent, "", parentPrintBookmark.getPageIndex(), parentPrintBookmark.getElementAddress());
+				BasePrintBookmark emptyBookmark = createBookmark(parent, "", 
+						parentPrintBookmark.getPageIndex(), parentPrintBookmark.getElementAddress(),
+						parent.getLevel() + 1);
 				this.push(emptyBookmark);
 				parent = emptyBookmark;
 			}
 		}
 
-		BasePrintBookmark bookmark = createBookmark(parent, label, pageIndex, elementAddress);
+		BasePrintBookmark bookmark = createBookmark(parent, label, pageIndex, elementAddress,
+				isCollapseMissingBookmarkLevels ? level : parent.getLevel() + 1);
 		this.push(bookmark);
 		return bookmark;
 	}
 	
-	protected BasePrintBookmark createBookmark(BasePrintBookmark parent, String label, int pageIndex, String elementAddress)
+	protected BasePrintBookmark createBookmark(BasePrintBookmark parent, String label, 
+			int pageIndex, String elementAddress, int level)
 	{
-		int level = parent == null ? 0 : (parent.getLevel() + 1);
 		BasePrintBookmark printBookmark = new BasePrintBookmark(label, pageIndex, elementAddress, level);
 		
 		if (parent != null)
