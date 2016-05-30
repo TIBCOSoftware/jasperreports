@@ -163,7 +163,7 @@
 			</doctitle>
 			<bottom>
 <![CDATA[
-<span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-2014 TIBCO Software Inc. <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
+<span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&copy; 2001-<script language="javascript">document.write((new Date()).getFullYear())</script> TIBCO Software Inc. <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
 ]]>
 			</bottom>
 			<classpath refid="project-classpath"/>
