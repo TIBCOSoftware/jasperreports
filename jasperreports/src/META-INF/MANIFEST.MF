@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Built-By: TIBCO Software Inc.
 Specification-Title: JasperReports Library
-Specification-Version: 6.3.0
+Specification-Version: 6.3.1
 Specification-Vendor: TIBCO Software Inc.
 Implementation-Title: net.sf.jasperreports.engine
-Implementation-Version: 6.3.0
+Implementation-Version: 6.3.1
 Implementation-Vendor: TIBCO Software Inc.
 Bundle-ManifestVersion: 2
 Bundle-Name: JasperReports Library
-Bundle-Version: 6.3.0
+Bundle-Version: 6.3.1
 Bundle-Vendor: TIBCO Software Inc.
 Bundle-SymbolicName: net.sf.jasperreports.engine
 Bundle-ClassPath: .

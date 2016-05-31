@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="6.3.0"/>
+	<property name="version" value="6.3.1"/>
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>
@@ -181,7 +181,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="scm-tag" value="jr-6-3-0"/>
+	<property name="scm-tag" value="jr-6-3-1"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
