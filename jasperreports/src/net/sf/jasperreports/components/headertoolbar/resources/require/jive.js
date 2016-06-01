@@ -1341,9 +1341,20 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
             if(!it.initialized) {
                 it.isDashboard = $('body').is('.dashboardViewFrame');
                 /*
-                 Scrolable table headers
+                Scrolable table headers
+
+                If there is a table that does not have floating header then floating headers for all tables
+                should be disabled
                  */
-                if(it.isDashboard || $('div#reportViewFrame').length > 0) {
+                var hasFloatingHeader = true;
+                $.each(report.components.table, function(index, table) {
+                    if (!table.config.hasFloatingHeader) {
+                        hasFloatingHeader = false;
+                        return false; // break each
+                    }
+                });
+
+                if(hasFloatingHeader && (it.isDashboard || $('div#reportViewFrame').length > 0)) {
                     it.setScrollableHeader(it.isDashboard);
                 }
 

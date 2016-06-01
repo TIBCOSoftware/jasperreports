@@ -244,6 +244,9 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 					contextMap.put("allColumnGroupsData", JacksonUtil.getInstance(jrContext).getJsonString(columnGroupsData));
 					contextMap.put("tableName", element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_NAME));
 
+					// floating header
+					contextMap.put("hasFloatingHeader", Boolean.parseBoolean(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FLOATING_HEADER)));
+
 					// patterns
 					contextMap.put("numericPatterns", JacksonUtil.getInstance(jrContext).getJsonString(getNumberPatterns(numberPatternsMap)));
 					contextMap.put("datePatterns", JacksonUtil.getInstance(jrContext).getJsonString(getDatePatterns(datePatterns, locale)));

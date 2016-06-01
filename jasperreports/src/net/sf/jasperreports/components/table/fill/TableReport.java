@@ -167,6 +167,26 @@ public class TableReport implements JRReport
 	public static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
 
 	/**
+	 *	Property that enables/disables the floating header in the table component when scrolling.
+	 *	If the interactivity has been disabled by setting {@link #PROPERTY_INTERACTIVE_TABLE} to <code>false</code>, then
+	 *	setting this property will have no effect.
+	 *
+	 * <p>
+	 * It can be set:
+	 * <ul>
+	 * 	<li>globally</li>
+	 * 	<li>at report level</li>
+	 * 	<li>at component level</li>
+	 * </ul>
+	 * </p>
+	 *
+	 * <p>
+	 * The default global value of this property is <code>true</code>
+	 * </p>
+	 */
+	public static final String PROPERTY_FLOATING_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.floating.header";
+
+	/**
 	 * Property that enables/disables the automatic addition of specific custom properties to table cell elements,
 	 * that would in turn trigger the creation of special document accessibility tags during PDF export
 	 * 
@@ -247,6 +267,7 @@ public class TableReport implements JRReport
 	
 	private final JRPropertiesUtil propertiesUtil;
 	private boolean isInteractiveTable;
+	private boolean hasFloatingHeader;
 	private boolean isGeneratePdfTags;
 	private Map<Column, Pair<Boolean, String>> columnInteractivityMapping;
 	
@@ -292,6 +313,7 @@ public class TableReport implements JRReport
 
 		if (interactiveColumnCount > 0) {
 			this.isInteractiveTable = true;
+			this.hasFloatingHeader = propertiesUtil.getBooleanProperty(PROPERTY_FLOATING_HEADER, true, fillContext.getComponentElement(), this.parentReport);
 		}
 		// end: table interactivity
 		
@@ -932,6 +954,9 @@ public class TableReport implements JRReport
 					// setting component name on first column
 					String tableName = propertiesUtil.getProperty(JRComponentElement.PROPERTY_COMPONENT_NAME, fillContext.getComponentElement());
 					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_NAME, tableName);
+
+					// set the hasFloatingHeader property on first column
+					genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FLOATING_HEADER, String.valueOf(hasFloatingHeader));
 				}
 	
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_UUID, columnUuid);

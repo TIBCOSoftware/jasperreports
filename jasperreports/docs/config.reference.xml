@@ -159,6 +159,7 @@
   		<property ref="net.sf.jasperreports.components.filter.char" />
   		<property ref="net.sf.jasperreports.components.table.generate.pdf.tags" />
   		<property ref="net.sf.jasperreports.components.table.interactive" />
+        <property ref="net.sf.jasperreports.components.table.floating.header" />
   		<property ref="net.sf.jasperreports.components.table.column.field" />
   		<property ref="net.sf.jasperreports.components.table.column.variable" />
   		<property ref="net.sf.jasperreports.components.table.column.sortable" />
@@ -2018,6 +2019,21 @@ Property that enables/disables the interactivity in the table component
     <default>true</default>
     <scope>Global | Report | Component | Column</scope>
     <since>4.7.1</since>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.components.table.floating.header -->
+
+  <configProperty name="net.sf.jasperreports.components.table.floating.header">
+    <description>
+      Property that enables/disables the floating header in the table component when scrolling.
+      <br/>
+      If the interactivity has been disabled by setting <a href="#net.sf.jasperreports.components.table.interactive">net.sf.jasperreports.components.table.interactive</a> to <code>false</code>, then setting this property will have no effect.
+    </description>
+    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_FLOATING_HEADER</api>
+    <default>true</default>
+    <scope>Global | Report | Component</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   

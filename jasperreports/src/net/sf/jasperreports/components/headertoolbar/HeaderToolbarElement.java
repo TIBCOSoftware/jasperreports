@@ -47,6 +47,8 @@ public interface HeaderToolbarElement {
 	public static final String PROPERTY_TABLE_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.table.name";
 	public static final String PROPERTY_COLUMN_UUID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.columnUUID";
 	public static final String PROPERTY_CELL_ID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.cellID";
+
+	public static final String PROPERTY_FLOATING_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.table.floating.header";
 	/**
 	 * @deprecated To be removed.
 	 */
