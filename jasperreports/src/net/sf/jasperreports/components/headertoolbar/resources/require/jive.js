@@ -1529,10 +1529,13 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
             }
         },
         showVisualElements: function(dim) {
+            // hide already visible menus, if any
+            jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+            jive.ui.foobar.menus.column && jive.ui.foobar.menus.column.showColumns && jive.ui.foobar.menus.column.showColumns.jo.hide();
+
             jive.ui.overlay.show(dim);
             jive.ui.marker.show(dim);
             jive.ui.foobar.show(dim);
-            jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
         }
     }
 
