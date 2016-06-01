@@ -101,7 +101,7 @@ public class EditTextElementCommand implements Command
 		}
 		
 		textElement.setFontName(textElementData.getFontName());
-		textElement.setFontSize(textElementData.getFontSize() != null ? textElementData.getFloatFontSize() : null);
+		textElement.setFontSize(textElementData.getFloatFontSize());
 		textElement.setBold(textElementData.getFontBold());
 		textElement.setItalic(textElementData.getFontItalic());
 		textElement.setUnderline(textElementData.getFontUnderline());

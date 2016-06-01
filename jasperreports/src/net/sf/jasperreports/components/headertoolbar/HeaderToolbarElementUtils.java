@@ -141,6 +141,7 @@ public class HeaderToolbarElementUtils
 	public static void copyOwnTextElementStyle(EditTextElementData textElementData, JRDesignTextElement textElement, Locale locale) {
 		textElementData.setFontName(textElement.getOwnFontName());
 		textElementData.setFontSize(textElement.getOwnFontsize() != null ? NumberFormat.getNumberInstance(locale).format(textElement.getOwnFontsize()) : null);
+		textElementData.setFloatFontSize(textElement.getOwnFontsize() != null ? textElement.getOwnFontsize() : null);
 		textElementData.setFontBold(textElement.isOwnBold());
 		textElementData.setFontItalic(textElement.isOwnItalic());
 		textElementData.setFontUnderline(textElement.isOwnUnderline());
@@ -157,6 +158,7 @@ public class HeaderToolbarElementUtils
 	public static void copyTextElementStyle(EditTextElementData textElementData, JRDesignTextElement textElement, Locale locale) {
 		textElementData.setFontName(JRStringUtil.htmlEncode(textElement.getFontName()));
 		textElementData.setFontSize(NumberFormat.getNumberInstance(locale).format(textElement.getFontsize()));
+		textElementData.setFloatFontSize(textElement.getFontsize());
 		textElementData.setFontBold(textElement.isBold());
 		textElementData.setFontItalic(textElement.isItalic());
 		textElementData.setFontUnderline(textElement.isUnderline());
