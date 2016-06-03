@@ -121,6 +121,7 @@ import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.renderers.util.SvgDataSniffer;
 import net.sf.jasperreports.renderers.util.SvgFontProcessor;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
@@ -1372,9 +1373,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 						byte[] imageData = dataRenderer.getData(jasperReportsContext);
 
-						isEmbededSvgData = getRendererUtil().isSvgData(imageData);
+						SvgDataSniffer.SvgInfo svgInfo = getRendererUtil().getSvgInfo(imageData);
 						
-						if (isEmbededSvgData)
+						if (svgInfo != null)
 						{
 							if (isEmbeddedSvgUseFonts(imageElement))
 							{
@@ -1396,9 +1397,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								imageData = svgFontProcessor.process(imageData);
 							}
 							
-							String encoding = getExporterOutput().getEncoding();
-							
-							imageSource = new String(imageData, encoding);
+							imageSource = new String(imageData, svgInfo.getEncoding());
 							
 							// we might have received needDimension false above, as a hint, but if we arrive here, 
 							// we definitely need to attempt getting the dimension of the SVG, regardless of scale image type
@@ -1418,9 +1417,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							Base64Encoder encoder = new Base64Encoder(bais, baos);
 							encoder.process();
 							
-							String encoding = getExporterOutput().getEncoding();
-							
-							imageSource = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), encoding);
+							imageSource = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), "UTF-8"); // UTF-8 is fine as we just need an ASCII compatible encoding for the Base64 array
 						}
 						
 						//don't cache embedded imageSource as they are not image paths

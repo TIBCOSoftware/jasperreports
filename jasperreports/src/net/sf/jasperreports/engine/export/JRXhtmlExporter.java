@@ -1718,9 +1718,7 @@ public class JRXhtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguratio
 						Base64Encoder encoder = new Base64Encoder(bais, baos);
 						encoder.process();
 						
-						String encoding = getExporterOutput().getEncoding();
-						
-						imagePath = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), encoding);
+						imagePath = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), "UTF-8"); // UTF-8 is fine as we just need an ASCII compatible encoding for the Base64 array
 						//don't cache the base64 encoded image as imagePath because they are too big
 					}
 					else
