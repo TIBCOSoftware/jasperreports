@@ -29,6 +29,7 @@ import java.io.IOException;
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.bridge.UserAgent;
 import org.apache.batik.dom.svg.SVGDocumentFactory;
+import org.w3c.dom.svg.SVGDocument;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.renderers.BatikUserAgent;
@@ -72,19 +73,45 @@ public class SvgDataSniffer
 	 */
 	public boolean isSvgData(byte[] data)
 	{
+		return getSvgInfo(data) != null;
+	}
+	
+	/**
+	 * 
+	 */
+	public SvgInfo getSvgInfo(byte[] data)
+	{
 		try
 		{
-			//SVGDocument document = 
+			SVGDocument document = 
 				documentFactory.createSVGDocument(
 					null,
 					new ByteArrayInputStream(data)
 					);
+			
+			return new SvgInfo(document.getInputEncoding());
 		}
 		catch (IOException e)
 		{
-			return false;
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public static final class SvgInfo
+	{
+		private final String encoding;
+		
+		private SvgInfo(String encoding)
+		{
+			this.encoding = encoding;
 		}
 		
-		return true;
+		public String getEncoding()
+		{
+			return encoding;
+		}
 	}
 }

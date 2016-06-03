@@ -114,6 +114,23 @@ public class RendererUtil
 	/**
 	 *
 	 */
+	public SvgDataSniffer.SvgInfo getSvgInfo(byte[] data)
+	{
+		if (JRTypeSniffer.getImageTypeValue(data) == ImageTypeEnum.UNKNOWN)
+		{
+			if (XmlDataSniffer.isXmlData(data))
+			{
+				return getSvgDataSniffer().getSvgInfo(data);
+			}
+		}
+		
+		return null;
+	}
+
+
+	/**
+	 *
+	 */
 	public boolean isSvgData(DataRenderable dataRenderable) throws JRException
 	{
 		return isSvgData(dataRenderable.getData(jasperReportsContext));
