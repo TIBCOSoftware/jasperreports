@@ -334,8 +334,8 @@ public final class MathFunctions
 	 */
 	private static Number fixNumberReturnType(Number returnValue, Number ...numbers){
 		if(haveSameType(Integer.class, numbers)) return returnValue.intValue();
-		if(haveSameType(Long.class, numbers)) return returnValue.intValue();
-		if(haveSameType(Float.class, numbers)) return returnValue.intValue();
+		if(haveSameType(Long.class, numbers)) return returnValue.longValue();
+		if(haveSameType(Float.class, numbers)) return returnValue.floatValue();
 		return returnValue.doubleValue();
 	}
 	
