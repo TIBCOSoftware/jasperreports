@@ -1397,7 +1397,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								imageData = svgFontProcessor.process(imageData);
 							}
 							
-							imageSource = new String(imageData, svgInfo.getEncoding());
+							String encoding = svgInfo.getEncoding();
+							imageSource = new String(imageData, encoding == null ? "UTF-8" : encoding);
 							
 							// we might have received needDimension false above, as a hint, but if we arrive here, 
 							// we definitely need to attempt getting the dimension of the SVG, regardless of scale image type
