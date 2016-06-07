@@ -46,12 +46,13 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
             return isIe;
         })(),
         isFirefox: /firefox/i.test(navigator.userAgent),
-        canFloat: true,
+        canFloat: null,
 		init: function(report) {
 			var ic = this,
                 hasFloatingHeaders = true;
 			ic.reportInstance = report;
             ic.isDashboard = $('body').is('.dashboardViewFrame');
+            ic.canFloat = true;
 
 			if (!ic.initialized) {
                 /**
@@ -71,6 +72,19 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                 });
 
                 ic.reportInstance.on("beforeAction", function(evt) {
+                    // prevent floating
+                    ic.canFloat = false;
+
+                    // prevent caching floating headers
+                    ic.floatingColumnHeader && ic.floatingColumnHeader.remove();
+                    ic.floatingRowHeader && ic.floatingRowHeader.remove();
+                    ic.floatingCrossHeader && ic.floatingCrossHeader.remove();
+
+                    ic.floatingColumnHeader = null;
+                    ic.floatingRowHeader = null;
+                    ic.floatingCrossHeader = null;
+
+                    // hide column selection if visible
                     ic.active && ic.hide();
                 });
 
@@ -425,17 +439,9 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
             it.scrollCrossSection();
         },
         hideFloatingElements: function() {
-            var it = this;
-            // hide floating parts
-            if (it.isFloatingColumnHeader) {
-                it.getFloatingTable('floatingColumnHeader').hide();
-            }
-            if (it.isFloatingRowHeader) {
-                it.getFloatingTable('floatingRowHeader').hide();
-            }
-            if (it.isFloatingCrossHeader) {
-                it.getFloatingTable('floatingCrossHeader').hide();
-            }
+            this.isFloatingColumnHeader && this.floatingColumnHeader.hide();
+            this.isFloatingRowHeader && this.floatingRowHeader.hide();
+            this.isFloatingCrossHeader && this.floatingCrossHeader.hide();
         },
         scrollColumnHeader: function() {
             var it = this,
@@ -578,7 +584,7 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
             }
 
             var floatingCrossTbl = this.floatingCrossHeader,
-                floatingColumnTbl = this.floatingColumnHeader || this.getFloatingTable(firstHeader, crosstabId, "jr_floating_column_header"),
+                floatingColumnTbl = this.floatingColumnHeader || this.getColumnHeaderFloatingTable(firstHeader, crosstabId),
                 floatingRowTbl = this.floatingRowHeader || this.getFloatingTable(firstHeader, crosstabId, "jr_floating_row_header"),
                 zoom = ixt.reportInstance.zoom,
                 zoomLevel = (zoom && zoom.level) ? zoom.level : 1,
@@ -673,7 +679,8 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     rows = [], clone, cloneWidth = [],
                     row, $row, lastRow, cloneTD, rowTD, rowTDs, i, j, k,
                     tblJrPage, parentTableRows,
-                    startIndex = 0, colSpanLength = 0, finishedCalculatedStartIndex = false;
+                    startIndex = 0, colSpanLength = 0, finishedCalculatedStartIndex = false,
+                    appendedCloneTdCount;
 
                 if (firstHeader.length > 0) {
                     row = firstHeader.closest("tr");
@@ -718,8 +725,11 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                         clone = $("<tr></tr>");
                         cloneWidth[idx] = 0;
                         clone.attr("style", $row.attr("style"));
-                        clone.css("height", $row.css("height"));
                         clone.attr("valign", $row.attr("valign"));
+                        clone.css("height", $row.css("height"));
+                        clone.css("vertical-align", $row.css("vertical-align"));
+
+                        appendedCloneTdCount = 0;
 
                         // add only the tds with elementClass class
                         for (i = 0; i < rowTDs.length; i++) {
@@ -746,9 +756,12 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                                     cloneTD.css("width", rowTD.css("width"));
                                     cloneTD.css("height", rowTD.css("height"));
 
+                                    cloneTD.css("vertical-align", rowTD.css("vertical-align"));
+
                                     cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
                                 }
                                 clone.append(cloneTD);
+                                appendedCloneTdCount++;
                             }
                         }
 
@@ -769,15 +782,17 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                             tbl.append(firstRowClone);
                         }
 
-                        tbl.append(clone);
+                        // append only the rows that actually contain TDs
+                        appendedCloneTdCount > 0 && tbl.append(clone);
                     });
 
                     tbl.css({
-                        position: "absolute",
+                        position: "relative",
                         width: Math.max.apply(Math, cloneWidth),
                         "empty-cells": tblJrPage.css("empty-cells"),
                         "border-collapse": tblJrPage.css("border-collapse"),
-                        "background-color": tblJrPage.css("background-color")
+                        "background-color": tblJrPage.css("background-color"),
+                        "vertical-align": tblJrPage.css("vertical-align")
                     });
                     tbl.attr("cellpadding", tblJrPage.attr("cellpadding"));
                     tbl.attr("cellspacing", tblJrPage.attr("cellspacing"));
@@ -816,7 +831,8 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     rows = [], clone, cloneWidth = [],
                     row, $row, lastRow, lastInteractiveRowHeaderRow, cloneTD, rowTD, rowTDs, i, j, k,
                     tblJrPage, parentTableRows,
-                    startIndex = 0, colSpanLength = 0, finishedCalculatedStartIndex = false;
+                    startIndex = 0, colSpanLength = 0, finishedCalculatedStartIndex = false,
+                    appendedCloneTdCount;
 
                 if (firstHeader.length > 0) {
                     row = firstHeader.closest("tr");
@@ -847,8 +863,11 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                         cloneWidth[idx] = 0;
 
                         clone.attr("style", $row.attr("style"));
-                        clone.css("height", $row.css("height"));
                         clone.attr("valign", $row.attr("valign"));
+                        clone.css("height", $row.css("height"));
+                        clone.css("vertical-align", $row.css("vertical-align"));
+
+                        appendedCloneTdCount = 0;
 
                         for (i = 0; i < rowTDs.length; i++) {
                             rowTD = $(rowTDs.get(i));
@@ -868,9 +887,12 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                                 cloneTD.css("width", rowTD.css("width"));
                                 cloneTD.css("height", rowTD.css("height"));
 
+                                cloneTD.css("vertical-align", rowTD.css("vertical-align"));
+
                                 cloneWidth[idx] = cloneWidth[idx] + rowTD.outerWidth();
 
                                 clone.append(cloneTD);
+                                appendedCloneTdCount++;
                             }
                         }
 
@@ -891,15 +913,17 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                             tbl.append(firstRowClone);
                         }
 
-                        tbl.append(clone);
+                        // append only the rows that actually contain TDs
+                        appendedCloneTdCount > 0 && tbl.append(clone);
                     });
 
                     tbl.css({
-                        position: "absolute",
+                        position: "relative",
                         width: Math.max.apply(Math, cloneWidth),
                         "empty-cells": tblJrPage.css("empty-cells"),
                         "border-collapse": tblJrPage.css("border-collapse"),
-                        "background-color": tblJrPage.css("background-color")
+                        "background-color": tblJrPage.css("background-color"),
+                        "vertical-align": tblJrPage.css("vertical-align")
                     });
                     tbl.attr("cellpadding", tblJrPage.attr("cellpadding"));
                     tbl.attr("cellspacing", tblJrPage.attr("cellspacing"));
