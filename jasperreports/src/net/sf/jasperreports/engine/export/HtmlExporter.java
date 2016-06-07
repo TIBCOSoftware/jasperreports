@@ -1397,6 +1397,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								imageData = svgFontProcessor.process(imageData);
 							}
 							
+							isEmbededSvgData = true;
+							
 							String encoding = svgInfo.getEncoding();
 							imageSource = new String(imageData, encoding == null ? "UTF-8" : encoding);
 							
@@ -1407,10 +1409,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						}
 						else
 						{
-							String imageMimeType = 
-								isEmbededSvgData
-								? RendererUtil.SVG_MIME_TYPE
-								: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
+							String imageMimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 
 							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
