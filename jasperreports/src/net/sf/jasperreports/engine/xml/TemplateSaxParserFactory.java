@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.map.ReferenceMap;
+
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
@@ -33,6 +35,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class TemplateSaxParserFactory extends BaseSaxParserFactory
 {
+	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();
 
 	public TemplateSaxParserFactory(JasperReportsContext jasperReportsContext) 
 	{
@@ -52,6 +55,12 @@ public class TemplateSaxParserFactory extends BaseSaxParserFactory
 		schemas.add(getResourceURI(JRXmlConstants.JASPERTEMPLATE_XSD_RESOURCE));
 		schemas.add(getResourceURI(JRXmlConstants.JASPERTEMPLATE_XSD_DTD_COMPAT_RESOURCE));
 		return schemas;
+	}
+
+	@Override
+	protected ThreadLocal<ReferenceMap> getGrammarPoolCache()
+	{
+		return GRAMMAR_POOL_CACHE;
 	}
 
 }

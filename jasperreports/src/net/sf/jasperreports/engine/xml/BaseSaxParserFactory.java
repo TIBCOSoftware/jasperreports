@@ -90,7 +90,6 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		"http://apache.org/xml/properties/internal/grammar-pool";
 	
 	private final static Object GRAMMAR_POOL_CACHE_NULL_KEY = "Null context classloader";
-	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();
 	
 	protected final JasperReportsContext jasperReportsContext;
 	
@@ -199,6 +198,8 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		}
 	}
 	
+	protected abstract ThreadLocal<ReferenceMap> getGrammarPoolCache();
+	
 	protected void setGrammarPoolProperty(SAXParser parser, String poolClassName)
 	{
 		try
@@ -206,11 +207,12 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			Object cacheKey = getGrammarPoolCacheKey();
 			
 			// we're using thread local caches to avoid thread safety problems
-			ReferenceMap cacheMap = GRAMMAR_POOL_CACHE.get();
+			ThreadLocal<ReferenceMap> grammarPoolCache = getGrammarPoolCache();
+			ReferenceMap cacheMap = grammarPoolCache.get();
 			if (cacheMap == null)
 			{
 				cacheMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
-				GRAMMAR_POOL_CACHE.set(cacheMap);
+				grammarPoolCache.set(cacheMap);
 			}
 			
 			Object grammarPool = cacheMap.get(cacheKey);

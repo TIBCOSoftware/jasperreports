@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -68,6 +69,8 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	 * Defaults to <code>true</code>.
 	 */
 	public static final String COMPILER_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.validation";
+	
+	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();
 
 	public JRReportSaxParserFactory(JasperReportsContext jasperReportsContext)
 	{
@@ -138,6 +141,12 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 		}
 
 		return schemas;
+	}
+
+	@Override
+	protected ThreadLocal<ReferenceMap> getGrammarPoolCache()
+	{
+		return GRAMMAR_POOL_CACHE;
 	}
 
 

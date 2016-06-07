@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
+import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -62,6 +63,8 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 	 * Defaults to <code>true</code>.
 	 */
 	public static final String EXPORT_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.validation";
+	
+	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();
 	
 	/**
 	 * @deprecated Replaced by {@link #PrintSaxParserFactory(JasperReportsContext)}.
@@ -116,6 +119,12 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 		}
 		
 		return schemas;
+	}
+
+	@Override
+	protected ThreadLocal<ReferenceMap> getGrammarPoolCache()
+	{
+		return GRAMMAR_POOL_CACHE;
 	}
 
 }
