@@ -25,11 +25,13 @@ package net.sf.jasperreports.extensions;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -37,6 +39,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.util.ClassLoaderResource;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -145,15 +148,15 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		for (ClassLoaderResource extensionResource : extensionResources)
 		{
 			ClassLoader classLoader = extensionResource.getClassLoader();
-			Map<URL, List<ExtensionsRegistry>> classLoaderRegistries = getClassLoaderRegistries(classLoader);
+			Map<URL, URLRegistries> classLoaderRegistries = getClassLoaderRegistries(classLoader);
 			
 			URL url = extensionResource.getUrl();
 			List<ExtensionsRegistry> registries;
 			Map<String, Exception> registryExceptions = new LinkedHashMap<String, Exception>();
 			synchronized (classLoaderRegistries)
 			{
-				registries = classLoaderRegistries.get(url);
-				if (registries == null)
+				URLRegistries urlRegistries = classLoaderRegistries.get(url);
+				if (urlRegistries == null)
 				{
 					if (log.isDebugEnabled())
 					{
@@ -161,9 +164,24 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 								+ url);
 					}
 					
-					registries = loadRegistries(url, registryExceptions);
+					JRPropertiesMap properties = JRPropertiesMap.loadProperties(url);
+					URL duplicateURL = detectDuplicate(properties, classLoaderRegistries);//search across classloaders?
+					if (duplicateURL == null)
+					{
+						registries = loadRegistries(properties, registryExceptions);
+					}
+					else
+					{
+						log.warn("Extension resource " + url + " was found to be a duplicate of "
+								+ duplicateURL + " in classloader " + classLoader);
+						registries = Collections.emptyList();
+					}
 					
-					classLoaderRegistries.put(url, registries);
+					classLoaderRegistries.put(url, new URLRegistries(properties, registries));
+				}
+				else
+				{
+					registries = urlRegistries.registries;
 				}
 			}
 			
@@ -184,24 +202,23 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 				EXTENSION_RESOURCE_NAME);
 	}
 
-	protected Map<URL, List<ExtensionsRegistry>> getClassLoaderRegistries(ClassLoader classLoader)
+	protected Map<URL, URLRegistries> getClassLoaderRegistries(ClassLoader classLoader)
 	{
 		synchronized (registryCache)
 		{
-			Map<URL, List<ExtensionsRegistry>> registries = (Map<URL, List<ExtensionsRegistry>>) registryCache.get(classLoader);
+			Map<URL, URLRegistries> registries = (Map<URL, URLRegistries>) registryCache.get(classLoader);
 			if (registries == null)
 			{
-				registries = new HashMap<URL, List<ExtensionsRegistry>>();
+				registries = new HashMap<URL, URLRegistries>();
 				registryCache.put(classLoader, registries);
 			}
 			return registries;
 		}
 	}
 	
-	protected List<ExtensionsRegistry> loadRegistries(URL url, Map<String, Exception> registryExceptions)
+	protected List<ExtensionsRegistry> loadRegistries(JRPropertiesMap properties, 
+			Map<String, Exception> registryExceptions)
 	{
-		JRPropertiesMap properties = JRPropertiesMap.loadProperties(url);
-		
 		List<ExtensionsRegistry> registries = new ArrayList<ExtensionsRegistry>();
 		List<PropertySuffix> factoryProps = JRPropertiesUtil.getProperties(properties, 
 				PROPERTY_REGISTRY_FACTORY_PREFIX);
@@ -245,6 +262,33 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		ExtensionsRegistryFactory factory = (ExtensionsRegistryFactory) 
 				ClassUtils.instantiateClass(factoryClass, ExtensionsRegistryFactory.class);
 		return factory.createRegistry(registryId, props);
+	}
+	
+	protected URL detectDuplicate(JRPropertiesMap properties, Map<URL, URLRegistries> registries)
+	{
+		URL duplicateURL = null;
+		for (Entry<URL, URLRegistries> registryEntry : registries.entrySet())
+		{
+			JRPropertiesMap entryProperties = registryEntry.getValue().properties;
+			if (ObjectUtils.equals(properties, entryProperties))
+			{
+				duplicateURL = registryEntry.getKey();
+				break;
+			}
+		}
+		return duplicateURL;
+	}
+	
+	protected static class URLRegistries
+	{
+		JRPropertiesMap properties;
+		List<ExtensionsRegistry> registries;
+		
+		public URLRegistries(JRPropertiesMap properties, List<ExtensionsRegistry> registries)
+		{
+			this.properties = properties;
+			this.registries = registries;
+		}
 	}
 
 }
