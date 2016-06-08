@@ -1364,13 +1364,28 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				{
 					if (embedImage)
 					{
-						DataRenderable dataRenderer = 
-							getRendererUtil().getDataRenderable(
-								renderer,
-								new Dimension(availableImageWidth, availableImageHeight),
-								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-								);
+						DataRenderable dataRenderer = null; 
 
+						if (isConvertSvgToImage(imageElement))
+						{
+							dataRenderer = 
+								getRendererUtil().getImageDataRenderable(
+									renderersCache,
+									renderer,
+									new Dimension(availableImageWidth, availableImageHeight),
+									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+									);
+						}
+						else
+						{
+							dataRenderer = 
+								getRendererUtil().getDataRenderable(
+									renderer,
+									new Dimension(availableImageWidth, availableImageHeight),
+									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+									);
+						}
+						
 						byte[] imageData = dataRenderer.getData(jasperReportsContext);
 
 						SvgDataSniffer.SvgInfo svgInfo = getRendererUtil().getSvgInfo(imageData);
@@ -1431,12 +1446,27 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							: getImageHandler();
 						if (imageHandler != null)
 						{
-							DataRenderable dataRenderer = 
-								getRendererUtil().getDataRenderable(
-									renderer,
-									new Dimension(availableImageWidth, availableImageHeight),
-									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-									);
+							DataRenderable dataRenderer = null;
+							
+							if (isConvertSvgToImage(imageElement))
+							{
+								dataRenderer = 
+									getRendererUtil().getImageDataRenderable(
+										renderersCache,
+										renderer,
+										new Dimension(availableImageWidth, availableImageHeight),
+										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+										);
+							}
+							else
+							{
+								dataRenderer = 
+									getRendererUtil().getDataRenderable(
+										renderer,
+										new Dimension(availableImageWidth, availableImageHeight),
+										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+										);
+							}
 
 							byte[] imageData = dataRenderer.getData(jasperReportsContext);
 							

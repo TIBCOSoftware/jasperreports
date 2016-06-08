@@ -400,6 +400,24 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		return getCurrentItemConfiguration().isEmbeddedSvgUseFonts();
 	}
 
+
+	/**
+	 * 
+	 */
+	protected boolean isConvertSvgToImage(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_CONVERT_SVG_TO_IMAGE)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_CONVERT_SVG_TO_IMAGE, getCurrentItemConfiguration().isConvertSvgToImage());
+		}
+		return getCurrentItemConfiguration().isConvertSvgToImage();
+	}
+
 	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
