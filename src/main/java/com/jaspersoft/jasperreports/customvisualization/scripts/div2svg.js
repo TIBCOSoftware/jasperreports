@@ -67,28 +67,34 @@ page.onLoadFinished = function() {
                 window.onerror = function myErrorHandler(errorMsg) {
                                     console.log("SCRIPT_ERROR " + errorMsg);
                                     phantom.exit(501);
-                                }
+                                };
 
-
-                // We will wait for 3 seconds until we don't see an SVG tag, we will exit...
-                waitFor({
-                            debug: false,  // optional
-                            interval: 0,  // optional
-                            timeout: 3000,  // optional
-                            check: function () {
-                                return page.evaluate(function() {
-                                    return svgs = document.getElementsByTagName("svg").length > 0;
-                                });
-                            },
-                            success: function () {
-                                // we have what we want
-                                page.onPageReady();
-                            },
-                            error: function () {
-                                console.log("SCRIPT_ERROR Script did not produce any SVG within 3 seconds. Possible script error.");
-                                phantom.exit(502);
-                            } // optional
-                        });
+                
+                    // We will wait for 3 seconds until we don't see an SVG tag, we will exit...
+                    waitFor({
+                                debug: false,  // optional
+                                interval: 0,  // optional
+                                timeout: 3000,  // optional
+                                check: function () {
+                                    return page.evaluate(function() {
+                                        if (typeof window.componentRendered !== 'undefined')
+                                        {
+                                            if (window.componentRendered === true) return true;
+                                            return false;
+                                        }
+                                        return svgs = document.getElementsByTagName("svg").length > 0;
+                                    });
+                                },
+                                success: function () {
+                                    // we have what we want
+                                    page.onPageReady();
+                                },
+                                error: function () {
+                                    console.log("SCRIPT_ERROR Script did not produce any SVG within 3 seconds. Possible script error.");
+                                    phantom.exit(502);
+                                } // optional
+                            });
+              //  }
         
         } catch (ex)
         {
@@ -178,9 +184,16 @@ page.onPageReady = function()
                               }
                               
                               var innerDefs = defs_element.innerHTML;
-                              innerDefs += '<style type="text/css"><![CDATA[' + styles + ']]></style>';
-
-                              defs_element.innerHTML = innerDefs;
+                              
+                              if (typeof window.cvcIgnoreSVGStyles !== 'undefined' && window.cvcIgnoreSVGStyles == true)
+                              {
+                                  // Don't add any style, since the batik may not like it.
+                              }
+                              else
+                              {
+                                innerDefs += '<style type="text/css"><![CDATA[' + styles + ']]></style>';
+                                defs_element.innerHTML = innerDefs;
+                              }
                               
                               
                               var source = (new XMLSerializer()).serializeToString(svg).replace('<defs xmlns="http://www.w3.org/1999/xhtml">','<defs>'); //.replace('</style>', '<![CDATA[' + styles + ']]></style>');
