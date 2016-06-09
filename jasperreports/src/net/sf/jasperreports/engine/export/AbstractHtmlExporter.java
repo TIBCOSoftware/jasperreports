@@ -373,6 +373,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		if (
 			element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE)
+			&& !getCurrentItemConfiguration().isOverrideHints()
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
@@ -409,6 +410,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		if (
 			element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_CONVERT_SVG_TO_IMAGE)
+			&& !getCurrentItemConfiguration().isOverrideHints()
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
