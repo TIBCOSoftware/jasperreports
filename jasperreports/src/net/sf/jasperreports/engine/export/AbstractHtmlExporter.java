@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.fonts.FontSetInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
+import net.sf.jasperreports.export.CommonExportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
@@ -365,6 +366,14 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 	}
 
 
+	protected boolean isOverrideHints()
+	{
+		Boolean overrideHints = getCurrentItemConfiguration().isOverrideHints();
+		return overrideHints != null ? overrideHints
+				: propertiesUtil.getBooleanProperty(
+						CommonExportConfiguration.PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS);
+	}
+
 	/**
 	 * 
 	 */
@@ -373,7 +382,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		if (
 			element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_EMBED_IMAGE)
-			&& !getCurrentItemConfiguration().isOverrideHints()
+			&& !isOverrideHints()
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
@@ -410,7 +419,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		if (
 			element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_CONVERT_SVG_TO_IMAGE)
-			&& !getCurrentItemConfiguration().isOverrideHints()
+			&& !isOverrideHints()
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
