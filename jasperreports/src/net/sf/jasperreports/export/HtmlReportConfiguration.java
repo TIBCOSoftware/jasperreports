@@ -109,7 +109,13 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Property that provides a default for the {@link #isEmbeddedSvgUseFonts()} export configuration flag.
 	 */
-	public static final String PROPERTY_EMBEDDED_SVG_USE_FONTS = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "embed.svg.use.fonts";
+	public static final String PROPERTY_EMBEDDED_SVG_USE_FONTS = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "embedded.svg.use.fonts";
+
+	
+	/**
+	 * Property that provides a default for the {@link #isConvertSvgToImage()} export configuration flag.
+	 */
+	public static final String PROPERTY_CONVERT_SVG_TO_IMAGE = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "convert.svg.to.image";
 
 	
 	/**
@@ -262,4 +268,14 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		booleanDefault=false
 		)
 	public Boolean isEmbeddedSvgUseFonts();
+	
+	
+	/**
+	 * @see #PROPERTY_CONVERT_SVG_TO_IMAGE
+	 */
+	@ExporterProperty(
+		value=PROPERTY_CONVERT_SVG_TO_IMAGE, 
+		booleanDefault=false
+		)
+	public Boolean isConvertSvgToImage();
 }

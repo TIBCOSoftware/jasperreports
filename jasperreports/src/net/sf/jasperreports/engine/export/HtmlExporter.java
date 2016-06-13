@@ -1364,13 +1364,28 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				{
 					if (embedImage)
 					{
-						DataRenderable dataRenderer = 
-							getRendererUtil().getDataRenderable(
-								renderer,
-								new Dimension(availableImageWidth, availableImageHeight),
-								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-								);
+						DataRenderable dataRenderer = null; 
 
+						if (isConvertSvgToImage(imageElement))
+						{
+							dataRenderer = 
+								getRendererUtil().getImageDataRenderable(
+									renderersCache,
+									renderer,
+									new Dimension(availableImageWidth, availableImageHeight),
+									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+									);
+						}
+						else
+						{
+							dataRenderer = 
+								getRendererUtil().getDataRenderable(
+									renderer,
+									new Dimension(availableImageWidth, availableImageHeight),
+									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+									);
+						}
+						
 						byte[] imageData = dataRenderer.getData(jasperReportsContext);
 
 						SvgDataSniffer.SvgInfo svgInfo = getRendererUtil().getSvgInfo(imageData);
@@ -1397,7 +1412,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								imageData = svgFontProcessor.process(imageData);
 							}
 							
-							imageSource = new String(imageData, svgInfo.getEncoding());
+							isEmbededSvgData = true;
+							
+							String encoding = svgInfo.getEncoding();
+							imageSource = new String(imageData, encoding == null ? "UTF-8" : encoding);
 							
 							// we might have received needDimension false above, as a hint, but if we arrive here, 
 							// we definitely need to attempt getting the dimension of the SVG, regardless of scale image type
@@ -1406,10 +1424,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						}
 						else
 						{
-							String imageMimeType = 
-								isEmbededSvgData
-								? RendererUtil.SVG_MIME_TYPE
-								: JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
+							String imageMimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 
 							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1431,12 +1446,27 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							: getImageHandler();
 						if (imageHandler != null)
 						{
-							DataRenderable dataRenderer = 
-								getRendererUtil().getDataRenderable(
-									renderer,
-									new Dimension(availableImageWidth, availableImageHeight),
-									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
-									);
+							DataRenderable dataRenderer = null;
+							
+							if (isConvertSvgToImage(imageElement))
+							{
+								dataRenderer = 
+									getRendererUtil().getImageDataRenderable(
+										renderersCache,
+										renderer,
+										new Dimension(availableImageWidth, availableImageHeight),
+										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+										);
+							}
+							else
+							{
+								dataRenderer = 
+									getRendererUtil().getDataRenderable(
+										renderer,
+										new Dimension(availableImageWidth, availableImageHeight),
+										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
+										);
+							}
 
 							byte[] imageData = dataRenderer.getData(jasperReportsContext);
 							

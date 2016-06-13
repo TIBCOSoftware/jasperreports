@@ -42,6 +42,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	private Boolean isIgnoreHyperlink;
 	private Boolean isEmbedImage;
 	private Boolean isEmbeddedSvgUseFonts;
+	private Boolean isConvertSvgToImage;
 
 	
 	/**
@@ -203,5 +204,19 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	public void setEmbeddedSvgUseFonts(Boolean isEmbeddedSvgUseFonts)
 	{
 		this.isEmbeddedSvgUseFonts = isEmbeddedSvgUseFonts;
+	}
+	
+	@Override
+	public Boolean isConvertSvgToImage()
+	{
+		return isConvertSvgToImage;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setConvertSvgToImage(Boolean isConvertSvgToImage)
+	{
+		this.isConvertSvgToImage = isConvertSvgToImage;
 	}
 }
