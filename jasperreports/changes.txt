@@ -2,8 +2,14 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.3.0 (2016-0x-xx)
+JasperReports 6.3.0 (2016-06-20)
 ---------------------------------------------
+
+- upgrade to Java 7; starting with this release, the binary distribution of the JR library
+is compiled for the Java 7 platform and is no longer guaranteed to be compatible with Java 6;
+
+- deprecation of DTD based validation for style template files (*.jrtx) and introduction of 
+XML schema based validation;
 
 - minor bug fixes and improvements;
 
