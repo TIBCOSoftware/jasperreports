@@ -181,25 +181,28 @@ public class LuceneUtil {
 		}
 
 		// get the spans for the matched terms
-		AtomicReaderContext context = reader.leaves().get(0);
-		Bits acceptDocs = context.reader().getLiveDocs();
 		SpanQuery rewrittenQuery = (SpanQuery)query.rewrite(reader);
-		Spans spans = rewrittenQuery.getSpans(context, acceptDocs, termContexts);
 		LuceneSpansInfo spansInfo = new LuceneSpansInfo(queryTerms.size());
+		for (AtomicReaderContext context : reader.leaves())
+		{
+			Bits acceptDocs = context.reader().getLiveDocs();
+			Spans spans = rewrittenQuery.getSpans(context, acceptDocs, termContexts);
+			
+			while (spans.next()) {
+				int docIndex = spans.doc() + context.docBase;
+				Document doc = searcher.doc(docIndex);
+				String uid = doc.get("uid");
+				List<HitTermInfo> hitTermsInfo = hitTermsInfoMap.get(docIndex);
 
-		while (spans.next()) {
-			Document doc = searcher.doc(spans.doc());
-			String uid = doc.get("uid");
-			List<HitTermInfo> hitTermsInfo = hitTermsInfoMap.get(spans.doc());
-
-			for (int i = spans.start(); i < spans.end(); i++) {
-				for (HitTermInfo ti: hitTermsInfo) {
-					if (ti.getPosition() == i) {
-						if (log.isDebugEnabled()) {
-							log.debug(String.format("term: %s@%d [%d, %d] - uid: %s, pageNo: %s", ti.getValue(), ti.getPosition(), ti.getStart(), ti.getEnd(), uid, doc.get("pageNo")));
+				for (int i = spans.start(); i < spans.end(); i++) {
+					for (HitTermInfo ti: hitTermsInfo) {
+						if (ti.getPosition() == i) {
+							if (log.isDebugEnabled()) {
+								log.debug(String.format("term: %s@%d [%d, %d] - uid: %s, pageNo: %s", ti.getValue(), ti.getPosition(), ti.getStart(), ti.getEnd(), uid, doc.get("pageNo")));
+							}
+							ti.setPageNo(doc.get("pageNo"));
+							spansInfo.addTermInfo(uid, ti);
 						}
-						ti.setPageNo(doc.get("pageNo"));
-						spansInfo.addTermInfo(uid, ti);
 					}
 				}
 			}
