@@ -332,7 +332,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				{              // with sun.plugin.cache.EmptyInputStream on JRE 1.5 plugin
 					try        // http://sourceforge.net/tracker/index.php?func=detail&aid=1478460&group_id=36382&atid=416703
 					{
-						isPackage = (is.read() > 0);
+						isPackage = (is.read() < 0);
 					}
 					catch(IOException e)
 					{
