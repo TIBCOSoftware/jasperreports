@@ -1050,8 +1050,8 @@ The following style properties are defined in <api href="net/sf/jasperreports/en
 <li><code>net.sf.jasperreports.style.fill</code></li>
 <li><code>net.sf.jasperreports.style.radius</code></li>
 <li><code>net.sf.jasperreports.style.scaleImage</code></li>
-<li><code>net.sf.jasperreports.style.hAlign</code></li>
-<li><code>net.sf.jasperreports.style.vAlign</code></li>
+<li><code>net.sf.jasperreports.style.hAlign</code> - deprecated since v.6.0.2 - replaced with net.sf.jasperreports.style.hTextAlign or net.sf.jasperreports.style.hImageAlign</li>
+<li><code>net.sf.jasperreports.style.vAlign</code> - deprecated since v.6.0.2 - replaced with net.sf.jasperreports.style.vTextAlign or net.sf.jasperreports.style.vImageAlign</li>
 <li><code>net.sf.jasperreports.style.hTextAlign</code></li>
 <li><code>net.sf.jasperreports.style.vTextAlign</code></li>
 <li><code>net.sf.jasperreports.style.hImageAlign</code></li>
@@ -1068,7 +1068,7 @@ The following style properties are defined in <api href="net/sf/jasperreports/en
 <li><code>net.sf.jasperreports.style.pdfFontName</code></li>
 <li><code>net.sf.jasperreports.style.pdfEncoding</code></li>
 <li><code>net.sf.jasperreports.style.isPdfEmbedded</code></li>
-<li><code>net.sf.jasperreports.style.pattern</code> - the value of this property is overriden by the <code>&lt;patternExpression/&gt;</code>, if present.</li>
+<li><code>net.sf.jasperreports.style.pattern</code> - the value of this property is overridden by the <code>&lt;patternExpression/&gt;</code>, if present.</li>
 <br/>
 </ul>
 </li>

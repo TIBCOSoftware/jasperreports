@@ -8,6 +8,7 @@
 
   <mainFeature ref="crosstabs"/>
   <mainFeature ref="datasets"/>
+  <mainFeature ref="dynamic_style_features"/>
   
   <!-- crosstabs -->
   
@@ -367,6 +368,163 @@ database connection string. It comes also with its own parameters and/or paramet
 The <code>subDataset</code> attribute is mandatory and contains the name of the subdataset to be used during the 
 chart or crosstab filling process. If no dataset run is specified for a chart or crosstab, the main dataset of 
 the report is used by default.
+    </content>
+  </feature>
+
+  <!-- dynamic style features -->
+  
+  <feature name="dynamic_style_features" title="Dynamic Style Features">
+    <description>
+How to make use of dynamic style features in to customize the appearance of report elements.
+    </description>
+    <since>4.8.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="dynamic_style_features_overview">Overview</subtitle>
+<br/>
+<br/>
+Since report styles are declared once per report, dynamic expressions cannot be used to set their attributes. 
+However, in some situations the element's appearance may depend on certain conditions determined only at runtime, 
+so it needs to be set dynamically. A common example is the necessity to use different foreground/background colors in 
+table cells, depending on the cell content.
+<br/>
+<br/>
+Conditional styles based on a dynamic condition expression are very helpful in such situations, but style attributes 
+in a conditional style still don't support expressions. 
+To solve this problem were introduced dynamic style features in JasperReports, starting with v.4.8.0. These features 
+come in form of properties or property expressions having their names prefixed with <code>net.sf.jasperreports.style</code>, 
+that are set per report element. Each feature is associated with a style attribute. If such a property is found at element level, 
+its value will override the related style attribute of the element. 
+<br/> 
+<br/> 
+The following style properties are defined in 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class. 
+They are also presented in 
+<a href="../../config.reference.html#net.sf.jasperreports.style.{style_property_suffix}" target="_blank">this page</a>, 
+and are grouped in 4 categories: common, box, pen and paragraph style:
+<ul>
+<li>Properties for common style attributes:
+<ul>
+<br/> 
+<li><code>net.sf.jasperreports.style.mode</code></li>
+<li><code>net.sf.jasperreports.style.backcolor</code></li>
+<li><code>net.sf.jasperreports.style.forecolor</code></li>
+<li><code>net.sf.jasperreports.style.fill</code></li>
+<li><code>net.sf.jasperreports.style.radius</code></li>
+<li><code>net.sf.jasperreports.style.scaleImage</code></li>
+<li><code>net.sf.jasperreports.style.hTextAlign</code></li>
+<li><code>net.sf.jasperreports.style.vTextAlign</code></li>
+<li><code>net.sf.jasperreports.style.hImageAlign</code></li>
+<li><code>net.sf.jasperreports.style.vImageAlign</code></li>
+<li><code>net.sf.jasperreports.style.rotation</code></li>
+<li><code>net.sf.jasperreports.style.markup</code></li>
+<li><code>net.sf.jasperreports.style.isBlankWhenNull</code></li>
+<li><code>net.sf.jasperreports.style.fontName</code></li>
+<li><code>net.sf.jasperreports.style.fontSize</code></li>
+<li><code>net.sf.jasperreports.style.isBold</code></li>
+<li><code>net.sf.jasperreports.style.isItalic</code></li>
+<li><code>net.sf.jasperreports.style.isUnderline</code></li>
+<li><code>net.sf.jasperreports.style.isStrikeThrough</code></li>
+<li><code>net.sf.jasperreports.style.pdfFontName</code></li>
+<li><code>net.sf.jasperreports.style.pdfEncoding</code></li>
+<li><code>net.sf.jasperreports.style.isPdfEmbedded</code></li>
+<li><code>net.sf.jasperreports.style.pattern</code></li>
+<br/>
+</ul>
+</li>
+<li>Properties for pen style attributes:
+<ul>
+<br/>
+<li><code>net.sf.jasperreports.style.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.pen.lineColor</code></li>
+<br/>
+</ul>
+</li>
+<li>Properties for box style attributes:
+<ul>
+<br/>
+<li><code>net.sf.jasperreports.style.box.padding</code></li>
+<li><code>net.sf.jasperreports.style.box.topPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.leftPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.rightPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.bottomPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.top.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.top.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.top.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.left.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.left.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.left.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.right.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.right.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.right.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.bottom.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.bottom.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.bottom.pen.lineColor</code></li>
+<br/>
+</ul>
+</li>
+<li>Properties for paragraph style attributes:
+<ul>
+<br/>
+<li><code>net.sf.jasperreports.style.paragraph.lineSpacing</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.lineSpacingSize</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.firstLineIndent</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.leftIndent</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.rightIndent</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.spacingBefore</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.spacingAfter</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.tabStopWidth</code></li>
+</ul>
+</li>
+</ul>
+As can be seen in the common style attributes category, properties like <code>net.sf.jasperreports.style.name</code> and 
+<code>net.sf.jasperreports.style.style</code> are not supported. This is because styles cannot be defined at element level, and 
+dynamic style features are intended only for overriding an existing style attribute for that element. 
+<br/>
+<br/>
+Following is an example of dynamic style features declared for a given element in JRXML: 
+<pre><![CDATA[
+<reportElement mode="Opaque" x="0" y="0" width="60" height="10" uuid="7a6d4e33-8395-467d-8f6e-bef91a959af5">
+  <property name="net.sf.jasperreports.style.isBold" value="true"/>
+  <propertyExpression name="net.sf.jasperreports.style.forecolor"><![CDATA[$F{Forecolor}]] ></propertyExpression>
+  <propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$P{Backcolor}]] ></propertyExpression>
+  <propertyExpression name="net.sf.jasperreports.style.fontName"><![CDATA[$V{FontName}]] ></propertyExpression>
+</reportElement>]]></pre>
+
+<subtitle name="dynamic_style_features_example">Dynamic Style Features Example</subtitle>
+<br/>
+<br/>
+The OrdersReport.jrxml file in the crosstabs sample uses a dynamic style feature in order to allow different background 
+colors in crosstab cells, based on the value of the cell content. The following three crosstab parameters were added, 
+each of them being related to a given color in HTML format:
+<pre><![CDATA[
+<crosstabParameter name="Backcolor1" class="java.lang.String">
+  <parameterValueExpression><![CDATA["#EEEEEE"]] ></parameterValueExpression>
+</crosstabParameter>
+<crosstabParameter name="Backcolor2" class="java.lang.String">
+  <parameterValueExpression><![CDATA["#AAAAFF"]] ></parameterValueExpression>
+</crosstabParameter>
+<crosstabParameter name="Backcolor3" class="java.lang.String">
+  <parameterValueExpression><![CDATA["#FFAAAA"]] ></parameterValueExpression>
+</crosstabParameter>]]></pre>
+After that, for elements in detail cells was set the following style feature:
+<pre><![CDATA[
+<reportElement style="OrderCountStyle" mode="Opaque" x="0" y="0" width="60" height="10" uuid="7a6d4e33-8395-467d-8f6e-bef91a959af5">
+  <propertyExpression name="net.sf.jasperreports.style.backcolor">
+    <![CDATA[$V{OrderCount} == 0 ? $P{Backcolor1} : ($V{OrderCount} < 10 ? $P{Backcolor2} : $P{Backcolor3})]] >
+  </propertyExpression>
+</reportElement>]]></pre>
+We see how the <code>net.sf.jasperreports.style.backcolor</code> style feature used the parameter values to modify the background 
+color depending on the value of the OrderCount measure.
     </content>
   </feature>
 
