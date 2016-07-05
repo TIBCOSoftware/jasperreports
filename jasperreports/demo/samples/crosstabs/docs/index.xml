@@ -385,7 +385,7 @@ How to make use of dynamic style features in to customize the appearance of repo
       </author>
     </documentedBy>
     <content>
-<subtitle name="dynamic_style_features_overview">Dynamic Style Features Overview</subtitle>
+<subtitle name="dynamic_style_features_overview">Overview</subtitle>
 <br/>
 <br/>
 Since report styles are declared once per report, dynamic expressions cannot be used to set their attributes. 
