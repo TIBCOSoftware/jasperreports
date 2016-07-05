@@ -74,7 +74,7 @@ public class SpringHibernateDataAdapterService extends
 						configs[iCount++] = parser.nextToken();
 					}
 					Object configure = clazz.getConstructor(String[].class)
-							.newInstance(configs);
+							.newInstance((Object) configs);
 					if (configure != null) {
 						Object bsf = clazz.getMethod("getBean", String.class)
 								.invoke(configure, hbmDA.getBeanId());
