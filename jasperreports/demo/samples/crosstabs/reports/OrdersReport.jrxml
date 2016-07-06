@@ -5,7 +5,7 @@
 	<style name="OrderCountStyle" style="Sans_Normal">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{OrderCount}.intValue() > 0 && $V{OrderCount}.intValue() % 10 == 0)]]></conditionExpression>
-			<style forecolor="#FF0000" isBold="true"/>
+			<style forecolor="#0000FF" isBold="true"/>
 		</conditionalStyle>
 	</style>
 	<style name="CellStyle" mode="Opaque">
@@ -36,15 +36,6 @@ Countries are ordered by number of orders.]]></text>
 		<band height="60">
 			<crosstab isRepeatColumnHeaders="false">
 				<reportElement x="0" y="0" width="782" height="60" uuid="48397e05-ca8f-48bb-89a3-7b43b9fdbb07"/>
-				<crosstabParameter name="Backcolor1" class="java.lang.String">
-					<parameterValueExpression><![CDATA["#EEEEEE"]]></parameterValueExpression>
-				</crosstabParameter>
-				<crosstabParameter name="Backcolor2" class="java.lang.String">
-					<parameterValueExpression><![CDATA["#AAAAFF"]]></parameterValueExpression>
-				</crosstabParameter>
-				<crosstabParameter name="Backcolor3" class="java.lang.String">
-					<parameterValueExpression><![CDATA["#FFAAAA"]]></parameterValueExpression>
-				</crosstabParameter>
 				<rowGroup name="CountryRow" width="80" totalPosition="End">
 					<bucket order="Descending" class="java.lang.String">
 						<bucketExpression><![CDATA[$F{ShipCountry}]]></bucketExpression>
@@ -123,14 +114,24 @@ Countries are ordered by number of orders.]]></text>
 						</box>
 						<textField>
 							<reportElement style="OrderCountStyle" mode="Opaque" x="0" y="0" width="60" height="10" uuid="7a6d4e33-8395-467d-8f6e-bef91a959af5">
-								<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$V{OrderCount} == 0 ? $P{Backcolor1} : ($V{OrderCount} < 10 ? $P{Backcolor2} : $P{Backcolor3})]]></propertyExpression>
+								<propertyExpression name="net.sf.jasperreports.style.backcolor">
+									<![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
+											255, 
+											255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}.floatValue())), 
+											255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}.floatValue()))))]]>
+								</propertyExpression>
 							</reportElement>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA[$V{OrderCount}]]></textFieldExpression>
 						</textField>
 						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
 							<reportElement mode="Opaque" x="0" y="10" width="60" height="10" uuid="5c6400d4-9886-497e-a6f6-218267ba8720">
-								<propertyExpression name="net.sf.jasperreports.style.backcolor"><![CDATA[$V{OrderCount} == 0 ? $P{Backcolor1} : ($V{OrderCount} < 10 ? $P{Backcolor2} : $P{Backcolor3})]]></propertyExpression>
+								<propertyExpression name="net.sf.jasperreports.style.backcolor">
+									<![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
+											255, 
+											255 - (int)Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}.floatValue())), 
+											255 - (int)Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}.floatValue()))))]]>
+								</propertyExpression>
 							</reportElement>
 							<textElement textAlignment="Center" verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA[$V{MaxDate}]]></textFieldExpression>
