@@ -101,6 +101,7 @@ public class RendererUtil
 	{
 		if (JRTypeSniffer.getImageTypeValue(data) == ImageTypeEnum.UNKNOWN)
 		{
+			//change the general XML sniffer to a test that specifically looks for an <svg> node?
 			if (XmlDataSniffer.isXmlData(data))
 			{
 				return getSvgDataSniffer().isSvgData(data);
