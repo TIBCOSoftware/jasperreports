@@ -30,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -59,6 +60,7 @@ public class XmlDataSniffer
 		{
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(bais, handler);
+			return true;
 		}
 		catch (SAXException e) 
 		{
@@ -80,7 +82,7 @@ public class XmlDataSniffer
 	private static class SaxHandler extends DefaultHandler
 	{
 		@Override
-		public void startDocument() throws SAXException 
+		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
 		{
 			throw new SAXException(SAX_EXCEPTION_MESSAGE_VALID_XML);
 		}
