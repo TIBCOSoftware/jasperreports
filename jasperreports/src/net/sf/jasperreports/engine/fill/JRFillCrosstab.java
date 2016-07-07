@@ -2005,7 +2005,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 							textElement.addDynamicProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									builtinExpressions.createConstantExpression(Integer.toString(bucketIdx)));
 							textElement.addDynamicProperty(HtmlExporter.PROPERTY_HTML_CLASS, 
-									builtinExpressions.createConstantExpression("jrxtrowheader jrxtinteractive " + HTML_CLASS_CROSS_FLOATING));
+									builtinExpressions.createConstantExpression("jrxtrowheader jrxtinteractive " + HTML_CLASS_ROW_FLOATING));
 						}
 					}
 					else
@@ -2026,7 +2026,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						{
 							iconLabelElement.getPropertiesMap().setProperty(CrosstabInteractiveJsonHandler.PROPERTY_COLUMN_INDEX, 
 									Integer.toString(bucketIdx));
-							iconLabelElement.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive " + HTML_CLASS_CROSS_FLOATING);
+							iconLabelElement.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrxtrowheader jrxtinteractive " + HTML_CLASS_ROW_FLOATING);
 						}
 						
 						iconLabelElements.put(textElementIndex, iconLabelElement);
