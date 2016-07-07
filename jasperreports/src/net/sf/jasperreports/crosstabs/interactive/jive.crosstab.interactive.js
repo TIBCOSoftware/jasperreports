@@ -84,6 +84,8 @@ define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.te
                     ic.floatingRowHeader = null;
                     ic.floatingCrossHeader = null;
 
+                    ic.isFloatingColumnHeader = ic.isFloatingRowHeader = ic.isFloatingCrossHeader = null;
+
                     // hide column selection if visible
                     ic.active && ic.hide();
                 });
