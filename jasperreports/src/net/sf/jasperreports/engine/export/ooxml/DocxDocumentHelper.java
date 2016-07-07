@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.LengthUtil;
+import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 
 
@@ -83,6 +84,12 @@ public class DocxDocumentHelper extends BaseHelper
 		write("  <w:sectPr>\n");
 		write("   <w:pgSz w:w=\"" + LengthUtil.twip(pageFormat.getPageWidth()) + "\" w:h=\"" + LengthUtil.twip(pageFormat.getPageHeight()) + "\"");
 		write(" w:orient=\"" + (pageFormat.getOrientation() == OrientationEnum.LANDSCAPE ? "landscape" : "portrait") + "\"");
+		
+		if(OoxmlUtils.getSuitablePaperSize(pageFormat) == PaperSizeEnum.UNDEFINED)
+		{
+			// unique identifier for the paper size
+			write(" w:code=\""+ (1000 + pageFormat.getPageWidth() + pageFormat.getPageHeight()) +"\"");
+		}
 		write("/>\n");
 		
 		CutsInfo xCuts = pageGridLayout.getXCuts();

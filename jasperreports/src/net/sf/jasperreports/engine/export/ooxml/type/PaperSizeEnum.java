@@ -56,6 +56,12 @@ public enum PaperSizeEnum implements NamedEnum
 	EXECUTIVE((byte)7, "Executive", 190, 254),
 	
 	/**
+	 * Specifies the A2 paper size.
+	 * ISO 216 - "A2" (420 x 594 mm)
+	 */ 
+	A2((byte)66, "A2", 420, 594),
+	
+	/**
 	 * Specifies the A3 paper size.
 	 * ISO 216 - "A3" (297 x 420 mm)
 	 */ 
@@ -73,17 +79,59 @@ public enum PaperSizeEnum implements NamedEnum
 	 */ 
 	A5((byte)11, "A5", 148, 210),
 
-//	/**
-//	 * Specifies the A5 paper size.
-//	 * ANSI X3.151-1987 - "Ledger/Tabloid" (279 x 432 mm)
-//	 */ 
-//	LEDGER_TABLOID((byte)xx, "Ledger/Tabloid", 279, 432),
+	/**
+	 * Specifies the Tabloid paper size.
+	 * ANSI X3.151-1987 - "Ledger/Tabloid" (279 x 432 mm)
+	 */ 
+	TABLOID((byte)3, "Tabloid", 279, 432),
+	
+	/**
+	 * Specifies the Ledger paper size.
+	 * ANSI X3.151-1987 - "Ledger/Tabloid" (432 x 279 mm)
+	 */ 
+	LEDGER((byte)4, "Ledger", 432, 279),
 		
 	/**
 	 * Specifies the DL Envelope paper size.
 	 * ISO 269 - "Envelope DL" (110 x 220 mm)
 	 */ 
-	ENVELOPE_DL((byte)27, "Envelope_DL", 110, 220);
+	ENVELOPE_DL((byte)27, "Envelope_DL", 110, 220),
+	
+	/**
+	 * Specifies the B4 paper size.
+	 * ISO 216 - "B4" (250 x 353 mm)
+	 */ 
+	B4((byte)12, "B4", 250, 353),
+	
+	/**
+	 * Specifies the B5 paper size.
+	 * ISO 216 - "B5" (176 x 250 mm)
+	 */ 
+	B5((byte)13, "B5", 176, 250),
+	
+	/**
+	 * Specifies the C3 paper size.
+	 * ISO 216 - "C3" (324 x 458 mm)
+	 */ 
+	C3((byte)29, "C3", 324, 458),
+	
+	/**
+	 * Specifies the C4 paper size.
+	 * ISO 216 - "C4" (229 x 324 mm)
+	 */ 
+	C4((byte)30, "C4", 229, 324),
+	
+	/**
+	 * Specifies the C5 paper size.
+	 * ISO 216 - "C5" (162 x 229 mm)
+	 */ 
+	C5((byte)28, "C5", 162, 229),
+	
+	/**
+	 * Specifies the C6 paper size.
+	 * ISO 216 - "C6" (114 x 162 mm)
+	 */ 
+	C6((byte)31, "C6", 114, 162);
 	
 	/**
 	 *
