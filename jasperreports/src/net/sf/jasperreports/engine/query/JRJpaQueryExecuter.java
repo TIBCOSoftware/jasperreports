@@ -109,7 +109,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 
 	private static final Log log = LogFactory.getLog(JRJpaQueryExecuter.class);
 
-	protected static final String CANONICAL_LANGUAGE = "EJBQL";
+	public static final String CANONICAL_LANGUAGE = "EJBQL";
 	
 	private final Integer reportMaxCount;
 	

@@ -53,7 +53,7 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JsonQueryExecuter.class);
 
-	protected static final String CANONICAL_LANGUAGE = "JSON";
+	public static final String CANONICAL_LANGUAGE = "JSON";
 	
 	private JsonData datasource;
 	
