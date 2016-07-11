@@ -56,7 +56,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRXPathQueryExecuter.class);
 
-	protected static final String CANONICAL_LANGUAGE = "XPath";
+	public static final String CANONICAL_LANGUAGE = "XPath";
 	
 	private JRXmlDataSource datasource;
 

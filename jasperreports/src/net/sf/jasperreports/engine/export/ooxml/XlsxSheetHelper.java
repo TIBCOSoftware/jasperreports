@@ -241,7 +241,7 @@ public class XlsxSheetHelper extends BaseHelper
 			}
 		}
 		
-		PaperSizeEnum pSize = getSuitablePaperSize(jasperPrint);
+		PaperSizeEnum pSize = OoxmlUtils.getSuitablePaperSize(jasperPrint);
 		String paperSize = pSize == PaperSizeEnum.UNDEFINED ? "" : " paperSize=\"" + pSize.getOoxmlValue() + "\"";
 		write(paperSize);	
 		
@@ -374,28 +374,6 @@ public class XlsxSheetHelper extends BaseHelper
 	public void addRowBreak(int rowIndex)
 	{
 		rowBreaks.add(rowIndex);
-	}
-
-	private final PaperSizeEnum getSuitablePaperSize(PrintPageFormat jasP)
-	{
-		if (jasP != null && jasP.getPageWidth() != 0 && jasP.getPageHeight() != 0)
-		{
-			long mmPageWidth = Math.round(((double)jasP.getPageWidth() / 72.0d) * 25.4d);
-			long mmPageHeight = Math.round(((double)jasP.getPageHeight() / 72.0d) * 25.4d);
-
-			for (PaperSizeEnum paperSize : PaperSizeEnum.values())
-			{
-				if (
-					((paperSize.getWidth() == mmPageWidth) && (paperSize.getHeight() == mmPageHeight)) 
-					|| ((paperSize.getHeight() == mmPageWidth) && (paperSize.getWidth() == mmPageHeight))
-					)
-				{
-					return paperSize;
-				}
-			}
-		}
-
-		return PaperSizeEnum.UNDEFINED;
 	}
 	
 }

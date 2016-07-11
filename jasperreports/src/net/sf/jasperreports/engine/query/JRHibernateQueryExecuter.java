@@ -66,7 +66,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_QUERY_RUN_TYPE = "query.hibernate.unknown.query.run.type";
 	public static final String EXCEPTION_MESSAGE_KEY_UNRESOLVED_TYPE_CONSTANT = "query.hibernate.unresolved.type.constant";
 
-	protected static final String CANONICAL_LANGUAGE = "HQL";
+	public static final String CANONICAL_LANGUAGE = "HQL";
 	
 	private static final Map<Class<?>,Type> hibernateTypeMap;
 	
