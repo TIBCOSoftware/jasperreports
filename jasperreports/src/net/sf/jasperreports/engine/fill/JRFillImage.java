@@ -29,6 +29,9 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -60,6 +63,7 @@ import net.sf.jasperreports.renderers.util.RendererUtil;
  */
 public class JRFillImage extends JRFillGraphicElement implements JRImage
 {
+	private static final Log log = LogFactory.getLog(JRFillImage.class);
 
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS = "fill.image.unknown.source.class";
 
@@ -865,6 +869,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			default:
 				break;
 			}
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Fitted image of dimension " + imageSize + " on " + availableHeight
+					+ ", overflow allowed " + overflowAllowed + ": " + fitted);
 		}
 		
 		return fitted;
