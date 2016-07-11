@@ -151,10 +151,13 @@ In the NoPageBreakApp.java one can see how the export parameters responsible for
 <br/>
 For the HTML exporter (see the <code>html()</code> method):
 <pre><![CDATA[
-  SimpleHtmlExporterConfiguration configuration = new SimpleHtmlExporterConfiguration();
-  configuration.setBetweenPagesHtml("");
-  configuration.setRemoveEmptySpaceBetweenRows(true);
-  exporter.setConfiguration(configuration);]]></pre>
+  SimpleHtmlExporterConfiguration exporterConfig = new SimpleHtmlExporterConfiguration();
+  exporterConfig.setBetweenPagesHtml("");
+  exporter.setConfiguration(exporterConfig);
+
+  SimpleHtmlReportConfiguration reportConfig = new SimpleHtmlReportConfiguration();
+  reportConfig.setRemoveEmptySpaceBetweenRows(true);
+  exporter.setConfiguration(reportConfig);]]></pre>
 And for XLS and XLSX exporters (see <code>xls()</code> and <code>xlsx()</code> methods)
 <pre><![CDATA[
 XLS:
