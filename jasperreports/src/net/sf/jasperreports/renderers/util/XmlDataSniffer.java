@@ -45,6 +45,23 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XmlDataSniffer
 {
 	private static final String SAX_EXCEPTION_MESSAGE_VALID_XML = "something unique";
+
+	private static class ValidXmlSAXException extends SAXException
+	{
+		private static final long serialVersionUID = 1L;
+
+		ValidXmlSAXException()
+		{
+			super(SAX_EXCEPTION_MESSAGE_VALID_XML);
+		}
+
+		@Override
+		public synchronized Throwable fillInStackTrace()
+		{
+			// stacktrace is not needed, easing the impact using exceptions
+			return this;
+		}
+	}
 	
 	/**
 	 * 
@@ -63,21 +80,14 @@ public class XmlDataSniffer
 			saxParser.parse(bais, handler);
 			return true;
 		}
-		catch (SAXException e) 
+		catch (ValidXmlSAXException e)
 		{
-			if (SAX_EXCEPTION_MESSAGE_VALID_XML.equals(e.getMessage()))
-			{
-				return true;
-			}
+			return true;
 		}
-		catch (ParserConfigurationException e) 
+		catch (SAXException | ParserConfigurationException | IOException e)
 		{
+			return false;
 		}
-		catch (IOException e) 
-		{
-		}
-
-		return false;
 	}
 	
 	private static class SaxHandler extends DefaultHandler
@@ -85,14 +95,14 @@ public class XmlDataSniffer
 		@Override
 		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
 		{
-			throw new SAXException(SAX_EXCEPTION_MESSAGE_VALID_XML);
+			throw new ValidXmlSAXException();
 		}
 
 		@Override
 		public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException
 		{
 			//stop any attempt to load entities
-			throw new SAXException(SAX_EXCEPTION_MESSAGE_VALID_XML);
+			throw new ValidXmlSAXException();
 		}
 	}
 }
