@@ -31,6 +31,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -84,6 +85,13 @@ public class XmlDataSniffer
 		@Override
 		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
 		{
+			throw new SAXException(SAX_EXCEPTION_MESSAGE_VALID_XML);
+		}
+
+		@Override
+		public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException
+		{
+			//stop any attempt to load entities
 			throw new SAXException(SAX_EXCEPTION_MESSAGE_VALID_XML);
 		}
 	}
