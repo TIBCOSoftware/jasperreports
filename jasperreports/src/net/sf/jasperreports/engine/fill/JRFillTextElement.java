@@ -82,7 +82,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private float leadingOffset;
 	private float textWidth;
 	private float textHeight;
-	private int elementStretchHeightDelta;
+	//private int elementStretchHeightDelta;
 	private int textStart;
 	private int textEnd;
 	private short[] lineBreakOffsets;
@@ -550,7 +550,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		textEnd = 0;
 		textTruncateSuffix = null;
 		lineBreakOffsets = null;
-		elementStretchHeightDelta = 0;
+		//elementStretchHeightDelta = 0;
 	}
 	
 	/**
@@ -581,7 +581,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		lineSpacingFactor = 0;
 		leadingOffset = 0;
 		textHeight = 0;
-		elementStretchHeightDelta = 0;
+		//elementStretchHeightDelta = 0;
 	}
 
 
@@ -679,7 +679,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setTextWidth(measuredText.getTextWidth());
 		setTextHeight(measuredText.getTextHeight());
 		
-		elementStretchHeightDelta = 0;
+		//elementStretchHeightDelta = 0;
 		if (getRotationValue().equals(RotationEnum.NONE))
 		{
 			//FIXME truncating to int here seems wrong as the text measurer compares 
@@ -693,14 +693,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			else
 			{
 				// occupy all remaining space so that no other element renders there
-				// but do not change the print element height
 				setPrepareHeight(getHeight() + availableStretchHeight);
 				
 				// store the difference between the consumed stretch height and the text stretch height.
 				// this will be used in fill() to set the print element height, 
-				// which doesn't take into account the consumed empty space
-				int textStretchHeight = elementTextHeight > getHeight() ? elementTextHeight : getHeight();
-				elementStretchHeightDelta = getStretchHeight() - textStretchHeight;
+				// which doesn't take into account the consumed empty space;
+				
+				// gave up on storing this delta because it was not consistent with other elements stretching to container height
+				//int textStretchHeight = elementTextHeight > getHeight() ? elementTextHeight : getHeight();
+				//elementStretchHeightDelta = getStretchHeight() - textStretchHeight;
 			}
 		}
 		else
@@ -716,10 +717,10 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setLeadingOffset(measuredText.getLeadingOffset());
 	}
 	
-	public int getPrintElementHeight()
-	{
-		return getStretchHeight() - elementStretchHeightDelta;
-	}
+//	public int getPrintElementHeight()
+//	{
+//		return getStretchHeight() - elementStretchHeightDelta;
+//	}
 	
 	protected abstract boolean canOverflow();
 

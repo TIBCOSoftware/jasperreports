@@ -72,6 +72,7 @@
       <property ref="net.sf.jasperreports.chart.render.type"/>
       <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
       <property ref="net.sf.jasperreports.chart.theme"/>
+      <property ref="net.sf.jasperreports.consume.space.on.overflow"/>
       <property ref="net.sf.jasperreports.default.first.line.indent"/>
       <property ref="net.sf.jasperreports.default.font.name"/>
       <property ref="net.sf.jasperreports.default.font.size"/>
@@ -1211,6 +1212,19 @@ Property used to specify the chart theme name.
     <default>default</default>
     <scope>Global | Report</scope>
     <since>3.1.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.consume.space.on.overflow -->
+  
+  <configProperty name="net.sf.jasperreports.consume.space.on.overflow">
+    <description>
+Property used to force the expanding text fields to occupy all remaining space at the bottom of the page so that no other element renders there.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/JRFillTextElement.html#PROPERTY_CONSUME_SPACE_ON_OVERFLOW</api>
+    <default>true</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   

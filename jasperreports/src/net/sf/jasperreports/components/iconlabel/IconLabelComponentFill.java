@@ -672,7 +672,8 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 						iconAvailableHeight, 
 						fillContext.getFillContainerContext().isCurrentOverflow()
 						);
-					iconsVisible = iconTextField.getPrintElementHeight() <= iconAvailableHeight;
+					iconsVisible = iconTextField.getStretchHeight() <= iconAvailableHeight;
+					//iconsVisible = iconTextField.getPrintElementHeight() <= iconAvailableHeight;
 				}
 				catch (JRException e)
 				{
