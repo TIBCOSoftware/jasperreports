@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.data.MultiAxisDataSource;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillElementDataset;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -56,6 +57,15 @@ public class FillMultiAxisDataset extends JRFillElementDataset
 		this.expressionEvaluator = factory.getExpressionEvaluator();
 		
 		factory.registerElementDataset(this);
+	}
+	
+	public FillMultiAxisDataset(FillMultiAxisDataset dataset, JRFillCloneFactory factory)
+	{
+		super(dataset, factory);
+		
+		this.jasperReportsContext = dataset.jasperReportsContext;
+		this.data = dataset.data;
+		this.expressionEvaluator = dataset.expressionEvaluator;
 	}
 
 	@Override

@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.analytics.dataset;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.analytics.data.MultiAxisDataSource;
+import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
@@ -40,6 +41,11 @@ public class FillMultiAxisData
 		factory.put(data, this);
 		
 		this.fillDataset = new FillMultiAxisDataset(data, factory);
+	}
+
+	public FillMultiAxisData(FillMultiAxisData data, JRFillCloneFactory factory)
+	{
+		this.fillDataset = new FillMultiAxisDataset(data.fillDataset, factory);
 	}
 	
 	public void evaluate(byte evaluationType) throws JRException
