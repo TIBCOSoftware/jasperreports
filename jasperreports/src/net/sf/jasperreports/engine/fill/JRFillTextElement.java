@@ -120,8 +120,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		initParagraph = textElement.getParagraph().clone(this);
 
 		// not supporting property expressions for this
-		this.consumeSpaceOnOverflow = JRPropertiesUtil.getInstance(filler.getJasperReportsContext()).getBooleanProperty(
-				textElement, PROPERTY_CONSUME_SPACE_ON_OVERFLOW, true);
+		this.consumeSpaceOnOverflow = filler.getPropertiesUtil().getBooleanProperty(
+				PROPERTY_CONSUME_SPACE_ON_OVERFLOW, true,
+				// manually falling back to report properties as getParentProperties() is null for textElement
+				textElement, filler.getJasperReport()
+				);
 		
 		this.defaultKeepFullText = filler.getPropertiesUtil().getBooleanProperty( 
 				JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false,
