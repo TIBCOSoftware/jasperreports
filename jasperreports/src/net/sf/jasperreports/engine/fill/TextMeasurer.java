@@ -935,6 +935,10 @@ public class TextMeasurer implements JRTextMeasurer
 		}
 		
 		float newTextHeight = measuredState.textHeight + lineHeight;
+		
+		//this test is somewhat inconsistent with JRFillTextElement.chopTextElement which truncates the text height to int.
+		//thus it can happen that a text which would normally be measures to textHeight=18.6 and element height=18
+		//overflows when there are exactly 18 pixels left on the page.
 		boolean fits = newTextHeight + maxDescent <= maxHeight;
 		if (fits)
 		{
