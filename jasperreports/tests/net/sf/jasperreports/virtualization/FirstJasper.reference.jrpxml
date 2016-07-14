@@ -5643,7 +5643,7 @@ AElFTkSuQmCC]]>
 			<textContent><![CDATA[10725]]></textContent>
 		</text>
 		<text textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
-			<reportElement uuid="c0997027-e1d3-4d9b-99c4-10dad87d5b42" x="345" y="753" width="110" height="11" origin="9" srcId="33" printId="121">
+			<reportElement uuid="c0997027-e1d3-4d9b-99c4-10dad87d5b42" x="345" y="753" width="110" height="18" origin="9" srcId="33" printId="121">
 				<property name="net.sf.jasperreports.export.csv.column.name" value="ShipCity"/>
 				<property name="net.sf.jasperreports.export.xls.column.name" value="ShipCity"/>
 				<property name="net.sf.jasperreports.export.csv.data" value="Sao Paulo"/>
