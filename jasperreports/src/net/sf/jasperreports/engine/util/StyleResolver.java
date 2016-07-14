@@ -70,7 +70,7 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public final class StyleResolver
+public class StyleResolver
 {
 	public static final String PROPERTY_STYLES_INHERIT_FROM_DEFAULT = JRPropertiesUtil.PROPERTY_PREFIX + "styles.inherit.from.default";
 	
