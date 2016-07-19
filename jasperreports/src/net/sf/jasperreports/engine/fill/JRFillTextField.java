@@ -909,7 +909,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		setPrintText(text);
 
 		text.setAnchorName(getAnchorName());
-		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			text.setHyperlinkReference(getHyperlinkReference());
 			text.setHyperlinkAnchor(getHyperlinkAnchor());

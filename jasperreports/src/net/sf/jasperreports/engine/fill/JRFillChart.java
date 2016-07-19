@@ -941,7 +941,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
-		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());
 			printImage.setHyperlinkAnchor(getHyperlinkAnchor());

@@ -109,7 +109,7 @@ public final class JRFillHyperlinkHelper
 		}
 		
 		Boolean hyperlinkWhen = (Boolean) expressionEvaluator.evaluate(hyperlink.getHyperlinkWhenExpression(), evaluationType);
-		if (hyperlink.getHyperlinkWhenExpression() != null && hyperlinkWhen != Boolean.TRUE)
+		if (hyperlink.getHyperlinkWhenExpression() != null && Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			return null;
 		}

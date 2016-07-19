@@ -938,7 +938,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		printImage.setRenderer(getRenderable());
 		printImage.setAnchorName(getAnchorName());
-		if (getHyperlinkWhenExpression() == null || hyperlinkWhen == Boolean.TRUE)
+		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			printImage.setHyperlinkReference(getHyperlinkReference());
 			printImage.setHyperlinkAnchor(getHyperlinkAnchor());
