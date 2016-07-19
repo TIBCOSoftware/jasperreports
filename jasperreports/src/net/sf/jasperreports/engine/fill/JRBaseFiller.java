@@ -1143,44 +1143,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 
-	/**
-	 * Cancells the fill process.
-	 *
-	 * @throws JRException
-	 */
-	@Override
-	public void cancelFill() throws JRException
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("Fill " + fillerId + ": cancelling");
-		}
-
-		fillContext.markCanceled();
-		
-		if (fillContext.cancelRunningQuery())
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Fill " + fillerId + ": query cancelled");
-			}
-		}
-		else
-		{
-			Thread t = fillingThread;
-			if (t != null)
-			{
-				if (log.isDebugEnabled())
-				{
-					log.debug("Fill " + fillerId + ": Interrupting thread " + t);
-				}
-
-				t.interrupt();
-			}
-		}
-	}
-
-
 	protected void registerSubfiller(JRBaseFiller subfiller)
 	{
 		if (subfillers == null)
