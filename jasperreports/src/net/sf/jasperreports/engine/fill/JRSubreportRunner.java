@@ -93,4 +93,9 @@ public interface JRSubreportRunner
 	 * @throws JRException
 	 */
 	void suspend() throws JRException;	
+	
+	/**
+	 * Aborts the current fill.
+	 */
+	void abort();
 }

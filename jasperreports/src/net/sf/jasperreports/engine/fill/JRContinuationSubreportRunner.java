@@ -78,4 +78,10 @@ public class JRContinuationSubreportRunner extends JRSubreportRunnable implement
 	{
 		Continuation.suspend();
 	}
+
+	@Override
+	public void abort()
+	{
+		//NOP
+	}
 }

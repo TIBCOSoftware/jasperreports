@@ -614,7 +614,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			fillingThread = null;
 
 			//kill the subreport filler threads
-			killSubfillerThreads();
+			abortSubfillers();
 			
 			if (parent == null)
 			{
@@ -894,20 +894,20 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 
-	private void killSubfillerThreads()
+	private void abortSubfillers()
 	{
 		if (subfillers != null && !subfillers.isEmpty())
 		{
 			for (JRBaseFiller subfiller : subfillers.values())
 			{
-				if (subfiller.fillingThread != null)
+				if (subfiller.bandReportParent != null)
 				{
 					if (log.isDebugEnabled())
 					{
-						log.debug("Fill " + fillerId + ": Interrupting subfiller thread " + subfiller.fillingThread);
+						log.debug("Fill " + fillerId + ": Aborting subfiller " + subfiller.fillerId);
 					}
-
-					subfiller.fillingThread.interrupt();
+					
+					subfiller.bandReportParent.abortSubfiller(subfiller);
 				}
 			}
 		}

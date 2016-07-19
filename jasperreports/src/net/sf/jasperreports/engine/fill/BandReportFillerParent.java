@@ -37,6 +37,8 @@ public interface BandReportFillerParent extends FillerParent
 	void registerSubfiller(JRBaseFiller filler);
 
 	void unregisterSubfiller(JRBaseFiller filler);
+
+	void abortSubfiller(JRBaseFiller filler);
 	
 	boolean isRunToBottom();
 

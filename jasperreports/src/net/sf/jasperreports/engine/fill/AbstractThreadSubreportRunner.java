@@ -242,4 +242,18 @@ public abstract class AbstractThreadSubreportRunner extends JRSubreportRunnable 
 		}
 		*/
 	}
+
+	@Override
+	public void abort()
+	{
+		if (subreportFiller.fillingThread != null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Interrupting subfiller thread " + subreportFiller.fillingThread);
+			}
+
+			subreportFiller.fillingThread.interrupt();
+		}
+	}
 }

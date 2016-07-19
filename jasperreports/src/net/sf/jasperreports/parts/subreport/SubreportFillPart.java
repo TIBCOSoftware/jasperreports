@@ -286,6 +286,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
+		public void abortSubfiller(JRBaseFiller filler)
+		{
+			//NOP
+		}
+
+		@Override
 		public boolean isRunToBottom()
 		{
 			return true;

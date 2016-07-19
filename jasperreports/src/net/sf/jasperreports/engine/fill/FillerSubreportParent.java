@@ -77,6 +77,15 @@ public class FillerSubreportParent implements BandReportFillerParent
 	}
 
 	@Override
+	public void abortSubfiller(JRBaseFiller filler)
+	{
+		if (subreportRunner != null)
+		{
+			subreportRunner.abort();
+		}
+	}
+
+	@Override
 	public boolean isRunToBottom()
 	{
 		return parentElement.isRunToBottom() != null && parentElement.isRunToBottom();
