@@ -717,7 +717,7 @@ public abstract class BaseReportFiller implements ReportFiller
 
 
 	/**
-	 * Cancells the fill process.
+	 * Cancels the fill process.
 	 *
 	 * @throws JRException
 	 */
