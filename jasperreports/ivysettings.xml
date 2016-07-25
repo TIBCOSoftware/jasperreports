@@ -3,8 +3,6 @@
     <resolvers>
         <chain name="maven">
             <ibiblio name="ibiblio" m2compatible="true" usepoms="false"/>
-            <ibiblio name="jasperreports" m2compatible="true" usepoms="false" checkmodified="true" changingPattern=".*-SNAPSHOT.*"
-                root="http://jasperreports.sourceforge.net/maven2"/>
             <ibiblio name="jaspersoft" m2compatible="true" usepoms="false" checkmodified="true" changingPattern=".*-SNAPSHOT.*"
                 root="http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"/>
         </chain>

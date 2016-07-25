@@ -2,6 +2,7 @@
 
 	<description>Shows how Open Flash Charts could be included in HTML and PDF reports using a specially designed component.</description>
 
+	<property name="sample.dir" value="openflashchart"/>
 	<property name="class.name" value="OFCApp" />
 	<property name="base.file.name" value="OpenFlashChartReport" />
 	<property name="file.name" value="${basedir}/build/reports/${base.file.name}" />
@@ -274,7 +275,7 @@
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
-		<delete dir="./build" />
+		<ant dir="../" target="clean-sample"/>
 	</target>
 
 	<target name="test" description="Runs the sample.">

@@ -96,7 +96,6 @@
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
-		<delete dir="./build"/>
 		<ant dir="../" target="clean-sample"/>
 	</target>
 	
