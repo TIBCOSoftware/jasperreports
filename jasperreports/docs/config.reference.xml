@@ -2851,7 +2851,7 @@ configuration setting.
 <br/>
 If the property is <code>true</code>, any page in the document will be exported without taking into account its margins.
     </description>
-    <api>net/sf/jasperreports/export/ExporterConfiguration.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
+    <api>net/sf/jasperreports/export/ReportExportConfiguration.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.5</since>
