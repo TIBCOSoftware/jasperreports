@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.fill.JREvaluator;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class JRBshCompiler extends JRAbstractCompiler
 {

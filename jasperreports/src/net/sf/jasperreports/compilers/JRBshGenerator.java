@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class JRBshGenerator
 {

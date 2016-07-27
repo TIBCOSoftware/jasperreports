@@ -46,6 +46,7 @@ import bsh.TargetError;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @see JRBshCompiler
+ * @deprecated To be removed.
  */
 public class JRBshEvaluator extends JREvaluator
 {
