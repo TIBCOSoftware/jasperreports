@@ -142,7 +142,7 @@ public class TableReport implements JRReport
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column has a filtered applied
 	 */
-	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
+	public static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
 
 	/**
 	 * Global property that specifies the font to be used for the icons on the column header
