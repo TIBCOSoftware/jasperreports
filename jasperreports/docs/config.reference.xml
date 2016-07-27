@@ -2845,8 +2845,8 @@ Its value is used as default for the
     <description>
 This flag property specifies whether page margins should be ignored when the report is exported using a grid-based exporter. 
 <br/>
-Its value is used as default for the <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isIgnorePageMargins()">Excel</api> 
-and <api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#isIgnorePageMargins()">HTML</api> isIgnorePageMargins() export 
+Its value is used as default for the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnorePageMargins()">Excel</api> 
+and <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isIgnorePageMargins()">HTML</api> isIgnorePageMargins() export 
 configuration setting.
 <br/>
 If the property is <code>true</code>, any page in the document will be exported without taking into account its margins.
@@ -2961,7 +2961,7 @@ Its value is used as default for the
 This property specifies whether <api href="net/sf/jasperreports/engine/JRPrintFrame.html">JRPrintFrame</api> frames are to be exported as nested HTML tables.
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#isFramesAsNestedTables()">isFramesAsNestedTables()</api> HTML export configuration setting.
+<api href="net/sf/jasperreports/engine/export/JRHtmlReportConfiguration.html#isFramesAsNestedTables()">isFramesAsNestedTables()</api> HTML export configuration setting.
 <br/>
 If set to <code>false</code>, the frame content will be integrated into the master/page HTML table.
     </description>
@@ -3689,7 +3689,7 @@ By default no user permissions are allowed at all.
   <configProperty name="net.sf.jasperreports.export.pdf.permissions.denied">
     <description>
 Property that contains the denied user permissions of the PDF document, if it is encrypted. This property works in conjunction with 
-the <a href="net.sf.jasperreports.export.pdf.permissions.allowed">net.sf.jasperreports.export.pdf.permissions.allowed</a>. If present, denied permissions 
+the <a href="#net.sf.jasperreports.export.pdf.permissions.allowed">net.sf.jasperreports.export.pdf.permissions.allowed</a>. If present, denied permissions 
 will be excluded from the allowed values. This property may contain one or many permission names enumerated in  
 <api href="net/sf/jasperreports/export/type/PdfPermissionsEnum.html">PdfPermissionsEnum</api> class, separated by a pipe (|) sign:
 <ul>
@@ -3705,7 +3705,7 @@ will be excluded from the allowed values. This property may contain one or many 
 </ul>
 <br/>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getAllowedPermissionsHint()">getDeniedPermissionsHint()</api> PDF export configuration setting. 
+<api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getDeniedPermissions()">getDeniedPermissions()</api> PDF export configuration setting. 
 By default there are no user permissions allowed for the document.
     </description>
     <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PERMISSIONS_DENIED</api>
