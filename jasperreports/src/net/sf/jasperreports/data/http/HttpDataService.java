@@ -31,14 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.data.DataFileConnection;
-import net.sf.jasperreports.data.DataFileService;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.util.SecretsUtil;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -61,6 +53,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
+import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.DataFileConnection;
+import net.sf.jasperreports.data.DataFileService;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.util.SecretsUtil;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
@@ -81,6 +81,8 @@ public class HttpDataService implements DataFileService
 	public static final String PARAMETER_PREFIX_URL_PARAMETER = "HTTP_DATA_URL_PARAMETER_";
 	
 	public static final String PARAMETER_PREFIX_POST_PARAMETER = "HTTP_DATA_POST_PARAMETER_";
+	
+	public static final String PARAMETER_PREFIX_HEADER_PARAMETER = "HTTP_DATA_HEADER_PARAMETER_";
 
 	private final JasperReportsContext context;
 	
@@ -198,6 +200,15 @@ public class HttpDataService implements DataFileService
 					new Object[]{method});
 		}
 		
+		List<NameValuePair> headers = collectHeaders(parameters);
+		if (headers != null)
+		{
+			for (NameValuePair header : headers)
+			{
+				request.addHeader(header.getName(), header.getValue());
+			}
+		}
+		
 		return request;
 	}
 
@@ -248,6 +259,11 @@ public class HttpDataService implements DataFileService
 		return collectParameters(dataLocation.getPostParameters(), reportParameters, PARAMETER_PREFIX_POST_PARAMETER);
 	}
 	
+	protected List<NameValuePair> collectHeaders(Map<String, Object> reportParameters)
+	{
+		return collectParameters(dataLocation.getHeaders(), reportParameters, PARAMETER_PREFIX_HEADER_PARAMETER);
+	}
+
 	protected List<NameValuePair> collectParameters(List<HttpLocationParameter> staticParameters,
 			Map<String, Object> reportParameters, String reportParameterPrefix)
 	{

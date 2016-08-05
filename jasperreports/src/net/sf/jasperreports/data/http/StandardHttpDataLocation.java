@@ -40,6 +40,7 @@ public class StandardHttpDataLocation implements HttpDataLocation
 	private String password;
 	private List<HttpLocationParameter> urlParameters;
 	private List<HttpLocationParameter> postParameters;
+	private List<HttpLocationParameter> headers;
 
 	@Override
 	public RequestMethod getMethod()
@@ -93,6 +94,7 @@ public class StandardHttpDataLocation implements HttpDataLocation
 			StandardHttpDataLocation clone = (StandardHttpDataLocation) super.clone();
 			clone.urlParameters = JRCloneUtils.cloneList(urlParameters);
 			clone.postParameters = JRCloneUtils.cloneList(postParameters);
+			clone.headers = JRCloneUtils.cloneList(headers);
 			return clone;
 		}
 		catch (CloneNotSupportedException e)
@@ -122,6 +124,17 @@ public class StandardHttpDataLocation implements HttpDataLocation
 	public void setPostParameters(List<HttpLocationParameter> postParameters)
 	{
 		this.postParameters = postParameters;
+	}
+
+	@Override
+	public List<HttpLocationParameter> getHeaders()
+	{
+		return headers;
+	}
+
+	public void setHeaders(List<HttpLocationParameter> headers)
+	{
+		this.headers = headers;
 	}
 	
 }

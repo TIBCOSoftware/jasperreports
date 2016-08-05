@@ -22,6 +22,9 @@
 		<field name="postParameters" type="net.sf.jasperreports.data.http.HttpLocationParameter" collection="arraylist">
 			<bind-xml name="postParameter" node="element"/>
 		</field>
+		<field name="headers" type="net.sf.jasperreports.data.http.HttpLocationParameter" collection="arraylist">
+			<bind-xml name="header" node="element"/>
+		</field>
 	</class>
 	
 	<class name="net.sf.jasperreports.data.http.HttpLocationParameter">
