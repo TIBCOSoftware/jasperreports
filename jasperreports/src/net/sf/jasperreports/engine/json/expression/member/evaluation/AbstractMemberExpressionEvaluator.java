@@ -30,6 +30,9 @@ import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.expression.EvaluationContext;
 import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
@@ -37,6 +40,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public abstract class AbstractMemberExpressionEvaluator implements MemberExpressionEvaluator {
+    private static final Log log = LogFactory.getLog(AbstractMemberExpressionEvaluator.class);
+
     private EvaluationContext evaluationContext;
 
 
@@ -63,26 +68,52 @@ public abstract class AbstractMemberExpressionEvaluator implements MemberExpress
     }
 
     protected List<JRJsonNode> filterArrayNode(JRJsonNode parent, ArrayNode childArray, String deeperKey) {
+        return filterArrayNode(parent, childArray, deeperKey, false);
+    }
+
+    protected List<JRJsonNode> filterArrayNode(JRJsonNode parent, ArrayNode childArray, String deeperKey, boolean keepArrayContainment) {
+        if (log.isDebugEnabled()) {
+            log.debug("filtering array: " + childArray + "; deeperKey: " + deeperKey + "; keepArrayContainment: " + keepArrayContainment);
+        }
+
         List<JRJsonNode> result = new ArrayList<>();
+        ArrayNode container = null;
+
+        if (keepArrayContainment) {
+            container = evaluationContext.getObjectMapper().createArrayNode();
+        }
 
         for (JsonNode current : childArray) {
             if (deeperKey != null) {
                 JsonNode deeperNode = current.get(deeperKey);
 
                 if (deeperNode != null) {
-                    JRJsonNode currentParent = new JRJsonNode(parent, current);
-                    JRJsonNode currentChild = new JRJsonNode(currentParent, deeperNode);
+                    JRJsonNode currentParent = parent.createChild(current);
+                    JRJsonNode currentChild = currentParent.createChild(deeperNode);
 
                     if (applyFilter(currentChild)) {
-                        result.add(currentChild);
+                        if (keepArrayContainment) {
+                            container.add(deeperNode);
+                        } else {
+                            result.add(currentChild);
+                        }
                     }
                 }
             } else {
-                JRJsonNode currentChild = new JRJsonNode(parent, current);
+                JRJsonNode currentChild = parent.createChild(current);
+
                 if (applyFilter(currentChild)) {
-                    result.add(currentChild);
+                    if (keepArrayContainment) {
+                        container.add(current);
+                    } else {
+                        result.add(currentChild);
+                    }
                 }
             }
+        }
+
+        if (keepArrayContainment && container.size() > 0) {
+            result.add(parent.createChild(container));
         }
 
         return result;

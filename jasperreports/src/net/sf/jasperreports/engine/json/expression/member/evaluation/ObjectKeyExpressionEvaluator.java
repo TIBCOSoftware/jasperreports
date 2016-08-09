@@ -41,6 +41,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -97,13 +98,6 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
     }
 
     private List<JRJsonNode> singleEval(JRJsonNode jrJsonNode) {
-        if (log.isDebugEnabled()) {
-            log.debug("going " + expression.getDirection() + " by " +
-                    (expression.isWildcard() ?
-                            "wildcard" :
-                            "key: [" + expression.getObjectKey() + "]") + " on " + jrJsonNode.getDataNode());
-        }
-
         switch (expression.getDirection()) {
             case DOWN:
                 return goDown(jrJsonNode);
@@ -115,6 +109,13 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
     }
 
     private List<JRJsonNode> goDown(JRJsonNode jrJsonNode) {
+        if (log.isDebugEnabled()) {
+            log.debug("going " + MemberExpression.DIRECTION.DOWN + " by " +
+                    (expression.isWildcard() ?
+                            "wildcard" :
+                            "key: [" + expression.getObjectKey() + "]") + " on " + jrJsonNode.getDataNode());
+        }
+
         List<JRJsonNode> result = new ArrayList<>();
         JsonNode dataNode = jrJsonNode.getDataNode();
 
@@ -134,27 +135,14 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
                 }
 
                 if (container.size() > 0) {
-                    result.add(new JRJsonNode(jrJsonNode, container));
+                    result.add(jrJsonNode.createChild(container));
                 }
             }
             // else go down and filter
             else {
-                // allow missing nodes to be returned
-                JsonNode asd = dataNode.path(expression.getObjectKey());
-
-                // if the deeper node is object/value => filter and add it
-                if (!asd.isMissingNode() && (asd.isObject() || asd.isValueNode())) {
-                    if (applyFilter(jrJsonNode.createChild(asd))) {
-                        result.add(new JRJsonNode(jrJsonNode, asd));
-                    }
-                }
-                // Filtering expressions need the missing node to check for null
-                else if (keepMissingNode && asd.isMissingNode()) {
-                    result.add(new JRJsonNode(jrJsonNode, asd));
-                }
-                // if the deeper node is an array => filter and add each child
-                else if (!asd.isMissingNode() && asd.isArray()) {
-                    result = filterArrayNode(jrJsonNode, (ArrayNode) asd);
+                JRJsonNode deeperNode = goDeeperIntoObjectNode(jrJsonNode);
+                if (deeperNode != null) {
+                    result.add(deeperNode);
                 }
             }
         }
@@ -179,39 +167,129 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
     }
 
     private List<JRJsonNode> goAnywhereDown(JRJsonNode jrJsonNode) {
+        if (log.isDebugEnabled()) {
+            log.debug("going " + MemberExpression.DIRECTION.ANYWHERE_DOWN + " by " +
+                    (expression.isWildcard() ?
+                            "wildcard" :
+                            "key: [" + expression.getObjectKey() + "]") + " on " + jrJsonNode.getDataNode());
+        }
+
         List<JRJsonNode> result = new ArrayList<>();
         Deque<JRJsonNode> stack = new ArrayDeque<>();
+        JsonNode initialDataNode = jrJsonNode.getDataNode();
 
-        stack.push(jrJsonNode);
+        if (log.isDebugEnabled()) {
+            log.debug("initial stack population with: " + initialDataNode);
+        }
+
+        // populate the stack initially
+        if (initialDataNode.isArray()) {
+            for (JsonNode deeper: initialDataNode) {
+                stack.addLast(jrJsonNode.createChild(deeper));
+            }
+        } else {
+            stack.push(jrJsonNode);
+        }
 
         while (!stack.isEmpty()) {
-            JRJsonNode parent = stack.pop();
-            JsonNode dataNode = parent.getDataNode();
+            JRJsonNode stackNode = stack.pop();
+            JsonNode stackDataNode = stackNode.getDataNode();
 
             // if object => push the keys into the stack
-            if (dataNode.isObject()) {
-                Iterator<Map.Entry<String, JsonNode>> it = dataNode.fields();
+            if (stackDataNode.isObject()) {
+                Iterator<Map.Entry<String, JsonNode>> it = stackDataNode.fields();
 
                 while (it.hasNext()) {
                     JsonNode current = it.next().getValue();
-                    stack.addLast(parent.createChild(current));
+                    stack.addLast(stackNode.createChild(current));
+
+                    if (log.isDebugEnabled()) {
+                        log.debug("added to stack: " + current);
+                    }
                 }
             }
             // if array => push all children
-            else if (dataNode.isArray()) {
-                for (JsonNode deeper: dataNode) {
-                    stack.addLast(parent.createChild(deeper));
+            else if (stackDataNode.isArray()) {
+                for (JsonNode deeper: stackDataNode) {
+                    stack.addLast(stackNode.createChild(deeper));
+
+                    if (log.isDebugEnabled()) {
+                        log.debug("added to stack: " + deeper);
+                    }
                 }
             }
 
-            List<JRJsonNode> partialResults = goDown(parent);
+            if (log.isDebugEnabled()) {
+                log.debug("processing stack element: " + stackDataNode);
+            }
 
-            if (partialResults.size() > 0) {
-                result.addAll(partialResults);
+            // process the current stack item
+            if (stackDataNode.isObject()) {
+                if (log.isDebugEnabled()) {
+                    log.debug("element is object; wildcard: " + expression.isWildcard());
+                }
+
+                // if wildcard => only filter the parent; we already added the object keys to the stack
+                if (expression.isWildcard()) {
+                    if (applyFilter(stackNode)) {
+                        result.add(stackNode);
+                    }
+                }
+                // else go down and filter
+                else {
+                    JRJsonNode deeperNode = goDeeperIntoObjectNode(stackNode);
+                    if (deeperNode != null) {
+                        result.add(deeperNode);
+                    }
+                }
+            } else if (stackDataNode.isArray()) {
+                if (log.isDebugEnabled()) {
+                    log.debug("element is array; wildcard: " + expression.isWildcard());
+                }
+
+                // keep the array containment
+                if (expression.isWildcard()) {
+                    result.addAll(filterArrayNode(stackNode, (ArrayNode) stackDataNode, null, true));
+                } else {
+                    result.addAll(filterArrayNode(stackNode, (ArrayNode) stackDataNode, expression.getObjectKey(), true));
+                }
+            } else if (stackDataNode.isValueNode()) {
+                if (log.isDebugEnabled()) {
+                    log.debug("element is value node; wildcard: " + expression.isWildcard());
+                }
+
+                if (expression.isWildcard()) {
+                    if (applyFilter(stackNode)) {
+                        result.add(stackNode);
+                    }
+                }
             }
         }
 
         return result;
+    }
+
+    private JRJsonNode goDeeperIntoObjectNode(JRJsonNode jrJsonNode) {
+        ObjectNode dataNode = (ObjectNode) jrJsonNode.getDataNode();
+
+        // allow missing nodes to be returned
+        JsonNode deeperNode = dataNode.path(expression.getObjectKey());
+
+        // if the deeper node is object/value => filter and add it
+        if (!deeperNode.isMissingNode() &&
+                (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray())) {
+
+            JRJsonNode child = jrJsonNode.createChild(deeperNode);
+            if (applyFilter(child)) {
+                return child;
+            }
+        }
+        // Filtering expressions need the missing node to check for null
+        else if (keepMissingNode && deeperNode.isMissingNode()) {
+            return jrJsonNode.createChild(deeperNode);
+        }
+
+        return null;
     }
 
 }
