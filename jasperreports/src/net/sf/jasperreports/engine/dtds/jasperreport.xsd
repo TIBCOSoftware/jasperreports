@@ -1881,7 +1881,7 @@
        <restriction base="string">
          <enumeration value="Now">
            <annotation>
-             <documentation>The part is to be evaluated immediatelly.</documentation>
+             <documentation>The part is to be evaluated immediately.</documentation>
            </annotation>
          </enumeration>
          <enumeration value="Report">

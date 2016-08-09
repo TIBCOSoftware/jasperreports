@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.part.PartEvaluationTime;
 public enum PartEvaluationTimeType implements NamedEnum
 {
 	/**
-	 * Evaluate the part immediatelly.
+	 * Evaluate the part immediately.
 	 */
 	NOW("Now"),
 	/**
