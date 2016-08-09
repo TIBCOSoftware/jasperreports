@@ -21,33 +21,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.charts.design;
+package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.charts.base.JRBasePie3DPlot;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRConstants;
-
-
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRDesignPie3DPlot extends JRBasePie3DPlot
+public interface ChartCopyObjectFactory
 {
+	
+	JRItemLabel copyItemLabel(JRItemLabel itemLabel, JRChart chart);
 
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-
-	/**
-	 *
-	 */
-	public JRDesignPie3DPlot(JRChartPlot pie3DPlot, JRChart chart)
-	{
-		super(pie3DPlot, chart, ChartCopyDesignObjectFactory.instance());
-	}
 }

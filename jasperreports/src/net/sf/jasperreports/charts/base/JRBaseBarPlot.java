@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import net.sf.jasperreports.charts.ChartCopyObjectFactory;
 import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.engine.JRChart;
@@ -92,12 +93,17 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	 */
 	public JRBaseBarPlot(JRChartPlot plot, JRChart chart)
 	{
+		this(plot, chart, ChartCopyBaseObjectFactory.instance());
+	}
+
+	protected JRBaseBarPlot(JRChartPlot plot, JRChart chart, ChartCopyObjectFactory copyObjectFactory)
+	{
 		super(plot, chart);
 		
 		JRBarPlot barPlot = plot instanceof JRBarPlot ? (JRBarPlot)plot : null;
 		if (barPlot == null)
 		{
-			itemLabel = new JRBaseItemLabel(null, chart);
+			itemLabel = copyObjectFactory.copyItemLabel(null, chart);
 		}
 		else
 		{
@@ -105,7 +111,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 			categoryAxisTickLabelFont = barPlot.getCategoryAxisTickLabelFont();
 			valueAxisLabelFont = barPlot.getValueAxisLabelFont();
 			valueAxisTickLabelFont = barPlot.getValueAxisTickLabelFont();
-			itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), chart);
+			itemLabel = copyObjectFactory.copyItemLabel(barPlot.getItemLabel(), chart);
 		}
 	}
 
