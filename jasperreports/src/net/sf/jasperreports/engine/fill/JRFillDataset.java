@@ -36,6 +36,9 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.cache.CachedDataset;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.data.cache.DataRecorder;
@@ -76,6 +79,7 @@ import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
+import net.sf.jasperreports.engine.type.ParameterDefaultValueEvaluationTimeType;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.DigestUtils;
@@ -83,9 +87,6 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.MD5Digest;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -631,13 +632,15 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		scriptlets = createScriptlets(parameterValues);
 		delegateScriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);//FIXMESCRIPTLET use some context
 
+		// initializing cache because we need the cached parameter values
+		cacheInit();
+		
+		evaluateParameterValues(ParameterDefaultValueEvaluationTimeType.EARLY, parameterValues);
+		
 		contributeParameters(parameterValues);
 		
 		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
 
-		// initializing cache because we need the cached parameter values
-		cacheInit();
-		
 		//FIXME do not call on default parameter value evaluation and when a data snapshot is used?
 		setFillParameterValues(parameterValues);
 		
@@ -879,6 +882,18 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return JRPropertiesUtil.asBoolean(includedProp);
 	}
 
+	protected ParameterDefaultValueEvaluationTimeType getDefaultValueEvaluationTime(JRFillParameter parameter)
+	{
+		String paramDefaultValueEvalTime = 
+			propertiesUtil.getProperty(
+				ParameterDefaultValueEvaluationTimeType.PROPERTY_DEFAULT_VALUE_EVALUATION_TIME, 
+				parameter,
+				this
+				);
+		
+		return ParameterDefaultValueEvaluationTimeType.byName(paramDefaultValueEvalTime);
+	}
+
 	protected void cacheRecord()
 	{
 		if (dataRecorder != null && !dataRecorder.hasEnded())
@@ -970,6 +985,39 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 * @param parameterValues the values map
 	 * @throws JRException
 	 */
+	private void evaluateParameterValues(ParameterDefaultValueEvaluationTimeType paramDefaultValueEvalTime, Map<String,Object> parameterValues) throws JRException
+	{
+		if (parameters != null && parameters.length > 0)
+		{
+			for (int i = 0; i < parameters.length; i++)
+			{
+				JRFillParameter parameter = parameters[i];
+				String paramName = parameter.getName();
+				
+				if (
+					!parameterValues.containsKey(paramName) //cheaper to test this first
+					&& !parameter.isSystemDefined() //cheaper to test this first
+					&& paramDefaultValueEvalTime == getDefaultValueEvaluationTime(parameter)
+					&& (!isIncludedInDataCache(parameter) || cachedDataset == null)
+					)
+				{
+					Object value = calculator.evaluate(parameter.getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
+					if (value != null)
+					{
+						parameterValues.put(paramName, value);
+					}
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Sets the parameter values from the values map.
+	 * 
+	 * @param parameterValues the values map
+	 * @throws JRException
+	 */
 	private void setFillParameterValues(Map<String,Object> parameterValues) throws JRException
 	{
 		if (parameters != null && parameters.length > 0)
@@ -1006,7 +1054,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 						
 						value = cachedDataset.getParameterValue(paramName);
 					}
-					else
+					else if (ParameterDefaultValueEvaluationTimeType.LATE == getDefaultValueEvaluationTime(parameter))
 					{
 						value = calculator.evaluate(parameter.getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
 						if (value != null)

@@ -82,31 +82,32 @@
       <property ref="net.sf.jasperreports.default.spacing.after"/>
       <property ref="net.sf.jasperreports.default.spacing.before"/>
       <property ref="net.sf.jasperreports.default.tab.stop.width"/>
+      <property ref="net.sf.jasperreports.default.locale"/>
+      <property ref="net.sf.jasperreports.default.timezone"/>
       <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
       <property ref="net.sf.jasperreports.evaluator.ignore.npe"/>
+      <property ref="net.sf.jasperreports.frame.border.split.type"/>
       <property ref="net.sf.jasperreports.image.encoder"/>
       <property ref="net.sf.jasperreports.image.reader"/>
       <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
       <property ref="net.sf.jasperreports.page.break.no.pagination"/>
+      <property ref="net.sf.jasperreports.parameter.default.value.evaluation.time"/>
       <property ref="net.sf.jasperreports.print.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.print.create.bookmarks"/>
       <property ref="net.sf.jasperreports.print.keep.full.text"/>
-      <property ref="net.sf.jasperreports.text.truncate.at.char"/>
-      <property ref="net.sf.jasperreports.text.truncate.suffix"/>
-      <property ref="net.sf.jasperreports.text.measurer.factory"/>
-      <property ref="net.sf.jasperreports.text.save.line.breaks"/>
       <property ref="net.sf.jasperreports.style.evaluation.time.enabled"/>
       <property ref="net.sf.jasperreports.subreport.runner.factory"/>
-      <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
-      <property ref="net.sf.jasperreports.virtual.page.element.size"/>
-      <property ref="net.sf.jasperreports.default.locale"/>
-      <property ref="net.sf.jasperreports.default.timezone"/>
       <property ref="net.sf.jasperreports.text.pattern.date"/>
       <property ref="net.sf.jasperreports.text.pattern.time"/>
       <property ref="net.sf.jasperreports.text.pattern.datetime"/>
       <property ref="net.sf.jasperreports.text.pattern.integer"/>
       <property ref="net.sf.jasperreports.text.pattern.number"/>
-      <property ref="net.sf.jasperreports.frame.border.split.type"/>
+      <property ref="net.sf.jasperreports.text.measurer.factory"/>
+      <property ref="net.sf.jasperreports.text.save.line.breaks"/>
+      <property ref="net.sf.jasperreports.text.truncate.at.char"/>
+      <property ref="net.sf.jasperreports.text.truncate.suffix"/>
+      <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
+      <property ref="net.sf.jasperreports.virtual.page.element.size"/>
     </content>
   </category>
   
@@ -5555,6 +5556,25 @@ Possible values are:
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.parameter.default.value.evaluation.time -->
+  
+  <configProperty name="net.sf.jasperreports.parameter.default.value.evaluation.time">
+    <description>
+Determines when the default value expression of a parameter is evaluated.
+<br/>
+Possible values are defined by the <api href="net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html">ParameterDefaultValueEvaluationTimeType</api> enumeration.
+<ul>
+  <li><code>Early</code> - Evaluate the parameter default value expression before parameter contributors.</li>
+  <li><code>Late</code> - Evaluate the parameter default value expression after parameter contributors.</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html#PROPERTY_DEFAULT_VALUE_EVALUATION_TIME</api>
+    <default>Late</default>
+    <scope>Global | Dataset | Parameter</scope>
+    <since>6.3.1</since>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.default.locale -->
   
   <configProperty name="net.sf.jasperreports.default.locale">
