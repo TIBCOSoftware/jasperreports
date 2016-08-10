@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
 
 
@@ -359,6 +360,11 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 *
 	 */
 	public boolean isForPrompting();
+
+	/**
+	 * Specifies when the default value expression of a parameter is evaluated.
+	 */
+	public ParameterEvaluationTimeEnum getEvaluationTime();
 
 	/**
 	 *

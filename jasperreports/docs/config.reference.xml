@@ -5560,7 +5560,7 @@ Possible values are:
   
   <configProperty name="net.sf.jasperreports.parameter.default.value.evaluation.time">
     <description>
-Determines when the default value expression of a parameter is evaluated.
+Specifies the default value for the <api href="net/sf/jasperreports/engine/JRParameter.html#getEvaluationTime()">getEvaluationTime()</api> property of a dataset parameter.
 <br/>
 Possible values are defined by the <api href="net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html">ParameterDefaultValueEvaluationTimeType</api> enumeration.
 <ul>
@@ -5570,7 +5570,7 @@ Possible values are defined by the <api href="net/sf/jasperreports/engine/type/P
     </description>
     <api>net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html#PROPERTY_DEFAULT_VALUE_EVALUATION_TIME</api>
     <default>Late</default>
-    <scope>Global | Dataset | Parameter</scope>
+    <scope>Global | Dataset</scope>
     <since>6.3.1</since>
   </configProperty>
 

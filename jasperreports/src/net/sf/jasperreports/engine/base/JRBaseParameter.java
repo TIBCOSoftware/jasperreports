@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -61,6 +62,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	protected String nestedTypeName;
 	protected boolean isSystemDefined;
 	protected boolean isForPrompting = true;
+	protected ParameterEvaluationTimeEnum evaluationTime;
 
 	protected transient Class<?> valueClass;
 	protected transient Class<?> nestedType;
@@ -95,6 +97,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		nestedTypeName = parameter.getNestedTypeName();
 		isSystemDefined = parameter.isSystemDefined();
 		isForPrompting = parameter.isForPrompting();
+		evaluationTime = parameter.getEvaluationTime();
 
 		defaultValueExpression = factory.getExpression(parameter.getDefaultValueExpression());
 		
@@ -191,19 +194,25 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	@Override
 	public boolean isSystemDefined()
 	{
-		return this.isSystemDefined;
+		return isSystemDefined;
 	}
 
 	@Override
 	public boolean isForPrompting()
 	{
-		return this.isForPrompting;
+		return isForPrompting;
+	}
+
+	@Override
+	public ParameterEvaluationTimeEnum getEvaluationTime()
+	{
+		return evaluationTime;
 	}
 
 	@Override
 	public JRExpression getDefaultValueExpression()
 	{
-		return this.defaultValueExpression;
+		return defaultValueExpression;
 	}
 
 	

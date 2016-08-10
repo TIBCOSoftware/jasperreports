@@ -23,9 +23,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import net.sf.jasperreports.engine.design.JRDesignParameter;
-
 import org.xml.sax.Attributes;
+
+import net.sf.jasperreports.engine.design.JRDesignParameter;
+import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 
 
 /**
@@ -63,6 +64,12 @@ public class JRParameterFactory extends JRBaseFactory
 		if (isForPrompting != null && isForPrompting.length() > 0)
 		{
 			parameter.setForPrompting(Boolean.valueOf(isForPrompting).booleanValue());
+		}
+
+		ParameterEvaluationTimeEnum evaluationTime = ParameterEvaluationTimeEnum.byName(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
+		if (evaluationTime != null)
+		{
+			parameter.setEvaluationTime(evaluationTime);
 		}
 	}
 	

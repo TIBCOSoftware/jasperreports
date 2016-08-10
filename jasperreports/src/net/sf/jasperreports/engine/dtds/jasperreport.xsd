@@ -1163,6 +1163,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="evaluationTime" use="optional">
+  	<annotation>
+   	 <documentation>Specifies when the default value expression of a parameter is evaluated.</documentation>
+  	</annotation>  
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Early">
+	  	<annotation>
+	   	 <documentation>Evaluate the parameter default value expression before parameter contributors.</documentation>
+	  	</annotation>  
+      </enumeration>
+      <enumeration value="Late">
+	  	<annotation>
+	   	 <documentation>Evaluate the parameter default value expression after parameter contributors.</documentation>
+	  	</annotation>  
+      </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

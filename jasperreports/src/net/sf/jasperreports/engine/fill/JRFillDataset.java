@@ -79,7 +79,7 @@ import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
-import net.sf.jasperreports.engine.type.ParameterDefaultValueEvaluationTimeType;
+import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.DigestUtils;
@@ -635,7 +635,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		// initializing cache because we need the cached parameter values
 		cacheInit();
 		
-		evaluateParameterValues(ParameterDefaultValueEvaluationTimeType.EARLY, parameterValues);
+		evaluateParameterValues(ParameterEvaluationTimeEnum.EARLY, parameterValues);
 		
 		contributeParameters(parameterValues);
 		
@@ -882,16 +882,21 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return JRPropertiesUtil.asBoolean(includedProp);
 	}
 
-	protected ParameterDefaultValueEvaluationTimeType getDefaultValueEvaluationTime(JRFillParameter parameter)
+	protected ParameterEvaluationTimeEnum getDefaultValueEvaluationTime(JRFillParameter parameter)
 	{
-		String paramDefaultValueEvalTime = 
-			propertiesUtil.getProperty(
-				ParameterDefaultValueEvaluationTimeType.PROPERTY_DEFAULT_VALUE_EVALUATION_TIME, 
-				parameter,
-				this
-				);
+		ParameterEvaluationTimeEnum evaluationTime = parameter.getEvaluationTime();
 		
-		return ParameterDefaultValueEvaluationTimeType.byName(paramDefaultValueEvalTime);
+		if (evaluationTime == null)
+		{
+			String evalTimeProp = 
+				propertiesUtil.getProperty(
+					ParameterEvaluationTimeEnum.PROPERTY_DEFAULT_VALUE_EVALUATION_TIME, 
+					this
+					);
+			evaluationTime = ParameterEvaluationTimeEnum.byName(evalTimeProp);
+		}
+		
+		return evaluationTime;
 	}
 
 	protected void cacheRecord()
@@ -985,7 +990,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 * @param parameterValues the values map
 	 * @throws JRException
 	 */
-	private void evaluateParameterValues(ParameterDefaultValueEvaluationTimeType paramDefaultValueEvalTime, Map<String,Object> parameterValues) throws JRException
+	private void evaluateParameterValues(ParameterEvaluationTimeEnum paramDefaultValueEvalTime, Map<String,Object> parameterValues) throws JRException
 	{
 		if (parameters != null && parameters.length > 0)
 		{
@@ -1054,7 +1059,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 						
 						value = cachedDataset.getParameterValue(paramName);
 					}
-					else if (ParameterDefaultValueEvaluationTimeType.LATE == getDefaultValueEvaluationTime(parameter))
+					else if (ParameterEvaluationTimeEnum.LATE == getDefaultValueEvaluationTime(parameter))
 					{
 						value = calculator.evaluate(parameter.getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
 						if (value != null)

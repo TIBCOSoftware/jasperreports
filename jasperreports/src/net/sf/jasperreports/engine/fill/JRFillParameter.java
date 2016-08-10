@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 
 
 /**
@@ -113,6 +114,12 @@ public class JRFillParameter implements JRValueParameter
 	public boolean isForPrompting()
 	{
 		return parent.isForPrompting();
+	}
+	
+	@Override
+	public ParameterEvaluationTimeEnum getEvaluationTime()
+	{
+		return parent.getEvaluationTime();
 	}
 	
 	@Override
