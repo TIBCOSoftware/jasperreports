@@ -186,11 +186,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 			throw new JRRuntimeException(e);
 		}
 
-		if (propertiesMap != null)
-		{
-			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
-		}
-		
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		clone.eventSupport = null;
 
 		return clone;
