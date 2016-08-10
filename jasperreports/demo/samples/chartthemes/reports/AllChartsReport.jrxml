@@ -3,15 +3,9 @@
 	<property name="net.sf.jasperreports.export.xls.ignore.graphics" value="false"/>
 	<import value="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 	<subDataset name="categoryDataset" uuid="f674686b-b3b5-451d-a81b-3617caa71a9f">
-		<field name="full_name" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="amount" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="sales_state" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="full_name" class="java.lang.String"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="sales_state" class="java.lang.String"/>
 		<variable name="personAmount" class="java.lang.Integer" resetType="Group" resetGroup="salesState" calculation="Sum">
 			<variableExpression><![CDATA[$F{amount}]]></variableExpression>
 		</variable>
@@ -23,12 +17,8 @@
 		</group>
 	</subDataset>
 	<subDataset name="pieDataset" uuid="ac545e36-b2d4-4503-95ad-6b6a44234478">
-		<field name="amount" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="sales_state" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="sales_state" class="java.lang.String"/>
 		<variable name="personAmount" class="java.lang.Integer" resetType="Group" resetGroup="salesState" calculation="Sum">
 			<variableExpression><![CDATA[$F{amount}]]></variableExpression>
 		</variable>
@@ -37,15 +27,9 @@
 		</group>
 	</subDataset>
 	<subDataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
-		<field name="amount" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="probability" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="sales_state" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="probability" class="java.lang.Integer"/>
+		<field name="sales_state" class="java.lang.String"/>
 		<group name="salesState">
 			<groupExpression><![CDATA[$F{sales_state}]]></groupExpression>
 		</group>
@@ -57,15 +41,9 @@
 		</group>
 	</subDataset>
 	<subDataset name="timeSeriesDataset" uuid="1a67ae5c-afb5-4e60-92d7-6cad76bc836c">
-		<field name="amount" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="date_closed" class="java.util.Date">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="sales_stage" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="date_closed" class="java.util.Date"/>
+		<field name="sales_stage" class="java.lang.String"/>
 		<variable name="monthAmount" class="java.lang.Integer" resetType="Group" resetGroup="month" calculation="Sum">
 			<variableExpression><![CDATA[$F{amount}]]></variableExpression>
 		</variable>
@@ -77,24 +55,12 @@
 		</group>
 	</subDataset>
 	<subDataset name="timePeriodDataset" uuid="233d14b1-b17f-40bd-9885-eb7d3296f2f2">
-		<field name="amount" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="start_year" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="start_month" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="close_year" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="close_month" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="sales_state" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="start_year" class="java.lang.Integer"/>
+		<field name="start_month" class="java.lang.Integer"/>
+		<field name="close_year" class="java.lang.Integer"/>
+		<field name="close_month" class="java.lang.Integer"/>
+		<field name="sales_state" class="java.lang.String"/>
 		<variable name="startDate" class="java.util.Date">
 			<variableExpression><![CDATA[new Date($F{start_year}.intValue() - 1900, $F{start_month}.intValue(), 1)]]></variableExpression>
 		</variable>
