@@ -63,7 +63,7 @@ package net.sf.jasperreports.engine;
  * easily overcome restrictions of field-naming conventions when retrieving the field values
  * from the data source:
  * <pre>
- *   &lt;field name="PersonName" class="java.lang.String" isForPrompting="true"&gt;
+ *   &lt;field name="PersonName" class="java.lang.String"
  *     &lt;fieldDesciption>PERSON NAME&lt;/fieldDesciption&gt;
  *   &lt;/field&gt;</pre>
  * The field description is less important than in previous versions of the library because
