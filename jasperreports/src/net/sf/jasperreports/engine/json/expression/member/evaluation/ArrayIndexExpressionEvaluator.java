@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
 import net.sf.jasperreports.engine.json.expression.EvaluationContext;
@@ -47,24 +49,21 @@ public class ArrayIndexExpressionEvaluator extends AbstractMemberExpressionEvalu
 
     @Override
     public JsonNodeContainer evaluate(JsonNodeContainer contextNode) {
+        if (log.isDebugEnabled()) {
+            log.debug("---> evaluating arrayIndex expression [" + expression +
+                    "] on a node with (size: " + contextNode.getSize() +
+                    ", cSize: " + contextNode.getContainerSize() + ")");
+        }
+
         JsonNodeContainer result = new JsonNodeContainer();
 
         switch(expression.getDirection()) {
             case DOWN:
             case ANYWHERE_DOWN:
                 // this only make sense for containers with appropriate size
-                if (contextNode.isContainer() && expression.getIndex() < contextNode.getContainerSize()) {
-                    JRJsonNode nodeAtIndex;
-
-                    // look for the node inside the container directly
-                    if (contextNode.getSize() > 1) {
-                        nodeAtIndex =  contextNode.getNodes().get(expression.getIndex());
-                    }
-                    // look for the node inside the first element which is supposed to be an ArrayNode
-                    else {
-                        JRJsonNode parentNode = contextNode.getFirst();
-                        nodeAtIndex =  new JRJsonNode(parentNode, parentNode.getDataNode().get(expression.getIndex()));
-                    }
+                if (expression.getIndex() >= 0 && expression.getIndex() < contextNode.getContainerSize()) {
+                    List<JRJsonNode> containerNodes = contextNode.getContainerNodes();
+                    JRJsonNode nodeAtIndex = containerNodes.get(expression.getIndex());
 
                     if (applyFilter(nodeAtIndex)) {
                         result.add(nodeAtIndex);

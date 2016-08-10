@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
 import net.sf.jasperreports.engine.json.expression.EvaluationContext;
@@ -31,8 +33,6 @@ import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -60,46 +60,30 @@ public class ArraySliceExpressionEvaluator extends AbstractMemberExpressionEvalu
         switch(expression.getDirection()) {
             case DOWN:
             case ANYWHERE_DOWN:
-                // this only make sense for containers with appropriate size
-                if (contextNode.isContainer()) {
-                    Integer start = getSliceStart(contextNode.getContainerSize());
-                    if (start >= contextNode.getContainerSize()) {
-                        return null;
-                    }
+                Integer start = getSliceStart(contextNode.getContainerSize());
+                if (start >= contextNode.getContainerSize()) {
+                    return null;
+                }
 
-                    Integer end = getSliceEnd(contextNode.getContainerSize());
-                    if (end < 0) {
-                        return null;
-                    }
+                Integer end = getSliceEnd(contextNode.getContainerSize());
+                if (end < 0) {
+                    return null;
+                }
 
-                    if (log.isDebugEnabled()) {
-                        log.debug("start: " + start + ", end: " + end);
-                    }
+                if (log.isDebugEnabled()) {
+                    log.debug("start: " + start + ", end: " + end);
+                }
 
-                    // look for the nodes inside the container directly
-                    if (contextNode.getSize() > 1) {
-                        for (int i = start; i < end; i++) {
-                            JRJsonNode nodeAtIndex = contextNode.getNodes().get(i);
+                List<JRJsonNode> containerNodes = contextNode.getContainerNodes();
 
-                            if (applyFilter(nodeAtIndex)) {
-                                result.add(nodeAtIndex);
-                            }
-                        }
-                    }
-                    // look for the nodes inside the first element which is supposed to be an ArrayNode
-                    else {
-                        JRJsonNode parentNode = contextNode.getFirst();
-                        JsonNode arrayNode = parentNode.getDataNode();
+                for (int i = start; i < end; i++) {
+                    JRJsonNode nodeAtIndex = containerNodes.get(i);
 
-                        for (int i = start; i < end; i++) {
-                            JRJsonNode nodeAtIndex = parentNode.createChild(arrayNode.get(i));
-
-                            if (applyFilter(nodeAtIndex)) {
-                                result.add(nodeAtIndex);
-                            }
-                        }
+                    if (applyFilter(nodeAtIndex)) {
+                        result.add(nodeAtIndex);
                     }
                 }
+
                 break;
         }
 

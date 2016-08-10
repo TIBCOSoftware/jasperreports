@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.json;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
@@ -53,6 +55,23 @@ public class JsonNodeContainer {
         return nodes;
     }
 
+    public List<JRJsonNode> getContainerNodes() {
+        if (nodes.size() == 1 && nodes.get(0).getDataNode().isArray()) {
+            List<JRJsonNode> result = new ArrayList<>();
+
+            JRJsonNode parentNode = nodes.get(0);
+            JsonNode arrayNode = parentNode.getDataNode();
+
+            for (JsonNode deeper: arrayNode) {
+                result.add(parentNode.createChild(deeper));
+            }
+
+            return result;
+
+        }
+        return nodes;
+    }
+
     public JRJsonNode getFirst() {
         return nodes.get(0);
     }
@@ -62,20 +81,11 @@ public class JsonNodeContainer {
     }
 
     public int getContainerSize() {
-        if (nodes.size() > 1) {
-            return nodes.size();
-        } else if (nodes.size() == 1 && nodes.get(0).getDataNode().isArray()) {
+        if (nodes.size() == 1 && nodes.get(0).getDataNode().isArray()) {
             return nodes.get(0).getDataNode().size();
         }
 
-        return 0;
-    }
-
-    /**
-     * Checks if this is a true container
-     */
-    public boolean isContainer() {
-        return nodes.size() > 1 || (nodes.size() == 1 && nodes.get(0).getDataNode().isArray());
+        return nodes.size();
     }
 
 }

@@ -76,7 +76,7 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
             }
 
             // break when hitting a missing node; this will allow filtering for missing keys
-            if (!memberEval.isContainer() && memberEval.getFirst().getDataNode().isMissingNode()) {
+            if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isMissingNode()) {
                 if (log.isDebugEnabled()) {
                     log.debug("hit missing node");
                 }
@@ -91,12 +91,10 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
 
         // the size is only checked on an array object
         if (expression.isSizeFunction()) {
-            if (memberEval.isContainer()) {
-                result = applySizeOperator(memberEval.getContainerSize());
-            }
+            result = applySizeOperator(memberEval.getContainerSize());
         }
-        // else perform the filtering only for value/missing nodes
-        else if (!memberEval.isContainer()) {
+        // else perform the filtering only for non-array nodes
+        else if (memberEval.getSize() == 1 && !memberEval.getFirst().getDataNode().isArray()) {
             result = applyOperator(memberEval.getFirst().getDataNode());
         }
 
