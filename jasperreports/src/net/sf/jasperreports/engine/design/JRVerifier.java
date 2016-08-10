@@ -990,6 +990,8 @@ public class JRVerifier
 				{
 					addBrokenRule(e, field);
 				}
+				
+				verifyProperyExpressions(field.getPropertyExpressions());
 			}
 		}
 	}

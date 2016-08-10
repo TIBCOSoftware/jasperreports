@@ -715,6 +715,7 @@ public class JRApiWriter
 			write( fieldName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(field.getDescription()));
 			write( fieldName + ".setValueClassName(\"{0}\");\n", field.getValueClassName());
 			writeProperties( field, fieldName);
+			writePropertyExpressions( field.getPropertyExpressions(), fieldName);
 			flush();
 		}
 	}

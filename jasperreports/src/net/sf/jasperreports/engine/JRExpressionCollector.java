@@ -689,6 +689,20 @@ public class JRExpressionCollector
 	/**
 	 *
 	 */
+	private void collect(JRField[] fields)
+	{
+		if (fields != null && fields.length > 0)
+		{
+			for (JRField field : fields)
+			{
+				collectPropertyExpressions(field.getPropertyExpressions());
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
 	private void collect(JRVariable[] variables)
 	{
 		if (variables != null && variables.length > 0)
@@ -1499,6 +1513,7 @@ public class JRExpressionCollector
 	{
 		JRExpressionCollector collector = getCollector(dataset);
 		collector.collect(dataset.getParameters());
+		collector.collect(dataset.getFields());
 		collector.collect(dataset.getVariables());
 		collector.collect(dataset.getGroups());
 

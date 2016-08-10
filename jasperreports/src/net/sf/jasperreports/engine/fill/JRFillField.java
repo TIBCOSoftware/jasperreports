@@ -23,10 +23,17 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
 /**
@@ -40,6 +47,10 @@ public class JRFillField implements JRField
 	 *
 	 */
 	protected JRField parent;
+	protected JRFillExpressionEvaluator expressionEvaluator;
+	protected List<JRPropertyExpression> propertyExpressions;
+	protected JRPropertiesMap staticProperties;
+	protected JRPropertiesMap mergedProperties;
 
 	/**
 	 *
@@ -61,6 +72,17 @@ public class JRFillField implements JRField
 		factory.put(field, this);
 
 		parent = field;
+
+		expressionEvaluator = factory.getExpressionEvaluator();
+
+		staticProperties = field.hasProperties() ? field.getPropertiesMap().cloneProperties() : null;
+		mergedProperties = staticProperties;
+
+		JRPropertyExpression[] fieldPropertyExpressions = field.getPropertyExpressions();
+		propertyExpressions = 
+			fieldPropertyExpressions == null 
+			? new ArrayList<JRPropertyExpression>(0)
+			: new ArrayList<JRPropertyExpression>(Arrays.asList(fieldPropertyExpressions));
 	}
 
 
@@ -187,14 +209,14 @@ public class JRFillField implements JRField
 	@Override
 	public boolean hasProperties()
 	{
-		return parent.hasProperties();
+		return mergedProperties != null && mergedProperties.hasProperties();
 	}
 
 
 	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
-		return parent.getPropertiesMap();
+		return mergedProperties;
 	}
 
 	
@@ -203,7 +225,51 @@ public class JRFillField implements JRField
 	{
 		return null;
 	}
+
 	
+	@Override
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		return propertyExpressions.toArray(new JRPropertyExpression[propertyExpressions.size()]);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateProperties() throws JRException
+	{
+		if (propertyExpressions.isEmpty())
+		{
+			mergedProperties = staticProperties;
+		}
+		else
+		{
+			JRPropertiesMap dynamicProperties = new JRPropertiesMap();
+			
+			for (JRPropertyExpression prop : propertyExpressions)
+			{
+				String value = (String) evaluateExpression(prop.getValueExpression());
+				//if (value != null) //is the null value significant for some field properties?
+				{
+					dynamicProperties.setProperty(prop.getName(), value);
+				}
+			}
+			
+			mergedProperties = dynamicProperties.cloneProperties();
+			mergedProperties.setBaseProperties(staticProperties);
+		}
+	}
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	protected final Object evaluateExpression(JRExpression expression) throws JRException
+	{
+		return expressionEvaluator.evaluate(expression, EvaluationTimeEnum.NOW.getValue());
+	}
+
 	@Override
 	public Object clone() 
 	{

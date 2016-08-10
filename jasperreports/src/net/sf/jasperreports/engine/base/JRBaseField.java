@@ -29,10 +29,12 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -61,6 +63,8 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	
 	protected JRPropertiesMap propertiesMap;
 
+	private JRPropertyExpression[] propertyExpressions;
+
 
 	/**
 	 *
@@ -82,9 +86,10 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 		description = field.getDescription();
 		valueClassName = field.getValueClassName();
 		
-		this.propertiesMap = field.getPropertiesMap().cloneProperties();
+		propertiesMap = field.getPropertiesMap().cloneProperties();
+		propertyExpressions = factory.getPropertyExpressions(field.getPropertyExpressions());
 	}
-		
+
 
 	@Override
 	public String getName()
@@ -170,6 +175,13 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 
 	
 	@Override
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		return propertyExpressions;
+	}
+
+
+	@Override
 	public Object clone() 
 	{
 		JRBaseField clone = null;
@@ -184,6 +196,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 		}
 
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		clone.propertyExpressions = JRCloneUtils.cloneArray(propertyExpressions);
 		clone.eventSupport = null;
 		
 		return clone;

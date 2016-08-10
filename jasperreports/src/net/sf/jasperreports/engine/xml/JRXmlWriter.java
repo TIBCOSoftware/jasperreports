@@ -748,6 +748,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, field.getValueClassName());
 
 		writeProperties(field);
+		writePropertyExpressions(field.getPropertyExpressions());
 
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_fieldDescription, field.getDescription());
 

@@ -1229,6 +1229,7 @@
   <complexType>
    <sequence>
     <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:propertyExpression" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:fieldDescription" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="name" type="string" use="required">
