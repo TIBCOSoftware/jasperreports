@@ -47,7 +47,7 @@ public enum ParameterEvaluationTimeEnum implements NamedEnum
 	/**
 	 * Provides a default value for the {@link JRParameter#getEvaluationTime()} property of parameters and can be set either globally or at dataset level.
 	 */
-	public static final String PROPERTY_DEFAULT_VALUE_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "parameter.default.value.evaluation.time";
+	public static final String PROPERTY_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "parameter.evaluation.time";
 
 	private final String name;
 	

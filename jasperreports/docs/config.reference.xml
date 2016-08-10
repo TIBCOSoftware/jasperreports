@@ -91,7 +91,7 @@
       <property ref="net.sf.jasperreports.image.reader"/>
       <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
       <property ref="net.sf.jasperreports.page.break.no.pagination"/>
-      <property ref="net.sf.jasperreports.parameter.default.value.evaluation.time"/>
+      <property ref="net.sf.jasperreports.parameter.evaluation.time"/>
       <property ref="net.sf.jasperreports.print.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.print.create.bookmarks"/>
       <property ref="net.sf.jasperreports.print.keep.full.text"/>
@@ -5556,9 +5556,9 @@ Possible values are:
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.parameter.default.value.evaluation.time -->
+  <!-- net.sf.jasperreports.parameter.evaluation.time -->
   
-  <configProperty name="net.sf.jasperreports.parameter.default.value.evaluation.time">
+  <configProperty name="net.sf.jasperreports.parameter.evaluation.time">
     <description>
 Specifies the default value for the <api href="net/sf/jasperreports/engine/JRParameter.html#getEvaluationTime()">getEvaluationTime()</api> property of a dataset parameter.
 <br/>
