@@ -890,7 +890,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			String evalTimeProp = 
 				propertiesUtil.getProperty(
-					ParameterEvaluationTimeEnum.PROPERTY_DEFAULT_VALUE_EVALUATION_TIME, 
+					ParameterEvaluationTimeEnum.PROPERTY_EVALUATION_TIME, 
 					this
 					);
 			evaluationTime = ParameterEvaluationTimeEnum.byName(evalTimeProp);
