@@ -149,7 +149,7 @@ public class MapCompiler implements ComponentCompiler
 			}
 			else if (!verifier.getReportDesign().getGroupsMap().containsKey(evaluationGroup))
 			{
-				verifier.addBrokenRule("Map evalution group \"" 
+				verifier.addBrokenRule("Map evaluation group \"" 
 						+ evaluationGroup + " not found", map);
 			}
 		}

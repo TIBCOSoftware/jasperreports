@@ -51,7 +51,7 @@ public class JRDesignParameter extends JRBaseParameter
 	
 	public static final String PROPERTY_NESTED_TYPE_NAME = "nestedType";
 	
-	public static final String PROPERTY_EVALUTION_TIME = "evaluationTime";
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 
 
 	/**
@@ -136,7 +136,7 @@ public class JRDesignParameter extends JRBaseParameter
 	{
 		ParameterEvaluationTimeEnum old = this.evaluationTime;
 		this.evaluationTime = evaluationTime;
-		getEventSupport().firePropertyChange(PROPERTY_EVALUTION_TIME, old, this.evaluationTime);
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 
 	/**
