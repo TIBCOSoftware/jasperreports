@@ -252,7 +252,10 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		}
 
 		clone.defaultValueExpression = JRCloneUtils.nullSafeClone(defaultValueExpression);
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		if (propertiesMap != null)
+		{
+			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
+		}
 		clone.eventSupport = null;
 
 		return clone;

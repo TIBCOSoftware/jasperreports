@@ -195,7 +195,10 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 			throw new JRRuntimeException(e);
 		}
 
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		if (propertiesMap != null)
+		{
+			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
+		}
 		clone.propertyExpressions = JRCloneUtils.cloneArray(propertyExpressions);
 		clone.eventSupport = null;
 		

@@ -297,7 +297,11 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		
 		clone.query = JRCloneUtils.nullSafeClone(query);
 		clone.filterExpression = JRCloneUtils.nullSafeClone(filterExpression);
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		if (propertiesMap != null)
+		{
+			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
+		}
+
 		clone.parameters = JRCloneUtils.cloneArray(parameters);
 		clone.fields = JRCloneUtils.cloneArray(fields);
 		clone.sortFields = JRCloneUtils.cloneArray(sortFields);
