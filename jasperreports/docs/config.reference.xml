@@ -31,6 +31,7 @@
       <property ref="net.sf.jasperreports.jdbc.max.field.size"/>
       <property ref="net.sf.jasperreports.jdbc.result.set.type"/>
       <property ref="net.sf.jasperreports.jdbc.time.zone"/>
+      <property ref="net.sf.jasperreports.olap.field.mapping"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
       <property ref="net.sf.jasperreports.xls.source"/>
@@ -5745,6 +5746,20 @@ In the latter case the report time zone (as in <api href="net/sf/jasperreports/e
     <default>N/A</default>
     <scope>Global | Dataset | Parameter | Field</scope>
     <since>6.1.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.olap.field.mapping -->
+  
+  <configProperty name="net.sf.jasperreports.olap.field.mapping">
+    <description>
+Property specifying the mapping for the dataset field in case an OLAP data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+    <api>net/sf/jasperreports/olap/JROlapDataSource.html#PROPERTY_FIELD_MAPPING</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   

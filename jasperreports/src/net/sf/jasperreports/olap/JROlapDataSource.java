@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.olap.mapping.AxisPosition;
 import net.sf.jasperreports.olap.mapping.DataMapping;
@@ -77,6 +78,8 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_INVALID_FIELD_MAPPING = "data.olap.invalid.field.mapping";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_LEVEL_NOT_FOUND = "data.olap.level.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_TUPLE_NOT_FOUND = "data.olap.tuple.not.found";
+
+	public static final String PROPERTY_FIELD_MAPPING = JRPropertiesUtil.PROPERTY_PREFIX + "olap.field.mapping";
 
 	protected final JROlapResult olapResult;
 	protected JROlapResultAxis[] axes;
@@ -404,7 +407,12 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 	protected String getFieldMapping(JRField field)
 	{
-		return field.getDescription();
+		String fieldMapping = field.getPropertiesMap().getProperty(PROPERTY_FIELD_MAPPING);
+		if (fieldMapping == null)
+		{
+			fieldMapping = field.getDescription();
+		}
+		return fieldMapping;
 	}
 
 	private void initIterate()

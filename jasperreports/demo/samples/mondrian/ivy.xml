@@ -12,5 +12,7 @@
 		<dependency org="eigenbase" name="eigenbase-xom" rev="1.3.0.11999" conf="test->*"/>
 		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10" conf="test->*"/>
 		<dependency org="log4j" name="log4j" rev="1.2.17" conf="test->*"/>
+		<dependency org="xalan" name="serializer" rev="2.7.1" conf="test->*"/>
+		<dependency org="postgresql" name="postgresql" rev="9.2-1002.jdbc4" conf="test->*"/>
 	</dependencies>
 </ivy-module>
