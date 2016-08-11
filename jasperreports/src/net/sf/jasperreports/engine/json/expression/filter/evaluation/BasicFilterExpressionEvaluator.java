@@ -60,7 +60,7 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
         boolean result = false;
 
         if (log.isDebugEnabled()) {
-            log.debug("applying filtering expression (" + this.expression + ") to: " + jsonNode);
+            log.debug("filtering (" + this.expression + ") to: " + jsonNode);
         }
 
         // traverse the members
@@ -91,10 +91,23 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
 
         // the size is only checked on an array object
         if (expression.isSizeFunction()) {
-            result = applySizeOperator(memberEval.getContainerSize());
+            if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isArray()) {
+                result = applySizeOperator(memberEval.getContainerSize());
+            }
         }
-        // else perform the filtering only for non-array nodes
-        else if (memberEval.getSize() == 1 && !memberEval.getFirst().getDataNode().isArray()) {
+        // the value is checked only for value/missing nodes
+        else if (expression.isValueFunction()) {
+            if (memberEval.getSize() == 1 &&
+                (memberEval.getFirst().getDataNode().isValueNode() || memberEval.getFirst().getDataNode().isMissingNode())) {
+
+                result = applyOperator(memberEval.getFirst().getDataNode());
+            }
+        }
+        // else perform the filtering only for value/missing nodes
+        else if (memberEval.getSize() == 1 &&
+                memberEval.getSize() == 1 &&
+                (memberEval.getFirst().getDataNode().isValueNode() || memberEval.getFirst().getDataNode().isMissingNode())) {
+
             result = applyOperator(memberEval.getFirst().getDataNode());
         }
 
