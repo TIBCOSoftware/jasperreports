@@ -226,9 +226,10 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
                         result.add(deeperNode);
                     }
                 }
-            } else if (stackDataNode.isValueNode()) {
+            }
+            else if (stackDataNode.isValueNode() || stackDataNode.isArray()) {
                 if (log.isDebugEnabled()) {
-                    log.debug("stack element is value node; wildcard: " + expression.isWildcard());
+                    log.debug("stack element is " + (stackDataNode.isValueNode() ? "value node" : "array") + "; wildcard: " + expression.isWildcard());
                 }
 
                 if (expression.isWildcard()) {
