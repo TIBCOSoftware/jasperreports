@@ -51,7 +51,7 @@ public class DefaultMemberExpressionEvaluatorVisitor implements MemberExpression
 
     @Override
     public JsonNodeContainer evaluateMultiLevelUp(MultiLevelUpExpression expression, JsonNodeContainer contextNode) {
-        MemberExpressionEvaluator evaluator = new MultiLevelUpExpressionEvaluator(expression);
+        MemberExpressionEvaluator evaluator = new MultiLevelUpExpressionEvaluator(evaluationContext, expression);
         return evaluator.evaluate(contextNode);
     }
 

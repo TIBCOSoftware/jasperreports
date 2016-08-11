@@ -23,8 +23,13 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
+import net.sf.jasperreports.engine.json.expression.EvaluationContext;
+import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 import net.sf.jasperreports.engine.json.expression.member.MultiLevelUpExpression;
 
 import org.apache.commons.logging.Log;
@@ -33,39 +38,67 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class MultiLevelUpExpressionEvaluator implements MemberExpressionEvaluator {
+public class MultiLevelUpExpressionEvaluator extends AbstractMemberExpressionEvaluator {
     private static final Log log = LogFactory.getLog(MultiLevelUpExpressionEvaluator.class);
 
     private MultiLevelUpExpression expression;
 
 
-    public MultiLevelUpExpressionEvaluator(MultiLevelUpExpression expression) {
+    public MultiLevelUpExpressionEvaluator(EvaluationContext evaluationContext, MultiLevelUpExpression expression) {
+        super(evaluationContext);
         this.expression = expression;
     }
 
     @Override
     public JsonNodeContainer evaluate(JsonNodeContainer contextNode) {
-        int level = expression.getLevel();
+        List<JRJsonNode> nodes = contextNode.getNodes();
 
         if (log.isDebugEnabled()) {
-            log.debug("going up by " + level + " level(s)");
+            log.debug("---> evaluating expression [" + expression +
+                    "] on a node with (size: " + contextNode.getSize() +
+                    ", cSize: " + contextNode.getContainerSize() + ")");
         }
 
-        if (level >= 1) {
-            JRJsonNode result = contextNode.getFirst();
+        JsonNodeContainer result = new JsonNodeContainer();
+        List<JRJsonNode> uniqueParents = new ArrayList<>();
 
-            for(int i=0; i < level; i++) {
-                result = result.getParent();
+        for (JRJsonNode node: nodes) {
+            JRJsonNode parent = getParent(node);
 
-                if (result == null) {
-                    return null;
+            if (parent != null && !uniqueParents.contains(parent)) {
+                uniqueParents.add(parent);
+
+                if (applyFilter(parent)) {
+                    result.add(parent);
                 }
             }
+        }
 
-            return new JsonNodeContainer(result);
+        if (result.getSize() > 0) {
+            return result;
         }
 
         return null;
+    }
+
+    @Override
+    public MemberExpression getMemberExpression() {
+        return expression;
+    }
+
+    private JRJsonNode getParent(JRJsonNode jrJsonNode) {
+        JRJsonNode result = jrJsonNode;
+        int level = expression.getLevel();
+
+        for(int i=0; i < level; i++) {
+            result = result.getParent();
+
+            if (result == null) {
+                return null;
+            }
+        }
+
+        return result;
     }
 
 }
