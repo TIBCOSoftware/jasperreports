@@ -82,7 +82,7 @@ public class JRDesignBarPlot extends JRBaseBarPlot implements JRDesignCategoryPl
 	 */
 	public JRDesignBarPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(plot, chart);
+		super(plot, chart, ChartCopyDesignObjectFactory.instance());
 	}
 
 

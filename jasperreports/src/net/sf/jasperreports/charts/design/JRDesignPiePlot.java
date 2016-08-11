@@ -48,6 +48,6 @@ public class JRDesignPiePlot extends JRBasePiePlot
 	 */
 	public JRDesignPiePlot(JRChartPlot piePlot, JRChart chart)
 	{
-		super(piePlot, chart);
+		super(piePlot, chart, ChartCopyDesignObjectFactory.instance());
 	}
 }

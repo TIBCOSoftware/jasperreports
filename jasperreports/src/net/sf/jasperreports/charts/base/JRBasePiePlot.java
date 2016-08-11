@@ -26,6 +26,7 @@ package net.sf.jasperreports.charts.base;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import net.sf.jasperreports.charts.ChartCopyObjectFactory;
 import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -67,17 +68,22 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	 */
 	public JRBasePiePlot(JRChartPlot chartPlot, JRChart chart)
 	{
+		this(chartPlot, chart, ChartCopyBaseObjectFactory.instance());
+	}
+
+	protected JRBasePiePlot(JRChartPlot chartPlot, JRChart chart, ChartCopyObjectFactory copyObjectFactory)
+	{
 		super(chartPlot, chart);
 		
 		JRPiePlot piePlot = chartPlot instanceof JRPiePlot ? (JRPiePlot)chartPlot : null;
 		
 		if (piePlot == null)
 		{
-			itemLabel = new JRBaseItemLabel(null, chart);
+			itemLabel = copyObjectFactory.copyItemLabel(null, chart);
 		}
 		else
 		{
-			itemLabel = new JRBaseItemLabel(piePlot.getItemLabel(), chart);
+			itemLabel = copyObjectFactory.copyItemLabel(piePlot.getItemLabel(), chart);
 		}
 	}
 
