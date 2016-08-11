@@ -28,12 +28,16 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
@@ -107,11 +111,16 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  * </p>
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource {
+public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> extends JRAbstractTextDataSource implements JRRewindableDataSource 
+{
+	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.field.expression";
+
+	private Map<String, String> fieldExpressions = new HashMap<String, String>();
+
 
 	public abstract Node getCurrentNode();
 	
-	public abstract Object getSelectObject(Node currentNode, String expression)  throws JRException ; 
+	public abstract Object getSelectObject(Node currentNode, String expression)  throws JRException;
 	
 	
 	/*
@@ -126,11 +135,22 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 		{
 			return null;
 		}
-		String expression = jrField.getDescription();
+
+		String expression = null;
+		if (fieldExpressions.containsKey(jrField.getName()))
+		{
+			expression = fieldExpressions.get(jrField.getName());
+		}
+		else
+		{
+			expression = getFieldExpression(jrField);
+			fieldExpressions.put(jrField.getName(), expression);
+		}
 		if (expression == null || expression.length() == 0)
 		{
 			return null;
 		}
+
 		Object value = null;
 		
 		Class<?> valueClass = jrField.getValueClass();
@@ -180,7 +200,7 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 	 * @throws JRException if the sub data source couldn't be created
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String)
 	 */
-	public abstract AbstractXmlDataSource subDataSource(String selectExpr) throws JRException;
+	public abstract T subDataSource(String selectExpr) throws JRException;
 
 	/**
 	 * Creates a sub data source using the current node (record) as the root
@@ -192,7 +212,7 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 	 * @see JRXmlDataSource#subDataSource(String)
 	 * @see JRXmlDataSource#JRXmlDataSource(Document)
 	 */
-	public AbstractXmlDataSource subDataSource() throws JRException {
+	public T subDataSource() throws JRException {
 		return subDataSource(".");
 	}
 
@@ -216,7 +236,7 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 	 * @throws JRException if the sub data source couldn't be created
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String)
 	 */
-	public abstract AbstractXmlDataSource dataSource(String selectExpr) throws JRException;
+	public abstract T dataSource(String selectExpr) throws JRException;
 
 	/**
 	 * Creates a sub data source using as root document the document used by "this" data source.
@@ -227,7 +247,7 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 	 * @see JRXmlDataSource#dataSource(String)
 	 * @see JRXmlDataSource#JRXmlDataSource(Document)
 	 */
-	public AbstractXmlDataSource dataSource() throws JRException {
+	public T dataSource() throws JRException {
 		return dataSource(".");
 	}
 
@@ -283,4 +303,13 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 		return result.toString();
 	}
 	
+	protected String getFieldExpression(JRField field)
+	{
+		String fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
+		if (fieldExpression == null)
+		{
+			fieldExpression = field.getDescription();
+		}
+		return fieldExpression;
+	}
 }

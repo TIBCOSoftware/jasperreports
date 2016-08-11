@@ -7,10 +7,10 @@
 		<![CDATA[/Northwind/Customers]]>
 	</queryString>
 	<field name="CustomerID" class="java.lang.String">
-		<fieldDescription><![CDATA[CustomerID]]></fieldDescription>
+		<property name="net.sf.jasperreports.xpath.field.expression" value="CustomerID"/>
 	</field>
 	<field name="CompanyName" class="java.lang.String">
-		<fieldDescription><![CDATA[CompanyName]]></fieldDescription>
+		<property name="net.sf.jasperreports.xpath.field.expression" value="CompanyName"/>
 	</field>
 	<title>
 		<band height="50">
