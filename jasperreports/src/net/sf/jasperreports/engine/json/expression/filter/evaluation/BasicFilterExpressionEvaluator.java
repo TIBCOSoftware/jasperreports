@@ -95,17 +95,8 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                 result = applySizeOperator(memberEval.getContainerSize());
             }
         }
-        // the value is checked only for value/missing nodes
-        else if (expression.isValueFunction()) {
-            if (memberEval.getSize() == 1 &&
-                (memberEval.getFirst().getDataNode().isValueNode() || memberEval.getFirst().getDataNode().isMissingNode())) {
-
-                result = applyOperator(memberEval.getFirst().getDataNode());
-            }
-        }
         // else perform the filtering only for value/missing nodes
         else if (memberEval.getSize() == 1 &&
-                memberEval.getSize() == 1 &&
                 (memberEval.getFirst().getDataNode().isValueNode() || memberEval.getFirst().getDataNode().isMissingNode())) {
 
             result = applyOperator(memberEval.getFirst().getDataNode());
