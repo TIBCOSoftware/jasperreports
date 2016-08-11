@@ -154,14 +154,6 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
                 result = filterArrayNode(jrJsonNode, (ArrayNode) dataNode, expression.getObjectKey());
             }
         }
-        // advance into a value node
-        else if (dataNode.isValueNode()) {
-            if (expression.isWildcard()) {
-                if (applyFilter(jrJsonNode)) {
-                    result.add(jrJsonNode);
-                }
-            }
-        }
 
         return result;
     }
@@ -202,20 +194,12 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
                 while (it.hasNext()) {
                     JsonNode current = it.next().getValue();
                     stack.addLast(stackNode.createChild(current));
-
-                    if (log.isDebugEnabled()) {
-                        log.debug("added to stack: " + current);
-                    }
                 }
             }
             // if array => push all children
             else if (stackDataNode.isArray()) {
                 for (JsonNode deeper: stackDataNode) {
                     stack.addLast(stackNode.createChild(deeper));
-
-                    if (log.isDebugEnabled()) {
-                        log.debug("added to stack: " + deeper);
-                    }
                 }
             }
 
@@ -226,7 +210,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
             // process the current stack item
             if (stackDataNode.isObject()) {
                 if (log.isDebugEnabled()) {
-                    log.debug("element is object; wildcard: " + expression.isWildcard());
+                    log.debug("stack element is object; wildcard: " + expression.isWildcard());
                 }
 
                 // if wildcard => only filter the parent; we already added the object keys to the stack
@@ -242,20 +226,9 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
                         result.add(deeperNode);
                     }
                 }
-            } else if (stackDataNode.isArray()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("element is array; wildcard: " + expression.isWildcard());
-                }
-
-                // keep the array containment
-                if (expression.isWildcard()) {
-                    result.addAll(filterArrayNode(stackNode, (ArrayNode) stackDataNode, null, true));
-                } else {
-                    result.addAll(filterArrayNode(stackNode, (ArrayNode) stackDataNode, expression.getObjectKey(), true));
-                }
             } else if (stackDataNode.isValueNode()) {
                 if (log.isDebugEnabled()) {
-                    log.debug("element is value node; wildcard: " + expression.isWildcard());
+                    log.debug("stack element is value node; wildcard: " + expression.isWildcard());
                 }
 
                 if (expression.isWildcard()) {
