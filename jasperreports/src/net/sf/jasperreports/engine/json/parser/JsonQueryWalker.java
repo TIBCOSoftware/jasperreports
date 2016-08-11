@@ -62,12 +62,12 @@ public JsonQueryWalker() {
 		AST jsonPathExpression_AST_in = (_t == ASTNULL) ? null : (AST)_t;
 		
 		try {      // for error handling
-			AST __t72 = _t;
+			AST __t74 = _t;
 			AST tmp1_AST_in = (AST)_t;
 			match(_t,PATH);
 			_t = _t.getFirstChild();
 			{
-			_loop74:
+			_loop76:
 			do {
 				if (_t==null) _t=ASTNULL;
 				if ((_t.getType()==MEMBER)) {
@@ -75,12 +75,12 @@ public JsonQueryWalker() {
 					_t = _retTree;
 				}
 				else {
-					break _loop74;
+					break _loop76;
 				}
 				
 			} while (true);
 			}
-			_t = __t72;
+			_t = __t74;
 			_t = _t.getNextSibling();
 		}
 		catch (RecognitionException ex) {
@@ -102,7 +102,7 @@ public JsonQueryWalker() {
 		
 		
 		try {      // for error handling
-			AST __t76 = _t;
+			AST __t78 = _t;
 			AST tmp2_AST_in = (AST)_t;
 			match(_t,MEMBER);
 			_t = _t.getFirstChild();
@@ -127,7 +127,7 @@ public JsonQueryWalker() {
 			}
 			}
 			}
-			_t = __t76;
+			_t = __t78;
 			_t = _t.getNextSibling();
 			
 			memberExpr.setFilterExpression(filterExpression);
@@ -160,7 +160,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case SIMPLE_KEY:
 			{
-				AST __t79 = _t;
+				AST __t81 = _t;
 				AST tmp3_AST_in = (AST)_t;
 				match(_t,SIMPLE_KEY);
 				_t = _t.getFirstChild();
@@ -208,7 +208,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t79;
+				_t = __t81;
 				_t = _t.getNextSibling();
 				
 				if (id != null) {
@@ -223,7 +223,7 @@ public JsonQueryWalker() {
 			}
 			case COMPLEX_KEY:
 			{
-				AST __t82 = _t;
+				AST __t84 = _t;
 				AST tmp5_AST_in = (AST)_t;
 				match(_t,COMPLEX_KEY);
 				_t = _t.getFirstChild();
@@ -250,7 +250,7 @@ public JsonQueryWalker() {
 				s = (AST)_t;
 				match(_t,STRING);
 				_t = _t.getNextSibling();
-				_t = __t82;
+				_t = __t84;
 				_t = _t.getNextSibling();
 				
 				memberExpr = new ObjectKeyExpression(dir, s.getText());
@@ -262,7 +262,7 @@ public JsonQueryWalker() {
 				
 				memberExpr = new ObjectConstructionExpression();
 				
-				AST __t84 = _t;
+				AST __t86 = _t;
 				AST tmp6_AST_in = (AST)_t;
 				match(_t,OBJECT_CONSTRUCTION);
 				_t = _t.getFirstChild();
@@ -288,8 +288,8 @@ public JsonQueryWalker() {
 				}
 				}
 				{
-				int _cnt87=0;
-				_loop87:
+				int _cnt89=0;
+				_loop89:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if ((_t.getType()==ID||_t.getType()==STRING)) {
@@ -297,13 +297,13 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt87>=1 ) { break _loop87; } else {throw new NoViableAltException(_t);}
+						if ( _cnt89>=1 ) { break _loop89; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt87++;
+					_cnt89++;
 				} while (true);
 				}
-				_t = __t84;
+				_t = __t86;
 				_t = _t.getNextSibling();
 				
 				((ObjectConstructionExpression)memberExpr).setDirection(dir);
@@ -312,7 +312,7 @@ public JsonQueryWalker() {
 			}
 			case ARRAY_INDEX:
 			{
-				AST __t88 = _t;
+				AST __t90 = _t;
 				AST tmp7_AST_in = (AST)_t;
 				match(_t,ARRAY_INDEX);
 				_t = _t.getFirstChild();
@@ -339,7 +339,7 @@ public JsonQueryWalker() {
 				n = (AST)_t;
 				match(_t,INT);
 				_t = _t.getNextSibling();
-				_t = __t88;
+				_t = __t90;
 				_t = _t.getNextSibling();
 				
 				memberExpr = new ArrayIndexExpression(dir, Integer.parseInt(n.getText()));
@@ -351,7 +351,7 @@ public JsonQueryWalker() {
 				
 				memberExpr = new ArrayConstructionExpression();
 				
-				AST __t90 = _t;
+				AST __t92 = _t;
 				AST tmp8_AST_in = (AST)_t;
 				match(_t,ARRAY_CONSTRUCTION);
 				_t = _t.getFirstChild();
@@ -376,8 +376,8 @@ public JsonQueryWalker() {
 				}
 				}
 				{
-				int _cnt93=0;
-				_loop93:
+				int _cnt95=0;
+				_loop95:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if ((_t.getType()==INT)) {
@@ -385,13 +385,13 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt93>=1 ) { break _loop93; } else {throw new NoViableAltException(_t);}
+						if ( _cnt95>=1 ) { break _loop95; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt93++;
+					_cnt95++;
 				} while (true);
 				}
-				_t = __t90;
+				_t = __t92;
 				_t = _t.getNextSibling();
 				
 				((ArrayConstructionExpression)memberExpr).setDirection(dir);
@@ -400,7 +400,7 @@ public JsonQueryWalker() {
 			}
 			case ARRAY_SLICE:
 			{
-				AST __t94 = _t;
+				AST __t96 = _t;
 				AST tmp9_AST_in = (AST)_t;
 				match(_t,ARRAY_SLICE);
 				_t = _t.getFirstChild();
@@ -468,7 +468,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t94;
+				_t = __t96;
 				_t = _t.getNextSibling();
 				
 				Integer start = null, end = null;
@@ -486,7 +486,7 @@ public JsonQueryWalker() {
 			}
 			case MULTI_LEVEL_UP:
 			{
-				AST __t98 = _t;
+				AST __t100 = _t;
 				AST tmp11_AST_in = (AST)_t;
 				match(_t,MULTI_LEVEL_UP);
 				_t = _t.getFirstChild();
@@ -513,7 +513,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t98;
+				_t = __t100;
 				_t = _t.getNextSibling();
 				
 				int level = 1;
@@ -544,13 +544,13 @@ public JsonQueryWalker() {
 		AST filterExprMain_AST_in = (_t == ASTNULL) ? null : (AST)_t;
 		
 		try {      // for error handling
-			AST __t104 = _t;
+			AST __t106 = _t;
 			AST tmp13_AST_in = (AST)_t;
 			match(_t,FILTER);
 			_t = _t.getFirstChild();
 			filterExpression=filterExpr(_t);
 			_t = _retTree;
-			_t = __t104;
+			_t = __t106;
 			_t = _t.getNextSibling();
 		}
 		catch (RecognitionException ex) {
@@ -682,7 +682,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case AND:
 			{
-				AST __t106 = _t;
+				AST __t108 = _t;
 				AST tmp16_AST_in = (AST)_t;
 				match(_t,AND);
 				_t = _t.getFirstChild();
@@ -690,7 +690,7 @@ public JsonQueryWalker() {
 				_t = _retTree;
 				fe2=filterExpr(_t);
 				_t = _retTree;
-				_t = __t106;
+				_t = __t108;
 				_t = _t.getNextSibling();
 				
 				result = new CompoundFilterExpression(fe1, fe2, LOGICAL_OPERATOR.AND);
@@ -699,7 +699,7 @@ public JsonQueryWalker() {
 			}
 			case OR:
 			{
-				AST __t107 = _t;
+				AST __t109 = _t;
 				AST tmp17_AST_in = (AST)_t;
 				match(_t,OR);
 				_t = _t.getFirstChild();
@@ -707,7 +707,7 @@ public JsonQueryWalker() {
 				_t = _retTree;
 				fe2=filterExpr(_t);
 				_t = _retTree;
-				_t = __t107;
+				_t = __t109;
 				_t = _t.getNextSibling();
 				
 				result = new CompoundFilterExpression(fe1, fe2, LOGICAL_OPERATOR.OR);
@@ -716,13 +716,13 @@ public JsonQueryWalker() {
 			}
 			case NOT:
 			{
-				AST __t108 = _t;
+				AST __t110 = _t;
 				AST tmp18_AST_in = (AST)_t;
 				match(_t,NOT);
 				_t = _t.getFirstChild();
 				fe1=filterExpr(_t);
 				_t = _retTree;
-				_t = __t108;
+				_t = __t110;
 				_t = _t.getNextSibling();
 				
 				result = new NotFilterExpression(fe1);
@@ -736,6 +736,8 @@ public JsonQueryWalker() {
 			case ARRAY_CONSTRUCTION:
 			case ARRAY_SLICE:
 			case MULTI_LEVEL_UP:
+			case AT_SIZE:
+			case AT_VALUE:
 			{
 				result=filterExprMinimal(_t);
 				_t = _retTree;
@@ -759,6 +761,7 @@ public JsonQueryWalker() {
 		BasicFilterExpression filterExpression = new BasicFilterExpression();
 		
 		AST filterExprMinimal_AST_in = (_t == ASTNULL) ? null : (AST)_t;
+		AST valFn = null;
 		AST szFn = null;
 		
 		ValueDescriptor val = null;
@@ -766,39 +769,109 @@ public JsonQueryWalker() {
 		
 		
 		try {      // for error handling
-			{
-			int _cnt111=0;
-			_loop111:
-			do {
-				if (_t==null) _t=ASTNULL;
-				if (((_t.getType() >= SIMPLE_KEY && _t.getType() <= MULTI_LEVEL_UP))) {
-					filterMemberExpr(_t,filterExpression);
-					_t = _retTree;
-				}
-				else {
-					if ( _cnt111>=1 ) { break _loop111; } else {throw new NoViableAltException(_t);}
-				}
-				
-				_cnt111++;
-			} while (true);
-			}
-			{
 			if (_t==null) _t=ASTNULL;
 			switch ( _t.getType()) {
 			case AT_SIZE:
+			case AT_VALUE:
 			{
-				szFn = (AST)_t;
-				match(_t,AT_SIZE);
-				_t = _t.getNextSibling();
+				{
+				if (_t==null) _t=ASTNULL;
+				switch ( _t.getType()) {
+				case AT_SIZE:
+				{
+					AST tmp19_AST_in = (AST)_t;
+					match(_t,AT_SIZE);
+					_t = _t.getNextSibling();
+					break;
+				}
+				case AT_VALUE:
+				{
+					valFn = (AST)_t;
+					match(_t,AT_VALUE);
+					_t = _t.getNextSibling();
+					break;
+				}
+				default:
+				{
+					throw new NoViableAltException(_t);
+				}
+				}
+				}
+				op=operator(_t);
+				_t = _retTree;
+				val=value(_t);
+				_t = _retTree;
+				
+				if (valFn != null) {
+				filterExpression.setIsValueFunction(true);
+				} else {
+				filterExpression.setIsSizeFunction(true);
+				}
+				filterExpression.setOperator(op);
+				filterExpression.setValueDescriptor(val);
+				
 				break;
 			}
-			case EQ:
-			case NE:
-			case LT:
-			case LE:
-			case GT:
-			case GE:
+			case SIMPLE_KEY:
+			case COMPLEX_KEY:
+			case OBJECT_CONSTRUCTION:
+			case ARRAY_INDEX:
+			case ARRAY_CONSTRUCTION:
+			case ARRAY_SLICE:
+			case MULTI_LEVEL_UP:
 			{
+				{
+				int _cnt114=0;
+				_loop114:
+				do {
+					if (_t==null) _t=ASTNULL;
+					if (((_t.getType() >= SIMPLE_KEY && _t.getType() <= MULTI_LEVEL_UP))) {
+						filterMemberExpr(_t,filterExpression);
+						_t = _retTree;
+					}
+					else {
+						if ( _cnt114>=1 ) { break _loop114; } else {throw new NoViableAltException(_t);}
+					}
+					
+					_cnt114++;
+				} while (true);
+				}
+				{
+				if (_t==null) _t=ASTNULL;
+				switch ( _t.getType()) {
+				case AT_SIZE:
+				{
+					szFn = (AST)_t;
+					match(_t,AT_SIZE);
+					_t = _t.getNextSibling();
+					break;
+				}
+				case EQ:
+				case NE:
+				case LT:
+				case LE:
+				case GT:
+				case GE:
+				{
+					break;
+				}
+				default:
+				{
+					throw new NoViableAltException(_t);
+				}
+				}
+				}
+				op=operator(_t);
+				_t = _retTree;
+				val=value(_t);
+				_t = _retTree;
+				
+				if (szFn != null) {
+				filterExpression.setIsSizeFunction(true);
+				}
+				filterExpression.setOperator(op);
+				filterExpression.setValueDescriptor(val);
+				
 				break;
 			}
 			default:
@@ -806,18 +879,6 @@ public JsonQueryWalker() {
 				throw new NoViableAltException(_t);
 			}
 			}
-			}
-			op=operator(_t);
-			_t = _retTree;
-			val=value(_t);
-			_t = _retTree;
-			
-			if (szFn != null) {
-			filterExpression.setIsSizeFunction(true);
-			}
-			filterExpression.setOperator(op);
-			filterExpression.setValueDescriptor(val);
-			
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
@@ -825,29 +886,6 @@ public JsonQueryWalker() {
 		}
 		_retTree = _t;
 		return filterExpression;
-	}
-	
-	public final void filterMemberExpr(AST _t,
-		BasicFilterExpression filterExpression
-	) throws RecognitionException {
-		
-		AST filterMemberExpr_AST_in = (_t == ASTNULL) ? null : (AST)_t;
-		
-		MemberExpression memberExpr = null;
-		
-		
-		try {      // for error handling
-			memberExpr=pathNaviExpr(_t);
-			_t = _retTree;
-			
-			filterExpression.addMemberExpression(memberExpr);
-			
-		}
-		catch (RecognitionException ex) {
-			reportError(ex);
-			if (_t!=null) {_t = _t.getNextSibling();}
-		}
-		_retTree = _t;
 	}
 	
 	public final JsonOperatorEnum  operator(AST _t) throws RecognitionException {
@@ -860,7 +898,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case EQ:
 			{
-				AST tmp19_AST_in = (AST)_t;
+				AST tmp20_AST_in = (AST)_t;
 				match(_t,EQ);
 				_t = _t.getNextSibling();
 				operator = JsonOperatorEnum.EQ;
@@ -868,7 +906,7 @@ public JsonQueryWalker() {
 			}
 			case NE:
 			{
-				AST tmp20_AST_in = (AST)_t;
+				AST tmp21_AST_in = (AST)_t;
 				match(_t,NE);
 				_t = _t.getNextSibling();
 				operator = JsonOperatorEnum.NE;
@@ -876,7 +914,7 @@ public JsonQueryWalker() {
 			}
 			case LT:
 			{
-				AST tmp21_AST_in = (AST)_t;
+				AST tmp22_AST_in = (AST)_t;
 				match(_t,LT);
 				_t = _t.getNextSibling();
 				operator = JsonOperatorEnum.LT;
@@ -884,7 +922,7 @@ public JsonQueryWalker() {
 			}
 			case LE:
 			{
-				AST tmp22_AST_in = (AST)_t;
+				AST tmp23_AST_in = (AST)_t;
 				match(_t,LE);
 				_t = _t.getNextSibling();
 				operator = JsonOperatorEnum.LE;
@@ -892,7 +930,7 @@ public JsonQueryWalker() {
 			}
 			case GT:
 			{
-				AST tmp23_AST_in = (AST)_t;
+				AST tmp24_AST_in = (AST)_t;
 				match(_t,GT);
 				_t = _t.getNextSibling();
 				operator = JsonOperatorEnum.GT;
@@ -900,7 +938,7 @@ public JsonQueryWalker() {
 			}
 			case GE:
 			{
-				AST tmp24_AST_in = (AST)_t;
+				AST tmp25_AST_in = (AST)_t;
 				match(_t,GE);
 				_t = _t.getNextSibling();
 				operator = JsonOperatorEnum.GE;
@@ -933,7 +971,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case LITERAL_null:
 			{
-				AST tmp25_AST_in = (AST)_t;
+				AST tmp26_AST_in = (AST)_t;
 				match(_t,LITERAL_null);
 				_t = _t.getNextSibling();
 				valueDescriptor = new ValueDescriptor(VALUE_TYPE.NULL, "null");
@@ -941,7 +979,7 @@ public JsonQueryWalker() {
 			}
 			case LITERAL_true:
 			{
-				AST tmp26_AST_in = (AST)_t;
+				AST tmp27_AST_in = (AST)_t;
 				match(_t,LITERAL_true);
 				_t = _t.getNextSibling();
 				valueDescriptor = new ValueDescriptor(VALUE_TYPE.BOOLEAN, "true");
@@ -949,7 +987,7 @@ public JsonQueryWalker() {
 			}
 			case LITERAL_false:
 			{
-				AST tmp27_AST_in = (AST)_t;
+				AST tmp28_AST_in = (AST)_t;
 				match(_t,LITERAL_false);
 				_t = _t.getNextSibling();
 				valueDescriptor = new ValueDescriptor(VALUE_TYPE.BOOLEAN, "false");
@@ -993,6 +1031,29 @@ public JsonQueryWalker() {
 		return valueDescriptor;
 	}
 	
+	public final void filterMemberExpr(AST _t,
+		BasicFilterExpression filterExpression
+	) throws RecognitionException {
+		
+		AST filterMemberExpr_AST_in = (_t == ASTNULL) ? null : (AST)_t;
+		
+		MemberExpression memberExpr = null;
+		
+		
+		try {      // for error handling
+			memberExpr=pathNaviExpr(_t);
+			_t = _retTree;
+			
+			filterExpression.addMemberExpression(memberExpr);
+			
+		}
+		catch (RecognitionException ex) {
+			reportError(ex);
+			if (_t!=null) {_t = _t.getNextSibling();}
+		}
+		_retTree = _t;
+	}
+	
 	
 	public static final String[] _tokenNames = {
 		"<0>",
@@ -1034,6 +1095,7 @@ public JsonQueryWalker() {
 		"LE",
 		"GT",
 		"GE",
+		"AT_VALUE",
 		"REAL",
 		"\"null\"",
 		"\"true\"",

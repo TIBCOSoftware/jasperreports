@@ -39,6 +39,7 @@ public class BasicFilterExpression implements FilterExpression {
     private JsonOperatorEnum operator;
     private ValueDescriptor valueDescriptor;
     private boolean isSizeFunction;
+    private boolean isValueFunction;
 
 
     public BasicFilterExpression() {
@@ -81,6 +82,14 @@ public class BasicFilterExpression implements FilterExpression {
         this.isSizeFunction = isSizeFunction;
     }
 
+    public boolean isValueFunction() {
+        return isValueFunction;
+    }
+
+    public void setIsValueFunction(boolean isValueFunction) {
+        this.isValueFunction = isValueFunction;
+    }
+
     @Override
     public String toString() {
         String result = "";
@@ -91,6 +100,10 @@ public class BasicFilterExpression implements FilterExpression {
 
         if (isSizeFunction) {
             result += "isSizeFn";
+        }
+
+        if (isValueFunction) {
+            result += "isValueFn";
         }
 
         return result + " " + operator + " " + valueDescriptor;

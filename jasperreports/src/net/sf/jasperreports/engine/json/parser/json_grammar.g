@@ -157,11 +157,17 @@ basicExpr
     ;
 
 filterNaviExpr
-    : (pathNaviExpr)+ (sizeFnExpr | operator_to_value)
+    : sizeFnExpr
+    | valueFnExpr
+    | (pathNaviExpr)+ (sizeFnExpr | operator_to_value)
     ;
 
 sizeFnExpr
     : AT_SIZE (EQ | NE | LT | LE | GT | GE) INT
+    ;
+
+valueFnExpr
+    : AT_VALUE (EQ | NE | LT | LE | GT | GE) value
     ;
 
 operator_to_value
@@ -320,7 +326,17 @@ filterExprMinimal returns [BasicFilterExpression filterExpression = new BasicFil
             ValueDescriptor val = null;
             JsonOperatorEnum op = null;
         }
-    : (filterMemberExpr[filterExpression])+ (szFn:AT_SIZE)? op=operator val=value
+    : (AT_SIZE | valFn:AT_VALUE) op=operator val=value
+        {
+            if (valFn != null) {
+                filterExpression.setIsValueFunction(true);
+            } else {
+                filterExpression.setIsSizeFunction(true);
+            }
+            filterExpression.setOperator(op);
+            filterExpression.setValueDescriptor(val);
+        }
+    | (filterMemberExpr[filterExpression])+ (szFn:AT_SIZE)? op=operator val=value
         {
             if (szFn != null) {
                 filterExpression.setIsSizeFunction(true);
@@ -446,6 +462,9 @@ GE
     ;
 AT_SIZE
     : "@size"
+    ;
+AT_VALUE
+    : "@val"
     ;
 STRING
     : '"'! (ESC | ~('"' | '\\'))* '"'!
