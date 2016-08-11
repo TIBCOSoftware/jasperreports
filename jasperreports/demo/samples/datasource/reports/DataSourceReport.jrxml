@@ -10,7 +10,7 @@
 	<field name="name" class="java.lang.String"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="the_city" class="java.lang.String">
-		<fieldDescription><![CDATA[me.city]]></fieldDescription>
+		<propertyExpression name="net.sf.jasperreports.javabean.field.property.name"><![CDATA["me.city"]]></propertyExpression>
 	</field>
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>

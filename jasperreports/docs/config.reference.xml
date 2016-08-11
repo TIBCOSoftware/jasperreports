@@ -24,6 +24,7 @@
       <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
       <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
       <property ref="net.sf.jasperreports.hql.query.run.type"/>
+      <property ref="net.sf.jasperreports.javabean.field.property"/>
       <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
       <property ref="net.sf.jasperreports.jdbc.concurrency"/>
       <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
@@ -37,6 +38,7 @@
       <property ref="net.sf.jasperreports.xls.source"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
+      <property ref="net.sf.jasperreports.xpath.field.mapping"/>
     </content>
   </category>
   
@@ -657,6 +659,20 @@ Property specifying the Hibernate query execution type. Possible values are:
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.javabean.field.property -->
+  
+  <configProperty name="net.sf.jasperreports.javabean.field.property">
+    <description>
+Property specifying the JavaBean property name for the dataset field in case an JavaBean data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+    <api>net/sf/jasperreports/engine/data/JRAbstractBeanDataSource.html#PROPERTY_JAVABEAN_FIELD_PROPERTY</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.jdbc.cached.rowset -->
   
   <configProperty name="net.sf.jasperreports.jdbc.cached.rowset">
@@ -790,6 +806,20 @@ Property specifying the
     <default><code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code></default>
     <scope>Global</scope>
     <since>2.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xpath.field.expression -->
+  
+  <configProperty name="net.sf.jasperreports.xpath.field.expression">
+    <description>
+Property specifying the XPath expression for the dataset field in case an XML data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+    <api>net/sf/jasperreports/engine/data/AbstractXmlDataSource.html#PROPERTY_FIELD_EXPRESSION</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   

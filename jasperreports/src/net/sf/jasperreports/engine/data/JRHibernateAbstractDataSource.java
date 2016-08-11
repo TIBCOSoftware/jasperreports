@@ -26,14 +26,14 @@ package net.sf.jasperreports.engine.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.hibernate.type.Type;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.hibernate.type.Type;
 
 /**
  * Base abstract Hibernate data source.
@@ -48,7 +48,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	public static final String EXCEPTION_MESSAGE_KEY_NO_FIELD_READER = "data.hibernate.no.field.reader";
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_RETURN_ALIAS = "data.hibernate.unknown.return.alias";
 	
-	private final boolean useFieldDescription;
+	private final JRAbstractBeanDataSource.PropertyNameProvider propertyNameProvider;
 	private final Map<String, FieldReader> fieldReaders;
 	protected final JRHibernateQueryExecuter queryExecuter;
 	private Object currentReturnValue;
@@ -63,7 +63,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	 */
 	protected JRHibernateAbstractDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription, boolean useIndexOnSingleReturn)
 	{
-		this.useFieldDescription = useFieldDescription;
+		this.propertyNameProvider = new JRAbstractBeanDataSource.DefaultPropertyNameProvider(useFieldDescription);
 		
 		this.queryExecuter = queryExecuter;
 
@@ -258,10 +258,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	
 	protected String getFieldMapping(JRField field)
 	{
-		return (useFieldDescription ? 
-					JRAbstractBeanDataSource.FIELD_DESCRIPTION_PROPERTY_NAME_PROVIDER : 
-					JRAbstractBeanDataSource.FIELD_NAME_PROPERTY_NAME_PROVIDER)
-				.getPropertyName(field);
+		return propertyNameProvider.getPropertyName(field);
 	}
 	
 	

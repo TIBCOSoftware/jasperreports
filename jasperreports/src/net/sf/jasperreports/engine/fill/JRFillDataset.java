@@ -652,8 +652,6 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			filter.init(this);
 		}
-
-		evaluateFieldProperties();
 	}
 
 	protected Locale defaultLocale()
@@ -1079,7 +1077,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	/**
 	 * 
 	 */
-	private void evaluateFieldProperties() throws JRException
+	public void evaluateFieldProperties() throws JRException
 	{
 		if (fields != null && fields.length > 0)
 		{

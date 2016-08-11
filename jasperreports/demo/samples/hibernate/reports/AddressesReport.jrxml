@@ -14,19 +14,19 @@
 			order by address.city, address.lastName, address.firstName, address.id]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
-		<fieldDescription><![CDATA[address.id]]></fieldDescription>
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.id"/>
 	</field>
 	<field name="firstName" class="java.lang.String">
-		<fieldDescription><![CDATA[address.firstName]]></fieldDescription>
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.firstName"/>
 	</field>
 	<field name="lastName" class="java.lang.String">
-		<fieldDescription><![CDATA[address.lastName]]></fieldDescription>
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.lastName"/>
 	</field>
 	<field name="street" class="java.lang.String">
-		<fieldDescription><![CDATA[address.street]]></fieldDescription>
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.street"/>
 	</field>
 	<field name="city" class="java.lang.String">
-		<fieldDescription><![CDATA[address.city]]></fieldDescription>
+		<property name="net.sf.jasperreports.javabean.field.property" value="address.city"/>
 	</field>
 	<field name="documentId" class="java.lang.Long"/>
 	<field name="documentTotal" class="java.lang.Double"/>

@@ -79,6 +79,9 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_LEVEL_NOT_FOUND = "data.olap.level.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_TUPLE_NOT_FOUND = "data.olap.tuple.not.found";
 
+	/**
+	 * Property specifying the OLAP mapping for the dataset field.
+	 */
 	public static final String PROPERTY_FIELD_MAPPING = JRPropertiesUtil.PROPERTY_PREFIX + "olap.field.mapping";
 
 	protected final JROlapResult olapResult;
@@ -612,6 +615,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			// for other fields, FormattedData mappings are treated in the same way as Data mappings
 			this.formatted = mapping.isFormatted() && String.class.equals(field.getValueClass());
 
+			@SuppressWarnings("unchecked")
 			List<AxisPosition> mappingPositions = mapping.getPositions();
 			if (mappingPositions == null)
 			{

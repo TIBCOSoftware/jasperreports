@@ -113,6 +113,9 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  */
 public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> extends JRAbstractTextDataSource implements JRRewindableDataSource 
 {
+	/**
+	 * Property specifying the XPath expression for the dataset field.
+	 */
 	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.field.expression";
 
 	private Map<String, String> fieldExpressions = new HashMap<String, String>();
