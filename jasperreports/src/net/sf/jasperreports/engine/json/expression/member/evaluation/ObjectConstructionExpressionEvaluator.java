@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
 import net.sf.jasperreports.engine.json.expression.EvaluationContext;
 import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
@@ -30,6 +34,9 @@ import net.sf.jasperreports.engine.json.expression.member.ObjectConstructionExpr
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -46,11 +53,83 @@ public class ObjectConstructionExpressionEvaluator extends AbstractMemberExpress
 
     @Override
     public JsonNodeContainer evaluate(JsonNodeContainer contextNode) {
-        return contextNode;
+        if (log.isDebugEnabled()) {
+            log.debug("---> evaluating expression [" + expression +
+                    "] on a node with (size: " + contextNode.getSize() +
+                    ", cSize: " + contextNode.getContainerSize() + ")");
+        }
+
+        JsonNodeContainer result = new JsonNodeContainer();
+
+        switch(expression.getDirection()) {
+            case DOWN:
+            case ANYWHERE_DOWN:
+                List<JRJsonNode> nodes = contextNode.getNodes();
+
+                for (JRJsonNode node: nodes) {
+                    result.addNodes(goDown(node));
+                }
+
+                break;
+        }
+
+        if (result.getSize() > 0) {
+            return result;
+        }
+
+        return null;
     }
 
     @Override
     public MemberExpression getMemberExpression() {
         return expression;
     }
+
+    private List<JRJsonNode> goDown(JRJsonNode jrJsonNode) {
+        List<JRJsonNode> result = new ArrayList<>();
+        JsonNode dataNode = jrJsonNode.getDataNode();
+
+        // advance into object
+        if (dataNode.isObject()) {
+            JRJsonNode deeperNode = constructNewObjectNodeWithKeys(jrJsonNode);
+            if (deeperNode != null) {
+                result.add(deeperNode);
+            }
+        }
+        // advance into array
+        else if (dataNode.isArray()) {
+            for (JsonNode node : dataNode) {
+                JRJsonNode childWithKeys = constructNewObjectNodeWithKeys(jrJsonNode.createChild(node));
+
+                if (childWithKeys != null) {
+                    result.add(childWithKeys);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private JRJsonNode constructNewObjectNodeWithKeys(JRJsonNode from) {
+        ObjectNode newNode = getEvaluationContext().getObjectMapper().createObjectNode();
+
+        for (String objectKey: expression.getObjectKeys()) {
+            JsonNode deeperNode = from.getDataNode().get(objectKey);
+
+            if (deeperNode != null && (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray())) {
+                newNode.put(objectKey, deeperNode);
+            }
+        }
+
+        if (newNode.size() > 0) {
+            JRJsonNode newJRJsonNode = from.createChild(newNode);
+
+            if (applyFilter(newJRJsonNode)) {
+                return newJRJsonNode;
+            }
+        }
+
+        return null;
+    }
+
 }
