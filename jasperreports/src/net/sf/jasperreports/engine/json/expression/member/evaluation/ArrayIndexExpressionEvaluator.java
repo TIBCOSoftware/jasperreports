@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 import net.sf.jasperreports.engine.json.JRJsonNode;
@@ -33,6 +36,8 @@ import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -59,7 +64,6 @@ public class ArrayIndexExpressionEvaluator extends AbstractMemberExpressionEvalu
 
         switch(expression.getDirection()) {
             case DOWN:
-            case ANYWHERE_DOWN:
                 // this only make sense for containers with appropriate size
                 if (expression.getIndex() >= 0 && expression.getIndex() < contextNode.getContainerSize()) {
                     List<JRJsonNode> containerNodes = contextNode.getContainerNodes();
@@ -69,6 +73,14 @@ public class ArrayIndexExpressionEvaluator extends AbstractMemberExpressionEvalu
                         result.add(nodeAtIndex);
                     }
                 }
+                break;
+            case ANYWHERE_DOWN:
+                List<JRJsonNode> nodes = contextNode.getNodes();
+
+                for (JRJsonNode node: nodes) {
+                    result.addNodes(goAnywhereDown(node));
+                }
+
                 break;
         }
 
@@ -84,4 +96,49 @@ public class ArrayIndexExpressionEvaluator extends AbstractMemberExpressionEvalu
     public MemberExpression getMemberExpression() {
         return expression;
     }
+
+    private List<JRJsonNode> goAnywhereDown(JRJsonNode jrJsonNode) {
+        List<JRJsonNode> result = new ArrayList<>();
+        Deque<JRJsonNode> stack = new ArrayDeque<>();
+        JsonNode initialDataNode = jrJsonNode.getDataNode();
+
+        if (log.isDebugEnabled()) {
+            log.debug("initial stack population with: " + initialDataNode);
+        }
+
+        // populate the stack initially
+        if (initialDataNode.isArray()) {
+            for (JsonNode deeper: initialDataNode) {
+                stack.addLast(jrJsonNode.createChild(deeper));
+            }
+        } else {
+            stack.push(jrJsonNode);
+        }
+
+        while (!stack.isEmpty()) {
+            JRJsonNode stackNode = stack.pop();
+            JsonNode stackDataNode = stackNode.getDataNode();
+
+            addChildrenToStack(stackNode, stack);
+
+            // process the current stack item
+            if (stackDataNode.isArray()) {
+                if (log.isDebugEnabled()) {
+                    log.debug("processing stack element: " + stackDataNode);
+                }
+
+                if (expression.getIndex() >= 0 && expression.getIndex() < stackDataNode.size()) {
+                    JsonNode nodeAtIndex = stackDataNode.get(expression.getIndex());
+                    JRJsonNode child = stackNode.createChild(nodeAtIndex);
+
+                    if (applyFilter(child)) {
+                        result.add(child);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
 }

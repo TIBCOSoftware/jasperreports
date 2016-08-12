@@ -187,21 +187,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
             JRJsonNode stackNode = stack.pop();
             JsonNode stackDataNode = stackNode.getDataNode();
 
-            // if object => push the keys into the stack
-            if (stackDataNode.isObject()) {
-                Iterator<Map.Entry<String, JsonNode>> it = stackDataNode.fields();
-
-                while (it.hasNext()) {
-                    JsonNode current = it.next().getValue();
-                    stack.addLast(stackNode.createChild(current));
-                }
-            }
-            // if array => push all children
-            else if (stackDataNode.isArray()) {
-                for (JsonNode deeper: stackDataNode) {
-                    stack.addLast(stackNode.createChild(deeper));
-                }
-            }
+            addChildrenToStack(stackNode, stack);
 
             if (log.isDebugEnabled()) {
                 log.debug("processing stack element: " + stackDataNode);

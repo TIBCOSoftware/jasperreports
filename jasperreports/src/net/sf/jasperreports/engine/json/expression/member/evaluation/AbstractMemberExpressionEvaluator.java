@@ -24,7 +24,10 @@
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.expression.EvaluationContext;
@@ -56,8 +59,22 @@ public abstract class AbstractMemberExpressionEvaluator implements MemberExpress
     }
 
     protected boolean applyFilter(JRJsonNode node) {
+        if (log.isDebugEnabled()) {
+            log.debug("apply filter - " + getMemberExpression().getFilterExpression() + " - to: " + node);
+        }
+
         if (getMemberExpression().getFilterExpression() != null) {
-            return getMemberExpression().getFilterExpression().evaluate(node, evaluationContext.getFilterExpressionEvaluatorVisitor());
+            boolean evalResult = getMemberExpression().getFilterExpression().evaluate(node, evaluationContext.getFilterExpressionEvaluatorVisitor());
+
+            if (log.isDebugEnabled()) {
+                log.debug("filter returns " + evalResult);
+            }
+
+            return evalResult;
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("no filter expression, returns true");
         }
 
         return true;
@@ -117,6 +134,25 @@ public abstract class AbstractMemberExpressionEvaluator implements MemberExpress
         }
 
         return result;
+    }
+
+    protected void addChildrenToStack(JRJsonNode stackNode, Deque<JRJsonNode> stack) {
+        JsonNode stackDataNode = stackNode.getDataNode();
+
+        if (stackDataNode.isObject()) {
+            Iterator<Map.Entry<String, JsonNode>> it = stackDataNode.fields();
+
+            while (it.hasNext()) {
+                JsonNode current = it.next().getValue();
+                stack.addLast(stackNode.createChild(current));
+            }
+        }
+        // if array => push all children
+        else if (stackDataNode.isArray()) {
+            for (JsonNode deeper: stackDataNode) {
+                stack.addLast(stackNode.createChild(deeper));
+            }
+        }
     }
 
 }
