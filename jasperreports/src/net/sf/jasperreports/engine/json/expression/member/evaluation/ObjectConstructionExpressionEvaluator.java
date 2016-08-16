@@ -117,16 +117,16 @@ public class ObjectConstructionExpressionEvaluator extends AbstractMemberExpress
             JsonNode deeperNode = from.getDataNode().get(objectKey);
 
             if (deeperNode != null && (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray())) {
-                newNode.put(objectKey, deeperNode);
+                JRJsonNode deeperChild = from.createChild(deeperNode);
+
+                if (applyFilter(deeperChild)) {
+                    newNode.put(objectKey, deeperNode);
+                }
             }
         }
 
         if (newNode.size() > 0) {
-            JRJsonNode newJRJsonNode = from.createChild(newNode);
-
-            if (applyFilter(newJRJsonNode)) {
-                return newJRJsonNode;
-            }
+            return from.createChild(newNode);
         }
 
         return null;
