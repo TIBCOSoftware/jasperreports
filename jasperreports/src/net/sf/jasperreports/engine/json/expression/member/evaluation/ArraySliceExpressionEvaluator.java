@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 import net.sf.jasperreports.engine.json.JRJsonNode;
@@ -33,6 +36,9 @@ import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -59,7 +65,6 @@ public class ArraySliceExpressionEvaluator extends AbstractMemberExpressionEvalu
 
         switch(expression.getDirection()) {
             case DOWN:
-            case ANYWHERE_DOWN:
                 Integer start = getSliceStart(contextNode.getContainerSize());
                 if (start >= contextNode.getContainerSize()) {
                     return null;
@@ -82,6 +87,12 @@ public class ArraySliceExpressionEvaluator extends AbstractMemberExpressionEvalu
                     if (applyFilter(nodeAtIndex)) {
                         result.add(nodeAtIndex);
                     }
+                }
+
+                break;
+            case ANYWHERE_DOWN:
+                for (JRJsonNode node: contextNode.getContainerNodes()) {
+                    result.addNodes(goAnywhereDown(node));
                 }
 
                 break;
@@ -125,8 +136,61 @@ public class ArraySliceExpressionEvaluator extends AbstractMemberExpressionEvalu
         return end;
     }
 
+    private List<JRJsonNode> goAnywhereDown(JRJsonNode jrJsonNode) {
+        List<JRJsonNode> result = new ArrayList<>();
+        Deque<JRJsonNode> stack = new ArrayDeque<>();
+
+        if (log.isDebugEnabled()) {
+            log.debug("initial stack population with: " + jrJsonNode.getDataNode());
+        }
+
+        // populate the stack initially
+        stack.push(jrJsonNode);
+
+        while (!stack.isEmpty()) {
+            JRJsonNode stackNode = stack.pop();
+            JsonNode stackDataNode = stackNode.getDataNode();
+
+            addChildrenToStack(stackNode, stack);
+
+            // process the current stack item
+            if (stackDataNode.isArray()) {
+                if (log.isDebugEnabled()) {
+                    log.debug("processing stack element: " + stackDataNode);
+                }
+
+                ArrayNode newNode = getEvaluationContext().getObjectMapper().createArrayNode();
+
+                Integer start = getSliceStart(stackDataNode.size());
+                if (start >= stackDataNode.size()) {
+                    continue;
+                }
+
+                Integer end = getSliceEnd(stackDataNode.size());
+                if (end < 0) {
+                    continue;
+                }
+
+                for (int i = start; i < end; i++) {
+                    JRJsonNode nodeAtIndex = stackNode.createChild(stackDataNode.get(i));
+
+                    if (applyFilter(nodeAtIndex)) {
+                        newNode.add(nodeAtIndex.getDataNode());
+                    }
+                }
+
+                if (newNode.size() > 0) {
+                    result.add(stackNode.createChild(newNode));
+                }
+            }
+        }
+
+        return result;
+    }
+
     @Override
     public MemberExpression getMemberExpression() {
         return expression;
     }
+
 }
