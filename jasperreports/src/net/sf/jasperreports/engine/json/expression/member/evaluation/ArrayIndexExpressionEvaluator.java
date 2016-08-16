@@ -75,7 +75,7 @@ public class ArrayIndexExpressionEvaluator extends AbstractMemberExpressionEvalu
                 }
                 break;
             case ANYWHERE_DOWN:
-                List<JRJsonNode> nodes = contextNode.getNodes();
+                List<JRJsonNode> nodes = contextNode.getContainerNodes();
 
                 for (JRJsonNode node: nodes) {
                     result.addNodes(goAnywhereDown(node));
@@ -107,13 +107,7 @@ public class ArrayIndexExpressionEvaluator extends AbstractMemberExpressionEvalu
         }
 
         // populate the stack initially
-        if (initialDataNode.isArray()) {
-            for (JsonNode deeper: initialDataNode) {
-                stack.addLast(jrJsonNode.createChild(deeper));
-            }
-        } else {
-            stack.push(jrJsonNode);
-        }
+        stack.push(jrJsonNode);
 
         while (!stack.isEmpty()) {
             JRJsonNode stackNode = stack.pop();
