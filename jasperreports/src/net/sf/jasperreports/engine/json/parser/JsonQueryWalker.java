@@ -25,25 +25,25 @@
  */
 package net.sf.jasperreports.engine.json.parser;
 
-import antlr.NoViableAltException;
-import antlr.RecognitionException;
+import antlr.TreeParser;
+import antlr.Token;
 import antlr.collections.AST;
+import antlr.RecognitionException;
+import antlr.ANTLRException;
+import antlr.NoViableAltException;
+import antlr.MismatchedTokenException;
+import antlr.SemanticException;
+import antlr.collections.impl.BitSet;
+import antlr.ASTPair;
+import antlr.collections.impl.ASTArray;
+
 import net.sf.jasperreports.engine.json.expression.JsonPathExpression;
-import net.sf.jasperreports.engine.json.expression.filter.BasicFilterExpression;
-import net.sf.jasperreports.engine.json.expression.filter.CompoundFilterExpression;
-import net.sf.jasperreports.engine.json.expression.filter.FilterExpression;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.LOGICAL_OPERATOR;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.VALUE_TYPE;
-import net.sf.jasperreports.engine.json.expression.filter.NotFilterExpression;
-import net.sf.jasperreports.engine.json.expression.filter.ValueDescriptor;
-import net.sf.jasperreports.engine.json.expression.member.ArrayConstructionExpression;
-import net.sf.jasperreports.engine.json.expression.member.ArrayIndexExpression;
-import net.sf.jasperreports.engine.json.expression.member.ArraySliceExpression;
-import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
+import net.sf.jasperreports.engine.json.expression.filter.*;
 import net.sf.jasperreports.engine.json.expression.member.MemberExpression.DIRECTION;
-import net.sf.jasperreports.engine.json.expression.member.MultiLevelUpExpression;
-import net.sf.jasperreports.engine.json.expression.member.ObjectConstructionExpression;
-import net.sf.jasperreports.engine.json.expression.member.ObjectKeyExpression;
+import net.sf.jasperreports.engine.json.expression.member.*;
+
 import net.sf.jasperreports.engine.type.JsonOperatorEnum;
 
 
@@ -60,14 +60,36 @@ public JsonQueryWalker() {
 		JsonPathExpression jsonPathExpression = new JsonPathExpression();
 		
 		AST jsonPathExpression_AST_in = (_t == ASTNULL) ? null : (AST)_t;
+		AST abs = null;
 		
 		try {      // for error handling
-			AST __t74 = _t;
+			AST __t75 = _t;
 			AST tmp1_AST_in = (AST)_t;
 			match(_t,PATH);
 			_t = _t.getFirstChild();
 			{
-			_loop76:
+			if (_t==null) _t=ASTNULL;
+			switch ( _t.getType()) {
+			case ABSOLUTE:
+			{
+				abs = (AST)_t;
+				match(_t,ABSOLUTE);
+				_t = _t.getNextSibling();
+				break;
+			}
+			case 3:
+			case MEMBER:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(_t);
+			}
+			}
+			}
+			{
+			_loop78:
 			do {
 				if (_t==null) _t=ASTNULL;
 				if ((_t.getType()==MEMBER)) {
@@ -75,13 +97,18 @@ public JsonQueryWalker() {
 					_t = _retTree;
 				}
 				else {
-					break _loop76;
+					break _loop78;
 				}
 				
 			} while (true);
 			}
-			_t = __t74;
+			_t = __t75;
 			_t = _t.getNextSibling();
+			
+			if (abs != null) {
+			jsonPathExpression.setIsAbsolute(true);
+			}
+			
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
@@ -102,7 +129,7 @@ public JsonQueryWalker() {
 		
 		
 		try {      // for error handling
-			AST __t78 = _t;
+			AST __t80 = _t;
 			AST tmp2_AST_in = (AST)_t;
 			match(_t,MEMBER);
 			_t = _t.getFirstChild();
@@ -127,7 +154,7 @@ public JsonQueryWalker() {
 			}
 			}
 			}
-			_t = __t78;
+			_t = __t80;
 			_t = _t.getNextSibling();
 			
 			memberExpr.setFilterExpression(filterExpression);
@@ -160,7 +187,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case SIMPLE_KEY:
 			{
-				AST __t81 = _t;
+				AST __t83 = _t;
 				AST tmp3_AST_in = (AST)_t;
 				match(_t,SIMPLE_KEY);
 				_t = _t.getFirstChild();
@@ -208,7 +235,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t81;
+				_t = __t83;
 				_t = _t.getNextSibling();
 				
 				if (id != null) {
@@ -223,7 +250,7 @@ public JsonQueryWalker() {
 			}
 			case COMPLEX_KEY:
 			{
-				AST __t84 = _t;
+				AST __t86 = _t;
 				AST tmp5_AST_in = (AST)_t;
 				match(_t,COMPLEX_KEY);
 				_t = _t.getFirstChild();
@@ -250,7 +277,7 @@ public JsonQueryWalker() {
 				s = (AST)_t;
 				match(_t,STRING);
 				_t = _t.getNextSibling();
-				_t = __t84;
+				_t = __t86;
 				_t = _t.getNextSibling();
 				
 				memberExpr = new ObjectKeyExpression(dir, s.getText());
@@ -262,7 +289,7 @@ public JsonQueryWalker() {
 				
 				memberExpr = new ObjectConstructionExpression();
 				
-				AST __t86 = _t;
+				AST __t88 = _t;
 				AST tmp6_AST_in = (AST)_t;
 				match(_t,OBJECT_CONSTRUCTION);
 				_t = _t.getFirstChild();
@@ -288,8 +315,8 @@ public JsonQueryWalker() {
 				}
 				}
 				{
-				int _cnt89=0;
-				_loop89:
+				int _cnt91=0;
+				_loop91:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if ((_t.getType()==ID||_t.getType()==STRING)) {
@@ -297,13 +324,13 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt89>=1 ) { break _loop89; } else {throw new NoViableAltException(_t);}
+						if ( _cnt91>=1 ) { break _loop91; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt89++;
+					_cnt91++;
 				} while (true);
 				}
-				_t = __t86;
+				_t = __t88;
 				_t = _t.getNextSibling();
 				
 				((ObjectConstructionExpression)memberExpr).setDirection(dir);
@@ -312,7 +339,7 @@ public JsonQueryWalker() {
 			}
 			case ARRAY_INDEX:
 			{
-				AST __t90 = _t;
+				AST __t92 = _t;
 				AST tmp7_AST_in = (AST)_t;
 				match(_t,ARRAY_INDEX);
 				_t = _t.getFirstChild();
@@ -339,7 +366,7 @@ public JsonQueryWalker() {
 				n = (AST)_t;
 				match(_t,INT);
 				_t = _t.getNextSibling();
-				_t = __t90;
+				_t = __t92;
 				_t = _t.getNextSibling();
 				
 				memberExpr = new ArrayIndexExpression(dir, Integer.parseInt(n.getText()));
@@ -351,7 +378,7 @@ public JsonQueryWalker() {
 				
 				memberExpr = new ArrayConstructionExpression();
 				
-				AST __t92 = _t;
+				AST __t94 = _t;
 				AST tmp8_AST_in = (AST)_t;
 				match(_t,ARRAY_CONSTRUCTION);
 				_t = _t.getFirstChild();
@@ -376,8 +403,8 @@ public JsonQueryWalker() {
 				}
 				}
 				{
-				int _cnt95=0;
-				_loop95:
+				int _cnt97=0;
+				_loop97:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if ((_t.getType()==INT)) {
@@ -385,13 +412,13 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt95>=1 ) { break _loop95; } else {throw new NoViableAltException(_t);}
+						if ( _cnt97>=1 ) { break _loop97; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt95++;
+					_cnt97++;
 				} while (true);
 				}
-				_t = __t92;
+				_t = __t94;
 				_t = _t.getNextSibling();
 				
 				((ArrayConstructionExpression)memberExpr).setDirection(dir);
@@ -400,7 +427,7 @@ public JsonQueryWalker() {
 			}
 			case ARRAY_SLICE:
 			{
-				AST __t96 = _t;
+				AST __t98 = _t;
 				AST tmp9_AST_in = (AST)_t;
 				match(_t,ARRAY_SLICE);
 				_t = _t.getFirstChild();
@@ -468,7 +495,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t96;
+				_t = __t98;
 				_t = _t.getNextSibling();
 				
 				Integer start = null, end = null;
@@ -486,7 +513,7 @@ public JsonQueryWalker() {
 			}
 			case MULTI_LEVEL_UP:
 			{
-				AST __t100 = _t;
+				AST __t102 = _t;
 				AST tmp11_AST_in = (AST)_t;
 				match(_t,MULTI_LEVEL_UP);
 				_t = _t.getFirstChild();
@@ -513,7 +540,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t100;
+				_t = __t102;
 				_t = _t.getNextSibling();
 				
 				int level = 1;
@@ -544,13 +571,13 @@ public JsonQueryWalker() {
 		AST filterExprMain_AST_in = (_t == ASTNULL) ? null : (AST)_t;
 		
 		try {      // for error handling
-			AST __t106 = _t;
+			AST __t108 = _t;
 			AST tmp13_AST_in = (AST)_t;
 			match(_t,FILTER);
 			_t = _t.getFirstChild();
 			filterExpression=filterExpr(_t);
 			_t = _retTree;
-			_t = __t106;
+			_t = __t108;
 			_t = _t.getNextSibling();
 		}
 		catch (RecognitionException ex) {
@@ -682,7 +709,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case AND:
 			{
-				AST __t108 = _t;
+				AST __t110 = _t;
 				AST tmp16_AST_in = (AST)_t;
 				match(_t,AND);
 				_t = _t.getFirstChild();
@@ -690,7 +717,7 @@ public JsonQueryWalker() {
 				_t = _retTree;
 				fe2=filterExpr(_t);
 				_t = _retTree;
-				_t = __t108;
+				_t = __t110;
 				_t = _t.getNextSibling();
 				
 				result = new CompoundFilterExpression(fe1, fe2, LOGICAL_OPERATOR.AND);
@@ -699,7 +726,7 @@ public JsonQueryWalker() {
 			}
 			case OR:
 			{
-				AST __t109 = _t;
+				AST __t111 = _t;
 				AST tmp17_AST_in = (AST)_t;
 				match(_t,OR);
 				_t = _t.getFirstChild();
@@ -707,7 +734,7 @@ public JsonQueryWalker() {
 				_t = _retTree;
 				fe2=filterExpr(_t);
 				_t = _retTree;
-				_t = __t109;
+				_t = __t111;
 				_t = _t.getNextSibling();
 				
 				result = new CompoundFilterExpression(fe1, fe2, LOGICAL_OPERATOR.OR);
@@ -716,13 +743,13 @@ public JsonQueryWalker() {
 			}
 			case NOT:
 			{
-				AST __t110 = _t;
+				AST __t112 = _t;
 				AST tmp18_AST_in = (AST)_t;
 				match(_t,NOT);
 				_t = _t.getFirstChild();
 				fe1=filterExpr(_t);
 				_t = _retTree;
-				_t = __t110;
+				_t = __t112;
 				_t = _t.getNextSibling();
 				
 				result = new NotFilterExpression(fe1);
@@ -821,8 +848,8 @@ public JsonQueryWalker() {
 			case MULTI_LEVEL_UP:
 			{
 				{
-				int _cnt114=0;
-				_loop114:
+				int _cnt116=0;
+				_loop116:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if (((_t.getType() >= SIMPLE_KEY && _t.getType() <= MULTI_LEVEL_UP))) {
@@ -830,10 +857,10 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt114>=1 ) { break _loop114; } else {throw new NoViableAltException(_t);}
+						if ( _cnt116>=1 ) { break _loop116; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt114++;
+					_cnt116++;
 				} while (true);
 				}
 				{
@@ -1070,6 +1097,7 @@ public JsonQueryWalker() {
 		"ARRAY_SLICE",
 		"MULTI_LEVEL_UP",
 		"FILTER",
+		"ABSOLUTE",
 		"DOT",
 		"DOTDOT",
 		"ID",
@@ -1100,6 +1128,7 @@ public JsonQueryWalker() {
 		"\"null\"",
 		"\"true\"",
 		"\"false\"",
+		"ID_OR_ABSOLUTE",
 		"INT_OR_REAL_OR_DOTS",
 		"NEWLINE",
 		"WS",

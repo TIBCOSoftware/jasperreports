@@ -25,18 +25,24 @@
  */
 package net.sf.jasperreports.engine.json.parser;
 
+import antlr.TokenBuffer;
+import antlr.TokenStreamException;
+import antlr.TokenStreamIOException;
+import antlr.ANTLRException;
+import antlr.LLkParser;
+import antlr.Token;
+import antlr.TokenStream;
+import antlr.RecognitionException;
+import antlr.NoViableAltException;
+import antlr.MismatchedTokenException;
+import antlr.SemanticException;
+import antlr.ParserSharedInputState;
+import antlr.collections.impl.BitSet;
+import antlr.collections.AST;
+import java.util.Hashtable;
 import antlr.ASTFactory;
 import antlr.ASTPair;
-import antlr.NoViableAltException;
-import antlr.ParserSharedInputState;
-import antlr.RecognitionException;
-import antlr.Token;
-import antlr.TokenBuffer;
-import antlr.TokenStream;
-import antlr.TokenStreamException;
-import antlr.collections.AST;
 import antlr.collections.impl.ASTArray;
-import antlr.collections.impl.BitSet;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -80,14 +86,40 @@ public JsonQueryParser(ParserSharedInputState state) {
 		AST pathExpr_AST = null;
 		
 		{
-		_loop3:
+		switch ( LA(1)) {
+		case ABSOLUTE:
+		{
+			AST tmp29_AST = null;
+			tmp29_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp29_AST);
+			match(ABSOLUTE);
+			break;
+		}
+		case EOF:
+		case DOT:
+		case DOTDOT:
+		case ID:
+		case WILDCARD:
+		case LBRACKET:
+		case BACKSP:
+		{
+			break;
+		}
+		default:
+		{
+			throw new NoViableAltException(LT(1), getFilename());
+		}
+		}
+		}
+		{
+		_loop4:
 		do {
 			if ((_tokenSet_0.member(LA(1)))) {
 				memberExpr();
 				astFactory.addASTChild(currentAST, returnAST);
 			}
 			else {
-				break _loop3;
+				break _loop4;
 			}
 			
 		} while (true);
@@ -155,10 +187,10 @@ public JsonQueryParser(ParserSharedInputState state) {
 		ASTPair currentAST = new ASTPair();
 		AST pathNaviExpr_AST = null;
 		
-		boolean synPredMatched10 = false;
+		boolean synPredMatched11 = false;
 		if ((((LA(1) >= DOT && LA(1) <= WILDCARD)) && (_tokenSet_1.member(LA(2))))) {
-			int _m10 = mark();
-			synPredMatched10 = true;
+			int _m11 = mark();
+			synPredMatched11 = true;
 			inputState.guessing++;
 			try {
 				{
@@ -206,21 +238,21 @@ public JsonQueryParser(ParserSharedInputState state) {
 				}
 			}
 			catch (RecognitionException pe) {
-				synPredMatched10 = false;
+				synPredMatched11 = false;
 			}
-			rewind(_m10);
+			rewind(_m11);
 			inputState.guessing--;
 		}
-		if ( synPredMatched10 ) {
+		if ( synPredMatched11 ) {
 			simpleKeyExpr();
 			astFactory.addASTChild(currentAST, returnAST);
 			pathNaviExpr_AST = (AST)currentAST.root;
 		}
 		else {
-			boolean synPredMatched13 = false;
+			boolean synPredMatched14 = false;
 			if (((LA(1)==DOTDOT||LA(1)==LBRACKET) && (LA(2)==LBRACKET||LA(2)==STRING))) {
-				int _m13 = mark();
-				synPredMatched13 = true;
+				int _m14 = mark();
+				synPredMatched14 = true;
 				inputState.guessing++;
 				try {
 					{
@@ -247,21 +279,21 @@ public JsonQueryParser(ParserSharedInputState state) {
 					}
 				}
 				catch (RecognitionException pe) {
-					synPredMatched13 = false;
+					synPredMatched14 = false;
 				}
-				rewind(_m13);
+				rewind(_m14);
 				inputState.guessing--;
 			}
-			if ( synPredMatched13 ) {
+			if ( synPredMatched14 ) {
 				complexKeyExpr();
 				astFactory.addASTChild(currentAST, returnAST);
 				pathNaviExpr_AST = (AST)currentAST.root;
 			}
 			else {
-				boolean synPredMatched18 = false;
+				boolean synPredMatched19 = false;
 				if (((LA(1)==DOTDOT||LA(1)==LBRACKET) && (LA(2)==ID||LA(2)==LBRACKET||LA(2)==STRING))) {
-					int _m18 = mark();
-					synPredMatched18 = true;
+					int _m19 = mark();
+					synPredMatched19 = true;
 					inputState.guessing++;
 					try {
 						{
@@ -323,21 +355,21 @@ public JsonQueryParser(ParserSharedInputState state) {
 						}
 					}
 					catch (RecognitionException pe) {
-						synPredMatched18 = false;
+						synPredMatched19 = false;
 					}
-					rewind(_m18);
+					rewind(_m19);
 					inputState.guessing--;
 				}
-				if ( synPredMatched18 ) {
+				if ( synPredMatched19 ) {
 					objectConstructionExpr();
 					astFactory.addASTChild(currentAST, returnAST);
 					pathNaviExpr_AST = (AST)currentAST.root;
 				}
 				else {
-					boolean synPredMatched21 = false;
+					boolean synPredMatched22 = false;
 					if (((LA(1)==DOTDOT||LA(1)==LBRACKET) && (LA(2)==LBRACKET||LA(2)==INT))) {
-						int _m21 = mark();
-						synPredMatched21 = true;
+						int _m22 = mark();
+						synPredMatched22 = true;
 						inputState.guessing++;
 						try {
 							{
@@ -364,21 +396,21 @@ public JsonQueryParser(ParserSharedInputState state) {
 							}
 						}
 						catch (RecognitionException pe) {
-							synPredMatched21 = false;
+							synPredMatched22 = false;
 						}
-						rewind(_m21);
+						rewind(_m22);
 						inputState.guessing--;
 					}
-					if ( synPredMatched21 ) {
+					if ( synPredMatched22 ) {
 						arrayExpr();
 						astFactory.addASTChild(currentAST, returnAST);
 						pathNaviExpr_AST = (AST)currentAST.root;
 					}
 					else {
-						boolean synPredMatched24 = false;
+						boolean synPredMatched25 = false;
 						if (((LA(1)==DOTDOT||LA(1)==LBRACKET) && (LA(2)==LBRACKET||LA(2)==INT))) {
-							int _m24 = mark();
-							synPredMatched24 = true;
+							int _m25 = mark();
+							synPredMatched25 = true;
 							inputState.guessing++;
 							try {
 								{
@@ -406,12 +438,12 @@ public JsonQueryParser(ParserSharedInputState state) {
 								}
 							}
 							catch (RecognitionException pe) {
-								synPredMatched24 = false;
+								synPredMatched25 = false;
 							}
-							rewind(_m24);
+							rewind(_m25);
 							inputState.guessing--;
 						}
-						if ( synPredMatched24 ) {
+						if ( synPredMatched25 ) {
 							arrayConstructionExpr();
 							astFactory.addASTChild(currentAST, returnAST);
 							pathNaviExpr_AST = (AST)currentAST.root;
@@ -465,17 +497,17 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case DOT:
 		{
-			AST tmp32_AST = null;
-			tmp32_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp32_AST);
+			AST tmp33_AST = null;
+			tmp33_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp33_AST);
 			match(DOT);
 			break;
 		}
 		case DOTDOT:
 		{
-			AST tmp33_AST = null;
-			tmp33_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp33_AST);
+			AST tmp34_AST = null;
+			tmp34_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp34_AST);
 			match(DOTDOT);
 			break;
 		}
@@ -494,17 +526,17 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case ID:
 		{
-			AST tmp34_AST = null;
-			tmp34_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp34_AST);
+			AST tmp35_AST = null;
+			tmp35_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp35_AST);
 			match(ID);
 			break;
 		}
 		case WILDCARD:
 		{
-			AST tmp35_AST = null;
-			tmp35_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp35_AST);
+			AST tmp36_AST = null;
+			tmp36_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp36_AST);
 			match(WILDCARD);
 			break;
 		}
@@ -536,9 +568,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case DOTDOT:
 		{
-			AST tmp36_AST = null;
-			tmp36_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp36_AST);
+			AST tmp37_AST = null;
+			tmp37_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp37_AST);
 			match(DOTDOT);
 			break;
 		}
@@ -553,9 +585,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		}
 		}
 		match(LBRACKET);
-		AST tmp38_AST = null;
-		tmp38_AST = astFactory.create(LT(1));
-		astFactory.addASTChild(currentAST, tmp38_AST);
+		AST tmp39_AST = null;
+		tmp39_AST = astFactory.create(LT(1));
+		astFactory.addASTChild(currentAST, tmp39_AST);
 		match(STRING);
 		match(RBRACKET);
 		if ( inputState.guessing==0 ) {
@@ -580,9 +612,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case DOTDOT:
 		{
-			AST tmp40_AST = null;
-			tmp40_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp40_AST);
+			AST tmp41_AST = null;
+			tmp41_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp41_AST);
 			match(DOTDOT);
 			break;
 		}
@@ -601,17 +633,17 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case STRING:
 		{
-			AST tmp42_AST = null;
-			tmp42_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp42_AST);
+			AST tmp43_AST = null;
+			tmp43_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp43_AST);
 			match(STRING);
 			break;
 		}
 		case ID:
 		{
-			AST tmp43_AST = null;
-			tmp43_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp43_AST);
+			AST tmp44_AST = null;
+			tmp44_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp44_AST);
 			match(ID);
 			break;
 		}
@@ -622,8 +654,8 @@ public JsonQueryParser(ParserSharedInputState state) {
 		}
 		}
 		{
-		int _cnt35=0;
-		_loop35:
+		int _cnt36=0;
+		_loop36:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
@@ -631,17 +663,17 @@ public JsonQueryParser(ParserSharedInputState state) {
 				switch ( LA(1)) {
 				case STRING:
 				{
-					AST tmp45_AST = null;
-					tmp45_AST = astFactory.create(LT(1));
-					astFactory.addASTChild(currentAST, tmp45_AST);
+					AST tmp46_AST = null;
+					tmp46_AST = astFactory.create(LT(1));
+					astFactory.addASTChild(currentAST, tmp46_AST);
 					match(STRING);
 					break;
 				}
 				case ID:
 				{
-					AST tmp46_AST = null;
-					tmp46_AST = astFactory.create(LT(1));
-					astFactory.addASTChild(currentAST, tmp46_AST);
+					AST tmp47_AST = null;
+					tmp47_AST = astFactory.create(LT(1));
+					astFactory.addASTChild(currentAST, tmp47_AST);
 					match(ID);
 					break;
 				}
@@ -653,10 +685,10 @@ public JsonQueryParser(ParserSharedInputState state) {
 				}
 			}
 			else {
-				if ( _cnt35>=1 ) { break _loop35; } else {throw new NoViableAltException(LT(1), getFilename());}
+				if ( _cnt36>=1 ) { break _loop36; } else {throw new NoViableAltException(LT(1), getFilename());}
 			}
 			
-			_cnt35++;
+			_cnt36++;
 		} while (true);
 		}
 		match(RBRACKET);
@@ -682,9 +714,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case DOTDOT:
 		{
-			AST tmp48_AST = null;
-			tmp48_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp48_AST);
+			AST tmp49_AST = null;
+			tmp49_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp49_AST);
 			match(DOTDOT);
 			break;
 		}
@@ -699,9 +731,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		}
 		}
 		match(LBRACKET);
-		AST tmp50_AST = null;
-		tmp50_AST = astFactory.create(LT(1));
-		astFactory.addASTChild(currentAST, tmp50_AST);
+		AST tmp51_AST = null;
+		tmp51_AST = astFactory.create(LT(1));
+		astFactory.addASTChild(currentAST, tmp51_AST);
 		match(INT);
 		match(RBRACKET);
 		if ( inputState.guessing==0 ) {
@@ -726,9 +758,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case DOTDOT:
 		{
-			AST tmp52_AST = null;
-			tmp52_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp52_AST);
+			AST tmp53_AST = null;
+			tmp53_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp53_AST);
 			match(DOTDOT);
 			break;
 		}
@@ -743,26 +775,26 @@ public JsonQueryParser(ParserSharedInputState state) {
 		}
 		}
 		match(LBRACKET);
-		AST tmp54_AST = null;
-		tmp54_AST = astFactory.create(LT(1));
-		astFactory.addASTChild(currentAST, tmp54_AST);
+		AST tmp55_AST = null;
+		tmp55_AST = astFactory.create(LT(1));
+		astFactory.addASTChild(currentAST, tmp55_AST);
 		match(INT);
 		{
-		int _cnt41=0;
-		_loop41:
+		int _cnt42=0;
+		_loop42:
 		do {
 			if ((LA(1)==COMMA)) {
 				match(COMMA);
-				AST tmp56_AST = null;
-				tmp56_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp56_AST);
+				AST tmp57_AST = null;
+				tmp57_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp57_AST);
 				match(INT);
 			}
 			else {
-				if ( _cnt41>=1 ) { break _loop41; } else {throw new NoViableAltException(LT(1), getFilename());}
+				if ( _cnt42>=1 ) { break _loop42; } else {throw new NoViableAltException(LT(1), getFilename());}
 			}
 			
-			_cnt41++;
+			_cnt42++;
 		} while (true);
 		}
 		match(RBRACKET);
@@ -788,9 +820,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case DOTDOT:
 		{
-			AST tmp58_AST = null;
-			tmp58_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp58_AST);
+			AST tmp59_AST = null;
+			tmp59_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp59_AST);
 			match(DOTDOT);
 			break;
 		}
@@ -810,21 +842,21 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case INT:
 		{
 			{
-			AST tmp60_AST = null;
-			tmp60_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp60_AST);
-			match(INT);
 			AST tmp61_AST = null;
 			tmp61_AST = astFactory.create(LT(1));
 			astFactory.addASTChild(currentAST, tmp61_AST);
+			match(INT);
+			AST tmp62_AST = null;
+			tmp62_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp62_AST);
 			match(SEMI);
 			{
 			switch ( LA(1)) {
 			case INT:
 			{
-				AST tmp62_AST = null;
-				tmp62_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp62_AST);
+				AST tmp63_AST = null;
+				tmp63_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp63_AST);
 				match(INT);
 				break;
 			}
@@ -844,13 +876,13 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case SEMI:
 		{
 			{
-			AST tmp63_AST = null;
-			tmp63_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp63_AST);
-			match(SEMI);
 			AST tmp64_AST = null;
 			tmp64_AST = astFactory.create(LT(1));
 			astFactory.addASTChild(currentAST, tmp64_AST);
+			match(SEMI);
+			AST tmp65_AST = null;
+			tmp65_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp65_AST);
 			match(INT);
 			}
 			break;
@@ -880,18 +912,18 @@ public JsonQueryParser(ParserSharedInputState state) {
 		ASTPair currentAST = new ASTPair();
 		AST multiLevelUpExpr_AST = null;
 		
-		AST tmp66_AST = null;
-		tmp66_AST = astFactory.create(LT(1));
-		astFactory.addASTChild(currentAST, tmp66_AST);
+		AST tmp67_AST = null;
+		tmp67_AST = astFactory.create(LT(1));
+		astFactory.addASTChild(currentAST, tmp67_AST);
 		match(BACKSP);
 		{
 		switch ( LA(1)) {
 		case LCURLY:
 		{
 			match(LCURLY);
-			AST tmp68_AST = null;
-			tmp68_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp68_AST);
+			AST tmp69_AST = null;
+			tmp69_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp69_AST);
 			match(INT);
 			match(RCURLY);
 			break;
@@ -941,18 +973,18 @@ public JsonQueryParser(ParserSharedInputState state) {
 		andExpr();
 		astFactory.addASTChild(currentAST, returnAST);
 		{
-		_loop53:
+		_loop54:
 		do {
 			if ((LA(1)==OR)) {
-				AST tmp70_AST = null;
-				tmp70_AST = astFactory.create(LT(1));
-				astFactory.makeASTRoot(currentAST, tmp70_AST);
+				AST tmp71_AST = null;
+				tmp71_AST = astFactory.create(LT(1));
+				astFactory.makeASTRoot(currentAST, tmp71_AST);
 				match(OR);
 				andExpr();
 				astFactory.addASTChild(currentAST, returnAST);
 			}
 			else {
-				break _loop53;
+				break _loop54;
 			}
 			
 		} while (true);
@@ -970,18 +1002,18 @@ public JsonQueryParser(ParserSharedInputState state) {
 		notExpr();
 		astFactory.addASTChild(currentAST, returnAST);
 		{
-		_loop56:
+		_loop57:
 		do {
 			if ((LA(1)==AND)) {
-				AST tmp71_AST = null;
-				tmp71_AST = astFactory.create(LT(1));
-				astFactory.makeASTRoot(currentAST, tmp71_AST);
+				AST tmp72_AST = null;
+				tmp72_AST = astFactory.create(LT(1));
+				astFactory.makeASTRoot(currentAST, tmp72_AST);
 				match(AND);
 				notExpr();
 				astFactory.addASTChild(currentAST, returnAST);
 			}
 			else {
-				break _loop56;
+				break _loop57;
 			}
 			
 		} while (true);
@@ -1000,9 +1032,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case NOT:
 		{
-			AST tmp72_AST = null;
-			tmp72_AST = astFactory.create(LT(1));
-			astFactory.makeASTRoot(currentAST, tmp72_AST);
+			AST tmp73_AST = null;
+			tmp73_AST = astFactory.create(LT(1));
+			astFactory.makeASTRoot(currentAST, tmp73_AST);
 			match(NOT);
 			break;
 		}
@@ -1097,18 +1129,18 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case BACKSP:
 		{
 			{
-			int _cnt62=0;
-			_loop62:
+			int _cnt63=0;
+			_loop63:
 			do {
 				if ((_tokenSet_0.member(LA(1)))) {
 					pathNaviExpr();
 					astFactory.addASTChild(currentAST, returnAST);
 				}
 				else {
-					if ( _cnt62>=1 ) { break _loop62; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt63>=1 ) { break _loop63; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt62++;
+				_cnt63++;
 			} while (true);
 			}
 			{
@@ -1153,57 +1185,57 @@ public JsonQueryParser(ParserSharedInputState state) {
 		ASTPair currentAST = new ASTPair();
 		AST sizeFnExpr_AST = null;
 		
-		AST tmp75_AST = null;
-		tmp75_AST = astFactory.create(LT(1));
-		astFactory.addASTChild(currentAST, tmp75_AST);
+		AST tmp76_AST = null;
+		tmp76_AST = astFactory.create(LT(1));
+		astFactory.addASTChild(currentAST, tmp76_AST);
 		match(AT_SIZE);
 		{
 		switch ( LA(1)) {
 		case EQ:
 		{
-			AST tmp76_AST = null;
-			tmp76_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp76_AST);
+			AST tmp77_AST = null;
+			tmp77_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp77_AST);
 			match(EQ);
 			break;
 		}
 		case NE:
 		{
-			AST tmp77_AST = null;
-			tmp77_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp77_AST);
+			AST tmp78_AST = null;
+			tmp78_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp78_AST);
 			match(NE);
 			break;
 		}
 		case LT:
 		{
-			AST tmp78_AST = null;
-			tmp78_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp78_AST);
+			AST tmp79_AST = null;
+			tmp79_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp79_AST);
 			match(LT);
 			break;
 		}
 		case LE:
 		{
-			AST tmp79_AST = null;
-			tmp79_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp79_AST);
+			AST tmp80_AST = null;
+			tmp80_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp80_AST);
 			match(LE);
 			break;
 		}
 		case GT:
 		{
-			AST tmp80_AST = null;
-			tmp80_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp80_AST);
+			AST tmp81_AST = null;
+			tmp81_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp81_AST);
 			match(GT);
 			break;
 		}
 		case GE:
 		{
-			AST tmp81_AST = null;
-			tmp81_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp81_AST);
+			AST tmp82_AST = null;
+			tmp82_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp82_AST);
 			match(GE);
 			break;
 		}
@@ -1213,9 +1245,9 @@ public JsonQueryParser(ParserSharedInputState state) {
 		}
 		}
 		}
-		AST tmp82_AST = null;
-		tmp82_AST = astFactory.create(LT(1));
-		astFactory.addASTChild(currentAST, tmp82_AST);
+		AST tmp83_AST = null;
+		tmp83_AST = astFactory.create(LT(1));
+		astFactory.addASTChild(currentAST, tmp83_AST);
 		match(INT);
 		sizeFnExpr_AST = (AST)currentAST.root;
 		returnAST = sizeFnExpr_AST;
@@ -1227,57 +1259,57 @@ public JsonQueryParser(ParserSharedInputState state) {
 		ASTPair currentAST = new ASTPair();
 		AST valueFnExpr_AST = null;
 		
-		AST tmp83_AST = null;
-		tmp83_AST = astFactory.create(LT(1));
-		astFactory.addASTChild(currentAST, tmp83_AST);
+		AST tmp84_AST = null;
+		tmp84_AST = astFactory.create(LT(1));
+		astFactory.addASTChild(currentAST, tmp84_AST);
 		match(AT_VALUE);
 		{
 		switch ( LA(1)) {
 		case EQ:
 		{
-			AST tmp84_AST = null;
-			tmp84_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp84_AST);
+			AST tmp85_AST = null;
+			tmp85_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp85_AST);
 			match(EQ);
 			break;
 		}
 		case NE:
 		{
-			AST tmp85_AST = null;
-			tmp85_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp85_AST);
+			AST tmp86_AST = null;
+			tmp86_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp86_AST);
 			match(NE);
 			break;
 		}
 		case LT:
 		{
-			AST tmp86_AST = null;
-			tmp86_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp86_AST);
+			AST tmp87_AST = null;
+			tmp87_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp87_AST);
 			match(LT);
 			break;
 		}
 		case LE:
 		{
-			AST tmp87_AST = null;
-			tmp87_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp87_AST);
+			AST tmp88_AST = null;
+			tmp88_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp88_AST);
 			match(LE);
 			break;
 		}
 		case GT:
 		{
-			AST tmp88_AST = null;
-			tmp88_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp88_AST);
+			AST tmp89_AST = null;
+			tmp89_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp89_AST);
 			match(GT);
 			break;
 		}
 		case GE:
 		{
-			AST tmp89_AST = null;
-			tmp89_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp89_AST);
+			AST tmp90_AST = null;
+			tmp90_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp90_AST);
 			match(GE);
 			break;
 		}
@@ -1307,17 +1339,17 @@ public JsonQueryParser(ParserSharedInputState state) {
 			switch ( LA(1)) {
 			case EQ:
 			{
-				AST tmp90_AST = null;
-				tmp90_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp90_AST);
+				AST tmp91_AST = null;
+				tmp91_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp91_AST);
 				match(EQ);
 				break;
 			}
 			case NE:
 			{
-				AST tmp91_AST = null;
-				tmp91_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp91_AST);
+				AST tmp92_AST = null;
+				tmp92_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp92_AST);
 				match(NE);
 				break;
 			}
@@ -1341,33 +1373,33 @@ public JsonQueryParser(ParserSharedInputState state) {
 			switch ( LA(1)) {
 			case LT:
 			{
-				AST tmp92_AST = null;
-				tmp92_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp92_AST);
+				AST tmp93_AST = null;
+				tmp93_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp93_AST);
 				match(LT);
 				break;
 			}
 			case LE:
 			{
-				AST tmp93_AST = null;
-				tmp93_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp93_AST);
+				AST tmp94_AST = null;
+				tmp94_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp94_AST);
 				match(LE);
 				break;
 			}
 			case GT:
 			{
-				AST tmp94_AST = null;
-				tmp94_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp94_AST);
+				AST tmp95_AST = null;
+				tmp95_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp95_AST);
 				match(GT);
 				break;
 			}
 			case GE:
 			{
-				AST tmp95_AST = null;
-				tmp95_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp95_AST);
+				AST tmp96_AST = null;
+				tmp96_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp96_AST);
 				match(GE);
 				break;
 			}
@@ -1381,17 +1413,17 @@ public JsonQueryParser(ParserSharedInputState state) {
 			switch ( LA(1)) {
 			case INT:
 			{
-				AST tmp96_AST = null;
-				tmp96_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp96_AST);
+				AST tmp97_AST = null;
+				tmp97_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp97_AST);
 				match(INT);
 				break;
 			}
 			case REAL:
 			{
-				AST tmp97_AST = null;
-				tmp97_AST = astFactory.create(LT(1));
-				astFactory.addASTChild(currentAST, tmp97_AST);
+				AST tmp98_AST = null;
+				tmp98_AST = astFactory.create(LT(1));
+				astFactory.addASTChild(currentAST, tmp98_AST);
 				match(REAL);
 				break;
 			}
@@ -1421,54 +1453,54 @@ public JsonQueryParser(ParserSharedInputState state) {
 		switch ( LA(1)) {
 		case LITERAL_null:
 		{
-			AST tmp98_AST = null;
-			tmp98_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp98_AST);
+			AST tmp99_AST = null;
+			tmp99_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp99_AST);
 			match(LITERAL_null);
 			value_AST = (AST)currentAST.root;
 			break;
 		}
 		case LITERAL_true:
 		{
-			AST tmp99_AST = null;
-			tmp99_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp99_AST);
+			AST tmp100_AST = null;
+			tmp100_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp100_AST);
 			match(LITERAL_true);
 			value_AST = (AST)currentAST.root;
 			break;
 		}
 		case LITERAL_false:
 		{
-			AST tmp100_AST = null;
-			tmp100_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp100_AST);
+			AST tmp101_AST = null;
+			tmp101_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp101_AST);
 			match(LITERAL_false);
 			value_AST = (AST)currentAST.root;
 			break;
 		}
 		case STRING:
 		{
-			AST tmp101_AST = null;
-			tmp101_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp101_AST);
+			AST tmp102_AST = null;
+			tmp102_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp102_AST);
 			match(STRING);
 			value_AST = (AST)currentAST.root;
 			break;
 		}
 		case INT:
 		{
-			AST tmp102_AST = null;
-			tmp102_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp102_AST);
+			AST tmp103_AST = null;
+			tmp103_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp103_AST);
 			match(INT);
 			value_AST = (AST)currentAST.root;
 			break;
 		}
 		case REAL:
 		{
-			AST tmp103_AST = null;
-			tmp103_AST = astFactory.create(LT(1));
-			astFactory.addASTChild(currentAST, tmp103_AST);
+			AST tmp104_AST = null;
+			tmp104_AST = astFactory.create(LT(1));
+			astFactory.addASTChild(currentAST, tmp104_AST);
 			match(REAL);
 			value_AST = (AST)currentAST.root;
 			break;
@@ -1497,6 +1529,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		"ARRAY_SLICE",
 		"MULTI_LEVEL_UP",
 		"FILTER",
+		"ABSOLUTE",
 		"DOT",
 		"DOTDOT",
 		"ID",
@@ -1527,6 +1560,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		"\"null\"",
 		"\"true\"",
 		"\"false\"",
+		"ID_OR_ABSOLUTE",
 		"INT_OR_REAL_OR_DOTS",
 		"NEWLINE",
 		"WS",
@@ -1543,12 +1577,12 @@ public JsonQueryParser(ParserSharedInputState state) {
 	};
 	
 	private static final long[] mk_tokenSet_0() {
-		long[] data = { 17285120L, 0L};
+		long[] data = { 34570240L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_0 = new BitSet(mk_tokenSet_0());
 	private static final long[] mk_tokenSet_1() {
-		long[] data = { 545612349442L, 0L};
+		long[] data = { 1091224698882L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());

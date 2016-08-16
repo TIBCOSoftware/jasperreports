@@ -79,7 +79,7 @@ tokens {
 }
 
 pathExpr
-    : (memberExpr)* EOF!
+    : (ABSOLUTE)? (memberExpr)* EOF!
         { #pathExpr = #([PATH, "Path Expr:"], #pathExpr); }
     ;
 
@@ -202,7 +202,12 @@ import net.sf.jasperreports.engine.type.JsonOperatorEnum;
 class JsonQueryWalker extends TreeParser;
 
 jsonPathExpression returns [JsonPathExpression jsonPathExpression = new JsonPathExpression()]
-    : #(PATH (memberExpr[jsonPathExpression])*)
+    : #(PATH (abs:ABSOLUTE)? (memberExpr[jsonPathExpression])*)
+        {
+            if (abs != null) {
+                jsonPathExpression.setIsAbsolute(true);
+            }
+        }
     ;
 
 memberExpr [JsonPathExpression jsonPathExpression]
@@ -398,6 +403,7 @@ value returns [ValueDescriptor valueDescriptor = null]
  */
 class JsonQueryLexer extends Lexer;
 options {
+    defaultErrorHandler=false;
     k=2;
     charVocabulary='\u0000'..'\uFFFE';
     filter=WS;
@@ -469,8 +475,11 @@ AT_VALUE
 STRING
     : '"'! (ESC | ~('"' | '\\'))* '"'!
     ;
-ID
-    : ID_START_LETTER (ID_LETTER)*
+ID_OR_ABSOLUTE
+    : { getColumn() == 1 }? ( '$' ID_LETTER ) => ID { $setType(ID); }
+    | { getColumn() == 1 && getLine() == 1 }? '$' { $setType(ABSOLUTE); }
+    | { getColumn() == 1 }? ( ('a'..'z' | 'A'..'Z' | '_') (ID_LETTER)? ) => ID { $setType(ID); }
+    | { getColumn() == 1 && getLine() > 1 || getColumn() > 1 }? ID { $setType(ID); }
     ;
 INT_OR_REAL_OR_DOTS
     :  ( ('-')? (DIGIT)* FRAC ) =>  REAL { $setType(REAL); }
@@ -487,6 +496,12 @@ NEWLINE
             newline();
             $setType(Token.SKIP);
         }
+    ;
+protected ABSOLUTE
+    : '$'
+    ;
+protected ID
+    : ID_START_LETTER (ID_LETTER)*
     ;
 protected INT
     : ('-')? (DIGIT)+

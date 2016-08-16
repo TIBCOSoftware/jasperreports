@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
  */
 public class JsonPathExpression {
     private List<MemberExpression> memberExpressionList = new ArrayList<>();
+    private boolean isAbsolute;
 
     public void addMemberExpression(MemberExpression memberExpression) {
         memberExpressionList.add(memberExpression);
@@ -42,9 +43,17 @@ public class JsonPathExpression {
         return memberExpressionList;
     }
 
+    public boolean isAbsolute() {
+        return isAbsolute;
+    }
+
+    public void setIsAbsolute(boolean isAbsolute) {
+        this.isAbsolute = isAbsolute;
+    }
+
     @Override
     public String toString() {
-        String result = "pathExpression: \n";
+        String result = (isAbsolute ? "" : "NON ") + "absolute pathExpression: \n";
 
         for(MemberExpression me: memberExpressionList) {
             result += me + "\n";
