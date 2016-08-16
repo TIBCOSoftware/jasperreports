@@ -23,6 +23,12 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+
+import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
 import net.sf.jasperreports.engine.json.expression.EvaluationContext;
 import net.sf.jasperreports.engine.json.expression.member.ArrayConstructionExpression;
@@ -30,6 +36,9 @@ import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -46,11 +55,95 @@ public class ArrayConstructionExpressionEvaluator extends AbstractMemberExpressi
 
     @Override
     public JsonNodeContainer evaluate(JsonNodeContainer contextNode) {
-        return contextNode;
+        if (log.isDebugEnabled()) {
+            log.debug("---> evaluating arrayIndex expression [" + expression +
+                    "] on a node with (size: " + contextNode.getSize() +
+                    ", cSize: " + contextNode.getContainerSize() + ")");
+        }
+
+        JsonNodeContainer result = new JsonNodeContainer();
+
+        switch(expression.getDirection()) {
+            case DOWN:
+                List<JRJsonNode> containerNodes = contextNode.getContainerNodes();
+                int containerSize = contextNode.getContainerSize();
+
+                for (Integer idx: expression.getIndexes()) {
+                    if (idx >= 0 && idx < containerSize) {
+                        JRJsonNode nodeAtIndex = containerNodes.get(idx);
+
+                        if (applyFilter(nodeAtIndex)) {
+                            result.add(nodeAtIndex);
+                        }
+                    }
+                }
+
+                break;
+            case ANYWHERE_DOWN:
+                List<JRJsonNode> nodes = contextNode.getContainerNodes();
+
+                for (JRJsonNode node: nodes) {
+                    result.addNodes(goAnywhereDown(node));
+                }
+
+                break;
+        }
+
+        if (result.getSize() > 0) {
+            return result;
+        }
+
+        return null;
     }
 
     @Override
     public MemberExpression getMemberExpression() {
         return expression;
     }
+
+    private List<JRJsonNode> goAnywhereDown(JRJsonNode jrJsonNode) {
+        List<JRJsonNode> result = new ArrayList<>();
+        Deque<JRJsonNode> stack = new ArrayDeque<>();
+        JsonNode initialDataNode = jrJsonNode.getDataNode();
+
+        if (log.isDebugEnabled()) {
+            log.debug("initial stack population with: " + initialDataNode);
+        }
+
+        // populate the stack initially
+        stack.push(jrJsonNode);
+
+        while (!stack.isEmpty()) {
+            JRJsonNode stackNode = stack.pop();
+            JsonNode stackDataNode = stackNode.getDataNode();
+
+            addChildrenToStack(stackNode, stack);
+
+            // process the current stack item
+            if (stackDataNode.isArray()) {
+                if (log.isDebugEnabled()) {
+                    log.debug("processing stack element: " + stackDataNode);
+                }
+
+                ArrayNode newNode = getEvaluationContext().getObjectMapper().createArrayNode();
+
+                for (Integer idx: expression.getIndexes()) {
+                    if (idx >= 0 && idx < stackDataNode.size()) {
+                        JRJsonNode nodeAtIndex = stackNode.createChild(stackDataNode.get(idx));
+
+                        if (applyFilter(nodeAtIndex)) {
+                            newNode.add(nodeAtIndex.getDataNode());
+                        }
+                    }
+                }
+
+                if (newNode.size() > 0) {
+                    result.add(stackNode.createChild(newNode));
+                }
+            }
+        }
+
+        return result;
+    }
+
 }

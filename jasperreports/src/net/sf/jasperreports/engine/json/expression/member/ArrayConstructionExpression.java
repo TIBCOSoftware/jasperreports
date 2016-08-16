@@ -49,6 +49,10 @@ public class ArrayConstructionExpression extends AbstractMemberExpression {
         indexes.add(index);
     }
 
+    public List<Integer> getIndexes() {
+        return indexes;
+    }
+
     @Override
     public String toString() {
         String result = getDirection() + " " + indexes;
