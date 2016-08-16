@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 import net.sf.jasperreports.engine.json.JRJsonNode;
@@ -63,11 +65,14 @@ public class ObjectConstructionExpressionEvaluator extends AbstractMemberExpress
 
         switch(expression.getDirection()) {
             case DOWN:
-            case ANYWHERE_DOWN:
-                List<JRJsonNode> nodes = contextNode.getNodes();
-
-                for (JRJsonNode node: nodes) {
+                for (JRJsonNode node: contextNode.getNodes()) {
                     result.addNodes(goDown(node));
+                }
+
+                break;
+            case ANYWHERE_DOWN:
+                for (JRJsonNode node: contextNode.getNodes()) {
+                    result.addNodes(goAnywhereDown(node));
                 }
 
                 break;
@@ -130,6 +135,40 @@ public class ObjectConstructionExpressionEvaluator extends AbstractMemberExpress
         }
 
         return null;
+    }
+
+    private List<JRJsonNode> goAnywhereDown(JRJsonNode jrJsonNode) {
+        List<JRJsonNode> result = new ArrayList<>();
+        Deque<JRJsonNode> stack = new ArrayDeque<>();
+
+        if (log.isDebugEnabled()) {
+            log.debug("initial stack population with: " + jrJsonNode.getDataNode());
+        }
+
+        // populate the stack initially
+        stack.push(jrJsonNode);
+
+        while (!stack.isEmpty()) {
+            JRJsonNode stackNode = stack.pop();
+            JsonNode stackDataNode = stackNode.getDataNode();
+
+            addChildrenToStack(stackNode, stack);
+
+            if (log.isDebugEnabled()) {
+                log.debug("processing stack element: " + stackDataNode);
+            }
+
+            // process the current stack item
+            if (stackDataNode.isObject()) {
+                JRJsonNode childWithKeys = constructNewObjectNodeWithKeys(stackNode);
+
+                if (childWithKeys != null) {
+                    result.add(childWithKeys);
+                }
+            }
+        }
+
+        return result;
     }
 
 }
