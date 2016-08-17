@@ -114,8 +114,10 @@ field is extracted from the map using the report field name as the key</dd>
  <dt><b>XML</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRXmlDataSource.html">JRXmlDataSource</api> class</dt>
   <dd>- A data source implementation based on DOM, which uses XPath expressions to select data from the XML document. 
 Records in the XML data source are represented by node elements selected through the XPath expression. Field values 
-are retrieved from each record using the XPath expression provided by the field description 
-(<code>&lt;fieldDescription&gt;</code> element in JRXML).</dd>
+are retrieved from each record using the XPath expression provided by the <api href="net/sf/jasperreports/engine/data/AbstractXmlDataSource.html#PROPERTY_FIELD_EXPRESSION">PROPERTY_FIELD_EXPRESSION</api> 
+custom property defined at field level. 
+The use of the field description (<code>&lt;fieldDescription&gt;</code> element in JRXML) to specify the XPath expression 
+is still supported, but is now discouraged, the above mentioned custom property taking precedence over the field description.</dd>
  <dt><b>CSV</b> data sources: the <api href="net/sf/jasperreports/engine/data/JRCsvDataSource.html">JRCsvDataSource</api> class</dt>
   <dd>- Represents an implementation for data sources which retrieve their data from structured text files, usually CSVs. 
 Field values are retrieved using their column index.</dd>
@@ -312,9 +314,14 @@ which returns a <code>Supplier</code> object. In this case,
 to access the <code>address</code> property inside the <code>Supplier</code> object, a report field 
 named <code>supplier.address</code> is required. 
 <br/>
+Sometimes, forcing field names to match JavaBean property names is not desired or possible. In such cases, 
+the solution is to use the <api href="net/sf/jasperreports/engine/data/JRAbstractBeanDataSource.html#PROPERTY_JAVABEAN_FIELD_PROPERTY">PROPERTY_JAVABEAN_FIELD_PROPERTY</api> 
+custom property at field level to specify the JavaBean property mapped to the field, 
+regardless of the field name.
+<br/>
 For backward-compatibility reasons, the current 
-implementations still look into the field’s description first, to locate the the JavaBean property. If there is no 
-description, then the report field name is used instead. If this 
+implementations still look into the field’s description, to locate the the JavaBean property, but the above mentioned
+custom field property takes precedence over the field description. If this 
 default behavior is not desirable, especially if the field description is already used for 
 other purposes, you can use special data source constructors that receive a flag called 
 <code>isUseFieldDescription</code> to suppress this behavior. 
@@ -379,14 +386,14 @@ public class CustomBean
 ]]></pre>
 Note that one of the CustomBean properties is named <code>city</code>. In the report template there is no corresponding field 
 named <code>city</code>. A field named <code>the_city</code> exists instead. In this case, the field mapping is done through the 
-&lt;fieldDescription/&gt; as described in the <a href="#javaBeanDS">JavaBean Data Sources</a> section. The CustomBean object is reffered 
-to as <code>me</code>, with the associated getter <code>getMe()</code> method:
+<code>net.sf.jasperreports.javabean.field.property</code> custom field property, as described in the <a href="#javaBeanDS">JavaBean Data Sources</a> section. 
+The CustomBean object is referred to as <code>me</code>, with the associated getter <code>getMe()</code> method:
 <br/>
 <br/>
 <code>
 &#160;&#160;&lt;field name="the_city" class="java.lang.String"&gt;
 <br/>
-&#160;&#160;&#160;&#160;&lt;fieldDescription&gt;&lt;![CDATA[me.city]]&gt;&lt;/fieldDescription&gt;
+&#160;&#160;&#160;&#160;&lt;property name="net.sf.jasperreports.javabean.field.property" value="me.city"/&gt;
 <br/>
 &#160;&#160;&lt;/field&gt;
 </code>

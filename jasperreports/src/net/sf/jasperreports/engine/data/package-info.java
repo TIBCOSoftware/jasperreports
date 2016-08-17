@@ -174,8 +174,10 @@
  * data source is instantiated; each item in the resulting node set will generate a 
  * record/row in the data source.</li>
  * <li>For every field in the report/data set, an XPath expression to select the field value 
- * for each record. The field's XPath expression is provided by the field description 
- * (<code>&lt;fieldDescription&gt;</code> element in JRXML). The field's XPath expression is 
+ * for each record is needed. The field's XPath expression is provided by the {@link net.sf.jasperreports.engine.data.AbstractXmlDataSource#PROPERTY_FIELD_EXPRESSION} 
+ * custom field property. The use of the {@link net.sf.jasperreports.engine.JRField#getDescription() field description} to specify the XPath expression 
+ * is still supported, but is now discouraged, the above mentioned custom property taking precedence 
+ * over the field description. The field's XPath expression is 
  * executed for each record using as a context node the current node from the main 
  * node set.</li>
  * </ul>

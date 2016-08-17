@@ -195,7 +195,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 			throw new JRRuntimeException(e);
 		}
 
-		if (propertiesMap != null)
+		if (propertiesMap != null) // attempt to use properties cloning utility results in clones having this field null, if it was non-null but empty
 		{
 			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
