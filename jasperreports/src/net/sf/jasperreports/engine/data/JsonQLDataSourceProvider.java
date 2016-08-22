@@ -27,20 +27,20 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonDataSourceProvider extends AbstractJsonDataSourceProvider<JsonDataSource>
+public class JsonQLDataSourceProvider extends AbstractJsonDataSourceProvider<JsonQLDataSource>
 {
 
-	public JsonDataSourceProvider(JasperReportsContext jasperReportsContext, String jsonSource, String queryString, TextDataSourceAttributes textAttributes)
+	public JsonQLDataSourceProvider(JasperReportsContext jasperReportsContext, String jsonSource, String queryString, TextDataSourceAttributes textAttributes)
 	{
 		super(jasperReportsContext, jsonSource, queryString, textAttributes);
 	}
 
 	@Override
-	protected JsonDataSource getJsonDataInstance(JasperReportsContext jasperReportsContext, String jsonSource, String queryString) throws JRException
+	protected JsonQLDataSource getJsonDataInstance(JasperReportsContext jasperReportsContext, String jsonSource, String queryString) throws JRException
 	{
-		return new JsonDataSource(jasperReportsContext, jsonSource, queryString);
+		return new JsonQLDataSource(jasperReportsContext, jsonSource, queryString);
 	}
 
 }

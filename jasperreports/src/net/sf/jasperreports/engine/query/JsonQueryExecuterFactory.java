@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * JSON query executer factory.
  * <p/>
- * The factory creates {@link net.sf.jasperreports.engine.query.JsonQueryExecuter JRJsonQueryExecuter}
+ * The factory creates {@link net.sf.jasperreports.engine.query.JsonQueryExecuter JsonQueryExecuter}
  * query executers.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)

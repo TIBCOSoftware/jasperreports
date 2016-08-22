@@ -31,23 +31,24 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractJsonDataSourceProvider;
-import net.sf.jasperreports.engine.data.JsonDataSource;
-import net.sf.jasperreports.engine.data.JsonDataSourceProvider;
+import net.sf.jasperreports.engine.data.JsonQLDataSource;
+import net.sf.jasperreports.engine.data.JsonQLDataSourceProvider;
 import net.sf.jasperreports.engine.data.TextDataSourceAttributes;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
- * JSON query executer implementation.
+ * Simple JSON query executer implementation.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonQueryExecuter extends AbstractJsonQueryExecuter<JsonDataSource>
+public class JsonQLQueryExecuter extends AbstractJsonQueryExecuter<JsonQLDataSource>
 {
-	public static final String CANONICAL_LANGUAGE = "JSON";
-	
+	public static final String CANONICAL_LANGUAGE = "JSONQL";
+
 	/**
-	 * 
+	 *
 	 */
-	public JsonQueryExecuter(
+	public JsonQLQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
 		Map<String, ? extends JRValueParameter> parametersMap
@@ -65,21 +66,38 @@ public class JsonQueryExecuter extends AbstractJsonQueryExecuter<JsonDataSource>
 	@Override
 	protected String getParameterReplacement(String parameterName)
 	{
-		return String.valueOf(getParameterValue(parameterName));
+		Object parameterValue = getParameterValue(parameterName);
+
+		if (parameterValue == null) {
+			return null;
+		}
+
+		Class<?> valueClass= parameterValue.getClass();
+
+		if(!(Number.class.equals(valueClass) || Boolean.class.equals(valueClass))) {
+			StringBuilder sb = new StringBuilder("\"");
+
+			sb.append(JRStringUtil.escapeJavaStringLiteral((String) parameterValue));
+			sb.append("\"");
+
+			return sb.toString();
+		}
+
+		return String.valueOf(parameterValue);
 	}
 
 	@Override
-	protected JsonDataSource getJsonDataInstance(InputStream jsonInputStream) throws JRException {
-		return new JsonDataSource(jsonInputStream, getQueryString());
+	protected JsonQLDataSource getJsonDataInstance(InputStream jsonInputStream) throws JRException {
+		return new JsonQLDataSource(jsonInputStream, getQueryString());
 	}
 
 	@Override
-	protected JsonDataSource getJsonDataInstance(String jsonSource) throws JRException {
-		return new JsonDataSource(getJasperReportsContext(), jsonSource, getQueryString());
+	protected JsonQLDataSource getJsonDataInstance(String jsonSource) throws JRException {
+		return new JsonQLDataSource(getJasperReportsContext(), jsonSource, getQueryString());
 	}
 
 	@Override
-	protected AbstractJsonDataSourceProvider<JsonDataSource> getJsonDataProviderInstance(String source, TextDataSourceAttributes textAttributes) {
-		return new JsonDataSourceProvider(getJasperReportsContext(), source, getQueryString(), textAttributes);
+	protected AbstractJsonDataSourceProvider<JsonQLDataSource> getJsonDataProviderInstance(String source, TextDataSourceAttributes textAttributes) {
+		return new JsonQLDataSourceProvider(getJasperReportsContext(), source, getQueryString(), textAttributes);
 	}
 }

@@ -21,26 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.data;
+package net.sf.jasperreports.engine.util.json;
+
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.json.JRJsonNode;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonDataSourceProvider extends AbstractJsonDataSourceProvider<JsonDataSource>
-{
+public interface JsonQLExecuter {
 
-	public JsonDataSourceProvider(JasperReportsContext jasperReportsContext, String jsonSource, String queryString, TextDataSourceAttributes textAttributes)
-	{
-		super(jasperReportsContext, jsonSource, queryString, textAttributes);
-	}
+    List<JRJsonNode> selectNodes(JRJsonNode rootNode, String expression) throws JRException ;
 
-	@Override
-	protected JsonDataSource getJsonDataInstance(JasperReportsContext jasperReportsContext, String jsonSource, String queryString) throws JRException
-	{
-		return new JsonDataSource(jasperReportsContext, jsonSource, queryString);
-	}
+    JRJsonNode selectNode(JRJsonNode contextNode, JRJsonNode rootNode, String expression) throws JRException;
 
 }

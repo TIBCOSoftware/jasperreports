@@ -21,26 +21,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.data;
+package net.sf.jasperreports.engine.query;
 
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * JSON QL query executer factory.
+ * <p/>
+ * The factory creates {@link JsonQLQueryExecuter JsonQLQueryExecuter}
+ * query executers.
+ *
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonDataSourceProvider extends AbstractJsonDataSourceProvider<JsonDataSource>
+public class JsonQLQueryExecuterFactory extends JsonQueryExecuterFactory
 {
-
-	public JsonDataSourceProvider(JasperReportsContext jasperReportsContext, String jsonSource, String queryString, TextDataSourceAttributes textAttributes)
-	{
-		super(jasperReportsContext, jsonSource, queryString, textAttributes);
-	}
-
 	@Override
-	protected JsonDataSource getJsonDataInstance(JasperReportsContext jasperReportsContext, String jsonSource, String queryString) throws JRException
+	public JRQueryExecuter createQueryExecuter(
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parameters
+		) throws JRException
 	{
-		return new JsonDataSource(jasperReportsContext, jsonSource, queryString);
+		return new JsonQLQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 }

@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.json.expression;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
 import net.sf.jasperreports.engine.json.expression.filter.evaluation.DefaultFilterExpressionEvaluatorVisitor;
 import net.sf.jasperreports.engine.json.expression.filter.evaluation.FilterExpressionEvaluatorVisitor;
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JsonPathExpressionEvaluator {
 
-    public JsonNodeContainer evaluate(JsonPathExpression expression, JsonNodeContainer contextNode) {
+    public JsonNodeContainer evaluate(JsonPathExpression expression, JRJsonNode contextNode) {
 
         EvaluationContext evaluationContext = new EvaluationContext() {
             @Override
@@ -66,7 +67,7 @@ public class JsonPathExpressionEvaluator {
         };
 
         List<MemberExpression> memberExpressionList = expression.getMemberExpressionList();
-        JsonNodeContainer result = contextNode;
+        JsonNodeContainer result = new JsonNodeContainer(contextNode);
 
         if (memberExpressionList != null) {
             for (MemberExpression me: memberExpressionList) {

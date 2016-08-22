@@ -1,0 +1,206 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sf.jasperreports.engine.data;
+
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.json.JRJsonNode;
+import net.sf.jasperreports.engine.util.JsonUtil;
+import net.sf.jasperreports.engine.util.json.DefaultJsonQLExecuter;
+import net.sf.jasperreports.engine.util.json.JsonQLExecuter;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+/**
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
+ */
+public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonData {
+    private static final Log log = LogFactory.getLog(JsonQLDataSource.class);
+
+    public static final String EXCEPTION_MESSAGE_KEY_NO_DATA = "data.json.no.data";
+    public static final String EXCEPTION_MESSAGE_KEY_JSON_FIELD_VALUE_NOT_RETRIEVED = "data.json.field.value.not.retrieved";
+
+    private JRJsonNode root;
+    private String selectExpression;
+
+    private JRJsonNode currentJsonNode;
+    private List<JRJsonNode> nodes;
+    private int currentNodeIndex = - 1;
+
+    private JsonQLExecuter jsonQLExecuter;
+
+
+    public JsonQLDataSource(File file, String selectExpression) throws JRException {
+        this(JsonUtil.parseJson(file), selectExpression);
+    }
+
+    public JsonQLDataSource(File file) throws JRException {
+        this(file, null);
+    }
+
+    public JsonQLDataSource(InputStream jsonInputStream, String selectExpression) throws JRException {
+        this(JsonUtil.parseJson(jsonInputStream), selectExpression);
+    }
+
+    public JsonQLDataSource(InputStream jsonInputStream) throws JRException {
+        this(jsonInputStream, null);
+    }
+
+    public JsonQLDataSource(JasperReportsContext jasperReportsContext, String jsonSource, String selectExpression) throws JRException {
+        this(JsonUtil.parseJson(jasperReportsContext, jsonSource), selectExpression);
+    }
+
+    protected JsonQLDataSource(JsonNode jacksonJsonTree, String selectExpression) throws JRException {
+        this(new JRJsonNode(null, jacksonJsonTree), selectExpression);
+    }
+
+    protected JsonQLDataSource(JRJsonNode root, String selectExpression) throws JRException {
+        this.root = root;
+        this.selectExpression = selectExpression;
+        this.jsonQLExecuter = new DefaultJsonQLExecuter();
+
+        moveFirst();
+    }
+
+    @Override
+    public void moveFirst() throws JRException {
+        if (root.getDataNode() == null || root.getDataNode().isMissingNode()) {
+            throw new JRException(EXCEPTION_MESSAGE_KEY_NO_DATA, (Object[]) null);
+        }
+
+        currentJsonNode = null;
+        nodes = jsonQLExecuter.selectNodes(root, selectExpression);
+        currentNodeIndex = -1;
+    }
+
+    @Override
+    public boolean next() throws JRException {
+        if (nodes != null && currentNodeIndex < nodes.size() - 1) {
+            currentJsonNode = nodes.get(++currentNodeIndex);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public Object getFieldValue(JRField jrField) throws JRException {
+        if(currentJsonNode == null) {
+            return null;
+        }
+
+        String expression = jrField.getDescription();
+        if (expression == null || expression.length() == 0) {
+            expression = jrField.getName();
+        }
+
+        JRJsonNode selectedNode = jsonQLExecuter.selectNode(currentJsonNode, root, expression);
+        if (selectedNode != null) {
+            return getConvertedValue(selectedNode, jrField);
+        }
+
+        return null;
+    }
+
+    @Override
+    public JsonQLDataSource subDataSource() throws JRException {
+        return subDataSource(null);
+    }
+
+    @Override
+    public JsonQLDataSource subDataSource(String selectExpression) throws JRException {
+        if(currentJsonNode == null) {
+            throw new JRException(EXCEPTION_MESSAGE_KEY_NO_DATA, (Object[])null);
+        }
+
+        JsonQLDataSource subDataSource = new JsonQLDataSource(currentJsonNode, selectExpression);
+        subDataSource.setTextAttributes(this);
+
+        return subDataSource;
+    }
+
+    protected Object getConvertedValue(JRJsonNode node, JRField jrField) throws JRException {
+        JsonNode dataNode = node.getDataNode();
+        Class<?> valueClass = jrField.getValueClass();
+
+        if (log.isDebugEnabled()) {
+            log.debug("attempting to convert: " + dataNode + " to class: " + valueClass);
+        }
+
+        if (Object.class.equals(valueClass)) {
+            return dataNode;
+        }
+
+        Object result = null;
+
+        if (!dataNode.isNull())  {
+            try {
+                if (Boolean.class.equals(valueClass) && dataNode.isBoolean()) {
+                    result = dataNode.booleanValue();
+
+                } else if (BigDecimal.class.equals(valueClass) && dataNode.isBigDecimal()) {
+                    result = dataNode.decimalValue();
+
+                } else if (BigInteger.class.equals(valueClass) && dataNode.isBigInteger()) {
+                    result = dataNode.bigIntegerValue();
+
+                } else if (Double.class.equals(valueClass) && dataNode.isDouble()) {
+                    result = dataNode.doubleValue();
+
+                } else if (Integer.class.equals(valueClass) && dataNode.isInt()) {
+                    result = dataNode.intValue();
+
+                } else if (Number.class.isAssignableFrom(valueClass) && dataNode.isNumber()) {
+                    result = convertNumber(dataNode.numberValue(), valueClass);
+
+                } else {
+                    result = convertStringValue(dataNode.asText(), valueClass);
+                }
+
+                if (result == null) {
+                    throw new JRException(EXCEPTION_MESSAGE_KEY_CANNOT_CONVERT_FIELD_TYPE,
+                            new Object[]{jrField.getName(), valueClass.getName()});
+                }
+
+            } catch (Exception e) {
+                throw new JRException(EXCEPTION_MESSAGE_KEY_JSON_FIELD_VALUE_NOT_RETRIEVED,
+                        new Object[]{jrField.getName(), valueClass.getName()}, e);
+            }
+        }
+
+        return result;
+    }
+
+}
