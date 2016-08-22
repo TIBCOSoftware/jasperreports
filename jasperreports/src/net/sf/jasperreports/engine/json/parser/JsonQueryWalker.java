@@ -37,7 +37,7 @@ import antlr.collections.impl.BitSet;
 import antlr.ASTPair;
 import antlr.collections.impl.ASTArray;
 
-import net.sf.jasperreports.engine.json.expression.JsonPathExpression;
+import net.sf.jasperreports.engine.json.expression.JsonQLExpression;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.LOGICAL_OPERATOR;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.VALUE_TYPE;
 import net.sf.jasperreports.engine.json.expression.filter.*;
@@ -56,10 +56,10 @@ public JsonQueryWalker() {
 	tokenNames = _tokenNames;
 }
 
-	public final JsonPathExpression  jsonPathExpression(AST _t) throws RecognitionException {
-		JsonPathExpression jsonPathExpression = new JsonPathExpression();
+	public final JsonQLExpression  jsonQLExpression(AST _t) throws RecognitionException {
+		JsonQLExpression jsonQLExpression = new JsonQLExpression();
 		
-		AST jsonPathExpression_AST_in = (_t == ASTNULL) ? null : (AST)_t;
+		AST jsonQLExpression_AST_in = (_t == ASTNULL) ? null : (AST)_t;
 		AST abs = null;
 		
 		try {      // for error handling
@@ -93,7 +93,7 @@ public JsonQueryWalker() {
 			do {
 				if (_t==null) _t=ASTNULL;
 				if ((_t.getType()==MEMBER)) {
-					memberExpr(_t,jsonPathExpression);
+					memberExpr(_t,jsonQLExpression);
 					_t = _retTree;
 				}
 				else {
@@ -106,7 +106,7 @@ public JsonQueryWalker() {
 			_t = _t.getNextSibling();
 			
 			if (abs != null) {
-			jsonPathExpression.setIsAbsolute(true);
+			jsonQLExpression.setIsAbsolute(true);
 			}
 			
 		}
@@ -115,11 +115,11 @@ public JsonQueryWalker() {
 			if (_t!=null) {_t = _t.getNextSibling();}
 		}
 		_retTree = _t;
-		return jsonPathExpression;
+		return jsonQLExpression;
 	}
 	
 	public final void memberExpr(AST _t,
-		JsonPathExpression jsonPathExpression
+		JsonQLExpression jsonQLExpression
 	) throws RecognitionException {
 		
 		AST memberExpr_AST_in = (_t == ASTNULL) ? null : (AST)_t;
@@ -158,7 +158,7 @@ public JsonQueryWalker() {
 			_t = _t.getNextSibling();
 			
 			memberExpr.setFilterExpression(filterExpression);
-			jsonPathExpression.addMemberExpression(memberExpr);
+			jsonQLExpression.addMemberExpression(memberExpr);
 			
 		}
 		catch (RecognitionException ex) {

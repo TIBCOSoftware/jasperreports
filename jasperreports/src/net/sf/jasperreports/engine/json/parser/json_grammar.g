@@ -186,7 +186,7 @@ value
 
 
 {
-import net.sf.jasperreports.engine.json.expression.JsonPathExpression;
+import net.sf.jasperreports.engine.json.expression.JsonQLExpression;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.LOGICAL_OPERATOR;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.VALUE_TYPE;
 import net.sf.jasperreports.engine.json.expression.filter.*;
@@ -201,16 +201,16 @@ import net.sf.jasperreports.engine.type.JsonOperatorEnum;
  */
 class JsonQueryWalker extends TreeParser;
 
-jsonPathExpression returns [JsonPathExpression jsonPathExpression = new JsonPathExpression()]
-    : #(PATH (abs:ABSOLUTE)? (memberExpr[jsonPathExpression])*)
+jsonQLExpression returns [JsonQLExpression jsonQLExpression = new JsonQLExpression()]
+    : #(PATH (abs:ABSOLUTE)? (memberExpr[jsonQLExpression])*)
         {
             if (abs != null) {
-                jsonPathExpression.setIsAbsolute(true);
+                jsonQLExpression.setIsAbsolute(true);
             }
         }
     ;
 
-memberExpr [JsonPathExpression jsonPathExpression]
+memberExpr [JsonQLExpression jsonQLExpression]
         {
             MemberExpression memberExpr = null;
             FilterExpression filterExpression = null;
@@ -220,7 +220,7 @@ memberExpr [JsonPathExpression jsonPathExpression]
       )
         {
             memberExpr.setFilterExpression(filterExpression);
-            jsonPathExpression.addMemberExpression(memberExpr);
+            jsonQLExpression.addMemberExpression(memberExpr);
         }
     ;
 

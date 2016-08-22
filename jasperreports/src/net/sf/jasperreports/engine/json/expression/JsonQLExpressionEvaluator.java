@@ -40,9 +40,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonPathExpressionEvaluator {
+public class JsonQLExpressionEvaluator {
 
-    public JsonNodeContainer evaluate(JsonPathExpression expression, JRJsonNode contextNode) {
+    public JsonNodeContainer evaluate(JsonQLExpression expression, JRJsonNode contextNode) {
 
         EvaluationContext evaluationContext = new EvaluationContext() {
             @Override

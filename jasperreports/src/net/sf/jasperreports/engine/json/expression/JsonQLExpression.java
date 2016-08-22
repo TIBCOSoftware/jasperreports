@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonPathExpression {
+public class JsonQLExpression {
     private List<MemberExpression> memberExpressionList = new ArrayList<>();
     private boolean isAbsolute;
 

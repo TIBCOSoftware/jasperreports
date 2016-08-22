@@ -30,8 +30,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
-import net.sf.jasperreports.engine.json.expression.JsonPathExpression;
-import net.sf.jasperreports.engine.json.expression.JsonPathExpressionEvaluator;
+import net.sf.jasperreports.engine.json.expression.JsonQLExpression;
+import net.sf.jasperreports.engine.json.expression.JsonQLExpressionEvaluator;
 import net.sf.jasperreports.engine.json.parser.JsonQueryLexer;
 import net.sf.jasperreports.engine.json.parser.JsonQueryParser;
 import net.sf.jasperreports.engine.json.parser.JsonQueryWalker;
@@ -45,10 +45,10 @@ import org.apache.commons.logging.LogFactory;
 public class DefaultJsonQLExecuter implements JsonQLExecuter {
     private static final Log log = LogFactory.getLog(DefaultJsonQLExecuter.class);
 
-    private JsonPathExpressionEvaluator evaluator;
+    private JsonQLExpressionEvaluator evaluator;
 
     public DefaultJsonQLExecuter() {
-        evaluator = new JsonPathExpressionEvaluator();
+        evaluator = new JsonQLExpressionEvaluator();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class DefaultJsonQLExecuter implements JsonQLExecuter {
     @Override
     public JRJsonNode selectNode(JRJsonNode contextNode, JRJsonNode rootNode, String expression) throws JRException {
         if (expression != null  && expression.trim().length() > 0) {
-            JsonPathExpression jsonQLExpression = getJsonQLExpression(expression);
+            JsonQLExpression jsonQLExpression = getJsonQLExpression(expression);
             JRJsonNode node = contextNode;
 
             if (jsonQLExpression.isAbsolute()) {
@@ -92,7 +92,7 @@ public class DefaultJsonQLExecuter implements JsonQLExecuter {
         return null;
     }
 
-    protected JsonPathExpression getJsonQLExpression(String expression) {
+    protected JsonQLExpression getJsonQLExpression(String expression) {
         try {
             JsonQueryLexer lexer = new JsonQueryLexer(new StringReader(expression.trim()));
 
@@ -100,7 +100,7 @@ public class DefaultJsonQLExecuter implements JsonQLExecuter {
             parser.pathExpr();
 
             JsonQueryWalker walker = new JsonQueryWalker();
-            return walker.jsonPathExpression(parser.getAST());
+            return walker.jsonQLExpression(parser.getAST());
 
         } catch (Exception e) {
             if (log.isDebugEnabled()) {
