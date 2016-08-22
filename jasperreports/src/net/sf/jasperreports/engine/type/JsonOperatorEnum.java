@@ -55,4 +55,9 @@ public enum JsonOperatorEnum implements NamedEnum
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public String toString() {
+		return value;
+	}
 }
