@@ -236,10 +236,10 @@ In the <code>JsonCustomersReport</code> we run a JSON query in order to retrieve
 The only <code>Customer</code> properties (fields) we are interested in are <code>CustomerID</code> and <code>CompanyName</code>:
 <pre><![CDATA[
 <field name="CustomerID" class="java.lang.String">
-  <fieldDescription><![CDATA[CustomerID]] ></fieldDescription>
+  <property name="net.sf.jasperreports.json.field.expression" value="CustomerID"/>
 </field>
 <field name="CompanyName" class="java.lang.String">
-  <fieldDescription><![CDATA[CompanyName]] ></fieldDescription>
+  <property name="net.sf.jasperreports.json.field.expression" value="CompanyName"/>
 </field>
 ]]></pre>
 Additional parameters are passed to the report execution in the <code>/src/JsonDataSourceApp.java</code> class (see the <code>fill()</code> method):
@@ -291,16 +291,16 @@ are retrieved:
 From each order we collect the following properties:
 <pre><![CDATA[
 <field name="Id" class="java.lang.String">
-  <fieldDescription><![CDATA[OrderID]] ></fieldDescription>
+  <property name="net.sf.jasperreports.json.field.expression" value="OrderID"/>
 </field>
 <field name="OrderDate" class="java.util.Date">
-  <fieldDescription><![CDATA[OrderDate]] ></fieldDescription>
+  <property name="net.sf.jasperreports.json.field.expression" value="OrderDate"/>
 </field>
 <field name="ShipCity" class="java.lang.String">
-  <fieldDescription><![CDATA[ShipCity]] ></fieldDescription>
+  <property name="net.sf.jasperreports.json.field.expression" value="ShipCity"/>
 </field>
 <field name="Freight" class="java.lang.Float">
-  <fieldDescription><![CDATA[Freight]] ></fieldDescription>
+  <property name="net.sf.jasperreports.json.field.expression" value="Freight"/>
 </field>]]></pre>
 <b>Running the Sample</b>
 <br/>

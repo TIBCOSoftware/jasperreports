@@ -44,8 +44,10 @@ the document node itself. The XPath expression is executed when the
 data source is instantiated; each item in the resulting node set will generate a
 record in the data source.</li>
 <li>An XPath expression to select the field value for every field in the data set, 
-when iterating through records. The field’s XPath expression is provided by the field description 
-(<code>&lt;fieldDescription&gt;</code> element in JRXML).</li>
+when iterating through records. The field’s XPath expression is provided by the {@link #PROPERTY_FIELD_EXPRESSION} 
+custom property at field level. The use of the {@link net.sf.jasperreports.engine.JRField#getDescription() field description} to specify the XPath expression 
+is still supported, but is now discouraged, the above mentioned custom property taking precedence 
+over the field description.</li>
 </ul>
 One interesting particularity of XML data sources is that they can be used to 
 create sub–data sources to be used for subreports or subdatasets, using different 
@@ -246,10 +248,10 @@ the <code>&lt;queryString/&gt;</code> expression:
 The fields required for each <code>Customer</code> in the main report are:
 <pre><![CDATA[
   <field name="CustomerID" class="java.lang.String">
-    <fieldDescription>CustomerID</fieldDescription>
+    <property name="net.sf.jasperreports.xpath.field.expression" value="CustomerID"/>
   </field>
   <field name="CompanyName" class="java.lang.String">
-    <fieldDescription>CompanyName</fieldDescription>
+    <property name="net.sf.jasperreports.xpath.field.expression" value="CompanyName"/>
   </field>
 ]]></pre>
 The <code>OrdersReport</code> subreport is called when the orders list has to be completed for each customers:
@@ -292,16 +294,16 @@ Only <code>Orders</code> with the given <code>CustomerID</code> are taken into a
 The only fields required from an <code>Orders</code> record are:
 <pre><![CDATA[
   <field name="Id" class="java.lang.String">
-	<fieldDescription>OrderID</fieldDescription>
+	<property name="net.sf.jasperreports.xpath.field.expression" value="OrderID"/>
   </field>
   <field name="OrderDate" class="java.util.Date">
-	<fieldDescription>OrderDate</fieldDescription>
+	<property name="net.sf.jasperreports.xpath.field.expression" value="OrderDate"/>
   </field>
   <field name="ShipCity" class="java.lang.String">
-	<fieldDescription>ShipCity</fieldDescription>
+	<property name="net.sf.jasperreports.xpath.field.expression" value="ShipCity"/>
   </field>
   <field name="Freight" class="java.lang.Float">
-	<fieldDescription>Freight</fieldDescription>
+	<property name="net.sf.jasperreports.xpath.field.expression" value="Freight"/>
   </field>
 ]]></pre>
 <a name="fill">In</a> the <code>src/XmlDataSourceApp.java</code> all necessary information is prepared to be sent at fill time: 

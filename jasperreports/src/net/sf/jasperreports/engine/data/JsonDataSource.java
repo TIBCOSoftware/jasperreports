@@ -30,13 +30,16 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JsonUtil;
@@ -58,8 +61,15 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_EXPRESSION = "data.json.invalid.expression";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_DATA = "data.json.no.data";
 
+	/**
+	 * Property specifying the JSON expression for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "json.field.expression";
+
 	// the JSON select expression that gives the nodes to iterate
 	private String selectExpression;
+
+	private Map<String, String> fieldExpressions = new HashMap<String, String>();
 
 	private Iterator<JsonNode> jsonNodesIterator;
 
@@ -194,15 +204,22 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 		if(currentJsonNode == null) {
 			return null;
 		}
-		String expression = jrField.getDescription();
+		
+		String expression = null;
+		if (fieldExpressions.containsKey(jrField.getName()))
+		{
+			expression = fieldExpressions.get(jrField.getName());
+		}
+		else
+		{
+			expression = getFieldExpression(jrField);
+			fieldExpressions.put(jrField.getName(), expression);
+		}
 		if (expression == null || expression.length() == 0)
 		{
-			expression = jrField.getName();
-			if (expression == null || expression.length() == 0)
-			{
-				return null;
-			}
+			return null;
 		}
+
 		Object value = null;
 		
 		Class<?> valueClass = jrField.getValueClass();
@@ -474,4 +491,18 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 		//NOP
 	}
 
+	
+	protected String getFieldExpression(JRField field)
+	{
+		String fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
+		if (fieldExpression == null)
+		{
+			fieldExpression = field.getDescription();
+			if (fieldExpression == null || fieldExpression.length() == 0)
+			{
+				fieldExpression = field.getName();
+			}
+		}
+		return fieldExpression;
+	}
 }

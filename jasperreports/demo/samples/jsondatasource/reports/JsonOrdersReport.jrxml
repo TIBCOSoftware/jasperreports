@@ -8,16 +8,16 @@
 		<![CDATA[Northwind.Orders(CustomerID == $P{CustomerID})]]>
 	</queryString>
 	<field name="Id" class="java.lang.String">
-		<fieldDescription><![CDATA[OrderID]]></fieldDescription>
+		<property name="net.sf.jasperreports.json.field.expression" value="OrderID"/>
 	</field>
 	<field name="OrderDate" class="java.util.Date">
-		<fieldDescription><![CDATA[OrderDate]]></fieldDescription>
+		<property name="net.sf.jasperreports.json.field.expression" value="OrderDate"/>
 	</field>
 	<field name="ShipCity" class="java.lang.String">
-		<fieldDescription><![CDATA[ShipCity]]></fieldDescription>
+		<property name="net.sf.jasperreports.json.field.expression" value="ShipCity"/>
 	</field>
 	<field name="Freight" class="java.lang.Float">
-		<fieldDescription><![CDATA[Freight]]></fieldDescription>
+		<property name="net.sf.jasperreports.json.field.expression" value="Freight"/>
 	</field>
 	<variable name="TotalFreight" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
