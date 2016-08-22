@@ -129,7 +129,7 @@ arraySliceExpr
     ;
 
 multiLevelUpExpr
-    : BACKSP (LCURLY! INT RCURLY!)?
+    : CARET (LCURLY! INT RCURLY!)?
         { #multiLevelUpExpr = #([MULTI_LEVEL_UP, "Multi level up:"], #multiLevelUpExpr); }
     ;
 
@@ -273,7 +273,7 @@ pathNaviExpr returns [MemberExpression memberExpr = null]
 
             memberExpr = new ArraySliceExpression(dir, start, end);
         }
-    | #(MULTI_LEVEL_UP BACKSP (levelUp:INT)?)
+    | #(MULTI_LEVEL_UP CARET (levelUp:INT)?)
         {
             int level = 1;
             if (levelUp != null) {
@@ -418,8 +418,8 @@ COMMA
 WILDCARD
     : '*'
     ;
-BACKSP
-    : '\\'
+CARET
+    : '^'
     ;
 LCURLY
     : '{'

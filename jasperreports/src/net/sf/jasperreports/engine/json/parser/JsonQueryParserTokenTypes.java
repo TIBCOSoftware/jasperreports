@@ -49,7 +49,7 @@ public interface JsonQueryParserTokenTypes {
 	int COMMA = 22;
 	int INT = 23;
 	int SEMI = 24;
-	int BACKSP = 25;
+	int CARET = 25;
 	int LCURLY = 26;
 	int RCURLY = 27;
 	int LPAREN = 28;

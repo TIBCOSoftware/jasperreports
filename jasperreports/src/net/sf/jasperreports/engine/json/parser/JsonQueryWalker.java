@@ -518,7 +518,7 @@ public JsonQueryWalker() {
 				match(_t,MULTI_LEVEL_UP);
 				_t = _t.getFirstChild();
 				AST tmp12_AST_in = (AST)_t;
-				match(_t,BACKSP);
+				match(_t,CARET);
 				_t = _t.getNextSibling();
 				{
 				if (_t==null) _t=ASTNULL;
@@ -1108,7 +1108,7 @@ public JsonQueryWalker() {
 		"COMMA",
 		"INT",
 		"SEMI",
-		"BACKSP",
+		"CARET",
 		"LCURLY",
 		"RCURLY",
 		"LPAREN",

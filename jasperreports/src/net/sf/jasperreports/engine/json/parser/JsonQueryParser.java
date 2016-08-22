@@ -101,7 +101,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case ID:
 		case WILDCARD:
 		case LBRACKET:
-		case BACKSP:
+		case CARET:
 		{
 			break;
 		}
@@ -159,7 +159,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case ID:
 		case WILDCARD:
 		case LBRACKET:
-		case BACKSP:
+		case CARET:
 		{
 			break;
 		}
@@ -453,7 +453,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 							astFactory.addASTChild(currentAST, returnAST);
 							pathNaviExpr_AST = (AST)currentAST.root;
 						}
-						else if ((LA(1)==BACKSP)) {
+						else if ((LA(1)==CARET)) {
 							multiLevelUpExpr();
 							astFactory.addASTChild(currentAST, returnAST);
 							pathNaviExpr_AST = (AST)currentAST.root;
@@ -915,7 +915,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		AST tmp67_AST = null;
 		tmp67_AST = astFactory.create(LT(1));
 		astFactory.addASTChild(currentAST, tmp67_AST);
-		match(BACKSP);
+		match(CARET);
 		{
 		switch ( LA(1)) {
 		case LCURLY:
@@ -934,7 +934,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case ID:
 		case WILDCARD:
 		case LBRACKET:
-		case BACKSP:
+		case CARET:
 		case LPAREN:
 		case AT_SIZE:
 		case EQ:
@@ -1043,7 +1043,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case ID:
 		case WILDCARD:
 		case LBRACKET:
-		case BACKSP:
+		case CARET:
 		case LPAREN:
 		case AT_SIZE:
 		case AT_VALUE:
@@ -1074,7 +1074,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case ID:
 		case WILDCARD:
 		case LBRACKET:
-		case BACKSP:
+		case CARET:
 		case AT_SIZE:
 		case AT_VALUE:
 		{
@@ -1126,7 +1126,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		case ID:
 		case WILDCARD:
 		case LBRACKET:
-		case BACKSP:
+		case CARET:
 		{
 			{
 			int _cnt63=0;
@@ -1540,7 +1540,7 @@ public JsonQueryParser(ParserSharedInputState state) {
 		"COMMA",
 		"INT",
 		"SEMI",
-		"BACKSP",
+		"CARET",
 		"LCURLY",
 		"RCURLY",
 		"LPAREN",
