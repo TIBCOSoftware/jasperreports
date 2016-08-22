@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseParameter;
+import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
 
 
 /**
@@ -49,6 +50,8 @@ public class JRDesignParameter extends JRBaseParameter
 	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
 	
 	public static final String PROPERTY_NESTED_TYPE_NAME = "nestedType";
+	
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 
 
 	/**
@@ -124,6 +127,16 @@ public class JRDesignParameter extends JRBaseParameter
 		boolean old = this.isForPrompting;
 		this.isForPrompting = isForPrompting;
 		getEventSupport().firePropertyChange(PROPERTY_FOR_PROMPTING, old, this.isForPrompting);
+	}
+
+	/**
+	 *
+	 */
+	public void setEvaluationTime(ParameterEvaluationTimeEnum evaluationTime)
+	{
+		ParameterEvaluationTimeEnum old = this.evaluationTime;
+		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 
 	/**

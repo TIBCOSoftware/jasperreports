@@ -24,6 +24,7 @@
       <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
       <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
       <property ref="net.sf.jasperreports.hql.query.run.type"/>
+      <property ref="net.sf.jasperreports.javabean.field.property"/>
       <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
       <property ref="net.sf.jasperreports.jdbc.concurrency"/>
       <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
@@ -31,11 +32,13 @@
       <property ref="net.sf.jasperreports.jdbc.max.field.size"/>
       <property ref="net.sf.jasperreports.jdbc.result.set.type"/>
       <property ref="net.sf.jasperreports.jdbc.time.zone"/>
+      <property ref="net.sf.jasperreports.olap.field.mapping"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
       <property ref="net.sf.jasperreports.xls.source"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
+      <property ref="net.sf.jasperreports.xpath.field.mapping"/>
     </content>
   </category>
   
@@ -82,31 +85,32 @@
       <property ref="net.sf.jasperreports.default.spacing.after"/>
       <property ref="net.sf.jasperreports.default.spacing.before"/>
       <property ref="net.sf.jasperreports.default.tab.stop.width"/>
+      <property ref="net.sf.jasperreports.default.locale"/>
+      <property ref="net.sf.jasperreports.default.timezone"/>
       <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
       <property ref="net.sf.jasperreports.evaluator.ignore.npe"/>
+      <property ref="net.sf.jasperreports.frame.border.split.type"/>
       <property ref="net.sf.jasperreports.image.encoder"/>
       <property ref="net.sf.jasperreports.image.reader"/>
       <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
       <property ref="net.sf.jasperreports.page.break.no.pagination"/>
+      <property ref="net.sf.jasperreports.parameter.evaluation.time"/>
       <property ref="net.sf.jasperreports.print.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.print.create.bookmarks"/>
       <property ref="net.sf.jasperreports.print.keep.full.text"/>
-      <property ref="net.sf.jasperreports.text.truncate.at.char"/>
-      <property ref="net.sf.jasperreports.text.truncate.suffix"/>
-      <property ref="net.sf.jasperreports.text.measurer.factory"/>
-      <property ref="net.sf.jasperreports.text.save.line.breaks"/>
       <property ref="net.sf.jasperreports.style.evaluation.time.enabled"/>
       <property ref="net.sf.jasperreports.subreport.runner.factory"/>
-      <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
-      <property ref="net.sf.jasperreports.virtual.page.element.size"/>
-      <property ref="net.sf.jasperreports.default.locale"/>
-      <property ref="net.sf.jasperreports.default.timezone"/>
       <property ref="net.sf.jasperreports.text.pattern.date"/>
       <property ref="net.sf.jasperreports.text.pattern.time"/>
       <property ref="net.sf.jasperreports.text.pattern.datetime"/>
       <property ref="net.sf.jasperreports.text.pattern.integer"/>
       <property ref="net.sf.jasperreports.text.pattern.number"/>
-      <property ref="net.sf.jasperreports.frame.border.split.type"/>
+      <property ref="net.sf.jasperreports.text.measurer.factory"/>
+      <property ref="net.sf.jasperreports.text.save.line.breaks"/>
+      <property ref="net.sf.jasperreports.text.truncate.at.char"/>
+      <property ref="net.sf.jasperreports.text.truncate.suffix"/>
+      <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
+      <property ref="net.sf.jasperreports.virtual.page.element.size"/>
     </content>
   </category>
   
@@ -655,6 +659,20 @@ Property specifying the Hibernate query execution type. Possible values are:
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.javabean.field.property -->
+  
+  <configProperty name="net.sf.jasperreports.javabean.field.property">
+    <description>
+Property specifying the JavaBean property name for the dataset field in case an JavaBean data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+    <api>net/sf/jasperreports/engine/data/JRAbstractBeanDataSource.html#PROPERTY_JAVABEAN_FIELD_PROPERTY</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.jdbc.cached.rowset -->
   
   <configProperty name="net.sf.jasperreports.jdbc.cached.rowset">
@@ -788,6 +806,20 @@ Property specifying the
     <default><code>net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory</code></default>
     <scope>Global</scope>
     <since>2.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xpath.field.expression -->
+  
+  <configProperty name="net.sf.jasperreports.xpath.field.expression">
+    <description>
+Property specifying the XPath expression for the dataset field in case an XML data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+    <api>net/sf/jasperreports/engine/data/AbstractXmlDataSource.html#PROPERTY_FIELD_EXPRESSION</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   
@@ -5555,6 +5587,25 @@ Possible values are:
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.parameter.evaluation.time -->
+  
+  <configProperty name="net.sf.jasperreports.parameter.evaluation.time">
+    <description>
+Specifies the default value for the <api href="net/sf/jasperreports/engine/JRParameter.html#getEvaluationTime()">getEvaluationTime()</api> property of a dataset parameter.
+<br/>
+Possible values are defined by the <api href="net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html">ParameterDefaultValueEvaluationTimeType</api> enumeration.
+<ul>
+  <li><code>Early</code> - Evaluate the parameter default value expression before parameter contributors.</li>
+  <li><code>Late</code> - Evaluate the parameter default value expression after parameter contributors.</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html#PROPERTY_DEFAULT_VALUE_EVALUATION_TIME</api>
+    <default>Late</default>
+    <scope>Global | Dataset</scope>
+    <since>6.3.1</since>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.default.locale -->
   
   <configProperty name="net.sf.jasperreports.default.locale">
@@ -5725,6 +5776,20 @@ In the latter case the report time zone (as in <api href="net/sf/jasperreports/e
     <default>N/A</default>
     <scope>Global | Dataset | Parameter | Field</scope>
     <since>6.1.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.olap.field.mapping -->
+  
+  <configProperty name="net.sf.jasperreports.olap.field.mapping">
+    <description>
+Property specifying the mapping for the dataset field in case an OLAP data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+    <api>net/sf/jasperreports/olap/JROlapDataSource.html#PROPERTY_FIELD_MAPPING</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   

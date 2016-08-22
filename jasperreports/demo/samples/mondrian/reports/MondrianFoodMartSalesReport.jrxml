@@ -15,31 +15,31 @@
 from [Sales]]]>
 	</queryString>
 	<field name="StoreState" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Store][Store State]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Store][Store State]"/>
 	</field>
 	<field name="Quarter" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Time][Quarter]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Time][Quarter]"/>
 	</field>
 	<field name="CustomerState" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Customers][State Province]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Customers][State Province]"/>
 	</field>
 	<field name="UnitSales" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(0,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(0,?)"/>
 	</field>
 	<field name="CustomerCount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(1,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(1,?)"/>
 	</field>
 	<field name="StoreStateUnitSales" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(0,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(0,?)"/>
 	</field>
 	<field name="StoreStateCustCount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(1,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][Store State],Rows[Time][Year],Rows[Customers][(All)])(1,?)"/>
 	</field>
 	<field name="TotalStoreStateUnitSales" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(0,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(0,?)"/>
 	</field>
 	<field name="TotalStoreStateCustCount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(1,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Store][(All)],Rows[Time][Year],Rows[Customers][(All)])(1,?)"/>
 	</field>
 	<group name="StoreState">
 		<groupExpression><![CDATA[$F{StoreState}]]></groupExpression>

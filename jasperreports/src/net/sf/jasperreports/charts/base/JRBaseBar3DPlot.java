@@ -29,6 +29,7 @@ import java.io.ObjectInputStream;
 
 import org.jfree.chart.renderer.category.BarRenderer3D;
 
+import net.sf.jasperreports.charts.ChartCopyObjectFactory;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.engine.JRChart;
@@ -88,12 +89,17 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	 */
 	public JRBaseBar3DPlot(JRChartPlot plot, JRChart chart)
 	{
+		this(plot, chart, ChartCopyBaseObjectFactory.instance());
+	}
+	
+	protected JRBaseBar3DPlot(JRChartPlot plot, JRChart chart, ChartCopyObjectFactory copyObjectFactory)
+	{
 		super(plot, chart);
 		
 		JRBar3DPlot barPlot = plot instanceof JRBar3DPlot ? (JRBar3DPlot)plot : null;
 		if (barPlot == null)
 		{
-			itemLabel = new JRBaseItemLabel(null, chart);
+			itemLabel = copyObjectFactory.copyItemLabel(null, chart);
 		}
 		else
 		{
@@ -101,7 +107,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 			categoryAxisTickLabelFont = getCategoryAxisTickLabelFont();
 			valueAxisLabelFont = barPlot.getValueAxisLabelFont();
 			valueAxisTickLabelFont = barPlot.getValueAxisTickLabelFont();
-			itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), chart);
+			itemLabel = copyObjectFactory.copyItemLabel(barPlot.getItemLabel(), chart);
 		}
 	}
 

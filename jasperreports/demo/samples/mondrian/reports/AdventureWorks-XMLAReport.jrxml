@@ -17,13 +17,13 @@ FROM [Adventure Works]
 WHERE ( [Sales Territory].[Southwest] )]]>
 	</queryString>
 	<field name="Year" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Calendar][Calendar Year]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Calendar][Calendar Year]"/>
 	</field>
 	<field name="SalesAmount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data([Measures].[Sales Amount],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data([Measures].[Sales Amount],?)"/>
 	</field>
 	<field name="TaxAmount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data([Measures].[Tax Amount],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data([Measures].[Tax Amount],?)"/>
 	</field>
 	<pageHeader>
 		<band height="16">

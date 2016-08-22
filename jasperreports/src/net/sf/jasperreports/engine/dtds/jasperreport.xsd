@@ -1163,6 +1163,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="evaluationTime" use="optional">
+  	<annotation>
+   	 <documentation>Specifies when the default value expression of a parameter is evaluated.</documentation>
+  	</annotation>  
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Early">
+	  	<annotation>
+	   	 <documentation>Evaluate the parameter default value expression before parameter contributors.</documentation>
+	  	</annotation>  
+      </enumeration>
+      <enumeration value="Late">
+	  	<annotation>
+	   	 <documentation>Evaluate the parameter default value expression after parameter contributors.</documentation>
+	  	</annotation>  
+      </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 
@@ -1210,6 +1229,7 @@
   <complexType>
    <sequence>
     <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element ref="jr:propertyExpression" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:fieldDescription" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="name" type="string" use="required">
@@ -1881,7 +1901,7 @@
        <restriction base="string">
          <enumeration value="Now">
            <annotation>
-             <documentation>The part is to be evaluated immediatelly.</documentation>
+             <documentation>The part is to be evaluated immediately.</documentation>
            </annotation>
          </enumeration>
          <enumeration value="Report">

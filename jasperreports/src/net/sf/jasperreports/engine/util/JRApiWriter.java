@@ -42,6 +42,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.time.Day;
+
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -177,11 +182,6 @@ import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.export.WriterExporterOutput;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.time.Day;
 
 
 /**
@@ -678,6 +678,8 @@ public class JRApiWriter
 			
 			write( parameterName + ".setForPrompting({0});\n", parameter.isForPrompting(), true);
 	
+			write( parameterName + ".setEvaluationTime({0});\n", parameter.getEvaluationTime());
+			
 			writeProperties( parameter, parameterName);
 	
 			writeExpression( parameter.getDefaultValueExpression(), parameterName, "DefaultValueExpression");
@@ -713,6 +715,7 @@ public class JRApiWriter
 			write( fieldName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(field.getDescription()));
 			write( fieldName + ".setValueClassName(\"{0}\");\n", field.getValueClassName());
 			writeProperties( field, fieldName);
+			writePropertyExpressions( field.getPropertyExpressions(), fieldName);
 			flush();
 		}
 	}

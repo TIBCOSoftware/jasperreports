@@ -21,45 +21,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.charts.base;
 
-import net.sf.jasperreports.engine.part.PartEvaluationTime;
+import net.sf.jasperreports.charts.ChartCopyObjectFactory;
+import net.sf.jasperreports.charts.JRItemLabel;
+import net.sf.jasperreports.engine.JRChart;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public enum PartEvaluationTimeType implements NamedEnum
+public class ChartCopyBaseObjectFactory implements ChartCopyObjectFactory
 {
-	/**
-	 * Evaluate the part immediately.
-	 */
-	NOW("Now"),
-	/**
-	 * Evaluate the part when a group breaks.
-	 * 
-	 * @see PartEvaluationTime#getEvaluationGroup()
-	 */
-	GROUP("Group"),
-	/**
-	 * Evaluate the part when the report ends.
-	 */
-	REPORT("Report");
 	
-	private final String name;
+	private static final ChartCopyBaseObjectFactory INSTANCE = new ChartCopyBaseObjectFactory();
 	
-	private PartEvaluationTimeType(String name)
+	public static ChartCopyBaseObjectFactory instance()
 	{
-		this.name = name;
+		return INSTANCE;
 	}
 
 	@Override
-	public String getName()
+	public JRItemLabel copyItemLabel(JRItemLabel itemLabel, JRChart chart)
 	{
-		return name;
+		return new JRBaseItemLabel(itemLabel, chart);
 	}
 
-	public static PartEvaluationTimeType byName(String name)
-	{
-		return EnumUtil.getEnumByName(values(), name);
-	}
 }

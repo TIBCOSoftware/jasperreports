@@ -16,19 +16,19 @@ FROM [Adventure Works]
 WHERE ( [Sales Territory].[Southwest] )]]>
 	</queryString>
 	<field name="BusinessType" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Reseller Type][Business Type]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Reseller Type][Business Type]"/>
 	</field>
 	<field name="Reseller" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Reseller Type][Reseller]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Reseller Type][Reseller]"/>
 	</field>
 	<field name="Year" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Calendar][Calendar Year]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Calendar][Calendar Year]"/>
 	</field>
 	<field name="SalesAmount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(0,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(0,?)"/>
 	</field>
 	<field name="TaxAmount" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(1,?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(1,?)"/>
 	</field>
 	<variable name="TotalYearlySales" class="java.lang.Double" resetType="Group" resetGroup="Year" calculation="Sum">
 		<variableExpression><![CDATA[$F{SalesAmount}]]></variableExpression>

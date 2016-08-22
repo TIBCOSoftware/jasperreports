@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -47,9 +50,6 @@ import net.sf.jasperreports.engine.ReturnValue;
 import net.sf.jasperreports.engine.VariableReturnValue;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Class used to instantiate sub datasets.
@@ -246,6 +246,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 			dataset.filterElementDatasets(elementDataset);
 			dataset.initCalculator();
 			dataset.setParameterValues(parameterValues);
+			dataset.evaluateFieldProperties();
 			dataset.initDatasource();
 
 			iterate();

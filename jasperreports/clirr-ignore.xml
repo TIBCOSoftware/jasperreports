@@ -1,34 +1,38 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/components/ComponentsXmlDigesterConfigurer</className>
-		<differenceType>7004</differenceType>
-		<method>*addBarcodeRules(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fonts/FontUtil</className>
-		<differenceType>7004</differenceType>
-		<method>*getFontSetInfo(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/xml/BaseSaxParserFactory</className>
-		<differenceType>7013</differenceType>
-		<method>*getGrammarPoolCache()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/xml/JRXmlTemplateWriter</className>
-		<differenceType>7005</differenceType>
-		<method>*writeTemplate(net.sf.jasperreports.engine.JRTemplate, java.io.Writer, java.lang.String)</method>
-		<to>*writeTemplate(net.sf.jasperreports.engine.JasperReportsContext, net.sf.jasperreports.engine.JRTemplate, java.lang.String)</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/xml/JRXmlTemplateWriter</className>
-		<differenceType>7006</differenceType>
-		<method>*writeTemplate(net.sf.jasperreports.engine.JRTemplate, java.io.Writer, java.lang.String)</method>
-		<to>java.lang.String</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
+		<className>net/sf/jasperreports/data/http/HttpDataLocation</className>
 		<differenceType>7012</differenceType>
-		<method>*isConvertSvgToImage()</method>
+		<method>*getHeaders()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRField</className>
+		<differenceType>7012</differenceType>
+		<method>*getPropertyExpressions()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRParameter</className>
+		<differenceType>7012</differenceType>
+		<method>*getEvaluationTime()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillTextElement</className>
+		<differenceType>7002</differenceType>
+		<method>*getPrintElementHeight()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/BandReportFillerParent</className>
+		<differenceType>7012</differenceType>
+		<method>*abortSubfiller(net.sf.jasperreports.engine.fill.JRBaseFiller)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRSubreportRunner</className>
+		<differenceType>7012</differenceType>
+		<method>*abort()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/extensions/DefaultExtensionsRegistry</className>
+		<differenceType>7005</differenceType>
+		<method>*loadRegistries(java.net.URL, java.util.Map)</method>
+		<to>*loadRegistries(net.sf.jasperreports.engine.JRPropertiesMap, java.util.Map)</to>
 	</difference>
 </differences>

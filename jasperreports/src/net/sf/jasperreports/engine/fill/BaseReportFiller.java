@@ -434,6 +434,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		}
 
 		mainDataset.setParameterValues(parameterValues);
+		mainDataset.evaluateFieldProperties();
 		mainDataset.initDatasource();
 
 		this.scriptlet = mainDataset.delegateScriptlet;

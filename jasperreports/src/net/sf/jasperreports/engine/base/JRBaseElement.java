@@ -160,22 +160,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		elementGroup = (JRElementGroup)factory.getVisitResult(element.getElementGroup());
 		
 		propertiesMap = JRPropertiesMap.getPropertiesClone(element);
-		copyPropertyExpressions(element, factory);
-	}
-
-
-	private void copyPropertyExpressions(JRElement element,
-			JRBaseObjectFactory factory)
-	{
-		JRPropertyExpression[] props = element.getPropertyExpressions();
-		if (props != null && props.length > 0)
-		{
-			propertyExpressions = new JRPropertyExpression[props.length];
-			for (int i = 0; i < props.length; i++)
-			{
-				propertyExpressions[i] = factory.getPropertyExpression(props[i]);
-			}
-		}
+		propertyExpressions = factory.getPropertyExpressions(element.getPropertyExpressions());
 	}
 
 

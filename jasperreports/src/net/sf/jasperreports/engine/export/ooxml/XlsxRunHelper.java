@@ -85,103 +85,120 @@ public class XlsxRunHelper extends BaseHelper
 	 */
 	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale)
 	{
-		write("       <rPr>\n");
 
-		Object value = attrs.get(TextAttribute.FAMILY);
-		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
-		boolean isOwnFont = false;
+		boolean isOpen = false;
 		
-		if (value != null && !value.equals(oldValue))//FIXMEXLSX the text locale might be different from the report locale, resulting in different export font
+		// tracker #8326: text run properties do not inherit font settings from the cell style in XLSX; we need to set it manually
+		Object value = attrs.get(TextAttribute.FAMILY) == null 
+				? parentAttrs.get(TextAttribute.FAMILY) 
+				: attrs.get(TextAttribute.FAMILY);
+		
+		if (value != null)	//FIXMEXLSX the text locale might be different from the report locale, resulting in different export font
 		{
 			String fontFamilyAttr = (String)value;
 			String fontFamily = fontUtil.getExportFontFamily(fontFamilyAttr, locale, exporterKey);
+			write("       <rPr>\n");
 			write("        <rFont val=\"" + fontFamily + "\"/>\n");
-			isOwnFont = true;
+			isOpen = true;
 		}
 		
-		value = attrs.get(TextAttribute.FOREGROUND);
-		oldValue = parentAttrs.get(TextAttribute.FOREGROUND);
-		
-		if (value != null && (isOwnFont ||!value.equals(oldValue)))
+		if(isOpen)
 		{
-			write("        <color rgb=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
-		}
-
-		
-//		highlighted text run is not allowed in Excel Spreadsheet ML
-		
-//		value = attrs.get(TextAttribute.BACKGROUND);
-//		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
-//		
-//		
-//		if (value != null && (isOwnFont ||!value.equals(oldValue)))
-//		{
-//			String backcolor = ColorEnum.getByColor((Color)value) == null ? COLOR_NONE : ColorEnum.getByColor((Color)value).getName();
-//			if(backcolor != null){
-//				write("        <highlight val=\"" + backcolor + "\" />\n");
-//			}
-//		}
-
-		value = attrs.get(TextAttribute.SIZE);
-		oldValue = parentAttrs.get(TextAttribute.SIZE);
-
-		if (value != null && (isOwnFont ||!value.equals(oldValue)))
-		{
-			write("        <sz val=\"" + value + "\" />\n");
+			value = attrs.get(TextAttribute.FOREGROUND) == null 
+					? parentAttrs.get(TextAttribute.FOREGROUND) 
+					: attrs.get(TextAttribute.FOREGROUND);
 			
+			if (value != null)
+			{
+				write("        <color rgb=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
+			}
+	
+			
+	//		highlighted text run is not allowed in Excel Spreadsheet ML
+			
+	//		value = attrs.get(TextAttribute.BACKGROUND);
+	//		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
+	//		
+	//		
+	//		if (value != null && (isOwnFont ||!value.equals(oldValue)))
+	//		{
+	//			String backcolor = ColorEnum.getByColor((Color)value) == null ? COLOR_NONE : ColorEnum.getByColor((Color)value).getName();
+	//			if(backcolor != null){
+	//				write("        <highlight val=\"" + backcolor + "\" />\n");
+	//			}
+	//		}
+	
+			value = attrs.get(TextAttribute.SIZE) == null 
+					? parentAttrs.get(TextAttribute.SIZE) 
+					: attrs.get(TextAttribute.SIZE);
+	
+			if (value != null)
+			{
+				write("        <sz val=\"" + value + "\" />\n");
+			}
+			
+			value = attrs.get(TextAttribute.WEIGHT) == null 
+					? parentAttrs.get(TextAttribute.WEIGHT) 
+					: attrs.get(TextAttribute.WEIGHT);
+	
+			if (value != null)
+			{
+				write("        <b val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
+			}
+	
+			value = attrs.get(TextAttribute.POSTURE) == null 
+					? parentAttrs.get(TextAttribute.POSTURE) 
+					: attrs.get(TextAttribute.POSTURE);
+	
+			if (value != null)
+			{
+				write("        <i val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
+			}
+		
+			value = attrs.get(TextAttribute.UNDERLINE) == null 
+					? parentAttrs.get(TextAttribute.UNDERLINE) 
+					: attrs.get(TextAttribute.UNDERLINE);
+	
+			if (value != null)
+			{
+				write("        <u val=\"" + (value == null ? "none" : "single") + "\"/>\n");
+			}
+			
+			value = attrs.get(TextAttribute.STRIKETHROUGH) == null 
+					? parentAttrs.get(TextAttribute.STRIKETHROUGH) 
+					: attrs.get(TextAttribute.STRIKETHROUGH);
+	
+			if (value != null)
+			{
+				write("        <strike val=\"" + (value != null) + "\"/>\n");
+			}
 		}
 		
-		value = attrs.get(TextAttribute.WEIGHT);
-		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
-
-		if (value != null && (isOwnFont ||!value.equals(oldValue)))
-		{
-			write("        <b val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
-		}
-
-		value = attrs.get(TextAttribute.POSTURE);
-		oldValue = parentAttrs.get(TextAttribute.POSTURE);
-
-		if (value != null && (isOwnFont ||!value.equals(oldValue)))
-		{
-			write("        <i val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
-		}
-
-
-		value = attrs.get(TextAttribute.UNDERLINE);
-		oldValue = parentAttrs.get(TextAttribute.UNDERLINE);
-
-		if (
-			(value == null && oldValue != null)
-			|| (value != null && (isOwnFont ||!value.equals(oldValue)))
-			)
-		{
-			write("        <u val=\"" + (value == null ? "none" : "single") + "\"/>\n");
-		}
-		
-		value = attrs.get(TextAttribute.STRIKETHROUGH);
-		oldValue = parentAttrs.get(TextAttribute.STRIKETHROUGH);
-
-		if (
-			(value == null && oldValue != null)
-			|| (value != null && (isOwnFont ||!value.equals(oldValue)))
-			)
-		{
-			write("        <strike val=\"" + (value != null) + "\"/>\n");
-		}
-
 		value = attrs.get(TextAttribute.SUPERSCRIPT);
 
 		if (TextAttribute.SUPERSCRIPT_SUPER.equals(value))
 		{
+			if(!isOpen)
+			{
+				write("       <rPr>\n");
+				isOpen = true;
+			}
 			write("        <vertAlign val=\"superscript\" />\n");
 		}
 		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
 		{
+			if(!isOpen)
+			{
+				write("       <rPr>\n");
+				isOpen = true;
+			}
 			write("        <vertAlign val=\"subscript\" />\n");
 		}
-
-		write("       </rPr>\n");
+		
+		if(isOpen)
+		{
+			write("       </rPr>\n");
+		}
 	}
 
 

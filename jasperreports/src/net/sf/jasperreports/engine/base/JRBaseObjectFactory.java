@@ -1665,6 +1665,20 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 		return baseTemplate;
 	}
 
+	public JRPropertyExpression[] getPropertyExpressions(JRPropertyExpression[] props)
+	{
+		JRPropertyExpression[] propertyExpressions = null;
+		if (props != null && props.length > 0)
+		{
+			propertyExpressions = new JRPropertyExpression[props.length];
+			for (int i = 0; i < props.length; i++)
+			{
+				propertyExpressions[i] = getPropertyExpression(props[i]);
+			}
+		}
+		return propertyExpressions;
+	}
+
 	public JRPropertyExpression getPropertyExpression(JRPropertyExpression propertyExpression)
 	{
 		JRPropertyExpression baseProp = null;

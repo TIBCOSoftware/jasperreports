@@ -1,6 +1,6 @@
 <project name="beanshell" default="test" basedir=".">
 
-	<description>Shows how reports could be compiled using a customized compiler that relies on BeanShell for expressions evalution.</description>
+	<description>Shows how reports could be compiled using a customized compiler that relies on BeanShell for expressions evaluation.</description>
 
 	<property name="sample.dir" value="beanshell"/>
 	<property name="sample.base.name" value="BeanShell" />

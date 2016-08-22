@@ -712,6 +712,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_nestedType, parameter.getNestedTypeName());
 		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isForPrompting, parameter.isForPrompting(), true);
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_3_1))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, parameter.getEvaluationTime());
+		}
 
 		writeProperties(parameter);
 
@@ -744,6 +748,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, field.getValueClassName());
 
 		writeProperties(field);
+		writePropertyExpressions(field.getPropertyExpressions());
 
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_fieldDescription, field.getDescription());
 

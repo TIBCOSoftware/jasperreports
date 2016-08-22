@@ -23,31 +23,35 @@
  */
 package net.sf.jasperreports.engine.type;
 
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.part.PartEvaluationTime;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * Defines specific moments in time when the default value expression of a parameter is supposed to be evaluated.
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum PartEvaluationTimeType implements NamedEnum
+public enum ParameterEvaluationTimeEnum implements NamedEnum
 {
 	/**
-	 * Evaluate the part immediately.
+	 * Evaluate the parameter default value expression before parameter contributors.
 	 */
-	NOW("Now"),
+	EARLY("Early"),
 	/**
-	 * Evaluate the part when a group breaks.
+	 * Evaluate the parameter default value expression after parameter contributors.
 	 * 
 	 * @see PartEvaluationTime#getEvaluationGroup()
 	 */
-	GROUP("Group"),
-	/**
-	 * Evaluate the part when the report ends.
-	 */
-	REPORT("Report");
+	LATE("Late");
 	
+	/**
+	 * Provides a default value for the {@link JRParameter#getEvaluationTime()} property of parameters and can be set either globally or at dataset level.
+	 */
+	public static final String PROPERTY_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "parameter.evaluation.time";
+
 	private final String name;
 	
-	private PartEvaluationTimeType(String name)
+	private ParameterEvaluationTimeEnum(String name)
 	{
 		this.name = name;
 	}
@@ -58,7 +62,7 @@ public enum PartEvaluationTimeType implements NamedEnum
 		return name;
 	}
 
-	public static PartEvaluationTimeType byName(String name)
+	public static ParameterEvaluationTimeEnum byName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}

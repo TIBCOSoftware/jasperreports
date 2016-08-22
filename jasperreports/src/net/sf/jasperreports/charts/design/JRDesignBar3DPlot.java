@@ -77,7 +77,7 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot implements JRDesignCatego
 	 */
 	public JRDesignBar3DPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(plot, chart);
+		super(plot, chart, ChartCopyDesignObjectFactory.instance());
 	}
 
 	@Override

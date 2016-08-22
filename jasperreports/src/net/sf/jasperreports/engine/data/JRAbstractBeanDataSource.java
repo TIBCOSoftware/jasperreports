@@ -23,12 +23,16 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRRewindableDataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.beanutils.NestedNullException;
 import org.apache.commons.beanutils.PropertyUtils;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 
 /**
@@ -38,6 +42,12 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 {
 	
 	public static final String EXCEPTION_MESSAGE_KEY_BEAN_FIELD_VALUE_NOT_RETRIEVED = "data.bean.field.value.not.retrieved";
+
+	/**
+	 * Property specifying the JavaBean property name for the dataset field.
+	 */
+	public static final String PROPERTY_JAVABEAN_FIELD_PROPERTY = JRPropertiesUtil.PROPERTY_PREFIX + "javabean.field.property";
+	
 	/**
 	 * Field mapping that produces the current bean.
 	 * <p/>
@@ -51,6 +61,9 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	 */
 	protected PropertyNameProvider propertyNameProvider;
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected static final PropertyNameProvider FIELD_NAME_PROPERTY_NAME_PROVIDER =
 		new PropertyNameProvider()
 		{
@@ -61,6 +74,9 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			}
 		};
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected static final PropertyNameProvider FIELD_DESCRIPTION_PROPERTY_NAME_PROVIDER =
 		new PropertyNameProvider()
 		{
@@ -75,14 +91,57 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			}
 		};
 
+	protected static class DefaultPropertyNameProvider implements PropertyNameProvider
+	{
+		private boolean isUseFieldDescription;
+		private Map<String, String> fieldPropertyNames = new HashMap<String, String>();
+		
+		public DefaultPropertyNameProvider(boolean isUseFieldDescription)
+		{
+			this.isUseFieldDescription = isUseFieldDescription;
+		}
+		
+		@Override
+		public String getPropertyName(JRField field) 
+		{
+			String fieldPropertyName = null;
+
+			if (fieldPropertyNames.containsKey(field.getName()))
+			{
+				fieldPropertyName = fieldPropertyNames.get(field.getName());
+			}
+			else
+			{
+				if (field.hasProperties())
+				{
+					fieldPropertyName = field.getPropertiesMap().getProperty(PROPERTY_JAVABEAN_FIELD_PROPERTY);
+				}
+				
+				if (fieldPropertyName == null)
+				{
+					if (isUseFieldDescription && field.getDescription() != null)
+					{
+						fieldPropertyName = field.getDescription();
+					}
+					else
+					{
+						fieldPropertyName = field.getName();
+					}
+				}
+				
+				fieldPropertyNames.put(field.getName(), fieldPropertyName);
+			}
+			
+			return fieldPropertyName;
+		}
+	}
+		
 	/**
 	 *
 	 */
 	public JRAbstractBeanDataSource(boolean isUseFieldDescription)
 	{
-		propertyNameProvider = isUseFieldDescription ? 
-				FIELD_DESCRIPTION_PROPERTY_NAME_PROVIDER : 
-				FIELD_NAME_PROPERTY_NAME_PROVIDER;
+		propertyNameProvider = new DefaultPropertyNameProvider(isUseFieldDescription);
 	}
 	
 

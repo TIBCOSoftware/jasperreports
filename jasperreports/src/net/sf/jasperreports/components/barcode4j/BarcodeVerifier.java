@@ -67,7 +67,7 @@ public class BarcodeVerifier implements BarcodeVisitor
 			}
 			else if (!verifier.getReportDesign().getGroupsMap().containsKey(evaluationGroup))
 			{
-				verifier.addBrokenRule("Barcode evalution group \"" 
+				verifier.addBrokenRule("Barcode evaluation group \"" 
 						+ evaluationGroup + " not found", barcode);
 			}
 		}

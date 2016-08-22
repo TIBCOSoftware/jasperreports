@@ -11,10 +11,10 @@
 			ORDER BY v.importance]]>
 	</queryString>
 	<field name="type" class="java.lang.String">
-		<fieldDescription><![CDATA[COLUMN_1]]></fieldDescription>
+		<property name="net.sf.jasperreports.javabean.field.property" value="COLUMN_1"/>
 	</field>
 	<field name="description" class="java.lang.String">
-		<fieldDescription><![CDATA[COLUMN_2]]></fieldDescription>
+		<property name="net.sf.jasperreports.javabean.field.property" value="COLUMN_2"/>
 	</field>
 	<title>
 		<band height="14">

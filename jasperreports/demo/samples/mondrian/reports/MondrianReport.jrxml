@@ -9,34 +9,34 @@
 				from [Sales]]]>
 	</queryString>
 	<field name="City" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Address][City]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Address][City]"/>
 	</field>
 	<field name="Name" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Address][Person]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Address][Person]"/>
 	</field>
 	<field name="Street" class="java.lang.String">
-		<fieldDescription><![CDATA[Rows[Address][Person](Person Address)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Address][Person](Person Address)"/>
 	</field>
 	<field name="AddressMember" class="mondrian.olap.Member">
-		<fieldDescription><![CDATA[Rows[Address]]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Rows[Address]"/>
 	</field>
 	<field name="Quantity" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data([Measures].[Quantity],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data([Measures].[Quantity],?)"/>
 	</field>
 	<field name="UnitPrice" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data([Measures].[Unit Price],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data([Measures].[Unit Price],?)"/>
 	</field>
 	<field name="CityQuantity" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Address][City])([Measures].[Quantity],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Address][City])([Measures].[Quantity],?)"/>
 	</field>
 	<field name="CityUnitPrice" class="java.lang.Number">
-		<fieldDescription><![CDATA[Data(Rows[Address][City])([Measures].[Unit Price],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="Data(Rows[Address][City])([Measures].[Unit Price],?)"/>
 	</field>
 	<field name="TotalQuantity" class="java.lang.String">
-		<fieldDescription><![CDATA[FormattedData(Rows[Address][(All)])([Measures].[Quantity],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="FormattedData(Rows[Address][(All)])([Measures].[Quantity],?)"/>
 	</field>
 	<field name="TotalUnitPrice" class="java.lang.String">
-		<fieldDescription><![CDATA[FormattedData(Rows[Address][(All)])([Measures].[Unit Price],?)]]></fieldDescription>
+		<property name="net.sf.jasperreports.olap.field.mapping" value="FormattedData(Rows[Address][(All)])([Measures].[Unit Price],?)"/>
 	</field>
 	<group name="City">
 		<groupExpression><![CDATA[$F{City}]]></groupExpression>

@@ -85,7 +85,7 @@ public class BarbecueCompiler implements ComponentCompiler
 			}
 			else if (!verifier.getReportDesign().getGroupsMap().containsKey(evaluationGroup))
 			{
-				verifier.addBrokenRule("Barcode evalution group \"" 
+				verifier.addBrokenRule("Barcode evaluation group \"" 
 						+ evaluationGroup + " not found", barcode);
 			}
 		}

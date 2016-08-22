@@ -26,6 +26,9 @@ package net.sf.jasperreports.components.list;
 import java.sql.Connection;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -42,9 +45,6 @@ import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
 import net.sf.jasperreports.engine.util.JRReportUtils;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Used to iterate on the list subdataset at fill time.
@@ -160,7 +160,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 		copyConnectionParameter(parameterValues);
 		dataset.initCalculator();
 		dataset.setParameterValues(parameterValues);
-		
+		dataset.evaluateFieldProperties();
 		dataset.initDatasource();
 		
 		dataset.start();
