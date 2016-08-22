@@ -26,11 +26,11 @@ package net.sf.jasperreports.engine.query;
 import java.io.InputStream;
 import java.util.Map;
 
+import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.AbstractJsonDataSourceProvider;
 import net.sf.jasperreports.engine.data.JsonQLDataSource;
 import net.sf.jasperreports.engine.data.JsonQLDataSourceProvider;
 import net.sf.jasperreports.engine.data.TextDataSourceAttributes;
@@ -97,7 +97,7 @@ public class JsonQLQueryExecuter extends AbstractJsonQueryExecuter<JsonQLDataSou
 	}
 
 	@Override
-	protected AbstractJsonDataSourceProvider<JsonQLDataSource> getJsonDataProviderInstance(String source, TextDataSourceAttributes textAttributes) {
+	protected RewindableDataSourceProvider<JsonQLDataSource> getJsonDataProviderInstance(String source, TextDataSourceAttributes textAttributes) {
 		return new JsonQLDataSourceProvider(getJasperReportsContext(), source, getQueryString(), textAttributes);
 	}
 }

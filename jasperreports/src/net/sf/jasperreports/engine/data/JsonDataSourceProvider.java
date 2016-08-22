@@ -23,24 +23,41 @@
  */
 package net.sf.jasperreports.engine.data;
 
+import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JsonDataSourceProvider extends AbstractJsonDataSourceProvider<JsonDataSource>
+public class JsonDataSourceProvider implements RewindableDataSourceProvider<JsonDataSource>
 {
+
+	private JasperReportsContext jasperReportsContext;
+	private String jsonSource;
+	private String queryString;
+	private TextDataSourceAttributes textAttributes;
 
 	public JsonDataSourceProvider(JasperReportsContext jasperReportsContext, String jsonSource, String queryString, TextDataSourceAttributes textAttributes)
 	{
-		super(jasperReportsContext, jsonSource, queryString, textAttributes);
+		this.jasperReportsContext = jasperReportsContext;
+		this.jsonSource = jsonSource;
+		this.queryString = queryString;
+		this.textAttributes = textAttributes;
 	}
 
 	@Override
-	protected JsonDataSource getJsonDataInstance(JasperReportsContext jasperReportsContext, String jsonSource, String queryString) throws JRException
+	public JsonDataSource getDataSource() throws JRException
 	{
-		return new JsonDataSource(jasperReportsContext, jsonSource, queryString);
+		JsonDataSource jsonDataSource = new JsonDataSource(jasperReportsContext, jsonSource, queryString);
+		jsonDataSource.setTextAttributes(textAttributes);
+		return jsonDataSource;
+	}
+
+	@Override
+	public void rewind()
+	{
+		// we don't need to do anything here
 	}
 
 }

@@ -30,12 +30,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.data.RewindableDataSourceProvider;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.data.AbstractJsonDataSourceProvider;
 import net.sf.jasperreports.engine.data.JRAbstractTextDataSource;
 import net.sf.jasperreports.engine.data.JsonData;
 import net.sf.jasperreports.engine.data.JsonDataCollection;
@@ -86,10 +86,10 @@ public abstract class AbstractJsonQueryExecuter<T extends JRAbstractTextDataSour
 			} else {
 				List<String> jsonSources = (List<String>) getParameterValue(JsonQueryExecuterFactory.JSON_SOURCES, true);
 				if (jsonSources != null) {
-					List<AbstractJsonDataSourceProvider> jsonProviders = new ArrayList<>(jsonSources.size());
+					List<RewindableDataSourceProvider<T>> jsonProviders = new ArrayList<>(jsonSources.size());
 
 					for (String source : jsonSources) {
-						AbstractJsonDataSourceProvider jsonProvider = getJsonDataProviderInstance(source, textAttributes);
+						RewindableDataSourceProvider<T> jsonProvider = getJsonDataProviderInstance(source, textAttributes);
 						jsonProviders.add(jsonProvider);
 					}
 					datasource = new JsonDataCollection(jsonProviders);
@@ -108,7 +108,7 @@ public abstract class AbstractJsonQueryExecuter<T extends JRAbstractTextDataSour
 
 	protected abstract T getJsonDataInstance(String jsonSource) throws JRException;
 
-	protected abstract AbstractJsonDataSourceProvider<T> getJsonDataProviderInstance(
+	protected abstract RewindableDataSourceProvider<T> getJsonDataProviderInstance(
 			String source, TextDataSourceAttributes textAttributes);
 
 	protected TextDataSourceAttributes getTextAttributes()
