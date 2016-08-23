@@ -232,19 +232,8 @@ public class JRXlsDataSource extends AbstractXlsDataSource
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
-		String fieldName = jrField.getName();
+		Integer columnIndex = getColumnIndex(jrField);
 
-		Integer columnIndex = columnNames.get(fieldName);
-		if (columnIndex == null && fieldName.startsWith("COLUMN_")) {
-			columnIndex = Integer.valueOf(fieldName.substring(7));
-		}
-		if (columnIndex == null)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
-					new Object[]{fieldName});
-		}
 		Sheet sheet = workbook.getSheet(sheetIndex);
 		Cell cell = sheet.getCell(columnIndex.intValue(), recordIndex);
 		String fieldValue = cell.getContents();

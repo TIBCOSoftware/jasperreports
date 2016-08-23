@@ -32,6 +32,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -39,12 +45,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 
 /**
@@ -226,23 +226,11 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
-		String fieldName = jrField.getName();
 		Class<?> valueClass = jrField.getValueClass();
 		try 
 		{
-	
-			Integer columnIndex = columnNames.get(fieldName);
-			if (columnIndex == null && fieldName.startsWith("COLUMN_")) 
-			{
-				columnIndex = Integer.valueOf(fieldName.substring(7));
-			}
-			if (columnIndex == null)
-			{
-				throw 
-					new JRException(
-						EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
-						new Object[]{fieldName});
-			}
+			Integer columnIndex = getColumnIndex(jrField);
+
 			Sheet sheet = workbook.getSheetAt(sheetIndex);
 			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
 			if(cell == null)

@@ -41,6 +41,8 @@
       <property ref="net.sf.jasperreports.sql.field.column.name"/>
       <property ref="net.sf.jasperreports.sql.field.column.label"/>
       <property ref="net.sf.jasperreports.sql.field.column.index"/>
+      <property ref="net.sf.jasperreports.xls.field.column.name"/>
+      <property ref="net.sf.jasperreports.xls.field.column.index"/>
       <property ref="net.sf.jasperreports.xls.source"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
@@ -503,7 +505,7 @@ Property specifying the name of the column in the CSV data to which the dataset 
   
   <configProperty name="net.sf.jasperreports.csv.field.column.index">
     <description>
-Property specifying the 1-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used. 
+Property specifying the 0-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used. 
     </description>
     <api>net/sf/jasperreports/engine/data/JRCsvDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
     <default>N/A</default>
@@ -872,6 +874,32 @@ Property specifying the label of the column in the JDBC result set to which the 
 Property specifying the 1-based index of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
     </description>
     <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.field.column.name -->
+  
+  <configProperty name="net.sf.jasperreports.xls.field.column.name">
+    <description>
+Property specifying the name of the column in the XLS data to which the dataset field is mapped to, in case XLS data is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/data/AbstractXlsDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.field.column.index -->
+  
+  <configProperty name="net.sf.jasperreports.xls.field.column.index">
+    <description>
+Property specifying the 0-based index of the column in the XLS data to which the dataset field is mapped to, in case XLS data is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/data/AbstractXlsDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
     <default>N/A</default>
     <scope>Field</scope>
     <since>6.3.1</since>
