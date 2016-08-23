@@ -36,6 +36,9 @@
       <property ref="net.sf.jasperreports.olap.field.mapping"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
+      <property ref="net.sf.jasperreports.sql.field.column.name"/>
+      <property ref="net.sf.jasperreports.sql.field.column.label"/>
+      <property ref="net.sf.jasperreports.sql.field.column.index"/>
       <property ref="net.sf.jasperreports.xls.source"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
@@ -805,6 +808,45 @@ To obtain query executer factories, a property having the query language appende
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.2.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.field.column.name -->
+  
+  <configProperty name="net.sf.jasperreports.sql.field.column.name">
+    <description>
+Property specifying the name of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.field.column.label -->
+  
+  <configProperty name="net.sf.jasperreports.sql.field.column.label">
+    <description>
+Property specifying the label of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_LABEL</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.field.column.index -->
+  
+  <configProperty name="net.sf.jasperreports.sql.field.column.index">
+    <description>
+Property specifying the 1-based index of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   
