@@ -27,10 +27,13 @@ import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.util.JsonUtil;
@@ -51,6 +54,11 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
     public static final String EXCEPTION_MESSAGE_KEY_NO_DATA = "data.json.no.data";
     public static final String EXCEPTION_MESSAGE_KEY_JSON_FIELD_VALUE_NOT_RETRIEVED = "data.json.field.value.not.retrieved";
 
+    /**
+     * Property specifying the JSONQL expression for the dataset field.
+     */
+    public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "jsonql.field.expression";
+
     private JRJsonNode root;
     private String selectExpression;
 
@@ -59,6 +67,8 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
     private int currentNodeIndex = - 1;
 
     private JsonQLExecuter jsonQLExecuter;
+
+    private Map<String, String> fieldExpressions = new HashMap<>();
 
 
     public JsonQLDataSource(File file, String selectExpression) throws JRException {
@@ -121,9 +131,16 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
             return null;
         }
 
-        String expression = jrField.getDescription();
+        String expression;
+        if (fieldExpressions.containsKey(jrField.getName())) {
+            expression = fieldExpressions.get(jrField.getName());
+        } else {
+            expression = getFieldExpression(jrField);
+            fieldExpressions.put(jrField.getName(), expression);
+        }
+
         if (expression == null || expression.length() == 0) {
-            expression = jrField.getName();
+            return null;
         }
 
         JRJsonNode selectedNode = jsonQLExecuter.selectNode(currentJsonNode, root, expression);
@@ -203,4 +220,23 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
         return result;
     }
 
+    protected String getFieldExpression(JRField field) {
+        String fieldExpression = null;
+
+        if (field.hasProperties()) {
+            fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
+        }
+
+        if (fieldExpression == null) {
+            fieldExpression = field.getDescription();
+
+            if (fieldExpression == null || fieldExpression.length() == 0) {
+                fieldExpression = field.getName();
+            }
+        }
+
+        return fieldExpression;
+    }
+
 }
+
