@@ -48,9 +48,12 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  * by an XPath expression from the xml document.
  * </p>
  * <p>
- * Each field can provide an additional XPath expresion that will be used to
- * select its value. This expression must be specified using the "fieldDescription"
- * element of the field. The expression is evaluated in the context of the current
+ * Each field can provide an additional XPath expression that will be used to
+ * select its value. This expression must be specified using the {@link #PROPERTY_FIELD_EXPRESSION} 
+ * custom property at field level. The use of the {@link net.sf.jasperreports.engine.JRField#getDescription() field description} to specify the XPath expression 
+ * is still supported, but is now discouraged, the above mentioned custom property taking precedence 
+ * over the field description. 
+ * The expression is evaluated in the context of the current
  * node thus the expression should be relative to the current node.
  * </p>
  * <p>
@@ -308,10 +311,14 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	
 	protected String getFieldExpression(JRField field)
 	{
-		String fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
-		if (fieldExpression == null)
+		String fieldExpression = null;
+		if (field.hasProperties())
 		{
-			fieldExpression = field.getDescription();
+			fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
+			if (fieldExpression == null)
+			{
+				fieldExpression = field.getDescription();
+			}
 		}
 		return fieldExpression;
 	}

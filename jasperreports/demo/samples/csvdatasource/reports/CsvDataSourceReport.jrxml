@@ -6,21 +6,11 @@
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="DataFile" class="java.lang.String"/>
 	<parameter name="IncludedStates" class="java.util.Set"/>
-	<field name="id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[id]]></fieldDescription>
-	</field>
-	<field name="name" class="java.lang.String">
-		<fieldDescription><![CDATA[name]]></fieldDescription>
-	</field>
-	<field name="address" class="java.lang.String">
-		<fieldDescription><![CDATA[street address]]></fieldDescription>
-	</field>
-	<field name="city" class="java.lang.String">
-		<fieldDescription><![CDATA[city]]></fieldDescription>
-	</field>
-	<field name="state" class="java.lang.String">
-		<fieldDescription><![CDATA[state]]></fieldDescription>
-	</field>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="city" class="java.lang.String"/>
+	<field name="state" class="java.lang.String"/>
 	<sortField name="city" order="Descending"/>
 	<sortField name="name"/>
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">

@@ -7,15 +7,9 @@
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>
-		<field name="address" class="java.lang.String">
-			<fieldDescription><![CDATA[street address]]></fieldDescription>
-		</field>
-		<field name="latitude" class="java.lang.String">
-			<fieldDescription><![CDATA[latitude]]></fieldDescription>
-		</field>
-		<field name="longitude" class="java.lang.String">
-			<fieldDescription><![CDATA[longitude]]></fieldDescription>
-		</field>
+		<field name="address" class="java.lang.String"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
 		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">

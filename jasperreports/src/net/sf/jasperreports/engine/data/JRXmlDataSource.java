@@ -50,12 +50,15 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * document using XPath expressions.
  * <p>
  * The data source is constructed around a node set (record set) selected
- * by an XPath expression from the xml document.
+ * by an XPath expression from the XML document.
  * </p>
  * <p>
  * Each field can provide an additional XPath expression that will be used to
- * select its value. This expression must be specified using the "fieldDescription"
- * element of the field. The expression is evaluated in the context of the current
+ * select its value. This expression must be specified using the {@link #PROPERTY_FIELD_EXPRESSION} 
+ * custom property at field level. The use of the {@link net.sf.jasperreports.engine.JRField#getDescription() field description} to specify the XPath expression 
+ * is still supported, but is now discouraged, the above mentioned custom property taking precedence 
+ * over the field description. 
+ * The expression is evaluated in the context of the current
  * node thus the expression should be relative to the current node.
  * </p>
  * <p>

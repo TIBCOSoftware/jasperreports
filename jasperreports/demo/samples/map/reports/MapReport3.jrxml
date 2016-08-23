@@ -7,24 +7,12 @@
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>
-		<field name="address" class="java.lang.String">
-			<fieldDescription><![CDATA[street address]]></fieldDescription>
-		</field>
-		<field name="latitude" class="java.lang.String">
-			<fieldDescription><![CDATA[latitude]]></fieldDescription>
-		</field>
-		<field name="longitude" class="java.lang.String">
-			<fieldDescription><![CDATA[longitude]]></fieldDescription>
-		</field>
-		<field name="iconurl" class="java.lang.String">
-			<fieldDescription><![CDATA[iconurl]]></fieldDescription>
-		</field>
-		<field name="iconwidth" class="java.lang.Integer">
-			<fieldDescription><![CDATA[iconwidth]]></fieldDescription>
-		</field>
-		<field name="iconheight" class="java.lang.Integer">
-			<fieldDescription><![CDATA[iconheight]]></fieldDescription>
-		</field>
+		<field name="address" class="java.lang.String"/>
+		<field name="latitude" class="java.lang.String"/>
+		<field name="longitude" class="java.lang.String"/>
+		<field name="iconurl" class="java.lang.String"/>
+		<field name="iconwidth" class="java.lang.Integer"/>
+		<field name="iconheight" class="java.lang.Integer"/>
 		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
 	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">

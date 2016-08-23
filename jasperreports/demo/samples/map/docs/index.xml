@@ -540,15 +540,9 @@ skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
-  <field name="address" class="java.lang.String">
-    <fieldDescription><![CDATA[street address]] ></fieldDescription>
-  </field>
-  <field name="latitude" class="java.lang.String">
-    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
-  </field>
-  <field name="longitude" class="java.lang.String">
-    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
-  </field>
+  <field name="address" class="java.lang.String"/>
+  <field name="latitude" class="java.lang.String"/>
+  <field name="longitude" class="java.lang.String"/>
   <filterExpression>
     <![CDATA[$F{latitude}==null || $F{latitude}.length()==0) || $F{longitude}==null || $F{longitude}.length()==0)  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
@@ -593,24 +587,12 @@ component configuration (and the subdataset):
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
-  <field name="address" class="java.lang.String">
-    <fieldDescription><![CDATA[street address]] ></fieldDescription>
-  </field>
-  <field name="latitude" class="java.lang.String">
-    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
-  </field>
-  <field name="longitude" class="java.lang.String">
-    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
-  </field>
-  <field name="iconurl" class="java.lang.String">
-    <fieldDescription><![CDATA[iconurl]] ></fieldDescription>
-  </field>
-  <field name="iconwidth" class="java.lang.Integer">
-    <fieldDescription><![CDATA[iconwidth]] ></fieldDescription>
-  </field>
-  <field name="iconheight" class="java.lang.Integer">
-   <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
-  </field>
+  <field name="address" class="java.lang.String"/>
+  <field name="latitude" class="java.lang.String"/>
+  <field name="longitude" class="java.lang.String"/>
+  <field name="iconurl" class="java.lang.String"/>
+  <field name="iconwidth" class="java.lang.Integer"/>
+  <field name="iconheight" class="java.lang.Integer"/>
   <filterExpression>
     <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
@@ -667,21 +649,11 @@ Two additional subdatasets were added in order to generate path styles and path 
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
-  <field name="latitude" class="java.lang.String">
-    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
-  </field>
-  <field name="longitude" class="java.lang.String">
-    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
-  </field>
-  <field name="size" class="java.lang.String">
-    <fieldDescription><![CDATA[size]] ></fieldDescription>
-  </field>
-  <field name="color" class="java.lang.String">
-    <fieldDescription><![CDATA[color]] ></fieldDescription>
-  </field>
-  <field name="url" class="java.lang.String">
-    <fieldDescription><![CDATA[url]] ></fieldDescription>
-  </field>
+  <field name="latitude" class="java.lang.String"/>
+  <field name="longitude" class="java.lang.String"/>
+  <field name="size" class="java.lang.String"/>
+  <field name="color" class="java.lang.String"/>
+  <field name="url" class="java.lang.String"/>
   <filterExpression>
     <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
@@ -691,27 +663,13 @@ Two additional subdatasets were added in order to generate path styles and path 
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
-  <field name="name" class="java.lang.String">
-    <fieldDescription><![CDATA[name]] ></fieldDescription>
-  </field>
-  <field name="strokecolor" class="java.lang.String">
-    <fieldDescription><![CDATA[strokecolor]] ></fieldDescription>
-  </field>
-  <field name="strokeopacity" class="java.lang.Double">
-    <fieldDescription><![CDATA[strokeopacity]] ></fieldDescription>
-  </field>
-  <field name="strokeweight" class="java.lang.Integer">
-    <fieldDescription><![CDATA[strokeweight]] ></fieldDescription>
-  </field>
-  <field name="fillcolor" class="java.lang.String">
-    <fieldDescription><![CDATA[fillcolor]] ></fieldDescription>
-  </field>
-  <field name="fillopacity" class="java.lang.Double">
-    <fieldDescription><![CDATA[fillopacity]] ></fieldDescription>
-  </field>
-  <field name="draggable" class="java.lang.Boolean">
-    <fieldDescription><![CDATA[draggable]] ></fieldDescription>
-  </field>
+  <field name="name" class="java.lang.String"/>
+  <field name="strokecolor" class="java.lang.String"/>
+  <field name="strokeopacity" class="java.lang.Double"/>
+  <field name="strokeweight" class="java.lang.Integer"/>
+  <field name="fillcolor" class="java.lang.String"/>
+  <field name="fillopacity" class="java.lang.Double"/>
+  <field name="draggable" class="java.lang.Boolean"/>
   <filterExpression><![CDATA[$F{name}==null || $F{name}.length() == 0 ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
 </subDataset>
 <subDataset name="PathLocationDataset">
@@ -719,21 +677,11 @@ Two additional subdatasets were added in order to generate path styles and path 
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
-  <field name="name" class="java.lang.String">
-    <fieldDescription><![CDATA[name]] ></fieldDescription>
-  </field>
-  <field name="style" class="java.lang.String">
-    <fieldDescription><![CDATA[style]] ></fieldDescription>
-  </field>
-  <field name="latitude" class="java.lang.String">
-    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
-  </field>
-  <field name="longitude" class="java.lang.String">
-    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
-  </field>
-  <field name="ispolygon" class="java.lang.String">
-    <fieldDescription><![CDATA[ispolygon]] ></fieldDescription>
-  </field>
+  <field name="name" class="java.lang.String"/>
+  <field name="style" class="java.lang.String"/>
+  <field name="latitude" class="java.lang.String"/>
+  <field name="longitude" class="java.lang.String"/>
+  <field name="ispolygon" class="java.lang.String"/>
   <filterExpression>
     <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>
@@ -836,24 +784,12 @@ property is a HTML fragment with escaped open and end tags.
   <queryString language="csv">
     <![CDATA[]] >
   </queryString>
-  <field name="address" class="java.lang.String">
-    <fieldDescription><![CDATA[street address]] ></fieldDescription>
-  </field>
-  <field name="latitude" class="java.lang.String">
-    <fieldDescription><![CDATA[latitude]] ></fieldDescription>
-  </field>
-  <field name="longitude" class="java.lang.String">
-    <fieldDescription><![CDATA[longitude]] ></fieldDescription>
-  </field>
-  <field name="iconurl" class="java.lang.String">
-    <fieldDescription><![CDATA[iconurl]] ></fieldDescription>
-  </field>
-  <field name="iconwidth" class="java.lang.Integer">
-    <fieldDescription><![CDATA[iconwidth]] ></fieldDescription>
-  </field>
-  <field name="iconheight" class="java.lang.Integer">
-    <fieldDescription><![CDATA[iconheight]] ></fieldDescription>
-  </field>
+  <field name="address" class="java.lang.String"/>
+  <field name="latitude" class="java.lang.String"/>
+  <field name="longitude" class="java.lang.String"/>
+  <field name="iconurl" class="java.lang.String"/>
+  <field name="iconwidth" class="java.lang.Integer"/>
+  <field name="iconheight" class="java.lang.Integer"/>
   <filterExpression>
     <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
   </filterExpression>

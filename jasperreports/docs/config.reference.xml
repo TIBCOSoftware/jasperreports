@@ -25,6 +25,7 @@
       <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
       <property ref="net.sf.jasperreports.hql.query.run.type"/>
       <property ref="net.sf.jasperreports.javabean.field.property"/>
+      <property ref="net.sf.jasperreports.json.field.expression"/>
       <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
       <property ref="net.sf.jasperreports.jdbc.concurrency"/>
       <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
@@ -35,6 +36,9 @@
       <property ref="net.sf.jasperreports.olap.field.mapping"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
+      <property ref="net.sf.jasperreports.sql.field.column.name"/>
+      <property ref="net.sf.jasperreports.sql.field.column.label"/>
+      <property ref="net.sf.jasperreports.sql.field.column.index"/>
       <property ref="net.sf.jasperreports.xls.source"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
@@ -673,6 +677,20 @@ This mapping was previously specified using the <code>fieldDescription</code> at
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.json.field.expression -->
+  
+  <configProperty name="net.sf.jasperreports.json.field.expression">
+    <description>
+Property specifying the JSON expression for the dataset field in case an XML data source is used. 
+This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
+    </description>
+    <api>net/sf/jasperreports/engine/data/JsonDataSource.html#PROPERTY_FIELD_EXPRESSION</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.jdbc.cached.rowset -->
   
   <configProperty name="net.sf.jasperreports.jdbc.cached.rowset">
@@ -790,6 +808,45 @@ To obtain query executer factories, a property having the query language appende
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.2.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.field.column.name -->
+  
+  <configProperty name="net.sf.jasperreports.sql.field.column.name">
+    <description>
+Property specifying the name of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.field.column.label -->
+  
+  <configProperty name="net.sf.jasperreports.sql.field.column.label">
+    <description>
+Property specifying the label of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_LABEL</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.field.column.index -->
+  
+  <configProperty name="net.sf.jasperreports.sql.field.column.index">
+    <description>
+Property specifying the 1-based index of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   

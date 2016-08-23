@@ -73,6 +73,18 @@ public class JRResultSetDataSource implements JRDataSource
 
 	private static final Log log = LogFactory.getLog(JRResultSetDataSource.class);
 
+	/**
+	 * Property specifying the result set column name for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.name";
+	/**
+	 * Property specifying the result set column label for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_COLUMN_LABEL = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.label";
+	/**
+	 * Property specifying the result set column index for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.index";
 	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
 	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
 	
@@ -81,6 +93,7 @@ public class JRResultSetDataSource implements JRDataSource
 	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_FIELD_VALUE_NOT_RETRIEVED = "data.result.set.field.value.not.retrieved";
 	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_METADATA_NOT_RETRIEVED = "data.result.set.metadata.not.retrieved";
 	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_UNKNOWN_COLUMN_NAME = "data.result.set.unknown.column.name";
+	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_UNKNOWN_COLUMN_LABEL = "data.result.set.unknown.column.label";
 	public static final String EXCEPTION_MESSAGE_KEY_RESULT_SET_NEXT_RECORD_NOT_RETRIEVED = "data.result.set.next.record.not.retrieved";
 
 
@@ -148,7 +161,7 @@ public class JRResultSetDataSource implements JRDataSource
 
 		if (field != null && resultSet != null)
 		{
-			Integer columnIndex = getColumnIndex(field.getName());
+			Integer columnIndex = getColumnIndex(field);
 			Class<?> clazz = field.getValueClass();
 
 			try
@@ -416,14 +429,30 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 *
 	 */
-	private Integer getColumnIndex(String fieldName) throws JRException
+	private Integer getColumnIndex(JRField field) throws JRException
 	{
+		String fieldName = field.getName();
 		Integer columnIndex = columnIndexMap.get(fieldName);
 		if (columnIndex == null)
 		{
 			try
 			{
-				columnIndex = searchColumnByName(fieldName);
+				columnIndex = searchColumnByName(field);
+				
+				if (columnIndex == null)
+				{
+					columnIndex = searchColumnByLabel(field);
+				}
+				
+				if (columnIndex == null)
+				{
+					columnIndex = searchColumnByIndex(field);
+				}
+				
+				if (columnIndex == null)
+				{
+					columnIndex = searchColumnByName(fieldName);
+				}
 				
 				if (columnIndex == null)
 				{
@@ -432,17 +461,7 @@ public class JRResultSetDataSource implements JRDataSource
 				
 				if (columnIndex == null && fieldName.startsWith(INDEXED_COLUMN_PREFIX))
 				{
-					columnIndex = Integer.valueOf(fieldName.substring(INDEXED_COLUMN_PREFIX_LENGTH));
-					if (
-						columnIndex.intValue() <= 0
-						|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
-						)
-					{
-						throw 
-							new JRException(
-								EXCEPTION_MESSAGE_KEY_RESULT_SET_COLUMN_INDEX_OUT_OF_RANGE,
-								new Object[]{columnIndex});
-					}
+					columnIndex = searchColumnByIndex(fieldName.substring(INDEXED_COLUMN_PREFIX_LENGTH));
 				}
 				
 				if (columnIndex == null)
@@ -485,14 +504,37 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	protected Integer searchColumnByName(String fieldName) throws SQLException
+	protected Integer searchColumnByName(JRField field) throws SQLException, JRException
+	{
+		if (field.hasProperties())
+		{
+			String name = field.getPropertiesMap().getProperty(PROPERTY_FIELD_COLUMN_NAME);
+			if (name != null)
+			{
+				Integer columnIndex = searchColumnByName(name);
+				if (columnIndex == null)
+				{
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_RESULT_SET_UNKNOWN_COLUMN_NAME,
+							new Object[]{name});
+				}
+				return columnIndex;
+			}
+		}
+
+		return null;
+	}
+
+
+	protected Integer searchColumnByName(String name) throws SQLException
 	{
 		Integer columnIndex = null;
 		ResultSetMetaData metadata = resultSet.getMetaData();
 		for(int i = 1; i <= metadata.getColumnCount(); i++)
 		{
 			String columnName = metadata.getColumnName(i);
-			if (fieldName.equalsIgnoreCase(columnName))
+			if (name.equalsIgnoreCase(columnName))
 			{
 				columnIndex = Integer.valueOf(i);
 				break;
@@ -502,19 +544,74 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	protected Integer searchColumnByLabel(String fieldName) throws SQLException
+	protected Integer searchColumnByLabel(JRField field) throws SQLException, JRException
+	{
+		if (field.hasProperties())
+		{
+			String label = field.getPropertiesMap().getProperty(PROPERTY_FIELD_COLUMN_LABEL);
+			if (label != null)
+			{
+				Integer columnIndex = searchColumnByLabel(label);
+				if (columnIndex == null)
+				{
+					throw 
+						new JRException(
+							EXCEPTION_MESSAGE_KEY_RESULT_SET_UNKNOWN_COLUMN_LABEL,
+							new Object[]{label});
+				}
+				return columnIndex;
+			}
+		}
+		return null;
+	}
+
+
+	protected Integer searchColumnByLabel(String label) throws SQLException
 	{
 		Integer columnIndex = null;
 		ResultSetMetaData metadata = resultSet.getMetaData();
 		for(int i = 1; i <= metadata.getColumnCount(); i++)
 		{
 			String columnLabel = metadata.getColumnLabel(i);
-			if (columnLabel != null && fieldName.equalsIgnoreCase(columnLabel))
+			if (columnLabel != null && label.equalsIgnoreCase(columnLabel))
 			{
 				columnIndex = Integer.valueOf(i);
 				break;
 			}
 		}
+		return columnIndex;
+	}
+
+
+	protected Integer searchColumnByIndex(JRField field) throws SQLException, JRException
+	{
+		if (field.hasProperties())
+		{
+			String index = field.getPropertiesMap().getProperty(PROPERTY_FIELD_COLUMN_INDEX);
+			if (index != null)
+			{
+				return searchColumnByIndex(index);
+			}
+		}
+
+		return null;
+	}
+
+
+	protected Integer searchColumnByIndex(String index) throws SQLException, JRException
+	{
+		Integer columnIndex = Integer.valueOf(index);
+		if (
+			columnIndex.intValue() <= 0
+			|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
+			)
+		{
+			throw 
+				new JRException(
+					EXCEPTION_MESSAGE_KEY_RESULT_SET_COLUMN_INDEX_OUT_OF_RANGE,
+					new Object[]{columnIndex});
+		}
+
 		return columnIndex;
 	}
 
