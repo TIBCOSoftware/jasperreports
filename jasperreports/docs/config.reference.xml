@@ -11,6 +11,8 @@
       <property ref="net.sf.jasperreports.csv.column.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.csv.date.pattern"/>
       <property ref="net.sf.jasperreports.csv.encoding"/>
+      <property ref="net.sf.jasperreports.csv.field.column.name"/>
+      <property ref="net.sf.jasperreports.csv.field.column.index"/>
       <property ref="net.sf.jasperreports.csv.field.delimiter"/>
       <property ref="net.sf.jasperreports.csv.locale.code"/>
       <property ref="net.sf.jasperreports.csv.number.pattern"/>
@@ -481,6 +483,32 @@ Property holding the value of the date format pattern to be used when parsing th
     <default>N/A</default>
     <scope>Global | Dataset</scope>
     <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.field.column.name -->
+  
+  <configProperty name="net.sf.jasperreports.csv.field.column.name">
+    <description>
+Property specifying the name of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/data/JRCsvDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.field.column.index -->
+  
+  <configProperty name="net.sf.jasperreports.csv.field.column.index">
+    <description>
+Property specifying the 1-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used. 
+    </description>
+    <api>net/sf/jasperreports/engine/data/JRCsvDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
+    <default>N/A</default>
+    <scope>Field</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   
