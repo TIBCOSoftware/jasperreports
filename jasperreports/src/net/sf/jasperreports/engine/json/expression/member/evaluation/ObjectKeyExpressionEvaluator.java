@@ -50,7 +50,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
     private static final Log log = LogFactory.getLog(ObjectKeyExpressionEvaluator.class);
 
     private ObjectKeyExpression expression;
-    private boolean keepMissingNode;
+    private boolean isCalledFromFilter;
 
 
     public ObjectKeyExpressionEvaluator(EvaluationContext evaluationContext, ObjectKeyExpression expression) {
@@ -58,11 +58,11 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
     }
 
     public ObjectKeyExpressionEvaluator(EvaluationContext evaluationContext,
-                                        ObjectKeyExpression expression, boolean keepMissingNode) {
+                                        ObjectKeyExpression expression, boolean isCalledFromFilter) {
         super(evaluationContext);
 
         this.expression = expression;
-        this.keepMissingNode = keepMissingNode;
+        this.isCalledFromFilter = isCalledFromFilter;
     }
 
     @Override
@@ -147,11 +147,12 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
             }
         }
         // advance into array
+        // when called from filter => keep the array containment
         else if (dataNode.isArray()) {
             if (expression.isWildcard()) {
-                result = filterArrayNode(jrJsonNode, (ArrayNode) dataNode);
+                result = filterArrayNode(jrJsonNode, (ArrayNode) dataNode, null, isCalledFromFilter);
             } else {
-                result = filterArrayNode(jrJsonNode, (ArrayNode) dataNode, expression.getObjectKey());
+                result = filterArrayNode(jrJsonNode, (ArrayNode) dataNode, expression.getObjectKey(), isCalledFromFilter);
             }
         }
 
@@ -245,7 +246,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
             }
         }
         // Filtering expressions need the missing node to check for null
-        else if (keepMissingNode && deeperNode.isMissingNode()) {
+        else if (isCalledFromFilter && deeperNode.isMissingNode()) {
             return jrJsonNode.createChild(deeperNode);
         }
 

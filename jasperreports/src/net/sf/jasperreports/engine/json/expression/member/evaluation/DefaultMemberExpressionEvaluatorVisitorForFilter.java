@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.json.expression.EvaluationContext;
 import net.sf.jasperreports.engine.json.expression.member.ObjectKeyExpression;
 
 /**
- * Created by narcis on 04/08/16.
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class DefaultMemberExpressionEvaluatorVisitorForFilter extends DefaultMemberExpressionEvaluatorVisitor {
 
@@ -37,7 +37,7 @@ public class DefaultMemberExpressionEvaluatorVisitorForFilter extends DefaultMem
     }
 
     /**
-     * Filters need to keep missing nodes for null checks
+     * Filters need to keep missing nodes for null checks and keep the array containment when traversing arrays
      */
     @Override
     public JsonNodeContainer evaluateObjectKey(ObjectKeyExpression expression, JsonNodeContainer contextNode) {
