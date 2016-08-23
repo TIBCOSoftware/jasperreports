@@ -36,6 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -43,10 +47,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JsonUtil;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 
 
 /**
@@ -494,7 +494,11 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	
 	protected String getFieldExpression(JRField field)
 	{
-		String fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
+		String fieldExpression = null;
+		if (field.hasProperties())
+		{
+			fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
+		}
 		if (fieldExpression == null)
 		{
 			fieldExpression = field.getDescription();

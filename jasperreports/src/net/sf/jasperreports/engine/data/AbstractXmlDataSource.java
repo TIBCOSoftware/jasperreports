@@ -311,10 +311,14 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	
 	protected String getFieldExpression(JRField field)
 	{
-		String fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
-		if (fieldExpression == null)
+		String fieldExpression = null;
+		if (field.hasProperties())
 		{
-			fieldExpression = field.getDescription();
+			fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
+			if (fieldExpression == null)
+			{
+				fieldExpression = field.getDescription();
+			}
 		}
 		return fieldExpression;
 	}
