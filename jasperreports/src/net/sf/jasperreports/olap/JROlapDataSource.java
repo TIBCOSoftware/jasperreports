@@ -75,6 +75,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_DIMENSION_NOT_FOUND = "data.olap.dimension.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_FIELD_VALUE_NOT_RETRIEVED = "data.olap.field.value.not.retrieved";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_INTERNAL_ERROR = "data.olap.internal.error";
+	public static final String EXCEPTION_MESSAGE_KEY_OLAP_MISSING_FIELD_MAPPING = "data.olap.missing.field.mapping";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_INVALID_FIELD_MAPPING = "data.olap.invalid.field.mapping";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_LEVEL_NOT_FOUND = "data.olap.level.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_OLAP_TUPLE_NOT_FOUND = "data.olap.tuple.not.found";
@@ -336,6 +337,17 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 				if (log.isDebugEnabled())
 				{
 					log.debug("Mapping field: " + field.getName() + " - description: " + fieldMapping);
+				}
+
+				if (
+					fieldMapping == null
+					|| fieldMapping.trim().isEmpty()
+					)
+				{
+					throw 
+						new JRRuntimeException(
+							EXCEPTION_MESSAGE_KEY_OLAP_MISSING_FIELD_MAPPING,
+							new Object[]{field.getName()});
 				}
 
 				MappingLexer lexer = new MappingLexer(new StringReader(fieldMapping));
