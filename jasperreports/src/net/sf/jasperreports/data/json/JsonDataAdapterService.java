@@ -33,7 +33,9 @@ import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.JRAbstractTextDataSource;
 import net.sf.jasperreports.engine.data.JsonDataSource;
+import net.sf.jasperreports.engine.data.JsonQLDataSource;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 
 /**
@@ -95,11 +97,17 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 							numberPattern);
 				}
 			} else {
-				JsonDataSource ds = 
-					new JsonDataSource(
-						dataStream,
-						jsonDataAdapter.getSelectExpression()
-						);
+				JRAbstractTextDataSource ds;
+
+				switch (jsonDataAdapter.getLanguage()) {
+					case JSONQL:
+						ds = new JsonQLDataSource(dataStream, jsonDataAdapter.getSelectExpression());
+						break;
+					case JSON:
+					default:
+						ds = new JsonDataSource(dataStream, jsonDataAdapter.getSelectExpression());
+						break;
+				}
 
 				Locale locale = jsonDataAdapter.getLocale();
 				if (locale != null) {

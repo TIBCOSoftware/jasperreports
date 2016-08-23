@@ -5,6 +5,16 @@
 		<method>*getHeaders()</method>
 	</difference>
 	<difference>
+		<className>net/sf/jasperreports/data/json/JsonDataAdapter</className>
+		<differenceType>7012</differenceType>
+		<method>*getLanguage()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/json/JsonDataAdapter</className>
+		<differenceType>7012</differenceType>
+		<method>*setLanguage(net.sf.jasperreports.data.json.JsonExpressionLanguageEnum)</method>
+	</difference>
+	<difference>
 		<className>net/sf/jasperreports/engine/JRField</className>
 		<differenceType>7012</differenceType>
 		<method>*getPropertyExpressions()</method>

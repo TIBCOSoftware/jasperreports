@@ -15,7 +15,10 @@
 		</field>
 		<field name="dataFile" type="net.sf.jasperreports.data.DataFile">
 			<bind-xml name="dataFile" node="element"/>
-		</field> 
+		</field>
+		<field name="language" type="string" handler="net.sf.jasperreports.data.json.JsonExpressionLanguageFieldHandler">
+			<bind-xml name="language" node="element"/>
+		</field>
 		<field name="useConnection" type="boolean">
 			<bind-xml name="useConnection" node="element"/>
 		</field>

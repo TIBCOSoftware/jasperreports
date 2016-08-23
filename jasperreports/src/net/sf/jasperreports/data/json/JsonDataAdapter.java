@@ -50,6 +50,10 @@ public interface JsonDataAdapter extends FileDataAdapter {
 	@Deprecated
 	public void setFileName(String fileName);
 
+	public JsonExpressionLanguageEnum getLanguage();
+
+	public void setLanguage(JsonExpressionLanguageEnum language);
+
 	public Locale getLocale();
 
 	public void setLocale(Locale locale);
