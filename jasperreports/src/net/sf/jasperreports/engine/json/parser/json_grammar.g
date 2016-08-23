@@ -167,19 +167,19 @@ sizeFnExpr
     ;
 
 valueFnExpr
-    : AT_VALUE (EQ | NE | LT | LE | GT | GE) value
+    : AT_VALUE operator_to_value
     ;
 
 operator_to_value
-    : (EQ | NE ) value
+    : (EQ | NE | CONTAINS) STRING
+    | (EQ | NE ) non_string_value
     | (LT | LE | GT | GE) (INT | REAL)
     ;
 
-value
+non_string_value
     : "null"
     | "true"
     | "false"
-    | STRING
     | INT
     | REAL
     ;
@@ -380,6 +380,8 @@ operator returns [JsonOperatorEnum operator = null]
         { operator = JsonOperatorEnum.GT; }
     | GE
         { operator = JsonOperatorEnum.GE; }
+    | CONTAINS
+        { operator = JsonOperatorEnum.CONTAINS; }
     ;
 
 value returns [ValueDescriptor valueDescriptor = null]
@@ -453,6 +455,9 @@ EQ
     ;
 NE
     : "!="
+    ;
+CONTAINS
+    : "*="
     ;
 LT
     : "<"

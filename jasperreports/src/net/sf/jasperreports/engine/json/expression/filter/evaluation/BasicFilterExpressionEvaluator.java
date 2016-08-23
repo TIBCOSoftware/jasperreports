@@ -181,6 +181,8 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                         return valueNode.textValue().equals(valueDescriptor.getValue());
                     case NE:
                         return !valueNode.textValue().equals(valueDescriptor.getValue());
+                    case CONTAINS:
+                        return valueNode.textValue().contains(valueDescriptor.getValue());
                 }
             }
             // compare booleans with booleans

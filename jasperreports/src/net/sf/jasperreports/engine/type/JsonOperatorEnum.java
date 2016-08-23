@@ -34,7 +34,8 @@ public enum JsonOperatorEnum implements NamedEnum
 	GT(">", "Greater than"),
 	GE(">=", "Greater or equal"),
 	EQ("==", "Equal"),
-	NE("!=", "Not equal");
+	NE("!=", "Not equal"),
+	CONTAINS("*=", "Contains");
 
 	private final transient String value;
 	private final transient String name;

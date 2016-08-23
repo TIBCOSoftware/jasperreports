@@ -25,25 +25,25 @@
  */
 package net.sf.jasperreports.engine.json.parser;
 
-import antlr.TreeParser;
-import antlr.Token;
-import antlr.collections.AST;
-import antlr.RecognitionException;
-import antlr.ANTLRException;
 import antlr.NoViableAltException;
-import antlr.MismatchedTokenException;
-import antlr.SemanticException;
-import antlr.collections.impl.BitSet;
-import antlr.ASTPair;
-import antlr.collections.impl.ASTArray;
-
+import antlr.RecognitionException;
+import antlr.collections.AST;
 import net.sf.jasperreports.engine.json.expression.JsonQLExpression;
+import net.sf.jasperreports.engine.json.expression.filter.BasicFilterExpression;
+import net.sf.jasperreports.engine.json.expression.filter.CompoundFilterExpression;
+import net.sf.jasperreports.engine.json.expression.filter.FilterExpression;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.LOGICAL_OPERATOR;
 import net.sf.jasperreports.engine.json.expression.filter.FilterExpression.VALUE_TYPE;
-import net.sf.jasperreports.engine.json.expression.filter.*;
+import net.sf.jasperreports.engine.json.expression.filter.NotFilterExpression;
+import net.sf.jasperreports.engine.json.expression.filter.ValueDescriptor;
+import net.sf.jasperreports.engine.json.expression.member.ArrayConstructionExpression;
+import net.sf.jasperreports.engine.json.expression.member.ArrayIndexExpression;
+import net.sf.jasperreports.engine.json.expression.member.ArraySliceExpression;
+import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 import net.sf.jasperreports.engine.json.expression.member.MemberExpression.DIRECTION;
-import net.sf.jasperreports.engine.json.expression.member.*;
-
+import net.sf.jasperreports.engine.json.expression.member.MultiLevelUpExpression;
+import net.sf.jasperreports.engine.json.expression.member.ObjectConstructionExpression;
+import net.sf.jasperreports.engine.json.expression.member.ObjectKeyExpression;
 import net.sf.jasperreports.engine.type.JsonOperatorEnum;
 
 
@@ -63,7 +63,7 @@ public JsonQueryWalker() {
 		AST abs = null;
 		
 		try {      // for error handling
-			AST __t75 = _t;
+			AST __t82 = _t;
 			AST tmp1_AST_in = (AST)_t;
 			match(_t,PATH);
 			_t = _t.getFirstChild();
@@ -89,7 +89,7 @@ public JsonQueryWalker() {
 			}
 			}
 			{
-			_loop78:
+			_loop85:
 			do {
 				if (_t==null) _t=ASTNULL;
 				if ((_t.getType()==MEMBER)) {
@@ -97,12 +97,12 @@ public JsonQueryWalker() {
 					_t = _retTree;
 				}
 				else {
-					break _loop78;
+					break _loop85;
 				}
 				
 			} while (true);
 			}
-			_t = __t75;
+			_t = __t82;
 			_t = _t.getNextSibling();
 			
 			if (abs != null) {
@@ -129,7 +129,7 @@ public JsonQueryWalker() {
 		
 		
 		try {      // for error handling
-			AST __t80 = _t;
+			AST __t87 = _t;
 			AST tmp2_AST_in = (AST)_t;
 			match(_t,MEMBER);
 			_t = _t.getFirstChild();
@@ -154,7 +154,7 @@ public JsonQueryWalker() {
 			}
 			}
 			}
-			_t = __t80;
+			_t = __t87;
 			_t = _t.getNextSibling();
 			
 			memberExpr.setFilterExpression(filterExpression);
@@ -187,7 +187,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case SIMPLE_KEY:
 			{
-				AST __t83 = _t;
+				AST __t90 = _t;
 				AST tmp3_AST_in = (AST)_t;
 				match(_t,SIMPLE_KEY);
 				_t = _t.getFirstChild();
@@ -235,7 +235,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t83;
+				_t = __t90;
 				_t = _t.getNextSibling();
 				
 				if (id != null) {
@@ -250,7 +250,7 @@ public JsonQueryWalker() {
 			}
 			case COMPLEX_KEY:
 			{
-				AST __t86 = _t;
+				AST __t93 = _t;
 				AST tmp5_AST_in = (AST)_t;
 				match(_t,COMPLEX_KEY);
 				_t = _t.getFirstChild();
@@ -277,7 +277,7 @@ public JsonQueryWalker() {
 				s = (AST)_t;
 				match(_t,STRING);
 				_t = _t.getNextSibling();
-				_t = __t86;
+				_t = __t93;
 				_t = _t.getNextSibling();
 				
 				memberExpr = new ObjectKeyExpression(dir, s.getText());
@@ -289,7 +289,7 @@ public JsonQueryWalker() {
 				
 				memberExpr = new ObjectConstructionExpression();
 				
-				AST __t88 = _t;
+				AST __t95 = _t;
 				AST tmp6_AST_in = (AST)_t;
 				match(_t,OBJECT_CONSTRUCTION);
 				_t = _t.getFirstChild();
@@ -315,8 +315,8 @@ public JsonQueryWalker() {
 				}
 				}
 				{
-				int _cnt91=0;
-				_loop91:
+				int _cnt98=0;
+				_loop98:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if ((_t.getType()==ID||_t.getType()==STRING)) {
@@ -324,13 +324,13 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt91>=1 ) { break _loop91; } else {throw new NoViableAltException(_t);}
+						if ( _cnt98>=1 ) { break _loop98; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt91++;
+					_cnt98++;
 				} while (true);
 				}
-				_t = __t88;
+				_t = __t95;
 				_t = _t.getNextSibling();
 				
 				((ObjectConstructionExpression)memberExpr).setDirection(dir);
@@ -339,7 +339,7 @@ public JsonQueryWalker() {
 			}
 			case ARRAY_INDEX:
 			{
-				AST __t92 = _t;
+				AST __t99 = _t;
 				AST tmp7_AST_in = (AST)_t;
 				match(_t,ARRAY_INDEX);
 				_t = _t.getFirstChild();
@@ -366,7 +366,7 @@ public JsonQueryWalker() {
 				n = (AST)_t;
 				match(_t,INT);
 				_t = _t.getNextSibling();
-				_t = __t92;
+				_t = __t99;
 				_t = _t.getNextSibling();
 				
 				memberExpr = new ArrayIndexExpression(dir, Integer.parseInt(n.getText()));
@@ -378,7 +378,7 @@ public JsonQueryWalker() {
 				
 				memberExpr = new ArrayConstructionExpression();
 				
-				AST __t94 = _t;
+				AST __t101 = _t;
 				AST tmp8_AST_in = (AST)_t;
 				match(_t,ARRAY_CONSTRUCTION);
 				_t = _t.getFirstChild();
@@ -403,8 +403,8 @@ public JsonQueryWalker() {
 				}
 				}
 				{
-				int _cnt97=0;
-				_loop97:
+				int _cnt104=0;
+				_loop104:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if ((_t.getType()==INT)) {
@@ -412,13 +412,13 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt97>=1 ) { break _loop97; } else {throw new NoViableAltException(_t);}
+						if ( _cnt104>=1 ) { break _loop104; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt97++;
+					_cnt104++;
 				} while (true);
 				}
-				_t = __t94;
+				_t = __t101;
 				_t = _t.getNextSibling();
 				
 				((ArrayConstructionExpression)memberExpr).setDirection(dir);
@@ -427,7 +427,7 @@ public JsonQueryWalker() {
 			}
 			case ARRAY_SLICE:
 			{
-				AST __t98 = _t;
+				AST __t105 = _t;
 				AST tmp9_AST_in = (AST)_t;
 				match(_t,ARRAY_SLICE);
 				_t = _t.getFirstChild();
@@ -495,7 +495,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t98;
+				_t = __t105;
 				_t = _t.getNextSibling();
 				
 				Integer start = null, end = null;
@@ -513,7 +513,7 @@ public JsonQueryWalker() {
 			}
 			case MULTI_LEVEL_UP:
 			{
-				AST __t102 = _t;
+				AST __t109 = _t;
 				AST tmp11_AST_in = (AST)_t;
 				match(_t,MULTI_LEVEL_UP);
 				_t = _t.getFirstChild();
@@ -540,7 +540,7 @@ public JsonQueryWalker() {
 				}
 				}
 				}
-				_t = __t102;
+				_t = __t109;
 				_t = _t.getNextSibling();
 				
 				int level = 1;
@@ -571,13 +571,13 @@ public JsonQueryWalker() {
 		AST filterExprMain_AST_in = (_t == ASTNULL) ? null : (AST)_t;
 		
 		try {      // for error handling
-			AST __t108 = _t;
+			AST __t115 = _t;
 			AST tmp13_AST_in = (AST)_t;
 			match(_t,FILTER);
 			_t = _t.getFirstChild();
 			filterExpression=filterExpr(_t);
 			_t = _retTree;
-			_t = __t108;
+			_t = __t115;
 			_t = _t.getNextSibling();
 		}
 		catch (RecognitionException ex) {
@@ -709,7 +709,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case AND:
 			{
-				AST __t110 = _t;
+				AST __t117 = _t;
 				AST tmp16_AST_in = (AST)_t;
 				match(_t,AND);
 				_t = _t.getFirstChild();
@@ -717,7 +717,7 @@ public JsonQueryWalker() {
 				_t = _retTree;
 				fe2=filterExpr(_t);
 				_t = _retTree;
-				_t = __t110;
+				_t = __t117;
 				_t = _t.getNextSibling();
 				
 				result = new CompoundFilterExpression(fe1, fe2, LOGICAL_OPERATOR.AND);
@@ -726,7 +726,7 @@ public JsonQueryWalker() {
 			}
 			case OR:
 			{
-				AST __t111 = _t;
+				AST __t118 = _t;
 				AST tmp17_AST_in = (AST)_t;
 				match(_t,OR);
 				_t = _t.getFirstChild();
@@ -734,7 +734,7 @@ public JsonQueryWalker() {
 				_t = _retTree;
 				fe2=filterExpr(_t);
 				_t = _retTree;
-				_t = __t111;
+				_t = __t118;
 				_t = _t.getNextSibling();
 				
 				result = new CompoundFilterExpression(fe1, fe2, LOGICAL_OPERATOR.OR);
@@ -743,13 +743,13 @@ public JsonQueryWalker() {
 			}
 			case NOT:
 			{
-				AST __t112 = _t;
+				AST __t119 = _t;
 				AST tmp18_AST_in = (AST)_t;
 				match(_t,NOT);
 				_t = _t.getFirstChild();
 				fe1=filterExpr(_t);
 				_t = _retTree;
-				_t = __t112;
+				_t = __t119;
 				_t = _t.getNextSibling();
 				
 				result = new NotFilterExpression(fe1);
@@ -848,8 +848,8 @@ public JsonQueryWalker() {
 			case MULTI_LEVEL_UP:
 			{
 				{
-				int _cnt116=0;
-				_loop116:
+				int _cnt123=0;
+				_loop123:
 				do {
 					if (_t==null) _t=ASTNULL;
 					if (((_t.getType() >= SIMPLE_KEY && _t.getType() <= MULTI_LEVEL_UP))) {
@@ -857,10 +857,10 @@ public JsonQueryWalker() {
 						_t = _retTree;
 					}
 					else {
-						if ( _cnt116>=1 ) { break _loop116; } else {throw new NoViableAltException(_t);}
+						if ( _cnt123>=1 ) { break _loop123; } else {throw new NoViableAltException(_t);}
 					}
 					
-					_cnt116++;
+					_cnt123++;
 				} while (true);
 				}
 				{
@@ -879,6 +879,7 @@ public JsonQueryWalker() {
 				case LE:
 				case GT:
 				case GE:
+				case CONTAINS:
 				{
 					break;
 				}
@@ -971,6 +972,14 @@ public JsonQueryWalker() {
 				operator = JsonOperatorEnum.GE;
 				break;
 			}
+			case CONTAINS:
+			{
+				AST tmp26_AST_in = (AST)_t;
+				match(_t,CONTAINS);
+				_t = _t.getNextSibling();
+				operator = JsonOperatorEnum.CONTAINS;
+				break;
+			}
 			default:
 			{
 				throw new NoViableAltException(_t);
@@ -998,7 +1007,7 @@ public JsonQueryWalker() {
 			switch ( _t.getType()) {
 			case LITERAL_null:
 			{
-				AST tmp26_AST_in = (AST)_t;
+				AST tmp27_AST_in = (AST)_t;
 				match(_t,LITERAL_null);
 				_t = _t.getNextSibling();
 				valueDescriptor = new ValueDescriptor(VALUE_TYPE.NULL, "null");
@@ -1006,7 +1015,7 @@ public JsonQueryWalker() {
 			}
 			case LITERAL_true:
 			{
-				AST tmp27_AST_in = (AST)_t;
+				AST tmp28_AST_in = (AST)_t;
 				match(_t,LITERAL_true);
 				_t = _t.getNextSibling();
 				valueDescriptor = new ValueDescriptor(VALUE_TYPE.BOOLEAN, "true");
@@ -1014,7 +1023,7 @@ public JsonQueryWalker() {
 			}
 			case LITERAL_false:
 			{
-				AST tmp28_AST_in = (AST)_t;
+				AST tmp29_AST_in = (AST)_t;
 				match(_t,LITERAL_false);
 				_t = _t.getNextSibling();
 				valueDescriptor = new ValueDescriptor(VALUE_TYPE.BOOLEAN, "false");
@@ -1124,6 +1133,7 @@ public JsonQueryWalker() {
 		"GT",
 		"GE",
 		"AT_VALUE",
+		"CONTAINS",
 		"REAL",
 		"\"null\"",
 		"\"true\"",
