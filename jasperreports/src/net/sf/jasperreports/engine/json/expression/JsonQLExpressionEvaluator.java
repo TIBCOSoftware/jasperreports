@@ -42,9 +42,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JsonQLExpressionEvaluator {
 
-    public JsonNodeContainer evaluate(JsonQLExpression expression, JRJsonNode contextNode) {
+    private EvaluationContext evaluationContext;
 
-        EvaluationContext evaluationContext = new EvaluationContext() {
+
+    public JsonQLExpressionEvaluator() {
+        evaluationContext = new EvaluationContext() {
             @Override
             public FilterExpressionEvaluatorVisitor getFilterExpressionEvaluatorVisitor() {
                 return new DefaultFilterExpressionEvaluatorVisitor(this);
@@ -65,6 +67,9 @@ public class JsonQLExpressionEvaluator {
                 return JsonUtil.createObjectMapper();
             }
         };
+    }
+
+    public JsonNodeContainer evaluate(JsonQLExpression expression, JRJsonNode contextNode) {
 
         List<MemberExpression> memberExpressionList = expression.getMemberExpressionList();
         JsonNodeContainer result = new JsonNodeContainer(contextNode);
@@ -81,5 +86,9 @@ public class JsonQLExpressionEvaluator {
 
         return result;
 
+    }
+
+    public EvaluationContext getEvaluationContext() {
+        return evaluationContext;
     }
 }
