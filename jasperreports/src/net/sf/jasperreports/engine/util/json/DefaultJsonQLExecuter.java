@@ -92,6 +92,14 @@ public class DefaultJsonQLExecuter implements JsonQLExecuter {
         return null;
     }
 
+    public JsonNodeContainer evaluateExpression(JRJsonNode jrJsonNode, String expression) {
+        if (expression != null && expression.trim().length() > 0) {
+            return evaluator.evaluate(getJsonQLExpression(expression), jrJsonNode);
+        }
+
+        return null;
+    }
+
     protected JsonQLExpression getJsonQLExpression(String expression) {
         try {
             JsonQueryLexer lexer = new JsonQueryLexer(new StringReader(expression.trim()));
