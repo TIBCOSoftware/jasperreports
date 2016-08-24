@@ -1,0 +1,62 @@
+[
+  {
+    "orderId": 1001,
+    "orderDate": "2016-08-01",
+    "shipped": false,
+    "products": {
+      "product_1": {
+        "prodId": 1,
+        "prodQty": 3
+      },
+      "product_2": {
+        "prodId": 5,
+        "prodQty": 2
+      }
+    }
+  },
+  {
+    "orderId": 1002,
+    "orderDate": "2016-01-01",
+    "shippedOn": "2016-01-06",
+    "products": {
+      "product_1": {
+        "prodId": 34,
+        "prodQty": 5
+      }
+    }
+  },
+  {
+    "orderId": 1200,
+    "orderDate": "2015-12-01",
+    "shippedOn": "2015-12-03",
+    "products": [
+      {
+        "prodId": 135,
+        "prodQty": 6
+      },
+      {
+        "prodId": 2355,
+        "prodQty": 20
+      },
+      {
+        "prodId": 64,
+        "prodQty": 7
+      }
+    ]
+  },
+  {
+    "orderId": 1201,
+    "orderDate": "2015-12-11",
+    "shipped": false,
+    "products": {
+      "product_1": {
+        "prodId": 34,
+        "prodQty": 5
+      },
+      "product_2": {
+        "prodId": 567,
+        "prodQty": 3
+      }
+    }
+  }
+]
