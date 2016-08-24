@@ -90,7 +90,7 @@
 						<textElement textAlignment="Right"/>
 						<textFieldExpression><![CDATA[$V{OrderNumber}]]></textFieldExpression>
 					</textField>
-					<textField>
+					<textField pattern="¤ #,##0.00">
 						<reportElement style="Sans_Bold_8" mode="Opaque" x="259" y="0" width="92" height="10" backcolor="#33CCCC" uuid="a713b487-68a2-4391-a231-9bf9aa740090"/>
 						<textElement textAlignment="Right"/>
 						<textFieldExpression><![CDATA[$V{TotalFreight}]]></textFieldExpression>
