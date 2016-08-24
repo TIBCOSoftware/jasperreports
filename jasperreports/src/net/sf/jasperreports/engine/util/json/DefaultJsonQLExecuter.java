@@ -100,6 +100,10 @@ public class DefaultJsonQLExecuter implements JsonQLExecuter {
         return null;
     }
 
+    public JsonQLExpressionEvaluator getEvaluator() {
+        return evaluator;
+    }
+
     protected JsonQLExpression getJsonQLExpression(String expression) {
         try {
             JsonQueryLexer lexer = new JsonQueryLexer(new StringReader(expression.trim()));
