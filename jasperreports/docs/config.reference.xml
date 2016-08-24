@@ -41,9 +41,15 @@
       <property ref="net.sf.jasperreports.sql.field.column.name"/>
       <property ref="net.sf.jasperreports.sql.field.column.label"/>
       <property ref="net.sf.jasperreports.sql.field.column.index"/>
+      <property ref="net.sf.jasperreports.xls.column.indexes.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.xls.column.names.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.xls.date.pattern"/>
       <property ref="net.sf.jasperreports.xls.field.column.name"/>
       <property ref="net.sf.jasperreports.xls.field.column.index"/>
+      <property ref="net.sf.jasperreports.xls.locale.code"/>
+      <property ref="net.sf.jasperreports.xls.number.pattern"/>
       <property ref="net.sf.jasperreports.xls.source"/>
+      <property ref="net.sf.jasperreports.xls.timezone.id"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
       <property ref="net.sf.jasperreports.xpath.field.mapping"/>
@@ -567,6 +573,12 @@ Property holding the value of the number format pattern to be used when parsing 
   
   <configProperty name="net.sf.jasperreports.csv.source">
     <description>
+String property representing a valid path to the requested resource containing the CSV data. It can be:
+<ul>
+ <li>a resource on the classpath</li>
+ <li>a file from the filesystem, with an absolute or relative path</li>
+ <li>an url</li>
+</ul>
     </description>
     <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_SOURCE</api>
     <default>N/A</default>
@@ -880,11 +892,37 @@ Property specifying the 1-based index of the column in the JDBC result set to wh
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.xls.column.indexes.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.xls.column.indexes.{arbitrary_name}">
+    <description>
+Property having this prefix hold the comma separated values of the column indexes to be extracted from the Excel source.
+    </description>
+    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_COLUMN_INDEXES</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.column.names.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.xls.column.names.{arbitrary_name}">
+    <description>
+Property having this prefix hold the comma separated names of the columns to be extracted from the Excel source.
+    </description>
+    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_COLUMN_NAMES</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.xls.field.column.name -->
   
   <configProperty name="net.sf.jasperreports.xls.field.column.name">
     <description>
-Property specifying the name of the column in the XLS data to which the dataset field is mapped to, in case XLS data is used. 
+Property specifying the name of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used. 
     </description>
     <api>net/sf/jasperreports/engine/data/AbstractXlsDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
     <default>N/A</default>
@@ -897,12 +935,102 @@ Property specifying the name of the column in the XLS data to which the dataset 
   
   <configProperty name="net.sf.jasperreports.xls.field.column.index">
     <description>
-Property specifying the 0-based index of the column in the XLS data to which the dataset field is mapped to, in case XLS data is used. 
+Property specifying the 0-based index of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used. 
     </description>
     <api>net/sf/jasperreports/engine/data/AbstractXlsDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
     <default>N/A</default>
     <scope>Field</scope>
     <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.date.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.xls.date.pattern">
+    <description>
+Property holding the value of the date format pattern to be used when parsing the Excel data.
+    </description>
+    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_DATE_PATTERN</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.locale.code -->
+  
+  <configProperty name="net.sf.jasperreports.xls.locale.code">
+    <description>
+String property specifying the code of the locale to be used when parsing the Excel data.
+<p/>
+The allowed format is: language[_country[_variant]] 
+    </description>
+    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_LOCALE_CODE</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.number.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.xls.number.pattern">
+    <description>
+Property holding the value of the number format pattern to be used when parsing the Excel data.
+    </description>
+    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_NUMBER_PATTERN</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.source -->
+  
+  <configProperty name="net.sf.jasperreports.xls.source">
+    <description>
+String property representing a valid path to the requested resource containing the Excel data. It can be:
+<ul>
+ <li>a resource on the classpath</li>
+ <li>a file from the filesystem, with an absolute or relative path</li>
+ <li>an url</li>
+</ul>  
+    </description>
+    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_SOURCE</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.timezone.id -->
+  
+  <configProperty name="net.sf.jasperreports.xls.timezone.id">
+    <description>
+String property specifying value of the time zone id to be used when parsing the Excel data.
+    </description>
+    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_TIMEZONE_ID</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>5.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.source -->
+  
+  <configProperty name="net.sf.jasperreports.xml.source">
+    <description>
+String property representing a valid path to the requested resource containing the XML data. It can be:
+<ul>
+ <li>a resource on the classpath</li>
+ <li>a file from the filesystem, with an absolute or relative path</li>
+ <li>an url</li>
+</ul>  
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_SOURCE</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>N/A</since>
   </configProperty>
   
   
