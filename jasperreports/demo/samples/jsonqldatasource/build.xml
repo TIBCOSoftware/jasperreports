@@ -1,0 +1,45 @@
+<project name="jsonqldatasource" default="test" basedir=".">
+
+	<description>Shows how the built-in JsonQLDataSource could be used for reporting out of JSON data.</description>
+
+	<import file="../build-sample-classpath.xml"/>
+
+	<property name="sample.dir" value="jsonqldatasource"/>
+	<property name="sample.base.name" value="JsonQLDataSource" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<ant dir="../" target="compile"/>
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
+	</target>
+
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pdf"/>
+	</target>
+
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="html"/>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" JSONQL Data Source Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

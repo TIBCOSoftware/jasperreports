@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
+	<name>NorthWind JsonQL DA</name>
+	<fileName>/data/northwind.json</fileName>
+	<useConnection>true</useConnection>
+	<language>jsonql</language>
+	<datePattern>yyyy-MM-dd</datePattern>
+	<numberPattern>#,##0.##</numberPattern>
+</jsonDataAdapter>
