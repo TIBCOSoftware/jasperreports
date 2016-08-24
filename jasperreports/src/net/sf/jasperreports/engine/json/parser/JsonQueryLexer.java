@@ -54,6 +54,12 @@ import antlr.SemanticException;
  */
 public class JsonQueryLexer extends antlr.CharScanner implements JsonQueryParserTokenTypes, TokenStream
  {
+
+    @Override
+    public void reportError(RecognitionException re) {
+        throw new RuntimeException(re);
+    }
+
 public JsonQueryLexer(InputStream in) {
 	this(new ByteBuffer(in));
 }

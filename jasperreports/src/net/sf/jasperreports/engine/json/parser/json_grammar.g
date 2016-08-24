@@ -404,11 +404,20 @@ value returns [ValueDescriptor valueDescriptor = null]
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 class JsonQueryLexer extends Lexer;
+
 options {
     defaultErrorHandler=false;
     k=2;
     charVocabulary='\u0000'..'\uFFFE';
     filter=WS;
+}
+
+{
+    @Override
+    public void reportError(RecognitionException re) {
+        throw new RuntimeException(re);
+    }
+
 }
 
 SEMI
