@@ -37,6 +37,7 @@ import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 
@@ -50,6 +51,14 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 	
 	/**
 	 * 
+	 */
+	public CsvDataAdapterService(ParameterContributorContext paramContribContext, CsvDataAdapter csvDataAdapter)
+	{
+		super(paramContribContext, csvDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #CsvDataAdapterService(ParameterContributorContext, CsvDataAdapter)}.
 	 */
 	public CsvDataAdapterService(JasperReportsContext jasperReportsContext, CsvDataAdapter csvDataAdapter)
 	{
@@ -67,7 +76,7 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 		CsvDataAdapter csvDataAdapter = getCsvDataAdapter();
 		if (csvDataAdapter != null)
 		{
-			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
+			dataStream = DataFileUtils.instance(getParameterContributorContext()).getDataStream(
 					csvDataAdapter.getDataFile(), parameters);
 			
 			Locale locale = csvDataAdapter.getLocale();

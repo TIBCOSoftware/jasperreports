@@ -25,7 +25,7 @@ package net.sf.jasperreports.data;
 
 import java.util.List;
 
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -33,22 +33,22 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class DataFileResolver
 {
 
-	private final JasperReportsContext context;
+	private final ParameterContributorContext context;
 
-	public static DataFileResolver instance(JasperReportsContext context)
+	public static DataFileResolver instance(ParameterContributorContext context)
 	{
 		// not caching for now
 		return new DataFileResolver(context);
 	}
 
-	protected DataFileResolver(JasperReportsContext context)
+	protected DataFileResolver(ParameterContributorContext context)
 	{
 		this.context = context;
 	}
 	
 	public DataFileService getService(DataFile dataFile)
 	{
-		List<DataFileServiceFactory> factories = context.getExtensions(DataFileServiceFactory.class);
+		List<DataFileServiceFactory> factories = context.getJasperReportsContext().getExtensions(DataFileServiceFactory.class);
 		DataFileService dataService = null;
 		if (factories != null)
 		{

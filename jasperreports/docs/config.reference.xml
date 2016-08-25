@@ -26,6 +26,12 @@
       <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
       <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
       <property ref="net.sf.jasperreports.hql.query.run.type"/>
+      <property ref="net.sf.jasperreports.http.data.url"/>
+      <property ref="net.sf.jasperreports.http.data.username"/>
+      <property ref="net.sf.jasperreports.http.data.password"/>
+      <property ref="net.sf.jasperreports.http.data.url.parameter"/>
+      <property ref="net.sf.jasperreports.http.data.post.parameter"/>
+      <property ref="net.sf.jasperreports.http.data.header"/>
       <property ref="net.sf.jasperreports.javabean.field.property"/>
       <property ref="net.sf.jasperreports.json.field.expression"/>
       <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
@@ -702,6 +708,110 @@ Property specifying the Hibernate query execution type. Possible values are:
     <default>list</default>
     <scope>Global | Dataset</scope>
     <since>1.2.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.http.data.url -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.url">
+    <description>
+Property that specifies the base URL to be used by the HTTP data adapters.
+If present in the dataset or at report parameter level, it overrides the URL specified in the data adapter definition, or the value provided
+by the report parameter having the now deprecated <api href="net/sf/jasperreports/data/http/HttpDataService.html#PARAMETER_URL">HTTP_DATA_URL</api> name.
+When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would provide the URL value.
+If multiple parameters have this property set, the last one will be used to provide the URL value.
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_URL</api>
+    <default>N/A</default>
+    <scope>Dataset | Parameter</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.http.data.username -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.username">
+    <description>
+Property that specifies the user name to be used by the HTTP data adapters with basic authentication.
+If present in the dataset or at report parameter level, it overrides the user name specified in the data adapter definition, or the value provided
+by the report parameter having the now deprecated <api href="net/sf/jasperreports/data/http/HttpDataService.html#PARAMETER_USERNAME">HTTP_DATA_USERNAME</api> name.
+When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would provide the user name value.
+If multiple parameters have this property set, the last one will be used to provide the user name value.
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_USERNAME</api>
+    <default>N/A</default>
+    <scope>Dataset | Parameter</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.http.data.password -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.password">
+    <description>
+Property that specifies the password to be used by the HTTP data adapters with basic authentication.
+If present in the dataset or at report parameter level, it overrides the password specified in the data adapter definition, or the value provided
+by the report parameter having the now deprecated <api href="net/sf/jasperreports/data/http/HttpDataService.html#PARAMETER_PASSWORD">HTTP_DATA_PASSWORD</api> name.
+When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would provide the password value.
+If multiple parameters have this property set, the last one will be used to provide the password value.
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_PASSWORD</api>
+    <default>N/A</default>
+    <scope>Dataset | Parameter</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.http.data.url.parameter -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.url.parameter">
+    <description>
+Property which specifies that the current parameter will append a request parameter value to the base URL when HTTP data adapters are used.
+The value of this property indicates the name of the request parameter to be appended. In case the property is used, but no value is provided, the name of the request
+parameter will be the same as the current report parameter name.
+Request parameters introduced this way override the request parameters having the same name which were declared at data adapter level or were provided
+by the report parameters having the now deprecated <api href="net/sf/jasperreports/data/http/HttpDataService.html#PARAMETER_PREFIX_URL_PARAMETER">HTTP_DATA_URL_PARAMETER_</api> prefix.
+If multiple parameters try to provide a value for the same request parameter, the request parameter will be sent multiple times, becoming a request parameter of type array.
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_URL_PARAMETER</api>
+    <default>N/A</default>
+    <scope>Parameter</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.http.data.post.parameter -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.post.parameter">
+    <description>
+Property which specifies that the current parameter will contribute a POST request parameter value when HTTP data adapters are used.
+The value of this property indicates the name of the request parameter to be contributed. In case the property is used, but no value is provided, the name of the request
+parameter will be the same as the current report parameter name.
+Request parameters introduced this way override the request parameters having the same name which were declared at data adapter level or were provided
+by the report parameters having the now deprecated <api href="net/sf/jasperreports/data/http/HttpDataService.html#PARAMETER_PREFIX_POST_PARAMETER">HTTP_DATA_POST_PARAMETER_</api> prefix.
+If multiple parameters try to provide a value for the same request parameter, the request parameter will be sent multiple times, becoming a request parameter of type array.
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_POST_PARAMETER</api>
+    <default>N/A</default>
+    <scope>Parameter</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.http.data.header -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.header">
+    <description>
+Property which specifies that the current parameter will contribute a request header value when HTTP data adapters are used.
+The value of this property indicates the name of the request header to be contributed. In case the property is used, but no value is provided, the name of the request
+header will be the same as the current report parameter name.
+Request headers introduced this way override the request headers having the same name which were declared at data adapter level.
+If multiple parameters try to provide a value for the same request header, the request header will be added multiple times to the request.
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_HEADER</api>
+    <default>N/A</default>
+    <scope>Parameter</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   

@@ -28,6 +28,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 
 /**
@@ -37,24 +38,33 @@ public final class DataAdapterServiceUtil
 {
 	public static final String EXCEPTION_MESSAGE_KEY_SERVICE_FACTORY_NOT_REGISTERED = "data.adapter.service.factory.not.registered";
 	
-	private JasperReportsContext jasperReportsContext;
+	private ParameterContributorContext paramContribContext;
 
 
 	/**
 	 *
 	 */
-	private DataAdapterServiceUtil(JasperReportsContext jasperReportsContext)
+	private DataAdapterServiceUtil(ParameterContributorContext paramContribContext)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.paramContribContext = paramContribContext;
 	}
 	
 	
 	/**
 	 *
 	 */
+	public static DataAdapterServiceUtil getInstance(ParameterContributorContext paramContribContext)
+	{
+		return new DataAdapterServiceUtil(paramContribContext);
+	}
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #getInstance(ParameterContributorContext)}.
+	 */
 	public static DataAdapterServiceUtil getInstance(JasperReportsContext jasperReportsContext)
 	{
-		return new DataAdapterServiceUtil(jasperReportsContext);
+		return getInstance(new ParameterContributorContext(jasperReportsContext, null, null));
 	}
 	
 	
@@ -63,17 +73,36 @@ public final class DataAdapterServiceUtil
 	 */
 	public DataAdapterService getService(DataAdapter dataAdapter)
 	{
-		List<DataAdapterServiceFactory> bundles = jasperReportsContext.getExtensions(
-				DataAdapterServiceFactory.class);
-		for (Iterator<DataAdapterServiceFactory> it = bundles.iterator(); it.hasNext();)
+		JasperReportsContext jasperReportsContext = paramContribContext.getJasperReportsContext();
+		
+		List<DataAdapterContributorFactory> bundles = jasperReportsContext.getExtensions(
+				DataAdapterContributorFactory.class);
+		for (Iterator<DataAdapterContributorFactory> it = bundles.iterator(); it.hasNext();)
 		{
+			DataAdapterContributorFactory factory = it.next();
+			DataAdapterService service = factory.getDataAdapterService(paramContribContext, dataAdapter);
+			if (service != null)
+			{
+				return service;
+			}
+		}
+
+		@SuppressWarnings("deprecation")
+		List<DataAdapterServiceFactory> depBundles = jasperReportsContext.getExtensions(
+				DataAdapterServiceFactory.class);
+		for (@SuppressWarnings("deprecation")
+		Iterator<DataAdapterServiceFactory> it = depBundles.iterator(); it.hasNext();)
+		{
+			@SuppressWarnings("deprecation")
 			DataAdapterServiceFactory factory = it.next();
+			@SuppressWarnings("deprecation")
 			DataAdapterService service = factory.getDataAdapterService(jasperReportsContext, dataAdapter);
 			if (service != null)
 			{
 				return service;
 			}
 		}
+
 		throw 
 			new JRRuntimeException(
 				EXCEPTION_MESSAGE_KEY_SERVICE_FACTORY_NOT_REGISTERED,

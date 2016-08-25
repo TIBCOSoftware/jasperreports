@@ -35,8 +35,8 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 public class DefaultDataAdapterServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 	private static final ExtensionsRegistry extensionsRegistry = 
-			new SingletonExtensionRegistry<DataAdapterServiceFactory>(
-					DataAdapterServiceFactory.class, DefaultDataAdapterServiceFactory.getInstance());
+			new SingletonExtensionRegistry<DataAdapterContributorFactory>(
+					DataAdapterContributorFactory.class, DefaultDataAdapterServiceFactory.getInstance());
 	
 	@Override
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 

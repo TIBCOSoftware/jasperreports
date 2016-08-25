@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -38,17 +39,33 @@ public abstract class AbstractDataAdapterService implements DataAdapterService
 	/**
 	 *
 	 */
-	private final JasperReportsContext jasperReportsContext;
+	private final ParameterContributorContext paramContribContext;
 	private String name;
 	private DataAdapter dataAdapter;
 
 	/**
 	 *
 	 */
-	public AbstractDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
+	public AbstractDataAdapterService(ParameterContributorContext paramContribContext, DataAdapter dataAdapter)
 	{
 		this.dataAdapter = dataAdapter;
-		this.jasperReportsContext = jasperReportsContext;
+		this.paramContribContext = paramContribContext;
+	}
+	  
+	/**
+	 * @deprecated Replaced by {@link #AbstractDataAdapterService(ParameterContributorContext, DataAdapter)}.
+	 */
+	public AbstractDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
+	{
+		this(new ParameterContributorContext(jasperReportsContext, null, null), dataAdapter);
+	}
+	  
+	/**
+	 *
+	 */
+	public ParameterContributorContext getParameterContributorContext()
+	{
+		return paramContribContext;
 	}
 	  
 	/**
@@ -56,7 +73,7 @@ public abstract class AbstractDataAdapterService implements DataAdapterService
 	 */
 	public JasperReportsContext getJasperReportsContext()
 	{
-		return jasperReportsContext;
+		return paramContribContext == null ? null : paramContribContext.getJasperReportsContext();
 	}
 	  
 	/**

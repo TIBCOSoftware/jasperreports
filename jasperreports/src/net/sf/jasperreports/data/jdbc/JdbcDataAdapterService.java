@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.util.SecretsUtil;
 
@@ -102,6 +103,14 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 
 	/**
 	 * 
+	 */
+	public JdbcDataAdapterService(ParameterContributorContext paramContribContext, JdbcDataAdapter jdbcDataAdapter) 
+	{
+		super(paramContribContext, jdbcDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JdbcDataAdapterService(ParameterContributorContext, JdbcDataAdapter)}.
 	 */
 	public JdbcDataAdapterService(JasperReportsContext jasperReportsContext, JdbcDataAdapter jdbcDataAdapter) 
 	{

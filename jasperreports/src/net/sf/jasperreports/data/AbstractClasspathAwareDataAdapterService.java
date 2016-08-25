@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 
 /**
@@ -38,8 +39,17 @@ import net.sf.jasperreports.engine.util.CompositeClassloader;
 public abstract class AbstractClasspathAwareDataAdapterService extends AbstractDataAdapterService 
 {
 	public static final String CURRENT_CLASS_LOADER = "CURRENT_CLASS_LOADER";
+
 	/**
 	 *
+	 */
+	public AbstractClasspathAwareDataAdapterService(ParameterContributorContext paramContribContext, ClasspathAwareDataAdapter dataAdapter) 
+	{
+		super(paramContribContext, dataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #AbstractClasspathAwareDataAdapterService(ParameterContributorContext, ClasspathAwareDataAdapter)}.
 	 */
 	public AbstractClasspathAwareDataAdapterService(JasperReportsContext jasperReportsContext, ClasspathAwareDataAdapter dataAdapter) 
 	{

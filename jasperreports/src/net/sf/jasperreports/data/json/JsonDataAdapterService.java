@@ -33,6 +33,7 @@ import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 
@@ -46,6 +47,14 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 	
 	/**
 	 * 
+	 */
+	public JsonDataAdapterService(ParameterContributorContext paramContribContext, JsonDataAdapter jsonDataAdapter) 
+	{
+		super(paramContribContext, jsonDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JsonDataAdapterService(ParameterContributorContext, JsonDataAdapter)}.
 	 */
 	public JsonDataAdapterService(JasperReportsContext jasperReportsContext, JsonDataAdapter jsonDataAdapter) 
 	{
@@ -61,7 +70,7 @@ public class JsonDataAdapterService extends AbstractDataAdapterService
 			throws JRException {
 		JsonDataAdapter jsonDataAdapter = getJsonDataAdapter();
 		if (jsonDataAdapter != null) {
-			dataStream = DataFileUtils.instance(getJasperReportsContext()).getDataStream(
+			dataStream = DataFileUtils.instance(getParameterContributorContext()).getDataStream(
 					jsonDataAdapter.getDataFile(), parameters);
 			
 			if (jsonDataAdapter.isUseConnection()) {

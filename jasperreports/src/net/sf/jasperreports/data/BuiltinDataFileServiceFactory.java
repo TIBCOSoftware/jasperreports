@@ -25,7 +25,7 @@ package net.sf.jasperreports.data;
 
 import net.sf.jasperreports.data.http.HttpDataLocation;
 import net.sf.jasperreports.data.http.HttpDataService;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -45,7 +45,7 @@ public class BuiltinDataFileServiceFactory implements DataFileServiceFactory
 	}
 
 	@Override
-	public DataFileService createService(JasperReportsContext context, DataFile dataFile)
+	public DataFileService createService(ParameterContributorContext context, DataFile dataFile)
 	{
 		if (dataFile instanceof RepositoryDataLocation)
 		{

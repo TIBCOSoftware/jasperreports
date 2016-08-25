@@ -35,6 +35,7 @@ import net.sf.jasperreports.data.DataFileUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
@@ -47,6 +48,17 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 
 	/**
 	 * 
+	 */
+	public XmlDataAdapterService(
+		ParameterContributorContext paramContribContext,
+		XmlDataAdapter xmlDataAdapter
+		) 
+	{
+		super(paramContribContext, xmlDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #XmlDataAdapterService(ParameterContributorContext, XmlDataAdapter)}.
 	 */
 	public XmlDataAdapterService(
 		JasperReportsContext jasperReportsContext,
@@ -136,7 +148,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 
 	protected Document loadDataDocument(XmlDataAdapter xmlDataAdapter, Map<String, Object> parameters) throws JRException
 	{
-		DataFileUtils dataFileUtils = DataFileUtils.instance(getJasperReportsContext());
+		DataFileUtils dataFileUtils = DataFileUtils.instance(getParameterContributorContext());
 		DataFileStream dataStream = dataFileUtils.getDataStream(
 				xmlDataAdapter.getDataFile(), parameters);
 		try
