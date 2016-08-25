@@ -97,6 +97,7 @@
 					<include>**/*.csv</include>
 					<include>**/*.png</include>
 					<include>**/*.jpg</include>
+					<include>**/*.json</include>
 				</includes>
 			</testResource>
 		</testResources>
