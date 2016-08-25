@@ -29,6 +29,7 @@ package com.jaspersoft.jasperreports.customvisualization;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -144,4 +145,91 @@ public class CVUtils
 
 		return request;
 	}
+        
+        
+        /**
+         * Check if the element configuration specifies to render this component as png instead of looking for an SVG
+         * 
+         * @param element
+         * @return 
+         */
+        public static boolean isRenderAsPng(JRGenericPrintElement element) {
+            
+            if (element.hasParameter(CVPrintElement.CONFIGURATION))
+            {
+                Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
+                if (componentConfiguration.containsKey("renderAsPng"))
+                {
+                    Object renderAsPngProperty = componentConfiguration.get("renderAsPng");
+                    if (renderAsPngProperty != null)
+                    {
+                        return Boolean.valueOf(renderAsPngProperty.toString()).booleanValue();
+                    }
+                }
+            }
+            return false;
+        }
+        
+        
+        /**
+         * Check if the element configuration specifies the zoom to be used when the export is performed as raster image.
+         * Default is 1.0f.
+         * Bigger is the zoom, higher is the quality, bigger is the file exported.
+         * 
+         * @param element
+         * @return 
+         */
+        public static float getZoomFactor(JRGenericPrintElement element) {
+            
+            if (element.hasParameter(CVPrintElement.CONFIGURATION))
+            {
+                Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
+                if (componentConfiguration.containsKey("render-zoom-factor"))
+                {
+                    Object property = componentConfiguration.get("render-zoom-factor");
+                    if (property != null)
+                    {
+                        try {
+                            return Float.valueOf(property.toString()).floatValue();
+                        } catch (Exception ex)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+            return 1.0f;
+        }
+        
+        
+        
+        /**
+         * Check if the element configuration specifies the zoom to be used when the export is performed as raster image.
+         * Default is 2.0f.
+         * Bigger is the zoom, higher is the quality, bigger is the file exported.
+         * 
+         * @param element
+         * @return 
+         */
+        public static long getTimeout(JRGenericPrintElement element) {
+            
+            if (element.hasParameter(CVPrintElement.CONFIGURATION))
+            {
+                Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
+                if (componentConfiguration.containsKey("render-timeout"))
+                {
+                    Object property = componentConfiguration.get("render-timeout");
+                    if (property != null)
+                    {
+                        try {
+                            return Long.valueOf(property.toString()).longValue();
+                        } catch (Exception ex)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+            return 3000;
+        }
 }

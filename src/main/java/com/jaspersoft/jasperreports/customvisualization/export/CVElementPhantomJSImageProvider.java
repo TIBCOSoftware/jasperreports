@@ -42,6 +42,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
+import com.jaspersoft.jasperreports.customvisualization.CVUtils;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -86,8 +88,8 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 		}
 
 		String phantomjsExecutablePath = "phantomjs";
-
-		if (jasperReportsContext
+                
+                if (jasperReportsContext
 				.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH) != null)
 		{
 			phantomjsExecutablePath = jasperReportsContext
@@ -154,7 +156,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 				htmlPage.append(
 						"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/></head><body>");
 
-				String htmlFragment = 
+                                String htmlFragment = 
 					CVElementHtmlHandler.getInstance()
 						.getHtmlFragment(jasperReportsContext, null, element, true);
 
@@ -171,10 +173,17 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 				// consumed...
 				cleanableResourcePaths.add(outputSvgFile);
 
+                                boolean renderAsPng = CVUtils.isRenderAsPng(element);
+                                String format = renderAsPng ? "png" : "svg";
+                                
+                                
 				try
 				{
 					runCommand(
 							new String[] { phantomjsExecutablePath, div2svgFile.toString(),
+                                                                        "--output-format=" + format,
+                                                                        "--timeout=" + CVUtils.getTimeout(element),
+                                                                        "--zoom-factor=" + CVUtils.getZoomFactor(element),
 									htmlPageFile.toURI().toURL().toString(), outputSvgFile.toString() },
 							tempFolder, phantomjsTimeout);
 
@@ -191,7 +200,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 							"Error while executing the javascript file to generate the SVG image.");
 				}
 
-				if (createSvg)
+				if (createSvg || renderAsPng)
 				{
 					ByteArrayOutputStream os = new ByteArrayOutputStream();
 					copyStream(new FileInputStream(outputSvgFile), os);
@@ -231,7 +240,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 					if (cleanableResource.exists() && cleanableResource.canWrite())
 					{
 						if (element.getPropertiesMap().getProperty("cv.keepTemporaryFiles") == null
-								|| !element.getPropertiesMap().getProperty("cv.keepTemporaryFiles").equals("true"))
+                                                                    || !element.getPropertiesMap().getProperty("cv.keepTemporaryFiles").equals("true"))
 						{
 							if (log.isDebugEnabled())
 							{
@@ -281,7 +290,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 			{
 				log.debug("Executing external command: " + cmd);
 			}
-			// System.out.println(cmd);
+			//System.out.println(cmd);
 
 			ProcessBuilder pb = new ProcessBuilder(Arrays.asList(args));
 			pb.directory(currentDirectory);
@@ -318,6 +327,9 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 							}
 						}
 
+                                                System.out.println("IS debug enabled? " + log.isDebugEnabled());
+                                                System.out.println("INFO Level? " + log.isInfoEnabled());
+                                                
 						if (log.isDebugEnabled())
 						{
 							log.debug("External process output:\n" + processOutput.toString());

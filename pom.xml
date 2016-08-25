@@ -4,7 +4,7 @@
 
     <groupId>com.jaspersoft.jasperreports</groupId>
     <artifactId>jasperreports-customvisualization</artifactId>
-    <version>6.3.0</version>
+    <version>6.3.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>JasperReports Custom Visualization Component</name>
     <url>http://maven.apache.org</url>
@@ -72,6 +72,7 @@
                     <include>**/*.svg</include>
                     <include>**/*.css</include>
                     <include>**/*.tmpl</include>
+                    <include>**/*.json</include>
                 </includes>
             </resource>
         </resources>

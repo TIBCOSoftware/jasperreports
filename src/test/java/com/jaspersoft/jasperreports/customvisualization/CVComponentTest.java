@@ -39,12 +39,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
@@ -109,6 +111,9 @@ public class CVComponentTest extends TestCase
 		System.out.println("Default encoding: " + Charset.defaultCharset().displayName());
 
 		context.setProperty(CVConstants.CV_REQUIREJS_PROPERTY, "file://" + scriptsDirectory + "/require.js");
+                
+                context.setProperty("cv.keepTemporaryFiles", "true");
+                
 	}
 
 	/**
@@ -118,18 +123,25 @@ public class CVComponentTest extends TestCase
 	{
 		return new TestSuite(CVComponentTest.class);
 	}
+        
+        public void testLeaflet() throws Exception
+	{
+		testReport("LeafLetMarkers_sample.jrxml", false, getJsonDataSource());
+		//testReport("subdataset_test_sample.jrxml", true);
+		//testReport("sparkline_sample.jrxml", false);
+	}
 
 	// public void testCircle() throws Exception
 	// {
 	// testReport("d3_Circle_sample.jrxml", true);
 	// }
 
-	public void testCircleWithGroups() throws Exception
-	{
-		// testReport("d3_Circle_sample_with_groups.jrxml", true);
-		// testReport("subdataset_test_sample.jrxml", true);
-		// testReport("sparkline_sample.jrxml", false);
-	}
+//	public void testCircleWithGroups() throws Exception
+//	{
+//		// testReport("d3_Circle_sample_with_groups.jrxml", true);
+//		// testReport("subdataset_test_sample.jrxml", true);
+//		// testReport("sparkline_sample.jrxml", false);
+//	}
 
 	// public void testDendogram() throws Exception
 	// {
@@ -181,10 +193,14 @@ public class CVComponentTest extends TestCase
 	// testReport("reports/RaphaelJS_dots.jrxml");
 	// }
 
+        private void testReport(String filename, boolean useConnection) throws Exception
+	{
+            testReport(filename, useConnection, null);
+        }
 	/**
 	 * Rigourous Test :-)
 	 */
-	private void testReport(String filename, boolean useConnection) throws Exception
+	private void testReport(String filename, boolean useConnection, JRDataSource ds) throws Exception
 	{
 		Connection connection = null;
 		InputStream jrxmlStream = null;
@@ -204,6 +220,10 @@ public class CVComponentTest extends TestCase
 				connection = getHsql();
 				params.put("REPORT_CONNECTION", connection);
 			}
+                        else if (ds != null)
+                        {
+                            params.put("REPORT_DATA_SOURCE", ds);
+                        }
 
 			jasperPrint = JasperFillManager.fillReport(report, params);
 			export(jasperPrint);
@@ -235,9 +255,11 @@ public class CVComponentTest extends TestCase
 		JasperExportManager.exportReportToHtmlFile(jasperPrint,
 				new File(outputDir, jasperPrint.getName() + ".html").getPath());
 
+                
 		JasperExportManager.exportReportToPdfFile(jasperPrint,
 				new File(outputDir, jasperPrint.getName() + ".pdf").getPath());
 
+                /*
 		JRDocxExporter docxExporter = new JRDocxExporter();
 		docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		docxExporter.setExporterOutput(
@@ -273,7 +295,7 @@ public class CVComponentTest extends TestCase
 		rtfExporter
 				.setExporterOutput(new SimpleWriterExporterOutput(new File(outputDir, jasperPrint.getName() + ".rtf")));
 		rtfExporter.exportReport();
-
+*/
 		// Other exporters, while possibly supported, are deprecated or no
 		// longer used.
 	}
@@ -286,5 +308,11 @@ public class CVComponentTest extends TestCase
 		String user = "sa";
 		String password = "";
 		return DriverManager.getConnection(connectString, user, password);
+	}
+        
+        
+        protected JRDataSource getJsonDataSource() throws Exception
+	{
+		return new JsonDataSource(new java.io.File(new java.io.File(".").getCanonicalPath(), "src/test/resources/data.json"));
 	}
 }

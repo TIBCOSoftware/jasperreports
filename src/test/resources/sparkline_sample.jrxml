@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.qualifier using JasperReports Library version 6.2.2  -->
-<!-- 2016-04-21T15:49:06 -->
+<!-- 2016-04-22T14:56:05 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sparkline_test" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c" whenNoDataType="AllSectionsNoDetail">
 	<subDataset name="Sample Dataset" uuid="389de2fa-2302-46df-88e2-d6ee19522008">
 		<field name="value" class="java.lang.String"/>
@@ -102,7 +102,7 @@ PNG Export: PhantomJS
 					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.min.dpi" value="300"/>
 					<property name="com.jaspersoft.jasperreports.components.customvisualization.png.antialias" value="true"/>
 				</reportElement>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" onErrorType="Icon">
 					<cvc:itemProperty name="module" value="sparkline"/>
 					<cvc:itemProperty name="css" value="Sparkline.css"/>
 					<cvc:itemProperty name="script" value="sparkline.min.js"/>

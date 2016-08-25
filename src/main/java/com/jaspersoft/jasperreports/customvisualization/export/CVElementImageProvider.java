@@ -38,6 +38,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.jaspersoft.jasperreports.customvisualization.CVConstants;
 import com.jaspersoft.jasperreports.customvisualization.CVPrintElement;
+import com.jaspersoft.jasperreports.customvisualization.CVUtils;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -50,6 +51,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.SimpleRenderToImageAwareDataRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
@@ -135,8 +137,10 @@ public abstract class CVElementImageProvider
 			{
 				createSvg = true;
 			}
+                        
+                        boolean renderAsPng = CVUtils.isRenderAsPng(element);
 			
-			String cacheKey = createSvg ? CVPrintElement.PARAMETER_SVG_CACHE_RENDERER : CVPrintElement.PARAMETER_PNG_CACHE_RENDERER;
+			String cacheKey = (createSvg && !renderAsPng) ? CVPrintElement.PARAMETER_SVG_CACHE_RENDERER : CVPrintElement.PARAMETER_PNG_CACHE_RENDERER;
 			
 			cacheRenderer = (Renderable) element.getParameterValue(cacheKey);
 			if (cacheRenderer == null)
@@ -145,14 +149,21 @@ public abstract class CVElementImageProvider
 				{
 					byte[] imageData = getImageData(jasperReportsContext, element, createSvg);
 
-					SimpleRenderToImageAwareDataRenderer renderer =
-						new SimpleRenderToImageAwareDataRenderer(imageData, null);
-					
-					
-					renderer.setMinDPI(propUtil.getIntegerProperty(element, CVConstants.CV_PNG_MIN_DPI, CVConstants.CV_PNG_MIN_DPI_DEFAULT_VALUE));
-					renderer.setAntiAlias(propUtil.getBooleanProperty(element, CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE));
+                                        if (renderAsPng)
+                                        {
+                                            cacheRenderer = new SimpleDataRenderer(imageData, null);
+                                        }
+                                        else
+                                        {
+                                            SimpleRenderToImageAwareDataRenderer renderer =
+                                                    new SimpleRenderToImageAwareDataRenderer(imageData, null);
 
-					cacheRenderer = renderer;
+
+                                            renderer.setMinDPI(propUtil.getIntegerProperty(element, CVConstants.CV_PNG_MIN_DPI, CVConstants.CV_PNG_MIN_DPI_DEFAULT_VALUE));
+                                            renderer.setAntiAlias(propUtil.getBooleanProperty(element, CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE));
+                                            cacheRenderer = renderer;
+                                        }
+    					
 				}
 				catch (Exception e)
 				{
