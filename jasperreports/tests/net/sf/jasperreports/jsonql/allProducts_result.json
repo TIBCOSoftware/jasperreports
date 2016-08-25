@@ -1,0 +1,34 @@
+[
+  {
+    "prodId": 1,
+    "prodQty": 3
+  },
+  {
+    "prodId": 5,
+    "prodQty": 2
+  },
+  {
+    "prodId": 34,
+    "prodQty": 5
+  },
+  {
+    "prodId": 135,
+    "prodQty": 6
+  },
+  {
+    "prodId": 2355,
+    "prodQty": 20
+  },
+  {
+    "prodId": 64,
+    "prodQty": 7
+  },
+  {
+    "prodId": 34,
+    "prodQty": 5
+  },
+  {
+    "prodId": 567,
+    "prodQty": 3
+  }
+]

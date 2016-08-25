@@ -103,6 +103,83 @@ public class JsonQLExpressionsTest {
         assert toArrayNode(jsonQL_3_result).equals(expectedResult);
     }
 
+    @Test
+    public void customerXproducts() throws JRException {
+        String jsonQL_1 = "customerXorders.products.*.*";
+        JsonNodeContainer jsonQL_1_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_1);
+
+        assert toArrayNode(jsonQL_1_result).equals(expectedResult);
+
+        String jsonQL_2 = "customerXorders..[prodId, prodQty]";
+        JsonNodeContainer jsonQL_2_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_2);
+
+        assert toArrayNode(jsonQL_2_result).equals(expectedResult);
+
+        String jsonQL_3 = "customerXorders.products..[prodId, prodQty]";
+        JsonNodeContainer jsonQL_3_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_3);
+
+        assert toArrayNode(jsonQL_3_result).equals(expectedResult);
+
+        String jsonQL_4 = "..products[0,1].*.*";
+        JsonNodeContainer jsonQL_4_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_4);
+
+        assert toArrayNode(jsonQL_4_result).equals(expectedResult);
+
+        String jsonQL_5 = "..*(prodId != null && (^{2}.orderId == 1001 || ^^.orderId == 1002))";
+        JsonNodeContainer jsonQL_5_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_5);
+
+        assert toArrayNode(jsonQL_5_result).equals(expectedResult);
+
+        String jsonQL_6 = "*[0]..[prodId, prodQty]";
+        JsonNodeContainer jsonQL_6_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_6);
+
+        assert toArrayNode(jsonQL_6_result).equals(expectedResult);
+    }
+
+    @Test
+    public void allProducts() throws JRException {
+        String jsonQL_1 = "..[prodId, prodQty]";
+        JsonNodeContainer jsonQL_1_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_1);
+
+        assert toArrayNode(jsonQL_1_result).equals(expectedResult);
+
+        String jsonQL_2 = "..*(prodId != null)";
+        JsonNodeContainer jsonQL_2_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_2);
+
+        assert toArrayNode(jsonQL_2_result).equals(expectedResult);
+    }
+
+    @Test
+    public void productsOfShippedOrders() throws JRException {
+        String jsonQL_1 = "..[prodId, prodQty](^^^.shipped == null)";
+        JsonNodeContainer jsonQL_1_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_1);
+
+        assert toArrayNode(jsonQL_1_result).equals(expectedResult);
+
+        String jsonQL_2 = "..*(prodId != null && ^^.shippedOn != null)";
+        JsonNodeContainer jsonQL_2_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_2);
+
+        assert toArrayNode(jsonQL_2_result).equals(expectedResult);
+
+        String jsonQL_3 = "..shippedOn(@val != null)^..[prodId, prodQty]";
+        JsonNodeContainer jsonQL_3_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_3);
+
+        assert toArrayNode(jsonQL_3_result).equals(expectedResult);
+
+        String jsonQL_4 = "..products(^.shippedOn != null)..[prodId, prodQty]";
+        JsonNodeContainer jsonQL_4_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_4);
+
+        assert toArrayNode(jsonQL_4_result).equals(expectedResult);
+    }
+
+    @Test
+    public void productsOfOrdersWithAtLeast2products() throws JRException {
+        String jsonQL_1 = "..products(*@size >=2)..*(prodId != null)";
+        JsonNodeContainer jsonQL_1_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_1);
+
+        assert toArrayNode(jsonQL_1_result).equals(expectedResult);
+    }
+
     private ArrayNode toArrayNode(JsonNodeContainer container) {
         ArrayNode result = jsonQLExecuter.getEvaluator().getEvaluationContext().getObjectMapper().createArrayNode();
 

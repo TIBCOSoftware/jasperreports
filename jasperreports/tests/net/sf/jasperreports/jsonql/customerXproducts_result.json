@@ -1,0 +1,14 @@
+[
+  {
+    "prodId": 1,
+    "prodQty": 3
+  },
+  {
+    "prodId": 5,
+    "prodQty": 2
+  },
+  {
+    "prodId": 34,
+    "prodQty": 5
+  }
+]
