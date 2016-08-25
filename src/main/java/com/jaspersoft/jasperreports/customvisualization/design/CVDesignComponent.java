@@ -118,6 +118,7 @@ public class CVDesignComponent implements CVComponent, net.sf.jasperreports.engi
 		{
 			clone = (CVDesignComponent) super.clone();
 			clone.itemProperties = JRCloneUtils.cloneList(itemProperties);
+			clone.itemDataList = JRCloneUtils.cloneList(itemDataList);
 
 			return clone;
 		}
