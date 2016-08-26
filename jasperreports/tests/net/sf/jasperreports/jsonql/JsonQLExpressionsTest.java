@@ -147,6 +147,21 @@ public class JsonQLExpressionsTest {
         JsonNodeContainer jsonQL_2_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_2);
 
         assert toArrayNode(jsonQL_2_result).equals(expectedResult);
+
+        String jsonQL_3 = "..prodId(@isNotNull)^";
+        JsonNodeContainer jsonQL_3_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_3);
+
+        assert toArrayNode(jsonQL_3_result).equals(expectedResult);
+
+        String jsonQL_4 = "..prodId(!@isNull)^";
+        JsonNodeContainer jsonQL_4_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_4);
+
+        assert toArrayNode(jsonQL_4_result).equals(expectedResult);
+
+        String jsonQL_5 = "..prodId(@val != null)^";
+        JsonNodeContainer jsonQL_5_result = jsonQLExecuter.evaluateExpression(jrJsonNode, jsonQL_5);
+
+        assert toArrayNode(jsonQL_5_result).equals(expectedResult);
     }
 
     @Test
