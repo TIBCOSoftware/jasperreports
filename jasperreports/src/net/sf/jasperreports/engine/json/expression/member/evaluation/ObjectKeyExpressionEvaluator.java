@@ -140,7 +140,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
             }
             // else go down and filter
             else {
-                JRJsonNode deeperNode = goDeeperIntoObjectNode(jrJsonNode);
+                JRJsonNode deeperNode = goDeeperIntoObjectNode(jrJsonNode, isCalledFromFilter);
                 if (deeperNode != null) {
                     result.add(deeperNode);
                 }
@@ -208,7 +208,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
                 }
                 // else go down and filter
                 else {
-                    JRJsonNode deeperNode = goDeeperIntoObjectNode(stackNode);
+                    JRJsonNode deeperNode = goDeeperIntoObjectNode(stackNode, false);
                     if (deeperNode != null) {
                         result.add(deeperNode);
                     }
@@ -230,7 +230,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
         return result;
     }
 
-    private JRJsonNode goDeeperIntoObjectNode(JRJsonNode jrJsonNode) {
+    private JRJsonNode goDeeperIntoObjectNode(JRJsonNode jrJsonNode, boolean keepMissingNode) {
         ObjectNode dataNode = (ObjectNode) jrJsonNode.getDataNode();
 
         // allow missing nodes to be returned
@@ -246,7 +246,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
             }
         }
         // Filtering expressions need the missing node to check for null
-        else if (isCalledFromFilter && deeperNode.isMissingNode()) {
+        else if (keepMissingNode && deeperNode.isMissingNode()) {
             return jrJsonNode.createChild(deeperNode);
         }
 
