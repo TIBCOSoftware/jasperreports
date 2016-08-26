@@ -157,9 +157,18 @@ basicExpr
     ;
 
 filterNaviExpr
-    : sizeFnExpr
+    : pathTypeCheckExpr
+    | sizeFnExpr
     | valueFnExpr
-    | (pathNaviExpr)+ (sizeFnExpr | operator_to_value)
+    | (pathNaviExpr)+ (pathTypeCheckExpr | sizeFnExpr | operator_to_value)
+    ;
+
+pathTypeCheckExpr
+    : AT_IS_NULL
+    | AT_IS_NOT_NULL
+    | AT_IS_ARRAY
+    | AT_IS_OBJECT
+    | AT_IS_VALUE
     ;
 
 sizeFnExpr
@@ -331,23 +340,45 @@ filterExprMinimal returns [BasicFilterExpression filterExpression = new BasicFil
             ValueDescriptor val = null;
             JsonOperatorEnum op = null;
         }
-    : (AT_SIZE | valFn:AT_VALUE) op=operator val=value
+    : (sizeFn:AT_SIZE | AT_VALUE) op=operator val=value
         {
-            if (valFn != null) {
-                filterExpression.setIsValueFunction(true);
-            } else {
+            if (sizeFn != null) {
                 filterExpression.setIsSizeFunction(true);
             }
             filterExpression.setOperator(op);
             filterExpression.setValueDescriptor(val);
         }
-    | (filterMemberExpr[filterExpression])+ (szFn:AT_SIZE)? op=operator val=value
+    | pathTypeCheckExpr[filterExpression]
+    | (filterMemberExpr[filterExpression])+ (pathTypeCheckExpr[filterExpression] | ((szFn:AT_SIZE)? op=operator val=value))
         {
             if (szFn != null) {
                 filterExpression.setIsSizeFunction(true);
             }
             filterExpression.setOperator(op);
             filterExpression.setValueDescriptor(val);
+        }
+    ;
+
+pathTypeCheckExpr [BasicFilterExpression filterExpression]
+    : AT_IS_NULL
+        {
+            filterExpression.setIsNullFunction(true);
+        }
+    | AT_IS_NOT_NULL
+        {
+            filterExpression.setIsNotNullFunction(true);
+        }
+    | AT_IS_ARRAY
+        {
+            filterExpression.setIsArrayFunction(true);
+        }
+    | AT_IS_OBJECT
+        {
+            filterExpression.setIsObjectFunction(true);
+        }
+    | AT_IS_VALUE
+        {
+            filterExpression.setIsValueFunction(true);
         }
     ;
 
@@ -486,6 +517,13 @@ AT_SIZE
 AT_VALUE
     : "@val"
     ;
+TYPE_CHECK
+    : ("@isNotNull") => AT_IS_NOT_NULL { $setType(AT_IS_NOT_NULL); }
+    | ("@isNull") => AT_IS_NULL { $setType(AT_IS_NULL); }
+    | ("@isArray") => AT_IS_ARRAY { $setType(AT_IS_ARRAY); }
+    | ("@isObject") => AT_IS_OBJECT { $setType(AT_IS_OBJECT); }
+    | ("@isValue") => AT_IS_VALUE { $setType(AT_IS_VALUE); }
+    ;
 STRING
     : '"'! (ESC | ~('"' | '\\'))* '"'!
     ;
@@ -558,4 +596,19 @@ protected ID_START_LETTER
 protected ID_LETTER
     : ID_START_LETTER
     | DIGIT
+    ;
+protected AT_IS_NULL
+    : "@isNull"
+    ;
+protected AT_IS_NOT_NULL
+    : "@isNotNull"
+    ;
+protected AT_IS_ARRAY
+    : "@isArray"
+    ;
+protected AT_IS_OBJECT
+    : "@isObject"
+    ;
+protected AT_IS_VALUE
+    : "@isValue"
     ;

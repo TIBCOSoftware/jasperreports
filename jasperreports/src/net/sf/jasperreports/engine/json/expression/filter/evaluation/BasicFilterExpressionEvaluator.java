@@ -89,8 +89,64 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                     ", cSize: " + memberEval.getContainerSize() + ")");
         }
 
+        // check for null first
+        if (expression.isNullFunction()) {
+            if (log.isDebugEnabled()) {
+                log.debug("expression isNullFunction");
+            }
+
+            if (memberEval.getSize() == 1 &&
+                    (memberEval.getFirst().getDataNode().isNull() ||
+                            memberEval.getFirst().getDataNode().isMissingNode())) {
+                result = true;
+            }
+        }
+        // check for not null on everything except null and missing nodes
+        else if (expression.isNotNullFunction()) {
+            if (log.isDebugEnabled()) {
+                log.debug("expression isNotNullFunction");
+            }
+
+            if (memberEval.getSize() > 1 ||
+                    memberEval.getSize() == 1 &&
+                            !(memberEval.getFirst().getDataNode().isNull() ||
+                                    memberEval.getFirst().getDataNode().isMissingNode())) {
+                result = true;
+            }
+        }
+        else if (expression.isArrayFunction()) {
+            if (log.isDebugEnabled()) {
+                log.debug("expression isArrayFunction");
+            }
+
+            if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isArray()) {
+                return true;
+            }
+        }
+        else if (expression.isObjectFunction()) {
+            if (log.isDebugEnabled()) {
+                log.debug("expression isObjectFunction");
+            }
+
+            if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isObject()) {
+                return true;
+            }
+        }
+        else if (expression.isValueFunction()) {
+            if (log.isDebugEnabled()) {
+                log.debug("expression isValueFunction");
+            }
+
+            if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isValueNode()) {
+                return true;
+            }
+        }
         // the size is only checked on an array object
-        if (expression.isSizeFunction()) {
+        else if (expression.isSizeFunction()) {
+            if (log.isDebugEnabled()) {
+                log.debug("expression isSizeFunction");
+            }
+
             if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isArray()) {
                 result = applySizeOperator(memberEval.getContainerSize());
             }

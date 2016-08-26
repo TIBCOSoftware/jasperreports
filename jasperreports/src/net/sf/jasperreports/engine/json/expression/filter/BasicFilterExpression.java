@@ -39,6 +39,10 @@ public class BasicFilterExpression implements FilterExpression {
     private JsonOperatorEnum operator;
     private ValueDescriptor valueDescriptor;
     private boolean isSizeFunction;
+    private boolean isNullFunction;
+    private boolean isNotNullFunction;
+    private boolean isArrayFunction;
+    private boolean isObjectFunction;
     private boolean isValueFunction;
 
 
@@ -82,6 +86,38 @@ public class BasicFilterExpression implements FilterExpression {
         this.isSizeFunction = isSizeFunction;
     }
 
+    public boolean isNullFunction() {
+        return isNullFunction;
+    }
+
+    public void setIsNullFunction(boolean isNullFunction) {
+        this.isNullFunction = isNullFunction;
+    }
+
+    public boolean isNotNullFunction() {
+        return isNotNullFunction;
+    }
+
+    public void setIsNotNullFunction(boolean isNotNullFunction) {
+        this.isNotNullFunction = isNotNullFunction;
+    }
+
+    public boolean isArrayFunction() {
+        return isArrayFunction;
+    }
+
+    public void setIsArrayFunction(boolean isArrayFunction) {
+        this.isArrayFunction = isArrayFunction;
+    }
+
+    public boolean isObjectFunction() {
+        return isObjectFunction;
+    }
+
+    public void setIsObjectFunction(boolean isObjectFunction) {
+        this.isObjectFunction = isObjectFunction;
+    }
+
     public boolean isValueFunction() {
         return isValueFunction;
     }
@@ -100,10 +136,14 @@ public class BasicFilterExpression implements FilterExpression {
 
         if (isSizeFunction) {
             result += "isSizeFn";
-        }
-
-        if (isValueFunction) {
+        } else if (isValueFunction) {
             result += "isValueFn";
+        } else if (isArrayFunction) {
+            result += "isArrayFn";
+        } else if (isNotNullFunction) {
+            result += "isNotNullFn";
+        } else if (isObjectFunction) {
+            result += "isObjectFn";
         }
 
         return result + " " + operator + " " + valueDescriptor;
