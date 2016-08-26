@@ -549,6 +549,17 @@ NEWLINE
             $setType(Token.SKIP);
         }
     ;
+SINGLE_LINE_COMMENT
+    : "//" (~('\r'|'\n'))* ("\r\n"|'\r'|'\n')?
+        {
+            newline();
+            $setType(Token.SKIP);
+        }
+    ;
+MULTI_LINE_COMMENT
+    : "/*" (options {greedy=false;} :.)* "*/"
+        { $setType(Token.SKIP); }
+    ;
 protected ABSOLUTE
     : '$'
     ;

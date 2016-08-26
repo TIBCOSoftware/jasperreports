@@ -79,11 +79,13 @@ public interface JsonQueryParserTokenTypes {
 	int ID_OR_ABSOLUTE = 52;
 	int INT_OR_REAL_OR_DOTS = 53;
 	int NEWLINE = 54;
-	int WS = 55;
-	int DIGIT = 56;
-	int FRAC = 57;
-	int EXP = 58;
-	int ESC = 59;
-	int ID_START_LETTER = 60;
-	int ID_LETTER = 61;
+	int SINGLE_LINE_COMMENT = 55;
+	int MULTI_LINE_COMMENT = 56;
+	int WS = 57;
+	int DIGIT = 58;
+	int FRAC = 59;
+	int EXP = 60;
+	int ESC = 61;
+	int ID_START_LETTER = 62;
+	int ID_LETTER = 63;
 }

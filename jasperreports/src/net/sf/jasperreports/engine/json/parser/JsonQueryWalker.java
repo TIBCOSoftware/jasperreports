@@ -1264,6 +1264,8 @@ public JsonQueryWalker() {
 		"ID_OR_ABSOLUTE",
 		"INT_OR_REAL_OR_DOTS",
 		"NEWLINE",
+		"SINGLE_LINE_COMMENT",
+		"MULTI_LINE_COMMENT",
 		"WS",
 		"DIGIT",
 		"FRAC",
