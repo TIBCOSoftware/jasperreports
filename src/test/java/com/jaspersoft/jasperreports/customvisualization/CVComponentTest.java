@@ -26,6 +26,7 @@
  ******************************************************************************/
 package com.jaspersoft.jasperreports.customvisualization;
 
+import com.jaspersoft.jasperreports.customvisualization.export.CVElementPhantomJSImageProvider;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,6 +111,26 @@ public class CVComponentTest extends TestCase
 		// System.out.println("Templates directory: " + templatesDirectory );
 		System.out.println("Default encoding: " + Charset.defaultCharset().displayName());
 
+                String phantomJsPath = System.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
+                if (phantomJsPath != null)
+                {
+                    System.out.println("Loading phantomjs from: " + phantomJsPath);
+                    context.setProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH, phantomJsPath);
+                }
+                else
+                {
+                    File guessedPath = new File("/usr/local/bin/phantomjs");
+                    if (guessedPath.exists())
+                    {
+                        System.out.println("Found phantomjs at " + guessedPath.getAbsolutePath());
+                        context.setProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH, guessedPath.getAbsolutePath());
+                    }
+                    else
+                    {
+                        System.out.println("No phantomjs property set, assuming it is in the path");
+                    }
+                }
+                
 		context.setProperty(CVConstants.CV_REQUIREJS_PROPERTY, "file://" + scriptsDirectory + "/require.js");
                 
                 context.setProperty("cv.keepTemporaryFiles", "true");
