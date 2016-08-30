@@ -35,6 +35,7 @@
 					<cvc:itemProperty name="lon" value="0.5795"/>
 					<cvc:itemProperty name="zoom" value="2"/>
                                         <cvc:itemProperty name="renderAsPng" value="true"/>
+                                        <cvc:itemProperty name="render-timeout" value="15000"/>
 					<cvc:cvData>
 						<dataset/>
 						<cvc:item>
