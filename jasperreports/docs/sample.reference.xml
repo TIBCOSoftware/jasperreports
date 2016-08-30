@@ -97,6 +97,7 @@
       <feature name="xmldatasource" sample="xmldatasource" title="XML Data Source"/>
       <feature name="xpathqueryexecuter" sample="xmldatasource" title="XPath Query Executer"/>
       <feature name="jsondatasource" sample="jsondatasource" title="JSON Data Source"/>
+      <feature name="jsonqldatasource" sample="jsonqldatasource" title="JSONQL Data Source"/>
     </content>
   </category>
   

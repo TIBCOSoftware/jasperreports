@@ -93,6 +93,33 @@
 	color: inherit;
 }
 
+.doctable {
+    border-collapse: collapse;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.doctable th, .doctable td {
+    border-bottom: 1px solid gray;
+    padding: 5px 10px;
+}
+
+.doctable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.doctable td.green {
+    color: green;
+}
+
+.doctable td.red {
+    color: red;
+}
+
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -472,5 +499,30 @@ ga('send', 'pageview');
   <br/>
 </xsl:template>
 
+<xsl:template match="doctable">
+    <table class="doctable">
+        <xsl:apply-templates/>
+    </table>
+</xsl:template>
+
+<xsl:template match="th">
+    <xsl:element name="th"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+<xsl:template match="tr">
+    <xsl:element name="tr"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+<xsl:template match="td">
+    <xsl:element name="td"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+<xsl:template match="greentd">
+    <td class="green"><xsl:apply-templates/></td>
+</xsl:template>
+
+<xsl:template match="redtd">
+    <td class="red"><xsl:apply-templates/></td>
+</xsl:template>
 
 </xsl:stylesheet>

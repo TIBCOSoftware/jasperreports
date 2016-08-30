@@ -1,4 +1,246 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <sample>
-  TBD
+
+  <name>jsonqldatasource</name>
+  <title>JSONQL Data Source Sample</title>
+  <description></description>
+
+  <mainFeature ref="jsonqldatasource"/>
+
+  <!-- jsonqldatasource -->
+
+  <feature name="jsonqldatasource" title="JSONQL Data Source">
+    <description>How to fill a report with data from a JSON file using the JSONQL query language.</description>
+    <since>6.3.1</since>
+    <documentedBy>
+      <author>
+        <name>Narcis Marcu</name>
+        <email>narcism@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+      <b>JSONQL Data Source Overview</b>
+      <br/>
+      <br/>
+      JSONQL stands for <b>JSON</b> <b>Q</b>uery <b>L</b>anguage and it is meant to replace the existing language(simply called JSON) for
+      querying JSON data, but in a separate implementation as they are not compatible in terms of syntax and complexity.
+      <br/>
+      It is recommended that you choose JSONQL over JSON due to its extended capabilities of traversing and filtering JSON structures.
+      <br/>
+      <br/>
+      The table below gives an overview of some of the features found in the new JSONQL language in comparison to the existing ones in the JSON language.
+      <br/>
+      The examples are based on the restructured <code>data/northwind.json</code> source file.
+      <br/>
+      <br/>
+      <doctable>
+        <tr>
+          <th>Feature</th>
+          <th>JSONQL</th>
+          <th>JSON</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Dot-separated path for simple object keys</td>
+          <td>Northwind.Customers.Address</td>
+          <greentd>[the same]</greentd>
+          <td>The addresses of all customers</td>
+        </tr>
+        <tr>
+          <td>Path for complex object keys</td>
+          <td>Northwind.Customers["Company Name"]</td>
+          <redtd>[not possible]</redtd>
+          <td>The company names of all customers</td>
+        </tr>
+        <tr>
+          <td>Array index based selection</td>
+          <td>Northwind.Customers[0].Orders[0]</td>
+          <greentd>[the same]</greentd>
+          <td>The first order of the first customer</td>
+        </tr>
+        <tr>
+          <td>Object construction expression</td>
+          <td>Northwind.Customers[0].Orders[OrderId, OrderDate]</td>
+          <redtd>[not possible]</redtd>
+          <td>Select only OrderId and OrderDate from the orders of the first customer</td>
+        </tr>
+        <tr>
+          <td>Deep traversal</td>
+          <td>..[OrderId, OrderDate, ShippedDate, Freight]</td>
+          <redtd>[not possible]</redtd>
+          <td>Select the OrderId, OrderDate, ShippedDate and Freight from anywhere</td>
+        </tr>
+        <tr>
+          <td>Filtering with simple expression</td>
+          <td>Northwind.Customers.*(City == "México D.F.")</td>
+          <td>Northwind.Customers(City == México D.F.)</td>
+          <td>Customers from México D.F.</td>
+        </tr>
+        <tr>
+          <td>Filtering with complex expression</td>
+          <td><![CDATA[ Northwind.Customers.Orders.*(Freight > 200 && OrderDate *= "1997") ]]></td>
+          <redtd>[not possible]</redtd>
+          <td>Orders for which the Freight is greater than 200 and OrderDate contains 1997</td>
+        </tr>
+        <tr>
+          <td>Going up the JSON tree</td>
+          <td>..OrderDate(@val == "1997-10-03")^{3} or<br/> ..OrderDate(@val == "1997-10-03")^^^</td>
+          <redtd>[not possible]</redtd>
+          <td>The parent customers(3 levels up) for which there is an order with OrderDate<br/> that equals "1997-10-03"</td>
+        </tr>
+      </doctable>
+
+      <br/>
+      <b>The JSONQL Query Executer</b>
+      <br/>
+      <br/>
+      It is triggered when the <code><b>jsonql</b></code> language is specified:
+      <ul>
+        <li> at report level:
+        <pre><![CDATA[
+<queryString language="jsonql">
+  <![CDATA[ ..Orders(@size > 1).* ]] >
+</queryString>]]></pre>
+        </li>
+        <li> or in the data adapter:
+      <pre><![CDATA[
+<jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
+  ...
+  <language>jsonql</language>
+  ...
+</jsonDataAdapter>]]></pre>
+        </li>
+      </ul>
+      <br/>
+      The <api href="net/sf/jasperreports/engine/query/JsonQLQueryExecuter.html">JsonQLQueryExecuter</api> uses the query string to produce a
+      <api href="net/sf/jasperreports/engine/data/JsonQLDataSource.html">JsonQLDataSource</api> instance,
+      based on the same built-in parameters (or equivalent report properties) as for the existing
+      <api href="net/sf/jasperreports/engine/data/JsonDataSource.html">JsonDataSource</api>. This query executer is registered via
+      <api href="net/sf/jasperreports/engine/query/JsonQLQueryExecuterFactory.html">JsonQLQueryExecuterFactory</api> factory class.
+      <br/>
+      <br/>
+      As in the case of the existing JSON query executer, in order to prepare the data source, the JSONQL query executer looks for the
+      <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter that contains the JSON
+      source objects in the form of an <code>java.io.InputStream</code>. If no
+      <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_INPUT_STREAM">JSON_INPUT_STREAM</api> parameter is provided, then
+      the query executer looks for the alternate <api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_SOURCE">net.sf.jasperreports.json.source</api>
+      <code>java.lang.String</code> parameter or report property that stores the path to the location of the JSON source file.
+      <br/>
+      <br/>
+      <api href="net/sf/jasperreports/engine/query/JsonQLQueryExecuter.html">JsonQLQueryExecuter</api> runs the query over the input source and stores
+      the result in an in-memory <api href="net/sf/jasperreports/engine/data/JsonQLDataSource.html">JsonQLDataSource</api> object.
+      <br/>
+      <br/>
+      During the JsonQLDataSource instantiation, the query executer also looks for the following additional parameters or report properties, containing the required localization settings:
+      <ul>
+        <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_DATE_PATTERN">net.sf.jasperreports.json.date.pattern</api></li>
+        <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_NUMBER_PATTERN">net.sf.jasperreports.json.number.pattern</api></li>
+        <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_LOCALE">JSON_LOCALE</api> (parameter only) of type <code>java.util.Locale</code></li>
+        <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_LOCALE_CODE">net.sf.jasperreports.json.locale.code</api> of type <code>java.lang.String</code>;
+          this can be used if no <code>java.util.Locale</code> parameter is available</li>
+        <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE">JSON_TIME_ZONE</api> (parameter only) of type <code>java.util.TimeZone</code></li>
+        <li><api href="net/sf/jasperreports/engine/query/JsonQueryExecuterFactory.html#JSON_TIME_ZONE_ID">net.sf.jasperreports.json.timezone.id</api> of type <code>java.lang.String</code>;
+          this can be used if no <code>java.util.TimeZone</code> parameter is available</li>
+      </ul>
+      In the next section you can see how these additional parameters are provided in the <code>/src/JsonQLDataSourceApp.java</code> class.
+      <br/>
+      <br/>
+      <b>The JSONQL Data Source Sample</b>
+      <br/>
+      <br/>
+      In our example, the data is stored as a hierarchy of <code>Northwind.Customers.Orders</code> objects in the <code>data/northwind.json</code> file.
+      <br/>
+      The JSONQL configuration is done in the <code>data/northwindDataAdapter.xml</code> data adapter file that is provided in the
+      <code>reports/NorthwindOrdersReport.jrxml</code> via the report property:
+      <pre><![CDATA[
+<property name="net.sf.jasperreports.data.adapter" value="data/northwindDataAdapter.xml"/>]]></pre>
+      In the <code>NorthwindOrdersReport</code> we run a JSONQL query in order to retrieve orders from anywhere:
+      <pre><![CDATA[
+<queryString language="json">
+  <![CDATA[ ..Orders(@size > 1).* ]] >
+</queryString>]]></pre>
+
+      In reversed order of application, the query simply translates to: "Select the children(.*) of Orders - with size greater than 1 - from anywhere"
+      <br/>
+      <br/>
+      This query is possible since the <code>Orders</code> property of each customer is an array.
+      Therefore we can apply an array specific filtering function to each value for the Orders property.
+      In this case we are interested in the Orders that have more than one element.
+      <br/>
+      <br/>
+      The "get children" expression <code><b>.*</b></code> is necessary here because without it we would be
+      looking at an array of arrays(an array with the arrays that the Orders properties point to) and not an
+      array of objects that we are interested in.
+      <br/>
+      <br/>
+      The properties (fields) that we are interested in are:
+      <ol>
+        <li>properties of the order itself: <code>OrderID</code>, <code>OrderDate</code> and <code>Freight</code>
+          <pre><![CDATA[
+<field name="Id" class="java.lang.String">
+  <property name="net.sf.jasperreports.jsonql.field.expression" value="OrderID"/>
+</field>
+<field name="OrderDate" class="java.util.Date">
+  <property name="net.sf.jasperreports.jsonql.field.expression" value="OrderDate"/>
+</field>
+<field name="Freight" class="java.lang.Float">
+  <property name="net.sf.jasperreports.jsonql.field.expression" value="Freight"/>
+</field>
+]]></pre>
+        </li>
+        <li>properties of the parent customer object: <code>City</code>, <code>CustomerID</code> and <code>Company Name</code>
+          <br/>
+          that are obtained by going up 2 levels
+        <pre><![CDATA[
+<field name="ShipCity" class="java.lang.String">
+  <property name="net.sf.jasperreports.jsonql.field.expression" value="^{2}.City"/>
+<fieldDescription><![CDATA[ Go up by two levels then select City ]] ></fieldDescription>
+</field>
+<field name="CustomerID" class="java.lang.String">
+  <property name="net.sf.jasperreports.jsonql.field.expression" value="^{2}.CustomerID"/>
+  <fieldDescription><![CDATA[ Go up by two levels then select CustomerID ]] ></fieldDescription>
+</field>
+<field name="CompanyName" class="java.lang.String">
+  <propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA[ "^^[\"Company Name\"]" ]] ></propertyExpression>
+  <fieldDescription><![CDATA[ Go up twice by 1 level then select CompanyName ]] ></fieldDescription>
+</field>
+]]></pre>
+        </li>
+      </ol>
+
+      <br/>
+      The rest of the configuration necessary for this sample to work is done in the data adapter file: <code>data/northwindDataAdapter.xml</code>
+      <pre><![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
+  <name>NorthWind JsonQL DA</name>
+  <fileName>/data/northwind.json</fileName>
+  <useConnection>true</useConnection>
+  <language>jsonql</language>
+  <datePattern>yyyy-MM-dd</datePattern>
+  <numberPattern>#,##0.##</numberPattern>
+</jsonDataAdapter>
+      ]]></pre>
+
+      Here we specify:
+      <ul>
+        <li>the source file with the JSON data: <code>/data/northwind.json</code></li>
+        <li>the fact that we want to use the existing connection and the report's <code>queryString</code> by setting the <code>useConnection</code> flag to <code>true</code></li>
+        <li>the language of our query: <code><b>jsonql</b></code>; it is optional in this case since we are using the report's <code>queryString</code> that already specifies the language</li>
+        <li>the date pattern used to parse the date fields</li>
+        <li>the numeric pattern used to parse the numeric fields</li>
+      </ul>
+
+      <b>Running the Sample</b>
+      <br/>
+      <br/>
+      Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+      <br/>
+      In a command prompt/terminal window set the current folder to <code>demo/samples/jsonqldatasource</code> within the JasperReports source project and run the <code>&gt; ant test </code> command.
+      <br/>
+      It will generate PDF and HTML document types containing the sample report(s) in the <code>demo/samples/jsonqldatasource/build/reports</code> directory.
+    </content>
+  </feature>
+
 </sample>
