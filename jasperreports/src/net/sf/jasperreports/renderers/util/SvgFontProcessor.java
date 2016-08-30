@@ -151,14 +151,14 @@ public abstract class SvgFontProcessor
 	
 	private void processFontAttributes(Element styleElement)
 	{
-		String fontFamily = null;
+		String fontFamilyAttrValue = null;
 
 		NamedNodeMap attributes = styleElement.getAttributes();
 		
 		Node fontFamilyAttrNode = attributes.getNamedItem(SVG_ATTRIBUTE_fontFamily);
 		if (fontFamilyAttrNode != null)
 		{
-			fontFamily = fontFamilyAttrNode.getNodeValue();
+			fontFamilyAttrValue = fontFamilyAttrNode.getNodeValue();
 		}
 		
 		// values from style property takes precedence over values from attributes
@@ -169,42 +169,60 @@ public abstract class SvgFontProcessor
 			String styleFontFamily = getFontFamily(styleAttrNode.getNodeValue());
 			if (styleFontFamily != null)
 			{
-				fontFamily = styleFontFamily;
+				fontFamilyAttrValue = styleFontFamily;
 			}
 		}
 		
-		if (fontFamily != null)
+		if (fontFamilyAttrValue != null)
 		{
-			if (
-				fontFamily.startsWith("'")
-				&& fontFamily.endsWith("'")
-				)
+			StringBuilder newFamilyNameAttrValue = new StringBuilder();
+			
+			boolean firstToken = true;
+			String[] fontFamilyTokens = fontFamilyAttrValue.split(",");
+			for (String fontFamilyToken : fontFamilyTokens)
 			{
-				fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
-			}
+				if (!firstToken)
+				{
+					newFamilyNameAttrValue.append(",");
+				}
+				
+				String fontFamily = fontFamilyToken.trim();
+				
+				if (
+					fontFamily.startsWith("'")
+					&& fontFamily.endsWith("'") 
+					)
+				{
+					fontFamily = fontFamily.substring(1, fontFamily.length() - 1);
+				}
+				
+				// svg font-family could have locale suffix because it is needed in svg measured by phantomjs
+				int localeSeparatorPos = fontFamily.lastIndexOf(HtmlFontFamily.LOCALE_SEPARATOR);
+				if (localeSeparatorPos > 0)
+				{
+					fontFamily = fontFamily.substring(0, localeSeparatorPos);
+				}
 
-			// svg font-family could have locale suffix because it is needed in svg measured by phantomjs
-			int localeSeparatorPos = fontFamily.lastIndexOf(HtmlFontFamily.LOCALE_SEPARATOR);
-			if (localeSeparatorPos > 0)
-			{
-				fontFamily = fontFamily.substring(0, localeSeparatorPos);
-			}
+				fontFamily = 
+					getFontFamily(
+						fontFamily, 
+						locale //FIXMEBATIK could use locale from svg above
+						);
+						
+				newFamilyNameAttrValue.append(" " + fontFamily);
 
-			fontFamily = 
-				getFontFamily(
-					fontFamily, 
-					locale //FIXMEBATIK could use locale from svg above
-					);
+				firstToken = false;
+			}
 
 			if (styleAttrNode == null)
 			{
 				// do not put single quotes around family name here because the value might already contain quotes, 
 				// especially if it is coming from font extension export configuration
-				styleElement.setAttribute(SVG_ATTRIBUTE_fontFamily, fontFamily);
+				styleElement.setAttribute(SVG_ATTRIBUTE_fontFamily, newFamilyNameAttrValue.toString());
 			}
 			else
 			{
-				String newStyleAttr = replaceOrAddFontFamilyInStyle(styleAttrNode.getNodeValue(), fontFamily);
+				String newStyleAttr = replaceOrAddFontFamilyInStyle(styleAttrNode.getNodeValue(), newFamilyNameAttrValue.toString());
 				styleElement.setAttribute(SVG_ATTRIBUTE_style, newStyleAttr);
 			}
 		}
