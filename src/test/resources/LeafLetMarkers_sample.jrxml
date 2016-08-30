@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.qualifier using JasperReports Library version 6.3.1  -->
-<!-- 2016-07-22T18:53:05 -->
+<!-- 2016-07-27T19:50:48 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LeafLetMarkers_sample" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Store locations JSON"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -14,8 +14,12 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver-pro/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin|organization_1"/>
-	<property name="ireport.jasperserver.reportUnit" value="/public/Samples/LeafLetMarkers_sample"/>
+	<property name="ireport.jasperserver.reportUnit" value="/public/Samples/Reports/LeafLetMarkers_sample"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.report.resource" value="/public/Samples/Reports/LeafLetMarkers_sample_files/main_jrxml"/>
+	<queryString>
+		<![CDATA[select store_name, lat, long from store]]>
+	</queryString>
 	<field name="store_name" class="java.lang.String"/>
 	<field name="lat" class="java.math.BigDecimal"/>
 	<field name="long" class="java.math.BigDecimal"/>
@@ -24,34 +28,41 @@
 	</background>
 	<title>
 		<band height="555" splitType="Stretch">
-			<componentElement>
-				<reportElement x="0" y="0" width="800" height="431" uuid="9e849601-d341-4b23-9a49-22d55ba16ff8"/>
-				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
-					<cvc:itemProperty name="script" value="LeafLetMarkers.min.js"/>
-					<cvc:itemProperty name="css" value="leaflet.css"/>
-					<cvc:itemProperty name="module" value="LeafLetMarkers"/>
-					<cvc:itemProperty name="dataUrl" value="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"/>
-					<cvc:itemProperty name="lat" value="39.8282"/>
-					<cvc:itemProperty name="lon" value="0.5795"/>
-					<cvc:itemProperty name="zoom" value="2"/>
-                                        <cvc:itemProperty name="renderAsPng" value="true"/>
-                                        <cvc:itemProperty name="render-timeout" value="15000"/>
-					<cvc:cvData>
-						<dataset/>
-						<cvc:item>
-							<cvc:itemProperty name="lon">
-								<valueExpression><![CDATA[$F{long}]]></valueExpression>
-							</cvc:itemProperty>
-							<cvc:itemProperty name="label" value="0">
-								<valueExpression><![CDATA[$F{store_name}]]></valueExpression>
-							</cvc:itemProperty>
-							<cvc:itemProperty name="lat" value="0">
-								<valueExpression><![CDATA[$F{lat}]]></valueExpression>
-							</cvc:itemProperty>
-						</cvc:item>
-					</cvc:cvData>
-				</cvc:customvisualization>
-			</componentElement>
+			<frame>
+				<reportElement x="0" y="0" width="780" height="555" uuid="a94fa7ad-289b-4c2f-b32f-941fd93e8fa7"/>
+				<componentElement>
+					<reportElement x="0" y="0" width="780" height="555" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e">
+						<property name="cv.keepTemporaryFiles" value="true"/>
+					</reportElement>
+					<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+						<cvc:itemProperty name="module" value="LeafLetMarkers"/>
+						<cvc:itemProperty name="css" value="leaflet.css"/>
+						<cvc:itemProperty name="script" value="LeafLetMarkers.min.js"/>
+						<cvc:itemProperty name="renderAsPng" value="true"/>
+						<cvc:itemProperty name="render-timeout" value="15000"/>
+						<cvc:itemProperty name="render-zoom-factor" value="1"/>
+						<cvc:itemProperty name="lat" value="39.8282"/>
+						<cvc:itemProperty name="lon" value="-98.5795"/>
+						<cvc:itemProperty name="zoom" value="4"/>
+						<cvc:itemProperty name="dataUrl"/>
+						<cvc:itemProperty name="provider" value="NASAGIBS.ViirsEarthAtNight2012"/>
+						<cvc:cvData>
+							<dataset/>
+							<cvc:item>
+								<cvc:itemProperty name="lon">
+									<valueExpression><![CDATA[$F{long}]]></valueExpression>
+								</cvc:itemProperty>
+								<cvc:itemProperty name="label" value="0">
+									<valueExpression><![CDATA[$F{store_name}]]></valueExpression>
+								</cvc:itemProperty>
+								<cvc:itemProperty name="lat" value="0">
+									<valueExpression><![CDATA[$F{lat}]]></valueExpression>
+								</cvc:itemProperty>
+							</cvc:item>
+						</cvc:cvData>
+					</cvc:customvisualization>
+				</componentElement>
+			</frame>
 		</band>
 	</title>
 	<pageHeader>

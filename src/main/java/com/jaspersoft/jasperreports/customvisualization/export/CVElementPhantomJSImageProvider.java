@@ -327,10 +327,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 							}
 						}
 
-                                                System.out.println("IS debug enabled? " + log.isDebugEnabled());
-                                                System.out.println("INFO Level? " + log.isInfoEnabled());
-                                                
-						if (log.isDebugEnabled())
+                                                if (log.isDebugEnabled())
 						{
 							log.debug("External process output:\n" + processOutput.toString());
 						}
