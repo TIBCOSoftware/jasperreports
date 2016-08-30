@@ -102,7 +102,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		boolean success;
 		try //FIXME remove support for pre 3.1 jdt
 		{
-			Class<?> classAccessRestriction = loadClass("org.eclipse.jdt.internal.compiler.env.AccessRestriction");
+			Class<?> classAccessRestriction = NameEnvironmentAnswer.class.getClassLoader().loadClass("org.eclipse.jdt.internal.compiler.env.AccessRestriction");
 			constrNameEnvAnsBin2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class, classAccessRestriction});
 			constrNameEnvAnsCompUnit2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class, classAccessRestriction});
 			is2ArgsConstr = true;
