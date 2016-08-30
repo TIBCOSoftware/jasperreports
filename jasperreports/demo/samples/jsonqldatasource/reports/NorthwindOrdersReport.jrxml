@@ -26,7 +26,7 @@
 		<fieldDescription><![CDATA[ Go up by two levels then select CustomerID ]]></fieldDescription>
 	</field>
 	<field name="CompanyName" class="java.lang.String">
-		<property name="net.sf.jasperreports.jsonql.field.expression" value="^^.CompanyName"/>
+		<propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA[ "^^[\"Company Name\"]" ]]></propertyExpression>
 		<fieldDescription><![CDATA[ Go up twice by 1 level then select CompanyName ]]></fieldDescription>
 	</field>
 	<variable name="OrderNumber" class="java.lang.Integer" resetType="Group" resetGroup="CustomerIdGroup" calculation="Count">
