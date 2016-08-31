@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>httpdataadapter</name>
+  <title>HTTP Data Adapter Sample</title>
+  <description>Shows how the HTTP data adapters can be used to fill reports.</description>
+
+  <mainFeature ref="httpdataadapter"/>
+  <secondaryFeature name="jsondatasource" sample="jsondatasource" title="JSON Data Source"/>
+  <secondaryFeature name="xmldatasource" sample="xmldatasource" title="XML Data Source"/>
+  
+  <!-- httpdataadapter -->
+  
+  <feature name="httpdataadapter" title="HTTP Data Adapter">
+    <description>
+How to fill a report using data from an HTTP request returning XML or JSON file.
+    </description>
+    <since></since>
+    <documentedBy>
+      <author>
+    	<name>Teodor Danciu</name>
+    	<email>teodord@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="jsondatasource"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+FIXME
+	</content>
+  </feature>
+
+</sample>

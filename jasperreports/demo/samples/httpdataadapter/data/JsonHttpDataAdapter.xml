@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
+	<name>XML Http Data Adapter</name>
+	<dataFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:type="httpDataLocation">
+		<method>GET</method>
+		<url><![CDATA[http://www.omdbapi.com/?r=json]]></url>
+	</dataFile>
+	<useConnection>true</useConnection>
+	<timeZone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Europe/Bucharest</timeZone>
+	<locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">ro_RO</locale>
+	<selectExpression></selectExpression>
+</jsonDataAdapter>
