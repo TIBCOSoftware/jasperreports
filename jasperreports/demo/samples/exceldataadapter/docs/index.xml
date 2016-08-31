@@ -141,13 +141,7 @@ not set, the data source will be created and populated by the <api href="net/sf/
 <br/>
 Now we'll see how to configure and use the built-in Excel data adapter in order to obtain a valid data source.
 <br/>
-First, we need to set the appropriate JasperReports registry extension. In the <code>src/jasperreports_extension.properties</code> file we have to put the following setting:
-<br/>
-<br/>
-<code>net.sf.jasperreports.extension.registry.factory.parameter.contributor.data.adapter=net.sf.jasperreports.data.DataAdapterParameterContributorExtensionsRegistryFactory</code>
-<br/>
-<br/>
-Then we have to configure the data adapter. There are 4 distinct configurations in this sample, all of them saved in the <code>data</code> folder: 
+There are 4 distinct configurations in this sample, all of them saved in the <code>data</code> folder: 
 <ul>
 <li><code>ExcelXlsDataAdapter.xml</code> - reads data from a XLS data file (see <code>data/XlsDataSource.data.xls</code> Excel file) and works in direct data source mode</li>
 <li><code>ExcelXlsQeDataAdapter.xml</code> - reads data from the same XLS data file, but works in query executer mode</li>
