@@ -119,7 +119,8 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                 log.debug("expression isArrayFunction");
             }
 
-            if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isArray()) {
+            if (memberEval.getSize() > 1 ||
+                    memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isArray()) {
                 return true;
             }
         }
@@ -147,7 +148,8 @@ public class BasicFilterExpressionEvaluator implements FilterExpressionEvaluator
                 log.debug("expression isSizeFunction");
             }
 
-            if (memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isArray()) {
+            if (memberEval.getSize() > 1 ||
+                    memberEval.getSize() == 1 && memberEval.getFirst().getDataNode().isArray()) {
                 result = applySizeOperator(memberEval.getContainerSize());
             }
         }
