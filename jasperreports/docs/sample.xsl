@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
+>
 
 <xsl:output method="html"/>
 <xsl:param name="sf.net"/>
@@ -93,7 +92,7 @@
 	color: inherit;
 }
 
-.doctable {
+table.doctable {
     border-collapse: collapse;
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: 12px;
@@ -102,23 +101,38 @@
     text-align: left;
 }
 
-.doctable th, .doctable td {
+table.doctable th, table.doctable td {
     border-bottom: 1px solid gray;
     padding: 5px 10px;
 }
 
-.doctable tr:nth-child(even) {
+table.doctable tr.full_border th, table.doctable tr.full_border td {
+    border: 1px solid gray;
+}
+
+table.doctable.alternate_bg tr:nth-child(even), tr.grey_bg {
     background-color: #f2f2f2;
 }
 
-.doctable td.green {
+.green {
     color: green;
 }
 
-.doctable td.red {
+.red {
     color: red;
 }
 
+.large {
+    font-size: 20px;
+}
+
+.maxWidth170 {
+    max-width: 170px;
+}
+
+.minWidth300 {
+    min-width: 300px;
+}
 
 </style>
 </head>
@@ -499,30 +513,92 @@ ga('send', 'pageview');
   <br/>
 </xsl:template>
 
-<xsl:template match="doctable">
-    <table class="doctable">
+<xsl:template match="localAnchor">
+    <xsl:element name="a">
+        <xsl:if test="@name">
+            <xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
+        </xsl:if>
+        <xsl:if test="@href">
+            <xsl:attribute name="href">
+                <xsl:value-of select="@href"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:value-of select="."/>
+    </xsl:element>
+</xsl:template>
+
+<xsl:template match="sup">
+    <xsl:element name="sup"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+<xsl:template match="span">
+    <xsl:element name="span">
+        <xsl:if test="@class">
+            <xsl:attribute name="class">
+                <xsl:value-of select="@class"/>
+            </xsl:attribute>
+        </xsl:if>
         <xsl:apply-templates/>
-    </table>
+    </xsl:element>
+</xsl:template>
+
+<xsl:template match="table">
+    <xsl:element name="table">
+        <xsl:if test="@class">
+            <xsl:attribute name="class">
+                <xsl:value-of select="@class"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:apply-templates/>
+    </xsl:element>
 </xsl:template>
 
 <xsl:template match="th">
-    <xsl:element name="th"><xsl:apply-templates/></xsl:element>
+    <xsl:element name="th">
+        <xsl:if test="@rowspan">
+            <xsl:attribute name="rowspan">
+                <xsl:value-of select="@rowspan"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:if test="@colspan">
+            <xsl:attribute name="colspan">
+                <xsl:value-of select="@colspan"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:apply-templates/>
+    </xsl:element>
 </xsl:template>
 
 <xsl:template match="tr">
-    <xsl:element name="tr"><xsl:apply-templates/></xsl:element>
+    <xsl:element name="tr">
+        <xsl:if test="@class">
+            <xsl:attribute name="class">
+                <xsl:value-of select="@class"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:apply-templates/>
+    </xsl:element>
 </xsl:template>
 
 <xsl:template match="td">
-    <xsl:element name="td"><xsl:apply-templates/></xsl:element>
-</xsl:template>
-
-<xsl:template match="greentd">
-    <td class="green"><xsl:apply-templates/></td>
-</xsl:template>
-
-<xsl:template match="redtd">
-    <td class="red"><xsl:apply-templates/></td>
+    <xsl:element name="td">
+        <xsl:if test="@class">
+            <xsl:attribute name="class">
+                <xsl:value-of select="@class"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:if test="@rowspan">
+            <xsl:attribute name="rowspan">
+                <xsl:value-of select="@rowspan"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:if test="@colspan">
+            <xsl:attribute name="colspan">
+                <xsl:value-of select="@colspan"/>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:apply-templates/>
+    </xsl:element>
 </xsl:template>
 
 </xsl:stylesheet>

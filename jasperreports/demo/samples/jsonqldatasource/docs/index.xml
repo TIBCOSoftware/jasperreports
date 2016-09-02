@@ -7,6 +7,7 @@
   <description></description>
 
   <mainFeature ref="jsonqldatasource"/>
+  <mainFeature ref="jsonql"/>
 
   <!-- jsonqldatasource -->
 
@@ -34,7 +35,7 @@
       The examples are based on the restructured <code>data/northwind.json</code> source file.
       <br/>
       <br/>
-      <doctable>
+      <table class="doctable alternate_bg">
         <tr>
           <th>Feature</th>
           <th>JSONQL</th>
@@ -44,31 +45,31 @@
         <tr>
           <td>Dot-separated path for simple object keys</td>
           <td>Northwind.Customers.Address</td>
-          <greentd>[the same]</greentd>
+          <td class="green">[the same]</td>
           <td>The addresses of all customers</td>
         </tr>
         <tr>
           <td>Path for complex object keys</td>
           <td>Northwind.Customers["Company Name"]</td>
-          <redtd>[not possible]</redtd>
+          <td class="red">[not possible]</td>
           <td>The company names of all customers</td>
         </tr>
         <tr>
           <td>Array index based selection</td>
           <td>Northwind.Customers[0].Orders[0]</td>
-          <greentd>[the same]</greentd>
+          <td class="green">[the same]</td>
           <td>The first order of the first customer</td>
         </tr>
         <tr>
           <td>Object construction expression</td>
           <td>Northwind.Customers[0].Orders[OrderId, OrderDate]</td>
-          <redtd>[not possible]</redtd>
+          <td class="red">[not possible]</td>
           <td>Select only OrderId and OrderDate from the orders of the first customer</td>
         </tr>
         <tr>
           <td>Deep traversal</td>
           <td>..[OrderId, OrderDate, ShippedDate, Freight]</td>
-          <redtd>[not possible]</redtd>
+          <td class="red">[not possible]</td>
           <td>Select the OrderId, OrderDate, ShippedDate and Freight from anywhere</td>
         </tr>
         <tr>
@@ -80,16 +81,16 @@
         <tr>
           <td>Filtering with complex expression</td>
           <td><![CDATA[ Northwind.Customers.Orders.*(Freight > 200 && OrderDate *= "1997") ]]></td>
-          <redtd>[not possible]</redtd>
+          <td class="red">[not possible]</td>
           <td>Orders for which the Freight is greater than 200 and OrderDate contains 1997</td>
         </tr>
         <tr>
           <td>Going up the JSON tree</td>
           <td>..OrderDate(@val == "1997-10-03")^{3} or<br/> ..OrderDate(@val == "1997-10-03")^^^</td>
-          <redtd>[not possible]</redtd>
+          <td class="red">[not possible]</td>
           <td>The parent customers(3 levels up) for which there is an order with OrderDate<br/> that equals "1997-10-03"</td>
         </tr>
-      </doctable>
+      </table>
 
       <br/>
       <b>The JSONQL Query Executer</b>
@@ -146,6 +147,7 @@
       In the next section you can see how these additional parameters are provided in the <code>/src/JsonQLDataSourceApp.java</code> class.
       <br/>
       <br/>
+      <br/>
       <b>The JSONQL Data Source Sample</b>
       <br/>
       <br/>
@@ -157,7 +159,7 @@
 <property name="net.sf.jasperreports.data.adapter" value="data/northwindDataAdapter.xml"/>]]></pre>
       In the <code>NorthwindOrdersReport</code> we run a JSONQL query in order to retrieve orders from anywhere:
       <pre><![CDATA[
-<queryString language="json">
+<queryString language="jsonql">
   <![CDATA[ ..Orders(@size > 1).* ]] >
 </queryString>]]></pre>
 
@@ -231,7 +233,7 @@
         <li>the date pattern used to parse the date fields</li>
         <li>the numeric pattern used to parse the numeric fields</li>
       </ul>
-
+      <br/>
       <b>Running the Sample</b>
       <br/>
       <br/>
@@ -240,6 +242,692 @@
       In a command prompt/terminal window set the current folder to <code>demo/samples/jsonqldatasource</code> within the JasperReports source project and run the <code>&gt; ant test </code> command.
       <br/>
       It will generate PDF and HTML document types containing the sample report(s) in the <code>demo/samples/jsonqldatasource/build/reports</code> directory.
+    </content>
+  </feature>
+
+  <!-- jsonql -->
+
+  <feature name="jsonql" title="The JSONQL query language">
+    <description>Detailed description of the JSONQL query language.</description>
+    <since>6.3.1</since>
+    <documentedBy>
+      <author>
+        <name>Narcis Marcu</name>
+        <email>narcism@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+      <b>Overview</b>
+      <br/>
+      <br/>
+      JSONQL is a language used for querying JSON data structures. It appeared from the need to perform more complex JSON traversals and filtering.
+      JSONQL is not compatible with the existing JSON language due to its possibly complicated syntax.
+      <br/>
+      <br/>
+      We typically write JSONQL queries in <code>queryString</code> expressions marked with the appropriate <code><b>jsonql</b></code> language:
+      <pre><![CDATA[
+<queryString language="jsonql">
+  <![CDATA[ ..Orders(@size > 1).* ]] >
+</queryString>]]></pre>
+      <br/>
+      <b>Syntax</b>
+      <br/>
+      <br/>
+      A JSONQL query is an expression containing one or more chained members:
+      <pre><code>[member1][member2]...[memberN]</code></pre>
+      For example, in the following expression:
+      <pre><![CDATA[ Northwind.Customers.Orders.*(Freight > 200 && OrderDate *= "1997") ]]></pre>
+      we distinguish the following members:
+      <ol>
+        <li>[Northwind]</li>
+        <li>[.Customers]</li>
+        <li>[.Orders]</li>
+        <li><![CDATA[ [.*(Freight > 200 && OrderDate *= "1997")] ]]></li>
+      </ol>
+      Each member is applied on the result(s) produced by the previous member. If a member produces no result, the rest of the members, if any, are skipped and no results are returned.
+      <br/>
+      <br/>
+      When successful, the final result of the JSONQL expression is a collection of JSON nodes, where each node may be an Array, an Object or a Value(boolean, string, number or null).
+      <br/>
+      <br/>
+      <br/>
+      <b>JSONQL Members</b>
+      <br/>
+      <br/>
+      A member is an expression that tells us how to navigate a single level (up or down or anywhere down) into the JSON tree.
+      The generic member expression has this form:
+      <pre>[direction][key(s)][filterExpression]</pre>
+
+      The tables below presents all the supported member types within a JSONQL expression. Only the <code>[direction][key(s)]</code> part
+      is shown here as the <code>[filterExpression]</code> is applicable to all member types and will be described separately.
+      <table class="doctable">
+
+        <!-- table header -->
+
+        <tr class="full_border">
+          <th rowspan="2">Member type</th>
+          <th rowspan="2">Key(s) value</th>
+          <th colspan="2">Direction</th>
+          <th rowspan="2">Example in context</th>
+          <th rowspan="2">Description</th>
+          <th rowspan="2">Expected result type</th>
+          <th rowspan="2">Explanation</th>
+        </tr>
+        <tr class="full_border">
+          <th>Symbol</th>
+          <th>Description</th>
+        </tr>
+
+        <!-- first row -->
+
+        <tr class="full_border grey_bg">
+          <td rowspan="5">Simple Object Key</td>
+          <td rowspan="5">Legal JavaScript Identifier<sup>(<localAnchor href="#jsid">1</localAnchor>)</sup></td>
+          <td rowspan="3"><span class="large">.</span></td>
+          <td rowspan="3">Down(implicit)</td>
+          <td><b><span class="green">Northwind</span></b></td>
+          <td>Go down on Norhtwind key</td>
+          <td>Object</td>
+          <td>The dot symbol is not necessary at the beginning of the expression. Direction is "Down" by default.
+            The result is an Object because the JSON root is of type Object and the Northwind key also points to an Object.</td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td>Northwind<b><span class="green">.Customers</span></b></td>
+          <td>Go down on Customers key of the object produced by navigating down Northwind key</td>
+          <td>Array of Objects</td>
+          <td>The result is an Array of Objects because Northwind member produces an Object whose Customers key points to an Array.
+          </td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td>Northwind.Customers<b><span class="green">.Address</span></b></td>
+          <td>Select the addresses of all customers</td>
+          <td>Array of String values</td>
+          <td>The result is an Array of Strings because the Customers key points to an array that is traversed, and each object
+            is queried for the Address key, which in turn, points to a String.
+          </td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td rowspan="2"><span class="large">..</span></td>
+          <td rowspan="2">Anywhere Down</td>
+          <td>Northwind<b><span class="green">..Orders</span></b></td>
+          <td>Select Orders from anywhere down starting from the Northwind root</td>
+          <td>Array of Arrays</td>
+          <td rowspan="2">The Anywhere Down selection usually builds a collection(array) of nodes. The type of the key dictates the
+            type of the nodes contained. In this case each Orders key points to an array.</td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td><b><span class="green">..Orders</span></b></td>
+          <td>Select Orders from anywhere down starting from the root of the JSON source.</td>
+          <td>Array of Arrays</td>
+        </tr>
+
+        <!-- second row -->
+
+        <tr class="full_border">
+          <td rowspan="3">Wildcard</td>
+          <td rowspan="3"><span class="large">*</span></td>
+          <td rowspan="2"><span class="large">.</span></td>
+          <td rowspan="2">Children from the first level</td>
+          <td>..Orders<b><span class="green">.*</span></b></td>
+          <td>Select the children of all orders.</td>
+          <td>Array of Objects</td>
+          <td>Because the Orders keys produce Arrays, we need to select their first level of children in order to have an Array with all of them.</td>
+        </tr>
+        <tr class="full_border">
+          <td>
+            Consider the JSON structure:
+            <pre>
+{
+  "Products": {
+    "Product_1": {
+        "Id": 123,
+        "Category": "books"
+    },
+    "Product_2": {
+      "Id": 234,
+      "Category": "dvds"
+    }
+  }
+}
+            </pre>
+            and the expression: Products<b><span class="green">.*</span></b>
+          </td>
+          <td>Select the children of Products.</td>
+          <td>Array of Objects
+            <pre>
+[{
+  "Id": 123,
+  "Category": "books"
+}, {
+  "Id": 234,
+  "Category": "dvds"
+}]
+            </pre>
+          </td>
+          <td>The first level children of the Products Object are the values for its keys.</td>
+        </tr>
+        <tr class="full_border">
+          <td><span class="large">..</span></td>
+          <td>All children from all levels</td>
+          <td>Northwind.Customers[0]<b><span class="green">..*</span></b></td>
+          <td>Select all children of the first customer.</td>
+          <td>Array of Nodes(Array(s), Objects, Values)</td>
+          <td>This kind of query:
+            <ul>
+              <li>traverses arrays adding each child to the result</li>
+              <li>goes down on each object key adding it to the result</li>
+              <li>stops when the end of the JSON tree is reached</li>
+              <li>can produce huge amounts of result Nodes if no filter expression is applied</li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+      <table class="doctable">
+
+        <!-- table header -->
+
+        <tr class="full_border">
+          <th rowspan="2">Member type</th>
+          <th rowspan="2">Key(s) value</th>
+          <th colspan="2">Direction</th>
+          <th rowspan="2">Example in context</th>
+          <th rowspan="2">Description</th>
+          <th rowspan="2">Expected result type</th>
+          <th rowspan="2">Explanation</th>
+        </tr>
+        <tr class="full_border">
+          <th>Symbol</th>
+          <th>Description</th>
+        </tr>
+
+        <!-- first row -->
+
+        <tr class="full_border grey_bg">
+          <td rowspan="2">Complex Object Key</td>
+          <td rowspan="2">String Literal<sup>(<localAnchor href="#stringlit">2</localAnchor>)</sup>
+            <br/>
+            enclosed in square brackets</td>
+          <td>[none]</td>
+          <td>Down(implicit)</td>
+          <td>Northwind.Customers<b><span class="green">["Company Name"]</span></b></td>
+          <td>Select the company name of all customers</td>
+          <td>Array of Strings</td>
+          <td>Direction is "Down" by default. The result is an Array because the Customers array is queried on each of
+            its items for the "Customer Name" key/property.</td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td><span class="large">..</span></td>
+          <td>Anywhere Down</td>
+          <td><b><span class="green">..["Company Name"]</span></b></td>
+          <td>Select the company name from anywhere</td>
+          <td>Array of Strings</td>
+          <td>The result is an Array because applying Anywhere Down traversal usually produces a collection of Nodes
+            whose type is dictated by the value found at the requested key.
+            <br/>
+            "Company Name" always produces a String in this case.
+          </td>
+        </tr>
+
+        <!-- second row -->
+
+        <tr class="full_border">
+          <td rowspan="2">Object Construction</td>
+          <td rowspan="2" class="maxWidth170"> At least 2 - legal JavaScript identifiers or String literals - separated by comma and enclosed in square brackets</td>
+          <td>[none]</td>
+          <td>Down(implicit)</td>
+          <td>Northwind.Customers[0].Orders<b><span class="green">[OrderID, OrderDate]</span></b></td>
+          <td>Select the OrderID and OrderDate from the orders of the first customer</td>
+          <td>Array of Objects
+            <pre>
+[{
+    "OrderID": 10643,
+    "OrderDate": "1997-08-25"
+  },
+  ...
+  {
+    "OrderID": 11011,
+    "OrderDate": "1998-04-09"
+}]
+            </pre>
+          </td>
+          <td>Direction is "Down" by default. The result is an Array because the Orders array is queried on each of
+            its items for the OrderID and OrderDate keys.</td>
+        </tr>
+        <tr class="full_border">
+          <td><span class="large">..</span></td>
+          <td>Anywhere Down</td>
+          <td><b><span class="green">..["Company Name", Address]</span></b></td>
+          <td>Select the company name and address from anywhere</td>
+          <td>Array of Objects
+            <pre>
+[{
+    "Company Name": "Alfreds Futterkiste",
+    "Address": "Obere Str. 57"
+  },
+  ...
+  {
+    "Company Name": "Wolski  Zajazd",
+    "Address": "ul. Filtrowa 68"
+}]
+            </pre>
+          </td>
+          <td>The result is an Array of Objects because applying Anywhere Down traversal usually produces a collection of Nodes
+            whose type is Object in this case.
+            <br/>
+            We are constructing objects with "Company Name" and Address keys.
+          </td>
+        </tr>
+      </table>
+      <table class="doctable">
+
+        <!-- table header -->
+
+        <tr class="full_border">
+          <th rowspan="2">Member type</th>
+          <th rowspan="2">Key(s) value</th>
+          <th colspan="2">Direction</th>
+          <th rowspan="2">Example in context</th>
+          <th rowspan="2">Description</th>
+          <th rowspan="2">Expected result type</th>
+          <th rowspan="2">Explanation</th>
+        </tr>
+        <tr class="full_border">
+          <th>Symbol</th>
+          <th>Description</th>
+        </tr>
+
+        <!-- first row -->
+
+        <tr class="full_border grey_bg">
+          <td rowspan="2">Array Index</td>
+          <td rowspan="2" class="maxWidth170">[Integer]</td>
+          <td>[none]</td>
+          <td>Down(implicit)</td>
+          <td>Northwind.Customers<b><span class="green">[2]</span></b></td>
+          <td>Select the third customer</td>
+          <td>Object</td>
+          <td>JavaScript array indexes are 0-based. Direction is "Down" by default. The result is an Object because
+            the 3<sup>rd</sup> element in the Customers array is an object.
+            <br/>
+            Indexes outside the valid range(from 0 to array size - 1) produce no results.</td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td><span class="large">..</span></td>
+          <td>Anywhere Down</td>
+          <td>Northwind.Customers.Orders<b><span class="green">..[0]</span></b></td>
+          <td>Select the first order of each customer's Orders</td>
+          <td>Array of Objects</td>
+          <td>The result is an Array of Objects because applying Anywhere Down traversal usually produces a collection of Nodes
+            whose type is Object in this case.
+            <br/>
+            We are selecting the first order(which is an object) from each Orders array.
+          </td>
+        </tr>
+
+        <!-- second row -->
+
+        <tr class="full_border">
+          <td rowspan="2">Array Construction</td>
+          <td rowspan="2" class="maxWidth170">[Integer1, Integer2, ...]</td>
+          <td>[none]</td>
+          <td>Down(implicit)</td>
+          <td>Northwind.Customers[0].Orders<b><span class="green">[0,2]</span></b></td>
+          <td>Select the first and third orders of the first customer</td>
+          <td>Array of Objects</td>
+          <td>JavaScript array indexes are 0-based. Direction is "Down" by default. The result is an Array of Objects because
+            we are constructing an array with only the 1<sup>st</sup> and 3<sup>rd</sup> orders.
+            <br/>
+            Indexes outside the valid range(from 0 to array size - 1) are ignored.</td>
+        </tr>
+        <tr class="full_border">
+          <td><span class="large">..</span></td>
+          <td>Anywhere Down</td>
+          <td>Northwind.Customers.Orders<b><span class="green">..[0,1,3]</span></b></td>
+          <td>Select the first, second and fourth orders of each customer's Orders</td>
+          <td>Array of Objects</td>
+          <td>The result is an Array of Objects because we are constructing an array with only the
+            1<sup>st</sup>, 2<sup>nd</sup> and 4<sup>th</sup> orders.
+            <br/>
+            Indexes outside the valid range(from 0 to array size - 1) are ignored.
+          </td>
+        </tr>
+      </table>
+      <table class="doctable">
+
+        <!-- table header -->
+
+        <tr class="full_border">
+          <th rowspan="2">Member type</th>
+          <th rowspan="2">Key(s) value</th>
+          <th colspan="2">Direction</th>
+          <th rowspan="2">Example in context</th>
+          <th rowspan="2">Description</th>
+          <th rowspan="2">Expected result type</th>
+          <th rowspan="2">Explanation</th>
+        </tr>
+        <tr class="full_border">
+          <th>Symbol</th>
+          <th>Description</th>
+        </tr>
+
+        <!-- first row -->
+
+        <tr class="full_border grey_bg">
+          <td rowspan="2">Array Slice</td>
+          <td rowspan="2" class="maxWidth170">[Integer startIndex : Integer endIndex]</td>
+          <td>[none]</td>
+          <td>Down(implicit)</td>
+          <td>..Orders.*<b><span class="green">[-1:]</span></b></td>
+          <td>Select the last of all orders.</td>
+          <td>Object</td>
+          <td>
+            Direction is "Down" by default.
+            <br/>
+            <br/>
+            Each of the start/end indexes is 0-based and optional, but not both at the same time.
+            <br/>
+            When startIndex is missing it defaults to 0.
+            <br/>
+            When endIndex is missing it defaults to the array size.
+            <br/>
+            <br/>
+            The element at <b>endIndex</b> is not included in the results list.
+            <br/>
+            The indexes can have negative values that suggest operating at the end of the array.
+            <br/>
+            <b>-1</b> points to the last item. <b>-2</b> points to the item before last and so on.
+            <br/>
+            The indexes outside the array index range are ignored.
+            <br/>
+            <br/>
+            The result is Object because the last order is an object.
+          </td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td><span class="large">..</span></td>
+          <td>Anywhere Down</td>
+          <td>Northwind.Customers.Orders<b><span class="green">..[0:2]</span></b></td>
+          <td>Select the first two orders(indexes 0 and 1) of each customer's Orders</td>
+          <td>Array of Arrays</td>
+          <td>The result is an Array of Arrays because applying Anywhere Down traversal usually produces a collection of Nodes.
+            Each node is an array in this case because from each Orders array we select only the first two items.
+            <br/>
+            If we want to reach the deeper order nodes, the .* member(first level children) could be added to the expression, thus obtaining an Array of Objects.
+          </td>
+        </tr>
+
+        <!-- second row -->
+
+        <tr class="full_border">
+          <td rowspan="3">Multi Level Up</td>
+          <td rowspan="3">[no key]</td>
+          <td>^</td>
+          <td>One level up</td>
+          <td>..OrderID<b><span class="green">^</span></b></td>
+          <td>Select the parents of all objects that have the OrderID property = Select all orders</td>
+          <td>Array of Objects</td>
+          <td>The result is an Array of Objects because the parent of each OrderID key is the object that contains the key.</td>
+        </tr>
+        <tr class="full_border">
+          <td rowspan="2"><![CDATA[ ^{N} ]]></td>
+          <td rowspan="2">Up by N levels; N >= 1</td>
+          <td>..[OrderID,OrderDate](<b><span class="green">^{3}</span></b>.City == "Berlin")</td>
+          <td rowspan="2">Select the OrderID and OrderDate keys for objects(orders) that have the parent customer's(which is 3 levels up) city Berlin.</td>
+          <td rowspan="2">Array of Objects
+            <pre>
+[{
+    "OrderID": 10643,
+    "OrderDate": "1997-08-25"
+  },
+  ...
+  {
+    "OrderID": 11011,
+    "OrderDate": "1998-04-09"
+}]
+            </pre>
+          </td>
+          <td rowspan="2">The query examples are equivalent: <b><span class="green">^^^</span></b> produces the same result as
+            <b><span class="green">^{3}</span></b>.
+            <br/>
+            <br/>
+            The result is an Array of Objects because we are constructing objects with the OrderID and OrderDate keys.
+            <br/>
+            <br/>
+            The filter expression travels up to the Customer parent to reach the City key.
+            <br/>
+            The immediate parent of an object with the [OrderID, OrderDate] keys is the object that contains these keys - an order.
+            <br/>
+            The parent of an order is the Orders array that contains the order.
+            <br/>
+            The parent of the Orders array is the object holding the Orders key - the customer object. From here we go down the City key to perform the filtering.
+          </td>
+        </tr>
+        <tr class="full_border">
+          <td>..[OrderID,OrderDate](<b><span class="green">^^^</span></b>.City == "Berlin")</td>
+        </tr>
+      </table>
+      <localAnchor name="jsid"></localAnchor>
+      <sup>(1)</sup>A Legal JavaScript Identifier is a character sequence that:
+      <ul>
+        <li>must start with one of: letter(lowercase or uppercase), $ or _</li>
+        <li>and can be followed by any combination of letter, $, _ or digit(0-9).</li>
+      </ul>
+      <localAnchor name="stringlit"></localAnchor>
+      <sup>(2)</sup>A String Literal is an escaped and double quoted JavaScript String.
+      <br/>
+      <br/>
+      <br/>
+      <b>The Filter Expression</b>
+      <br/>
+      <br/>
+      Each member expression described above can be accompanied by a filter expression.
+      <br/>
+      Let's consider the following JSONQL expression:
+      <pre><![CDATA[ Northwind.Customers.Orders.*(Freight > 200 && OrderDate *= "1997") ]]></pre>
+      It contains the following members:
+      <ol>
+        <li>[Northwind]</li>
+        <li>[.Customers]</li>
+        <li>[.Orders]</li>
+        <li><![CDATA[ [.*(Freight > 200 && OrderDate *= "1997")] ]]></li>
+      </ol>
+
+      Members #1, #2 and #3 contain no filter expression, only #4 does:
+      <pre><![CDATA[ (Freight > 200 && OrderDate *= "1997") ]]></pre>
+      In this case we have a compound filter expression made out of two <b>basic</b> filter expressions joined by the logical and(&amp;&amp;) operator.
+      <br/>
+      The filter expression is evaluated as member results are added to the whole expression's result.
+      <br/>
+      The result of a filter expression is a boolean <code>true</code> or <code>false</code>.
+      <br/>
+      <br/>
+      <br/>
+
+      <b>The Basic Filter Expression</b>
+      <br/>
+      <br/>
+      The form of a basic filter expression is one of:
+      <ul>
+        <li><code>( [filterMember1][filterMember2]...[filterMemberN]@Function<sup>(*)</sup> Operator Value )</code></li>
+        <li><code>( [filterMember1][filterMember2]...[filterMemberN]@Function)</code></li>
+      </ul>
+      <sup>(*)</sup>The <code>@Function</code> element is optional
+      <br/>
+      <br/>
+      The <code><b>filterMember</b></code> is similar to the JSONQL Member except it lacks the filter expression. It contains only the:
+      <code>[direction][key(s)]</code> part.
+      <br/>
+      This means that the above member type definitions also apply in this case.
+      <br/>
+      <br/>
+      The type and presence of the <code>@Function</code> element dictates the form of the basic filter expression as follows:
+
+      <table class="doctable">
+        <!-- table header -->
+        <tr class="full_border">
+          <th>Function type</th>
+          <th>Function expression</th>
+          <th>Example</th>
+          <th>Description</th>
+          <th>Observation</th>
+        </tr>
+
+        <!-- first row -->
+
+        <tr class="full_border grey_bg">
+          <td rowspan="5">Path Type Check functions</td>
+          <td>@isNull</td>
+          <td class="minWidth300">..Orders.*(["nonexistent key"]@isNull)</td>
+          <td>Select Orders keys from anywhere and get the children that have a "nonexistent key" property with null value.
+            The result of the filter expression is true for all orders, so we are getting all of them.
+          </td>
+          <td class="maxWidth170" rowspan="5">The path type check functions are logical functions that return true/false. No Operator/Value can be used here.</td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td>@isNotNull</td>
+          <td>..Orders.*(Products@isNotNull)</td>
+          <td>Select Orders keys from anywhere and get the children that have a non-null Products property.
+            The result of the filter expression is false for all orders, so we are getting nothing as result.
+          </td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td>@isArray</td>
+          <td>..Orders(@isArray).*</td>
+          <td>Select Orders keys from anywhere that are arrays and get the first level children.
+            The result of the filter expression is true for all Orders keys, so we are getting all orders.
+          </td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td>@isObject</td>
+          <td>..Orders(@isObject)</td>
+          <td>Select Orders keys from anywhere that are of type Object.
+            The result of the filter expression is false for all Orders keys because each points to an Array, so we are getting no results.
+          </td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td>@isValue</td>
+          <td>..*(@isValue)</td>
+          <td>Select everything that is a value: string, number, boolean, null. The result is a huge collection of strings and numbers that probably needs additional filtering.</td>
+        </tr>
+
+        <!-- second row -->
+
+        <tr class="full_border">
+          <td>Value check function</td>
+          <td>@val</td>
+          <td>..OrderID(@val > 10600)</td>
+          <td>Select the OrderID keys from anywhere that have a value greater than 10600.
+            <br/>
+            <br/>
+            This function can be used only at the beginning of the filter expression when we want to filter the resulting nodes directly. It is applicable only to value nodes.
+            <br/>
+            If we want to check the value of a path we do not need to use this function as the function operators apply to values only.
+          </td>
+          <td></td>
+        </tr>
+
+        <!-- third row -->
+
+        <tr class="full_border grey_bg">
+          <td rowspan="2">Array size check function</td>
+          <td rowspan="2">@size</td>
+          <td>Northwind.Customers.*(Orders@size > 10).Orders.*</td>
+          <td rowspan="2">Select the orders that come from Orders arrays with more than 10 items. Both query expressions produce the same output.
+          </td>
+          <td rowspan="2"></td>
+        </tr>
+        <tr class="full_border grey_bg">
+          <td>..Orders(@size > 10).*</td>
+        </tr>
+
+        <!-- fourth row -->
+
+        <tr class="full_border">
+          <td>[none]</td>
+          <td>[none]</td>
+          <td>..Orders.*(OrderID > 10600)</td>
+          <td>Select the orders for which the OrderID has a value greater than 10600.
+            <br/>
+            <br/>
+            We don't need functions to check the value of a key.
+          </td>
+          <td></td>
+        </tr>
+      </table>
+      <br/>
+      <br/>
+
+      <b>Operator to Operand type application</b>
+      <br/>
+      <br/>
+      There is an enforcement at the JSONQL language level that requires the operators to be applied to the right kind of operands.
+      The query expression is not valid unless the matching is correctly done.
+      <table class="doctable alternate_bg">
+        <tr>
+          <th>Operator(s)</th>
+          <th>Description</th>
+          <th>Operand type</th>
+          <th>JSONQL Expression Example</th>
+          <th>Observations</th>
+        </tr>
+        <tr>
+          <td>==, !=</td>
+          <td>Equal to, Not equal to</td>
+          <td>Number, String, Boolean, null</td>
+          <td>..Orders.*(OrderID == 10643)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>&gt;, &gt;=, &lt;, &lt;= </td>
+          <td>Greater than, Greater than or equal to, Lower than, Lower than or equal to</td>
+          <td>Number</td>
+          <td>..Orders.*(Freight >= 60)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>*=</td>
+          <td>Contains</td>
+          <td>String</td>
+          <td>..Orders.*(OrderDate *= "1997")</td>
+          <td>String values are String literals(escaped and double quoted).</td>
+        </tr>
+      </table>
+      <br/>
+      <br/>
+
+      <b>Logical Operators for Basic Filter Expressions</b>
+      <br/>
+      <br/>
+      Basic Filter Expressions can be negated and/or combined in order to allow more complex filtering capabilities.
+      <table class="doctable alternate_bg">
+        <tr>
+          <th>Operator</th>
+          <th>Description</th>
+          <th>JSONQL Expression Example</th>
+        </tr>
+        <tr>
+          <td>&amp;&amp;</td>
+          <td>AND</td>
+          <td>..Orders.*(OrderID >= 10600 &amp;&amp; OrderDate *= "1997")</td>
+        </tr>
+        <tr>
+          <td>||</td>
+          <td>OR</td>
+          <td>..Orders.*(Freight > 120 || ShipVia == 2)</td>
+        </tr>
+        <tr>
+          <td>!</td>
+          <td>NOT</td>
+          <td>..Orders(!@size > 10).*</td>
+        </tr>
+        <tr>
+          <td>mixed</td>
+          <td>Grouping expressions is possible</td>
+          <td>..Orders.*(!(OrderID >= 10600 &amp;&amp; (OrderDate *= "1998" || OrderDate *= "1997")))</td>
+        </tr>
+      </table>
+
+
     </content>
   </feature>
 
