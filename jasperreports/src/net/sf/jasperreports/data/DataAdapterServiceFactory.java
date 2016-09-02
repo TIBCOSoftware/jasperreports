@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
+ * @deprecated Replaced by {@link DataAdapterContributorFactory}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public interface DataAdapterServiceFactory

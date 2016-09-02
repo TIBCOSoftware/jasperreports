@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -47,6 +48,14 @@ public class SpringHibernateDataAdapterService extends
 
 	/**
 	 * 
+	 */
+	public SpringHibernateDataAdapterService(ParameterContributorContext paramContribContext, SpringHibernateDataAdapter jsonDataAdapter) 
+	{
+		super(paramContribContext, jsonDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #SpringHibernateDataAdapterService(ParameterContributorContext, SpringHibernateDataAdapter)}.
 	 */
 	public SpringHibernateDataAdapterService(JasperReportsContext jasperReportsContext, SpringHibernateDataAdapter jsonDataAdapter) 
 	{

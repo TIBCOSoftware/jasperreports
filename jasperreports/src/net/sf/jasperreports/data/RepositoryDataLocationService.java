@@ -30,7 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
@@ -44,9 +44,9 @@ public class RepositoryDataLocationService implements DataFileService
 	private final RepositoryUtil repository;
 	private final RepositoryDataLocation dataLocation;
 	
-	public RepositoryDataLocationService(JasperReportsContext context, RepositoryDataLocation dataLocation)
+	public RepositoryDataLocationService(ParameterContributorContext context, RepositoryDataLocation dataLocation)
 	{
-		this.repository = RepositoryUtil.getInstance(context);
+		this.repository = RepositoryUtil.getInstance(context.getJasperReportsContext());
 		this.dataLocation = dataLocation;
 	}
 

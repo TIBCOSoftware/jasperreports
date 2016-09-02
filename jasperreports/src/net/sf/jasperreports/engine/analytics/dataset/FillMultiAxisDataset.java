@@ -117,6 +117,10 @@ public class FillMultiAxisDataset extends JRFillElementDataset
 
 	public MultiAxisDataSource getDataSource() throws JRException
 	{
+		//a final increment is needed when incrementType=Group
+		//FIXME perform the increment when the data set ends instead of here
+		increment();
+		
 		return dataService.createDataSource();
 	}
 	

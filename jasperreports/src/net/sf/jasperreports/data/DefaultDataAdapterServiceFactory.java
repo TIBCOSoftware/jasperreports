@@ -63,12 +63,13 @@ import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapterService;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFactory
+public class DefaultDataAdapterServiceFactory implements DataAdapterContributorFactory, DataAdapterServiceFactory
 {
 
 	/**
@@ -85,47 +86,48 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 	}
 	
 	@Override
-	public DataAdapterService getDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
+	public DataAdapterService getDataAdapterService(ParameterContributorContext context, DataAdapter dataAdapter)
 	{
+		JasperReportsContext jasperReportsContext = context.getJasperReportsContext();
 		DataAdapterService dataAdapterService = null;
 		
 		if (dataAdapter instanceof BeanDataAdapter)
 		{
-			dataAdapterService = new BeanDataAdapterService(jasperReportsContext, (BeanDataAdapter)dataAdapter);
+			dataAdapterService = new BeanDataAdapterService(context, (BeanDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof CsvDataAdapter)
 		{
-			dataAdapterService = new CsvDataAdapterService(jasperReportsContext, (CsvDataAdapter)dataAdapter);
+			dataAdapterService = new CsvDataAdapterService(context, (CsvDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof DataSourceDataAdapter)
 		{
-			dataAdapterService = new DataSourceDataAdapterService(jasperReportsContext, (DataSourceDataAdapter)dataAdapter);
+			dataAdapterService = new DataSourceDataAdapterService(context, (DataSourceDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof EmptyDataAdapter)
 		{
-			dataAdapterService = new EmptyDataAdapterService(jasperReportsContext, (EmptyDataAdapter)dataAdapter);
+			dataAdapterService = new EmptyDataAdapterService(context, (EmptyDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof JndiDataAdapter)
 		{
-			dataAdapterService = new JndiDataAdapterService(jasperReportsContext, (JndiDataAdapter)dataAdapter);//FIXME maybe want some cache here
+			dataAdapterService = new JndiDataAdapterService(context, (JndiDataAdapter)dataAdapter);//FIXME maybe want some cache here
 		}
 		else if (dataAdapter instanceof DataSourceProviderDataAdapter)
 		{
-			dataAdapterService = new DataSourceProviderDataAdapterService(jasperReportsContext, (DataSourceProviderDataAdapter)dataAdapter);
+			dataAdapterService = new DataSourceProviderDataAdapterService(context, (DataSourceProviderDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof QueryExecuterDataAdapter)
 		{
-			dataAdapterService = new QueryExecuterDataAdapterService(jasperReportsContext, (QueryExecuterDataAdapter)dataAdapter);
+			dataAdapterService = new QueryExecuterDataAdapterService(context, (QueryExecuterDataAdapter)dataAdapter);
 		}
 		
 		// these following three adapters must be kept in order of inheritance hierarchy
 		else if (dataAdapter instanceof ExcelDataAdapter)
 		{
-			dataAdapterService = new ExcelDataAdapterService(jasperReportsContext, (ExcelDataAdapter)dataAdapter);
+			dataAdapterService = new ExcelDataAdapterService(context, (ExcelDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof XlsxDataAdapter)
 		{
-			dataAdapterService = new XlsxDataAdapterService(jasperReportsContext, (XlsxDataAdapter)dataAdapter);
+			dataAdapterService = new XlsxDataAdapterService(context, (XlsxDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof XlsDataAdapter)
 		{
@@ -142,45 +144,54 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 			}
 			else
 			{
-				dataAdapterService = new XlsDataAdapterService(jasperReportsContext, (XlsDataAdapter)dataAdapter);
+				dataAdapterService = new XlsDataAdapterService(context, (XlsDataAdapter)dataAdapter);
 			}
 		}
 		// end excel
 
 		else if (dataAdapter instanceof XmlDataAdapter)
 		{
-			dataAdapterService = new XmlDataAdapterService(jasperReportsContext, (XmlDataAdapter)dataAdapter);
+			dataAdapterService = new XmlDataAdapterService(context, (XmlDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof JsonDataAdapter)
 		{
-			dataAdapterService = new JsonDataAdapterService(jasperReportsContext, (JsonDataAdapter)dataAdapter);
+			dataAdapterService = new JsonDataAdapterService(context, (JsonDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof HibernateDataAdapter)
 		{
-			dataAdapterService = new HibernateDataAdapterService(jasperReportsContext, (HibernateDataAdapter)dataAdapter);
+			dataAdapterService = new HibernateDataAdapterService(context, (HibernateDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof SpringHibernateDataAdapter)
 		{
-			dataAdapterService = new SpringHibernateDataAdapterService(jasperReportsContext, (SpringHibernateDataAdapter)dataAdapter);
+			dataAdapterService = new SpringHibernateDataAdapterService(context, (SpringHibernateDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof EjbqlDataAdapter)
 		{
-			dataAdapterService = new EjbqlDataAdapterService(jasperReportsContext, (EjbqlDataAdapter)dataAdapter);
+			dataAdapterService = new EjbqlDataAdapterService(context, (EjbqlDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof MondrianDataAdapter)
 		{
-			dataAdapterService = new MondrianDataAdapterService(jasperReportsContext, (MondrianDataAdapter)dataAdapter);
+			dataAdapterService = new MondrianDataAdapterService(context, (MondrianDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof XmlaDataAdapter)
 		{
-			dataAdapterService = new XmlaDataAdapterService(jasperReportsContext, (XmlaDataAdapter)dataAdapter);
+			dataAdapterService = new XmlaDataAdapterService(context, (XmlaDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter.getClass().getName().equals(JdbcDataAdapterImpl.class.getName()))
 		{
-			dataAdapterService = new JdbcDataAdapterService(jasperReportsContext, (JdbcDataAdapter)dataAdapter);
+			dataAdapterService = new JdbcDataAdapterService(context, (JdbcDataAdapter)dataAdapter);
 		}
 		
 		return dataAdapterService;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getDataAdapterService(ParameterContributorContext, DataAdapter)}.
+	 */
+	@Override
+	public DataAdapterService getDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
+	{
+		return getDataAdapterService(new ParameterContributorContext(jasperReportsContext, null, null), dataAdapter);
 	}
   
 }

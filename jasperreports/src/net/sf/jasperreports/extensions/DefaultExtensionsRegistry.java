@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -143,7 +144,10 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	
 	protected List<ExtensionsRegistry> loadRegistries()
 	{
+		//there is no identity linked hash map/set, using separate map and list
+		IdentityHashMap<ExtensionsRegistry, Object> registrySet = new IdentityHashMap<>();
 		List<ExtensionsRegistry> allRegistries = new ArrayList<ExtensionsRegistry>();
+		
 		List<ClassLoaderResource> extensionResources = loadExtensionPropertyResources();
 		for (ClassLoaderResource extensionResource : extensionResources)
 		{
@@ -191,7 +195,19 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 						+ entry.getKey() + " from " + url, entry.getValue());
 			}
 			
-			allRegistries.addAll(registries);
+			for (ExtensionsRegistry extensionsRegistry : registries)
+			{
+				//detecting identity duplicates
+				boolean added = registrySet.put(extensionsRegistry, Boolean.FALSE) == null;
+				if (added)
+				{
+					allRegistries.add(extensionsRegistry);
+				}
+				else if (log.isDebugEnabled())
+				{
+					log.debug("Found duplicate extension registry " + extensionsRegistry);
+				}
+			}
 		}
 		return allRegistries;
 	}

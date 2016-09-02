@@ -37,20 +37,22 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -73,14 +75,26 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	public static final String EXCEPTION_MESSAGE_KEY_MISPLACED_QUOTE = "data.csv.misplaced.quote";
 	public static final String EXCEPTION_MESSAGE_KEY_NO_MORE_CHARS = "data.csv.no.more.chars";
 	
+	/**
+	 * Property specifying the CSV column name for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.column.name";
+	/**
+	 * Property specifying the CSV column index for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.column.index";
+	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
+	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
+
 	private DateFormat dateFormat;
 	private NumberFormat numberFormat;
 	private char fieldDelimiter = ',';
 	private String recordDelimiter = "\n";
 	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
+	private Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
 	private boolean useFirstRowAsHeader;
 
-	private List<String> fields;
+	private List<String> crtRecordColumnValues;
 	private Reader reader;
 	private char buffer[] = new char[1024];
 	private int position;
@@ -225,8 +239,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				{
 					parseRow();
 					this.columnNames = new LinkedHashMap<String, Integer>();
-					for (int i = 0; i < fields.size(); i++) {
-						String name = fields.get(i);
+					for (int i = 0; i < crtRecordColumnValues.size(); i++) {
+						String name = crtRecordColumnValues.get(i);
 						this.columnNames.put(name, Integer.valueOf(i));
 					}
 				}
@@ -242,24 +256,11 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
-		String fieldName = jrField.getName();
+		Integer columnIndex = getColumnIndex(jrField);
 
-		Integer columnIndex = columnNames.get(fieldName);
-		if (columnIndex == null && fieldName.startsWith("COLUMN_"))
+		if (crtRecordColumnValues.size() > columnIndex) 
 		{
-			columnIndex = Integer.valueOf(fieldName.substring(7));
-		}
-		if (columnIndex == null)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
-					new Object[]{fieldName});
-		}
-
-		if (fields.size() > columnIndex.intValue()) 
-		{
-			String fieldValue = fields.get(columnIndex.intValue());
+			String fieldValue = crtRecordColumnValues.get(columnIndex);
 			Class<?> valueClass = jrField.getValueClass();
 			
 			if (valueClass.equals(String.class))
@@ -321,6 +322,68 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 
 	/**
+	 *
+	 */
+	private Integer getColumnIndex(JRField field) throws JRException
+	{
+		String fieldName = field.getName();
+		Integer columnIndex = columnIndexMap.get(fieldName);
+		if (columnIndex == null)
+		{
+			if (field.hasProperties())
+			{
+				String columnName = field.getPropertiesMap().getProperty(PROPERTY_FIELD_COLUMN_NAME);
+				if (columnName != null)
+				{
+					columnIndex = columnNames.get(columnName);
+					if (columnIndex == null)
+					{
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+								new Object[]{columnName});
+					}
+				}
+			}
+
+			if (columnIndex == null)
+			{
+				if (field.hasProperties())
+				{
+					String index = field.getPropertiesMap().getProperty(PROPERTY_FIELD_COLUMN_INDEX);
+					if (index != null)
+					{
+						columnIndex = Integer.valueOf(index);
+					}
+				}
+			}
+			
+			if (columnIndex == null)
+			{
+				columnIndex = columnNames.get(fieldName);
+			}
+			
+			if (columnIndex == null && fieldName.startsWith(INDEXED_COLUMN_PREFIX))
+			{
+				columnIndex = Integer.valueOf(fieldName.substring(INDEXED_COLUMN_PREFIX_LENGTH));
+			}
+			
+			if (columnIndex == null)
+			{
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+						new Object[]{fieldName});
+			}
+
+			columnIndexMap.put(fieldName, columnIndex);
+		}
+		
+		return columnIndex;
+	}
+
+	
+	/**
 	 * Parses a row of CSV data and extracts the fields it contains
 	 */
 	private boolean parseRow() throws IOException, JRException
@@ -334,7 +397,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		boolean startPosition = false;
 		char c;
 		int leadingSpaces = 0;
-		fields = new ArrayList<String>();
+		crtRecordColumnValues = new ArrayList<String>();
 
 		String row = getRow();
 		if (row == null)// || row.length() == 0)
@@ -473,7 +536,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 				isQuoted = false;
 				insideQuotes = false;
-				fields.add(field);
+				crtRecordColumnValues.add(field);
 				++addedFields;
 				
 				// if many rows were concatenated due to misplacing of starting and ending quotes in a multiline field 
@@ -545,11 +608,11 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			field = replaceAll(field, "\"\"", "\"");
 		}
 		
-		fields.add(field);
+		crtRecordColumnValues.add(field);
 		++addedFields;
 		while(addedFields < columnNames.size())
 		{
-			fields.add("");
+			crtRecordColumnValues.add("");
 			++addedFields;
 		}
 		

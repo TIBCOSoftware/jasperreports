@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
@@ -47,6 +48,14 @@ public class DataSourceDataAdapterService extends
 	
 	/**
 	 * 
+	 */
+	public DataSourceDataAdapterService(ParameterContributorContext paramContribContext, DataSourceDataAdapter dsDataAdapter) 
+	{
+		super(paramContribContext, dsDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #DataSourceDataAdapterService(ParameterContributorContext, DataSourceDataAdapter)}.
 	 */
 	public DataSourceDataAdapterService(JasperReportsContext jasperReportsContext, DataSourceDataAdapter dsDataAdapter) 
 	{

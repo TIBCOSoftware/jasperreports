@@ -33,6 +33,8 @@ import org.apache.batik.bridge.FontFamilyResolver;
 import org.apache.batik.gvt.font.GVTFontFamily;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 
 /**
@@ -44,6 +46,7 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 	 *
 	 */
 	private final JasperReportsContext jasperReportsContext;
+	private final FontUtil fontUtil;
 	
 	private final Map<String, GVTFontFamily> resolvedFontFamilies = new HashMap<String, GVTFontFamily>();
 
@@ -54,6 +57,7 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 	private BatikFontFamilyResolver(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.fontUtil = FontUtil.getInstance(jasperReportsContext);
 	}
 
 
@@ -85,8 +89,17 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 		
 		if (gvtFontFamily == null)
 		{
-			gvtFontFamily = new BatikAWTFontFamily(jasperReportsContext, familyName);
-			resolvedFontFamilies.put(familyName, gvtFontFamily);
+			FontInfo fontInfo = fontUtil.getFontInfoIgnoreCase(familyName, null);//FIXMEBATIK locale
+			
+			if (fontInfo != null)
+			{
+				gvtFontFamily = new BatikAWTFontFamily(jasperReportsContext, familyName);
+				resolvedFontFamilies.put(familyName, gvtFontFamily);
+			}
+			else
+			{
+				return DefaultFontFamilyResolver.SINGLETON.resolve(familyName);
+			}
 		}
 		
 		return gvtFontFamily;

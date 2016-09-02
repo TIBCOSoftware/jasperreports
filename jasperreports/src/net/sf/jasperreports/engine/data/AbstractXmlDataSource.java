@@ -52,7 +52,7 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  * select its value. This expression must be specified using the {@link #PROPERTY_FIELD_EXPRESSION} 
  * custom property at field level. The use of the {@link net.sf.jasperreports.engine.JRField#getDescription() field description} to specify the XPath expression 
  * is still supported, but is now discouraged, the above mentioned custom property taking precedence 
- * over the field description. 
+ * over the field description. In case no XPath expression is specified, the name of the field will be used for the selection of the value.
  * The expression is evaluated in the context of the current
  * node thus the expression should be relative to the current node.
  * </p>
@@ -315,9 +315,13 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 		if (field.hasProperties())
 		{
 			fieldExpression = field.getPropertiesMap().getProperty(PROPERTY_FIELD_EXPRESSION);
-			if (fieldExpression == null)
+		}
+		if (fieldExpression == null || fieldExpression.length() == 0)
+		{
+			fieldExpression = field.getDescription();
+			if (fieldExpression == null || fieldExpression.length() == 0)
 			{
-				fieldExpression = field.getDescription();
+				fieldExpression = field.getName();
 			}
 		}
 		return fieldExpression;

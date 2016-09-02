@@ -70,7 +70,7 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 		if (dataAdapterUri != null)
 		{
 			DataAdapterResource dataAdapterResource = RepositoryUtil.getInstance(context.getJasperReportsContext()).getResourceFromLocation(dataAdapterUri, DataAdapterResource.class);
-			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getInstance(context.getJasperReportsContext()).getService(dataAdapterResource.getDataAdapter());
+			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getInstance(context).getService(dataAdapterResource.getDataAdapter());
 			
 			return Collections.singletonList(dataAdapterService);
 		}

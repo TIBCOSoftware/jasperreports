@@ -21,45 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.qe;
+package net.sf.jasperreports.data;
 
-import java.util.Map;
-
-import net.sf.jasperreports.data.AbstractDataAdapterService;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class QueryExecuterDataAdapterService extends AbstractDataAdapterService 
+public interface DataAdapterContributorFactory
 {
 
 	/**
-	 * 
+	 *
 	 */
-	public QueryExecuterDataAdapterService(ParameterContributorContext paramContribContext, QueryExecuterDataAdapter qeDataAdapter)
-	{
-		super(paramContribContext, qeDataAdapter);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #QueryExecuterDataAdapterService(ParameterContributorContext, QueryExecuterDataAdapter)}.
-	 */
-	public QueryExecuterDataAdapterService(JasperReportsContext jasperReportsContext, QueryExecuterDataAdapter qeDataAdapter)
-	{
-		super(jasperReportsContext, qeDataAdapter);
-	}
-	
-	public QueryExecuterDataAdapter getQueryExecuterDataAdapter()
-	{
-		return (QueryExecuterDataAdapter)getDataAdapter();
-	}
-	
-	@Override
-	public void contributeParameters(Map<String, Object> parameters) {
-		// does nothing
-	}
+	public DataAdapterService getDataAdapterService(ParameterContributorContext context, DataAdapter dataAdapter);
 
 }

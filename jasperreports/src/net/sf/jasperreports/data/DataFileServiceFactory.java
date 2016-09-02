@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 
 
 /**
@@ -32,6 +32,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public interface DataFileServiceFactory
 {
 
-	DataFileService createService(JasperReportsContext context, DataFile dataFile);
+	DataFileService createService(ParameterContributorContext context, DataFile dataFile);
 	
 }

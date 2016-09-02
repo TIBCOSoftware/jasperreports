@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
@@ -44,6 +45,17 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 
 	/**
 	 * 
+	 */
+	public DataSourceProviderDataAdapterService(
+		ParameterContributorContext paramContribContext,
+		DataSourceProviderDataAdapter dsDataAdapter
+		) 
+	{
+		super(paramContribContext, dsDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #DataSourceProviderDataAdapterService(ParameterContributorContext, DataSourceProviderDataAdapter)}.
 	 */
 	public DataSourceProviderDataAdapterService(
 		JasperReportsContext jasperReportsContext,

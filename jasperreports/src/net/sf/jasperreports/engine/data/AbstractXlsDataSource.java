@@ -27,9 +27,13 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -50,6 +54,17 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	public static final String EXCEPTION_MESSAGE_KEY_XLS_SHEET_INDEX_OUT_OF_RANGE = "data.xls.sheet.index.out.of.range";
 	public static final String EXCEPTION_MESSAGE_KEY_XLS_SHEET_NOT_FOUND = "data.xls.sheet.not.found";
 	
+	/**
+	 * Property specifying the XLS column name for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "xls.field.column.name";
+	/**
+	 * Property specifying the XLS column index for the dataset field.
+	 */
+	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "xls.field.column.index";
+	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
+	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
+
 	protected String sheetSelection;
 	
 	protected DateFormat dateFormat = new SimpleDateFormat();
@@ -57,6 +72,8 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	protected Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
 	protected boolean useFirstRowAsHeader;
 
+	protected Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
+	
 
 	/**
 	 * Gets the date format that will be used to parse date fields.
@@ -189,6 +206,64 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 		this.sheetSelection = sheetSelection;
 	}
 	
+
+	protected Integer getColumnIndex(JRField field) throws JRException
+	{
+		String fieldName = field.getName();
+		Integer columnIndex = columnIndexMap.get(fieldName);
+		if (columnIndex == null)
+		{
+			if (field.hasProperties())
+			{
+				String columnName = field.getPropertiesMap().getProperty(PROPERTY_FIELD_COLUMN_NAME);
+				if (columnName != null)
+				{
+					columnIndex = columnNames.get(columnName);
+					if (columnIndex == null)
+					{
+						throw 
+							new JRException(
+								EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+								new Object[]{columnName});
+					}
+				}
+			}
+
+			if (columnIndex == null)
+			{
+				if (field.hasProperties())
+				{
+					String index = field.getPropertiesMap().getProperty(PROPERTY_FIELD_COLUMN_INDEX);
+					if (index != null)
+					{
+						columnIndex = Integer.valueOf(index);
+					}
+				}
+			}
+			
+			if (columnIndex == null)
+			{
+				columnIndex = columnNames.get(fieldName);
+			}
+			
+			if (columnIndex == null && fieldName.startsWith(INDEXED_COLUMN_PREFIX))
+			{
+				columnIndex = Integer.valueOf(fieldName.substring(INDEXED_COLUMN_PREFIX_LENGTH));
+			}
+			
+			if (columnIndex == null)
+			{
+				throw 
+					new JRException(
+						EXCEPTION_MESSAGE_KEY_UNKNOWN_COLUMN_NAME,
+						new Object[]{fieldName});
+			}
+
+			columnIndexMap.put(fieldName, columnIndex);
+		}
+		
+		return columnIndex;
+	}
 }
 
 

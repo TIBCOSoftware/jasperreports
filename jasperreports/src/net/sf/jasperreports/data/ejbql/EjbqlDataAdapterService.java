@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -47,6 +48,14 @@ public class EjbqlDataAdapterService extends AbstractDataAdapterService {
 
 	/**
 	 * 
+	 */
+	public EjbqlDataAdapterService(ParameterContributorContext paramContribContext, EjbqlDataAdapter jsonDataAdapter) 
+	{
+		super(paramContribContext, jsonDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #EjbqlDataAdapterService(ParameterContributorContext, EjbqlDataAdapter)}.
 	 */
 	public EjbqlDataAdapterService(JasperReportsContext jasperReportsContext, EjbqlDataAdapter jsonDataAdapter) 
 	{
