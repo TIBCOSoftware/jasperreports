@@ -1732,11 +1732,13 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	
 	private void checkVariableCalculationReq(JRFillVariable variable, List<JRFillVariable> variableList, JRFillObjectFactory factory)
 	{
+		JRVariable parentVariable = variable.getParent();
+		
 		if (hasVariableCalculationReq(variable, CalculationEnum.AVERAGE) || hasVariableCalculationReq(variable, CalculationEnum.VARIANCE))
 		{
 			if (variable.getHelperVariable(JRCalculable.HELPER_COUNT) == null)
 			{
-				JRVariable countVar = createHelperVariable(variable, "_COUNT", CalculationEnum.COUNT);
+				JRVariable countVar = createHelperVariable(parentVariable, "_COUNT", CalculationEnum.COUNT);
 				JRFillVariable fillCountVar = factory.getVariable(countVar);
 				checkVariableCalculationReq(fillCountVar, variableList, factory);
 				variable.setHelperVariable(fillCountVar, JRCalculable.HELPER_COUNT);
@@ -1744,7 +1746,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 			if (variable.getHelperVariable(JRCalculable.HELPER_SUM) == null)
 			{
-				JRVariable sumVar = createHelperVariable(variable, "_SUM", CalculationEnum.SUM);
+				JRVariable sumVar = createHelperVariable(parentVariable, "_SUM", CalculationEnum.SUM);
 				JRFillVariable fillSumVar = factory.getVariable(sumVar);
 				checkVariableCalculationReq(fillSumVar, variableList, factory);
 				variable.setHelperVariable(fillSumVar, JRCalculable.HELPER_SUM);
@@ -1755,7 +1757,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			if (variable.getHelperVariable(JRCalculable.HELPER_VARIANCE) == null)
 			{
-				JRVariable varianceVar = createHelperVariable(variable, "_VARIANCE", CalculationEnum.VARIANCE);
+				JRVariable varianceVar = createHelperVariable(parentVariable, "_VARIANCE", CalculationEnum.VARIANCE);
 				JRFillVariable fillVarianceVar = factory.getVariable(varianceVar);
 				checkVariableCalculationReq(fillVarianceVar, variableList, factory);
 				variable.setHelperVariable(fillVarianceVar, JRCalculable.HELPER_VARIANCE);
@@ -1766,7 +1768,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			if (variable.getHelperVariable(JRCalculable.HELPER_COUNT) == null)
 			{
-				JRVariable countVar = createDistinctCountHelperVariable(variable);
+				JRVariable countVar = createDistinctCountHelperVariable(parentVariable);
 				JRFillVariable fillCountVar = factory.getVariable(countVar);
 				checkVariableCalculationReq(fillCountVar, variableList, factory);
 				variable.setHelperVariable(fillCountVar, JRCalculable.HELPER_COUNT);

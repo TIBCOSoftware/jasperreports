@@ -86,6 +86,10 @@ public class JRFillVariable implements JRVariable, JRCalculable
 		helperVariables = new JRFillVariable[JRCalculable.HELPER_SIZE];
 	}
 
+	protected JRVariable getParent()
+	{
+		return parent;
+	}
 
 	protected void reset()
 	{
