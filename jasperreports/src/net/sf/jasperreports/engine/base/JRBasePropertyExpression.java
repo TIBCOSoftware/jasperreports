@@ -44,7 +44,11 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_NAME = "name";
-	public static final String pROPERTY_VALUE_EXPRESSION = "valueExpression";
+	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
+	/**
+	 * @deprecated Replaced by {@link #PROPERTY_VALUE_EXPRESSION}. 
+	 */
+	public static final String pROPERTY_VALUE_EXPRESSION = PROPERTY_VALUE_EXPRESSION;
 
 	private String name;
 	private JRExpression valueExpression;
@@ -85,7 +89,7 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 	{
 		Object old = this.valueExpression;
 		this.valueExpression = valueExpression;
-		getEventSupport().firePropertyChange(pROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 	
 	@Override

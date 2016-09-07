@@ -39,8 +39,6 @@ public enum ParameterEvaluationTimeEnum implements NamedEnum
 	EARLY("Early"),
 	/**
 	 * Evaluate the parameter default value expression after parameter contributors.
-	 * 
-	 * @see PartEvaluationTime#getEvaluationGroup()
 	 */
 	LATE("Late");
 	
