@@ -1063,7 +1063,6 @@ public class JRVerifier
 		JRVariable[] variables = dataset.getVariables();
 		if (variables != null && variables.length > 0)
 		{
-			boolean isMainDataset = dataset.isMainDataset();
 			for(int index = 0; index < variables.length; index++)
 			{
 				JRVariable variable = variables[index];
@@ -1119,19 +1118,6 @@ public class JRVerifier
 						{
 							addBrokenRule("Increment group \"" + variable.getIncrementGroup().getName() + "\" not found for variable : " + variable.getName(), variable);
 						}
-					}
-				}
-
-				if (!isMainDataset && !variable.isSystemDefined())
-				{
-					if (resetType == ResetTypeEnum.COLUMN || resetType == ResetTypeEnum.PAGE)
-					{
-						addBrokenRule("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page reset type.", variable);
-					}
-
-					if (incrementType == IncrementTypeEnum.COLUMN || incrementType == IncrementTypeEnum.PAGE)
-					{
-						addBrokenRule("Variable " + variable.getName() + " of dataset " + dataset.getName() + " cannot have Column or Page increment type.", variable);
 					}
 				}
 			}
