@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
 /**
@@ -264,10 +263,9 @@ public class JRFillField implements JRField
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	protected final Object evaluateExpression(JRExpression expression) throws JRException
 	{
-		return expressionEvaluator.evaluate(expression, EvaluationTimeEnum.NOW.getValue());
+		return expressionEvaluator.evaluate(expression, JRExpression.EVALUATION_DEFAULT);
 	}
 
 	@Override
