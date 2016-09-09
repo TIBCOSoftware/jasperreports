@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRExpression;
@@ -217,6 +218,12 @@ public class TableReportDataset implements JRDataset
 	public boolean hasProperties()
 	{
 		return properties.hasProperties();
+	}
+
+	@Override
+	public DatasetPropertyExpression[] getPropertyExpressions()
+	{
+		return tableSubdataset.getPropertyExpressions();
 	}
 	
 	@Override

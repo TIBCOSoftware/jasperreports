@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.PropertyEvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
@@ -578,6 +579,14 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 			/*   */
 			fillReport();
+			
+			mainDataset.evaluateProperties(PropertyEvaluationTimeEnum.REPORT);
+			
+			propertiesUtil.transferProperties(
+				mainDataset, 
+				jasperPrint, 
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX
+				);
 
 			// add consolidates styles as normal styles in the print object
 //			for (Iterator it = consolidatedStyles.values().iterator(); it.hasNext();)

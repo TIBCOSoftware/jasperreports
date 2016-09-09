@@ -105,6 +105,7 @@ import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabDataset;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabParameter;
 import net.sf.jasperreports.crosstabs.base.JRBaseCrosstabRowGroup;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRBand;
@@ -1674,6 +1675,34 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			if (baseProp == null)
 			{
 				baseProp = new JRBasePropertyExpression(propertyExpression, this);
+			}
+		}
+		return baseProp;
+	}
+
+	public DatasetPropertyExpression[] getPropertyExpressions(DatasetPropertyExpression[] props)
+	{
+		DatasetPropertyExpression[] propertyExpressions = null;
+		if (props != null && props.length > 0)
+		{
+			propertyExpressions = new DatasetPropertyExpression[props.length];
+			for (int i = 0; i < props.length; i++)
+			{
+				propertyExpressions[i] = getPropertyExpression(props[i]);
+			}
+		}
+		return propertyExpressions;
+	}
+
+	public DatasetPropertyExpression getPropertyExpression(DatasetPropertyExpression propertyExpression)
+	{
+		DatasetPropertyExpression baseProp = null;
+		if (propertyExpression != null)
+		{
+			baseProp = (DatasetPropertyExpression) get(propertyExpression);
+			if (baseProp == null)
+			{
+				baseProp = new BaseDatasetPropertyExpression(propertyExpression, this);
 			}
 		}
 		return baseProp;

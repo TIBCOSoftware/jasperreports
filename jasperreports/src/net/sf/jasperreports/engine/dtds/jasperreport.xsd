@@ -13,6 +13,7 @@
   <complexType>
    <sequence>
     <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element name="propertyExpression" type="jr:datasetPropertyExpressionType" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:import" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:template" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:reportFont" minOccurs="0" maxOccurs="unbounded"/>
@@ -364,20 +365,52 @@
   </complexType>
  </element>
 
- <element name="propertyExpression">
+ <complexType name="propertyExpressionType" mixed="true">
+  <attribute name="name" type="string" use="required">
+   <annotation>
+	<documentation>Name of the object property.</documentation>
+   </annotation>
+  </attribute>
+ </complexType>
+
+ <element name="propertyExpression" type="jr:propertyExpressionType">
   <annotation>
    <documentation>Allows the creation of a dynamic name-value pair property for a report element.
   The contents of this element is interpreted as a <code>java.lang.String</code> expression,
   which will be evaluated at fill time, the result being used as property value.</documentation>
   </annotation>
-  <complexType mixed="true">
-   <attribute name="name" type="string" use="required">
-	<annotation>
-	 <documentation>Name of the object property.</documentation>
-	</annotation>
-   </attribute>
-  </complexType>
  </element>
+
+ <complexType name="datasetPropertyExpressionType" mixed="true">
+  <complexContent>
+    <extension base="jr:propertyExpressionType">
+     <attribute name="evaluationTime" use="optional">
+  	  <annotation>
+   	   <documentation>Specifies when the default value expression of a parameter is evaluated.</documentation>
+  	  </annotation>  
+      <simpleType>
+       <restriction base="string">
+        <enumeration value="Early">
+	     <annotation>
+	   	  <documentation>Evaluate the property expression before parameter contributors.</documentation>
+	  	 </annotation>  
+        </enumeration>
+        <enumeration value="Late">
+	  	 <annotation>
+	   	  <documentation>Evaluate the property expression after parameter contributors.</documentation>
+	  	 </annotation>  
+        </enumeration>
+        <enumeration value="Report">
+	  	 <annotation>
+	   	  <documentation>Evaluate the property expression at the end of the report.</documentation>
+	  	 </annotation>  
+        </enumeration>
+       </restriction>
+      </simpleType>
+     </attribute>
+    </extension>
+  </complexContent>
+ </complexType>
 
  <element name="import">
   <annotation>
@@ -1050,6 +1083,7 @@
   <complexType>
    <sequence>
     <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+    <element name="propertyExpression" type="jr:datasetPropertyExpressionType" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:scriptlet" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:parameter" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:queryString" minOccurs="0" maxOccurs="1"/>

@@ -92,6 +92,7 @@ import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -992,12 +993,46 @@ public class JRApiWriter
 	/**
 	 * 
 	 */
+	protected void writePropertyExpressions( DatasetPropertyExpression[] propertyExpressions, String propertyHolderName)
+	{
+		if (propertyExpressions != null && propertyExpressions.length > 0)
+		{
+			for (int i = 0; i < propertyExpressions.length; i++)
+			{
+				writePropertyExpression( propertyExpressions[i], propertyHolderName + "PropertyExpression" + i);
+				write( propertyHolderName + ".addPropertyExpression(" + propertyHolderName + "PropertyExpression" + i +");\n");
+			}
+			flush();
+		}
+	}
+
+
+	/**
+	 * 
+	 */
 	protected void writePropertyExpression( JRPropertyExpression propertyExpression, String propertyExpressionName)
 	{
 		if(propertyExpression != null)
 		{
 			write( "JRDesignPropertyExpression " + propertyExpressionName + " = new JRDesignPropertyExpression();\n");
 			write( propertyExpressionName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(propertyExpression.getName()));
+			writeExpression( propertyExpression.getValueExpression(), propertyExpressionName, "ValueExpression");
+			
+			flush();
+		}
+	}
+
+
+	/**
+	 * 
+	 */
+	protected void writePropertyExpression( DatasetPropertyExpression propertyExpression, String propertyExpressionName)
+	{
+		if(propertyExpression != null)
+		{
+			write( "DesignDatasetPropertyExpression " + propertyExpressionName + " = new DesignDatasetPropertyExpression();\n");
+			write( propertyExpressionName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(propertyExpression.getName()));
+			write( propertyExpressionName + ".setEvaluationTime({0});\n", propertyExpression.getEvaluationTime());
 			writeExpression( propertyExpression.getValueExpression(), propertyExpressionName, "ValueExpression");
 			
 			flush();
@@ -3453,6 +3488,7 @@ public class JRApiWriter
 			write( datasetName + ".setWhenResourceMissingType({0});\n", dataset.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 	
 			writeProperties( dataset, datasetName);
+			writePropertyExpressions( dataset.getPropertyExpressions(), datasetName);
 	
 			writeDatasetContents( dataset, datasetName);
 			flush();

@@ -2279,6 +2279,8 @@ public class JRVerifier
 	{
 		verifyExpressions(dataset);
 
+		verifyProperyExpressions(dataset.getPropertyExpressions());
+
 		verifyParameters(dataset);
 
 		verifyQuery(dataset);
