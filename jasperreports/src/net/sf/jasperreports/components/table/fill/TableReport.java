@@ -50,6 +50,7 @@ import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
@@ -2080,6 +2081,12 @@ public class TableReport implements JRReport
 	public boolean hasProperties()
 	{
 		return mainDataset.hasProperties();
+	}
+
+	@Override
+	public DatasetPropertyExpression[] getPropertyExpressions()
+	{
+		return mainDataset.getPropertyExpressions();
 	}
 
 	@Override

@@ -302,8 +302,24 @@ public class JRXmlWriteHelper
 		writeCDATAElement(name, getParentNamespace(), data, attName, attValue);
 	}
 	
-	public void writeCDATAElement(String name, XmlNamespace namespace, 
-			String data, String attName, Object attValue) throws IOException
+	public void writeCDATAElement(
+		String name, 
+		XmlNamespace namespace, 
+		String data, 
+		String attName, 
+		Object attValue
+		) throws IOException
+	{
+		writeCDATAElement(name, namespace, data, new String[]{attName}, new Object[]{attValue});
+	}
+	
+	public void writeCDATAElement(
+		String name, 
+		XmlNamespace namespace, 
+		String data, 
+		String[] attNames, 
+		Object[] attValues
+		) throws IOException
 	{
 		if (data != null)
 		{
@@ -313,13 +329,19 @@ public class JRXmlWriteHelper
 			buffer.append('<');
 			String qName = getQualifiedName(name, namespace);
 			buffer.append(qName);
-			if (attValue != null)
+			if (attNames != null)
 			{
-				buffer.append(' ');
-				buffer.append(attName);
-				buffer.append("=\"");
-				buffer.append(attValue);
-				buffer.append("\"");
+				for (int i = 0; i < attNames.length; i++)
+				{
+					if (attValues[i] != null)
+					{
+						buffer.append(' ');
+						buffer.append(attNames[i]);
+						buffer.append("=\"");
+						buffer.append(attValues[i]);
+						buffer.append("\"");
+					}
+				}
 			}
 			buffer.append("><![CDATA[");
 			buffer.append(encodeCDATA(data));

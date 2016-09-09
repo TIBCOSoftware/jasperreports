@@ -43,6 +43,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRConstants;
@@ -112,6 +113,8 @@ public class JRDesignDataset extends JRBaseDataset
 	
 	public static final String PROPERTY_VARIABLES = "variables";
 	
+	public static final String PROPERTY_PROPERTY_EXPRESSIONS = "propertyExpressions";
+
 	private transient JasperReportsContext jasperReportsContext;
 
 	private boolean ownUUID;
@@ -155,6 +158,9 @@ public class JRDesignDataset extends JRBaseDataset
 	protected Map<String, JRGroup> groupsMap = new HashMap<String, JRGroup>();
 	protected List<JRGroup> groupsList = new ArrayList<JRGroup>();
 
+	private List<DatasetPropertyExpression> propertyExpressions = new ArrayList<DatasetPropertyExpression>();
+
+	
 	private class QueryLanguageChangeListener implements PropertyChangeListener, Serializable
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -1285,8 +1291,92 @@ public class JRDesignDataset extends JRBaseDataset
 		//TODO event
 		getPropertiesMap().setProperty(propName, value);
 	}
+
+
+	/**
+	 * Add a dynamic/expression-based property.
+	 * 
+	 * @param propertyExpression the property to add
+	 * @see #getPropertyExpressions()
+	 */
+	public void addPropertyExpression(DatasetPropertyExpression propertyExpression)
+	{
+		propertyExpressions.add(propertyExpression);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PROPERTY_EXPRESSIONS, 
+				propertyExpression, propertyExpressions.size() - 1);
+	}
+
+	/**
+	 * Remove a property expression.
+	 * 
+	 * @param propertyExpression the property expression to remove
+	 * @see #addPropertyExpression(DatasetPropertyExpression)
+	 */
+	public void removePropertyExpression(DatasetPropertyExpression propertyExpression)
+	{
+		int idx = propertyExpressions.indexOf(propertyExpression);
+		if (idx >= 0)
+		{
+			propertyExpressions.remove(idx);
+			
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PROPERTY_EXPRESSIONS, 
+					propertyExpression, idx);
+		}
+	}
 	
+	/**
+	 * Remove a property expression.
+	 * 
+	 * @param name the name of the property to remove
+	 * @return the removed property expression (if found)
+	 */
+	public DatasetPropertyExpression removePropertyExpression(String name)
+	{
+		DatasetPropertyExpression removed = null;
+		for (ListIterator<DatasetPropertyExpression> it = propertyExpressions.listIterator(); it.hasNext();)
+		{
+			DatasetPropertyExpression prop = it.next();
+			if (name.equals(prop.getName()))
+			{
+				removed = prop;
+				int idx = it.previousIndex();
+				
+				it.remove();
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PROPERTY_EXPRESSIONS, 
+						removed, idx);
+				break;
+			}
+		}
+		return removed;
+	}
 	
+	/**
+	 * Returns the list of property expressions.
+	 * 
+	 * @return the list of property expressions ({@link DatasetPropertyExpression} instances)
+	 * @see #addPropertyExpression(DatasetPropertyExpression)
+	 */
+	public List<DatasetPropertyExpression> getPropertyExpressionsList()
+	{
+		return propertyExpressions;
+	}
+	
+	@Override
+	public DatasetPropertyExpression[] getPropertyExpressions()
+	{
+		DatasetPropertyExpression[] props;
+		if (propertyExpressions.isEmpty())
+		{
+			props = null;
+		}
+		else
+		{
+			props = propertyExpressions.toArray(new DatasetPropertyExpression[propertyExpressions.size()]);
+		}
+		return props;
+	}
+
+
 	/**
 	 * Sets the dataset filter expression.
 	 * <p>
@@ -1329,6 +1419,11 @@ public class JRDesignDataset extends JRBaseDataset
 			sortFieldsList = new ArrayList<JRSortField>();
 		}
 		
+		if (propertyExpressions == null)
+		{
+			propertyExpressions = new ArrayList<DatasetPropertyExpression>();
+		}
+
 		@SuppressWarnings("resource")
 		ContextClassLoaderObjectInputStream cclois = 
 			in instanceof ContextClassLoaderObjectInputStream ? (ContextClassLoaderObjectInputStream)in : null;
@@ -1408,6 +1503,8 @@ public class JRDesignDataset extends JRBaseDataset
 				clone.groupsMap.put(group.getName(), group);
 			}
 		}
+
+		clone.propertyExpressions = JRCloneUtils.cloneList(propertyExpressions);
 		
 		return clone;
 	}

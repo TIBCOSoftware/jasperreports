@@ -439,6 +439,13 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	public void removeProperty(String name);
 
 	/**
+	 * Returns the list of dynamic/expression-based properties for this report.
+	 * 
+	 * @return an array containing the expression-based properties of this report
+	 */
+	public DatasetPropertyExpression[] getPropertyExpressions();
+	
+	/**
 	 * Gets an array of imports (needed if report expression require additional classes in order to compile).
 	 */
 	public String[] getImports();

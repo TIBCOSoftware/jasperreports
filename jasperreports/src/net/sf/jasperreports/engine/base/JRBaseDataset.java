@@ -28,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.UUID;
 
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRExpression;
@@ -72,6 +73,8 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	protected WhenResourceMissingTypeEnum whenResourceMissingTypeValue = WhenResourceMissingTypeEnum.NULL;
 	protected JRPropertiesMap propertiesMap;
 	protected JRExpression filterExpression;
+
+	private DatasetPropertyExpression[] propertyExpressions;
 	
 	protected JRBaseDataset(boolean isMain)
 	{
@@ -92,6 +95,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 
 		/*   */
 		this.propertiesMap = dataset.getPropertiesMap().cloneProperties();
+		propertyExpressions = factory.getPropertyExpressions(dataset.getPropertyExpressions());
 
 		query = factory.getQuery(dataset.getQuery());
 
@@ -285,6 +289,12 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		return null;
 	}
 
+	@Override
+	public DatasetPropertyExpression[] getPropertyExpressions()
+	{
+		return propertyExpressions;
+	}
+
 	public JRExpression getFilterExpression()
 	{
 		return filterExpression;
@@ -312,6 +322,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		{
 			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
+		clone.propertyExpressions = JRCloneUtils.cloneArray(propertyExpressions);
 
 		clone.parameters = JRCloneUtils.cloneArray(parameters);
 		clone.fields = JRCloneUtils.cloneArray(fields);

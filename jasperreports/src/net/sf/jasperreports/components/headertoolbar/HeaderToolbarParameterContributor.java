@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -56,7 +57,7 @@ public class HeaderToolbarParameterContributor implements ParameterContributor
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
 		if (reportContext != null)
 		{
-			String serializedFilters = context.getDataset().getPropertiesMap().getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
+			String serializedFilters = JRPropertiesUtil.getOwnProperty(context.getDataset(), FilterCommand.DATASET_FILTER_PROPERTY);
 			
 			if (serializedFilters != null) 
 			{

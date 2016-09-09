@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
@@ -496,6 +497,12 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	public void removeProperty(String propName)
 	{
 		mainDataset.getPropertiesMap().removeProperty(propName);
+	}
+
+	@Override
+	public DatasetPropertyExpression[] getPropertyExpressions()
+	{
+		return mainDataset.getPropertyExpressions();
 	}
 
 	/**

@@ -34,6 +34,7 @@ import java.util.UUID;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
@@ -778,6 +779,42 @@ public class JasperDesign extends JRBaseReport
 	public JRScriptlet removeScriptlet(String scriptletName)
 	{
 		return mainDesignDataset.removeScriptlet(scriptletName);
+	}
+
+
+	/**
+	 *
+	 */
+	public void addPropertyExpression(DatasetPropertyExpression propertyExpression)
+	{
+		mainDesignDataset.addPropertyExpression(propertyExpression);
+	}
+
+
+	/**
+	 *
+	 */
+	public void removePropertyExpression(DatasetPropertyExpression propertyExpression)
+	{
+		mainDesignDataset.removePropertyExpression(propertyExpression);
+	}
+
+	
+	/**
+	 *
+	 */
+	public DatasetPropertyExpression removePropertyExpression(String name)
+	{
+		return mainDesignDataset.removePropertyExpression(name);
+	}
+
+	
+	/**
+	 *
+	 */
+	public List<DatasetPropertyExpression> getPropertyExpressionsList()
+	{
+		return mainDesignDataset.getPropertyExpressionsList();
 	}
 
 

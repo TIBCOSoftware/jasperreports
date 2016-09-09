@@ -103,6 +103,7 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabGroupFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -471,6 +472,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 
 		writeProperties(report);
+
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_2_1))
+		{
+			writePropertyExpressions(report.getPropertyExpressions());
+		}
 
 		/*   */
 		String[] imports = report.getImports();
@@ -1045,8 +1051,19 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
-	public void writePropertyExpressions(
-			JRPropertyExpression[] propertyExpressions) throws IOException
+	public void writePropertyExpressions(JRPropertyExpression[] propertyExpressions) throws IOException
+	{
+		if (propertyExpressions != null)
+		{
+			for (int i = 0; i < propertyExpressions.length; i++)
+			{
+				writePropertyExpression(propertyExpressions[i]);
+			}
+		}
+	}
+
+
+	public void writePropertyExpressions(DatasetPropertyExpression[] propertyExpressions) throws IOException
 	{
 		if (propertyExpressions != null)
 		{
@@ -1064,6 +1081,24 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		String expressionText = valueExpression == null ? "" : valueExpression.getText();
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_propertyExpression, getNamespace(), expressionText, 
 				JRXmlConstants.ATTRIBUTE_name, propertyExpression.getName());
+	}
+
+
+	protected void writePropertyExpression(DatasetPropertyExpression propertyExpression) throws IOException
+	{
+		JRExpression valueExpression = propertyExpression.getValueExpression();
+		String expressionText = valueExpression == null ? "" : valueExpression.getText();
+		writer.writeCDATAElement(
+			JRXmlConstants.ELEMENT_propertyExpression, 
+			getNamespace(), 
+			expressionText, 
+			new String[]{
+				JRXmlConstants.ATTRIBUTE_name, 
+				JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+			new Object[]{
+				propertyExpression.getName(), 
+				propertyExpression.getEvaluationTime() == null ? null : propertyExpression.getEvaluationTime().getName()}
+			);
 	}
 
 
@@ -3192,6 +3227,11 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 
 		writeProperties(dataset);
+
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_2_1))
+		{
+			writePropertyExpressions(dataset.getPropertyExpressions());
+		}
 
 		writeDatasetContents(dataset);
 
