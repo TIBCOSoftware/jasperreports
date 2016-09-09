@@ -1512,6 +1512,7 @@ public class JRExpressionCollector
 	public Collection<JRExpression> collect(JRDataset dataset)
 	{
 		JRExpressionCollector collector = getCollector(dataset);
+		collector.collectPropertyExpressions(dataset.getPropertyExpressions());
 		collector.collect(dataset.getParameters());
 		collector.collect(dataset.getFields());
 		collector.collect(dataset.getVariables());

@@ -103,7 +103,15 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiab
 	 */
 	public JRScriptlet[] getScriptlets();
 
-	
+
+	/**
+	 * Returns the list of dynamic/expression-based properties for this dataset.
+	 * 
+	 * @return an array containing the expression-based properties of this dataset
+	 */
+	public DatasetPropertyExpression[] getPropertyExpressions();
+
+
 	/**
 	 * Returns the dataset's parameters.
 	 * 
