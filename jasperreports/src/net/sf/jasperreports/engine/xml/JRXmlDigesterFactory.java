@@ -29,6 +29,14 @@ import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
+import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.SetNestedPropertiesRule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.design.JRDesignDataRange;
@@ -134,6 +142,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
@@ -173,14 +182,6 @@ import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.xml.JRChartFactory.JRCategoryAxisFormatFactory;
-
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.SetNestedPropertiesRule;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 
 /**
@@ -240,7 +241,21 @@ public final class JRXmlDigesterFactory
 		/*   */
 		digester.addRule("*/property", new JRPropertyDigesterRule());
 		
-		String propertyExpressionPattern = "*/" + JRXmlConstants.ELEMENT_propertyExpression;
+		String propertyExpressionPattern = "jasperReport/" + JRXmlConstants.ELEMENT_propertyExpression;
+		digester.addFactoryCreate(propertyExpressionPattern, DatasetPropertyExpressionFactory.class.getName());
+		digester.addSetNext(propertyExpressionPattern, "addPropertyExpression", DatasetPropertyExpression.class.getName());
+		digester.addFactoryCreate(propertyExpressionPattern, depStringExprFactoryClass.getName());
+		digester.addSetNext(propertyExpressionPattern, "setValueExpression", JRExpression.class.getName());
+		digester.addCallMethod(propertyExpressionPattern, "setText", 0);
+
+		propertyExpressionPattern = "*/subDataset/" + JRXmlConstants.ELEMENT_propertyExpression;
+		digester.addFactoryCreate(propertyExpressionPattern, DatasetPropertyExpressionFactory.class.getName());
+		digester.addSetNext(propertyExpressionPattern, "addPropertyExpression", DatasetPropertyExpression.class.getName());
+		digester.addFactoryCreate(propertyExpressionPattern, depStringExprFactoryClass.getName());
+		digester.addSetNext(propertyExpressionPattern, "setValueExpression", JRExpression.class.getName());
+		digester.addCallMethod(propertyExpressionPattern, "setText", 0);
+
+		propertyExpressionPattern = "*/" + JRXmlConstants.ELEMENT_propertyExpression;
 		digester.addFactoryCreate(propertyExpressionPattern, JRPropertyExpressionFactory.class.getName());
 		digester.addSetNext(propertyExpressionPattern, "addPropertyExpression", JRPropertyExpression.class.getName());
 		digester.addFactoryCreate(propertyExpressionPattern, depStringExprFactoryClass.getName());

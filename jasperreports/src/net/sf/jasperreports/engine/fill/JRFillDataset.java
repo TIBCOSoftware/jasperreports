@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,6 +47,7 @@ import net.sf.jasperreports.data.cache.DataSnapshot;
 import net.sf.jasperreports.data.cache.DataSnapshotException;
 import net.sf.jasperreports.data.cache.DatasetRecorder;
 import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.EvaluationType;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
@@ -80,6 +82,7 @@ import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.PropertyEvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.DigestUtils;
@@ -233,6 +236,10 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	protected List<JRAbstractScriptlet> scriptlets;
 
+	protected List<DatasetPropertyExpression> propertyExpressions;
+	protected JRPropertiesMap staticProperties;
+	protected JRPropertiesMap mergedProperties;
+	
 	/**
 	 *
 	 */
@@ -290,6 +297,15 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		setVariables(dataset, factory);
 		
 		setGroups(dataset, factory);
+		
+		staticProperties = dataset.hasProperties() ? dataset.getPropertiesMap().cloneProperties() : null;
+		mergedProperties = staticProperties;
+		
+		DatasetPropertyExpression[] datasetPropertyExpressions = dataset.getPropertyExpressions();
+		propertyExpressions = 
+			datasetPropertyExpressions == null 
+			? new ArrayList<DatasetPropertyExpression>(0)
+			: new ArrayList<DatasetPropertyExpression>(Arrays.asList(datasetPropertyExpressions));
 	}
 
 
@@ -637,12 +653,18 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		evaluateParameterValues(ParameterEvaluationTimeEnum.EARLY, parameterValues);
 		
+		mergedProperties = staticProperties;
+		
+		evaluateProperties(PropertyEvaluationTimeEnum.EARLY);
+		
 		contributeParameters(parameterValues);
 		
 		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
 
 		//FIXME do not call on default parameter value evaluation and when a data snapshot is used?
 		setFillParameterValues(parameterValues);
+
+		evaluateProperties(PropertyEvaluationTimeEnum.LATE);
 		
 		// after we have the parameter values, init cache recording
 		cacheInitRecording();
@@ -1879,14 +1901,14 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	@Override
 	public boolean hasProperties()
 	{
-		return parent.hasProperties();
+		return mergedProperties != null && mergedProperties.hasProperties();
 	}
 
 
 	@Override
 	public JRPropertiesMap getPropertiesMap()
 	{
-		return parent.getPropertiesMap();
+		return mergedProperties;
 	}
 
 	
@@ -1895,6 +1917,41 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		// report properties propagate to subdatasets
 		return isMain ? null : filler.getJasperReport();
+	}
+
+
+	@Override
+	public DatasetPropertyExpression[] getPropertyExpressions()
+	{
+		return propertyExpressions.toArray(new DatasetPropertyExpression[propertyExpressions.size()]);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateProperties(PropertyEvaluationTimeEnum evaluationTime) throws JRException
+	{
+		if (!propertyExpressions.isEmpty())
+		{
+			JRPropertiesMap dynamicProperties = new JRPropertiesMap();
+			
+			for (DatasetPropertyExpression prop : propertyExpressions)
+			{
+				if (evaluationTime == prop.getEvaluationTime())
+				{
+					String value = (String) evaluateExpression(prop.getValueExpression(), JRExpression.EVALUATION_DEFAULT);
+					//if (value != null) //is the null value significant for some field properties?
+					{
+						dynamicProperties.setProperty(prop.getName(), value);
+					}
+				}
+			}
+
+			JRPropertiesMap newMergedProperties = dynamicProperties.cloneProperties();
+			newMergedProperties.setBaseProperties(mergedProperties);
+			mergedProperties = newMergedProperties;
+		}
 	}
 
 

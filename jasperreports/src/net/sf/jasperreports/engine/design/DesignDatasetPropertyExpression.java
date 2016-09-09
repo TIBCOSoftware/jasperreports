@@ -21,46 +21,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.design;
 
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.base.BaseDatasetPropertyExpression;
+import net.sf.jasperreports.engine.type.PropertyEvaluationTimeEnum;
 
 /**
- * Defines specific moments in time when the default value expression of a parameter is supposed to be evaluated.
+ * Implementation of {@link DatasetPropertyExpression} to be used at report
+ * design time.
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ParameterEvaluationTimeEnum implements NamedEnum
+public class DesignDatasetPropertyExpression extends BaseDatasetPropertyExpression
 {
-	/**
-	 * Evaluate the parameter default value expression before parameter contributors.
-	 */
-	EARLY("Early"),
-	/**
-	 * Evaluate the parameter default value expression after parameter contributors.
-	 */
-	LATE("Late");
-	
-	/**
-	 * Provides a default value for the {@link JRParameter#getEvaluationTime()} property of parameters and can be set either globally or at dataset level.
-	 */
-	public static final String PROPERTY_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "parameter.evaluation.time";
 
-	private final String name;
-	
-	private ParameterEvaluationTimeEnum(String name)
-	{
-		this.name = name;
-	}
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	/**
+	 * Sets the property expression evaluation time.
+	 */
 	@Override
-	public String getName()
+	public void setEvaluationTime(PropertyEvaluationTimeEnum evaluationTime)
 	{
-		return name;
+		super.setEvaluationTime(evaluationTime);
 	}
-
-	public static ParameterEvaluationTimeEnum byName(String name)
+	
+	/**
+	 * Sets the property value expression.
+	 * 
+	 * @param valueExpression the value expression
+	 */
+	@Override
+	public void setValueExpression(JRExpression valueExpression)
 	{
-		return EnumUtil.getEnumByName(values(), name);
+		super.setValueExpression(valueExpression);
 	}
+	
 }

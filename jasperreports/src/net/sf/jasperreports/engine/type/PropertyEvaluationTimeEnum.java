@@ -27,19 +27,23 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 /**
- * Defines specific moments in time when the default value expression of a parameter is supposed to be evaluated.
+ * Defines specific moments in time when the property expression of a dataset is supposed to be evaluated.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ParameterEvaluationTimeEnum implements NamedEnum
+public enum PropertyEvaluationTimeEnum implements NamedEnum
 {
 	/**
-	 * Evaluate the parameter default value expression before parameter contributors.
+	 * Evaluate the property expression before parameter contributors.
 	 */
 	EARLY("Early"),
 	/**
-	 * Evaluate the parameter default value expression after parameter contributors.
+	 * Evaluate the property expression after parameter contributors.
 	 */
-	LATE("Late");
+	LATE("Late"),
+	/**
+	 * Evaluate the property expression at the end of the report.
+	 */
+	REPORT("Report");
 	
 	/**
 	 * Provides a default value for the {@link JRParameter#getEvaluationTime()} property of parameters and can be set either globally or at dataset level.
@@ -48,7 +52,7 @@ public enum ParameterEvaluationTimeEnum implements NamedEnum
 
 	private final String name;
 	
-	private ParameterEvaluationTimeEnum(String name)
+	private PropertyEvaluationTimeEnum(String name)
 	{
 		this.name = name;
 	}
@@ -59,7 +63,7 @@ public enum ParameterEvaluationTimeEnum implements NamedEnum
 		return name;
 	}
 
-	public static ParameterEvaluationTimeEnum byName(String name)
+	public static PropertyEvaluationTimeEnum byName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}
