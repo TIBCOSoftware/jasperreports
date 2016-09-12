@@ -651,21 +651,23 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		// initializing cache because we need the cached parameter values
 		cacheInit();
 		
+		setFillParameterValuesFromMap(parameterValues, true);
+		setFillParameterValuesFromCache(parameterValues);
 		evaluateParameterValues(ParameterEvaluationTimeEnum.EARLY, parameterValues);
 		
 		mergedProperties = staticProperties;
-		
 		evaluateProperties(PropertyEvaluationTimeEnum.EARLY);
 		
 		//FIXME do not call on default parameter value evaluation and when a data snapshot is used?
 		contributeParameters(parameterValues);
 		
-		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
-
-		setFillParameterValues(parameterValues);
+		setFillParameterValuesFromMap(parameterValues, false);
+		evaluateParameterValues(ParameterEvaluationTimeEnum.LATE, parameterValues);
 
 		evaluateProperties(PropertyEvaluationTimeEnum.LATE);
 		
+		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
+
 		// after we have the parameter values, init cache recording
 		cacheInitRecording();
 		
@@ -904,21 +906,14 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return JRPropertiesUtil.asBoolean(includedProp);
 	}
 
-	protected ParameterEvaluationTimeEnum getDefaultValueEvaluationTime(JRFillParameter parameter)
+	protected ParameterEvaluationTimeEnum getDefaultValueEvaluationTime()
 	{
-		ParameterEvaluationTimeEnum evaluationTime = parameter.getEvaluationTime();
-		
-		if (evaluationTime == null)
-		{
-			String evalTimeProp = 
-				propertiesUtil.getProperty(
-					ParameterEvaluationTimeEnum.PROPERTY_EVALUATION_TIME, 
-					this
-					);
-			evaluationTime = ParameterEvaluationTimeEnum.byName(evalTimeProp);
-		}
-		
-		return evaluationTime;
+		String evalTimeProp = 
+			propertiesUtil.getProperty(
+				ParameterEvaluationTimeEnum.PROPERTY_EVALUATION_TIME, 
+				this
+				);
+		return ParameterEvaluationTimeEnum.byName(evalTimeProp);
 	}
 
 	protected void cacheRecord()
@@ -1006,25 +1001,28 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		}
 	}
 
+
 	/**
 	 * Sets the parameter values from the values map.
 	 * 
 	 * @param parameterValues the values map
 	 * @throws JRException
 	 */
-	private void evaluateParameterValues(ParameterEvaluationTimeEnum paramDefaultValueEvalTime, Map<String,Object> parameterValues) throws JRException
+	private void evaluateParameterValues(ParameterEvaluationTimeEnum evaluationTime, Map<String,Object> parameterValues) throws JRException
 	{
 		if (parameters != null && parameters.length > 0)
 		{
+			ParameterEvaluationTimeEnum defaultEvaluationTime = getDefaultValueEvaluationTime();
 			for (int i = 0; i < parameters.length; i++)
 			{
 				JRFillParameter parameter = parameters[i];
 				String paramName = parameter.getName();
+				ParameterEvaluationTimeEnum paramEvalTime = parameter.getEvaluationTime() == null ? defaultEvaluationTime : parameter.getEvaluationTime();
 				
 				if (
 					!parameterValues.containsKey(paramName) //cheaper to test this first
 					&& !parameter.isSystemDefined() //cheaper to test this first
-					&& paramDefaultValueEvalTime == getDefaultValueEvaluationTime(parameter)
+					&& evaluationTime == paramEvalTime
 					&& (!isIncludedInDataCache(parameter) || cachedDataset == null)
 					)
 				{
@@ -1033,6 +1031,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 					{
 						parameterValues.put(paramName, value);
 					}
+					setParameter(parameter, value);
 				}
 			}
 		}
@@ -1040,12 +1039,9 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 
 	/**
-	 * Sets the parameter values from the values map.
 	 * 
-	 * @param parameterValues the values map
-	 * @throws JRException
 	 */
-	private void setFillParameterValues(Map<String,Object> parameterValues) throws JRException
+	private void setFillParameterValuesFromMap(Map<String,Object> parameterValues, boolean reset) throws JRException
 	{
 		if (parameters != null && parameters.length > 0)
 		{
@@ -1058,8 +1054,36 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				if (parameterValues.containsKey(paramName))
 				{
 					value = parameterValues.get(paramName);
+					setParameter(parameter, value);
 				}
-				else if (!parameter.isSystemDefined())
+				else if (reset)
+				{
+					setParameter(parameter, null);
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Sets the parameter values from the values map.
+	 * 
+	 * @param parameterValues the values map
+	 * @throws JRException
+	 */
+	private void setFillParameterValuesFromCache(Map<String,Object> parameterValues) throws JRException
+	{
+		if (parameters != null && parameters.length > 0)
+		{
+			for (int i = 0; i < parameters.length; i++)
+			{
+				JRFillParameter parameter = parameters[i];
+				String paramName = parameter.getName();
+				
+				if (
+					!parameterValues.containsKey(paramName)
+					&& !parameter.isSystemDefined()
+					)
 				{
 					if (isIncludedInDataCache(parameter) && cachedDataset != null)
 					{
@@ -1079,18 +1103,10 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 							log.debug("loading parameter " + paramName + " value from data snapshot");
 						}
 						
-						value = cachedDataset.getParameterValue(paramName);
-					}
-					else if (ParameterEvaluationTimeEnum.LATE == getDefaultValueEvaluationTime(parameter))
-					{
-						value = calculator.evaluate(parameter.getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
-						if (value != null)
-						{
-							parameterValues.put(paramName, value);
-						}
+						Object value = cachedDataset.getParameterValue(paramName);
+						setParameter(parameter, value);
 					}
 				}
-				setParameter(parameter, value);
 			}
 		}
 	}
