@@ -657,11 +657,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		evaluateProperties(PropertyEvaluationTimeEnum.EARLY);
 		
+		//FIXME do not call on default parameter value evaluation and when a data snapshot is used?
 		contributeParameters(parameterValues);
 		
 		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
 
-		//FIXME do not call on default parameter value evaluation and when a data snapshot is used?
 		setFillParameterValues(parameterValues);
 
 		evaluateProperties(PropertyEvaluationTimeEnum.LATE);
