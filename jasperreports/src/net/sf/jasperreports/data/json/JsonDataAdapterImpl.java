@@ -43,7 +43,7 @@ public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 	private Locale locale;
 	private TimeZone timeZone;
 	private boolean useConnection = false;
-	private JsonExpressionLanguageEnum language;
+	private JsonExpressionLanguageEnum language = JsonExpressionLanguageEnum.JSON;
 
 	/**
 	 * @deprecated replaced by {@link #getDataFile()}
