@@ -906,7 +906,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return JRPropertiesUtil.asBoolean(includedProp);
 	}
 
-	protected ParameterEvaluationTimeEnum getDefaultValueEvaluationTime()
+	protected ParameterEvaluationTimeEnum getDefaultParameterEvaluationTime()
 	{
 		String evalTimeProp = 
 			propertiesUtil.getProperty(
@@ -914,6 +914,16 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				this
 				);
 		return ParameterEvaluationTimeEnum.byName(evalTimeProp);
+	}
+
+	protected PropertyEvaluationTimeEnum getDefaultPropertyEvaluationTime()
+	{
+		String evalTimeProp = 
+			propertiesUtil.getProperty(
+				PropertyEvaluationTimeEnum.PROPERTY_EVALUATION_TIME, 
+				this
+				);
+		return PropertyEvaluationTimeEnum.byName(evalTimeProp);
 	}
 
 	protected void cacheRecord()
@@ -1012,7 +1022,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		if (parameters != null && parameters.length > 0)
 		{
-			ParameterEvaluationTimeEnum defaultEvaluationTime = getDefaultValueEvaluationTime();
+			ParameterEvaluationTimeEnum defaultEvaluationTime = getDefaultParameterEvaluationTime();
 			for (int i = 0; i < parameters.length; i++)
 			{
 				JRFillParameter parameter = parameters[i];
@@ -1952,9 +1962,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			JRPropertiesMap dynamicProperties = new JRPropertiesMap();
 			
+			PropertyEvaluationTimeEnum defaultEvaluationTime = getDefaultPropertyEvaluationTime();
 			for (DatasetPropertyExpression prop : propertyExpressions)
 			{
-				if (evaluationTime == prop.getEvaluationTime())
+				PropertyEvaluationTimeEnum propEvalTime = prop.getEvaluationTime() == null ? defaultEvaluationTime : prop.getEvaluationTime();
+				if (evaluationTime == propEvalTime)
 				{
 					String value = (String) evaluateExpression(prop.getValueExpression(), JRExpression.EVALUATION_DEFAULT);
 					//if (value != null) //is the null value significant for some field properties?

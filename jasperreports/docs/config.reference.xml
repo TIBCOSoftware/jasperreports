@@ -115,6 +115,7 @@
       <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
       <property ref="net.sf.jasperreports.page.break.no.pagination"/>
       <property ref="net.sf.jasperreports.parameter.evaluation.time"/>
+      <property ref="net.sf.jasperreports.property.evaluation.time"/>
       <property ref="net.sf.jasperreports.print.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.print.create.bookmarks"/>
       <property ref="net.sf.jasperreports.print.keep.full.text"/>
@@ -5944,14 +5945,34 @@ Possible values are:
     <description>
 Specifies the default value for the <api href="net/sf/jasperreports/engine/JRParameter.html#getEvaluationTime()">getEvaluationTime()</api> property of a dataset parameter.
 <br/>
-Possible values are defined by the <api href="net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html">ParameterDefaultValueEvaluationTimeType</api> enumeration.
+Possible values are defined by the <api href="net/sf/jasperreports/engine/type/ParameterEvaluationTimeType.html">ParameterEvaluationTimeType</api> enumeration.
 <ul>
   <li><code>Early</code> - Evaluate the parameter default value expression before parameter contributors.</li>
   <li><code>Late</code> - Evaluate the parameter default value expression after parameter contributors.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/type/ParameterDefaultValueEvaluationTimeType.html#PROPERTY_DEFAULT_VALUE_EVALUATION_TIME</api>
+    <api>net/sf/jasperreports/engine/type/ParameterEvaluationTimeType.html#PROPERTY_EVALUATION_TIME</api>
     <default>Late</default>
+    <scope>Global | Dataset</scope>
+    <since>6.3.1</since>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.property.evaluation.time -->
+  
+  <configProperty name="net.sf.jasperreports.property.evaluation.time">
+    <description>
+Specifies the default value for the <api href="net/sf/jasperreports/engine/DatasetPropertyExpression.html#getEvaluationTime()">getEvaluationTime()</api> setting of a dataset property expression.
+<br/>
+Possible values are defined by the <api href="net/sf/jasperreports/engine/type/PropertyEvaluationTimeType.html">PropertyEvaluationTimeType</api> enumeration.
+<ul>
+  <li><code>Early</code> - Evaluate the property expression before parameter contributors.</li>
+  <li><code>Late</code> - Evaluate the property expression after parameter contributors.</li>
+  <li><code>Late</code> - Evaluate the property expression at the end of the report.</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/type/PropertyEvaluationTimeType.html#PROPERTY_EVALUATION_TIME</api>
+    <default>Early</default>
     <scope>Global | Dataset</scope>
     <since>6.3.1</since>
   </configProperty>

@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.type;
 
-import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 /**
@@ -46,9 +46,9 @@ public enum PropertyEvaluationTimeEnum implements NamedEnum
 	REPORT("Report");
 	
 	/**
-	 * Provides a default value for the {@link JRParameter#getEvaluationTime()} property of parameters and can be set either globally or at dataset level.
+	 * Provides a default value for the {@link DatasetPropertyExpression#getEvaluationTime()} setting of dataset property expressions and can be set either globally or at dataset level.
 	 */
-	public static final String PROPERTY_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "parameter.evaluation.time";
+	public static final String PROPERTY_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "property.evaluation.time";
 
 	private final String name;
 	
