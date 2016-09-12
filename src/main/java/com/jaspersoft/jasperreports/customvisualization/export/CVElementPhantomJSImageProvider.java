@@ -59,7 +59,8 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 
 	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_PATH = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.executable.path";
 	public static final String PROPERTY_CVC_PHANTOMJS_DEBUG = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.debug";
-	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT = "com.jaspersoft.jasperreports.highcharts.phantomjs.executable.timeout";
+        public static final String PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.executable.timeout";
+	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_HIGHCHARTS_TIMEOUT = "com.jaspersoft.jasperreports.highcharts.phantomjs.executable.timeout";
 	public static final String PROPERTY_PHANTOMJS_TEMPDIR_PATH = "com.jaspersoft.jasperreports.highcharts.phantomjs.tempdir.path";
 
 	public static final String DIV2SVG_SCRIPT = "com/jaspersoft/jasperreports/customvisualization/scripts/div2svg.js";
@@ -104,8 +105,16 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 		}
 
 		int phantomjsTimeout;
-		String timeoutProperty = jasperReportsContext
-				.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT);
+                
+                // Check for either the CVC specific timeout or the Highcharts timeout set for the phantomjs executable...
+                // If none of the two properties are set, the timeout is set to 60 seconds.
+                // Please also note that this timeout is the really maximum time allowed to complete the rendering. There is another
+                // timeout that plays a more important role, which is the internal script timeout waiting for the page to be ready to
+                // render. This timeout is set by default to 30 seconds, and can be personalized element by element by setting the
+                // CVC property "render-timeout" (this is not an element property, just a regular CVC property).
+		String timeoutProperty = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT) != null 
+                                ? jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT) : 
+                                  jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_HIGHCHARTS_TIMEOUT);
 		if (timeoutProperty != null)
 		{
 			phantomjsTimeout = Integer.parseInt(timeoutProperty);
