@@ -88,7 +88,7 @@
 		<snapshotRepository>
 			<id>jr-ce-snapshots</id>
 			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
