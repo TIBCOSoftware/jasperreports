@@ -291,6 +291,68 @@
       <br/>
       <br/>
       <br/>
+
+      <b>Absolute expressions</b>
+      <br/>
+      <br/>
+      Absolute expressions start with the <code><b>$</b></code> symbol placed in front of the first member expression:
+      <pre><b>$</b>.Northwind.Customers[0]["Company Name"]</pre>
+      or
+      <pre><b>$</b>["Northwind"].Customers[0]["Company Name"]</pre>
+      etc.
+      <br/>
+      <br/>
+      When used in the report's <code>queryString</code>, it makes no difference if an expression is absolute or not.
+      The result is always calculated from the root of the JSON data.
+      <br/>
+      <br/>
+      The only place where the absolute expression matters is the field's property expression. For example:
+<pre><![CDATA[
+<field name="FirstCustomerCompanyName" class="java.lang.String">
+  <propertyExpression name="net.sf.jasperreports.jsonql.field.expression"><![CDATA[ "$.Northwind.Customers[0][\"Company Name\"]" ]] ></propertyExpression>
+  <fieldDescription><![CDATA[ The company name of the first customer]] ></fieldDescription>
+</field>
+]]></pre>
+      defines a field whose value is calculated directly from the root <code>Northwind</code> object and not
+      relative to the field in the dataSet produced by the <code>queryString</code>.
+      <br/>
+      You may want to use an absolute expression like this when the value you are interested in is not part of any of the results produced by the main dataSet's query.
+      <br/>
+      <br/>
+      <br/>
+
+      <b>Comments inside expressions</b>
+      <br/>
+      <br/>
+      Comments are supported inside JSONQL expressions. A JSONQL expression can be a single or multi-line expression, therefore we have single line comments and multi-line comments:
+      <ul>
+        <li>Single line comments start with the <span class="green">//</span> symbol:</li>
+        <pre>
+Northwind
+  .Customers
+  .Orders
+  .*
+  <span class="green">//(Freight > 200 &amp;&amp; OrderDate *= "1997")</span></pre>
+        Here we comment out the entire filtering expression.
+        <br/>
+        <br/>
+        <li>Multi-line comments start with <span class="green">/*</span> and end with <span class="green">*/</span> symbols:</li>
+        <pre>
+Northwind
+  .Customers
+  <span class="green">/*.Orders
+  .*
+  (Freight > 200 &amp;&amp; OrderDate *= "1997")*/</span></pre>
+        Here we comment out everything that follows the Customers member.
+        <br/>
+        <br/>
+        We can also use the multi-line comment inside a single line JSONQL expression:
+        <pre>Northwind.Customers.Orders.*(Freight > 200 <span class="green">/*&amp;&amp; OrderDate *= "1997"*/</span>)</pre>
+        Here we comment out only a part of the filtering expression.
+      </ul>
+      <br/>
+      <br/>
+
       <b>JSONQL Members</b>
       <br/>
       <br/>
