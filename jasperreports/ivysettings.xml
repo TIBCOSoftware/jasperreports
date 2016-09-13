@@ -4,7 +4,7 @@
         <chain name="maven">
             <ibiblio name="ibiblio" m2compatible="true" usepoms="false"/>
             <ibiblio name="jaspersoft" m2compatible="true" usepoms="false" checkmodified="true" changingPattern=".*-SNAPSHOT.*"
-                root="http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"/>
+                root="http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"/>
         </chain>
     </resolvers>
 </ivysettings>
