@@ -39,6 +39,7 @@ import net.sf.jasperreports.export.SimpleJsonExporterOutput;
 import net.sf.jasperreports.export.SimpleJsonReportConfiguration;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
+import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 import net.sf.jasperreports.web.util.WebUtil;
 
 
@@ -139,10 +140,20 @@ public class ReportJiveComponentsServlet extends AbstractServlet
 		{
 			pageStatus = ReportPageStatus.PAGE_FINAL;
 		}
-		
+
+		String applicationDomain = (String) webReportContext.getParameterValue(WebReportContext.REQUEST_PARAMETER_APPLICATION_DOMAIN);
+		if (applicationDomain == null) {
+			applicationDomain = request.getContextPath();
+		}
+
+		WebUtil webUtil = WebUtil.getInstance(getJasperReportsContext());
+		String resourcesPath = applicationDomain + webUtil.getResourcesPath() + "?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+
 		exporter.setReportContext(webReportContext);
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrintAccessor.getJasperPrint()));
-		exporter.setExporterOutput(new SimpleJsonExporterOutput(writer));
+		SimpleJsonExporterOutput jsonOutput = new SimpleJsonExporterOutput(writer);
+		jsonOutput.setFontHandler(new WebHtmlResourceHandler(resourcesPath + "&font={0}"));
+		exporter.setExporterOutput(jsonOutput);
 		
 		configuration.setHyperlinkProducerFactory( 
 			ReportExecutionHyperlinkProducerFactory.getInstance(getJasperReportsContext(), request)
