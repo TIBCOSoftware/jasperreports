@@ -3,15 +3,6 @@
 <!-- 2016-08-31T14:11:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JsonHttpDataAdapterReport" columnCount="3" pageWidth="595" pageHeight="842" columnWidth="171" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="b85a2cf8-dd0c-4a31-804c-e7b217f9b42b">
 	<property name="net.sf.jasperreports.data.adapter" value="data/JsonHttpDataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<subDataset name="FetchDataset" uuid="753275b1-35e7-428e-87be-88a1863e1c06">
 		<parameter name="title" class="java.lang.String"/>
 	</subDataset>
@@ -23,52 +14,46 @@
 		<parameter name="page" class="java.lang.Integer">
 			<property name="net.sf.jasperreports.http.data.url.parameter"/>
 		</parameter>
-		<queryString language="json">
+		<queryString language="jsonql">
 			<![CDATA[Search]]>
 		</queryString>
 		<field name="title" class="java.lang.String">
-			<property name="net.sf.jasperreports.json.field.expression" value="Title"/>
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="Title"/>
 		</field>
 		<field name="year" class="java.lang.Integer">
-			<property name="net.sf.jasperreports.json.field.expression" value="Year"/>
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="Year"/>
 		</field>
 		<field name="type" class="java.lang.String">
-			<property name="net.sf.jasperreports.json.field.expression" value="Type"/>
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="Type"/>
 		</field>
 		<field name="poster" class="java.lang.String">
-			<property name="net.sf.jasperreports.json.field.expression" value="Poster"/>
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="Poster"/>
 		</field>
 	</subDataset>
 	<parameter name="title" class="java.lang.String" evaluationTime="Early">
 		<property name="net.sf.jasperreports.http.data.url.parameter" value="s"/>
 		<defaultValueExpression><![CDATA["aliens"]]></defaultValueExpression>
 	</parameter>
-	<queryString language="json">
+	<queryString language="jsonql">
 		<![CDATA[]]>
 	</queryString>
 	<field name="totalResults" class="java.lang.Integer">
-		<property name="net.sf.jasperreports.json.field.expression" value="totalResults"/>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="totalResults"/>
 	</field>
 	<title>
 		<band height="79" splitType="Stretch">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1" uuid="d50b9e25-6694-498a-974d-18a5b81b9ac2">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
+				<reportElement x="0" y="0" width="515" height="1" uuid="d50b9e25-6694-498a-974d-18a5b81b9ac2"/>
 			</line>
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement x="0" y="10" width="515" height="30" uuid="5894de4f-25db-48b0-965f-d30db16abf34">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
+				<reportElement x="0" y="10" width="515" height="30" uuid="5894de4f-25db-48b0-965f-d30db16abf34"/>
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA["OMDb API"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="40" width="515" height="20" uuid="823dfcca-53db-4d93-9de4-f11b18188e95">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
+				<reportElement x="0" y="40" width="515" height="20" uuid="823dfcca-53db-4d93-9de4-f11b18188e95"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
@@ -79,9 +64,7 @@
 	<pageHeader>
 		<band height="35" splitType="Stretch">
 			<textField>
-				<reportElement mode="Opaque" x="0" y="10" width="515" height="15" backcolor="#E6E6E6" uuid="3d060769-58a9-49df-bfd3-9ba8c027b0e7">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
+				<reportElement mode="Opaque" x="0" y="10" width="515" height="15" backcolor="#E6E6E6" uuid="3d060769-58a9-49df-bfd3-9ba8c027b0e7"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
@@ -93,9 +76,7 @@
 	<detail>
 		<band height="65" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="0" width="170" height="65" uuid="a7ece49e-f10a-43eb-8c09-86353ba9225d">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
+				<reportElement x="0" y="0" width="170" height="65" uuid="a7ece49e-f10a-43eb-8c09-86353ba9225d"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="FetchDataset" uuid="61c31d0f-e3b3-46c6-a11a-8c5d8b7016cf">
 						<datasetParameter name="title">
@@ -131,9 +112,7 @@
 										<imageExpression><![CDATA[$F{poster}]]></imageExpression>
 									</image>
 									<textField isStretchWithOverflow="true">
-										<reportElement x="55" y="0" width="114" height="12" uuid="01569877-14f7-446d-b7bc-822f76698abe">
-											<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-										</reportElement>
+										<reportElement x="55" y="0" width="114" height="12" uuid="01569877-14f7-446d-b7bc-822f76698abe"/>
 										<textElement>
 											<font isBold="true"/>
 										</textElement>
@@ -161,9 +140,7 @@
 				<reportElement x="0" y="10" width="515" height="1" uuid="af562ddd-d9cd-460a-b30a-5e2497bc8617"/>
 			</line>
 			<textField>
-				<reportElement x="200" y="20" width="80" height="15" uuid="d34ea5a3-d3ad-43e6-b661-1436d5764114">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-				</reportElement>
+				<reportElement x="200" y="20" width="80" height="15" uuid="d34ea5a3-d3ad-43e6-b661-1436d5764114"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
 			</textField>
