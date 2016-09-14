@@ -25,13 +25,23 @@
 --%>
 
 <%@ page errorPage="error.jsp" %>
-<%@ page import="datasource.*" %>
-<%@ page import="net.sf.jasperreports.engine.*" %>
-<%@ page import="net.sf.jasperreports.engine.util.*" %>
-<%@ page import="net.sf.jasperreports.engine.export.*" %>
-<%@ page import="net.sf.jasperreports.j2ee.servlets.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.io.*" %>
+
+<%@ page import="java.io.File" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
+
+<%@ page import="datasource.WebappDataSource" %>
+<%@ page import="net.sf.jasperreports.engine.JRRuntimeException" %>
+<%@ page import="net.sf.jasperreports.engine.JasperFillManager" %>
+<%@ page import="net.sf.jasperreports.engine.JasperPrint" %>
+<%@ page import="net.sf.jasperreports.engine.JasperReport" %>
+<%@ page import="net.sf.jasperreports.engine.export.HtmlExporter" %>
+<%@ page import="net.sf.jasperreports.engine.util.JRLoader" %>
+<%@ page import="net.sf.jasperreports.export.SimpleExporterInput" %>
+<%@ page import="net.sf.jasperreports.export.SimpleHtmlExporterOutput" %>
+<%@ page import="net.sf.jasperreports.j2ee.servlets.ImageServlet" %>
+<%@ page import="net.sf.jasperreports.web.util.WebHtmlResourceHandler" %>
+
 
 <%
 	File reportFile = new File(application.getRealPath("/reports/WebappReport.jasper"));
@@ -55,9 +65,10 @@
 
 	session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 	
-	exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-	exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, out);
-	exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "../servlets/image?image=");
+	exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+	SimpleHtmlExporterOutput output = new SimpleHtmlExporterOutput(out);
+	output.setImageHandler(new WebHtmlResourceHandler("../servlets/image?image={0}"));
+	exporter.setExporterOutput(output);
 	
 	exporter.exportReport();
 %>
