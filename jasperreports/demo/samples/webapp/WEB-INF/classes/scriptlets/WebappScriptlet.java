@@ -34,9 +34,7 @@ public class WebappScriptlet extends JRDefaultScriptlet
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterGroupInit(String groupName) throws JRScriptletException
 	{
 		String allCities = (String)this.getVariableValue("AllCities");
