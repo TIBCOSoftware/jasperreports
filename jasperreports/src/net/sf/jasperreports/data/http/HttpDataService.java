@@ -503,7 +503,7 @@ public class HttpDataService implements DataFileService
 		JRDataset dataset = context.getDataset();
 		if (dataset.hasProperties())
 		{
-			value = dataset.getPropertiesMap().getProperty(propName);
+			value = JRPropertiesUtil.getOwnProperty(dataset, propName);
 		}
 
 		if (parameterValues.containsKey(paramName))
