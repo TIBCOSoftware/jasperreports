@@ -89,10 +89,6 @@
 		<ant dir="../" target="pptx"/>
 	</target>
 		
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
-		<ant dir="../" target="xhtml"/>
-	</target>
-
 	<target name="writeXml" description="Generates the JRXML version of the report design by converting the .jasper file.">
 		<ant dir="../" target="writeXml"/>
 	</target>

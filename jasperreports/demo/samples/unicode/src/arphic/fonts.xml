@@ -8,7 +8,6 @@
 		<pdfEmbedded>true</pdfEmbedded>
 		<exportFonts>
 			<export key="net.sf.jasperreports.html">'AR PL KaitiM GB', 'Times New Roman', Times, serif</export>
-			<export key="net.sf.jasperreports.xhtml">'AR PL KaitiM GB', 'Times New Roman', Times, serif</export>
 		</exportFonts>
 	</fontFamily>
 

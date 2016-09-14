@@ -85,7 +85,6 @@ public class TableApp extends AbstractSampleApp
 		docx();
 		xlsx();
 		pptx();
-		xhtml();
 	}
 	
 	
@@ -379,29 +378,4 @@ public class TableApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void xhtml() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/TableReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
-		
-		net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-			new net.sf.jasperreports.engine.export.JRXhtmlExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
-		
-		exporter.exportReport();
-
-		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-	}
-
-
 }

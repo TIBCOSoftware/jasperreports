@@ -84,7 +84,6 @@ public class BatchExportApp extends AbstractSampleApp
 		docx();
 		xlsx();
 		pptx();
-		xhtml();
 	}
 
 
@@ -373,28 +372,4 @@ public class BatchExportApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void xhtml() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
-		
-		net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-			new net.sf.jasperreports.engine.export.JRXhtmlExporter();
-		
-		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleHtmlExporterOutput("build/reports/BatchExportReport.xhtml"));
-		
-		exporter.exportReport();
-
-		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-	}
-
-
 }

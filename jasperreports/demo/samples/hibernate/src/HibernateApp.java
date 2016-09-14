@@ -91,7 +91,6 @@ public class HibernateApp extends AbstractSampleApp
 		docx();
 		xlsx();
 		pptx();
-		xhtml();
 	}
 
 	
@@ -457,35 +456,6 @@ public class HibernateApp extends AbstractSampleApp
 			exporter.exportReport();
 
 			System.err.println("Report : " + sourceFile + ". PPTX creation time : " + (System.currentTimeMillis() - start));
-		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void xhtml() throws JRException
-	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
-		for(int i = 0; i < files.length; i++)
-		{
-			long start = System.currentTimeMillis();
-			File sourceFile = files[i];
-
-			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
-		
-			net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-				new net.sf.jasperreports.engine.export.JRXhtmlExporter();
-		
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
-		
-			exporter.exportReport();
-
-			System.err.println("Report : " + sourceFile + ". XHTML creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	

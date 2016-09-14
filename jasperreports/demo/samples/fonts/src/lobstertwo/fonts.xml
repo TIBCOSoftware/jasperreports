@@ -12,7 +12,6 @@
 		<!--
 		<exportFonts>
 			<export key="net.sf.jasperreports.html">'Lobster Two', 'Times New Roman', Times, serif</export>
-			<export key="net.sf.jasperreports.xhtml">'Lobster Two', 'Times New Roman', Times, serif</export>
 		</exportFonts>
 		-->
 	</fontFamily>

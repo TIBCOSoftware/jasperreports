@@ -80,10 +80,6 @@
 		<ant dir="../" target="pptx"/>
 	</target>
 		
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
-		<ant dir="../" target="xhtml"/>
-	</target>
-
 	<target name="clean" description="Deletes all the generated files.">
 		<ant dir="../" target="clean-sample"/>
 	</target>

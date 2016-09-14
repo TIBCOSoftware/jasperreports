@@ -67,7 +67,7 @@ documents is the <code>UTF-8</code>, used as default encoding value by JasperRep
 <br/>
 As for internationalized texts, these are usually kept in resource bundle files rather than within the document itself. So, there are 
 cases where the JRXML itself looks completely ASCII-compatible, but generated reports at runtime do contain texts totally unreadable with ASCII. 
-As consequence, for a certain type of document export formats (such as CSV, HTML, XHTML, XML, text) one has to know the encoding for the generated 
+As consequence, for a certain type of document export formats (such as CSV, HTML, XML, text) one has to know the encoding for the generated 
 document too. 
 <br/>
 More than that, 

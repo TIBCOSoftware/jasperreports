@@ -85,10 +85,6 @@
 		<ant dir="../" target="pptx"/>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
-		<ant dir="../" target="xhtml"/>
-	</target>
-
 	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
 		<ant dir="../" target="viewDesignXml"/>
 	</target>

@@ -90,7 +90,6 @@ public class MarkupApp extends AbstractSampleApp
 		docx();
 		xlsx();
 		pptx();
-		xhtml();
 	}
 	
 	
@@ -398,31 +397,6 @@ public class MarkupApp extends AbstractSampleApp
 		exporter.exportReport();
 
 		System.err.println("PPTX creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void xhtml() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/MarkupReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
-		
-		net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-			new net.sf.jasperreports.engine.export.JRXhtmlExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
-		
-		exporter.exportReport();
-
-		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

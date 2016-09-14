@@ -236,7 +236,6 @@ Let's take a look at the DejaVu Sans family. All the font family settings alread
     <pdfEmbedded>true</pdfEmbedded>
     <exportFonts>
       <export key="net.sf.jasperreports.html">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
-      <export key="net.sf.jasperreports.xhtml">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
     </exportFonts>
     <!--
     <locales>
@@ -278,19 +277,16 @@ Now, let's take a look at logical JVM fonts mappings:
   <fontFamily name="SansSerif">
     <exportFonts>
       <export key="net.sf.jasperreports.html">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
-      <export key="net.sf.jasperreports.xhtml">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
     </exportFonts>
   </fontFamily>
   <fontFamily name="Serif">
     <exportFonts>
       <export key="net.sf.jasperreports.html">'DejaVu Serif', 'Times New Roman', Times, serif</export>
-      <export key="net.sf.jasperreports.xhtml">'DejaVu Serif', 'Times New Roman', Times, serif</export>
     </exportFonts>
   </fontFamily>
   <fontFamily name="Monospaced">
     <exportFonts>
       <export key="net.sf.jasperreports.html">'DejaVu Sans Mono', 'Courier New', Courier, monospace</export>
-      <export key="net.sf.jasperreports.xhtml">'DejaVu Sans Mono', 'Courier New', Courier, monospace</export>
     </exportFonts>
   </fontFamily>]]></pre>
 Here the DejaVu font families are added to the font families list available for HTML at export time.
