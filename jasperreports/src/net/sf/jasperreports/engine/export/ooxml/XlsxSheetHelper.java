@@ -29,6 +29,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -265,6 +268,52 @@ public class XlsxSheetHelper extends BaseHelper
 			write("</rowBreaks>");
 		}
 
+		if (hasHeaderOrFooter()) 
+		{
+			write("<headerFooter>");
+			if (hasHeader())
+			{
+				write("<oddHeader>");
+				if (StringUtils.isNotBlank(configuration.getSheetHeaderLeft()))
+				{
+					write("&amp;L");
+					write(StringEscapeUtils.escapeHtml(configuration.getSheetHeaderLeft()));
+				}
+				if (StringUtils.isNotBlank(configuration.getSheetHeaderCenter()))
+				{
+					write("&amp;C");
+					write(StringEscapeUtils.escapeHtml(configuration.getSheetHeaderCenter()));
+				}
+				if (StringUtils.isNotBlank(configuration.getSheetHeaderRight()))
+				{
+					write("&amp;R");
+					write(StringEscapeUtils.escapeHtml(configuration.getSheetHeaderRight()));
+				}
+				write("</oddHeader>");
+			}
+			if (hasFooter())
+			{
+				write("<oddFooter>");
+				if (StringUtils.isNotBlank(configuration.getSheetFooterLeft()))
+				{
+					write("&amp;L");
+					write(StringEscapeUtils.escapeHtml(configuration.getSheetFooterLeft()));
+				}
+				if (StringUtils.isNotBlank(configuration.getSheetFooterCenter()))
+				{
+					write("&amp;C");
+					write(StringEscapeUtils.escapeHtml(configuration.getSheetFooterCenter()));
+				}
+				if (StringUtils.isNotBlank(configuration.getSheetFooterRight()))
+				{
+					write("&amp;R");
+					write(StringEscapeUtils.escapeHtml(configuration.getSheetFooterRight()));
+				}
+				write("</oddFooter>");
+			}
+			write("</headerFooter>");
+		}
+
 		if(!firstPageNotSet)
 		{
 			//TODO: support for customized headers/footers in XLSX
@@ -273,6 +322,25 @@ public class XlsxSheetHelper extends BaseHelper
 		
 		write("<drawing r:id=\"rIdDr" + index + "\"/>");
 		write("</worksheet>");		
+	}
+	
+	private boolean hasHeaderOrFooter()
+	{
+		return hasHeader() || hasFooter();
+	}
+
+	private boolean hasHeader()
+	{
+		return StringUtils.isNotBlank(configuration.getSheetHeaderLeft())
+				|| StringUtils.isNotBlank(configuration.getSheetHeaderCenter()) 
+				|| StringUtils.isNotBlank(configuration.getSheetHeaderRight()); 
+	}
+
+	private boolean hasFooter()
+	{
+		return StringUtils.isNotBlank(configuration.getSheetFooterLeft())
+				|| StringUtils.isNotBlank(configuration.getSheetFooterCenter()) 
+				|| StringUtils.isNotBlank(configuration.getSheetFooterRight()); 
 	}
 
 
