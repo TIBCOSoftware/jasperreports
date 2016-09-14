@@ -70,10 +70,6 @@
 		<servlet-name>ResourceServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.web.servlets.ResourceServlet</servlet-class>
 	</servlet>
-	<servlet>
-		<servlet-name>ImageServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.web.servlets.ImageServlet</servlet-class>
-	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>DefaultViewerServlet</servlet-name>
@@ -114,10 +110,6 @@
 	<servlet-mapping>
 		<servlet-name>ResourceServlet</servlet-name>
 		<url-pattern>/servlets/resources/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ImageServlet</servlet-name>
-		<url-pattern>/servlets/image</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
