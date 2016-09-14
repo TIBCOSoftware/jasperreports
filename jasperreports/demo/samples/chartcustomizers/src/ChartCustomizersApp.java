@@ -37,6 +37,9 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 
 
+/**
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
+ */
 public class ChartCustomizersApp extends AbstractSampleApp
 {
 

@@ -36,6 +36,8 @@ import net.sf.jasperreports.engine.JRChartCustomizer;
 /**
  * Customizer to define the minimum and maximum value of the range axis, works for both 
  * XY and Category plot
+ * 
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 public class RangeAxisMinMaxCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
 

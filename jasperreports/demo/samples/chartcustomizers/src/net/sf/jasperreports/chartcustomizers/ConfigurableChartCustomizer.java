@@ -27,7 +27,7 @@ import java.util.Map;
 
 /**
  *
- * @author gtoffoli
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
 public interface ConfigurableChartCustomizer {
     

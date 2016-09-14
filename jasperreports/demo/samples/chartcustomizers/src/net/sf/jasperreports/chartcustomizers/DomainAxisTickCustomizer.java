@@ -37,6 +37,8 @@ import net.sf.jasperreports.engine.JRChartCustomizer;
 /**
  * Customizer to define the tick spacing into the domain axis, works for 
  * XY Plot
+ * 
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 public class DomainAxisTickCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
 

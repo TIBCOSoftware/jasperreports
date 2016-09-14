@@ -39,8 +39,7 @@ import net.sf.jasperreports.engine.JRChartCustomizer;
 /**
  * Abstract customizer that provide the utility methods to work with shapes
  * 
- * @author Orlandin Marco
- *
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 public abstract class AbstractShapeCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
 

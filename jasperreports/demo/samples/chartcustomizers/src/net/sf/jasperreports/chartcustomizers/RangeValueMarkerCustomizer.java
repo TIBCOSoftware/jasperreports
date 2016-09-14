@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRChart;
 /**
  * This customizer plots a line chart as spline.
  * 
- * @author gtoffoli
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
 public class RangeValueMarkerCustomizer extends AbstractValueMarkerCustomizer {
 

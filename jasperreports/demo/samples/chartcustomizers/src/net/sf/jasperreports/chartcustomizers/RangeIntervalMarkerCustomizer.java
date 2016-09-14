@@ -33,7 +33,7 @@ import org.jfree.chart.plot.XYPlot;
 /**
  * This customizer plots a line chart as spline.
  * 
- * @author gtoffoli
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
 public class RangeIntervalMarkerCustomizer extends AbstractIntervalMarkerCustomizer {
 

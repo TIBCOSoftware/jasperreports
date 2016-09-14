@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRChartCustomizer;
 /**
  * Customizer to define the minimum and maximum value of the domain axis, works for 
  * XY plot
+ * 
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 public class DomainAxisMinMaxCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
 

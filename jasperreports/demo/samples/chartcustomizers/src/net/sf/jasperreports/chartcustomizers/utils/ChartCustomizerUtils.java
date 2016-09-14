@@ -58,7 +58,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
  *
- * @author gtoffoli
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
 public class ChartCustomizerUtils {
 

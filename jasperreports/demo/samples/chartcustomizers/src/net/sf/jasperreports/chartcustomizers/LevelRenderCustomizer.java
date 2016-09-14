@@ -32,6 +32,9 @@ import net.sf.jasperreports.chartcustomizers.utils.ChartCustomizerUtils;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 
+/**
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
+ */
 public class LevelRenderCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
 
     private Map<String, String> configuration = null;

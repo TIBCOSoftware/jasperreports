@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRChartCustomizer;
 /**
  * This customizer plots a line chart as spline.
  * 
- * @author gtoffoli
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
 public class SplineCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
 

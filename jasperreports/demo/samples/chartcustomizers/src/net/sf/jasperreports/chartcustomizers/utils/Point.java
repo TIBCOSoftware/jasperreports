@@ -29,8 +29,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * Simple utility class to store a single point of a shape. 
  * It can be serialized into a json
  * 
- * @author Orlandin Marco
- *
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Point {

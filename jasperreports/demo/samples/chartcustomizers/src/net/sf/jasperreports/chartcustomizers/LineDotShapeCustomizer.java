@@ -47,8 +47,7 @@ import net.sf.jasperreports.engine.JRChart;
  * Chart customizer to define the shape and the size of the symbol along the line.
  * It works for {@link LineAndShapeRenderer} and {@link XYLineAndShapeRenderer}
  * 
- * @author Orlandin Marco
- *
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 public class LineDotShapeCustomizer extends AbstractShapeCustomizer {
 

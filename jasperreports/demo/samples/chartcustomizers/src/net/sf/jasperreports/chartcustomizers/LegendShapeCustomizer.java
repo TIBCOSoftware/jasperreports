@@ -39,6 +39,8 @@ import net.sf.jasperreports.engine.JRChart;
  * Customizer to define the shape of a specific legend item, works for both 
  * XY and Category plot. The shape and other informations are encoded into a
  * json
+ * 
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 public class LegendShapeCustomizer extends AbstractShapeCustomizer {
 	

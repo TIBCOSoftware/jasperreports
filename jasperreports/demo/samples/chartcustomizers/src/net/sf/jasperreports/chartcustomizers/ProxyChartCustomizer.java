@@ -56,7 +56,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * 
  * chartcustomizer.full-class-name.*
  * 
- * @author gtoffoli
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
 public class ProxyChartCustomizer extends JRAbstractChartCustomizer {
 	

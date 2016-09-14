@@ -33,8 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Define a shape of a specific figure
  * 
- * @author Orlandin Marco
- *
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ShapeDefinition {
