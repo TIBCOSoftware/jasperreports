@@ -87,8 +87,7 @@
 	<parameter name="xyDatasource3" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 	<parameter name="xyDatasource4" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 	<parameter name="xyDatasource5" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
-	<group name="Bar">
-		<groupExpression><![CDATA[null]]></groupExpression>
+	<group name="Charts">
 		<groupHeader>
 			<band height="400">
 				<barChart>
@@ -129,11 +128,6 @@
 					</barPlot>
 				</barChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="StackedBar">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<stackedBarChart>
 					<chart evaluationTime="Report">
@@ -173,11 +167,6 @@
 					</barPlot>
 				</stackedBarChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Bar3D">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<bar3DChart>
 					<chart evaluationTime="Report">
@@ -217,11 +206,6 @@
 					</bar3DPlot>
 				</bar3DChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="StackedBar3D">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<stackedBar3DChart>
 					<chart evaluationTime="Report">
@@ -261,11 +245,6 @@
 					</bar3DPlot>
 				</stackedBar3DChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Pie">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<pieChart>
 					<chart evaluationTime="Report">
@@ -294,11 +273,6 @@
 					</piePlot>
 				</pieChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Pie3D">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<pie3DChart>
 					<chart evaluationTime="Report">
@@ -327,11 +301,6 @@
 					</pie3DPlot>
 				</pie3DChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Area">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<areaChart>
 					<chart evaluationTime="Report">
@@ -370,11 +339,6 @@
 					</areaPlot>
 				</areaChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="StackedArea">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<stackedAreaChart>
 					<chart evaluationTime="Report">
@@ -413,11 +377,6 @@
 					</areaPlot>
 				</stackedAreaChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Line">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<lineChart>
 					<chart evaluationTime="Report">
@@ -456,11 +415,6 @@
 					</linePlot>
 				</lineChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="XyLine">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<xyLineChart>
 					<chart evaluationTime="Report">
@@ -499,11 +453,6 @@
 					</linePlot>
 				</xyLineChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="XyBar">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<xyBarChart>
 					<chart evaluationTime="Report">
@@ -543,11 +492,6 @@
 					</barPlot>
 				</xyBarChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="XyBarTimePeriod">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<xyBarChart>
 					<chart evaluationTime="Report">
@@ -588,11 +532,6 @@
 					</barPlot>
 				</xyBarChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="XyBarTimeSeries">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<xyBarChart>
 					<chart evaluationTime="Report">
@@ -633,11 +572,6 @@
 					</barPlot>
 				</xyBarChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="XyArea">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<xyAreaChart>
 					<chart evaluationTime="Report">
@@ -676,11 +610,6 @@
 					</areaPlot>
 				</xyAreaChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Scatter">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<scatterChart>
 					<chart evaluationTime="Report">
@@ -719,11 +648,6 @@
 					</scatterPlot>
 				</scatterChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Bubble">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<bubbleChart>
 					<chart evaluationTime="Report">
@@ -763,11 +687,6 @@
 					</bubblePlot>
 				</bubbleChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="TimeSeries">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<timeSeriesChart>
 					<chart evaluationTime="Report">
@@ -807,11 +726,6 @@
 					</timeSeriesPlot>
 				</timeSeriesChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="HighLow">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<highLowChart>
 					<chart evaluationTime="Report">
@@ -852,11 +766,6 @@
 					</highLowPlot>
 				</highLowChart>
 			</band>
-		</groupHeader>
-	</group>
-	<group name="Meter">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
 			<band height="400">
 				<meterChart>
 					<chart isShowLegend="false">

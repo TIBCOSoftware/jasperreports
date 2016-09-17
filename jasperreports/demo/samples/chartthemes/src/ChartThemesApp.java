@@ -31,7 +31,6 @@ import net.sf.jasperreports.chartthemes.simple.AegeanSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.EyeCandySixtiesSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.SimpleSettingsFactory;
 import net.sf.jasperreports.chartthemes.simple.XmlChartTheme;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -127,7 +126,7 @@ public class ChartThemesApp extends AbstractSampleApp
 		
 		putDataSources(parameters);
 		
-		JasperFillManager.fillReportToFile("build/reports/AllChartsReport.jasper", parameters, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/AllChartsReport.jasper", parameters);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
