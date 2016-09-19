@@ -47,7 +47,7 @@
 					<target>1.7</target>
 					<excludes>
 						<exclude>**/*App.java</exclude>
-						<exclude>**/*Customizer.java</exclude>
+						<exclude>*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
