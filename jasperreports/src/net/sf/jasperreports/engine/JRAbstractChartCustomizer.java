@@ -33,10 +33,14 @@ import net.sf.jasperreports.engine.fill.JRFillChartDataset;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class JRAbstractChartCustomizer implements JRChartCustomizer
+public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 {
-	private JRBaseFiller filler;
+	protected JRFillChart chart;
 	private JRFillChartDataset chartDataset;
+	protected JRBaseFiller filler;
+	private JRPropertiesUtil propertiesUtil;
+	
+	private String name;
 	
 	
 	/**
@@ -48,15 +52,25 @@ public abstract class JRAbstractChartCustomizer implements JRChartCustomizer
 
 	
 	/**
-	 * Initializes the chart customizer.
-	 * 
-	 * @param chartFiller the filler instance
-	 * @param chart the fill chart object
+	 * @deprecated Replaced by {@link #init(JRFillChart)}.
 	 */
 	public void init(JRBaseFiller chartFiller, JRFillChart chart)
 	{
-		this.filler = chartFiller;
+		init(chart);
+	}
+	
+	
+	/**
+	 * Initializes the chart customizer.
+	 * 
+	 * @param chart the fill chart object
+	 */
+	public void init(JRFillChart chart)
+	{
+		this.chart = chart;
 		this.chartDataset = (JRFillChartDataset) chart.getDataset();
+		this.filler = chart.getFiller();
+		this.propertiesUtil = filler.getPropertiesUtil();
 	}
 	
 	
@@ -150,5 +164,59 @@ public abstract class JRAbstractChartCustomizer implements JRChartCustomizer
 	protected final Object getFieldValue(String fieldName, boolean fromInputDataset)
 	{
 		return (fromInputDataset ? chartDataset.getInputDataset() : filler.getMainDataset()).getFieldValue(fieldName);
+	}
+
+	@Override
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	/**
+	 *  
+	 */
+	protected final String getCustomizerPropertyName(String propertySuffix)
+	{
+		return CUSTOMIZER_PROPERTY_PREFIX + (name == null ? "" : name) + "." + propertySuffix;
+	}
+	
+	/**
+	 *  
+	 */
+	protected final Boolean getBooleanProperty(String propertySuffix)
+	{
+		return propertiesUtil.getBooleanProperty(chart, getCustomizerPropertyName(propertySuffix));
+	}
+	
+	/**
+	 *  
+	 */
+	protected final String getProperty(String propertySuffix)
+	{
+		return propertiesUtil.getProperty(chart, getCustomizerPropertyName(propertySuffix));
+	}
+	
+	/**
+	 *  
+	 */
+	protected final Integer getIntegerProperty(String propertySuffix)
+	{
+		return propertiesUtil.getIntegerProperty(chart, getCustomizerPropertyName(propertySuffix));
+	}
+	
+	/**
+	 *  
+	 */
+	protected final Float getFloatProperty(String propertySuffix)
+	{
+		return propertiesUtil.getFloatProperty(chart, getCustomizerPropertyName(propertySuffix));
+	}
+	
+	/**
+	 *  
+	 */
+	protected final Double getDoubleProperty(String propertySuffix)
+	{
+		return propertiesUtil.getDoubleProperty(chart, getCustomizerPropertyName(propertySuffix));
 	}
 }

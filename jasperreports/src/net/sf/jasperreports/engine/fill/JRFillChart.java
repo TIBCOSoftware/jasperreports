@@ -25,7 +25,9 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
@@ -106,9 +108,11 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.NamedChartCustomizer;
 import net.sf.jasperreports.engine.base.JRBaseChart;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -162,8 +166,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 
-	protected String customizerClass;
-	protected JRChartCustomizer chartCustomizer;
+	protected List<JRChartCustomizer> chartCustomizers;
 	
 	protected String renderType;
 	protected String themeName;
@@ -298,22 +301,24 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 
-		customizerClass = chart.getCustomizerClass();
-		if (customizerClass != null && customizerClass.length() > 0) {
-			try {
-				Class<?> myClass = JRClassLoader.loadClassForName(customizerClass);
-				chartCustomizer = (JRChartCustomizer) myClass.newInstance();
-			} catch (Exception e) {
-				throw 
-					new JRRuntimeException(
-						EXCEPTION_MESSAGE_KEY_CUSTOMIZER_INSTANCE_ERROR,
-						(Object[])null,
-						e);
-			}
+		chartCustomizers = new ArrayList<JRChartCustomizer>();
+		JRChartCustomizer chartCustomizer = createAndInitCustomizer(chart.getCustomizerClass(), null);
+		if (chartCustomizer != null)
+		{
+			chartCustomizers.add(chartCustomizer);
+		}
 
-			if (chartCustomizer instanceof JRAbstractChartCustomizer)
+		List<JRPropertiesUtil.PropertySuffix> properties = 
+			JRPropertiesUtil.getProperties(
+				chart.getPropertiesMap(), 
+				NamedChartCustomizer.CUSTOMIZER_CLASS_PROPERTY_PREFIX
+				);
+		for (JRPropertiesUtil.PropertySuffix prop : properties) 
+		{
+			chartCustomizer = createAndInitCustomizer(prop.getValue(), prop.getSuffix());
+			if (chartCustomizer != null)
 			{
-				((JRAbstractChartCustomizer) chartCustomizer).init(filler, this);
+				chartCustomizers.add(chartCustomizer);
 			}
 		}
 		
@@ -328,6 +333,46 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			themeName = filler.getPropertiesUtil().getProperty(getParentProperties(), JRChart.PROPERTY_CHART_THEME);
 		}
+	}
+
+	/**
+	 *
+	 */
+	protected JRChartCustomizer createAndInitCustomizer(
+		String customizerClassName,
+		String customizerName
+		)
+	{
+		JRChartCustomizer customizer = null;
+
+		if (customizerClassName != null && customizerClassName.length() > 0) 
+		{
+			try 
+			{
+				Class<?> customizerClass = JRClassLoader.loadClassForName(customizerClassName);
+				customizer = (JRChartCustomizer) customizerClass.newInstance();
+			}
+			catch (Exception e) 
+			{
+				throw 
+					new JRRuntimeException(
+						EXCEPTION_MESSAGE_KEY_CUSTOMIZER_INSTANCE_ERROR,
+						(Object[])null,
+						e);
+			}
+
+			if (customizer instanceof JRAbstractChartCustomizer)
+			{
+				((JRAbstractChartCustomizer) customizer).init(this);
+			}
+
+			if (customizer instanceof NamedChartCustomizer)
+			{
+				((NamedChartCustomizer) customizer).setName(customizerName);
+			}
+		}
+		
+		return customizer;
 	}
 
 	@Override
@@ -791,7 +836,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			chartHyperlinkProvider = createChartHyperlinkProvider();
 		}
 
-		if (chartCustomizer != null)
+		for (JRChartCustomizer chartCustomizer : chartCustomizers)
 		{
 			chartCustomizer.customize(jfreeChart, this);
 		}
@@ -1363,7 +1408,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	@Override
 	public String getCustomizerClass()
 	{
-		return customizerClass;
+		return ((JRChart)parent).getCustomizerClass();
 	}
 
 
