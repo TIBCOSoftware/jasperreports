@@ -250,6 +250,17 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
+	 * Converts a <code>String</code> value into a <code>double</code>.
+	 * 
+	 * @param value the value
+	 * @return the value as a <code>double</code>
+	 */
+	public static double asDouble(String value)
+	{
+		return Double.parseDouble(value == null ? value : value.trim());
+	}
+	
+	/**
 	 * Class used by {@link JRPropertiesUtil#getProperties(String)}.
 	 * 
 	 * @author Lucian Chirita
@@ -566,6 +577,21 @@ public final class JRPropertiesUtil
 	}
 
 	/**
+	 * Returns the value of a property as a Boolean, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @return the property value
+	 */
+	public Boolean getBooleanProperty(JRPropertiesHolder propertiesHolder, String key)
+	{
+		String value = getProperty(propertiesHolder, key);
+		
+		return value == null ? null : asBoolean(value);
+	}
+	
+	/**
 	 * Returns the value of a property as an Integer, looking first in the supplied properties holder
 	 * and then in the system properties.
 	 * 
@@ -757,6 +783,21 @@ public final class JRPropertiesUtil
 		return value == null ? defaultValue : asLong(value);
 	}
 
+	/**
+	 * Returns the value of a property as a Double, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @return the property value
+	 */
+	public Double getDoubleProperty(JRPropertiesHolder propertiesHolder, String key)
+	{
+		String value = getProperty(propertiesHolder, key);
+		
+		return value == null ? null : asDouble(value);
+	}
+	
 	protected static JRPropertiesMap getOwnProperties(JRPropertiesHolder propertiesHolder)
 	{
 		return propertiesHolder.hasProperties() ? propertiesHolder.getPropertiesMap() : null;
