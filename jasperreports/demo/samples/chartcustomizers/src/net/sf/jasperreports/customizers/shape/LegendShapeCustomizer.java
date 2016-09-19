@@ -33,6 +33,10 @@ import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.AbstractRenderer;
 
+import net.sf.jasperreports.customizers.util.CategorySeriesNameProvider;
+import net.sf.jasperreports.customizers.util.CustomizerUtil;
+import net.sf.jasperreports.customizers.util.ItemsCounter;
+import net.sf.jasperreports.customizers.util.SeriesNameProvider;
 import net.sf.jasperreports.engine.JRChart;
 
 /**
@@ -98,7 +102,7 @@ public class LegendShapeCustomizer extends AbstractShapeCustomizer
 			seriesNameProvider = new CategorySeriesNameProvider(categoryPlot);
 		}
 
-		Integer legendItemIndex = resolveIndex(itemsCounter, seriesNameProvider);
+		Integer legendItemIndex = CustomizerUtil.resolveIndex(this, itemsCounter, seriesNameProvider);
 		if (
 			legendItemIndex != null
 			&& renderer instanceof AbstractRenderer

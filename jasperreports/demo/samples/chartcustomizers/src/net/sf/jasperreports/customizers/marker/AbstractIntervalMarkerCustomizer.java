@@ -57,8 +57,6 @@ public abstract class AbstractIntervalMarkerCustomizer extends AbstractMarkerCus
 
 		configureMarker(marker);
 		
-		//FIXMECUSTOMIZER why not configure stroke here too?
-
 		Float strokeWidth = getFloatProperty(PROPERTY_STROKE_WIDTH);
 		if (
 			strokeWidth != null

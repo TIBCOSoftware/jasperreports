@@ -33,9 +33,10 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.XYPlot;
 
+import net.sf.jasperreports.customizers.util.ItemsCounter;
+import net.sf.jasperreports.customizers.util.SeriesNameProvider;
 import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 
 /**
@@ -45,27 +46,14 @@ import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
  */
 public abstract class AbstractShapeCustomizer extends JRAbstractChartCustomizer
 {
-	public static final String PROPERTY_ALL_ITEMS = "allItems";
-	public static final String PROPERTY_ITEM_INDEX = "itemIndex";
-	public static final String PROPERTY_ITEM_SERIES = "itemSeries";
 	public static final String PROPERTY_SHAPE_WIDTH = "shapeWidth";
 	public static final String PROPERTY_SHAPE_HEIGHT = "shapeHeight";
 	public static final String PROPERTY_SHAPE_TYPE = "shapeType";
 	public static final String PROPERTY_SHAPE_POINTS = "shapePoints";
 
-	protected interface ItemsCounter
-	{
-		public int getCount();
-	}
-
 	protected interface ShapeSetter
 	{
 		public void setShape(int seriesIndex, Shape shape);
-	}
-
-	protected interface SeriesNameProvider
-	{
-		public String getSeriesName(int index);
 	}
 
 	class XYPlotSeriesNameProvider implements SeriesNameProvider
@@ -85,23 +73,6 @@ public abstract class AbstractShapeCustomizer extends JRAbstractChartCustomizer
 		}
 	}
 	
-	class CategorySeriesNameProvider implements SeriesNameProvider
-	{
-		private final CategoryPlot categoryPlot;
-
-		public CategorySeriesNameProvider(CategoryPlot categoryPlot)
-		{
-			this.categoryPlot = categoryPlot;
-		}
-
-		@Override
-		public String getSeriesName(int index) 
-		{
-			Comparable<?> key = categoryPlot.getDataset().getRowKey(index);
-			return key == null ? null : String.valueOf(key);
-		}
-	}
-
 	/**
 	 * Returns the width of the shape.
 	 * 
@@ -378,50 +349,6 @@ public abstract class AbstractShapeCustomizer extends JRAbstractChartCustomizer
 			}
 		}
 		return path;
-	}
-
-	/**
-	 * Resolve the index of the plot item looking at the properties.
-	 * If no item index or series name is specified then all items are considered by returning null.
-	 */
-	protected Integer resolveIndex(ItemsCounter itemsCounter, SeriesNameProvider seriesNameProvider)
-	{
-		Integer itemIndex = null;
-
-		Boolean allItems = getBooleanProperty(PROPERTY_ALL_ITEMS);
-    	if (Boolean.TRUE.equals(allItems))
-    	{
-    		itemIndex = -1;
-    	}
-    	else
-    	{
-    		itemIndex = getIntegerProperty(PROPERTY_ITEM_INDEX);
-    		if (itemIndex == null)
-    		{
-    			String seriesName = getProperty(PROPERTY_ITEM_SERIES);
-    			if (seriesName != null)
-    			{
-    				itemIndex = seriesNameToIndex(itemsCounter, seriesNameProvider, seriesName);
-    			}
-    		}
-    	}
-    	
-		return itemIndex;
-	}
-
-	/**
-	 * Convert a series name to an item index
-	 */
-	protected Integer seriesNameToIndex(ItemsCounter itemsCounter, SeriesNameProvider seriesNameProvider, String seriesName)
-	{
-		for (int i = 0; i < itemsCounter.getCount(); i++)
-		{
-			Comparable<?> key = seriesNameProvider.getSeriesName(i);
-			if (seriesName.equals(key.toString())){
-				return i;
-			}
-		}
-		return null;
 	}
 
 	/**

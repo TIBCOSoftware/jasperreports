@@ -35,6 +35,11 @@ import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
+import net.sf.jasperreports.customizers.util.CategoryCounter;
+import net.sf.jasperreports.customizers.util.CategorySeriesNameProvider;
+import net.sf.jasperreports.customizers.util.CustomizerUtil;
+import net.sf.jasperreports.customizers.util.ItemsCounter;
+import net.sf.jasperreports.customizers.util.SeriesNameProvider;
 import net.sf.jasperreports.engine.JRChart;
 
 /**
@@ -45,22 +50,6 @@ import net.sf.jasperreports.engine.JRChart;
  */
 public class LineDotShapeCustomizer extends AbstractShapeCustomizer 
 {
-	protected class CategoryCounter implements ItemsCounter
-	{
-		private final CategoryPlot categoryPlot;
-
-		public CategoryCounter(CategoryPlot categoryPlot)
-		{
-			this.categoryPlot = categoryPlot;
-		}
-
-		@Override
-		public int getCount() 
-		{
-			return categoryPlot.getDataset().getRowCount();
-		}
-	}
-
 	protected class XYPlotSeriesCounter implements ItemsCounter
 	{
 		private final XYPlot xyPlot;
@@ -117,7 +106,7 @@ public class LineDotShapeCustomizer extends AbstractShapeCustomizer
 			seriesNameProvider = new CategorySeriesNameProvider(categoryPlot);
 		}
 
-		Integer seriesItemIndex = resolveIndex(itemsCounter, seriesNameProvider);
+		Integer seriesItemIndex = CustomizerUtil.resolveIndex(this, itemsCounter, seriesNameProvider);
 		if (
 			seriesItemIndex != null
 			&& renderer instanceof AbstractRenderer

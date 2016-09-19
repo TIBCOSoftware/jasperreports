@@ -175,7 +175,7 @@ public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 	/**
 	 *  
 	 */
-	protected final String getCustomizerPropertyName(String propertySuffix)
+	public final String getCustomizerPropertyName(String propertySuffix)
 	{
 		return CUSTOMIZER_PROPERTY_PREFIX + (name == null ? "" : name) + "." + propertySuffix;
 	}
@@ -183,7 +183,7 @@ public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 	/**
 	 *  
 	 */
-	protected final Boolean getBooleanProperty(String propertySuffix)
+	public final Boolean getBooleanProperty(String propertySuffix)
 	{
 		return propertiesUtil.getBooleanProperty(chart, getCustomizerPropertyName(propertySuffix));
 	}
@@ -191,7 +191,7 @@ public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 	/**
 	 *  
 	 */
-	protected final String getProperty(String propertySuffix)
+	public final String getProperty(String propertySuffix)
 	{
 		return propertiesUtil.getProperty(chart, getCustomizerPropertyName(propertySuffix));
 	}
@@ -199,7 +199,7 @@ public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 	/**
 	 *  
 	 */
-	protected final Integer getIntegerProperty(String propertySuffix)
+	public final Integer getIntegerProperty(String propertySuffix)
 	{
 		return propertiesUtil.getIntegerProperty(chart, getCustomizerPropertyName(propertySuffix));
 	}
@@ -207,7 +207,7 @@ public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 	/**
 	 *  
 	 */
-	protected final Float getFloatProperty(String propertySuffix)
+	public final Float getFloatProperty(String propertySuffix)
 	{
 		return propertiesUtil.getFloatProperty(chart, getCustomizerPropertyName(propertySuffix));
 	}
@@ -215,7 +215,7 @@ public abstract class JRAbstractChartCustomizer implements NamedChartCustomizer
 	/**
 	 *  
 	 */
-	protected final Double getDoubleProperty(String propertySuffix)
+	public final Double getDoubleProperty(String propertySuffix)
 	{
 		return propertiesUtil.getDoubleProperty(chart, getCustomizerPropertyName(propertySuffix));
 	}

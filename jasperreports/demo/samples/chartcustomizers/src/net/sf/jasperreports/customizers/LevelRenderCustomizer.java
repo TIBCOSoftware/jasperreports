@@ -27,6 +27,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.LevelRenderer;
 
+import net.sf.jasperreports.customizers.util.CategoryCounter;
+import net.sf.jasperreports.customizers.util.CategorySeriesNameProvider;
+import net.sf.jasperreports.customizers.util.CustomizerUtil;
+import net.sf.jasperreports.customizers.util.ItemsCounter;
 import net.sf.jasperreports.engine.JRAbstractChartCustomizer;
 import net.sf.jasperreports.engine.JRChart;
 
@@ -37,7 +41,6 @@ public class LevelRenderCustomizer extends JRAbstractChartCustomizer
 {
 	public static final String PROPERTY_ITEM_MARIGN = "itemMargin";
 	public static final String PROPERTY_MAX_ITEM_WIDTH = "maxItemWidth";
-	public static final String PROPERTY_SERIES_INDEX = "seriesIndex";//FIXMECUSTOMIZER why not itemIndex and why not seriesName too?
 
 
 	@Override
@@ -47,7 +50,14 @@ public class LevelRenderCustomizer extends JRAbstractChartCustomizer
 		{
 			CategoryPlot plot = (CategoryPlot)jfc.getPlot();
 
-			Integer seriesIndex = getIntegerProperty(PROPERTY_SERIES_INDEX);
+			ItemsCounter itemsCounter = new CategoryCounter(plot);
+			
+			Integer seriesIndex = 
+				CustomizerUtil.resolveIndex(
+					this, 
+					itemsCounter,
+					new CategorySeriesNameProvider(plot)
+					);
 			if (seriesIndex != null)
 			{
 				LevelRenderer levelRenderer = new LevelRenderer();
@@ -63,7 +73,17 @@ public class LevelRenderCustomizer extends JRAbstractChartCustomizer
 					levelRenderer.setMaximumItemWidth(maxItemWidth);
 				}
 
-				plot.setRenderer(seriesIndex, levelRenderer);
+				if (seriesIndex == -1)
+				{
+					for (int i = 0; i < itemsCounter.getCount(); i++)
+					{
+						plot.setRenderer(seriesIndex, levelRenderer);
+					}
+				}
+				else
+				{
+					plot.setRenderer(seriesIndex, levelRenderer);
+				}
 			}
 		}
 	}
