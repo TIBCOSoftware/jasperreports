@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csvDataAdapter class="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
+	<name>Category CSV Data Adapter</name>
+	<fileName>/data/category.csv</fileName>
+	<recordDelimiter>&#13;&#10;</recordDelimiter>
+	<useFirstRowAsHeader>true</useFirstRowAsHeader>
+	<queryExecuterMode>false</queryExecuterMode>
+</csvDataAdapter>

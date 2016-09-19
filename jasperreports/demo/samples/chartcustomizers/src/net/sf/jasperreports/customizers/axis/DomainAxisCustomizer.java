@@ -21,42 +21,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers;
-
-import java.util.Map;
+package net.sf.jasperreports.customizers.axis;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.Plot;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYStepRenderer;
 
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartCustomizer;
 
 /**
- * This customizer plots a line chart as spline.
+ * Customizer to define the minimum and maximum value of the domain axis, works for 
+ * XY plot
  * 
- * @author Giulio Toffoli (gt78@users.sourceforge.net)
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
-public class StepCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
-
-    @SuppressWarnings("unused")
-	private Map<String, String> configuration = null;
-    
-    @Override
-    public void customize(JFreeChart jfc, JRChart jrc) {
-        
-            Plot plot = jfc.getPlot();
-            
-            if (plot instanceof XYPlot)
-            {
-                ((XYPlot)plot).setRenderer( new XYStepRenderer());
-            }
-    }
-
-    @Override
-    public void setConfiguration(Map<String, String> properties) {
-        this.configuration = properties;
-    }
-    
+public class DomainAxisCustomizer extends AbstractAxisCustomizer
+{
+	@Override
+	public void customize(JFreeChart jfc, JRChart jrc) 
+	{
+		if (jfc.getPlot() instanceof XYPlot)
+		{
+			ValueAxis valueAxis = jfc.getXYPlot().getDomainAxis();
+			
+			configValueAxis(valueAxis, PROPERTY_MIN_VALUE, PROPERTY_MAX_VALUE);
+			
+			if (valueAxis instanceof NumberAxis)
+			{
+				configNumberAxis((NumberAxis)valueAxis, PROPERTY_TICK_UNIT);
+			}
+		}
+	}
 }

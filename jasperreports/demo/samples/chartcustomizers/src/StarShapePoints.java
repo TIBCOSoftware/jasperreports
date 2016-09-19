@@ -21,38 +21,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.Marker;
-import org.jfree.chart.plot.XYPlot;
-
-import net.sf.jasperreports.chartcustomizers.utils.ChartCustomizerUtils;
-import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.customizers.shape.Point;
+import net.sf.jasperreports.customizers.shape.ShapePoints;
 
 /**
- * This customizer plots a line chart as spline.
- * 
- * @author Giulio Toffoli (gt78@users.sourceforge.net)
+ * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
-public class RangeValueMarkerCustomizer extends AbstractValueMarkerCustomizer {
+public class StarShapePoints extends ShapePoints 
+{
+	public static final StarShapePoints INSTANCE = new StarShapePoints();
+	
+	private StarShapePoints()
+	{
+		List<Point> points = new ArrayList<Point>();
+		points.add(new Point(0, 707));
+		points.add(new Point(747, 707));
 
-    @Override
-    public void customize(JFreeChart jfc, JRChart jrc) {
-        
-            if (!(jfc.getPlot() instanceof XYPlot)) return;
-            
-            XYPlot plot = jfc.getXYPlot();
-            
-            if (plot instanceof XYPlot)
-            {
-                Marker m = this.createMarker();
-                
-                if (m != null)
-                {
-                    plot.addRangeMarker(m, ChartCustomizerUtils.getLayer(configuration));
-                }
-            }
-    }
-
+		points.add(new Point(971, 0));
+		points.add(new Point(1201, 707));
+		points.add(new Point(1943, 707));
+		points.add(new Point(1343, 1143));
+		points.add(new Point(1572, 1849));
+		points.add(new Point(971, 1414));
+		points.add(new Point(371, 1849));
+		points.add(new Point(600, 1143));
+		points.add(new Point(0, 707));
+		setPoints(points);
+	}
 }

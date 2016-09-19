@@ -21,51 +21,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers.utils;
+package net.sf.jasperreports.customizers.marker;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Marker;
+import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.XYPlot;
+
+import net.sf.jasperreports.engine.JRChart;
 
 /**
- * Simple utility class to store a single point of a shape. 
- * It can be serialized into a json
+ * This customizer plots a line chart as spline.
  * 
- * @author Marco Orlandin (dejawho2@users.sourceforge.net)
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Point {
-
-	private int x;
-	
-	private int y;
-
-	public Point(){
-		x = 0;
-		y = 0;
-	};
-	
-	public Point(int x, int y){
-		this.x = x;
-		this.y = y;
-	}
-	
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-	
+public class RangeValueMarkerCustomizer extends AbstractValueMarkerCustomizer 
+{
 	@Override
-	public String toString() {
-		return "X: " + x + " Y: " + y;
+	public void customize(JFreeChart jfc, JRChart jrc) 
+	{
+		if (jfc.getPlot() instanceof XYPlot)
+		{
+			Marker marker = createMarker();
+			if (marker != null)
+			{
+				addMarker(jfc.getXYPlot(), marker);
+			}
+		}
+	}
+
+	@Override
+	protected void addMarker(Plot plot, Marker marker) 
+	{
+		((XYPlot)plot).addRangeMarker(
+			marker, 
+			getLayer()
+			);
 	}
 }

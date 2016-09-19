@@ -21,42 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers;
+package net.sf.jasperreports.customizers.marker;
 
-import java.util.Map;
-
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYSplineRenderer;
-
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartCustomizer;
+import org.jfree.chart.plot.ValueMarker;
 
 /**
  * This customizer plots a line chart as spline.
  * 
  * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
-public class SplineCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
+public abstract class AbstractValueMarkerCustomizer extends AbstractMarkerCustomizer 
+{
+	public static final String PROPERTY_VALUE = "value";
 
-    @SuppressWarnings("unused")
-	private Map<String, String> configuration = null;
-    
-    @Override
-    public void customize(JFreeChart jfc, JRChart jrc) {
-        
-            Plot plot = jfc.getPlot();
-            
-            if (plot instanceof XYPlot)
-            {
-                ((XYPlot)plot).setRenderer( new XYSplineRenderer());
-            }
-    }
 
-    @Override
-    public void setConfiguration(Map<String, String> properties) {
-        this.configuration = properties;
-    }
-    
+	protected ValueMarker createMarker() 
+	{
+		Double value = getDoubleProperty(PROPERTY_VALUE);
+
+		if (value == null)
+		{
+			return null;
+		}
+
+		ValueMarker marker = new ValueMarker(value);
+
+		configureMarker(marker);
+
+		configureStroke(marker);
+
+		return marker;
+	}
 }

@@ -21,16 +21,61 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers;
+package net.sf.jasperreports.customizers.type;
 
-import java.util.Map;
+import org.jfree.ui.Layer;
+
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedEnum;
+
 
 /**
- *
- * @author Giulio Toffoli (gt78@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface ConfigurableChartCustomizer {
-    
-    public void setConfiguration(Map<String, String> properties);
-    
+public enum LayerEnum implements NamedEnum
+{
+	/**
+	 *
+	 */
+	BACKGROUND(Layer.BACKGROUND, "background"),
+
+	/**
+	 *
+	 */
+	FOREGROUND(Layer.FOREGROUND, "foreground");
+
+
+	/**
+	 *
+	 */
+	private final transient Layer value;
+	private final transient String name;
+
+	private LayerEnum(Layer layer, String name)
+	{
+		this.value = layer;
+		this.name = name;
+	}
+
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+
+	/**
+	 *
+	 */
+	public final Layer getLayer()
+	{
+		return this.value;
+	}
+
+	/**
+	 *
+	 */
+	public static LayerEnum getByName(String name)
+	{
+		return EnumUtil.getEnumByName(values(), name);
+	}
 }

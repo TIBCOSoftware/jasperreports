@@ -21,36 +21,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers;
+package net.sf.jasperreports.customizers;
 
-import net.sf.jasperreports.chartcustomizers.utils.ChartCustomizerUtils;
-import net.sf.jasperreports.engine.JRChart;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.Marker;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYStepRenderer;
+
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartCustomizer;
 
 /**
  * This customizer plots a line chart as spline.
  * 
  * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
-public class RangeIntervalMarkerCustomizer extends AbstractIntervalMarkerCustomizer {
-
-    @Override
-    public void customize(JFreeChart jfc, JRChart jrc) {
-        
-            Marker m = this.createMarker();
-            
-            if (jfc.getPlot() instanceof XYPlot)
-            {
-                jfc.getXYPlot().addRangeMarker(m, ChartCustomizerUtils.getLayer(configuration));
-            }
-            else if (jfc.getPlot() instanceof CategoryPlot)
-            {
-                jfc.getCategoryPlot().addRangeMarker(m, ChartCustomizerUtils.getLayer(configuration));
-            }
-        
-    }
-
+public class StepCustomizer implements JRChartCustomizer 
+{
+	@Override
+	public void customize(JFreeChart jfc, JRChart jrc) 
+	{
+		Plot plot = jfc.getPlot();
+		if (plot instanceof XYPlot)
+		{
+			((XYPlot)plot).setRenderer(new XYStepRenderer());
+		}
+	}
 }

@@ -21,46 +21,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers;
-
-import java.util.Map;
+package net.sf.jasperreports.customizers;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYSplineRenderer;
 
-import net.sf.jasperreports.chartcustomizers.utils.ChartCustomizerUtils;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 
 /**
- * Customizer to define the tick spacing into the domain axis, works for 
- * XY Plot
+ * This customizer plots a line chart as spline.
  * 
- * @author Marco Orlandin (dejawho2@users.sourceforge.net)
+ * @author Giulio Toffoli (gt78@users.sourceforge.net)
  */
-public class DomainAxisTickCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
-
-	public static final String TICK_SPACING_KEY = "tickSpacingDomain";
-	
-	protected Map<String, String> configuration = null;
-	
-    @Override
-    public void customize(JFreeChart jfc, JRChart jrc) {
-        
-            if ((jfc.getPlot() instanceof XYPlot)){
-	            XYPlot plot = jfc.getXYPlot();
-	            NumberAxis range = (NumberAxis) plot.getDomainAxis();
-	            Double tickUnit = ChartCustomizerUtils.asDouble(configuration.get(TICK_SPACING_KEY));
-	            if (tickUnit != null){
-		            range.setTickUnit(new NumberTickUnit(tickUnit));
-	            }
-            } 
-    }
-
+public class SplineCustomizer implements JRChartCustomizer 
+{
 	@Override
-	public void setConfiguration(Map<String, String> properties) {
-		this.configuration = properties;
+	public void customize(JFreeChart jfc, JRChart jrc) 
+	{
+		Plot plot = jfc.getPlot();
+		if (plot instanceof XYPlot)
+		{
+			((XYPlot)plot).setRenderer( new XYSplineRenderer());
+		}
 	}
 }

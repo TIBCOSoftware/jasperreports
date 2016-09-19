@@ -21,48 +21,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartcustomizers;
-
-import java.util.Map;
+package net.sf.jasperreports.customizers.axis;
 
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.XYPlot;
 
-import net.sf.jasperreports.chartcustomizers.utils.ChartCustomizerUtils;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartCustomizer;
 
 /**
+ * Customizer to define the minimum and maximum value of the range axis, works for both 
+ * XY and Category plot
+ * 
  * @author Marco Orlandin (dejawho2@users.sourceforge.net)
  */
-public class LevelRenderCustomizer implements JRChartCustomizer, ConfigurableChartCustomizer {
+public class RangeAxisCustomizer extends AbstractAxisCustomizer 
+{
+	@Override
+	public void customize(JFreeChart jfc, JRChart jrc) 
+	{
+		ValueAxis valueAxis = null;
 
-    private Map<String, String> configuration = null;
-    
-    public static final String ITEM_MARIGN = "itemMargin";
-    
-    public static final String MAX_ITEM_WIDTH = "maximumItemWidth";
-    
-    public static final String SERIES_INDEX = "seriesIndex";
-    
-    @Override
-    public void customize(JFreeChart jfc, JRChart jrc) {
-        
-		if (!(jfc.getPlot() instanceof CategoryPlot))
-			return;
-
-		CategoryPlot plot = (CategoryPlot) jfc.getPlot();
-		
-		Integer seriesIndex = ChartCustomizerUtils.asInteger(configuration.get(SERIES_INDEX));
-		
-		if (seriesIndex != null){
-			plot.setRenderer(seriesIndex, ChartCustomizerUtils.getCategoryLevelRender(configuration));
+		if ((jfc.getPlot() instanceof XYPlot))
+		{
+			valueAxis = jfc.getXYPlot().getRangeAxis();
 		}
-    }
+		else if (jfc.getPlot() instanceof CategoryPlot)
+		{
+			valueAxis = jfc.getCategoryPlot().getRangeAxis();
+		}
 
-    @Override
-    public void setConfiguration(Map<String, String> properties) {
-        this.configuration = properties;
-    }
-    
+		if (valueAxis != null)
+		{
+			configValueAxis(valueAxis, PROPERTY_MIN_VALUE, PROPERTY_MAX_VALUE);
+
+			if (valueAxis instanceof NumberAxis)
+			{
+				configNumberAxis((NumberAxis)valueAxis, PROPERTY_TICK_UNIT);
+			}
+		}
+	}
 }

@@ -5,7 +5,7 @@
 	<property name="sample.dir" value="chartcustomizers"/>
 	<property name="sample.base.name" value="ChartCustomizers" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
-	<property name="sample.report.name" value="XYLineChartReport" />
+	<property name="sample.report.name" value="ChartCustomizersReport" />
 	
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
