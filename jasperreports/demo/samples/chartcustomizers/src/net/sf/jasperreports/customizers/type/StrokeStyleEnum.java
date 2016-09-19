@@ -34,17 +34,17 @@ public enum StrokeStyleEnum implements NamedEnum
 	/**
 	 * Constant useful for specifying solid line style.
 	 */
-	SOLID("Solid"),
+	SOLID("solid"),
 
 	/**
 	 * Constant useful for specifying dashed line style.
 	 */
-	DASHED("Dashed"),
+	DASHED("dashed"),
 	
 	/**
 	 * Constant useful for specifying dotted line style.
 	 */
-	DOTTED("Dotted");
+	DOTTED("dotted");
 	
 	/**
 	 *

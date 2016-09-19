@@ -42,12 +42,12 @@ public enum RectangleAnchorEnum implements NamedEnum
 	/**
 	 *
 	 */
-	TOP_LEFT(RectangleAnchor.TOP_LEFT, "top-left"),
+	TOP_LEFT(RectangleAnchor.TOP_LEFT, "topLeft"),
 
 	/**
 	 *
 	 */
-	TOP_RIGHT(RectangleAnchor.TOP_RIGHT, "top-right"),
+	TOP_RIGHT(RectangleAnchor.TOP_RIGHT, "topRight"),
 
 	/**
 	 *
@@ -57,7 +57,7 @@ public enum RectangleAnchorEnum implements NamedEnum
 	/**
 	 *
 	 */
-	BOTTOM_LEFT(RectangleAnchor.BOTTOM_LEFT, "bottom-left"),
+	BOTTOM_LEFT(RectangleAnchor.BOTTOM_LEFT, "bottomLeft"),
 
 	/**
 	 *

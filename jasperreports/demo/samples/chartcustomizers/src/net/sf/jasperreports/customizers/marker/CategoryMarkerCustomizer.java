@@ -47,7 +47,7 @@ public class CategoryMarkerCustomizer extends AbstractMarkerCustomizer
 	public static final String PROPERTY_FONT_BOLD = "isBold";
 	public static final String PROPERTY_FONT_ITALIC = "isItalic";
 
-	public static String PROPERTY_DRAW_AS_LINE = "draw-as-line";
+	public static String PROPERTY_DRAW_AS_LINE = "drawAsLine";
 
 	@Override
 	public void customize(JFreeChart jfc, JRChart jrc) 

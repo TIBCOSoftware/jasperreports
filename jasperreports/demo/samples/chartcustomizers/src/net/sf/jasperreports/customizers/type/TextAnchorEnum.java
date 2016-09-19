@@ -37,32 +37,32 @@ public enum TextAnchorEnum implements NamedEnum
 	/**
 	 *
 	 */
-	TOP_CENTER(TextAnchor.TOP_CENTER, "top-center"),
+	TOP_CENTER(TextAnchor.TOP_CENTER, "topCenter"),
 
 	/**
 	 *
 	 */
-	TOP_LEFT(TextAnchor.TOP_LEFT, "top-left"),
+	TOP_LEFT(TextAnchor.TOP_LEFT, "topLeft"),
 
 	/**
 	 *
 	 */
-	TOP_RIGHT(TextAnchor.TOP_RIGHT, "top-right"),
+	TOP_RIGHT(TextAnchor.TOP_RIGHT, "topRight"),
 
 	/**
 	 *
 	 */
-	HALF_ASCENT_CENTER(TextAnchor.HALF_ASCENT_CENTER, "half-ascent-center"),
+	HALF_ASCENT_CENTER(TextAnchor.HALF_ASCENT_CENTER, "halfAscentCenter"),
 
 	/**
 	 *
 	 */
-	HALF_ASCENT_LEFT(TextAnchor.HALF_ASCENT_LEFT, "half-ascent-left"),
+	HALF_ASCENT_LEFT(TextAnchor.HALF_ASCENT_LEFT, "halfAscentLeft"),
 
 	/**
 	 *
 	 */
-	HALF_ASCENT_RIGTH(TextAnchor.HALF_ASCENT_RIGHT, "half-ascent-right"),
+	HALF_ASCENT_RIGTH(TextAnchor.HALF_ASCENT_RIGHT, "halfAscentRight"),
 
 	/**
 	 *
@@ -72,42 +72,42 @@ public enum TextAnchorEnum implements NamedEnum
 	/**
 	 *
 	 */
-	CENTER_LEFT(TextAnchor.CENTER_LEFT, "center-left"),
+	CENTER_LEFT(TextAnchor.CENTER_LEFT, "centerLeft"),
 
 	/**
 	 *
 	 */
-	CENTER_RIGHT(TextAnchor.CENTER_RIGHT, "center-right"),
+	CENTER_RIGHT(TextAnchor.CENTER_RIGHT, "centerRight"),
 
 	/**
 	 *
 	 */
-	BOTTOM_CENTER(TextAnchor.BOTTOM_CENTER, "bottom-center"),
+	BOTTOM_CENTER(TextAnchor.BOTTOM_CENTER, "bottomCenter"),
 
 	/**
 	 *
 	 */
-	BASELINE_CENTER(TextAnchor.BASELINE_CENTER, "baseline-center"),
+	BASELINE_CENTER(TextAnchor.BASELINE_CENTER, "baselineCenter"),
 
 	/**
 	 *
 	 */
-	BASELINE_LEFT(TextAnchor.BASELINE_LEFT, "baseline-left"),
+	BASELINE_LEFT(TextAnchor.BASELINE_LEFT, "baselineLeft"),
 
 	/**
 	 *
 	 */
-	BASELINE_RIGHT(TextAnchor.BASELINE_RIGHT, "baseline-right"),
+	BASELINE_RIGHT(TextAnchor.BASELINE_RIGHT, "baselineRight"),
 
 	/**
 	 *
 	 */
-	BOTTOM_LEFT(TextAnchor.BOTTOM_LEFT, "bottom-left"),
+	BOTTOM_LEFT(TextAnchor.BOTTOM_LEFT, "bottomLeft"),
 
 	/**
 	 *
 	 */
-	BOTTOM_RIGHT(TextAnchor.BOTTOM_RIGHT, "bottom-rigth");
+	BOTTOM_RIGHT(TextAnchor.BOTTOM_RIGHT, "bottomRigth");
 
 
 	/**
