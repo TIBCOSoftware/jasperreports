@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.fonts.FontUtil;
  */
 public class CategoryMarkerCustomizer extends AbstractMarkerCustomizer
 {
-	public static final String PROPERTY_KEY = "key";
+	public static final String PROPERTY_CATEGORY = "category";
 	public static final String PROPERTY_FONT_NAME = "fontName";
 	public static final String PROPERTY_FONT_SIZE = "fontSize";
 	public static final String PROPERTY_FONT_BOLD = "isBold";
@@ -64,7 +64,7 @@ public class CategoryMarkerCustomizer extends AbstractMarkerCustomizer
 
 	protected CategoryMarker createMarker(JRChart jrc) 
 	{
-		Comparable<?> value = getProperty(PROPERTY_KEY);
+		Comparable<?> value = getProperty(PROPERTY_CATEGORY);
 
 		if (value == null)
 		{
