@@ -135,38 +135,41 @@ public abstract class AbstractMarkerCustomizer extends JRAbstractChartCustomizer
 		BasicStroke basicStroke = new BasicStroke(strokeWidth);
 
 		StrokeStyleEnum strokeStyle = StrokeStyleEnum.getByName(getProperty(PROPERTY_STROKE_STYLE));
-		switch (strokeStyle)
+		if (strokeStyle != null)
 		{
-			case SOLID : 
+			switch (strokeStyle)
 			{
-				//do nothing; already created stroke is good
-				break;
-			}
-			case DOTTED : 
-			{
-				basicStroke = 
-					new BasicStroke(
-						basicStroke.getLineWidth(), 
-						basicStroke.getEndCap(),
-						basicStroke.getLineJoin(), 
-						basicStroke.getMiterLimit(), 
-						new float[] { 1.0f, 1.0f },
-						basicStroke.getDashPhase()
-						);
-				break;
-			}
-			case DASHED : 
-			{
-				basicStroke = 
-					new BasicStroke(
-						basicStroke.getLineWidth(), 
-						basicStroke.getEndCap(),
-						basicStroke.getLineJoin(), 
-						basicStroke.getMiterLimit(), 
-						new float[] { 10.0f, 10.0f },
-						basicStroke.getDashPhase()
-						);
-				break;
+				case SOLID : 
+				{
+					//do nothing; already created stroke is good
+					break;
+				}
+				case DOTTED : 
+				{
+					basicStroke = 
+						new BasicStroke(
+							basicStroke.getLineWidth(), 
+							basicStroke.getEndCap(),
+							basicStroke.getLineJoin(), 
+							basicStroke.getMiterLimit(), 
+							new float[] { 1.0f, 1.0f },
+							basicStroke.getDashPhase()
+							);
+					break;
+				}
+				case DASHED : 
+				{
+					basicStroke = 
+						new BasicStroke(
+							basicStroke.getLineWidth(), 
+							basicStroke.getEndCap(),
+							basicStroke.getLineJoin(), 
+							basicStroke.getMiterLimit(), 
+							new float[] { 10.0f, 10.0f },
+							basicStroke.getDashPhase()
+							);
+					break;
+				}
 			}
 		}
 		

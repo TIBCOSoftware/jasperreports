@@ -103,35 +103,38 @@ public abstract class AbstractShapeCustomizer extends JRAbstractChartCustomizer
 		Shape shape = null;
 
 		ShapeTypeEnum shapeType = ShapeTypeEnum.getByName(getProperty(PROPERTY_SHAPE_TYPE));
-		switch (shapeType)
+		if (shapeType != null)
 		{
-			case ELLIPSE :
+			switch (shapeType)
 			{
-				shape = buildEllipse();
-				break;
-			}
-			case RECTANGLE :
-			{
-				shape = buildRectangle();
-				break;
-			}
-			case POLYLINE :
-			{
-				String shapePoints = getProperty(PROPERTY_SHAPE_POINTS);
-				if (shapePoints != null)
+				case ELLIPSE :
 				{
-					shape = buildPolyline(ShapePoints.decode(shapePoints));
+					shape = buildEllipse();
+					break;
 				}
-				break;
-			}
-			case POLYGON :
-			{
-				String shapePoints = getProperty(PROPERTY_SHAPE_POINTS);
-				if (shapePoints != null)
+				case RECTANGLE :
 				{
-					shape = buildPolygon(ShapePoints.decode(shapePoints));
+					shape = buildRectangle();
+					break;
 				}
-				break;
+				case POLYLINE :
+				{
+					String shapePoints = getProperty(PROPERTY_SHAPE_POINTS);
+					if (shapePoints != null)
+					{
+						shape = buildPolyline(ShapePoints.decode(shapePoints));
+					}
+					break;
+				}
+				case POLYGON :
+				{
+					String shapePoints = getProperty(PROPERTY_SHAPE_POINTS);
+					if (shapePoints != null)
+					{
+						shape = buildPolygon(ShapePoints.decode(shapePoints));
+					}
+					break;
+				}
 			}
 		}
 
