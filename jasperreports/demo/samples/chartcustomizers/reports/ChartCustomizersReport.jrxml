@@ -80,6 +80,12 @@
 							<property name="net.sf.jasperreports.customizer.class.legendShape" value="net.sf.jasperreports.customizers.shape.LegendShapeCustomizer"/>
 							<property name="net.sf.jasperreports.customizer.legendShape.shapeType" value="polygon"/>
 							<property name="net.sf.jasperreports.customizer.legendShape.allItems" value="true"/>
+							<property name="net.sf.jasperreports.customizer.categoryMarker.color" value="orange"/>
+							<property name="net.sf.jasperreports.customizer.categoryMarker.alpha" value="0.15"/>
+							<property name="net.sf.jasperreports.customizer.class.categoryMarker" value="net.sf.jasperreports.customizers.marker.CategoryMarkerCustomizer"/>
+							<property name="net.sf.jasperreports.customizer.categoryMarker.category" value="sally"/>
+							<property name="net.sf.jasperreports.customizer.categoryMarker.label" value="Mark this!"/>
+							<property name="net.sf.jasperreports.customizer.categoryMarker.labelAnchor" value="top"/>
 							<propertyExpression name="net.sf.jasperreports.customizer.legendShape.shapeWidth"><![CDATA["10"]]></propertyExpression>
 							<propertyExpression name="net.sf.jasperreports.customizer.legendShape.shapeHeight"><![CDATA["10"]]></propertyExpression>
 							<propertyExpression name="net.sf.jasperreports.customizer.legendShape.shapePoints"><![CDATA[StarShapePoints.INSTANCE.encode()]]></propertyExpression>
@@ -414,6 +420,7 @@
 							<property name="net.sf.jasperreports.customizer.class.domainAxis" value="net.sf.jasperreports.customizers.axis.DomainAxisCustomizer"/>
 							<property name="net.sf.jasperreports.customizer.domainAxis.minValue" value="60"/>
 							<property name="net.sf.jasperreports.customizer.domainAxis.maxValue" value="90"/>
+							<property name="net.sf.jasperreports.customizer.domainAxis.tickUnit" value="5"/>
 							<property name="net.sf.jasperreports.customizer.class.rangeAxis" value="net.sf.jasperreports.customizers.axis.RangeAxisCustomizer"/>
 							<property name="net.sf.jasperreports.customizer.rangeAxis.minValue" value="0"/>
 							<property name="net.sf.jasperreports.customizer.rangeAxis.maxValue" value="300000"/>
