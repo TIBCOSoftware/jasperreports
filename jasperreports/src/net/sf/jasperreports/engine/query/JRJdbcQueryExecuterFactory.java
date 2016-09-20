@@ -94,7 +94,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 */
 	public static final String PROPERTY_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.time.zone";
 	
-	//FIXME documentation
+	//FIXME to be documented
 	public static final String PROPERTY_PARAMETERS_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.parameters.time.zone";
 	
 	public static final String PROPERTY_FIELDS_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.fields.time.zone";
