@@ -19,6 +19,7 @@
       <feature name="alternaterowcolor" sample="scriptlet" title="Alternate Row Colors In The Detail Section"/>
       <feature name="charts" sample="charts" title="Charts"/>
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
+      <feature name="chartcustomizers" sample="chartcustomizers" title="Multiple Chart Customizers"/>
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
       <feature name="conditionalstyles" sample="jasper" title="Conditional Styles"/>
       <feature name="crosstabs" sample="crosstabs" title="Crosstabs"/>

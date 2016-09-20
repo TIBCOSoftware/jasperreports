@@ -7,6 +7,7 @@
 
   <mainFeature ref="chartcustomizers"/>
   <secondaryFeature name="charts" sample="charts" title="Charts"/>
+  <secondaryFeature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
 
   <!-- chartcustomizers -->
   
@@ -18,18 +19,92 @@ using one or more chart customizer on the same report.
     <since>6.3.1</since>
     <documentedBy>
       <author>
-    	<name>Marco Orlandin</name>
-    	<email>dejawho2@users.sourceforge.net</email>
+    	<name>Teodor Danciu</name>
+    	<email>teodord@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
 <b>Multiple Chart Customizers</b>
 <br/>
 <br/>
-To provide full control over chart customization even when using the built-in chart 
-component, JasperReports can make use of a  chart customizer implementation associated with the chart element. 
+When the chart customizer feature was first introduced, only one chart customizer object could be assigned to a chart element 
+using the customizerClass attribute of the chart element.
 <br/>
-FIXME
+Although a chart customizer gives great flexibility in altering or enhancing the output of the chart element, having only one such 
+object did not allow easy reuse and piling/stacking up several chart customizer at a time.
+<br/>
+<br/>
+Support for multiple chart customizers per chart element was introduced using custom properties at chart element level having 
+their names in the following format:
+<pre>
+net.sf.jasperreports.customizer.class.{arbitrary_name}
+</pre>
+Such a property is supposed to specify the name of a class that implements the 
+<api href="net/sf/jasperreports/engine/JRChartCustomizer.html">JRChartCustomizer</api> interface and has an empty constructor. 
+This constructor is used to instantiate a chart customizer object at report fill time and is then called to customizer the chart output.
+The <code>{arbitrary_name}</code> suffix of the property is optional and represents the name of the chart customizer. This value will be injected into 
+the chart customizer object using the setName(String) method in case the chart customizer implements the 
+<api href="net/sf/jasperreports/engine/NamedChartCustomizer.html">NamedChartCustomizer</api> interface.
+<br/>
+The name of the chart customizer allows the chart object to identify additional custom properties at chart element level which are 
+considered to be its own and help configure it, because they contain the name as part of the full property name which have the following format:
+<pre>
+net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}
+</pre>
+Here follows an example in which the domain axis of an XY line chart is configured by setting the minimum and maximum values of the axis as well as the
+distance between ticks:
+<pre><![CDATA[
+<xyLineChart>
+  <chart evaluationTime="Report">
+    <reportElement x="0" y="0" width="555" height="300">
+      <property name="net.sf.jasperreports.customizer.class.domainAxis" value="net.sf.jasperreports.customizers.axis.DomainAxisCustomizer"/>
+      <property name="net.sf.jasperreports.customizer.domainAxis.minValue" value="60"/>
+      <property name="net.sf.jasperreports.customizer.domainAxis.maxValue" value="90"/>
+      <property name="net.sf.jasperreports.customizer.domainAxis.tickUnit" value="5"/>
+    </reportElement>
+  ...
+  </chart>
+  ...
+</xyLineChart>
+]]></pre>
+<b>Packaged Chart Customizers</b>
+<br/>
+<br/>
+The chart customizers sample provides a series of chart customizer implementations that can be added as a separate JAR file to 
+an application that uses the JasperReports library.
+<br/>
+These chart customizers leverage various features of the JFreeChart library and are as follows:
+<br/>
+<br/>
+<i><u>Axis Configurations</u></i>
+<pre>
+net.sf.jasperreports.customizers.axis.DomainAxisCustomizer
+net.sf.jasperreports.customizers.axis.RangeAxisCustomizer
+</pre>
+<br/>
+<i><u>Chart Markers</u></i>
+<pre>
+net.sf.jasperreports.customizers.marker.CategoryMarkerCustomizer
+net.sf.jasperreports.customizers.marker.DomainIntervalMarkerCustomizer
+net.sf.jasperreports.customizers.marker.DomainValueMarkerCustomizer
+net.sf.jasperreports.customizers.marker.RangeIntervalMarkerCustomizer
+net.sf.jasperreports.customizers.marker.RangeValueMarkerCustomizer
+</pre>
+<br/>
+<i><u>Custom Shapes</u></i>
+<pre>
+net.sf.jasperreports.customizers.shape.LegendShapeCustomizer
+net.sf.jasperreports.customizers.shape.LineDotShapeCustomizer
+</pre>
+<br/>
+<i><u>Miscellaneous</u></i>
+<pre>
+net.sf.jasperreports.customizers.LevelRenderCustomizer
+net.sf.jasperreports.customizers.SplineCustomizer
+net.sf.jasperreports.customizers.StepCustomizer
+</pre>
+<br/>
+More implementations will be added to this package in the future, but until then, you can leverage this feature and implement and use your own chart customizers.
     </content>
   </feature>
 

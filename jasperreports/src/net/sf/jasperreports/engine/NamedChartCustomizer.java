@@ -32,9 +32,6 @@ package net.sf.jasperreports.engine;
  */
 public interface NamedChartCustomizer extends JRChartCustomizer
 {
-	public static final String CUSTOMIZER_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "customizer.";
-	public static final String CUSTOMIZER_CLASS_PROPERTY_PREFIX = CUSTOMIZER_PROPERTY_PREFIX + "class.";
-
 	/**
 	 *  
 	 */

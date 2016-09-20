@@ -96,8 +96,6 @@
 							<property name="net.sf.jasperreports.customizer.class.rangeAxis" value="net.sf.jasperreports.customizers.axis.RangeAxisCustomizer"/>
 							<property name="net.sf.jasperreports.customizer.rangeAxis.minValue" value="0"/>
 							<property name="net.sf.jasperreports.customizer.rangeAxis.maxValue" value="300000"/>
-							<!--
-							-->
 						</reportElement>
 						<chartTitle>
 							<titleExpression><![CDATA["XY Line Chart"]]></titleExpression>

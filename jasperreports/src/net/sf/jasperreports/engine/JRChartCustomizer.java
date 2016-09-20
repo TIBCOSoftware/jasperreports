@@ -42,7 +42,10 @@ import org.jfree.chart.JFreeChart;
  *
  * @author Michael McMahon (Michael.McMahon@activewire.net)
  */
-public interface JRChartCustomizer {
+public interface JRChartCustomizer 
+{
+	public static final String CUSTOMIZER_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "customizer.";
+	public static final String CUSTOMIZER_CLASS_PROPERTY_PREFIX = CUSTOMIZER_PROPERTY_PREFIX + "class.";
 
 	/**
 	 * This method is called at fill time, before the chart is rendered.
