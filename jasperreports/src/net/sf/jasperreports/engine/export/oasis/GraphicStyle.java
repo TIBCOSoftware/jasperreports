@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -38,6 +39,11 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 public class GraphicStyle extends Style
 {
 	/**
+	 * The ratio of 72 dpi to 96 dpi
+	 */
+	public static final Double DPI_RATIO = 72.0/96.0;
+	
+	/**
 	 *
 	 */
 	private String backcolor;
@@ -46,15 +52,37 @@ public class GraphicStyle extends Style
 	private String width;
 	private String hAlign;
 	private String vAlign;
+	private double cropTop;
+	private double cropLeft;
+	private double cropBottom;
+	private double cropRight;
+
+	private String clip;
 
 
+	public GraphicStyle(WriterHelper styleWriter, JRPrintGraphicElement element)
+	{
+		this(styleWriter, element, 0, 0, 0, 0);
+	}
+	
 	/**
 	 *
 	 */
-	public GraphicStyle(WriterHelper styleWriter, JRPrintGraphicElement element)
+	public GraphicStyle(
+			WriterHelper styleWriter, 
+			JRPrintGraphicElement element, 
+			double cropTop,
+			double cropLeft,
+			double cropBottom,
+			double cropRight
+			)
 	{
 		super(styleWriter);
-
+		this.cropTop = cropTop;
+		this.cropLeft = cropLeft;
+		this.cropBottom = cropBottom;
+		this.cropRight = cropRight;
+		
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
 			//fill = "solid";
@@ -100,6 +128,19 @@ public class GraphicStyle extends Style
 			JRPrintImage imageElement = (JRPrintImage)element;
 			horizontalAlignment = imageElement.getHorizontalImageAlign();
 			verticalAlignment = imageElement.getVerticalImageAlign();
+			if(imageElement.getScaleImageValue() == ScaleImageEnum.CLIP 
+					&& (cropTop > 0 || cropLeft > 0 || cropBottom > 0 || cropRight > 0))
+			{
+				clip = " fo:clip=\"rect("
+						+ LengthUtil.inchNoRound(cropTop * DPI_RATIO)
+						+ "in,"
+						+ LengthUtil.inchNoRound(cropRight * DPI_RATIO) 
+						+ "in,"
+						+ LengthUtil.inchNoRound(cropBottom * DPI_RATIO) 
+						+ "in,"
+						+ LengthUtil.inchNoRound(cropLeft * DPI_RATIO) 
+						+ "in)\"";
+			}
 		}
 
 		switch(horizontalAlignment)
@@ -160,6 +201,14 @@ public class GraphicStyle extends Style
 		id.append(hAlign);
 		id.append("|");
 		id.append(vAlign);
+		id.append("|");
+		id.append(cropTop);
+		id.append("|");
+		id.append(cropLeft);
+		id.append("|");
+		id.append(cropBottom);
+		id.append("|");
+		id.append(cropRight);
 		return id.toString();
 	}
 
@@ -172,6 +221,10 @@ public class GraphicStyle extends Style
 		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
 		styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
 		styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
+		if(clip != null)
+		{
+			styleWriter.write(clip);
+		}
 		styleWriter.write(" svg:stroke-color=\"#" + forecolor + "\"");
 		styleWriter.write(" draw:stroke=\"" + style + "\"");//FIXMENOW dashed borders do not work; only dashed lines and ellipses seem to work
 		styleWriter.write(" draw:stroke-dash=\"Dashed\"");

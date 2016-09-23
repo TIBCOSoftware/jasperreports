@@ -749,11 +749,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		int rightPadding = 
 			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
 
-		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
-		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
-
-		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
-		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+		int availableImageWidth = Math.max(0,image.getWidth() - leftPadding - rightPadding);
+		int availableImageHeight = Math.max(0,image.getHeight() - topPadding - bottomPadding);
 
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
@@ -802,7 +799,13 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 				tempBodyWriter.write(
 					"<draw:frame text:anchor-type=\"paragraph\" "
-					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(
+							image, 
+							imageProcessorResult.cropTop, 
+							imageProcessorResult.cropLeft,
+							imageProcessorResult.cropBottom,
+							imageProcessorResult.cropRight
+							) + "\" "
 					+ "svg:x=\"" + LengthUtil.inch(leftPadding + imageProcessorResult.xoffset) + "in\" "
 					+ "svg:y=\"" + LengthUtil.inch(topPadding + imageProcessorResult.yoffset) + "in\" "
 					+ "svg:width=\"" + LengthUtil.inch(imageProcessorResult.width) + "in\" "
@@ -867,6 +870,12 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 			int xoffset = 0;
 			int yoffset = 0;
+			
+			double cropTop = 0;
+			double cropLeft = 0;
+			double cropBottom = 0;
+			double cropRight = 0;
+
 
 			switch (imageElement.getScaleImageValue())
 			{
@@ -874,11 +883,90 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 				{
 					width = availableImageWidth;
 					height = availableImageHeight;
-					xoffset = 0;
-					yoffset = 0;
+//					xoffset = 0;
+//					yoffset = 0;
 					break;
 				}
 				case CLIP :
+				{
+					double normalWidth = availableImageWidth;
+					double normalHeight = availableImageHeight;
+
+					DimensionRenderable dimensionRenderer = documentBuilder.getRenderersCache().getDimensionRenderable(renderer);
+					Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
+					if (dimension != null)
+					{
+						normalWidth = dimension.getWidth();
+						normalHeight = dimension.getHeight();
+					}
+
+					if (normalWidth > availableImageWidth)
+					{
+						switch (imageElement.getHorizontalImageAlign())
+						{
+							case RIGHT :
+							{
+								cropLeft = normalWidth - availableImageWidth;
+								cropRight = 0;
+								break;
+							}
+							case CENTER :
+							{
+								cropLeft = (normalWidth - availableImageWidth) / 2;
+								cropRight = cropLeft;
+								break;
+							}
+							case LEFT :
+							default :
+							{
+								cropLeft = 0;
+								cropRight = normalWidth - availableImageWidth;
+								break;
+							}
+						}
+						width = (int)normalWidth - (int)cropLeft - (int)cropRight;
+					}
+					else
+					{
+						width = (int)normalWidth;
+					}
+
+					if (normalHeight > availableImageHeight)
+					{
+						switch (imageElement.getVerticalImageAlign())
+						{
+							case TOP :
+							{
+								cropTop = 0;
+								cropBottom = normalHeight - availableImageHeight;
+								break;
+							}
+							case MIDDLE :
+							{
+								cropTop = (normalHeight - availableImageHeight) / 2;
+								cropBottom = cropTop;
+								break;
+							}
+							case BOTTOM :
+							default :
+							{
+								cropTop = normalHeight - availableImageHeight;
+								cropBottom = 0;
+								break;
+							}
+						}
+						height = (int)normalHeight - (int)cropTop - (int)cropBottom;
+					}
+					else
+					{
+						height = (int)normalHeight;
+					}
+					
+//					xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * ((int)normalWidth - availableImageWidth));
+//					yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * ((int)normalHeight - availableImageHeight));
+
+					break;
+				}
 				case RETAIN_SHAPE :
 				default :
 				{
@@ -910,8 +998,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 						width = (int)(ratio * height);
 					}
 
-					xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - width));
-					yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - height));
+//					xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - width));
+//					yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - height));
 				}
 			}
 
@@ -931,7 +1019,11 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 					width,
 					height,
 					xoffset,
-					yoffset
+					yoffset,
+					cropTop,
+					cropLeft,
+					cropBottom,
+					cropRight
 					);
 		}
 	}
@@ -943,13 +1035,22 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		protected int height;
 		protected int xoffset;
 		protected int yoffset;
-		
+		protected double cropTop;
+		protected double cropLeft;
+		protected double cropBottom;
+		protected double cropRight;
+
 		protected InternalImageProcessorResult(
 			String imagePath, 
 			int width,
 			int height,
 			int xoffset,
-			int yoffset
+			int yoffset,
+			double cropTop,
+			double cropLeft,
+			double cropBottom,
+			double cropRight
+			
 			)
 		{
 			this.imagePath = imagePath;
@@ -957,6 +1058,10 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 			this.height = height;
 			this.xoffset = xoffset;
 			this.yoffset = yoffset;
+			this.cropTop = cropTop;
+			this.cropLeft = cropLeft;
+			this.cropBottom = cropBottom;
+			this.cropRight = cropRight;
 		}
 	}
 
