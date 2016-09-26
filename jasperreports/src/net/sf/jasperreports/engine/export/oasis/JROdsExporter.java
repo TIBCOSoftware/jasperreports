@@ -32,17 +32,12 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -77,17 +72,15 @@ import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.OdsExporterConfiguration;
 import net.sf.jasperreports.export.OdsReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
-import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.util.RendererUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -404,7 +397,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 					image, 
 					gridCell,
 					availableImageWidth,
-					availableImageHeight
+					availableImageHeight,
+					documentBuilder,
+					jasperReportsContext
 					);
 				
 			InternalImageProcessorResult imageProcessorResult = null;
@@ -445,22 +440,41 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				String cellAddress = getCellAddress(rowIndex + gridCell.getRowSpan(), colIndex + gridCell.getColSpan());
 				cellAddress = cellAddress == null ? "" : "table:end-cell-address=\"" + cellAddress + "\" ";
 				
+//				tempBodyWriter.write(
+//					"<draw:frame text:anchor-type=\"frame\" "
+//					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
+//					+ cellAddress
+////					+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+////					+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
+//					+ "table:end-x=\"0in\" "
+//					+ "table:end-y=\"0in\" "
+////					+ "svg:x=\"" + LengthUtil.inch(image.getX() + leftPadding + imageProcessorResult.xoffset) + "in\" "
+////					+ "svg:y=\"" + LengthUtil.inch(image.getY() + topPadding + imageProcessorResult.yoffset) + "in\" "
+//					+ "svg:x=\"0in\" "
+//					+ "svg:y=\"0in\" "
+//					+ "svg:width=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
+//					+ "svg:height=\"" + LengthUtil.inchRound(image.getHeight()) + "in\"" 
+//					+ ">"
+//					);
+				
+				
+				
 				tempBodyWriter.write(
-					"<draw:frame text:anchor-type=\"frame\" "
-					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
-					+ cellAddress
-//					+ "table:end-x=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
-//					+ "table:end-y=\"" + LengthUtil.inchRound(image.getHeight()) + "in\" "
-					+ "table:end-x=\"0in\" "
-					+ "table:end-y=\"0in\" "
-//					+ "svg:x=\"" + LengthUtil.inch(image.getX() + leftPadding + imageProcessorResult.xoffset) + "in\" "
-//					+ "svg:y=\"" + LengthUtil.inch(image.getY() + topPadding + imageProcessorResult.yoffset) + "in\" "
-					+ "svg:x=\"0in\" "
-					+ "svg:y=\"0in\" "
-					+ "svg:width=\"" + LengthUtil.inchRound(image.getWidth()) + "in\" "
-					+ "svg:height=\"" + LengthUtil.inchRound(image.getHeight()) + "in\"" 
-					+ ">"
-					);
+						"<draw:frame text:anchor-type=\"paragraph\" "
+						+ "draw:style-name=\"" + styleCache.getGraphicStyle(
+								image, 
+								imageProcessorResult.cropTop, 
+								imageProcessorResult.cropLeft,
+								imageProcessorResult.cropBottom,
+								imageProcessorResult.cropRight
+								) + "\" "
+						+ "svg:x=\"" + LengthUtil.inch(leftPadding + imageProcessorResult.xoffset/1.33) + "in\" "
+						+ "svg:y=\"" + LengthUtil.inch(topPadding + imageProcessorResult.yoffset) + "in\" "
+						+ "svg:width=\"" + LengthUtil.inch(imageProcessorResult.width) + "in\" "
+						+ "svg:height=\"" + LengthUtil.inch(imageProcessorResult.height) + "in\">"
+						);				
+				
+				
 				tempBodyWriter.write("<draw:image ");
 				tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imageProcessorResult.imagePath) + "\"");
 				tempBodyWriter.write(" xlink:type=\"simple\"");
@@ -480,138 +494,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		tableBuilder.buildCellFooter();
 	}
 	
-	private class InternalImageProcessor
-	{
-		private final JRPrintImage imageElement;
-		private final JRExporterGridCell cell;
-		private final int availableImageWidth;
-		private final int availableImageHeight;
-
-		protected InternalImageProcessor(
-			JRPrintImage imageElement,
-			JRExporterGridCell cell,
-			int availableImageWidth,
-			int availableImageHeight
-			)
-		{
-			this.imageElement = imageElement;
-			this.cell = cell;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
-		}
-		
-		private InternalImageProcessorResult process(Renderable renderer) throws JRException
-		{
-			boolean isLazy = RendererUtil.isLazy(renderer);
-
-			if (!isLazy)
-			{
-				if (renderer instanceof ResourceRenderer)
-				{
-					renderer = documentBuilder.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
-				}
-			}
-
-			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
-			
-			int width = availableImageWidth;
-			int height = availableImageHeight;
-
-			int xoffset = 0;
-			int yoffset = 0;
-
-			switch (imageElement.getScaleImageValue())
-			{
-				case FILL_FRAME :
-				{
-					width = availableImageWidth;
-					height = availableImageHeight;
-					xoffset = 0;
-					yoffset = 0;
-					break;
-				}
-				case CLIP :
-				case RETAIN_SHAPE :
-				default :
-				{
-					double normalWidth = availableImageWidth;
-					double normalHeight = availableImageHeight;
-
-					if (!isLazy)
-					{
-						DimensionRenderable dimensionRenderer = documentBuilder.getRenderersCache().getDimensionRenderable(renderer);
-						Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
-						if (dimension != null)
-						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
-						}
-					}
-
-					double ratio = normalWidth / normalHeight;
-
-					if( ratio > availableImageWidth / (double)availableImageHeight )
-					{
-						width = availableImageWidth;
-						height = (int)(width/ratio);
-
-					}
-					else
-					{
-						height = availableImageHeight;
-						width = (int)(ratio * height);
-					}
-
-					xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - width));
-					yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - height));
-				}
-			}
-
-			
-			String imagePath =
-				documentBuilder.getImagePath(
-					renderer, 
-					new Dimension(availableImageWidth, availableImageHeight),
-					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null,
-					cell,
-					isLazy
-					);
-
-			return 
-				new InternalImageProcessorResult(
-					imagePath, 
-					width,
-					height,
-					xoffset,
-					yoffset
-					);
-		}
-	}
-
-	private class InternalImageProcessorResult
-	{
-		protected final String imagePath;
-		protected int width;
-		protected int height;
-		protected int xoffset;
-		protected int yoffset;
-		
-		protected InternalImageProcessorResult(
-			String imagePath, 
-			int width,
-			int height,
-			int xoffset,
-			int yoffset
-			)
-		{
-			this.imagePath = imagePath;
-			this.width = width;
-			this.height = height;
-			this.xoffset = xoffset;
-			this.yoffset = yoffset;
-		}
-	}
-
 	protected String getCellAddress(int row, int col)
 	{
 		String address = null;
