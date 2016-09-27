@@ -573,6 +573,7 @@ public final class DateTimeFunctions extends AbstractFunctionSupport
 		}
 		else{
 			DateTimeFormatter formatter = DateTimeFormat.forPattern(formatPattern);
+			formatter = formatter.withLocale(getReportLocale());
 			return new DateTime(dateObj,DateTimeZone.forTimeZone(getReportTimeZone())).toString(formatter);	
 		}
 	}
