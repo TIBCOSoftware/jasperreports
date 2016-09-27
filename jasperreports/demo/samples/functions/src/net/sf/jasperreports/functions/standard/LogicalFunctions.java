@@ -23,17 +23,17 @@
  */
 package net.sf.jasperreports.functions.standard;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.functions.annotations.Function;
 import net.sf.jasperreports.functions.annotations.FunctionCategories;
 import net.sf.jasperreports.functions.annotations.FunctionParameter;
 import net.sf.jasperreports.functions.annotations.FunctionParameters;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
- * This class should maintain all functions that allows logic decisions, and belong to the category {@link #LOGICAL}.
+ * This class should maintain all functions that allows logic decisions, and belong to the Logical category.
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
  */

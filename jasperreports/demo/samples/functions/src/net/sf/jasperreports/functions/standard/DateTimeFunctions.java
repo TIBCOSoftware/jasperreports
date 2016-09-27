@@ -55,7 +55,7 @@ import net.sf.jasperreports.types.date.DateRangeBuilder;
 
 
 /**
- * This class should maintain all function methods that belongs to the category {@link #DATE_TIME}.
+ * This class should maintain all function methods that belongs to the DateTime category.
  * 
  * @author Massimo Rabbi (mrabbi@users.sourceforge.net)
  */
