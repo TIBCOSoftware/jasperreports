@@ -134,6 +134,7 @@
       <property ref="net.sf.jasperreports.text.truncate.suffix"/>
       <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
       <property ref="net.sf.jasperreports.virtual.page.element.size"/>
+      <property ref="net.sf.jasperreports.when.no.data.type"/>
     </content>
   </category>
   
@@ -1991,6 +1992,19 @@ If set to 0 or negative, report pages will not be broken into several virtual pa
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.when.no.data.type -->
+  
+  <configProperty name="net.sf.jasperreports.when.no.data.type">
+    <description>
+Property that specifies a default value for the <code>whenNoDataType</code> attribute of report.
+    </description>
+    <api>net/sf/jasperreports/engine/JRReport.html#CONFIG_PROPERTY_WHEN_NO_DATA_TYPE</api>
+    <default>NoPages</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.subreport.runner.factory -->
   
   <configProperty name="net.sf.jasperreports.subreport.runner.factory">
@@ -2544,7 +2558,7 @@ Property that enables/disables conditional formatting
     <description>
 Property that specifies a default value for the <code>whenNoDataType</code> attribute of table components.
     </description>
-    <api>net/sf/jasperreports/components/table/TableComponent.html#PROPERTY_WHEN_NO_DATA_TYPE</api>
+    <api>net/sf/jasperreports/components/table/TableComponent.html#CONFIG_PROPERTY_WHEN_NO_DATA_TYPE</api>
     <default>Blank</default>
     <scope>Global | Report</scope>
     <since>6.0.0</since>

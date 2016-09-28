@@ -120,7 +120,7 @@
      </restriction>
     </simpleType>
    </attribute>
-   <attribute name="whenNoDataType" use="optional" default="NoPages">
+   <attribute name="whenNoDataType" use="optional">
    	<annotation>
    		<documentation>Allows users to customize the behavior of the reporting engine when there are now rows in the data source.</documentation>
    	</annotation>

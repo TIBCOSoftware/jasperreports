@@ -134,7 +134,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				log.debug("Fill " + fillerId + ": no data");
 			}
 
-			switch (whenNoDataType)
+			switch (getWhenNoDataType())
 			{
 				case ALL_SECTIONS_NO_DETAIL :
 				{

@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -33,9 +36,6 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -128,7 +128,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				log.debug("Fill " + fillerId + ": no data");
 			}
 
-			switch (whenNoDataType)
+			switch (getWhenNoDataType())
 			{
 				case ALL_SECTIONS_NO_DETAIL :
 				{

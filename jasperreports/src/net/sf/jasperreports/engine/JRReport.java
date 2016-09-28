@@ -278,6 +278,10 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JRIdentifiable
 {
 
+	/**
+	 * Property that specifies a default value for the <code>whenNoDataType</code> attribute of report.
+	 */
+	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "when.no.data.type";
 
 	/**
 	 * A constant used to specify that the language used by expressions is Java.
