@@ -4,6 +4,10 @@
 	<property name="net.sf.jasperreports.csv.source" value="data/CsvDataSource.txt"/>
 	<property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>
 	<property name="net.sf.jasperreports.export.xls.sheet.tab.color" value="#00FF00"/>
+	<property name="net.sf.jasperreports.export.xls.metadata.title" value="JasperReports XLS Features Sample Report"/>
+	<property name="net.sf.jasperreports.export.xls.metadata.subject" value="Shows how the specific XLS features could be used  when exporting to Excel formats."/>
+	<property name="net.sf.jasperreports.export.xls.metadata.author" value="JasperReports Project Team"/>
+	<property name="net.sf.jasperreports.export.xls.metadata.keywords" value="JasperReports, Excel, Formulas, Features"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>

@@ -69,6 +69,9 @@ public class XlsxContentTypesHelper extends BaseHelper
 		write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
 		write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
 		write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
+		write("  <Override PartName=\"/docProps/app.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\"/>\n");
+		write("  <Override PartName=\"/docProps/core.xml\" ContentType=\"application/vnd.openxmlformats-package.core-properties+xml\"/>\n");
+		write("  <Override PartName=\"/xl/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml\"/>\n");
 		if (containsMacro)
 		{
 			write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.ms-excel.sheet.macroEnabled.main+xml\"/>\n");
@@ -78,7 +81,6 @@ public class XlsxContentTypesHelper extends BaseHelper
 		{
 			write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>\n");
 		}
-		write("  <Override PartName=\"/xl/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml\"/>\n");
 	}
 	
 

@@ -52,6 +52,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -329,6 +330,41 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
 		autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
+		
+		SummaryInformation summaryInformation = workbook.getSummaryInformation();
+		if (summaryInformation == null)
+		{
+			workbook.createInformationProperties();
+			summaryInformation = workbook.getSummaryInformation();
+		}
+		
+		String application = configuration.getMetadataApplication();
+		if( application == null )
+		{
+			application = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
+		}
+		summaryInformation.setApplicationName(application);
+		
+		String title = configuration.getMetadataTitle();
+		if (title != null)
+		{
+			summaryInformation.setTitle(title);
+		}
+		String subject = configuration.getMetadataSubject();
+		if (subject != null)
+		{
+			summaryInformation.setSubject(subject);
+		}
+		String author = configuration.getMetadataAuthor();
+		if (author != null)
+		{
+			summaryInformation.setAuthor(author);
+		}
+		String keywords = configuration.getMetadataKeywords();
+		if (keywords != null)
+		{
+			summaryInformation.setKeywords(keywords);
+		}
 	}
 
 

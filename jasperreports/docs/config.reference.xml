@@ -371,6 +371,12 @@
       
       <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
       
+      <property ref="net.sf.jasperreports.export.xls.metadata.application"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.author"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.keywords"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.subject"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.title"/>
+
       <property ref="net.sf.jasperreports.export.xls.one.page.per.sheet"/>
       
       <property ref="net.sf.jasperreports.export.xls.page.scale"/>
@@ -4900,6 +4906,86 @@ Its value is used as default for the
     <default>0</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.application -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.application">
+    <description>
+Property that contains the application information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.author -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.author">
+    <description>
+Property that contains the author information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.keywords -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.keywords">
+    <description>
+Property that contains the keywords to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.subject -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.subject">
+    <description>
+Property that contains the subject information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.title">
+    <description>
+Property that contains the title information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
   </configProperty>
   
   
