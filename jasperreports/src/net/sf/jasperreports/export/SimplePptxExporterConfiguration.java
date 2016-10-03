@@ -29,4 +29,79 @@ package net.sf.jasperreports.export;
  */
 public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration implements PptxExporterConfiguration
 {
+	private String metadataTitle;
+	private String metadataAuthor;
+	private String metadataSubject;
+	private String metadataKeywords;
+	private String metadataApplication;
+	
+	@Override
+	public String getMetadataTitle()
+	{
+		return metadataTitle;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataTitle(String metadataTitle)
+	{
+		this.metadataTitle = metadataTitle;
+	}
+	
+	@Override
+	public String getMetadataAuthor()
+	{
+		return metadataAuthor;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataAuthor(String metadataAuthor)
+	{
+		this.metadataAuthor = metadataAuthor;
+	}
+	
+	@Override
+	public String getMetadataSubject()
+	{
+		return metadataSubject;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataSubject(String metadataSubject)
+	{
+		this.metadataSubject = metadataSubject;
+	}
+	
+	@Override
+	public String getMetadataKeywords()
+	{
+		return metadataKeywords;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataKeywords(String metadataKeywords)
+	{
+		this.metadataKeywords = metadataKeywords;
+	}
+	
+	@Override
+	public String getMetadataApplication()
+	{
+		return metadataApplication;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataApplication(String metadataApplication)
+	{
+		this.metadataApplication = metadataApplication;
+	}
 }

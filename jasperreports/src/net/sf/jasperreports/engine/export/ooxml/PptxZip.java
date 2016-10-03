@@ -42,6 +42,8 @@ public class PptxZip extends FileBufferedZip
 //	private ExportZipEntry stylesEntry;
 	private ExportZipEntry relsEntry;
 	private ExportZipEntry contentTypesEntry;
+	private ExportZipEntry appEntry;
+	private ExportZipEntry coreEntry;
 	
 	/**
 	 * 
@@ -60,6 +62,12 @@ public class PptxZip extends FileBufferedZip
 		contentTypesEntry = createEntry("[Content_Types].xml");
 		addEntry(contentTypesEntry);
 		
+		appEntry = createEntry("docProps/app.xml");
+		addEntry(appEntry);
+
+		coreEntry = createEntry("docProps/core.xml");
+		addEntry(coreEntry);
+
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/_rels/xml.rels");
 		addEntry("ppt/slideLayouts/_rels/slideLayout1.xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/_rels/slideLayout1.xml.rels");
 		addEntry("ppt/slideLayouts/slideLayout1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/slideLayout1.xml");
@@ -100,6 +108,22 @@ public class PptxZip extends FileBufferedZip
 		return contentTypesEntry;
 	}
 	
+ 	/**
+	 *
+	 */
+	public ExportZipEntry getAppEntry()
+	{
+		return appEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getCoreEntry()
+	{
+		return coreEntry;
+	}
+
 	/**
 	 * 
 	 */

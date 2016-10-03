@@ -243,6 +243,11 @@
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.application"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.author"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.keywords"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.subject"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.title"/>
       <property ref="net.sf.jasperreports.export.docx.new.line.as.paragraph"/>
       
       <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
@@ -322,6 +327,12 @@
       <property ref="net.sf.jasperreports.export.pdfa.conformance"/>
       <property ref="net.sf.jasperreports.export.pdfa.icc.profile.path"/>
       
+      <property ref="net.sf.jasperreports.export.pptx.metadata.application"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.author"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.keywords"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.subject"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.title"/>
+
       <property ref="net.sf.jasperreports.export.text.character.height"/>
       <property ref="net.sf.jasperreports.export.text.character.width"/>
       <property ref="net.sf.jasperreports.export.text.line.separator"/>
@@ -3348,6 +3359,86 @@ This property is used to mark text elements as being hidden either for printing 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.docx.metadata.application -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.application">
+    <description>
+Property that contains the application information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.author -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.author">
+    <description>
+Property that contains the author information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.keywords -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.keywords">
+    <description>
+Property that contains the keywords to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.subject -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.subject">
+    <description>
+Property that contains the subject information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.title">
+    <description>
+Property that contains the title information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.docx.new.line.as.paragraph -->
   
   <configProperty name="net.sf.jasperreports.export.docx.new.line.as.paragraph">
@@ -4267,7 +4358,87 @@ Its value is used as default for the
     <since>3.1.2</since>
   </configProperty>
   
- 
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.application -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.application">
+    <description>
+Property that contains the application information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.author -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.author">
+    <description>
+Property that contains the author information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.keywords -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.keywords">
+    <description>
+Property that contains the keywords to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.subject -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.subject">
+    <description>
+Property that contains the subject information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.title">
+    <description>
+Property that contains the title information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.text.character.width -->
   
   <configProperty name="net.sf.jasperreports.export.text.character.width">

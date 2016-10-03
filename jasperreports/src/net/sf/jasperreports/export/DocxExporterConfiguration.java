@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.export.annotations.ExporterProperty;
 
 
 /**
@@ -35,4 +37,58 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
  */
 public interface DocxExporterConfiguration extends ExporterConfiguration
 {
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataTitle()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.title";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataAuthor()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.author";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataSubject()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.subject";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataKeywords()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.keywords";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataApplication()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_APPLICATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.application";
+
+	/**
+	 * The Title of the DOCX document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_TITLE)
+	public String getMetadataTitle();
+
+	/**
+	 * The Author of the DOCX document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_AUTHOR)
+	public String getMetadataAuthor();
+
+	/**
+	 * The Subject of the DOCX document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_SUBJECT)
+	public String getMetadataSubject();
+
+	/**
+	 * The Keywords of the DOCX document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_KEYWORDS)
+	public String getMetadataKeywords();
+
+	/**
+	 * The Application for the DOCX document. Defaults to "JasperReports Library version x.x.x".
+	 */
+	@ExporterProperty(PROPERTY_METADATA_APPLICATION)
+	public String getMetadataApplication();
 }

@@ -156,8 +156,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected XlsxWorkbookHelper wbHelper;
 	protected XlsxRelsHelper relsHelper;
 	protected XlsxContentTypesHelper ctHelper;
-	protected XlsxAppHelper appHelper;
-	protected XlsxCoreHelper coreHelper;
+	protected PropsAppHelper appHelper;
+	protected PropsCoreHelper coreHelper;
 	protected XlsxSheetHelper sheetHelper;
 	protected XlsxSheetRelsHelper sheetRelsHelper;
 	protected XlsxDrawingHelper drawingHelper;
@@ -1581,8 +1581,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			relsHelper = new XlsxRelsHelper(jasperReportsContext, xlsxZip.getRelsEntry().getWriter());
 			ctHelper = new XlsxContentTypesHelper(jasperReportsContext, xlsxZip.getContentTypesEntry().getWriter());
 
-			appHelper = new XlsxAppHelper(jasperReportsContext, xlsxZip.getAppEntry().getWriter());
-			coreHelper = new XlsxCoreHelper(jasperReportsContext, xlsxZip.getCoreEntry().getWriter());
+			appHelper = new PropsAppHelper(jasperReportsContext, xlsxZip.getAppEntry().getWriter());
+			coreHelper = new PropsCoreHelper(jasperReportsContext, xlsxZip.getCoreEntry().getWriter());
 			
 			XlsxExporterConfiguration configuration = getCurrentConfiguration();
 			
@@ -1603,29 +1603,29 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			{
 				application = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
 			}
-			appHelper.exportProperty(XlsxAppHelper.PROPERTY_APPLICATION, application);
+			appHelper.exportProperty(PropsAppHelper.PROPERTY_APPLICATION, application);
 			
 			coreHelper.exportHeader();
 			
 			String title = configuration.getMetadataTitle();
 			if (title != null)
 			{
-				coreHelper.exportProperty(XlsxCoreHelper.PROPERTY_TITLE, title);
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_TITLE, title);
 			}
 			String subject = configuration.getMetadataSubject();
 			if (subject != null)
 			{
-				coreHelper.exportProperty(XlsxCoreHelper.PROPERTY_SUBJECT, subject);
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_SUBJECT, subject);
 			}
 			String author = configuration.getMetadataAuthor();
 			if (author != null)
 			{
-				coreHelper.exportProperty(XlsxCoreHelper.PROPERTY_CREATOR, author);
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_CREATOR, author);
 			}
 			String keywords = configuration.getMetadataKeywords();
 			if (keywords != null)
 			{
-				coreHelper.exportProperty(XlsxCoreHelper.PROPERTY_KEYWORDS, keywords);
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_KEYWORDS, keywords);
 			}
 
 			styleHelper = 

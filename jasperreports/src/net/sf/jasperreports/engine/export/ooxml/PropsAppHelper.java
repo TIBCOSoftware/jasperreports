@@ -31,17 +31,14 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class XlsxCoreHelper extends BaseHelper
+public class PropsAppHelper extends BaseHelper
 {
-	public static final String PROPERTY_TITLE = "dc:title";
-	public static final String PROPERTY_SUBJECT = "dc:subject";
-	public static final String PROPERTY_CREATOR = "dc:creator";
-	public static final String PROPERTY_KEYWORDS = "cp:keywords";
+	public static final String PROPERTY_APPLICATION = "Application";
 	
 	/**
 	 * 
 	 */
-	public XlsxCoreHelper(JasperReportsContext jasperReportsContext, Writer writer)
+	public PropsAppHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
 		super(jasperReportsContext, writer);
 	}
@@ -52,10 +49,7 @@ public class XlsxCoreHelper extends BaseHelper
 	public void exportHeader()
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		write("<coreProperties xmlns=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" " 
-				+ "xmlns:cp=\"http://schemas.openxmlformats.org/package/2006/metadata/core-properties\" " 
-				+ "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" " 
-				+ "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n");
+		write("<Properties xmlns=\"http://schemas.openxmlformats.org/officeDocument/2006/extended-properties\">\n");
 	}
 	
 
@@ -73,6 +67,6 @@ public class XlsxCoreHelper extends BaseHelper
 	 */
 	public void exportFooter()
 	{
-		write("</coreProperties>\n");
+		write("</Properties>\n");
 	}
 }
