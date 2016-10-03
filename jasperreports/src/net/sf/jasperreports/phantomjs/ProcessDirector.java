@@ -43,6 +43,7 @@ public class ProcessDirector
 	
 	private String phantomjsExecutablePath;
 	private int processStartTimeout;
+	private int idlePingInterval;
 	private ScriptManager scriptManager;
 	private Inet4Address listenAddress;
 	private GenericObjectPool<PhantomJSProcess> processPool;
@@ -53,6 +54,9 @@ public class ProcessDirector
 		this.phantomjsExecutablePath = properties.getProperty(PhantomJS.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
 		this.processStartTimeout = properties.getIntegerProperty(PhantomJS.PROPERTY_PHANTOMJS_START_TIMEOUT, 
 				PhantomJS.DEFAULT_PHANTOMJS_START_TIMEOUT);
+		
+		this.idlePingInterval = properties.getIntegerProperty(PhantomJS.PROPERTY_PHANTOMJS_IDLE_PING_INTERVAL, 
+				PhantomJS.DEFAULT_PHANTOMJS_IDLE_PING_INTERVAL);
 		
 		this.scriptManager = scriptManager;
 		
@@ -87,8 +91,6 @@ public class ProcessDirector
 				PhantomJS.DEFAULT_PHANTOMJS_IDLE_TIMEOUT);
 		pool.setMinEvictableIdleTimeMillis(idleTimeout);
 		
-		int idlePingInterval = properties.getIntegerProperty(PhantomJS.PROPERTY_PHANTOMJS_IDLE_PING_INTERVAL, 
-				PhantomJS.DEFAULT_PHANTOMJS_IDLE_PING_INTERVAL);
 		pool.setTimeBetweenEvictionRunsMillis(idlePingInterval);
 		
 		pool.setTestWhileIdle(true);
@@ -123,6 +125,11 @@ public class ProcessDirector
 	public int getProcessStartTimeout()
 	{
 		return processStartTimeout;
+	}
+	
+	protected int getProcessIdleTimeout()
+	{
+		return idlePingInterval * 5 / 2;
 	}
 	
 	public ScriptManager getScriptManager()

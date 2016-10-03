@@ -7,9 +7,13 @@
 		mapArguments,
 		listenAddress,
 		confirmMessage,
+		idleTimeout,
 		listening,
-		call,
-		requestStart;
+		idleExit,
+		idleTimer = null,
+		startIdle,
+		endIdle,
+		call;
 
 	mapArguments = function () {
 		var map = {},
@@ -21,6 +25,24 @@
 		}
 		return map;
 	};
+	
+	idleExit = function() {
+		console.log("Idle timeout reached");
+		phantom.exit();
+	}
+	
+	startIdle = function() {
+		if (idleTimeout > 0) {
+			idleTimer = window.setTimeout(idleExit, idleTimeout);
+		}
+	}
+	
+	endIdle = function() {
+		if (idleTimer != null) {
+			window.clearTimeout(idleTimer);
+			idleTimer = null;
+		}
+	}
 	
 	function Call(request, response) {
 		this.request = request;
@@ -35,6 +57,7 @@
 		this.response.statusCode = 200;
 		this.response.write(data);
 		this.response.close();
+		startIdle();
 	}
 	
 	Call.prototype.sendError = function(error) {
@@ -46,11 +69,13 @@
 		this.response.setHeader('Content-Type', 'text/plain');
 		this.response.write(msg);
 		this.response.close();
+		startIdle();
 	}
 
 	args = mapArguments();
 	listenAddress = args.listenAddress;
 	confirmMessage = args.confirmMessage;
+	idleTimeout = args.idleTimeout ? parseInt(args.idleTimeout) : 0;
 	
 	if (!listenAddress) {
 		console.log('Usage: phantomjs process.js listen_address');
@@ -59,8 +84,8 @@
 		console.log('starting server on ' + listenAddress);
 		listening = server.listen(listenAddress, function(request, response) {
 			console.log("got request");
+			endIdle();
 			call = new Call(request, response);
-			requestStart = Date.now();
 			
 			var	requestArgs,
 				handler;
@@ -84,6 +109,7 @@
 		if (listening) {
 			console.log('server listening');
 			console.log(confirmMessage);
+			startIdle();
 		} else {
 			console.log('failed to listen on ' + listenAddress);
 			phantom.exit(1);

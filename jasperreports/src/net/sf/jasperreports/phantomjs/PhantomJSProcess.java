@@ -86,19 +86,22 @@ public class PhantomJSProcess
 	public void startPhantomJS()
 	{
 		String mainScriptTempName = director.getScriptManager().getScriptFilename(PhantomJS.MAIN_SCRIPT_RESOURCE);
-
 		String listenAddress = listenURI.getHost() + ":" + listenURI.getPort();
+		int idleTimeout = director.getProcessIdleTimeout();
+
 		if (log.isDebugEnabled())
 		{
 			log.debug(id + " starting phantomjs process with command: "
 					+ director.getPhantomjsExecutablePath() + " \"" + mainScriptTempName + "\""
 					+ " -listenAddress \"" + listenAddress + "\""
-					+ " -confirmMessage \"" + PHANTOMJS_CONFIRMATION_MESSAGE + "\"");
+					+ " -confirmMessage \"" + PHANTOMJS_CONFIRMATION_MESSAGE + "\""
+					+ " -idleTimeout " + idleTimeout + "");
 		}
 
 		ProcessBuilder pb = new ProcessBuilder(director.getPhantomjsExecutablePath(), mainScriptTempName,
 				"-listenAddress", listenAddress,
-				"-confirmMessage", PHANTOMJS_CONFIRMATION_MESSAGE
+				"-confirmMessage", PHANTOMJS_CONFIRMATION_MESSAGE,
+				"-idleTimeout", Integer.toString(idleTimeout)
 				);
 		pb.redirectErrorStream(true);//TODO lucianc separate streams
 		pb.directory(director.getScriptManager().getTempFolder());
