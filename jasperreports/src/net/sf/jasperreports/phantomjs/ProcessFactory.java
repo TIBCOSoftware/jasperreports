@@ -29,6 +29,7 @@ import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
@@ -39,10 +40,17 @@ public class ProcessFactory extends BasePooledObjectFactory<PhantomJSProcess>
 	private static final Log log = LogFactory.getLog(ProcessFactory.class);
 
 	private ProcessDirector director;
+	private int expirationCount;
+	private int expirationTime;
 
-	public ProcessFactory(ProcessDirector director)
+	public ProcessFactory(ProcessDirector director, JRPropertiesUtil properties)
 	{
 		this.director = director;
+		
+		this.expirationCount = properties.getIntegerProperty(PhantomJS.PROPERTY_PHANTOMJS_EXPIRATION_COUNT,
+				PhantomJS.DEFAULT_PHANTOMJS_EXPIRATION_COUNT);
+		this.expirationTime = properties.getIntegerProperty(PhantomJS.PROPERTY_PHANTOMJS_EXPIRATION_TIME,
+				PhantomJS.DEFAULT_PHANTOMJS_EXPIRATION_TIME);
 	}
 	
 	@Override
@@ -74,6 +82,30 @@ public class ProcessFactory extends BasePooledObjectFactory<PhantomJSProcess>
 			}
 			
 			throw new JRRuntimeException("Process " + process.getId() + " is not running");
+		}
+		
+		long borrowedCount = ((DefaultPooledObject<PhantomJSProcess>) pooledObject).getBorrowedCount();
+		if (borrowedCount >= expirationCount)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug(process.getId() + " borrow count " + borrowedCount 
+						+ " exceeded expiration count " + expirationCount);
+			}
+			
+			throw new JRRuntimeException("Process " + process.getId() + " borrow count exceeded");
+		}
+		
+		long now = System.currentTimeMillis();
+		if (now >= pooledObject.getCreateTime() + expirationTime)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug(process.getId() + " expiration time " + expirationTime 
+						+ " from " + pooledObject.getCreateTime() + " exceeded");
+			}
+			
+			throw new JRRuntimeException("Process " + process.getId() + " expiration time exceeded");
 		}
 	}
 

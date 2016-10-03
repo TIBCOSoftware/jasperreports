@@ -70,7 +70,7 @@ public class ProcessDirector
 	
 	private GenericObjectPool<PhantomJSProcess> createProcessPool(JRPropertiesUtil properties)
 	{
-		ProcessFactory processFactory = new ProcessFactory(this);
+		ProcessFactory processFactory = new ProcessFactory(this, properties);
 		GenericObjectPool<PhantomJSProcess> pool = new GenericObjectPool<>(processFactory);
 		pool.setLifo(true);
 		

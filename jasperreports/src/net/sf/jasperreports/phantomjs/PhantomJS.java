@@ -56,6 +56,12 @@ public class PhantomJS
 	public static final String PROPERTY_PHANTOMJS_IDLE_PING_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.idle.ping.interval";
 	public static final int DEFAULT_PHANTOMJS_IDLE_PING_INTERVAL = 40000;//30 seconds
 	
+	public static final String PROPERTY_PHANTOMJS_EXPIRATION_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.expiration.count";
+	public static final int DEFAULT_PHANTOMJS_EXPIRATION_COUNT = 1000;//expire after 1000 jobs
+	
+	public static final String PROPERTY_PHANTOMJS_EXPIRATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.expiration.time";
+	public static final int DEFAULT_PHANTOMJS_EXPIRATION_TIME = 1200000;//expire after 20 mins
+	
 	public static final String MAIN_SCRIPT_RESOURCE = "net/sf/jasperreports/phantomjs/process.js";
 
 	private static final PhantomJS INSTANCE;
