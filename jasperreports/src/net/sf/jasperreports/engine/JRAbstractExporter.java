@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.export.DefaultHyperlinkProducerFactory;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterFilterFactory;
 import net.sf.jasperreports.engine.export.ExporterFilterFactoryUtil;
@@ -252,8 +253,13 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	 */
 	private ReportContext reportContext;
 	protected E exporterContext;
-	
-	
+
+
+	/**
+	 *
+	 */
+	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+
 	/**
 	 *
 	 */
@@ -1230,8 +1236,17 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 
 	public JRHyperlinkProducer getHyperlinkProducer(JRPrintHyperlink link)
 	{
-		JRHyperlinkProducerFactory factory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
-		return factory == null ? null : factory.getHandler(link.getLinkType());
+		if (hyperlinkProducerFactory == null)
+		{
+			hyperlinkProducerFactory = getCurrentItemConfiguration().getHyperlinkProducerFactory();
+
+			if (hyperlinkProducerFactory == null)
+			{
+				hyperlinkProducerFactory = new DefaultHyperlinkProducerFactory(jasperReportsContext);
+			}
+		}
+
+		return hyperlinkProducerFactory.getHandler(link.getLinkType());
 	}
 
 	/**

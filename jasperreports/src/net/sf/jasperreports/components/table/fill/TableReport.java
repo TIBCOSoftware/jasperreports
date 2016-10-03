@@ -104,6 +104,7 @@ import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
@@ -1626,6 +1627,7 @@ public class TableReport implements JRReport
 		frame.setY(y);
 		frame.setWidth(width);
 		frame.setHeight(cell.getHeight());
+		frame.setPositionType(PositionTypeEnum.FLOAT);
 		frame.setStretchType(StretchTypeEnum.ELEMENT_GROUP_HEIGHT);
 		
 		frame.setStyle(cell.getStyle());
@@ -2065,7 +2067,7 @@ public class TableReport implements JRReport
 				WhenNoDataTypeTableEnum.getByName(
 					propertiesUtil.getProperty(
 						fillContext.getFillDataset(),
-						TableComponent.PROPERTY_WHEN_NO_DATA_TYPE
+						TableComponent.CONFIG_PROPERTY_WHEN_NO_DATA_TYPE
 						)
 					);
 		}

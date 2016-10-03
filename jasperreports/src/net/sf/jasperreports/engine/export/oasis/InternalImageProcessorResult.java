@@ -21,19 +21,45 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.functions.standard;
-
-import net.sf.jasperreports.functions.annotations.FunctionCategory;
-
+package net.sf.jasperreports.engine.export.oasis;
 
 /**
- * This class should maintain all function methods that belongs to the Logical category.
- * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-@FunctionCategory(
-	//"LOGICAL" // if not specified, the value is the name of the category class
-	)
-public final class LogicalCategory 
+public class InternalImageProcessorResult 
 {
+	protected final String imagePath;
+	protected int width;
+	protected int height;
+	protected int xoffset;
+	protected int yoffset;
+	protected double cropTop;
+	protected double cropLeft;
+	protected double cropBottom;
+	protected double cropRight;
+
+	protected InternalImageProcessorResult(
+		String imagePath, 
+		int width,
+		int height,
+		int xoffset,
+		int yoffset,
+		double cropTop,
+		double cropLeft,
+		double cropBottom,
+		double cropRight
+		
+		)
+	{
+		this.imagePath = imagePath;
+		this.width = width;
+		this.height = height;
+		this.xoffset = xoffset;
+		this.yoffset = yoffset;
+		this.cropTop = cropTop;
+		this.cropLeft = cropLeft;
+		this.cropBottom = cropBottom;
+		this.cropRight = cropRight;
+	}
 }
+

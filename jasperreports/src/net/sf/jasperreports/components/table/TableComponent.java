@@ -40,7 +40,12 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable
 	/**
 	 * Property that specifies a default value for the <code>whenNoDataType</code> attribute of table components.
 	 */
-	public static final String PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.when.no.data.type";
+	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.when.no.data.type";
+
+	/**
+	 * @deprecated Replaced by {@link #CONFIG_PROPERTY_WHEN_NO_DATA_TYPE}.
+	 */
+	public static final String PROPERTY_WHEN_NO_DATA_TYPE = CONFIG_PROPERTY_WHEN_NO_DATA_TYPE;
 
 	JRDatasetRun getDatasetRun();
 

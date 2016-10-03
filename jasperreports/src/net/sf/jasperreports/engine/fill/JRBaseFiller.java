@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -125,7 +126,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	protected OrientationEnum orientation;
 
-	protected WhenNoDataTypeEnum whenNoDataType;
+	private WhenNoDataTypeEnum whenNoDataType;
 
 	protected int columnWidth;
 
@@ -961,6 +962,25 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected ResourceBundle getResourceBundle()
 	{
 		return mainDataset.resourceBundle;
+	}
+
+
+	/**
+	 *
+	 */
+	protected WhenNoDataTypeEnum getWhenNoDataType()
+	{
+		WhenNoDataTypeEnum result = whenNoDataType;
+		
+		if (result == null)
+		{
+			result = 
+				WhenNoDataTypeEnum.getByName(
+					propertiesUtil.getProperty(mainDataset, JRReport.CONFIG_PROPERTY_WHEN_NO_DATA_TYPE)
+					);
+		}
+		
+		return result;
 	}
 
 

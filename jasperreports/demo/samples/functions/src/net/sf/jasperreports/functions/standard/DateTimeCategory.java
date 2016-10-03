@@ -27,7 +27,7 @@ import net.sf.jasperreports.functions.annotations.FunctionCategory;
 
 
 /**
- * This class should maintain all function methods that belongs to the category {@link #DATE_TIME}.
+ * This class should maintain all function methods that belongs to the DateTime category.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */

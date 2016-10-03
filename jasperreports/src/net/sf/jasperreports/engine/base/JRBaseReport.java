@@ -94,7 +94,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected int pageWidth = 595;
 	protected int pageHeight = 842;
 	protected OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
-	protected WhenNoDataTypeEnum whenNoDataTypeValue = WhenNoDataTypeEnum.NO_PAGES;
+	protected WhenNoDataTypeEnum whenNoDataTypeValue;
 	protected SectionTypeEnum sectionType = SectionTypeEnum.BAND;
 	protected int columnWidth = 555;
 	protected int columnSpacing;

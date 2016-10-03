@@ -179,7 +179,6 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
-import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.export.WriterExporterOutput;
@@ -403,7 +402,7 @@ public class JRApiWriter
 		write( "jasperDesign.setPageWidth({0, number, #});\n", report.getPageWidth());
 		write( "jasperDesign.setPageHeight({0, number, #});\n", report.getPageHeight());
 		write( "jasperDesign.setOrientation({0});\n", report.getOrientationValue(), OrientationEnum.PORTRAIT);
-		write( "jasperDesign.setWhenNoDataType({0});\n", report.getWhenNoDataTypeValue(), WhenNoDataTypeEnum.NO_PAGES);
+		write( "jasperDesign.setWhenNoDataType({0});\n", report.getWhenNoDataTypeValue());
 		write( "jasperDesign.setColumnWidth({0, number, #});\n", report.getColumnWidth());
 		write( "jasperDesign.setColumnSpacing({0, number, #});\n", report.getColumnSpacing());
 		write( "jasperDesign.setLeftMargin({0, number, #});\n", report.getLeftMargin());

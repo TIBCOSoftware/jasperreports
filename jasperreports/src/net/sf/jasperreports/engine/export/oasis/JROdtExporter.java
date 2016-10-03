@@ -32,8 +32,6 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -41,9 +39,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -79,7 +74,6 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -88,10 +82,10 @@ import net.sf.jasperreports.export.OdtExporterConfiguration;
 import net.sf.jasperreports.export.OdtReportConfiguration;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
-import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
-import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.renderers.util.RendererUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -749,11 +743,8 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		int rightPadding = 
 			Math.max(image.getLineBox().getRightPadding().intValue(), Math.round(image.getLineBox().getRightPen().getLineWidth().floatValue()));
 
-		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
-		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
-
-		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
-		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
+		int availableImageWidth = Math.max(0,image.getWidth() - leftPadding - rightPadding);
+		int availableImageHeight = Math.max(0,image.getHeight() - topPadding - bottomPadding);
 
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
@@ -770,7 +761,9 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 					image, 
 					gridCell,
 					availableImageWidth,
-					availableImageHeight
+					availableImageHeight,
+					documentBuilder,
+					jasperReportsContext
 					);
 				
 			InternalImageProcessorResult imageProcessorResult = null;
@@ -802,7 +795,13 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 
 				tempBodyWriter.write(
 					"<draw:frame text:anchor-type=\"paragraph\" "
-					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(
+							image, 
+							imageProcessorResult.cropTop, 
+							imageProcessorResult.cropLeft,
+							imageProcessorResult.cropBottom,
+							imageProcessorResult.cropRight
+							) + "\" "
 					+ "svg:x=\"" + LengthUtil.inch(leftPadding + imageProcessorResult.xoffset) + "in\" "
 					+ "svg:y=\"" + LengthUtil.inch(topPadding + imageProcessorResult.yoffset) + "in\" "
 					+ "svg:width=\"" + LengthUtil.inch(imageProcessorResult.width) + "in\" "
@@ -825,139 +824,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 		}
 
 		tableBuilder.buildCellFooter();
-	}
-
-	
-	private class InternalImageProcessor
-	{
-		private final JRPrintImage imageElement;
-		private final JRExporterGridCell cell;
-		private final int availableImageWidth;
-		private final int availableImageHeight;
-
-		protected InternalImageProcessor(
-			JRPrintImage imageElement,
-			JRExporterGridCell cell,
-			int availableImageWidth,
-			int availableImageHeight
-			)
-		{
-			this.imageElement = imageElement;
-			this.cell = cell;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
-		}
-		
-		private InternalImageProcessorResult process(Renderable renderer) throws JRException
-		{
-			boolean isLazy = RendererUtil.isLazy(renderer);
-
-			if (!isLazy)
-			{
-				if (renderer instanceof ResourceRenderer)
-				{
-					renderer = documentBuilder.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
-				}
-			}
-
-			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
-
-			int width = availableImageWidth;
-			int height = availableImageHeight;
-
-			int xoffset = 0;
-			int yoffset = 0;
-
-			switch (imageElement.getScaleImageValue())
-			{
-				case FILL_FRAME :
-				{
-					width = availableImageWidth;
-					height = availableImageHeight;
-					xoffset = 0;
-					yoffset = 0;
-					break;
-				}
-				case CLIP :
-				case RETAIN_SHAPE :
-				default :
-				{
-					double normalWidth = availableImageWidth;
-					double normalHeight = availableImageHeight;
-
-					if (!isLazy)
-					{
-						DimensionRenderable dimensionRenderer = documentBuilder.getRenderersCache().getDimensionRenderable(renderer);
-						Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
-						if (dimension != null)
-						{
-							normalWidth = dimension.getWidth();
-							normalHeight = dimension.getHeight();
-						}
-					}
-
-					double ratio = normalWidth / normalHeight;
-
-					if( ratio > availableImageWidth / (double)availableImageHeight )
-					{
-						width = availableImageWidth;
-						height = (int)(width/ratio);
-
-					}
-					else
-					{
-						height = availableImageHeight;
-						width = (int)(ratio * height);
-					}
-
-					xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - width));
-					yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - height));
-				}
-			}
-
-
-			String imagePath = 
-					documentBuilder.getImagePath(
-						renderer, 
-						new Dimension(availableImageWidth, availableImageHeight),
-						ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null,
-						cell,
-						isLazy
-						);
-
-			return 
-				new InternalImageProcessorResult(
-					imagePath, 
-					width,
-					height,
-					xoffset,
-					yoffset
-					);
-		}
-	}
-
-	private class InternalImageProcessorResult
-	{
-		protected final String imagePath;
-		protected int width;
-		protected int height;
-		protected int xoffset;
-		protected int yoffset;
-		
-		protected InternalImageProcessorResult(
-			String imagePath, 
-			int width,
-			int height,
-			int xoffset,
-			int yoffset
-			)
-		{
-			this.imagePath = imagePath;
-			this.width = width;
-			this.height = height;
-			this.xoffset = xoffset;
-			this.yoffset = yoffset;
-		}
 	}
 
 	

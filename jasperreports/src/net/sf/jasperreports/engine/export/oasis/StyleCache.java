@@ -217,7 +217,28 @@ public class StyleCache
 	 */
 	public String getGraphicStyle(JRPrintGraphicElement element)
 	{
-		GraphicStyle graphicStyle  = new GraphicStyle(styleWriter, element);
+		return getGraphicStyle(element, 0, 0, 0, 0);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public String getGraphicStyle(
+			JRPrintGraphicElement element, 
+			double cropTop,
+			double cropLeft,
+			double cropBottom,
+			double cropRight
+			)
+	{
+		GraphicStyle graphicStyle  = new GraphicStyle(
+				styleWriter, 
+				element, 
+				cropTop, 
+				cropLeft,
+				cropBottom,
+				cropRight);
 		
 		String graphicStyleId = graphicStyle.getId();
 		String graphicStyleName = cellStyles.get(graphicStyleId);
