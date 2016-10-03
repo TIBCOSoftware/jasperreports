@@ -2,8 +2,49 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.3.1 (2016-09-xx)
+JasperReports 6.3.1 (2016-10-03)
 ---------------------------------------------
+
+- new JSONQL query language with advanced syntax for queries and for field mapping 
+expressions to allow more complex field mapping scenarios including the ability to map 
+fields to the parent node values; this new query language and its respective query executer, 
+which offers XPath-like capabilities, deprecate the existing JSON query language and 
+the former query executer;
+
+- support for request headers was added to HTTP data adapters as well as improved 
+parameter mapping using custom parameter properties to markup dataset parameters which 
+contribute to the HTTP request; the new sample under /demo/samples/httpdataadapters shows 
+some of these improvements;
+
+- new evaluationTime attribute added to dataset parameter definition to control the exact 
+moment when the default value expression of the parameter is evaluated; the default evaluation 
+time for parameters which do not specify a value for the attribute is controlled using the
+net.sf.jasperreports.parameter.evaluation.time configuration property;
+
+- support for property expressions added for dataset fields to allow more flexibility in 
+data source and query executer field mapping;
+
+- the use of the fieldDescription attribute in data source and query executer field mapping 
+is now deprecated by the introduction of special field level custom properties for each type 
+of data source and query executer;
+
+- support for property expressions in dataset was added to allow more flexibility in dataset 
+and report configuration, including the ability to control export properties using report parameters; 
+the report and dataset property expressions can be evaluated at different moments and this is 
+controlled by the their evaluationTime attribute; when evaluationTime attribute is not specified 
+for a property expression, it defaults to the value specified by the 
+net.sf.jasperreports.property.evaluation.time configuration property;
+
+- multiple chart customizer objects can be registered per chart element using new configuration 
+properties having the net.sf.jasperreports.customizer.class.{arbitrary_name} format; 
+the new sample under /demo/samples/chartcustomizers introduces a set of pre-defined chart 
+customizers which are ready to use in reports;
+
+- the data adapter extension is now enabled by default in all JasperReports deployments;
+
+- the XLS, XLSX, DOCX and PPTX exporters were enhanced to support specifying metadata 
+information such as title, subject, author, keywords and creator application for the 
+generated documents using export configuration properties;
 
 - minor bug fixes and improvements;
 
