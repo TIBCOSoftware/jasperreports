@@ -7,7 +7,9 @@
 		mapArguments,
 		listenAddress,
 		confirmMessage,
-		listening;
+		listening,
+		call,
+		requestStart;
 
 	mapArguments = function () {
 		var map = {},
@@ -19,6 +21,32 @@
 		}
 		return map;
 	};
+	
+	function Call(request, response) {
+		this.request = request;
+		this.response = response;
+	}
+	
+	Call.prototype.parseRequest = function() {
+		this.requestArgs = JSON.parse(this.request.postRaw || this.request.post);
+	}
+	
+	Call.prototype.sendResponse = function(data) {
+		this.response.statusCode = 200;
+		this.response.write(data);
+		this.response.close();
+	}
+	
+	Call.prototype.sendError = function(error) {
+		var msg = "Error";
+		if (error) {
+			msg += ": " + error;
+		}
+		this.response.statusCode = 500;
+		this.response.setHeader('Content-Type', 'text/plain');
+		this.response.write(msg);
+		this.response.close();
+	}
 
 	args = mapArguments();
 	listenAddress = args.listenAddress;
@@ -30,28 +58,26 @@
 	} else {
 		console.log('starting server on ' + listenAddress);
 		listening = server.listen(listenAddress, function(request, response) {
+			console.log("got request");
+			call = new Call(request, response);
+			requestStart = Date.now();
+			
 			var	requestArgs,
 				handler;
 			try {
-				console.log("got request");
-				requestArgs = JSON.parse(request.postRaw || request.post);
-				if (requestArgs.echo) {
-					response.statusCode = 200;
-					response.write(requestArgs.echo);
-					response.close();
+				call.parseRequest();
+				
+				if (call.requestArgs.echo) {
+					call.sendResponse(call.requestArgs.echo);
 				} else {
-					console.log("calling " + requestArgs.script);
-					handler = require("./" + requestArgs.script);
-					handler.perform({request: request, response: response, requestArgs: requestArgs});
+					console.log("calling " + call.requestArgs.script);
+					handler = require("./" + call.requestArgs.script);
+					handler.perform(call);
 				}
 			} catch (e) {
 				console.log('got error ' + e);
 				
-				response.statusCode = 500;
-				response.setHeader('Content-Type', 'text/plain');
-				response.setHeader('Content-Length', msg.length);
-				response.write(msg);
-				response.close();
+				call.sendError(e);
 			}
 		});
 		
