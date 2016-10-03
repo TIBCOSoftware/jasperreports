@@ -23,15 +23,19 @@
  */
 package net.sf.jasperreports.phantomjs;
 
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.ServerSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -92,6 +96,24 @@ public class InetUtil
 		}
 		
 		return null;
+	}
+	
+	public static int getAvailablePort()
+	{
+		try (ServerSocket socket = new ServerSocket(0))
+		{
+			int port = socket.getLocalPort();
+			if (log.isDebugEnabled())
+			{
+				log.debug("found available port " + port);
+			}
+			return port;
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
 	}
 
 }

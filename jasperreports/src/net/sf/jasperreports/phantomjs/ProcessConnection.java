@@ -71,6 +71,7 @@ public class ProcessConnection
 		clientBuilder.setDefaultRequestConfig(requestConfig);
 		
 		this.httpClient = clientBuilder.build();
+		//TODO lucianc timeouts
 	}
 	
 	public String runRequest(String data)

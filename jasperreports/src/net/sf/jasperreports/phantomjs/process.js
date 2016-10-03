@@ -35,9 +35,15 @@
 			try {
 				console.log("got request");
 				requestArgs = JSON.parse(request.postRaw || request.post);
-				console.log("calling " + requestArgs.script);
-				handler = require("./" + requestArgs.script);
-				handler.perform({request: request, response: response, requestArgs: requestArgs});
+				if (requestArgs.echo) {
+					response.statusCode = 200;
+					response.write(requestArgs.echo);
+					response.close();
+				} else {
+					console.log("calling " + requestArgs.script);
+					handler = require("./" + requestArgs.script);
+					handler.perform({request: request, response: response, requestArgs: requestArgs});
+				}
 			} catch (e) {
 				console.log('got error ' + e);
 				

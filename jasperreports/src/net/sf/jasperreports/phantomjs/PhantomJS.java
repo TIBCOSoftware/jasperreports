@@ -44,6 +44,18 @@ public class PhantomJS
 	public static final String PROPERTY_PHANTOMJS_START_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.start.timeout";
 	public static final int DEFAULT_PHANTOMJS_START_TIMEOUT = 10000;//10 seconds
 	
+	public static final String PROPERTY_PHANTOMJS_MAX_PROCESS_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.max.process.count";
+	public static final int DEFAULT_PHANTOMJS_MAX_PROCESS_COUNT = 8;//8 processes
+	
+	public static final String PROPERTY_PHANTOMJS_POOL_BORROW_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.pool.borrow.timeout";
+	public static final int DEFAULT_PHANTOMJS_POOL_BORROW_TIMEOUT = 120000;//2 minutes
+	
+	public static final String PROPERTY_PHANTOMJS_IDLE_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.idle.timeout";
+	public static final int DEFAULT_PHANTOMJS_IDLE_TIMEOUT = 300000;//5 minutes
+	
+	public static final String PROPERTY_PHANTOMJS_IDLE_PING_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.idle.ping.interval";
+	public static final int DEFAULT_PHANTOMJS_IDLE_PING_INTERVAL = 40000;//30 seconds
+	
 	public static final String MAIN_SCRIPT_RESOURCE = "net/sf/jasperreports/phantomjs/process.js";
 
 	private static final PhantomJS INSTANCE;
@@ -60,18 +72,18 @@ public class PhantomJS
 	
 	private final JasperReportsContext jasperReportsContext;
 	private final ScriptManager scriptManager;
-	private final ProcessPool processPool;
+	private final ProcessDirector processDirector;
 	
 	protected PhantomJS()
 	{
 		this.jasperReportsContext = DefaultJasperReportsContext.getInstance();
 		this.scriptManager = new ScriptManager(jasperReportsContext);
-		this.processPool = new ProcessPool(jasperReportsContext, this.scriptManager);
+		this.processDirector = new ProcessDirector(jasperReportsContext, this.scriptManager);
 	}
 	
 	public boolean isEnabled()
 	{
-		return processPool.isEnabled();
+		return processDirector.isEnabled();
 	}
 	
 	public ScriptManager getScriptManager()
@@ -81,13 +93,13 @@ public class PhantomJS
 	
 	public String runRequest(String data)
 	{
-		PhantomJSProcess process = processPool.getProcess();
-		return process.getProcessConnection().runRequest(data);
+		return processDirector.runRequest(data);
 	}
 	
 	public void  dispose()
 	{
-		processPool.dispose();
+		//TODO lucianc dispose only when loaded
+		processDirector.dispose();
 		scriptManager.dispose();
 	}
 	

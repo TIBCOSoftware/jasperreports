@@ -48,17 +48,17 @@ public class PhantomJSProcess
 	private static final AtomicLong ID_COUNTER = new AtomicLong();
 
 	private String id;
-	private ProcessPool processPool;
+	private ProcessDirector director;
 	private URI listenURI;
 	
 	private Process process;
 	private ProcessConnection processConnection;
 
-	public PhantomJSProcess(ProcessPool processPool, Inet4Address listenAddress, int listenPort)
+	public PhantomJSProcess(ProcessDirector director, int listenPort)
 	{
 		this.id = "phantomjs#" + ID_COUNTER.incrementAndGet();
-		this.processPool = processPool;
-		this.listenURI = listenURI(listenAddress, listenPort);
+		this.director = director;
+		this.listenURI = listenURI(director.getListenAddress(), listenPort);
 	}
 	
 	private URI listenURI(Inet4Address listenAddress, int listenPort)
@@ -85,23 +85,23 @@ public class PhantomJSProcess
 	
 	public void startPhantomJS()
 	{
-		String mainScriptTempName = processPool.getScriptManager().getScriptFilename(PhantomJS.MAIN_SCRIPT_RESOURCE);
+		String mainScriptTempName = director.getScriptManager().getScriptFilename(PhantomJS.MAIN_SCRIPT_RESOURCE);
 
 		String listenAddress = listenURI.getHost() + ":" + listenURI.getPort();
 		if (log.isDebugEnabled())
 		{
 			log.debug(id + " starting phantomjs process with command: "
-					+ processPool.getPhantomjsExecutablePath() + " \"" + mainScriptTempName + "\""
+					+ director.getPhantomjsExecutablePath() + " \"" + mainScriptTempName + "\""
 					+ " -listenAddress \"" + listenAddress + "\""
-					+ "-confirmMessage \"" + PHANTOMJS_CONFIRMATION_MESSAGE + "\"");
+					+ " -confirmMessage \"" + PHANTOMJS_CONFIRMATION_MESSAGE + "\"");
 		}
 
-		ProcessBuilder pb = new ProcessBuilder(processPool.getPhantomjsExecutablePath(), mainScriptTempName,
+		ProcessBuilder pb = new ProcessBuilder(director.getPhantomjsExecutablePath(), mainScriptTempName,
 				"-listenAddress", listenAddress,
 				"-confirmMessage", PHANTOMJS_CONFIRMATION_MESSAGE
 				);
 		pb.redirectErrorStream(true);//TODO lucianc separate streams
-		pb.directory(processPool.getScriptManager().getTempFolder());
+		pb.directory(director.getScriptManager().getTempFolder());
 
 		try
 		{
@@ -109,7 +109,7 @@ public class PhantomJSProcess
 
 			ProcessOutputReader outputReader = new ProcessOutputReader(this);
 			outputReader.start();
-			boolean started = outputReader.waitConfirmation(processPool.getProcessStartTimeout());
+			boolean started = outputReader.waitConfirmation(director.getProcessStartTimeout());
 			if (!started)
 			{
 				log.error(id + " failed to start");//TODO lucianc write error output
@@ -126,7 +126,7 @@ public class PhantomJSProcess
 		}
 	}
 	
-	public Process getProcess()
+	protected Process getProcess()
 	{
 		return process;
 	}
