@@ -54,22 +54,28 @@
 	}
 	
 	Call.prototype.sendResponse = function(data) {
-		this.response.statusCode = 200;
-		this.response.write(data);
-		this.response.close();
-		startIdle();
+		try {
+			this.response.statusCode = 200;
+			this.response.write(data);
+			this.response.close();
+		} finally {
+			startIdle();
+		}
 	}
 	
 	Call.prototype.sendError = function(error) {
-		var msg = "Error";
-		if (error) {
-			msg += ": " + error;
+		try {
+			var msg = "Error";
+			if (error) {
+				msg += ": " + error;
+			}
+			this.response.statusCode = 500;
+			this.response.setHeader('Content-Type', 'text/plain');
+			this.response.write(msg);
+			this.response.close();
+		} finally {
+			startIdle();
 		}
-		this.response.statusCode = 500;
-		this.response.setHeader('Content-Type', 'text/plain');
-		this.response.write(msg);
-		this.response.close();
-		startIdle();
 	}
 
 	args = mapArguments();
