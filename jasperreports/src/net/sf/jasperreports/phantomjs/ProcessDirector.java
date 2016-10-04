@@ -44,6 +44,7 @@ public class ProcessDirector
 	private String phantomjsExecutablePath;
 	private int processStartTimeout;
 	private int idlePingInterval;
+	private int requestTimeout;
 	private ScriptManager scriptManager;
 	private Inet4Address listenAddress;
 	private GenericObjectPool<PhantomJSProcess> processPool;
@@ -57,6 +58,9 @@ public class ProcessDirector
 		
 		this.idlePingInterval = properties.getIntegerProperty(PhantomJS.PROPERTY_PHANTOMJS_IDLE_PING_INTERVAL, 
 				PhantomJS.DEFAULT_PHANTOMJS_IDLE_PING_INTERVAL);
+		
+		this.requestTimeout = properties.getIntegerProperty(PhantomJS.PROPERTY_PHANTOMJS_REQUEST_TIMEOUT, 
+				PhantomJS.DEFAULT_PHANTOMJS_REQUEST_TIMEOUT);
 		
 		this.scriptManager = scriptManager;
 		
@@ -132,6 +136,11 @@ public class ProcessDirector
 		return idlePingInterval * 5 / 2;
 	}
 	
+	protected int getRequestTimeout()
+	{
+		return requestTimeout;
+	}
+	
 	public ScriptManager getScriptManager()
 	{
 		return scriptManager;
@@ -145,10 +154,16 @@ public class ProcessDirector
 	public String runRequest(String data)
 	{
 		PhantomJSProcess process = null;
+		boolean invalidate = false;
 		try
 		{
 			process = processPool.borrowObject();
 			return process.getProcessConnection().runRequest(data);
+		}
+		catch (RequestTimeoutException e)
+		{
+			invalidate = true;
+			throw e;
 		}
 		catch (Exception e)
 		{
@@ -156,7 +171,22 @@ public class ProcessDirector
 		}
 		finally
 		{
-			processPool.returnObject(process);
+			if (invalidate)
+			{
+				try
+				{
+					//this will also kill the process
+					processPool.invalidateObject(process);
+				}
+				catch (Exception e)
+				{
+					log.error("Failed to invalidate PhantomJS process " + process.getId());
+				}
+			}
+			else
+			{
+				processPool.returnObject(process);
+			}
 		}
 	}
 

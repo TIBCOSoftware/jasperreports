@@ -25,6 +25,7 @@ package net.sf.jasperreports.phantomjs;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.logging.Log;
@@ -56,7 +57,7 @@ public class ProcessConnection
 	private PhantomJSProcess process;
 	private CloseableHttpClient httpClient;
 
-	public ProcessConnection(PhantomJSProcess process)
+	public ProcessConnection(ProcessDirector director, PhantomJSProcess process)
 	{
 		this.process = process;
 		
@@ -66,12 +67,13 @@ public class ProcessConnection
 		BasicHttpClientConnectionManager connManager = new BasicHttpClientConnectionManager();
 		clientBuilder.setConnectionManager(connManager);
 		
-		// ignore cookies for now
-		RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.IGNORE_COOKIES).build();
+		RequestConfig requestConfig = RequestConfig.custom()
+				// ignore cookies for now
+				.setCookieSpec(CookieSpecs.IGNORE_COOKIES)
+				.setSocketTimeout(director.getRequestTimeout()).build();
 		clientBuilder.setDefaultRequestConfig(requestConfig);
 		
 		this.httpClient = clientBuilder.build();
-		//TODO lucianc timeouts
 	}
 	
 	public String runRequest(String data)
@@ -103,7 +105,6 @@ public class ProcessConnection
 			if (status.getStatusCode() >= 300)
 			{
 				EntityUtils.consumeQuietly(entity);
-				//FIXME include request URI in the exception?  that might be a security issue
 				throw new JRRuntimeException("Unexpected status " + status + " from PhantomJS");
 			}
 			
@@ -115,6 +116,11 @@ public class ProcessConnection
 			
 			//TODO lucianc return the bytes
 			return new String(responseData, StandardCharsets.UTF_8);
+		}
+		catch (SocketTimeoutException e)
+		{
+			log.error(process.getId() + " request timed out");
+			throw new RequestTimeoutException(e);
 		}
 		catch (JRException | IOException e)
 		{

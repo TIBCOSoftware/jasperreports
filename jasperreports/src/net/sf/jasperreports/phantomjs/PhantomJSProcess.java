@@ -121,7 +121,7 @@ public class PhantomJSProcess
 				throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_FAILED_START);
 			}
 			
-			processConnection = new ProcessConnection(this);
+			processConnection = new ProcessConnection(director, this);
 		}
 		catch (IOException e)
 		{
@@ -153,6 +153,7 @@ public class PhantomJSProcess
 				log.debug(id + " to be destroyed");
 			}
 			
+			//TODO lucianc destroyForcibly in Java 8
 			process.destroy();
 		}
 	}

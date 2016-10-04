@@ -62,6 +62,9 @@ public class PhantomJS
 	public static final String PROPERTY_PHANTOMJS_EXPIRATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.expiration.time";
 	public static final int DEFAULT_PHANTOMJS_EXPIRATION_TIME = 1200000;//expire after 20 mins
 	
+	public static final String PROPERTY_PHANTOMJS_REQUEST_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.request.timeout";
+	public static final int DEFAULT_PHANTOMJS_REQUEST_TIMEOUT = 60000;//timeout after 1 minute
+	
 	public static final String MAIN_SCRIPT_RESOURCE = "net/sf/jasperreports/phantomjs/process.js";
 
 	private static final PhantomJS INSTANCE;
