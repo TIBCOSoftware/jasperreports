@@ -89,6 +89,7 @@ public class PhantomJSProcess
 		String listenAddress = listenURI.getHost() + ":" + listenURI.getPort();
 		int idleTimeout = director.getProcessIdleTimeout();
 
+		log.info("PhantomJS process " + id + " starting on port " + listenURI.getPort());
 		if (log.isDebugEnabled())
 		{
 			log.debug(id + " starting phantomjs process with command: "
@@ -115,7 +116,7 @@ public class PhantomJSProcess
 			boolean started = outputReader.waitConfirmation(director.getProcessStartTimeout());
 			if (!started)
 			{
-				log.error(id + " failed to start");//TODO lucianc write error output
+				log.error("PhantomJS process " + id + " failed to start");//TODO lucianc write error output
 				process.destroy();
 				
 				throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_FAILED_START);
@@ -148,10 +149,7 @@ public class PhantomJSProcess
 		
 		if (process != null && process.isAlive())
 		{
-			if (log.isDebugEnabled())
-			{
-				log.debug(id + " to be destroyed");
-			}
+			log.info("PhantomJS process " + id + " to be destroyed");
 			
 			//TODO lucianc destroyForcibly in Java 8
 			process.destroy();

@@ -102,10 +102,7 @@ public class ProcessOutputReader implements Runnable
 				}
 			}
 			
-			if (log.isDebugEnabled())
-			{
-				log.debug(processId + " output done");
-			}
+			log.info("PhantomJS process " + processId + " done");
 			
 			if (!confirmed)
 			{
