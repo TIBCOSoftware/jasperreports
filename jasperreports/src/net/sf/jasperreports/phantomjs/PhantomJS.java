@@ -66,33 +66,44 @@ public class PhantomJS
 	public static final int DEFAULT_PHANTOMJS_REQUEST_TIMEOUT = 60000;//timeout after 1 minute
 	
 	public static final String MAIN_SCRIPT_RESOURCE = "net/sf/jasperreports/phantomjs/process.js";
-
-	private static final PhantomJS INSTANCE;
 	
-	static
+	public static boolean isEnabled()
 	{
-		INSTANCE = new PhantomJS();
+		String phantomjsExecutablePath = DefaultJasperReportsContext.getInstance().getProperty(
+				PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
+		return phantomjsExecutablePath != null;
+	}
+	
+	private static class PhantomJSInitializer
+	{
+		private static final PhantomJS INSTANCE = new PhantomJS();
 	}
 	
 	public static PhantomJS instance()
 	{
-		return INSTANCE;
+		return PhantomJSInitializer.INSTANCE;
+	}
+	
+	private static volatile boolean INSTANTIATED = false;
+	
+	public static void disposePhantom()
+	{
+		if (INSTANTIATED)
+		{
+			instance().dispose();
+		}
 	}
 	
 	private final JasperReportsContext jasperReportsContext;
 	private final ScriptManager scriptManager;
 	private final ProcessDirector processDirector;
 	
-	protected PhantomJS()
+	private PhantomJS()
 	{
+		INSTANTIATED = true;
 		this.jasperReportsContext = DefaultJasperReportsContext.getInstance();
 		this.scriptManager = new ScriptManager(jasperReportsContext);
 		this.processDirector = new ProcessDirector(jasperReportsContext, this.scriptManager);
-	}
-	
-	public boolean isEnabled()
-	{
-		return processDirector.isEnabled();
 	}
 	
 	public ScriptManager getScriptManager()
@@ -107,7 +118,6 @@ public class PhantomJS
 	
 	public void  dispose()
 	{
-		//TODO lucianc dispose only when loaded
 		processDirector.dispose();
 		scriptManager.dispose();
 	}

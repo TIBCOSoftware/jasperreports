@@ -115,12 +115,6 @@ public class ProcessDirector
 		return pool;
 	}
 	
-	public boolean isEnabled()
-	{
-		return phantomjsExecutablePath != null
-				&& listenAddress != null;//TODO lucianc sanity checks?
-	}
-	
 	public String getPhantomjsExecutablePath()
 	{
 		return phantomjsExecutablePath;
