@@ -119,7 +119,7 @@ public class PhantomJSProcess
 				log.error("PhantomJS process " + id + " failed to start");//TODO lucianc write error output
 				process.destroy();
 				
-				throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_FAILED_START);
+				throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_FAILED_START, (Object[]) null);
 			}
 			
 			processConnection = new ProcessConnection(director, this);

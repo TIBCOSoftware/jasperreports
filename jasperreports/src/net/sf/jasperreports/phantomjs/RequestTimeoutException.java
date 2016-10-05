@@ -37,7 +37,7 @@ public class RequestTimeoutException extends JRRuntimeException
 
 	public RequestTimeoutException(Throwable t)
 	{
-		super(EXCEPTION_MESSAGE_KEY_REQUEST_TIMED_OUT, t);
+		super(EXCEPTION_MESSAGE_KEY_REQUEST_TIMED_OUT, (Object[]) null, t);
 	}
 	
 }
