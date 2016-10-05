@@ -60,25 +60,15 @@ public class ScriptManager
 		{
 			tempPath = System.getProperty("java.io.tmpdir");
 		}
-
-		if (log.isInfoEnabled())
+		
+		this.tempFolder = new File(tempPath);
+		if (this.tempFolder.exists() && this.tempFolder.isDirectory())
 		{
 			log.info("PhantomJS temp folder is " + tempPath);
 		}
-		
-		this.tempFolder = new File(tempPath);
-		if (!this.tempFolder.exists())
+		else
 		{
-			if (log.isInfoEnabled())
-			{
-				log.info("Creating PhantomJS temp folder at " + tempPath);
-			}
-			
-			boolean created = this.tempFolder.mkdirs();
-			if (!created)
-			{
-				throw new JRRuntimeException("Cannot create PhantomJS temp folder at " + tempPath);
-			}
+			log.error("The PhantomJS temp folder " + tempPath + " does not exist.");
 		}
 		
 		this.scriptFiles = new HashMap<>();
