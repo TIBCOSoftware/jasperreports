@@ -209,9 +209,14 @@ ga('send', 'pageview');
 	      <xsl:value-of select="api"/>
 	    </xsl:when>
 	    <xsl:otherwise>
+	    <xsl:for-each select="api">
 	      <span class="element">
-	        <xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="$api.url"/><xsl:value-of select="api"/></xsl:attribute><xsl:value-of select="substring-after(./api,'#')"/></xsl:element>
+	        <xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="$api.url"/><xsl:value-of select="."/></xsl:attribute><xsl:value-of select="substring-after(.,'#')"/></xsl:element>
 	      </span>
+	      <xsl:if test="position() != last()">
+	        <br/>
+	      </xsl:if>
+	    </xsl:for-each>
 	    </xsl:otherwise>
 	  </xsl:choose>
     </span></td>
