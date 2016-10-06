@@ -6442,15 +6442,13 @@ and DrawBorders, in which case both fragments have borders drawn on all sides.
     <description>
 Property specifying the default time zone to be used for sending and retrieving date/time values to and from the database.
  
-<p>
+<br/>
 The property can be set globally, at dataset level, at parameter and field levels, and as a report/dataset parameter.
 Note that sending a value as parameter will override all properties, and the time zone will be used for all date/time parameters and fields in the report. 
-</p>
 
-<p>
+<br/>
 The property value can be a time zone ID or REPORT_TIME_ZONE.
-In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api> will be used.
-</p>
+In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api>) will be used.
     </description>
     <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_TIME_ZONE</api>
     <default>N/A</default>
