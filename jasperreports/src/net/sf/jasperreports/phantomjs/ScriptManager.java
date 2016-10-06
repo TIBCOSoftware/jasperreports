@@ -28,8 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,6 +37,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.ConcurrentMapping;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
@@ -51,7 +51,7 @@ public class ScriptManager
 	private static final int COPY_BUFFER_SIZE = 0x4000;
 	
 	private final File tempFolder;
-	private final Map<String, File> scriptFiles;
+	private final ConcurrentMapping<String, File> scriptFiles;
 	
 	public ScriptManager(JasperReportsContext jasperReportsContext)
 	{
@@ -71,7 +71,14 @@ public class ScriptManager
 			log.error("The PhantomJS temp folder " + tempPath + " does not exist.");
 		}
 		
-		this.scriptFiles = new HashMap<>();
+		this.scriptFiles = new ConcurrentMapping<>(new ConcurrentMapping.Mapper<String, File>()
+		{
+			@Override
+			public File compute(String key)
+			{
+				return copyScript(key);
+			}
+		});
 	}
 	
 	public File getTempFolder()
@@ -81,42 +88,40 @@ public class ScriptManager
 
 	public String getScriptFilename(String scriptLocation)
 	{
-		synchronized (scriptFiles)//TODO lucianc
+		//TODO lucianc use safer keys (classloader)
+		File scriptFile = scriptFiles.get(scriptLocation);
+		return scriptFile.getName();
+	}
+
+	protected File copyScript(String scriptLocation)
+	{
+		String resourceName = getResourceName(scriptLocation);
+		try
 		{
-			File file = scriptFiles.get(scriptLocation);
-			if (file == null)
+			File file = File.createTempFile(TEMP_FILE_PREFIX, "_" + resourceName, tempFolder);
+			file.deleteOnExit();//TODO lucianc leak
+			
+			if (log.isDebugEnabled())
 			{
-				String resourceName = getResourceName(scriptLocation);
-				try
+				log.debug("copying " + scriptLocation + " to " + file);
+			}
+		
+			byte[] buf = new byte[COPY_BUFFER_SIZE];
+			try (InputStream input = JRLoader.getLocationInputStream(scriptLocation);
+					OutputStream output = new FileOutputStream(file))
+			{
+				int read = 0;
+				while ((read = input.read(buf)) > 0)
 				{
-					file = File.createTempFile(TEMP_FILE_PREFIX, "_" + resourceName, tempFolder);
-					file.deleteOnExit();//TODO lucianc leak
-					
-					if (log.isDebugEnabled())
-					{
-						log.debug("copying " + scriptLocation + " to " + file);
-					}
-				
-					byte[] buf = new byte[COPY_BUFFER_SIZE];
-					try (InputStream input = JRLoader.getLocationInputStream(scriptLocation);
-							OutputStream output = new FileOutputStream(file))
-					{
-						int read = 0;
-						while ((read = input.read(buf)) > 0)
-						{
-							output.write(buf, 0, read);
-						}
-					}
+					output.write(buf, 0, read);
 				}
-				catch (IOException | JRException e)
-				{
-					throw new JRRuntimeException(e);
-				}
-				
-				scriptFiles.put(scriptLocation, file);
 			}
 			
-			return file.getName();
+			return file;
+		}
+		catch (IOException | JRException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 	}
 	
@@ -131,18 +136,14 @@ public class ScriptManager
 
 	public void dispose()
 	{
-		synchronized (scriptFiles)
+		for (Iterator<File> fileIt = scriptFiles.currentValues(); fileIt.hasNext();)
 		{
-			for (File file : scriptFiles.values())
+			File file = fileIt.next();
+			boolean deleted = file.delete();
+			if (log.isDebugEnabled())
 			{
-				boolean deleted = file.delete();
-				if (log.isDebugEnabled())
-				{
-					log.debug("deleted " + file + ": " + deleted);
-				}
+				log.debug("deleted " + file + ": " + deleted);
 			}
-			
-			scriptFiles.clear();
 		}
 	}
 }
