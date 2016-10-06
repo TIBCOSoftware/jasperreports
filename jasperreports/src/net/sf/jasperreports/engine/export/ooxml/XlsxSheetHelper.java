@@ -32,14 +32,12 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
-import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -62,7 +60,6 @@ public class XlsxSheetHelper extends BaseHelper
 	 *
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
-	private final JRPropertiesUtil propertiesUtil;
 	private final XlsReportConfiguration configuration;
 	
 	private List<Integer> rowBreaks = new ArrayList<Integer>();
@@ -80,7 +77,6 @@ public class XlsxSheetHelper extends BaseHelper
 		super(jasperReportsContext, writer);
 		
 		this.sheetRelsHelper = sheetRelsHelper;
-		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 		this.configuration = configuration;
 	}
 
@@ -200,13 +196,17 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 
 		write("<pageMargins left=\"");
-		write(String.valueOf(jasperPrint.getLeftMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin())));
+//		write(String.valueOf(jasperPrint.getLeftMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin()))); 
+		write("0");
 		write("\" right=\"");
-		write(String.valueOf(jasperPrint.getRightMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getRightMargin())));
+//		write(String.valueOf(jasperPrint.getRightMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getRightMargin()))); 
+		write("0");
 		write("\" top=\"");
-		write(String.valueOf(jasperPrint.getTopMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin())));
+//		write(String.valueOf(jasperPrint.getTopMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin()))); 
+		write("0");
 		write("\" bottom=\"");
-		write(String.valueOf(jasperPrint.getBottomMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin())));
+//		write(String.valueOf(jasperPrint.getBottomMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()))); 
+		write("0");
 		write("\" header=\"0.0\" footer=\"0.0\"/>\n");
 		
 		write("<pageSetup");	
