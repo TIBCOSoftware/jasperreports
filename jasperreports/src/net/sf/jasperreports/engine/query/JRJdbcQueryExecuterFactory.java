@@ -87,7 +87,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 	 * 
 	 * <p>
 	 * The property value can be a time zone ID or REPORT_TIME_ZONE.
-	 * In the latter case the report time zone (as in {@link JRParameter#REPORT_TIME_ZONE} will be used.
+	 * In the latter case the report time zone (as in {@link JRParameter#REPORT_TIME_ZONE}) will be used.
 	 * </p>
 	 * 
 	 * @see JRResultSetDataSource#setTimeZone(java.util.TimeZone, boolean)

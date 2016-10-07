@@ -80,6 +80,7 @@ public class LandscapeApp extends AbstractSampleApp
 		csv();
 		odt();
 		ods();
+		docx();
 		xlsx();
 		pptx();
 	}
