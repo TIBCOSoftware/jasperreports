@@ -6276,7 +6276,7 @@ Possible values are defined by the <api href="net/sf/jasperreports/engine/type/P
 <ul>
   <li><code>Early</code> - Evaluate the property expression before parameter contributors.</li>
   <li><code>Late</code> - Evaluate the property expression after parameter contributors.</li>
-  <li><code>Late</code> - Evaluate the property expression at the end of the report.</li>
+  <li><code>Report</code> - Evaluate the property expression at the end of the report.</li>
 </ul>
     </description>
     <api>net/sf/jasperreports/engine/type/PropertyEvaluationTimeType.html#PROPERTY_EVALUATION_TIME</api>
