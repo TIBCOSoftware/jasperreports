@@ -12,8 +12,7 @@
 		idleExit,
 		idleTimer = null,
 		startIdle,
-		endIdle,
-		call;
+		endIdle;
 
 	mapArguments = function () {
 		var map = {},
@@ -89,12 +88,12 @@
 	} else {
 		console.log('starting server on ' + listenAddress);
 		listening = server.listen(listenAddress, function(request, response) {
+			var	call,
+				handler;
 			console.log("got request");
 			endIdle();
-			call = new Call(request, response);
 			
-			var	requestArgs,
-				handler;
+			call = new Call(request, response);
 			try {
 				call.parseRequest();
 				
