@@ -27,11 +27,16 @@ package net.sf.jasperreports.export;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguration implements XlsExporterConfiguration
+public abstract class AbstractXlsExporterConfiguration extends SimpleExporterConfiguration implements XlsExporterConfiguration
 {
 	private Boolean isCreateCustomPalette;
 	private String workbookTemplate;
 	private Boolean isKeepWorkbookTemplateSheets;
+	private String metadataTitle;
+	private String metadataAuthor;
+	private String metadataSubject;
+	private String metadataKeywords;
+	private String metadataApplication;
 	
 	
 	/**
@@ -87,5 +92,75 @@ public class AbstractXlsExporterConfiguration extends SimpleExporterConfiguratio
 	public void setKeepWorkbookTemplateSheets(Boolean isKeepWorkbookTemplateSheets)
 	{
 		this.isKeepWorkbookTemplateSheets = isKeepWorkbookTemplateSheets;
+	}
+	
+	@Override
+	public String getMetadataTitle()
+	{
+		return metadataTitle;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataTitle(String metadataTitle)
+	{
+		this.metadataTitle = metadataTitle;
+	}
+	
+	@Override
+	public String getMetadataAuthor()
+	{
+		return metadataAuthor;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataAuthor(String metadataAuthor)
+	{
+		this.metadataAuthor = metadataAuthor;
+	}
+	
+	@Override
+	public String getMetadataSubject()
+	{
+		return metadataSubject;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataSubject(String metadataSubject)
+	{
+		this.metadataSubject = metadataSubject;
+	}
+	
+	@Override
+	public String getMetadataKeywords()
+	{
+		return metadataKeywords;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataKeywords(String metadataKeywords)
+	{
+		this.metadataKeywords = metadataKeywords;
+	}
+	
+	@Override
+	public String getMetadataApplication()
+	{
+		return metadataApplication;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataApplication(String metadataApplication)
+	{
+		this.metadataApplication = metadataApplication;
 	}
 }

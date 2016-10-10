@@ -146,6 +146,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected PptxPresentationHelper presentationHelper;
 	protected PptxPresentationRelsHelper presentationRelsHelper;
 	protected PptxContentTypesHelper ctHelper;
+	protected PropsAppHelper appHelper;
+	protected PropsCoreHelper coreHelper;
 	protected PptxSlideHelper slideHelper;
 	protected PptxSlideRelsHelper slideRelsHelper;
 	protected Writer presentationWriter;
@@ -310,6 +312,43 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		ctHelper = new PptxContentTypesHelper(jasperReportsContext, pptxZip.getContentTypesEntry().getWriter());
 		ctHelper.exportHeader();
 
+		appHelper = new PropsAppHelper(jasperReportsContext, pptxZip.getAppEntry().getWriter());
+		coreHelper = new PropsCoreHelper(jasperReportsContext, pptxZip.getCoreEntry().getWriter());
+
+		appHelper.exportHeader();
+		
+		PptxExporterConfiguration configuration = getCurrentConfiguration();
+
+		String application = configuration.getMetadataApplication();
+		if( application == null )
+		{
+			application = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
+		}
+		appHelper.exportProperty(PropsAppHelper.PROPERTY_APPLICATION, application);
+
+		coreHelper.exportHeader();
+		
+		String title = configuration.getMetadataTitle();
+		if (title != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_TITLE, title);
+		}
+		String subject = configuration.getMetadataSubject();
+		if (subject != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_SUBJECT, subject);
+		}
+		String author = configuration.getMetadataAuthor();
+		if (author != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_CREATOR, author);
+		}
+		String keywords = configuration.getMetadataKeywords();
+		if (keywords != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_KEYWORDS, keywords);
+		}
+
 //		DocxStyleHelper styleHelper = 
 //			new DocxStyleHelper(
 //				null,//pptxZip.getStylesEntry().getWriter(), 
@@ -370,12 +409,16 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		}
 
 		presentationRelsHelper.exportFooter();
-
 		presentationRelsHelper.close();
 
 		ctHelper.exportFooter();
-		
 		ctHelper.close();
+
+		appHelper.exportFooter();
+		appHelper.close();
+
+		coreHelper.exportFooter();
+		coreHelper.close();
 
 		pptxZip.zipEntries(os);
 

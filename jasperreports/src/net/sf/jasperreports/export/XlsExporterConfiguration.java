@@ -75,6 +75,31 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template.keep.sheets";
 
 	/**
+	 * Property whose value is used as default for the {@link #getMetadataTitle()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.title";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataAuthor()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.author";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataSubject()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.subject";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataKeywords()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.keywords";
+
+	/**
+	 * Property whose value is used as default for the {@link #getMetadataApplication()} export configuration setting.
+	 */
+	public static final String PROPERTY_METADATA_APPLICATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.application";
+	
+	/**
 	 * Returns a boolean value specifying whether the standard color palette should be customized
 	 * so that the XLS result uses the original report colors.
 	 * <p/>
@@ -137,4 +162,34 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 		booleanDefault=false
 		)
 	public Boolean isKeepWorkbookTemplateSheets();
+
+	/**
+	 * The Title of the XLS document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_TITLE)
+	public String getMetadataTitle();
+
+	/**
+	 * The Author of the XLS document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_AUTHOR)
+	public String getMetadataAuthor();
+
+	/**
+	 * The Subject of the XLS document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_SUBJECT)
+	public String getMetadataSubject();
+
+	/**
+	 * The Keywords of the XLS document.
+	 */
+	@ExporterProperty(PROPERTY_METADATA_KEYWORDS)
+	public String getMetadataKeywords();
+
+	/**
+	 * The Application for the XLS document. Defaults to "JasperReports Library version x.x.x".
+	 */
+	@ExporterProperty(PROPERTY_METADATA_APPLICATION)
+	public String getMetadataApplication();
 }

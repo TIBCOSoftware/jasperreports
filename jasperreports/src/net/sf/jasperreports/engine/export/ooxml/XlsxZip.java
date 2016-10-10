@@ -55,6 +55,8 @@ public class XlsxZip extends FileBufferedZip
 	private ExportZipEntry stylesEntry;
 	private ExportZipEntry relsEntry;
 	private ExportZipEntry contentTypesEntry;
+	private ExportZipEntry appEntry;
+	private ExportZipEntry coreEntry;
 	
 	/**
 	 * 
@@ -85,6 +87,12 @@ public class XlsxZip extends FileBufferedZip
 		contentTypesEntry = createEntry("[Content_Types].xml");
 		addEntry(contentTypesEntry);
 		
+		appEntry = createEntry("docProps/app.xml");
+		addEntry(appEntry);
+
+		coreEntry = createEntry("docProps/core.xml");
+		addEntry(coreEntry);
+
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/xlsx/_rels/xml.rels");
 	}
 	
@@ -118,6 +126,22 @@ public class XlsxZip extends FileBufferedZip
 	public ExportZipEntry getContentTypesEntry()
 	{
 		return contentTypesEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getAppEntry()
+	{
+		return appEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getCoreEntry()
+	{
+		return coreEntry;
 	}
 	
 	/**

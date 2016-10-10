@@ -42,6 +42,8 @@ public class DocxZip extends FileBufferedZip
 	private ExportZipEntry stylesEntry;
 	private ExportZipEntry settingsEntry;
 	private ExportZipEntry relsEntry;
+	private ExportZipEntry appEntry;
+	private ExportZipEntry coreEntry;
 	
 	/**
 	 * 
@@ -60,6 +62,12 @@ public class DocxZip extends FileBufferedZip
 		relsEntry = createEntry("word/_rels/document.xml.rels");
 		addEntry(relsEntry);
 		
+		appEntry = createEntry("docProps/app.xml");
+		addEntry(appEntry);
+
+		coreEntry = createEntry("docProps/core.xml");
+		addEntry(coreEntry);
+
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/docx/_rels/xml.rels");
 		addEntry("[Content_Types].xml", "net/sf/jasperreports/engine/export/ooxml/docx/Content_Types.xml");
 	}
@@ -96,4 +104,19 @@ public class DocxZip extends FileBufferedZip
 		return relsEntry;
 	}
 	
+ 	/**
+	 *
+	 */
+	public ExportZipEntry getAppEntry()
+	{
+		return appEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getCoreEntry()
+	{
+		return coreEntry;
+	}
 }

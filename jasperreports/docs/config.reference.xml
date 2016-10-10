@@ -243,6 +243,11 @@
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.application"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.author"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.keywords"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.subject"/>
+      <property ref="net.sf.jasperreports.export.docx.metadata.title"/>
       <property ref="net.sf.jasperreports.export.docx.new.line.as.paragraph"/>
       
       <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
@@ -322,6 +327,12 @@
       <property ref="net.sf.jasperreports.export.pdfa.conformance"/>
       <property ref="net.sf.jasperreports.export.pdfa.icc.profile.path"/>
       
+      <property ref="net.sf.jasperreports.export.pptx.metadata.application"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.author"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.keywords"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.subject"/>
+      <property ref="net.sf.jasperreports.export.pptx.metadata.title"/>
+
       <property ref="net.sf.jasperreports.export.text.character.height"/>
       <property ref="net.sf.jasperreports.export.text.character.width"/>
       <property ref="net.sf.jasperreports.export.text.line.separator"/>
@@ -371,6 +382,12 @@
       
       <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
       
+      <property ref="net.sf.jasperreports.export.xls.metadata.application"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.author"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.keywords"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.subject"/>
+      <property ref="net.sf.jasperreports.export.xls.metadata.title"/>
+
       <property ref="net.sf.jasperreports.export.xls.one.page.per.sheet"/>
       
       <property ref="net.sf.jasperreports.export.xls.page.scale"/>
@@ -383,12 +400,7 @@
       <property ref="net.sf.jasperreports.export.xls.row.outline.level.{arbitrary_level}"/>
       
       <property ref="net.sf.jasperreports.export.xls.sheet.direction"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.footer.center"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.footer.left"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.footer.right"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.header.center"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.header.left"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.{header|footer}.{left|center|right}"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.tab.color"/>
@@ -3342,6 +3354,86 @@ This property is used to mark text elements as being hidden either for printing 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.docx.metadata.application -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.application">
+    <description>
+Property that contains the application information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.author -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.author">
+    <description>
+Property that contains the author information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.keywords -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.keywords">
+    <description>
+Property that contains the keywords to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.subject -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.subject">
+    <description>
+Property that contains the subject information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.metadata.title">
+    <description>
+Property that contains the title information to use for the generated DOCX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> DOCX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.docx.new.line.as.paragraph -->
   
   <configProperty name="net.sf.jasperreports.export.docx.new.line.as.paragraph">
@@ -4261,7 +4353,87 @@ Its value is used as default for the
     <since>3.1.2</since>
   </configProperty>
   
- 
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.application -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.application">
+    <description>
+Property that contains the application information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.author -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.author">
+    <description>
+Property that contains the author information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.keywords -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.keywords">
+    <description>
+Property that contains the keywords to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.subject -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.subject">
+    <description>
+Property that contains the subject information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.metadata.title">
+    <description>
+Property that contains the title information to use for the generated PPTX metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> PPTX export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.text.character.width -->
   
   <configProperty name="net.sf.jasperreports.export.text.character.width">
@@ -4903,6 +5075,86 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.metadata.application -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.application">
+    <description>
+Property that contains the application information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.author -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.author">
+    <description>
+Property that contains the author information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.keywords -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.keywords">
+    <description>
+Property that contains the keywords to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.subject -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.subject">
+    <description>
+Property that contains the subject information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.metadata.title -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.metadata.title">
+    <description>
+Property that contains the title information to use for the generated XLS metadata.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> XLS export configuration setting.
+    </description>
+    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>6.3.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xls.one.page.per.sheet -->
   
   <configProperty name="net.sf.jasperreports.export.xls.one.page.per.sheet">
@@ -5335,96 +5587,52 @@ Its value is used as default for the
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.sheet.footer.center -->
+  <!-- net.sf.jasperreports.export.xls.sheet.{header|footer}.{left|center|right} -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.center">
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.{header|footer}.{left|center|right}">
     <description>
-Custom property storing the text content of the sheet footer's center.             
+Custom properties storing the text content of the Excel sheet headers or footers. There are 6 built-in properties of this type:
+<ul>
+<li><code>net.sf.jasperreports.export.xls.sheet.header.left</code> - stores the text of the left header</li>
+<li><code>net.sf.jasperreports.export.xls.sheet.header.center</code> - stores the text of the center header</li>
+<li><code>net.sf.jasperreports.export.xls.sheet.header.right</code> - stores the text of the right header</li>
+<li><code>net.sf.jasperreports.export.xls.sheet.footer.left</code> - stores the text of the left footer</li>
+<li><code>net.sf.jasperreports.export.xls.sheet.footer.center</code> - stores the text of the center footer</li>
+<li><code>net.sf.jasperreports.export.xls.sheet.footer.right</code> - stores the text of the right footer</li>
+</ul>             
+Their value is used as default for the following related Excel export configuration settings:
+<ul>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderLeft()">getSheetHeaderLeft()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderCenter()">getSheetHeaderCenter()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderRight()">getSheetHeaderRight()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterLeft()">getSheetFooterLeft()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterCenter()">getSheetFooterCenter()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterRight()">getSheetFooterRight()</api></li>
+</ul>             
+The text content in Excel headers/footers is limited to 255 characters. It may be normal plain text, or may contain some special 
+character sequences that are usually interpreted by Excel app as dynamic settings for headers/footers:
+<ul>
+<li>&amp;P - the current page number</li>
+<li>&amp;N - the total number of pages</li>
+<li>&amp;D - the current date</li>
+<li>&amp;T - the current time</li>
+<li>&amp;A - the sheet name</li>
+<li>&amp;F - the file name</li>
+<li>&amp;Z - the file full name</li>
+</ul>             
+<b>Note: </b>Being a special XML character, &amp; should be escaped as &amp;amp;
 <br/>
-Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterCenter()">getSheetFooterCenter()</api> Excel export configuration setting.
-    </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_CENTER</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.xls.sheet.footer.left -->
-  
-  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.left">
-    <description>
-Custom property storing the text content of the left side of the sheet footer.             
+For instance, a footer right property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
 <br/>
-Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterLeft()">getSheetFooterLeft()</api> Excel export configuration setting.
-    </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_LEFT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.xls.sheet.footer.right -->
-  
-  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.right">
-    <description>
-Custom property storing the text content of the right side of the sheet footer.             
 <br/>
-Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterRight()">getSheetFooterRight()</api> Excel export configuration setting.
-    </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_RIGHT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.xls.sheet.header.center -->
-  
-  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.center">
-    <description>
-Custom property storing the text content of the sheet header's center.             
-<br/>
-Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderCenter()">getSheetHeaderCenter()</api> Excel export configuration setting.
-    </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_CENTER</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.xls.sheet.header.left -->
-  
-  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.left">
-    <description>
-Custom property storing the text content of the left side of the sheet header.             
-<br/>
-Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderLeft()">getSheetHeaderLeft()</api> Excel export configuration setting.
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
     </description>
     <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_LEFT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.xls.sheet.header.right -->
-  
-  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.right">
-    <description>
-Custom property storing the text content of the right side of the sheet header.             
-<br/>
-Its value is used as default for the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderRight()">getSheetHeaderRight()</api> Excel export configuration setting.
-    </description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_CENTER</api>
     <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_RIGHT</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_LEFT</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_CENTER</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_RIGHT</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.7.5</since>
@@ -6019,7 +6227,7 @@ Possible values are defined by the <api href="net/sf/jasperreports/engine/type/P
 <ul>
   <li><code>Early</code> - Evaluate the property expression before parameter contributors.</li>
   <li><code>Late</code> - Evaluate the property expression after parameter contributors.</li>
-  <li><code>Late</code> - Evaluate the property expression at the end of the report.</li>
+  <li><code>Report</code> - Evaluate the property expression at the end of the report.</li>
 </ul>
     </description>
     <api>net/sf/jasperreports/engine/type/PropertyEvaluationTimeType.html#PROPERTY_EVALUATION_TIME</api>
@@ -6185,15 +6393,13 @@ and DrawBorders, in which case both fragments have borders drawn on all sides.
     <description>
 Property specifying the default time zone to be used for sending and retrieving date/time values to and from the database.
  
-<p>
+<br/>
 The property can be set globally, at dataset level, at parameter and field levels, and as a report/dataset parameter.
 Note that sending a value as parameter will override all properties, and the time zone will be used for all date/time parameters and fields in the report. 
-</p>
 
-<p>
+<br/>
 The property value can be a time zone ID or REPORT_TIME_ZONE.
-In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api> will be used.
-</p>
+In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api>) will be used.
     </description>
     <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_TIME_ZONE</api>
     <default>N/A</default>

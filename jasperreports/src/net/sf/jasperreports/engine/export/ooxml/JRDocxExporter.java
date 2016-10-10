@@ -200,6 +200,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected String pageAnchor;
 	
 	protected DocxRelsHelper relsHelper;
+	protected PropsAppHelper appHelper;
+	protected PropsCoreHelper coreHelper;
 	
 	boolean emptyPageState;
 	
@@ -354,6 +356,43 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		relsHelper = new DocxRelsHelper(jasperReportsContext, docxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
+		appHelper = new PropsAppHelper(jasperReportsContext, docxZip.getAppEntry().getWriter());
+		coreHelper = new PropsCoreHelper(jasperReportsContext, docxZip.getCoreEntry().getWriter());
+
+		appHelper.exportHeader();
+			
+		DocxExporterConfiguration configuration = getCurrentConfiguration();
+
+		String application = configuration.getMetadataApplication();
+		if( application == null )
+		{
+			application = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
+		}
+		appHelper.exportProperty(PropsAppHelper.PROPERTY_APPLICATION, application);
+
+		coreHelper.exportHeader();
+		
+		String title = configuration.getMetadataTitle();
+		if (title != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_TITLE, title);
+		}
+		String subject = configuration.getMetadataSubject();
+		if (subject != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_SUBJECT, subject);
+		}
+		String author = configuration.getMetadataAuthor();
+		if (author != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_CREATOR, author);
+		}
+		String keywords = configuration.getMetadataKeywords();
+		if (keywords != null)
+		{
+			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_KEYWORDS, keywords);
+		}
+
 		List<ExporterInputItem> items = exporterInput.getItems();
 
 		DocxStyleHelper styleHelper = 
@@ -437,8 +476,13 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 //		}
 
 		relsHelper.exportFooter();
-
 		relsHelper.close();
+
+		appHelper.exportFooter();
+		appHelper.close();
+
+		coreHelper.exportFooter();
+		coreHelper.close();
 
 		docxZip.zipEntries(os);
 

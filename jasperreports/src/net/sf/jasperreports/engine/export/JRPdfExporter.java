@@ -754,14 +754,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				document.addKeywords(keywords);
 			}
 			String creator = configuration.getMetadataCreator();
-			if( creator != null )
+			if( creator == null )
 			{
-				document.addCreator(creator);
+				creator = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
 			}
-			else
-			{
-				document.addCreator("JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion());
-			}
+			document.addCreator(creator);
 			
 			//accessibility check: tab order follows the structure of the document
 			pdfWriter.setTabs(PdfName.S);

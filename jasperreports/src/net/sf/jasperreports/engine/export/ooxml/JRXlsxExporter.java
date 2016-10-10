@@ -156,6 +156,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected XlsxWorkbookHelper wbHelper;
 	protected XlsxRelsHelper relsHelper;
 	protected XlsxContentTypesHelper ctHelper;
+	protected PropsAppHelper appHelper;
+	protected PropsCoreHelper coreHelper;
 	protected XlsxSheetHelper sheetHelper;
 	protected XlsxSheetRelsHelper sheetRelsHelper;
 	protected XlsxDrawingHelper drawingHelper;
@@ -658,12 +660,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 //			}
 
 			relsHelper.exportFooter();
-
 			relsHelper.close();
 			
 			ctHelper.exportFooter();
-			
 			ctHelper.close();
+
+			appHelper.exportFooter();
+			appHelper.close();
+
+			coreHelper.exportFooter();
+			coreHelper.close();
 
 			xlsxZip.zipEntries(os);
 
@@ -1574,8 +1580,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 			relsHelper = new XlsxRelsHelper(jasperReportsContext, xlsxZip.getRelsEntry().getWriter());
 			ctHelper = new XlsxContentTypesHelper(jasperReportsContext, xlsxZip.getContentTypesEntry().getWriter());
+
+			appHelper = new PropsAppHelper(jasperReportsContext, xlsxZip.getAppEntry().getWriter());
+			coreHelper = new PropsCoreHelper(jasperReportsContext, xlsxZip.getCoreEntry().getWriter());
 			
-			String macro = macroTemplate == null ? getCurrentConfiguration().getMacroTemplate() : macroTemplate;
+			XlsxExporterConfiguration configuration = getCurrentConfiguration();
+			
+			String macro = macroTemplate == null ? configuration.getMacroTemplate() : macroTemplate;
 			if(macro != null)
 			{
 				xlsxZip.addMacro(macro);
@@ -1584,7 +1595,39 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			}
 			relsHelper.exportHeader();
 			ctHelper.exportHeader();
+
+			appHelper.exportHeader();
 			
+			String application = configuration.getMetadataApplication();
+			if( application == null )
+			{
+				application = "JasperReports Library version " + Package.getPackage("net.sf.jasperreports.engine").getImplementationVersion();
+			}
+			appHelper.exportProperty(PropsAppHelper.PROPERTY_APPLICATION, application);
+			
+			coreHelper.exportHeader();
+			
+			String title = configuration.getMetadataTitle();
+			if (title != null)
+			{
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_TITLE, title);
+			}
+			String subject = configuration.getMetadataSubject();
+			if (subject != null)
+			{
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_SUBJECT, subject);
+			}
+			String author = configuration.getMetadataAuthor();
+			if (author != null)
+			{
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_CREATOR, author);
+			}
+			String keywords = configuration.getMetadataKeywords();
+			if (keywords != null)
+			{
+				coreHelper.exportProperty(PropsCoreHelper.PROPERTY_KEYWORDS, keywords);
+			}
+
 			styleHelper = 
 				new XlsxStyleHelper(
 					jasperReportsContext,
