@@ -99,12 +99,21 @@ public class ProcessConnection
 			HttpEntity entity = response.getEntity();
 			if (entity == null)
 			{
-				throw new JRRuntimeException("No response from PhantomJS");
+				throw new JRRuntimeException("Empty from PhantomJS");
 			}
 			
 			if (status.getStatusCode() >= 300)
 			{
-				EntityUtils.consumeQuietly(entity);
+				if (entity.getContentType() != null && entity.getContentType().getValue() != null
+						&& entity.getContentType().getValue().startsWith("text/plain"))
+				{
+					String responseContents = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+					log.error("PhantomJS process " + process.getId() + " error: " + responseContents);
+				}
+				else
+				{
+					EntityUtils.consumeQuietly(entity);
+				}
 				throw new JRRuntimeException("Unexpected status " + status + " from PhantomJS");
 			}
 			

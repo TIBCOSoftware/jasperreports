@@ -105,8 +105,7 @@
 					handler.perform(call);
 				}
 			} catch (e) {
-				console.log('got error ' + e);
-				
+				system.stderr.writeLine('Error processing request ' + e);
 				call.sendError(e);
 			}
 		});
@@ -116,7 +115,7 @@
 			console.log(confirmMessage);
 			startIdle();
 		} else {
-			console.log('failed to listen on ' + listenAddress);
+			system.stderr.writeLine('Failed to listen on ' + listenAddress);
 			phantom.exit(1);
 		}
 	}

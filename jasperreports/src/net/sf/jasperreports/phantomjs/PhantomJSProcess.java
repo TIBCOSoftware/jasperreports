@@ -104,7 +104,7 @@ public class PhantomJSProcess
 				"-confirmMessage", PHANTOMJS_CONFIRMATION_MESSAGE,
 				"-idleTimeout", Integer.toString(idleTimeout)
 				);
-		pb.redirectErrorStream(true);//TODO lucianc separate streams
+		pb.redirectErrorStream(false);
 		pb.directory(director.getScriptManager().getTempFolder());
 
 		try

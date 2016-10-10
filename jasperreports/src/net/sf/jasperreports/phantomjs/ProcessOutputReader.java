@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ProcessOutputReader implements Runnable
+public class ProcessOutputReader
 {
 	private static final Log log = LogFactory.getLog(ProcessOutputReader.class);
 	
@@ -57,9 +57,16 @@ public class ProcessOutputReader implements Runnable
 	
 	public void start()
 	{
-		Thread outputThread = new Thread(this, "JR PhantomJS output " + processId);
+		//FIXME is two threads per process too much?  consider stream polling.
+		OutputReader outputReader = new OutputReader();
+		Thread outputThread = new Thread(outputReader, "JR PhantomJS output " + processId);
 		outputThread.setDaemon(true);
 		outputThread.start();
+		
+		ErrorReader errorReader = new ErrorReader();
+		Thread errorThread = new Thread(errorReader, "JR PhantomJS error " + processId);
+		errorThread.setDaemon(true);
+		errorThread.start();
 	}
 
 	public boolean waitConfirmation(int processStartTimeout)
@@ -78,56 +85,61 @@ public class ProcessOutputReader implements Runnable
 			throw new JRRuntimeException(e);
 		}
 	}
-
-	@Override
-	public void run()
+	
+	private class OutputReader implements Runnable
 	{
-		BufferedReader reader = null;
-		try
+		@Override
+		public void run()
 		{
 			InputStream processInput = process.getProcess().getInputStream();
-			reader = new BufferedReader(new InputStreamReader(processInput, StandardCharsets.UTF_8));
-			String line;
-			while((line = reader.readLine()) != null)
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(processInput, StandardCharsets.UTF_8)))
 			{
-				if (log.isDebugEnabled())
+				String line;
+				while((line = reader.readLine()) != null)
 				{
-					log.debug(processId + ": " + line);
+					if (log.isDebugEnabled())
+					{
+						log.debug(processId + ": " + line);
+					}
+					
+					if (line.equals(PhantomJSProcess.PHANTOMJS_CONFIRMATION_MESSAGE))
+					{
+						confirmed = true;
+						startLatch.countDown();
+					}
 				}
 				
-				if (line.equals(PhantomJSProcess.PHANTOMJS_CONFIRMATION_MESSAGE))
+				log.info("PhantomJS process " + processId + " done");
+				
+				if (!confirmed)
 				{
-					confirmed = true;
 					startLatch.countDown();
 				}
 			}
-			
-			log.info("PhantomJS process " + processId + " done");
-			
-			if (!confirmed)
+			catch (IOException e)
 			{
-				startLatch.countDown();
+				log.error(processId + " error reading phantomjs output", e);
 			}
 		}
-		catch (IOException e)
+	}
+	
+	private class ErrorReader implements Runnable
+	{
+		@Override
+		public void run()
 		{
-			log.error(processId + " error reading phantomjs output", e);
-		}
-		finally
-		{
-			if (reader != null)
+			InputStream processInput = process.getProcess().getErrorStream();
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(processInput, StandardCharsets.UTF_8)))
 			{
-				try
+				String line;
+				while((line = reader.readLine()) != null)
 				{
-					reader.close();
-				} 
-				catch (IOException e)
-				{
-					if (log.isWarnEnabled())
-					{
-						log.warn(processId + " failed to close phantomjs process inputstream", e);
-					}
+					log.error("PhantomJS " + processId + " error: " + line);
 				}
+			}
+			catch (IOException e)
+			{
+				log.error(processId + " error reading phantomjs output", e);
 			}
 		}
 	}
