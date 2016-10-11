@@ -351,7 +351,7 @@
   <annotation>
    <documentation>Allows the creation of a name-value pair property for a report object (e.g. the report itself, a field, a parameter, etc).</documentation>
   </annotation>
-  <complexType>
+  <complexType mixed="true">
    <attribute name="name" type="string" use="required">
 	<annotation>
 	 <documentation>Name of the object property.</documentation>

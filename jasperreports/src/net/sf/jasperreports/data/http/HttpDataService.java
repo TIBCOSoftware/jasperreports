@@ -501,7 +501,8 @@ public class HttpDataService implements DataFileService
 		String value = null;
 
 		JRDataset dataset = context.getDataset();
-		if (dataset.hasProperties())
+
+		if (dataset != null && dataset.hasProperties())
 		{
 			value = JRPropertiesUtil.getOwnProperty(dataset, propName);
 		}

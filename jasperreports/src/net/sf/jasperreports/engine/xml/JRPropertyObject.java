@@ -23,28 +23,40 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import org.apache.commons.digester.Rule;
-import org.xml.sax.Attributes;
-
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 
 
 /**
- * Digester rule that handles an object property.
- * 
- * @deprecated Replaced by {@link JRPropertyFactory}.
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRPropertyDigesterRule extends Rule
+public class JRPropertyObject
 {
+	/**
+	 *
+	 */
+	private final JRPropertiesHolder propertiesHolder;
+	private final String propertyName;
 
-	@Override
-	public void begin(String namespace, String name, Attributes attributes)
+
+	/**
+	 *
+	 */
+	public JRPropertyObject(JRPropertiesHolder propertiesHolder, String propertyName)
 	{
-		JRPropertiesHolder propertiesHolder = (JRPropertiesHolder) digester.peek();
-		String key = attributes.getValue(JRXmlConstants.ATTRIBUTE_name);
-		String value = attributes.getValue(JRXmlConstants.ATTRIBUTE_value);
-		propertiesHolder.getPropertiesMap().setProperty(key, value);
+		this.propertiesHolder = propertiesHolder;
+		this.propertyName = propertyName;
 	}
+	
 
+	/**
+	 *
+	 */
+	public void setValue(String value) throws JRException
+	{
+		if (value != null && value.length() > 0)
+		{
+			propertiesHolder.getPropertiesMap().setProperty(propertyName, value);
+		}
+	}
 }

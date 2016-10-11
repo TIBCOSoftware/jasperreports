@@ -125,6 +125,7 @@ import net.sf.jasperreports.crosstabs.xml.JRCrosstabFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabMeasureFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabParameterFactory;
 import net.sf.jasperreports.crosstabs.xml.JRCrosstabRowGroupFactory;
+import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ExpressionReturnValue;
 import net.sf.jasperreports.engine.JRBand;
@@ -142,7 +143,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
-import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
@@ -239,7 +239,8 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext("jasperReport", "setJasperDesign", JasperDesign.class.getName());
 
 		/*   */
-		digester.addRule("*/property", new JRPropertyDigesterRule());
+		digester.addFactoryCreate("*/property", JRPropertyFactory.class.getName());
+		digester.addCallMethod("*/property", "setValue", 0);
 		
 		String propertyExpressionPattern = "jasperReport/" + JRXmlConstants.ELEMENT_propertyExpression;
 		digester.addFactoryCreate(propertyExpressionPattern, DatasetPropertyExpressionFactory.class.getName());

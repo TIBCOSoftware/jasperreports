@@ -198,6 +198,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
@@ -620,7 +621,18 @@ public class JRXmlWriter extends JRXmlBaseWriter
 						String value = propertiesMap.getProperty(propertyName);
 						if (value != null)
 						{
-							writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
+							String encodedValue = JRStringUtil.encodeXmlAttribute(value);
+							if (
+								isNewerVersionOrEqual(JRConstants.VERSION_6_3_2)
+								&& encodedValue.length() != value.length()
+								)
+							{
+								writer.writeCDATA(value);
+							}
+							else
+							{
+								writer.addAttribute(JRXmlConstants.ATTRIBUTE_value, encodedValue);
+							}
 						}
 						writer.closeElement();
 					}

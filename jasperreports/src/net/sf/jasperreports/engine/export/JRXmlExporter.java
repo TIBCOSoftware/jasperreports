@@ -85,6 +85,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.VersionComparator;
@@ -455,7 +456,18 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 					String value = propertiesMap.getProperty(propertyNames[i]);
 					if (value != null)
 					{
-						xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_value, value);
+						String encodedValue = JRStringUtil.encodeXmlAttribute(value);
+						if (
+							isNewerVersionOrEqual(JRConstants.VERSION_6_3_2)
+							&& encodedValue.length() != value.length()
+							)
+						{
+							xmlWriter.writeCDATA(value);
+						}
+						else
+						{
+							xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_value, encodedValue);
+						}
 					}
 					xmlWriter.closeElement();
 				}
