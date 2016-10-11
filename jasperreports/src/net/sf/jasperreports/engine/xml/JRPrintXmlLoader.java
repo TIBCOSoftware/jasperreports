@@ -250,7 +250,8 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addSetNext("jasperPrint", "setJasperPrint", JasperPrint.class.getName());
 
 		/*   */
-		digester.addRule("*/property", new JRPropertyDigesterRule());
+		digester.addFactoryCreate("*/property", JRPropertyFactory.class.getName());
+		digester.addCallMethod("*/property", "setValue", 0);
 
 		/*   */
 		digester.addFactoryCreate("jasperPrint/origin", JROriginFactory.class.getName());
