@@ -145,5 +145,7 @@ public class ScriptManager
 				log.debug("deleted " + file + ": " + deleted);
 			}
 		}
+		
+		scriptFiles.clear();
 	}
 }

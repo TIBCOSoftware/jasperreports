@@ -250,6 +250,11 @@ public class ConcurrentMapping<K, V>
 		}
 	}
 	
+	public void clear()
+	{
+		entries.clear();
+	}
+	
 	public Iterator<V> currentValues()
 	{
 		return new ValuesIterator();
