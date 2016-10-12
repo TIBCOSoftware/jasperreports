@@ -165,21 +165,24 @@ public class ProcessDirector
 		}
 		finally
 		{
-			if (invalidate)
+			if (process != null)
 			{
-				try
+				if (invalidate)
 				{
-					//this will also kill the process
-					processPool.invalidateObject(process);
+					try
+					{
+						//this will also kill the process
+						processPool.invalidateObject(process);
+					}
+					catch (Exception e)
+					{
+						log.error("Failed to invalidate PhantomJS process " + process.getId());
+					}
 				}
-				catch (Exception e)
+				else
 				{
-					log.error("Failed to invalidate PhantomJS process " + process.getId());
+					processPool.returnObject(process);
 				}
-			}
-			else
-			{
-				processPool.returnObject(process);
 			}
 		}
 	}
