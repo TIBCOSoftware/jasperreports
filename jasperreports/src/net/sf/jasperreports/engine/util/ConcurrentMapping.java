@@ -302,6 +302,12 @@ public class ConcurrentMapping<K, V>
 			findAvailable();
 			return value;
 		}
+
+		@Override
+		public void remove()
+		{
+			throw new UnsupportedOperationException();
+		}
 		
 	}
 }
