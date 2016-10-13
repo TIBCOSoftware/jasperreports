@@ -86,6 +86,16 @@ public class ProcessOutputReader
 		}
 	}
 	
+	protected void signalEnd()
+	{
+		process.signalEnd();
+		
+		if (!confirmed)
+		{
+			startLatch.countDown();
+		}
+	}
+	
 	private class OutputReader implements Runnable
 	{
 		@Override
@@ -109,16 +119,18 @@ public class ProcessOutputReader
 					}
 				}
 				
-				log.info("PhantomJS process " + processId + " done");
-				
-				if (!confirmed)
+				if (log.isDebugEnabled())
 				{
-					startLatch.countDown();
+					log.debug(processId + " stream ended");
 				}
 			}
 			catch (IOException e)
 			{
 				log.error(processId + " error reading phantomjs output", e);
+			}
+			finally
+			{
+				signalEnd();
 			}
 		}
 	}
@@ -136,10 +148,19 @@ public class ProcessOutputReader
 				{
 					log.error("PhantomJS " + processId + " error: " + line);
 				}
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug(processId + " error stream ended");
+				}
 			}
 			catch (IOException e)
 			{
 				log.error(processId + " error reading phantomjs output", e);
+			}
+			finally
+			{
+				signalEnd();
 			}
 		}
 	}

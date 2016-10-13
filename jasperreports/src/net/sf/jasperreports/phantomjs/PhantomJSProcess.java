@@ -28,6 +28,7 @@ import java.net.Inet4Address;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,6 +54,8 @@ public class PhantomJSProcess
 	
 	private Process process;
 	private ProcessConnection processConnection;
+	private volatile boolean ended;
+	private AtomicReference<Integer> exitCode = new AtomicReference<Integer>();
 
 	public PhantomJSProcess(ProcessDirector director, int listenPort)
 	{
@@ -140,6 +143,58 @@ public class PhantomJSProcess
 		return processConnection;
 	}
 	
+	protected void signalEnd()
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug(id + " signal end");
+		}
+		
+		ended = true;
+		
+		if (exitCode.get() == null)
+		{
+			//let's try to determine the exit code
+			Integer exitValue;
+			try
+			{
+				exitValue = process.exitValue();
+			}
+			catch (IllegalThreadStateException e)
+			{
+				//called too soon, we'll have to wait
+				if (log.isDebugEnabled())
+				{
+					log.debug(id + " waiting for exit value");
+				}
+				
+				try
+				{
+					exitValue = process.waitFor();
+				}
+				catch (InterruptedException ie)
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug(id + " wait interrupted", e);
+					}
+					
+					exitValue = null;
+				}
+			}
+			
+			if (exitValue != null && exitCode.compareAndSet(null, exitValue))
+			{
+				log.info("PhantomJS process " + id + " done, exit value " + exitValue);
+			}
+		}
+	}
+	
+	public boolean hasEnded()
+	{
+		return ended;
+	}
+	
 	public void dispose()
 	{
 		if (processConnection != null)
@@ -147,7 +202,7 @@ public class PhantomJSProcess
 			processConnection.dispose();
 		}
 		
-		if (process != null && process.isAlive())
+		if (process != null && exitCode.get() == null)
 		{
 			log.info("PhantomJS process " + id + " to be destroyed");
 			

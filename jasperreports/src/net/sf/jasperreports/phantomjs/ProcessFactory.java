@@ -74,14 +74,14 @@ public class ProcessFactory extends BasePooledObjectFactory<PhantomJSProcess>
 		super.activateObject(pooledObject);
 		
 		PhantomJSProcess process = pooledObject.getObject();
-		if (!process.getProcess().isAlive())
+		if (process.hasEnded())
 		{
 			if (log.isDebugEnabled())
 			{
 				log.debug(process.getId() + " has ended");
 			}
 			
-			throw new JRRuntimeException("Process " + process.getId() + " is not running");
+			throw new JRRuntimeException("Process " + process.getId() + " has ended");
 		}
 		
 		long borrowedCount = ((DefaultPooledObject<PhantomJSProcess>) pooledObject).getBorrowedCount();
