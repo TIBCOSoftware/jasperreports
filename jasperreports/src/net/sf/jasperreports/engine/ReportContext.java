@@ -57,4 +57,9 @@ public interface ReportContext
 	 *
 	 */
 	public Map<String, Object> getParameterValues();
+	
+	public Object removeParameterValue(String parameterName);
+	
+	public void clearParameterValues();
+	
 }
