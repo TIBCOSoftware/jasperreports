@@ -694,7 +694,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		wbHelper.exportSheet(sheetIndex + 1, currentSheetName);
 		ctHelper.exportSheet(sheetIndex + 1);
 		relsHelper.exportSheet(sheetIndex + 1);
-
+		XlsxReportConfiguration configuration = getCurrentItemConfiguration();
+		XlsxPrintSettings printSettings = new XlsxPrintSettings(xCuts, configuration);
 		ExportZipEntry sheetRelsEntry = xlsxZip.addSheetRels(sheetIndex + 1);
 		Writer sheetRelsWriter = sheetRelsEntry.getWriter();
 		sheetRelsHelper = new XlsxSheetRelsHelper(jasperReportsContext, sheetRelsWriter);
@@ -706,7 +707,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				jasperReportsContext,
 				sheetWriter, 
 				sheetRelsHelper,
-				getCurrentItemConfiguration()
+				configuration,
+				printSettings
 				);
 		
 		ExportZipEntry drawingRelsEntry = xlsxZip.addDrawingRels(sheetIndex + 1);
@@ -724,7 +726,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		boolean showGridlines = true;
 		if (sheetInfo.sheetShowGridlines == null)
 		{
-			Boolean documentShowGridlines = getCurrentItemConfiguration().isShowGridLines();
+			Boolean documentShowGridlines = configuration.isShowGridLines();
 			if (documentShowGridlines != null)
 			{
 				showGridlines = documentShowGridlines;

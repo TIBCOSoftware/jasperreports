@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import static java.lang.Math.*;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -42,7 +43,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.export.XlsReportConfiguration;
+import static net.sf.jasperreports.export.XlsReportConfiguration.*;
 
 
 /**
@@ -179,12 +180,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES)
+				&& element.getPropertiesMap().containsProperty(PROPERTY_SHOW_GRIDLINES)
 				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES, true);
+			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_SHOW_GRIDLINES, true);
 		}
 		return null;
 	}
@@ -193,12 +194,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND)
+				&& element.getPropertiesMap().containsProperty(PROPERTY_IGNORE_CELL_BACKGROUND)
 				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND, false);
+			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_IGNORE_CELL_BACKGROUND, false);
 		}
 		return null;
 	}
@@ -207,12 +208,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER)
+			&& element.getPropertiesMap().containsProperty(PROPERTY_IGNORE_CELL_BORDER)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER, false);
+			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_IGNORE_CELL_BORDER, false);
 		}
 		return null;
 	}
@@ -221,12 +222,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND)
+				&& element.getPropertiesMap().containsProperty(PROPERTY_WHITE_PAGE_BACKGROUND)
 				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getBooleanProperty(element, XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND, false);
+			return getPropertiesUtil().getBooleanProperty(element, PROPERTY_WHITE_PAGE_BACKGROUND, false);
 		}
 		return null;
 	}
@@ -245,12 +246,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	
 	public Float getColumnWidthRatio(JRPrintElement element) {
 		if (element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO)
+			&& element.getPropertiesMap().containsProperty(PROPERTY_COLUMN_WIDTH_RATIO)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getFloatProperty(element, XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
+			return getPropertiesUtil().getFloatProperty(element, PROPERTY_COLUMN_WIDTH_RATIO, 0f);
 		}
 		return null;
 	}
@@ -307,12 +308,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public String getSheetTabColor(JRPrintElement element)
 	{
 		if (element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR)
+				&& element.getPropertiesMap().containsProperty(PROPERTY_SHEET_TAB_COLOR)
 				)
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return getPropertiesUtil().getProperty(element, XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR);
+				return getPropertiesUtil().getProperty(element, PROPERTY_SHEET_TAB_COLOR);
 			}
 			return null;
 	}
@@ -321,12 +322,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_PAGE_SCALE)
+			&& element.getPropertiesMap().containsProperty(PROPERTY_PAGE_SCALE)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getIntegerProperty(element, XlsReportConfiguration.PROPERTY_PAGE_SCALE, 0);
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PAGE_SCALE, 0);
 		}
 		return null;
 	}
@@ -334,12 +335,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Integer getFirstPageNumber(JRPrintElement element)
 	{
 		if (element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER)
+			&& element.getPropertiesMap().containsProperty(PROPERTY_FIRST_PAGE_NUMBER)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return getPropertiesUtil().getIntegerProperty(element, XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER, 0);
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_FIRST_PAGE_NUMBER, 0);
 		}
 		return null;
 	}
@@ -378,10 +379,51 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
 		Float widthRatio = getColumnWidthRatio(element);
-		Float xCutsWidthRatio = (Float)xCutsProperties.get(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO);
+		Float xCutsWidthRatio = (Float)xCutsProperties.get(PROPERTY_COLUMN_WIDTH_RATIO);
 		if(widthRatio != null && (xCutsWidthRatio == null || xCutsWidthRatio < widthRatio))
 		{
-			xCutsProperties.put(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
+			xCutsProperties.put(PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
+		}
+		
+		setMargin(getPrintPageTopMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_TOP_MARGIN);
+		setMargin(getPrintPageLeftMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_LEFT_MARGIN);
+		setMargin(getPrintPageBottomMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_BOTTOM_MARGIN);
+		setMargin(getPrintPageRightMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_RIGHT_MARGIN);
+		setMargin(getPrintHeaderMargin(element), xCutsProperties, PROPERTY_PRINT_HEADER_MARGIN);
+		setMargin(getPrintFooterMargin(element), xCutsProperties, PROPERTY_PRINT_FOOTER_MARGIN);
+		
+		setHeaderFooter(getSheetHeaderLeft(element), xCutsProperties, PROPERTY_SHEET_HEADER_LEFT);
+		setHeaderFooter(getSheetHeaderCenter(element), xCutsProperties, PROPERTY_SHEET_HEADER_CENTER);
+		setHeaderFooter(getSheetHeaderRight(element), xCutsProperties, PROPERTY_SHEET_HEADER_RIGHT);
+		setHeaderFooter(getSheetFooterLeft(element), xCutsProperties, PROPERTY_SHEET_FOOTER_LEFT);
+		setHeaderFooter(getSheetFooterCenter(element), xCutsProperties, PROPERTY_SHEET_FOOTER_CENTER);
+		setHeaderFooter(getSheetFooterRight(element), xCutsProperties, PROPERTY_SHEET_FOOTER_RIGHT);
+		
+	}
+	
+	private void setMargin(Integer marginValue, Map<String,Object> xCutsProperties, String marginName)
+	{
+		if(marginValue != null)
+		{
+			Integer xCutsMarginValue = (Integer)xCutsProperties.get(marginName);
+			if(xCutsMarginValue == null)
+			{
+				// a margin value cannot be negative
+				xCutsProperties.put(marginName, max(marginValue,0));
+			}
+			else if(marginValue > xCutsMarginValue)
+			{
+				// if the property is set for several elements in a sheet, the maximum value will be selected 
+				xCutsProperties.put(marginName, marginValue);
+			}
+		}
+	}
+	
+	private void setHeaderFooter(String headerFooterValue, Map<String,Object> xCutsProperties, String headerFooterName)
+	{
+		if(headerFooterValue != null && headerFooterValue.trim().length() > 0)
+		{
+			xCutsProperties.put(headerFooterName, headerFooterValue);
 		}
 	}
 	
@@ -428,43 +470,43 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		String tabColor = getSheetTabColor(element);
 		if(tabColor != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR, tabColor);
+			cut.setProperty(PROPERTY_SHEET_TAB_COLOR, tabColor);
 		}
 
 		Integer pageScale = getPageScale(element);
 		if(pageScale != null && pageScale > 9 && pageScale < 401)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_PAGE_SCALE, pageScale);
+			cut.setProperty(PROPERTY_PAGE_SCALE, pageScale);
 		}
 		
 		Integer firstPageNumber = getFirstPageNumber(element);
 		if(firstPageNumber != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
+			cut.setProperty(PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
 		}
 		
 		Boolean showGridlines = getShowGridlines(element);
 		if(showGridlines != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES, showGridlines);
+			cut.setProperty(PROPERTY_SHOW_GRIDLINES, showGridlines);
 		}
 		
 		Boolean ignoreCellBackground = getIgnoreCellBackground(element);
 		if(ignoreCellBackground != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND, ignoreCellBackground);
+			cut.setProperty(PROPERTY_IGNORE_CELL_BACKGROUND, ignoreCellBackground);
 		}
 		
 		Boolean ignoreCellBorder = getIgnoreCellBorder(element);
 		if(ignoreCellBorder != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER, ignoreCellBorder);
+			cut.setProperty(PROPERTY_IGNORE_CELL_BORDER, ignoreCellBorder);
 		}
 
 		Boolean whitePageBackground = getWhitePageBackground(element);
 		if(whitePageBackground != null)
 		{
-			cut.setProperty(XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND, whitePageBackground);
+			cut.setProperty(PROPERTY_WHITE_PAGE_BACKGROUND, whitePageBackground);
 		}
 
 		EdgeEnum freezeColumnEdge = getFreezeColumnEdge(element);
@@ -498,6 +540,150 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
 	{
 		// nothing to do here
+	}
+	
+	public Integer getPrintPageTopMargin(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_PAGE_TOP_MARGIN)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_PAGE_TOP_MARGIN, 0);
+		}
+		return null;
+	}
+	
+	public Integer getPrintPageLeftMargin(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_PAGE_LEFT_MARGIN)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_PAGE_LEFT_MARGIN, 0);
+		}
+		return null;
+	}
+	
+	public Integer getPrintPageBottomMargin(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_PAGE_BOTTOM_MARGIN)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_PAGE_BOTTOM_MARGIN, 0);
+		}
+		return null;
+	}
+	
+	public Integer getPrintPageRightMargin(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_PAGE_RIGHT_MARGIN)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_PAGE_RIGHT_MARGIN, 0);
+		}
+		return null;
+	}
+	
+	public Integer getPrintHeaderMargin(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_HEADER_MARGIN)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_HEADER_MARGIN, 0);
+		}
+		return null;
+	}
+	
+	public Integer getPrintFooterMargin(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_FOOTER_MARGIN)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_FOOTER_MARGIN, 0);
+		}
+		return null;
+	}
+	
+	public String getSheetHeaderLeft(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_SHEET_HEADER_LEFT)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getProperty(element, PROPERTY_SHEET_HEADER_LEFT);
+		}
+		return null;
+	}
+	
+	public String getSheetHeaderCenter(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_SHEET_HEADER_CENTER)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getProperty(element, PROPERTY_SHEET_HEADER_CENTER);
+		}
+		return null;
+	}
+	
+	public String getSheetHeaderRight(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_SHEET_HEADER_RIGHT)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getProperty(element, PROPERTY_SHEET_HEADER_RIGHT);
+		}
+		return null;
+	}
+	
+	public String getSheetFooterLeft(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_SHEET_FOOTER_LEFT)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getProperty(element, PROPERTY_SHEET_FOOTER_LEFT);
+		}
+		return null;
+	}
+	
+	public String getSheetFooterCenter(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_SHEET_FOOTER_CENTER)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getProperty(element, PROPERTY_SHEET_FOOTER_CENTER);
+		}
+		return null;
+	}
+	
+	public String getSheetFooterRight(JRPrintElement element) {
+		if (element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(PROPERTY_SHEET_FOOTER_RIGHT)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getProperty(element, PROPERTY_SHEET_FOOTER_RIGHT);
+		}
+		return null;
 	}
 
 }

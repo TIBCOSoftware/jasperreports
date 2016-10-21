@@ -321,40 +321,43 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			sheet.protectSheet(password);
 		}
 		
-		sheet.setMargin(Sheet.LeftMargin, 0.0);
-		sheet.setMargin(Sheet.RightMargin, 0.0);
-		sheet.setMargin(Sheet.TopMargin, 0.0);
-		sheet.setMargin(Sheet.BottomMargin, 0.0);
+		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(configuration.getPrintPageLeftMargin()));
+		sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(configuration.getPrintPageRightMargin()));
+		sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(configuration.getPrintPageTopMargin()));
+		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(configuration.getPrintPageBottomMargin()));
 
-		String sheetHeaderLeft = configuration.getSheetHeaderLeft();
-		if(sheetHeaderLeft != null)	{
-			sheet.getHeader().setLeft(sheetHeaderLeft);
+		if(configuration.getSheetHeaderLeft() != null)
+		{
+			sheet.getHeader().setLeft(configuration.getSheetHeaderLeft());
 		}
 		
-		String sheetHeaderCenter = configuration.getSheetHeaderCenter();
-		if(sheetHeaderCenter != null) {
-			sheet.getHeader().setCenter(sheetHeaderCenter);
+		if(configuration.getSheetHeaderCenter() != null)
+		{
+			sheet.getHeader().setCenter(configuration.getSheetHeaderCenter());
 		}
 		
-		String sheetHeaderRight = configuration.getSheetHeaderRight();
-		if(sheetHeaderRight != null) {
-			sheet.getHeader().setRight(sheetHeaderRight);
+		if(configuration.getSheetHeaderRight() != null)
+		{
+			sheet.getHeader().setRight(configuration.getSheetHeaderRight());
 		}
 		
-		String sheetFooterLeft = configuration.getSheetFooterLeft();
-		if(sheetFooterLeft != null) {
-			sheet.getFooter().setLeft(sheetFooterLeft);
+		if(configuration.getSheetFooterLeft() != null)
+		{
+			sheet.getFooter().setLeft(configuration.getSheetFooterLeft());
 		}
 		
-		String sheetFooterCenter = configuration.getSheetFooterCenter();
-		if(sheetFooterCenter != null) {
-			sheet.getFooter().setCenter(sheetFooterCenter);
+		if(configuration.getSheetFooterCenter() != null)
+		{
+			sheet.getFooter().setCenter(configuration.getSheetFooterCenter());
 		}
 		
-		String sheetFooterRight = configuration.getSheetFooterRight();
-		if(sheetFooterRight != null) {
-			sheet.getFooter().setRight(sheetFooterRight);
+		if(configuration.getSheetFooterRight() != null)
+		{
+			sheet.getFooter().setRight(configuration.getSheetFooterRight());
 		}
+		
+		printSetup.setHeaderMargin(LengthUtil.inchNoRound(configuration.getPrintHeaderMargin()));	
+		printSetup.setFooterMargin(LengthUtil.inchNoRound(configuration.getPrintFooterMargin()));	
 		
 		RunDirectionEnum sheetDirection = configuration.getSheetDirection();
 		if(sheetDirection != null) {
@@ -1945,6 +1948,106 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	@Override
 	protected void setColumnWidth(int col, int width, boolean autoFit) {
 	}
+	
+	@Override
+	protected void updateSheet(JRPrintElement element)
+	{
+		JRXlsMetadataExporterNature xlsNature = (JRXlsMetadataExporterNature)nature;
+		double margin = 0d;
+		if(xlsNature.getPrintPageTopMargin(element) != null)
+		{
+			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageTopMargin(element));
+			if(margin > sheet.getMargin(Sheet.TopMargin))
+			{
+				sheet.setMargin(Sheet.TopMargin, margin);
+			}
+		}
+		
+		if(xlsNature.getPrintPageLeftMargin(element) != null)
+		{
+			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageLeftMargin(element));
+			if(margin > sheet.getMargin(Sheet.LeftMargin))
+			{
+				sheet.setMargin(Sheet.LeftMargin, margin);
+			}
+		}
+		
+		if(xlsNature.getPrintPageBottomMargin(element) != null)
+		{
+			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageBottomMargin(element));
+			if(margin >sheet.getMargin(Sheet.BottomMargin))
+			{
+				sheet.setMargin(Sheet.BottomMargin, margin);
+			}
+		}
+		
+		if(xlsNature.getPrintPageRightMargin(element) != null)
+		{
+			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageRightMargin(element));
+			if(margin >sheet.getMargin(Sheet.RightMargin))
+			{
+				sheet.setMargin(Sheet.RightMargin, margin);
+			}
+		}
+
+		String sheetHeaderLeft = xlsNature.getSheetHeaderLeft(element);
+		if(sheetHeaderLeft != null)
+		{
+			sheet.getHeader().setLeft(sheetHeaderLeft);
+		}
+		
+		String sheetHeaderCenter = xlsNature.getSheetHeaderCenter(element);
+		if(sheetHeaderCenter != null)
+		{
+			sheet.getHeader().setCenter(sheetHeaderCenter);
+		}
+		
+		String sheetHeaderRight = xlsNature.getSheetHeaderRight(element);
+		if(sheetHeaderRight != null)
+		{
+			sheet.getHeader().setRight(sheetHeaderRight);
+		}
+		
+		String sheetFooterLeft = xlsNature.getSheetFooterLeft(element);
+		if(sheetFooterLeft != null)
+		{
+			sheet.getFooter().setLeft(sheetFooterLeft);
+		}
+		
+		String sheetFooterCenter = xlsNature.getSheetFooterCenter(element);
+		if(sheetFooterCenter != null)
+		{
+			sheet.getFooter().setCenter(sheetFooterCenter);
+		}
+		
+		String sheetFooterRight = xlsNature.getSheetFooterRight(element);
+		if(sheetFooterRight != null)
+		{
+			sheet.getFooter().setRight(sheetFooterRight);
+		}
+		
+		HSSFPrintSetup printSetup = sheet.getPrintSetup();
+		
+		if(xlsNature.getPrintHeaderMargin(element) != null)
+		{
+			margin = LengthUtil.inchNoRound(xlsNature.getPrintHeaderMargin(element));
+			if(margin >printSetup.getHeaderMargin())
+			{
+				printSetup.setHeaderMargin(margin);
+			}
+		}
+		
+		if(xlsNature.getPrintHeaderMargin(element) != null)
+		{
+			margin = LengthUtil.inchNoRound(xlsNature.getPrintFooterMargin(element));
+			if(margin >printSetup.getFooterMargin())
+			{
+				printSetup.setFooterMargin(margin);
+			}
+		}
+		
+	}
+
 	
 	/**
 	 * 

@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -61,6 +62,7 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
 	private final XlsReportConfiguration configuration;
+	private final XlsxPrintSettings printSettings;
 	
 	private List<Integer> rowBreaks = new ArrayList<Integer>();
 
@@ -71,13 +73,15 @@ public class XlsxSheetHelper extends BaseHelper
 		JasperReportsContext jasperReportsContext,
 		Writer writer, 
 		XlsxSheetRelsHelper sheetRelsHelper,
-		XlsReportConfiguration configuration
+		XlsReportConfiguration configuration,
+		XlsxPrintSettings printSettings
 		)
 	{
 		super(jasperReportsContext, writer);
 		
 		this.sheetRelsHelper = sheetRelsHelper;
 		this.configuration = configuration;
+		this.printSettings = printSettings;
 	}
 
 	/**
@@ -196,19 +200,19 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 
 		write("<pageMargins left=\"");
-//		write(String.valueOf(jasperPrint.getLeftMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin()))); 
-		write("0");
+		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getLeftMargin()))); 
 		write("\" right=\"");
-//		write(String.valueOf(jasperPrint.getRightMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getRightMargin()))); 
-		write("0");
+		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getRightMargin()))); 
 		write("\" top=\"");
-//		write(String.valueOf(jasperPrint.getTopMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin()))); 
-		write("0");
+		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getTopMargin()))); 
 		write("\" bottom=\"");
-//		write(String.valueOf(jasperPrint.getBottomMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()))); 
+		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getBottomMargin()))); 
 		write("0");
-		write("\" header=\"0.0\" footer=\"0.0\"/>\n");
-		
+		write("\" header=\"");
+		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getHeaderMargin()))); 
+		write("\" footer=\"");
+		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getFooterMargin()))); 
+		write("\"/>\n");
 		write("<pageSetup");	
 		
 		if (jasperPrint.getOrientation() != null)
@@ -271,50 +275,48 @@ public class XlsxSheetHelper extends BaseHelper
 			if (hasHeader())
 			{
 				write("<oddHeader>");
-				if (StringUtils.isNotBlank(configuration.getSheetHeaderLeft()))
+				if (StringUtils.isNotBlank(printSettings.getHeaderLeft()))
 				{
 					write("&amp;L");
-					write(StringEscapeUtils.escapeHtml(configuration.getSheetHeaderLeft()));
+					write(StringEscapeUtils.escapeHtml(printSettings.getHeaderLeft()));
 				}
-				if (StringUtils.isNotBlank(configuration.getSheetHeaderCenter()))
+				if (StringUtils.isNotBlank(printSettings.getHeaderCenter()))
 				{
 					write("&amp;C");
-					write(StringEscapeUtils.escapeHtml(configuration.getSheetHeaderCenter()));
+					write(StringEscapeUtils.escapeHtml(printSettings.getHeaderCenter()));
 				}
-				if (StringUtils.isNotBlank(configuration.getSheetHeaderRight()))
+				if (StringUtils.isNotBlank(printSettings.getHeaderRight()))
 				{
 					write("&amp;R");
-					write(StringEscapeUtils.escapeHtml(configuration.getSheetHeaderRight()));
+					write(StringEscapeUtils.escapeHtml(printSettings.getHeaderRight()));
 				}
 				write("</oddHeader>");
 			}
 			if (hasFooter())
 			{
 				write("<oddFooter>");
-				if (StringUtils.isNotBlank(configuration.getSheetFooterLeft()))
+				if (StringUtils.isNotBlank(printSettings.getFooterLeft()))
 				{
 					write("&amp;L");
-					write(StringEscapeUtils.escapeHtml(configuration.getSheetFooterLeft()));
+					write(StringEscapeUtils.escapeHtml(printSettings.getFooterLeft()));
 				}
-				if (StringUtils.isNotBlank(configuration.getSheetFooterCenter()))
+				if (StringUtils.isNotBlank(printSettings.getFooterCenter()))
 				{
 					write("&amp;C");
-					write(StringEscapeUtils.escapeHtml(configuration.getSheetFooterCenter()));
+					write(StringEscapeUtils.escapeHtml(printSettings.getFooterCenter()));
 				}
-				if (StringUtils.isNotBlank(configuration.getSheetFooterRight()))
+				if (StringUtils.isNotBlank(printSettings.getFooterRight()))
 				{
 					write("&amp;R");
-					write(StringEscapeUtils.escapeHtml(configuration.getSheetFooterRight()));
+					write(StringEscapeUtils.escapeHtml(printSettings.getFooterRight()));
 				}
 				write("</oddFooter>");
 			}
 			write("</headerFooter>");
 		}
-
-		if(!firstPageNotSet)
+		else if(!firstPageNotSet)
 		{
-			//TODO: support for customized headers/footers in XLSX
-			write("<headerFooter><oddFooter>Page &amp;P</oddFooter></headerFooter>\n");
+			write("<headerFooter><oddFooter>&amp;CPage &amp;P</oddFooter></headerFooter>\n");
 		}
 		
 		write("<drawing r:id=\"rIdDr" + index + "\"/>");
@@ -328,18 +330,17 @@ public class XlsxSheetHelper extends BaseHelper
 
 	private boolean hasHeader()
 	{
-		return StringUtils.isNotBlank(configuration.getSheetHeaderLeft())
-				|| StringUtils.isNotBlank(configuration.getSheetHeaderCenter()) 
-				|| StringUtils.isNotBlank(configuration.getSheetHeaderRight()); 
+		return StringUtils.isNotBlank(printSettings.getHeaderLeft())
+				|| StringUtils.isNotBlank(printSettings.getHeaderCenter()) 
+				|| StringUtils.isNotBlank(printSettings.getHeaderRight()); 
 	}
 
 	private boolean hasFooter()
 	{
-		return StringUtils.isNotBlank(configuration.getSheetFooterLeft())
-				|| StringUtils.isNotBlank(configuration.getSheetFooterCenter()) 
-				|| StringUtils.isNotBlank(configuration.getSheetFooterRight()); 
+		return StringUtils.isNotBlank(printSettings.getFooterLeft())
+				|| StringUtils.isNotBlank(printSettings.getFooterCenter()) 
+				|| StringUtils.isNotBlank(printSettings.getFooterRight()); 
 	}
-
 
 	/**
 	 *

@@ -2589,5 +2589,11 @@ public class JExcelApiMetadataExporter extends
 		return textValue;
 	}
 	
+	@Override
+	protected void updateSheet(JRPrintElement element)
+	{
+		// do nothing
+	}
+	
 }
 

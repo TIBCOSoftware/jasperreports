@@ -292,6 +292,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		for (int i = 0; i < elements.size(); ++i) 
 		{
 			JRPrintElement element = elements.get(i);
+			updateSheet(element);
 			
 			String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporter.PROPERTY_SHEET_NAME);
 			if(sheetName != null)
@@ -604,5 +605,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	protected abstract void writeCurrentRow(Map<String, Object> currentRow, Map<String, Object> repeatedValues)  throws JRException;
 	
 	protected abstract void writeReportHeader() throws JRException;
+	
+	protected abstract void updateSheet(JRPrintElement element);
 
 }

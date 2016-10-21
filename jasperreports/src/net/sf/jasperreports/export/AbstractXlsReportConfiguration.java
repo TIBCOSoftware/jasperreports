@@ -78,6 +78,12 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Color sheetTabColor;
 	private Integer freezeRow;
 	private String freezeColumn;
+	private Integer printPageTopMargin;
+	private Integer printPageLeftMargin;
+	private Integer printPageBottomMargin;
+	private Integer printPageRightMargin;
+	private Integer printHeaderMargin;
+	private Integer printFooterMargin;
 
 	
 	/**
@@ -753,6 +759,72 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	public void setFreezeColumn(String freezeColumn)
 	{
 		this.freezeColumn = freezeColumn;
+	}
+	
+	@Override
+	public Integer getPrintPageTopMargin() 
+	{
+		return printPageTopMargin;
+	}
+	
+	public void setPrintPageTopMargin(Integer printPageTopMargin)
+	{
+		this.printPageTopMargin = printPageTopMargin;
+	}
+	
+	@Override
+	public Integer getPrintPageLeftMargin() 
+	{
+		return printPageLeftMargin;
+	}
+	
+	public void setPrintPageLeftMargin(Integer printPageLeftMargin)
+	{
+		this.printPageLeftMargin = printPageLeftMargin;
+	}
+	
+	@Override
+	public Integer getPrintPageBottomMargin() 
+	{
+		return printPageBottomMargin;
+	}
+	
+	public void setPrintPageBottomMargin(Integer printPageBottomMargin)
+	{
+		this.printPageBottomMargin = printPageBottomMargin;
+	}
+	
+	@Override
+	public Integer getPrintPageRightMargin() 
+	{
+		return printPageRightMargin;
+	}
+	
+	public void setPrintPageRightMargin(Integer printPageRightMargin)
+	{
+		this.printPageRightMargin = printPageRightMargin;
+	}
+	
+	@Override
+	public Integer getPrintHeaderMargin() 
+	{
+		return printHeaderMargin;
+	}
+	
+	public void setPrintHeaderMargin(Integer printHeaderMargin)
+	{
+		this.printHeaderMargin = printHeaderMargin;
+	}
+	
+	@Override
+	public Integer getPrintFooterMargin() 
+	{
+		return printFooterMargin;
+	}
+
+	public void setPrintFooterMargin(Integer printFooterMargin)
+	{
+		this.printFooterMargin = printFooterMargin;
 	}
 	
 }

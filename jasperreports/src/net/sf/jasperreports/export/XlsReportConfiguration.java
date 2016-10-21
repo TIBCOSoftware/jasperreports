@@ -474,6 +474,126 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 
 		
 	/**
+	 * Property used to provide a default value for the {@link #getPrintPageTopMargin()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+	 * @see #PROPERTY_PRINT_HEADER_MARGIN
+	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PRINT_PAGE_TOP_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.top.margin";
+	
+	/**
+	 * Property used to provide a default value for the {@link #getPrintPageLeftMargin()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+	 * @see #PROPERTY_PRINT_HEADER_MARGIN
+	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PRINT_PAGE_LEFT_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.left.margin";
+	
+	/**
+	 * Property used to provide a default value for the {@link #getPrintPageBottomMargin()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+	 * @see #PROPERTY_PRINT_HEADER_MARGIN
+	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PRINT_PAGE_BOTTOM_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.bottom.margin";
+	
+	/**
+	 * Property used to provide a default value for the {@link #getPrintPageRightMargin()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+	 * @see #PROPERTY_PRINT_HEADER_MARGIN
+	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PRINT_PAGE_RIGHT_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.right.margin";
+	
+	/**
+	 * Property used to provide a default value for the {@link #getPrintHeaderMargin()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PRINT_HEADER_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.header.margin";
+	
+	/**
+	 * Property used to provide a default value for the {@link #getPrintFooterMargin()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+	 * @see #PROPERTY_PRINT_HEADER_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PRINT_FOOTER_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.footer.margin";
+	
+	/**
 	 * Returns a boolean value specifying whether each report page should be written in a different XLS sheet.
 	 * @see #PROPERTY_ONE_PAGE_PER_SHEET
 	 */
@@ -1012,5 +1132,54 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 		nullDefault=true
 		)
 	public String getFreezeColumn();
+	
+	/**
+	 * Specifies the page top margin in print preview pane, measured in pixels. Default value is 0.
+	 */
+	@ExporterProperty(
+			value=PROPERTY_PRINT_PAGE_TOP_MARGIN
+			)
+	public Integer getPrintPageTopMargin();
+	
+	/**
+	 * Specifies the page left margin in print preview pane, measured in pixels. Default value is 0.
+	 */
+	@ExporterProperty(
+			value=PROPERTY_PRINT_PAGE_LEFT_MARGIN
+			)
+	public Integer getPrintPageLeftMargin();
+	
+	/**
+	 * Specifies the page bottom margin in print preview pane, measured in pixels. Default value is 0. 
+	 */
+	@ExporterProperty(
+			value=PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+			)
+	public Integer getPrintPageBottomMargin();
+	
+	/**
+	 * Specifies the page right margin in print preview pane, measured in pixels. Default value is 0. 
+	 */
+	@ExporterProperty(
+			value=PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+			)
+	public Integer getPrintPageRightMargin();
+	
+	/**
+	 * Specifies the sheet header margin in print preview pane, measured in pixels. Default value is 0. 
+	 */
+	@ExporterProperty(
+			value=PROPERTY_PRINT_HEADER_MARGIN
+			)
+	public Integer getPrintHeaderMargin();
+	
+	/**
+	 * Specifies the sheet footer margin in print preview pane, measured in pixels. Default value is 0. 
+	 */
+	@ExporterProperty(
+		value=PROPERTY_PRINT_FOOTER_MARGIN
+		)
+	public Integer getPrintFooterMargin();
+	
 	
 }
