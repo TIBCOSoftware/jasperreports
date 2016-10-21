@@ -1239,7 +1239,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			}
 			
 			QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(getJasperReportsContext()).getExecuterFactory(query.getLanguage());
-			queryExecuter = queryExecuterFactory.createQueryExecuter(getJasperReportsContext(), parent, parametersMap);
+			queryExecuter = queryExecuterFactory.createQueryExecuter(getJasperReportsContext(), this, parametersMap);
 			filler.fillContext.setRunningQueryExecuter(queryExecuter);
 			
 			return queryExecuter.createDatasource();
