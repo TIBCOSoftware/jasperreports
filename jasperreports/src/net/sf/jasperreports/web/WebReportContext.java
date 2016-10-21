@@ -204,4 +204,16 @@ public class WebReportContext implements ReportContext
 	{
 		return SESSION_ATTRIBUTE_REPORT_CONTEXT_ID_PREFIX + id;
 	}
+
+	@Override
+	public Object removeParameterValue(String parameterName)
+	{
+		return parameterValues.remove(parameterName);
+	}
+
+	@Override
+	public void clearParameterValues()
+	{
+		parameterValues.clear();
+	}
 }
