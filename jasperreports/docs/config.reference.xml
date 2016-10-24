@@ -30,6 +30,7 @@
       <property ref="net.sf.jasperreports.http.data.username"/>
       <property ref="net.sf.jasperreports.http.data.password"/>
       <property ref="net.sf.jasperreports.http.data.url.parameter"/>
+      <property ref="net.sf.jasperreports.http.data.body"/>
       <property ref="net.sf.jasperreports.http.data.post.parameter"/>
       <property ref="net.sf.jasperreports.http.data.header"/>
       <property ref="net.sf.jasperreports.javabean.field.property"/>
@@ -799,6 +800,23 @@ If multiple parameters try to provide a value for the same request parameter, th
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.http.data.body -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.body">
+    <description>
+Property that specifies the body entity of the POST/PUT request used by the HTTP data adapters.
+If present in the dataset or at report parameter level, it overrides the request body specified in the data adapter definition.
+When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would provide the POST/PUT request body entity value.
+If multiple parameters have this property set, the last one will be used to provide the request body value.
+Also, when the POST/PUT request body is specified, all other POST parameter values are ignored. 
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_BODY</api>
+    <default>N/A</default>
+    <scope>Dataset | Parameter</scope>
+    <since>6.4.0</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.http.data.post.parameter -->
   
   <configProperty name="net.sf.jasperreports.http.data.post.parameter">
@@ -809,6 +827,7 @@ parameter will be the same as the current report parameter name.
 Request parameters introduced this way override the request parameters having the same name which were declared at data adapter level or were provided
 by the report parameters having the now deprecated <api href="net/sf/jasperreports/data/http/HttpDataService.html#PARAMETER_PREFIX_POST_PARAMETER">HTTP_DATA_POST_PARAMETER_</api> prefix.
 If multiple parameters try to provide a value for the same request parameter, the request parameter will be sent multiple times, becoming a request parameter of type array.
+All POST parameter values are ignored if a POST/PUT request body is specified.
     </description>
     <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_POST_PARAMETER</api>
     <default>N/A</default>

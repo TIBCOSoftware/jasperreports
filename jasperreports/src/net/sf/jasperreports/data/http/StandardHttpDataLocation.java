@@ -39,6 +39,7 @@ public class StandardHttpDataLocation implements HttpDataLocation
 	private String username;
 	private String password;
 	private List<HttpLocationParameter> urlParameters;
+	private String body;
 	private List<HttpLocationParameter> postParameters;
 	private List<HttpLocationParameter> headers;
 
@@ -113,6 +114,17 @@ public class StandardHttpDataLocation implements HttpDataLocation
 	public void setUrlParameters(List<HttpLocationParameter> urlParameters)
 	{
 		this.urlParameters = urlParameters;
+	}
+
+	@Override
+	public String getBody()
+	{
+		return body;
+	}
+
+	public void setBody(String body)
+	{
+		this.body = body;
 	}
 
 	@Override

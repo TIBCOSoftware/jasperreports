@@ -43,6 +43,8 @@ public interface HttpDataLocation extends DataFile
 	
 	List<HttpLocationParameter> getUrlParameters();
 	
+	String getBody();
+
 	List<HttpLocationParameter> getPostParameters();
 	
 	List<HttpLocationParameter> getHeaders();
