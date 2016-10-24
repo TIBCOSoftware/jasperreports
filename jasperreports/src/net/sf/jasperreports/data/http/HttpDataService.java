@@ -46,6 +46,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -102,16 +103,19 @@ public class HttpDataService implements DataFileService
 	
 	/**
 	 * Property that specifies the base URL to be used by the HTTP data adapters. 
+	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the URL value.
 	 */
 	public static final String PROPERTY_URL = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url";
 
 	/**
 	 * Property that specifies the user name to be used by the HTTP data adapters with basic authentication. 
+	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user name value.
 	 */
 	public static final String PROPERTY_USERNAME = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.username";
 
 	/**
 	 * Property that specifies the password to be used by the HTTP data adapters with basic authentication. 
+	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user password value.
 	 */
 	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.password";
 
@@ -120,6 +124,12 @@ public class HttpDataService implements DataFileService
 	 * If the property is present, but has no value, the name of the request parameter is the same as the report parameter name.
 	 */
 	public static final String PROPERTY_URL_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url.parameter";
+
+	/**
+	 * Property that specifies the POST/PUT request body to be sent when HTTP data adapter is used.
+	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the POST/PUT request body value.
+	 */
+	public static final String PROPERTY_BODY = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.body";
 
 	/**
 	 * Property that specifies the name of the request POST parameter to be sent when HTTP data adapter is used.
@@ -214,20 +224,25 @@ public class HttpDataService implements DataFileService
 
 	protected HttpRequestBase createRequest(Map<String, Object> parameters)
 	{
+		URI requestURI = getRequestURI(parameters);
+
+		String body = getBody(parameters);
 		List<NameValuePair> postParameters = collectPostParameters(parameters);
 
-		URI requestURI = getRequestURI(parameters);
-		
 		RequestMethod method = dataLocation.getMethod();
 		if (method == null)
 		{
-			method = postParameters.isEmpty() ? RequestMethod.GET : RequestMethod.POST;
+			method = (body == null && postParameters.isEmpty()) ? RequestMethod.GET : RequestMethod.POST;
 		}
 		
 		HttpRequestBase request;
 		switch (method)
 		{
 		case GET:
+			if (body != null)
+			{
+				log.warn("Ignoring request body for GET request to " + dataLocation.getUrl());
+			}
 			if (!postParameters.isEmpty())
 			{
 				log.warn("Ignoring POST parameters for GET request to " + dataLocation.getUrl());
@@ -235,10 +250,32 @@ public class HttpDataService implements DataFileService
 			request = createGetRequest(requestURI);
 			break;
 		case POST:
-			request = createPostRequest(requestURI, postParameters);
+			if (body == null)
+			{
+				request = createPostRequest(requestURI, postParameters);
+			}
+			else
+			{
+				if (!postParameters.isEmpty())
+				{
+					log.warn("Ignoring POST parameters for POST request having request body to " + dataLocation.getUrl());
+				}
+				request = createPostRequest(requestURI, body);
+			}
 			break;
 		case PUT:
-			request = createPutRequest(requestURI, postParameters);
+			if (body == null)
+			{
+				request = createPutRequest(requestURI, postParameters);
+			}
+			else
+			{
+				if (!postParameters.isEmpty())
+				{
+					log.warn("Ignoring POST parameters for PUT request having request body to " + dataLocation.getUrl());
+				}
+				request = createPutRequest(requestURI, body);
+			}
 			break;
 		default:
 			throw 
@@ -265,10 +302,26 @@ public class HttpDataService implements DataFileService
 		return httpGet;
 	}
 
+	protected HttpPost createPostRequest(URI requestURI, String body)
+	{
+		HttpPost httpPost = new HttpPost(requestURI);
+		HttpEntity entity = createRequestEntity(body);
+		httpPost.setEntity(entity);
+		return httpPost;
+	}
+
 	protected HttpPost createPostRequest(URI requestURI, List<NameValuePair> postParameters)
 	{
 		HttpPost httpPost = new HttpPost(requestURI);
 		HttpEntity entity = createRequestEntity(postParameters);
+		httpPost.setEntity(entity);
+		return httpPost;
+	}
+
+	protected HttpPut createPutRequest(URI requestURI, String body)
+	{
+		HttpPut httpPost = new HttpPut(requestURI);
+		HttpEntity entity = createRequestEntity(body);
 		httpPost.setEntity(entity);
 		return httpPost;
 	}
@@ -279,6 +332,11 @@ public class HttpDataService implements DataFileService
 		HttpEntity entity = createRequestEntity(postParameters);
 		httpPost.setEntity(entity);
 		return httpPost;
+	}
+
+	protected HttpEntity createRequestEntity(String body)
+	{
+		return new StringEntity(body, "UTF-8");//allow custom?
 	}
 
 	protected HttpEntity createRequestEntity(List<NameValuePair> postParameters)
@@ -493,6 +551,16 @@ public class HttpDataService implements DataFileService
 		return url;
 	}
 
+	protected String getBody(Map<String, Object> parameters)
+	{
+		String body = getPropertyOrParameterValue(PROPERTY_BODY, null, parameters);
+		if (body == null)
+		{
+			body = dataLocation.getBody();
+		}
+		return body;
+	}
+
 	protected String getPropertyOrParameterValue(String propName, String paramName, Map<String, Object> parameterValues)
 	{
 		String value = null;
@@ -504,7 +572,7 @@ public class HttpDataService implements DataFileService
 			value = JRPropertiesUtil.getOwnProperty(dataset, propName);
 		}
 
-		if (parameterValues.containsKey(paramName))
+		if (paramName != null && parameterValues.containsKey(paramName))//FIXMEDATAADAPTER should we fallback to prop name used as param name?
 		{
 			value = (String) parameterValues.get(paramName);
 		}
