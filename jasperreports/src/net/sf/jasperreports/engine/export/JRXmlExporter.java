@@ -458,7 +458,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 					{
 						String encodedValue = JRStringUtil.encodeXmlAttribute(value);
 						if (
-							isNewerVersionOrEqual(JRConstants.VERSION_6_3_2)
+							isNewerVersionOrEqual(JRConstants.VERSION_6_4_0)
 							&& encodedValue.length() != value.length()
 							)
 						{

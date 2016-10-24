@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/Jaspersoft/jasperreports.git</connection>
-		<tag>jr-6-3-2</tag>
+		<tag>jr-6-4-0</tag>
 		<url>https://github.com/Jaspersoft/jasperreports</url>
 	</scm>
 	<developers>
