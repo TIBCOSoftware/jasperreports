@@ -394,6 +394,9 @@
       <property ref="net.sf.jasperreports.export.xls.password"/>
       <property ref="net.sf.jasperreports.export.xls.pattern"/>
       
+      <property ref="net.sf.jasperreports.export.xls.print.{header|footer}.margin"/>
+      <property ref="net.sf.jasperreports.export.xls.print.page.{top|left|bottom|right}.margin"/>
+      
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
       <property ref="net.sf.jasperreports.export.xls.repeat.value"/>
@@ -5496,6 +5499,70 @@ Property whose value is an Excel compatible pattern, to be used as replacement f
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.print.{header|footer}.margin -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.{header|footer}.margin">
+    <description>
+Custom properties storing the header or footer margin for an Excel sheet, expressed in pixels. There are 2 built-in properties of this type:
+<ul>
+<li><code>net.sf.jasperreports.export.xls.print.header.margin</code> - stores the header margin</li>
+<li><code>net.sf.jasperreports.export.xls.print.footer.margin</code> - stores the footer margin</li>
+</ul>             
+Their value is used as default for the following related Excel export configuration settings:
+<ul>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintHeaderMargin()">getPrintHeaderMargin()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintFooterMargin()">getPrintFooterMargin()</api></li>
+</ul>
+When these properties are set globally or per report, all sheets in the generated document will come with the same header/footer margins. 
+If these margins should differ from a sheet to another, we can set the above properties at element level, so that header/footer margins in a 
+sheet will be read from the element in the sheet that contains these properties. When several elements in a sheet provide header/footer margin properties, the 
+maximum value for the header or footer margin will be considered.
+<br/>
+Properties set at element level take priority over properties set globally or per report level. Default value for these properties is 0.          
+    </description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_HEADER_MARGIN</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_FOOTER_MARGIN</api>
+    <default>0</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.3.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.print.page.{top|left|bottom|right}.margin -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.page.{top|left|bottom|right}.margin">
+    <description>
+Custom properties storing the page margins for an Excel sheet, expressed in pixels. There are 4 built-in properties of this type:
+<ul>
+<li><code>net.sf.jasperreports.export.xls.print.page.top.margin</code> - stores the page top margin</li>
+<li><code>net.sf.jasperreports.export.xls.print.page.left.margin</code> - stores the page left margin</li>
+<li><code>net.sf.jasperreports.export.xls.print.page.bottom.margin</code> - stores the page bottom margin</li>
+<li><code>net.sf.jasperreports.export.xls.print.page.right.margin</code> - stores the page right margin</li>
+</ul>             
+Their value is used as default for the following related Excel export configuration settings:
+<ul>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageTopMargin()">getPrintPageTopMargin()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageLeftMargin()">getPrintPageLeftMargin()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageBottomMargin()">getPrintPageBottomMargin()</api></li>
+<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageRightMargin()">getPrintPageRightMargin()</api></li>
+</ul>
+When these properties are set globally or per report level, all sheets in the generated document will have the same page margins. 
+If these margins should differ from a sheet to another, we can set the above properties at element level, so that page margins in a 
+sheet will be read from the element in the sheet that contains these properties. When several elements in a sheet provide page margin properties, the 
+maximum value for the related margin will be considered. Default value for these properties is 0.
+<br/>
+Properties set at element level take priority over properties set globally or per report level.            
+    </description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_TOP_MARGIN</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_LEFT_MARGIN</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_BOTTOM_MARGIN</api>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_RIGHT_MARGIN</api>
+    <default>0</default>
+    <scope>Global | Report | Element</scope>
+    <since>6.3.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xls.break.before.row -->
   
   <configProperty name="net.sf.jasperreports.export.xls.break.before.row">
@@ -5626,6 +5693,11 @@ For instance, a footer right property that contains the 'Page &lt;i&gt; of &lt;n
 <br/>
 <br/>
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
+<br/>
+<br/>
+Starting with v.6.3.2 these properties can be set also at element level, in order to control headers/footers in each sheet separately. 
+If several elements in a sheet contain the same header/footer content property, the value for the last element in the sheet will be considered.
+Properties set at element level take priority over properties set globally or per report level.
     </description>
     <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_LEFT</api>
     <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_CENTER</api>
@@ -5634,7 +5706,7 @@ For instance, a footer right property that contains the 'Page &lt;i&gt; of &lt;n
     <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_CENTER</api>
     <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_RIGHT</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element</scope>
     <since>3.7.5</since>
   </configProperty>
   

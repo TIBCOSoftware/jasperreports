@@ -202,7 +202,7 @@ ga('send', 'pageview');
   </tr>
   <tr>
     <td></td>
-    <td colspan="2"><span class="label">API</span></td>
+    <td colspan="2"><span class="label">API:</span></td>
     <td colspan="2"><span class="description">
 	  <xsl:choose>
 	    <xsl:when test="api='N/A'">
@@ -213,7 +213,8 @@ ga('send', 'pageview');
 	      <span class="element">
 	        <xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="$api.url"/><xsl:value-of select="."/></xsl:attribute><xsl:value-of select="substring-after(.,'#')"/></xsl:element>
 	      </span>
-	      <xsl:if test="position() != last()">
+	      <br/>
+	      <xsl:if test="position() > 1 and position() = last()">
 	        <br/>
 	      </xsl:if>
 	    </xsl:for-each>
@@ -223,17 +224,17 @@ ga('send', 'pageview');
   </tr>
   <tr>
     <td></td>
-    <td colspan="2"><span class="label">Default</span></td>
+    <td colspan="2"><span class="label">Default:</span></td>
     <td colspan="2"><span class="description"><xsl:value-of select="default"/></span></td>
   </tr>
   <tr>
     <td></td>
-    <td colspan="2"><span class="label">Scope</span></td>
+    <td colspan="2"><span class="label">Scope:</span></td>
     <td colspan="2"><span class="description"><xsl:value-of select="scope"/></span></td>
   </tr>
   <tr>
     <td></td>
-    <td colspan="2"><span class="label">Since</span></td>
+    <td colspan="2"><span class="label">Since:</span></td>
     <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
   </tr>
   <xsl:if test="contextUnaware">
