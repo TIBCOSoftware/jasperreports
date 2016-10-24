@@ -45,7 +45,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -164,15 +163,13 @@ public class HttpDataService implements DataFileService
 		RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.IGNORE_COOKIES).build();
 		clientBuilder.setDefaultRequestConfig(requestConfig);
 		
-		HttpClientContext clientContext = HttpClientContext.create();
-		
-		setAuthentication(parameters, clientContext);
+		setAuthentication(parameters, clientBuilder);
 		
 		CloseableHttpClient client = clientBuilder.build();
 		return client;
 	}
 
-	protected void setAuthentication(Map<String, Object> parameters, HttpClientContext clientContext)
+	protected void setAuthentication(Map<String, Object> parameters, HttpClientBuilder clientBuilder)
 	{
 		String username = getUsername(parameters);
 		if (username != null)
@@ -184,7 +181,7 @@ public class HttpDataService implements DataFileService
 			credentialsProvider.setCredentials(
 					new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), 
 					new UsernamePasswordCredentials(username, password));
-			clientContext.setCredentialsProvider(credentialsProvider);
+			clientBuilder.setDefaultCredentialsProvider(credentialsProvider);
 		}
 	}
 
