@@ -105,7 +105,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	/**
 	 *
 	 */
-	private boolean ignoreNPE = true;
+	protected boolean ignoreNPE = true;
 
 	/**
 	 * Default constructor.
@@ -263,6 +263,10 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		return str;
 	}
 
+	protected Object handleEvaluationException(JRExpression expression, Throwable e) throws JRExpressionEvalException
+	{
+		throw new JRExpressionEvalException(expression, e);
+	}
 
 	@Override
 	public Object evaluate(JRExpression expression) throws JRExpressionEvalException
@@ -287,7 +291,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			// of the evaluate method, without breaking backward compatibility of compiled report templates 
 			catch (Throwable e) //NOPMD
 			{
-				throw new JRExpressionEvalException(expression, e);
+				value = handleEvaluationException(expression, e);
 			}
 		}
 		
@@ -318,7 +322,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			// of the evaluate method, without breaking backward compatibility of compiled report templates 
 			catch (Throwable e) //NOPMD
 			{
-				throw new JRExpressionEvalException(expression, e);
+				value = handleEvaluationException(expression, e);
 			}
 		}
 		
@@ -349,7 +353,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			// of the evaluate method, without breaking backward compatibility of compiled report templates 
 			catch (Throwable e) //NOPMD
 			{
-				throw new JRExpressionEvalException(expression, e);
+				value = handleEvaluationException(expression, e);
 			}
 		}
 		
