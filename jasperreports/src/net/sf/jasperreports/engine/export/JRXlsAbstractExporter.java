@@ -639,7 +639,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		public Boolean whitePageBackground;
 		public Integer columnFreezeIndex;
 		public Integer rowFreezeIndex;
-
+		public SheetPrintSettings printSettings;
 	}
 
 	/**
@@ -1160,6 +1160,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		sheetInfo.columnFreezeIndex = configuration.getFreezeColumn() == null
 			? -1
 			: Math.max(0, getColumnIndex(configuration.getFreezeColumn()));
+		sheetInfo.printSettings = new SheetPrintSettings(xCuts, configuration);
 		
 		int skippedRows = 0;
 		int rowIndex = 0;

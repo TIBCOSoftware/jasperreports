@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
+import net.sf.jasperreports.engine.export.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -62,7 +63,7 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
 	private final XlsReportConfiguration configuration;
-	private final XlsxPrintSettings printSettings;
+	private final SheetPrintSettings printSettings;
 	
 	private List<Integer> rowBreaks = new ArrayList<Integer>();
 
@@ -74,7 +75,7 @@ public class XlsxSheetHelper extends BaseHelper
 		Writer writer, 
 		XlsxSheetRelsHelper sheetRelsHelper,
 		XlsReportConfiguration configuration,
-		XlsxPrintSettings printSettings
+		SheetPrintSettings printSettings
 		)
 	{
 		super(jasperReportsContext, writer);

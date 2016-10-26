@@ -390,81 +390,50 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			sheet.protectSheet(password);
 		}
 		
-		Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
-		Integer pageMarginTop = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN) 
-				? (Integer)xCutsProperties.get(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN)
-				: configuration.getPrintPageTopMargin();
-		Integer pageMarginLeft = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN) 
-				? (Integer)xCutsProperties.get(XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN)
-				: configuration.getPrintPageLeftMargin();
-		Integer pageMarginBottom = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN) 
-				? (Integer)xCutsProperties.get(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN)
-				: configuration.getPrintPageBottomMargin();
-		Integer pageMarginRight = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN) 
-				? (Integer)xCutsProperties.get(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN)
-				: configuration.getPrintPageRightMargin();
-		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(pageMarginLeft));
-		sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(pageMarginRight));
-		sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(pageMarginTop));
-		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(pageMarginBottom));
+		SheetPrintSettings printSettings = sheetInfo.printSettings;
+		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(printSettings.getLeftMargin()));
+		sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(printSettings.getRightMargin()));
+		sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(printSettings.getTopMargin()));
+		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(printSettings.getBottomMargin()));
 
-		String sheetHeaderLeft = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT) 
-				? (String)xCutsProperties.get(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT)
-				: configuration.getSheetHeaderLeft();
+		String sheetHeaderLeft = printSettings.getHeaderLeft();
 		if(sheetHeaderLeft != null)
 		{
 			sheet.getHeader().setLeft(sheetHeaderLeft);
 		}
 		
-		String sheetHeaderCenter = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER) 
-				? (String)xCutsProperties.get(XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER)
-				: configuration.getSheetHeaderCenter();
+		String sheetHeaderCenter = printSettings.getHeaderCenter();
 		if(sheetHeaderCenter != null)
 		{
 			sheet.getHeader().setCenter(sheetHeaderCenter);
 		}
 		
-		String sheetHeaderRight = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT) 
-				? (String)xCutsProperties.get(XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT)
-				: configuration.getSheetHeaderRight();
+		String sheetHeaderRight = printSettings.getHeaderRight();
 		if(sheetHeaderRight != null)
 		{
 			sheet.getHeader().setRight(sheetHeaderRight);
 		}
 		
-		String sheetFooterLeft = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT) 
-				? (String)xCutsProperties.get(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT)
-				: configuration.getSheetFooterLeft();
+		String sheetFooterLeft = printSettings.getFooterLeft();
 		if(sheetFooterLeft != null)
 		{
 			sheet.getFooter().setLeft(sheetFooterLeft);
 		}
 		
-		String sheetFooterCenter = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER) 
-				? (String)xCutsProperties.get(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER)
-				: configuration.getSheetFooterCenter();
+		String sheetFooterCenter = printSettings.getFooterCenter();
 		if(sheetFooterCenter != null)
 		{
 			sheet.getFooter().setCenter(sheetFooterCenter);
 		}
 		
-		String sheetFooterRight = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT) 
-				? (String)xCutsProperties.get(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT)
-				: configuration.getSheetFooterRight();
+		String sheetFooterRight = printSettings.getFooterRight();
 		if(sheetFooterRight != null)
 		{
 			sheet.getFooter().setRight(sheetFooterRight);
 		}
-		
-		Integer headerMargin = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN) 
-				? (Integer)xCutsProperties.get(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN)
-				: configuration.getPrintHeaderMargin();
-		printSetup.setHeaderMargin(LengthUtil.inchNoRound(headerMargin));	
-				
-		Integer footerMargin = xCutsProperties.containsKey(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN) 
-				? (Integer)xCutsProperties.get(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN)
-				: configuration.getPrintFooterMargin();
-		printSetup.setFooterMargin(LengthUtil.inchNoRound(footerMargin));	
+
+		printSetup.setHeaderMargin(LengthUtil.inchNoRound(printSettings.getHeaderMargin()));	
+		printSetup.setFooterMargin(LengthUtil.inchNoRound(printSettings.getFooterMargin()));	
 		
 		RunDirectionEnum sheetDirection = configuration.getSheetDirection();
 		if(sheetDirection != null)

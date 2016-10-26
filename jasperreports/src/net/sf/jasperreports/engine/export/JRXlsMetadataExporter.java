@@ -54,31 +54,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFName;
-import org.apache.poi.hssf.usermodel.HSSFPalette;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HeaderFooter;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellReference;
-
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
@@ -130,6 +105,33 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
+
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFFooter;
+import org.apache.poi.hssf.usermodel.HSSFHeader;
+import org.apache.poi.hssf.usermodel.HSSFName;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellReference;
 
 
 /**
@@ -1953,101 +1955,86 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	protected void updateSheet(JRPrintElement element)
 	{
 		JRXlsMetadataExporterNature xlsNature = (JRXlsMetadataExporterNature)nature;
-		double margin = 0d;
-		if(xlsNature.getPrintPageTopMargin(element) != null)
-		{
-			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageTopMargin(element));
-			if(margin > sheet.getMargin(Sheet.TopMargin))
-			{
-				sheet.setMargin(Sheet.TopMargin, margin);
-			}
-		}
-		
-		if(xlsNature.getPrintPageLeftMargin(element) != null)
-		{
-			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageLeftMargin(element));
-			if(margin > sheet.getMargin(Sheet.LeftMargin))
-			{
-				sheet.setMargin(Sheet.LeftMargin, margin);
-			}
-		}
-		
-		if(xlsNature.getPrintPageBottomMargin(element) != null)
-		{
-			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageBottomMargin(element));
-			if(margin >sheet.getMargin(Sheet.BottomMargin))
-			{
-				sheet.setMargin(Sheet.BottomMargin, margin);
-			}
-		}
-		
-		if(xlsNature.getPrintPageRightMargin(element) != null)
-		{
-			margin = LengthUtil.inchNoRound(xlsNature.getPrintPageRightMargin(element));
-			if(margin >sheet.getMargin(Sheet.RightMargin))
-			{
-				sheet.setMargin(Sheet.RightMargin, margin);
-			}
-		}
+		updatePageMargin(xlsNature.getPrintPageTopMargin(element), Sheet.TopMargin);
+		updatePageMargin(xlsNature.getPrintPageLeftMargin(element), Sheet.LeftMargin);
+		updatePageMargin(xlsNature.getPrintPageBottomMargin(element), Sheet.BottomMargin);
+		updatePageMargin(xlsNature.getPrintPageRightMargin(element), Sheet.RightMargin);
+		updateHeaderFooterMargin(xlsNature.getPrintHeaderMargin(element), true);
+		updateHeaderFooterMargin(xlsNature.getPrintFooterMargin(element), false);
 
+		HSSFHeader header = sheet.getHeader();
 		String sheetHeaderLeft = xlsNature.getSheetHeaderLeft(element);
 		if(sheetHeaderLeft != null)
 		{
-			sheet.getHeader().setLeft(sheetHeaderLeft);
+			header.setLeft(sheetHeaderLeft);
 		}
 		
 		String sheetHeaderCenter = xlsNature.getSheetHeaderCenter(element);
 		if(sheetHeaderCenter != null)
 		{
-			sheet.getHeader().setCenter(sheetHeaderCenter);
+			header.setCenter(sheetHeaderCenter);
 		}
 		
 		String sheetHeaderRight = xlsNature.getSheetHeaderRight(element);
 		if(sheetHeaderRight != null)
 		{
-			sheet.getHeader().setRight(sheetHeaderRight);
+			header.setRight(sheetHeaderRight);
 		}
 		
+		HSSFFooter footer = sheet.getFooter();
 		String sheetFooterLeft = xlsNature.getSheetFooterLeft(element);
 		if(sheetFooterLeft != null)
 		{
-			sheet.getFooter().setLeft(sheetFooterLeft);
+			footer.setLeft(sheetFooterLeft);
 		}
 		
 		String sheetFooterCenter = xlsNature.getSheetFooterCenter(element);
 		if(sheetFooterCenter != null)
 		{
-			sheet.getFooter().setCenter(sheetFooterCenter);
+			footer.setCenter(sheetFooterCenter);
 		}
 		
 		String sheetFooterRight = xlsNature.getSheetFooterRight(element);
 		if(sheetFooterRight != null)
 		{
-			sheet.getFooter().setRight(sheetFooterRight);
+			footer.setRight(sheetFooterRight);
 		}
-		
-		HSSFPrintSetup printSetup = sheet.getPrintSetup();
-		
-		if(xlsNature.getPrintHeaderMargin(element) != null)
-		{
-			margin = LengthUtil.inchNoRound(xlsNature.getPrintHeaderMargin(element));
-			if(margin >printSetup.getHeaderMargin())
-			{
-				printSetup.setHeaderMargin(margin);
-			}
-		}
-		
-		if(xlsNature.getPrintHeaderMargin(element) != null)
-		{
-			margin = LengthUtil.inchNoRound(xlsNature.getPrintFooterMargin(element));
-			if(margin >printSetup.getFooterMargin())
-			{
-				printSetup.setFooterMargin(margin);
-			}
-		}
-		
 	}
 
+	private void updatePageMargin(Integer marginValue, short marginType)
+	{
+		if(marginValue != null)
+		{
+			double margin = LengthUtil.inchNoRound(marginValue);
+			if(margin > sheet.getMargin(marginType))
+			{
+				sheet.setMargin(marginType, margin);
+			}
+		}
+	}
+	
+	private void updateHeaderFooterMargin(Integer marginValue, boolean isHeaderMargin)
+	{
+		if(marginValue != null)
+		{
+			HSSFPrintSetup printSetup = sheet.getPrintSetup();
+			double margin = LengthUtil.inchNoRound(marginValue);
+			if(isHeaderMargin)
+			{
+				if(margin > printSetup.getHeaderMargin())
+				{
+					printSetup.setHeaderMargin(margin);
+				}
+			}
+			else
+			{
+				if(margin > printSetup.getFooterMargin())
+				{
+					printSetup.setFooterMargin(margin);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * 

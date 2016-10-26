@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
+import net.sf.jasperreports.engine.export.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -695,7 +696,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		ctHelper.exportSheet(sheetIndex + 1);
 		relsHelper.exportSheet(sheetIndex + 1);
 		XlsxReportConfiguration configuration = getCurrentItemConfiguration();
-		XlsxPrintSettings printSettings = new XlsxPrintSettings(xCuts, configuration);
 		ExportZipEntry sheetRelsEntry = xlsxZip.addSheetRels(sheetIndex + 1);
 		Writer sheetRelsWriter = sheetRelsEntry.getWriter();
 		sheetRelsHelper = new XlsxSheetRelsHelper(jasperReportsContext, sheetRelsWriter);
@@ -708,7 +708,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				sheetWriter, 
 				sheetRelsHelper,
 				configuration,
-				printSettings
+				sheetInfo.printSettings
 				);
 		
 		ExportZipEntry drawingRelsEntry = xlsxZip.addDrawingRels(sheetIndex + 1);
