@@ -55,9 +55,7 @@ public class XlsFeaturesApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		fill();
@@ -83,7 +81,7 @@ public class XlsFeaturesApp extends AbstractSampleApp
 		{
 			long start = System.currentTimeMillis();
 			File sourceFile = files[i];
-			JasperFillManager.fillReportToFile(sourceFile.getPath(), parameters);
+			JasperFillManager.fillReportToFile(sourceFile.getPath(), new HashMap<String, Object>(parameters));
 			System.err.println("Report : " + sourceFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
 	}

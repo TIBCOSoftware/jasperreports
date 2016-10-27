@@ -72,9 +72,7 @@ public class ChartThemesApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		fill();
@@ -126,7 +124,7 @@ public class ChartThemesApp extends AbstractSampleApp
 		
 		putDataSources(parameters);
 		
-		JasperFillManager.fillReportToFile("build/reports/AllChartsReport.jasper", parameters);
+		JasperFillManager.fillReportToFile("build/reports/AllChartsReport.jasper", new HashMap<String, Object>(parameters));
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	

@@ -73,9 +73,7 @@ public class HibernateApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		pdf();
@@ -113,7 +111,7 @@ public class HibernateApp extends AbstractSampleApp
 		{
 			File reportFile = files[i];
 			long start = System.currentTimeMillis();
-			JasperFillManager.fillReportToFile(reportFile.getAbsolutePath(), params);
+			JasperFillManager.fillReportToFile(reportFile.getAbsolutePath(), new HashMap<String, Object>(params));
 			System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
 		
