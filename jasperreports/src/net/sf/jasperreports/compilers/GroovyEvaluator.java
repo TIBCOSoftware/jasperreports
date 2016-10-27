@@ -25,6 +25,7 @@ package net.sf.jasperreports.compilers;
 
 import groovy.lang.ExpandoMetaClass;
 import groovy.lang.GroovyObject;
+import groovy.lang.GroovyRuntimeException;
 import groovy.lang.MetaClass;
 import groovy.lang.MetaMethod;
 import groovy.lang.MissingMethodException;
@@ -32,10 +33,14 @@ import groovy.lang.MissingMethodException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
+import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
 import net.sf.jasperreports.functions.FunctionSupport;
 import net.sf.jasperreports.functions.FunctionsUtil;
@@ -58,6 +63,11 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 	private static final Log log = LogFactory.getLog(GroovyEvaluator.class);
 	public static final String EXCEPTION_MESSAGE_KEY_FUNCTION_NOT_FOUND = "compilers.groovy.function.not.found";
 	
+	//copied from groovy.lang.MetaClassImpl.chooseMostSpecificParams()
+	private static final Pattern GROOVY_EXCEPTION_PATTERN_AMBIGUOUS_NULL = 
+			Pattern.compile("Ambiguous method overloading for method.*Cannot resolve which method to invoke for \\[null\\] due to overlapping prototypes between.*",
+					Pattern.DOTALL);
+	
 	private FunctionsUtil functionsUtil;
 	
 	private List<ClosureMetaMethod> functionMethods = new ArrayList<ClosureMetaMethod>();
@@ -66,6 +76,26 @@ public abstract class GroovyEvaluator extends JREvaluator implements JasperRepor
 	public void setJasperReportsContext(JasperReportsContext context)
 	{
 		this.functionsUtil = FunctionsUtil.getInstance(context);
+	}
+
+	@Override
+	protected Object handleEvaluationException(JRExpression expression, Throwable e) throws JRExpressionEvalException
+	{
+		if (ignoreNPE && e instanceof GroovyRuntimeException && e.getMessage() != null)
+		{
+			//in Groovy 2.0.1, 1 + null (and other e.g. BigDecimal * null) was throwing NPE
+			//in 2.4.3, it fails with "Ambiguous method overloading..."
+			//we're catching this exception (by message) and treating it like a NPE
+			Matcher matcher = GROOVY_EXCEPTION_PATTERN_AMBIGUOUS_NULL.matcher(e.getMessage());
+			if (matcher.matches())
+			{
+				//evaluating the expression to null to match Groovy 2.0.1 behaviour
+				return null;
+			}
+		}
+		
+		//throw the exception
+		return super.handleEvaluationException(expression, e);
 	}
 
 	protected Object functionCall(String methodName, Object[] args)
