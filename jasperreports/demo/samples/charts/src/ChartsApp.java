@@ -53,9 +53,7 @@ public class ChartsApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		fill();
@@ -79,7 +77,7 @@ public class ChartsApp extends AbstractSampleApp
 			long start = System.currentTimeMillis();
 			JasperFillManager.fillReportToFile(
 				reportFile.getAbsolutePath(), 
-				parameters, 
+				new HashMap<String, Object>(parameters), 
 				getDemoHsqldbConnection()
 				);
 			System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
