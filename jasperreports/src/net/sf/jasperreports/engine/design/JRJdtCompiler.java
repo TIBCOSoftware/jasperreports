@@ -425,9 +425,8 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		}
 		
 		Properties systemProps = System.getProperties();
-		for (Enumeration<String> it = (Enumeration<String>)systemProps.propertyNames(); it.hasMoreElements();)
+		for (String propName : systemProps.stringPropertyNames())
 		{
-			String propName = it.nextElement();
 			if (propName.startsWith(JDT_PROPERTIES_PREFIX))
 			{
 				String propVal = systemProps.getProperty(propName);
