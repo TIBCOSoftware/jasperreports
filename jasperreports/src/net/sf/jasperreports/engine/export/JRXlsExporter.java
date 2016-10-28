@@ -391,10 +391,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		
 		SheetPrintSettings printSettings = sheetInfo.printSettings;
-		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(printSettings.getLeftMargin()));
-		sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(printSettings.getRightMargin()));
-		sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(printSettings.getTopMargin()));
-		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(printSettings.getBottomMargin()));
+		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inch(printSettings.getLeftMargin()));
+		sheet.setMargin(Sheet.RightMargin, LengthUtil.inch(printSettings.getRightMargin()));
+		sheet.setMargin(Sheet.TopMargin, LengthUtil.inch(printSettings.getTopMargin()));
+		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inch(printSettings.getBottomMargin()));
 
 		String sheetHeaderLeft = printSettings.getHeaderLeft();
 		if(sheetHeaderLeft != null)
@@ -432,8 +432,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			sheet.getFooter().setRight(sheetFooterRight);
 		}
 
-		printSetup.setHeaderMargin(LengthUtil.inchNoRound(printSettings.getHeaderMargin()));	
-		printSetup.setFooterMargin(LengthUtil.inchNoRound(printSettings.getFooterMargin()));	
+		printSetup.setHeaderMargin(LengthUtil.inch(printSettings.getHeaderMargin()));	
+		printSetup.setFooterMargin(LengthUtil.inch(printSettings.getFooterMargin()));	
 		
 		RunDirectionEnum sheetDirection = configuration.getSheetDirection();
 		if(sheetDirection != null)
