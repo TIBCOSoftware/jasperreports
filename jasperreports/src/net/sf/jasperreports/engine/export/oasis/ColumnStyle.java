@@ -59,7 +59,7 @@ public class ColumnStyle extends Style
 		styleWriter.write(" <style:style style:name=\"" + columnStyleName + "\"");
 		styleWriter.write(" style:family=\"table-column\">\n");
 		styleWriter.write("   <style:table-column-properties");		
-		styleWriter.write(" style:column-width=\"" + LengthUtil.inch(columnWidth) + "in\"");
+		styleWriter.write(" style:column-width=\"" + LengthUtil.inchFloor4Dec(columnWidth) + "in\"");
 		styleWriter.write("/>\n");
 		styleWriter.write(" </style:style>\n");
 		styleWriter.flush();

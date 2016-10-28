@@ -49,7 +49,7 @@ public class GraphicStyle extends Style
 	private String backcolor;
 	private String forecolor;
 	private String style;
-	private String width;
+	private double width;
 	private String hAlign;
 	private String vAlign;
 	private double cropTop;
@@ -60,11 +60,6 @@ public class GraphicStyle extends Style
 	private String clip;
 
 
-	public GraphicStyle(WriterHelper styleWriter, JRPrintGraphicElement element)
-	{
-		this(styleWriter, element, 0, 0, 0, 0);
-	}
-	
 	/**
 	 *
 	 */
@@ -95,8 +90,8 @@ public class GraphicStyle extends Style
 
 		forecolor = JRColorUtil.getColorHexa(element.getLinePen().getLineColor());
 
-		double doubleWidth = element.getLinePen().getLineWidth().doubleValue();
-		if (doubleWidth < 0)
+		width = element.getLinePen().getLineWidth().doubleValue();
+		if (width < 0)
 		{
 			style = "none";
 		}
@@ -119,7 +114,6 @@ public class GraphicStyle extends Style
 			}
 		}
 
-		width = String.valueOf(LengthUtil.inchNoRound(doubleWidth));
 		HorizontalImageAlignEnum horizontalAlignment = HorizontalImageAlignEnum.LEFT;
 		VerticalImageAlignEnum verticalAlignment = VerticalImageAlignEnum.TOP;
 
@@ -132,14 +126,14 @@ public class GraphicStyle extends Style
 					&& (cropTop > 0 || cropLeft > 0 || cropBottom > 0 || cropRight > 0))
 			{
 				clip = " fo:clip=\"rect("
-						+ LengthUtil.inchNoRound(cropTop * DPI_RATIO)
-						+ "in,"
-						+ LengthUtil.inchNoRound(cropRight * DPI_RATIO) 
-						+ "in,"
-						+ LengthUtil.inchNoRound(cropBottom * DPI_RATIO) 
-						+ "in,"
-						+ LengthUtil.inchNoRound(cropLeft * DPI_RATIO) 
-						+ "in)\"";
+					+ LengthUtil.inchFloor4Dec(cropTop * DPI_RATIO)
+					+ "in,"
+					+ LengthUtil.inchFloor4Dec(cropRight * DPI_RATIO) 
+					+ "in,"
+					+ LengthUtil.inchFloor4Dec(cropBottom * DPI_RATIO) 
+					+ "in,"
+					+ LengthUtil.inchFloor4Dec(cropLeft * DPI_RATIO) 
+					+ "in)\"";
 			}
 		}
 
@@ -228,7 +222,7 @@ public class GraphicStyle extends Style
 		styleWriter.write(" svg:stroke-color=\"#" + forecolor + "\"");
 		styleWriter.write(" draw:stroke=\"" + style + "\"");//FIXMENOW dashed borders do not work; only dashed lines and ellipses seem to work
 		styleWriter.write(" draw:stroke-dash=\"Dashed\"");
-		styleWriter.write(" svg:stroke-width=\"" + width + "in\"");
+		styleWriter.write(" svg:stroke-width=\"" + LengthUtil.inchFloor4Dec(width) + "in\"");
 		styleWriter.write("/>\n");
 		styleWriter.write("</style:style>\n");
 	}

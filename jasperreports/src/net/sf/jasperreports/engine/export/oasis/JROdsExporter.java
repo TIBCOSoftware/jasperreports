@@ -39,6 +39,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
@@ -78,9 +81,6 @@ import net.sf.jasperreports.export.OdsExporterConfiguration;
 import net.sf.jasperreports.export.OdsReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import net.sf.jasperreports.renderers.Renderable;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -468,10 +468,12 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 								imageProcessorResult.cropBottom,
 								imageProcessorResult.cropRight
 								) + "\" "
-						+ "svg:x=\"" + LengthUtil.inch(leftPadding + imageProcessorResult.xoffset/1.33) + "in\" "
-						+ "svg:y=\"" + LengthUtil.inch(topPadding + imageProcessorResult.yoffset) + "in\" "
-						+ "svg:width=\"" + LengthUtil.inch(imageProcessorResult.width) + "in\" "
-						+ "svg:height=\"" + LengthUtil.inch(imageProcessorResult.height) + "in\">"
+						// x and y offset of the svg do not seem to have any effect and it works the same regardless of their value; 
+						// probably because the image is anchored to the paragraph
+						+ "svg:x=\"" + LengthUtil.inchFloor4Dec(leftPadding + imageProcessorResult.xoffset) + "in\" "
+						+ "svg:y=\"" + LengthUtil.inchFloor4Dec(topPadding + imageProcessorResult.yoffset) + "in\" "
+						+ "svg:width=\"" + LengthUtil.inchFloor4Dec(imageProcessorResult.width) + "in\" "
+						+ "svg:height=\"" + LengthUtil.inchFloor4Dec(imageProcessorResult.height) + "in\">"
 						);				
 				
 				

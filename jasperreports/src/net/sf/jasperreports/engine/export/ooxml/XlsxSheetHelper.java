@@ -39,8 +39,8 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.SheetPrintSettings;
+import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -201,18 +201,18 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 
 		write("<pageMargins left=\"");
-		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getLeftMargin()))); 
+		write(String.valueOf(LengthUtil.inchFloor4Dec(printSettings.getLeftMargin()))); 
 		write("\" right=\"");
-		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getRightMargin()))); 
+		write(String.valueOf(LengthUtil.inchFloor4Dec(printSettings.getRightMargin()))); 
 		write("\" top=\"");
-		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getTopMargin()))); 
+		write(String.valueOf(LengthUtil.inchFloor4Dec(printSettings.getTopMargin()))); 
 		write("\" bottom=\"");
-		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getBottomMargin()))); 
+		write(String.valueOf(LengthUtil.inchFloor4Dec(printSettings.getBottomMargin()))); 
 		write("0");
 		write("\" header=\"");
-		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getHeaderMargin()))); 
+		write(String.valueOf(LengthUtil.inchFloor4Dec(printSettings.getHeaderMargin()))); 
 		write("\" footer=\"");
-		write(String.valueOf(LengthUtil.inchNoRound(printSettings.getFooterMargin()))); 
+		write(String.valueOf(LengthUtil.inchFloor4Dec(printSettings.getFooterMargin()))); 
 		write("\"/>\n");
 		write("<pageSetup");	
 		

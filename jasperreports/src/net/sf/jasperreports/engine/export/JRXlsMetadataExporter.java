@@ -54,6 +54,33 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFFooter;
+import org.apache.poi.hssf.usermodel.HSSFHeader;
+import org.apache.poi.hssf.usermodel.HSSFName;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellReference;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
@@ -105,33 +132,6 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFFooter;
-import org.apache.poi.hssf.usermodel.HSSFHeader;
-import org.apache.poi.hssf.usermodel.HSSFName;
-import org.apache.poi.hssf.usermodel.HSSFPalette;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HeaderFooter;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellReference;
 
 
 /**
@@ -323,10 +323,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			sheet.protectSheet(password);
 		}
 		
-		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inchNoRound(configuration.getPrintPageLeftMargin()));
-		sheet.setMargin(Sheet.RightMargin, LengthUtil.inchNoRound(configuration.getPrintPageRightMargin()));
-		sheet.setMargin(Sheet.TopMargin, LengthUtil.inchNoRound(configuration.getPrintPageTopMargin()));
-		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inchNoRound(configuration.getPrintPageBottomMargin()));
+		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inch(configuration.getPrintPageLeftMargin()));
+		sheet.setMargin(Sheet.RightMargin, LengthUtil.inch(configuration.getPrintPageRightMargin()));
+		sheet.setMargin(Sheet.TopMargin, LengthUtil.inch(configuration.getPrintPageTopMargin()));
+		sheet.setMargin(Sheet.BottomMargin, LengthUtil.inch(configuration.getPrintPageBottomMargin()));
 
 		if(configuration.getSheetHeaderLeft() != null)
 		{
@@ -358,8 +358,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			sheet.getFooter().setRight(configuration.getSheetFooterRight());
 		}
 		
-		printSetup.setHeaderMargin(LengthUtil.inchNoRound(configuration.getPrintHeaderMargin()));	
-		printSetup.setFooterMargin(LengthUtil.inchNoRound(configuration.getPrintFooterMargin()));	
+		printSetup.setHeaderMargin(LengthUtil.inch(configuration.getPrintHeaderMargin()));	
+		printSetup.setFooterMargin(LengthUtil.inch(configuration.getPrintFooterMargin()));	
 		
 		RunDirectionEnum sheetDirection = configuration.getSheetDirection();
 		if(sheetDirection != null) {
@@ -2005,7 +2005,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	{
 		if(marginValue != null)
 		{
-			double margin = LengthUtil.inchNoRound(marginValue);
+			double margin = LengthUtil.inch(marginValue);
 			if(margin > sheet.getMargin(marginType))
 			{
 				sheet.setMargin(marginType, margin);
@@ -2018,7 +2018,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		if(marginValue != null)
 		{
 			HSSFPrintSetup printSetup = sheet.getPrintSetup();
-			double margin = LengthUtil.inchNoRound(marginValue);
+			double margin = LengthUtil.inch(marginValue);
 			if(isHeaderMargin)
 			{
 				if(margin > printSetup.getHeaderMargin())
