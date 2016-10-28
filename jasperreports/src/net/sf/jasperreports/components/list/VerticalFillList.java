@@ -176,4 +176,22 @@ public class VerticalFillList extends BaseFillList
 	{
 		return new VerticalFillList(this, factory);
 	}
+
+	@Override
+	public void rewind()
+	{
+		if (fillStarted)
+		{
+			try
+			{
+				listContents.rewind();
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		
+		super.rewind();
+	}
 }
