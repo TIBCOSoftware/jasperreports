@@ -66,7 +66,7 @@ public class RowStyle extends Style
 		else
 		{
 			styleWriter.write(" style:use-optimal-row-height=\"false\"");
-			styleWriter.write(" style:row-height=\"" + LengthUtil.inch(rowHeight) + "in\"");
+			styleWriter.write(" style:row-height=\"" + LengthUtil.inchFloor4Dec(rowHeight) + "in\"");
 		}
 		styleWriter.write("/>\n");
 		styleWriter.write(" </style:style>\n");

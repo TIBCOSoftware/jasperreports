@@ -73,7 +73,7 @@ public class TableStyle extends Style
 		}
 		styleWriter.write(" style:family=\"table\">\n");
 		styleWriter.write("   <style:table-properties");		
-		styleWriter.write(" table:align=\"left\" style:width=\"" + LengthUtil.inch(width) + "in\"");
+		styleWriter.write(" table:align=\"left\" style:width=\"" + LengthUtil.inchFloor4Dec(width) + "in\"");
 		if (isPageBreak)
 		{
 			styleWriter.write(" fo:break-before=\"page\"");

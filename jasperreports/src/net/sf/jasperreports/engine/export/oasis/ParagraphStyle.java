@@ -315,12 +315,12 @@ public class ParagraphStyle extends Style
 			}
 			case AT_LEAST:
 			{
-				styleWriter.write(" style:line-height-at-least=\"" + LengthUtil.inch(paragraph.getLineSpacingSize()) + "in\"");
+				styleWriter.write(" style:line-height-at-least=\"" + LengthUtil.inchFloor4Dec(paragraph.getLineSpacingSize()) + "in\"");
 				break;
 			}
 			case FIXED:
 			{
-				styleWriter.write(" fo:line-height=\"" + LengthUtil.inch(paragraph.getLineSpacingSize()) + "in\"");
+				styleWriter.write(" fo:line-height=\"" + LengthUtil.inchFloor4Dec(paragraph.getLineSpacingSize()) + "in\"");
 				break;
 			}
 			case PROPORTIONAL:
@@ -334,11 +334,11 @@ public class ParagraphStyle extends Style
 		styleWriter.write(" fo:text-align=\"" + horizontalAlignment + "\"");
 
 //		styleWriter.write(" fo:keep-together=\"" + pKeepTogether + "\"");
-		styleWriter.write(" fo:text-indent=\"" + LengthUtil.inch(paragraph.getFirstLineIndent()) + "in\"");
-		styleWriter.write(" fo:margin-left=\"" + LengthUtil.inch(paragraph.getLeftIndent()) + "in\"");
-		styleWriter.write(" fo:margin-right=\"" + LengthUtil.inch(paragraph.getRightIndent()) + "in\"");
-		styleWriter.write(" fo:margin-top=\"" + LengthUtil.inch(paragraph.getSpacingBefore()) + "in\"");
-		styleWriter.write(" fo:margin-bottom=\"" + LengthUtil.inch(paragraph.getSpacingAfter()) + "in\"");
+		styleWriter.write(" fo:text-indent=\"" + LengthUtil.inchFloor4Dec(paragraph.getFirstLineIndent()) + "in\"");
+		styleWriter.write(" fo:margin-left=\"" + LengthUtil.inchFloor4Dec(paragraph.getLeftIndent()) + "in\"");
+		styleWriter.write(" fo:margin-right=\"" + LengthUtil.inchFloor4Dec(paragraph.getRightIndent()) + "in\"");
+		styleWriter.write(" fo:margin-top=\"" + LengthUtil.inchFloor4Dec(paragraph.getSpacingBefore()) + "in\"");
+		styleWriter.write(" fo:margin-bottom=\"" + LengthUtil.inchFloor4Dec(paragraph.getSpacingAfter()) + "in\"");
 //		styleWriter.write(" fo:background-color=\"#" + pBackGroundColor + "\"");
 		styleWriter.write(" style:vertical-align=\"" + verticalAlignment + "\"");
 		if (runDirection != null)
@@ -354,7 +354,7 @@ public class ParagraphStyle extends Style
 			for (int i = 0; i < tabStops.length; i++)
 			{
 				TabStop tabStop = tabStops[i];
-				styleWriter.write("<style:tab-stop style:type=\"" + getTabStopAlignment(tabStop.getAlignment()) + "\" style:position=\"" + LengthUtil.inch(tabStop.getPosition()) + "in\"/>");
+				styleWriter.write("<style:tab-stop style:type=\"" + getTabStopAlignment(tabStop.getAlignment()) + "\" style:position=\"" + LengthUtil.inchFloor4Dec(tabStop.getPosition()) + "in\"/>");
 			}
 			styleWriter.write("</style:tab-stops>");
 		}

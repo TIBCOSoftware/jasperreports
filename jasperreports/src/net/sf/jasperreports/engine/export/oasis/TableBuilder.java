@@ -311,17 +311,17 @@ public class TableBuilder
 
 		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 		{
-			x1 = LengthUtil.inch(0);
-			y1 = LengthUtil.inch(0);
-			x2 = LengthUtil.inch(line.getWidth() - 1);
-			y2 = LengthUtil.inch(line.getHeight() - 1);
+			x1 = 0;
+			y1 = 0;
+			x2 = line.getWidth() - 1;
+			y2 = line.getHeight() - 1;
 		}
 		else
 		{
-			x1 = LengthUtil.inch(0);
-			y1 = LengthUtil.inch(line.getHeight() - 1);
-			x2 = LengthUtil.inch(line.getWidth() - 1);
-			y2 = LengthUtil.inch(0);
+			x1 = 0;
+			y1 = line.getHeight() - 1;
+			x2 = line.getWidth() - 1;
+			y2 = 0;
 		}
 
 		bodyWriter.write("<text:p>");
@@ -329,10 +329,10 @@ public class TableBuilder
 		bodyWriter.write(
 				"<draw:line text:anchor-type=\"paragraph\" "
 				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
-				+ "svg:x1=\"" + x1 + "in\" "
-				+ "svg:y1=\"" + y1 + "in\" "
-				+ "svg:x2=\"" + x2 + "in\" "
-				+ "svg:y2=\"" + y2 + "in\">"
+				+ "svg:x1=\"" + LengthUtil.inchFloor4Dec(x1) + "in\" "
+				+ "svg:y1=\"" + LengthUtil.inchFloor4Dec(y1) + "in\" "
+				+ "svg:x2=\"" + LengthUtil.inchFloor4Dec(x2) + "in\" "
+				+ "svg:y2=\"" + LengthUtil.inchFloor4Dec(y2) + "in\">"
 				//+ "</draw:line>"
 				+ "<text:p/></draw:line>"
 				+ "</text:p>"
@@ -352,8 +352,8 @@ public class TableBuilder
 		bodyWriter.write(
 			"<draw:ellipse text:anchor-type=\"paragraph\" "
 			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
-			+ "svg:width=\"" + LengthUtil.inch(ellipse.getWidth()) + "in\" "
-			+ "svg:height=\"" + LengthUtil.inch(ellipse.getHeight()) + "in\" "
+			+ "svg:width=\"" + LengthUtil.inchFloor4Dec(ellipse.getWidth()) + "in\" "
+			+ "svg:height=\"" + LengthUtil.inchFloor4Dec(ellipse.getHeight()) + "in\" "
 			+ "svg:x=\"0in\" "
 			+ "svg:y=\"0in\">"
 			+ "<text:p/></draw:ellipse></text:p>"

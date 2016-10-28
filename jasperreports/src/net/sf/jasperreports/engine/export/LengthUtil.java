@@ -32,37 +32,75 @@ public final class LengthUtil
 {
 
 	/**
-	 * 
+	 * Converts pixels to inches without decimal truncation.
 	 */
 	public static double inch(double pixels)
 	{
 		double inches = 0.0;
-		inches = pixels/72.0;
-		inches = (Math.floor(inches * 100.0))/100.0;
+		inches = pixels / 72.0;
 		return inches;
 	}
 	
 	/**
 	 * 
 	 */
-	public static double inchRound(double pixels)
+	public static double inchFloor2Dec(double pixels)
 	{
 		double inches = 0.0;
-		inches = pixels/72.0;
-		inches = (Math.round(inches * 100.0))/100.0;
+		inches = pixels / 72.0;
+		inches = (Math.floor(inches * 100.0)) / 100.0;
 		return inches;
+	}
+	
+	/**
+	 * 
+	 */
+	public static double inchFloor4Dec(double pixels)
+	{
+		double inches = 0.0;
+		inches = pixels / 72.0;
+		inches = (Math.floor(inches * 10000.0)) / 10000.0;
+		return inches;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #inchRound2Dec(double)}.
+	 */
+	public static double inchRound(double pixels)
+	{
+		return inchRound2Dec(pixels);
 	}
 
 	/**
 	 * 
 	 */
-	public static double inchNoRound(double pixels)
+	public static double inchRound2Dec(double pixels)
 	{
 		double inches = 0.0;
-		inches = pixels/72.0;
+		inches = pixels / 72.0;
+		inches = (Math.round(inches * 100.0)) / 100.0;
 		return inches;
 	}
+
+	/**
+	 * @deprecated Replaced by {@link #inch(double)}.
+	 */
+	public static double inchNoRound(double pixels)
+	{
+		return inch(pixels);
+	}
 	
+	/**
+	 * 
+	 */
+	public static double inchRound4Dec(double pixels)
+	{
+		double inches = 0.0;
+		inches = pixels / 72.0;
+		inches = (Math.round(inches * 10000.0)) / 10000.0;
+		return inches;
+	}
+
 	/**
 	 * Convert a float value to twips (multiply with 20)
 	 * @param points value that need to be converted
