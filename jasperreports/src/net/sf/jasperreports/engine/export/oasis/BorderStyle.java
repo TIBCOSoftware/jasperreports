@@ -64,13 +64,13 @@ public abstract class BorderStyle extends Style
 		if (box != null)
 		{
 			appendBorder(box.getTopPen(), TOP_BORDER);
-			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.inchNoRound(box.getTopPadding().intValue()));
+			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getTopPadding().intValue()));
 			appendBorder(box.getLeftPen(), LEFT_BORDER);
-			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.inchNoRound(box.getLeftPadding().intValue()));
+			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getLeftPadding().intValue()));
 			appendBorder(box.getBottomPen(), BOTTOM_BORDER);
-			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.inchNoRound(box.getBottomPadding().intValue()));
+			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getBottomPadding().intValue()));
 			appendBorder(box.getRightPen(), RIGHT_BORDER);
-			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.inchNoRound(box.getRightPadding().intValue()));
+			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getRightPadding().intValue()));
 		}
 	}
 
@@ -161,7 +161,7 @@ public abstract class BorderStyle extends Style
 				}
 			}
 
-			borderWidth[side] = String.valueOf(LengthUtil.inchNoRound(width));
+			borderWidth[side] = String.valueOf(LengthUtil.inchFloor4Dec(width));
 		}
 		else
 		{

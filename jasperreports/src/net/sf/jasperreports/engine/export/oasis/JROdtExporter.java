@@ -40,6 +40,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -83,9 +86,6 @@ import net.sf.jasperreports.export.OdtReportConfiguration;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.renderers.Renderable;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -802,10 +802,12 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 							imageProcessorResult.cropBottom,
 							imageProcessorResult.cropRight
 							) + "\" "
-					+ "svg:x=\"" + LengthUtil.inch(leftPadding + imageProcessorResult.xoffset) + "in\" "
-					+ "svg:y=\"" + LengthUtil.inch(topPadding + imageProcessorResult.yoffset) + "in\" "
-					+ "svg:width=\"" + LengthUtil.inch(imageProcessorResult.width) + "in\" "
-					+ "svg:height=\"" + LengthUtil.inch(imageProcessorResult.height) + "in\">"
+					// x and y offset of the svg do not seem to have any effect and it works the same regardless of their value; 
+					// probably because the image is anchored to the paragraph
+					+ "svg:x=\"" + LengthUtil.inchFloor4Dec(leftPadding + imageProcessorResult.xoffset) + "in\" "
+					+ "svg:y=\"" + LengthUtil.inchFloor4Dec(topPadding + imageProcessorResult.yoffset) + "in\" "
+					+ "svg:width=\"" + LengthUtil.inchFloor4Dec(imageProcessorResult.width) + "in\" "
+					+ "svg:height=\"" + LengthUtil.inchFloor4Dec(imageProcessorResult.height) + "in\">"
 					);
 				tempBodyWriter.write("<draw:image ");
 				tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imageProcessorResult.imagePath) + "\"");
