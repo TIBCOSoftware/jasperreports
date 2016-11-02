@@ -1942,7 +1942,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	public JRPropertiesHolder getParentProperties()
 	{
 		// report properties propagate to subdatasets
-		return isMain ? null : filler.getJasperReport();
+		return isMain ? null : filler.getMainDataset();
 	}
 
 

@@ -169,7 +169,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		checkedReports = new HashSet<JasperReport>();
 		
 		this.defaultGenerateRectangle = filler.getPropertiesUtil().getProperty( 
-				PROPERTY_SUBREPORT_GENERATE_RECTANGLE, subreport, filler.getJasperReport());
+				PROPERTY_SUBREPORT_GENERATE_RECTANGLE, subreport, filler.getMainDataset());
 		this.dynamicGenerateRectangle = hasDynamicProperty(PROPERTY_SUBREPORT_GENERATE_RECTANGLE);
 	}
 

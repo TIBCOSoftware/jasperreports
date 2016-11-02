@@ -147,7 +147,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		{
 			splitType = 
 				SplitTypeEnum.getByName(
-					filler.getPropertiesUtil().getProperty(filler.getJasperReport(), JRBand.PROPERTY_SPLIT_TYPE)
+					filler.getPropertiesUtil().getProperty(filler.getMainDataset(), JRBand.PROPERTY_SPLIT_TYPE)
 					);
 		}
 		

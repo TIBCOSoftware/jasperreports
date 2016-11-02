@@ -1712,7 +1712,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	public JRPropertiesHolder getParentProperties()
 	{
 		//element properties default to report properties
-		return filler.getJasperReport();
+		return filler.getMainDataset();
 	}
 
 

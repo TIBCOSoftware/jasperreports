@@ -123,13 +123,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.consumeSpaceOnOverflow = filler.getPropertiesUtil().getBooleanProperty(
 				PROPERTY_CONSUME_SPACE_ON_OVERFLOW, true,
 				// manually falling back to report properties as getParentProperties() is null for textElement
-				textElement, filler.getJasperReport()
+				textElement, filler.getMainDataset()
 				);
 		
 		this.defaultKeepFullText = filler.getPropertiesUtil().getBooleanProperty( 
 				JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false,
 				// manually falling back to report properties as getParentProperties() is null for textElement
-				textElement, filler.getJasperReport());
+				textElement, filler.getMainDataset());
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 		
 		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
