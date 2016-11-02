@@ -33,6 +33,9 @@ import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.BookmarkHelper;
 import net.sf.jasperreports.engine.BookmarkIterator;
 import net.sf.jasperreports.engine.JRException;
@@ -63,9 +66,6 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.parts.PartFillerParent;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -182,6 +182,8 @@ public class PartReportFiller extends BaseReportFiller
 */
 			setParameters(parameterValues);
 
+			setBookmarkHelper();
+			
 			//loadStyles();
 
 			jasperPrint.setName(jasperReport.getName());
@@ -196,6 +198,9 @@ public class PartReportFiller extends BaseReportFiller
 			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
 			jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(getTimeZone()));
+
+			propertiesUtil.transferProperties(mainDataset, jasperPrint, 
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 
 /*			jasperPrint.setDefaultStyle(defaultStyle);
 

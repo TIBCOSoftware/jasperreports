@@ -157,8 +157,6 @@ public abstract class BaseReportFiller implements ReportFiller
 		}
 		
 		jasperPrint = new JasperPrint();
-		propertiesUtil.transferProperties(jasperReport, jasperPrint, 
-				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 		
 		factory = initFillFactory();
 
@@ -171,15 +169,6 @@ public abstract class BaseReportFiller implements ReportFiller
 			mainDataset.setFillPosition(masterFillPosition);
 		}
 
-		boolean isCreateBookmarks = propertiesUtil.getBooleanProperty(jasperReport, 
-				JasperPrint.PROPERTY_CREATE_BOOKMARKS, false);
-		if (isCreateBookmarks)
-		{
-			boolean collapseMissingLevels = propertiesUtil.getBooleanProperty(jasperReport, 
-				JasperPrint.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS, false);
-			bookmarkHelper = new BookmarkHelper(collapseMissingLevels);
-		}
-		
 		delayedActions = new DelayedFillActions(this);
 		if (log.isDebugEnabled())
 		{
@@ -444,6 +433,18 @@ public abstract class BaseReportFiller implements ReportFiller
 			fillContext.setMasterFormatFactory(getFormatFactory());
 			fillContext.setMasterLocale(getLocale());
 			fillContext.setMasterTimeZone(getTimeZone());
+		}
+	}
+	
+	protected void setBookmarkHelper()
+	{
+		boolean isCreateBookmarks = propertiesUtil.getBooleanProperty(mainDataset, 
+				JasperPrint.PROPERTY_CREATE_BOOKMARKS, false);
+		if (isCreateBookmarks)
+		{
+			boolean collapseMissingLevels = propertiesUtil.getBooleanProperty(mainDataset, 
+				JasperPrint.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS, false);
+			bookmarkHelper = new BookmarkHelper(collapseMissingLevels);
 		}
 	}
 

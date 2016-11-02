@@ -549,6 +549,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 			setParameters(parameterValues);
 
+			setBookmarkHelper();
+			
 			loadStyles();
 
 			jasperPrint.setName(name);
@@ -563,6 +565,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
 			jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(getTimeZone()));
+
+			propertiesUtil.transferProperties(mainDataset, jasperPrint, 
+				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 
 			jasperPrint.setDefaultStyle(defaultStyle);
 
