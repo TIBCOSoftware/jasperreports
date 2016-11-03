@@ -2,109 +2,27 @@
 	<difference>
 		<className>net/sf/jasperreports/data/http/HttpDataLocation</className>
 		<differenceType>7012</differenceType>
-		<method>*getHeaders()</method>
+		<method>*getBody()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/data/json/JsonDataAdapter</className>
+		<className>net/sf/jasperreports/engine/ReportContext</className>
 		<differenceType>7012</differenceType>
-		<method>*getLanguage()</method>
+		<method>*clearParameterValues()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/data/json/JsonDataAdapter</className>
+		<className>net/sf/jasperreports/engine/ReportContext</className>
 		<differenceType>7012</differenceType>
-		<method>*setLanguage(net.sf.jasperreports.data.json.JsonExpressionLanguageEnum)</method>
+		<method>*removeParameterValue(java.lang.String)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/JRField</className>
-		<differenceType>7012</differenceType>
-		<method>*getPropertyExpressions()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRParameter</className>
-		<differenceType>7012</differenceType>
-		<method>*getEvaluationTime()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillTextElement</className>
+		<className>net/sf/jasperreports/engine/export/oasis/GraphicStyle</className>
 		<differenceType>7002</differenceType>
-		<method>*getPrintElementHeight()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/BandReportFillerParent</className>
-		<differenceType>7012</differenceType>
-		<method>*abortSubfiller(net.sf.jasperreports.engine.fill.JRBaseFiller)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRSubreportRunner</className>
-		<differenceType>7012</differenceType>
-		<method>*abort()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/extensions/DefaultExtensionsRegistry</className>
-		<differenceType>7005</differenceType>
-		<method>*loadRegistries(java.net.URL, java.util.Map)</method>
-		<to>*loadRegistries(net.sf.jasperreports.engine.JRPropertiesMap, java.util.Map)</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/AbstractXlsExporterConfiguration</className>
-		<differenceType>3005</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/*ExporterConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*getMetadata*()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/web/servlets/*Servlet</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillChart</className>
-		<differenceType>6001</differenceType>
-		<field>*ustomizer*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRBaseFiller</className>
-		<differenceType>6010</differenceType>
-		<field>whenNoDataType</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/data/*DataFileServiceFactory</className>
-		<differenceType>7005</differenceType>
-		<method>*createService(net.sf.jasperreports.engine.JasperReportsContext, net.sf.jasperreports.data.DataFile)</method>
-		<to>*createService(net.sf.jasperreports.engine.ParameterContributorContext, net.sf.jasperreports.data.DataFile)</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/data/DataFileResolver</className>
-		<differenceType>7005</differenceType>
-		<method>*(net.sf.jasperreports.engine.JasperReportsContext)</method>
-		<to>*(net.sf.jasperreports.engine.ParameterContributorContext)</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/data/RepositoryDataLocationService</className>
-		<differenceType>7005</differenceType>
-		<method>*RepositoryDataLocationService(net.sf.jasperreports.engine.JasperReportsContext, net.sf.jasperreports.data.RepositoryDataLocation)</method>
-		<to>*RepositoryDataLocationService(net.sf.jasperreports.engine.ParameterContributorContext, net.sf.jasperreports.data.RepositoryDataLocation)</to>
+		<method>*GraphicStyle(net.sf.jasperreports.engine.export.oasis.WriterHelper, net.sf.jasperreports.engine.JRPrintGraphicElement)</method>
 	</difference>
 	<difference>
 		<className>net/sf/jasperreports/data/http/HttpDataService</className>
 		<differenceType>7005</differenceType>
-		<method>*HttpDataService(net.sf.jasperreports.engine.JasperReportsContext, net.sf.jasperreports.data.http.HttpDataLocation)</method>
-		<to>*HttpDataService(net.sf.jasperreports.engine.ParameterContributorContext, net.sf.jasperreports.data.http.HttpDataLocation)</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/data/http/HttpDataService</className>
-		<differenceType>7004</differenceType>
-		<method>*collectParameters(java.util.List, java.util.Map, java.lang.String)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRDataset</className>
-		<differenceType>7012</differenceType>
-		<method>*getPropertyExpressions()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRReport</className>
-		<differenceType>7012</differenceType>
-		<method>*getPropertyExpressions()</method>
+		<method>*setAuthentication(java.util.Map, org.apache.http.client.protocol.HttpClientContext)</method>
+		<to>*setAuthentication(java.util.Map, org.apache.http.impl.client.HttpClientBuilder)</to>
 	</difference>
 </differences>
