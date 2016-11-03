@@ -422,7 +422,11 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 	protected String getFieldMapping(JRField field)
 	{
-		String fieldMapping = field.getPropertiesMap().getProperty(PROPERTY_FIELD_MAPPING);
+		String fieldMapping = null;
+		if (field.hasProperties())
+		{
+			fieldMapping = field.getPropertiesMap().getProperty(PROPERTY_FIELD_MAPPING);
+		}
 		if (fieldMapping == null)
 		{
 			fieldMapping = field.getDescription();
