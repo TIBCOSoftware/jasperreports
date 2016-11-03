@@ -180,6 +180,7 @@ import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -1121,26 +1122,53 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	protected void writePropertyExpression(JRPropertyExpression propertyExpression) throws IOException
 	{
-		JRExpression valueExpression = propertyExpression.getValueExpression();
-		String expressionText = valueExpression == null ? "" : valueExpression.getText();
-		writer.writeCDATAElement(JRXmlConstants.ELEMENT_propertyExpression, getNamespace(), expressionText, 
-				JRXmlConstants.ATTRIBUTE_name, propertyExpression.getName());
-	}
+		String expressionText = "";
+		ExpressionTypeEnum expressionType = null;
 
-
-	protected void writePropertyExpression(DatasetPropertyExpression propertyExpression) throws IOException
-	{
 		JRExpression valueExpression = propertyExpression.getValueExpression();
-		String expressionText = valueExpression == null ? "" : valueExpression.getText();
+		if (valueExpression != null)
+		{
+			expressionText = valueExpression.getText();
+			expressionType = valueExpression.getType();
+		}
+		
 		writer.writeCDATAElement(
 			JRXmlConstants.ELEMENT_propertyExpression, 
 			getNamespace(), 
 			expressionText, 
 			new String[]{
 				JRXmlConstants.ATTRIBUTE_name, 
-				JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+				JRXmlConstants.ATTRIBUTE_type}, 
 			new Object[]{
 				propertyExpression.getName(), 
+				expressionType == null ? null : expressionType.getName()}
+			);
+	}
+
+
+	protected void writePropertyExpression(DatasetPropertyExpression propertyExpression) throws IOException
+	{
+		String expressionText = "";
+		ExpressionTypeEnum expressionType = null;
+
+		JRExpression valueExpression = propertyExpression.getValueExpression();
+		if (valueExpression != null)
+		{
+			expressionText = valueExpression.getText();
+			expressionType = valueExpression.getType();
+		}
+		
+		writer.writeCDATAElement(
+			JRXmlConstants.ELEMENT_propertyExpression, 
+			getNamespace(), 
+			expressionText, 
+			new String[]{
+				JRXmlConstants.ATTRIBUTE_name, 
+				JRXmlConstants.ATTRIBUTE_type, 
+				JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+			new Object[]{
+				propertyExpression.getName(),
+				expressionType == null ? null : expressionType.getName(),
 				propertyExpression.getEvaluationTime() == null ? null : propertyExpression.getEvaluationTime().getName()}
 			);
 	}

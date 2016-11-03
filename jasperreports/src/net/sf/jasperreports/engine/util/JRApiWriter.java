@@ -3990,6 +3990,7 @@ public class JRApiWriter
 			String expressionName = parentName +  expressionSuffix;
 			write( "JRDesignExpression " + expressionName + " = new JRDesignExpression();\n");
 			write( expressionName + ".setId({0, number, #});\n", expression.getId());
+			write( expressionName + ".setType({0});\n", expression.getType());
 			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(expression.getText()));
 
 			write( parentName + ".set" + expressionSuffix + "(" + expressionName + ");\n");

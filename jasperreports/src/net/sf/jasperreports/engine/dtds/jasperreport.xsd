@@ -371,6 +371,25 @@
 	<documentation>Name of the object property.</documentation>
    </annotation>
   </attribute>
+  <attribute name="type" use="optional">
+   <annotation>
+    <documentation>Specifies the type of expression.</documentation>
+   </annotation>  
+   <simpleType>
+    <restriction base="string">
+     <enumeration value="default">
+	  <annotation>
+       <documentation>Expression is written in the report expression language.</documentation>
+      </annotation>  
+     </enumeration>
+     <enumeration value="simpleText">
+	  <annotation>
+	   <documentation>Expression is a simple text expression where parameter, field, variable references have their values converted to string and expanded in-place in the resulting text.</documentation>
+	  </annotation>  
+     </enumeration>
+    </restriction>
+   </simpleType>
+  </attribute>
  </complexType>
 
  <element name="propertyExpression" type="jr:propertyExpressionType">

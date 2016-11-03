@@ -28,10 +28,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 
 
 /**
@@ -90,6 +91,13 @@ public class JRExpressionFactory extends JRBaseFactory
 		public Object createObject( Attributes attrs ){
 			JRDesignExpression expression = new JRDesignExpression();
 			expression.setValueClassName( String.class.getName() );
+			
+			ExpressionTypeEnum type = ExpressionTypeEnum.getByName(attrs.getValue(JRXmlConstants.ATTRIBUTE_type));
+			if (type != null)
+			{
+				expression.setType(type);
+			}
+			
 			return expression;
 		}
 	}

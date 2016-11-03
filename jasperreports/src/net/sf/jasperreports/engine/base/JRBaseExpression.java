@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -71,6 +72,11 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	private static int lastId;
 
+	/**
+	 *
+	 */
+	protected ExpressionTypeEnum type;
+
 
 	/**
 	 *
@@ -100,6 +106,8 @@ public class JRBaseExpression implements JRExpression, Serializable
 		{
 			id = expressionId.intValue();
 		}
+		
+		type = expression.getType();
 		
 		/*   */
 		JRExpressionChunk[] jrChunks = expression.getChunks();
@@ -195,6 +203,12 @@ public class JRBaseExpression implements JRExpression, Serializable
 	public int getId()
 	{
 		return id;
+	}
+
+	@Override
+	public ExpressionTypeEnum getType()
+	{
+		return type;
 	}
 
 	@Override

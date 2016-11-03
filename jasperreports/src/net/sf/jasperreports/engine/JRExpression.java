@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
-
+import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 
 /**
  * Provides the JasperReports expressions functionality.
@@ -187,6 +187,11 @@ public interface JRExpression extends JRCloneable
 	 *
 	 */
 	public String getText();
+
+	/**
+	 *
+	 */
+	public ExpressionTypeEnum getType();
 
 
 }

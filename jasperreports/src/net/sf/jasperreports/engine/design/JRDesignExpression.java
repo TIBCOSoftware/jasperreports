@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
@@ -133,6 +134,14 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	public void setId(int id)
 	{
 		this.id = id;
+	}
+
+	/**
+	 *
+	 */
+	public void setType(ExpressionTypeEnum type)
+	{
+		this.type = type;
 	}
 
 	@Override
