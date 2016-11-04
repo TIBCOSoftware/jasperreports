@@ -298,10 +298,10 @@ public class JRFillDatasetRun implements JRDatasetRun
 	{
 		dataset.start();
 
-		init();
-
 		if (advanceDataset())
 		{
+			startData();
+
 			detail();
 
 			while (advanceDataset())
@@ -313,7 +313,16 @@ public class JRFillDatasetRun implements JRDatasetRun
 				detail();
 			}
 		}
-
+		else if (toStartWhenNoData())
+		{
+			startData();
+		}
+	}
+	
+	protected boolean toStartWhenNoData()
+	{
+		//needed for initializing element datasets
+		return true;
 	}
 
 	protected boolean advanceDataset() throws JRException
@@ -337,11 +346,20 @@ public class JRFillDatasetRun implements JRDatasetRun
 		dataset.delegateScriptlet.callAfterGroupInit();
 	}
 
-	protected void init() throws JRScriptletException, JRException
+	protected void startData() throws JRScriptletException, JRException
 	{
 		dataset.delegateScriptlet.callBeforeReportInit();
 		dataset.calculator.initializeVariables(ResetTypeEnum.REPORT, IncrementTypeEnum.REPORT);
 		dataset.delegateScriptlet.callAfterReportInit();
+	}
+
+	/**
+	 * @deprecated replaced by {@link #startData()}
+	 */
+	@Deprecated
+	protected void init() throws JRScriptletException, JRException
+	{
+		startData();
 	}
 
 	protected void detail() throws JRScriptletException, JRException
