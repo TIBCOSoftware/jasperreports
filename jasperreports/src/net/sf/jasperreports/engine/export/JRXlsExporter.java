@@ -69,6 +69,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -1518,11 +1519,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 							(int)((rightPos - (int)rightPos) * 1023), 
 							(int)((bottomPos - (int)bottomPos) * 255), 
 							(short)(colIndex + (int)leftPos), 
-							(short)(rowIndex + (int)topPos), 
+							(rowIndex + (int)topPos), 
 							//(short) (colIndex + gridCell.getColSpan()), 
 							(short)(colIndex + (int)rightPos), 
 							//rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan())
-							(short)(rowIndex + (int)bottomPos)
+							(rowIndex + (int)bottomPos)
 							);
 
 					ImageAnchorTypeEnum imageAnchorType = 
@@ -1537,7 +1538,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 							imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
 						}
 					}
-					anchor.setAnchorType(imageAnchorType.getValue());
+					anchor.setAnchorType(getAnchorType(imageAnchorType));
 					//pngEncoder.setImage(bi);
 					//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 					int imgIndex = workbook.addPicture(imageProcessorResult.imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
@@ -2200,6 +2201,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	}
 	
 
+	public static ClientAnchor.AnchorType getAnchorType(ImageAnchorTypeEnum anchorType)
+	{
+		switch (anchorType)
+		{
+			case MOVE_SIZE: 
+				return ClientAnchor.AnchorType.MOVE_AND_RESIZE;
+			case NO_MOVE_NO_SIZE:
+				return ClientAnchor.AnchorType.DONT_MOVE_AND_RESIZE;
+			case MOVE_NO_SIZE:
+			default:
+				return ClientAnchor.AnchorType.MOVE_DONT_RESIZE;
+		}
+	}
+
+	
 	/**
 	 * 
 	 */
