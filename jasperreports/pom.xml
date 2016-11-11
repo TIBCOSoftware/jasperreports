@@ -270,7 +270,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.10.1</version>
+			<version>3.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -441,7 +441,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.10.1</version>
+			<version>3.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

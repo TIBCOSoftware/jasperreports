@@ -13,7 +13,7 @@
 		<dependency org="commons-digester" name="commons-digester" rev="2.1" conf="test->*"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 		<dependency org="commons-logging" name="commons-logging" rev="1.1.1" conf="test->*"/>
-		<dependency org="org.apache.poi" name="poi-ooxml" rev="3.10.1" conf="test->*"/>
-		<dependency org="org.apache.poi" name="poi" rev="3.10.1" conf="test->*"/>
+		<dependency org="org.apache.poi" name="poi-ooxml" rev="3.14" conf="test->*"/>
+		<dependency org="org.apache.poi" name="poi" rev="3.14" conf="test->*"/>
 	</dependencies>
 </ivy-module>

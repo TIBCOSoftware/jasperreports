@@ -73,6 +73,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.RichTextString;
@@ -1160,7 +1161,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
 							}
 						}
-						anchor.setAnchorType(imageAnchorType.getValue());
+						anchor.setAnchorType(JRXlsExporter.getAnchorType(imageAnchorType));
 						//pngEncoder.setImage(bi);
 						//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 						int imgIndex = workbook.addPicture(imageProcessorResult.imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
@@ -2268,12 +2269,12 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 class ImageSettings {
 
 	private int index;
-	private int anchorType;
+	private ClientAnchor.AnchorType anchorType;
 	
 	public ImageSettings() {
 	}
 	
-	public ImageSettings(int index, int anchorType) {
+	public ImageSettings(int index, ClientAnchor.AnchorType anchorType) {
 		this.index = index;
 		this.anchorType = anchorType;
 	}
@@ -2282,7 +2283,7 @@ class ImageSettings {
 		return index;
 	}
 	
-	public int getAnchorType() {
+	public ClientAnchor.AnchorType getAnchorType() {
 		return anchorType;
 	}
 }
