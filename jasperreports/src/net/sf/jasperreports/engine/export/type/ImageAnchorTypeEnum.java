@@ -35,37 +35,27 @@ public enum ImageAnchorTypeEnum implements NamedEnum
 	/**
 	 * Constant useful for specifying the <code>Move and size with cells</code> anchor type in Excel.
 	 */
-	MOVE_SIZE((byte)0, "MoveSize"),
+	MOVE_SIZE("MoveSize"),
 
 	/**
 	 * Constant useful for specifying the <code>Move but don't size with cells</code> anchor type in Excel.
 	 */
-	MOVE_NO_SIZE((byte)2, "MoveNoSize"),
+	MOVE_NO_SIZE("MoveNoSize"),
 	
 	/**
 	 * Constant useful for specifying the <code>Don't move or size with cells</code> anchor type in Excel.
 	 */
-	NO_MOVE_NO_SIZE((byte)3, "NoMoveNoSize");
+	NO_MOVE_NO_SIZE("NoMoveNoSize");
 	
 	
 	/**
 	 *
 	 */
-	private final transient byte value;
 	private final transient String name;
 
-	private ImageAnchorTypeEnum(byte value, String name)
+	private ImageAnchorTypeEnum(String name)
 	{
-		this.value = value;
 		this.name = name;
-	}
-
-	/**
-	 *
-	 */
-	public final byte getValue()
-	{
-		return value;
 	}
 	
 	/**
