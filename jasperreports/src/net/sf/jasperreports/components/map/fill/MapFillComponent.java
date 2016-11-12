@@ -24,9 +24,6 @@
 package net.sf.jasperreports.components.map.fill;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -36,6 +33,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.jaxen.dom.DOMXPath;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.map.MapComponent;
@@ -57,10 +58,7 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-
-import org.jaxen.dom.DOMXPath;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * 
@@ -430,8 +428,9 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		Float[] coords = null;
 		if(address != null) {
 			try {
-				String url = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + PLACE_URL_SUFFIX;
-				byte[] response = read(url);
+				String urlStr = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + PLACE_URL_SUFFIX;
+				URL url = new URL(urlStr);
+				byte[] response = JRLoader.loadBytes(url);
 				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));
 				Node statusNode = (Node) new DOMXPath(STATUS_NODE).selectSingleNode(document);
 				String status = statusNode.getTextContent();
@@ -454,24 +453,4 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		}
 		return coords;
 	}
-	
-	private byte[] read(String url) throws IOException {
-		InputStream stream = null;
-		try {
-			URL u = new URL(url);
-			stream = u.openStream();
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			byte[] buf = new byte[4096];
-			int read;
-			while ((read = stream.read(buf)) > 0) {
-				byteOut.write(buf, 0, read);
-			}
-			return byteOut.toByteArray();
-		} finally {
-			if(stream != null) {
-				stream.close();
-			}
-		}
-	}
-	
 }
