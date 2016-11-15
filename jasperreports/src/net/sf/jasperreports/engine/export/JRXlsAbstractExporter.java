@@ -640,6 +640,149 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		public Integer columnFreezeIndex;
 		public Integer rowFreezeIndex;
 		public SheetPrintSettings printSettings;
+		
+		public class SheetPrintSettings 
+		{
+
+			private Integer topMargin;
+			private Integer leftMargin;
+			private Integer bottomMargin;
+			private Integer rightMargin;
+			private Integer headerMargin;
+			private Integer footerMargin;
+			
+			private String headerLeft;
+			private String headerCenter;
+			private String headerRight;
+			private String footerLeft;
+			private String footerCenter;
+			private String footerRight;
+			
+			public SheetPrintSettings() 
+			{
+			}
+			
+			public Integer getTopMargin() 
+			{
+				return topMargin;
+			}
+
+			public void setTopMargin(Integer topMargin) 
+			{
+				this.topMargin = topMargin;
+			}
+
+			public Integer getLeftMargin() 
+			{
+				return leftMargin;
+			}
+
+			public void setLeftMargin(Integer leftMargin) 
+			{
+				this.leftMargin = leftMargin;
+			}
+
+			public Integer getBottomMargin() 
+			{
+				return bottomMargin;
+			}
+
+			public void setBottomMargin(Integer bottomMargin) 
+			{
+				this.bottomMargin = bottomMargin;
+			}
+
+			public Integer getRightMargin() 
+			{
+				return rightMargin;
+			}
+
+			public void setRightMargin(Integer rightMargin) 
+			{
+				this.rightMargin = rightMargin;
+			}
+
+			public Integer getHeaderMargin() 
+			{
+				return headerMargin;
+			}
+
+			public void setHeaderMargin(Integer headerMargin) 
+			{
+				this.headerMargin = headerMargin;
+			}
+
+			public Integer getFooterMargin() 
+			{
+				return footerMargin;
+			}
+
+			public void setFooterMargin(Integer footerMargin) 
+			{
+				this.footerMargin = footerMargin;
+			}
+
+			public String getHeaderLeft() 
+			{
+				return headerLeft;
+			}
+
+			public void setHeaderLeft(String headerLeft) 
+			{
+				this.headerLeft = headerLeft;
+			}
+
+			public String getHeaderCenter() 
+			{
+				return headerCenter;
+			}
+
+			public void setHeaderCenter(String headerCenter) 
+			{
+				this.headerCenter = headerCenter;
+			}
+
+			public String getHeaderRight() 
+			{
+				return headerRight;
+			}
+
+			public void setHeaderRight(String headerRight) 
+			{
+				this.headerRight = headerRight;
+			}
+
+			public String getFooterLeft() 
+			{
+				return footerLeft;
+			}
+
+			public void setFooterLeft(String footerLeft) 
+			{
+				this.footerLeft = footerLeft;
+			}
+
+			public String getFooterCenter() 
+			{
+				return footerCenter;
+			}
+
+			public void setFooterCenter(String footerCenter) 
+			{
+				this.footerCenter = footerCenter;
+			}
+
+			public String getFooterRight() 
+			{
+				return footerRight;
+			}
+
+			public void setFooterRight(String footerRight) 
+			{
+				this.footerRight = footerRight;
+			}
+		}
+
 	}
 	
 	/**
@@ -1161,7 +1304,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		sheetInfo.columnFreezeIndex = configuration.getFreezeColumn() == null
 			? -1
 			: Math.max(0, getColumnIndex(configuration.getFreezeColumn()));
-		sheetInfo.printSettings = new SheetPrintSettings();
+		sheetInfo.printSettings = new JRXlsAbstractExporter.SheetInfo().new SheetPrintSettings();
 		
 		int skippedRows = 0;
 		int rowIndex = 0;
@@ -1266,7 +1409,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return sheetInfo;
 	}
 	
-	protected void configurePrintSettings(SheetPrintSettings printSettings, Cut yCut) 
+	protected void configurePrintSettings(SheetInfo.SheetPrintSettings printSettings, Cut yCut) 
 	{
 		Integer value = null;
 		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN)) 
@@ -1320,7 +1463,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 	}
 	
-	protected void updatePrintSettings(SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
+	protected void updatePrintSettings(SheetInfo.SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
 	{
 		if(printSettings.getTopMargin() == null) 
 		{
@@ -1348,7 +1491,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 	}
 
-	protected void configureHeaderFooter(SheetPrintSettings printSettings, Cut yCut) 
+	protected void configureHeaderFooter(SheetInfo.SheetPrintSettings printSettings, Cut yCut) 
 	{
 		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT)) 
 		{
@@ -1376,7 +1519,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 	}
 	
-	protected void updateHeaderFooter(SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
+	protected void updateHeaderFooter(SheetInfo.SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
 	{
 		if(printSettings.getHeaderLeft() == null) 
 		{

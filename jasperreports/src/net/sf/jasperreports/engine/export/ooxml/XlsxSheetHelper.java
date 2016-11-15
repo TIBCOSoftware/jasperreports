@@ -29,9 +29,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -39,12 +36,14 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.export.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -161,7 +160,7 @@ public class XlsxSheetHelper extends BaseHelper
 		Integer firstPageNumber,
 		boolean firstPageNotSet, 
 		Integer sheetPageCount,
-		SheetPrintSettings printSettings
+		JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings
 		)
 	{
 		if (rowIndex > 0)
@@ -322,19 +321,19 @@ public class XlsxSheetHelper extends BaseHelper
 		write("</worksheet>");		
 	}
 	
-	private boolean hasHeaderOrFooter(SheetPrintSettings printSettings)
+	private boolean hasHeaderOrFooter(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
 		return hasHeader(printSettings) || hasFooter(printSettings);
 	}
 
-	private boolean hasHeader(SheetPrintSettings printSettings)
+	private boolean hasHeader(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
 		return StringUtils.isNotBlank(printSettings.getHeaderLeft())
 				|| StringUtils.isNotBlank(printSettings.getHeaderCenter()) 
 				|| StringUtils.isNotBlank(printSettings.getHeaderRight()); 
 	}
 
-	private boolean hasFooter(SheetPrintSettings printSettings)
+	private boolean hasFooter(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
 		return StringUtils.isNotBlank(printSettings.getFooterLeft())
 				|| StringUtils.isNotBlank(printSettings.getFooterCenter()) 

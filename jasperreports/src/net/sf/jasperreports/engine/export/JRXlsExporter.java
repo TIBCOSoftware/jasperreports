@@ -391,7 +391,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			sheet.protectSheet(password);
 		}
 		
-		SheetPrintSettings printSettings = sheetInfo.printSettings;
+		JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings = sheetInfo.printSettings;
 		sheet.setMargin(Sheet.LeftMargin, LengthUtil.inch(printSettings.getLeftMargin()));
 		sheet.setMargin(Sheet.RightMargin, LengthUtil.inch(printSettings.getRightMargin()));
 		sheet.setMargin(Sheet.TopMargin, LengthUtil.inch(printSettings.getTopMargin()));
