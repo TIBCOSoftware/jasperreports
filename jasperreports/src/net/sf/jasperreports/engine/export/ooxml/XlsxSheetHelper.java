@@ -63,7 +63,6 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
 	private final XlsReportConfiguration configuration;
-	private final SheetPrintSettings printSettings;
 	
 	private List<Integer> rowBreaks = new ArrayList<Integer>();
 
@@ -74,15 +73,13 @@ public class XlsxSheetHelper extends BaseHelper
 		JasperReportsContext jasperReportsContext,
 		Writer writer, 
 		XlsxSheetRelsHelper sheetRelsHelper,
-		XlsReportConfiguration configuration,
-		SheetPrintSettings printSettings
+		XlsReportConfiguration configuration
 		)
 	{
 		super(jasperReportsContext, writer);
 		
 		this.sheetRelsHelper = sheetRelsHelper;
 		this.configuration = configuration;
-		this.printSettings = printSettings;
 	}
 
 	/**
@@ -163,7 +160,8 @@ public class XlsxSheetHelper extends BaseHelper
 		Integer scale,
 		Integer firstPageNumber,
 		boolean firstPageNotSet, 
-		Integer sheetPageCount
+		Integer sheetPageCount,
+		SheetPrintSettings printSettings
 		)
 	{
 		if (rowIndex > 0)
@@ -270,10 +268,10 @@ public class XlsxSheetHelper extends BaseHelper
 			write("</rowBreaks>");
 		}
 
-		if (hasHeaderOrFooter()) 
+		if (hasHeaderOrFooter(printSettings)) 
 		{
 			write("<headerFooter>");
-			if (hasHeader())
+			if (hasHeader(printSettings))
 			{
 				write("<oddHeader>");
 				if (StringUtils.isNotBlank(printSettings.getHeaderLeft()))
@@ -293,7 +291,7 @@ public class XlsxSheetHelper extends BaseHelper
 				}
 				write("</oddHeader>");
 			}
-			if (hasFooter())
+			if (hasFooter(printSettings))
 			{
 				write("<oddFooter>");
 				if (StringUtils.isNotBlank(printSettings.getFooterLeft()))
@@ -324,19 +322,19 @@ public class XlsxSheetHelper extends BaseHelper
 		write("</worksheet>");		
 	}
 	
-	private boolean hasHeaderOrFooter()
+	private boolean hasHeaderOrFooter(SheetPrintSettings printSettings)
 	{
-		return hasHeader() || hasFooter();
+		return hasHeader(printSettings) || hasFooter(printSettings);
 	}
 
-	private boolean hasHeader()
+	private boolean hasHeader(SheetPrintSettings printSettings)
 	{
 		return StringUtils.isNotBlank(printSettings.getHeaderLeft())
 				|| StringUtils.isNotBlank(printSettings.getHeaderCenter()) 
 				|| StringUtils.isNotBlank(printSettings.getHeaderRight()); 
 	}
 
-	private boolean hasFooter()
+	private boolean hasFooter(SheetPrintSettings printSettings)
 	{
 		return StringUtils.isNotBlank(printSettings.getFooterLeft())
 				|| StringUtils.isNotBlank(printSettings.getFooterCenter()) 

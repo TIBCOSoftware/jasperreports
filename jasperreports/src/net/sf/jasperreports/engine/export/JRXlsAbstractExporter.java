@@ -641,7 +641,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		public Integer rowFreezeIndex;
 		public SheetPrintSettings printSettings;
 	}
-
+	
 	/**
 	 *
 	 */
@@ -1149,6 +1149,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int maxRowsPerSheet = getMaxRowsPerSheet();
 		boolean isRemoveEmptySpaceBetweenRows = configuration.isRemoveEmptySpaceBetweenRows();
 		boolean isCollapseRowSpan = configuration.isCollapseRowSpan();
+		
 		sheetInfo.tabColor = configuration.getSheetTabColor();
 		sheetInfo.ignoreCellBackground = configuration.isIgnoreCellBackground();
 		sheetInfo.whitePageBackground = configuration.isWhitePageBackground();
@@ -1160,7 +1161,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		sheetInfo.columnFreezeIndex = configuration.getFreezeColumn() == null
 			? -1
 			: Math.max(0, getColumnIndex(configuration.getFreezeColumn()));
-		sheetInfo.printSettings = new SheetPrintSettings(xCuts, configuration);
+		sheetInfo.printSettings = new SheetPrintSettings();
 		
 		int skippedRows = 0;
 		int rowIndex = 0;
@@ -1247,6 +1248,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				sheetInfo.sheetPageScale = (isValidScale(pageScale))
 								? pageScale 
 								: configuration.getPageScale();
+				configurePrintSettings(sheetInfo.printSettings, yCut);
+				configureHeaderFooter(sheetInfo.printSettings, yCut);
 				
 				++rowIndex;
 			}
@@ -1256,10 +1259,151 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			}
 		}
 		
+		// in case these properties are set per configuration
+		updatePrintSettings(sheetInfo.printSettings, configuration);
+		updateHeaderFooter(sheetInfo.printSettings, configuration);
+		
 		return sheetInfo;
 	}
 	
+	protected void configurePrintSettings(SheetPrintSettings printSettings, Cut yCut) 
+	{
+		Integer value = null;
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN);
+			// The maximum value will be considered as page margin
+			if(printSettings.getTopMargin() == null || printSettings.getTopMargin() < value)
+			{
+				printSettings.setTopMargin(value);
+			}
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN);
+			if(printSettings.getLeftMargin() == null || printSettings.getLeftMargin() < value)
+			{
+				printSettings.setLeftMargin(value);
+			}
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN);
+			if(printSettings.getBottomMargin() == null || printSettings.getBottomMargin() < value)
+			{
+				printSettings.setBottomMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN));
+			}
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN);
+			if(printSettings.getRightMargin() == null || printSettings.getRightMargin() < value)
+			{
+				printSettings.setRightMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN));
+			}
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN);
+			if(printSettings.getHeaderMargin() == null || printSettings.getHeaderMargin() < value)
+			{
+				printSettings.setHeaderMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN));
+			}
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN);
+			if(printSettings.getFooterMargin() == null || printSettings.getFooterMargin() < value)
+			{
+				printSettings.setFooterMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN));
+			}
+		}
+	}
+	
+	protected void updatePrintSettings(SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
+	{
+		if(printSettings.getTopMargin() == null) 
+		{
+			printSettings.setTopMargin(configuration.getPrintPageTopMargin() == null ? 0 : configuration.getPrintPageTopMargin());
+		}
+		if(printSettings.getLeftMargin() == null) 
+		{
+			printSettings.setLeftMargin(configuration.getPrintPageLeftMargin() == null ? 0 : configuration.getPrintPageLeftMargin());
+		}
+		if(printSettings.getBottomMargin() == null) 
+		{
+			printSettings.setBottomMargin(configuration.getPrintPageBottomMargin() == null ? 0 : configuration.getPrintPageBottomMargin());
+		}
+		if(printSettings.getRightMargin() == null) 
+		{
+			printSettings.setRightMargin(configuration.getPrintPageRightMargin() == null ? 0 : configuration.getPrintPageRightMargin());
+		}
+		if(printSettings.getHeaderMargin() == null) 
+		{
+			printSettings.setHeaderMargin(configuration.getPrintHeaderMargin() == null ? 0 : configuration.getPrintHeaderMargin());
+		}
+		if(printSettings.getFooterMargin() == null) 
+		{
+			printSettings.setFooterMargin(configuration.getPrintFooterMargin() == null ? 0 : configuration.getPrintFooterMargin());
+		}
+	}
 
+	protected void configureHeaderFooter(SheetPrintSettings printSettings, Cut yCut) 
+	{
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT)) 
+		{
+			printSettings.setHeaderLeft((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT));
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER)) 
+		{
+			printSettings.setHeaderCenter((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER));
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT)) 
+		{
+			printSettings.setHeaderRight((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT));
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT)) 
+		{
+			printSettings.setFooterLeft((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT));
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER)) 
+		{
+			printSettings.setFooterCenter((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER));
+		}
+		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT)) 
+		{
+			printSettings.setFooterRight((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT));
+		}
+	}
+	
+	protected void updateHeaderFooter(SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
+	{
+		if(printSettings.getHeaderLeft() == null) 
+		{
+			printSettings.setHeaderLeft(configuration.getSheetHeaderLeft());
+		}
+		if(printSettings.getHeaderCenter() == null) 
+		{
+			printSettings.setHeaderCenter(configuration.getSheetHeaderCenter());
+		}
+		if(printSettings.getHeaderRight() == null) 
+		{
+			printSettings.setHeaderRight(configuration.getSheetHeaderRight());
+		}
+		if(printSettings.getFooterLeft() == null) 
+		{
+			printSettings.setFooterLeft(configuration.getSheetFooterLeft());
+		}
+		if(printSettings.getFooterCenter() == null) 
+		{
+			printSettings.setFooterCenter(configuration.getSheetFooterCenter());
+		}
+		if(printSettings.getFooterRight() == null) 
+		{
+			printSettings.setFooterRight(configuration.getSheetFooterRight());
+		}
+	}
+	
 	protected void exportSheet(CutsInfo xCuts, CutsInfo yCuts, int startCutIndex, String defaultSheetName)
 	{
 		if (sheetInfo != null)

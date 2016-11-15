@@ -23,11 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.util.Map;
-
-import net.sf.jasperreports.export.XlsReportConfiguration;
-import static net.sf.jasperreports.export.XlsReportConfiguration.*;
-
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
@@ -52,85 +47,14 @@ public class SheetPrintSettings
 	{
 	}
 	
-	public SheetPrintSettings(XlsReportConfiguration configuration) 
-	{
-		if(configuration != null)
-		{
-				this.topMargin = configuration.getPrintPageTopMargin();
-				this.leftMargin = configuration.getPrintPageLeftMargin();
-				this.bottomMargin = configuration.getPrintPageBottomMargin();
-				this.rightMargin = configuration.getPrintPageRightMargin();
-				this.headerMargin = configuration.getPrintHeaderMargin();
-				this.footerMargin = configuration.getPrintFooterMargin();
-				this.headerLeft = configuration.getSheetHeaderLeft();
-				this.headerCenter = configuration.getSheetHeaderCenter();
-				this.headerRight = configuration.getSheetHeaderRight();
-				this.footerLeft = configuration.getSheetFooterLeft();
-				this.footerCenter = configuration.getSheetFooterCenter();
-				this.footerRight = configuration.getSheetFooterRight();
-		}
-	}
-	
-	public SheetPrintSettings(CutsInfo xCuts, XlsReportConfiguration configuration) 
-	{
-		this(configuration);
-		if(xCuts != null)
-		{
-			Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
-			if(xCutsProperties.containsKey(PROPERTY_PRINT_PAGE_TOP_MARGIN))
-			{
-				this.topMargin = (Integer)xCutsProperties.get(PROPERTY_PRINT_PAGE_TOP_MARGIN);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_PRINT_PAGE_LEFT_MARGIN))
-			{
-				this.leftMargin = (Integer)xCutsProperties.get(PROPERTY_PRINT_PAGE_LEFT_MARGIN);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_PRINT_PAGE_BOTTOM_MARGIN))
-			{
-				this.bottomMargin = (Integer)xCutsProperties.get(PROPERTY_PRINT_PAGE_BOTTOM_MARGIN);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_PRINT_PAGE_RIGHT_MARGIN))
-			{
-				this.rightMargin = (Integer)xCutsProperties.get(PROPERTY_PRINT_PAGE_RIGHT_MARGIN);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_PRINT_HEADER_MARGIN))
-			{
-				this.headerMargin = (Integer)xCutsProperties.get(PROPERTY_PRINT_HEADER_MARGIN);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_PRINT_FOOTER_MARGIN))
-			{
-				this.footerMargin = (Integer)xCutsProperties.get(PROPERTY_PRINT_FOOTER_MARGIN);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_SHEET_HEADER_LEFT))
-			{
-				this.headerLeft = (String)xCutsProperties.get(PROPERTY_SHEET_HEADER_LEFT);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_SHEET_HEADER_CENTER))
-			{
-				this.headerCenter = (String)xCutsProperties.get(PROPERTY_SHEET_HEADER_CENTER);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_SHEET_HEADER_RIGHT))
-			{
-				this.headerRight = (String)xCutsProperties.get(PROPERTY_SHEET_HEADER_RIGHT);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_SHEET_FOOTER_LEFT))
-			{
-				this.footerLeft = (String)xCutsProperties.get(PROPERTY_SHEET_FOOTER_LEFT);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_SHEET_FOOTER_CENTER))
-			{
-				this.footerCenter = (String)xCutsProperties.get(PROPERTY_SHEET_FOOTER_CENTER);
-			}
-			if(xCutsProperties.containsKey(PROPERTY_SHEET_FOOTER_RIGHT))
-			{
-				this.footerRight = (String)xCutsProperties.get(PROPERTY_SHEET_FOOTER_RIGHT);
-			}
-		}
-	}
-	
 	public Integer getTopMargin() 
 	{
 		return topMargin;
+	}
+
+	public void setTopMargin(Integer topMargin) 
+	{
+		this.topMargin = topMargin;
 	}
 
 	public Integer getLeftMargin() 
@@ -138,9 +62,19 @@ public class SheetPrintSettings
 		return leftMargin;
 	}
 
+	public void setLeftMargin(Integer leftMargin) 
+	{
+		this.leftMargin = leftMargin;
+	}
+
 	public Integer getBottomMargin() 
 	{
 		return bottomMargin;
+	}
+
+	public void setBottomMargin(Integer bottomMargin) 
+	{
+		this.bottomMargin = bottomMargin;
 	}
 
 	public Integer getRightMargin() 
@@ -148,9 +82,19 @@ public class SheetPrintSettings
 		return rightMargin;
 	}
 
+	public void setRightMargin(Integer rightMargin) 
+	{
+		this.rightMargin = rightMargin;
+	}
+
 	public Integer getHeaderMargin() 
 	{
 		return headerMargin;
+	}
+
+	public void setHeaderMargin(Integer headerMargin) 
+	{
+		this.headerMargin = headerMargin;
 	}
 
 	public Integer getFooterMargin() 
@@ -158,9 +102,19 @@ public class SheetPrintSettings
 		return footerMargin;
 	}
 
+	public void setFooterMargin(Integer footerMargin) 
+	{
+		this.footerMargin = footerMargin;
+	}
+
 	public String getHeaderLeft() 
 	{
 		return headerLeft;
+	}
+
+	public void setHeaderLeft(String headerLeft) 
+	{
+		this.headerLeft = headerLeft;
 	}
 
 	public String getHeaderCenter() 
@@ -168,9 +122,19 @@ public class SheetPrintSettings
 		return headerCenter;
 	}
 
+	public void setHeaderCenter(String headerCenter) 
+	{
+		this.headerCenter = headerCenter;
+	}
+
 	public String getHeaderRight() 
 	{
 		return headerRight;
+	}
+
+	public void setHeaderRight(String headerRight) 
+	{
+		this.headerRight = headerRight;
 	}
 
 	public String getFooterLeft() 
@@ -178,9 +142,19 @@ public class SheetPrintSettings
 		return footerLeft;
 	}
 
+	public void setFooterLeft(String footerLeft) 
+	{
+		this.footerLeft = footerLeft;
+	}
+
 	public String getFooterCenter() 
 	{
 		return footerCenter;
+	}
+
+	public void setFooterCenter(String footerCenter) 
+	{
+		this.footerCenter = footerCenter;
 	}
 
 	public String getFooterRight() 
@@ -188,4 +162,8 @@ public class SheetPrintSettings
 		return footerRight;
 	}
 
+	public void setFooterRight(String footerRight) 
+	{
+		this.footerRight = footerRight;
+	}
 }
