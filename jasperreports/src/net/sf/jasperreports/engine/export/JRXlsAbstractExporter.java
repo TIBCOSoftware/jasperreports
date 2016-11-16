@@ -639,6 +639,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		public Boolean whitePageBackground;
 		public Integer columnFreezeIndex;
 		public Integer rowFreezeIndex;
+		public Float columnWidthRatio;
 		public SheetPrintSettings printSettings;
 		
 		public class SheetPrintSettings 
@@ -782,7 +783,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				this.footerRight = footerRight;
 			}
 		}
-
 	}
 	
 	/**
@@ -1336,6 +1336,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					sheetInfo.sheetName = sheetName;
 				}
 
+				Float sheetRatio = (Float)yCut.getProperty(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO);
+				// keep the maximum value for sheet ratio
+				if (sheetRatio != null && (sheetInfo.columnWidthRatio == null || sheetInfo.columnWidthRatio < sheetRatio))
+				{
+					sheetInfo.columnWidthRatio = sheetRatio;
+				}
+				
 				String color = (String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR);
 				Color tabColor = JRColorUtil.getColor(color, null);
 				if (tabColor != null)
@@ -1642,22 +1649,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		
 		boolean isRemoveEmptySpaceBetweenColumns = configuration.isRemoveEmptySpaceBetweenColumns();
 
-		float sheetRatio = 1f; 
-
-		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
-		Float columnWidthRatio = (Float)xCutsProperties.get(XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO);
-		if (columnWidthRatio != null && columnWidthRatio > 0f)
-		{
-			sheetRatio = columnWidthRatio;
-		}
-		else
-		{
-			columnWidthRatio = configuration.getColumnWidthRatio();
-			if (columnWidthRatio != null && columnWidthRatio > 0f)
-			{
-				sheetRatio = columnWidthRatio;
-			}
-		}
+		float sheetRatio = sheetInfo.columnWidthRatio == null 
+				? (configuration.getColumnWidthRatio() == null ? 1f : configuration.getColumnWidthRatio())
+				: sheetInfo.columnWidthRatio; 
+		sheetRatio = Math.max(1f, sheetRatio);
 		
 		int emptyCols = 0;
 		for(int xCutIndex = 0; xCutIndex < xCuts.size() - 1; xCutIndex++)

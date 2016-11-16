@@ -378,12 +378,6 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	@Override
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
-		Float widthRatio = getColumnWidthRatio(element);
-		Float xCutsWidthRatio = (Float)xCutsProperties.get(PROPERTY_COLUMN_WIDTH_RATIO);
-		if(widthRatio != null && (xCutsWidthRatio == null || xCutsWidthRatio < widthRatio))
-		{
-			xCutsProperties.put(PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
-		}
 	}
 	
 	private void setMargin(Integer marginValue, Cut cut, String marginName)
@@ -509,6 +503,13 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			cut.setProperty(JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE, rowFreezeIndex);
 		}
 		
+		Float columnWidthRatio = getColumnWidthRatio(element);
+		// only positive  values are allowed
+		if(columnWidthRatio != null && columnWidthRatio > 0f)
+		{
+			cut.setProperty(PROPERTY_COLUMN_WIDTH_RATIO, columnWidthRatio);
+		}
+
 		setMargin(getPrintPageTopMargin(element), cut, PROPERTY_PRINT_PAGE_TOP_MARGIN);
 		setMargin(getPrintPageLeftMargin(element), cut, PROPERTY_PRINT_PAGE_LEFT_MARGIN);
 		setMargin(getPrintPageBottomMargin(element), cut, PROPERTY_PRINT_PAGE_BOTTOM_MARGIN);

@@ -170,6 +170,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	private HSSFPalette palette = null;
 	protected Map<String, HSSFCellStyle> columnStylesMap;
 	protected Map<String, Integer> columnWidths;
+	protected Map<String, Float> columnWidthRatios;
 
 	/**
 	 *
@@ -302,6 +303,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
 		columnWidths = new HashMap<String, Integer>();
+		columnWidthRatios = new HashMap<String, Float>();
 	}
 
 	@Override
@@ -490,8 +492,17 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				currentSheet.setForceFormulaRecalculation(true);
 				for(String columnName : columnNames) {
 					Integer columnWidth = columnWidths.get(columnName);
+					Float columnWidthRatio = columnWidthRatios.get(columnName);
 					if (columnWidth != null && columnWidth < Integer.MAX_VALUE) {
-						currentSheet.setColumnWidth(columnNamesMap.get(columnName), Math.min(43 * columnWidth, 256*255));
+						if(columnWidthRatio != null && columnWidthRatio > 1f)
+						{
+							columnWidth =  Math.round(43 * columnWidth * columnWidthRatio);
+						}
+						else
+						{
+							columnWidth =  43 * columnWidth;
+						}
+						currentSheet.setColumnWidth(columnNamesMap.get(columnName), Math.min(columnWidth, 256*255));
 					} else {
 						currentSheet.autoSizeColumn(columnNamesMap.get(columnName), false);
 					}
@@ -526,11 +537,22 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 	
-	protected void adjustColumnWidth(String columnName, int columnWidth, Boolean isAutofit) {
-		if(isAutofit != null && isAutofit) {
+	protected void adjustColumnWidth(String columnName, int columnWidth, Boolean isAutofit) 
+	{
+		if(isAutofit != null && isAutofit) 
+		{
 			columnWidths.put(columnName, Integer.MAX_VALUE);
-		} else if(!columnWidths.containsKey(columnName) || columnWidths.get(columnName) < columnWidth) {
-			columnWidths.put(columnName, columnWidth);
+		} 
+		else 
+		{
+			if(!columnWidths.containsKey(columnName) || columnWidths.get(columnName) < columnWidth) 
+			{
+				columnWidths.put(columnName, columnWidth);
+			}
+			if(!columnWidthRatios.containsKey(columnName) && sheetInfo.columnWidthRatio != null) 
+			{
+				columnWidthRatios.put(columnName, sheetInfo.columnWidthRatio);
+			}
 		}
 	}
 
