@@ -27,6 +27,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
@@ -36,6 +37,7 @@ import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.bridge.UserAgent;
 import org.apache.batik.bridge.ViewBox;
 import org.apache.batik.dom.svg.SVGDocumentFactory;
+import org.apache.batik.ext.awt.image.GraphicsUtil;
 import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.Node;
 import org.w3c.dom.svg.SVGDocument;
@@ -70,6 +72,13 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 	protected AbstractSvgDataToGraphics2DRenderer(List<JRPrintImageAreaHyperlink> areaHyperlinks)
 	{
 		this.areaHyperlinks = areaHyperlinks;
+	}
+
+	@Override
+	public Graphics2D createGraphics(BufferedImage bi)
+	{
+		Graphics2D graphics = GraphicsUtil.createGraphics(bi);
+		return graphics;
 	}
 
 	@Override
