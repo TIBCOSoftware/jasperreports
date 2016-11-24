@@ -2,8 +2,16 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.4.0 (2016-1x-xx)
+JasperReports 6.4.0 (2016-11-28)
 ---------------------------------------------
+
+- support for rendering of Web-based visualization components to images or SVG, 
+inside the Java VM, using a pool of reusable PhantomJS external processes;
+
+- support for request body entity was added to HTTP data adapters;
+
+- allow specifying the value of a static custom property using the body content of the 
+<property> element, instead of the usual value attribute of the element;
 
 - minor bug fixes and improvements;
 
