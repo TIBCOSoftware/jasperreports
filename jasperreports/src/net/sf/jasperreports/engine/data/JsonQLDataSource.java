@@ -100,6 +100,10 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
         this.selectExpression = selectExpression;
         this.jsonQLExecuter = new DefaultJsonQLExecuter();
 
+        if (log.isDebugEnabled()) {
+            log.debug("The JsonQL expression is: " + selectExpression);
+        }
+
         moveFirst();
     }
 
