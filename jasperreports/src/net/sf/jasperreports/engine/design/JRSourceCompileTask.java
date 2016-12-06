@@ -70,7 +70,7 @@ public class JRSourceCompileTask
 		this.fieldsMap = fieldsMap;
 		this.variablesMap = variablesMap;
 		this.variables = variables;
-		this.expressions = expressionCollector.getExpressions();
+		this.expressions = expressionCollector.getCompiledExpressions();
 		this.onlyDefaultEvaluation = onlyDefaultEvaluation;
 	}
 	

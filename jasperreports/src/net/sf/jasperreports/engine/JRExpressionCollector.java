@@ -92,6 +92,7 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.part.PartComponent;
 import net.sf.jasperreports.engine.part.PartComponentManager;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
+import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 
 
 /**
@@ -536,6 +537,28 @@ public class JRExpressionCollector
 	public List<JRExpression> getExpressions()
 	{
 		return new ArrayList<JRExpression>(generatedIds.expressions());
+	}
+
+
+	/**
+	 * Returns the list of expressions that should be compiled.
+	 *
+	 * @return the list of expressions that should be compiled
+	 * @see #getExpressions()
+	 * @see JRExpression#getType()
+	 */
+	public List<JRExpression> getCompiledExpressions()
+	{
+		List<JRExpression> expressions = generatedIds.expressions();
+		List<JRExpression> compiledExpressions = new ArrayList<>(expressions.size());
+		for (JRExpression expression : expressions)
+		{
+			if (expression.getType() == null || expression.getType() != ExpressionTypeEnum.SIMPLE_TEXT)
+			{
+				compiledExpressions.add(expression);
+			}
+		}
+		return compiledExpressions;
 	}
 
 	/**

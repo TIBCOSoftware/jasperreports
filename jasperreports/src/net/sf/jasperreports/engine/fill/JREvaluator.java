@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.functions.FunctionSupport;
 
@@ -106,6 +107,10 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 *
 	 */
 	protected boolean ignoreNPE = true;
+	
+	private ExpressionValues defaultValues;
+	private ExpressionValues oldValues;
+	private ExpressionValues estimatedValues;
 
 	/**
 	 * Default constructor.
@@ -142,6 +147,10 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		functionContext = new FillFunctionContext(parametersMap);
 		
 		customizedInit(parametersMap, fieldsMap, variablesMap);
+		
+		defaultValues = new FillExpressionDefaultValues(this, parametersMap, fieldsMap, variablesMap);
+		oldValues =  new FillExpressionOldValues(this, parametersMap, fieldsMap, variablesMap);
+		estimatedValues = new FillExpressionEstimatedValues(this, parametersMap, fieldsMap, variablesMap);
 	}
 
 	
@@ -275,23 +284,30 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		
 		if (expression != null)
 		{
-			try
+			if (expression.getType() == ExpressionTypeEnum.SIMPLE_TEXT)
 			{
-				value = evaluate(expression.getId());
+				value = SimpleTextExpressionEvaluator.evaluateExpression(expression, defaultValues);
 			}
-			catch (NullPointerException e) //NOPMD
+			else
 			{
-				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
-			}
-			catch (OutOfMemoryError e)
-			{
-				throw e;
-			}
-			// we have to catch Throwable because there is no way we could modify the signature
-			// of the evaluate method, without breaking backward compatibility of compiled report templates 
-			catch (Throwable e) //NOPMD
-			{
-				value = handleEvaluationException(expression, e);
+				try
+				{
+					value = evaluate(expression.getId());
+				}
+				catch (NullPointerException e) //NOPMD
+				{
+					if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
+				}
+				catch (OutOfMemoryError e)
+				{
+					throw e;
+				}
+				// we have to catch Throwable because there is no way we could modify the signature
+				// of the evaluate method, without breaking backward compatibility of compiled report templates 
+				catch (Throwable e) //NOPMD
+				{
+					value = handleEvaluationException(expression, e);
+				}
 			}
 		}
 		
@@ -306,23 +322,30 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		
 		if (expression != null)
 		{
-			try
+			if (expression.getType() == ExpressionTypeEnum.SIMPLE_TEXT)
 			{
-				value = evaluateOld(expression.getId());
+				value = SimpleTextExpressionEvaluator.evaluateExpression(expression, oldValues);
 			}
-			catch (NullPointerException e) //NOPMD
+			else
 			{
-				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
-			}
-			catch (OutOfMemoryError e)
-			{
-				throw e;
-			}
-			// we have to catch Throwable because there is no way we could modify the signature
-			// of the evaluate method, without breaking backward compatibility of compiled report templates 
-			catch (Throwable e) //NOPMD
-			{
-				value = handleEvaluationException(expression, e);
+				try
+				{
+					value = evaluateOld(expression.getId());
+				}
+				catch (NullPointerException e) //NOPMD
+				{
+					if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
+				}
+				catch (OutOfMemoryError e)
+				{
+					throw e;
+				}
+				// we have to catch Throwable because there is no way we could modify the signature
+				// of the evaluate method, without breaking backward compatibility of compiled report templates 
+				catch (Throwable e) //NOPMD
+				{
+					value = handleEvaluationException(expression, e);
+				}
 			}
 		}
 		
@@ -337,23 +360,30 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		
 		if (expression != null)
 		{
-			try
+			if (expression.getType() == ExpressionTypeEnum.SIMPLE_TEXT)
 			{
-				value = evaluateEstimated(expression.getId());
+				value = SimpleTextExpressionEvaluator.evaluateExpression(expression, estimatedValues);
 			}
-			catch (NullPointerException e) //NOPMD
+			else
 			{
-				if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
-			}
-			catch (OutOfMemoryError e)
-			{
-				throw e;
-			}
-			// we have to catch Throwable because there is no way we could modify the signature
-			// of the evaluate method, without breaking backward compatibility of compiled report templates 
-			catch (Throwable e) //NOPMD
-			{
-				value = handleEvaluationException(expression, e);
+				try
+				{
+					value = evaluateEstimated(expression.getId());
+				}
+				catch (NullPointerException e) //NOPMD
+				{
+					if (!ignoreNPE) throw new JRExpressionEvalException(expression, e);
+				}
+				catch (OutOfMemoryError e)
+				{
+					throw e;
+				}
+				// we have to catch Throwable because there is no way we could modify the signature
+				// of the evaluate method, without breaking backward compatibility of compiled report templates 
+				catch (Throwable e) //NOPMD
+				{
+					value = handleEvaluationException(expression, e);
+				}
 			}
 		}
 		
