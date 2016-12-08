@@ -475,6 +475,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		sheetInfo.sheetPageScale = configuration.getPageScale();		
 		sheetInfo.sheetShowGridlines = configuration.isShowGridLines() ;
 		sheetInfo.tabColor = configuration.getSheetTabColor();
+		sheetInfo.columnWidthRatio = configuration.getColumnWidthRatio();
 		return sheetInfo;
 	}
 

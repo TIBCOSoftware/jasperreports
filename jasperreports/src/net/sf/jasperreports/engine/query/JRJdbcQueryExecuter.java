@@ -184,7 +184,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	 */
 	protected void registerFunctions()
 	{
-		// keeping empty for backwards compatibility, the functions are now regustered
+		// keeping empty for backwards compatibility, the functions are now registered
 		// as extensions by JDBCQueryClauseFunctionsExtensions
 	}
 

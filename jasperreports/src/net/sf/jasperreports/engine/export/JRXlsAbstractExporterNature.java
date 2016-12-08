@@ -378,52 +378,22 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	@Override
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
-		Float widthRatio = getColumnWidthRatio(element);
-		Float xCutsWidthRatio = (Float)xCutsProperties.get(PROPERTY_COLUMN_WIDTH_RATIO);
-		if(widthRatio != null && (xCutsWidthRatio == null || xCutsWidthRatio < widthRatio))
-		{
-			xCutsProperties.put(PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
-		}
-		
-		setMargin(getPrintPageTopMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_TOP_MARGIN);
-		setMargin(getPrintPageLeftMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_LEFT_MARGIN);
-		setMargin(getPrintPageBottomMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_BOTTOM_MARGIN);
-		setMargin(getPrintPageRightMargin(element), xCutsProperties, PROPERTY_PRINT_PAGE_RIGHT_MARGIN);
-		setMargin(getPrintHeaderMargin(element), xCutsProperties, PROPERTY_PRINT_HEADER_MARGIN);
-		setMargin(getPrintFooterMargin(element), xCutsProperties, PROPERTY_PRINT_FOOTER_MARGIN);
-		
-		setHeaderFooter(getSheetHeaderLeft(element), xCutsProperties, PROPERTY_SHEET_HEADER_LEFT);
-		setHeaderFooter(getSheetHeaderCenter(element), xCutsProperties, PROPERTY_SHEET_HEADER_CENTER);
-		setHeaderFooter(getSheetHeaderRight(element), xCutsProperties, PROPERTY_SHEET_HEADER_RIGHT);
-		setHeaderFooter(getSheetFooterLeft(element), xCutsProperties, PROPERTY_SHEET_FOOTER_LEFT);
-		setHeaderFooter(getSheetFooterCenter(element), xCutsProperties, PROPERTY_SHEET_FOOTER_CENTER);
-		setHeaderFooter(getSheetFooterRight(element), xCutsProperties, PROPERTY_SHEET_FOOTER_RIGHT);
-		
 	}
 	
-	private void setMargin(Integer marginValue, Map<String,Object> xCutsProperties, String marginName)
+	private void setMargin(Integer marginValue, Cut cut, String marginName)
 	{
 		if(marginValue != null)
 		{
-			Integer xCutsMarginValue = (Integer)xCutsProperties.get(marginName);
-			if(xCutsMarginValue == null)
-			{
-				// a margin value cannot be negative
-				xCutsProperties.put(marginName, max(marginValue,0));
-			}
-			else if(marginValue > xCutsMarginValue)
-			{
-				// if the property is set for several elements in a sheet, the maximum value will be selected 
-				xCutsProperties.put(marginName, marginValue);
-			}
+			// a margin value cannot be negative
+			cut.setProperty(marginName, max(marginValue,0));
 		}
 	}
 	
-	private void setHeaderFooter(String headerFooterValue, Map<String,Object> xCutsProperties, String headerFooterName)
+	private void setHeaderFooter(String headerFooterValue, Cut cut, String headerFooterName)
 	{
 		if(headerFooterValue != null && headerFooterValue.trim().length() > 0)
 		{
-			xCutsProperties.put(headerFooterName, headerFooterValue);
+			cut.setProperty(headerFooterName, headerFooterValue);
 		}
 	}
 	
@@ -532,6 +502,27 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		{
 			cut.setProperty(JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE, rowFreezeIndex);
 		}
+		
+		Float columnWidthRatio = getColumnWidthRatio(element);
+		// only positive  values are allowed
+		if(columnWidthRatio != null && columnWidthRatio > 0f)
+		{
+			cut.setProperty(PROPERTY_COLUMN_WIDTH_RATIO, columnWidthRatio);
+		}
+
+		setMargin(getPrintPageTopMargin(element), cut, PROPERTY_PRINT_PAGE_TOP_MARGIN);
+		setMargin(getPrintPageLeftMargin(element), cut, PROPERTY_PRINT_PAGE_LEFT_MARGIN);
+		setMargin(getPrintPageBottomMargin(element), cut, PROPERTY_PRINT_PAGE_BOTTOM_MARGIN);
+		setMargin(getPrintPageRightMargin(element), cut, PROPERTY_PRINT_PAGE_RIGHT_MARGIN);
+		setMargin(getPrintHeaderMargin(element), cut, PROPERTY_PRINT_HEADER_MARGIN);
+		setMargin(getPrintFooterMargin(element), cut, PROPERTY_PRINT_FOOTER_MARGIN);
+		
+		setHeaderFooter(getSheetHeaderLeft(element), cut, PROPERTY_SHEET_HEADER_LEFT);
+		setHeaderFooter(getSheetHeaderCenter(element), cut, PROPERTY_SHEET_HEADER_CENTER);
+		setHeaderFooter(getSheetHeaderRight(element), cut, PROPERTY_SHEET_HEADER_RIGHT);
+		setHeaderFooter(getSheetFooterLeft(element), cut, PROPERTY_SHEET_FOOTER_LEFT);
+		setHeaderFooter(getSheetFooterCenter(element), cut, PROPERTY_SHEET_FOOTER_CENTER);
+		setHeaderFooter(getSheetFooterRight(element), cut, PROPERTY_SHEET_FOOTER_RIGHT);	
 		
 		setYProperties(yCutsProperties, element);
 	}

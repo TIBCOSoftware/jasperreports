@@ -241,6 +241,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					this.columnNames = new LinkedHashMap<String, Integer>();
 					for (int i = 0; i < crtRecordColumnValues.size(); i++) {
 						String name = crtRecordColumnValues.get(i);
+						if(this.columnNames.containsKey(name))
+							name = INDEXED_COLUMN_PREFIX + i;
 						this.columnNames.put(name, Integer.valueOf(i));
 					}
 				}

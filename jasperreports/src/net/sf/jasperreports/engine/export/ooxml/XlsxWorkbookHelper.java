@@ -62,7 +62,7 @@ public class XlsxWorkbookHelper extends BaseHelper
 		write("<workbook\n");
 		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
-		write("<workbookPr filterPrivacy=\"1\"/>\n");
+		write("<workbookPr filterPrivacy=\"1\" codeName=\"ThisWorkbook\"/>\n");
 		write("<sheets>\n");
 	}
 	

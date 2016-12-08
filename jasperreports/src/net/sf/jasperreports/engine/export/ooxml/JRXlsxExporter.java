@@ -39,9 +39,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
@@ -77,7 +74,6 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
-import net.sf.jasperreports.engine.export.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -106,6 +102,9 @@ import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -707,8 +706,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				jasperReportsContext,
 				sheetWriter, 
 				sheetRelsHelper,
-				configuration,
-				sheetInfo.printSettings
+				configuration
 				);
 		
 		ExportZipEntry drawingRelsEntry = xlsxZip.addDrawingRels(sheetIndex + 1);
@@ -769,7 +767,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetPageScale, 
 						currentSheetFirstPageNumber,
 						false,
-						pageIndex - sheetInfo.sheetFirstPageIndex
+						pageIndex - sheetInfo.sheetFirstPageIndex,
+						sheetInfo.printSettings
 						);
 					firstPageNotSet = false;
 			}
@@ -786,7 +785,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetPageScale, 
 						documentFirstPageNumber,
 						false,
-						pageIndex - sheetInfo.sheetFirstPageIndex
+						pageIndex - sheetInfo.sheetFirstPageIndex,
+						sheetInfo.printSettings
 						);
 					firstPageNotSet = false;
 				}
@@ -800,7 +800,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						currentSheetPageScale, 
 						null,
 						firstPageNotSet,
-						pageIndex - sheetInfo.sheetFirstPageIndex
+						pageIndex - sheetInfo.sheetFirstPageIndex,
+						sheetInfo.printSettings
 						);
 				}
 			}

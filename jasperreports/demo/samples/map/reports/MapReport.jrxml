@@ -56,7 +56,7 @@
 	<pageFooter>
 		<band height="45">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="0" width="515" height="15"/>
+				<reportElement x="0" y="0" width="515" height="15" uuid="4605ce09-ec19-4a4e-844b-e6babf2a8516"/>
 				<textElement markup="html">
 					<font size="8"/>
 				</textElement>

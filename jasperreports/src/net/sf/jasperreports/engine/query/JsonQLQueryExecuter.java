@@ -74,16 +74,15 @@ public class JsonQLQueryExecuter extends AbstractJsonQueryExecuter<JsonQLDataSou
 
 		Class<?> valueClass= parameterValue.getClass();
 
-		if(!(Number.class.equals(valueClass) || Boolean.class.equals(valueClass))) {
-			StringBuilder sb = new StringBuilder("\"");
-
-			sb.append(JRStringUtil.escapeJavaStringLiteral((String) parameterValue));
-			sb.append("\"");
-
-			return sb.toString();
+		if (Number.class.isAssignableFrom(valueClass) || Boolean.class.equals(valueClass)) {
+			return String.valueOf(parameterValue);
 		}
 
-		return String.valueOf(parameterValue);
+		StringBuilder sb = new StringBuilder("\"");
+		sb.append(JRStringUtil.escapeJavaStringLiteral(String.valueOf(parameterValue)));
+		sb.append("\"");
+
+		return sb.toString();
 	}
 
 	@Override

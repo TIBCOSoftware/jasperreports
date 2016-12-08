@@ -166,7 +166,6 @@ public class FillDatasetRun extends JRFillDatasetRun
 		dataset.initDatasource();
 		
 		dataset.start();
-		init();
 		first = true;
 	}
 	
@@ -178,6 +177,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 		{
 			if (first)
 			{
+				startData();
 				first = false;
 			}
 			else
@@ -188,6 +188,13 @@ public class FillDatasetRun extends JRFillDatasetRun
 			detail();
 			
 			return true;
+		}
+		
+		//no records in the dataset
+		if (first)
+		{
+			//might not be required, but it's safer to do it because it used to happen before dataset.next() 
+			startData();
 		}
 		
 		return false;

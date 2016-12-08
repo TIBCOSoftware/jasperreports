@@ -29,9 +29,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -39,12 +36,14 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.export.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -63,7 +62,6 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
 	private final XlsReportConfiguration configuration;
-	private final SheetPrintSettings printSettings;
 	
 	private List<Integer> rowBreaks = new ArrayList<Integer>();
 
@@ -74,15 +72,13 @@ public class XlsxSheetHelper extends BaseHelper
 		JasperReportsContext jasperReportsContext,
 		Writer writer, 
 		XlsxSheetRelsHelper sheetRelsHelper,
-		XlsReportConfiguration configuration,
-		SheetPrintSettings printSettings
+		XlsReportConfiguration configuration
 		)
 	{
 		super(jasperReportsContext, writer);
 		
 		this.sheetRelsHelper = sheetRelsHelper;
 		this.configuration = configuration;
-		this.printSettings = printSettings;
 	}
 
 	/**
@@ -163,7 +159,8 @@ public class XlsxSheetHelper extends BaseHelper
 		Integer scale,
 		Integer firstPageNumber,
 		boolean firstPageNotSet, 
-		Integer sheetPageCount
+		Integer sheetPageCount,
+		JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings
 		)
 	{
 		if (rowIndex > 0)
@@ -270,10 +267,10 @@ public class XlsxSheetHelper extends BaseHelper
 			write("</rowBreaks>");
 		}
 
-		if (hasHeaderOrFooter()) 
+		if (hasHeaderOrFooter(printSettings)) 
 		{
 			write("<headerFooter>");
-			if (hasHeader())
+			if (hasHeader(printSettings))
 			{
 				write("<oddHeader>");
 				if (StringUtils.isNotBlank(printSettings.getHeaderLeft()))
@@ -293,7 +290,7 @@ public class XlsxSheetHelper extends BaseHelper
 				}
 				write("</oddHeader>");
 			}
-			if (hasFooter())
+			if (hasFooter(printSettings))
 			{
 				write("<oddFooter>");
 				if (StringUtils.isNotBlank(printSettings.getFooterLeft()))
@@ -324,19 +321,19 @@ public class XlsxSheetHelper extends BaseHelper
 		write("</worksheet>");		
 	}
 	
-	private boolean hasHeaderOrFooter()
+	private boolean hasHeaderOrFooter(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
-		return hasHeader() || hasFooter();
+		return hasHeader(printSettings) || hasFooter(printSettings);
 	}
 
-	private boolean hasHeader()
+	private boolean hasHeader(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
 		return StringUtils.isNotBlank(printSettings.getHeaderLeft())
 				|| StringUtils.isNotBlank(printSettings.getHeaderCenter()) 
 				|| StringUtils.isNotBlank(printSettings.getHeaderRight()); 
 	}
 
-	private boolean hasFooter()
+	private boolean hasFooter(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
 		return StringUtils.isNotBlank(printSettings.getFooterLeft())
 				|| StringUtils.isNotBlank(printSettings.getFooterCenter()) 

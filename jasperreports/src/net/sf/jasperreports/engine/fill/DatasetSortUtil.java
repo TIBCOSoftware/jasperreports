@@ -370,6 +370,14 @@ class SortFillDatasetRun extends JRFillDatasetRun
 		// FIXME optimize by filtering when the filters are on fields (and other cases).
 		return dataset.next(true);
 	}
+
+
+	@Override
+	protected boolean toStartWhenNoData()
+	{
+		//not needed for sorting
+		return false;
+	}
 	
 	
 }

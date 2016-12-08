@@ -165,7 +165,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>clirr-maven-plugin</artifactId>
 				<configuration>
-					<comparisonVersion>6.3.0</comparisonVersion>
+					<comparisonVersion>6.3.1</comparisonVersion>
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>
@@ -187,7 +187,7 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.0</version>
+			<version>1.9.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -261,7 +261,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.10.1</version>
+			<version>3.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -426,7 +426,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.10.1</version>
+			<version>3.14</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

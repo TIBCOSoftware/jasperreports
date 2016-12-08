@@ -75,6 +75,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.RichTextString;
@@ -169,6 +170,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	private HSSFPalette palette = null;
 	protected Map<String, HSSFCellStyle> columnStylesMap;
 	protected Map<String, Integer> columnWidths;
+	protected Map<String, Float> columnWidthRatios;
 
 	/**
 	 *
@@ -301,6 +303,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
 		columnWidths = new HashMap<String, Integer>();
+		columnWidthRatios = new HashMap<String, Float>();
 	}
 
 	@Override
@@ -489,8 +492,17 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				currentSheet.setForceFormulaRecalculation(true);
 				for(String columnName : columnNames) {
 					Integer columnWidth = columnWidths.get(columnName);
+					Float columnWidthRatio = columnWidthRatios.get(columnName);
 					if (columnWidth != null && columnWidth < Integer.MAX_VALUE) {
-						currentSheet.setColumnWidth(columnNamesMap.get(columnName), Math.min(43 * columnWidth, 256*255));
+						if(columnWidthRatio != null && columnWidthRatio > 1f)
+						{
+							columnWidth =  Math.round(43 * columnWidth * columnWidthRatio);
+						}
+						else
+						{
+							columnWidth =  43 * columnWidth;
+						}
+						currentSheet.setColumnWidth(columnNamesMap.get(columnName), Math.min(columnWidth, 256*255));
 					} else {
 						currentSheet.autoSizeColumn(columnNamesMap.get(columnName), false);
 					}
@@ -525,11 +537,22 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 	
-	protected void adjustColumnWidth(String columnName, int columnWidth, Boolean isAutofit) {
-		if(isAutofit != null && isAutofit) {
+	protected void adjustColumnWidth(String columnName, int columnWidth, Boolean isAutofit) 
+	{
+		if(isAutofit != null && isAutofit) 
+		{
 			columnWidths.put(columnName, Integer.MAX_VALUE);
-		} else if(!columnWidths.containsKey(columnName) || columnWidths.get(columnName) < columnWidth) {
-			columnWidths.put(columnName, columnWidth);
+		} 
+		else 
+		{
+			if(!columnWidths.containsKey(columnName) || columnWidths.get(columnName) < columnWidth) 
+			{
+				columnWidths.put(columnName, columnWidth);
+			}
+			if(!columnWidthRatios.containsKey(columnName) && sheetInfo.columnWidthRatio != null) 
+			{
+				columnWidthRatios.put(columnName, sheetInfo.columnWidthRatio);
+			}
 		}
 	}
 
@@ -1165,7 +1188,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 								imageAnchorType = ImageAnchorTypeEnum.MOVE_NO_SIZE;
 							}
 						}
-						anchor.setAnchorType(imageAnchorType.getValue());
+						anchor.setAnchorType(JRXlsExporter.getAnchorType(imageAnchorType));
 						//pngEncoder.setImage(bi);
 						//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 						int imgIndex = workbook.addPicture(imageProcessorResult.imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
@@ -2358,12 +2381,12 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 class ImageSettings {
 
 	private int index;
-	private int anchorType;
+	private ClientAnchor.AnchorType anchorType;
 	
 	public ImageSettings() {
 	}
 	
-	public ImageSettings(int index, int anchorType) {
+	public ImageSettings(int index, ClientAnchor.AnchorType anchorType) {
 		this.index = index;
 		this.anchorType = anchorType;
 	}
@@ -2372,7 +2395,7 @@ class ImageSettings {
 		return index;
 	}
 	
-	public int getAnchorType() {
+	public ClientAnchor.AnchorType getAnchorType() {
 		return anchorType;
 	}
 }

@@ -276,10 +276,10 @@ public class PartReportFiller extends BaseReportFiller
 	
 	protected void fillReport() throws JRException
 	{
-		startReport();
-		
 		if (mainDataset.next())
 		{
+			startReport();
+			
 			fillFirstGroupHeaders();
 			calculateDetail();
 			fillDetail();
@@ -300,6 +300,12 @@ public class PartReportFiller extends BaseReportFiller
 			
 			fillLastGroupFooters();
 			fillLastGroupEvaluatedParts();
+		}
+		else
+		{
+			//no records
+			//might not be required, but it's safer to do it because it used to happen before mainDataset.next() 
+			startReport();
 		}
 		
 		fillReportEvaluatedParts();
