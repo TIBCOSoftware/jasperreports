@@ -49,6 +49,11 @@ public class ExpressionParser
 	protected static final int PLACEHOLDER_TYPE_INDEX = 1;
 	protected static final int PLACEHOLDER_TEXT_INDEX = 2;
 	
+	protected static final char PLACEHOLDER_TYPE_RESOURCE_MESSAGE = 'R';
+	protected static final char PLACEHOLDER_TYPE_PARAMETER = 'P';
+	protected static final char PLACEHOLDER_TYPE_FIELD = 'F';
+	protected static final char PLACEHOLDER_TYPE_VARIABLE = 'V';
+	
 	public static interface ParseResult
 	{
 		void addTextChunk(String text);
@@ -101,29 +106,30 @@ public class ExpressionParser
 	protected byte chunkStringToType(String chunkStringType)
 	{
 		byte chunkType;
-		//FIXME faster way to do this
-		if (chunkStringType.startsWith("P"))
+		char firstChar = chunkStringType.charAt(0);
+		switch (firstChar)
 		{
+		case PLACEHOLDER_TYPE_PARAMETER:
 			chunkType = JRExpressionChunk.TYPE_PARAMETER;
-		}
-		else if (chunkStringType.startsWith("F"))
-		{
+			break;
+
+		case PLACEHOLDER_TYPE_FIELD:
 			chunkType = JRExpressionChunk.TYPE_FIELD;
-		}
-		else if (chunkStringType.startsWith("V"))
-		{
+			break;
+
+		case PLACEHOLDER_TYPE_VARIABLE:
 			chunkType = JRExpressionChunk.TYPE_VARIABLE;
-		}
-		else if (chunkStringType.startsWith("R"))
-		{
+			break;
+
+		case PLACEHOLDER_TYPE_RESOURCE_MESSAGE:
 			chunkType = JRExpressionChunk.TYPE_RESOURCE;
-		}
-		else
-		{
+			break;
+
+		default:
 			throw 
 				new JRRuntimeException(
-					JRExpressionUtil.EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE,
-					new Object[]{chunkStringType});
+						JRExpressionUtil.EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE,
+						new Object[]{chunkStringType});
 		}
 		return chunkType;
 	}
