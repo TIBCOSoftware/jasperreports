@@ -31,20 +31,18 @@ package net.sf.jasperreports.engine.design;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
+import net.sf.jasperreports.engine.util.ExpressionParser;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
 
 /**
@@ -67,11 +65,11 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		LEGACY_PARSER = properties.getBooleanProperty(PROPERTY_LEGACY_PARSER, false);
 	}
 	
-	public static final Pattern PLACEHOLDER_PATTERN = 
-			Pattern.compile("\\$([RPFV])\\{(.*?)\\}", Pattern.MULTILINE | Pattern.DOTALL);
-	
-	protected static final int PLACEHOLDER_TYPE_INDEX = 1;
-	protected static final int PLACEHOLDER_TEXT_INDEX = 2;
+	/**
+	 * @deprecated moved to {@link ExpressionParser#PLACEHOLDER_PATTERN}
+	 */
+	@Deprecated
+	public static final Pattern PLACEHOLDER_PATTERN = ExpressionParser.PLACEHOLDER_PATTERN;
 	
 	public static final String PROPERTY_TEXT = "text";
 	
@@ -367,74 +365,20 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	
 	protected void parseText(String text)
 	{
-		Matcher matcher = PLACEHOLDER_PATTERN.matcher(text);
-
-		int textChunkStart = 0;
-		StringBuilder textChunk = new StringBuilder(text.length());
-		while(matcher.find())
+		ExpressionParser.instance().parseExpression(text, new ExpressionParser.ParseResult()
 		{
-			int matchStart = matcher.start();
-			int matchEnd = matcher.end();
-			if (matchStart > 0 && text.charAt(matchStart - 1) == '$')
+			@Override
+			public void addTextChunk(String text)
 			{
-				// we have a $$ escape, append it to the text chunk with a single $
-				textChunk.append(text, textChunkStart, matchStart - 1);
-				textChunk.append(text, matchStart, matchEnd);
-			}
-			else
-			{
-				// we have a proper placeholder
-				textChunk.append(text, textChunkStart, matchStart);
-				if (textChunk.length() > 0)
-				{
-					addTextChunk(textChunk.toString());
-					textChunk.delete(0, textChunk.length());
-				}
-				
-				String chunkStringType = matcher.group(PLACEHOLDER_TYPE_INDEX);
-				byte chunkType = chunkStringToType(chunkStringType);
-				String chunkText = matcher.group(PLACEHOLDER_TEXT_INDEX);
-				addChunk(chunkType, chunkText);
+				JRDesignExpression.this.addTextChunk(text);
 			}
 			
-			textChunkStart = matchEnd;
-		}
-		
-		textChunk.append(text, textChunkStart, text.length());
-		if (textChunk.length() > 0)
-		{
-			addTextChunk(textChunk.toString());
-		}
-	}
-	
-	protected static byte chunkStringToType(String chunkStringType)
-	{
-		byte chunkType;
-		//FIXME faster way to do this
-		if (chunkStringType.startsWith("P"))
-		{
-			chunkType = JRExpressionChunk.TYPE_PARAMETER;
-		}
-		else if (chunkStringType.startsWith("F"))
-		{
-			chunkType = JRExpressionChunk.TYPE_FIELD;
-		}
-		else if (chunkStringType.startsWith("V"))
-		{
-			chunkType = JRExpressionChunk.TYPE_VARIABLE;
-		}
-		else if (chunkStringType.startsWith("R"))
-		{
-			chunkType = JRExpressionChunk.TYPE_RESOURCE;
-		}
-		else
-		{
-			throw 
-				new JRRuntimeException(
-					JRExpressionUtil.EXCEPTION_MESSAGE_KEY_UNKNOWN_EXPRESSION_CHUNK_TYPE,
-					new Object[]{chunkStringType});
-		}
-		return chunkType;
+			@Override
+			public void addChunk(byte chunkType, String chunkText)
+			{
+				JRDesignExpression.this.addChunk(chunkType, chunkText);
+			}
+		});
 	}
 
 	private transient JRPropertyChangeSupport eventSupport;
