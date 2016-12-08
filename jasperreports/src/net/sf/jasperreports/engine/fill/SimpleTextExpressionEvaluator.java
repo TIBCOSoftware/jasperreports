@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
+import net.sf.jasperreports.engine.util.ExpressionParser;
 
 /**
  * 
@@ -35,6 +36,8 @@ import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 public class SimpleTextExpressionEvaluator
 {
 
+	private static final String EMPTY_RESULT = "";
+	
 	public static String evaluateExpression(JRExpression expression, ExpressionValues values)
 	{
 		if (expression.getType() != ExpressionTypeEnum.SIMPLE_TEXT)
@@ -45,59 +48,160 @@ public class SimpleTextExpressionEvaluator
 		JRExpressionChunk[] chunks = expression.getChunks();
 		if (chunks == null || chunks.length == 0)
 		{
-			return null;
+			return EMPTY_RESULT;
 		}
-		
-		if (chunks.length == 1)
-		{
-			//avoid string builder
-			return chunkValue(chunks[0], values);
-		}
-		
-		StringBuilder result = new StringBuilder();
-		for (JRExpressionChunk chunk : chunks)
-		{
-			String chunkValue = chunkValue(chunk, values);
-			result.append(chunkValue);
-		}
-		return result.toString();
+
+		ResultCollector result = new ResultCollector(values);
+		result.collectChunks(chunks);
+		return result.getResult();
 	}
 	
-	private static String chunkValue(JRExpressionChunk chunk, ExpressionValues values)
+	private static class ResultCollector implements ExpressionParser.ParseResult
 	{
-		String value;
-		switch (chunk.getType())
+		private final ExpressionValues values;
+		
+		//keeping the first text separately to avoid creating a StringBuilder when there's a single chunk
+		private String firstText;
+		private StringBuilder resultBuilder;
+		
+		public ResultCollector(ExpressionValues values)
 		{
-		case JRExpressionChunk.TYPE_TEXT:
-			value = chunk.getText();
-			break;
-
-		case JRExpressionChunk.TYPE_RESOURCE:
-			value = values.getMessage(chunk.getText());
-			break;
-
-		case JRExpressionChunk.TYPE_PARAMETER:
-			value = stringValue(values.getParameterValue(chunk.getText()));
-			break;
-
-		case JRExpressionChunk.TYPE_FIELD:
-			value = stringValue(values.getFieldValue(chunk.getText()));
-			break;
-
-		case JRExpressionChunk.TYPE_VARIABLE:
-			value = stringValue(values.getVariableValue(chunk.getText()));
-			break;
-
-		default:
-			throw new JRRuntimeException("Unknown expression chunk type " + chunk.getType());
+			this.values = values;
 		}
-		//TODO lucianc recurse
-		return value;
-	}
-	
-	private static String stringValue(Object value)
-	{
-		return String.valueOf(value);
+		
+		public String getResult()
+		{
+			String result;
+			if (resultBuilder != null)
+			{
+				result = resultBuilder.toString();
+			}
+			else if (firstText != null)
+			{
+				result = firstText;
+			}
+			else
+			{
+				result = EMPTY_RESULT;
+			}
+			return result;
+		}
+
+		private void appendText(String text)
+		{
+			assert text != null;
+			
+			if (resultBuilder == null)
+			{
+				if (firstText == null)
+				{
+					firstText = text;
+				}
+				else
+				{
+					resultBuilder = new StringBuilder(firstText.length() + text.length() + 16);
+					resultBuilder.append(firstText);
+					resultBuilder.append(text);
+					firstText = null;
+				}
+			}
+			else
+			{
+				resultBuilder.append(text);
+			}
+		}
+		
+		public void collectChunks(JRExpressionChunk[] chunks)
+		{
+			for (JRExpressionChunk chunk : chunks)
+			{
+				byte chunkType = chunk.getType();
+				if (chunkType == JRExpressionChunk.TYPE_TEXT)
+				{
+					appendTextChunk(chunk.getText());
+				}
+				else
+				{
+					appendValueChunk(chunkType, chunk.getText());
+				}
+			}
+		}
+		
+		private void appendTextChunk(String text)
+		{
+			if (text != null)
+			{
+				appendText(text);
+			}
+		}
+		
+		private void appendValueChunk(byte chunkType, String chunkText)
+		{
+			switch (chunkType)
+			{
+			case JRExpressionChunk.TYPE_RESOURCE:
+				appendValueChunk(values.getMessage(chunkText));
+				break;
+
+			case JRExpressionChunk.TYPE_PARAMETER:
+				appendValueChunk(values.getParameterValue(chunkText));
+				break;
+
+			case JRExpressionChunk.TYPE_FIELD:
+				appendValueChunk(values.getFieldValue(chunkText));
+				break;
+
+			case JRExpressionChunk.TYPE_VARIABLE:
+				appendValueChunk(values.getVariableValue(chunkText));
+				break;
+
+			default:
+				throw new JRRuntimeException("Unexpected expression chunk type " + chunkType);
+			}
+		}
+		
+		private void appendValueChunk(Object value)
+		{
+			if (value == null)
+			{
+				appendText(String.valueOf(value));
+			}
+			else if (value instanceof String)
+			{
+				String text = (String) value;
+				ExpressionParser expressionParser = ExpressionParser.instance();
+				//fast test to determine whether the text could have further placeholders
+				if (expressionParser.fastPlaceholderDetect(text))
+				{
+					//could have placehoders, parsing and recursing
+					//TODO detect circular references?
+					expressionParser.parseExpression(text, this);
+				}
+				else
+				{
+					//no placehoders
+					appendText(text);
+				}
+			}
+			else
+			{
+				//no formatting for now
+				String text = String.valueOf(value);
+				appendText(text == null ? String.valueOf(text) : text);
+			}
+		}
+
+		@Override
+		public void addTextChunk(String text)
+		{
+			appendTextChunk(text);
+		}
+
+		@Override
+		public void addChunk(byte chunkType, String chunkText)
+		{
+			appendValueChunk(chunkType, chunkText);
+		}
 	}
 	
 }

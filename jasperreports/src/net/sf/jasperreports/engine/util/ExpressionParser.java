@@ -49,6 +49,10 @@ public class ExpressionParser
 	protected static final int PLACEHOLDER_TYPE_INDEX = 1;
 	protected static final int PLACEHOLDER_TEXT_INDEX = 2;
 	
+	protected static final char PLACEHOLDER_START = '$';
+	protected static final char PLACEHOLDER_OPEN = '{';
+	protected static final char PLACEHOLDER_CLOSE = '}';
+	
 	protected static final char PLACEHOLDER_TYPE_RESOURCE_MESSAGE = 'R';
 	protected static final char PLACEHOLDER_TYPE_PARAMETER = 'P';
 	protected static final char PLACEHOLDER_TYPE_FIELD = 'F';
@@ -132,5 +136,31 @@ public class ExpressionParser
 						new Object[]{chunkStringType});
 		}
 		return chunkType;
+	}
+	
+	public boolean fastPlaceholderDetect(String text)
+	{
+		int textLength = text.length();
+		int startIdx = text.indexOf(PLACEHOLDER_START);
+		boolean found = false;
+		while (startIdx >= 0)
+		{
+			if (startIdx + 3 >= textLength)
+			{
+				break;
+			}
+			
+			char typeChart = text.charAt(startIdx + 1);
+			if ((typeChart == PLACEHOLDER_TYPE_RESOURCE_MESSAGE || typeChart == PLACEHOLDER_TYPE_PARAMETER
+					|| typeChart == PLACEHOLDER_TYPE_FIELD || typeChart == PLACEHOLDER_TYPE_VARIABLE)
+				&& text.charAt(startIdx + 2) == PLACEHOLDER_OPEN)
+			{
+				found = true;
+				break;
+			}
+			
+			startIdx = text.indexOf(PLACEHOLDER_START, startIdx + 1);
+		}
+		return found;
 	}
 }
