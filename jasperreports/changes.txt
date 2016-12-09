@@ -16,7 +16,7 @@ JasperReports 6.4.2 (2017-0x-xx)
 JasperReports 6.4.1 (2016-12-1x)
 ---------------------------------------------
 
-- upgrade to Commons BeanUtils 1.9.3 and Spring 3.2.14;
+- upgrade to Commons BeanUtils 1.9.3, Spring 3.2.14 and BeanShell 2.0b6;
 
 - minor bug fixes and improvements;
 
