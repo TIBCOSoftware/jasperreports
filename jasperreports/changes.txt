@@ -2,8 +2,10 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.4.1 (201x-xx-xx)
+JasperReports 6.4.2 (2017-0x-xx)
 ---------------------------------------------
+
+- simple text expressions;
 
 - minor bug fixes and improvements;
 
@@ -11,7 +13,18 @@ JasperReports 6.4.1 (201x-xx-xx)
 
 
 
-JasperReports 6.4.0 (2016-11-28)
+JasperReports 6.4.1 (2016-12-1x)
+---------------------------------------------
+
+- upgrade to Commons BeanUtils 1.9.3 and Spring 3.2.14;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.4.0 (2016-11-24)
 ---------------------------------------------
 
 - support for rendering of Web-based visualization components to images or SVG, 
