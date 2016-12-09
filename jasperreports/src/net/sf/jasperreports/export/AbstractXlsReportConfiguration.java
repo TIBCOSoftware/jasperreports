@@ -26,6 +26,7 @@ package net.sf.jasperreports.export;
 import java.awt.Color;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
@@ -84,6 +85,7 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Integer printPageRightMargin;
 	private Integer printHeaderMargin;
 	private Integer printFooterMargin;
+	private PropertySuffix[] definedNames;
 
 	
 	/**
@@ -825,6 +827,21 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	public void setPrintFooterMargin(Integer printFooterMargin)
 	{
 		this.printFooterMargin = printFooterMargin;
+	}
+	
+	@Override
+	public PropertySuffix[] getDefinedNames()
+	{
+		return definedNames;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void setDefinedNames(PropertySuffix[] definedNames)
+	{
+		this.definedNames = definedNames;
 	}
 	
 }

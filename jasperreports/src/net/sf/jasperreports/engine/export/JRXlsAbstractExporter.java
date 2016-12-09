@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
@@ -259,6 +260,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	public static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.";
 	public static final String DEFAULT_SHEET_NAME_PREFIX = "Page ";
+	public static final String DEFAULT_DEFINED_NAME_SCOPE = "workbook";
+	public static final String DEFAULT_DEFINED_NAME_SCOPE_SEPARATOR = "\\u007C";	// the '|' character
 	
 	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_ADD_CELL = "export.xls.common.cannot.add.cell";
 	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_MERGE_CELLS = "export.xls.common.cannot.merge.cells";
@@ -626,6 +629,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected SheetInfo sheetInfo;
 	
+	protected Map<NameScope, String> definedNamesMap;
+	
 	public static class SheetInfo
 	{
 		public Integer sheetFirstPageIndex;
@@ -785,6 +790,59 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 	}
 	
+	public class NameScope
+	{
+		private String name;
+		private String scope;
+
+		public NameScope(String name, String scope)
+		{
+			this.name = name;
+			this.scope = scope;
+		}
+		
+		public String getName() 
+		{
+			return name;
+		}
+		
+		public String getScope() 
+		{
+			return scope;
+		}
+		
+		@Override
+		public boolean equals(Object obj)
+		{
+			if(obj == null) 
+			{
+				return this == null;
+			}
+			else 
+			{
+				if (this == null || !obj.getClass().equals(NameScope.class)) 
+				{
+					return false;
+				}
+				else 
+				{
+					@SuppressWarnings("unchecked")
+					NameScope obj1 = (NameScope)obj;
+					return ObjectUtils.equals(this.name, obj1.name) && ObjectUtils.equals(this.scope, obj1.scope);
+				}
+			}
+		}
+	
+		@Override
+		public int hashCode()
+		{
+			ObjectUtils.HashCode hash = ObjectUtils.hash();
+			hash.add(name);
+			hash.add(scope);
+			return hash.getHashCode();
+		}
+	}
+	
 	/**
 	 *
 	 */
@@ -907,6 +965,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
+		definedNamesMap = new HashMap<NameScope, String>();
 		pageFormat = null;
 		boolean pageExported = false;
 		List<ExporterInputItem> items = exporterInput.getItems();
@@ -925,6 +984,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			}
 
 			XlsReportConfiguration configuration = getCurrentItemConfiguration();
+			configureDefinedNames(configuration.getDefinedNames());
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
@@ -1184,6 +1244,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						{
 							autoFilterEnd = "$" + getColumnName(colIndex) + "$" + (rowIndex + 1);
 						}
+						
+						configureDefinedNames(getNature(), element);
 						
 						if (element instanceof JRPrintLine)
 						{
@@ -2284,6 +2346,52 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 	}
 
+	protected void configureDefinedNames(ExporterNature exporterNature, JRPrintElement element)
+	{
+		if(exporterNature instanceof JRXlsAbstractExporterNature)
+		{
+			configureDefinedNames(((JRXlsAbstractExporterNature)exporterNature).getDefinedNames(element));
+		}
+	}
+	
+	protected void configureDefinedNames(PropertySuffix[] names)
+	{
+		if(names != null)
+		{
+			for(PropertySuffix definedName : names)
+			{
+				configureDefinedNames(definedName);
+			}
+		}
+	}
+	
+	protected void configureDefinedNames(PropertySuffix propertySuffix)
+	{
+		if(propertySuffix != null)
+		{
+			String name = propertySuffix.getSuffix();
+			String value = propertySuffix.getValue();
+			if(name != null && name.trim().length() > 0 && value != null && value.length() > 0)
+			{
+				String[] valueScope = value.split(DEFAULT_DEFINED_NAME_SCOPE_SEPARATOR);
+				if(valueScope[0] != null && valueScope[0].length() > 0)
+				{
+					String scope = valueScope.length > 1 ? valueScope[1] : DEFAULT_DEFINED_NAME_SCOPE;
+					NameScope nameScope = new NameScope(name, scope);
+					if(valueScope[0].startsWith("="))
+					{
+						definedNamesMap.put(nameScope, valueScope[0].substring(1));
+					}
+					else
+					{
+						definedNamesMap.put(nameScope, valueScope[0]);
+					}
+				}
+			}
+		}
+	}
+
+	
 	//abstract methods
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException, IOException;

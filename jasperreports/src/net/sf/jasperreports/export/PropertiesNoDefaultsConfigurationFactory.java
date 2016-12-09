@@ -172,6 +172,14 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 				value = values;
 			}
 		}
+		else if(PropertySuffix[].class.equals(type))
+		{
+			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(propertiesHolder, propertyName);
+			if (properties != null && !properties.isEmpty())
+			{
+				value = properties.toArray(new PropertySuffix[properties.size()]);
+			}
+		}
 		else
 		{
 			String strValue = null;

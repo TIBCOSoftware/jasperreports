@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
@@ -592,6 +593,66 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_PRINT_FOOTER_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.footer.margin";
+	
+	/**
+	 * Property prefix used to identify a set of properties that store defined names for 
+	 * the generated Excel workbook. Each property suffix serves as name identifier and should 
+	 * be in accordance with the following rules:
+	 * <ul>
+	 * <li>the first character in a name should be a letter, an underscore or a backslash</li>
+	 * <li>the remaining characters may be letters, digits, periods or underscores; spaces are not allowed</li>
+	 * <li>a name cannot represent a cell reference (names like {@code "A10"}, {@code "$A$10"} or {@code "R2C5"} are invalid)</li>
+	 * <li>a name cannot exceed 255 characters</li>
+	 * <li>names are not case sensitive: {@code "name1"}, {@code "Name1"} and {@code "NAME1"} represent the same name</li>
+	 * <li>a name identifier should be unique within a given report, in order to be properly collected at export time</li>
+	 * </ul>
+	 * The value of such a property contains two distinct parts, separated by a pipe ({@code "|"}) sign:
+	 * <ul>
+	 * <li>the first part, which is mandatory, may represent:
+	 * <ul>
+	 * <li>a cell reference in a given sheet (such as {@code "Sheet_1!$A$10"}, {@code "Sheet_1!A10"}, or {@code "'Sheet 1'!$A$10"}); 
+	 * the {@code "A10"} cell reference is relative, while {@code "$A$10"} is absolute</li>
+	 * <li>a cell range reference in a given sheet (such as {@code "Sheet_1!A10:C20"}, {@code "Sheet_1!$A$10:$C$20"}, {@code "'Sheet 1'!$A$10:$C$20"})</li>
+	 * <li>a formula (such as {@code "SUM('Sheet 1'!$A$10:$C$20)"})</li>
+	 * </ul>
+	 * Note: the R1C1 Excel reference style is not supported in a cell reference, cell range or formula.
+	 * </li>
+	 * <li>an optional second part represents the scope for the defined name. It can be either a sheet name, 
+	 * or the {@code "workbook"} literal constant, representing the entire workbook. In case this second part
+	 * is missing, the scope associated by default will be the entire workbook.</li>
+	 * </ul>
+	 * <p/>
+	 * Examples:
+	 * <ul>
+	 * <li>{@code <property name="net.sf.jasperreports.export.xls.defined.names.test_sum" value="SUM(Sheet_1!$A$10:$C$20)|SecondSheet"/>}</li>
+	 * </ul>
+	 * <p/>
+	 * This name, identified as {@code "test_sum"}, is visible only in a sheet named {@code "SecondSheet"} and is associated 
+	 * with a formula that calculates a sum over the cell range {@code [$A$10:$C$20]} belonging to a sheet named {@code "Sheet_1"}.
+	 * <ul>
+	 * <li>{@code <property name="net.sf.jasperreports.export.xls.defined.names.test_range" value="'Sheet 1'!$A$10:$C$20"/>}</li>
+	 * </ul>
+	 * <p/>
+	 * This name, identified as {@code "test_range"}, is visible in the entire workbook and is associated 
+	 * with the cell range {@code [$A$10:$C$20]} in the sheet named {@code "Sheet 1"}.
+	 * <p/>
+	 * <ul>
+	 * <li>{@code <property name="net.sf.jasperreports.export.xls.defined.names.test_sum_1" value="SUM(Sheet_1!$A$10:$C$20)|Sheet_1"/>}</li>
+	 * <li>{@code <property name="net.sf.jasperreports.export.xls.defined.names.test_sum_all" value="Sheet_1!test_sum_1"/>}</li>
+	 * </ul>
+	 * <p/>
+	 * In this case the name {@code test_sum_1} is visible only in the sheet named {@code Sheet_1}. 
+	 * <p/>
+	 * The name {@code test_sum_all} is visible in the entire workbook and 
+	 * refers to the name {@code test_sum_1} defined for {@code Sheet_1}. 
+	 * <p/>
+	 * Note: Names that reference other names with limited visibility/scope (like the above {@code test_sum_all}) are NOT supported for 
+	 * the XLS (Excel 2003) export format. They work only in the XLSX (Excel 2007 or newer) exporter.
+	 * 
+	 * @see JRPropertiesUtil
+	 * @see <a href="https://support.office.com/en-us/article/Define-and-use-names-in-formulas-4d0f13ac-53b7-422e-afd2-abd7ff379c64#bmsyntax_rules_for_names">Rules for Excel defined names</a>
+	 */
+	public static final String PROPERTY_DEFINED_NAMES_PREFIX = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "defined.names.";
 	
 	/**
 	 * Returns a boolean value specifying whether each report page should be written in a different XLS sheet.
@@ -1181,5 +1242,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 		)
 	public Integer getPrintFooterMargin();
 	
+	/**
+	 * Returns an array of strings representing defined names in the generated workbook. 
+	 * @see #PROPERTY_DEFINED_NAMES_PREFIX
+	 */
+	@ExporterProperty(
+			value=PROPERTY_DEFINED_NAMES_PREFIX
+			)
+	public PropertySuffix[] getDefinedNames();
 	
 }

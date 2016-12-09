@@ -171,6 +171,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	protected Map<String, HSSFCellStyle> columnStylesMap;
 	protected Map<String, Integer> columnWidths;
 	protected Map<String, Float> columnWidthRatios;
+	protected Map<HSSFCell, String> formulaCellsMap;
+
 
 	/**
 	 *
@@ -304,6 +306,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		customColorIndex = MIN_COLOR_INDEX; 
 		columnWidths = new HashMap<String, Integer>();
 		columnWidthRatios = new HashMap<String, Float>();
+		formulaCellsMap = new HashMap<HSSFCell,String>();
 	}
 
 	@Override
@@ -472,6 +475,48 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				}
 			}
 			
+			if(!definedNamesMap.isEmpty()) 
+			{
+				for(Map.Entry<NameScope, String> entry : definedNamesMap.entrySet())
+				{
+					HSSFName name = workbook.createName();
+					NameScope nameScope = entry.getKey();
+					name.setNameName(nameScope.getName());
+					name.setRefersToFormula(entry.getValue());
+					int scopeIndex = workbook.getSheetIndex(nameScope.getScope());
+					// name and name scope are ignoring case in Excel
+					if(nameScope.getScope() != null 
+							&& !DEFAULT_DEFINED_NAME_SCOPE.equalsIgnoreCase(nameScope.getScope())
+							&& scopeIndex >= 0)
+					{
+						name.setSheetIndex(scopeIndex);
+					}
+				}
+			}
+			
+			// applying formulas
+			if(formulaCellsMap != null && !formulaCellsMap.isEmpty())
+			{
+				for(Map.Entry<HSSFCell, String> formulaCell: formulaCellsMap.entrySet())
+				{
+					try
+					{
+						formulaCell.getKey().setCellFormula(formulaCell.getValue());
+					}
+					catch(Exception e)
+					{
+						// usually an org.apache.poi.ss.formula.FormulaParseException 
+						// or a java.lang.IllegalArgumentException
+						// or a java.lang.IllegalStateException
+						if(log.isWarnEnabled())
+						{
+							log.warn(e.getMessage());
+						}
+						throw new JRException(e);
+					}
+				}
+			}
+			
 			int index = 0;
 			for (Integer linkPage : pageLinks.keySet()) {
 				List<Hyperlink> linkList = pageLinks.get(linkPage);
@@ -625,7 +670,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					cell.setCellStyle(cellSettings.getCellStyle());
 				}
 				if(cellSettings.getFormula() != null) {
-					cell.setCellFormula(cellSettings.getFormula());
+					// the formula text will be stored in formulaCellsMap in order to be applied only after 
+					// all defined names are created and available in the workbook (see #closeWorkbook())
+					formulaCellsMap.put(cell, cellSettings.getFormula());
 				}
 				if(cellSettings.getLink() != null) {
 					cell.setHyperlink(cellSettings.getLink());
@@ -1978,6 +2025,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	protected void updateSheet(JRPrintElement element)
 	{
 		JRXlsMetadataExporterNature xlsNature = (JRXlsMetadataExporterNature)nature;
+		configureDefinedNames(xlsNature, element);
 		updatePageMargin(xlsNature.getPrintPageTopMargin(element), Sheet.TopMargin);
 		updatePageMargin(xlsNature.getPrintPageLeftMargin(element), Sheet.LeftMargin);
 		updatePageMargin(xlsNature.getPrintPageBottomMargin(element), Sheet.BottomMargin);

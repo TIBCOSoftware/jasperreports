@@ -360,6 +360,7 @@
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
       
       <property ref="net.sf.jasperreports.export.xls.data"/>
+      <property ref="net.sf.jasperreports.export.xls.defined.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
       
       <property ref="net.sf.jasperreports.export.xls.fit.height"/>
@@ -4841,6 +4842,73 @@ By default this value is represented by the value stored in the report element t
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.export.xls.defined.names.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.defined.names.{arbitrary_name}">
+    <description>
+Property prefix used to identify a set of properties that store defined names for the generated Excel workbook.
+<br/>
+Defined names in these properties are used as default for the 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getDefinedNames()">getDefinedNames()</api> Excel export configuration setting.
+<br/>
+Each property suffix (the <code>{arbitrary_name}</code> part) serves as name identifier and should 
+be in accordance with the following rules (see <a href="https://support.office.com/en-us/article/Define-and-use-names-in-formulas-4d0f13ac-53b7-422e-afd2-abd7ff379c64#bmsyntax_rules_for_names">Rules for Excel defined names</a>):
+<ul>
+<li>the first character in a name should be a letter, an underscore or a backslash</li>
+<li>the remaining characters may be letters, digits, periods or underscores; spaces are not allowed</li>
+<li>a name cannot represent a cell reference (names like <code>"A10"</code>, <code>"$A$10"</code> or <code>"R2C5"</code> are invalid)</li>
+<li>a name cannot exceed 255 characters</li>
+<li>names are not case sensitive: <code>"name1"</code>, <code>"Name1"</code> and <code>"NAME1"</code> represent the same name</li>
+<li>a name identifier should be unique within a given report, in order to be properly collected at export time</li>
+</ul>
+The value of such a property contains two distinct parts, separated by a pipe (<code>"|"</code>) sign:
+<ul>
+<li>the first part, which is mandatory, may represent:
+<ul>
+<li>a cell reference in a given sheet (such as <code>"Sheet_1!$A$10"</code>, <code>"Sheet_1!A10"</code>, or <code>"'Sheet 1'!$A$10"</code>); 
+the <code>"A10"</code> cell reference is relative, while <code>"$A$10"</code> is absolute</li>
+<li>a cell range reference in a given sheet (such as <code>"Sheet_1!A10:C20"</code>, <code>"Sheet_1!$A$10:$C$20"</code>, <code>"'Sheet 1'!$A$10:$C$20"</code>)</li>
+<li>a formula (such as <code>"SUM('Sheet 1'!$A$10:$C$20)"</code>)</li>
+</ul>
+<b>Note: The R1C1 Excel reference style is NOT supported in a cell reference, cell range or formula.</b>
+</li>
+<li>an optional second part represents the scope for the defined name. It can be either a sheet name, 
+or the <code>"workbook"</code> literal constant, representing the entire workbook. In case this second part
+is missing, the scope associated by default will be the entire workbook.</li>
+</ul>
+<b>Examples:</b>
+<ul>
+<li> <code>&lt;property name="net.sf.jasperreports.export.xls.defined.names.test_sum" value="SUM(Sheet_1!$A$10:$C$20)|SecondSheet"/&gt;</code></li>
+</ul>
+This name, identified as <code>"test_sum"</code>, is visible only in a sheet named <code>"SecondSheet"</code> and is associated 
+with a formula that calculates a sum over the cell range <code>[$A$10:$C$20]</code> belonging to a sheet named <code>"Sheet_1"</code>.
+<ul>
+<li> <code>&lt;property name="net.sf.jasperreports.export.xls.defined.names.test_range" value="'Sheet 1'!$A$10:$C$20"/&gt;</code></li>
+</ul>
+This name, identified as <code>"test_range"</code>, is visible in the entire workbook and is associated 
+with the cell range <code>[$A$10:$C$20]</code> in the sheet named <code>"Sheet 1"</code>.
+<br/>
+<ul>
+<li> <code>&lt;property name="net.sf.jasperreports.export.xls.defined.names.test_sum_1" value="SUM(Sheet_1!$A$10:$C$20)|Sheet_1"/&gt;</code></li>
+<li> <code>&lt;property name="net.sf.jasperreports.export.xls.defined.names.test_sum_all" value="Sheet_1!test_sum_1"/&gt;</code></li>
+</ul>
+In this case the name <code>test_sum_1</code> is visible only in the sheet named <code>Sheet_1</code>. 
+<br/>
+<br/>
+The name <code>test_sum_all</code> is visible in the entire workbook and refers to the <code>test_sum_1</code> name defined for <code>Sheet_1</code>. 
+<br/>
+<br/>
+<b>Note: Names that reference other names with limited visibility/scope (like the above <code>test_sum_all</code>) are NOT supported for 
+the XLS (Excel 2003) export format. They work only in the XLSX (Excel 2007 or newer) exporter. A good practice would be to use only names 
+visible in the entire workbook when exporting to XLS.</b>
+<br/>
+    </description>
+    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_DEFINED_NAMES_PREFIX</api>
+    <default>N/A</default>
+    <scope>Report | Element</scope>
+    <since>6.4.2</since>
+  </configProperty>
+  
   <!-- net.sf.jasperreports.export.xls.detect.cell.type -->
   
   <configProperty name="net.sf.jasperreports.export.xls.detect.cell.type">

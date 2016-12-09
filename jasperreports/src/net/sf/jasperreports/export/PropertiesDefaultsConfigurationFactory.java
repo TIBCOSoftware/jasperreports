@@ -168,6 +168,14 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 				value = values;
 			}
 		}
+		else if(PropertySuffix[].class.equals(type))
+		{
+			List<PropertySuffix> properties = propertiesUtil.getProperties(propertyName);
+			if (properties != null && !properties.isEmpty())
+			{
+				value = properties.toArray(new PropertySuffix[properties.size()]);
+			}
+		}
 		else
 		{
 			String strValue = propertiesUtil.getProperty(propertyName);

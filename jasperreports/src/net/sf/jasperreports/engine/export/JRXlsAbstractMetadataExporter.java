@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.NameScope;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.ExportInterruptedException;
@@ -179,6 +180,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap<String,Integer>();
+		definedNamesMap = new HashMap<NameScope, String>();
 		boolean pageExported = false;
 
 		List<ExporterInputItem> items = exporterInput.getItems();
@@ -197,6 +199,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			}
 
 			XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
+			configureDefinedNames(configuration.getDefinedNames());
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)

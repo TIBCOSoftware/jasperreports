@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -81,7 +82,14 @@ public class XlsFeaturesApp extends AbstractSampleApp
 		{
 			long start = System.currentTimeMillis();
 			File sourceFile = files[i];
-			JasperFillManager.fillReportToFile(sourceFile.getPath(), new HashMap<String, Object>(parameters));
+			if(sourceFile.getName().contains("ExcelNames"))
+			{
+				JasperFillManager.fillReportToFile(sourceFile.getPath(), null, new JREmptyDataSource(15));
+			}
+			else
+			{
+				JasperFillManager.fillReportToFile(sourceFile.getPath(), new HashMap<String, Object>(parameters));
+			}
 			System.err.println("Report : " + sourceFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
 	}
@@ -131,26 +139,28 @@ public class XlsFeaturesApp extends AbstractSampleApp
 		{
 			long start = System.currentTimeMillis();
 			File sourceFile = files[i];
-	
-			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-	
-			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-	
-			net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-				new net.sf.jasperreports.engine.export.JExcelApiExporter();
-	
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-			net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-				new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-			configuration.setOnePagePerSheet(true);
-			configuration.setDetectCellType(true);
-			configuration.setCollapseRowSpan(false);
-			exporter.setConfiguration(configuration);
-	
-			exporter.exportReport();
-	
-			System.err.println("Report : " + sourceFile + ". XLS creation time : " + (System.currentTimeMillis() - start));
+			if(!sourceFile.getName().contains("ExcelNames"))
+			{
+				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+		
+				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
+		
+				net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
+					new net.sf.jasperreports.engine.export.JExcelApiExporter();
+		
+				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+				net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
+					new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
+				configuration.setOnePagePerSheet(true);
+				configuration.setDetectCellType(true);
+				configuration.setCollapseRowSpan(false);
+				exporter.setConfiguration(configuration);
+		
+				exporter.exportReport();
+		
+				System.err.println("Report : " + sourceFile + ". JExcelApi XLS creation time : " + (System.currentTimeMillis() - start));
+			}
 		}
 	}
 	

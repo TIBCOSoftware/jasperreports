@@ -191,6 +191,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	
 	protected Integer currentSheetFirstPageNumber;		
 
+	protected Map<String, Integer> sheetMapping;
+
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
@@ -638,6 +640,25 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	@Override
 	protected void closeWorkbook(OutputStream os) throws JRException //FIXMEXLSX could throw IOException here, as other implementations do
 	{
+		if(sheetMapping != null && definedNamesMap != null && !definedNamesMap.isEmpty())
+		{
+			for(Map.Entry<NameScope, String> entry : definedNamesMap.entrySet())
+			{
+				String name = entry.getKey().getName();
+				String localSheetId = "";
+				if(name != null && entry.getValue() != null) 
+				{
+					String scope = entry.getKey().getScope();
+					// name and name scope are ignoring case in Excel
+					if(scope != null && !scope.equalsIgnoreCase(DEFAULT_DEFINED_NAME_SCOPE) && sheetMapping.containsKey(scope))
+					{
+						localSheetId = " localSheetId=\"" + sheetMapping.get(scope) + "\"";
+					}
+					definedNames.append("<definedName name=\"" + name + "\"" + localSheetId + ">" + entry.getValue() + "</definedName>\n");
+				}
+			}
+		}
+		
 		styleHelper.export();
 		
 		styleHelper.close();
@@ -691,7 +712,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		currentSheetFirstPageNumber = sheetInfo.sheetFirstPageNumber;
 		currentSheetName = sheetInfo.sheetName;
 		firstSheetName = firstSheetName == null ? currentSheetName : firstSheetName;
-		wbHelper.exportSheet(sheetIndex + 1, currentSheetName);
+		wbHelper.exportSheet(sheetIndex + 1, currentSheetName, sheetMapping);
 		ctHelper.exportSheet(sheetIndex + 1);
 		relsHelper.exportSheet(sheetIndex + 1);
 		XlsxReportConfiguration configuration = getCurrentItemConfiguration();
@@ -1573,6 +1594,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 //		imageMaps = new HashMap();
 //		hyperlinksMap = new HashMap();
 		definedNames = new StringBuilder();
+		sheetMapping = new HashMap<String, Integer>();
 		try
 		{
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);

@@ -335,12 +335,29 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Integer getFirstPageNumber(JRPrintElement element)
 	{
 		if (element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(PROPERTY_FIRST_PAGE_NUMBER)
-			)
+				&& element.getPropertiesMap().containsProperty(PROPERTY_FIRST_PAGE_NUMBER)
+				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
 			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_FIRST_PAGE_NUMBER, 0);
+		}
+		return null;
+	}
+	
+	public PropertySuffix[] getDefinedNames(JRPrintElement element)
+	{
+		if (element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(PROPERTY_DEFINED_NAMES_PREFIX)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			List<PropertySuffix> propertySuffixes = propertiesUtil.getProperties(PROPERTY_DEFINED_NAMES_PREFIX);
+			if (propertySuffixes != null && !propertySuffixes.isEmpty())
+			{
+				return propertySuffixes.toArray(new PropertySuffix[propertySuffixes.size()]);
+			}
 		}
 		return null;
 	}

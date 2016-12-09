@@ -188,6 +188,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 	protected HSSFPatriarch patriarch;
 	
+	protected Map<HSSFCell, String> formulaCellsMap;
+	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
 	}
@@ -331,6 +333,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		palette =  workbook.getCustomPalette();
 		customColorIndex = MIN_COLOR_INDEX; 
 		autofitColumns = new HashMap<HSSFSheet,List<Integer>>();
+		formulaCellsMap = new HashMap<HSSFCell,String>();
 		
 		SummaryInformation summaryInformation = workbook.getSummaryInformation();
 		if (summaryInformation == null)
@@ -549,7 +552,49 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 				}
 			}
-			 
+			
+			if(!definedNamesMap.isEmpty()) 
+			{
+				for(Map.Entry<NameScope, String> entry : definedNamesMap.entrySet())
+				{
+					HSSFName name = workbook.createName();
+					NameScope nameScope = entry.getKey();
+					name.setNameName(nameScope.getName());
+					name.setRefersToFormula(entry.getValue());
+					int scopeIndex = workbook.getSheetIndex(nameScope.getScope());
+					// name and name scope are ignoring case in Excel
+					if(nameScope.getScope() != null 
+							&& !DEFAULT_DEFINED_NAME_SCOPE.equalsIgnoreCase(nameScope.getScope())
+							&& scopeIndex >= 0)
+					{
+						name.setSheetIndex(scopeIndex);
+					}
+				}
+			}
+			
+			// applying formulas
+			if(formulaCellsMap != null && !formulaCellsMap.isEmpty())
+			{
+				for(Map.Entry<HSSFCell, String> formulaCell: formulaCellsMap.entrySet())
+				{
+					try
+					{
+						formulaCell.getKey().setCellFormula(formulaCell.getValue());
+					}
+					catch(Exception e)
+					{
+						// usually an org.apache.poi.ss.formula.FormulaParseException 
+						// or a java.lang.IllegalArgumentException
+						// or a java.lang.IllegalStateException
+						if(log.isWarnEnabled())
+						{
+							log.warn(e.getMessage());
+						}
+						throw new JRException(e);
+					}
+				}
+			}
+			
 			int index = 0;
 			for (Integer linkPage : pageLinks.keySet()) {		// the pageLinks map contains no entries for reports with ignore hyperlinks == true 
 				List<Hyperlink> linkList = pageLinks.get(linkPage);
@@ -841,9 +886,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	{
 		String formula = getFormula(textElement);
 		String textStr = styledText.getText();
-		
 		if (formula != null)
-		{	
+		{
 			try
 			{
 				TextValue value = getTextValue(textElement, textStr);
@@ -871,7 +915,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				
 				HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 				cell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
-				cell.setCellFormula(formula);
+				
+				// the formula text will be stored in formulaCellsMap in order to be applied only after 
+				// all defined names are created and available in the workbook (see #closeWorkbook())
+				formulaCellsMap.put(cell, formula);
 				endCreateCell(cellStyle);
 				return;
 			}
