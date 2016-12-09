@@ -139,7 +139,7 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="104" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#666666" uuid="ac921702-2939-4695-a21e-856c2eb3e076">
-					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$P{Customers}+ " " + $V{PAGE_NUMBER}]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name" type="simpleText"><![CDATA[$P{Customers} sheet $V{PAGE_NUMBER}]]></propertyExpression>
 				</reportElement>
 				<box>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
