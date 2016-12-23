@@ -314,9 +314,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>commons-javaflow</groupId>
+			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-javaflow</artifactId>
-			<version>20060411</version>
+			<version>20160505</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
