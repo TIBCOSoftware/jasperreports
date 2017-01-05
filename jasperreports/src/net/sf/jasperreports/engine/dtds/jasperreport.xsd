@@ -986,7 +986,7 @@
 	  </enumeration>
       <enumeration value="Fixed">
 		<annotation>
-		 <documentation>Line spacing is exactly as specified bye lineSpacingSize.</documentation>
+		 <documentation>Line spacing is exactly as specified by lineSpacingSize.</documentation>
 		</annotation>
 	  </enumeration>
       <enumeration value="Proportional">
