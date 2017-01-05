@@ -22,6 +22,193 @@ How to format texts using paragraph properties.
       </author>
     </documentedBy>
     <content>
+<subtitle name="overview">Working with Paragraphs</subtitle>
+<br/>
+<br/>
+When we place text content in a report element, we may need to make it look like a distinct paragraph. 
+The information needed in this case can be retrieved either from the element's style (where we have attributes for text alignment), 
+or from the <code>&lt;paragraph/&gt;</code> tag that is available within <code>&lt;style/&gt;</code> and/or <code>&lt;textElement/&gt;</code>.
+<br/>
+<br/>
+Example:
+<pre><![CDATA[
+<textField>
+  <reportElement .../>
+  <textElement textAlignment="Right">
+    <paragraph lineSpacing="Fixed" lineSpacingSize="20.0">
+      <tabStop position="20" alignment="Center"/>
+      <tabStop position="40" alignment="Center"/>
+    </paragraph>
+  </textElement>
+  <textFieldExpression>...</textFieldExpression>
+</textField>]]></pre>
+<subtitle name="alignment">Paragraph Alignment</subtitle>
+<br/>
+<br/>
+A paragraph can be aligned both horizontally and vertically. 
+<br/>
+For the horizontal alignment we can choose one of the following options:
+<ul>
+<li>set the <code>textAlignment</code> attribute in the <code>&lt;textElement/&gt;</code> tag that is associated with the text element in the JRXML file</li>
+<li>set the <code>hTextAlign</code> attribute in a report style that will be applied to the text element</li>
+<li>set the <code>net.sf.jasperreports.style.hTextAlign</code> style feature property per report element</li>
+</ul>
+Possible values for the above settings are stored in <api href="net/sf/jasperreports/engine/type/HorizontalTextAlignEnum.html">HorizontalTextAlignEnum</api> class: 
+<ul>
+<li><code>Left</code> - default value</li>
+<li><code>Center</code></li>
+<li><code>Right</code></li>
+<li><code>Justified</code></li>
+</ul>
+For the vertical alignment, the following options are available:
+<ul>
+<li>set the <code>verticalAlignment</code> attribute in the <code>&lt;textElement/&gt;</code> tag that is associated with the text element in the JRXML file</li>
+<li>set the <code>vTextAlign</code> attribute in a report style that will be applied to the text element</li>
+<li>set the <code>net.sf.jasperreports.style.vTextAlign</code> style feature property per report element</li>
+</ul>
+Possible values for the vertical text alignment are stored in <api href="net/sf/jasperreports/engine/type/VerticalTextAlignEnum.html">VerticalTextAlignEnum</api> class: 
+<ul>
+<li><code>Top</code> - default value</li>
+<li><code>Middle</code></li>
+<li><code>Bottom</code></li>
+<li><code>Justified</code></li>
+</ul>
+Examples:
+<pre><![CDATA[
+<style name="MyParagraphStyle" hTextAlign="Center" vTextAlign="Middle" ... />
+...
+<textField>
+  <reportElement style="MyParagraphStyle".../>
+  <textElement/>
+  <textFieldExpression>...</textFieldExpression>
+</textField>
+
+or:
+
+<textField>
+  <reportElement .../>
+  <textElement textAlignment="Center" verticalAlignment="Middle" ... />
+  <textFieldExpression>...</textFieldExpression>
+</textField>
+
+or:
+
+<textField>
+  <reportElement ...>
+    <property name="net.sf.jasperreports.style.hTextAlign" value="Center"/>
+    <property name="net.sf.jasperreports.style.vTextAlign" value="Middle"/>
+  </reportElement>
+  <textElement/>
+  <textFieldExpression>...</textFieldExpression>
+</textField>]]></pre>
+
+<subtitle name="spacing">Line Spacing</subtitle>
+<br/>
+<br/>
+For a given paragraph one can apply various settings for line spacing, as attributes of the <code>&lt;paragraph/&gt;</code> tag associated with the text element:
+<ul>
+<li><code>lineSpacing</code> - describes the type of line spacing for the paragraph. Possible values for this attribute are stored in the 
+<api href="net/sf/jasperreports/engine/type/LineSpacingEnum.html">LineSpacingEnum</api> class:
+<ul>
+<li><code>Single</code> - normal spacing between lines; this is the default value.</li>
+<li><code>1_1_2</code> - spacing between lines set to 50% more than normal</li>
+<li><code>Double</code> - spacing between lines set to double normal size</li>
+<li><code>AtLeast</code> - spacing between lines set at least to a specified size indicated by <code>lineSpacingSize</code> attribute</li>
+<li><code>Fixed</code> - spacing between lines set exactly as specified by <code>lineSpacingSize</code> attribute</li>
+<li><code>Proportional</code> - spacing between lines set to a specified proportion of the normal line spacing</li>
+</ul>
+</li>
+<li><code>lineSpacingSize</code> - numeric (floating-point) value that specifies the line spacing size to be used in combination with the above <code>lineSpacing</code> type</li>
+<li><code>spacingBefore</code> - refers to the spacing before the paragraph (in pixels)</li>
+<li><code>spacingAfter</code> - refers to the spacing after the paragraph (in pixels)</li>
+</ul>
+Example:
+<pre><![CDATA[
+<textField isStretchWithOverflow="true">
+  <reportElement .../>
+  <textElement ...>
+    <paragraph lineSpacing="Fixed" lineSpacingSize="20.0" spacingBefore="6" spacingAfter="12">
+  </textElement>
+  <textFieldExpression>...</textFieldExpression>
+</textField>]]></pre>
+<subtitle name="indentation">Paragraph Indentation</subtitle>
+<br/>
+<br/>
+JasperReports also supports paragraph indentation, which can be customized using the following attributes of the <code>&lt;paragraph/&gt;</code> tag:
+<ul>
+<li><code>firstLineIndent</code> - represents the indent (in pixels) of the first line of text</li>
+<li><code>leftIndent</code> - represents the left indent (in pixels) of the paragraph</li>
+<li><code>rightIndent</code> - represents the right indent (in pixels) of the paragraph</li>
+</ul>
+Example:
+<pre><![CDATA[
+<style name="indentStyle" isDefault="true" fontName="DejaVu Sans">
+  <paragraph firstLineIndent="20" leftIndent="35" rightIndent="20"/>
+</style>]]></pre>
+
+<subtitle name="tabstops">Tab Stops</subtitle>
+<br/>
+<br/>
+In a given text element we can configure custom tab stops as well, by placing a sequence of <code>&lt;tabStop/&gt;</code> elements 
+inside a <code>&lt;paragraph/&gt;</code> tag. A custom tab stop is completely characterized by its position and alignment:
+<ul>
+<li><code>position</code> - is required; represents the position (in pixels) of the custom tab stop</li>
+<li><code>alignment</code> - optional; represents the alignment of the custom tab stop. Possible values for this attribute are 
+(see <api href="net/sf/jasperreports/engine/type/TabStopAlignEnum.html">TabStopAlignEnum</api>):
+<ul>
+<li><code>Left</code> - default value</li>
+<li><code>Center</code></li>
+<li><code>Right</code></li>
+</ul>
+</li>
+</ul>
+Another useful setting is the tab stop width (in pixels) of the paragraph, that can be customized using the <code>tabStopWidth</code> attribute of the <code>&lt;paragraph/&gt;</code>.
+<br/>
+<br/>
+Examples:
+<pre><![CDATA[
+<paragraph lineSpacing="Fixed" lineSpacingSize="20.0" tabStopWidth="20"/>
+
+or
+
+<paragraph lineSpacing="Fixed" lineSpacingSize="20.0">
+  <tabStop position="20"/>
+  <tabStop position="40" alignment="Center"/>
+  <tabStop position="80" alignment="Right"/>
+</paragraph>]]></pre>
+<subtitle name="defaults">Default Values for Paragraph Settings</subtitle>
+<br/>
+<br/>
+In case we need the same paragraph settings to be applied for all reports that share the same context, 
+we can use the following properties that can be set on the report context:
+<ul>
+<li><code>net.sf.jasperreports.default.line.spacing.size</code> - sets the default value for the line spacing size</li>
+<li><code>net.sf.jasperreports.default.first.line.indent</code> - sets the default value for the first line indent</li>
+<li><code>net.sf.jasperreports.default.left.indent</code> - sets the default value for the left indent</li>
+<li><code>net.sf.jasperreports.default.right.indent</code> - sets the default value for the right indent</li>
+<li><code>net.sf.jasperreports.default.spacing.before</code> - sets the default value for the spacing before paragraph</li>
+<li><code>net.sf.jasperreports.default.spacing.after</code> - sets the default value for the spacing after paragraph</li>
+<li><code>net.sf.jasperreports.default.tab.stop.width</code> - sets the default value for the tab stop width</li>
+</ul>
+Following are the default values as stored in the <code>default.jasperreports.properties</code> file:
+<pre><![CDATA[
+net.sf.jasperreports.default.line.spacing.size=1
+net.sf.jasperreports.default.first.line.indent=0
+net.sf.jasperreports.default.left.indent=0
+net.sf.jasperreports.default.right.indent=0
+net.sf.jasperreports.default.spacing.before=0
+net.sf.jasperreports.default.spacing.after=0
+net.sf.jasperreports.default.tab.stop.width=40]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/paragraphs</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/paragraphs/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 

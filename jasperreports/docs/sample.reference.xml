@@ -34,6 +34,7 @@
       <feature name="groups" sample="jasper" title="Data Grouping"/>
       <feature name="landscape" sample="landscape" title="Creating Landscape Orientation Report Templates"/>
       <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
+      <feature name="paragraphs" sample="paragraphs" title="Working with Paragraphs"/>
       <feature name="rotation" sample="rotation" title="Rotated Text"/>
       <feature name="shapes" sample="shapes" title="Lines, Rectangles, Ellipses (Shapes)"/>
       <feature name="stretch" sample="stretch" title="Stretching Text Fields"/>
