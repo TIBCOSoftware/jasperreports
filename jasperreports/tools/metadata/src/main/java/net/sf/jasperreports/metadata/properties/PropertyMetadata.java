@@ -26,7 +26,6 @@ package net.sf.jasperreports.metadata.properties;
 import java.util.List;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
 import net.sf.jasperreports.annotations.properties.PropertyValueType;
 
 /**
@@ -36,22 +35,69 @@ import net.sf.jasperreports.annotations.properties.PropertyValueType;
 public interface PropertyMetadata
 {
 	
+	/**
+	 * The property name.
+	 * 
+	 * @return the property name
+	 */
 	String getName();
 	
+	/**
+	 * The name of the class where the property constant is declared.
+	 * 
+	 * @return the class name that contains the property constant declaration
+	 */
 	String getConstantDeclarationClass();
 	
+	/**
+	 * The name of the property constant declaration (static) field.
+	 * 
+	 * @return the name of the  property constant declaration field
+	 * @see #getConstantDeclarationClass()
+	 */
 	String getConstantFieldName();
 	
+	/**
+	 * Short description of the property.
+	 * 
+	 * @return short property description
+	 */
 	String getDescription();
 	
+	/**
+	 * The default value of the property.
+	 * 
+	 * @return the default property value
+	 */
 	String getDefaultValue();
 	
+	/**
+	 * The list of scopes at which the property can be set.
+	 * 
+	 * @return the list of scopes at which the property can be set
+	 */
 	List<PropertyScope> getScopes();
 	
+	/**
+	 * The list of conditions under which the property is used
+	 * (for instance using a specific query executer).
+	 * 
+	 * @return the list of conditions under which the property is used
+	 */
 	List<? extends PropertyMetadataScopeQualification> getScopeQualifications();
 	
+	/**
+	 * The version in which the property was introduced.
+	 * 
+	 * @return the version in which the property was introduced
+	 */
 	String getSinceVersion();
 
+	/**
+	 * The type of values that the property expects.
+	 * 
+	 * @return the type of values that the property expects
+	 */
 	PropertyValueType getValueType();
 	
 }
