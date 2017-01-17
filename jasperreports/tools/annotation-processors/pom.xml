@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports-annotation-processors</artifactId>
+	<packaging>jar</packaging>
+	<version>6.4.2-SNAPSHOT</version>
+	<name>jasperreports-annotation-processors</name>
+	<url>http://jasperreports.sourceforge.net</url>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+					<compilerArgument>-proc:none</compilerArgument>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-metadata</artifactId>
+			<version>6.4.2-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>
