@@ -81,6 +81,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 * Property specifying the result set column name for the dataset field.
 	 */
 	@Property (
+			label = "Column name",
 			description = "Property specifying the name of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
 			scopes = {PropertyScope.FIELD},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -95,6 +96,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 * Property specifying the result set column label for the dataset field.
 	 */
 	@Property (
+			label = "Column label",
 			description = "Property specifying the label of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
 			scopes = {PropertyScope.FIELD},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -109,6 +111,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 * Property specifying the result set column index for the dataset field.
 	 */
 	@Property (
+			label = "Column index",
 			description = "Property specifying the name of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
 			scopes = {PropertyScope.FIELD},
 			sinceVersion = JRConstants.VERSION_6_3_1

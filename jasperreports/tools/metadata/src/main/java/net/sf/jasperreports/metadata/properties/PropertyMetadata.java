@@ -58,6 +58,13 @@ public interface PropertyMetadata
 	String getConstantFieldName();
 	
 	/**
+	 * Short label for the property.
+	 * 
+	 * @return short property label
+	 */
+	String getLabel();
+	
+	/**
 	 * Short description of the property.
 	 * 
 	 * @return short property description

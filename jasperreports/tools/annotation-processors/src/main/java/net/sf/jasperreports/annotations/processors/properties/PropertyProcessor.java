@@ -119,6 +119,7 @@ public class PropertyProcessor extends AbstractProcessor
 				property.setConstantDeclarationClass(enclosingElement.getQualifiedName().toString());
 				property.setConstantFieldName(varElement.getSimpleName().toString());
 				
+				property.setLabel(propertyAnnotation.label());
 				property.setDescription(propertyAnnotation.description());
 				property.setDefaultValue(propertyAnnotation.defaultValue());
 				property.setSinceVersion(propertyAnnotation.sinceVersion());

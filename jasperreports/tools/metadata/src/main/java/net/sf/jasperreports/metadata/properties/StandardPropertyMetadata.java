@@ -39,6 +39,7 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	private String name;
 	private String constantDeclarationClass;
 	private String constantFieldName;
+	private String label;
 	private String description;
 	private String defaultValue;
 	private List<PropertyScope> scopes;
@@ -50,6 +51,17 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	{
 		this.scopes = new ArrayList<>();
 		this.scopeQualifications = new ArrayList<>();
+	}
+
+	@Override
+	public String getLabel()
+	{
+		return label;
+	}
+
+	public void setLabel(String label)
+	{
+		this.label = label;
 	}
 
 	@Override
