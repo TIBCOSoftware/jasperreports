@@ -42,12 +42,14 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	private String description;
 	private String defaultValue;
 	private List<PropertyScope> scopes;
+	private List<StandardPropertyMetadataScopeQualification> scopeQualifications;
 	private String sinceVersion;
 	private PropertyValueType valueType;
 
 	public StandardPropertyMetadata()
 	{
 		this.scopes = new ArrayList<>();
+		this.scopeQualifications = new ArrayList<>();
 	}
 
 	@Override
@@ -141,6 +143,22 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	public void setConstantFieldName(String constantFieldName)
 	{
 		this.constantFieldName = constantFieldName;
+	}
+
+	@Override
+	public List<StandardPropertyMetadataScopeQualification> getScopeQualifications()
+	{
+		return scopeQualifications;
+	}
+
+	public void setScopeQualifications(List<StandardPropertyMetadataScopeQualification> scopeQualifications)
+	{
+		this.scopeQualifications = scopeQualifications;
+	}
+	
+	public void addScopeQualification(StandardPropertyMetadataScopeQualification scopeQualification)
+	{
+		this.scopeQualifications.add(scopeQualification);
 	}
 
 }

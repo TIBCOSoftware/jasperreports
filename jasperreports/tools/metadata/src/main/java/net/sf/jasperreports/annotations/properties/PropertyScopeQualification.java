@@ -21,37 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.metadata.properties;
+package net.sf.jasperreports.annotations.properties;
 
-import java.util.List;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
-import net.sf.jasperreports.annotations.properties.PropertyValueType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PropertyMetadata
+@Retention(SOURCE)
+@Target(FIELD)
+public @interface PropertyScopeQualification
 {
-	
-	String getName();
-	
-	String getConstantDeclarationClass();
-	
-	String getConstantFieldName();
-	
-	String getDescription();
-	
-	String getDefaultValue();
-	
-	List<PropertyScope> getScopes();
-	
-	List<? extends PropertyMetadataScopeQualification> getScopeQualifications();
-	
-	String getSinceVersion();
 
-	PropertyValueType getValueType();
+	PropertyScopeQualificationType type();
+	
+	String value();
 	
 }

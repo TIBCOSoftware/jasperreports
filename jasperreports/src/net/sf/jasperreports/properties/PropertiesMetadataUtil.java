@@ -24,10 +24,18 @@
 package net.sf.jasperreports.properties;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.QueryExecuterFactory;
+import net.sf.jasperreports.engine.util.Designatable;
+import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.metadata.properties.PropertyMetadata;
+import net.sf.jasperreports.metadata.properties.PropertyMetadataScopeQualification;
 
 /**
  * 
@@ -42,24 +50,74 @@ public class PropertiesMetadataUtil
 	}
 	
 	private JasperReportsContext context;
+	
+	private volatile List<PropertyMetadata> loadedProperties;
 
 	public PropertiesMetadataUtil(JasperReportsContext context)
 	{
 		this.context = context;
 	}
 	
+	protected List<PropertyMetadata> allProperties()
+	{
+		List<PropertyMetadata> allProperties = loadedProperties;
+		if (allProperties == null)
+		{
+			allProperties = new ArrayList<>();
+			List<PropertiesMetadataProvider> providers = context.getExtensions(PropertiesMetadataProvider.class);
+			for (PropertiesMetadataProvider provider : providers)
+			{
+				List<PropertyMetadata> providerProperties = provider.getProperties();
+				if (providerProperties != null)
+				{
+					allProperties.addAll(providerProperties);
+				}
+			}
+			
+			loadedProperties = allProperties;
+		}
+		return allProperties;
+	}
+	
 	public List<PropertyMetadata> getProperties()
 	{
-		List<PropertyMetadata> properties = new ArrayList<>();//TODO lucianc cache?
-		List<PropertiesMetadataProvider> providers = context.getExtensions(PropertiesMetadataProvider.class);
-		for (PropertiesMetadataProvider provider : providers)
+		return Collections.unmodifiableList(allProperties());
+	}
+	
+	public List<PropertyMetadata> getQueryExecuterFieldProperties(String queryLanguage) throws JRException
+	{
+		QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(context).getExecuterFactory(queryLanguage);
+		if (!(queryExecuterFactory instanceof Designatable))
 		{
-			List<PropertyMetadata> providerProperties = provider.getProperties();
-			if (providerProperties != null)
+			return Collections.emptyList();
+		}
+		String queryExecuterName = ((Designatable) queryExecuterFactory).getName();
+		
+		List<PropertyMetadata> properties = new ArrayList<>();
+		List<PropertyMetadata> allProperties = allProperties();
+		for (PropertyMetadata property : allProperties)
+		{
+			if (property.getScopes().contains(PropertyScope.FIELD))
 			{
-				properties.addAll(providerProperties);
+				List<? extends PropertyMetadataScopeQualification> scopeQualifications = property.getScopeQualifications();
+				boolean foundQualification = false;
+				for (PropertyMetadataScopeQualification scopeQualification : scopeQualifications)
+				{
+					if (scopeQualification.getType() == PropertyScopeQualificationType.QUERY_LANGUAGE
+							&& scopeQualification.getValue().equals(queryExecuterName))
+					{
+						foundQualification = true;
+						break;
+					}
+				}
+				
+				if (foundQualification)
+				{
+					properties.add(property);
+				}
 			}
 		}
+		
 		return properties;
 	}
 

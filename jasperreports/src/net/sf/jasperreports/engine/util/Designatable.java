@@ -21,37 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.metadata.properties;
-
-import java.util.List;
-
-import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
-import net.sf.jasperreports.annotations.properties.PropertyValueType;
+package net.sf.jasperreports.engine.util;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PropertyMetadata
+public interface Designatable
 {
-	
-	String getName();
-	
-	String getConstantDeclarationClass();
-	
-	String getConstantFieldName();
-	
-	String getDescription();
-	
-	String getDefaultValue();
-	
-	List<PropertyScope> getScopes();
-	
-	List<? extends PropertyMetadataScopeQualification> getScopeQualifications();
-	
-	String getSinceVersion();
 
-	PropertyValueType getValueType();
+	String getName();
 	
 }

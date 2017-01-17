@@ -46,9 +46,11 @@ import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
 import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadata;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerialization;
 import net.sf.jasperreports.metadata.properties.StandardPropertyMetadata;
+import net.sf.jasperreports.metadata.properties.StandardPropertyMetadataScopeQualification;
 
 /**
  * 
@@ -122,6 +124,13 @@ public class PropertyProcessor extends AbstractProcessor
 				property.setSinceVersion(propertyAnnotation.sinceVersion());
 				property.setValueType(propertyAnnotation.valueType());
 				property.setScopes(new ArrayList<>(Arrays.asList(propertyAnnotation.scopes())));
+				
+				PropertyScopeQualification scopeQualification = varElement.getAnnotation(PropertyScopeQualification.class);
+				if (scopeQualification != null)
+				{
+					StandardPropertyMetadataScopeQualification metadataScopeQualification = new StandardPropertyMetadataScopeQualification(scopeQualification);
+					property.addScopeQualification(metadataScopeQualification);
+				}
 				
 				props.addProperty(property);
 			}

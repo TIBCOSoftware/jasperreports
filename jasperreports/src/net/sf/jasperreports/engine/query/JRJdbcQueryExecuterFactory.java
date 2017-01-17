@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.Designatable;
 
 /**
  * Query executer factory for SQL queries.
@@ -42,8 +43,11 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see net.sf.jasperreports.engine.query.JRJdbcQueryExecuter
  */
-public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
+public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable
 {	
+	
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:SQL";
+	
 	/**
 	 * Property specifying the ResultSet fetch size.
 	 */
@@ -148,5 +152,11 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 	public boolean supportsQueryParameterType(String className)
 	{
 		return Arrays.binarySearch(queryParameterClassNames, className) >= 0;
+	}
+
+	@Override
+	public String getName()
+	{
+		return QUERY_EXECUTER_NAME;
 	}
 }

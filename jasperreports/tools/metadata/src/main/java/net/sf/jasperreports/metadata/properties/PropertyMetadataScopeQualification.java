@@ -23,35 +23,17 @@
  */
 package net.sf.jasperreports.metadata.properties;
 
-import java.util.List;
-
-import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
-import net.sf.jasperreports.annotations.properties.PropertyValueType;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PropertyMetadata
+public interface PropertyMetadataScopeQualification
 {
-	
-	String getName();
-	
-	String getConstantDeclarationClass();
-	
-	String getConstantFieldName();
-	
-	String getDescription();
-	
-	String getDefaultValue();
-	
-	List<PropertyScope> getScopes();
-	
-	List<? extends PropertyMetadataScopeQualification> getScopeQualifications();
-	
-	String getSinceVersion();
 
-	PropertyValueType getValueType();
+	PropertyScopeQualificationType getType();
+	
+	String getValue();
 	
 }
