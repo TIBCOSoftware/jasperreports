@@ -59,7 +59,7 @@
       <property ref="net.sf.jasperreports.xls.timezone.id"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
-      <property ref="net.sf.jasperreports.xpath.field.mapping"/>
+      <property ref="net.sf.jasperreports.xpath.field.expression"/>
     </content>
   </category>
   
