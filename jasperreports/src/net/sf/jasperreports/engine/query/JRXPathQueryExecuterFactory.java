@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.Designatable;
 
 /**
  * XPath query executer factory.
@@ -39,8 +40,11 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory
+public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable
 {
+	
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:XPATH";
+	
 	/**
 	 * Built-in parameter holding the value of the org.w3c.dom.Document used to run the XPath query.
 	 */
@@ -122,5 +126,11 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;
+	}
+
+	@Override
+	public String getName()
+	{
+		return QUERY_EXECUTER_NAME;
 	}
 }

@@ -35,10 +35,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 
 /**
  * Abstract XML data source implementation that allows to access the data from a xml
@@ -119,6 +125,16 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	/**
 	 * Property specifying the XPath expression for the dataset field.
 	 */
+	@Property (
+			label = "Field expression",
+			description = "Property specifying the XPath expression for the dataset field in case an XML data source is used.", 
+			scopes = {PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
+			value = JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME
+	)
 	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.field.expression";
 
 	private Map<String, String> fieldExpressions = new HashMap<String, String>();
