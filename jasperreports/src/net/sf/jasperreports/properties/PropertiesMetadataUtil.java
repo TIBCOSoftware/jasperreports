@@ -24,8 +24,14 @@
 package net.sf.jasperreports.properties;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
@@ -44,6 +50,8 @@ import net.sf.jasperreports.metadata.properties.PropertyMetadataScopeQualificati
 public class PropertiesMetadataUtil
 {
 
+	private static final Log log = LogFactory.getLog(PropertiesMetadataUtil.class);
+	
 	public static PropertiesMetadataUtil getInstance(JasperReportsContext context)
 	{
 		return new PropertiesMetadataUtil(context);
@@ -51,37 +59,48 @@ public class PropertiesMetadataUtil
 	
 	private JasperReportsContext context;
 	
-	private volatile List<PropertyMetadata> loadedProperties;
+	private volatile Map<String, PropertyMetadata> loadedProperties;
 
 	public PropertiesMetadataUtil(JasperReportsContext context)
 	{
 		this.context = context;
 	}
 	
-	protected List<PropertyMetadata> allProperties()
+	protected Collection<PropertyMetadata> allProperties()
 	{
-		List<PropertyMetadata> allProperties = loadedProperties;
+		Map<String, PropertyMetadata> allProperties = loadedProperties;
 		if (allProperties == null)
 		{
-			allProperties = new ArrayList<>();
+			allProperties = new LinkedHashMap<>();
 			List<PropertiesMetadataProvider> providers = context.getExtensions(PropertiesMetadataProvider.class);
 			for (PropertiesMetadataProvider provider : providers)
 			{
 				List<PropertyMetadata> providerProperties = provider.getProperties();
 				if (providerProperties != null)
 				{
-					allProperties.addAll(providerProperties);
+					for (PropertyMetadata property : providerProperties)
+					{
+						if (!allProperties.containsKey(property.getName()))
+						{
+							allProperties.put(property.getName(), property);
+						}
+						else if (log.isDebugEnabled())
+						{
+							log.debug("Found duplicate property " + property.getName());
+						}
+					}
 				}
 			}
 			
 			loadedProperties = allProperties;
 		}
-		return allProperties;
+		return allProperties.values();
 	}
 	
 	public List<PropertyMetadata> getProperties()
 	{
-		return Collections.unmodifiableList(allProperties());
+		Collection<PropertyMetadata> allProperties = allProperties();
+		return new ArrayList<>(allProperties);
 	}
 	
 	public List<PropertyMetadata> getQueryExecuterFieldProperties(String queryLanguage) throws JRException
@@ -94,7 +113,7 @@ public class PropertiesMetadataUtil
 		String queryExecuterName = ((Designatable) queryExecuterFactory).getName();
 		
 		List<PropertyMetadata> properties = new ArrayList<>();
-		List<PropertyMetadata> allProperties = allProperties();
+		Collection<PropertyMetadata> allProperties = allProperties();
 		for (PropertyMetadata property : allProperties)
 		{
 			if (property.getScopes().contains(PropertyScope.FIELD))
