@@ -40,6 +40,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class JsonQLQueryExecuterFactory extends JsonQueryExecuterFactory
 {
+	
+	public static final String JSONQL_QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:JSONQL";
+	
 	@Override
 	public JRQueryExecuter createQueryExecuter(
 		JasperReportsContext jasperReportsContext,
@@ -48,6 +51,12 @@ public class JsonQLQueryExecuterFactory extends JsonQueryExecuterFactory
 		) throws JRException
 	{
 		return new JsonQLQueryExecuter(jasperReportsContext, dataset, parameters);
+	}
+
+	@Override
+	public String getName()
+	{
+		return JSONQL_QUERY_EXECUTER_NAME;
 	}
 
 }

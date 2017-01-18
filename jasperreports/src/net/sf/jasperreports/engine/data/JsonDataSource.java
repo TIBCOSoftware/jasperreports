@@ -36,12 +36,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.JsonQLQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JsonUtil;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -64,6 +71,16 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	/**
 	 * Property specifying the JSON expression for the dataset field.
 	 */
+	@Property (
+			label = "Field expression",
+			description = "Property specifying the JSON expression for the dataset field in case a JSON data source is used.", 
+			scopes = {PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
+			value = JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME
+	)
 	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "json.field.expression";
 
 	// the JSON select expression that gives the nodes to iterate

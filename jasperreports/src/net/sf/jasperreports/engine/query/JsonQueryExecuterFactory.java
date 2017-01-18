@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.Designatable;
 
 /**
  * JSON query executer factory.
@@ -39,8 +40,11 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
+public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable
 {
+	
+	public static final String JSON_QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:JSON";
+	
 	/**
 	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the JSON data.
 	 */
@@ -125,5 +129,11 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;
+	}
+
+	@Override
+	public String getName()
+	{
+		return JSON_QUERY_EXECUTER_NAME;
 	}
 }
