@@ -31,11 +31,17 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
 
 
 /**
@@ -57,11 +63,33 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	/**
 	 * Property specifying the XLS column name for the dataset field.
 	 */
+	@Property (
+			label = "Column name",
+			description = "Property specifying the name of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used.", 
+			scopes = {PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
+			value = AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME
+	)
 	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "xls.field.column.name";
+	
 	/**
 	 * Property specifying the XLS column index for the dataset field.
 	 */
+	@Property (
+			label = "Column index",
+			description = "Property specifying the 0-based index of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used.", 
+			scopes = {PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
+			value = AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME
+	)
 	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "xls.field.column.index";
+	
 	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
 	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
 

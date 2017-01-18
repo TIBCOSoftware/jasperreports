@@ -36,6 +36,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import antlr.ANTLRException;
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -83,6 +88,16 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	/**
 	 * Property specifying the OLAP mapping for the dataset field.
 	 */
+	@Property (
+			label = "Field mapping",
+			description = "	Property specifying the mapping for the dataset field in case an OLAP data source is used.", 
+			scopes = {PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
+			value = JRMdxQueryExecuterFactory.QUERY_EXECUTER_NAME
+	)
 	public static final String PROPERTY_FIELD_MAPPING = JRPropertiesUtil.PROPERTY_PREFIX + "olap.field.mapping";
 
 	protected final JROlapResult olapResult;

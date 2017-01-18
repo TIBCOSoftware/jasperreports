@@ -24,14 +24,18 @@
 package net.sf.jasperreports.engine.query;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.util.Designatable;
 
 /**
  * Query executer factory for Excel file type.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecuterFactory 
+public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable 
 {
+	
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:XLS";
+	
 	/**
 	 * Built-in parameter holding the value of the <code>Workbook</code> to be used for obtaining the Excel data.
 	 */
@@ -140,4 +144,10 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 	 * would have no effect. 
 	 */
 	public static final String XLS_USE_FIRST_ROW_AS_HEADER = "XLS_USE_FIRST_ROW_AS_HEADER";
+
+	@Override
+	public String getName()
+	{
+		return QUERY_EXECUTER_NAME;
+	}
 }

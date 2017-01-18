@@ -45,12 +45,18 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -78,11 +84,33 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	/**
 	 * Property specifying the CSV column name for the dataset field.
 	 */
+	@Property (
+			label = "Column name",
+			description = "Property specifying the name of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
+			scopes = {PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
+			value = JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME
+	)
 	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.column.name";
+	
 	/**
 	 * Property specifying the CSV column index for the dataset field.
 	 */
+	@Property (
+			label = "Column index",
+			description = "	Property specifying the 0-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
+			scopes = {PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
+			value = JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME
+	)
 	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.column.index";
+	
 	public static final String INDEXED_COLUMN_PREFIX = "COLUMN_";
 	private static final int INDEXED_COLUMN_PREFIX_LENGTH = INDEXED_COLUMN_PREFIX.length();
 
