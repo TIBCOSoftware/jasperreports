@@ -35,10 +35,15 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
+import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.data.DataFile;
+import net.sf.jasperreports.data.DataFileServiceFactory;
+import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.engine.util.Designator;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.metadata.properties.PropertyMetadata;
 import net.sf.jasperreports.metadata.properties.PropertyMetadataScopeQualification;
@@ -112,18 +117,26 @@ public class PropertiesMetadataUtil
 		}
 		String queryExecuterName = ((Designated) queryExecuterFactory).getName();
 		
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.FIELD, 
+				PropertyScopeQualificationType.QUERY_LANGUAGE, queryExecuterName);
+		return properties;
+	}
+
+	protected List<PropertyMetadata> filterQualifiedProperties(PropertyScope primaryScope,
+			PropertyScopeQualificationType qualificationType, String qualificationName)
+	{
 		List<PropertyMetadata> properties = new ArrayList<>();
 		Collection<PropertyMetadata> allProperties = allProperties();
 		for (PropertyMetadata property : allProperties)
 		{
-			if (property.getScopes().contains(PropertyScope.FIELD))
+			if (property.getScopes().contains(primaryScope))
 			{
 				List<? extends PropertyMetadataScopeQualification> scopeQualifications = property.getScopeQualifications();
 				boolean foundQualification = false;
 				for (PropertyMetadataScopeQualification scopeQualification : scopeQualifications)
 				{
-					if (scopeQualification.getType() == PropertyScopeQualificationType.QUERY_LANGUAGE
-							&& scopeQualification.getValue().equals(queryExecuterName))
+					if (scopeQualification.getType() == qualificationType
+							&& scopeQualification.getValue().equals(qualificationName))
 					{
 						foundQualification = true;
 						break;
@@ -136,7 +149,42 @@ public class PropertiesMetadataUtil
 				}
 			}
 		}
+		return properties;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PropertyMetadata> getParameterProperties(DataAdapter dataAdapter)
+	{
+		if (!(dataAdapter instanceof FileDataAdapter))
+		{
+			return Collections.emptyList();
+		}
 		
+		DataFile dataFile = ((FileDataAdapter) dataAdapter).getDataFile();
+		String name = null;
+		List<DataFileServiceFactory> factories = context.getExtensions(DataFileServiceFactory.class);
+		if (factories != null)
+		{
+			for (DataFileServiceFactory factory : factories)
+			{
+				if (factory instanceof Designator<?>)
+				{
+					name = ((Designator<DataFile>) factory).getName(dataFile);
+					if (name != null)
+					{
+						break;
+					}
+				}
+			}
+		}
+		
+		if (name == null)
+		{
+			return Collections.emptyList();
+		}
+		
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.PARAMETER, 
+				PropertyScopeQualificationType.DATA_FILE, name);
 		return properties;
 	}
 

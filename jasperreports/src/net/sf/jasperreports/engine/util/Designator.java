@@ -21,16 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.annotations.properties;
+package net.sf.jasperreports.engine.util;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public enum PropertyScopeQualificationType
+public interface Designator<T>
 {
 
-	QUERY_LANGUAGE,
-	DATA_FILE;
-	
+	String getName(T object);
+
 }

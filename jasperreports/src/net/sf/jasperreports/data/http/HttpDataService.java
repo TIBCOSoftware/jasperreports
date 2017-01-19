@@ -54,9 +54,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
+import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileConnection;
 import net.sf.jasperreports.data.DataFileService;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -72,6 +77,8 @@ public class HttpDataService implements DataFileService
 {
 	
 	private static final Log log = LogFactory.getLog(HttpDataService.class);
+	
+	public static final String HTTP_DATA_SERVICE_NAME = "net.sf.jasperreports.data.adapter:HTTP";
 	
 	public static final String EXCEPTION_MESSAGE_KEY_NO_HTTP_URL_SET = "data.http.no.http.url.set";
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REQUEST_METHOD = "data.http.unknown.request.method";
@@ -105,42 +112,112 @@ public class HttpDataService implements DataFileService
 	 * Property that specifies the base URL to be used by the HTTP data adapters. 
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the URL value.
 	 */
+	@Property (
+			label = "Data URL",
+			description = "Property that specifies the base URL to be used by the HTTP data adapters.",
+			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.DATA_FILE,
+			value = HTTP_DATA_SERVICE_NAME
+	)
 	public static final String PROPERTY_URL = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url";
 
 	/**
 	 * Property that specifies the user name to be used by the HTTP data adapters with basic authentication. 
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user name value.
 	 */
+	@Property (
+			label = "Username",
+			description = "Property that specifies the user name to be used by the HTTP data adapters with basic authentication.",
+			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.DATA_FILE,
+			value = HTTP_DATA_SERVICE_NAME
+	)
 	public static final String PROPERTY_USERNAME = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.username";
 
 	/**
 	 * Property that specifies the password to be used by the HTTP data adapters with basic authentication. 
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user password value.
 	 */
+	@Property (
+			label = "Password",
+			description = "Property that specifies the password to be used by the HTTP data adapters with basic authentication.",
+			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.DATA_FILE,
+			value = HTTP_DATA_SERVICE_NAME
+	)
 	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.password";
 
 	/**
 	 * Property that specifies the name of the request parameter to be added to the URL when HTTP data adapter is used.
 	 * If the property is present, but has no value, the name of the request parameter is the same as the report parameter name.
 	 */
+	@Property (
+			label = "URL parameter",
+			description = "Property which specifies that the current parameter will append a request parameter value to the base URL when HTTP data adapters are used.",
+			scopes = {PropertyScope.PARAMETER},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.DATA_FILE,
+			value = HTTP_DATA_SERVICE_NAME
+	)
 	public static final String PROPERTY_URL_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url.parameter";
 
 	/**
 	 * Property that specifies the POST/PUT request body to be sent when HTTP data adapter is used.
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the POST/PUT request body value.
 	 */
+	@Property (
+			label = "Request body",
+			description = "Property that specifies the POST/PUT request body to be sent when HTTP data adapter is used.",
+			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.DATA_FILE,
+			value = HTTP_DATA_SERVICE_NAME
+	)
 	public static final String PROPERTY_BODY = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.body";
 
 	/**
 	 * Property that specifies the name of the request POST parameter to be sent when HTTP data adapter is used.
 	 * If the property is present, but has no value, the name of the request parameter is the same as the report parameter name.
 	 */
+	@Property (
+			label = "POST parameter",
+			description = "Property which specifies that the current parameter will contribute a POST request parameter value when HTTP data adapters are used.",
+			scopes = {PropertyScope.PARAMETER},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.DATA_FILE,
+			value = HTTP_DATA_SERVICE_NAME
+	)
 	public static final String PROPERTY_POST_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.post.parameter";
 
 	/**
 	 * Property that specifies the name of the request header to be sent when HTTP data adapter is used.
 	 * If the property is present, but has no value, the name of the request header is the same as the report parameter name.
 	 */
+	@Property (
+			label = "Request header",
+			description = "Property which specifies that the current parameter will contribute a request header value when HTTP data adapters are used.",
+			scopes = {PropertyScope.PARAMETER},
+			sinceVersion = JRConstants.VERSION_6_3_1
+	)
+	@PropertyScopeQualification (
+			type = PropertyScopeQualificationType.DATA_FILE,
+			value = HTTP_DATA_SERVICE_NAME
+	)
 	public static final String PROPERTY_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.header";
 
 	private final ParameterContributorContext context;

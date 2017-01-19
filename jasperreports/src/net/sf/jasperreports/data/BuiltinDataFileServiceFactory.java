@@ -26,11 +26,12 @@ package net.sf.jasperreports.data;
 import net.sf.jasperreports.data.http.HttpDataLocation;
 import net.sf.jasperreports.data.http.HttpDataService;
 import net.sf.jasperreports.engine.ParameterContributorContext;
+import net.sf.jasperreports.engine.util.Designator;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class BuiltinDataFileServiceFactory implements DataFileServiceFactory
+public class BuiltinDataFileServiceFactory implements DataFileServiceFactory, Designator<DataFile>
 {
 	
 	private static final BuiltinDataFileServiceFactory INSTANCE = new BuiltinDataFileServiceFactory();
@@ -55,6 +56,17 @@ public class BuiltinDataFileServiceFactory implements DataFileServiceFactory
 		{
 			return new HttpDataService(context, (HttpDataLocation) dataFile);
 		}
+		return null;
+	}
+
+	@Override
+	public String getName(DataFile dataFile)
+	{
+		if (dataFile instanceof HttpDataLocation)
+		{
+			return HttpDataService.HTTP_DATA_SERVICE_NAME;
+		}
+		
 		return null;
 	}
 
