@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.Designatable;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * JSON query executer factory.
@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.Designatable;
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable
+public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {
 	
 	public static final String JSON_QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:JSON";

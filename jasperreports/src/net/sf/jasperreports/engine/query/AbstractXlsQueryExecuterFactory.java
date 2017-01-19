@@ -24,14 +24,14 @@
 package net.sf.jasperreports.engine.query;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.util.Designatable;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * Query executer factory for Excel file type.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable 
+public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated 
 {
 	
 	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:XLS";

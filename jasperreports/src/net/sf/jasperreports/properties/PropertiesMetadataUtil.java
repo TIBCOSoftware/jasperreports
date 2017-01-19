@@ -38,7 +38,7 @@ import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationTyp
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
-import net.sf.jasperreports.engine.util.Designatable;
+import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.metadata.properties.PropertyMetadata;
 import net.sf.jasperreports.metadata.properties.PropertyMetadataScopeQualification;
@@ -106,11 +106,11 @@ public class PropertiesMetadataUtil
 	public List<PropertyMetadata> getQueryExecuterFieldProperties(String queryLanguage) throws JRException
 	{
 		QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(context).getExecuterFactory(queryLanguage);
-		if (!(queryExecuterFactory instanceof Designatable))
+		if (!(queryExecuterFactory instanceof Designated))
 		{
 			return Collections.emptyList();
 		}
-		String queryExecuterName = ((Designatable) queryExecuterFactory).getName();
+		String queryExecuterName = ((Designated) queryExecuterFactory).getName();
 		
 		List<PropertyMetadata> properties = new ArrayList<>();
 		Collection<PropertyMetadata> allProperties = allProperties();

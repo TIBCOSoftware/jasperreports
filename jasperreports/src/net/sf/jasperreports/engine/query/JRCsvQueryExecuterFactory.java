@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.Designatable;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * Query executer factory for CSV file type.
@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.Designatable;
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable 
+public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated 
 {
 	
 	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:CSV";

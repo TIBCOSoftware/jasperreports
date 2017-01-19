@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.Designatable;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * Query executer factory for SQL queries.
@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.Designatable;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see net.sf.jasperreports.engine.query.JRJdbcQueryExecuter
  */
-public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable
+public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {	
 	
 	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:SQL";

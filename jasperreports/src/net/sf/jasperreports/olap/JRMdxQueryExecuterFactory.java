@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.AbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JREmptyQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.util.Designatable;
+import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuter;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
 
@@ -43,7 +43,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRMdxQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designatable
+public class JRMdxQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {
 	
 	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:MDX";

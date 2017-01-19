@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine.util;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface Designatable
+public interface Designated
 {
 
 	String getName();
