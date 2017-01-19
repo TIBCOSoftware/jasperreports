@@ -78,7 +78,7 @@ public class HttpDataAdapterApp extends AbstractSampleApp
 				fileName.substring(0, fileName.indexOf(".jasper")) + ".jrprint",
 				null
 				);
-			System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+			System.err.println(reportFile.getName() + " filling time : " + (System.currentTimeMillis() - start));
 		}
 	}
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
-	<name>XML Http Data Adapter</name>
+	<name>JSON Http Data Adapter</name>
 	<dataFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xsi:type="httpDataLocation">
 		<method>GET</method>
