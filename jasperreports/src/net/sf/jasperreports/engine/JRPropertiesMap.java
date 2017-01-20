@@ -55,6 +55,11 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	
 	private static final Log log = LogFactory.getLog(JRPropertiesMap.class);
 	
+	/**
+	 * @deprecated no longer used, {@link #setProperty(String, String)} now uses 
+	 * the actual property name for the change event
+	 */
+	@Deprecated
 	public static final String PROPERTY_VALUE = "value";
 	
 	private Map<String, String> propertiesMap;
@@ -241,7 +246,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 
 		if (hasEventSupport())
 		{
-			getEventSupport().firePropertyChange(PROPERTY_VALUE, old, value);
+			getEventSupport().firePropertyChange(propName, old, value);
 		}
 	}
 	
