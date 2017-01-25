@@ -112,9 +112,10 @@ public class JRResultSetDataSource implements JRDataSource
 	 */
 	@Property (
 			label = "Column index",
-			description = "Property specifying the name of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
+			description = "Property specifying the 1-based index of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
 			scopes = {PropertyScope.FIELD},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = JRConstants.VERSION_6_3_1,
+			valueType = Integer.class
 	)
 	@PropertyScopeQualification (
 			type = PropertyScopeQualificationType.QUERY_LANGUAGE,

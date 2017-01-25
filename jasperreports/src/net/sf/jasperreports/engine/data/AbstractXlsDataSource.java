@@ -82,7 +82,8 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 			label = "Column index",
 			description = "Property specifying the 0-based index of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used.", 
 			scopes = {PropertyScope.FIELD},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = JRConstants.VERSION_6_3_1,
+			valueType = Integer.class
 	)
 	@PropertyScopeQualification (
 			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
