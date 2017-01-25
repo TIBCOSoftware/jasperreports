@@ -462,6 +462,7 @@
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace"/>
+      <property ref="net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}"/>
       <property ref="net.sf.jasperreports.properties"/>
       <property ref="net.sf.jasperreports.report.version"/>
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
@@ -2908,6 +2909,24 @@ exception stacktraces in some cases.
     <default>false</default>
     <scope>Global</scope>
     <since>3.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}">
+    <description>
+Properties having this prefix specify which properties will be excluded when a JRXML representation is extracted from an in-memory 
+<api href="net/sf/jasperreports/engine/JRReport.html">JRReport</api> object. The value of such a report context property is  
+a regular expression that matches property names in the <code>JRReport</code> object. Properties with matching names will be 
+excluded from the generated JRXML representation.
+<br/>
+This feature does not apply to property expressions.
+    </description>
+    <api>net/sf/jasperreports/engine/xml/JRXmlWriter.html#PREFIX_EXCLUDE_PROPERTIES</api>
+    <default>N/A</default>
+    <scope>Global</scope>
+    <since>6.1.1</since>
   </configProperty>
   
   
