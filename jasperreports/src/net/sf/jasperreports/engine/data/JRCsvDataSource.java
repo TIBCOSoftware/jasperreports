@@ -101,7 +101,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	@Property (
 			label = "Column index",
-			description = "	Property specifying the 0-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
+			description = "Property specifying the 0-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
 			scopes = {PropertyScope.FIELD},
 			sinceVersion = JRConstants.VERSION_6_3_1
 	)

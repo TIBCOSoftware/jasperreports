@@ -90,7 +90,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	 */
 	@Property (
 			label = "Field mapping",
-			description = "	Property specifying the mapping for the dataset field in case an OLAP data source is used.", 
+			description = "Property specifying the mapping for the dataset field in case an OLAP data source is used.", 
 			scopes = {PropertyScope.FIELD},
 			sinceVersion = JRConstants.VERSION_6_3_1
 	)
