@@ -47,8 +47,6 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -88,11 +86,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			label = "Column name",
 			description = "Property specifying the name of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
 			scopes = {PropertyScope.FIELD},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
-			value = JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME
 	)
 	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.column.name";
 	
@@ -103,12 +98,9 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			label = "Column index",
 			description = "Property specifying the 0-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
 			scopes = {PropertyScope.FIELD},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1,
 			valueType = Integer.class
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
-			value = JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME
 	)
 	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.column.index";
 	

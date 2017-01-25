@@ -42,7 +42,7 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	private String description;
 	private String defaultValue;
 	private List<PropertyScope> scopes;
-	private List<StandardPropertyMetadataScopeQualification> scopeQualifications;
+	private List<String> scopeQualifications;
 	private String sinceVersion;
 	private String valueType;
 
@@ -157,17 +157,17 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	}
 
 	@Override
-	public List<StandardPropertyMetadataScopeQualification> getScopeQualifications()
+	public List<String> getScopeQualifications()
 	{
 		return scopeQualifications;
 	}
 
-	public void setScopeQualifications(List<StandardPropertyMetadataScopeQualification> scopeQualifications)
+	public void setScopeQualifications(List<String> scopeQualifications)
 	{
 		this.scopeQualifications = scopeQualifications;
 	}
 	
-	public void addScopeQualification(StandardPropertyMetadataScopeQualification scopeQualification)
+	public void addScopeQualification(String scopeQualification)
 	{
 		this.scopeQualifications.add(scopeQualification);
 	}

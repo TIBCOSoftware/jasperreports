@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.Designated;
 public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {
 	
-	public static final String JSON_QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:JSON";
+	public static final String JSON_QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:JSON";
 	
 	/**
 	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the JSON data.

@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.Designated;
 public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {
 	
-	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:XPATH";
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:XPATH";
 	
 	/**
 	 * Built-in parameter holding the value of the org.w3c.dom.Document used to run the XPath query.

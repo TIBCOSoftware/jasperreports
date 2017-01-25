@@ -53,8 +53,6 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
@@ -84,11 +82,8 @@ public class JRResultSetDataSource implements JRDataSource
 			label = "Column name",
 			description = "Property specifying the name of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
 			scopes = {PropertyScope.FIELD},
+			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
-			value = JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME
 	)
 	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.name";
 	
@@ -99,11 +94,8 @@ public class JRResultSetDataSource implements JRDataSource
 			label = "Column label",
 			description = "Property specifying the label of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
 			scopes = {PropertyScope.FIELD},
+			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
-			value = JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME
 	)
 	public static final String PROPERTY_FIELD_COLUMN_LABEL = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.label";
 	
@@ -114,12 +106,9 @@ public class JRResultSetDataSource implements JRDataSource
 			label = "Column index",
 			description = "Property specifying the 1-based index of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used.", 
 			scopes = {PropertyScope.FIELD},
+			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1,
 			valueType = Integer.class
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
-			value = JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME
 	)
 	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.index";
 	

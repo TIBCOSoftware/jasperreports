@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.Designated;
 public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated 
 {
 	
-	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:CSV";
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:CSV";
 	
 	/**
 	 * Built-in parameter/property holding the value of the source for the CSV file. 

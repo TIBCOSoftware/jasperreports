@@ -90,7 +90,7 @@ public interface PropertyMetadata
 	 * 
 	 * @return the list of conditions under which the property is used
 	 */
-	List<? extends PropertyMetadataScopeQualification> getScopeQualifications();
+	List<String> getScopeQualifications();
 	
 	/**
 	 * The version in which the property was introduced.

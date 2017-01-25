@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.util.Designated;
 public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {	
 	
-	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:SQL";
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:SQL";
 	
 	/**
 	 * Property specifying the ResultSet fetch size.

@@ -50,4 +50,6 @@ public @interface Property
 	
 	Class<?> valueType() default String.class;
 	
+	String[] scopeQualifications() default {};
+	
 }

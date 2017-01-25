@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class JsonQLQueryExecuterFactory extends JsonQueryExecuterFactory
 {
 	
-	public static final String JSONQL_QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:JSONQL";
+	public static final String JSONQL_QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:JSONQL";
 	
 	@Override
 	public JRQueryExecuter createQueryExecuter(

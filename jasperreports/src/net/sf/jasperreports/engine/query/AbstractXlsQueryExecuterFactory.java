@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.util.Designated;
 public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated 
 {
 	
-	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.engine.query:XLS";
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:XLS";
 	
 	/**
 	 * Built-in parameter holding the value of the <code>Workbook</code> to be used for obtaining the Excel data.

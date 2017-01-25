@@ -56,8 +56,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileConnection;
 import net.sf.jasperreports.data.DataFileService;
@@ -78,7 +76,7 @@ public class HttpDataService implements DataFileService
 	
 	private static final Log log = LogFactory.getLog(HttpDataService.class);
 	
-	public static final String HTTP_DATA_SERVICE_NAME = "net.sf.jasperreports.data.adapter:HTTP";
+	public static final String HTTP_DATA_SERVICE_NAME = "net.sf.jasperreports.data.file.service:HTTP";
 	
 	public static final String EXCEPTION_MESSAGE_KEY_NO_HTTP_URL_SET = "data.http.no.http.url.set";
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REQUEST_METHOD = "data.http.unknown.request.method";
@@ -116,11 +114,8 @@ public class HttpDataService implements DataFileService
 			label = "Data URL",
 			description = "Property that specifies the base URL to be used by the HTTP data adapters.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.DATA_FILE,
-			value = HTTP_DATA_SERVICE_NAME
 	)
 	public static final String PROPERTY_URL = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url";
 
@@ -132,11 +127,8 @@ public class HttpDataService implements DataFileService
 			label = "Username",
 			description = "Property that specifies the user name to be used by the HTTP data adapters with basic authentication.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.DATA_FILE,
-			value = HTTP_DATA_SERVICE_NAME
 	)
 	public static final String PROPERTY_USERNAME = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.username";
 
@@ -148,11 +140,8 @@ public class HttpDataService implements DataFileService
 			label = "Password",
 			description = "Property that specifies the password to be used by the HTTP data adapters with basic authentication.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.DATA_FILE,
-			value = HTTP_DATA_SERVICE_NAME
 	)
 	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.password";
 
@@ -164,11 +153,8 @@ public class HttpDataService implements DataFileService
 			label = "URL parameter",
 			description = "Property which specifies that the current parameter will append a request parameter value to the base URL when HTTP data adapters are used.",
 			scopes = {PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.DATA_FILE,
-			value = HTTP_DATA_SERVICE_NAME
 	)
 	public static final String PROPERTY_URL_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url.parameter";
 
@@ -180,11 +166,8 @@ public class HttpDataService implements DataFileService
 			label = "Request body",
 			description = "Property that specifies the POST/PUT request body to be sent when HTTP data adapter is used.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.DATA_FILE,
-			value = HTTP_DATA_SERVICE_NAME
 	)
 	public static final String PROPERTY_BODY = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.body";
 
@@ -196,11 +179,8 @@ public class HttpDataService implements DataFileService
 			label = "POST parameter",
 			description = "Property which specifies that the current parameter will contribute a POST request parameter value when HTTP data adapters are used.",
 			scopes = {PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.DATA_FILE,
-			value = HTTP_DATA_SERVICE_NAME
 	)
 	public static final String PROPERTY_POST_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.post.parameter";
 
@@ -212,11 +192,8 @@ public class HttpDataService implements DataFileService
 			label = "Request header",
 			description = "Property which specifies that the current parameter will contribute a request header value when HTTP data adapters are used.",
 			scopes = {PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.DATA_FILE,
-			value = HTTP_DATA_SERVICE_NAME
 	)
 	public static final String PROPERTY_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.header";
 

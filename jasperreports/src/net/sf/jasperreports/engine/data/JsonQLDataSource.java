@@ -31,26 +31,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.json.JRJsonNode;
-import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JsonQLQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JsonUtil;
 import net.sf.jasperreports.engine.util.json.DefaultJsonQLExecuter;
 import net.sf.jasperreports.engine.util.json.JsonQLExecuter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -68,11 +65,8 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
 			label = "Field expression",
 			description = "Property specifying the JSON expression for the dataset field in case a JSON data source is used.", 
 			scopes = {PropertyScope.FIELD},
+			scopeQualifications = {JsonQLQueryExecuterFactory.JSONQL_QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
-	)
-	@PropertyScopeQualification (
-			type = PropertyScopeQualificationType.QUERY_LANGUAGE,
-			value = JsonQLQueryExecuterFactory.JSONQL_QUERY_EXECUTER_NAME
 	)
     public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "jsonql.field.expression";
 

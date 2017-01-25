@@ -34,7 +34,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualificationType;
 import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.data.DataFileServiceFactory;
@@ -46,7 +45,6 @@ import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.Designator;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.metadata.properties.PropertyMetadata;
-import net.sf.jasperreports.metadata.properties.PropertyMetadataScopeQualification;
 
 /**
  * 
@@ -117,36 +115,20 @@ public class PropertiesMetadataUtil
 		}
 		String queryExecuterName = ((Designated) queryExecuterFactory).getName();
 		
-		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.FIELD, 
-				PropertyScopeQualificationType.QUERY_LANGUAGE, queryExecuterName);
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.FIELD, queryExecuterName);
 		return properties;
 	}
 
-	protected List<PropertyMetadata> filterQualifiedProperties(PropertyScope primaryScope,
-			PropertyScopeQualificationType qualificationType, String qualificationName)
+	protected List<PropertyMetadata> filterQualifiedProperties(PropertyScope primaryScope, String qualificationName)
 	{
 		List<PropertyMetadata> properties = new ArrayList<>();
 		Collection<PropertyMetadata> allProperties = allProperties();
 		for (PropertyMetadata property : allProperties)
 		{
-			if (property.getScopes().contains(primaryScope))
+			if (property.getScopes().contains(primaryScope)
+					&& property.getScopeQualifications().contains(qualificationName))
 			{
-				List<? extends PropertyMetadataScopeQualification> scopeQualifications = property.getScopeQualifications();
-				boolean foundQualification = false;
-				for (PropertyMetadataScopeQualification scopeQualification : scopeQualifications)
-				{
-					if (scopeQualification.getType() == qualificationType
-							&& scopeQualification.getValue().equals(qualificationName))
-					{
-						foundQualification = true;
-						break;
-					}
-				}
-				
-				if (foundQualification)
-				{
-					properties.add(property);
-				}
+				properties.add(property);
 			}
 		}
 		return properties;
@@ -183,8 +165,7 @@ public class PropertiesMetadataUtil
 			return Collections.emptyList();
 		}
 		
-		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.PARAMETER, 
-				PropertyScopeQualificationType.DATA_FILE, name);
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.PARAMETER, name);
 		return properties;
 	}
 

@@ -52,11 +52,9 @@ import javax.tools.StandardLocation;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadata;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerialization;
 import net.sf.jasperreports.metadata.properties.StandardPropertyMetadata;
-import net.sf.jasperreports.metadata.properties.StandardPropertyMetadataScopeQualification;
 
 /**
  * 
@@ -173,12 +171,15 @@ public class PropertyProcessor extends AbstractProcessor
 		}
 		property.setScopes(propertyScopes);
 		
-		PropertyScopeQualification scopeQualification = element.getAnnotation(PropertyScopeQualification.class);
-		if (scopeQualification != null)
+		@SuppressWarnings("unchecked")
+		List<? extends AnnotationValue> scopeQualificationValues = (List<? extends AnnotationValue>) annotationValue(annotationValues, "scopeQualifications").getValue();
+		List<String> scopeQualifications = new ArrayList<>(scopeValues.size());
+		for (AnnotationValue qualificationValue : scopeQualificationValues)
 		{
-			StandardPropertyMetadataScopeQualification metadataScopeQualification = new StandardPropertyMetadataScopeQualification(scopeQualification);
-			property.addScopeQualification(metadataScopeQualification);
+			String qualification = (String) qualificationValue.getValue();
+			scopeQualifications.add(qualification);
 		}
+		property.setScopeQualifications(scopeQualifications);
 		
 		return property;
 	}
