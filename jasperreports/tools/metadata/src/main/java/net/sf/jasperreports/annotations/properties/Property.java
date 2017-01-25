@@ -48,6 +48,6 @@ public @interface Property
 	
 	String sinceVersion() default "";//TODO lucianc
 	
-	PropertyValueType valueType() default PropertyValueType.STRING;
+	Class<?> valueType() default String.class;
 	
 }

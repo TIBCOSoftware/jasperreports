@@ -26,7 +26,9 @@ package net.sf.jasperreports.annotations.processors.properties;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -34,8 +36,11 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
@@ -46,6 +51,7 @@ import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
 import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.annotations.properties.PropertyScopeQualification;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadata;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerialization;
@@ -103,77 +109,130 @@ public class PropertyProcessor extends AbstractProcessor
 					continue;
 				}
 				
-				Property propertyAnnotation = varElement.getAnnotation(Property.class);
+				AnnotationMirror propertyAnnotation = findPropertyAnnotation(varElement);
 				if (propertyAnnotation == null)
 				{
 					//should not happen
 					continue;
 				}
 				
-				StandardPropertyMetadata property = new StandardPropertyMetadata();
-				
-				String constantValue = (String) varElement.getConstantValue();
-				property.setName(constantValue);//TODO check for nulls
-				
-				QualifiedNameable enclosingElement = (QualifiedNameable) varElement.getEnclosingElement();
-				property.setConstantDeclarationClass(enclosingElement.getQualifiedName().toString());
-				property.setConstantFieldName(varElement.getSimpleName().toString());
-				
-				property.setLabel(propertyAnnotation.label());
-				property.setDescription(propertyAnnotation.description());
-				property.setDefaultValue(propertyAnnotation.defaultValue());
-				property.setSinceVersion(propertyAnnotation.sinceVersion());
-				property.setValueType(propertyAnnotation.valueType());
-				property.setScopes(new ArrayList<>(Arrays.asList(propertyAnnotation.scopes())));
-				
-				PropertyScopeQualification scopeQualification = varElement.getAnnotation(PropertyScopeQualification.class);
-				if (scopeQualification != null)
-				{
-					StandardPropertyMetadataScopeQualification metadataScopeQualification = new StandardPropertyMetadataScopeQualification(scopeQualification);
-					property.addScopeQualification(metadataScopeQualification);
-				}
-				
+				StandardPropertyMetadata property = toPropertyMetadata(varElement, propertyAnnotation);
 				props.addProperty(property);
 			}
 		}
 		
 		if (!props.getProperties().isEmpty())
 		{
-			StandardPropertiesMetadataSerialization propertiesSerialization = StandardPropertiesMetadataSerialization.instance();
-			OutputStream out = null;
-			try
-			{
-				FileObject propertiesMetadataResource = processingEnv.getFiler().createResource(StandardLocation.CLASS_OUTPUT, "", 
-						StandardPropertiesMetadataSerialization.EXTENSION_RESOURCE_NAME, 
-						(Element[]) null);//TODO lucianc
-				
-				out = propertiesMetadataResource.openOutputStream();
-				propertiesSerialization.writeProperties(props, out);
-				out.close();
-				out = null;
-			}
-			catch (IOException e)
-			{
-				throw new RuntimeException(e);
-			}
-			finally
-			{
-				if (out != null)
-				{
-					try
-					{
-						out.close();
-					}
-					catch (IOException e)
-					{
-						System.err.println("Error closing output stream");
-						e.printStackTrace();
-					}
-				}
-			}
+			writePropertiesMetadata(props);
 		}
 		
 		return true;
+	}
+	
+	protected AnnotationMirror findPropertyAnnotation(VariableElement element)
+	{
+		AnnotationMirror propertyAnnotation = null;
+		List<? extends AnnotationMirror> annotationMirrors = element.getAnnotationMirrors();
+		for (AnnotationMirror annotation : annotationMirrors)
+		{
+			if (annotation.getAnnotationType().toString().equals(Property.class.getCanonicalName()))
+			{
+				propertyAnnotation = annotation;
+				break;
+			}
+		}
+		return propertyAnnotation;
+	}
+
+	protected StandardPropertyMetadata toPropertyMetadata(VariableElement element, AnnotationMirror propertyAnnotation)
+	{
+		Map<? extends ExecutableElement, ? extends AnnotationValue> annotationValues = processingEnv.getElementUtils().getElementValuesWithDefaults(propertyAnnotation);
+		
+		StandardPropertyMetadata property = new StandardPropertyMetadata();
+		
+		String constantValue = (String) element.getConstantValue();
+		property.setName(constantValue);//TODO check for nulls
+		
+		QualifiedNameable enclosingElement = (QualifiedNameable) element.getEnclosingElement();
+		property.setConstantDeclarationClass(enclosingElement.getQualifiedName().toString());
+		property.setConstantFieldName(element.getSimpleName().toString());
+		
+		property.setLabel((String) annotationValue(annotationValues, "label").getValue());
+		property.setDescription((String) annotationValue(annotationValues, "description").getValue());
+		property.setDefaultValue((String) annotationValue(annotationValues, "defaultValue").getValue());
+		property.setSinceVersion((String) annotationValue(annotationValues, "sinceVersion").getValue());
+		property.setValueType(((TypeMirror) annotationValue(annotationValues, "valueType").getValue()).toString());
+		
+		@SuppressWarnings("unchecked")
+		List<? extends AnnotationValue> scopeValues = (List<? extends AnnotationValue>) annotationValue(annotationValues, "scopes").getValue();
+		List<PropertyScope> propertyScopes = new ArrayList<>(scopeValues.size());
+		for (AnnotationValue scopeValue : scopeValues)
+		{
+			PropertyScope scope = Enum.valueOf(PropertyScope.class, ((VariableElement) scopeValue.getValue()).getSimpleName().toString());
+			propertyScopes.add(scope); 
+		}
+		property.setScopes(propertyScopes);
+		
+		PropertyScopeQualification scopeQualification = element.getAnnotation(PropertyScopeQualification.class);
+		if (scopeQualification != null)
+		{
+			StandardPropertyMetadataScopeQualification metadataScopeQualification = new StandardPropertyMetadataScopeQualification(scopeQualification);
+			property.addScopeQualification(metadataScopeQualification);
+		}
+		
+		return property;
+	}
+	
+	protected AnnotationValue annotationValue(Map<? extends ExecutableElement, ? extends AnnotationValue> annotationValues, 
+			String name)
+	{
+		AnnotationValue value = null;
+		for (Entry<? extends ExecutableElement, ? extends AnnotationValue> valueEntry : annotationValues.entrySet())
+		{
+			ExecutableElement element = valueEntry.getKey();
+			if (element.getSimpleName().contentEquals(name))
+			{
+				value = valueEntry.getValue();
+				break;
+			}
+		}
+		return value;
+	}
+	
+	protected void writePropertiesMetadata(StandardPropertiesMetadata props)
+	{
+		StandardPropertiesMetadataSerialization propertiesSerialization = StandardPropertiesMetadataSerialization.instance();
+		OutputStream out = null;
+		try
+		{
+			FileObject propertiesMetadataResource = processingEnv.getFiler().createResource(StandardLocation.CLASS_OUTPUT, "", 
+					StandardPropertiesMetadataSerialization.EXTENSION_RESOURCE_NAME, 
+					(Element[]) null);//TODO lucianc
+			
+			out = propertiesMetadataResource.openOutputStream();
+			propertiesSerialization.writeProperties(props, out);
+			out.close();
+			out = null;
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+		finally
+		{
+			if (out != null)
+			{
+				try
+				{
+					out.close();
+				}
+				catch (IOException e)
+				{
+					System.err.println("Error closing output stream");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

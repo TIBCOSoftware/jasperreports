@@ -26,7 +26,6 @@ package net.sf.jasperreports.metadata.properties;
 import java.util.List;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyValueType;
 
 /**
  * 
@@ -101,10 +100,10 @@ public interface PropertyMetadata
 	String getSinceVersion();
 
 	/**
-	 * The type of values that the property expects.
+	 * The type (as class name) of values that the property expects.
 	 * 
 	 * @return the type of values that the property expects
 	 */
-	PropertyValueType getValueType();
+	String getValueType();
 	
 }

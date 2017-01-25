@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.annotations.properties.PropertyValueType;
 
 /**
  * 
@@ -45,7 +44,7 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	private List<PropertyScope> scopes;
 	private List<StandardPropertyMetadataScopeQualification> scopeQualifications;
 	private String sinceVersion;
-	private PropertyValueType valueType;
+	private String valueType;
 
 	public StandardPropertyMetadata()
 	{
@@ -114,12 +113,12 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	}
 
 	@Override
-	public PropertyValueType getValueType()
+	public String getValueType()
 	{
 		return valueType;
 	}
 
-	public void setValueType(PropertyValueType valueType)
+	public void setValueType(String valueType)
 	{
 		this.valueType = valueType;
 	}
