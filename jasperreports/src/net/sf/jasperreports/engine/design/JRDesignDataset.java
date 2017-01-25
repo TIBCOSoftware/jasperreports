@@ -1443,12 +1443,20 @@ public class JRDesignDataset extends JRBaseDataset
 		{
 			jasperReportsContext = cclois.getJasperReportsContext();
 		}
+		
+		//the listener is serialized, but not added to the query.
+		//serializing the listener does not make much sense, it could have been easily recreated.
+		addQueryLanguageListener();
 	}
 
 	@Override
 	public Object clone() 
 	{
 		JRDesignDataset clone = (JRDesignDataset)super.clone();
+		
+		//recreate and register the query language listener
+		clone.queryLanguageChangeListener = clone.new QueryLanguageChangeListener();
+		clone.addQueryLanguageListener();
 		
 		if (parametersList != null)
 		{
@@ -1513,6 +1521,14 @@ public class JRDesignDataset extends JRBaseDataset
 		clone.propertyExpressions = JRCloneUtils.cloneList(propertyExpressions);
 		
 		return clone;
+	}
+	
+	private void addQueryLanguageListener()
+	{
+		if (query instanceof JRDesignQuery)
+		{
+			((JRDesignQuery) query).addPropertyChangeListener(JRDesignQuery.PROPERTY_LANGUAGE, queryLanguageChangeListener);
+		}
 	}
 	
 }
