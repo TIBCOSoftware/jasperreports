@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * Java Persistence API query executer factory for EJBQL queries.
@@ -39,8 +40,10 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * 
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
  */
-public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory 
+public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated 
 {
+	
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:EJBQL";
 
 	/**
 	 * EJBQL query language.
@@ -99,5 +102,11 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory
 	@Override
 	public boolean supportsQueryParameterType(String className) {
 		return true;
+	}
+
+	@Override
+	public String getName()
+	{
+		return QUERY_EXECUTER_NAME;
 	}
 }

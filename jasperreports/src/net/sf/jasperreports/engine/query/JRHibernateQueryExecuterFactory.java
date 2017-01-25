@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * Query executer factory for HQL queries that uses Hibernate 3.
@@ -39,8 +40,10 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactory
+public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated
 {
+	
+	public static final String QUERY_EXECUTER_NAME = "net.sf.jasperreports.query.executer:HQL";
 
 	/**
 	 * HQL query language.
@@ -149,5 +152,11 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	public boolean supportsQueryParameterType(String className)
 	{
 		return true;
+	}
+
+	@Override
+	public String getName()
+	{
+		return QUERY_EXECUTER_NAME;
 	}
 }
