@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
@@ -88,6 +92,21 @@ public final class ClassUtils
 		}
 	}
 	
+	/**
+	 * @param clazz
+	 * @return a list of interfaces implemented by this class and by its superclasses, 
+	 * or an empty list in case there are no implemented interfaces
+	 */
+	public static List<Class<?>> getInterfaces(Class<?> clazz)
+	{
+		List<Class<?>> interfaces = new ArrayList<Class<?>>();
+		while(clazz != null)
+		{
+			interfaces.addAll(Arrays.asList(clazz.getInterfaces()));
+			clazz = clazz.getSuperclass();
+		}
+		return interfaces;
+	}
 
 	private ClassUtils()
 	{
