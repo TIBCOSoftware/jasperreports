@@ -83,8 +83,6 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 * Property specifying the CSV column name for the dataset field.
 	 */
 	@Property (
-			label = "Column name",
-			description = "Property specifying the name of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -95,8 +93,6 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 * Property specifying the CSV column index for the dataset field.
 	 */
 	@Property (
-			label = "Column index",
-			description = "Property specifying the 0-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used.", 
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1,

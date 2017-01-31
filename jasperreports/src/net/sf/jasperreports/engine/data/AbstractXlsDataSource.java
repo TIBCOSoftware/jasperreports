@@ -62,8 +62,6 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	 * Property specifying the XLS column name for the dataset field.
 	 */
 	@Property (
-			label = "Column name",
-			description = "Property specifying the name of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used.", 
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -74,8 +72,6 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	 * Property specifying the XLS column index for the dataset field.
 	 */
 	@Property (
-			label = "Column index",
-			description = "Property specifying the 0-based index of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used.", 
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1,

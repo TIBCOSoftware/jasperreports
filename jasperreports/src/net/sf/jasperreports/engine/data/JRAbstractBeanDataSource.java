@@ -52,8 +52,6 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	 * Property specifying the JavaBean property name for the dataset field.
 	 */
 	@Property (
-			label = "Property name",
-			description = "Property specifying the JavaBean property name for the dataset field in case an JavaBean data source is used.", 
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME, 
 					JRJpaQueryExecuterFactory.QUERY_EXECUTER_NAME},

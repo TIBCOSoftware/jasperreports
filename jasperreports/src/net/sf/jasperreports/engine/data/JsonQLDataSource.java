@@ -62,8 +62,6 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
      * Property specifying the JSONQL expression for the dataset field.
      */
 	@Property (
-			label = "Field expression",
-			description = "Property specifying the JSON expression for the dataset field in case a JSON data source is used.", 
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JsonQLQueryExecuterFactory.JSONQL_QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

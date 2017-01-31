@@ -21,19 +21,49 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.properties;
+package net.sf.jasperreports.metadata.properties;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.jasperreports.metadata.properties.PropertyMetadata;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PropertiesMetadataProvider
+public class CompiledPropertiesMetadata
 {
 
-	List<PropertyMetadata> getProperties();
-	
+	private String messagesName;
+	private List<CompiledPropertyMetadata> properties;
+
+	public CompiledPropertiesMetadata()
+	{
+		this.properties = new ArrayList<>();
+	}
+
+	public String getMessagesName()
+	{
+		return messagesName;
+	}
+
+	public void setMessagesName(String messagesName)
+	{
+		this.messagesName = messagesName;
+	}
+
+	public List<CompiledPropertyMetadata> getProperties()
+	{
+		return properties;
+	}
+
+	public void setProperties(List<CompiledPropertyMetadata> properties)
+	{
+		this.properties = properties;
+	}
+
+	public void addProperty(CompiledPropertyMetadata propertyMetadata)
+	{
+		this.properties.add(propertyMetadata);
+	}
+
 }

@@ -111,8 +111,6 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the URL value.
 	 */
 	@Property (
-			label = "Data URL",
-			description = "Property that specifies the base URL to be used by the HTTP data adapters.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -124,8 +122,6 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user name value.
 	 */
 	@Property (
-			label = "Username",
-			description = "Property that specifies the user name to be used by the HTTP data adapters with basic authentication.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -137,8 +133,6 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user password value.
 	 */
 	@Property (
-			label = "Password",
-			description = "Property that specifies the password to be used by the HTTP data adapters with basic authentication.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -150,8 +144,6 @@ public class HttpDataService implements DataFileService
 	 * If the property is present, but has no value, the name of the request parameter is the same as the report parameter name.
 	 */
 	@Property (
-			label = "URL parameter",
-			description = "Property which specifies that the current parameter will append a request parameter value to the base URL when HTTP data adapters are used.",
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -163,8 +155,6 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the POST/PUT request body value.
 	 */
 	@Property (
-			label = "Request body",
-			description = "Property that specifies the POST/PUT request body to be sent when HTTP data adapter is used.",
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -176,8 +166,6 @@ public class HttpDataService implements DataFileService
 	 * If the property is present, but has no value, the name of the request parameter is the same as the report parameter name.
 	 */
 	@Property (
-			label = "POST parameter",
-			description = "Property which specifies that the current parameter will contribute a POST request parameter value when HTTP data adapters are used.",
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -189,8 +177,6 @@ public class HttpDataService implements DataFileService
 	 * If the property is present, but has no value, the name of the request header is the same as the report parameter name.
 	 */
 	@Property (
-			label = "Request header",
-			description = "Property which specifies that the current parameter will contribute a request header value when HTTP data adapters are used.",
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

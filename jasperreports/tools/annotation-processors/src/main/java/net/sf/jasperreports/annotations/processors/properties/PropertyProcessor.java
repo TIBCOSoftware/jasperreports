@@ -34,6 +34,7 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedOptions;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
@@ -52,9 +53,9 @@ import javax.tools.StandardLocation;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadata;
+import net.sf.jasperreports.metadata.properties.CompiledPropertiesMetadata;
+import net.sf.jasperreports.metadata.properties.CompiledPropertyMetadata;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerialization;
-import net.sf.jasperreports.metadata.properties.StandardPropertyMetadata;
 
 /**
  * 
@@ -62,9 +63,12 @@ import net.sf.jasperreports.metadata.properties.StandardPropertyMetadata;
  */
 @SupportedAnnotationTypes("net.sf.jasperreports.annotations.properties.Property")
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedOptions({PropertyProcessor.MESSAGES_NAME})
 public class PropertyProcessor extends AbstractProcessor
 {
 
+	public static final String MESSAGES_NAME = "metadataMessagesName";
+	
 	public PropertyProcessor()
 	{
 	}
@@ -72,7 +76,9 @@ public class PropertyProcessor extends AbstractProcessor
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
 	{
-		StandardPropertiesMetadata props = new StandardPropertiesMetadata();
+		CompiledPropertiesMetadata props = new CompiledPropertiesMetadata();
+		String messagesName = processingEnv.getOptions().get(MESSAGES_NAME);
+		props.setMessagesName(messagesName);
 		
 		for (TypeElement annotation : annotations)
 		{
@@ -114,7 +120,7 @@ public class PropertyProcessor extends AbstractProcessor
 					continue;
 				}
 				
-				StandardPropertyMetadata property = toPropertyMetadata(varElement, propertyAnnotation);
+				CompiledPropertyMetadata property = toPropertyMetadata(varElement, propertyAnnotation);
 				props.addProperty(property);
 			}
 		}
@@ -142,11 +148,11 @@ public class PropertyProcessor extends AbstractProcessor
 		return propertyAnnotation;
 	}
 
-	protected StandardPropertyMetadata toPropertyMetadata(VariableElement element, AnnotationMirror propertyAnnotation)
+	protected CompiledPropertyMetadata toPropertyMetadata(VariableElement element, AnnotationMirror propertyAnnotation)
 	{
 		Map<? extends ExecutableElement, ? extends AnnotationValue> annotationValues = processingEnv.getElementUtils().getElementValuesWithDefaults(propertyAnnotation);
 		
-		StandardPropertyMetadata property = new StandardPropertyMetadata();
+		CompiledPropertyMetadata property = new CompiledPropertyMetadata();
 		
 		String constantValue = (String) element.getConstantValue();
 		property.setName(constantValue);//TODO check for nulls
@@ -155,8 +161,6 @@ public class PropertyProcessor extends AbstractProcessor
 		property.setConstantDeclarationClass(enclosingElement.getQualifiedName().toString());
 		property.setConstantFieldName(element.getSimpleName().toString());
 		
-		property.setLabel((String) annotationValue(annotationValues, "label").getValue());
-		property.setDescription((String) annotationValue(annotationValues, "description").getValue());
 		property.setDefaultValue((String) annotationValue(annotationValues, "defaultValue").getValue());
 		property.setSinceVersion((String) annotationValue(annotationValues, "sinceVersion").getValue());
 		property.setValueType(((TypeMirror) annotationValue(annotationValues, "valueType").getValue()).toString());
@@ -200,7 +204,7 @@ public class PropertyProcessor extends AbstractProcessor
 		return value;
 	}
 	
-	protected void writePropertiesMetadata(StandardPropertiesMetadata props)
+	protected void writePropertiesMetadata(CompiledPropertiesMetadata props)
 	{
 		StandardPropertiesMetadataSerialization propertiesSerialization = StandardPropertiesMetadataSerialization.instance();
 		OutputStream out = null;

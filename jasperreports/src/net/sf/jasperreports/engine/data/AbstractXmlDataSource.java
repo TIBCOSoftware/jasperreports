@@ -124,8 +124,6 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	 * Property specifying the XPath expression for the dataset field.
 	 */
 	@Property (
-			label = "Field expression",
-			description = "Property specifying the XPath expression for the dataset field in case an XML data source is used.", 
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

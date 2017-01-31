@@ -51,16 +51,16 @@ public class StandardPropertiesMetadataSerialization
 		// TODO Auto-generated constructor stub
 	}
 
-	public void writeProperties(StandardPropertiesMetadata properties, OutputStream out) throws IOException
+	public void writeProperties(CompiledPropertiesMetadata properties, OutputStream out) throws IOException
 	{
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.writeValue(out, properties);
 	}
 
-	public StandardPropertiesMetadata readProperties(InputStream in) throws IOException
+	public CompiledPropertiesMetadata readProperties(InputStream in) throws IOException
 	{
 		ObjectMapper objectMapper = new ObjectMapper();
-		StandardPropertiesMetadata properties = objectMapper.readValue(in, StandardPropertiesMetadata.class);
+		CompiledPropertiesMetadata properties = objectMapper.readValue(in, CompiledPropertiesMetadata.class);
 		return properties;
 	}
 	

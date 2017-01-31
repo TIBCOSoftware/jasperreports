@@ -26,12 +26,9 @@ package net.sf.jasperreports.properties;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.data.DataAdapter;
@@ -52,21 +49,26 @@ import net.sf.jasperreports.metadata.properties.PropertyMetadata;
  */
 public class PropertiesMetadataUtil
 {
-
-	private static final Log log = LogFactory.getLog(PropertiesMetadataUtil.class);
 	
 	public static PropertiesMetadataUtil getInstance(JasperReportsContext context)
 	{
-		return new PropertiesMetadataUtil(context);
+		return new PropertiesMetadataUtil(context, Locale.getDefault());
+	}
+	
+	public static PropertiesMetadataUtil getInstance(JasperReportsContext context, Locale locale)
+	{
+		return new PropertiesMetadataUtil(context, locale);
 	}
 	
 	private JasperReportsContext context;
+	private Locale locale;
 	
 	private volatile Map<String, PropertyMetadata> loadedProperties;
 
-	public PropertiesMetadataUtil(JasperReportsContext context)
+	protected PropertiesMetadataUtil(JasperReportsContext context, Locale locale)
 	{
 		this.context = context;
+		this.locale = locale;
 	}
 	
 	protected Collection<PropertyMetadata> allProperties()
@@ -74,28 +76,7 @@ public class PropertiesMetadataUtil
 		Map<String, PropertyMetadata> allProperties = loadedProperties;
 		if (allProperties == null)
 		{
-			allProperties = new LinkedHashMap<>();
-			List<PropertiesMetadataProvider> providers = context.getExtensions(PropertiesMetadataProvider.class);
-			for (PropertiesMetadataProvider provider : providers)
-			{
-				List<PropertyMetadata> providerProperties = provider.getProperties();
-				if (providerProperties != null)
-				{
-					for (PropertyMetadata property : providerProperties)
-					{
-						if (!allProperties.containsKey(property.getName()))
-						{
-							allProperties.put(property.getName(), property);
-						}
-						else if (log.isDebugEnabled())
-						{
-							log.debug("Found duplicate property " + property.getName());
-						}
-					}
-				}
-			}
-			
-			loadedProperties = allProperties;
+			loadedProperties = allProperties = ResourcePropertiesMetadataReader.instance().readProperties(context, locale);
 		}
 		return allProperties.values();
 	}

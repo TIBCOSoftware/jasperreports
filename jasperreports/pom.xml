@@ -110,6 +110,10 @@
 					<source>1.7</source>
 					<target>1.7</target>
 					<encoding>UTF-8</encoding>
+					<fork>true</fork><!-- TODO lucianc is this ok? -->
+					<compilerArgs>
+						<arg>-AmetadataMessagesName=metadata_messages</arg>
+					</compilerArgs>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>net.sf.jasperreports</groupId>

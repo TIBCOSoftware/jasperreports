@@ -37,10 +37,6 @@ import java.lang.annotation.Target;
 @Target(FIELD)
 public @interface Property
 {
-
-	String label();
-	
-	String description();
 	
 	String defaultValue() default "N/A";//TODO lucianc
 	
