@@ -396,7 +396,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	
 	/**
 	 * 
-	 * @param index the current index
+	 * @param index the current index between 0 and 18277
 	 * @param isUpperCase specifies whether the result should be made of upper case characters
 	 * @return a character representation of the numeric index in an ordered bullet list, that contains up to 3 chars
 	 */
@@ -406,7 +406,10 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		// max 3-letter index is 18277
 		if(index < 0 || index > 18277)	
 		{
-			return isUpperCase ? "A" : "a";
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS,
+					new Object[]{index});
 		} 
 		else if (index < 26)
 		{
