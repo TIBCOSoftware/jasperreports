@@ -59,7 +59,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	private static final Log log = LogFactory.getLog(JEditorPaneHtmlMarkupProcessor.class);
 	public static final String EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS = "util.markup.processor.number.outside.bounds";
 
-	public static final String[] THOUSEND_DIGITS = {"","M","MM","MMM"};
+	public static final String[] THOUSAND_DIGITS = {"","M","MM","MMM"};
 	public static final String[] HUNDRED_DIGITS = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
 	public static final String[] TEN_DIGITS = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
 	public static final String[] UNIT_DIGITS = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
@@ -402,7 +402,8 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	 */
 	protected static String getOLBulletChars(int index, boolean isUpperCase)
 	{
-		String result = "A";
+		String result = "";
+		
 		// max 3-letter index is 18277
 		if(index < 0 || index > 18277)	
 		{
@@ -449,7 +450,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					new Object[]{number});
 		}
 		String strNumber = ("0000"+String.valueOf(number)).substring(String.valueOf(number).length());
-		String result = THOUSEND_DIGITS[strNumber.charAt(0) - '0'] 
+		String result = THOUSAND_DIGITS[strNumber.charAt(0) - '0'] 
 				+ HUNDRED_DIGITS[strNumber.charAt(1) - '0']
 				+ TEN_DIGITS[strNumber.charAt(2) - '0']
 				+ UNIT_DIGITS[strNumber.charAt(3) - '0'];
