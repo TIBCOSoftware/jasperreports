@@ -40,10 +40,8 @@ import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.export.XlsReportConfiguration;
-
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -273,40 +271,40 @@ public class XlsxSheetHelper extends BaseHelper
 			if (hasHeader(printSettings))
 			{
 				write("<oddHeader>");
-				if (StringUtils.isNotBlank(printSettings.getHeaderLeft()))
+				if (printSettings.getHeaderLeft() != null && !printSettings.getHeaderLeft().trim().isEmpty())
 				{
 					write("&amp;L");
-					write(StringEscapeUtils.escapeHtml(printSettings.getHeaderLeft()));
+					write(JRStringUtil.xmlEncode(printSettings.getHeaderLeft()));
 				}
-				if (StringUtils.isNotBlank(printSettings.getHeaderCenter()))
+				if (printSettings.getHeaderCenter() != null && !printSettings.getHeaderCenter().trim().isEmpty())
 				{
 					write("&amp;C");
-					write(StringEscapeUtils.escapeHtml(printSettings.getHeaderCenter()));
+					write(JRStringUtil.xmlEncode(printSettings.getHeaderCenter()));
 				}
-				if (StringUtils.isNotBlank(printSettings.getHeaderRight()))
+				if (printSettings.getHeaderRight() != null && !printSettings.getHeaderRight().trim().isEmpty())
 				{
 					write("&amp;R");
-					write(StringEscapeUtils.escapeHtml(printSettings.getHeaderRight()));
+					write(JRStringUtil.xmlEncode(printSettings.getHeaderRight()));
 				}
 				write("</oddHeader>");
 			}
 			if (hasFooter(printSettings))
 			{
 				write("<oddFooter>");
-				if (StringUtils.isNotBlank(printSettings.getFooterLeft()))
+				if (printSettings.getFooterLeft() != null && !printSettings.getFooterLeft().trim().isEmpty())
 				{
 					write("&amp;L");
-					write(StringEscapeUtils.escapeHtml(printSettings.getFooterLeft()));
+					write(JRStringUtil.xmlEncode(printSettings.getFooterLeft()));
 				}
-				if (StringUtils.isNotBlank(printSettings.getFooterCenter()))
+				if (printSettings.getFooterCenter() != null && !printSettings.getFooterCenter().trim().isEmpty())
 				{
 					write("&amp;C");
-					write(StringEscapeUtils.escapeHtml(printSettings.getFooterCenter()));
+					write(JRStringUtil.xmlEncode(printSettings.getFooterCenter()));
 				}
-				if (StringUtils.isNotBlank(printSettings.getFooterRight()))
+				if (printSettings.getFooterRight() != null && !printSettings.getFooterRight().trim().isEmpty())
 				{
 					write("&amp;R");
-					write(StringEscapeUtils.escapeHtml(printSettings.getFooterRight()));
+					write(JRStringUtil.xmlEncode(printSettings.getFooterRight()));
 				}
 				write("</oddFooter>");
 			}
@@ -328,16 +326,16 @@ public class XlsxSheetHelper extends BaseHelper
 
 	private boolean hasHeader(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
-		return StringUtils.isNotBlank(printSettings.getHeaderLeft())
-				|| StringUtils.isNotBlank(printSettings.getHeaderCenter()) 
-				|| StringUtils.isNotBlank(printSettings.getHeaderRight()); 
+		return (printSettings.getHeaderLeft() != null && !printSettings.getHeaderLeft().trim().isEmpty())
+				|| (printSettings.getHeaderCenter() != null && !printSettings.getHeaderCenter().trim().isEmpty()) 
+				|| (printSettings.getHeaderRight() != null && !printSettings.getHeaderRight().trim().isEmpty()); 
 	}
 
 	private boolean hasFooter(JRXlsAbstractExporter.SheetInfo.SheetPrintSettings printSettings)
 	{
-		return StringUtils.isNotBlank(printSettings.getFooterLeft())
-				|| StringUtils.isNotBlank(printSettings.getFooterCenter()) 
-				|| StringUtils.isNotBlank(printSettings.getFooterRight()); 
+		return (printSettings.getFooterLeft() != null && !printSettings.getFooterLeft().trim().isEmpty()) 
+				|| (printSettings.getFooterCenter() != null && !printSettings.getFooterCenter().trim().isEmpty()) 
+				|| (printSettings.getFooterRight() != null && !printSettings.getFooterRight().trim().isEmpty()); 
 	}
 
 	/**

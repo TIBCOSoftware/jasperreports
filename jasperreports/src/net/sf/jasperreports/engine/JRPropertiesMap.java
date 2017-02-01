@@ -261,8 +261,14 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		//FIXME base properties?
 		if (hasOwnProperty(propName))
 		{
+			String old = getOwnProperty(propName);
 			propertiesList.remove(propName);
 			propertiesMap.remove(propName);
+
+			if (hasEventSupport())
+			{
+				getEventSupport().firePropertyRemove(propName, old);
+			}
 		}
 	}
 	

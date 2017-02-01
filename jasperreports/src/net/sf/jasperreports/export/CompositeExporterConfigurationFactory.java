@@ -31,8 +31,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
-
-import org.apache.commons.lang.ClassUtils;
+import net.sf.jasperreports.engine.util.ClassUtils;
 
 
 /**
@@ -112,8 +111,7 @@ public class CompositeExporterConfigurationFactory<C extends CommonExportConfigu
 		}
 		else
 		{
-			@SuppressWarnings("unchecked")
-			List<Class<?>> lcInterfaces = ClassUtils.getAllInterfaces(clazz);
+			List<Class<?>> lcInterfaces = ClassUtils.getInterfaces(clazz);
 			allInterfaces.addAll(lcInterfaces);
 		}
 

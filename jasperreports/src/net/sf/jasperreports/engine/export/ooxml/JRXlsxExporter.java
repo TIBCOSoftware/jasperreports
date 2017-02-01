@@ -1405,7 +1405,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		final JRStyledText styledText = getStyledText(text);
 
-		final int textLength = styledText == null ? 0 : styledText.length();
+//		final int textLength = styledText == null ? 0 : styledText.length();
 
 		final String textStr = styledText.getText();
 
@@ -1490,56 +1490,65 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			new TextValueHandler() 
 			{
 				@Override
-				public void handle(BooleanTextValue textValue) throws JRException {
-					sheetHelper.write("<v>" + textValue.getValue() + "</v>");
+				public void handle(BooleanTextValue textValue) throws JRException 
+				{
+					if(textValue.getValue() != null)
+					{
+						sheetHelper.write("<v>" + textValue.getValue() + "</v>");
+					}
 				}
 				
 				@Override
-				public void handle(DateTextValue textValue) throws JRException {
+				public void handle(DateTextValue textValue) throws JRException 
+				{
 					Date date = textValue.getValue();
-					sheetHelper.write(
-						"<v>" 
-						+ (date == null ? "" : JRDataUtils.getExcelSerialDayNumber(
-							date, 
-							getTextLocale(text), 
-							getTextTimeZone(text)
-							)) 
-						+ "</v>"
-						);
+					if(date != null)
+					{
+						sheetHelper.write(
+							"<v>" 
+							+ (date == null ? "" : JRDataUtils.getExcelSerialDayNumber(
+								date, 
+								getTextLocale(text), 
+								getTextTimeZone(text)
+								)) 
+							+ "</v>"
+							);
+					}
 				}
 				
 				@Override
-				public void handle(NumberTextValue textValue) throws JRException {
-					sheetHelper.write("<v>"); 
+				public void handle(NumberTextValue textValue) throws JRException 
+				{
+					
 					if (textValue.getValue() != null)
 					{
+						sheetHelper.write("<v>"); 
 						double doubleValue = textValue.getValue().doubleValue();
 						if (DefaultFormatFactory.STANDARD_NUMBER_FORMAT_DURATION.equals(convertedPattern))
 						{
 							doubleValue = doubleValue / 86400;
 						}
 						sheetHelper.write(String.valueOf(doubleValue));
+						sheetHelper.write("</v>");
 					}
-					sheetHelper.write("</v>");
 				}
 				
 				@Override
-				public void handle(StringTextValue textValue) throws JRException {
+				public void handle(StringTextValue textValue) throws JRException 
+				{
 					writeText();
 				}
 				
-				private void writeText() throws JRException {
-					sheetHelper.write("<is>");//FIXMENOW make writer util; check everywhere
-	
-					if (textLength > 0)
+				private void writeText() throws JRException 
+				{	
+					if (textStr != null && textStr.length() > 0)
 					{
+						sheetHelper.write("<is>");	//FIXMENOW make writer util; check everywhere
 						String markup = text.getMarkup();
 						boolean isStyledText = markup != null && !JRCommonText.MARKUP_NONE.equals(markup);
-						
 						exportStyledText(text.getStyle(), styledText, getTextLocale(text), isStyledText);
+						sheetHelper.write("</is>");
 					}
-	
-					sheetHelper.write("</is>");
 				}
 			};
 		

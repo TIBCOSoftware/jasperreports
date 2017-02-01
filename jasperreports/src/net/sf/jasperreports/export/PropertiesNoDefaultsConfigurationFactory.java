@@ -38,10 +38,9 @@ import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.NamedEnum;
+import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
-
-import org.apache.commons.lang.ClassUtils;
 
 
 /**
@@ -85,8 +84,7 @@ public class PropertiesNoDefaultsConfigurationFactory<C extends CommonExportConf
 		}
 		else
 		{
-			@SuppressWarnings("unchecked")
-			List<Class<?>> lcInterfaces = ClassUtils.getAllInterfaces(clazz);
+			List<Class<?>> lcInterfaces = ClassUtils.getInterfaces(clazz);
 			allInterfaces.addAll(lcInterfaces);
 		}
 

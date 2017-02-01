@@ -285,7 +285,7 @@ Then the report will open in the JasperReports internal viewer.
   
   <!-- xmlwriter -->
   
-  <feature name="xmlwriter" title="Generating the JRXML Source File for an In-Memory Report Report Template Object">
+  <feature name="xmlwriter" title="Generating the JRXML Source File for an In-Memory Report Template Object">
     <description>
 How to generate the JRXML representation of an in-memory report template object.
     </description>
@@ -293,7 +293,58 @@ How to generate the JRXML representation of an in-memory report template object.
   	<otherSample ref="noxmldesign"/>
   	<otherSample ref="antcompile"/>
     <content>
-[Under Construction]
+A JRXML representation can be extracted from the following in-memory report template objects (both instances of <api href="net/sf/jasperreports/engine/JRReport.html">JRReport</api> type):
+<ul>
+<li><api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> editable objects, representing in-memory report design templates</li>
+<li><api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> read-only objects, representing in-memory compiled report templates</li>
+</ul> 
+In-memory template objects can be created either from direct usage of the JasperReports APIs, or by loading such objects from their serialized form, based on the built-in 
+<api href="net/sf/jasperreports/engine/util/JRLoader.html">JRLoader</api> and 
+<api href="net/sf/jasperreports/engine/xml/JRXmlLoader.html">JRXmlLoader</api> utility classes (and using one of the public <code>load(...)</code> methods in these classes).
+<br/>
+<br/>
+Once obtained such an in-memory object, its structure can be read and transformed into a JRXML representation 
+with the help of <api href="net/sf/jasperreports/engine/JasperCompileManager.html">JasperCompileManager</api> facade class, which comes with   
+different public static methods for both compiling report templates and extracting the JRXML representation from in-memory report template objects. 
+Extracting and writing the JRXML content is done when one of the multiple <code>writeReportToXmlFile(...)</code>, <code>writeReportToXmlStream(...)</code> or 
+<code>writeReportToXml(...)</code> methods in the facade is called. 
+<br/>
+<br/>
+In this sample a new JRXML file is generated from an in-memory compiled report template by running the command 
+<br/>
+<code>&gt;ant clean javac compile writeXml</code>
+<br/>
+from command line. 
+<br/>
+<br/>
+The Ant <code>compile</code> task will create an in-memory compiled report template from the existing 
+<code>reports/HyperlinkReport.jrxml</code> sample file. The compiled report template will be saved on disk as <code>HyperlinkReport.jasper</code> 
+file (in the <code>build/reports</code> folder of this sample). 
+<br/>
+The subsequent <code>writeXml</code> call will load the 
+<code>HyperlinkReport.jasper</code> file into memory, then will extract the JRXML representation from this object and will 
+save the representation on disk as <code>HyperlinkReport.jasper.jrxml</code> file (also in <code>build/reports</code> folder). 
+The <code>writeXml</code> target is executing the <code>writeXml()</code> method in <code>HyperlinkApp</code> class (see <code>src/HyperlinkApp.java</code> file):
+<pre><![CDATA[
+public void writeXml() throws JRException
+{
+  long start = System.currentTimeMillis();
+  JasperCompileManager.writeReportToXmlFile("build/reports/HyperlinkReport.jasper");
+  System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
+}]]></pre>
+Here is shown how a static <code>writeReportToXmlFile(String)</code> method of <code>JasperCompileManager</code> is requested. 
+Going further, any of the <code>writeReportToXml...(...)</code> methods in <code>JasperCompileManager</code> will call a related 
+<code>write(...)</code> method of <api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api> utility class. 
+Public <code>write(...)</code> and <code>writeReport(...)</code> methods in this utility class perform all the JRXML extraction work, 
+in accordance with their parameters.
+<br/>
+<br/>
+The generated JRXML representation depends on both the in-memory object and <code>JRXmlWriter</code> versions. If these versions are the same, 
+the JRXML representation should look also the same as the original JRXML file, otherwise the JRXML representation might look slightly different 
+(some older JRXML features are deprecated or replaced in newer versions). Another case where the JRXML representation 
+differs from the original JRXML file occurs when <code>net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}</code> properties are set 
+on the report context. The value of such a report context property should be a regular expression that matches property names in the in-memory 
+<code>JRReport</code> object. Properties with matching names will be excluded from the extracted JRXML representation.
     </content>
   </feature>
 
