@@ -77,4 +77,9 @@ public class JRPropertyChangeSupport extends PropertyChangeSupport
 		firePropertyChange(propertyName, new Double(oldValue), new Double(newValue));
 	}
 	
+	public void firePropertyRemove(String propertyName, String oldValue)
+	{
+		firePropertyChange(new PropertyRemoveEvent(sourceBean, propertyName, oldValue));
+	}
+	
 }
