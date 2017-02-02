@@ -10,5 +10,6 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.8" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.0" conf="test->*"/>
 		<dependency org="xalan" name="serializer" rev="2.7.2" conf="test->*"/>
+		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 	</dependencies>
 </ivy-module>
