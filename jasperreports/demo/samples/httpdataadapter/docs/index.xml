@@ -92,6 +92,14 @@ via the usual report parameters, since data adapters are in fact parameter contr
 <br/>
 The following predefined parameter properties let us configure the HTTP request, and always override the similar information declared in data adapter:   
 <ol>
+<li><a href="../../config.reference.html#net.sf.jasperreports.http.data.method">net.sf.jasperreports.http.data.method</a>
+<ul>
+<li>is specified per dataset or at report parameter level</li>
+<li>if declared per dataset, its value is mandatory and represents the HTTP request method used by the data adapter</li>
+<li>if declared at report parameter level, it needs no value and is used to mark the report parameter as HTTP request method provider</li>
+<li>if this property is specified in various report parameters, only the last one of them will be considered as HTTP request method provider</li>
+</ul>
+</li>
 <li><a href="../../config.reference.html#net.sf.jasperreports.http.data.url">net.sf.jasperreports.http.data.url</a>
 <ul>
 <li>is specified per dataset or at report parameter level</li>
@@ -191,34 +199,34 @@ Following are the 2 data adapter definitions:
 <b>Content of the JSON Data Adapter </b>(see <code>data/JsonHttpDataAdapter.xml</code> file provided in this sample directory):
 <pre><![CDATA[
 <jsonDataAdapter class="net.sf.jasperreports.data.json.JsonDataAdapterImpl">
-	<name>JSON Http Data Adapter</name>
-	<dataFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xsi:type="httpDataLocation">
-		<method>GET</method>
-		<url><![CDATA[http://www.omdbapi.com/?r=json]] ></url>
-	</dataFile>
-	<useConnection>true</useConnection>
-	<timeZone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Europe/Bucharest</timeZone>
-	<locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">ro_RO</locale>
-	<selectExpression></selectExpression>
+  <name>JSON Http Data Adapter</name>
+  <dataFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:type="httpDataLocation">
+    <method>GET</method>
+    <url><![CDATA[http://www.omdbapi.com/?r=json]] ></url>
+  </dataFile>
+  <useConnection>true</useConnection>
+  <timeZone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Europe/Bucharest</timeZone>
+  <locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">ro_RO</locale>
+  <selectExpression></selectExpression>
 </jsonDataAdapter>]]></pre>
 <b>Content of the XML Data Adapter </b>(see <code>data/XmlHttpDataAdapter.xml</code> file provided in this sample directory):
 <pre><![CDATA[
 <xmlDataAdapter class="net.sf.jasperreports.data.xml.XmlDataAdapterImpl">
-	<name>XML Http Data Adapter</name>
-	<dataFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xsi:type="httpDataLocation">
-		<method>GET</method>
-		<url><![CDATA[http://www.omdbapi.com/?r=xml]] ></url>
-	</dataFile>
-	<useConnection>true</useConnection>
-	<timeZone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Europe/Bucharest</timeZone>
-	<locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">ro_RO</locale>
-	<selectExpression></selectExpression>
+  <name>XML Http Data Adapter</name>
+  <dataFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:type="httpDataLocation">
+    <method>GET</method>
+    <url><![CDATA[http://www.omdbapi.com/?r=xml]] ></url>
+  </dataFile>
+  <useConnection>true</useConnection>
+  <timeZone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">Europe/Bucharest</timeZone>
+  <locale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xmlns:java="http://java.sun.com" xsi:type="java:java.lang.String">ro_RO</locale>
+  <selectExpression></selectExpression>
 </xmlDataAdapter>]]></pre>
 We can observe that the above data adapters are quite similar:
 <ul>

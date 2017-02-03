@@ -26,13 +26,14 @@
       <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
       <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
       <property ref="net.sf.jasperreports.hql.query.run.type"/>
-      <property ref="net.sf.jasperreports.http.data.url"/>
-      <property ref="net.sf.jasperreports.http.data.username"/>
-      <property ref="net.sf.jasperreports.http.data.password"/>
-      <property ref="net.sf.jasperreports.http.data.url.parameter"/>
       <property ref="net.sf.jasperreports.http.data.body"/>
-      <property ref="net.sf.jasperreports.http.data.post.parameter"/>
       <property ref="net.sf.jasperreports.http.data.header"/>
+      <property ref="net.sf.jasperreports.http.data.method"/>
+      <property ref="net.sf.jasperreports.http.data.password"/>
+      <property ref="net.sf.jasperreports.http.data.post.parameter"/>
+      <property ref="net.sf.jasperreports.http.data.url"/>
+      <property ref="net.sf.jasperreports.http.data.url.parameter"/>
+      <property ref="net.sf.jasperreports.http.data.username"/>
       <property ref="net.sf.jasperreports.javabean.field.property"/>
       <property ref="net.sf.jasperreports.json.field.expression"/>
       <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
@@ -816,6 +817,29 @@ Also, when the POST/PUT request body is specified, all other POST parameter valu
     <default>N/A</default>
     <scope>Dataset | Parameter</scope>
     <since>6.4.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.http.data.method -->
+  
+  <configProperty name="net.sf.jasperreports.http.data.method">
+    <description>
+Property that specifies the request method used by the HTTP data adapters.
+If present in the dataset or at report parameter level, it overrides the request method specified in the data adapter definition.
+When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would 
+provide the request method.
+If multiple parameters have this property set, the last one will be considered as request method value. 
+<br/>
+This property takes priority over request <code>BODY</code> or <code>POST</code> parameters. 
+<br/>
+If the property is missing, its default value depends on the presence/absence of the request <code>BODY</code> or <code>POST</code> 
+parameters: if <code>BODY</code> or <code>POST</code>. 
+parameters are present, the default value is <code>POST</code>, otherwise it is <code>GET</code>.
+    </description>
+    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_METHOD</api>
+    <default>N/A</default>
+    <scope>Dataset | Parameter</scope>
+    <since>6.4.2</since>
   </configProperty>
   
   
