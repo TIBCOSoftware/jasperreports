@@ -17,7 +17,7 @@
 		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.1.4"/>
 		<dependency org="com.google.zxing" name="core" rev="2.3.0"/>
 		<dependency org="com.lowagie" name="itext" rev="2.1.7.js5"/>
-		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.0"/>
+		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.3"/>
 		<dependency org="commons-collections" name="commons-collections" rev="3.2.2"/>
 		<dependency org="commons-digester" name="commons-digester" rev="2.1"/>
 		<dependency org="commons-javaflow" name="commons-javaflow" rev="20060411"/>
