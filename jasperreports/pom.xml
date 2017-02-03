@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>6.2.2</version>
+	<version>6.2.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -16,9 +16,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>git://git.code.sf.net/p/jasperreports/code jasperreports-code</connection>
-		<tag>jr-6-2-2</tag>
-		<url>http://sourceforge.net/p/jasperreports/code/ci/master/tree/</url>
+		<connection>scm:git:https://github.com/Jaspersoft/jasperreports.git</connection>
+		<tag>jr-6-2-3</tag>
+		<url>https://github.com/Jaspersoft/jasperreports</url>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -53,12 +53,8 @@
 	</developers>
 	<repositories>
 		<repository>
-			<id>jasperreports</id>
-			<url>http://jasperreports.sourceforge.net/maven2</url>
-		</repository>
-		<repository>
 			<id>jaspersoft-third-party</id>
-			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/</url>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
 		</repository>
 	</repositories>
 	<build>
@@ -168,7 +164,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>clirr-maven-plugin</artifactId>
 				<configuration>
-					<comparisonVersion>6.2.1</comparisonVersion>
+					<comparisonVersion>6.2.2</comparisonVersion>
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>
@@ -176,14 +172,14 @@
 	</build>
 	<distributionManagement>
 		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Nexus Release Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>jr-ce-releases</id>
+			<name>JasperReports CE Releases</name>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>jr-ce-snapshots</id>
 			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<dependencies>
