@@ -240,7 +240,6 @@ public class HttpDataService implements DataFileService
 		{
 			method = (body == null && postParameters.isEmpty()) ? RequestMethod.GET : RequestMethod.POST;
 		}
-		System.out.println("****** method = "+method);
 		HttpRequestBase request;
 		switch (method)
 		{
