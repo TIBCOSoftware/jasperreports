@@ -107,6 +107,12 @@ public class HttpDataService implements DataFileService
 	public static final String PARAMETER_PREFIX_POST_PARAMETER = "HTTP_DATA_POST_PARAMETER_";
 	
 	/**
+	 * Property that specifies the HTTP request method to be used by the HTTP data adapters. 
+	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the HTTP method.
+	 */
+	public static final String PROPERTY_METHOD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.method";
+	
+	/**
 	 * Property that specifies the base URL to be used by the HTTP data adapters. 
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the URL value.
 	 */
@@ -266,15 +272,14 @@ public class HttpDataService implements DataFileService
 	{
 		URI requestURI = getRequestURI(parameters);
 
+		RequestMethod method = getMethod(parameters);
 		String body = getBody(parameters);
 		List<NameValuePair> postParameters = collectPostParameters(parameters);
 
-		RequestMethod method = dataLocation.getMethod();
 		if (method == null)
 		{
 			method = (body == null && postParameters.isEmpty()) ? RequestMethod.GET : RequestMethod.POST;
 		}
-		
 		HttpRequestBase request;
 		switch (method)
 		{
@@ -591,6 +596,12 @@ public class HttpDataService implements DataFileService
 		return url;
 	}
 
+	protected RequestMethod getMethod(Map<String, Object> parameters)
+	{
+		String method = getPropertyOrParameterValue(PROPERTY_METHOD, null, parameters);
+		return method != null ? RequestMethod.valueOf(method.toUpperCase()) : dataLocation.getMethod();
+	}
+	
 	protected String getBody(Map<String, Object> parameters)
 	{
 		String body = getPropertyOrParameterValue(PROPERTY_BODY, null, parameters);
