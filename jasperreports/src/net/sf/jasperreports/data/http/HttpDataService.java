@@ -110,6 +110,11 @@ public class HttpDataService implements DataFileService
 	 * Property that specifies the HTTP request method to be used by the HTTP data adapters. 
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the HTTP method.
 	 */
+	@Property (
+			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
+			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
+			sinceVersion = JRConstants.VERSION_6_4_2
+	)
 	public static final String PROPERTY_METHOD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.method";
 	
 	/**
