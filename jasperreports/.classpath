@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="demo/samples/barcode4j/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ecj-4.3.1.jar"/>
@@ -11,18 +12,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/antlr-2.7.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/saaj-api-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jaxen-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/bsh-2.0b4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-bridge.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-gvt.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xml-apis-ext.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svg-dom.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-script.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-css.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/groovy-all-2.4.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.23.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.19.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
@@ -30,10 +20,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/ant-1.7.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/barcode4j-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xercesImpl-2.10.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/spring-beans-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/spring-core-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xalan-2.7.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jxl-2.6.10.jar"/>
 	<classpathentry kind="lib" path="lib/castor-core-1.3.3.jar"/>
 	<classpathentry kind="lib" path="lib/castor-xml-1.3.3.jar"/>
@@ -53,8 +39,23 @@
 	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.10.1.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.10.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/core-2.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/itext-2.1.7.js3.jar"/>
+	<classpathentry kind="lib" path="lib/batik-anim-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-awt-util-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-bridge-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-css-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-dom-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-gvt-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-svg-dom-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-svggen-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/batik-util-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/bsh-2.0b6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-all-2.4.5.jar"/>
+	<classpathentry kind="lib" path="lib/spring-beans-3.2.18.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core-3.2.18.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/xalan-2.7.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -37,6 +37,18 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
+import org.apache.batik.bridge.BridgeContext;
+import org.apache.batik.bridge.GVTBuilder;
+import org.apache.batik.bridge.UserAgent;
+import org.apache.batik.bridge.UserAgentAdapter;
+import org.apache.batik.bridge.ViewBox;
+import org.apache.batik.dom.svg.SVGDocumentFactory;
+import org.apache.batik.ext.awt.image.GraphicsUtil;
+import org.apache.batik.gvt.GraphicsNode;
+import org.w3c.dom.svg.SVGDocument;
+import org.w3c.dom.svg.SVGPreserveAspectRatio;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
@@ -47,18 +59,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.batik.bridge.BridgeContext;
-import org.apache.batik.bridge.GVTBuilder;
-import org.apache.batik.bridge.UserAgent;
-import org.apache.batik.bridge.UserAgentAdapter;
-import org.apache.batik.bridge.ViewBox;
-import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
-import org.apache.batik.dom.svg.SVGDocumentFactory;
-import org.apache.batik.ext.awt.image.GraphicsUtil;
-import org.apache.batik.gvt.GraphicsNode;
-import org.w3c.dom.svg.SVGDocument;
-import org.w3c.dom.svg.SVGPreserveAspectRatio;
 
 
 /**
