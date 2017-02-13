@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.metadata.properties;
+package net.sf.jasperreports.properties;
 
 import java.util.List;
 
@@ -40,6 +40,8 @@ public interface PropertyMetadata
 	 * @return the property name
 	 */
 	String getName();
+	
+	String getCategory();
 	
 	/**
 	 * The name of the class where the property constant is declared.

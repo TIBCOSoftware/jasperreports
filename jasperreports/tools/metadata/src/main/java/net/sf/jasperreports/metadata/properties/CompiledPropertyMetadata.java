@@ -36,6 +36,7 @@ public class CompiledPropertyMetadata
 {
 	
 	private String name;
+	private String category;
 	private String constantDeclarationClass;
 	private String constantFieldName;
 	private String defaultValue;
@@ -138,6 +139,16 @@ public class CompiledPropertyMetadata
 	public void addScopeQualification(String scopeQualification)
 	{
 		this.scopeQualifications.add(scopeQualification);
+	}
+
+	public String getCategory()
+	{
+		return category;
+	}
+
+	public void setCategory(String category)
+	{
+		this.category = category;
 	}
 
 }

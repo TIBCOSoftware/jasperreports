@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.metadata.properties;
+package net.sf.jasperreports.properties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,7 @@ public class StandardPropertyMetadata implements PropertyMetadata
 {
 	
 	private String name;
+	private String category;
 	private String constantDeclarationClass;
 	private String constantFieldName;
 	private String label;
@@ -170,6 +171,16 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	public void addScopeQualification(String scopeQualification)
 	{
 		this.scopeQualifications.add(scopeQualification);
+	}
+
+	public String getCategory()
+	{
+		return category;
+	}
+
+	public void setCategory(String category)
+	{
+		this.category = category;
 	}
 
 }

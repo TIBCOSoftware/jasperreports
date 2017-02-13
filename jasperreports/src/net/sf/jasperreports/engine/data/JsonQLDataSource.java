@@ -39,6 +39,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -62,6 +63,7 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
      * Property specifying the JSONQL expression for the dataset field.
      */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JsonQLQueryExecuterFactory.JSONQL_QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

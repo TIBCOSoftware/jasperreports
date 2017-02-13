@@ -41,9 +41,7 @@ import net.sf.jasperreports.engine.util.LocalizedMessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.metadata.properties.CompiledPropertiesMetadata;
 import net.sf.jasperreports.metadata.properties.CompiledPropertyMetadata;
-import net.sf.jasperreports.metadata.properties.PropertyMetadata;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerialization;
-import net.sf.jasperreports.metadata.properties.StandardPropertyMetadata;
 
 /**
  * 
@@ -138,6 +136,7 @@ public class ResourcePropertiesMetadataReader
 		StandardPropertyMetadata property = new StandardPropertyMetadata();
 		String name = compiledProperty.getName();
 		property.setName(name);
+		property.setCategory(compiledProperty.getCategory());
 		property.setConstantDeclarationClass(compiledProperty.getConstantDeclarationClass());
 		property.setConstantFieldName(compiledProperty.getConstantFieldName());
 		property.setLabel(messageProvider.getMessage(PROPERTY_LABEL_PREFIX + name));

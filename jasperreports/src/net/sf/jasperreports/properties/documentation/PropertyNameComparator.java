@@ -21,35 +21,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.annotations.properties;
+package net.sf.jasperreports.properties.documentation;
 
-import static java.lang.annotation.ElementType.FIELD;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.Comparator;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target(FIELD)
-public @interface Property
+public class PropertyNameComparator implements Comparator<PropertyDoc>
 {
 
-	String CATEGORY_OTHER = "net.sf.jasperreports.metadata.property.category:other";
+	private static final PropertyNameComparator INSTANCE = new PropertyNameComparator();
 	
-	String category() default CATEGORY_OTHER;
+	public static PropertyNameComparator instance()
+	{
+		return INSTANCE;
+	}
 	
-	String defaultValue() default "N/A";//TODO lucianc
-	
-	PropertyScope[] scopes();
-	
-	String sinceVersion() default "";//TODO lucianc
-	
-	Class<?> valueType() default String.class;
-	
-	String[] scopeQualifications() default {};
-	
+	@Override
+	public int compare(PropertyDoc o1, PropertyDoc o2)
+	{
+		return o1.getPropertyMetadata().getName().compareTo(o2.getPropertyMetadata().getName());
+	}
+
 }

@@ -79,6 +79,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 * Property specifying the result set column name for the dataset field.
 	 */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -89,6 +90,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 * Property specifying the result set column label for the dataset field.
 	 */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -99,6 +101,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 * Property specifying the result set column index for the dataset field.
 	 */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1,

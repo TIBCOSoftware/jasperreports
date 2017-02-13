@@ -21,35 +21,58 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.annotations.properties;
+package net.sf.jasperreports.properties.documentation;
 
-import static java.lang.annotation.ElementType.FIELD;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.w3c.dom.Element;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target(FIELD)
-public @interface Property
+public class CategoryDoc
 {
 
-	String CATEGORY_OTHER = "net.sf.jasperreports.metadata.property.category:other";
+	private String key;
+	private Element nameElement;
+	private List<PropertyDoc> properties = new ArrayList<>();
+
+	public CategoryDoc(String key)
+	{
+		this.key = key;
+	}
 	
-	String category() default CATEGORY_OTHER;
+	public void sortProperties()
+	{
+		Collections.sort(properties, PropertyNameComparator.instance());
+	}
+
+	public String getKey()
+	{
+		return key;
+	}
+
+	public Element getNameElement()
+	{
+		return nameElement;
+	}
+
+	public void setNameElement(Element nameElement)
+	{
+		this.nameElement = nameElement;
+	}
+
+	public void addProperty(PropertyDoc property)
+	{
+		properties.add(property);
+	}
 	
-	String defaultValue() default "N/A";//TODO lucianc
-	
-	PropertyScope[] scopes();
-	
-	String sinceVersion() default "";//TODO lucianc
-	
-	Class<?> valueType() default String.class;
-	
-	String[] scopeQualifications() default {};
+	public List<PropertyDoc> getProperties()
+	{
+		return properties;
+	}
 	
 }

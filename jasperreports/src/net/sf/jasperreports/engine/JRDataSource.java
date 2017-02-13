@@ -35,6 +35,9 @@ package net.sf.jasperreports.engine;
  */
 public interface JRDataSource
 {
+	
+	String METADATA_PROPERTY_CATEGORY = "net.sf.jasperreports.metadata.property.category:data.source";
+	
 	/**
 	 * Tries to position the cursor on the next element in the data source.
 	 * @return true if there is a next record, false otherwise

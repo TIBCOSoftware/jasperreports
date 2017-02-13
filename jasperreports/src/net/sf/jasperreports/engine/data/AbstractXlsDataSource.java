@@ -34,6 +34,7 @@ import java.util.Map;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -62,6 +63,7 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	 * Property specifying the XLS column name for the dataset field.
 	 */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -72,6 +74,7 @@ public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource imp
 	 * Property specifying the XLS column index for the dataset field.
 	 */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1,

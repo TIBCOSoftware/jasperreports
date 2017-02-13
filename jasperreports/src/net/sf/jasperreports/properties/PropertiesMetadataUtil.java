@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.Designator;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
-import net.sf.jasperreports.metadata.properties.PropertyMetadata;
 
 /**
  * 

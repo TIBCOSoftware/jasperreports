@@ -87,6 +87,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 	 * Property specifying the OLAP mapping for the dataset field.
 	 */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRMdxQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

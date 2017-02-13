@@ -38,6 +38,7 @@ import org.w3c.dom.NodeList;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -124,6 +125,7 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 	 * Property specifying the XPath expression for the dataset field.
 	 */
 	@Property (
+			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

@@ -1,0 +1,347 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sf.jasperreports.properties.documentation;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.properties.PropertiesMetadataUtil;
+import net.sf.jasperreports.properties.PropertyMetadata;
+
+/**
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ */
+public class ConfigReferenceWriter
+{
+	
+	public static final void main(String[] args)
+	{
+		if (args.length != 2)
+		{
+			System.err.println("Usage: ConfigReferenceWriter <input file> <output file>");
+		}
+		
+		String inputFile = args[0];
+		String outputFile = args[1];
+		ConfigReferenceWriter writer = new ConfigReferenceWriter();
+		writer.readPropertiesDoc(inputFile);
+		writer.writeConfigReference(outputFile);
+		System.out.println("Wrote " + outputFile);
+	}
+	
+	private static final String ELEMENT_ROOT = "configReference";
+	private static final String ELEMENT_CATEGORY = "category";
+	private static final String ATTR_CATEGORY_KEY = "key";
+	private static final String ELEMENT_CATEGORY_NAME = "name";
+	private static final String ELEMENT_CATEGORY_CONTENT = "content";
+	private static final String ELEMENT_CATEGORY_PROPERTY = "property";
+	private static final String ATTR_CATEGORY_PROPERTY_REF = "ref";
+	private static final String ELEMENT_CONFIG_PROP = "configProperty";
+	private static final String ATTR_CONFIG_PROP_NAME = "name";
+	private static final String ELEMENT_DESCRIPTION = "description";
+	private static final String ELEMENT_API = "api";
+	private static final String ELEMENT_DEFAULT = "default";
+	private static final String ELEMENT_SCOPE = "scope";
+	private static final String ELEMENT_SINCE = "since";
+
+	private DocumentBuilder documentBuilder;
+	
+	private Map<String, CategoryDoc> categories = new LinkedHashMap<>();
+	private Map<String, Element> propertyDocNodes = new LinkedHashMap<>();
+
+	public ConfigReferenceWriter()
+	{
+		try
+		{
+			documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		}
+		catch (ParserConfigurationException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void readPropertiesDoc(String docFile)
+	{
+		try
+		{
+			Document doc = documentBuilder.parse(new File(docFile));
+			Element rootElement = doc.getDocumentElement();
+			
+			readCategories(rootElement);
+			readPropertyDocs(rootElement);
+		}
+		catch (SAXException e)
+		{
+			throw new RuntimeException(e);
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected void readCategories(Element rootElement)
+	{
+		NodeList categoryElements = rootElement.getElementsByTagName(ELEMENT_CATEGORY);
+		for (int i = 0; i < categoryElements.getLength(); i++)
+		{
+			Element categoryElement = (Element) categoryElements.item(i);
+			String key = categoryElement.getAttribute(ATTR_CATEGORY_KEY);
+			if (key == null || key.isEmpty())
+			{
+				System.out.println("No category key at index " + i);
+				continue;
+			}
+			
+			CategoryDoc category = new CategoryDoc(key);
+			categories.put(key, category);
+			
+			NodeList nameElems = categoryElement.getElementsByTagName(ELEMENT_CATEGORY_NAME);
+			if (nameElems.getLength() != 1)
+			{
+				System.out.println("Unexpected name for category node " + key);
+			}
+			else
+			{
+				Element nameElem = (Element) nameElems.item(0);
+				category.setNameElement(nameElem);
+			}
+		}
+	}
+
+	protected void readPropertyDocs(Element rootElement)
+	{
+		NodeList docPropElements = rootElement.getElementsByTagName(ELEMENT_CONFIG_PROP);
+		for (int i = 0; i < docPropElements.getLength(); i++)
+		{
+			Element docPropElement = (Element) docPropElements.item(i);
+			String propName = docPropElement.getAttribute(ATTR_CONFIG_PROP_NAME);
+			if (propName == null || propName.isEmpty())
+			{
+				System.out.println("No name attribute in node at index " + i);
+				continue;
+			}
+			
+			NodeList descriptionElems = docPropElement.getElementsByTagName(ELEMENT_DESCRIPTION);
+			if (descriptionElems.getLength() != 1)
+			{
+				System.out.println("Unexpected description for node " + propName);
+				continue;
+			}
+			
+			Element descriptionElem = (Element) descriptionElems.item(0);
+			propertyDocNodes.put(propName, descriptionElem);
+		}
+	}
+	
+	public void writeConfigReference(String refFile)
+	{
+		collectCategoryProps();
+		
+		Document refDoc = documentBuilder.newDocument();
+		Element refRoot = refDoc.createElement(ELEMENT_ROOT);
+		
+		for (CategoryDoc categoryDoc : categories.values())
+		{
+			categoryDoc.sortProperties();
+			Element categoryRef = createCategoryRef(refDoc, categoryDoc);
+			refRoot.appendChild(categoryRef);
+		}
+		
+		for (CategoryDoc categoryDoc : categories.values())
+		{
+			for (PropertyDoc prop : categoryDoc.getProperties())
+			{
+				Element refProp = createPropRef(refDoc, prop);
+				refRoot.appendChild(refProp);
+			}
+		}
+		
+		refDoc.appendChild(refRoot);
+		writeRefDoc(refFile, refDoc);
+	}
+
+	protected void collectCategoryProps()
+	{
+		PropertiesMetadataUtil metadata = PropertiesMetadataUtil.getInstance(
+				DefaultJasperReportsContext.getInstance());
+		List<PropertyMetadata> properties = metadata.getProperties();
+		for (PropertyMetadata prop : properties)
+		{
+			String category = prop.getCategory();
+			CategoryDoc categoryDoc = categories.get(category);
+			if (categoryDoc == null)
+			{
+				System.out.println("No category doc found for " + category);
+				
+				categoryDoc = new CategoryDoc(category);
+				categories.put(category, categoryDoc);
+			}
+			
+			PropertyDoc propertyDoc = new PropertyDoc(prop);
+			Element docNode = propertyDocNodes.get(prop.getName());
+			if (docNode == null)
+			{
+				System.out.println("No description found for " + prop.getName());
+			}
+			else
+			{
+				propertyDoc.setDocElement(docNode);
+			}
+			
+			categoryDoc.addProperty(propertyDoc);
+		}
+	}
+
+
+	protected Element createCategoryRef(Document refDoc, CategoryDoc category)
+	{
+		Element refCategory = refDoc.createElement(ELEMENT_CATEGORY);
+		
+		Element nameElement = category.getNameElement();
+		if (nameElement != null)
+		{
+			Node nameClone = refDoc.importNode(nameElement, true);
+			refCategory.appendChild(nameClone);
+		}
+		
+		Element content = refDoc.createElement(ELEMENT_CATEGORY_CONTENT);
+		for (PropertyDoc prop : category.getProperties())
+		{
+			Element propElem = refDoc.createElement(ELEMENT_CATEGORY_PROPERTY);
+			propElem.setAttribute(ATTR_CATEGORY_PROPERTY_REF, prop.getPropertyMetadata().getName());
+			content.appendChild(propElem);
+		}
+		refCategory.appendChild(content);
+		
+		return refCategory;
+	}
+	
+	protected Element createPropRef(Document refDoc, PropertyDoc property)
+	{
+		PropertyMetadata propertyMetadata = property.getPropertyMetadata();
+		String propName = propertyMetadata.getName();
+		
+		Element refProp = refDoc.createElement(ELEMENT_CONFIG_PROP);
+		refProp.setAttribute(ATTR_CONFIG_PROP_NAME, propName);
+		
+		Element docNode = propertyDocNodes.get(propName);
+		if (docNode != null)
+		{
+			Node docClone = refDoc.importNode(docNode, true);
+			refProp.appendChild(docClone);
+		}
+		
+		Element apiElem = refDoc.createElement(ELEMENT_API);
+		String apiRef = getApiRef(propertyMetadata);
+		apiElem.setTextContent(apiRef);
+		refProp.appendChild(apiElem);
+		
+		Element defaultElem = refDoc.createElement(ELEMENT_DEFAULT);
+		defaultElem.setTextContent(propertyMetadata.getDefaultValue());
+		refProp.appendChild(defaultElem);
+		
+		Element scopeElem = refDoc.createElement(ELEMENT_SCOPE);
+		String scopesText = getScopesText(propertyMetadata);
+		scopeElem.setTextContent(scopesText);
+		refProp.appendChild(scopeElem);
+
+		if (!propertyMetadata.getSinceVersion().isEmpty())
+		{
+			Element sinceElem = refDoc.createElement(ELEMENT_SINCE);
+			sinceElem.setTextContent(propertyMetadata.getSinceVersion());
+			refProp.appendChild(sinceElem);
+		}
+		
+		return refProp;
+	}
+
+	protected String getApiRef(PropertyMetadata prop)
+	{
+		String apiRef = prop.getConstantDeclarationClass().replace('.', '/') 
+				+ ".html#" + prop.getConstantFieldName();
+		return apiRef;
+	}
+
+	protected String getScopesText(PropertyMetadata prop)
+	{
+		StringBuilder scopesText = new StringBuilder();
+		List<PropertyScope> scopes = prop.getScopes();
+		for (PropertyScope scope : scopes)
+		{
+			if (scopesText.length() > 0)
+			{
+				scopesText.append(" | ");
+			}
+			scopesText.append(scope.toString());
+		}
+		return scopesText.toString();
+	}
+
+	protected void writeRefDoc(String refFile, Document refDoc)
+	{
+		try
+		{
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.transform(new DOMSource(refDoc), new StreamResult(new File(refFile)));
+		}
+		catch (TransformerConfigurationException e)
+		{
+			throw new RuntimeException(e);
+		}
+		catch (TransformerFactoryConfigurationError e)
+		{
+			throw new RuntimeException(e);
+		}
+		catch (TransformerException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+}

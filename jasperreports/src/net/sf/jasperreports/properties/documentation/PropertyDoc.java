@@ -21,35 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.annotations.properties;
+package net.sf.jasperreports.properties.documentation;
 
-import static java.lang.annotation.ElementType.FIELD;
+import org.w3c.dom.Element;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import net.sf.jasperreports.properties.PropertyMetadata;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-@Retention(RetentionPolicy.SOURCE)
-@Target(FIELD)
-public @interface Property
+public class PropertyDoc
 {
 
-	String CATEGORY_OTHER = "net.sf.jasperreports.metadata.property.category:other";
-	
-	String category() default CATEGORY_OTHER;
-	
-	String defaultValue() default "N/A";//TODO lucianc
-	
-	PropertyScope[] scopes();
-	
-	String sinceVersion() default "";//TODO lucianc
-	
-	Class<?> valueType() default String.class;
-	
-	String[] scopeQualifications() default {};
+	private PropertyMetadata propertyMetadata;
+	private Element docElement;
+
+	public PropertyDoc(PropertyMetadata propertyMetadata)
+	{
+		this.propertyMetadata = propertyMetadata;
+	}
+
+	public Element getDocElement()
+	{
+		return docElement;
+	}
+
+	public void setDocElement(Element docElement)
+	{
+		this.docElement = docElement;
+	}
+
+	public PropertyMetadata getPropertyMetadata()
+	{
+		return propertyMetadata;
+	}
 	
 }

@@ -13,6 +13,8 @@
 		<mkdir dir="./build/classes"/>
 		<ivy:configure file="./ivysettings.xml" override="true"/>
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
+		<ivy:cachepath pathid="annotations-lib" log="download-only" conf="annotations"/>
+		<pathconvert property="annotations-paths" refid="annotations-lib"/>
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7" 
 				encoding="ISO-8859-1" includeantruntime="false" excludes="**/package-info.java">
 			<classpath refid="project-classpath"/>
@@ -20,6 +22,9 @@
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
+			<compilerarg value="-processorpath"/>
+			<compilerarg value="${annotations-paths}"/>
+			<compilerarg value="-AmetadataMessagesName=metadata_messages"/>
 		</javac>
 		
 		<copy todir="./build/classes">
@@ -229,8 +234,15 @@
 		</xslt>
 	</target>
 	
-	<target name="configref" description="Generates the Configuration Reference.">
+	<target name="configref" description="Generates the Configuration Reference." depends="compile">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
+		<!--
+		<java classname="net.sf.jasperreports.properties.documentation.ConfigReferenceWriter">
+			<classpath refid="project-classpath"/>
+			<arg value="docs/config.doc.xml"/>
+			<arg value="build/config.reference.xml"/>
+		</java>
+		-->
 		<xslt basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
