@@ -16,19 +16,15 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>git://git.code.sf.net/p/jasperreports/code jasperreports-code</connection>
+		<connection>scm:git:https://github.com/Jaspersoft/jasperreports.git</connection>
 		<tag>jr-6-1-2</tag>
-		<url>http://sourceforge.net/p/jasperreports/code/ci/master/tree/</url>
+		<url>https://github.com/Jaspersoft/jasperreports</url>
 	</scm>
 	<repositories>
 		<repository>
-			<id>jasperreports</id>
-			<url>http://jasperreports.sourceforge.net/maven2</url>
-		</repository>
-		<repository>
 			<id>jr-ce-snapshots</id>
 			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
 		</repository>
 	</repositories>
 	<build>
@@ -70,7 +66,7 @@
 									<Specification-Title>JasperReports Library Chart Themes</Specification-Title>
 									<Specification-Version>${pom.version}</Specification-Version>
 									<Specification-Vendor>Jaspersoft</Specification-Vendor>
-									<Implementation-Title>net.sf.jasperreports.charts</Implementation-Title>
+									<Implementation-Title>net.sf.jasperreports.chartthemes</Implementation-Title>
 									<Implementation-Version>${pom.version}</Implementation-Version>
 									<Implementation-Vendor>Jaspersoft</Implementation-Vendor>
 								</manifestEntries>
@@ -85,12 +81,12 @@
 		<repository>
 			<id>jr-ce-releases</id>
 			<name>JasperReports CE Releases</name>
-			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-releases</url>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>jr-ce-snapshots</id>
 			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-snapshots</url>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<dependencies>
