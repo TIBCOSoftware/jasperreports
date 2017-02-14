@@ -21,40 +21,58 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.properties.documentation;
+package net.sf.jasperreports.annotations.documentation;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.w3c.dom.Element;
-
-import net.sf.jasperreports.properties.PropertyMetadata;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class PropertyDoc
+public class CategoryDoc
 {
 
-	private PropertyMetadata propertyMetadata;
-	private Element docElement;
+	private String key;
+	private Element nameElement;
+	private List<PropertyDoc> properties = new ArrayList<>();
 
-	public PropertyDoc(PropertyMetadata propertyMetadata)
+	public CategoryDoc(String key)
 	{
-		this.propertyMetadata = propertyMetadata;
+		this.key = key;
+	}
+	
+	public void sortProperties()
+	{
+		Collections.sort(properties, PropertyNameComparator.instance());
 	}
 
-	public Element getDocElement()
+	public String getKey()
 	{
-		return docElement;
+		return key;
 	}
 
-	public void setDocElement(Element docElement)
+	public Element getNameElement()
 	{
-		this.docElement = docElement;
+		return nameElement;
 	}
 
-	public PropertyMetadata getPropertyMetadata()
+	public void setNameElement(Element nameElement)
 	{
-		return propertyMetadata;
+		this.nameElement = nameElement;
+	}
+
+	public void addProperty(PropertyDoc property)
+	{
+		properties.add(property);
+	}
+	
+	public List<PropertyDoc> getProperties()
+	{
+		return properties;
 	}
 	
 }

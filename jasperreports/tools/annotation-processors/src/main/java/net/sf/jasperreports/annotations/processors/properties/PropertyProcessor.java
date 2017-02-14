@@ -51,6 +51,7 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
+import net.sf.jasperreports.annotations.documentation.PropertiesDocReader;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.metadata.properties.CompiledPropertiesMetadata;
@@ -63,11 +64,17 @@ import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerial
  */
 @SupportedAnnotationTypes("net.sf.jasperreports.annotations.properties.Property")
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
-@SupportedOptions({PropertyProcessor.MESSAGES_NAME})
+@SupportedOptions({PropertyProcessor.OPTION_MESSAGES_NAME,
+	PropertyProcessor.OPTION_PROPERTIES_DOC,
+	PropertyProcessor.OPTION_CONFIG_REFERENCE_OUT})
 public class PropertyProcessor extends AbstractProcessor
 {
 
-	public static final String MESSAGES_NAME = "metadataMessagesName";
+	public static final String OPTION_MESSAGES_NAME = "metadataMessagesName";
+
+	public static final String OPTION_PROPERTIES_DOC = "propertiesDoc";
+
+	public static final String OPTION_CONFIG_REFERENCE_OUT = "configReferenceOut";
 	
 	public PropertyProcessor()
 	{
@@ -77,7 +84,7 @@ public class PropertyProcessor extends AbstractProcessor
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
 	{
 		CompiledPropertiesMetadata props = new CompiledPropertiesMetadata();
-		String messagesName = processingEnv.getOptions().get(MESSAGES_NAME);
+		String messagesName = processingEnv.getOptions().get(OPTION_MESSAGES_NAME);
 		props.setMessagesName(messagesName);
 		
 		for (TypeElement annotation : annotations)
@@ -131,6 +138,19 @@ public class PropertyProcessor extends AbstractProcessor
 		if (!props.getProperties().isEmpty())
 		{
 			writePropertiesMetadata(props);
+			
+			String propertiesDoc = processingEnv.getOptions().get(OPTION_PROPERTIES_DOC);
+			if (propertiesDoc != null)
+			{
+				PropertiesDocReader docReader = new PropertiesDocReader(processingEnv, props);
+				docReader.readPropertiesDoc(propertiesDoc);
+				
+				String referenceOut = processingEnv.getOptions().get(OPTION_CONFIG_REFERENCE_OUT);
+				if (referenceOut != null)
+				{
+					docReader.writeConfigReference(referenceOut);
+				}
+			}
 		}
 		
 		return true;

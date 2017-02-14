@@ -21,58 +21,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.properties.documentation;
+package net.sf.jasperreports.annotations.documentation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.w3c.dom.Element;
+import java.util.Comparator;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class CategoryDoc
+public class PropertyNameComparator implements Comparator<PropertyDoc>
 {
 
-	private String key;
-	private Element nameElement;
-	private List<PropertyDoc> properties = new ArrayList<>();
-
-	public CategoryDoc(String key)
+	private static final PropertyNameComparator INSTANCE = new PropertyNameComparator();
+	
+	public static PropertyNameComparator instance()
 	{
-		this.key = key;
+		return INSTANCE;
 	}
 	
-	public void sortProperties()
+	@Override
+	public int compare(PropertyDoc o1, PropertyDoc o2)
 	{
-		Collections.sort(properties, PropertyNameComparator.instance());
+		return o1.getPropertyMetadata().getName().compareTo(o2.getPropertyMetadata().getName());
 	}
 
-	public String getKey()
-	{
-		return key;
-	}
-
-	public Element getNameElement()
-	{
-		return nameElement;
-	}
-
-	public void setNameElement(Element nameElement)
-	{
-		this.nameElement = nameElement;
-	}
-
-	public void addProperty(PropertyDoc property)
-	{
-		properties.add(property);
-	}
-	
-	public List<PropertyDoc> getProperties()
-	{
-		return properties;
-	}
-	
 }

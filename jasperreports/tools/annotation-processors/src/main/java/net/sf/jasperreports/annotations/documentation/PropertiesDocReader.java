@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.properties.documentation;
+package net.sf.jasperreports.annotations.documentation;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +29,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.tools.Diagnostic.Kind;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,31 +49,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.properties.PropertiesMetadataUtil;
-import net.sf.jasperreports.properties.PropertyMetadata;
+import net.sf.jasperreports.metadata.properties.CompiledPropertiesMetadata;
+import net.sf.jasperreports.metadata.properties.CompiledPropertyMetadata;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ConfigReferenceWriter
+public class PropertiesDocReader
 {
-	
-	public static final void main(String[] args)
-	{
-		if (args.length != 2)
-		{
-			System.err.println("Usage: ConfigReferenceWriter <input file> <output file>");
-		}
-		
-		String inputFile = args[0];
-		String outputFile = args[1];
-		ConfigReferenceWriter writer = new ConfigReferenceWriter();
-		writer.readPropertiesDoc(inputFile);
-		writer.writeConfigReference(outputFile);
-		System.out.println("Wrote " + outputFile);
-	}
 	
 	private static final String ELEMENT_ROOT = "configReference";
 	private static final String ELEMENT_CATEGORY = "category";
@@ -88,13 +74,18 @@ public class ConfigReferenceWriter
 	private static final String ELEMENT_SCOPE = "scope";
 	private static final String ELEMENT_SINCE = "since";
 
+	private ProcessingEnvironment environment;
+	private CompiledPropertiesMetadata properties;
 	private DocumentBuilder documentBuilder;
 	
 	private Map<String, CategoryDoc> categories = new LinkedHashMap<>();
 	private Map<String, Element> propertyDocNodes = new LinkedHashMap<>();
 
-	public ConfigReferenceWriter()
+	public PropertiesDocReader(ProcessingEnvironment environment, CompiledPropertiesMetadata properties)
 	{
+		this.environment = environment;
+		this.properties = properties;
+		
 		try
 		{
 			documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -134,7 +125,7 @@ public class ConfigReferenceWriter
 			String key = categoryElement.getAttribute(ATTR_CATEGORY_KEY);
 			if (key == null || key.isEmpty())
 			{
-				System.out.println("No category key at index " + i);
+				environment.getMessager().printMessage(Kind.WARNING, "No category key at index " + i);
 				continue;
 			}
 			
@@ -144,7 +135,7 @@ public class ConfigReferenceWriter
 			NodeList nameElems = categoryElement.getElementsByTagName(ELEMENT_CATEGORY_NAME);
 			if (nameElems.getLength() != 1)
 			{
-				System.out.println("Unexpected name for category node " + key);
+				environment.getMessager().printMessage(Kind.WARNING, "Unexpected name for category node " + key);
 			}
 			else
 			{
@@ -163,14 +154,14 @@ public class ConfigReferenceWriter
 			String propName = docPropElement.getAttribute(ATTR_CONFIG_PROP_NAME);
 			if (propName == null || propName.isEmpty())
 			{
-				System.out.println("No name attribute in node at index " + i);
+				environment.getMessager().printMessage(Kind.WARNING, "No name attribute in node at index " + i);
 				continue;
 			}
 			
 			NodeList descriptionElems = docPropElement.getElementsByTagName(ELEMENT_DESCRIPTION);
 			if (descriptionElems.getLength() != 1)
 			{
-				System.out.println("Unexpected description for node " + propName);
+				environment.getMessager().printMessage(Kind.WARNING, "Unexpected description for node " + propName);
 				continue;
 			}
 			
@@ -208,16 +199,13 @@ public class ConfigReferenceWriter
 
 	protected void collectCategoryProps()
 	{
-		PropertiesMetadataUtil metadata = PropertiesMetadataUtil.getInstance(
-				DefaultJasperReportsContext.getInstance());
-		List<PropertyMetadata> properties = metadata.getProperties();
-		for (PropertyMetadata prop : properties)
+		for (CompiledPropertyMetadata prop : properties.getProperties())
 		{
 			String category = prop.getCategory();
 			CategoryDoc categoryDoc = categories.get(category);
 			if (categoryDoc == null)
 			{
-				System.out.println("No category doc found for " + category);
+				environment.getMessager().printMessage(Kind.WARNING, "No category doc found for " + category);
 				
 				categoryDoc = new CategoryDoc(category);
 				categories.put(category, categoryDoc);
@@ -227,7 +215,7 @@ public class ConfigReferenceWriter
 			Element docNode = propertyDocNodes.get(prop.getName());
 			if (docNode == null)
 			{
-				System.out.println("No description found for " + prop.getName());
+				environment.getMessager().printMessage(Kind.WARNING, "No description found for " + prop.getName());
 			}
 			else
 			{
@@ -264,7 +252,7 @@ public class ConfigReferenceWriter
 	
 	protected Element createPropRef(Document refDoc, PropertyDoc property)
 	{
-		PropertyMetadata propertyMetadata = property.getPropertyMetadata();
+		CompiledPropertyMetadata propertyMetadata = property.getPropertyMetadata();
 		String propName = propertyMetadata.getName();
 		
 		Element refProp = refDoc.createElement(ELEMENT_CONFIG_PROP);
@@ -301,14 +289,14 @@ public class ConfigReferenceWriter
 		return refProp;
 	}
 
-	protected String getApiRef(PropertyMetadata prop)
+	protected String getApiRef(CompiledPropertyMetadata prop)
 	{
 		String apiRef = prop.getConstantDeclarationClass().replace('.', '/') 
 				+ ".html#" + prop.getConstantFieldName();
 		return apiRef;
 	}
 
-	protected String getScopesText(PropertyMetadata prop)
+	protected String getScopesText(CompiledPropertyMetadata prop)
 	{
 		StringBuilder scopesText = new StringBuilder();
 		List<PropertyScope> scopes = prop.getScopes();

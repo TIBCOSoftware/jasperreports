@@ -21,28 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.properties.documentation;
+package net.sf.jasperreports.annotations.documentation;
 
-import java.util.Comparator;
+import org.w3c.dom.Element;
+
+import net.sf.jasperreports.metadata.properties.CompiledPropertyMetadata;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class PropertyNameComparator implements Comparator<PropertyDoc>
+public class PropertyDoc
 {
 
-	private static final PropertyNameComparator INSTANCE = new PropertyNameComparator();
-	
-	public static PropertyNameComparator instance()
+	private CompiledPropertyMetadata propertyMetadata;
+	private Element docElement;
+
+	public PropertyDoc(CompiledPropertyMetadata propertyMetadata)
 	{
-		return INSTANCE;
-	}
-	
-	@Override
-	public int compare(PropertyDoc o1, PropertyDoc o2)
-	{
-		return o1.getPropertyMetadata().getName().compareTo(o2.getPropertyMetadata().getName());
+		this.propertyMetadata = propertyMetadata;
 	}
 
+	public Element getDocElement()
+	{
+		return docElement;
+	}
+
+	public void setDocElement(Element docElement)
+	{
+		this.docElement = docElement;
+	}
+
+	public CompiledPropertyMetadata getPropertyMetadata()
+	{
+		return propertyMetadata;
+	}
+	
 }
