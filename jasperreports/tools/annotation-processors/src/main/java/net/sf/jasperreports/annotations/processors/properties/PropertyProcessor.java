@@ -144,6 +144,7 @@ public class PropertyProcessor extends AbstractProcessor
 			{
 				PropertiesDocReader docReader = new PropertiesDocReader(processingEnv, props);
 				docReader.readPropertiesDoc(propertiesDoc);
+				docReader.writeDefaultMessages();
 				
 				String referenceOut = processingEnv.getOptions().get(OPTION_CONFIG_REFERENCE_OUT);
 				if (referenceOut != null)

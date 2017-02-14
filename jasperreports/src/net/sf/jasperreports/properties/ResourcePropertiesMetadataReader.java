@@ -36,11 +36,14 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.DefaultedMessageProvider;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalizedMessageProvider;
+import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.metadata.properties.CompiledPropertiesMetadata;
 import net.sf.jasperreports.metadata.properties.CompiledPropertyMetadata;
+import net.sf.jasperreports.metadata.properties.PropertyMetadataConstants;
 import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerialization;
 
 /**
@@ -51,10 +54,6 @@ public class ResourcePropertiesMetadataReader
 {
 
 	private static final Log log = LogFactory.getLog(ResourcePropertiesMetadataReader.class);
-
-	public static final String PROPERTY_LABEL_PREFIX = "property.label.";
-
-	public static final String PROPERTY_DESCRIPTION_PREFIX = "property.description.";
 	
 	private static final ResourcePropertiesMetadataReader INSTANCE = new ResourcePropertiesMetadataReader();
 	
@@ -91,14 +90,17 @@ public class ResourcePropertiesMetadataReader
 					log.debug("Loaded " + resourceProperties.getProperties().size() + " properties from " + resource);
 				}
 				
-				LocalizedMessageProvider messageProvider = messageUtil.getLocalizedMessageProvider(
-						resourceProperties.getMessagesName(), locale);
+				MessageProvider messageProvider = messageUtil.getMessageProvider(
+						resourceProperties.getMessagesName());
+				messageProvider = DefaultedMessageProvider.wrap(messageProvider, 
+						resourceProperties.getMessagesName() + PropertyMetadataConstants.MESSAGES_DEFAULTS_SUFFIX);
+				LocalizedMessageProvider localizedMessageProvider = new LocalizedMessageProvider(messageProvider, locale);
 				
 				for (CompiledPropertyMetadata compiledProperty : resourceProperties.getProperties())
 				{
 					if (!properties.containsKey(compiledProperty.getName()))
 					{
-						PropertyMetadata property = toProperty(compiledProperty, messageProvider);
+						PropertyMetadata property = toProperty(compiledProperty, localizedMessageProvider);
 						properties.put(compiledProperty.getName(), property);
 					}
 					else if (log.isDebugEnabled())
@@ -139,8 +141,8 @@ public class ResourcePropertiesMetadataReader
 		property.setCategory(compiledProperty.getCategory());
 		property.setConstantDeclarationClass(compiledProperty.getConstantDeclarationClass());
 		property.setConstantFieldName(compiledProperty.getConstantFieldName());
-		property.setLabel(messageProvider.getMessage(PROPERTY_LABEL_PREFIX + name));
-		property.setDescription(messageProvider.getMessage(PROPERTY_DESCRIPTION_PREFIX + name));
+		property.setLabel(messageProvider.getMessage(PropertyMetadataConstants.PROPERTY_LABEL_PREFIX + name));
+		property.setDescription(messageProvider.getMessage(PropertyMetadataConstants.PROPERTY_DESCRIPTION_PREFIX + name));
 		property.setDefaultValue(compiledProperty.getDefaultValue());
 		property.setScopes(compiledProperty.getScopes());//TODO lucianc copy?
 		property.setScopeQualifications(compiledProperty.getScopeQualifications());//TODO lucianc copy?

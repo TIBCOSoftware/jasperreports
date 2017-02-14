@@ -25,12 +25,20 @@ package net.sf.jasperreports.annotations.documentation;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.BreakIterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic.Kind;
+import javax.tools.FileObject;
+import javax.tools.StandardLocation;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,6 +59,7 @@ import org.xml.sax.SAXException;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.metadata.properties.CompiledPropertiesMetadata;
 import net.sf.jasperreports.metadata.properties.CompiledPropertyMetadata;
+import net.sf.jasperreports.metadata.properties.PropertyMetadataConstants;
 
 /**
  * 
@@ -77,6 +86,7 @@ public class PropertiesDocReader
 	private ProcessingEnvironment environment;
 	private CompiledPropertiesMetadata properties;
 	private DocumentBuilder documentBuilder;
+	private Properties propertyMessages;
 	
 	private Map<String, CategoryDoc> categories = new LinkedHashMap<>();
 	private Map<String, Element> propertyDocNodes = new LinkedHashMap<>();
@@ -94,8 +104,32 @@ public class PropertiesDocReader
 		{
 			throw new RuntimeException(e);
 		}
+		
+		readMessages();
 	}
 	
+	private void readMessages()
+	{
+		try
+		{
+			FileObject resource = environment.getFiler().getResource(StandardLocation.SOURCE_PATH, 
+					"", properties.getMessagesName() + ".properties");
+			
+			Properties messages = new Properties();
+			try (InputStream in = resource.openInputStream())
+			{
+				messages.load(in);
+			}
+			
+			propertyMessages = messages;
+		}
+		catch (IOException e)
+		{
+			environment.getMessager().printMessage(Kind.WARNING, "Failed to read source of " 
+					+ properties.getMessagesName() + ".properties: " + e.getMessage());
+		}
+	}
+
 	public void readPropertiesDoc(String docFile)
 	{
 		try
@@ -167,6 +201,56 @@ public class PropertiesDocReader
 			
 			Element descriptionElem = (Element) descriptionElems.item(0);
 			propertyDocNodes.put(propName, descriptionElem);
+		}
+	}
+	
+	private static final Pattern PATTERN_LEADING_WHITE_SPACE = Pattern.compile("^\\s+");
+	
+	private static final Pattern PATTERN_TRAILING_WHITE_SPACE = Pattern.compile("\\s+$");
+	
+	public void writeDefaultMessages()
+	{
+		Properties defaultMessages = new Properties();
+		BreakIterator sentenceBreaks = BreakIterator.getSentenceInstance(Locale.US);
+		for (CompiledPropertyMetadata prop : properties.getProperties())
+		{
+			String descriptionMessage = PropertyMetadataConstants.PROPERTY_DESCRIPTION_PREFIX + prop.getName();
+			if (propertyMessages == null || !propertyMessages.containsKey(descriptionMessage))
+			{
+				Element docNode = propertyDocNodes.get(prop.getName());
+				if (docNode != null)
+				{
+					String docText = docNode.getTextContent();
+					sentenceBreaks.setText(docText);
+					int first = sentenceBreaks.first();
+					int next = sentenceBreaks.next();
+					
+					String firstSentence = docText.substring(first, next);
+					firstSentence = PATTERN_LEADING_WHITE_SPACE.matcher(firstSentence).replaceAll("");
+					firstSentence = PATTERN_TRAILING_WHITE_SPACE.matcher(firstSentence).replaceAll("");
+					
+					defaultMessages.setProperty(descriptionMessage, firstSentence);
+				}
+			}
+		}
+		
+		if (!defaultMessages.isEmpty())
+		{
+			try
+			{
+				FileObject res = environment.getFiler().createResource(StandardLocation.CLASS_OUTPUT, 
+						"", properties.getMessagesName() + PropertyMetadataConstants.MESSAGES_DEFAULTS_SUFFIX, 
+						(javax.lang.model.element.Element[]) null);
+				try (OutputStream out = res.openOutputStream())
+				{
+					//TODO lucianc preserve order
+					defaultMessages.store(out, null);
+				}
+			}
+			catch (IOException e)
+			{
+				throw new RuntimeException(e);
+			}
 		}
 	}
 	

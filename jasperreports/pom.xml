@@ -113,6 +113,7 @@
 					<fork>true</fork><!-- TODO lucianc is this ok? -->
 					<compilerArgs>
 						<arg>-AmetadataMessagesName=metadata_messages</arg>
+						<arg>-ApropertiesDoc=docs/config.reference.xml</arg>
 					</compilerArgs>
 					<annotationProcessorPaths>
 						<path>
