@@ -63,8 +63,8 @@
 		<dependency org="org.mozilla" name="rhino" rev="1.7.6"/>
 		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
 		<dependency org="org.ow2.asm" name="asm-all" rev="4.0" conf="javaflow->*"/>
-		<dependency org="org.springframework" name="spring-beans" rev="3.2.14.RELEASE"/>
-		<dependency org="org.springframework" name="spring-core" rev="3.2.14.RELEASE"/>
+		<dependency org="org.springframework" name="spring-beans" rev="3.2.18.RELEASE"/>
+		<dependency org="org.springframework" name="spring-core" rev="3.2.18.RELEASE"/>
 		<dependency org="xalan" name="xalan" rev="2.7.2"/>
 		<dependency org="xml-apis" name="xml-apis-ext" rev="1.3.04"/>
 
