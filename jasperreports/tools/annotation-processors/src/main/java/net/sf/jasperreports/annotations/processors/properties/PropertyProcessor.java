@@ -121,7 +121,10 @@ public class PropertyProcessor extends AbstractProcessor
 				}
 				
 				CompiledPropertyMetadata property = toPropertyMetadata(varElement, propertyAnnotation);
-				props.addProperty(property);
+				if (property != null)
+				{
+					props.addProperty(property);
+				}
 			}
 		}
 		
@@ -154,8 +157,18 @@ public class PropertyProcessor extends AbstractProcessor
 		
 		CompiledPropertyMetadata property = new CompiledPropertyMetadata();
 		
-		String constantValue = (String) element.getConstantValue();
-		property.setName(constantValue);//TODO check for nulls
+		String propName = (String) annotationValue(annotationValues, "name").getValue();
+		if (propName == null || propName.isEmpty())
+		{
+			propName = (String) element.getConstantValue();
+			if (propName == null)
+			{
+				processingEnv.getMessager().printMessage(Kind.WARNING, "Failed to read constant value for " + element, 
+						element);
+				return null;
+			}
+		}
+		property.setName(propName);
 		
 		QualifiedNameable enclosingElement = (QualifiedNameable) element.getEnclosingElement();
 		property.setConstantDeclarationClass(enclosingElement.getQualifiedName().toString());

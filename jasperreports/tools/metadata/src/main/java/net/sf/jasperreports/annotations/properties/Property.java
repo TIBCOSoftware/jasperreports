@@ -40,6 +40,8 @@ public @interface Property
 
 	String CATEGORY_OTHER = "net.sf.jasperreports.metadata.property.category:other";
 	
+	String name() default "";
+	
 	String category() default CATEGORY_OTHER;
 	
 	String defaultValue() default "N/A";//TODO lucianc
