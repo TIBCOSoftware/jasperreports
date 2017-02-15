@@ -37,7 +37,8 @@ public enum PropertyScope
 	PARAMETER("Parameter"),
 	FIELD("Field"),
 	ELEMENT("Element"),
-	HYPERLINK("Hyperlink");
+	HYPERLINK("Hyperlink"),
+	PART("Part");
 
 	private final String label;
 	
