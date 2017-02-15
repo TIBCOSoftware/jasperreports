@@ -26,9 +26,12 @@ package net.sf.jasperreports.parts.subreport;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.BookmarkHelper;
 import net.sf.jasperreports.engine.CommonReturnValue;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
@@ -64,6 +67,7 @@ import net.sf.jasperreports.engine.part.PartPrintOutput;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.BookmarksFlatDataSource;
 import net.sf.jasperreports.parts.PartFillerParent;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -71,9 +75,18 @@ import net.sf.jasperreports.parts.PartFillerParent;
 public class SubreportFillPart extends BasePartFillComponent
 {
 
-	public static final String PROPERTY_BOOKMARKS_DATA_SOURCE_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "bookmarks.data.source.parameter";
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_PRINT_ORDER = "parts.subreport.unknown.report.print.order";
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_SECTION_TYPE = "parts.subreport.unknown.report.section.type";
+	
+	/**
+	 * Property that references the parameter containing the bookmarks data source.
+	 */
+	@Property (
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.PART},
+			sinceVersion = JRConstants.VERSION_6_0_0
+	)
+	public static final String PROPERTY_BOOKMARKS_DATA_SOURCE_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "bookmarks.data.source.parameter";
 	
 	private SubreportPartComponent subreportPart;
 	private JRFillExpressionEvaluator expressionEvaluator;

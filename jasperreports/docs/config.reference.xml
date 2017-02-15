@@ -7,7 +7,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:data.source">
     <name>Data Source / Query Executer</name>
     <content>
-      <property ref="net.sf.jasperreports.bookmarks.data.source.parameter"/>
       <property ref="net.sf.jasperreports.csv.column.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.csv.date.pattern"/>
       <property ref="net.sf.jasperreports.csv.encoding"/>
@@ -419,10 +418,6 @@
     <description>
 Property that references the parameter containing the bookmarks data source.
     </description>
-    <api>net/sf/jasperreports/parts/subreport/SubreportFillPart.html#PROPERTY_BOOKMARKS_DATA_SOURCE_PARAMETER</api>
-    <default>N/A</default>
-    <scope>Part</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
