@@ -56,6 +56,10 @@
 			<id>jaspersoft-third-party</id>
 			<url>http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
 		</repository>
+		<repository>
+			<id>jr-snapshots</id>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots/</url>
+		</repository>
 	</repositories>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
