@@ -11,8 +11,6 @@
       <property ref="net.sf.jasperreports.csv.column.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.csv.date.pattern"/>
       <property ref="net.sf.jasperreports.csv.encoding"/>
-      <property ref="net.sf.jasperreports.csv.field.column.name"/>
-      <property ref="net.sf.jasperreports.csv.field.column.index"/>
       <property ref="net.sf.jasperreports.csv.field.delimiter"/>
       <property ref="net.sf.jasperreports.csv.locale.code"/>
       <property ref="net.sf.jasperreports.csv.number.pattern"/>
@@ -26,16 +24,6 @@
       <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
       <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
       <property ref="net.sf.jasperreports.hql.query.run.type"/>
-      <property ref="net.sf.jasperreports.http.data.body"/>
-      <property ref="net.sf.jasperreports.http.data.header"/>
-      <property ref="net.sf.jasperreports.http.data.method"/>
-      <property ref="net.sf.jasperreports.http.data.password"/>
-      <property ref="net.sf.jasperreports.http.data.post.parameter"/>
-      <property ref="net.sf.jasperreports.http.data.url"/>
-      <property ref="net.sf.jasperreports.http.data.url.parameter"/>
-      <property ref="net.sf.jasperreports.http.data.username"/>
-      <property ref="net.sf.jasperreports.javabean.field.property"/>
-      <property ref="net.sf.jasperreports.json.field.expression"/>
       <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
       <property ref="net.sf.jasperreports.jdbc.concurrency"/>
       <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
@@ -43,24 +31,17 @@
       <property ref="net.sf.jasperreports.jdbc.max.field.size"/>
       <property ref="net.sf.jasperreports.jdbc.result.set.type"/>
       <property ref="net.sf.jasperreports.jdbc.time.zone"/>
-      <property ref="net.sf.jasperreports.olap.field.mapping"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
-      <property ref="net.sf.jasperreports.sql.field.column.name"/>
-      <property ref="net.sf.jasperreports.sql.field.column.label"/>
-      <property ref="net.sf.jasperreports.sql.field.column.index"/>
       <property ref="net.sf.jasperreports.xls.column.indexes.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.xls.column.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.xls.date.pattern"/>
-      <property ref="net.sf.jasperreports.xls.field.column.name"/>
-      <property ref="net.sf.jasperreports.xls.field.column.index"/>
       <property ref="net.sf.jasperreports.xls.locale.code"/>
       <property ref="net.sf.jasperreports.xls.number.pattern"/>
       <property ref="net.sf.jasperreports.xls.source"/>
       <property ref="net.sf.jasperreports.xls.timezone.id"/>
       <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
-      <property ref="net.sf.jasperreports.xpath.field.expression"/>
     </content>
   </category>
   
@@ -529,10 +510,6 @@ Property holding the value of the date format pattern to be used when parsing th
     <description>
 Property specifying the name of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used. 
     </description>
-    <api>net/sf/jasperreports/engine/data/JRCsvDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -542,10 +519,6 @@ Property specifying the name of the column in the CSV data to which the dataset 
     <description>
 Property specifying the 0-based index of the column in the CSV data to which the dataset field is mapped to, in case CSV data is used. 
     </description>
-    <api>net/sf/jasperreports/engine/data/JRCsvDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -744,10 +717,6 @@ by the report parameter having the now deprecated <api href="net/sf/jasperreport
 When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would provide the URL value.
 If multiple parameters have this property set, the last one will be used to provide the URL value.
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_URL</api>
-    <default>N/A</default>
-    <scope>Dataset | Parameter</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -761,10 +730,6 @@ by the report parameter having the now deprecated <api href="net/sf/jasperreport
 When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would provide the user name value.
 If multiple parameters have this property set, the last one will be used to provide the user name value.
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_USERNAME</api>
-    <default>N/A</default>
-    <scope>Dataset | Parameter</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -778,10 +743,6 @@ by the report parameter having the now deprecated <api href="net/sf/jasperreport
 When specified at parameter level, it does not need to provide a value. Instead, it is used to mark the report parameter that would provide the password value.
 If multiple parameters have this property set, the last one will be used to provide the password value.
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_PASSWORD</api>
-    <default>N/A</default>
-    <scope>Dataset | Parameter</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -796,10 +757,6 @@ Request parameters introduced this way override the request parameters having th
 by the report parameters having the now deprecated <api href="net/sf/jasperreports/data/http/HttpDataService.html#PARAMETER_PREFIX_URL_PARAMETER">HTTP_DATA_URL_PARAMETER_</api> prefix.
 If multiple parameters try to provide a value for the same request parameter, the request parameter will be sent multiple times, becoming a request parameter of type array.
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_URL_PARAMETER</api>
-    <default>N/A</default>
-    <scope>Parameter</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -813,10 +770,6 @@ When specified at parameter level, it does not need to provide a value. Instead,
 If multiple parameters have this property set, the last one will be used to provide the request body value.
 Also, when the POST/PUT request body is specified, all other POST parameter values are ignored. 
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_BODY</api>
-    <default>N/A</default>
-    <scope>Dataset | Parameter</scope>
-    <since>6.4.0</since>
   </configProperty>
   
   
@@ -836,10 +789,6 @@ If the property is missing, its default value depends on the presence/absence of
 parameters: if <code>BODY</code> or <code>POST</code>. 
 parameters are present, the default value is <code>POST</code>, otherwise it is <code>GET</code>.
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_METHOD</api>
-    <default>N/A</default>
-    <scope>Dataset | Parameter</scope>
-    <since>6.4.2</since>
   </configProperty>
   
   
@@ -855,10 +804,6 @@ by the report parameters having the now deprecated <api href="net/sf/jasperrepor
 If multiple parameters try to provide a value for the same request parameter, the request parameter will be sent multiple times, becoming a request parameter of type array.
 All POST parameter values are ignored if a POST/PUT request body is specified.
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_POST_PARAMETER</api>
-    <default>N/A</default>
-    <scope>Parameter</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -872,10 +817,6 @@ header will be the same as the current report parameter name.
 Request headers introduced this way override the request headers having the same name which were declared at data adapter level.
 If multiple parameters try to provide a value for the same request header, the request header will be added multiple times to the request.
     </description>
-    <api>net/sf/jasperreports/data/http/HttpDataService.html#PROPERTY_HEADER</api>
-    <default>N/A</default>
-    <scope>Parameter</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -886,10 +827,6 @@ If multiple parameters try to provide a value for the same request header, the r
 Property specifying the JavaBean property name for the dataset field in case an JavaBean data source is used. 
 This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
     </description>
-    <api>net/sf/jasperreports/engine/data/JRAbstractBeanDataSource.html#PROPERTY_JAVABEAN_FIELD_PROPERTY</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -900,10 +837,6 @@ This mapping was previously specified using the <code>fieldDescription</code> at
 Property specifying the JSON expression for the dataset field in case a JSON data source is used. 
 This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
     </description>
-    <api>net/sf/jasperreports/engine/data/JsonDataSource.html#PROPERTY_FIELD_EXPRESSION</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -1033,10 +966,6 @@ To obtain query executer factories, a property having the query language appende
     <description>
 Property specifying the name of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
     </description>
-    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -1046,10 +975,6 @@ Property specifying the name of the column in the JDBC result set to which the d
     <description>
 Property specifying the label of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
     </description>
-    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_LABEL</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -1059,10 +984,6 @@ Property specifying the label of the column in the JDBC result set to which the 
     <description>
 Property specifying the 1-based index of the column in the JDBC result set to which the dataset field is mapped to, in case an SQL query is used. 
     </description>
-    <api>net/sf/jasperreports/engine/JRResultSetDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -1098,10 +1019,6 @@ Property having this prefix hold the comma separated names of the columns to be 
     <description>
 Property specifying the name of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used. 
     </description>
-    <api>net/sf/jasperreports/engine/data/AbstractXlsDataSource.html#PROPERTY_FIELD_COLUMN_NAME</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -1111,10 +1028,6 @@ Property specifying the name of the column in the Excel data to which the datase
     <description>
 Property specifying the 0-based index of the column in the Excel data to which the dataset field is mapped to, in case Excel data is used. 
     </description>
-    <api>net/sf/jasperreports/engine/data/AbstractXlsDataSource.html#PROPERTY_FIELD_COLUMN_INDEX</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -1231,10 +1144,6 @@ Property specifying the
 Property specifying the XPath expression for the dataset field in case an XML data source is used. 
 This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
     </description>
-    <api>net/sf/jasperreports/engine/data/AbstractXmlDataSource.html#PROPERTY_FIELD_EXPRESSION</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -6617,10 +6526,6 @@ In the latter case the report time zone (as in <api href="net/sf/jasperreports/e
 Property specifying the mapping for the dataset field in case an OLAP data source is used. 
 This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
     </description>
-    <api>net/sf/jasperreports/olap/JROlapDataSource.html#PROPERTY_FIELD_MAPPING</api>
-    <default>N/A</default>
-    <scope>Field</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
