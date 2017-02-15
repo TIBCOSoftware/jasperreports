@@ -32,13 +32,13 @@ import org.apache.commons.beanutils.PropertyUtils;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -53,7 +53,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	 * Property specifying the JavaBean property name for the dataset field.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME, 
 					JRJpaQueryExecuterFactory.QUERY_EXECUTER_NAME},

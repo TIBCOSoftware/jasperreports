@@ -44,7 +44,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -52,6 +51,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JsonUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -70,7 +70,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	 * Property specifying the JSON expression for the dataset field.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

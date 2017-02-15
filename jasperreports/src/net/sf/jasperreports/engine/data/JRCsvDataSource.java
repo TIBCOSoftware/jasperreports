@@ -49,7 +49,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -57,6 +56,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FormatUtils;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -84,7 +84,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 * Property specifying the CSV column name for the dataset field.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -95,7 +95,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 * Property specifying the CSV column index for the dataset field.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1,

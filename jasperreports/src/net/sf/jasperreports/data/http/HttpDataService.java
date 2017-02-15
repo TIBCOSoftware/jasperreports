@@ -60,13 +60,13 @@ import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileConnection;
 import net.sf.jasperreports.data.DataFileService;
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ParameterContributorContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.util.SecretsUtil;
 
 /**
@@ -112,7 +112,7 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the HTTP method.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_4_2
@@ -124,7 +124,7 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the URL value.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -136,7 +136,7 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user name value.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -148,7 +148,7 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the user password value.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -160,7 +160,7 @@ public class HttpDataService implements DataFileService
 	 * If the property is present, but has no value, the name of the request parameter is the same as the report parameter name.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -172,7 +172,7 @@ public class HttpDataService implements DataFileService
 	 * When used at parameter level, it does not need to provide a value, but is just used to mark the parameter that will provide the POST/PUT request body value.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -184,7 +184,7 @@ public class HttpDataService implements DataFileService
 	 * If the property is present, but has no value, the name of the request parameter is the same as the report parameter name.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1
@@ -196,7 +196,7 @@ public class HttpDataService implements DataFileService
 	 * If the property is present, but has no value, the name of the request header is the same as the report parameter name.
 	 */
 	@Property (
-			category = JRDataSource.METADATA_PROPERTY_CATEGORY,
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
 			sinceVersion = JRConstants.VERSION_6_3_1

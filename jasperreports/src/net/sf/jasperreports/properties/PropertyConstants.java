@@ -21,21 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.metadata.properties;
+package net.sf.jasperreports.properties;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface PropertyMetadataConstants
+public interface PropertyConstants
 {
-
-	String PROPERTY_LABEL_PREFIX = "property.label.";
-
-	String PROPERTY_DESCRIPTION_PREFIX = "property.description.";
 	
-	String MESSAGES_DEFAULTS_SUFFIX = "-defaults.properties";
-
-	String CATEGORY_OTHER = "net.sf.jasperreports.metadata.property.category:other";
+	String CATEGORY_DATA_SOURCE = "net.sf.jasperreports.metadata.property.category:data.source";
 
 }

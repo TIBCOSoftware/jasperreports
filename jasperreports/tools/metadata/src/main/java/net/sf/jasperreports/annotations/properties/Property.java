@@ -29,6 +29,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import net.sf.jasperreports.metadata.properties.PropertyMetadataConstants;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -37,12 +39,10 @@ import java.lang.annotation.Target;
 @Target(FIELD)
 public @interface Property
 {
-
-	String CATEGORY_OTHER = "net.sf.jasperreports.metadata.property.category:other";
 	
 	String name() default "";
 	
-	String category() default CATEGORY_OTHER;
+	String category() default PropertyMetadataConstants.CATEGORY_OTHER;
 	
 	String defaultValue() default "N/A";//TODO lucianc
 	
