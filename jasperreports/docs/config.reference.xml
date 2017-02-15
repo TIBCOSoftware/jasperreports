@@ -4,7 +4,7 @@
 
 <configReference>
 
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:data.source">
     <name>Data Source / Query Executer</name>
     <content>
       <property ref="net.sf.jasperreports.bookmarks.data.source.parameter"/>
@@ -64,7 +64,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:compile">
     <name>Report Compilation</name>
     <content>
       <property ref="net.sf.jasperreports.compiler.{language}"/>
@@ -77,7 +77,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:design">
     <name>Report Design</name>
     <content>
       <property ref="net.sf.jasperreports.allow.element.negative.width"/>
@@ -89,7 +89,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:fill">
     <name>Report Filling</name>
     <content>
       <property ref="net.sf.jasperreports.band.split.type"/>
@@ -140,7 +140,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:governor">
     <name>Governors</name>
     <content>
       <property ref="net.sf.jasperreports.governor.max.pages.enabled"/>
@@ -150,7 +150,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:crosstab">
     <name>Crosstabs</name>
     <content>
       <property ref="net.sf.jasperreports.crosstab.bucket.measure.limit"/>
@@ -163,7 +163,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:barcode">
   	<name>Barcode Component</name>
   	<content>
   		<property ref="net.sf.jasperreports.components.barcode4j.image.producer" />
@@ -172,7 +172,7 @@
   	</content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:map">
   	<name>Map Component</name>
   	<content>
   		<property ref="net.sf.jasperreports.components.map.key" />
@@ -182,7 +182,7 @@
   	</content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:table">
   	<name>Table Component</name>
   	<content>
   		<property ref="net.sf.jasperreports.components.sort.up.arrow.char" />
@@ -201,7 +201,7 @@
   	</content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:chart.theme">
     <name>Chart Themes</name>
     <content>
       <property ref="net.sf.jasperreports.chart.dial.value.display.visible"/>
@@ -215,7 +215,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>
       <property ref="net.sf.jasperreports.default.pdf.font.name"/>
@@ -433,7 +433,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:extensions">
     <name>JasperReports Extensions</name>
     <content>
       <property ref="net.sf.jasperreports.extension.{registry_id}.{property_suffix}"/>
@@ -442,7 +442,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:repository">
     <name>JasperReports Repository</name>
     <content>
       <property ref="net.sf.jasperreports.file.repository.resolve.absolute.path"/>
@@ -450,7 +450,7 @@
     </content>
   </category>
   
-  <category>
+  <category key="net.sf.jasperreports.metadata.property.category:other">
     <name>Other</name>
     <content>
       <property ref="net.sf.jasperreports.awt.check.available.printers"/>

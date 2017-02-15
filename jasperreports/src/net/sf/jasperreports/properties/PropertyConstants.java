@@ -30,6 +30,32 @@ package net.sf.jasperreports.properties;
 public interface PropertyConstants
 {
 	
-	String CATEGORY_DATA_SOURCE = "net.sf.jasperreports.metadata.property.category:data.source";
+	String PREFIX_CATEGORY = "net.sf.jasperreports.metadata.property.category:";
+	
+	String CATEGORY_DATA_SOURCE = PREFIX_CATEGORY + "data.source";
+	
+	String CATEGORY_COMPILE = PREFIX_CATEGORY + "compile";
+	
+	String CATEGORY_DESIGN = PREFIX_CATEGORY + "design";
+	
+	String CATEGORY_FILL = PREFIX_CATEGORY + "fill";
+	
+	String CATEGORY_GOVERNOR = PREFIX_CATEGORY + "governor";
+	
+	String CATEGORY_CROSSTAB = PREFIX_CATEGORY + "crosstab";
+	
+	String CATEGORY_BARCODE = PREFIX_CATEGORY + "barcode";
+	
+	String CATEGORY_MAP = PREFIX_CATEGORY + "map";
+	
+	String CATEGORY_TABLE = PREFIX_CATEGORY + "table";
+	
+	String CATEGORY_CHART_THEME = PREFIX_CATEGORY + "chart.theme";
+	
+	String CATEGORY_EXPORT = PREFIX_CATEGORY + "export";
+	
+	String CATEGORY_EXTENSIONS = PREFIX_CATEGORY + "extensions";
+	
+	String CATEGORY_REPOSITORY = PREFIX_CATEGORY + "repository";
 
 }
