@@ -397,9 +397,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:other">
     <name>Other</name>
     <content>
-      <property ref="net.sf.jasperreports.awt.check.available.printers"/>
-      <property ref="net.sf.jasperreports.awt.ignore.missing.font"/>
-      <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
       <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
       <property ref="net.sf.jasperreports.components.{built_in_component_name}.version"/>
       <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
@@ -5848,10 +5845,6 @@ The value of this property is used as default for the
     <description>When set to <code>false</code>, it forces the engine to check if the font used as value for the <code>fontName</code> attribute inside 
 the report template is available either through the JasperReports font extension mechanism or as a JVM accesible font, 
 and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.html">JRFontNotFoundException</api> exception, if this font is not available.</description>
-    <api>net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_IGNORE_MISSING_FONT</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.6.1</since>
   </configProperty>
   
   
@@ -5860,11 +5853,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.awt.superscript.fix.enabled">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/util/JRStyledText.html#PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>3.1.3</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -6055,10 +6043,6 @@ If not specified, the component version is considered to be the one specified by
     <description>
 Property whose value is used to check the availability of printers accepting jobs.
     </description>
-    <api>net/sf/jasperreports/engine/JasperPrintManager.html#PROPERTY_CHECK_AVAILABLE_PRINTERS</api>
-    <default>true</default>
-    <scope>Global | Report</scope>
-    <since>3.7.3</since>
   </configProperty>
   
   

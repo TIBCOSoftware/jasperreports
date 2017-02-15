@@ -40,7 +40,7 @@ public interface JRPrintHyperlink
 			name = "net.sf.jasperreports.export.{format}.ignore.hyperlink",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			valueType = Boolean.class,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT, PropertyScope.HYPERLINK},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.HYPERLINK},
 			sinceVersion = JRConstants.VERSION_5_0_4
 			)
 	public static final String PROPERTY_IGNORE_HYPERLINK_SUFFIX = "ignore.hyperlink";

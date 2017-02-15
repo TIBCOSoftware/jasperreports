@@ -81,6 +81,7 @@ public class PropertiesDocReader
 	private static final String ELEMENT_API = "api";
 	private static final String ELEMENT_DEFAULT = "default";
 	private static final String ELEMENT_SCOPE = "scope";
+	private static final String ELEMENT_CONTEXT_UNAWARE = "contextUnaware";
 	private static final String ELEMENT_SINCE = "since";
 
 	private ProcessingEnvironment environment;
@@ -358,10 +359,17 @@ public class PropertiesDocReader
 		defaultElem.setTextContent(propertyMetadata.getDefaultValue());
 		refProp.appendChild(defaultElem);
 		
+		List<PropertyScope> scopes = propertyMetadata.getScopes();
 		Element scopeElem = refDoc.createElement(ELEMENT_SCOPE);
-		String scopesText = getScopesText(propertyMetadata);
+		String scopesText = getScopesText(scopes);
 		scopeElem.setTextContent(scopesText);
 		refProp.appendChild(scopeElem);
+		
+		if (scopes.contains(PropertyScope.GLOBAL) && !scopes.contains(PropertyScope.CONTEXT))
+		{
+			Element contextUnawareElem = refDoc.createElement(ELEMENT_CONTEXT_UNAWARE);
+			refProp.appendChild(contextUnawareElem);
+		}
 
 		if (!propertyMetadata.getSinceVersion().isEmpty())
 		{
@@ -380,10 +388,9 @@ public class PropertiesDocReader
 		return apiRef;
 	}
 
-	protected String getScopesText(CompiledPropertyMetadata prop)
+	protected String getScopesText(List<PropertyScope> scopes)
 	{
 		StringBuilder scopesText = new StringBuilder();
-		List<PropertyScope> scopes = prop.getScopes();
 		for (PropertyScope scope : scopes)
 		{
 			if (scopesText.length() > 0)

@@ -106,7 +106,7 @@ public interface JRBand extends JRElementGroup, JRPropertiesHolder
 			category = PropertyConstants.CATEGORY_FILL,
 			valueType = SplitTypeEnum.class,
 			defaultValue = "Stretch",
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_5_2
 			)
 	public static final String PROPERTY_SPLIT_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "band.split.type";

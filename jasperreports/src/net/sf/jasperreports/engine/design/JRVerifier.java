@@ -213,7 +213,7 @@ public class JRVerifier
 			category = PropertyConstants.CATEGORY_DESIGN,
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_7_1
 			)
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH =
@@ -223,7 +223,7 @@ public class JRVerifier
 			category = PropertyConstants.CATEGORY_DESIGN,
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
 			sinceVersion = JRConstants.VERSION_6_1_1
 			)
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_X =

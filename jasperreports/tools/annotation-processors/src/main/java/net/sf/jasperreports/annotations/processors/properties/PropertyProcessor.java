@@ -208,6 +208,13 @@ public class PropertyProcessor extends AbstractProcessor
 			PropertyScope scope = Enum.valueOf(PropertyScope.class, ((VariableElement) scopeValue.getValue()).getSimpleName().toString());
 			propertyScopes.add(scope); 
 		}
+		
+		//automatically adding Global if Context is present
+		int contextIndex = propertyScopes.indexOf(PropertyScope.CONTEXT);
+		if (contextIndex >= 0 && !propertyScopes.contains(PropertyScope.GLOBAL))
+		{
+			propertyScopes.add(contextIndex, PropertyScope.GLOBAL);
+		}
 		property.setScopes(propertyScopes);
 		
 		@SuppressWarnings("unchecked")

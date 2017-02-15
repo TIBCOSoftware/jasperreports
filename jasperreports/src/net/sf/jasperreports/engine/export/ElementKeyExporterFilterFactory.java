@@ -58,7 +58,7 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 	@Property(
 			name = "net.sf.jasperreports.export.{format}.exclude.key.{suffix}",
 			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_0_1
 			)
 	public static final String PROPERTY_EXCLUDED_KEY_PREFIX = "exclude.key.";

@@ -141,7 +141,7 @@ public class TableReport implements JRReport
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = "\\u25B2",
-			scopes = {PropertyScope.GLOBAL},
+			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
@@ -152,7 +152,7 @@ public class TableReport implements JRReport
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = "\\u25BC",
-			scopes = {PropertyScope.GLOBAL},
+			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";

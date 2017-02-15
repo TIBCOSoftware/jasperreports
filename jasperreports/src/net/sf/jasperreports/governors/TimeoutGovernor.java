@@ -47,7 +47,7 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 			category = PropertyConstants.CATEGORY_GOVERNOR,
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_TIMEOUT_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "governor.timeout.enabled";
@@ -55,7 +55,7 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 	@Property(
 			category = PropertyConstants.CATEGORY_GOVERNOR,
 			valueType = Long.class,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "governor.timeout";

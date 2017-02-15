@@ -47,7 +47,7 @@ public class MaxPagesGovernor extends JRDefaultScriptlet
 			category = PropertyConstants.CATEGORY_GOVERNOR,
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_MAX_PAGES_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "governor.max.pages.enabled";
@@ -55,7 +55,7 @@ public class MaxPagesGovernor extends JRDefaultScriptlet
 	@Property(
 			category = PropertyConstants.CATEGORY_GOVERNOR,
 			valueType = Integer.class,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_MAX_PAGES = JRPropertiesUtil.PROPERTY_PREFIX + "governor.max.pages";

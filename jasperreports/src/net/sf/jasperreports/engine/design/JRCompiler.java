@@ -128,7 +128,7 @@ public interface JRCompiler
 	@Property(
 			name = "net.sf.jasperreports.compiler.{language}",
 			category = PropertyConstants.CATEGORY_COMPILE,
-			scopes = {PropertyScope.GLOBAL},
+			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_2_0_1
 			)
 	public static final String COMPILER_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.";
@@ -154,7 +154,7 @@ public interface JRCompiler
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_COMPILE,
-			scopes = {PropertyScope.GLOBAL},
+			scopes = {PropertyScope.CONTEXT},
 			defaultValue = "System.getProperty(\"java.class.path\")",
 			sinceVersion = JRConstants.VERSION_1_0_0
 			)

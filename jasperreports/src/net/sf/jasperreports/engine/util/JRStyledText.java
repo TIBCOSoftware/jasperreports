@@ -39,12 +39,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -56,8 +60,19 @@ public class JRStyledText implements Cloneable
 	/**
 	 * 
 	 */
+	@Property(
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_6_1
+			)
 	public static final String PROPERTY_AWT_IGNORE_MISSING_FONT = JRPropertiesUtil.PROPERTY_PREFIX + "awt.ignore.missing.font";
 	
+	@Property(
+			valueType = Boolean.class,
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_3_1_3
+			)
 	public static final String PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "awt.superscript.fix.enabled";
 
 	private static final boolean AWT_SUPERSCRIPT_FIX_ENABLED = 

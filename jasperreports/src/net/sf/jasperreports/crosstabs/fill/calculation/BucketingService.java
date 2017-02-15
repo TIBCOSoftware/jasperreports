@@ -59,7 +59,7 @@ public abstract class BucketingService
 			category = PropertyConstants.CATEGORY_CROSSTAB,
 			valueType = Integer.class,
 			defaultValue = "0",
-			scopes = {PropertyScope.GLOBAL},
+			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_1_3_4
 			)
 	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";

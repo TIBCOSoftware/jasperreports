@@ -26,9 +26,12 @@ package net.sf.jasperreports.engine;
 import java.awt.Image;
 import java.io.InputStream;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -452,6 +455,12 @@ public final class JasperPrintManager
 	 * <p/>
 	 * This property is by default set to <code>true</code>.
 	 */
+	@Property(
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_7_3
+			)
 	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRPropertiesUtil.PROPERTY_PREFIX + "awt.check.available.printers";
 
 	/* http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6604109 (artf2423) workaround */

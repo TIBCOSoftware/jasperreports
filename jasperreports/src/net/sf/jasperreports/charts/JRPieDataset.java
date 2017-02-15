@@ -48,7 +48,7 @@ public interface JRPieDataset extends JRChartDataset
 			category = PropertyConstants.CATEGORY_FILL,
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT, PropertyScope.DATASET},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.DATASET},
 			sinceVersion = JRConstants.VERSION_6_0_2
 			)	
 	public static final String PROPERTY_IGNORE_DUPLICATED_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "chart.pie.ignore.duplicated.key";

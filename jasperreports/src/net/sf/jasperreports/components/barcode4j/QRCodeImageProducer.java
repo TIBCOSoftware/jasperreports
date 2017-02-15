@@ -42,7 +42,7 @@ public interface QRCodeImageProducer
 			name = "net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}",
 			category = PropertyConstants.CATEGORY_BARCODE,
 			valueType = Class.class,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
 			sinceVersion = JRConstants.VERSION_6_0_2
 			)
 	String PROPERTY_PREFIX_QRCODE_PRODUCER = 

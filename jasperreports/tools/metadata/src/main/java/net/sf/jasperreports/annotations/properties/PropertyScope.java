@@ -31,6 +31,7 @@ public enum PropertyScope
 {
 
 	GLOBAL("Global"),
+	CONTEXT("Context"),
 	REPORT("Report"),
 	DATASET("Dataset"),
 	PARAMETER("Parameter"),
