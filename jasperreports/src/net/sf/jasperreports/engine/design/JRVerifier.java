@@ -34,6 +34,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.JRCategoryDataset;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.JRGanttDataset;
@@ -74,6 +76,7 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -139,6 +142,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -205,9 +209,23 @@ public class JRVerifier
 	public static final String PROPERTY_ALLOW_ELEMENT_OVERLAP = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.overlap";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_DESIGN,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_7_1
+			)
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH =
 		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.width";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_DESIGN,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_1_1
+			)
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_X =
 			JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.x";
 

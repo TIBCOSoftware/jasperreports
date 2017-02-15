@@ -58,4 +58,8 @@ public interface PropertyConstants
 	
 	String CATEGORY_REPOSITORY = PREFIX_CATEGORY + "repository";
 
+	String BOOLEAN_FALSE = "false";
+	
+	String BOOLEAN_TRUE = "true";
+	
 }

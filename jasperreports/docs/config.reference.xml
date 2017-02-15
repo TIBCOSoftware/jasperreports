@@ -48,8 +48,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:compile">
     <name>Report Compilation</name>
     <content>
-      <property ref="net.sf.jasperreports.compiler.{language}"/>
-      <property ref="net.sf.jasperreports.compiler.classpath"/>
       <property ref="net.sf.jasperreports.compiler.keep.java.file"/>
       <property ref="net.sf.jasperreports.compiler.temp.dir"/>
       <property ref="net.sf.jasperreports.compiler.xml.validation"/>
@@ -61,8 +59,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:design">
     <name>Report Design</name>
     <content>
-      <property ref="net.sf.jasperreports.allow.element.negative.width"/>
-      <property ref="net.sf.jasperreports.allow.element.negative.x"/>
       <property ref="net.sf.jasperreports.allow.element.negative.y"/>
       <property ref="net.sf.jasperreports.allow.element.overlap"/>
       <property ref="net.sf.jasperreports.style.{style_property_suffix}"/>
@@ -73,8 +69,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:fill">
     <name>Report Filling</name>
     <content>
-      <property ref="net.sf.jasperreports.band.split.type"/>
-      <property ref="net.sf.jasperreports.chart.pie.ignore.duplicated.key"/>
       <property ref="net.sf.jasperreports.chart.render.type"/>
       <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
       <property ref="net.sf.jasperreports.chart.theme"/>
@@ -82,8 +76,6 @@
       <property ref="net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}"/>
       <property ref="net.sf.jasperreports.consume.space.on.overflow"/>
       <property ref="net.sf.jasperreports.default.first.line.indent"/>
-      <property ref="net.sf.jasperreports.default.font.name"/>
-      <property ref="net.sf.jasperreports.default.font.size"/>
       <property ref="net.sf.jasperreports.default.left.indent"/>
       <property ref="net.sf.jasperreports.default.line.spacing.size"/>
       <property ref="net.sf.jasperreports.default.right.indent"/>
@@ -123,19 +115,11 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:governor">
     <name>Governors</name>
-    <content>
-      <property ref="net.sf.jasperreports.governor.max.pages.enabled"/>
-      <property ref="net.sf.jasperreports.governor.max.pages"/>
-      <property ref="net.sf.jasperreports.governor.timeout.enabled"/>
-      <property ref="net.sf.jasperreports.governor.timeout"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:crosstab">
     <name>Crosstabs</name>
     <content>
-      <property ref="net.sf.jasperreports.crosstab.bucket.measure.limit"/>
-      <property ref="net.sf.jasperreports.crosstab.cell.type"/>
       <property ref="net.sf.jasperreports.crosstab.cell.row.span"/>
       <property ref="net.sf.jasperreports.crosstab.cell.column.span"/>
       <property ref="net.sf.jasperreports.crosstab.ignore.width"/>
@@ -146,28 +130,15 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:barcode">
   	<name>Barcode Component</name>
-  	<content>
-  		<property ref="net.sf.jasperreports.components.barcode4j.image.producer" />
-  		<property ref="net.sf.jasperreports.components.barcode4j.image.producer.{alias}" />
-  		<property ref="net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}" />
-  	</content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:map">
   	<name>Map Component</name>
-  	<content>
-  		<property ref="net.sf.jasperreports.components.map.key" />
-  		<property ref="net.sf.jasperreports.components.map.version" />
-  		<property ref="net.sf.jasperreports.components.map.client.id" />
-  		<property ref="net.sf.jasperreports.components.map.signature" />
-  	</content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:table">
   	<name>Table Component</name>
   	<content>
-  		<property ref="net.sf.jasperreports.components.sort.up.arrow.char" />
-  		<property ref="net.sf.jasperreports.components.sort.down.arrow.char" />
   		<property ref="net.sf.jasperreports.components.filter.char" />
   		<property ref="net.sf.jasperreports.components.table.generate.pdf.tags" />
   		<property ref="net.sf.jasperreports.components.table.interactive" />
@@ -185,8 +156,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:chart.theme">
     <name>Chart Themes</name>
     <content>
-      <property ref="net.sf.jasperreports.chart.dial.value.display.visible"/>
-      <property ref="net.sf.jasperreports.chart.dial.label"/>
       <property ref="net.sf.jasperreports.chart.domain.axis.integer.unit"/>
       <property ref="net.sf.jasperreports.chart.domain.axis.tick.count"/>
       <property ref="net.sf.jasperreports.chart.domain.axis.tick.interval"/>
@@ -199,12 +168,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>
-      <property ref="net.sf.jasperreports.default.pdf.font.name"/>
-      <property ref="net.sf.jasperreports.default.pdf.encoding"/>
-      <property ref="net.sf.jasperreports.default.pdf.embedded"/>
-      
-      <property ref="net.sf.jasperreports.export.{format}.ignore.hyperlink"/>
-      <property ref="net.sf.jasperreports.export.{format}.exclude.key.{suffix}"/>
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.filter.factory.{filter_element}"/>
@@ -1155,11 +1118,9 @@ Prefix for properties that map report compilers to expression languages.
 <br/>
 Properties having this prefix indicate the JRCompiler implementation to be used when compiling
 report designs that rely on the expression language specified as property suffix.
+<br/>
+For reports that use Java as expression language (which is the default), <code>net.sf.jasperreports.engine.design.JRJdtCompiler</code> is used as report compiler, if available, and <code>net.sf.jasperreports.engine.design.JRJdk13Compiler</code> otherwise.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRCompiler.html#COMPILER_PREFIX</api>
-    <default><code>net.sf.jasperreports.engine.design.JRJdtCompiler</code>, if available; <code>net.sf.jasperreports.engine.design.JRJdk13Compiler</code> otherwise. <br/>Java is considered the default expression language.</default>
-    <scope>Global</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -1169,10 +1130,6 @@ report designs that rely on the expression language specified as property suffix
     <description>
 Property specifying the classpath used by the report compiler during the compilation process.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRCompiler.html#COMPILER_CLASSPATH</api>
-    <default><code>System.getProperty("java.class.path")</code></default>
-    <scope>Global</scope>
-    <since>1.0.0</since>
   </configProperty>
   
   
@@ -1293,10 +1250,6 @@ an infinite loop. Having elements with negative widths does not make sense, but 
 this is a workaround in case older report templates still need to pass validation
 at report compile time.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.7.1</since>
   </configProperty>
   
   
@@ -1310,10 +1263,6 @@ Elements placed at negative X offsets can cause unexpected problems in grid-base
 <br/>
 If the property is set to <code>false</code>, elements in the report are verified to have positive X offsets.  Otherwise, no check is performed on element X offsets.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_X</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.1.1</since>
   </configProperty>
   
   
@@ -1509,10 +1458,6 @@ Before version 6.2.1, styles without parent were not inheriting from default sty
     <description>
 Specifies the default split type for bands. See the splitType attribute of the report band. 
     </description>
-    <api>net/sf/jasperreports/engine/JRBand.html#PROPERTY_SPLIT_TYPE</api>
-    <default>Stretch</default>
-    <scope>Global | Report</scope>
-    <since>3.5.2</since>
   </configProperty>
   
   
@@ -1522,10 +1467,6 @@ Specifies the default split type for bands. See the splitType attribute of the r
     <description>
 Specifies whether duplicated key entries in pie dataset should be ignored and only the last value be considered, or whether an exception should be raised instead.
     </description>
-    <api>net/sf/jasperreports/charts/JRPieDataset.html#PROPERTY_IGNORE_DUPLICATED_KEY</api>
-    <default>false</default>
-    <scope>Global | Report | Dataset</scope>
-    <since>6.0.2</since>
   </configProperty>
   
   
@@ -1640,10 +1581,6 @@ By default the first line in JR paragraphs has no indentation.
     <description>
 Specifies the default font name when no default font is explicitly given in a report.
     </description>
-    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_FONT_NAME</api>
-    <default>SansSerif</default>
-    <scope>Global</scope>
-    <since>1.3.0</since>
   </configProperty>
   
   
@@ -1653,10 +1590,6 @@ Specifies the default font name when no default font is explicitly given in a re
     <description>
 Specifies the default font size when no default font size is explicitly given in a report.
     </description>
-    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_FONT_SIZE</api>
-    <default>10</default>
-    <scope>Global</scope>
-    <since>1.3.0</since>
   </configProperty>
   
   
@@ -2059,10 +1992,6 @@ A flag indicating whether the governor that checks if a report exceeds a specifi
 With this property enabled, the JR engine will stop the report execution if the number of pages becomes greater than a 
 custom given value. 
     </description>
-    <api>net/sf/jasperreports/governors/MaxPagesGovernor.html#PROPERTY_MAX_PAGES_ENABLED</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.1.4</since>
   </configProperty>
   
   
@@ -2093,10 +2022,6 @@ becomes greater than the limit value.
 <br/>
 By default it should be turned off.  
     </description>
-    <api>net/sf/jasperreports/governors/TimeoutGovernor.html#PROPERTY_TIMEOUT_ENABLED</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.1.4</since>
   </configProperty>
   
   
@@ -2109,10 +2034,6 @@ exceeds a specified amount of time is turned on, this property will indicate the
 maximum allowed amount of time, in order to prevent a memory overflow error. If this value  
 becomes exceeded, the report execution will be stopped. 
     </description>
-    <api>net/sf/jasperreports/governors/TimeoutGovernor.html#PROPERTY_TIMEOUT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.1.4</since>
   </configProperty>
   
   
@@ -2122,10 +2043,6 @@ becomes exceeded, the report execution will be stopped.
     <description>
 Property that limits the number of buckets in a crosstab, to avoid out of memory errors.
     </description>
-    <api>net/sf/jasperreports/crosstabs/fill/calculation/BucketingService.html#PROPERTY_BUCKET_MEASURE_LIMIT</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>1.3.4</since>
   </configProperty>
   
   
@@ -2144,10 +2061,6 @@ The property value is one of
 	<li><api href="net/sf/jasperreports/crosstabs/JRCellContents.html#TYPE_NO_DATA_CELL">TYPE_NO_DATA_CELL</api></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_TYPE</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2241,10 +2154,6 @@ The rasterized image producer draws the barcode on a PNG image which can be then
 displayed in the generated report. This producer uses further properties, set at the same 
 levels as the image producer property, to allow the customization of the generated image.
    	</description>
-    <api>net/sf/jasperreports/components/barcode4j/BarcodeImageProducer.html#PROPERTY_IMAGE_PRODUCER</api>
-    <default>svg</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.5.2</since>
   </configProperty>
   
   
@@ -2276,10 +2185,6 @@ levels as the image producer property, to allow the customization of the generat
 <b>Note: </b>This property does not apply to QRCode barcodes which are generated based on a different library (ZXing). For 
 QRCode barcodes, see <a href="#net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}">net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}</a>.
    	</description>
-    <api>net/sf/jasperreports/components/barcode4j/BarcodeImageProducer.html#PROPERTY_PREFIX_IMAGE_PRODUCER</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.5.2</since>
   </configProperty>
   
   
@@ -2299,10 +2204,6 @@ the built-in property value for this alias is <code>net.sf.jasperreports.compone
 Rendering the QRCode component as rasterized is registered under the <code>image</code> alias and 
 the built-in property value for this alias is <code>net.sf.jasperreports.components.barcode4j.QRCodeRasterizedImageProducer</code>.
    	</description>
-    <api>net/sf/jasperreports/components/barcode4j/QRCodeImageProducer.html#PROPERTY_PREFIX_QRCODE_PRODUCER</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.0.2</since>
   </configProperty>
   
   
@@ -2319,10 +2220,6 @@ Property that specifies the Google Maps API key. Using an API key enables additi
 <b>Note: </b>The API key <b>must not</b> be included in Google Maps API for Business requests. Business customers should send their 
 <a href="#net.sf.jasperreports.components.map.client.id">client ID</a> instead.
    	</description>
-    <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_KEY</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.3</since>
   </configProperty>
   
   
@@ -2338,10 +2235,6 @@ Property that indicates which version of the Google Maps API to be loaded. The v
 </ul>
 If not specified, the experimental version is loaded by default.
     </description>
-    <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_VERSION</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.3</since>
   </configProperty>
   
   
@@ -2354,9 +2247,6 @@ Property that specifies the client ID for Google Maps API for Business. If set, 
 Usually works along with the <a href="#net.sf.jasperreports.components.map.signature">signature</a> property for signed URLs.
     </description>
     <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_CLIENT_ID</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.3</since>
   </configProperty>
   
   
@@ -2368,10 +2258,6 @@ Property that specifies the encrypted client signature for signed request URLs. 
 <a href="https://developers.google.com/maps/documentation/business/image/auth">Maps Image APIs</a> and 
 <a href="https://developers.google.com/maps/documentation/business/webservices/auth">Web Services APIs</a>. 
     </description>
-    <api>net/sf/jasperreports/components/map/MapComponent.html#PROPERTY_SIGNATURE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.3</since>
   </configProperty>
   
   
@@ -2381,10 +2267,6 @@ Property that specifies the encrypted client signature for signed request URLs. 
     <description>
 Property that specifies the character to be used on the column header when the tables's column is sorted ascending
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_UP_ARROW_CHAR</api>
-    <default>\u25B2</default>
-    <scope>Global</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -2394,10 +2276,6 @@ Property that specifies the character to be used on the column header when the t
     <description>
 Property that specifies the character to be used on the column header when the tables's column is sorted descending
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_DOWN_ARROW_CHAR</api>
-    <default>\u25BC</default>
-    <scope>Global</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -2555,10 +2433,6 @@ expressions using single field or single variable reference, for this feature to
     <description>
 Property specifying whether the measured value should be rendered visible on a meter or thermometer chart's display zone.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>3.5.0</since>
   </configProperty>
   
   
@@ -2568,10 +2442,6 @@ Property specifying whether the measured value should be rendered visible on a m
     <description>
 Property containing the label text attached to the measured value in a meter or thermometer chart.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DIAL_LABEL</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.5.0</since>
   </configProperty>
   
   
@@ -2899,10 +2769,6 @@ as report parser factory.
     <description>
 Property indicating the default PDF font, if not specified in the report template or at export time.
     </description>
-    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_FONT_NAME</api>
-    <default>Helvetica</default>
-    <scope>Global</scope>
-    <since>1.3.0</since>
   </configProperty>
   
   
@@ -2912,10 +2778,6 @@ Property indicating the default PDF font, if not specified in the report templat
     <description>
 Property indicating the default PDF encoding, if not specified in the report template or at export time.
     </description>
-    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_ENCODING</api>
-    <default>Cp1252</default>
-    <scope>Global</scope>
-    <since>1.3.0</since>
   </configProperty>
   
   
@@ -2925,10 +2787,6 @@ Property indicating the default PDF encoding, if not specified in the report tem
     <description>
 Property indicating the default PDF font embedding behavior, if not specified in the report template or at export time.
     </description>
-    <api>net/sf/jasperreports/engine/JRFont.html#DEFAULT_PDF_EMBEDDED</api>
-    <default>false</default>
-    <scope>Global</scope>
-    <since>1.3.0</since>
   </configProperty>
   
   
@@ -2941,10 +2799,6 @@ These flags can be controlled at hyperlink declaration level by using the hyperl
 available output formats for filling in the {format} placeholder are: html, pdf, rtf, xls, docx, pptx, odt. When the 
 format is set to 'xls', this property will be applied for XLS, XLSX and ODS exporters.
     </description>
-    <api>N/A</api>
-    <default>N/A</default>
-    <scope>Global | Report | Hyperlink</scope>
-    <since>5.0.4</since>
   </configProperty>
   
   
@@ -2977,10 +2831,6 @@ from specific export outputs:
   <br/>
   &lt;/jasperReport&gt;</code>
     </description>
-    <api>N/A</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.0.1</since>
   </configProperty>
   
   

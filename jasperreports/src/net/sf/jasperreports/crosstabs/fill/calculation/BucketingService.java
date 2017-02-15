@@ -32,13 +32,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Bidimensional bucketing engine.
@@ -50,6 +54,14 @@ public abstract class BucketingService
 	
 	public static final String EXCEPTION_MESSAGE_KEY_BUCKET_MEASURE_LIMIT = "crosstabs.bucket.measure.limit";
 	public static final String EXCEPTION_MESSAGE_KEY_BUCKET_DATA_PROCESSED = "crosstabs.bucket.data.processed";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			valueType = Integer.class,
+			defaultValue = "0",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_1_3_4
+			)
 	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";
 	
 	protected static final byte DIMENSION_ROW = 0;

@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
-
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * An abstract representation of a font. Fonts in JasperReports are very complex because of the library portability
@@ -38,10 +40,46 @@ package net.sf.jasperreports.engine;
 public interface JRFont extends JRStyleContainer
 {
 
+	@Property(
+		category = PropertyConstants.CATEGORY_FILL,
+		defaultValue = "SansSerif",
+		scopes = {PropertyScope.GLOBAL},
+		sinceVersion = JRConstants.VERSION_1_3_0
+	)
 	public static final String DEFAULT_FONT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "default.font.name";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			valueType = Float.class,
+			defaultValue = "10",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_1_3_0
+	)
 	public static final String DEFAULT_FONT_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "default.font.size";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "Helvetica",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_1_3_0
+	)
 	public static final String DEFAULT_PDF_FONT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.font.name";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "Cp1252",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_1_3_0
+	)
 	public static final String DEFAULT_PDF_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.encoding";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_1_3_0
+	)
 	public static final String DEFAULT_PDF_EMBEDDED = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.embedded";
 
 	/**

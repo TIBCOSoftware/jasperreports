@@ -25,12 +25,16 @@ package net.sf.jasperreports.crosstabs;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Crosstab cell contents interface.
@@ -75,6 +79,11 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 * 	<li>{@link #TYPE_NO_DATA_CELL}</li>
 	 * </ul>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_1_2
+			)
 	public static final String PROPERTY_TYPE = PROPERTIES_PREFIX + "type";
 	
 	/**

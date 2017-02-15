@@ -32,6 +32,8 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
@@ -54,6 +56,7 @@ import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -119,6 +122,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
@@ -134,11 +138,23 @@ public class TableReport implements JRReport
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted ascending
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "\\u25B2",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_4_6_0
+			)
 	public static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
 
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted descending
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "\\u25BC",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_4_6_0
+			)
 	public static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
 
 	/**

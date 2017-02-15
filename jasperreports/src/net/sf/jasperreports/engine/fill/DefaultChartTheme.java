@@ -38,6 +38,8 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.ChartContext;
 import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.charts.ChartThemeBundle;
@@ -68,6 +70,7 @@ import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -77,6 +80,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -153,8 +157,22 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_CHART_THEME,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_5_0
+			)
 	public static final String PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.value.display.visible";
+	
+	@Property(
+			category = PropertyConstants.CATEGORY_CHART_THEME,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_5_0
+			)
 	public static final String PROPERTY_DIAL_LABEL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.label";
+	
 	public static final String PROPERTY_RANGE_AXIS_TICK_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.count";
 	public static final String PROPERTY_RANGE_AXIS_TICK_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.interval";
 	public static final String PROPERTY_RANGE_AXIS_INTEGER_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.integer.unit";

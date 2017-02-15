@@ -25,7 +25,10 @@ package net.sf.jasperreports.engine;
 
 import java.util.List;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -99,6 +102,13 @@ public interface JRBand extends JRElementGroup, JRPropertiesHolder
 	/**
 	 * 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			valueType = SplitTypeEnum.class,
+			defaultValue = "Stretch",
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_5_2
+			)
 	public static final String PROPERTY_SPLIT_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "band.split.type";
 
 

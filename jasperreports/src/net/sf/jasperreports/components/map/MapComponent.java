@@ -25,11 +25,14 @@ package net.sf.jasperreports.components.map;
 
 import java.util.List;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -37,6 +40,7 @@ import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * The Map component interface. 
@@ -48,9 +52,37 @@ public interface MapComponent extends Component, JRCloneable
 	// properties at report element level:
 	
 	public static final String PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "components.map.";
+	
+	@Property(
+			valueType = Class.class,
+			category = PropertyConstants.CATEGORY_MAP,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_0
+			)
 	public static final String PROPERTY_KEY = PROPERTY_PREFIX + "key";
+	
+	@Property(
+			valueType = Class.class,
+			category = PropertyConstants.CATEGORY_MAP,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_0
+			)
 	public static final String PROPERTY_CLIENT_ID = PROPERTY_PREFIX + "client.id";
+	
+	@Property(
+			valueType = Class.class,
+			category = PropertyConstants.CATEGORY_MAP,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_0
+			)
 	public static final String PROPERTY_SIGNATURE = PROPERTY_PREFIX + "signature";
+	
+	@Property(
+			valueType = Class.class,
+			category = PropertyConstants.CATEGORY_MAP,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_0
+			)
 	public static final String PROPERTY_VERSION = PROPERTY_PREFIX + "version";
 
 	// map attributes:

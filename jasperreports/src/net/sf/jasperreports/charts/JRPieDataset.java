@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.charts;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -40,6 +44,13 @@ public interface JRPieDataset extends JRChartDataset
 	/**
 	 * 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.REPORT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_6_0_2
+			)	
 	public static final String PROPERTY_IGNORE_DUPLICATED_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "chart.pie.ignore.duplicated.key";
 	
 	/**
