@@ -30,6 +30,7 @@ package net.sf.jasperreports.annotations.properties;
 public enum PropertyScope
 {
 
+	SYSTEM("System"),
 	GLOBAL("Global"),
 	CONTEXT("Context"),
 	REPORT("Report"),
@@ -38,7 +39,11 @@ public enum PropertyScope
 	FIELD("Field"),
 	ELEMENT("Element"),
 	HYPERLINK("Hyperlink"),
-	PART("Part");
+	PART("Part"),
+	CHART_ELEMENT("Chart"),
+	TEXT_ELEMENT("Text Element"),
+	COMPONENT("Component"),
+	TABLE_COLUMN("Column");
 
 	private final String label;
 	
