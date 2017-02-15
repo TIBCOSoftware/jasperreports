@@ -26,9 +26,7 @@
 			<compilerarg value="${annotations-paths}"/>
 			<compilerarg value="-AmetadataMessagesName=metadata_messages"/>
 			<compilerarg value="-ApropertiesDoc=docs/config.reference.xml"/>
-			<!--
 			<compilerarg value="-AconfigReferenceOut=build/config.reference.xml"/>
-			-->
 		</javac>
 		
 		<copy todir="./build/classes">
@@ -240,7 +238,7 @@
 	
 	<target name="configref" description="Generates the Configuration Reference." depends="compile">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
-		<xslt basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
+		<xslt basedir="docs" in="build/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
 			<classpath refid="project-classpath"/>
