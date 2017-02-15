@@ -31,10 +31,12 @@ public enum PropertyScope
 {
 
 	GLOBAL("Global"),
+	REPORT("Report"),
 	DATASET("Dataset"),
 	PARAMETER("Parameter"),
 	FIELD("Field"),
-	ELEMENT("Element");
+	ELEMENT("Element"),
+	HYPERLINK("Hyperlink");
 
 	private final String label;
 	
