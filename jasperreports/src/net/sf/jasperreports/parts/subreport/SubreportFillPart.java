@@ -85,7 +85,7 @@ public class SubreportFillPart extends BasePartFillComponent
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PART},
 			sinceVersion = JRConstants.VERSION_6_0_0
-	)
+			)
 	public static final String PROPERTY_BOOKMARKS_DATA_SOURCE_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "bookmarks.data.source.parameter";
 	
 	private SubreportPartComponent subreportPart;

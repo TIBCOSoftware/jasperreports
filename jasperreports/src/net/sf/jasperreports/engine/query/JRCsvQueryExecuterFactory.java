@@ -25,12 +25,16 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Query executer factory for CSV file type.
@@ -55,6 +59,11 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	 * 	<li>a url</li>
 	 * </ul>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "csv.source";
 	
 	/**
@@ -83,14 +92,25 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	 * It is meaningful only in combination with 
 	 * {@link #CSV_INPUT_STREAM CSV_INPUT_STREAM},  {@link #CSV_URL CSV_URL} or {@link #CSV_FILE CSV_FILE}.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "csv.encoding";
 
 	/**
-	 * Built-in parameter/property holding the value of the columns to be extracted from the CSV source.
+	 * Built-in parameter/property holding the names of the columns (in a comma-separated list) to be extracted from the CSV source.
 	 * When used as report parameter, the value has to be a <code>java.lang.String</code> object containing column names separated by commas.
 	 * It can also be used as the prefix for custom dataset properties specifying the names of the CSV columns in the format:
 	 * <code>net.sf.jasperreports.csv.column.names.{arbitrary_name}=value1[, value2, ...]</code>
 	 */
+	@Property(
+			name = "net.sf.jasperreports.csv.column.names.{arbitrary_name}",
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_COLUMN_NAMES = JRPropertiesUtil.PROPERTY_PREFIX + "csv.column.names";
 
 	/**
@@ -111,6 +131,11 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	 * <p/>
 	 * The allowed format is: language[_country[_variant]] 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "csv.locale.code";
 	
 	/**
@@ -121,6 +146,11 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	/**
 	 * Built-in parameter/property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the CSV data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_TIMEZONE_ID = JRPropertiesUtil.PROPERTY_PREFIX + "csv.timezone.id";
 	
 	/**
@@ -131,11 +161,22 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	/**
 	 * Built-in parameter/property holding the value of the date format pattern to be used when parsing the CSV data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "csv.date.pattern";
 	
 	/**
 	 * Built-in parameter/property holding the value of the field delimiter from the CSV source.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = ",",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_FIELD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.delimiter";
 	
 	/**
@@ -146,11 +187,22 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	/**
 	 * Built-in parameter/property holding the value of the number format pattern to be used when parsing the CSV data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "csv.number.pattern";
 	
 	/**
 	 * Build-in parameter/property holding the value of the record delimiter from the CSV source
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "\\n",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String CSV_RECORD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "csv.record.delimiter";
 	
 	/**

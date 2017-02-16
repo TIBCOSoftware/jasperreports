@@ -7,15 +7,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:data.source">
     <name>Data Source / Query Executer</name>
     <content>
-      <property ref="net.sf.jasperreports.csv.column.names.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.csv.date.pattern"/>
-      <property ref="net.sf.jasperreports.csv.encoding"/>
-      <property ref="net.sf.jasperreports.csv.field.delimiter"/>
-      <property ref="net.sf.jasperreports.csv.locale.code"/>
-      <property ref="net.sf.jasperreports.csv.number.pattern"/>
-      <property ref="net.sf.jasperreports.csv.record.delimiter"/>
-      <property ref="net.sf.jasperreports.csv.source"/>
-      <property ref="net.sf.jasperreports.csv.timezone.id"/>
       <property ref="net.sf.jasperreports.data.adapter"/>
       <property ref="net.sf.jasperreports.ejbql.query.hint.{hint}"/>
       <property ref="net.sf.jasperreports.ejbql.query.page.size"/>
@@ -425,12 +416,8 @@ Property that references the parameter containing the bookmarks data source.
   
   <configProperty name="net.sf.jasperreports.csv.column.names.{arbitrary_name}">
     <description>
-Property having this prefix hold the comma separated names of the columns to be extracted from the CSV source.
+Property having this prefix store the comma separated names of the columns to be extracted from the CSV source.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_COLUMN_NAMES</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -440,10 +427,6 @@ Property having this prefix hold the comma separated names of the columns to be 
     <description>
 Property holding the value of the date format pattern to be used when parsing the CSV data.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_DATE_PATTERN</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -451,11 +434,8 @@ Property holding the value of the date format pattern to be used when parsing th
   
   <configProperty name="net.sf.jasperreports.csv.encoding">
     <description>
+Property holding the value of the charset used to encode the CSV stream.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_ENCODING</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -481,11 +461,8 @@ Property specifying the 0-based index of the column in the CSV data to which the
   
   <configProperty name="net.sf.jasperreports.csv.field.delimiter">
     <description>
+Property holding the value of the field delimiter from the CSV source.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_FIELD_DELIMITER</api>
-    <default>,</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -493,11 +470,8 @@ Property specifying the 0-based index of the column in the CSV data to which the
   
   <configProperty name="net.sf.jasperreports.csv.locale.code">
     <description>
+Property holding the <code>java.lang.String</code> code of the locale to be used when parsing the CSV data.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_LOCALE_CODE</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -507,10 +481,6 @@ Property specifying the 0-based index of the column in the CSV data to which the
     <description>
 Property holding the value of the number format pattern to be used when parsing the CSV data.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_NUMBER_PATTERN</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -518,11 +488,8 @@ Property holding the value of the number format pattern to be used when parsing 
   
   <configProperty name="net.sf.jasperreports.csv.record.delimiter">
     <description>
+Property holding the value of the record delimiter from the CSV source
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_RECORD_DELIMITER</api>
-    <default>\n</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -537,10 +504,6 @@ String property representing a valid path to the requested resource containing t
  <li>an url</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_SOURCE</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -548,11 +511,8 @@ String property representing a valid path to the requested resource containing t
   
   <configProperty name="net.sf.jasperreports.csv.timezone.id">
     <description>
+Property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the CSV data.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_TIMEZONE_ID</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
