@@ -206,6 +206,13 @@ public class JRVerifier
 	 * one of them should be explicitly marked to allow element overlap
 	 * when the report is configured to check for overlaps.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DESIGN,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_5_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_ALLOW_ELEMENT_OVERLAP = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.overlap";
 	
@@ -253,6 +260,13 @@ public class JRVerifier
 	 * @see JRElement#getY()
 	 * @since 3.7.3
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DESIGN,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_3,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y =
 		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.y";
 

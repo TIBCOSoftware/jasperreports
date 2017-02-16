@@ -15,10 +15,7 @@
   <category key="net.sf.jasperreports.metadata.property.category:design">
     <name>Report Design</name>
     <content>
-      <property ref="net.sf.jasperreports.allow.element.negative.y"/>
-      <property ref="net.sf.jasperreports.allow.element.overlap"/>
       <property ref="net.sf.jasperreports.style.{style_property_suffix}"/>
-      <property ref="net.sf.jasperreports.styles.inherit.from.default"/>
     </content>
   </category>
   
@@ -1081,10 +1078,6 @@ Elements placed at negative Y offsets can cause unexpected problems in grid-base
 <br/>
 If the property is set to <code>false</code>, elements in the report are verified to have positive Y offsets.  Otherwise, no check is performed on element Y offsets.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.7.3</since>
   </configProperty>
   
   
@@ -1133,10 +1126,6 @@ or if export filters are in place to exclude one of the elements,
 one of them should be explicitly marked to allow element overlap
 when the report is configured to check for overlaps.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_OVERLAP</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.5.0</since>
   </configProperty>
   
   
@@ -1144,9 +1133,10 @@ when the report is configured to check for overlaps.
   
   <configProperty name="net.sf.jasperreports.style.{style_property_suffix}">
     <description>
-Properties with this prefix are used in the <api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
-(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface) 
-to configure dynamic style features for report elements. If such a property is found at element level, its value will override the related 
+Properties with this prefix are used to configure dynamic style features for report elements. They are declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface).  
+If such a property is found at element level, its value will override the related 
 style feature of the element.
 <br/>
 <br/>
@@ -1250,10 +1240,6 @@ have no meaning and no effects in this implementation. Conditional styles should
 Specifies whether report styles that do not have a parent specified would rely on the default style as parent for property inheritance. 
 Before version 6.2.1, styles without parent were not inheriting from default style.
     </description>
-    <api>net/sf/jasperreports/engine/util/StyleResolver.html#PROPERTY_STYLES_INHERIT_FROM_DEFAULT</api>
-    <default>true</default>
-    <scope>Global</scope>
-    <since>6.2.1</since>
   </configProperty>
   
   

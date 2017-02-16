@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.charts.JRTimeAxisFormat;
 import net.sf.jasperreports.charts.JRValueAxisFormat;
@@ -39,6 +41,7 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonImage;
 import net.sf.jasperreports.engine.JRCommonRectangle;
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRImageAlignment;
@@ -65,6 +68,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -72,6 +76,13 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
  */
 public class StyleResolver
 {
+	@Property(
+			category = PropertyConstants.CATEGORY_DESIGN,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_2_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_STYLES_INHERIT_FROM_DEFAULT = JRPropertiesUtil.PROPERTY_PREFIX + "styles.inherit.from.default";
 	
 	private static final StyleResolver INSTANCE = new StyleResolver(DefaultJasperReportsContext.getInstance());
