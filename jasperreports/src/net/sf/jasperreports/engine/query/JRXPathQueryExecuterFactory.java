@@ -25,12 +25,16 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * XPath query executer factory.
@@ -63,6 +67,11 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory im
 	/**
 	 * Built-in parameter/property holding the value of the <code>java.lang.String</code> source to be used for obtaining the XML data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_7_1
+			)
 	public static final String XML_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "xml.source";
 	
 	/**

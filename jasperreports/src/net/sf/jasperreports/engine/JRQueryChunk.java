@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.query.JRClauseFunction;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -40,6 +43,12 @@ public interface JRQueryChunk extends JRCloneable
 	 * and the vertical bar (<code>'|'</code>). 
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = ", ; |",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_2_0_5
+			)
 	public static final String PROPERTY_CHUNK_TOKEN_SEPARATOR = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "query.chunk.token.separators";
 

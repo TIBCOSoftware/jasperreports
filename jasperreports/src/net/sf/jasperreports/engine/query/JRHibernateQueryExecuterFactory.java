@@ -25,12 +25,16 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Query executer factory for HQL queries that uses Hibernate 3.
@@ -80,6 +84,12 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 * 	<li><em>scroll</em> - the query will be run by calling <code>org.hibernate.Query.scroll()</code></li>
 	 * </ul>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "list",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_1_2_0
+			)
 	public static final String PROPERTY_HIBERNATE_QUERY_RUN_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.query.run.type";
 	
 	/**
@@ -89,6 +99,13 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 * <p/>
 	 * By default, all the rows are retrieved (no result pagination is performed).
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_1_2_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.query.list.page.size";
 	
 	/**
@@ -98,12 +115,26 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 * <p/>
 	 * @see net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_1_3_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_HIBERNATE_CLEAR_CACHE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.clear.cache";
 	
 	/**
 	 * Property specifying whether field descriptions should be used to determine the mapping between the fields
 	 * and the query return values.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_1_2_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS = JRPropertiesUtil.PROPERTY_PREFIX + "hql.field.mapping.descriptions";
 	
 	/**

@@ -25,11 +25,15 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -53,6 +57,12 @@ public interface QueryExecuterFactory extends JRQueryExecuterFactory
 	 * To obtain query executer factories, a property having the query language appended to this prefix is used 
 	 * to get the query executer factory name.
 	 */
+	@Property(
+			name = "net.sf.jasperreports.query.executer.factory.{language}",
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_1_2_0
+			)
 	public static final String QUERY_EXECUTER_FACTORY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "query.executer.factory.";
 
 	

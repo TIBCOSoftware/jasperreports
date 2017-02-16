@@ -25,12 +25,16 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Java Persistence API query executer factory for EJBQL queries.
@@ -79,11 +83,23 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	 * <p/>
 	 * By default, all the rows are retrieved (no result pagination is performed).
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_1_2_3,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_JPA_QUERY_PAGE_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.page.size";
 
 	/**
 	 * Property specifying the prefix for EJBQL query hints.
 	 */
+	@Property(
+			name = "net.sf.jasperreports.ejbql.query.hint.{hint}",
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_1_2_3
+			)
 	public static final String PROPERTY_JPA_QUERY_HINT_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.hint.";
 	
 	@Override

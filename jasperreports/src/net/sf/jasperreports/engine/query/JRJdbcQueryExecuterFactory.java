@@ -26,6 +26,9 @@ package net.sf.jasperreports.engine.query;
 import java.util.Arrays;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -34,6 +37,7 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Query executer factory for SQL queries.
@@ -51,31 +55,69 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	/**
 	 * Property specifying the ResultSet fetch size.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_1_2_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_JDBC_FETCH_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.fetch.size";
 
 	/**
 	 * Property specifying the ResultSet type.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "forwardOnly",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_3_5_3
+			)
 	public static final String PROPERTY_JDBC_RESULT_SET_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.result.set.type";
 
 	/**
 	 * Property specifying the ResultSet concurrency.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "readOnly",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_3_5_3
+			)
 	public static final String PROPERTY_JDBC_CONCURRENCY = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.concurrency";
 
 	/**
 	 * Property specifying the ResultSet holdability.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "hold",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_3_5_3
+			)
 	public static final String PROPERTY_JDBC_HOLDABILITY = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.holdability";
 
 	/**
 	 * Property specifying the statement max field size.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_3_5_3,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_JDBC_MAX_FIELD_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.max.field.size";
 
 	/**
 	 * Flag property specifying if data will be stored in a cached rowset.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_1_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_CACHED_ROWSET = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.cached.rowset";
 
 	/**
@@ -96,6 +138,11 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	 * 
 	 * @see JRResultSetDataSource#setTimeZone(java.util.TimeZone, boolean)
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET, PropertyScope.PARAMETER, PropertyScope.FIELD},
+			sinceVersion = JRConstants.VERSION_6_1_0
+			)
 	public static final String PROPERTY_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.time.zone";
 	
 	//FIXME to be documented soon

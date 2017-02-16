@@ -6,33 +6,6 @@
 
   <category key="net.sf.jasperreports.metadata.property.category:data.source">
     <name>Data Source / Query Executer</name>
-    <content>
-      <property ref="net.sf.jasperreports.data.adapter"/>
-      <property ref="net.sf.jasperreports.ejbql.query.hint.{hint}"/>
-      <property ref="net.sf.jasperreports.ejbql.query.page.size"/>
-      <property ref="net.sf.jasperreports.hql.clear.cache"/>
-      <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
-      <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
-      <property ref="net.sf.jasperreports.hql.query.run.type"/>
-      <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
-      <property ref="net.sf.jasperreports.jdbc.concurrency"/>
-      <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
-      <property ref="net.sf.jasperreports.jdbc.holdability"/>
-      <property ref="net.sf.jasperreports.jdbc.max.field.size"/>
-      <property ref="net.sf.jasperreports.jdbc.result.set.type"/>
-      <property ref="net.sf.jasperreports.jdbc.time.zone"/>
-      <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
-      <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
-      <property ref="net.sf.jasperreports.xls.column.indexes.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.xls.column.names.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.xls.date.pattern"/>
-      <property ref="net.sf.jasperreports.xls.locale.code"/>
-      <property ref="net.sf.jasperreports.xls.number.pattern"/>
-      <property ref="net.sf.jasperreports.xls.source"/>
-      <property ref="net.sf.jasperreports.xls.timezone.id"/>
-      <property ref="net.sf.jasperreports.xml.source"/>
-      <property ref="net.sf.jasperreports.xpath.executer.factory"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:compile">
@@ -520,12 +493,8 @@ Property holding the <code>java.lang.String</code> value of the time zone id to 
   
   <configProperty name="net.sf.jasperreports.data.adapter">
     <description>
-A report/dataset level property that provides the location of a data adapter resource to be used for the dataset.    
+Property that provides the location of a data adapter resource to be used for the dataset.    
     </description>
-    <api>net/sf/jasperreports/data/DataAdapterParameterContributorFactory.html#PROPERTY_DATA_ADAPTER_LOCATION</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.1.1</since>
   </configProperty>
   
   
@@ -536,10 +505,6 @@ A report/dataset level property that provides the location of a data adapter res
 Properties with this prefix introduce JPA implementation specific EJBQL query hints to be used by the 
 <api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">JRJpaQueryExecuter</api>. The suffix is the name of the hint, as documented by the specific JPA implementation.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_HINT_PREFIX</api>
-    <default>N/A</default>
-    <scope>Dataset</scope>
-    <since>1.2.3</since>
   </configProperty>
   
   
@@ -552,10 +517,6 @@ Property specifying the number of result rows to be retrieved at once. Result pa
 <br/>
 By default, all the rows are retrieved (no result pagination is performed).
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PROPERTY_JPA_QUERY_PAGE_SIZE</api>
-    <default>0</default>
-    <scope>Global | Dataset</scope>
-    <since>1.2.3</since>
   </configProperty>
   
   
@@ -567,10 +528,6 @@ Property specifying whether Hibernate session cache should be cleared between tw
 <br/>
 By default, the cache cleanup is not performed.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_CLEAR_CACHE</api>
-    <default>false</default>
-    <scope>Global | Dataset</scope>
-    <since>1.3.1</since>
   </configProperty>
   
   
@@ -582,10 +539,6 @@ Property specifying whether field descriptions should be used to determine the m
 <br/>
 By default, field description are used.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS</api>
-    <default>true</default>
-    <scope>Global | Dataset</scope>
-    <since>1.2.0</since>
   </configProperty>
   
   
@@ -597,10 +550,6 @@ Property specifying the number of result rows to be retrieved at once when the e
 Result pagination is implemented by <code>org.hibernate.Query.setFirstResult()</code> and  <code>org.hibernate.Query.setMaxResults()</code>.
 By default, all the rows are retrieved (no result pagination is performed).
     </description>
-    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE</api>
-    <default>0</default>
-    <scope>Global | Dataset</scope>
-    <since>1.2.0</since>
   </configProperty>
   
   
@@ -615,10 +564,6 @@ Property specifying the Hibernate query execution type. Possible values are:
   <li><code>scroll</code> - the query will be run by calling <code>org.hibernate.Query.scroll()</code></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html#PROPERTY_HIBERNATE_QUERY_RUN_TYPE</api>
-    <default>list</default>
-    <scope>Global | Dataset</scope>
-    <since>1.2.0</since>
   </configProperty>
   
   
@@ -761,10 +706,6 @@ This mapping was previously specified using the <code>fieldDescription</code> at
     <description>
 Flag property specifying if data will be stored in a cached rowset.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_CACHED_ROWSET</api>
-    <default>false</default>
-    <scope>Global | Dataset</scope>
-    <since>4.1.2</since>
   </configProperty>
   
   <!-- net.sf.jasperreports.jdbc.fetch.size -->
@@ -775,10 +716,6 @@ Property specifying the fetch size for the <code>java.sql.ResultSet</code> creat
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api> and the 
 <api href="net/sf/jasperreports/engine/query/JRHibernateQueryExecuter.html">JRHibernateQueryExecuter</api>.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_FETCH_SIZE</api>
-    <default>0</default>
-    <scope>Global | Dataset</scope>
-    <since>1.2.0</since>
   </configProperty>
   
   <!-- net.sf.jasperreports.result.set.type -->
@@ -793,10 +730,6 @@ Property specifying the type for the <code>java.sql.ResultSet</code> created by 
   <li><code>scrollSensitive</code> - the result set is scrollable and generally sensitive to changes made by others.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_RESULT_SET_TYPE</api>
-    <default>forwardOnly</default>
-    <scope>Global | Dataset</scope>
-    <since>3.5.3</since>
   </configProperty>
   
   <!-- net.sf.jasperreports.result.set.concurrency -->
@@ -810,10 +743,6 @@ Property specifying the concurrency rule for the <code>java.sql.ResultSet</code>
   <li><code>updatable</code> - the concurrency mode for a <code>ResultSet</code> object that may be updated.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_CONCURRENCY</api>
-    <default>readOnly</default>
-    <scope>Global | Dataset</scope>
-    <since>3.5.3</since>
   </configProperty>
   
   <!-- net.sf.jasperreports.result.set.holdability -->
@@ -827,10 +756,6 @@ Property specifying the cursor holdability after commit for the <code>java.sql.R
   <li><code>close</code> - indicates that <code>ResultSet</code> objects should be closed when the method <code>Connection.commit()</code> is called.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_HOLDABILITY</api>
-    <default>hold</default>
-    <scope>Global | Dataset</scope>
-    <since>3.5.3</since>
   </configProperty>
   
   <!-- net.sf.jasperreports.statement.max.field.size -->
@@ -841,10 +766,6 @@ Property specifying the limit for the maximum number of bytes in a <code>ResultS
 storing character or binary values created by the 
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api>.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_JDBC_MAX_FIELD_SIZE</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>3.5.3</since>
   </configProperty>
   
   <!-- net.sf.jasperreports.query.chunk.token.separators -->
@@ -853,11 +774,6 @@ storing character or binary values created by the
     <description>
 Property that specifies the list of token separators characters for <api href="net/sf/jasperreports/engine/JRQueryChunk.html#TYPE_CLAUSE_TOKENS">TYPE_CLAUSE_TOKENS</api> tokenized query clauses.
     </description>
-    <api>net/sf/jasperreports/engine/JRQueryChunk.html#PROPERTY_CHUNK_TOKEN_SEPARATOR</api>
-    <default>, ; |</default>
-    <scope>Global</scope>
-    <since>2.0.5</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -868,10 +784,6 @@ Property that specifies the list of token separators characters for <api href="n
 Properties with this prefix associate a query executer factory implementation with a query language.
 To obtain query executer factories, a property having the query language appended to this prefix is used to get the query executer factory name.
     </description>
-    <api>net/sf/jasperreports/engine/query/QueryExecuterFactory.html#QUERY_EXECUTER_FACTORY_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>1.2.0</since>
   </configProperty>
   
   
@@ -908,10 +820,6 @@ Property specifying the 1-based index of the column in the JDBC result set to wh
     <description>
 Property having this prefix hold the comma separated values of the column indexes to be extracted from the Excel source.
     </description>
-    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_COLUMN_INDEXES</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -921,10 +829,6 @@ Property having this prefix hold the comma separated values of the column indexe
     <description>
 Property having this prefix hold the comma separated names of the columns to be extracted from the Excel source.
     </description>
-    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_COLUMN_NAMES</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -952,10 +856,6 @@ Property specifying the 0-based index of the column in the Excel data to which t
     <description>
 Property holding the value of the date format pattern to be used when parsing the Excel data.
     </description>
-    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_DATE_PATTERN</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -967,10 +867,6 @@ String property specifying the code of the locale to be used when parsing the Ex
 <p/>
 The allowed format is: language[_country[_variant]] 
     </description>
-    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_LOCALE_CODE</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -980,10 +876,6 @@ The allowed format is: language[_country[_variant]]
     <description>
 Property holding the value of the number format pattern to be used when parsing the Excel data.
     </description>
-    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_NUMBER_PATTERN</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -998,10 +890,6 @@ String property representing a valid path to the requested resource containing t
  <li>an url</li>
 </ul>  
     </description>
-    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_SOURCE</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -1011,10 +899,6 @@ String property representing a valid path to the requested resource containing t
     <description>
 String property specifying value of the time zone id to be used when parsing the Excel data.
     </description>
-    <api>net/sf/jasperreports/engine/query/AbstractXlsQueryExecuterFactory.html#XLS_TIMEZONE_ID</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -1029,10 +913,6 @@ String property representing a valid path to the requested resource containing t
  <li>an url</li>
 </ul>  
     </description>
-    <api>net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_SOURCE</api>
-    <default>N/A</default>
-    <scope>Global | Dataset</scope>
-    <since>4.7.1</since>
   </configProperty>
   
   
@@ -6301,10 +6181,6 @@ Note that sending a value as parameter will override all properties, and the tim
 The property value can be a time zone ID or REPORT_TIME_ZONE.
 In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api>) will be used.
     </description>
-    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_TIME_ZONE</api>
-    <default>N/A</default>
-    <scope>Global | Dataset | Parameter | Field</scope>
-    <since>6.1.0</since>
   </configProperty>
   
   
