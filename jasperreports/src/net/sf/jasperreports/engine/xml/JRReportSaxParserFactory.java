@@ -32,6 +32,9 @@ import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -39,6 +42,7 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
 import net.sf.jasperreports.engine.part.PartComponentsBundle;
 import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * The default report SAX parser factory.
@@ -68,6 +72,13 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	 * <p>
 	 * Defaults to <code>true</code>.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_1_0_0,
+			valueType = Boolean.class
+			)
 	public static final String COMPILER_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.validation";
 	
 	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();

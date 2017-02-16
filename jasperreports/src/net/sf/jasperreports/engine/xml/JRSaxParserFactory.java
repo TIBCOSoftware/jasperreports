@@ -25,7 +25,11 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.SAXParser;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * A factory of {@link SAXParser} objects used by JasperReports
@@ -44,6 +48,12 @@ public interface JRSaxParserFactory
 	 * By default, this property is set to use {@link JRReportSaxParserFactory}
 	 * as report parser factory.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			defaultValue = "net.sf.jasperreports.engine.xml.JRReportSaxParserFactory",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_3_1_0
+			)
 	String PROPERTY_REPORT_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.parser.factory";
 
 	/**

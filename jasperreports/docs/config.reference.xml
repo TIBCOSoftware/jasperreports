@@ -10,13 +10,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:compile">
     <name>Report Compilation</name>
-    <content>
-      <property ref="net.sf.jasperreports.compiler.keep.java.file"/>
-      <property ref="net.sf.jasperreports.compiler.temp.dir"/>
-      <property ref="net.sf.jasperreports.compiler.xml.validation"/>
-      <property ref="net.sf.jasperreports.compiler.xml.parser.cache.schemas"/>
-      <property ref="net.sf.jasperreports.compiler.xml.parser.factory"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:design">
@@ -971,10 +964,6 @@ Property specifying the classpath used by the report compiler during the compila
     <description>
 Property specifying whether the temporary source file created by the report compiler should be kept or deleted after the report compilation process ended.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRCompiler.html#COMPILER_KEEP_JAVA_FILE</api>
-    <default>false</default>
-    <scope>Global</scope>
-    <since>1.0.0</since>
   </configProperty>
   
   
@@ -984,10 +973,6 @@ Property specifying whether the temporary source file created by the report comp
     <description>
 Property specifying the temporary working directory to be used by the report compiler.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRCompiler.html#COMPILER_TEMP_DIR</api>
-    <default><code>System.getProperty("user.dir")</code></default>
-    <scope>Global</scope>
-    <since>1.0.0</since>
   </configProperty>
   
   
@@ -997,10 +982,6 @@ Property specifying the temporary working directory to be used by the report com
     <description>
 Property that forces the XML validation of the report template file before compiling.
     </description>
-    <api>net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html#COMPILER_XML_VALIDATION</api>
-    <default>true</default>
-    <scope>Global</scope>
-    <since>1.0.0</since>
   </configProperty>
   
   
@@ -1015,10 +996,6 @@ Currently, setting this property is only effective when a Xerces XML
 parser is used (either a stock one from Apache or one embedded into a 
 SUN JDK).
     </description>
-    <api>net/sf/jasperreports/engine/xml/BaseSaxParserFactory.html#PROPERTY_CACHE_SCHEMAS</api>
-    <default>true</default>
-    <scope>Global</scope>
-    <since>3.1.0</since>
   </configProperty>
   
   
@@ -1032,10 +1009,6 @@ for parsing JRXMLs.
 By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html">JRReportSaxParserFactory</api> 
 as report parser factory.
     </description>
-    <api>net/sf/jasperreports/engine/xml/JRSaxParserFactory.html#PROPERTY_REPORT_PARSER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.xml.JRReportSaxParserFactory</code></default>
-    <scope>Global</scope>
-    <since>3.1.0</since>
   </configProperty>
   
   

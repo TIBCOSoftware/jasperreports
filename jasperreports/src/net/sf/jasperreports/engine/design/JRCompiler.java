@@ -138,6 +138,13 @@ public interface JRCompiler
 	 * <p>
 	 * Defaults to <code>false</code>.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_1_0_0,
+			valueType = Boolean.class
+			)
 	public static final String COMPILER_KEEP_JAVA_FILE = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.keep.java.file";
 	
 	/**
@@ -145,6 +152,12 @@ public interface JRCompiler
 	 * <p>
 	 * Defaults to <code>System.getProperty("user.dir")</code>.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			defaultValue = "System.getProperty(\"user.dir\")",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_1_0_0
+			)
 	public static final String COMPILER_TEMP_DIR = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.temp.dir";
 	
 	/**

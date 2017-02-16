@@ -37,12 +37,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Base SAX parser factory.
@@ -77,6 +81,13 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	 */
 	// the property was initially created for JRXMLs, but now it's used for XML exports as well.
 	// if required at some point, we can create a separate property. 
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_3_1_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_CACHE_SCHEMAS = JRPropertiesUtil.PROPERTY_PREFIX
 		+ "compiler.xml.parser.cache.schemas";
 
