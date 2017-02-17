@@ -44,6 +44,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponentUtil;
 import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluatorFactory;
@@ -91,6 +93,7 @@ import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -124,6 +127,7 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
@@ -156,6 +160,13 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 * The default global value of this property is <code>true</code>
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			sinceVersion = JRConstants.VERSION_5_5_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.interactive";
 
 	/**
@@ -176,6 +187,13 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 * The default global value of this property is <code>true</code>
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			sinceVersion = JRConstants.VERSION_6_0_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_FLOATING_HEADERS = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.floating.headers";
 
 	public static final String PROPERTY_ORDER_BY_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.order.by.column";

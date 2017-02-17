@@ -89,11 +89,23 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	/**
 	 * A property that provides the crosstab row span of a print frame.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_1_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_ROW_SPAN = PROPERTIES_PREFIX + "row.span";
 	
 	/**
 	 * A property that provides the crosstab column span of a print frame.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_1_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_COLUMN_SPAN = PROPERTIES_PREFIX + "column.span";
 	
 	/**

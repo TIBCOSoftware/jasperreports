@@ -14,9 +14,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:design">
     <name>Report Design</name>
-    <content>
-      <property ref="net.sf.jasperreports.style.{style_property_suffix}"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:fill">
@@ -72,13 +69,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:crosstab">
     <name>Crosstabs</name>
-    <content>
-      <property ref="net.sf.jasperreports.crosstab.cell.row.span"/>
-      <property ref="net.sf.jasperreports.crosstab.cell.column.span"/>
-      <property ref="net.sf.jasperreports.crosstab.ignore.width"/>
-      <property ref="net.sf.jasperreports.crosstab.interactive"/>
-      <property ref="net.sf.jasperreports.crosstab.floating.headers"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:barcode">
@@ -2742,10 +2732,6 @@ The property value is one of
     <description>
 Property that provides the crosstab row span of a print frame. (FIXME not a user defined property)
     </description>
-    <api>net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_ROW_SPAN</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2755,10 +2741,6 @@ Property that provides the crosstab row span of a print frame. (FIXME not a user
     <description>
 Property that provides the crosstab column span of a print frame. (FIXME not a user defined property)
     </description>
-    <api>net/sf/jasperreports/crosstabs/JRCellContents.html#PROPERTY_COLUMN_SPAN</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -2768,10 +2750,6 @@ Property that provides the crosstab column span of a print frame. (FIXME not a u
     <description>
 Property that provides the default value for the crosstab <code>ignoreWidth</code> attribute.
     </description>
-    <api>net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.5.3</since>
   </configProperty>
 
   <!-- net.sf.jasperreports.crosstab.interactive -->
@@ -2780,10 +2758,6 @@ Property that provides the default value for the crosstab <code>ignoreWidth</cod
     <description>
 Property that enables/disables the interactivity in the crosstab component.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JRFillCrosstab.html#PROPERTY_INTERACTIVE</api>
-    <default>true</default>
-    <scope>Global | Report | Component</scope>
-    <since>5.5.0</since>
   </configProperty>
 
   <!-- net.sf.jasperreports.crosstab.floating.headers -->
@@ -2794,10 +2768,6 @@ Property that enables/disables the floating headers in the crosstab component wh
 <br/>
 If the interactivity has been disabled by setting <a href="#net.sf.jasperreports.crosstab.interactive">net.sf.jasperreports.crosstab.interactive</a> to <code>false</code>, then setting this property will have no effect.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JRFillCrosstab.html#PROPERTY_FLOATING_HEADERS</api>
-    <default>true</default>
-    <scope>Global | Report | Component</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
