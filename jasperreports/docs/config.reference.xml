@@ -326,10 +326,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:repository">
     <name>JasperReports Repository</name>
-    <content>
-      <property ref="net.sf.jasperreports.file.repository.resolve.absolute.path"/>
-      <property ref="net.sf.jasperreports.file.repository.root"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:other">
@@ -6729,11 +6725,6 @@ Property which specifies if the size of each page should be increased to accommo
     <description>
 Flag property that indicates whether the absolute path to be used instead, when resources are not found in the file repository.
     </description>
-    <api>net/sf/jasperreports/repo/FileRepositoryServiceExtensionsRegistryFactory.html#PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH</api>
-    <default>false</default>
-    <scope>Global</scope>
-    <since>4.1.1</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -6743,11 +6734,6 @@ Flag property that indicates whether the absolute path to be used instead, when 
     <description>
 Specifies the file repository root location.
     </description>
-    <api>net/sf/jasperreports/repo/FileRepositoryServiceExtensionsRegistryFactory.html#PROPERTY_FILE_REPOSITORY_ROOT</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>4.1.1</since>
-    <contextUnaware/>
   </configProperty>
   
   

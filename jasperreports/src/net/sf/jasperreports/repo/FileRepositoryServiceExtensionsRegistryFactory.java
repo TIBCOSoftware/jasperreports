@@ -23,13 +23,17 @@
  */
 package net.sf.jasperreports.repo;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -47,11 +51,23 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 	/**
 	 * Specifies the file repository root location.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_REPOSITORY,
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_4_1_1
+			)
 	public final static String PROPERTY_FILE_REPOSITORY_ROOT = FILE_REPOSITORY_PROPERTY_PREFIX + "root";
 	
 	/**
 	 * Flag property that indicates whether the absolute path to be used instead, when resources are not found in the file repository.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_REPOSITORY,
+			defaultValue = "false",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_4_1_1,
+			valueType = Boolean.class
+			)
 	public final static String PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH = FILE_REPOSITORY_PROPERTY_PREFIX + "resolve.absolute.path";
 	
 	@Override
