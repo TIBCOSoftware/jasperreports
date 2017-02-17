@@ -1129,109 +1129,990 @@ when the report is configured to check for overlaps.
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.style.{style_property_suffix} -->
+  <!-- net.sf.jasperreports.style.mode -->
   
-  <configProperty name="net.sf.jasperreports.style.{style_property_suffix}">
+  <configProperty name="net.sf.jasperreports.style.mode">
     <description>
-Properties with this prefix are used to configure dynamic style features for report elements. They are declared in the 
+Property used to configure dynamic style mode for report elements. It is declared in the 
 <api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
-(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface).  
-If such a property is found at element level, its value will override the related 
-style feature of the element.
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
 <br/>
+If such a property is found at element level, its value will override the related style mode of the element.
 <br/>
-The following style properties are defined in <api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class: 
+Possible values are:
 <ul>
-<li>Properties for common style attributes:
-<ul>
-<br/> 
-<li><code>net.sf.jasperreports.style.mode</code></li>
-<li><code>net.sf.jasperreports.style.backcolor</code></li>
-<li><code>net.sf.jasperreports.style.forecolor</code></li>
-<li><code>net.sf.jasperreports.style.fill</code></li>
-<li><code>net.sf.jasperreports.style.radius</code></li>
-<li><code>net.sf.jasperreports.style.scaleImage</code></li>
-<li><code>net.sf.jasperreports.style.hAlign</code> - deprecated since v.6.0.2 - replaced with net.sf.jasperreports.style.hTextAlign or net.sf.jasperreports.style.hImageAlign</li>
-<li><code>net.sf.jasperreports.style.vAlign</code> - deprecated since v.6.0.2 - replaced with net.sf.jasperreports.style.vTextAlign or net.sf.jasperreports.style.vImageAlign</li>
-<li><code>net.sf.jasperreports.style.hTextAlign</code></li>
-<li><code>net.sf.jasperreports.style.vTextAlign</code></li>
-<li><code>net.sf.jasperreports.style.hImageAlign</code></li>
-<li><code>net.sf.jasperreports.style.vImageAlign</code></li>
-<li><code>net.sf.jasperreports.style.rotation</code></li>
-<li><code>net.sf.jasperreports.style.markup</code></li>
-<li><code>net.sf.jasperreports.style.isBlankWhenNull</code></li>
-<li><code>net.sf.jasperreports.style.fontName</code></li>
-<li><code>net.sf.jasperreports.style.fontSize</code></li>
-<li><code>net.sf.jasperreports.style.isBold</code></li>
-<li><code>net.sf.jasperreports.style.isItalic</code></li>
-<li><code>net.sf.jasperreports.style.isUnderline</code></li>
-<li><code>net.sf.jasperreports.style.isStrikeThrough</code></li>
-<li><code>net.sf.jasperreports.style.pdfFontName</code></li>
-<li><code>net.sf.jasperreports.style.pdfEncoding</code></li>
-<li><code>net.sf.jasperreports.style.isPdfEmbedded</code></li>
-<li><code>net.sf.jasperreports.style.pattern</code> - the value of this property is overridden by the <code>&lt;patternExpression/&gt;</code>, if present.</li>
-<br/>
+<li><code>Opaque</code></li>
+<li><code>Transparent</code></li>
 </ul>
-</li>
-<li>Properties for pen style attributes:
-<ul>
-<br/>
-<li><code>net.sf.jasperreports.style.pen.lineWidth</code></li>
-<li><code>net.sf.jasperreports.style.pen.lineStyle</code></li>
-<li><code>net.sf.jasperreports.style.pen.lineColor</code></li>
-<br/>
-</ul>
-</li>
-<li>Properties for box style attributes:
-<ul>
-<br/>
-<li><code>net.sf.jasperreports.style.box.padding</code></li>
-<li><code>net.sf.jasperreports.style.box.topPadding</code></li>
-<li><code>net.sf.jasperreports.style.box.leftPadding</code></li>
-<li><code>net.sf.jasperreports.style.box.rightPadding</code></li>
-<li><code>net.sf.jasperreports.style.box.bottomPadding</code></li>
-<li><code>net.sf.jasperreports.style.box.pen.lineWidth</code></li>
-<li><code>net.sf.jasperreports.style.box.pen.lineStyle</code></li>
-<li><code>net.sf.jasperreports.style.box.pen.lineColor</code></li>
-<li><code>net.sf.jasperreports.style.box.top.pen.lineWidth</code></li>
-<li><code>net.sf.jasperreports.style.box.top.pen.lineStyle</code></li>
-<li><code>net.sf.jasperreports.style.box.top.pen.lineColor</code></li>
-<li><code>net.sf.jasperreports.style.box.left.pen.lineWidth</code></li>
-<li><code>net.sf.jasperreports.style.box.left.pen.lineStyle</code></li>
-<li><code>net.sf.jasperreports.style.box.left.pen.lineColor</code></li>
-<li><code>net.sf.jasperreports.style.box.right.pen.lineWidth</code></li>
-<li><code>net.sf.jasperreports.style.box.right.pen.lineStyle</code></li>
-<li><code>net.sf.jasperreports.style.box.right.pen.lineColor</code></li>
-<li><code>net.sf.jasperreports.style.box.bottom.pen.lineWidth</code></li>
-<li><code>net.sf.jasperreports.style.box.bottom.pen.lineStyle</code></li>
-<li><code>net.sf.jasperreports.style.box.bottom.pen.lineColor</code></li>
-<br/>
-</ul>
-</li>
-<li>Properties for paragraph style attributes:
-<ul>
-<br/>
-<li><code>net.sf.jasperreports.style.paragraph.lineSpacing</code></li>
-<li><code>net.sf.jasperreports.style.paragraph.lineSpacingSize</code></li>
-<li><code>net.sf.jasperreports.style.paragraph.firstLineIndent</code></li>
-<li><code>net.sf.jasperreports.style.paragraph.leftIndent</code></li>
-<li><code>net.sf.jasperreports.style.paragraph.rightIndent</code></li>
-<li><code>net.sf.jasperreports.style.paragraph.spacingBefore</code></li>
-<li><code>net.sf.jasperreports.style.paragraph.spacingAfter</code></li>
-<li><code>net.sf.jasperreports.style.paragraph.tabStopWidth</code></li>
-</ul>
-</li>
-</ul>
-<b>Note: All the above properties are exclusively used to override features of the element's style, and not to define a 
-new style in the report. Properties such as <code>net.sf.jasperreports.style.name</code> or <code>net.sf.jasperreports.style.style</code> 
-have no meaning and no effects in this implementation. Conditional styles should be used instead.</b>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
     </description>
-    <api>net/sf/jasperreports/engine/style/PropertyStyleProvider.html#STYLE_PROPERTY_PREFIX</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.8.0</since>
   </configProperty>
   
+  
+  <!-- net.sf.jasperreports.style.backcolor -->
+  
+  <configProperty name="net.sf.jasperreports.style.backcolor">
+    <description>
+Property used to configure dynamic style background color for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related style background color of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.forecolor -->
+  
+  <configProperty name="net.sf.jasperreports.style.forecolor">
+    <description>
+Property used to configure dynamic style forecolor for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related style forecolor of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.fill -->
+  
+  <configProperty name="net.sf.jasperreports.style.fill">
+    <description>
+Property used to configure dynamic fill pattern style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related fill pattern style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Solid</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.radius -->
+  
+  <configProperty name="net.sf.jasperreports.style.radius">
+    <description>
+Property used to configure dynamic corner radius for rectangle elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related corner radius of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.scaleImage -->
+  
+  <configProperty name="net.sf.jasperreports.style.scaleImage">
+    <description>
+Property used to configure dynamic scale image style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related scale image style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Clip</code></li>
+<li><code>FillFrame</code></li>
+<li><code>RetainShape</code></li>
+<li><code>RealHeight</code></li>
+<li><code>RealSize</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.hAlign -->
+  
+  <configProperty name="net.sf.jasperreports.style.hAlign">
+    <description>
+<b>Deprecated</b> since v.6.0.2 - replaced with <a href="#net.sf.jasperreports.style.hTextAlign" target="_blank">net.sf.jasperreports.style.hTextAlign</a> 
+or <a href="#net.sf.jasperreports.style.hImageAlign" target="_blank">net.sf.jasperreports.style.hImageAlign</a>.<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.vAlign -->
+  
+  <configProperty name="net.sf.jasperreports.style.vAlign">
+    <description>
+<b>Deprecated</b> since v.6.0.2 - replaced with <a href="#net.sf.jasperreports.style.vTextAlign" target="_blank">net.sf.jasperreports.style.vTextAlign</a> 
+or <a href="#net.sf.jasperreports.style.vImageAlign" target="_blank">net.sf.jasperreports.style.vImageAlign</a>.<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.hTextAlign -->
+  
+  <configProperty name="net.sf.jasperreports.style.hTextAlign">
+    <description>
+Property used to configure dynamic horizontal text alignment for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related horizontal text alignment of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Left</code></li>
+<li><code>Center</code></li>
+<li><code>Right</code></li>
+<li><code>Justified</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.vTextAlign -->
+  
+  <configProperty name="net.sf.jasperreports.style.vTextAlign">
+    <description>
+Property used to configure dynamic vertical text alignment for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related vertical text alignment of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Top</code></li>
+<li><code>Middle</code></li>
+<li><code>Bottom</code></li>
+<li><code>Justified</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.hImageAlign -->
+  
+  <configProperty name="net.sf.jasperreports.style.hImageAlign">
+    <description>
+Property used to configure dynamic horizontal image alignment for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related horizontal image alignment of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Left</code></li>
+<li><code>Center</code></li>
+<li><code>Right</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.vImageAlign -->
+  
+  <configProperty name="net.sf.jasperreports.style.vImageAlign">
+    <description>
+Property used to configure dynamic vertical image alignment for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related vertical image alignment of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Top</code></li>
+<li><code>Middle</code></li>
+<li><code>Bottom</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.rotation -->
+  
+  <configProperty name="net.sf.jasperreports.style.rotation">
+    <description>
+Property used to configure dynamic text rotation for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related text rotation of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>None</code></li>
+<li><code>Left</code></li>
+<li><code>Right</code></li>
+<li><code>UpsideDown</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.markup -->
+  
+  <configProperty name="net.sf.jasperreports.style.markup">
+    <description>
+Property used to configure dynamic text markup style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related text markup style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>none</code></li>
+<li><code>styled</code></li>
+<li><code>html</code></li>
+<li><code>rtf</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.style.pattern">
+    <description>
+Property used to configure dynamic format pattern for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related format pattern of the text element. 
+Also, the value of this property is overridden by the <code>&lt;patternExpression/&gt;</code>, if present.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.isBlankWhenNull -->
+  
+  <configProperty name="net.sf.jasperreports.style.isBlankWhenNull">
+    <description>
+Property used to specify whether null content of a report element should be rendered as blank space. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the value of <code>isBlankWhenNull</code> feature of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.fontName -->
+  
+  <configProperty name="net.sf.jasperreports.style.fontName">
+    <description>
+Property used to configure dynamic font name for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related font name in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.fontSize -->
+  
+  <configProperty name="net.sf.jasperreports.style.fontSize">
+    <description>
+Property used to configure dynamic font size for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related font size in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.isBold -->
+  
+  <configProperty name="net.sf.jasperreports.style.isBold">
+    <description>
+Boolean property used to configure dynamic font bold style for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related font bold style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.isItalic -->
+  
+  <configProperty name="net.sf.jasperreports.style.isItalic">
+    <description>
+Boolean property used to configure dynamic font italic style for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related font italic style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.isUnderline -->
+  
+  <configProperty name="net.sf.jasperreports.style.isUnderline">
+    <description>
+Boolean property used to configure dynamic font underline style for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related font underline style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.isStrikeThrough -->
+  
+  <configProperty name="net.sf.jasperreports.style.isStrikeThrough">
+    <description>
+Boolean property used to configure dynamic font strike through style for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related font strike through style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.pdfFontName -->
+  
+  <configProperty name="net.sf.jasperreports.style.pdfFontName">
+    <description>
+Property used to configure dynamic PDF font name for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related PDF font name in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.pdfEncoding -->
+  
+  <configProperty name="net.sf.jasperreports.style.pdfEncoding">
+    <description>
+Property used to configure dynamic PDF encoding character set for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related PDF encoding character set in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.isPdfEmbedded -->
+  
+  <configProperty name="net.sf.jasperreports.style.isPdfEmbedded">
+    <description>
+Boolean property used to specify whether the font should be embedded in the PDF output. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related <code>isPdfEmbedded</code> style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.pen.lineWidth -->
+  
+  <configProperty name="net.sf.jasperreports.style.pen.lineWidth">
+    <description>
+Property used to configure dynamic pen line width for shape elements (line, rectangle, ellipse). It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related pen line width in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.pen.lineStyle -->
+  
+  <configProperty name="net.sf.jasperreports.style.pen.lineStyle">
+    <description>
+Property used to configure dynamic pen line style for shape elements (line, rectangle, ellipse). It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related pen line style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Solid</code></li>
+<li><code>Dashed</code></li>
+<li><code>Dotted</code></li>
+<li><code>Double</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.pen.lineColor -->
+  
+  <configProperty name="net.sf.jasperreports.style.pen.lineColor">
+    <description>
+Property used to configure dynamic pen line color for shape elements (line, rectangle, ellipse). It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related pen line color in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.padding -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.padding">
+    <description>
+Property used to configure dynamic padding style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related padding style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.topPadding -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.topPadding">
+    <description>
+Property used to configure dynamic top padding style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related top padding style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.leftPadding -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.leftPadding">
+    <description>
+Property used to configure dynamic left padding style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related left padding style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.rightPadding -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.rightPadding">
+    <description>
+Property used to configure dynamic right padding style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related right padding style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.bottomPadding -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.bottomPadding">
+    <description>
+Property used to configure dynamic bottom padding style for report elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related bottom padding style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.style.box.pen.lineWidth -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.pen.lineWidth">
+    <description>
+Property used to configure dynamic pen line width for report element's border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related border pen line width in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.pen.lineStyle -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.pen.lineStyle">
+    <description>
+Property used to configure dynamic pen line style for report element's border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related border pen line style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Solid</code></li>
+<li><code>Dashed</code></li>
+<li><code>Dotted</code></li>
+<li><code>Double</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.pen.lineColor -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.pen.lineColor">
+    <description>
+Property used to configure dynamic pen line color for report element's border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related border pen line color in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.top.pen.lineWidth -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.top.pen.lineWidth">
+    <description>
+Property used to configure dynamic pen line width for report element's top border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related top border pen line width in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.top.pen.lineStyle -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.top.pen.lineStyle">
+    <description>
+Property used to configure dynamic pen line style for report element's top border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related top border pen line style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Solid</code></li>
+<li><code>Dashed</code></li>
+<li><code>Dotted</code></li>
+<li><code>Double</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.top.pen.lineColor -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.top.pen.lineColor">
+    <description>
+Property used to configure dynamic pen line color for report element's top border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related top border pen line color in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.style.box.left.pen.lineWidth -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.left.pen.lineWidth">
+    <description>
+Property used to configure dynamic pen line width for report element's left border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related left border pen line width in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.left.pen.lineStyle -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.left.pen.lineStyle">
+    <description>
+Property used to configure dynamic pen line style for report element's left border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related left border pen line style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Solid</code></li>
+<li><code>Dashed</code></li>
+<li><code>Dotted</code></li>
+<li><code>Double</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.left.pen.lineColor -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.left.pen.lineColor">
+    <description>
+Property used to configure dynamic pen line color for report element's left border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related left border pen line color in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+
+  <!-- net.sf.jasperreports.style.box.right.pen.lineWidth -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.right.pen.lineWidth">
+    <description>
+Property used to configure dynamic pen line width for report element's right border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related right border pen line width in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.right.pen.lineStyle -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.right.pen.lineStyle">
+    <description>
+Property used to configure dynamic pen line style for report element's right border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related right border pen line style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Solid</code></li>
+<li><code>Dashed</code></li>
+<li><code>Dotted</code></li>
+<li><code>Double</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.right.pen.lineColor -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.right.pen.lineColor">
+    <description>
+Property used to configure dynamic pen line color for report element's right border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related right border pen line color in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+
+
+  <!-- net.sf.jasperreports.style.box.bottom.pen.lineWidth -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.bottom.pen.lineWidth">
+    <description>
+Property used to configure dynamic pen line width for report element's bottom border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related bottom border pen line width in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.bottom.pen.lineStyle -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.bottom.pen.lineStyle">
+    <description>
+Property used to configure dynamic pen line style for report element's bottom border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related bottom border pen line style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Solid</code></li>
+<li><code>Dashed</code></li>
+<li><code>Dotted</code></li>
+<li><code>Double</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.box.bottom.pen.lineColor -->
+  
+  <configProperty name="net.sf.jasperreports.style.box.bottom.pen.lineColor">
+    <description>
+Property used to configure dynamic pen line color for report element's bottom border. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related bottom border pen line color in the element style.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.paragraph.lineSpacing -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.lineSpacing">
+    <description>
+Property used to configure dynamic paragraph line spacing style for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related line spacing style of the element.
+<br/>
+Possible values are:
+<ul>
+<li><code>Single</code></li>
+<li><code>1_1_2</code></li>
+<li><code>Double</code></li>
+<li><code>AtLeast</code></li>
+<li><code>Fixed</code></li>
+<li><code>Proportional</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.paragraph.lineSpacingSize -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.lineSpacingSize">
+    <description>
+Property used to configure dynamic paragraph line spacing size for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related paragraph line spacing size of the element. 
+This value is used in combination with the size-dependent <a href="#net.sf.jasperreports.style.paragraph.lineSpacing" target="_blank">line spacings</a>:
+<ul>
+<li><code>AtLeast</code></li>
+<li><code>Fixed</code></li>
+<li><code>Proportional</code></li>
+</ul>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.paragraph.firstLineIndent -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.firstLineIndent">
+    <description>
+Property used to configure dynamic paragraph first line indent (in pixels) for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related paragraph first line indent of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+
+  <!-- net.sf.jasperreports.style.paragraph.leftIndent -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.leftIndent">
+    <description>
+Property used to configure dynamic paragraph left indent (in pixels) for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related paragraph left indent of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.paragraph.rightIndent -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.rightIndent">
+    <description>
+Property used to configure dynamic paragraph right indent (in pixels) for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related paragraph right indent of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.paragraph.spacingBefore -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.spacingBefore">
+    <description>
+Property used to configure dynamic spacing before paragraph (in pixels) for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related spacing before paragraph style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.paragraph.spacingAfter -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.spacingAfter">
+    <description>
+Property used to configure dynamic spacing after paragraph (in pixels) for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related spacing after paragraph style of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.paragraph.tabStopWidth -->
+  
+  <configProperty name="net.sf.jasperreports.style.paragraph.tabStopWidth">
+    <description>
+Property used to configure dynamic paragraph tab stop width (in pixels) for text elements. It is declared in the 
+<api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
+<br/>
+If such a property is found at element level, its value will override the related paragraph tab stop width of the element.
+<br/>
+<br/>
+See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features" target="_blank">this page</a>. 
+    </description>
+  </configProperty>
+    
   
   <!-- net.sf.jasperreports.styles.inherit.from.default -->
   

@@ -486,9 +486,12 @@ and are grouped in 4 categories: common, box, pen and paragraph style:
 </ul>
 </li>
 </ul>
+All the above properties are exclusively used to override features of the element's style, and not to define a new style in the report. 
 As can be seen in the common style attributes category, properties like <code>net.sf.jasperreports.style.name</code> and 
-<code>net.sf.jasperreports.style.style</code> are not supported. This is because styles cannot be defined at element level, and 
-dynamic style features are intended only for overriding an existing style attribute for that element. 
+<code>net.sf.jasperreports.style.style</code> are not supported. They have no meaning and no effects in this implementation. 
+<br/>
+This is because styles cannot be defined at element level, and dynamic style features are intended only for overriding an 
+existing style attribute for that element. For dynamic style definitions one can use conditional styles in the report.
 <br/>
 <br/>
 Following is an example of dynamic style features declared for a given element in JRXML: 
