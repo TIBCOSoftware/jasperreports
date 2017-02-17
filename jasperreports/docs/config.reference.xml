@@ -322,11 +322,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:extensions">
     <name>JasperReports Extensions</name>
-    <content>
-      <property ref="net.sf.jasperreports.extension.{registry_id}.{property_suffix}"/>
-      <property ref="net.sf.jasperreports.extension.registry.factory.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.extensions.registry.class"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:repository">
@@ -3190,10 +3185,6 @@ instantiate sub extensions registries. Each such property contains the fixed pro
 which is used as registry ID when instantiating. The property should have as value the name of a 
  <api href="net/sf/jasperreports/extensions/ExtensionsRegistryFactory.html">ExtensionsRegistryFactory</api> implementation.
     </description>
-    <api>net/sf/jasperreports/extensions/DefaultExtensionsRegistry.html#PROPERTY_REGISTRY_FACTORY_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>3.1.0</since>
   </configProperty>
   
   
@@ -3208,10 +3199,6 @@ For example:
 the <code>net.sf.jasperreports.extension.chart.theme.spring.beans.resource</code> contains the spring beans resource bundle location 
 for the spring-based extensions registry class with the <code>"chart.theme"</code> registry ID.
     </description>
-    <api>net/sf/jasperreports/extensions/DefaultExtensionsRegistry.html#PROPERTY_REGISTRY_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>3.1.0</since>
   </configProperty>
   
   
@@ -3225,11 +3212,6 @@ implementation class.
 This property is only read at initialization time, therefore changing
 the property value at a later time will have no effect. 
     </description>
-    <api>net/sf/jasperreports/extensions/ExtensionsEnvironment.html#PROPERTY_EXTENSIONS_REGISTRY_CLASS</api>
-    <default><code>net.sf.jasperreports.extensions.DefaultExtensionsRegistry</code></default>
-    <scope>Global</scope>
-    <since>3.1.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
