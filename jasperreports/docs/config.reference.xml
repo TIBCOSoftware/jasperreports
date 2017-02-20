@@ -42,14 +42,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:chart.theme">
     <name>Chart Themes</name>
-    <content>
-      <property ref="net.sf.jasperreports.chart.domain.axis.integer.unit"/>
-      <property ref="net.sf.jasperreports.chart.domain.axis.tick.count"/>
-      <property ref="net.sf.jasperreports.chart.domain.axis.tick.interval"/>
-      <property ref="net.sf.jasperreports.chart.range.axis.integer.unit"/>
-      <property ref="net.sf.jasperreports.chart.range.axis.tick.count"/>
-      <property ref="net.sf.jasperreports.chart.range.axis.tick.interval"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:export">
@@ -2873,10 +2865,6 @@ Property containing the label text attached to the measured value in a meter or 
 Flag property enabling the JFreeCharts engine to use integer tick units on a domain value axis. If set to true, it will take precedence over the 
 <code>net.sf.jasperreports.chart.domain.axis.tick.interval</code> and <code>net.sf.jasperreports.chart.domain.axis.tick.count</code> properties.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_INTEGER_UNIT</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -2886,10 +2874,6 @@ Flag property enabling the JFreeCharts engine to use integer tick units on a dom
     <description>
 Property specifying the number of ticks on a domain value axis. If it is not set, the JFreeCharts engine will use its own defaults to instantiate the axis.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_COUNT</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.5.0</since>
   </configProperty>
   
   
@@ -2904,10 +2888,6 @@ If it is not set, the JFreeCharts engine will use its own defaults to instantiat
 <br/>
 By default it is not set.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_TICK_INTERVAL</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.4</since>
   </configProperty>
   
   
@@ -2918,10 +2898,6 @@ By default it is not set.
 Flag property enabling the JFreeCharts engine to use integer tick units on a range value axis. If set to true, it will take precedence over the 
 <code>net.sf.jasperreports.chart.range.axis.tick.interval</code> and <code>net.sf.jasperreports.chart.range.axis.tick.count</code> properties.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_INTEGER_UNIT</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -2933,10 +2909,6 @@ Property specifying the number of ticks on a range value axis. If it is not set,
 <br/>
 By default it is not set.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_COUNT</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.5.0</since>
   </configProperty>
   
   
@@ -2951,10 +2923,6 @@ If it is not set, the JFreeCharts engine will use its own defaults to instantiat
 <br/>
 By default it is not set.
     </description>
-    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_TICK_INTERVAL</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.4</since>
   </configProperty>
   
   
