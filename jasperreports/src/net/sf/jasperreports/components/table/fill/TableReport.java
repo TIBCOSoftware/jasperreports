@@ -160,6 +160,12 @@ public class TableReport implements JRReport
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column has a filtered applied
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "\\2606",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_6_0
+			)
 	public static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
 
 	/**
@@ -182,6 +188,13 @@ public class TableReport implements JRReport
 	 * <p>
 	 * The default global value of this property is <code>true</code>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT, PropertyScope.TABLE_COLUMN},
+			sinceVersion = JRConstants.VERSION_4_7_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
 
 	/**
@@ -202,6 +215,13 @@ public class TableReport implements JRReport
 	 * The default global value of this property is <code>true</code>
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			sinceVersion = JRConstants.VERSION_6_3_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_FLOATING_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.floating.header";
 
 	/**
@@ -219,16 +239,33 @@ public class TableReport implements JRReport
 	 * <p>
 	 * The default global value of this property is <code>false</code>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			sinceVersion = JRConstants.VERSION_6_1_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_GENERATE_TABLE_PDF_TAGS = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.generate.pdf.tags";
 
 	/**
 	 * Column property that specifies the field to be used for sorting, filtering and conditional formatting 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.TABLE_COLUMN},
+			sinceVersion = JRConstants.VERSION_5_0_1
+			)
 	public static final String PROPERTY_COLUMN_FIELD = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.field";
 
 	/**
 	 * Column property that specifies the variable to be used for sorting, filtering and conditional formatting 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.TABLE_COLUMN},
+			sinceVersion = JRConstants.VERSION_5_0_1
+			)
 	public static final String PROPERTY_COLUMN_VARIABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.variable";
 
 	/**
@@ -237,6 +274,13 @@ public class TableReport implements JRReport
 	 * <p>
 	 * It defaults to <code>true</code>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "true",
+			scopes = {PropertyScope.TABLE_COLUMN},
+			sinceVersion = JRConstants.VERSION_5_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_COLUMN_SORTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.sortable";
 
 	/**
@@ -245,6 +289,13 @@ public class TableReport implements JRReport
 	 * <p>
 	 * It defaults to <code>true</code>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "true",
+			scopes = {PropertyScope.TABLE_COLUMN},
+			sinceVersion = JRConstants.VERSION_5_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_COLUMN_FILTERABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.filterable";
 
 	/**
@@ -254,6 +305,13 @@ public class TableReport implements JRReport
 	 * It defaults to <code>true</code>
 	 * @deprecated To be removed.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "true",
+			scopes = {PropertyScope.TABLE_COLUMN},
+			sinceVersion = JRConstants.VERSION_5_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";
 
 

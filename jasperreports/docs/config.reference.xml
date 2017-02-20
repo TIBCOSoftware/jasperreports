@@ -38,19 +38,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:table">
   	<name>Table Component</name>
-  	<content>
-  		<property ref="net.sf.jasperreports.components.filter.char" />
-  		<property ref="net.sf.jasperreports.components.table.generate.pdf.tags" />
-  		<property ref="net.sf.jasperreports.components.table.interactive" />
-        <property ref="net.sf.jasperreports.components.table.floating.header" />
-  		<property ref="net.sf.jasperreports.components.table.column.field" />
-  		<property ref="net.sf.jasperreports.components.table.column.variable" />
-  		<property ref="net.sf.jasperreports.components.table.column.sortable" />
-  		<property ref="net.sf.jasperreports.components.table.column.filterable" />
-  		<property ref="net.sf.jasperreports.components.table.column.conditionally.formattable" />
-  		<property ref="net.sf.jasperreports.components.table.when.no.data.type" />
-  		<property ref="net.sf.jasperreports.create.sort.fields.for.groups" />
-  	</content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:chart.theme">
@@ -2763,10 +2750,6 @@ Property that specifies the character to be used on the column header when the t
     <description>
 Property that specifies the character to be used on the column header when the tables's column has a filtered applied
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_FILTER_CHAR</api>
-    <default>\u2606</default>
-    <scope>Global</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -2777,10 +2760,6 @@ Property that specifies the character to be used on the column header when the t
 Property that enables/disables the automatic addition of specific custom properties to table cell elements, 
 that would in turn trigger the creation of special document accessibility tags during PDF export.
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_GENERATE_TABLE_PDF_TAGS</api>
-    <default>false</default>
-    <scope>Global | Report | Component</scope>
-    <since>6.1.2</since>
   </configProperty>
   
   
@@ -2790,10 +2769,6 @@ that would in turn trigger the creation of special document accessibility tags d
     <description>
 Property that enables/disables the interactivity in the table component
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_INTERACTIVE_TABLE</api>
-    <default>true</default>
-    <scope>Global | Report | Component | Column</scope>
-    <since>4.7.1</since>
   </configProperty>
 
 
@@ -2805,10 +2780,6 @@ Property that enables/disables the interactivity in the table component
       <br/>
       If the interactivity has been disabled by setting <a href="#net.sf.jasperreports.components.table.interactive">net.sf.jasperreports.components.table.interactive</a> to <code>false</code>, then setting this property will have no effect.
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_FLOATING_HEADER</api>
-    <default>true</default>
-    <scope>Global | Report | Component</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -2818,10 +2789,6 @@ Property that enables/disables the interactivity in the table component
     <description>
 Property that specifies the field to be used for sorting and/or filtering
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_FIELD</api>
-    <default>N/A</default>
-    <scope>Column</scope>
-    <since>5.0.1</since>
   </configProperty>
   
   
@@ -2831,10 +2798,6 @@ Property that specifies the field to be used for sorting and/or filtering
     <description>
 Property that specifies the variable to be used for sorting and/or filtering
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_VARIABLE</api>
-    <default>N/A</default>
-    <scope>Column</scope>
-    <since>5.0.1</since>
   </configProperty>
   
   
@@ -2844,10 +2807,6 @@ Property that specifies the variable to be used for sorting and/or filtering
     <description>
 Property that enables/disables sorting
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_SORTABLE</api>
-    <default>true</default>
-    <scope>Column</scope>
-    <since>5.0.1</since>
   </configProperty>
   
   
@@ -2857,10 +2816,6 @@ Property that enables/disables sorting
     <description>
 Property that enables/disables filtering
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_FILTERABLE</api>
-    <default>true</default>
-    <scope>Column</scope>
-    <since>5.0.1</since>
   </configProperty>
   
   
@@ -2870,10 +2825,6 @@ Property that enables/disables filtering
     <description>
 Property that enables/disables conditional formatting
     </description>
-    <api>net/sf/jasperreports/components/table/fill/TableReport.html#PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE</api>
-    <default>true</default>
-    <scope>Column</scope>
-    <since>5.0.1</since>
   </configProperty>
   
   
@@ -2883,10 +2834,6 @@ Property that enables/disables conditional formatting
     <description>
 Property that specifies a default value for the <code>whenNoDataType</code> attribute of table components.
     </description>
-    <api>net/sf/jasperreports/components/table/TableComponent.html#CONFIG_PROPERTY_WHEN_NO_DATA_TYPE</api>
-    <default>Blank</default>
-    <scope>Global | Report</scope>
-    <since>6.0.0</since>
   </configProperty>
 
 
@@ -2898,10 +2845,6 @@ Property that specifies whether additional sort fields should be created automat
 the integrity of dataset groups, when interactive sorting is performed. The groups need to have simple 
 expressions using single field or single variable reference, for this feature to work properly.
     </description>
-    <api>net/sf/jasperreports/components/sort/actions/SortCommand.html#PROPERTY_CREATE_SORT_FIELDS_FOR_GROUPS</api>
-    <default>false</default>
-    <scope>Global | Dataset</scope>
-    <since>4.6.0</since>
   </configProperty>
 
 

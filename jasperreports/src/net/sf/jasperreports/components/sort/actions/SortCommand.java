@@ -25,7 +25,11 @@ package net.sf.jasperreports.components.sort.actions;
 
 import java.util.List;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
+import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
@@ -36,6 +40,7 @@ import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.web.commands.Command;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
@@ -50,6 +55,13 @@ public class SortCommand implements Command
 	 * when interactive sorting is performed. The groups need to have simple expressions using single field or single variable reference, for
 	 * this feature to work properly.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_CREATE_SORT_FIELDS_FOR_GROUPS = JRPropertiesUtil.PROPERTY_PREFIX + "create.sort.fields.for.groups";
 	
 //	private ReportContext reportContext;
