@@ -18,27 +18,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:fill">
     <name>Report Filling</name>
-    <content>
-      <property ref="net.sf.jasperreports.parameter.evaluation.time"/>
-      <property ref="net.sf.jasperreports.property.evaluation.time"/>
-      <property ref="net.sf.jasperreports.print.collapse.missing.bookmark.levels"/>
-      <property ref="net.sf.jasperreports.print.create.bookmarks"/>
-      <property ref="net.sf.jasperreports.print.keep.full.text"/>
-      <property ref="net.sf.jasperreports.style.evaluation.time.enabled"/>
-      <property ref="net.sf.jasperreports.subreport.runner.factory"/>
-      <property ref="net.sf.jasperreports.text.pattern.date"/>
-      <property ref="net.sf.jasperreports.text.pattern.time"/>
-      <property ref="net.sf.jasperreports.text.pattern.datetime"/>
-      <property ref="net.sf.jasperreports.text.pattern.integer"/>
-      <property ref="net.sf.jasperreports.text.pattern.number"/>
-      <property ref="net.sf.jasperreports.text.measurer.factory"/>
-      <property ref="net.sf.jasperreports.text.save.line.breaks"/>
-      <property ref="net.sf.jasperreports.text.truncate.at.char"/>
-      <property ref="net.sf.jasperreports.text.truncate.suffix"/>
-      <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
-      <property ref="net.sf.jasperreports.virtual.page.element.size"/>
-      <property ref="net.sf.jasperreports.when.no.data.type"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:governor">
@@ -2318,10 +2297,6 @@ a given styled text having the markup type specified in the property suffix.
 This property is used to determine whether missing bookmarks levels should be colapsed when 
 the propety <a href="#net.sf.jasperreports.print.create.bookmarks">net.sf.jasperreports.print.create.bookmarks</a> is set
     </description>
-    <api>net/sf/jasperreports/engine/JasperPrint.html#PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -2331,10 +2306,6 @@ the propety <a href="#net.sf.jasperreports.print.create.bookmarks">net.sf.jasper
     <description>
 Property used to determine whether bookmarks should be collected at report generation time.
     </description>
-    <api>net/sf/jasperreports/engine/JasperPrint.html#PROPERTY_CREATE_BOOKMARKS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -2345,10 +2316,6 @@ Property used to determine whether bookmarks should be collected at report gener
 Property used to determine whether the fill process must preserve the original text for text elements that are not able to fit their entire contents.
 When this property is set, the engine saves the original text in the <api href="net/sf/jasperreports/engine/JRPrintText.html">JRPrintText</api> print text object, along with the index at which the text is to be truncated by the print object.
     </description>
-    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_PRINT_KEEP_FULL_TEXT</api>
-    <default>false</default>
-    <scope>Global | Report | Text Element</scope>
-    <since>2.0.3</since>
   </configProperty>
   
   
@@ -2359,10 +2326,6 @@ When this property is set, the engine saves the original text in the <api href="
 Boolean property that determines whether text elements are to be truncated at the last character that fits.
 By default, when the entire text of a text element does not fit the element's area, the text is truncated at the last word that fits the area.<br/>
     </description>
-    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_AT_CHAR</api>
-    <default>false</default>
-    <scope>Global | Report | Text Element</scope>
-    <since>2.0.3</since>
   </configProperty>
   
   
@@ -2374,10 +2337,6 @@ Property whose value is used as a suffix for the truncated text.
 The suffix is appended to the text when truncation occurs.
 If the property is not defined or empty (which is the case by default), no suffix will be used when the text is truncated.
     </description>
-    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_TRUNCATE_SUFFIX</api>
-    <default>empty string</default>
-    <scope>Global | Report | Text Element</scope>
-    <since>2.0.3</since>
   </configProperty>
   
   
@@ -2392,10 +2351,6 @@ Then one can define an alias of the text measurer factory implementation by decl
 The <code>net.sf.jasperreports.text.measurer.factory</code> property is set to a defined alias or a full factory class name. 
 The factory class is used to instantiate text measurers for report text elements, which are then used to compute the text layout attributes. 
     </description>
-    <api>net/sf/jasperreports/engine/util/JRTextMeasurerUtil.html#PROPERTY_TEXT_MEASURER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.fill.TextMeasurerFactory</code></default>
-    <scope>Global | Report | Text Element</scope>
-    <since>2.0.3</since>
   </configProperty>
   
   
@@ -2421,10 +2376,6 @@ measurement at fill time.
 Currently, the HTML exporter will make use of the saved line break
 positions by introducing explicit line breaks.
     </description>
-    <api>net/sf/jasperreports/engine/JRTextElement.html#PROPERTY_SAVE_LINE_BREAKS</api>
-    <default><code>false</code></default>
-    <scope>Global | Report | Text Element</scope>
-    <since>3.5.1</since>
   </configProperty>
 
 
@@ -2435,10 +2386,6 @@ positions by introducing explicit line breaks.
 Property used to decide whether <code>java.io.File#deleteOnExit()</code> should be requested for temporary files created by the virtualizer.
 Temporary files will be deleted by explicitly calling <code>cleanup()</code> or from the virtualizer <code>finalize()</code> method.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JRFileVirtualizer.html#PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT</api>
-    <default>true</default>
-    <scope>Global</scope>
-    <since>1.2.3</since>
   </configProperty>
 
 
@@ -2462,10 +2409,6 @@ Note that virtual page sizes will actually vary around the configured size since
 If set to 0 or negative, report pages will not be broken into several virtual pages.
 </p>
     </description>
-    <api>net/sf/jasperreports/engine/base/JRVirtualPrintPage.html#PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE</api>
-    <default>2000</default>
-    <scope>Global | Report</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
@@ -2475,10 +2418,6 @@ If set to 0 or negative, report pages will not be broken into several virtual pa
     <description>
 Property that specifies a default value for the <code>whenNoDataType</code> attribute of report.
     </description>
-    <api>net/sf/jasperreports/engine/JRReport.html#CONFIG_PROPERTY_WHEN_NO_DATA_TYPE</api>
-    <default>NoPages</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
 
 
@@ -2488,10 +2427,6 @@ Property that specifies a default value for the <code>whenNoDataType</code> attr
     <description>
 Property specifying the <api href="net/sf/jasperreports/engine/fill/JRSubreportRunnerFactory.html">JRSubreportRunnerFactory</api> implementation to use for creating subreport runners.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JRSubreportRunnerFactory.html#SUBREPORT_RUNNER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.fill<br/>.JRThreadSubreportRunnerFactory</code></default>
-    <scope>Global</scope>
-    <since>1.2.2</since>
   </configProperty>
   
   
@@ -2544,10 +2479,6 @@ This applies to report elements that can have delayed evaluations times
 associated with the element are evaluated at the moment the element is
 set to evaluate, and the resulting style to the generated print element.
     </description>
-    <api>net/sf/jasperreports/engine/JRStyle.html#PROPERTY_EVALUATION_TIME_ENABLED</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.5.2</since>
   </configProperty>
   
   
@@ -6694,10 +6625,6 @@ Possible values are defined by the <api href="net/sf/jasperreports/engine/type/P
   <li><code>Report</code> - Evaluate the property expression at the end of the report.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/type/PropertyEvaluationTimeType.html#PROPERTY_EVALUATION_TIME</api>
-    <default>Early</default>
-    <scope>Global | Dataset</scope>
-    <since>6.3.1</since>
   </configProperty>
 
 
@@ -6733,10 +6660,6 @@ Locale specific values can be configured by appending _&lt;locale code&gt; to th
 The property can be set at global/JasperReports context level.
 </p>
     </description>
-    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATE</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -6754,10 +6677,6 @@ Locale specific values can be configured by appending _&lt;locale code&gt; to th
 The property can be set at global/JasperReports context level.
 </p>
     </description>
-    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_TIME</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -6775,10 +6694,6 @@ Locale specific values can be configured by appending _&lt;locale code&gt; to th
 The property can be set at global/JasperReports context level.
 </p>
     </description>
-    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_DATETIME</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -6796,10 +6711,6 @@ Locale specific values can be configured by appending _&lt;locale code&gt; to th
 The property can be set at global/JasperReports context level.
 </p>
     </description>
-    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_INTEGER</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -6817,10 +6728,6 @@ Locale specific values can be configured by appending _&lt;locale code&gt; to th
 The property can be set at global/JasperReports context level.
 </p>
     </description>
-    <api>net/sf/jasperreports/engine/JRTextField.html#PROPERTY_PATTERN_NUMBER</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   

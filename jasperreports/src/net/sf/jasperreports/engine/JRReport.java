@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -281,6 +284,13 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 	/**
 	 * Property that specifies a default value for the <code>whenNoDataType</code> attribute of report.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "NoPages",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_3_1,
+			valueType = WhenNoDataTypeEnum.class
+			)
 	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "when.no.data.type";
 
 	/**

@@ -37,6 +37,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -46,6 +48,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.Renderable;
 
 /**
@@ -83,6 +86,13 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	 * (as an integer, using the property name as parameter name).
 	 * The default value is 2000.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "2000",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_1_3,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "virtual.page.element.size";
 	

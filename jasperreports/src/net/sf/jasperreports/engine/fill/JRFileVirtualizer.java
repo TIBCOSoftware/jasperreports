@@ -37,11 +37,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,6 +74,13 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 * Temporary files will be deleted by explicitly calling {@link #cleanup() cleanup()} or from the virtualizer
 	 * <code>finalize()</code> method.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_1_2_3,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT = JRPropertiesUtil.PROPERTY_PREFIX + "virtualizer.files.delete.on.exit";
 
 	private final JasperReportsContext jasperReportsContext;

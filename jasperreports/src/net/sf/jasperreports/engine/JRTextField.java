@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 //import java.text.Format;
 
@@ -156,6 +159,11 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * </p>
 	 * @since 6.0.0
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_0_0
+			)
 	public static final String PROPERTY_PATTERN_DATE = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.date";
 
 	/**
@@ -170,6 +178,11 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * </p>
 	 * @since 6.0.0
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_0_0
+			)
 	public static final String PROPERTY_PATTERN_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.time";
 
 	/**
@@ -185,6 +198,11 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * </p>
 	 * @since 6.0.0
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_0_0
+			)
 	public static final String PROPERTY_PATTERN_DATETIME = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.datetime";
 
 	/**
@@ -200,6 +218,11 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * </p>
 	 * @since 6.0.0
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_0_0
+			)
 	public static final String PROPERTY_PATTERN_INTEGER = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.integer";
 
 	/**
@@ -214,6 +237,11 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	 * </p>
 	 * @since 6.0.0
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_0_0
+			)
 	public static final String PROPERTY_PATTERN_NUMBER = JRPropertiesUtil.PROPERTY_PREFIX + "text.pattern.number";
 	
 	/**

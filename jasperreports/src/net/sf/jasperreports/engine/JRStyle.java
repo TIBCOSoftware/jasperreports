@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
@@ -34,6 +36,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Provides a collection of style settings declared at the report level.
@@ -203,6 +206,13 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	 * By default, this flag is set to <code>false</code>.  The property can be
 	 * set globally, at report level and at element level.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_5_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_EVALUATION_TIME_ENABLED = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "style.evaluation.time.enabled";
 	

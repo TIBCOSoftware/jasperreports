@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 
@@ -58,6 +61,13 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 	 * @see JRStyledTextUtil#getTruncatedText(JRPrintText)
 	 * @see JRPrintText#getTextTruncateIndex()
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+			sinceVersion = JRConstants.VERSION_2_0_3,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_PRINT_KEEP_FULL_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "print.keep.full.text";
 	
 	/**
@@ -75,6 +85,13 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 	 * The property can be set at the same levels as {@link #PROPERTY_PRINT_KEEP_FULL_TEXT}.
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+			sinceVersion = JRConstants.VERSION_2_0_3,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_TRUNCATE_AT_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "text.truncate.at.char";
 
 	/**
@@ -90,6 +107,12 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 	 * The property can be set at the same levels as {@link #PROPERTY_PRINT_KEEP_FULL_TEXT}.
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "empty string",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+			sinceVersion = JRConstants.VERSION_2_0_3
+			)
 	public static final String PROPERTY_TRUNCATE_SUFFIX = JRPropertiesUtil.PROPERTY_PREFIX + "text.truncate.suffix";
 	
 	/**
@@ -119,6 +142,13 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 	 * 
 	 * @see JRPrintText#getLineBreakOffsets()
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "false",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_5_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_SAVE_LINE_BREAKS = JRPropertiesUtil.PROPERTY_PREFIX 
 			+ "text.save.line.breaks";
 	

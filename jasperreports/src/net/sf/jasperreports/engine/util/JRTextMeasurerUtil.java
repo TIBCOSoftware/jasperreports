@@ -25,7 +25,10 @@ package net.sf.jasperreports.engine.util;
 
 import java.util.Locale;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -35,6 +38,7 @@ import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Text measurer utility class.
@@ -92,6 +96,12 @@ public final class JRTextMeasurerUtil
 	 * 
 	 * @see JRTextMeasurerFactory
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "net.sf.jasperreports.engine.fill.TextMeasurerFactory",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_2_0_3
+			)
 	public static final String PROPERTY_TEXT_MEASURER_FACTORY = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "text.measurer.factory";
 	
