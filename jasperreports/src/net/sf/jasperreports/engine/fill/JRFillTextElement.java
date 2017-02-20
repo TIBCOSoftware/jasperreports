@@ -29,7 +29,10 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -53,6 +56,7 @@ import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.MarkupProcessor;
 import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
 import net.sf.jasperreports.engine.util.StyleUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -61,10 +65,18 @@ import net.sf.jasperreports.engine.util.StyleUtil;
 public abstract class JRFillTextElement extends JRFillElement implements JRTextElement
 {
 	
-	public static final String PROPERTY_CONSUME_SPACE_ON_OVERFLOW = 
-			JRPropertiesUtil.PROPERTY_PREFIX + "consume.space.on.overflow";
 	public static final String EXCEPTION_MESSAGE_KEY_MISSING_MARKUP_PROCESSOR_FACTORY = "fill.text.element.missing.markup.processor.factory";
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_START_INDEX = "fill.text.element.invalid.start.index";
+
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_3_1,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_CONSUME_SPACE_ON_OVERFLOW = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "consume.space.on.overflow";
 
 	/**
 	 *

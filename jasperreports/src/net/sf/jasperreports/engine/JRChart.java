@@ -25,7 +25,10 @@ package net.sf.jasperreports.engine;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -44,11 +47,23 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 	 * <p>
 	 * Defaults to <code>draw</code>.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "draw",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_5
+			)
 	public static final String PROPERTY_CHART_RENDER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "chart.render.type";//FIXMECHART javadoc comment
 
 	/**
 	 * Property used to specify the chart theme name.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "default",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_1_0
+			)
 	public static final String PROPERTY_CHART_THEME = JRPropertiesUtil.PROPERTY_PREFIX + "chart.theme";
 
 

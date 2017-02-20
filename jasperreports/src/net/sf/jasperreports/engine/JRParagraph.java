@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 
@@ -43,6 +46,13 @@ public interface JRParagraph extends JRStyleContainer
 	 * 
 	 * @see net.sf.jasperreports.engine.export.AbstractTextRenderer#getLineHeight(boolean, JRParagraph, float, float)
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "1",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Integer.class
+			)
 	public static final String DEFAULT_LINE_SPACING_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "default.line.spacing.size";
 	
 	/**
@@ -50,6 +60,13 @@ public interface JRParagraph extends JRStyleContainer
 	 * <br/>
 	 * By default the first line in JR paragraphs has no indentation. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Integer.class
+			)
 	public static final String DEFAULT_FIRST_LINE_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.first.line.indent";
 	
 	/**
@@ -57,6 +74,13 @@ public interface JRParagraph extends JRStyleContainer
 	 * <br/>
 	 * By default JR paragraphs provide no left indentation. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Integer.class
+			)
 	public static final String DEFAULT_LEFT_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.left.indent";
 	
 	/**
@@ -64,6 +88,13 @@ public interface JRParagraph extends JRStyleContainer
 	 * <br/>
 	 * By default JR paragraphs provide no right indentation. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Integer.class
+			)
 	public static final String DEFAULT_RIGHT_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.right.indent";
 	
 	/**
@@ -71,6 +102,13 @@ public interface JRParagraph extends JRStyleContainer
 	 * <br/>
 	 * By default JR paragraphs provide no spacing before lines. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Integer.class
+			)
 	public static final String DEFAULT_SPACING_BEFORE = JRPropertiesUtil.PROPERTY_PREFIX + "default.spacing.before";
 	
 	/**
@@ -78,6 +116,13 @@ public interface JRParagraph extends JRStyleContainer
 	 * <br/>
 	 * By default JR paragraphs provide no spacing after lines. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Integer.class
+			)
 	public static final String DEFAULT_SPACING_AFTER = JRPropertiesUtil.PROPERTY_PREFIX + "default.spacing.after";
 	
 	/**
@@ -85,6 +130,13 @@ public interface JRParagraph extends JRStyleContainer
 	 * <br/>
 	 * By default JR paragraphs provide 40 pixels wide tab stops. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "40",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Integer.class
+			)
 	public static final String DEFAULT_TAB_STOP_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "default.tab.stop.width";
 
 	/**

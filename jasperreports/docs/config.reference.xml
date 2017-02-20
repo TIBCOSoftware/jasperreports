@@ -19,28 +19,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:fill">
     <name>Report Filling</name>
     <content>
-      <property ref="net.sf.jasperreports.chart.render.type"/>
-      <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
-      <property ref="net.sf.jasperreports.chart.theme"/>
-      <property ref="net.sf.jasperreports.customizer.class.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}"/>
-      <property ref="net.sf.jasperreports.consume.space.on.overflow"/>
-      <property ref="net.sf.jasperreports.default.first.line.indent"/>
-      <property ref="net.sf.jasperreports.default.left.indent"/>
-      <property ref="net.sf.jasperreports.default.line.spacing.size"/>
-      <property ref="net.sf.jasperreports.default.right.indent"/>
-      <property ref="net.sf.jasperreports.default.spacing.after"/>
-      <property ref="net.sf.jasperreports.default.spacing.before"/>
-      <property ref="net.sf.jasperreports.default.tab.stop.width"/>
-      <property ref="net.sf.jasperreports.default.locale"/>
-      <property ref="net.sf.jasperreports.default.timezone"/>
-      <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
-      <property ref="net.sf.jasperreports.evaluator.ignore.npe"/>
-      <property ref="net.sf.jasperreports.frame.border.split.type"/>
-      <property ref="net.sf.jasperreports.image.encoder"/>
-      <property ref="net.sf.jasperreports.image.reader"/>
-      <property ref="net.sf.jasperreports.markup.processor.factory.{markup}"/>
-      <property ref="net.sf.jasperreports.page.break.no.pagination"/>
       <property ref="net.sf.jasperreports.parameter.evaluation.time"/>
       <property ref="net.sf.jasperreports.property.evaluation.time"/>
       <property ref="net.sf.jasperreports.print.collapse.missing.bookmark.levels"/>
@@ -2128,11 +2106,14 @@ Specifies whether duplicated key entries in pie dataset should be ignored and on
   <configProperty name="net.sf.jasperreports.chart.render.type">
     <description>
 Specifies the default render type for charts. See the <code>renderType</code> attribute of the chart elements.
+<br/>
+Possible values are:
+<ul>
+<li><code>draw</code></li>
+<li><code>image</code></li>
+<li><code>svg</code></li>
+</ul>
     </description>
-    <api>net/sf/jasperreports/engine/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
-    <default>draw</default>
-    <scope>Global | Report</scope>
-    <since>2.0.5</since>
   </configProperty>
   
   
@@ -2145,10 +2126,6 @@ Prefix for properties that map chart renderers.
 Properties having this prefix indicate the JRRenderable implementation to be used when rendering
 a chart element having a rendering type specified in the property suffix.
     </description>
-    <api>net/sf/jasperreports/charts/util/JRChart.html#PROPERTY_CHART_RENDER_TYPE</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>2.0.5</since>
   </configProperty>
   
   
@@ -2158,10 +2135,6 @@ a chart element having a rendering type specified in the property suffix.
     <description>
 Property used to specify the chart theme name.
     </description>
-    <api>net/sf/jasperreports/engine/ChartRenderableFactory.html#PROPERTY_CHART_RENDERER_FACTORY_PREFIX</api>
-    <default>default</default>
-    <scope>Global | Report</scope>
-    <since>3.1.0</since>
   </configProperty>
   
   
@@ -2179,10 +2152,6 @@ Named customizer implementations such as the ones extending the <api href="net/s
 use this name to read custom chart element properties that are supposed to be their own, because they have this name as part of the full custom property name in the form of 
 net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}. 
     </description>
-    <api>net/sf/jasperreports/engine/JRChartCustomizer.html#CUSTOMIZER_CLASS_PROPERTY_PREFIX</api>
-    <default>N/A</default>
-    <scope>Chart</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -2190,13 +2159,10 @@ net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}.
   
   <configProperty name="net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}">
     <description>
-Properties having this form are usually supposed to be read by NamedChartCustomizer instances assigned to a chart element using a custom property in the form of  
-net.sf.jasperreports.customizer.class.{arbitrary_name}. 
+Properties having this form are usually supposed to be read by <api href="net/sf/jasperreports/engine/NamedChartCustomizer.html">NamedChartCustomizer</api> 
+instances assigned to a chart element using a custom property in the form of 
+<a href="#net.sf.jasperreports.customizer.class.{arbitrary_name}" target="_blank">net.sf.jasperreports.customizer.class.{arbitrary_name}</a>. 
     </description>
-    <api>net/sf/jasperreports/engine/NamedChartCustomizer.html</api>
-    <default>N/A</default>
-    <scope>Global | Report | Chart</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -2206,10 +2172,6 @@ net.sf.jasperreports.customizer.class.{arbitrary_name}.
     <description>
 Property used to force the expanding text fields to occupy all remaining space at the bottom of the page so that no other element renders there.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JRFillTextElement.html#PROPERTY_CONSUME_SPACE_ON_OVERFLOW</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -2221,10 +2183,6 @@ Specifies the default value (in pixels) for the first line indent, if no explici
 <br/>
 By default the first line in JR paragraphs has no indentation. 
     </description>
-    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_FIRST_LINE_INDENT</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>4.0.2</since>
   </configProperty>
   
   
@@ -2254,10 +2212,6 @@ Specifies the default value (in pixels) for the left indent, if no explicit info
 <br/>
 By default JR paragraphs provide no left indentation. 
     </description>
-    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_LEFT_INDENT</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>4.0.2</since>
   </configProperty>
   
 
@@ -2276,10 +2230,6 @@ This value is used in combination with the size-dependent line spacings in
 <li><api href="net/sf/jasperreports/engine/type/LineSpacingEnum.html#PROPORTIONAL">PROPORTIONAL</api></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_LINE_SPACING_SIZE</api>
-    <default>1</default>
-    <scope>Global</scope>
-    <since>4.0.2</since>
   </configProperty>
   
 
@@ -2291,10 +2241,6 @@ Specifies the default value (in pixels) for the right indent, if no explicit inf
 <br/>
 By default JR paragraphs provide no right indentation. 
     </description>
-    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_RIGHT_INDENT</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>4.0.2</since>
   </configProperty>
   
 
@@ -2306,10 +2252,6 @@ Specifies the default value (in pixels) for the spacing after lines, if no expli
 <br/>
 By default JR paragraphs provide no spacing after lines. 
     </description>
-    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_SPACING_AFTER</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>4.0.2</since>
   </configProperty>
   
 
@@ -2321,10 +2263,6 @@ Specifies the default value (in pixels) for the spacing before lines, if no expl
 <br/>
 By default JR paragraphs provide no spacing before lines. 
     </description>
-    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_SPACING_BEFORE</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>4.0.2</since>
   </configProperty>
   
 
@@ -2336,10 +2274,6 @@ Specifies the default value (in pixels) for the tab stop width, if no explicit i
 <br/>
 By default JR paragraphs provide 40 pixels wide tab stops. 
     </description>
-    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_TAB_STOP_WIDTH</api>
-    <default>40</default>
-    <scope>Global</scope>
-    <since>4.0.2</since>
   </configProperty>
   
 
@@ -2351,10 +2285,6 @@ Property specifying the name of the class implementing the
 <api href="net/sf/jasperreports/engine/util/JRImageEncoder.html">JRImageEncoder</api> interface to be used by the engine. 
 If not set, the engine will try to an image encoder implementation that corresponds to the JVM version.
     </description>
-    <api>net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_ENCODER</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>2.0.5</since>
   </configProperty>
   
   
@@ -2366,10 +2296,6 @@ Property specifying the name of the class implementing the
 <api href="net/sf/jasperreports/engine/util/JRImageReader.html">JRImageReader</api> interface to be used by the engine. 
 If not set, the engine will try to an image reader implementation that corresponds to the JVM version.
     </description>
-    <api>net/sf/jasperreports/engine/util/JRImageLoader.html#PROPERTY_IMAGE_READER</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>2.0.5</since>
   </configProperty>
   
   
@@ -2382,10 +2308,6 @@ Prefix for properties that map markup text processors.
 Properties having this prefix indicate the MarkupProcessor implementation to be used when parsing 
 a given styled text having the markup type specified in the property suffix.
     </description>
-    <api>net/sf/jasperreports/engine/util/MarkupProcessorFactory.html#PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>2.0.5</since>
   </configProperty>
   
   
@@ -2588,10 +2510,6 @@ loaded by different classloaders, e.g. when JasperReports is part of
 the classpath of a web application which is often reloaded.  In such
 scenarios, set this property to false.
     </description>
-    <api>net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html#PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED</api>
-    <default>true</default>
-    <scope>Global</scope>
-    <since>3.0.0</since>
   </configProperty>
 
 
@@ -2609,10 +2527,6 @@ evaluation engine to treat NPEs just the way all other expression exceptions are
 The default value of this configuration property is true, meaning NPEs are ignored. 
 The property can be set globally, at report or at dataset level.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JREvaluator.html#PROPERTY_IGNORE_NPE</api>
-    <default>true</default>
-    <scope>Global | Dataset</scope>
-    <since>6.1.1</since>
   </configProperty>
 
 
@@ -6749,10 +6663,6 @@ Possible values are:
   <li><code>apply</code> - page breaks are honoured in non paginated reports.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/JRBreak.html#PROPERTY_PAGE_BREAK_NO_PAGINATION</api>
-    <default>ignore</default>
-    <scope>Global | Report | Element</scope>
-    <since>5.0.4</since>
   </configProperty>
   
   
@@ -6768,10 +6678,6 @@ Possible values are defined by the <api href="net/sf/jasperreports/engine/type/P
   <li><code>Late</code> - Evaluate the parameter default value expression after parameter contributors.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/type/ParameterEvaluationTimeType.html#PROPERTY_EVALUATION_TIME</api>
-    <default>Late</default>
-    <scope>Global | Dataset</scope>
-    <since>6.3.1</since>
   </configProperty>
 
 
@@ -6801,10 +6707,6 @@ Possible values are defined by the <api href="net/sf/jasperreports/engine/type/P
     <description>
 The default locale used to fill reports.  The property is overridden by the <code>REPORT_LOCALE</code> parameter value.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JRFiller.html#PROPERTY_DEFAULT_LOCALE</api>
-    <default>system locale</default>
-    <scope>Global | Report</scope>
-    <since>5.2.0</since>
   </configProperty>
   
   
@@ -6814,10 +6716,6 @@ The default locale used to fill reports.  The property is overridden by the <cod
     <description>
 The default time zone used to fill reports.  The property is overridden by the <code>REPORT_TIME_ZONE</code> parameter value.
     </description>
-    <api>net/sf/jasperreports/engine/fill/JRFiller.html#PROPERTY_DEFAULT_TIMEZONE</api>
-    <default>system time zone</default>
-    <scope>Global | Report</scope>
-    <since>5.2.0</since>
   </configProperty>
   
   
@@ -6938,10 +6836,6 @@ The property value can be NoBorders, in which case frames that span two pages do
 and DrawBorders, in which case both fragments have borders drawn on all sides.
 </p>
     </description>
-    <api>net/sf/jasperreports/engine/JRFrame.html#PROPERTY_BORDER_SPLIT_TYPE</api>
-    <default>NoBorders</default>
-    <scope>Global | Report</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   

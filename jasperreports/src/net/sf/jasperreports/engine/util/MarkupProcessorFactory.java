@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -34,6 +38,12 @@ public interface MarkupProcessorFactory
 	/**
 	 * 
 	 */
+	@Property(
+			name = "net.sf.jasperreports.markup.processor.factory.{markup}",
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_2_0_5
+			)
 	public static final String PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "markup.processor.factory.";
 	
 	/**

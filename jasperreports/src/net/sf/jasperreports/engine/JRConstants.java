@@ -79,6 +79,8 @@ public interface JRConstants
 	
 	public static final String VERSION_2_0_5 = "2.0.5";
 	
+	public static final String VERSION_3_0_0 = "3.0.0";
+	
 	public static final String VERSION_3_0_1 = "3.0.1";
 	
 	public static final String VERSION_3_1_0 = "3.1.0";
@@ -136,6 +138,8 @@ public interface JRConstants
 	public static final String VERSION_5_0_4 = "5.0.4";
 	
 	public static final String VERSION_5_1_2 = "5.1.2";
+	
+	public static final String VERSION_5_2_0 = "5.2.0";
 	
 	public static final String VERSION_5_5_0 = "5.5.0";
 	

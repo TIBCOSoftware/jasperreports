@@ -30,6 +30,9 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
@@ -38,6 +41,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.functions.FunctionSupport;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Base class for the dynamically generated expression evaluator classes.
@@ -65,6 +69,8 @@ import net.sf.jasperreports.functions.FunctionSupport;
  */
 public abstract class JREvaluator implements DatasetExpressionEvaluator
 {
+	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "fill.evaluator.resource.not.found";
+	
 	/**
 	 * The expression evaluation engine in JasperReports has always ignored java.lang.NullPointerException 
 	 * exceptions raised during expression evaluation. An expression raising NullPointerException is evaluated to null. 
@@ -74,10 +80,15 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * The default value of this configuration property is true, meaning NPEs are ignored. 
 	 * The property can be set globally, at report or at dataset level. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "true",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			sinceVersion = JRConstants.VERSION_6_1_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_NPE = JRPropertiesUtil.PROPERTY_PREFIX + "evaluator.ignore.npe";
 
-	public static final String EXCEPTION_MESSAGE_KEY_RESOURCE_NOT_FOUND = "fill.evaluator.resource.not.found";
-	
 	/**
 	 * The resource bundle parameter.
 	 */

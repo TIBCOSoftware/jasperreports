@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.type.BorderSplitType;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 
@@ -62,6 +65,13 @@ public interface JRFrame extends JRElement, JRElementGroup, JRBoxContainer
 	 * 
 	 * @see #getBorderSplitType()
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "NoBorders",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_0_0,
+			valueType = BorderSplitType.class
+			)
 	String PROPERTY_BORDER_SPLIT_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "frame.border.split.type";
 	
 	/**

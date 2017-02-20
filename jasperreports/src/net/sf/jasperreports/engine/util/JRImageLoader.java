@@ -25,11 +25,15 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Image;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -43,12 +47,22 @@ public final class JRImageLoader
 	 * Configuration property specifying the name of the class implementing the {@link JRImageReader} interface
 	 * to be used by the engine. If not set, the engine will try to an image reader implementation that corresponds to the JVM version.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_2_0_5
+			)
 	public static final String PROPERTY_IMAGE_READER = JRPropertiesUtil.PROPERTY_PREFIX + "image.reader";
 
 	/**
 	 * Configuration property specifying the name of the class implementing the {@link JRImageEncoder} interface
 	 * to be used by the engine. If not set, the engine will try to an image encoder implementation that corresponds to the JVM version.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_2_0_5
+			)
 	public static final String PROPERTY_IMAGE_ENCODER = JRPropertiesUtil.PROPERTY_PREFIX + "image.encoder";
 
 	public static final String PIXEL_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/pixel.GIF";
