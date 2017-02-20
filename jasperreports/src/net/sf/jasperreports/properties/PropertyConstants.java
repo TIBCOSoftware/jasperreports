@@ -57,6 +57,8 @@ public interface PropertyConstants
 	String CATEGORY_EXTENSIONS = PREFIX_CATEGORY + "extensions";
 	
 	String CATEGORY_REPOSITORY = PREFIX_CATEGORY + "repository";
+	
+	String CATEGORY_OTHER = PREFIX_CATEGORY + "other";
 
 	String BOOLEAN_FALSE = "false";
 	

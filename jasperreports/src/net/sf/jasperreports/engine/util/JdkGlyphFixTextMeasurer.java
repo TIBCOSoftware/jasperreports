@@ -26,12 +26,16 @@ package net.sf.jasperreports.engine.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.TextMeasurer;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * A text measurer implementation that extends
@@ -73,6 +77,13 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 	 * 
 	 * @see #DEFAULT_ATTEMPTS
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = "20",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_3_0_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_ATTEMPTS = JRPropertiesUtil.PROPERTY_PREFIX 
 			+ "jdk.glyph.fix.text.measurer.attempts";
 	
@@ -85,6 +96,13 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 	 * 
 	 * @see #DEFAULT_ATTEMPT_SLEEP
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_3_0_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_ATTEMPT_SLEEP = JRPropertiesUtil.PROPERTY_PREFIX 
 			+ "jdk.glyph.fix.text.measurer.sleep";
 	
@@ -95,6 +113,13 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 	 * This is useful when running on a Sun server JVM (java -server), which might omit
 	 * exception stacktraces in some cases.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_3_0_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_CATCH_EMPTY_STACKTRACE = JRPropertiesUtil.PROPERTY_PREFIX 
 			+ "jdk.glyph.fix.text.measurer.catch.empty.stakctrace";
 	

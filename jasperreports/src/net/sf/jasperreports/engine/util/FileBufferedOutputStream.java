@@ -34,9 +34,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,6 +58,13 @@ public class FileBufferedOutputStream extends OutputStream
 	/**
 	 * Specifies the maximum in-memory buffer length that triggers the creation of a temporary file on disk to store further content sent to this output stream.  
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = "262144",
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = JRConstants.VERSION_1_3_4,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_MEMORY_THRESHOLD = JRPropertiesUtil.PROPERTY_PREFIX + "file.buffer.os.memory.threshold";
 	//public static final int DEFAULT_MEMORY_THRESHOLD = 1 << 18;
 	public static final int INFINIT_MEMORY_THRESHOLD = -1;

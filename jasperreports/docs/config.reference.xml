@@ -266,20 +266,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:other">
     <name>Other</name>
-    <content>
-      <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
-      <property ref="net.sf.jasperreports.components.{built_in_component_name}.version"/>
-      <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
-      <property ref="net.sf.jasperreports.image.dpi"/>
-      <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
-      <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
-      <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace"/>
-      <property ref="net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}"/>
-      <property ref="net.sf.jasperreports.properties"/>
-      <property ref="net.sf.jasperreports.report.version"/>
-      <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
-      <property ref="net.sf.jasperreports.xml.load.unknown.entities"/>
-    </content>
   </category>
   
   
@@ -2977,11 +2963,6 @@ Property specifying the maximum in-memory buffer length that triggers the creati
 <b>Note:</b> While the Global level setting is available for all document exporters, the Report level setting is processed for the XLSX output 
 format only. To avoid memory leaks when exporting reports with a large number of sheets to XLSX format, just set this property to 0 at report level.
     </description>
-    <api>net/sf/jasperreports/engine/util/FileBufferedOutputStream.html#PROPERTY_MEMORY_THRESHOLD</api>
-    <default>262144</default>
-    <scope>Global | Report</scope>
-    <since>1.3.4</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -2991,10 +2972,6 @@ format only. To avoid memory leaks when exporting reports with a large number of
     <description>
 Specifies the image resolution in dots-per-inch, for the images created by the engine when rasterizing SVGs or when clipping other renderers.
     </description>
-    <api>net/sf/jasperreports/engine/JRRenderable.html#PROPERTY_IMAGE_DPI</api>
-    <default>72</default>
-    <scope>Global</scope>
-    <since>4.1.1</since>
   </configProperty>
   
   
@@ -3006,10 +2983,6 @@ The name of the system property that specifies the properties file name.
 If the system property <code>net.sf.jasperreports.properties</code> has been set then the specified properties file is loaded. 
 Otherwise the <code>jasperreports.properties</code> file is loaded, if found in the classpath.
     </description>
-    <api>net/sf/jasperreports/engine/DefaultJasperReportsContext.html#PROPERTIES_FILE</api>
-    <default>jasperreports.properties</default>
-    <scope>System</scope>
-    <since>1.0.0</since>
   </configProperty>
   
   
@@ -3022,9 +2995,6 @@ this version will be skipped by the JRXML writers (see the <code><api href="net/
 during the report template generation. If not set, the version is considered to be the currenly deployed version.
 	</description>
     <api>net/sf/jasperreports/engine/xml/JRXmlBaseWriter.html#PROPERTY_REPORT_VERSION</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>4.8.0</since>
   </configProperty>
   
   
@@ -3036,10 +3006,6 @@ Maximum size (in pixels) of a buffered image that would be used by <api href="ne
 If rendering a report page would require an image larger than this threshold (i.e. image width x image height > maximum size), the report page will be rendered directly on the viewer component.
 If this property is zero or negative, buffered images will never be used to render a report page.
     </description>
-    <api>net/sf/jasperreports/view/JRViewer.html#VIEWER_RENDER_BUFFER_MAX_SIZE</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>1.2.8</since>
   </configProperty>
   
   
@@ -3050,10 +3016,6 @@ If this property is zero or negative, buffered images will never be used to rend
 A property that specifies the number of times the measurer should attempt 
 to measure a single text element before giving up.
     </description>
-    <api>net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPTS</api>
-    <default>20</default>
-    <scope>Global</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   
@@ -3067,10 +3029,6 @@ measuring reattempts.
 The default value is 0, which means that the measurer will not pause 
 between reattempts (see <api href="net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#DEFAULT_ATTEMPT_SLEEP">DEFAULT_ATTEMPT_SLEEP</api>).
     </description>
-    <api>net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_ATTEMPT_SLEEP</api>
-    <default>0</default>
-    <scope>Global</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   
@@ -3084,10 +3042,6 @@ should be caught.
 This is useful when running on a Sun server JVM (java -server), which might omit 
 exception stacktraces in some cases.
     </description>
-    <api>net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#PROPERTY_CATCH_EMPTY_STACKTRACE</api>
-    <default>false</default>
-    <scope>Global</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   
@@ -3102,10 +3056,6 @@ excluded from the generated JRXML representation.
 <br/>
 This feature does not apply to property expressions.
     </description>
-    <api>net/sf/jasperreports/engine/xml/JRXmlWriter.html#PREFIX_EXCLUDE_PROPERTIES</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>6.1.1</since>
   </configProperty>
   
   
@@ -6386,11 +6336,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
 An integer property that provides the minimum precision to be used for <code>java.math.BigDecimal</code> division operations.
 Important note: this property is only effective when Java 1.5 or newer is used.  See <api href="net/sf/jasperreports/engine/util/BigDecimalUtils.html">BigDecimalUtils</api> for details.
     </description>
-    <api>net/sf/jasperreports/engine/util/Java15BigDecimalHandler.html#PROPERTY_MINIMUM_PRECISION</api>
-    <default>16</default>
-    <scope>Global</scope>
-    <since>3.5.4</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -6409,10 +6354,6 @@ For instance, for the table component shipped with JR distribution, the version 
 <br/>
 If not specified, the component version is considered to be the one specified by the <a href="#net.sf.jasperreports.report.version">net.sf.jasperreports.report.version</a>.
     </description>
-    <api>net/sf/jasperreports/engine/component/ComponentXmlWriter.html#PROPERTY_COMPONENT_VERSION_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>4.8.0</since>
   </configProperty>
   
   
@@ -6690,10 +6631,6 @@ This mapping was previously specified using the <code>fieldDescription</code> at
     <description>
 Property that determines whether loading entities that are not known to the engine is allowed.
     </description>
-    <api>net/sf/jasperreports/engine/xml/JRXmlDigester.html#PROPERTY_LOAD_UNKNOWN_ENTITIES</api>
-    <default>false</default>
-    <scope>Global</scope>
-    <since>6.2.1</since>
   </configProperty>
   
   

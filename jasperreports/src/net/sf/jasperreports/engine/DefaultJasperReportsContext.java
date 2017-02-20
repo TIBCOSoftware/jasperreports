@@ -31,10 +31,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
 import net.sf.jasperreports.engine.xml.PrintSaxParserFactory;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -51,6 +54,12 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	/**
 	 * The name of the system property that specifies the properties file name.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = "jasperreports.properties",
+			scopes = {PropertyScope.SYSTEM},
+			sinceVersion = JRConstants.VERSION_1_0_0
+			)
 	public static final String PROPERTIES_FILE = JRPropertiesUtil.PROPERTY_PREFIX + "properties";
 
 	/**

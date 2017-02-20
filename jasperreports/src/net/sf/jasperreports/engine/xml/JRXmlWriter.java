@@ -38,6 +38,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.regex.Pattern;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.JRAreaPlot;
 import net.sf.jasperreports.charts.JRBar3DPlot;
 import net.sf.jasperreports.charts.JRBarPlot;
@@ -202,6 +204,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -227,7 +230,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_DESIGN_WRITE_ERROR = "xml.writer.report.design.write.error";
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_CHART_TYPE = "xml.writer.unsupported.chart.type";
 	
-	//FIXME doc
+	@Property(
+			name = "net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}",
+			category = PropertyConstants.CATEGORY_OTHER,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_1_1
+			)
 	public static final String PREFIX_EXCLUDE_PROPERTIES = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "jrxml.writer.exclude.properties.";
 

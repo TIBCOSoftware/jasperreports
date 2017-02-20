@@ -38,11 +38,15 @@ import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.logging.Log;
@@ -70,6 +74,13 @@ public class JRXmlDigester extends Digester
 	 * <p>
 	 * By default the property is set to <code>false</code>.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_6_2_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_LOAD_UNKNOWN_ENTITIES = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "xml.load.unknown.entities";
 	

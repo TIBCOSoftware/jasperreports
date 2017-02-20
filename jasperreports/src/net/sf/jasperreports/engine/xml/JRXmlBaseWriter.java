@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.xml;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -39,6 +41,7 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -56,6 +59,11 @@ public abstract class JRXmlBaseWriter
 	 * 
 	 * @see JRXmlWriter
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_8_0
+			)
 	public static final String PROPERTY_REPORT_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "report.version";
 
 	protected JRXmlWriteHelper writer;

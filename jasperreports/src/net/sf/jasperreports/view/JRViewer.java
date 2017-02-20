@@ -78,6 +78,8 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -105,6 +107,7 @@ import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleGraphics2DExporterOutput;
 import net.sf.jasperreports.export.SimpleGraphics2DReportConfiguration;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -144,6 +147,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 * By default, this property is set to 0.
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_1_2_8,
+			valueType = Integer.class
+			)
 	public static final String VIEWER_RENDER_BUFFER_MAX_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "viewer.render.buffer.max.size";
 
 	/**
