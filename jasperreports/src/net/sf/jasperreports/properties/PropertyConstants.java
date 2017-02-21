@@ -64,4 +64,6 @@ public interface PropertyConstants
 	
 	String BOOLEAN_TRUE = "true";
 	
+	String UTF_8 = "UTF-8";
+	
 }

@@ -47,13 +47,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>
-      <property ref="net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.export.filter.factory.{filter_element}"/>
-      <property ref="net.sf.jasperreports.export.default.filter.factory"/>
-      <property ref="net.sf.jasperreports.export.{arbitrary_name}.default.filter.factory"/>
-      <property ref="net.sf.jasperreports.export.character.encoding"/>
-      
       <property ref="net.sf.jasperreports.export.csv.column.name"/>
       <property ref="net.sf.jasperreports.export.csv.column.names.{suffix}"/>
       <property ref="net.sf.jasperreports.export.csv.data"/>
@@ -3172,10 +3165,6 @@ and <code>txt</code>. The <code>{suffix}</code> token can be: <code>band</code>,
 <br/>
 See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-headers-and-footers-when-exporting-xls">FAQ</a> for more details about filtering out content while exporting.
     </description>
-    <api>N/A</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>2.0.3</since>
   </configProperty>
   
   
@@ -3191,10 +3180,6 @@ and <code>txt</code>. The <code>{suffix}</code> token can be: <code>band</code>,
 <br/>
 See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-headers-and-footers-when-exporting-xls">FAQ</a> for more details about filtering out content while exporting.
     </description>
-    <api>N/A</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>2.0.3</since>
   </configProperty>
   
   
@@ -3202,14 +3187,11 @@ See this <a href="http://community.jaspersoft.com/wiki/how-can-i-suppress-page-h
   
   <configProperty name="net.sf.jasperreports.export.filter.factory.{filter_element}">
     <description>
-A set of properties that are used to register filter factories. They all contain the fixed prefix <code>net.sf.jasperreports.export.filter.factory.</code> and a suffix indicating the considered filter element.
+A set of properties that are used to register filter factories. They all contain the fixed prefix <code>net.sf.jasperreports.export.filter.factory.</code> 
+and a suffix indicating the considered filter element.
 <br/>
 For example: <code>net.sf.jasperreports.export.filter.factory.origin</code> indicates an element origin filter factory.
     </description>
-    <api>net/sf/jasperreports/engine/export/DefaultExporterFilterFactory.html#PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.0.1</since>
   </configProperty>
   
   
@@ -3217,11 +3199,8 @@ For example: <code>net.sf.jasperreports.export.filter.factory.origin</code> indi
   
   <configProperty name="net.sf.jasperreports.export.default.filter.factory">
     <description>
-A property that gives the generic default filter factory class name.    </description>
-    <api>net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.export.DefaultExporterFilterFactory</code></default>
-    <scope>Global | Report</scope>
-    <since>3.0.1</since>
+A property that gives the generic default filter factory class name.
+    </description>
   </configProperty>
   
   
@@ -3238,10 +3217,6 @@ For instance, the default filter factory for XLS exporters is
 If this property is not defined for a specific exporter, the generic
  exporter factory given by <api href="net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY">PROPERTY_DEFAULT_FILTER_FACTORY</api> is used.
     </description>
-    <api>net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_SUFFIX_DEFAULT_FILTER_FACTORY</api>
-    <default><api href="net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_DEFAULT_FILTER_FACTORY">PROPERTY_DEFAULT_FILTER_FACTORY</api> 's default value.</default>
-    <scope>Global</scope>
-    <since>3.0.1</since>
   </configProperty>
   
   
@@ -3252,10 +3227,6 @@ If this property is not defined for a specific exporter, the generic
 Property whose value is used as as default for the <api href="net/sf/jasperreports/export/WriterExporterOutput.html#getEncoding()">getEncoding()</api> export output setting.
 Stores the character encoding for exported reports.
     </description>
-    <api>net/sf/jasperreports/export/WriterExporterOutput.html#PROPERTY_CHARACTER_ENCODING</api>
-    <default>UTF-8</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   

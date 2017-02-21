@@ -34,6 +34,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -41,6 +44,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * An exporter filter that excludes elements based on their origin.
@@ -120,8 +124,20 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	/**
 	 * The prefix of origin exclusion properties.
 	 */
+	@Property(
+			name = "net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_3
+			)
 	public static final String PROPERTY_EXCLUDE_ORIGIN_PREFIX = "exclude.origin.";
 	
+	@Property(
+			name = "net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_3
+			)
 	private static final String KEEP_FIRST_PREFIX = "keep.first.";
 	private static final String BAND_PREFIX = "band.";
 	private static final String GROUP_PREFIX = "group.";
