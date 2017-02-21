@@ -46,27 +46,7 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
-    <content>
-      <property ref="net.sf.jasperreports.export.html.accessible"/>
-      <property ref="net.sf.jasperreports.export.html.between.pages"/>
-      <property ref="net.sf.jasperreports.export.html.border.collapse"/>
-      <property ref="net.sf.jasperreports.export.html.class"/>
-      <property ref="net.sf.jasperreports.export.html.convert.svg.to.image"/>
-      <property ref="net.sf.jasperreports.export.html.embed.image"/>
-      <property ref="net.sf.jasperreports.export.html.embedded.svg.use.fonts"/>
-      <property ref="net.sf.jasperreports.export.html.header"/>
-      <property ref="net.sf.jasperreports.export.html.flush.output"/>
-      <property ref="net.sf.jasperreports.export.html.footer"/>
-      <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
-      <property ref="net.sf.jasperreports.export.html.id"/>
-      <property ref="net.sf.jasperreports.export.html.remove.emtpy.space.between.rows"/>
-      <property ref="net.sf.jasperreports.export.html.size.unit"/>
-      <property ref="net.sf.jasperreports.export.html.using.images.to.align"/>
-      <property ref="net.sf.jasperreports.export.html.white.page.background"/>
-      <property ref="net.sf.jasperreports.export.html.wrap.break.word"/>
-      
-      <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
-      
+    <content>      
       <property ref="net.sf.jasperreports.export.json.{type}.{path}"/>
       <property ref="net.sf.jasperreports.export.json.data"/>
       <property ref="net.sf.jasperreports.export.json.escape.members"/>
@@ -80,8 +60,6 @@
       
       <property ref="net.sf.jasperreports.export.ods.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.odt.flexible.row.height"/>
-      
-      <property ref="net.sf.jasperreports.export.parameters.override.report.hints"/>
       
       <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
       <property ref="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels"/>
@@ -3351,10 +3329,6 @@ configuration setting.
 <br/>
 If the property is <code>true</code>, any page in the document will be exported without taking into account its margins.
     </description>
-    <api>net/sf/jasperreports/export/ReportExportConfiguration.html#PROPERTY_IGNORE_PAGE_MARGINS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.5</since>
   </configProperty>
   
   
@@ -3487,10 +3461,6 @@ Configuration property that determines the exporter to produce accessible HTML.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isAccessibleHtml()">isAccessibleHtml()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_ACCESSIBLE</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
@@ -3505,10 +3475,6 @@ Its value is used as default for the
 <br/>
 If set to <code>false</code>, the frame content will be integrated into the master/page HTML table.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlReportConfiguration.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3521,10 +3487,6 @@ Configuration property that provides the HTML code that will be inserted between
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getBetweenPagesHtml()">getBetweenPagesHtml()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_BETWEEN_PAGES_HTML</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -3543,10 +3505,6 @@ to the table generated for the report. Possible values are:
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#getBorderCollapse()">getBorderCollapse()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_BORDER_COLLAPSE</api>
-    <default>collapse</default>
-    <scope>Global | Report</scope>
-    <since>5.0.4</since>
   </configProperty>
   
   
@@ -3559,10 +3517,6 @@ Configuration property that provides the HTML code that will be inserted before 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getHtmlHeader()">getHtmlHeader()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_HTML_HEADER</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -3575,10 +3529,6 @@ Configuration property that provides the HTML code that will be inserted after t
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getHtmlFooter()">getHtmlFooter()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_HTML_FOOTER</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -3590,10 +3540,6 @@ Property used to specify the value of the CSS <code>class</code> attribute of el
 will be used as the value for the <code>class</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or 
 the <code>class</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
     </description>
-    <api>net/sf/jasperreports/engine/export/HtmlExporter.html#PROPERTY_HTML_CLASS</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.0.1</since>
   </configProperty>
   
   
@@ -3604,10 +3550,6 @@ the <code>class</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;d
 This property specifies whether the SVG graphics should be rasterized as images.
 The property provides a default value for the <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isConvertSvgToImage()">isConvertSvgToImage()</api> export setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_CONVERT_SVG_TO_IMAGE</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.3.0</since>
   </configProperty>
   
   
@@ -3618,10 +3560,6 @@ The property provides a default value for the <api href="net/sf/jasperreports/ex
 This property specifies whether the image should be Base64 encoded and embedded into the src attribute of the image tag, and not referenced as separate resource.
 The property provides a default value for the <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isEmbedImage()">isEmbedImage()</api> export setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_EMBED_IMAGE</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.2.1</since>
   </configProperty>
   
   
@@ -3631,10 +3569,6 @@ The property provides a default value for the <api href="net/sf/jasperreports/ex
     <description>
 This property specifies whether the HTML embedded SVG should have the font family names replaced with the web fonts coming from font extensions, similar to what we do for text elements.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_EMBEDDED_SVG_USE_FONTS</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.2.2</since>
   </configProperty>
   
   
@@ -3646,10 +3580,6 @@ Property used to specify the value of the <code>ID</code> attribute of elements 
 as the value for the <code>id</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or the <code>id</code> attribute of 
 the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
     </description>
-    <api>net/sf/jasperreports/engine/export/HtmlExporter.html#PROPERTY_HTML_ID</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.7.0</since>
   </configProperty>
   
   
@@ -3662,10 +3592,6 @@ Flag property that specifies whether the blank lines that sometimes appear betwe
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3679,10 +3605,6 @@ specifications like "px" for pixels or "pt" for points. The default value is "px
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#getSizeUnit()">getSizeUnit()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_SIZE_UNIT</api>
-    <default>px</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3692,10 +3614,6 @@ Its value is used as default for the
     <description>
 Property that specifies whether the export engine should use small transparent spacer images for aligning content.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRHtmlExporterConfiguration.html#PROPERTY_USING_IMAGES_TO_ALIGN</api>
-    <default>true</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3708,10 +3626,6 @@ Property that indicates whether the report background should be turned to white.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> HTML export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
-    <default>true</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3727,10 +3641,6 @@ Its value is used as default for the
 Note that this CSS property is not currently supported by all browsers. An alternative approach for forcing word breaks in HTML is to save the 
 line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.breaks">net.sf.jasperreports.text.save.line.breaks</a> property.
     </description>
-    <api>net/sf/jasperreports/export/HtmlReportConfiguration.html#PROPERTY_WRAP_BREAK_WORD</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3932,9 +3842,6 @@ Its value is used as default for the
 <br/>
 If the property is <code>true</code>, export parameters override report hints; this is the default behavior.
     </description>
-    <api>net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS</api>
-    <default>true</default>
-    <scope>Global</scope>
   </configProperty>
   
   
@@ -6234,10 +6141,6 @@ Property whose value is used to check the availability of printers accepting job
     <description>
 A boolean property that determines whether the HTML exporter should flush the output stream after writing the HTML content to it.
     </description>
-    <api>net/sf/jasperreports/export/HtmlExporterConfiguration.html#PROPERTY_FLUSH_OUTPUT</api>
-    <default>true</default>
-    <scope>Global | Report</scope>
-    <since>3.7.1</since>
   </configProperty>
   
   

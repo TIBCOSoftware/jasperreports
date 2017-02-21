@@ -49,10 +49,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.tools.codec.Base64Encoder;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.crosstabs.interactive.CrosstabInteractiveJsonHandler;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -114,6 +117,7 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.AreaHyperlinksRenderable;
 import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
@@ -159,11 +163,21 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	 * will be used as the value for the <code>class</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or 
 	 * the <code>class</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_0_1
+			)
 	public static final String PROPERTY_HTML_CLASS = HTML_EXPORTER_PROPERTIES_PREFIX + "class";
 
 	/**
 	 *
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_0
+			)
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
 
 	/**

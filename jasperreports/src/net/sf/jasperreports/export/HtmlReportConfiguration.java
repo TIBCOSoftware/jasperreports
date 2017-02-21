@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -30,6 +33,7 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -48,6 +52,13 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.white.page.background";
 
 
@@ -58,6 +69,13 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.remove.emtpy.space.between.rows";
 
 
@@ -68,6 +86,13 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_WRAP_BREAK_WORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.wrap.break.word";
 
 
@@ -76,6 +101,12 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.PIXEL_UNIT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1
+			)
 	public static final String PROPERTY_SIZE_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.size.unit";
 
 	
@@ -85,12 +116,25 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	 * The property can be set globally and at report level.  It defaults to <code>collapse</code>.
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.COLLAPSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_0_4
+			)
 	public static final String PROPERTY_BORDER_COLLAPSE = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.border.collapse";
 
 
 	/**
 	 * Property that provides a default value for the {@link #isAccessibleHtml()} exporter configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_7_5,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_ACCESSIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.accessible";
 
 	
@@ -103,18 +147,39 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Property that provides a default for the {@link #isEmbedImage()} export configuration flag.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_2_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_EMBED_IMAGE = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "embed.image";
 
 	
 	/**
 	 * Property that provides a default for the {@link #isEmbeddedSvgUseFonts()} export configuration flag.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_2_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_EMBEDDED_SVG_USE_FONTS = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "embedded.svg.use.fonts";
 
 	
 	/**
 	 * Property that provides a default for the {@link #isConvertSvgToImage()} export configuration flag.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_3_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_CONVERT_SVG_TO_IMAGE = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "convert.svg.to.image";
 
 	

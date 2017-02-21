@@ -74,4 +74,8 @@ public interface PropertyConstants
 	
 	String SAME_DOMAIN = "sameDomain";
 	
+	String COLLAPSE = "collapse";
+	
+	String PIXEL_UNIT = "px";
+	
 }

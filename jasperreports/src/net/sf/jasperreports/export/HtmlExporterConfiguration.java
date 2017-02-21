@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -47,24 +51,46 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	 * after export.
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_7_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_FLUSH_OUTPUT = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.flush.output";
 
 
 	/**
 	 * Property that provides the default value for the {@link #getHtmlHeader()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_HTML_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.header";
 
 
 	/**
 	 * Property that provides the default value for the {@link #getHtmlFooter()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_HTML_FOOTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.footer";
 
 
 	/**
 	 * Property that provides the default value for the {@link #getBetweenPagesHtml()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_BETWEEN_PAGES_HTML = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.between.pages";
 
 

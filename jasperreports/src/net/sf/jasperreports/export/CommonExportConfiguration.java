@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -40,6 +44,13 @@ public interface CommonExportConfiguration
 	 * 
 	 * This property cannot be used as a report export hint.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_2_0_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "export.configuration.override.report.hints";
 	

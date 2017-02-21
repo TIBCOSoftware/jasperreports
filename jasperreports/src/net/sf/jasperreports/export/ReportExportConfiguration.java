@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -48,6 +52,13 @@ public interface ReportExportConfiguration extends CommonExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_5,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_PAGE_MARGINS = JRPropertiesUtil.PROPERTY_PREFIX + "export.ignore.page.margins";
 	
 

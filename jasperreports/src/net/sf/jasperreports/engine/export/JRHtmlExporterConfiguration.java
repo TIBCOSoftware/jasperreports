@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -42,6 +46,13 @@ public interface JRHtmlExporterConfiguration extends HtmlExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.using.images.to.align";
 
 	/**
