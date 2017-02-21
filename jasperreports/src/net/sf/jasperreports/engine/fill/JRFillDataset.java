@@ -1896,6 +1896,42 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	}
 
 
+	public JRExpression getFilterExpression()
+	{
+		return propertyExpressions.toArray(new DatasetPropertyExpression[propertyExpressions.size()]);
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateProperties(PropertyEvaluationTimeEnum evaluationTime) throws JRException
+	{
+		if (!propertyExpressions.isEmpty())
+		{
+			JRPropertiesMap dynamicProperties = new JRPropertiesMap();
+			
+			PropertyEvaluationTimeEnum defaultEvaluationTime = getDefaultPropertyEvaluationTime();
+			for (DatasetPropertyExpression prop : propertyExpressions)
+			{
+				PropertyEvaluationTimeEnum propEvalTime = prop.getEvaluationTime() == null ? defaultEvaluationTime : prop.getEvaluationTime();
+				if (evaluationTime == propEvalTime)
+				{
+					String value = (String) evaluateExpression(prop.getValueExpression(), JRExpression.EVALUATION_DEFAULT);
+					//if (value != null) //is the null value significant for some field properties?
+					{
+						dynamicProperties.setProperty(prop.getName(), value);
+					}
+				}
+			}
+
+			JRPropertiesMap newMergedProperties = dynamicProperties.cloneProperties();
+			newMergedProperties.setBaseProperties(mergedProperties);
+			mergedProperties = newMergedProperties;
+		}
+	}
+
+
 	@Override
 	public JRExpression getFilterExpression()
 	{

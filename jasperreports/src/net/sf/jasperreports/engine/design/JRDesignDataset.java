@@ -1386,6 +1386,33 @@ public class JRDesignDataset extends JRBaseDataset
 
 
 	/**
+	 * Returns the list of property expressions.
+	 * 
+	 * @return the list of property expressions ({@link DatasetPropertyExpression} instances)
+	 * @see #addPropertyExpression(DatasetPropertyExpression)
+	 */
+	public List<DatasetPropertyExpression> getPropertyExpressionsList()
+	{
+		return propertyExpressions;
+	}
+	
+	@Override
+	public DatasetPropertyExpression[] getPropertyExpressions()
+	{
+		DatasetPropertyExpression[] props;
+		if (propertyExpressions.isEmpty())
+		{
+			props = null;
+		}
+		else
+		{
+			props = propertyExpressions.toArray(new DatasetPropertyExpression[propertyExpressions.size()]);
+		}
+		return props;
+	}
+
+
+	/**
 	 * Sets the dataset filter expression.
 	 * <p>
 	 * The expression value class should be <code>java.lang.Boolean</code>.
