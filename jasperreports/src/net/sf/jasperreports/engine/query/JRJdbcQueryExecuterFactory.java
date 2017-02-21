@@ -113,7 +113,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = JRConstants.VERSION_4_1_2,
 			valueType = Boolean.class

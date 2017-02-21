@@ -208,7 +208,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
 			sinceVersion = JRConstants.VERSION_3_5_2,
 			valueType = Boolean.class

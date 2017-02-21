@@ -78,7 +78,7 @@ public class StyleResolver
 {
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_6_2_1,
 			valueType = Boolean.class

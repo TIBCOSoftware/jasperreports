@@ -64,7 +64,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_3_0_0,
 			valueType = Boolean.class

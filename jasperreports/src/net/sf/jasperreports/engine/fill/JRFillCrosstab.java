@@ -162,7 +162,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
 			sinceVersion = JRConstants.VERSION_5_5_0,
 			valueType = Boolean.class
@@ -189,7 +189,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
 			sinceVersion = JRConstants.VERSION_6_0_0,
 			valueType = Boolean.class

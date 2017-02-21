@@ -63,7 +63,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = JRConstants.VERSION_2_0_3,
 			valueType = Boolean.class
@@ -87,7 +87,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = JRConstants.VERSION_2_0_3,
 			valueType = Boolean.class
@@ -144,7 +144,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = JRConstants.VERSION_3_5_1,
 			valueType = Boolean.class

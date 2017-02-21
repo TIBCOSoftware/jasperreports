@@ -74,7 +74,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_COMPILE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_1_0_0,
 			valueType = Boolean.class

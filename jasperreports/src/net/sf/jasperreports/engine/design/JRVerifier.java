@@ -208,7 +208,7 @@ public class JRVerifier
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
 			sinceVersion = JRConstants.VERSION_3_5_0,
 			valueType = Boolean.class
@@ -262,7 +262,7 @@ public class JRVerifier
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
 			sinceVersion = JRConstants.VERSION_3_7_3,
 			valueType = Boolean.class

@@ -81,7 +81,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_3_5_3,
 			valueType = Boolean.class

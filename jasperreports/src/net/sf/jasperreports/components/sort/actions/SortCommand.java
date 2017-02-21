@@ -57,7 +57,7 @@ public class SortCommand implements Command
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = JRConstants.VERSION_4_6_0,
 			valueType = Boolean.class

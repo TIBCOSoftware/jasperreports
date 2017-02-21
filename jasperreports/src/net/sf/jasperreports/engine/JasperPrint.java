@@ -79,7 +79,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_5_5_2,
 			valueType = Boolean.class
@@ -91,7 +91,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = JRConstants.VERSION_5_5_2,
 			valueType = Boolean.class

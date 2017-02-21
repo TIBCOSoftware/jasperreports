@@ -76,7 +76,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_1_2_3,
 			valueType = Boolean.class

@@ -140,7 +140,7 @@ public interface JRCompiler
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_COMPILE,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_1_0_0,
 			valueType = Boolean.class

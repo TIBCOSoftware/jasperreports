@@ -82,7 +82,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = JRConstants.VERSION_6_1_1,
 			valueType = Boolean.class

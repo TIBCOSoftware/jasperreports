@@ -190,7 +190,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT, PropertyScope.TABLE_COLUMN},
 			sinceVersion = JRConstants.VERSION_4_7_1,
 			valueType = Boolean.class
@@ -217,7 +217,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
 			sinceVersion = JRConstants.VERSION_6_3_1,
 			valueType = Boolean.class
@@ -241,7 +241,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
 			sinceVersion = JRConstants.VERSION_6_1_2,
 			valueType = Boolean.class
@@ -276,7 +276,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.TABLE_COLUMN},
 			sinceVersion = JRConstants.VERSION_5_0_1,
 			valueType = Boolean.class
@@ -291,7 +291,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.TABLE_COLUMN},
 			sinceVersion = JRConstants.VERSION_5_0_1,
 			valueType = Boolean.class
@@ -307,7 +307,7 @@ public class TableReport implements JRReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.TABLE_COLUMN},
 			sinceVersion = JRConstants.VERSION_5_0_1,
 			valueType = Boolean.class

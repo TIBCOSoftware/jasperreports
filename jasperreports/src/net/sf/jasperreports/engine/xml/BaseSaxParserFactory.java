@@ -83,7 +83,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	// if required at some point, we can create a separate property. 
 	@Property(
 			category = PropertyConstants.CATEGORY_COMPILE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = JRConstants.VERSION_3_1_0,
 			valueType = Boolean.class

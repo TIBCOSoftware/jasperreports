@@ -117,7 +117,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = JRConstants.VERSION_1_3_1,
 			valueType = Boolean.class
@@ -130,7 +130,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
-			defaultValue = "true",
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = JRConstants.VERSION_1_2_0,
 			valueType = Boolean.class

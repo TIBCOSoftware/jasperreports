@@ -63,7 +63,7 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_REPOSITORY,
-			defaultValue = "false",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = JRConstants.VERSION_4_1_1,
 			valueType = Boolean.class
