@@ -32,6 +32,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -41,6 +44,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseGenericPrintElement;
 import net.sf.jasperreports.engine.util.HyperlinkData;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -95,6 +99,12 @@ public final class FlashPrintElement
 	 * <p>
 	 * The property can be set at element, report and system levels.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.SAME_DOMAIN,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_3
+			)
 	public static final String PROPERTY_ALLOW_SCRIPT_ACCESS = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "export.flash.element.allow.script.access";
 	

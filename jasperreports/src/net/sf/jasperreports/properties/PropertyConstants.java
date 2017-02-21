@@ -72,4 +72,6 @@ public interface PropertyConstants
 	
 	String NEWLINE = "\\n";
 	
+	String SAME_DOMAIN = "sameDomain";
+	
 }

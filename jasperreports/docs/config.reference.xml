@@ -47,20 +47,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>
-      <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
-      <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
-      <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
-      <property ref="net.sf.jasperreports.export.docx.metadata.application"/>
-      <property ref="net.sf.jasperreports.export.docx.metadata.author"/>
-      <property ref="net.sf.jasperreports.export.docx.metadata.keywords"/>
-      <property ref="net.sf.jasperreports.export.docx.metadata.subject"/>
-      <property ref="net.sf.jasperreports.export.docx.metadata.title"/>
-      <property ref="net.sf.jasperreports.export.docx.new.line.as.paragraph"/>
-      
-      <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
-      
-      <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
-      
       <property ref="net.sf.jasperreports.export.html.accessible"/>
       <property ref="net.sf.jasperreports.export.html.between.pages"/>
       <property ref="net.sf.jasperreports.export.html.border.collapse"/>
@@ -3350,10 +3336,6 @@ Flag property that controls the use of an AWT rendering fix which causes the pri
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/Graphics2DReportConfiguration.html#isMinimizePrinterJobSize()">isMinimizePrinterJobSize()</api> Graphics2D export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/Graphics2DReportConfiguration.html#MINIMIZE_PRINTER_JOB_SIZE</api>
-    <default>true</default>
-    <scope>Global | Report</scope>
-    <since>1.2.8</since>
   </configProperty>
   
   
@@ -3387,10 +3369,6 @@ Its value is used as default for the
 <br/>
 If set to <code>false</code>, the frame content will be integrated into the master/page table.
     </description>
-    <api>net/sf/jasperreports/export/DocxReportConfiguration.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.5.3</since>
   </configProperty>
   
   
@@ -3405,10 +3383,6 @@ Its value is used as default for the
 <br/>
 If set to <code>false</code>, the table rows do not increase in height automatically and the user has to enlarge them manually.
     </description>
-    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_FLEXIBLE_ROW_HEIGHT</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.6.1</since>
   </configProperty>
   
   
@@ -3418,10 +3392,6 @@ If set to <code>false</code>, the table rows do not increase in height automatic
     <description>
 This property is used to mark text elements as being hidden either for printing or on-screen display.
     </description>
-    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporter.html#PROPERTY_HIDDEN_TEXT</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>3.7.6</since>
   </configProperty>
   
   
@@ -3434,10 +3404,6 @@ Property that contains the application information to use for the generated DOCX
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> DOCX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -3450,10 +3416,6 @@ Property that contains the author information to use for the generated DOCX meta
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> DOCX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -3466,10 +3428,6 @@ Property that contains the keywords to use for the generated DOCX metadata.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> DOCX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -3482,10 +3440,6 @@ Property that contains the subject information to use for the generated DOCX met
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> DOCX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -3498,10 +3452,6 @@ Property that contains the title information to use for the generated DOCX metad
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/DocxExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> DOCX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/DocxExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -3516,10 +3466,6 @@ It serves as default value for the
 <api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isNewLineAsParagraph()">isNewLineAsParagraph()</api> DOCX export configuration setting.
 The property itself defaults to <code>false</code> (for backward compatibility reasons).
     </description>
-    <api>net/sf/jasperreports/export/DocxReportConfiguration.html#PROPERTY_NEW_LINE_AS_PARAGRAPH</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.1.1</since>
   </configProperty>
   
   
@@ -3529,10 +3475,6 @@ The property itself defaults to <code>false</code> (for backward compatibility r
     <description>
 Property that determines the value of the allowScriptAccess parameter for Flash elements.
     </description>
-    <api>net/sf/jasperreports/engine/export/FlashPrintElement.html#PROPERTY_ALLOW_SCRIPT_ACCESS</api>
-    <default>sameDomain</default>
-    <scope>Global | Report | Element</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
