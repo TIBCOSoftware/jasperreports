@@ -66,4 +66,10 @@ public interface PropertyConstants
 	
 	String UTF_8 = "UTF-8";
 	
+	String COMMA = ",";
+	
+	String QUOTES = "\"";
+	
+	String NEWLINE = "\\n";
+	
 }

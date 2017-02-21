@@ -23,11 +23,15 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -46,6 +50,12 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.COMMA,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1
+			)
 	public static final String PROPERTY_FIELD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.field.delimiter";
 
 	/**
@@ -54,6 +64,12 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.NEWLINE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1
+			)
 	public static final String PROPERTY_RECORD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.record.delimiter";
 
 	/**
@@ -62,6 +78,13 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_1_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_WRITE_BOM = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.write.bom";
 
 	/**
@@ -70,6 +93,12 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.QUOTES,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_2_1
+			)
 	public static final String PROPERTY_FIELD_ENCLOSURE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.field.enclosure";
 	
 	/**
@@ -78,6 +107,13 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_2_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_FORCE_FIELD_ENCLOSURE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.force.field.enclosure";
 
 	/**

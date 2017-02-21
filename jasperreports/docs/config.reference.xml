@@ -47,17 +47,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>
-      <property ref="net.sf.jasperreports.export.csv.column.name"/>
-      <property ref="net.sf.jasperreports.export.csv.column.names.{suffix}"/>
-      <property ref="net.sf.jasperreports.export.csv.data"/>
-      <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
-      <property ref="net.sf.jasperreports.export.csv.field.enclosure"/>
-      <property ref="net.sf.jasperreports.export.csv.force.field.enclosure"/>
-      <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
-      <property ref="net.sf.jasperreports.export.csv.repeat.value"/>
-      <property ref="net.sf.jasperreports.export.csv.write.bom"/>
-      <property ref="net.sf.jasperreports.export.csv.write.header"/>
-      
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
@@ -3237,10 +3226,6 @@ Stores the character encoding for exported reports.
 Property specifying the name of the CSV exported column the element belongs to.
 It must be one of the column names in the <a href="#net.sf.jasperreports.export.csv.column.names.{suffix}">net.sf.jasperreports.export.csv.column.names.{suffix}</a>, if provided.    
 	</description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_COLUMN_NAME</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -3256,10 +3241,6 @@ CSV metadata export output setting.
 <br/><br/>
 <b>Note: </b>For accurate results it's recommended that column names in the list to follow the same order as the original columns.
     </description>
-    <api>net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
-    <default>N/A</default>
-    <scope>Report</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -3272,10 +3253,6 @@ Property that specifies a custom value to be associated with the column specifie
 <br/>
 The property itself defaults to the text value of the report element this property is assigned to.    
     </description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_DATA</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -3286,10 +3263,6 @@ The property itself defaults to the text value of the report element this proper
 Property that contains the character or sequence of characters used to delimit two fields on the same record. Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getFieldDelimiter()">getFieldDelimiter()</api> CSV export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_FIELD_DELIMITER</api>
-    <default>,</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3308,10 +3281,6 @@ This property set in the JRXML report does not support expressions, so we have t
 character values representing XML entity references are XML-escaped, accordingly.
 For instance, use &amp;quot; instead of &quot;, &amp;apos; instead of &apos;, etc.
     </description>
-    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_FIELD_ENCLOSURE</api>
-    <default>&quot;</default>
-    <scope>Global | Report</scope>
-    <since>6.2.1</since>
   </configProperty>
   
   
@@ -3323,10 +3292,6 @@ Property that enforces all exported field values to be enclosed within a pair of
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getForceFieldEnclosure()">getForceFieldEnclosure()</api> CSV export configuration flag.
     </description>
-    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_FORCE_FIELD_ENCLOSURE</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>6.2.1</since>
   </configProperty>
   
   
@@ -3339,10 +3304,6 @@ Property that contains the character or sequence of characters used to delimit t
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getRecordDelimiter()">getRecordDelimiter()</api> CSV export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_RECORD_DELIMITER</api>
-    <default>\n</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3353,10 +3314,6 @@ Its value is used as default for the
 Property that specifies whether the value associated with <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
 should be repeated or not when it is missing.
 	</description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html#PROPERTY_REPEAT_VALUE</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   
@@ -3369,10 +3326,6 @@ Property that specifies whether a BOM character should be put at the beginning o
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#isWriteBOM()">isWriteBOM()</api> CSV export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/CsvExporterConfiguration.html#PROPERTY_WRITE_BOM</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>6.1.0</since>
   </configProperty>
   
   
@@ -3385,10 +3338,6 @@ Property that specifies whether the export header (the column names) should be w
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#isWriteHeader()">isWriteHeader()</api> CSV metadata export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#PROPERTY_WRITE_HEADER</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>4.0.0</since>
   </configProperty>
   
   

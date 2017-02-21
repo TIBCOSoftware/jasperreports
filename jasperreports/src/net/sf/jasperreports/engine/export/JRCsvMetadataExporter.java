@@ -30,7 +30,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -42,6 +45,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.CsvExporterConfiguration;
 import net.sf.jasperreports.export.CsvMetadataExporterConfiguration;
 import net.sf.jasperreports.export.CsvMetadataReportConfiguration;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -61,6 +65,11 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.column.name";
 	
 	/**
@@ -72,6 +81,13 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_0_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_REPEAT_VALUE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.repeat.value";
 	
 	/**
@@ -82,6 +98,11 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_0_0
+			)
 	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.data";
 
 	/**
