@@ -75,4 +75,16 @@ public class SimpleReportContext implements ReportContext
 		return parameters;
 	}
 
+	@Override
+	public Object removeParameterValue(String parameterName)
+	{
+		return parameters.remove(parameterName);
+	}
+
+	@Override
+	public void clearParameterValues()
+	{
+		parameters.clear();
+	}
+
 }
