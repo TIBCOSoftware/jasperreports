@@ -47,20 +47,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>      
-      <property ref="net.sf.jasperreports.export.json.{type}.{path}"/>
-      <property ref="net.sf.jasperreports.export.json.data"/>
-      <property ref="net.sf.jasperreports.export.json.escape.members"/>
-      <property ref="net.sf.jasperreports.export.json.path"/>
-      <property ref="net.sf.jasperreports.export.json.repeat.{path}"/>
-      <property ref="net.sf.jasperreports.export.json.repeat.value"/>
-      <property ref="net.sf.jasperreports.export.json.schema"/>
-      
-      <property ref="net.sf.jasperreports.export.jxl.use.temp.file"/>
-      <property ref="net.sf.jasperreports.export.jxl.cell.complex.format"/>
-      
-      <property ref="net.sf.jasperreports.export.ods.flexible.row.height"/>
-      <property ref="net.sf.jasperreports.export.odt.flexible.row.height"/>
-      
       <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
       <property ref="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels"/>
       <property ref="net.sf.jasperreports.export.pdf.compressed"/>
@@ -3644,27 +3630,52 @@ line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.b
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.json.{type}.{path} -->
+  <!-- net.sf.jasperreports.export.json.boolean.{path} -->
   
-  <configProperty name="net.sf.jasperreports.export.json.{type}.{path}">
+  <configProperty name="net.sf.jasperreports.export.json.boolean.{path}">
     <description>
 This element-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
-and provides the exported value of a given type for that element. This value will be exported within the JSON tree following the path specified 
-by the property suffix. Possible values for the value type are:
-<ul>
-<li><code>string</code></li>
-<li><code>number</code></li>
-<li><code>date</code></li>
-<li><code>boolean</code></li>
-</ul>
+and provides the exported value of a boolean type for that element. This value will be exported within the JSON tree following the path specified 
+by the property suffix. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.json.date.{path} -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.date.{path}">
+    <description>
+This element-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and provides the exported value of a date type for that element. This value will be exported within the JSON tree following the path specified 
+by the property suffix.
+<br/>
+When working with this property, dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.json.number.{path} -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.number.{path}">
+    <description>
+This element-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and provides the exported value of a numeric type for that element. This value will be exported within the JSON tree following the path specified 
+by the property suffix.
 <br/>
 When working with this property, numbers have to be written with no thousand separators and using a period as decimal. For instance, 1,000,000 should be written as 
-"1000000" and 2,000.45 should be written as "2000.45". Dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
+"1000000" and 2,000.45 should be written as "2000.45".
     </description>
-    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_STRING_PROPERTIES_PREFIX</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>6.1.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.json.string.{path} -->
+  
+  <configProperty name="net.sf.jasperreports.export.json.string.{path}">
+    <description>
+This element-level property is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
+and provides the exported value of a String type for that element. This value will be exported within the JSON tree following the path specified 
+by the property suffix.
+    </description>
   </configProperty>
   
   
@@ -3678,10 +3689,6 @@ and provides the exported value for that element. By default is considered the v
 When working with this property, numbers have to be written with no thousand separators and using a period as decimal. For instance, 1,000,000 should be written as 
 "1000000" and 2,000.45 should be written as "2000.45". Dates must be written according to ISO 8601 standard: "yyyy-MM-dd'T'HH:mm:ss".
     </description>
-    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_DATA_PROPERTY</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -3692,10 +3699,6 @@ When working with this property, numbers have to be written with no thousand sep
 This report-level flag is considered by the <api href="net/sf/jasperreports/engine/export/JsonMetadataExporter.html">JsonMetadataExporter</api> 
 and specifies if the member property names should be enclosed with quotes or no. 
     </description>
-    <api>net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#JSON_EXPORTER_ESCAPE_MEMBERS</api>
-    <default>true</default>
-    <scope>Report</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -3708,10 +3711,6 @@ and specifies a given path within the JSON tree, where the current element will 
 <a href="#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> property is not 
 present in the report, this property can be used to determine a rule in the JSON schema as well.
     </description>
-    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_PATH_PROPERTY</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -3724,10 +3723,6 @@ and specifies whether the value associated to that JSON path should be repeated 
 works in conjunction with one of the <a href="#net.sf.jasperreports.export.json.{type}.{path}">net.sf.jasperreports.export.json.{type}.{path}</a> 
 properties. 
     </description>
-    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>6.1.0</since>
   </configProperty>
   
   
@@ -3739,10 +3734,6 @@ This element-level flag is considered by the <api href="net/sf/jasperreports/eng
 and specifies whether the value associated to the JSON path specified by <a href="#net.sf.jasperreports.export.json.path">net.sf.jasperreports.export.json.path</a> property 
 should be repeated or not when it is missing.
     </description>
-    <api>net/sf/jasperreports/engine/export/JsonMetadataExporter.html#JSON_EXPORTER_REPEAT_VALUE_PROPERTY</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -3758,10 +3749,6 @@ and specifies the path to a JSON schema file that will be used to generate the J
 <li>other properties that describe the object.</li>
 </ul> 
     </description>
-    <api>net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#JSON_EXPORTER_JSON_SCHEMA</api>
-    <default>N/A</default>
-    <scope>Report</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -3771,10 +3758,6 @@ and specifies the path to a JSON schema file that will be used to generate the J
     <description>
 Boolean property enabling the JExcelApiExporter to use temporary files when creating large documents.
     </description>
-    <api>net/sf/jasperreports/export/JxlExporterConfiguration.html#PROPERTY_USE_TEMP_FILE</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
@@ -3786,10 +3769,6 @@ Boolean property specifying whether the cell format pattern is user-defined.
 When set to <code>true</code>, the exporter will assume that the specified pattern is well defined. 
 If the pattern is invalid, it won't be taken into account by the Excel file viewer.
     </description>
-    <api>net/sf/jasperreports/export/JxlReportConfiguration.html#PROPERTY_COMPLEX_FORMAT</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.7.6</since>
   </configProperty>
   
   
@@ -3805,10 +3784,6 @@ Its value is used as default for the
 If set to <code>false</code>, the rows in the ODS document do not increase in height automatically and the user has to enlarge them manually. Otherwise, 
 the table rows will adjust their height automatically in order to fit their content in.
     </description>
-    <api>net/sf/jasperreports/export/OdsReportConfiguration.html#PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>5.0.4</since>
   </configProperty>
   
   
@@ -3824,10 +3799,6 @@ Its value is used as default for the
 If set to <code>false</code>, the table rows in the ODT document do not increase in height automatically and the user has to enlarge them manually. 
 Otherwise, the table rows will adjust their height automatically in order to fit their content in.
     </description>
-    <api>net/sf/jasperreports/export/OdtReportConfiguration.html#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>5.0.4</since>
   </configProperty>
   
   

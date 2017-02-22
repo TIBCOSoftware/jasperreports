@@ -37,8 +37,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -66,6 +69,7 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.JsonExporterConfiguration;
 import net.sf.jasperreports.export.JsonMetadataReportConfiguration;
 import net.sf.jasperreports.export.WriterExporterOutput;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
@@ -94,14 +98,63 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	protected static final String EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_SEMANTIC = EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT + ".semantic";
 	protected static final String EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT_ARRAY_FOUND = EXCEPTION_MESSAGE_KEY_INVALID_JSON_OBJECT + ".array.found";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_0_0
+			)
 	public static final String JSON_EXPORTER_PATH_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "path";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_0_0,
+			valueType = Boolean.class
+			)
 	public static final String JSON_EXPORTER_REPEAT_VALUE_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.value";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_0_0
+			)
 	public static final String JSON_EXPORTER_DATA_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "data";
 
+	@Property(
+			name = "net.sf.jasperreports.export.json.repeat.{path}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_1_0,
+			valueType = Boolean.class
+			)
 	public static final String JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.";
+	@Property(
+			name = "net.sf.jasperreports.export.json.number.{path}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_1_0
+			)
 	public static final String JSON_EXPORTER_NUMBER_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "number.";
+	@Property(
+			name = "net.sf.jasperreports.export.json.date.{path}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_1_0
+			)
 	public static final String JSON_EXPORTER_DATE_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "date.";
+	@Property(
+			name = "net.sf.jasperreports.export.json.boolean.{path}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_1_0
+			)
 	public static final String JSON_EXPORTER_BOOLEAN_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "boolean.";
+	@Property(
+			name = "net.sf.jasperreports.export.json.string.{path}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_1_0
+			)
 	public static final String JSON_EXPORTER_STRING_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "string.";
 
 	private static final String JSON_SCHEMA_ROOT_NAME = "___root";

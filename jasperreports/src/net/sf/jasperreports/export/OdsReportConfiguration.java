@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -46,6 +50,13 @@ public interface OdsReportConfiguration extends XlsReportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_0_4,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.ods.flexible.row.height";
 
 	/**
