@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -30,6 +33,7 @@ import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -63,6 +67,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_CREATE_BATCH_MODE_BOOKMARKS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.create.batch.mode.bookmarks";
 	
 	/**
@@ -72,6 +83,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_COMPRESSED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.compressed";
 
 	/**
@@ -81,6 +99,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_ENCRYPTED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.encrypted";
 
 	/**
@@ -90,6 +115,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_128_BIT_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.128.bit.key";
 
 	/**
@@ -97,6 +129,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1
+			)
 	public static final String PROPERTY_USER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.user.password";
 
 	/**
@@ -104,6 +141,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1
+			)
 	public static final String PROPERTY_OWNER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.owner.password";
 	
 	/**
@@ -111,6 +153,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_6_0
+			)
 	public static final String PROPERTY_PERMISSIONS_ALLOWED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.permissions.allowed";
 	
 	/**
@@ -118,6 +165,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_6_0
+			)
 	public static final String PROPERTY_PERMISSIONS_DENIED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.permissions.denied";
 
 	/**
@@ -126,6 +178,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1
+			)
 	public static final String PROPERTY_PDF_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.version";
 
 	/**
@@ -133,6 +190,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1
+			)
 	public static final String PROPERTY_PDF_JAVASCRIPT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.javascript";
 
 	/**
@@ -142,6 +204,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 *
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.DEFAULT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_6_1,
+			valueType = PdfPrintScalingEnum.class
+			)
 	public static final String PROPERTY_PRINT_SCALING = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.print.scaling";
 
 	/**
@@ -149,6 +218,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_1_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_TAGGED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.tagged";
 
 	/**
@@ -156,6 +232,11 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_1_2
+			)
 	public static final String PROPERTY_TAG_LANGUAGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.tag.language";
 
 	/**
@@ -165,41 +246,83 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_1_2
+			)
 	public static final String PROPERTY_PDFA_CONFORMANCE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.conformance";
 
 	/**
 	 * Property whose value is used as default for the {@link #getIccProfilePath()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_1_2
+			)
 	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataTitle()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.title";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataAuthor()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.author";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataSubject()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.subject";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataKeywords()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.keywords";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataCreator()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_5_5_2
+			)
 	public static final String PROPERTY_METADATA_CREATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.creator";
 	
 	/**
 	 * Property whose value is used as default for the {@link #isDisplayMetadataTitle()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_0_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_DISPLAY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.display.metadata.title";
 
 	/**

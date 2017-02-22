@@ -78,4 +78,6 @@ public interface PropertyConstants
 	
 	String PIXEL_UNIT = "px";
 	
+	String DEFAULT = "default";
+	
 }

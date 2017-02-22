@@ -47,43 +47,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>      
-      <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
-      <property ref="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels"/>
-      <property ref="net.sf.jasperreports.export.pdf.compressed"/>
-      <property ref="net.sf.jasperreports.export.pdf.create.batch.mode.bookmarks"/>
-      <property ref="net.sf.jasperreports.export.pdf.display.metadata.title"/>
-      <property ref="net.sf.jasperreports.export.pdf.encrypted"/>
-      <property ref="net.sf.jasperreports.export.pdf.font.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.export.pdf.fontdir.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.export.pdf.force.linebreak.policy"/>
-      <property ref="net.sf.jasperreports.export.pdf.force.svg.shapes"/>
-      <property ref="net.sf.jasperreports.export.pdf.javascript"/>
-      <property ref="net.sf.jasperreports.export.pdf.metadata.author"/>
-      <property ref="net.sf.jasperreports.export.pdf.metadata.creator"/>
-      <property ref="net.sf.jasperreports.export.pdf.metadata.keywords"/>
-      <property ref="net.sf.jasperreports.export.pdf.metadata.subject"/>
-      <property ref="net.sf.jasperreports.export.pdf.metadata.title"/>
-      <property ref="net.sf.jasperreports.export.pdf.owner.password"/>
-      <property ref="net.sf.jasperreports.export.pdf.permissions.allowed"/>
-      <property ref="net.sf.jasperreports.export.pdf.permissions.denied"/>
-      <property ref="net.sf.jasperreports.export.pdf.print.scaling"/>
-      <property ref="net.sf.jasperreports.export.pdf.size.page.to.content"/>
-      <property ref="net.sf.jasperreports.export.pdf.tagged"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.table"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.tr"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.th"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.td"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.h1"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.h2"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.h3"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.colspan"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.rowspan"/>
-      <property ref="net.sf.jasperreports.export.pdf.tag.language"/>
-      <property ref="net.sf.jasperreports.export.pdf.user.password"/>
-      <property ref="net.sf.jasperreports.export.pdf.version"/>
-      <property ref="net.sf.jasperreports.export.pdfa.conformance"/>
-      <property ref="net.sf.jasperreports.export.pdfa.icc.profile.path"/>
-      
       <property ref="net.sf.jasperreports.export.pptx.metadata.application"/>
       <property ref="net.sf.jasperreports.export.pptx.metadata.author"/>
       <property ref="net.sf.jasperreports.export.pptx.metadata.keywords"/>
@@ -3825,10 +3788,6 @@ Property that specifies whether the encryption key is 128 bits.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#is128BitKey()">is128BitKey()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_128_BIT_KEY</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3841,10 +3800,6 @@ Property that specifies whether the PDF document should be compressed.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isCompressed()">isCompressed()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_COMPRESSED</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3857,10 +3812,6 @@ Property that specifies whether the PDF document should contain an outline secti
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isCreatingBatchModeBookmarks()">isCreatingBatchModeBookmarks()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_CREATE_BATCH_MODE_BOOKMARKS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3873,10 +3824,6 @@ Property that specifies  whether the final PDF document should be encrypted.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isEncrypted()">isEncrypted()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_ENCRYPTED</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3886,11 +3833,6 @@ Its value is used as default for the
     <description>
 Prefix of properties that specify font files for the PDF exporter.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporter.html#PDF_FONT_FILES_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>1.0.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -3900,11 +3842,6 @@ Prefix of properties that specify font files for the PDF exporter.
     <description>
 Prefix of properties that specify font directories for the PDF exporter.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporter.html#PDF_FONT_DIRS_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global</scope>
-    <since>1.0.0</since>
-    <contextUnaware/>
   </configProperty>
   
   
@@ -3918,13 +3855,6 @@ implementation to ensure that PDF text wrap behavior is the same as in AWT.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfReportConfiguration.html#isForceLineBreakPolicy()">isForceLineBreakPolicy()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfReportConfiguration.html#PROPERTY_FORCE_LINEBREAK_POLICY</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
-    <!--
-    <deprecated>4.1.1</deprecated>
-    -->
   </configProperty>
   
   
@@ -3937,10 +3867,6 @@ Property that specifies whether the rendering of SVG images using shapes on the 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfReportConfiguration.html#isForceSvgShapes()">isForceSvgShapes()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfReportConfiguration.html#PROPERTY_FORCE_SVG_SHAPES</api>
-    <default>true</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3953,10 +3879,6 @@ Property that contains the user defined JavaScript piece of code to be inserted 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPdfJavaScript()">getPdfJavaScript()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDF_JAVASCRIPT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -3969,10 +3891,6 @@ Property that contains the author information to use for the generated PDF metad
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -3985,10 +3903,6 @@ Property that contains the creator information to use for the generated PDF meta
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataCreator()">getMetadataCreator()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_CREATOR</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -4001,10 +3915,6 @@ Property that contains the keywords to use for the generated PDF metadata.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -4017,10 +3927,6 @@ Property that contains the subject information to use for the generated PDF meta
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -4033,10 +3939,6 @@ Property that contains the title information to use for the generated PDF metada
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -4049,10 +3951,6 @@ Property that specifies whether the document title should be displayed in the ti
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isDisplayMetadataTitle()">isDisplayMetadataTitle()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_DISPLAY_METADATA_TITLE</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -4066,10 +3964,6 @@ encrypted, then the password will be a random string.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getOwnerPassword()">getOwnerPassword()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_OWNER_PASSWORD</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4095,10 +3989,6 @@ Its value is used as default for the
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getAllowedPermissions()">getAllowedPermissions()</api> PDF export configuration setting. 
 By default no user permissions are allowed at all.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PERMISSIONS_ALLOWED</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.6.0</since>
   </configProperty>
   
   
@@ -4126,10 +4016,6 @@ Its value is used as default for the
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getDeniedPermissions()">getDeniedPermissions()</api> PDF export configuration setting. 
 By default there are no user permissions allowed for the document.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PERMISSIONS_DENIED</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.6.0</since>
   </configProperty>
   
   
@@ -4144,10 +4030,6 @@ Its value is used as default for the
 <br/>
 Possible values are <code>default</code> and <code>none</code>.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PRINT_SCALING</api>
-    <default>default</default>
-    <scope>Global | Report</scope>
-    <since>3.6.1</since>
   </configProperty>
   
   
@@ -4160,10 +4042,6 @@ Property that contains the user password needed to open the document, if it is e
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getUserPassword()">getUserPassword()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_USER_PASSWORD</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4176,10 +4054,6 @@ Property that contains a <code>Character</code> instance representing the versio
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getPdfVersion()">getPdfVersion()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDF_VERSION</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4192,10 +4066,6 @@ export configuration setting. It specifies the conformance level of the PDF/A do
 <br/>
 By default, this property is set to <code>none</code>. 
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDFA_CONFORMANCE</api>
-    <default>none</default>
-    <scope>Global | Report</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -4206,10 +4076,6 @@ By default, this property is set to <code>none</code>.
 Property whose value is used as default for the <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getIccProfilePath()">getIccProfilePath()</api> 
 export configuration setting. It specifies the path to the ICC profile file for the PDF/A compliant documents.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_PDFA_ICC_PROFILE_PATH</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -4222,10 +4088,6 @@ Property that specifies whether the exporter should put structure tags in the ge
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isTagged()">isTagged()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_TAGGED</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -4238,10 +4100,6 @@ Property that specifies the language that the exporter should put in the languag
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#getTagLanguage()">getTagLanguage()</api> PDF export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PdfExporterConfiguration.html#PROPERTY_TAG_LANGUAGE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -5966,10 +5824,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.table">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -5978,10 +5832,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.tr">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -5990,10 +5840,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.th">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -6002,10 +5848,22 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.td">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.l -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.l">
+    <description>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.li -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.li">
+    <description>
+    </description>
   </configProperty>
   
   
@@ -6014,10 +5872,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h1">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -6026,10 +5880,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h2">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -6038,10 +5888,30 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h3">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.h4 -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.h4">
+    <description>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.h5 -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.h5">
+    <description>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.tag.h6 -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.tag.h6">
+    <description>
+    </description>
   </configProperty>
   
   
@@ -6050,10 +5920,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.colspan">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -6062,10 +5928,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.pdf.tag.rowspan">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>3.1.2</since>
   </configProperty>
   
   
@@ -6132,10 +5994,6 @@ When the property is set, the level of the bookmark will be collapsed and
 the bookmark will be created as a direct descendant of its nearest parent.
 </p>
     </description>
-    <api>net/sf/jasperreports/export/PdfReportConfiguration.html#PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.7.3</since>
   </configProperty>
   
   
@@ -6145,10 +6003,6 @@ the bookmark will be created as a direct descendant of its nearest parent.
     <description>
 Property which specifies if the size of each page should be increased to accommodate its content.
     </description>
-    <api>net/sf/jasperreports/export/PdfReportConfiguration.html#PROPERTY_SIZE_PAGE_TO_CONTENT</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>4.7.0</since>
   </configProperty>
   
   
