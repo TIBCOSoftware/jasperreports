@@ -23,10 +23,14 @@
  */
 package net.sf.jasperreports.export;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -45,6 +49,12 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_6_1,
+			valueType = Float.class
+			)
 	public static final String PROPERTY_CHARACTER_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.width";
 
 	/**
@@ -54,6 +64,12 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_6_1,
+			valueType = Float.class
+			)
 	public static final String PROPERTY_CHARACTER_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.height";
 
 	/**
@@ -63,6 +79,12 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_6_1,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PAGE_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.width";
 
 	/**
@@ -72,6 +94,12 @@ public interface TextReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_6_1,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PAGE_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.height";
 
 	/**

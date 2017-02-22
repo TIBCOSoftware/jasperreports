@@ -42,6 +42,8 @@ import java.util.Set;
 
 import org.w3c.tools.codec.Base64Encoder;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -97,6 +99,7 @@ import net.sf.jasperreports.export.ExportInterruptedException;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.XmlExporterOutput;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -181,13 +184,37 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	 */
 	public static final String XML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xml";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_0_1,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_START_PAGE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.start.page.index";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_0_1,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_END_PAGE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.end.page.index";
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_0_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PAGE_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.page.count";
 	
 	/**
 	 * Stores the text sequence used to replace invalid XML characters
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.QUESTION_MARK,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_7_1
+			)
 	public static final String PROPERTY_REPLACE_INVALID_CHARS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.replace.invalid.chars";//FIXMEEXPORT do something about it
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
 	protected static final String IMAGE_PREFIX = "img_";

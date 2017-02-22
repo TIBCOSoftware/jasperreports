@@ -26,9 +26,13 @@ package net.sf.jasperreports.engine.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -62,6 +66,13 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 	 * <p>
 	 * Defaults to <code>true</code>.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_1_0_0,
+			valueType = Boolean.class
+			)
 	public static final String EXPORT_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.validation";
 	
 	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();

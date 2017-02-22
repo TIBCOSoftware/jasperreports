@@ -47,20 +47,6 @@
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
     <content>      
-      <property ref="net.sf.jasperreports.export.pptx.metadata.application"/>
-      <property ref="net.sf.jasperreports.export.pptx.metadata.author"/>
-      <property ref="net.sf.jasperreports.export.pptx.metadata.keywords"/>
-      <property ref="net.sf.jasperreports.export.pptx.metadata.subject"/>
-      <property ref="net.sf.jasperreports.export.pptx.metadata.title"/>
-
-      <property ref="net.sf.jasperreports.export.text.character.height"/>
-      <property ref="net.sf.jasperreports.export.text.character.width"/>
-      <property ref="net.sf.jasperreports.export.text.line.separator"/>
-      <property ref="net.sf.jasperreports.export.text.page.height"/>
-      <property ref="net.sf.jasperreports.export.text.page.separator"/>
-      <property ref="net.sf.jasperreports.export.text.page.width"/>
-      <property ref="net.sf.jasperreports.export.text.trim.line.right"/>
-      
       <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.column"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.page.height"/>
@@ -141,13 +127,6 @@
       <property ref="net.sf.jasperreports.export.xls.write.header"/>
       
       <property ref="net.sf.jasperreports.export.xlsx.macro.template"/>
-      
-      <property ref="net.sf.jasperreports.export.xml.end.page.index"/>
-      <property ref="net.sf.jasperreports.export.xml.page.count"/>
-      <property ref="net.sf.jasperreports.export.xml.parser.factory"/>
-      <property ref="net.sf.jasperreports.export.xml.replace.invalid.chars"/>
-      <property ref="net.sf.jasperreports.export.xml.start.page.index"/>
-      <property ref="net.sf.jasperreports.export.xml.validation"/>
     </content>
   </category>
   
@@ -821,7 +800,7 @@ By default, this property is set to replace invalid chars with question marks. D
 </li>
 <li>to replace invalid XML chars with a custom char or text sequence, set the text sequence as property value. For instance:
 <br/>
-&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value="^^"/&gt;
+&lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value="??"/&gt;
 </li>
 <li>to preserve invalid chars in the processed text, either set the property with no value, or remove the property from the JasperReports context. 
 Below is the property with no value set:
@@ -830,10 +809,6 @@ Below is the property with no value set:
 </li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_REPLACE_INVALID_CHARS</api>
-    <default><code>?</code></default>
-    <scope>Global | Report</scope>
-    <since>4.7.1</since>
   </configProperty>
   
   
@@ -2960,10 +2935,6 @@ This feature does not apply to property expressions.
     <description>
 Property that forces the XML validation, when a document exported to XML format is loaded.
     </description>
-    <api>net/sf/jasperreports/engine/xml/PrintSaxParserFactory.html#EXPORT_XML_VALIDATION</api>
-    <default>true</default>
-    <scope>Global | Report</scope>
-    <since>1.0.0</since>
   </configProperty>
   
   
@@ -2977,10 +2948,6 @@ for parsing XML exports.
 By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/PrintSaxParserFactory.html">PrintSaxParserFactory</api> 
 as report parser factory.
     </description>
-    <api>net/sf/jasperreports/engine/xml/JRSaxParserFactory.html#PROPERTY_PRINT_PARSER_FACTORY</api>
-    <default><code>net.sf.jasperreports.engine.xml.PrintSaxParserFactory</code></default>
-    <scope>Global</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
@@ -4112,10 +4079,6 @@ Property that contains the application information to use for the generated PPTX
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> PPTX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4128,10 +4091,6 @@ Property that contains the author information to use for the generated PPTX meta
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> PPTX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4144,10 +4103,6 @@ Property that contains the keywords to use for the generated PPTX metadata.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> PPTX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4160,10 +4115,6 @@ Property that contains the subject information to use for the generated PPTX met
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> PPTX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4176,10 +4127,6 @@ Property that contains the title information to use for the generated PPTX metad
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> PPTX export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/PptxExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4192,10 +4139,6 @@ Property whose floating point value is representing the pixel/character horizont
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/TextReportConfiguration.html#getCharWidth()">getCharWidth()</api> Text export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_CHARACTER_WIDTH</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.6.1</since>
   </configProperty>
   
   
@@ -4208,10 +4151,6 @@ Property whose value represents text that will be inserted between pages of the 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageSeparator()">getPageSeparator()</api> Text export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_SEPARATOR</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -4224,10 +4163,6 @@ Property whose floating point value is representing the pixel/character vertical
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/TextReportConfiguration.html#getCharHeight()">getCharHeight()</api> Text export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_CHARACTER_HEIGHT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.6.1</since>
   </configProperty>
   
   
@@ -4240,10 +4175,6 @@ Property whose integer value is representing the page width in characters.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/TextReportConfiguration.html#getPageWidthInChars()">getPageWidthInChars()</api> Text export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_PAGE_WIDTH</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.6.1</since>
   </configProperty>
   
  
@@ -4256,10 +4187,6 @@ Property whose value represents the separator between two lines of text in the e
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getLineSeparator()">getLineSeparator()</api> Text export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_LINE_SEPARATOR</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>5.5.2</since>
   </configProperty>
   
   
@@ -4272,10 +4199,6 @@ Property whose integer value representing the page height in characters.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/TextReportConfiguration.html#getPageHeightInChars()">getPageHeightInChars()</api> Text export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_PAGE_HEIGHT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.6.1</since>
   </configProperty>
   
   
@@ -4288,10 +4211,6 @@ Property that specifies whether the text lines in the document should be trimmed
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/TextExporterConfiguration.html#isTrimLineRight()">isTrimLineRight()</api> export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_TRIM_LINE_RIGHT</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>6.0.0</since>
   </configProperty>
   
   
@@ -5788,10 +5707,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.xml.start.page.index">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_START_PAGE_INDEX</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.0.1</since>
   </configProperty>
   
   
@@ -5800,10 +5715,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.xml.end.page.index">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_END_PAGE_INDEX</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.0.1</since>
   </configProperty>
   
   
@@ -5812,10 +5723,6 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   <configProperty name="net.sf.jasperreports.export.xml.page.count">
     <description>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXmlExporter.html#PROPERTY_PAGE_COUNT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   

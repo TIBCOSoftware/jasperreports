@@ -64,6 +64,12 @@ public interface JRSaxParserFactory
 	 * By default, this property is set to use {@link PrintSaxParserFactory}
 	 * as XML export parser factory.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "net.sf.jasperreports.engine.xml.PrintSaxParserFactory",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = JRConstants.VERSION_4_1_3
+			)
 	String PROPERTY_PRINT_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.parser.factory";
 
 	/**

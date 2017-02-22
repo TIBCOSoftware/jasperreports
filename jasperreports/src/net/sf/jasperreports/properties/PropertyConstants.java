@@ -80,4 +80,6 @@ public interface PropertyConstants
 	
 	String DEFAULT = "default";
 	
+	String QUESTION_MARK = "?";
+	
 }
