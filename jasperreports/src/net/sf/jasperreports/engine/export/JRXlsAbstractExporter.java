@@ -41,8 +41,11 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -80,6 +83,7 @@ import net.sf.jasperreports.export.PrintPartUnrollExporterInput;
 import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.RenderersCache;
 
 
@@ -394,6 +398,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_5_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_AUTO_FIT_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.row";
 	
 	/**
@@ -407,6 +418,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_5_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_AUTO_FIT_COLUMN = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.column";
 	
 	/**
@@ -440,6 +458,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_3
+			)
 	public static final String PROPERTY_AUTO_FILTER = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.filter";
 	
 	/**
@@ -454,6 +477,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * @see XlsReportConfiguration#PROPERTY_COLUMN_WIDTH_RATIO
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_3,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_COLUMN_WIDTH = XLS_EXPORTER_PROPERTIES_PREFIX + "column.width";
 
 	/**
@@ -538,6 +567,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * Element level property specifying if a sheet will break before the row displaying that element. 
 	 * It is very useful especially when displaying each report's group on a separate sheet is intended. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_0_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_BREAK_BEFORE_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "break.before.row";
 	
 
@@ -545,6 +581,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * Element level property specifying if a sheet will break after the row displaying that element. 
 	 * It is very useful especially when displaying each report's group on a separate sheet is intended. 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_0_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_BREAK_AFTER_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "break.after.row";
 	
 

@@ -46,28 +46,7 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
-    <content>      
-      <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
-      <property ref="net.sf.jasperreports.export.xls.auto.fit.column"/>
-      <property ref="net.sf.jasperreports.export.xls.auto.fit.page.height"/>
-      <property ref="net.sf.jasperreports.export.xls.auto.fit.row"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
-      <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.cell.hidden"/>
-      <property ref="net.sf.jasperreports.export.xls.cell.locked"/>
-      <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
-      <property ref="net.sf.jasperreports.export.xls.column.name"/>
-      <property ref="net.sf.jasperreports.export.xls.column.names.{suffix}"/>
-      <property ref="net.sf.jasperreports.export.xls.column.width"/>
-      <property ref="net.sf.jasperreports.export.xls.column.width.ratio"/>
-      <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.data"/>
-      <property ref="net.sf.jasperreports.export.xls.defined.names.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
-      
+    <content>            
       <property ref="net.sf.jasperreports.export.xls.fit.height"/>
       <property ref="net.sf.jasperreports.export.xls.fit.width"/>
       <property ref="net.sf.jasperreports.export.xls.first.page.number"/>
@@ -4246,10 +4225,6 @@ If the autofilter <code>Start</code> value is set on the same row as the autofil
 will include all data below this heading row, placed between the start column and the end column.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FILTER</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
@@ -4265,10 +4240,6 @@ Allowed values are:
 <li><code>false</code></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FIT_COLUMN</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>4.5.1</since>
   </configProperty>
   
   
@@ -4285,10 +4256,6 @@ Allowed values are:
 <li><code>false</code></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_AUTO_FIT_PAGE_HEIGHT</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>6.0.2</since>
   </configProperty>
   
   
@@ -4304,10 +4271,6 @@ Allowed values are:
 <li><code>false</code></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FIT_ROW</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>4.5.1</since>
   </configProperty>
   
   
@@ -4320,10 +4283,6 @@ Property that specifies whether row spans should be collapsed and merging cells 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isCollapseRowSpan()">isCollapseRowSpan()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_COLLAPSE_ROW_SPAN</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
 
@@ -4335,9 +4294,6 @@ Represents the name for the column that should appear in the metadata-based Exce
 <a href="#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a>, if provided.    
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.0.2</since>
   </configProperty>
   
   
@@ -4352,10 +4308,6 @@ Column names in these properties are used as default list of values for the
 <br/>
 The order of the columns is important and for accurate results they should be in the same order as the original columns.   
     </description>
-    <api>net/sf/jasperreports/export/XlsMetadataReportConfiguration.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
-    <default>N/A</default>
-    <scope>Report</scope>
-    <since>4.0.2</since>
   </configProperty>
   
   
@@ -4372,10 +4324,6 @@ will perform the pixel-to-character width mapping using this value instead of th
 If defined, this property will override the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_COLUMN_WIDTH_RATIO">PROPERTY_COLUMN_WIDTH_RATIO</api> 
 value for the current column
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
@@ -4398,10 +4346,6 @@ Global settings are overriden by report level settings and report level settings
 present, a <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH">PROPERTY_COLUMN_WIDTH</api> property will override the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_COLUMN_WIDTH_RATIO">PROPERTY_COLUMN_WIDTH_RATIO</api> value for that column only.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_COLUMN_WIDTH_RATIO</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
@@ -4418,10 +4362,6 @@ By default the property is not set (<code>false</code>), and the cell content is
 <br/>
 This property has effect only if the enclosing sheet is protected.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_CELL_HIDDEN</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
@@ -4436,10 +4376,6 @@ Its value is used as default for the
 <br/>
 By default the property is considered (<code>true</code>), but it only has effect if the enclosing sheet is protected.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_CELL_LOCKED</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
@@ -4460,10 +4396,6 @@ If all the colors from the palette are modified (the palette has a fixed size), 
 </ol>
 This property is by default not set (<code>false</code>).
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_CREATE_CUSTOM_PALETTE</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.0</since>
   </configProperty>
   
   
@@ -4480,10 +4412,6 @@ When working with this property, numbers have to be written with no thousand sep
 <br/>
 By default this value is represented by the value stored in the report element this property is assigned to.    
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_DATA</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.0.2</since>
   </configProperty>
 
 
@@ -4548,10 +4476,6 @@ the XLS (Excel 2003) export format. They work only in the XLSX (Excel 2007 or ne
 visible in the entire workbook when exporting to XLS.</b>
 <br/>
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_DEFINED_NAMES_PREFIX</api>
-    <default>N/A</default>
-    <scope>Report | Element</scope>
-    <since>6.4.2</since>
   </configProperty>
   
   <!-- net.sf.jasperreports.export.xls.detect.cell.type -->
@@ -4563,10 +4487,6 @@ Property that specifies whether the exporter should take into consideration the 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isDetectCellType()">isDetectCellType()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_DETECT_CELL_TYPE</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -5302,10 +5222,6 @@ Properties set at element level take priority over properties set globally or pe
 Custom element property specifying if a sheet will break before the row displaying that element. 
 It is very useful especially when displaying each report's group on a separate sheet is intended.             
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature.html#PROPERTY_BREAK_BEFORE_ROW</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   
@@ -5317,9 +5233,6 @@ Custom element property specifying if a sheet will break after the row displayin
 It is very useful especially when displaying each report's group on a separate sheet is intended.             
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterNature.html#PROPERTY_BREAK_AFTER_ROW</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   
