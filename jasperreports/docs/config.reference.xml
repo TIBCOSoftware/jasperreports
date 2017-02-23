@@ -46,67 +46,6 @@
   
   <category key="net.sf.jasperreports.metadata.property.category:export">
     <name>Report Export</name>
-    <content>            
-      <property ref="net.sf.jasperreports.export.xls.fit.height"/>
-      <property ref="net.sf.jasperreports.export.xls.fit.width"/>
-      <property ref="net.sf.jasperreports.export.xls.first.page.number"/>
-      <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
-      <property ref="net.sf.jasperreports.export.xls.force.page.breaks"/>
-      <property ref="net.sf.jasperreports.export.xls.formula"/>
-      <property ref="net.sf.jasperreports.export.xls.freeze.column"/>
-      <property ref="net.sf.jasperreports.export.xls.freeze.column.edge"/>
-      <property ref="net.sf.jasperreports.export.xls.freeze.row"/>
-      <property ref="net.sf.jasperreports.export.xls.freeze.row.edge"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.ignore.anchors"/>
-      <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
-      <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
-      <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
-      <property ref="net.sf.jasperreports.export.xls.ignore.text.formatting"/>
-      <property ref="net.sf.jasperreports.export.xls.image.anchor.type"/>
-      <property ref="net.sf.jasperreports.export.xls.image.border.fix.enabled"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.metadata.application"/>
-      <property ref="net.sf.jasperreports.export.xls.metadata.author"/>
-      <property ref="net.sf.jasperreports.export.xls.metadata.keywords"/>
-      <property ref="net.sf.jasperreports.export.xls.metadata.subject"/>
-      <property ref="net.sf.jasperreports.export.xls.metadata.title"/>
-
-      <property ref="net.sf.jasperreports.export.xls.one.page.per.sheet"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.page.scale"/>
-      <property ref="net.sf.jasperreports.export.xls.password"/>
-      <property ref="net.sf.jasperreports.export.xls.pattern"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.print.{header|footer}.margin"/>
-      <property ref="net.sf.jasperreports.export.xls.print.page.{top|left|bottom|right}.margin"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
-      <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
-      <property ref="net.sf.jasperreports.export.xls.repeat.value"/>
-      <property ref="net.sf.jasperreports.export.xls.row.outline.level.{arbitrary_level}"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.sheet.direction"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.{header|footer}.{left|center|right}"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.export.xls.sheet.tab.color"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.show.gridlines"/>
-      <property ref="net.sf.jasperreports.export.xls.shrink.to.fit"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.use.timezone"/>
-      
-      <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
-      <property ref="net.sf.jasperreports.export.xls.workbook.template"/>
-      <property ref="net.sf.jasperreports.export.xls.workbook.template.keep.sheets"/>
-      <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
-      <property ref="net.sf.jasperreports.export.xls.write.header"/>
-      
-      <property ref="net.sf.jasperreports.export.xlsx.macro.template"/>
-    </content>
   </category>
   
   <category key="net.sf.jasperreports.metadata.property.category:extensions">
@@ -4511,10 +4450,6 @@ rows than those exposed in the related sheet.
 <br/>
 See also the <a href="#net.sf.jasperreports.export.xls.fit.width">net.sf.jasperreports.export.xls.fit.width</a> property.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FIT_HEIGHT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
@@ -4540,10 +4475,6 @@ smaller fonts and thinner columns than those exposed in the related sheet.
 <br/>
 See also the <a href="#net.sf.jasperreports.export.xls.fit.height">net.sf.jasperreports.export.xls.fit.height</a> property.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FIT_WIDTH</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
@@ -4560,10 +4491,6 @@ When the property is set at Element level, it can be used to set the first page 
 <br/>
 Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FIRST_PAGE_NUMBER</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -4576,10 +4503,6 @@ Flag property that indicates whether the font size should be decreased so that t
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isFontSizeFixEnabled()">isFontSizeFixEnabled()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FONT_SIZE_FIX_ENABLED</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4596,10 +4519,6 @@ Allowed values are:
 <li><code>false</code></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FORCE_PAGE_BREAKS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>6.0.2</since>
   </configProperty>
   
   
@@ -4615,10 +4534,6 @@ Its value is used as default for the
 If set to <code>true</code>, local anchors will be excluded from export. 
 Otherwise they will be exported along with elements they belong to.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IGNORE_ANCHORS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -4633,11 +4548,10 @@ Its value is used as default for the
 <br/>
 If the property is set at element level, its value will be applied only to the sheet containing that element. 
 Other sheets in the document will not be affected.
+<br/>
+<br/>
+<b>Note:</b> Since v.6.2.0 this property can be set also per report element.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IGNORE_CELL_BACKGROUND</api>
-    <default>false</default>
-    <scope>Global | Report | Element (since 6.2.0)</scope>
-    <since>3.6.2</since>
   </configProperty>
   
   
@@ -4652,11 +4566,10 @@ Its value is used as default for the
 <br/>
 If the property is set at element level, its value will be applied only to the sheet containing that element. 
 Other sheets in the document will not be affected.
+<br/>
+<br/>
+<b>Note:</b> Since v.6.2.0 this property can be set also per report element.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IGNORE_CELL_BORDER</api>
-    <default>false</default>
-    <scope>Global | Report | Element (since 6.2.0)</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4669,10 +4582,6 @@ Property that specifies whether graphic elements should be ignored and only text
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnoreGraphics()">isIgnoreGraphics()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IGNORE_GRAPHICS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4691,10 +4600,6 @@ Global settings are overriden by report level settings; report level settings ar
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getImageAnchorType()">getImageAnchorType()</api> Excel export configuration setting.
 	</description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IMAGE_ANCHOR_TYPE</api>
-    <default><code>MoveNoSize</code></default>
-    <scope>Global | Report | Element</scope>
-    <since>5.0.4</since>
   </configProperty>
   
   
@@ -4707,10 +4612,6 @@ Flag property that specifies whether the minimum image padding will be forced to
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isImageBorderFixEnabled()">isImageBorderFixEnabled()</api> Excel export configuration setting.
 	</description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IMAGE_BORDER_FIX_ENABLED</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   
@@ -4723,10 +4624,6 @@ Property that specifies the maximum number of rows allowed to be exported to the
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getMaxRowsPerSheet()">getMaxRowsPerSheet()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_MAXIMUM_ROWS_PER_SHEET</api>
-    <default>0</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4739,10 +4636,6 @@ Property that contains the application information to use for the generated XLS 
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataApplication()">getMetadataApplication()</api> XLS export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_APPLICATION</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4755,10 +4648,6 @@ Property that contains the author information to use for the generated XLS metad
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataAuthor()">getMetadataAutor()</api> XLS export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_AUTHOR</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4771,10 +4660,6 @@ Property that contains the keywords to use for the generated XLS metadata.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataKeywords()">getMetadataKeywords()</api> XLS export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_KEYWORDS</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4787,10 +4672,6 @@ Property that contains the subject information to use for the generated XLS meta
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataSubject()">getMetadataSubject()</api> XLS export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_SUBJECT</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4803,10 +4684,6 @@ Property that contains the title information to use for the generated XLS metada
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMetadataTitle()">getMetadataTitle()</api> XLS export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_METADATA_TITLE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>6.3.1</since>
   </configProperty>
   
   
@@ -4819,10 +4696,6 @@ Property that specifies whether each report page should be written in a differen
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isOnePagePerSheet()">isOnePagePerSheet()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_ONE_PAGE_PER_SHEET</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4835,10 +4708,6 @@ Property that specifies whether the empty spacer columns should be removed or no
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isRemoveEmptySpaceBetweenColumns()">isRemoveEmptySpaceBetweenColumns()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4851,10 +4720,6 @@ Property that specifies whether the empty spacer rows should be removed or not.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4868,10 +4733,6 @@ should be ignored in the resulting Excel document at export time or not.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isIgnoreTextFormatting()">isIgnoreTextFormatting()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_IGNORE_TEXT_FORMATTING</api>
-    <default>false</default>
-    <scope>Global | Report | Text Element</scope>
-    <since>6.0.4</since>
   </configProperty>
   
   
@@ -4889,10 +4750,6 @@ Setting this property to <code>true</code> instructs the exporter to use he repo
 <br/>
 The property only has effect when <code>net.sf.jasperreports.export.xls.detect.cell.type</code> is set.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_USE_TIMEZONE</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>4.5.0</since>
   </configProperty>
   
   
@@ -4907,11 +4764,10 @@ Its value is used as default for the
 <br/>
 If the property is set at element level, its value will be applied only to the sheet containing that element. 
 Other sheets in the document will not be affected.
+<br/>
+<br/>
+<b>Note:</b> Since v.6.2.0 this property can be set also per report element
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_WHITE_PAGE_BACKGROUND</api>
-    <default>true</default>
-    <scope>Global | Report | Element (since 6.2.0)</scope>
-    <since>2.0.1</since>
   </configProperty>
   
   
@@ -4935,10 +4791,6 @@ This property is used in Excel exporters based either on Apache POI APIs
 (<api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api>). There's no similar property 
 for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>.
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WORKBOOK_TEMPLATE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>4.5.1</since>
   </configProperty>
   
   
@@ -4961,10 +4813,6 @@ Allowed values are:
 <li><code>false</code> - this is the default value.</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS</api>
-    <default>false</default>
-    <scope>Global | Report</scope>
-    <since>4.5.1</since>
   </configProperty>
   
   
@@ -4974,10 +4822,6 @@ Allowed values are:
     <description>
 Property that stores the formula which has to be applied to a given cell in an Excel sheet.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_FORMULA</api>stores the formula which has to be applied to a given cell in an Excel sheet.
-    <default>N/A</default>
-    <scope>Text Element</scope>
-    <since>3.0.0</since>
   </configProperty>
   
   
@@ -4996,10 +4840,6 @@ The property is available for:
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FREEZE_COLUMN</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>4.1.1</since>
   </configProperty>
   
   
@@ -5030,10 +4870,6 @@ The property is available for:
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN_EDGE</api>
-    <default>N/A</default>
-    <scope>Report Element</scope>
-    <since>4.1.1</since>
   </configProperty>
   
   
@@ -5052,10 +4888,6 @@ The property is available for:
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FREEZE_ROW</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>4.1.1</since>
   </configProperty>
   
   
@@ -5086,10 +4918,6 @@ The property is available for:
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW_EDGE</api>
-    <default>N/A</default>
-    <scope>Report Element</scope>
-    <since>4.1.1</since>
   </configProperty>
   
   
@@ -5113,10 +4941,6 @@ The property overrides the <api href="net/sf/jasperreports/export/XlsReportConfi
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PAGE_SCALE</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>4.6.0</since>
   </configProperty>
   
   
@@ -5131,10 +4955,6 @@ Its value is used as default for the
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PASSWORD</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>3.0.1</since>
   </configProperty>
   
   
@@ -5144,74 +4964,116 @@ This property is by default not set (<code>null</code>).
     <description>
 Property whose value is an Excel compatible pattern, to be used as replacement for the text field pattern when exporting to XLS formats.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_PATTERN</api>
-    <default>N/A</default>
-    <scope>Text Element</scope>
-    <since>4.1.1</since>
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.print.{header|footer}.margin -->
+  <!-- net.sf.jasperreports.export.xls.print.header.margin -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.print.{header|footer}.margin">
+  <configProperty name="net.sf.jasperreports.export.xls.print.header.margin">
     <description>
-Custom properties storing the header or footer margin for an Excel sheet, expressed in pixels. There are 2 built-in properties of this type:
-<ul>
-<li><code>net.sf.jasperreports.export.xls.print.header.margin</code> - stores the header margin</li>
-<li><code>net.sf.jasperreports.export.xls.print.footer.margin</code> - stores the footer margin</li>
-</ul>             
-Their value is used as default for the following related Excel export configuration settings:
-<ul>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintHeaderMargin()">getPrintHeaderMargin()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintFooterMargin()">getPrintFooterMargin()</api></li>
-</ul>
-When these properties are set globally or per report, all sheets in the generated document will come with the same header/footer margins. 
-If these margins should differ from a sheet to another, we can set the above properties at element level, so that header/footer margins in a 
-sheet will be read from the element in the sheet that contains these properties. When several elements in a sheet provide header/footer margin properties, the 
-maximum value for the header or footer margin will be considered.
+Custom property storing the header margin for an Excel sheet, expressed in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintHeaderMargin()">getPrintHeaderMargin()</api> Excel export configuration setting.
+When this property is set globally or per report, all sheets in the generated document will come with the same header margins. 
+If these margins should differ from a sheet to another, we can set the above property at element level, so that header margins in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide header margin properties, the 
+maximum value for the header margin will be considered.
 <br/>
-Properties set at element level take priority over properties set globally or per report level. Default value for these properties is 0.          
+Properties set at element level take priority over properties set globally or per report level. Default value for this property is 0.          
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_HEADER_MARGIN</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_FOOTER_MARGIN</api>
-    <default>0</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.4.2</since>
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.print.page.{top|left|bottom|right}.margin -->
+  <!-- net.sf.jasperreports.export.xls.print.footer.margin -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.print.page.{top|left|bottom|right}.margin">
+  <configProperty name="net.sf.jasperreports.export.xls.print.footer.margin">
     <description>
-Custom properties storing the page margins for an Excel sheet, expressed in pixels. There are 4 built-in properties of this type:
-<ul>
-<li><code>net.sf.jasperreports.export.xls.print.page.top.margin</code> - stores the page top margin</li>
-<li><code>net.sf.jasperreports.export.xls.print.page.left.margin</code> - stores the page left margin</li>
-<li><code>net.sf.jasperreports.export.xls.print.page.bottom.margin</code> - stores the page bottom margin</li>
-<li><code>net.sf.jasperreports.export.xls.print.page.right.margin</code> - stores the page right margin</li>
-</ul>             
-Their value is used as default for the following related Excel export configuration settings:
-<ul>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageTopMargin()">getPrintPageTopMargin()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageLeftMargin()">getPrintPageLeftMargin()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageBottomMargin()">getPrintPageBottomMargin()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageRightMargin()">getPrintPageRightMargin()</api></li>
-</ul>
-When these properties are set globally or per report level, all sheets in the generated document will have the same page margins. 
-If these margins should differ from a sheet to another, we can set the above properties at element level, so that page margins in a 
-sheet will be read from the element in the sheet that contains these properties. When several elements in a sheet provide page margin properties, the 
-maximum value for the related margin will be considered. Default value for these properties is 0.
+Custom property storing the footer margin for an Excel sheet, expressed in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintFooterMargin()">getPrintFooterMargin()</api> Excel export configuration setting:
+When this property is set globally or per report, all sheets in the generated document will come with the same footer margins. 
+If these margins should differ from a sheet to another, we can set the above property at element level, so that footer margins in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide footer margin properties, the 
+maximum value for the footer margin will be considered.
+<br/>
+Properties set at element level take priority over properties set globally or per report level. Default value for this property is 0.          
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.print.page.top.margin -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.page.top.margin">
+    <description>
+Custom property storing the top page margin for an Excel sheet, expressed in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageTopMargin()">getPrintPageTopMargin()</api> 
+Excel export configuration setting.
+<br/>
+When this property is set globally or per report level, all sheets in the generated document will have the same top page margins. 
+If these margins should differ from a sheet to another, we can set the above property at element level, so that the top page margin in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide top page margin properties, the 
+maximum value for the related margin will be considered. Default value for this property is 0.
 <br/>
 Properties set at element level take priority over properties set globally or per report level.            
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_TOP_MARGIN</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_LEFT_MARGIN</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_BOTTOM_MARGIN</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_PRINT_PAGE_RIGHT_MARGIN</api>
-    <default>0</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.4.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.print.page.left.margin -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.page.left.margin">
+    <description>
+Custom property storing the left page margin for an Excel sheet, expressed in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageLeftMargin()">getPrintPageLeftMargin()</api> 
+Excel export configuration setting.
+<br/>
+When this property is set globally or per report level, all sheets in the generated document will have the same left page margins. 
+If these margins should differ from a sheet to another, we can set the above property at element level, so that the left page margin in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide left page margin 
+properties, the maximum value for the related margin will be considered. Default value for this property is 0.
+<br/>
+Properties set at element level take priority over properties set globally or per report level.            
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.print.page.bottom.margin -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.page.bottom.margin">
+    <description>
+Custom property storing the bottom page margin for an Excel sheet, expressed in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageBottomMargin()">getPrintPageBottomMargin()</api> 
+Excel export configuration setting.
+<br/>
+When this property is set globally or per report level, all sheets in the generated document will have the same bottom page margins. 
+If these margins should differ from a sheet to another, we can set the above property at element level, so that the bottom page margin in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide bottom page margin 
+properties, the maximum value for the related margin will be considered. Default value for this property is 0.
+<br/>
+Properties set at element level take priority over properties set globally or per report level.            
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.print.page.right.margin -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.page.right.margin">
+    <description>
+Custom property storing the right page margin for an Excel sheet, expressed in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageRightMargin()">getPrintPageRightMargin()</api> 
+Excel export configuration setting.
+<br/>
+When this property is set globally or per report level, all sheets in the generated document will have the same right page margins. 
+If these margins should differ from a sheet to another, we can set the above property at element level, so that the right page margin in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide right page margin 
+properties, the maximum value for the related margin will be considered. Default value for this property is 0.
+<br/>
+Properties set at element level take priority over properties set globally or per report level.            
+    </description>
   </configProperty>
   
   
@@ -5258,10 +5120,6 @@ outline level is considered for that row. To end an outline row group one has to
 <code>End</code> value. This is a special property value instructing the JR engine that the current row group of that level ends 
 on the current row. 
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_ROW_OUTLINE_LEVEL_PREFIX</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
@@ -5273,10 +5131,6 @@ Property that specifies whether the value associated with
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
 should be repeated or not when it is missing. This property is available for the metadata-based Excel export.    
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_REPEAT_VALUE</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>4.0.2</since>
   </configProperty>
   
   
@@ -5292,36 +5146,18 @@ This property indicates if the sheet is left-to-right or right-to-left oriented.
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetDirection()">getSheetDirection()</api> Excel export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_DIRECTION</api>
-    <default>LTR</default>
-    <scope>Global | Report</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.sheet.{header|footer}.{left|center|right} -->
+  <!-- net.sf.jasperreports.export.xls.sheet.header.left -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.sheet.{header|footer}.{left|center|right}">
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.left">
     <description>
-Custom properties storing the text content of the Excel sheet headers or footers. There are 6 built-in properties of this type:
-<ul>
-<li><code>net.sf.jasperreports.export.xls.sheet.header.left</code> - stores the text of the left header</li>
-<li><code>net.sf.jasperreports.export.xls.sheet.header.center</code> - stores the text of the center header</li>
-<li><code>net.sf.jasperreports.export.xls.sheet.header.right</code> - stores the text of the right header</li>
-<li><code>net.sf.jasperreports.export.xls.sheet.footer.left</code> - stores the text of the left footer</li>
-<li><code>net.sf.jasperreports.export.xls.sheet.footer.center</code> - stores the text of the center footer</li>
-<li><code>net.sf.jasperreports.export.xls.sheet.footer.right</code> - stores the text of the right footer</li>
-</ul>             
-Their value is used as default for the following related Excel export configuration settings:
-<ul>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderLeft()">getSheetHeaderLeft()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderCenter()">getSheetHeaderCenter()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderRight()">getSheetHeaderRight()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterLeft()">getSheetFooterLeft()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterCenter()">getSheetFooterCenter()</api></li>
-<li><api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterRight()">getSheetFooterRight()</api></li>
-</ul>             
-The text content in Excel headers/footers is limited to 255 characters. It may be normal plain text, or may contain some special 
+Custom property storing the text content of the Excel sheet left headers. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderLeft()">getSheetHeaderLeft()</api> 
+Excel export configuration setting.
+The text content in Excel left header is limited to 255 characters. It may be normal plain text, or may contain some special 
 character sequences that are usually interpreted by Excel app as dynamic settings for headers/footers:
 <ul>
 <li>&amp;P - the current page number</li>
@@ -5334,25 +5170,186 @@ character sequences that are usually interpreted by Excel app as dynamic setting
 </ul>             
 <b>Note: </b>Being a special XML character, &amp; should be escaped as &amp;amp;
 <br/>
-For instance, a footer right property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
+For instance, a left header property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
+<br/>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.left" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
+<br/>
+<br/>
+Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+If several elements in a sheet contain the same left header property, the value for the last element in the sheet will be considered.
+Properties set at element level take priority over properties set globally or per report level.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.header.center -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.center">
+    <description>
+Custom property storing the text content of the Excel sheet center headers. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderCenter()">getSheetHeaderCenter()</api> 
+Excel export configuration setting.
+The text content in Excel center header is limited to 255 characters. It may be normal plain text, or may contain some special 
+character sequences that are usually interpreted by Excel app as dynamic settings for headers/footers:
+<ul>
+<li>&amp;P - the current page number</li>
+<li>&amp;N - the total number of pages</li>
+<li>&amp;D - the current date</li>
+<li>&amp;T - the current time</li>
+<li>&amp;A - the sheet name</li>
+<li>&amp;F - the file name</li>
+<li>&amp;Z - the file full name</li>
+</ul>             
+<b>Note: </b>Being a special XML character, &amp; should be escaped as &amp;amp;
+<br/>
+For instance, a center header property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
+<br/>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.center" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
+<br/>
+<br/>
+Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+If several elements in a sheet contain the same center header property, the value for the last element in the sheet will be considered.
+Properties set at element level take priority over properties set globally or per report level.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.header.right -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.right">
+    <description>
+Custom property storing the text content of the Excel sheet right headers. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetHeaderRight()">getSheetHeaderRight()</api> 
+Excel export configuration setting.
+The text content in Excel right header is limited to 255 characters. It may be normal plain text, or may contain some special 
+character sequences that are usually interpreted by Excel app as dynamic settings for headers/footers:
+<ul>
+<li>&amp;P - the current page number</li>
+<li>&amp;N - the total number of pages</li>
+<li>&amp;D - the current date</li>
+<li>&amp;T - the current time</li>
+<li>&amp;A - the sheet name</li>
+<li>&amp;F - the file name</li>
+<li>&amp;Z - the file full name</li>
+</ul>             
+<b>Note: </b>Being a special XML character, &amp; should be escaped as &amp;amp;
+<br/>
+For instance, a right header property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
+<br/>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
+<br/>
+<br/>
+Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+If several elements in a sheet contain the same right header property, the value for the last element in the sheet will be considered.
+Properties set at element level take priority over properties set globally or per report level.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.footer.left -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.left">
+    <description>
+Custom property storing the text content of the Excel sheet left footers. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterLeft()">getSheetFooterLeft()</api> 
+Excel export configuration setting.
+The text content in Excel left footer is limited to 255 characters. It may be normal plain text, or may contain some special 
+character sequences that are usually interpreted by Excel app as dynamic settings for headers/footers:
+<ul>
+<li>&amp;P - the current page number</li>
+<li>&amp;N - the total number of pages</li>
+<li>&amp;D - the current date</li>
+<li>&amp;T - the current time</li>
+<li>&amp;A - the sheet name</li>
+<li>&amp;F - the file name</li>
+<li>&amp;Z - the file full name</li>
+</ul>             
+<b>Note: </b>Being a special XML character, &amp; should be escaped as &amp;amp;
+<br/>
+For instance, a left footer property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
+<br/>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.left" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
+<br/>
+<br/>
+Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+If several elements in a sheet contain the same left footer property, the value for the last element in the sheet will be considered.
+Properties set at element level take priority over properties set globally or per report level.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.footer.center -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.center">
+    <description>
+Custom property storing the text content of the Excel sheet center footers. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterCenter()">getSheetFooterCenter()</api> 
+Excel export configuration setting.
+The text content in Excel center footer is limited to 255 characters. It may be normal plain text, or may contain some special 
+character sequences that are usually interpreted by Excel app as dynamic settings for headers/footers:
+<ul>
+<li>&amp;P - the current page number</li>
+<li>&amp;N - the total number of pages</li>
+<li>&amp;D - the current date</li>
+<li>&amp;T - the current time</li>
+<li>&amp;A - the sheet name</li>
+<li>&amp;F - the file name</li>
+<li>&amp;Z - the file full name</li>
+</ul>             
+<b>Note: </b>Being a special XML character, &amp; should be escaped as &amp;amp;
+<br/>
+For instance, a center footer property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
+<br/>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.center" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
+<br/>
+<br/>
+Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+If several elements in a sheet contain the same center footer property, the value for the last element in the sheet will be considered.
+Properties set at element level take priority over properties set globally or per report level.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.footer.right -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.right">
+    <description>
+Custom property storing the text content of the Excel sheet right footers. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetFooterRight()">getSheetFooterRight()</api> 
+Excel export configuration setting.
+The text content in Excel right footer is limited to 255 characters. It may be normal plain text, or may contain some special 
+character sequences that are usually interpreted by Excel app as dynamic settings for headers/footers:
+<ul>
+<li>&amp;P - the current page number</li>
+<li>&amp;N - the total number of pages</li>
+<li>&amp;D - the current date</li>
+<li>&amp;T - the current time</li>
+<li>&amp;A - the sheet name</li>
+<li>&amp;F - the file name</li>
+<li>&amp;Z - the file full name</li>
+</ul>             
+<b>Note: </b>Being a special XML character, &amp; should be escaped as &amp;amp;
+<br/>
+For instance, a right footer property that contains the 'Page &lt;i&gt; of &lt;n&gt;' structure should be set as follows:
 <br/>
 <br/>
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 these properties can be set also at element level, in order to control headers/footers in each sheet separately. 
-If several elements in a sheet contain the same header/footer content property, the value for the last element in the sheet will be considered.
+Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+If several elements in a sheet contain the same right footer property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_LEFT</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_CENTER</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_HEADER_RIGHT</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_LEFT</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_CENTER</api>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_FOOTER_RIGHT</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.7.5</since>
   </configProperty>
   
   
@@ -5364,10 +5361,6 @@ Property used to set the name of the sheet containing a given element. Its value
 <br/>
 If several elements in the sheet contain this property, the engine will consider the value of the last exported element's property.
 	</description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_SHEET_NAME</api>
-    <default>N/A</default>
-    <scope>Element</scope>
-    <since>4.1.3</since>
   </configProperty>
   
   
@@ -5472,10 +5465,6 @@ default as "Page y", where y is the current page number.
 <br/>
 These properties are by default not set.
     </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_NAMES_PREFIX</api>
-    <default>N/A</default>
-    <scope>Report</scope>
-    <since>3.5.2</since>
   </configProperty>
   
   
@@ -5496,10 +5485,6 @@ last exported element's property.
 <br/>
 <b>Note: </b>This property is not supported by the XLS output format.
 	</description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHEET_TAB_COLOR</api>
-    <default>N/A</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.2.0</since>
   </configProperty>
   
 
@@ -5515,10 +5500,6 @@ Its value is used as default for the
 If multiple elements in a sheet provide this property, the last read value will be considered.
 Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.    
 	</description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHOW_GRIDLINES</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>4.8.0</since>
   </configProperty>
   
   
@@ -5538,10 +5519,6 @@ The value of this property is used as default for the
 <br/>
 Settings at global level are overriden by report level settings; report level settings are overriden by element level settings.    
 	</description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_SHRINK_TO_FIT</api>
-    <default>false</default>
-    <scope>Global | Report | Element</scope>
-    <since>6.0.2</since>
   </configProperty>
   
   
@@ -5556,10 +5533,6 @@ Its value is used as default for the
 <br/>
 If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowed.
 </description>
-    <api>net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_WRAP_TEXT</api>
-    <default>true</default>
-    <scope>Global | Report | Element</scope>
-    <since>3.7.3</since>
   </configProperty>
   
   
@@ -5572,10 +5545,6 @@ Property that specifies whether the export header (the column names) should be w
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsMetadataReportConfiguration.html#isWriteHeader()">isWriteHeader()</api> Excel metadata export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsMetadataReportConfiguration.html#PROPERTY_WRITE_HEADER</api>
-    <default>false</default>
-    <scope>Element</scope>
-    <since>4.0.2</since>
   </configProperty>
   
   
@@ -5591,10 +5560,6 @@ Excel macro-enabled documents (*.xlsm).
 The value of this property is used as default for the 
 <api href="net/sf/jasperreports/export/XlsxExporterConfiguration.html#getMacroTemplate()">getMacroTemplate()</api> Excel 2007 export configuration setting.
     </description>
-    <api>net/sf/jasperreports/export/XlsxExporterConfiguration.html#PROPERTY_MACRO_TEMPLATE</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>4.5.1</since>
   </configProperty>
   
   

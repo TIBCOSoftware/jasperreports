@@ -50,6 +50,13 @@ public interface XlsMetadataReportConfiguration extends XlsReportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_0_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_WRITE_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.write.header";
 
 	/**

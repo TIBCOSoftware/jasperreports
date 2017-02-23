@@ -82,4 +82,8 @@ public interface PropertyConstants
 	
 	String QUESTION_MARK = "?";
 	
+	String MOVE_NO_SIZE = "MoveNoSize";
+	
+	String LTR = "LTR";
+	
 }

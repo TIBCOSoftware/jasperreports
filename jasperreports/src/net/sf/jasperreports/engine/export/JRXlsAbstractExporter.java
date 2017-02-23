@@ -43,6 +43,7 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRConstants;
@@ -279,11 +280,21 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	/**
 	 * Property that stores the formula which has to be applied to a given cell in an excel sheet.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.TEXT_ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_0_0
+			)
 	public static final String PROPERTY_CELL_FORMULA = XLS_EXPORTER_PROPERTIES_PREFIX + "formula";
 
 	/**
 	 * Property that stores the pattern which has to be applied to a given cell in an excel sheet.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.TEXT_ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_1
+			)
 	public static final String PROPERTY_CELL_PATTERN = XLS_EXPORTER_PROPERTIES_PREFIX + "pattern";
 
 	/**
@@ -292,6 +303,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_3
+			)
 	public static final String PROPERTY_SHEET_NAME = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.name";
 
 	/**
@@ -374,6 +390,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * <li><code>Bottom</code> - The current row is the last 'frozen' row in the sheet. All rows below are unlocked.</li>
 	 * </ul>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_1,
+			valueType = EdgeEnum.class
+			)
 	public static final String PROPERTY_FREEZE_ROW_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row.edge";
 	
 	/**
@@ -385,6 +407,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * <li><code>Right</code> - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
 	 * </ul>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_1,
+			valueType = EdgeEnum.class
+			)
 	public static final String PROPERTY_FREEZE_COLUMN_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column.edge";
 	
 	/**
@@ -511,6 +539,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			name = "net.sf.jasperreports.export.xls.row.outline.level.{arbitrary_level}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_1_3
+			)
 	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = XLS_EXPORTER_PROPERTIES_PREFIX + "row.outline.level.";
 	
 	/**

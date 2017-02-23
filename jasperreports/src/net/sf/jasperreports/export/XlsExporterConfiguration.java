@@ -71,6 +71,11 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_5_1
+			)
 	public static final String PROPERTY_WORKBOOK_TEMPLATE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template";
 
 	/**
@@ -83,31 +88,63 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * @see JRPropertiesUtil
 	 * @since 4.5.1
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_5_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template.keep.sheets";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataTitle()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_3_1
+			)
 	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.title";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataAuthor()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_3_1
+			)
 	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.author";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataSubject()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_3_1
+			)
 	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.subject";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataKeywords()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_3_1
+			)
 	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.keywords";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataApplication()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_3_1
+			)
 	public static final String PROPERTY_METADATA_APPLICATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.application";
 	
 	/**

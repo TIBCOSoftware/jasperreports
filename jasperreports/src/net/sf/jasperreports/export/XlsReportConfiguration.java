@@ -63,6 +63,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_ONE_PAGE_PER_SHEET = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.one.page.per.sheet";
 
 	/**
@@ -72,6 +79,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.rows";
 
 	/**
@@ -81,6 +95,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.columns";
 
 	/**
@@ -90,6 +111,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.white.page.background";
 
 	/**
@@ -99,6 +127,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_3,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_WRAP_TEXT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "wrap.text";
 
 	/**
@@ -152,6 +187,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_FONT_SIZE_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.font.size.fix.enabled";
 
 	/**
@@ -161,6 +203,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_0_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IMAGE_BORDER_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.image.border.fix.enabled";
 
 	/**
@@ -170,6 +219,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_GRAPHICS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.graphics";
 
 	/**
@@ -195,6 +251,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_CELL_BORDER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.cell.border";
 
 	/**
@@ -204,6 +267,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_6_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_CELL_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.cell.background";
 
 	/**
@@ -213,6 +283,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_2_0_1,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_MAXIMUM_ROWS_PER_SHEET = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.max.rows.per.sheet";
 
 	/**
@@ -220,6 +297,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_5
+			)
 	public static final String PROPERTY_SHEET_HEADER_LEFT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.header.left";
 
 	/**
@@ -227,6 +309,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_5
+			)
 	public static final String PROPERTY_SHEET_HEADER_CENTER = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.header.center";
 
 	/**
@@ -234,6 +321,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_5
+			)
 	public static final String PROPERTY_SHEET_HEADER_RIGHT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.header.right";
 
 	/**
@@ -241,6 +333,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_5
+			)
 	public static final String PROPERTY_SHEET_FOOTER_LEFT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.footer.left";
 
 	/**
@@ -248,6 +345,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_5
+			)
 	public static final String PROPERTY_SHEET_FOOTER_CENTER = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.footer.center";
 
 	/**
@@ -255,6 +357,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_3_7_5
+			)
 	public static final String PROPERTY_SHEET_FOOTER_RIGHT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.footer.right";
 
 	/**
@@ -264,6 +371,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_0_1
+			)
 	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.password";
 
 	/**
@@ -279,6 +391,12 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			name = "net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}",
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_5_2
+			)
 	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.names.";
 
 	/**
@@ -296,6 +414,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * </ul>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_ANCHORS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "ignore.anchors";
 
 	/**
@@ -303,6 +428,12 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_7_5,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_FIT_WIDTH = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "fit.width";
 
 	/**
@@ -310,6 +441,12 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </p>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_7_5,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_FIT_HEIGHT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "fit.height";
 
 	/**
@@ -323,11 +460,24 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </ul>
 	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_6_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PAGE_SCALE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "page.scale";
 
 	/**
 	 * This property provides a default for the {@link #getSheetDirection()} exporter configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.LTR,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_3_7_5,
+			valueType = RunDirectionEnum.class
+			)
 	public static final String PROPERTY_SHEET_DIRECTION = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.direction";
 
 	/**
@@ -335,6 +485,12 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Allowed values are represented by positive integers in the 1..65536 range. Negative values are not considered. 
 	 * The property should be used when all sheets in the document have the same freeze row index.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_1_1,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_FREEZE_ROW = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row";
 	
 	/**
@@ -342,6 +498,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * Allowed values are letters or letter combinations representing valid column names in Excel, such as A, B, AB, AC, etc.
 	 * The property should be used when all document sheets have the same freeze column name.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_4_1_1
+			)
 	public static final String PROPERTY_FREEZE_COLUMN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column";
 
 	/**
@@ -374,6 +535,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @since 4.5.0
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_5_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_USE_TIMEZONE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "use.timezone";
 
 	/**
@@ -388,6 +556,12 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_6_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_FIRST_PAGE_NUMBER = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "first.page.number";
 
 	/**
@@ -405,6 +579,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_4_8_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_SHOW_GRIDLINES = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "show.gridlines";
 
 	/**
@@ -426,6 +607,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.MOVE_NO_SIZE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_5_0_4,
+			valueType = ImageAnchorTypeEnum.class
+			)
 	public static final String PROPERTY_IMAGE_ANCHOR_TYPE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "image.anchor.type";
 	
 	/**
@@ -461,6 +649,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = JRConstants.VERSION_6_0_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_FORCE_PAGE_BREAKS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "force.page.breaks";
 
 	/**
@@ -481,6 +676,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * </ul>
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_0_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_SHRINK_TO_FIT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "shrink.to.fit";
 
 	/**
@@ -497,6 +699,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_0_4,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_TEXT_FORMATTING = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.text.formatting";
 
 	/**
@@ -516,6 +725,11 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * 
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_2_0
+			)
 	public static final String PROPERTY_SHEET_TAB_COLOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.tab.color";
 
 		
@@ -537,6 +751,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_4_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PRINT_PAGE_TOP_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.top.margin";
 	
 	/**
@@ -557,6 +778,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_4_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PRINT_PAGE_LEFT_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.left.margin";
 	
 	/**
@@ -577,6 +805,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_4_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PRINT_PAGE_BOTTOM_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.bottom.margin";
 	
 	/**
@@ -597,6 +832,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_4_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PRINT_PAGE_RIGHT_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.right.margin";
 	
 	/**
@@ -617,6 +859,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_PRINT_FOOTER_MARGIN
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_4_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PRINT_HEADER_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.header.margin";
 	
 	/**
@@ -637,6 +886,13 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see #PROPERTY_PRINT_HEADER_MARGIN
 	 * @see JRPropertiesUtil
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = JRConstants.VERSION_6_4_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PRINT_FOOTER_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.footer.margin";
 	
 	/**
