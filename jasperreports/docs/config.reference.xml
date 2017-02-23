@@ -5584,6 +5584,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.xml.start.page.index">
     <description>
+Property used to store the start page index for the XML export.
     </description>
   </configProperty>
   
@@ -5592,6 +5593,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.xml.end.page.index">
     <description>
+Property used to store the end page index for the XML export.    
     </description>
   </configProperty>
   
@@ -5600,6 +5602,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.xml.page.count">
     <description>
+Property used to store the page count for the XML export.
     </description>
   </configProperty>
   
@@ -5608,6 +5611,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.table">
     <description>
+Property used to associate a PDF TABLE tag with this element.
     </description>
   </configProperty>
   
@@ -5616,6 +5620,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.tr">
     <description>
+Property used to associate a PDF TR tag with this element.
     </description>
   </configProperty>
   
@@ -5624,6 +5629,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.th">
     <description>
+ Property used to associate a PDF TH tag with this element.
     </description>
   </configProperty>
   
@@ -5632,6 +5638,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.td">
     <description>
+Property used to associate a PDF TD tag with this element.
     </description>
   </configProperty>
   
@@ -5640,6 +5647,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.l">
     <description>
+Property used to associate a PDF L tag with this element.
     </description>
   </configProperty>
   
@@ -5648,6 +5656,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.li">
     <description>
+Property used to associate a PDF LI tag with this element.
     </description>
   </configProperty>
   
@@ -5656,6 +5665,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h1">
     <description>
+Property used to associate a PDF H1 tag with this element.
     </description>
   </configProperty>
   
@@ -5664,6 +5674,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h2">
     <description>
+Property used to associate a PDF H2 tag with this element.
     </description>
   </configProperty>
   
@@ -5672,6 +5683,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h3">
     <description>
+Property used to associate a PDF H3 tag with this element.
     </description>
   </configProperty>
   
@@ -5680,6 +5692,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h4">
     <description>
+Property used to associate a PDF H4 tag with this element.
     </description>
   </configProperty>
   
@@ -5688,6 +5701,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h5">
     <description>
+Property used to associate a PDF H5 tag with this element.
     </description>
   </configProperty>
   
@@ -5696,6 +5710,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.h6">
     <description>
+Property used to associate a PDF H6 tag with this element.
     </description>
   </configProperty>
   
@@ -5704,6 +5719,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.colspan">
     <description>
+Property used to associate a PDF COLSPAN tag with this element.
     </description>
   </configProperty>
   
@@ -5712,6 +5728,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   
   <configProperty name="net.sf.jasperreports.export.pdf.tag.rowspan">
     <description>
+Property used to associate a PDF ROWSPAN tag with this element.
     </description>
   </configProperty>
   
