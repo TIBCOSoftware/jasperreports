@@ -151,7 +151,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_2_8,
+			sinceVersion = PropertyConstants.VERSION_1_2_8,
 			valueType = Integer.class
 			)
 	public static final String VIEWER_RENDER_BUFFER_MAX_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "viewer.render.buffer.max.size";

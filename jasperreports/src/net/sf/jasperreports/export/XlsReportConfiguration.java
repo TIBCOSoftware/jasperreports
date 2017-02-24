@@ -67,7 +67,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_ONE_PAGE_PER_SHEET = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.one.page.per.sheet";
@@ -83,7 +83,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.rows";
@@ -99,7 +99,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.columns";
@@ -115,7 +115,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.white.page.background";
@@ -131,7 +131,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_7_3,
+			sinceVersion = PropertyConstants.VERSION_3_7_3,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WRAP_TEXT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "wrap.text";
@@ -175,7 +175,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_DETECT_CELL_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.detect.cell.type";
@@ -191,7 +191,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_FONT_SIZE_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.font.size.fix.enabled";
@@ -207,7 +207,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_IMAGE_BORDER_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.image.border.fix.enabled";
@@ -223,7 +223,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_IGNORE_GRAPHICS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.graphics";
@@ -239,7 +239,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_COLLAPSE_ROW_SPAN = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.collapse.row.span";
@@ -255,7 +255,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_IGNORE_CELL_BORDER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.cell.border";
@@ -287,7 +287,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_MAXIMUM_ROWS_PER_SHEET = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.max.rows.per.sheet";
@@ -374,7 +374,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_0_1
+			sinceVersion = PropertyConstants.VERSION_3_0_1
 			)
 	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.password";
 
@@ -703,7 +703,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_0_4,
+			sinceVersion = PropertyConstants.VERSION_6_0_4,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_IGNORE_TEXT_FORMATTING = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.text.formatting";

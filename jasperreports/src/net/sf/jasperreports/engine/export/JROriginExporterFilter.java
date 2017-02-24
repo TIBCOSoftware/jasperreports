@@ -36,7 +36,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -128,7 +127,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			name = "net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_3
+			sinceVersion = PropertyConstants.VERSION_2_0_3
 			)
 	public static final String PROPERTY_EXCLUDE_ORIGIN_PREFIX = "exclude.origin.";
 	
@@ -136,7 +135,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			name = "net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_3
+			sinceVersion = PropertyConstants.VERSION_2_0_3
 			)
 	private static final String KEEP_FIRST_PREFIX = "keep.first.";
 	private static final String BAND_PREFIX = "band.";

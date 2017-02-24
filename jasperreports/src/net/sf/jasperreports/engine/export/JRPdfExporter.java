@@ -92,7 +92,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericElementType;
@@ -380,7 +379,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			name = "net.sf.jasperreports.export.pdf.font.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_1_0_0
+			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)
 	public static final String PDF_FONT_FILES_PREFIX = PDF_EXPORTER_PROPERTIES_PREFIX + "font.";
 	
@@ -391,7 +390,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			name = "net.sf.jasperreports.export.pdf.fontdir.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_1_0_0
+			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)
 	public static final String PDF_FONT_DIRS_PREFIX = PDF_EXPORTER_PROPERTIES_PREFIX + "fontdir.";
 

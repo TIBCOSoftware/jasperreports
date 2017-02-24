@@ -187,21 +187,21 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_0_1,
+			sinceVersion = PropertyConstants.VERSION_3_0_1,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_START_PAGE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.start.page.index";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_0_1,
+			sinceVersion = PropertyConstants.VERSION_3_0_1,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_END_PAGE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.end.page.index";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PAGE_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.page.count";
@@ -213,7 +213,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.QUESTION_MARK,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_7_1
+			sinceVersion = PropertyConstants.VERSION_4_7_1
 			)
 	public static final String PROPERTY_REPLACE_INVALID_CHARS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.replace.invalid.chars";//FIXMEEXPORT do something about it
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";

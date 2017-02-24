@@ -27,7 +27,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -61,7 +60,7 @@ public interface QueryExecuterFactory extends JRQueryExecuterFactory
 			name = "net.sf.jasperreports.query.executer.factory.{language}",
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_2_0
+			sinceVersion = PropertyConstants.VERSION_1_2_0
 			)
 	public static final String QUERY_EXECUTER_FACTORY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "query.executer.factory.";
 

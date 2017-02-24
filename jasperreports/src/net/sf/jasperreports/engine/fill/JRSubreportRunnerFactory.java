@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -45,7 +44,7 @@ public interface JRSubreportRunnerFactory
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_2_2
+			sinceVersion = PropertyConstants.VERSION_1_2_2
 			)
 	public static final String SUBREPORT_RUNNER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "subreport.runner.factory";
 	

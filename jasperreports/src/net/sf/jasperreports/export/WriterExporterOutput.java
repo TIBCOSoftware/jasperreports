@@ -27,7 +27,6 @@ import java.io.Writer;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -46,7 +45,7 @@ public interface WriterExporterOutput extends ExporterOutput
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.UTF_8,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_CHARACTER_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "export.character.encoding";
 

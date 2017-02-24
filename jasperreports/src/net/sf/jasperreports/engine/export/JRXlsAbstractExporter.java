@@ -283,7 +283,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.TEXT_ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_0_0
+			sinceVersion = PropertyConstants.VERSION_3_0_0
 			)
 	public static final String PROPERTY_CELL_FORMULA = XLS_EXPORTER_PROPERTIES_PREFIX + "formula";
 
@@ -430,7 +430,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_5_1,
+			sinceVersion = PropertyConstants.VERSION_4_5_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_AUTO_FIT_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.row";
@@ -450,7 +450,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_5_1,
+			sinceVersion = PropertyConstants.VERSION_4_5_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_AUTO_FIT_COLUMN = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.fit.column";
@@ -605,7 +605,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_BREAK_BEFORE_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "break.before.row";
@@ -619,7 +619,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_BREAK_AFTER_ROW = XLS_EXPORTER_PROPERTIES_PREFIX + "break.after.row";

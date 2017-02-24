@@ -27,7 +27,6 @@ import java.awt.Image;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -50,7 +49,7 @@ public final class JRImageLoader
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_2_0_5
+			sinceVersion = PropertyConstants.VERSION_2_0_5
 			)
 	public static final String PROPERTY_IMAGE_READER = JRPropertiesUtil.PROPERTY_PREFIX + "image.reader";
 
@@ -61,7 +60,7 @@ public final class JRImageLoader
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_2_0_5
+			sinceVersion = PropertyConstants.VERSION_2_0_5
 			)
 	public static final String PROPERTY_IMAGE_ENCODER = JRPropertiesUtil.PROPERTY_PREFIX + "image.encoder";
 

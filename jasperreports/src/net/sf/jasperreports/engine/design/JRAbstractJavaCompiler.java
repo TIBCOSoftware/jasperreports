@@ -35,7 +35,6 @@ import org.apache.commons.collections.map.ReferenceMap;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -66,7 +65,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + 

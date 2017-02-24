@@ -60,7 +60,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_0,
+			sinceVersion = PropertyConstants.VERSION_2_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CREATE_CUSTOM_PALETTE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.create.custom.palette";
@@ -74,7 +74,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_5_1
+			sinceVersion = PropertyConstants.VERSION_4_5_1
 			)
 	public static final String PROPERTY_WORKBOOK_TEMPLATE = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template";
 
@@ -92,7 +92,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_5_1,
+			sinceVersion = PropertyConstants.VERSION_4_5_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "workbook.template.keep.sheets";

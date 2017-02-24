@@ -36,7 +36,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -60,7 +59,7 @@ public abstract class BucketingService
 			valueType = Integer.class,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_3_4
+			sinceVersion = PropertyConstants.VERSION_1_3_4
 			)
 	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";
 	

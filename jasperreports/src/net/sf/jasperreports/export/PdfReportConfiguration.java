@@ -50,7 +50,7 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_FORCE_SVG_SHAPES = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
@@ -70,7 +70,7 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_7_3,
+			sinceVersion = PropertyConstants.VERSION_3_7_3,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
@@ -102,7 +102,7 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";

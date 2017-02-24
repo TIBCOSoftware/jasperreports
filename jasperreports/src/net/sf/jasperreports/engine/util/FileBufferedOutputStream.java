@@ -37,7 +37,6 @@ import java.io.OutputStream;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -62,7 +61,7 @@ public class FileBufferedOutputStream extends OutputStream
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = "262144",
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_1_3_4,
+			sinceVersion = PropertyConstants.VERSION_1_3_4,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_MEMORY_THRESHOLD = JRPropertiesUtil.PROPERTY_PREFIX + "file.buffer.os.memory.threshold";

@@ -27,7 +27,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -86,7 +85,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_1_2_3,
+			sinceVersion = PropertyConstants.VERSION_1_2_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_JPA_QUERY_PAGE_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.page.size";
@@ -98,7 +97,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			name = "net.sf.jasperreports.ejbql.query.hint.{hint}",
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_1_2_3
+			sinceVersion = PropertyConstants.VERSION_1_2_3
 			)
 	public static final String PROPERTY_JPA_QUERY_HINT_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.hint.";
 	

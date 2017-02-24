@@ -51,7 +51,7 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "draw",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_5
+			sinceVersion = PropertyConstants.VERSION_2_0_5
 			)
 	public static final String PROPERTY_CHART_RENDER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "chart.render.type";//FIXMECHART javadoc comment
 

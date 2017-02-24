@@ -58,7 +58,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = "jasperreports.properties",
 			scopes = {PropertyScope.SYSTEM},
-			sinceVersion = JRConstants.VERSION_1_0_0
+			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)
 	public static final String PROPERTIES_FILE = JRPropertiesUtil.PROPERTY_PREFIX + "properties";
 

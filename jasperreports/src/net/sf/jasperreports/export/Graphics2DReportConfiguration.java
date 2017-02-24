@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -50,7 +49,7 @@ public interface Graphics2DReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_1_2_8,
+			sinceVersion = PropertyConstants.VERSION_1_2_8,
 			valueType = Boolean.class
 			)
 	public static final String MINIMIZE_PRINTER_JOB_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.min.job.size";

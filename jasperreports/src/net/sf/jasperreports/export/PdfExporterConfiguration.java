@@ -71,7 +71,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CREATE_BATCH_MODE_BOOKMARKS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.create.batch.mode.bookmarks";
@@ -87,7 +87,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_COMPRESSED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.compressed";
@@ -103,7 +103,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_ENCRYPTED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.encrypted";
@@ -119,7 +119,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_128_BIT_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.128.bit.key";
@@ -132,7 +132,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_USER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.user.password";
 
@@ -144,7 +144,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_OWNER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.owner.password";
 	
@@ -156,7 +156,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_6_0
+			sinceVersion = PropertyConstants.VERSION_5_6_0
 			)
 	public static final String PROPERTY_PERMISSIONS_ALLOWED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.permissions.allowed";
 	
@@ -168,7 +168,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_6_0
+			sinceVersion = PropertyConstants.VERSION_5_6_0
 			)
 	public static final String PROPERTY_PERMISSIONS_DENIED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.permissions.denied";
 
@@ -181,7 +181,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_PDF_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.version";
 
@@ -193,7 +193,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_PDF_JAVASCRIPT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.javascript";
 

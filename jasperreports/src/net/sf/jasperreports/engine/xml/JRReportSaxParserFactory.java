@@ -34,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -76,7 +75,7 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 			category = PropertyConstants.CATEGORY_COMPILE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_0_0,
+			sinceVersion = PropertyConstants.VERSION_1_0_0,
 			valueType = Boolean.class
 			)
 	public static final String COMPILER_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.validation";

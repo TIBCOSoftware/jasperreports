@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -64,7 +63,7 @@ public final class JRFiller
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "system locale",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_2_0
+			sinceVersion = PropertyConstants.VERSION_5_2_0
 			)
 	public static final String PROPERTY_DEFAULT_LOCALE = JRPropertiesUtil.PROPERTY_PREFIX + "default.locale";
 	
@@ -83,7 +82,7 @@ public final class JRFiller
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "system time zone",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_2_0
+			sinceVersion = PropertyConstants.VERSION_5_2_0
 			)
 	public static final String PROPERTY_DEFAULT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "default.timezone";
 

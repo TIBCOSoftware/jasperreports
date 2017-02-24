@@ -459,7 +459,7 @@ public final class JasperPrintManager
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_7_3
+			sinceVersion = PropertyConstants.VERSION_3_7_3
 			)
 	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRPropertiesUtil.PROPERTY_PREFIX + "awt.check.available.printers";
 

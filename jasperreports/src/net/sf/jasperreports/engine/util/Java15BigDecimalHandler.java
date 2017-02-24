@@ -30,7 +30,6 @@ import java.math.RoundingMode;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -59,7 +58,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = "16",
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_3_5_4,
+			sinceVersion = PropertyConstants.VERSION_3_5_4,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_MINIMUM_PRECISION = 

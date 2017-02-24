@@ -71,7 +71,7 @@ public class JRStyledText implements Cloneable
 	@Property(
 			valueType = Boolean.class,
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_3_1_3
+			sinceVersion = PropertyConstants.VERSION_3_1_3
 			)
 	public static final String PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "awt.superscript.fix.enabled";
 

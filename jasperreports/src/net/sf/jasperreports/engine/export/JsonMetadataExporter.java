@@ -124,7 +124,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_1_0,
+			sinceVersion = PropertyConstants.VERSION_6_1_0,
 			valueType = Boolean.class
 			)
 	public static final String JSON_EXPORTER_REPEAT_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.";
@@ -132,28 +132,28 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 			name = "net.sf.jasperreports.export.json.number.{path}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_1_0
+			sinceVersion = PropertyConstants.VERSION_6_1_0
 			)
 	public static final String JSON_EXPORTER_NUMBER_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "number.";
 	@Property(
 			name = "net.sf.jasperreports.export.json.date.{path}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_1_0
+			sinceVersion = PropertyConstants.VERSION_6_1_0
 			)
 	public static final String JSON_EXPORTER_DATE_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "date.";
 	@Property(
 			name = "net.sf.jasperreports.export.json.boolean.{path}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_1_0
+			sinceVersion = PropertyConstants.VERSION_6_1_0
 			)
 	public static final String JSON_EXPORTER_BOOLEAN_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "boolean.";
 	@Property(
 			name = "net.sf.jasperreports.export.json.string.{path}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_1_0
+			sinceVersion = PropertyConstants.VERSION_6_1_0
 			)
 	public static final String JSON_EXPORTER_STRING_PROPERTIES_PREFIX = JSON_EXPORTER_PROPERTIES_PREFIX + "string.";
 

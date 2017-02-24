@@ -59,7 +59,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_1_2_0,
+			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_JDBC_FETCH_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.fetch.size";
@@ -115,7 +115,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_4_1_2,
+			sinceVersion = PropertyConstants.VERSION_4_1_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CACHED_ROWSET = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.cached.rowset";
@@ -141,7 +141,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET, PropertyScope.PARAMETER, PropertyScope.FIELD},
-			sinceVersion = JRConstants.VERSION_6_1_0
+			sinceVersion = PropertyConstants.VERSION_6_1_0
 			)
 	public static final String PROPERTY_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.time.zone";
 	

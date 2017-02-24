@@ -31,7 +31,6 @@ import java.util.Set;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -59,7 +58,7 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 			name = "net.sf.jasperreports.export.{format}.exclude.key.{suffix}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_0_1
+			sinceVersion = PropertyConstants.VERSION_3_0_1
 			)
 	public static final String PROPERTY_EXCLUDED_KEY_PREFIX = "exclude.key.";
 	

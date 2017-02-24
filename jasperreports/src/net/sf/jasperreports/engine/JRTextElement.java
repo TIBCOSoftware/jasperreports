@@ -65,7 +65,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
-			sinceVersion = JRConstants.VERSION_2_0_3,
+			sinceVersion = PropertyConstants.VERSION_2_0_3,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_PRINT_KEEP_FULL_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "print.keep.full.text";
@@ -89,7 +89,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
-			sinceVersion = JRConstants.VERSION_2_0_3,
+			sinceVersion = PropertyConstants.VERSION_2_0_3,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_TRUNCATE_AT_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "text.truncate.at.char";
@@ -111,7 +111,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "empty string",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
-			sinceVersion = JRConstants.VERSION_2_0_3
+			sinceVersion = PropertyConstants.VERSION_2_0_3
 			)
 	public static final String PROPERTY_TRUNCATE_SUFFIX = JRPropertiesUtil.PROPERTY_PREFIX + "text.truncate.suffix";
 	

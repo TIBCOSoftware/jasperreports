@@ -54,7 +54,7 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.COMMA,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_FIELD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.field.delimiter";
 
@@ -68,7 +68,7 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.NEWLINE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_RECORD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.record.delimiter";
 
@@ -82,7 +82,7 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_1_0,
+			sinceVersion = PropertyConstants.VERSION_6_1_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WRITE_BOM = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.write.bom";

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util.xml;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -55,7 +54,7 @@ public final class JRXPathExecuterUtils
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "net.sf.jasperreports.engine.util.xml.XalanXPathExecuterFactory",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_2_0_0
+			sinceVersion = PropertyConstants.VERSION_2_0_0
 			)
 	public static final String PROPERTY_XPATH_EXECUTER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.executer.factory";
 	

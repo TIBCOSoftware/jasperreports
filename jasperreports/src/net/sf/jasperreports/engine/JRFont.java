@@ -44,7 +44,7 @@ public interface JRFont extends JRStyleContainer
 		category = PropertyConstants.CATEGORY_FILL,
 		defaultValue = "SansSerif",
 		scopes = {PropertyScope.CONTEXT},
-		sinceVersion = JRConstants.VERSION_1_3_0
+		sinceVersion = PropertyConstants.VERSION_1_3_0
 	)
 	public static final String DEFAULT_FONT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "default.font.name";
 	
@@ -53,7 +53,7 @@ public interface JRFont extends JRStyleContainer
 			valueType = Float.class,
 			defaultValue = "10",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_3_0
+			sinceVersion = PropertyConstants.VERSION_1_3_0
 	)
 	public static final String DEFAULT_FONT_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "default.font.size";
 	
@@ -61,7 +61,7 @@ public interface JRFont extends JRStyleContainer
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "Helvetica",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_3_0
+			sinceVersion = PropertyConstants.VERSION_1_3_0
 	)
 	public static final String DEFAULT_PDF_FONT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.font.name";
 	
@@ -69,7 +69,7 @@ public interface JRFont extends JRStyleContainer
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "Cp1252",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_3_0
+			sinceVersion = PropertyConstants.VERSION_1_3_0
 	)
 	public static final String DEFAULT_PDF_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.encoding";
 	
@@ -78,7 +78,7 @@ public interface JRFont extends JRStyleContainer
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_3_0
+			sinceVersion = PropertyConstants.VERSION_1_3_0
 	)
 	public static final String DEFAULT_PDF_EMBEDDED = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.embedded";
 

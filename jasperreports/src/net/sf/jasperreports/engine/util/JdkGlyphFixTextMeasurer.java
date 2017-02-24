@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -81,7 +80,7 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = "20",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_ATTEMPTS = JRPropertiesUtil.PROPERTY_PREFIX 
@@ -100,7 +99,7 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_ATTEMPT_SLEEP = JRPropertiesUtil.PROPERTY_PREFIX 
@@ -117,7 +116,7 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_0_0,
+			sinceVersion = PropertyConstants.VERSION_3_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CATCH_EMPTY_STACKTRACE = JRPropertiesUtil.PROPERTY_PREFIX 

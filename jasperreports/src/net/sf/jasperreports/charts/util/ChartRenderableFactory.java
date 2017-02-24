@@ -29,7 +29,6 @@ import org.jfree.chart.JFreeChart;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -45,7 +44,7 @@ public interface ChartRenderableFactory
 			name = "net.sf.jasperreports.chart.renderer.factory.{render_type}",
 			category = PropertyConstants.CATEGORY_FILL,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_2_0_5
+			sinceVersion = PropertyConstants.VERSION_2_0_5
 			)
 	public static final String PROPERTY_CHART_RENDERER_FACTORY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "chart.renderer.factory.";
 

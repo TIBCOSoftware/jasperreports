@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -129,7 +128,7 @@ public interface JRCompiler
 			name = "net.sf.jasperreports.compiler.{language}",
 			category = PropertyConstants.CATEGORY_COMPILE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String COMPILER_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.";
 	
@@ -142,7 +141,7 @@ public interface JRCompiler
 			category = PropertyConstants.CATEGORY_COMPILE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_0_0,
+			sinceVersion = PropertyConstants.VERSION_1_0_0,
 			valueType = Boolean.class
 			)
 	public static final String COMPILER_KEEP_JAVA_FILE = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.keep.java.file";
@@ -156,7 +155,7 @@ public interface JRCompiler
 			category = PropertyConstants.CATEGORY_COMPILE,
 			defaultValue = "System.getProperty(\"user.dir\")",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_1_0_0
+			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)
 	public static final String COMPILER_TEMP_DIR = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.temp.dir";
 	
@@ -169,7 +168,7 @@ public interface JRCompiler
 			category = PropertyConstants.CATEGORY_COMPILE,
 			scopes = {PropertyScope.CONTEXT},
 			defaultValue = "System.getProperty(\"java.class.path\")",
-			sinceVersion = JRConstants.VERSION_1_0_0
+			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)
 	public static final String COMPILER_CLASSPATH = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.classpath";
 

@@ -47,7 +47,7 @@ public interface JRQueryChunk extends JRCloneable
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = ", ; |",
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_2_0_5
+			sinceVersion = PropertyConstants.VERSION_2_0_5
 			)
 	public static final String PROPERTY_CHUNK_TOKEN_SEPARATOR = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "query.chunk.token.separators";

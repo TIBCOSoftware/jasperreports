@@ -27,7 +27,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -88,7 +87,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "list",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_1_2_0
+			sinceVersion = PropertyConstants.VERSION_1_2_0
 			)
 	public static final String PROPERTY_HIBERNATE_QUERY_RUN_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.query.run.type";
 	
@@ -103,7 +102,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_1_2_0,
+			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.query.list.page.size";
@@ -119,7 +118,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_1_3_1,
+			sinceVersion = PropertyConstants.VERSION_1_3_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_HIBERNATE_CLEAR_CACHE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.clear.cache";
@@ -132,7 +131,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_1_2_0,
+			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS = JRPropertiesUtil.PROPERTY_PREFIX + "hql.field.mapping.descriptions";

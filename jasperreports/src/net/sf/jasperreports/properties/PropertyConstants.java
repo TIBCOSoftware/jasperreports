@@ -85,5 +85,65 @@ public interface PropertyConstants
 	String MOVE_NO_SIZE = "MoveNoSize";
 	
 	String LTR = "LTR";
+
+	String VERSION_1_0_0 = "1.0.0";
+
+	String VERSION_1_2_0 = "1.2.0";
+
+	String VERSION_1_2_2 = "1.2.2";
+
+	String VERSION_1_2_3 = "1.2.3";
+
+	String VERSION_1_2_8 = "1.2.8";
+
+	String VERSION_1_3_0 = "1.3.0";
+
+	String VERSION_1_3_1 = "1.3.1";
+
+	String VERSION_1_3_4 = "1.3.4";
+
+	String VERSION_2_0_0 = "2.0.0";
+
+	String VERSION_2_0_1 = "2.0.1";
+
+	String VERSION_2_0_2 = "2.0.2";
+
+	String VERSION_2_0_3 = "2.0.3";
+
+	String VERSION_2_0_5 = "2.0.5";
+
+	String VERSION_3_0_0 = "3.0.0";
+
+	String VERSION_3_0_1 = "3.0.1";
+
+	String VERSION_3_1_3 = "3.1.3";
+
+	String VERSION_3_5_4 = "3.5.4";
+
+	String VERSION_3_7_0 = "3.7.0";
+
+	String VERSION_3_7_1 = "3.7.1";
+
+	String VERSION_3_7_3 = "3.7.3";
+
+	String VERSION_3_7_6 = "3.7.6";
+
+	String VERSION_4_0_1 = "4.0.1";
+
+	String VERSION_4_1_2 = "4.1.2";
+
+	String VERSION_4_5_1 = "4.5.1";
+
+	String VERSION_4_7_1 = "4.7.1";
+
+	String VERSION_5_2_0 = "5.2.0";
+
+	String VERSION_5_6_0 = "5.6.0";
+
+	String VERSION_6_0_4 = "6.0.4";
+
+	String VERSION_6_1_0 = "6.1.0";
+
+	String VERSION_6_1_2 = "6.1.2";
 	
 }

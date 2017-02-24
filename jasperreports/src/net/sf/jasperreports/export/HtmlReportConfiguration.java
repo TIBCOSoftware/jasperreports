@@ -56,7 +56,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.white.page.background";
@@ -73,7 +73,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.remove.emtpy.space.between.rows";
@@ -90,7 +90,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1,
+			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WRAP_BREAK_WORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.wrap.break.word";
@@ -105,7 +105,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.PIXEL_UNIT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_2_0_1
+			sinceVersion = PropertyConstants.VERSION_2_0_1
 			)
 	public static final String PROPERTY_SIZE_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.size.unit";
 
