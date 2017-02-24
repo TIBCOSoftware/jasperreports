@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.properties;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -116,9 +118,27 @@ public interface PropertyConstants
 
 	String VERSION_3_0_1 = "3.0.1";
 
+	String VERSION_3_1_0 = JRConstants.VERSION_3_1_0;
+
+	String VERSION_3_1_2 = JRConstants.VERSION_3_1_2;
+
 	String VERSION_3_1_3 = "3.1.3";
 
+	String VERSION_3_1_4 = JRConstants.VERSION_3_1_4;
+
+	String VERSION_3_5_0 = JRConstants.VERSION_3_5_0;
+
+	String VERSION_3_5_1 = JRConstants.VERSION_3_5_1;
+
+	String VERSION_3_5_2 = JRConstants.VERSION_3_5_2;
+
+	String VERSION_3_5_3 = JRConstants.VERSION_3_5_3;
+
 	String VERSION_3_5_4 = "3.5.4";
+
+	String VERSION_3_6_1 = JRConstants.VERSION_3_6_1;
+
+	String VERSION_3_6_2 = JRConstants.VERSION_3_6_2;
 
 	String VERSION_3_7_0 = "3.7.0";
 
@@ -126,24 +146,68 @@ public interface PropertyConstants
 
 	String VERSION_3_7_3 = "3.7.3";
 
+	String VERSION_3_7_5 = JRConstants.VERSION_3_7_5;
+
 	String VERSION_3_7_6 = "3.7.6";
+
+	String VERSION_4_0_0 = JRConstants.VERSION_4_0_0;
 
 	String VERSION_4_0_1 = "4.0.1";
 
+	String VERSION_4_0_2 = JRConstants.VERSION_4_0_2;
+
+	String VERSION_4_1_1 = JRConstants.VERSION_4_1_1;
+
 	String VERSION_4_1_2 = "4.1.2";
+
+	String VERSION_4_1_3 = JRConstants.VERSION_4_1_3;
+
+	String VERSION_4_5_0 = JRConstants.VERSION_4_5_0;
 
 	String VERSION_4_5_1 = "4.5.1";
 
+	String VERSION_4_6_0 = JRConstants.VERSION_4_6_0;
+
+	String VERSION_4_7_0 = JRConstants.VERSION_4_7_0;
+
 	String VERSION_4_7_1 = "4.7.1";
+
+	String VERSION_4_8_0 = JRConstants.VERSION_4_8_0;
+
+	String VERSION_5_0_1 = JRConstants.VERSION_5_0_1;
+
+	String VERSION_5_0_4 = JRConstants.VERSION_5_0_4;
 
 	String VERSION_5_2_0 = "5.2.0";
 
+	String VERSION_5_5_0 = JRConstants.VERSION_5_5_0;
+
+	String VERSION_5_5_2 = JRConstants.VERSION_5_5_2;
+
 	String VERSION_5_6_0 = "5.6.0";
+
+	String VERSION_6_0_0 = JRConstants.VERSION_6_0_0;
+
+	String VERSION_6_0_2 = JRConstants.VERSION_6_0_2;
 
 	String VERSION_6_0_4 = "6.0.4";
 
 	String VERSION_6_1_0 = "6.1.0";
 
+	String VERSION_6_1_1 = JRConstants.VERSION_6_1_1;
+
 	String VERSION_6_1_2 = "6.1.2";
+
+	String VERSION_6_2_0 = JRConstants.VERSION_6_2_0;
+
+	String VERSION_6_2_1 = JRConstants.VERSION_6_2_1;
+
+	String VERSION_6_2_2 = JRConstants.VERSION_6_2_2;
+
+	String VERSION_6_3_0 = JRConstants.VERSION_6_3_0;
+
+	String VERSION_6_3_1 = JRConstants.VERSION_6_3_1;
+
+	String VERSION_6_4_2 = JRConstants.VERSION_6_4_2;
 	
 }

@@ -46,7 +46,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -293,7 +292,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.TEXT_ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_1_1
+			sinceVersion = PropertyConstants.VERSION_4_1_1
 			)
 	public static final String PROPERTY_CELL_PATTERN = XLS_EXPORTER_PROPERTIES_PREFIX + "pattern";
 
@@ -306,7 +305,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_1_3
+			sinceVersion = PropertyConstants.VERSION_4_1_3
 			)
 	public static final String PROPERTY_SHEET_NAME = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.name";
 
@@ -393,7 +392,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_1_1,
+			sinceVersion = PropertyConstants.VERSION_4_1_1,
 			valueType = EdgeEnum.class
 			)
 	public static final String PROPERTY_FREEZE_ROW_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.row.edge";
@@ -410,7 +409,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_1_1,
+			sinceVersion = PropertyConstants.VERSION_4_1_1,
 			valueType = EdgeEnum.class
 			)
 	public static final String PROPERTY_FREEZE_COLUMN_EDGE = XLS_EXPORTER_PROPERTIES_PREFIX + "freeze.column.edge";
@@ -489,7 +488,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_1_3
+			sinceVersion = PropertyConstants.VERSION_4_1_3
 			)
 	public static final String PROPERTY_AUTO_FILTER = XLS_EXPORTER_PROPERTIES_PREFIX + "auto.filter";
 	
@@ -508,7 +507,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_1_3,
+			sinceVersion = PropertyConstants.VERSION_4_1_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_COLUMN_WIDTH = XLS_EXPORTER_PROPERTIES_PREFIX + "column.width";
@@ -543,7 +542,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			name = "net.sf.jasperreports.export.xls.row.outline.level.{arbitrary_level}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_1_3
+			sinceVersion = PropertyConstants.VERSION_4_1_3
 			)
 	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = XLS_EXPORTER_PROPERTIES_PREFIX + "row.outline.level.";
 	

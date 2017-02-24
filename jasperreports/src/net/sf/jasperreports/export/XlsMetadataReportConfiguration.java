@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRXlsMetadataExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -54,7 +53,7 @@ public interface XlsMetadataReportConfiguration extends XlsReportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_0_2,
+			sinceVersion = PropertyConstants.VERSION_4_0_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WRITE_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.write.header";
@@ -69,7 +68,7 @@ public interface XlsMetadataReportConfiguration extends XlsReportConfiguration
 			name = "net.sf.jasperreports.export.xls.column.names.{suffix}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_0_2
+			sinceVersion = PropertyConstants.VERSION_4_0_2
 			)
 	public static final String PROPERTY_COLUMN_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.names";
 

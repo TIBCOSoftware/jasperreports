@@ -62,7 +62,7 @@ public abstract class JRXmlBaseWriter
 	@Property(
 			category = PropertyConstants.CATEGORY_OTHER,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0
 			)
 	public static final String PROPERTY_REPORT_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "report.version";
 

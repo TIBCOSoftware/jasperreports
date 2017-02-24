@@ -115,7 +115,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_4_2
+			sinceVersion = PropertyConstants.VERSION_6_4_2
 	)
 	public static final String PROPERTY_METHOD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.method";
 	
@@ -127,7 +127,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_URL = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url";
 
@@ -139,7 +139,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_USERNAME = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.username";
 
@@ -151,7 +151,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.password";
 
@@ -163,7 +163,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_URL_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.url.parameter";
 
@@ -175,7 +175,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_BODY = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.body";
 
@@ -187,7 +187,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_POST_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.post.parameter";
 
@@ -199,7 +199,7 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.header";
 

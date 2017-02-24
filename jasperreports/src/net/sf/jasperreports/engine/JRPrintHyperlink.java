@@ -41,7 +41,7 @@ public interface JRPrintHyperlink
 			category = PropertyConstants.CATEGORY_EXPORT,
 			valueType = Boolean.class,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.HYPERLINK},
-			sinceVersion = JRConstants.VERSION_5_0_4
+			sinceVersion = PropertyConstants.VERSION_5_0_4
 			)
 	public static final String PROPERTY_IGNORE_HYPERLINK_SUFFIX = "ignore.hyperlink";
 

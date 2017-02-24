@@ -34,15 +34,6 @@ package net.sf.jasperreports.engine.export;
 
 import java.util.Stack;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.crosstabs.JRCellContents;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.properties.PropertyConstants;
-
 import com.lowagie.text.pdf.PdfArray;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDictionary;
@@ -53,6 +44,14 @@ import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfStructureElement;
 import com.lowagie.text.pdf.PdfStructureTreeRoot;
 import com.lowagie.text.pdf.PdfWriter;
+
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -194,85 +193,85 @@ public class JRPdfExporterTagHelper
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_TABLE = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.table";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_TR = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.tr";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_TH = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.th";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_TD = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.td";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_2_0
+			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_L = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.l";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_2_0
+			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_LI = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.li";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_H1 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h1";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_H2 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h2";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_H3 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h3";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_2_0
+			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_H4 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h4";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_2_0
+			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_H5 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h5";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_2_0
+			sinceVersion = PropertyConstants.VERSION_6_2_0
 			)
 	public static final String PROPERTY_TAG_H6 = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.h6";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_COLSPAN = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.colspan";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_ROWSPAN = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + "tag.rowspan";
 	public static final String TAG_START = "start";

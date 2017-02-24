@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
@@ -54,7 +53,7 @@ public interface OdtReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_0_4,
+			sinceVersion = PropertyConstants.VERSION_5_0_4,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt.flexible.row.height";

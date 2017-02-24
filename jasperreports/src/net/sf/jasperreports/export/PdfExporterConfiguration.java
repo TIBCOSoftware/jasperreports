@@ -23,9 +23,10 @@
  */
 package net.sf.jasperreports.export;
 
+import com.lowagie.text.pdf.PdfWriter;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -34,8 +35,6 @@ import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
 import net.sf.jasperreports.export.type.PdfVersionEnum;
 import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
-
-import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
@@ -208,7 +207,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.DEFAULT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_6_1,
+			sinceVersion = PropertyConstants.VERSION_3_6_1,
 			valueType = PdfPrintScalingEnum.class
 			)
 	public static final String PROPERTY_PRINT_SCALING = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.print.scaling";
@@ -222,7 +221,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_1_2,
+			sinceVersion = PropertyConstants.VERSION_3_1_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_TAGGED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.tagged";
@@ -235,7 +234,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TAG_LANGUAGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.tag.language";
 
@@ -249,7 +248,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_PDFA_CONFORMANCE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.conformance";
 
@@ -259,7 +258,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
 
@@ -269,7 +268,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.title";
 
@@ -279,7 +278,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.author";
 
@@ -289,7 +288,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.subject";
 
@@ -299,7 +298,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.keywords";
 
@@ -309,7 +308,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_METADATA_CREATOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.metadata.creator";
 	
@@ -320,7 +319,7 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_0_0,
+			sinceVersion = PropertyConstants.VERSION_6_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_DISPLAY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.display.metadata.title";

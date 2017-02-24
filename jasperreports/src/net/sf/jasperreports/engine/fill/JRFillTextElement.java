@@ -32,7 +32,6 @@ import java.util.Map;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -72,7 +71,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_3_1,
+			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CONSUME_SPACE_ON_OVERFLOW = 

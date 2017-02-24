@@ -41,7 +41,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPen;
@@ -81,7 +80,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_0_2
+			sinceVersion = PropertyConstants.VERSION_4_0_2
 			)
 	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.name";
 	
@@ -98,7 +97,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_0_2,
+			sinceVersion = PropertyConstants.VERSION_4_0_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_REPEAT_VALUE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.repeat.value";
@@ -114,7 +113,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_0_2
+			sinceVersion = PropertyConstants.VERSION_4_0_2
 			)
 	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.data";
 

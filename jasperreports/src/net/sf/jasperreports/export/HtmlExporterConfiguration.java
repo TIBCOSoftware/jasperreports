@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -67,7 +66,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_HTML_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.header";
 
@@ -78,7 +77,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_HTML_FOOTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.footer";
 
@@ -89,7 +88,7 @@ public interface HtmlExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String PROPERTY_BETWEEN_PAGES_HTML = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.between.pages";
 

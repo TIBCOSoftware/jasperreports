@@ -28,7 +28,6 @@ import java.util.List;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVisitable;
@@ -48,7 +47,7 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = "Blank",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_0_0,
+			sinceVersion = PropertyConstants.VERSION_6_0_0,
 			valueType = WhenNoDataTypeTableEnum.class
 			)
 	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.when.no.data.type";

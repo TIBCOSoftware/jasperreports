@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -71,7 +70,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "forwardOnly",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_3_5_3
+			sinceVersion = PropertyConstants.VERSION_3_5_3
 			)
 	public static final String PROPERTY_JDBC_RESULT_SET_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.result.set.type";
 
@@ -82,7 +81,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "readOnly",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_3_5_3
+			sinceVersion = PropertyConstants.VERSION_3_5_3
 			)
 	public static final String PROPERTY_JDBC_CONCURRENCY = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.concurrency";
 
@@ -93,7 +92,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "hold",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_3_5_3
+			sinceVersion = PropertyConstants.VERSION_3_5_3
 			)
 	public static final String PROPERTY_JDBC_HOLDABILITY = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.holdability";
 
@@ -103,7 +102,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_3_5_3,
+			sinceVersion = PropertyConstants.VERSION_3_5_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_JDBC_MAX_FIELD_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.max.field.size";

@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
@@ -47,7 +46,7 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.title";
 
@@ -57,7 +56,7 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.author";
 
@@ -67,7 +66,7 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.subject";
 
@@ -77,7 +76,7 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.keywords";
 
@@ -87,7 +86,7 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_METADATA_APPLICATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.metadata.application";
 

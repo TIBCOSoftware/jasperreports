@@ -38,50 +38,6 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.charts.ChartContext;
-import net.sf.jasperreports.charts.ChartTheme;
-import net.sf.jasperreports.charts.ChartThemeBundle;
-import net.sf.jasperreports.charts.JRAreaPlot;
-import net.sf.jasperreports.charts.JRBar3DPlot;
-import net.sf.jasperreports.charts.JRBarPlot;
-import net.sf.jasperreports.charts.JRBubblePlot;
-import net.sf.jasperreports.charts.JRCandlestickPlot;
-import net.sf.jasperreports.charts.JRChartAxis;
-import net.sf.jasperreports.charts.JRDataRange;
-import net.sf.jasperreports.charts.JRHighLowPlot;
-import net.sf.jasperreports.charts.JRItemLabel;
-import net.sf.jasperreports.charts.JRLinePlot;
-import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.charts.JRPiePlot;
-import net.sf.jasperreports.charts.JRScatterPlot;
-import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.charts.JRTimeSeriesPlot;
-import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.type.AxisPositionEnum;
-import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.charts.type.MeterShapeEnum;
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
-import net.sf.jasperreports.charts.type.ScaleTypeEnum;
-import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.charts.util.JRMeterInterval;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBaseFont;
-import net.sf.jasperreports.engine.fonts.FontUtil;
-import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.properties.PropertyConstants;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -144,6 +100,49 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.TextAnchor;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.charts.ChartContext;
+import net.sf.jasperreports.charts.ChartTheme;
+import net.sf.jasperreports.charts.ChartThemeBundle;
+import net.sf.jasperreports.charts.JRAreaPlot;
+import net.sf.jasperreports.charts.JRBar3DPlot;
+import net.sf.jasperreports.charts.JRBarPlot;
+import net.sf.jasperreports.charts.JRBubblePlot;
+import net.sf.jasperreports.charts.JRCandlestickPlot;
+import net.sf.jasperreports.charts.JRChartAxis;
+import net.sf.jasperreports.charts.JRDataRange;
+import net.sf.jasperreports.charts.JRHighLowPlot;
+import net.sf.jasperreports.charts.JRItemLabel;
+import net.sf.jasperreports.charts.JRLinePlot;
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
+import net.sf.jasperreports.charts.JRTimeSeriesPlot;
+import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.AxisPositionEnum;
+import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
+import net.sf.jasperreports.charts.type.ScaleTypeEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.fonts.FontUtil;
+import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -162,14 +161,14 @@ public class DefaultChartTheme implements ChartTheme
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_0
+			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.value.display.visible";
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_0
+			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_DIAL_LABEL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.label";
 	
@@ -177,42 +176,42 @@ public class DefaultChartTheme implements ChartTheme
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Integer.class,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_0
+			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_RANGE_AXIS_TICK_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.count";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Double.class,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_4
+			sinceVersion = PropertyConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_RANGE_AXIS_TICK_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.interval";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Boolean.class,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_6_0
+			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_RANGE_AXIS_INTEGER_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.integer.unit";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Integer.class,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_0
+			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_DOMAIN_AXIS_TICK_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.tick.count";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Double.class,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_4
+			sinceVersion = PropertyConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_DOMAIN_AXIS_TICK_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.tick.interval";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Boolean.class,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_6_0
+			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_DOMAIN_AXIS_INTEGER_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.integer.unit";
 

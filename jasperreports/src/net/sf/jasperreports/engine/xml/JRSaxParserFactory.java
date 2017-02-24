@@ -27,7 +27,6 @@ import javax.xml.parsers.SAXParser;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -52,7 +51,7 @@ public interface JRSaxParserFactory
 			category = PropertyConstants.CATEGORY_COMPILE,
 			defaultValue = "net.sf.jasperreports.engine.xml.JRReportSaxParserFactory",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_1_0
+			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	String PROPERTY_REPORT_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.parser.factory";
 
@@ -68,7 +67,7 @@ public interface JRSaxParserFactory
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "net.sf.jasperreports.engine.xml.PrintSaxParserFactory",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_4_1_3
+			sinceVersion = PropertyConstants.VERSION_4_1_3
 			)
 	String PROPERTY_PRINT_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.parser.factory";
 

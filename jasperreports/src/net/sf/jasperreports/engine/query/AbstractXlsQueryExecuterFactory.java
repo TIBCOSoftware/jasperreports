@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.query;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -61,7 +60,7 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String XLS_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "xls.source";
 	
@@ -75,7 +74,7 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 			name = "net.sf.jasperreports.xls.column.names.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String XLS_COLUMN_NAMES = JRPropertiesUtil.PROPERTY_PREFIX + "xls.column.names";
 
@@ -89,7 +88,7 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 			name = "net.sf.jasperreports.xls.column.indexes.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String XLS_COLUMN_INDEXES = JRPropertiesUtil.PROPERTY_PREFIX + "xls.column.indexes";
 
@@ -122,7 +121,7 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String XLS_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "xls.locale.code";
 	
@@ -137,7 +136,7 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String XLS_TIMEZONE_ID = JRPropertiesUtil.PROPERTY_PREFIX + "xls.timezone.id";
 	
@@ -152,7 +151,7 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String XLS_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xls.date.pattern";
 
@@ -167,7 +166,7 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2
 			)
 	public static final String XLS_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xls.number.pattern";
 	

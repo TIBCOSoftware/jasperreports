@@ -31,7 +31,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.BookmarkHelper;
 import net.sf.jasperreports.engine.CommonReturnValue;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
@@ -84,7 +83,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	@Property (
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.PART},
-			sinceVersion = JRConstants.VERSION_6_0_0
+			sinceVersion = PropertyConstants.VERSION_6_0_0
 			)
 	public static final String PROPERTY_BOOKMARKS_DATA_SOURCE_PARAMETER = JRPropertiesUtil.PROPERTY_PREFIX + "bookmarks.data.source.parameter";
 	

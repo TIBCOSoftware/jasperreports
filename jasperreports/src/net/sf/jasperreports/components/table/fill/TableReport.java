@@ -56,7 +56,6 @@ import net.sf.jasperreports.engine.DatasetPropertyExpression;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
@@ -142,7 +141,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = "\\u25B2",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_4_6_0
+			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
 
@@ -153,7 +152,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = "\\u25BC",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_4_6_0
+			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
 
@@ -164,7 +163,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = "\\2606",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_4_6_0
+			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
 
@@ -219,7 +218,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
-			sinceVersion = JRConstants.VERSION_6_3_1,
+			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_FLOATING_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.floating.header";
@@ -254,7 +253,7 @@ public class TableReport implements JRReport
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
 			scopes = {PropertyScope.TABLE_COLUMN},
-			sinceVersion = JRConstants.VERSION_5_0_1
+			sinceVersion = PropertyConstants.VERSION_5_0_1
 			)
 	public static final String PROPERTY_COLUMN_FIELD = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.field";
 
@@ -264,7 +263,7 @@ public class TableReport implements JRReport
 	@Property(
 			category = PropertyConstants.CATEGORY_TABLE,
 			scopes = {PropertyScope.TABLE_COLUMN},
-			sinceVersion = JRConstants.VERSION_5_0_1
+			sinceVersion = PropertyConstants.VERSION_5_0_1
 			)
 	public static final String PROPERTY_COLUMN_VARIABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.variable";
 
@@ -278,7 +277,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.TABLE_COLUMN},
-			sinceVersion = JRConstants.VERSION_5_0_1,
+			sinceVersion = PropertyConstants.VERSION_5_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_COLUMN_SORTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.sortable";
@@ -293,7 +292,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.TABLE_COLUMN},
-			sinceVersion = JRConstants.VERSION_5_0_1,
+			sinceVersion = PropertyConstants.VERSION_5_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_COLUMN_FILTERABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.filterable";
@@ -309,7 +308,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.TABLE_COLUMN},
-			sinceVersion = JRConstants.VERSION_5_0_1,
+			sinceVersion = PropertyConstants.VERSION_5_0_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";

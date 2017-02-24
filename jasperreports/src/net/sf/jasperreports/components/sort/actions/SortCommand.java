@@ -28,8 +28,6 @@ import java.util.List;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
-import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
@@ -59,7 +57,7 @@ public class SortCommand implements Command
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_4_6_0,
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CREATE_SORT_FIELDS_FOR_GROUPS = JRPropertiesUtil.PROPERTY_PREFIX + "create.sort.fields.for.groups";

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.type;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -52,7 +51,7 @@ public enum ParameterEvaluationTimeEnum implements NamedEnum
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "Late",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_6_3_1,
+			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = ParameterEvaluationTimeEnum.class
 			)
 	public static final String PROPERTY_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "parameter.evaluation.time";

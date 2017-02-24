@@ -37,7 +37,6 @@ import org.w3c.dom.NodeList;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -128,7 +127,7 @@ public abstract class AbstractXmlDataSource<T extends AbstractXmlDataSource<?>> 
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_FIELD_EXPRESSION = JRPropertiesUtil.PROPERTY_PREFIX + "xpath.field.expression";
 

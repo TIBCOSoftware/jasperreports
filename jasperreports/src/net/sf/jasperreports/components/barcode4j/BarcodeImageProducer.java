@@ -28,7 +28,6 @@ import org.krysalis.barcode4j.BarcodeGenerator;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.Renderable;
@@ -44,7 +43,7 @@ public interface BarcodeImageProducer
 			category = PropertyConstants.CATEGORY_BARCODE,
 			defaultValue = "svg",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_2
+			sinceVersion = PropertyConstants.VERSION_3_5_2
 			)
 	String PROPERTY_IMAGE_PRODUCER = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.producer";
@@ -54,7 +53,7 @@ public interface BarcodeImageProducer
 			category = PropertyConstants.CATEGORY_BARCODE,
 			valueType = Class.class,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_2
+			sinceVersion = PropertyConstants.VERSION_3_5_2
 			)
 	String PROPERTY_PREFIX_IMAGE_PRODUCER = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.producer.";

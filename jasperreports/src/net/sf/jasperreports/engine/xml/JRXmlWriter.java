@@ -234,7 +234,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			name = "net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}",
 			category = PropertyConstants.CATEGORY_OTHER,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_6_1_1
+			sinceVersion = PropertyConstants.VERSION_6_1_1
 			)
 	public static final String PREFIX_EXCLUDE_PROPERTIES = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "jrxml.writer.exclude.properties.";

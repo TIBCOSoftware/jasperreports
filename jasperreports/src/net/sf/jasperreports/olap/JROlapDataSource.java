@@ -38,7 +38,6 @@ import org.apache.commons.logging.LogFactory;
 import antlr.ANTLRException;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -91,7 +90,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRMdxQueryExecuterFactory.QUERY_EXECUTER_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_FIELD_MAPPING = JRPropertiesUtil.PROPERTY_PREFIX + "olap.field.mapping";
 

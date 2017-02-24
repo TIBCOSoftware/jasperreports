@@ -83,7 +83,7 @@ public class JRResultSetDataSource implements JRDataSource
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_FIELD_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.name";
 	
@@ -94,7 +94,7 @@ public class JRResultSetDataSource implements JRDataSource
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_FIELD_COLUMN_LABEL = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.label";
 	
@@ -105,7 +105,7 @@ public class JRResultSetDataSource implements JRDataSource
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRJdbcQueryExecuterFactory.QUERY_EXECUTER_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1,
+			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Integer.class
 	)
 	public static final String PROPERTY_FIELD_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "sql.field.column.index";

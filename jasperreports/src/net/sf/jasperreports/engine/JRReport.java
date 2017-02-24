@@ -288,7 +288,7 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder, JR
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "NoPages",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_3_1,
+			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = WhenNoDataTypeEnum.class
 			)
 	public static final String CONFIG_PROPERTY_WHEN_NO_DATA_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "when.no.data.type";

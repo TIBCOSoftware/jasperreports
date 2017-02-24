@@ -31,7 +31,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -57,7 +56,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 			scopes = {PropertyScope.FIELD},
 			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME, 
 					JRJpaQueryExecuterFactory.QUERY_EXECUTER_NAME},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 	)
 	public static final String PROPERTY_JAVABEAN_FIELD_PROPERTY = JRPropertiesUtil.PROPERTY_PREFIX + "javabean.field.property";
 	

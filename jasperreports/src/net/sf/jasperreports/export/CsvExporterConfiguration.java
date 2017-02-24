@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
@@ -97,7 +96,7 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.QUOTES,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_2_1
+			sinceVersion = PropertyConstants.VERSION_6_2_1
 			)
 	public static final String PROPERTY_FIELD_ENCLOSURE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.field.enclosure";
 	
@@ -111,7 +110,7 @@ public interface CsvExporterConfiguration extends ExporterConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_6_2_1,
+			sinceVersion = PropertyConstants.VERSION_6_2_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_FORCE_FIELD_ENCLOSURE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.force.field.enclosure";

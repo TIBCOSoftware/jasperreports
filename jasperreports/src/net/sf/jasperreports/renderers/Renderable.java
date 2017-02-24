@@ -29,7 +29,6 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -96,7 +95,7 @@ public interface Renderable extends Serializable
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = "72",
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_4_1_1,
+			sinceVersion = PropertyConstants.VERSION_4_1_1,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_IMAGE_DPI = JRPropertiesUtil.PROPERTY_PREFIX + "image.dpi";

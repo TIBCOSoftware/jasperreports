@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.barcode4j;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.Renderable;
@@ -43,7 +42,7 @@ public interface QRCodeImageProducer
 			category = PropertyConstants.CATEGORY_BARCODE,
 			valueType = Class.class,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_0_2
+			sinceVersion = PropertyConstants.VERSION_6_0_2
 			)
 	String PROPERTY_PREFIX_QRCODE_PRODUCER = 
 		BarcodeComponent.PROPERTY_PREFIX + "qrcode.producer.";

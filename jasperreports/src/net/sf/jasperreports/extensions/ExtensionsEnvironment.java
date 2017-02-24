@@ -23,17 +23,16 @@
  */
 package net.sf.jasperreports.extensions;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.properties.PropertyConstants;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A class that provides means of setting and accessing
@@ -66,7 +65,7 @@ public final class ExtensionsEnvironment
 			category = PropertyConstants.CATEGORY_EXTENSIONS,
 			defaultValue = "net.sf.jasperreports.extensions.DefaultExtensionsRegistry",
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_3_1_0
+			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	public static final String PROPERTY_EXTENSIONS_REGISTRY_CLASS = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "extensions.registry.class";

@@ -29,7 +29,6 @@ import java.util.List;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributor;
@@ -52,7 +51,7 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_4_1_1
+			sinceVersion = PropertyConstants.VERSION_4_1_1
 			)
 	public static final String PROPERTY_DATA_ADAPTER_LOCATION = JRPropertiesUtil.PROPERTY_PREFIX + "data.adapter";
 

@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.type;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DatasetPropertyExpression;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -56,7 +55,7 @@ public enum PropertyEvaluationTimeEnum implements NamedEnum
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "Early",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_6_3_1,
+			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = PropertyEvaluationTimeEnum.class
 			)
 	public static final String PROPERTY_EVALUATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "property.evaluation.time";

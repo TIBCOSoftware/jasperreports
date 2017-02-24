@@ -28,7 +28,6 @@ import java.awt.Color;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRBoxContainer;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -82,7 +81,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2
+			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TYPE = PROPERTIES_PREFIX + "type";
 	
@@ -92,7 +91,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2,
+			sinceVersion = PropertyConstants.VERSION_3_1_2,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_ROW_SPAN = PROPERTIES_PREFIX + "row.span";
@@ -103,7 +102,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_1_2,
+			sinceVersion = PropertyConstants.VERSION_3_1_2,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_COLUMN_SPAN = PROPERTIES_PREFIX + "column.span";

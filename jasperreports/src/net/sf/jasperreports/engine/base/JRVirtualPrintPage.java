@@ -90,7 +90,7 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "2000",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_1_3,
+			sinceVersion = PropertyConstants.VERSION_4_1_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE = 

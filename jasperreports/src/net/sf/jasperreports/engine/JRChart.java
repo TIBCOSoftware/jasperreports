@@ -62,7 +62,7 @@ public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink,
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "default",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_1_0
+			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	public static final String PROPERTY_CHART_THEME = JRPropertiesUtil.PROPERTY_PREFIX + "chart.theme";
 

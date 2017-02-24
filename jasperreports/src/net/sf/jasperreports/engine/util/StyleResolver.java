@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonImage;
 import net.sf.jasperreports.engine.JRCommonRectangle;
 import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRImageAlignment;
@@ -80,7 +79,7 @@ public class StyleResolver
 			category = PropertyConstants.CATEGORY_DESIGN,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_6_2_1,
+			sinceVersion = PropertyConstants.VERSION_6_2_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_STYLES_INHERIT_FROM_DEFAULT = JRPropertiesUtil.PROPERTY_PREFIX + "styles.inherit.from.default";

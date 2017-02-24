@@ -32,7 +32,6 @@ import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -57,7 +56,7 @@ public interface MapComponent extends Component, JRCloneable
 			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_0
+			sinceVersion = PropertyConstants.VERSION_5_5_0
 			)
 	public static final String PROPERTY_KEY = PROPERTY_PREFIX + "key";
 	
@@ -65,7 +64,7 @@ public interface MapComponent extends Component, JRCloneable
 			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_0
+			sinceVersion = PropertyConstants.VERSION_5_5_0
 			)
 	public static final String PROPERTY_CLIENT_ID = PROPERTY_PREFIX + "client.id";
 	
@@ -73,7 +72,7 @@ public interface MapComponent extends Component, JRCloneable
 			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_0
+			sinceVersion = PropertyConstants.VERSION_5_5_0
 			)
 	public static final String PROPERTY_SIGNATURE = PROPERTY_PREFIX + "signature";
 	
@@ -81,7 +80,7 @@ public interface MapComponent extends Component, JRCloneable
 			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_0
+			sinceVersion = PropertyConstants.VERSION_5_5_0
 			)
 	public static final String PROPERTY_VERSION = PROPERTY_PREFIX + "version";
 

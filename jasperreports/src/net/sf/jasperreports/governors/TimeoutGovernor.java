@@ -25,7 +25,6 @@ package net.sf.jasperreports.governors;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultScriptlet;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -48,7 +47,7 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_1_4
+			sinceVersion = PropertyConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_TIMEOUT_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "governor.timeout.enabled";
 	
@@ -56,7 +55,7 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 			category = PropertyConstants.CATEGORY_GOVERNOR,
 			valueType = Long.class,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_1_4
+			sinceVersion = PropertyConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "governor.timeout";
 

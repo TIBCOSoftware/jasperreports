@@ -26,7 +26,6 @@ package net.sf.jasperreports.crosstabs;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRBoxContainer;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
@@ -83,7 +82,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 			category = PropertyConstants.CATEGORY_CROSSTAB,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_3_5_3,
+			sinceVersion = PropertyConstants.VERSION_3_5_3,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_IGNORE_WIDTH = 

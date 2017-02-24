@@ -210,7 +210,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_2,
+			sinceVersion = PropertyConstants.VERSION_3_5_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_EVALUATION_TIME_ENABLED = 

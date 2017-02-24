@@ -26,7 +26,6 @@ package net.sf.jasperreports.repo;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
@@ -54,7 +53,7 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 	@Property(
 			category = PropertyConstants.CATEGORY_REPOSITORY,
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_4_1_1
+			sinceVersion = PropertyConstants.VERSION_4_1_1
 			)
 	public final static String PROPERTY_FILE_REPOSITORY_ROOT = FILE_REPOSITORY_PROPERTY_PREFIX + "root";
 	
@@ -65,7 +64,7 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 			category = PropertyConstants.CATEGORY_REPOSITORY,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = JRConstants.VERSION_4_1_1,
+			sinceVersion = PropertyConstants.VERSION_4_1_1,
 			valueType = Boolean.class
 			)
 	public final static String PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH = FILE_REPOSITORY_PROPERTY_PREFIX + "resolve.absolute.path";

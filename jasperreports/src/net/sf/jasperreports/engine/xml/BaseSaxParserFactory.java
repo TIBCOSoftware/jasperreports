@@ -39,7 +39,6 @@ import org.xml.sax.SAXException;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -85,7 +84,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			category = PropertyConstants.CATEGORY_COMPILE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_1_0,
+			sinceVersion = PropertyConstants.VERSION_3_1_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CACHE_SCHEMAS = JRPropertiesUtil.PROPERTY_PREFIX

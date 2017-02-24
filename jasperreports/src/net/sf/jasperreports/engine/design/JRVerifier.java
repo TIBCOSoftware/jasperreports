@@ -76,7 +76,6 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -210,7 +209,7 @@ public class JRVerifier
 			category = PropertyConstants.CATEGORY_DESIGN,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_0,
+			sinceVersion = PropertyConstants.VERSION_3_5_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_ALLOW_ELEMENT_OVERLAP = 
@@ -231,7 +230,7 @@ public class JRVerifier
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_1_1
+			sinceVersion = PropertyConstants.VERSION_6_1_1
 			)
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_X =
 			JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.x";

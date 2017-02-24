@@ -37,11 +37,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -72,15 +80,6 @@ import net.sf.jasperreports.export.WriterExporterOutput;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.io.JsonStringEncoder;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -101,21 +100,21 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_0_0
+			sinceVersion = PropertyConstants.VERSION_6_0_0
 			)
 	public static final String JSON_EXPORTER_PATH_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "path";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_0_0,
+			sinceVersion = PropertyConstants.VERSION_6_0_0,
 			valueType = Boolean.class
 			)
 	public static final String JSON_EXPORTER_REPEAT_VALUE_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "repeat.value";
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_0_0
+			sinceVersion = PropertyConstants.VERSION_6_0_0
 			)
 	public static final String JSON_EXPORTER_DATA_PROPERTY = JSON_EXPORTER_PROPERTIES_PREFIX + "data";
 

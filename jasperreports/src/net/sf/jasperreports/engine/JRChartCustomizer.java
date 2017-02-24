@@ -52,7 +52,7 @@ public interface JRChartCustomizer
 			name = "net.sf.jasperreports.customizer.{arbitrary_name}.{property_name}",
 			category = PropertyConstants.CATEGORY_FILL,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.CHART_ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String CUSTOMIZER_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "customizer.";
 	
@@ -60,7 +60,7 @@ public interface JRChartCustomizer
 			name = "net.sf.jasperreports.customizer.class.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_FILL,
 			scopes = {PropertyScope.CHART_ELEMENT},
-			sinceVersion = JRConstants.VERSION_6_3_1
+			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String CUSTOMIZER_CLASS_PROPERTY_PREFIX = CUSTOMIZER_PROPERTY_PREFIX + "class.";
 

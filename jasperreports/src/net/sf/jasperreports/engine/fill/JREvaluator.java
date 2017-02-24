@@ -32,7 +32,6 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
@@ -84,7 +83,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
-			sinceVersion = JRConstants.VERSION_6_1_1,
+			sinceVersion = PropertyConstants.VERSION_6_1_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_IGNORE_NPE = JRPropertiesUtil.PROPERTY_PREFIX + "evaluator.ignore.npe";

@@ -34,9 +34,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -45,10 +48,6 @@ import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 import net.sf.jasperreports.properties.PropertyConstants;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * The default {@link ExtensionsRegistry extension registry} implementation.
@@ -96,7 +95,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			name = "net.sf.jasperreports.extension.registry.factory.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXTENSIONS,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_1_0
+			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	public final static String PROPERTY_REGISTRY_FACTORY_PREFIX = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "extension.registry.factory.";
@@ -109,7 +108,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			name = "net.sf.jasperreports.extension.{registry_id}.{property_suffix}",
 			category = PropertyConstants.CATEGORY_EXTENSIONS,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = JRConstants.VERSION_3_1_0
+			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	public static final String PROPERTY_REGISTRY_PREFIX = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "extension.";

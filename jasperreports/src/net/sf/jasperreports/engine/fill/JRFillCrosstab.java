@@ -93,7 +93,6 @@ import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
 import net.sf.jasperreports.engine.JRChild;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -164,7 +163,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			category = PropertyConstants.CATEGORY_CROSSTAB,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
-			sinceVersion = JRConstants.VERSION_5_5_0,
+			sinceVersion = PropertyConstants.VERSION_5_5_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.interactive";
@@ -191,7 +190,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			category = PropertyConstants.CATEGORY_CROSSTAB,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
-			sinceVersion = JRConstants.VERSION_6_0_0,
+			sinceVersion = PropertyConstants.VERSION_6_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_FLOATING_HEADERS = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.floating.headers";

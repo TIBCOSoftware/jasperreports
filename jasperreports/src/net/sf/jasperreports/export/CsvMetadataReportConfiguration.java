@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
@@ -54,7 +53,7 @@ public interface CsvMetadataReportConfiguration extends CsvReportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_0_0,
+			sinceVersion = PropertyConstants.VERSION_4_0_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WRITE_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.write.header";
@@ -69,7 +68,7 @@ public interface CsvMetadataReportConfiguration extends CsvReportConfiguration
 			name = "net.sf.jasperreports.export.csv.column.names.{suffix}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_0_0
+			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String PROPERTY_COLUMN_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.column.names";
 

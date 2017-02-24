@@ -25,7 +25,6 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -85,7 +84,7 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_4_7_0,
+			sinceVersion = PropertyConstants.VERSION_4_7_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_SIZE_PAGE_TO_CONTENT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.size.page.to.content";

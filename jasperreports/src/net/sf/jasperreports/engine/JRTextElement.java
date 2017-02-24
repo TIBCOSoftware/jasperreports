@@ -146,7 +146,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, 
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
-			sinceVersion = JRConstants.VERSION_3_5_1,
+			sinceVersion = PropertyConstants.VERSION_3_5_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_SAVE_LINE_BREAKS = JRPropertiesUtil.PROPERTY_PREFIX 

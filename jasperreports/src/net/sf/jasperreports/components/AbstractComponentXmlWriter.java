@@ -60,7 +60,7 @@ public abstract class AbstractComponentXmlWriter implements ComponentXmlWriter
 			name = "net.sf.jasperreports.components.{built_in_component_name}.version",
 			category = PropertyConstants.CATEGORY_OTHER,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = JRConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0
 			)
 	public static final String PROPERTY_COMPONENTS_VERSION_SUFFIX = ".version";
 

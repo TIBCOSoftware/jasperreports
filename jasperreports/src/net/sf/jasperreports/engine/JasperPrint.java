@@ -45,7 +45,6 @@ import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.base.StandardPrintParts;
 import net.sf.jasperreports.engine.type.OrientationEnum;
-import net.sf.jasperreports.engine.type.PropertyEvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -81,7 +80,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2,
+			sinceVersion = PropertyConstants.VERSION_5_5_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CREATE_BOOKMARKS = JRPropertiesUtil.PROPERTY_PREFIX + "print.create.bookmarks";
@@ -93,7 +92,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = JRConstants.VERSION_5_5_2,
+			sinceVersion = PropertyConstants.VERSION_5_5_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
