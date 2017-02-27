@@ -953,6 +953,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * @see <a href="https://support.office.com/en-us/article/Define-and-use-names-in-formulas-4d0f13ac-53b7-422e-afd2-abd7ff379c64#bmsyntax_rules_for_names">Rules for Excel defined names</a>
 	 */
 	@Property(
+			name = "net.sf.jasperreports.export.xls.defined.names.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.REPORT, PropertyScope.ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_4_2
