@@ -5817,18 +5817,18 @@ Property which specifies if the size of each page should be increased to accommo
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.file.repository.resolve.absolute.path -->
+  <!-- net.sf.jasperreports.extension.file.repository.resolve.absolute.path -->
   
-  <configProperty name="net.sf.jasperreports.file.repository.resolve.absolute.path">
+  <configProperty name="net.sf.jasperreports.extension.file.repository.resolve.absolute.path">
     <description>
 Flag property that indicates whether the absolute path to be used instead, when resources are not found in the file repository.
     </description>
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.file.repository.root -->
+  <!-- net.sf.jasperreports.extension.file.repository.root -->
   
-  <configProperty name="net.sf.jasperreports.file.repository.root">
+  <configProperty name="net.sf.jasperreports.extension.file.repository.root">
     <description>
 Specifies the file repository root location.
     </description>
