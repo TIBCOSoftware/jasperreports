@@ -94,7 +94,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	@Property(
 			name = "net.sf.jasperreports.extension.registry.factory.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXTENSIONS,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.EXTENSION},
 			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	public final static String PROPERTY_REGISTRY_FACTORY_PREFIX = 
@@ -107,7 +107,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	@Property(
 			name = "net.sf.jasperreports.extension.{registry_id}.{property_suffix}",
 			category = PropertyConstants.CATEGORY_EXTENSIONS,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.EXTENSION},
 			sinceVersion = PropertyConstants.VERSION_3_1_0
 			)
 	public static final String PROPERTY_REGISTRY_PREFIX = 

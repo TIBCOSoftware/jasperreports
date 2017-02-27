@@ -43,7 +43,8 @@ public enum PropertyScope
 	CHART_ELEMENT("Chart"),
 	TEXT_ELEMENT("Text Element"),
 	COMPONENT("Component"),
-	TABLE_COLUMN("Column");
+	TABLE_COLUMN("Column"),
+	EXTENSION("Extension");
 
 	private final String label;
 	

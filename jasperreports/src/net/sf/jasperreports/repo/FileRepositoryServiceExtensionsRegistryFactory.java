@@ -52,7 +52,7 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_REPOSITORY,
-			scopes = {PropertyScope.GLOBAL},
+			scopes = {PropertyScope.GLOBAL, PropertyScope.EXTENSION},
 			sinceVersion = PropertyConstants.VERSION_4_1_1
 			)
 	public final static String PROPERTY_FILE_REPOSITORY_ROOT = FILE_REPOSITORY_PROPERTY_PREFIX + "root";
@@ -63,7 +63,7 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 	@Property(
 			category = PropertyConstants.CATEGORY_REPOSITORY,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.GLOBAL},
+			scopes = {PropertyScope.GLOBAL, PropertyScope.EXTENSION},
 			sinceVersion = PropertyConstants.VERSION_4_1_1,
 			valueType = Boolean.class
 			)
