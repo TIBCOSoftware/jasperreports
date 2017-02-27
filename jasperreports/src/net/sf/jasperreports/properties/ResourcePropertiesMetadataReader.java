@@ -148,6 +148,7 @@ public class ResourcePropertiesMetadataReader
 		property.setScopeQualifications(compiledProperty.getScopeQualifications());//TODO lucianc copy?
 		property.setSinceVersion(compiledProperty.getSinceVersion());
 		property.setValueType(compiledProperty.getValueType());
+		property.setDeprecated(compiledProperty.isDeprecated());
 		return property;
 	}
 

@@ -191,6 +191,9 @@ public class PropertyProcessor extends AbstractProcessor
 		}
 		property.setName(propName);
 		
+		boolean deprecated = processingEnv.getElementUtils().isDeprecated(element);
+		property.setDeprecated(deprecated);
+		
 		QualifiedNameable enclosingElement = (QualifiedNameable) element.getEnclosingElement();
 		property.setConstantDeclarationClass(enclosingElement.getQualifiedName().toString());
 		property.setConstantFieldName(element.getSimpleName().toString());

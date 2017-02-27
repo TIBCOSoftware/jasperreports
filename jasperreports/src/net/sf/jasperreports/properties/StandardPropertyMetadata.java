@@ -46,6 +46,7 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	private List<String> scopeQualifications;
 	private String sinceVersion;
 	private String valueType;
+	private boolean deprecated;
 
 	public StandardPropertyMetadata()
 	{
@@ -173,6 +174,7 @@ public class StandardPropertyMetadata implements PropertyMetadata
 		this.scopeQualifications.add(scopeQualification);
 	}
 
+	@Override
 	public String getCategory()
 	{
 		return category;
@@ -181,6 +183,17 @@ public class StandardPropertyMetadata implements PropertyMetadata
 	public void setCategory(String category)
 	{
 		this.category = category;
+	}
+
+	@Override
+	public boolean isDeprecated()
+	{
+		return deprecated;
+	}
+
+	public void setDeprecated(boolean deprecated)
+	{
+		this.deprecated = deprecated;
 	}
 
 }

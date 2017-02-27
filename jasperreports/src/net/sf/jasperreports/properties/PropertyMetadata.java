@@ -108,4 +108,5 @@ public interface PropertyMetadata
 	 */
 	String getValueType();
 	
+	boolean isDeprecated();
 }

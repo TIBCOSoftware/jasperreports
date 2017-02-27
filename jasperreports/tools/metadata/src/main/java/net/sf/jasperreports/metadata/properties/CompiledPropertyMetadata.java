@@ -44,6 +44,7 @@ public class CompiledPropertyMetadata
 	private List<String> scopeQualifications;
 	private String sinceVersion;
 	private String valueType;
+	private boolean deprecated;
 
 	public CompiledPropertyMetadata()
 	{
@@ -149,6 +150,16 @@ public class CompiledPropertyMetadata
 	public void setCategory(String category)
 	{
 		this.category = category;
+	}
+
+	public boolean isDeprecated()
+	{
+		return deprecated;
+	}
+
+	public void setDeprecated(boolean deprecated)
+	{
+		this.deprecated = deprecated;
 	}
 
 }
