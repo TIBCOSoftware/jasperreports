@@ -47,7 +47,7 @@ public interface CommonExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_2_0_2,
+			sinceVersion = PropertyConstants.VERSION_5_5_1,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS = 

@@ -3654,6 +3654,15 @@ Otherwise, the table rows will adjust their height automatically in order to fit
   
   <configProperty name="net.sf.jasperreports.export.parameters.override.report.hints">
     <description>
+Deprecated. Replaced by <a href="#net.sf.jasperreports.export.configuration.override.report.hints">net.sf.jasperreports.export.configuration.override.report.hints</a>.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.configuration.override.report.hints -->
+  
+  <configProperty name="net.sf.jasperreports.export.configuration.override.report.hints">
+    <description>
 Property that establishes the priority of export parameters against report hints.
 <br/>
 Its value is used as default for the 

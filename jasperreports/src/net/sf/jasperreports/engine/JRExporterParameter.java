@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.export.CommonExportConfiguration;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
@@ -34,6 +36,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.WriterExporterOutput;
 import net.sf.jasperreports.export.XlsReportConfiguration;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -246,6 +249,13 @@ public class JRExporterParameter
 	 * This property cannot be used as a report export hint.
 	 * @deprecated Replaced by {@link CommonExportConfiguration#PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS}.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_2_0_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_EXPORT_PARAMETERS_OVERRIDE_REPORT_HINTS = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "export.parameters.override.report.hints";
 	

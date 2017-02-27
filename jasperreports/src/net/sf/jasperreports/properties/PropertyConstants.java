@@ -181,6 +181,8 @@ public interface PropertyConstants
 	String VERSION_5_2_0 = "5.2.0";
 
 	String VERSION_5_5_0 = JRConstants.VERSION_5_5_0;
+	
+	String VERSION_5_5_1 = "5.5.1";
 
 	String VERSION_5_5_2 = JRConstants.VERSION_5_5_2;
 
