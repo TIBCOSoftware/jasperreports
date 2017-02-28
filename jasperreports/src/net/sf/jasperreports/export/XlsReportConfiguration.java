@@ -727,7 +727,8 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_2_0
+			sinceVersion = PropertyConstants.VERSION_6_2_0,
+			valueType = Color.class
 			)
 	public static final String PROPERTY_SHEET_TAB_COLOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.tab.color";
 
