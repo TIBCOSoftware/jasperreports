@@ -909,8 +909,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					String convertedPattern = getConvertedPattern(textElement, ((DateTextValue)value).getPattern());
 					if (convertedPattern != null)
 					{
+						Locale locale = jasperPrint.getLocaleCode() == null 
+								? Locale.getDefault() 
+								: JRDataUtils.getLocale(jasperPrint.getLocaleCode());
 						convertedPattern = DateFormatConverter.convert(
-								JRDataUtils.getLocale(jasperPrint.getLocaleCode()),
+								locale,
 								convertedPattern.replaceAll("AM/PM", "A").replaceAll("am/pm", "a")
 								);
 						baseStyle.setDataFormat(
@@ -1000,8 +1003,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
 					if (convertedPattern != null)
 					{
+						Locale locale = jasperPrint.getLocaleCode() == null 
+								? Locale.getDefault() 
+								: JRDataUtils.getLocale(jasperPrint.getLocaleCode());
 						convertedPattern = DateFormatConverter.convert(
-								JRDataUtils.getLocale(jasperPrint.getLocaleCode()), 
+								locale, 
 								convertedPattern.replaceAll("AM/PM", "A").replaceAll("am/pm", "a")
 								);
 						baseStyle.setDataFormat(
