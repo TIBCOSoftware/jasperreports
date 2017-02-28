@@ -1427,6 +1427,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			}
 		}
 		
+		//FIXME: use localized pattern symbols similar to XLS export (via DateFormatConverter class)
 		final String convertedPattern = getConvertedPattern(text, pattern);
 				
 		cellHelper.exportHeader(
