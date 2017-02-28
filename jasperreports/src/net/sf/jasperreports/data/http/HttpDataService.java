@@ -59,7 +59,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileConnection;
 import net.sf.jasperreports.data.DataFileService;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
