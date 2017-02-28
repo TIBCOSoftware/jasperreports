@@ -75,6 +75,7 @@ import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.ss.util.DateFormatConverter;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
@@ -907,6 +908,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					String convertedPattern = getConvertedPattern(textElement, ((DateTextValue)value).getPattern());
 					if (convertedPattern != null)
 					{
+						convertedPattern = DateFormatConverter.convert(
+								new Locale(jasperPrint.getLocaleCode()), 
+								convertedPattern.replaceAll("AM/PM", "A").replaceAll("am/pm", "a")
+								);
 						baseStyle.setDataFormat(
 							dataFormat.getFormat(convertedPattern)
 							);
@@ -994,6 +999,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
 					if (convertedPattern != null)
 					{
+						convertedPattern = DateFormatConverter.convert(
+								new Locale(jasperPrint.getLocaleCode()), 
+								convertedPattern.replaceAll("AM/PM", "A").replaceAll("am/pm", "a")
+								);
 						baseStyle.setDataFormat(
 							dataFormat.getFormat(convertedPattern)
 							);
