@@ -115,7 +115,8 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = PropertyConstants.VERSION_6_4_2
+			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			valueType = RequestMethod.class
 	)
 	public static final String PROPERTY_METHOD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.method";
 	
