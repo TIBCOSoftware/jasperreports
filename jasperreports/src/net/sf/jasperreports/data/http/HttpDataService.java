@@ -59,7 +59,6 @@ import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
 import net.sf.jasperreports.data.DataFileConnection;
 import net.sf.jasperreports.data.DataFileService;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -115,7 +114,8 @@ public class HttpDataService implements DataFileService
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET, PropertyScope.PARAMETER},
 			scopeQualifications = {HTTP_DATA_SERVICE_NAME},
-			sinceVersion = PropertyConstants.VERSION_6_4_2
+			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			valueType = RequestMethod.class
 	)
 	public static final String PROPERTY_METHOD = JRPropertiesUtil.PROPERTY_PREFIX + "http.data.method";
 	
