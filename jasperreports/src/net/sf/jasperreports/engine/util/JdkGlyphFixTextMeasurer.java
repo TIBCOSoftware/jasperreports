@@ -111,7 +111,11 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 	 * 
 	 * This is useful when running on a Sun server JVM (java -server), which might omit
 	 * exception stacktraces in some cases.
+	 * 
+	 * @deprecated replaced by {@link #PROPERTY_CATCH_EMPTY_STACKTRACE_EXCEPTION} which corrects
+	 * the typo in the property name.
 	 */
+	@Deprecated
 	@Property(
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
@@ -121,6 +125,23 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 			)
 	public static final String PROPERTY_CATCH_EMPTY_STACKTRACE = JRPropertiesUtil.PROPERTY_PREFIX 
 			+ "jdk.glyph.fix.text.measurer.catch.empty.stakctrace";
+	
+	/**
+	 * Whether <code>java.lang.NullPointer</code> exceptions with empty stacktraces
+	 * should be caught.
+	 * 
+	 * This is useful when running on a Sun server JVM (java -server), which might omit
+	 * exception stacktraces in some cases.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_OTHER,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_CATCH_EMPTY_STACKTRACE_EXCEPTION = JRPropertiesUtil.PROPERTY_PREFIX 
+			+ "jdk.glyph.fix.text.measurer.catch.empty.stacktrace";
 	
 	private final int attempts;
 	private final int sleep;
@@ -135,9 +156,20 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 	{
 		super(jasperReportsContext, textElement);
 		
-		attempts = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_ATTEMPTS, DEFAULT_ATTEMPTS);
-		sleep = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_ATTEMPT_SLEEP, DEFAULT_ATTEMPT_SLEEP);
-		catchEmptyStacktrace = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(PROPERTY_CATCH_EMPTY_STACKTRACE);
+		JRPropertiesUtil properties = JRPropertiesUtil.getInstance(jasperReportsContext);
+		attempts = properties.getIntegerProperty(PROPERTY_ATTEMPTS, DEFAULT_ATTEMPTS);
+		sleep = properties.getIntegerProperty(PROPERTY_ATTEMPT_SLEEP, DEFAULT_ATTEMPT_SLEEP);
+		
+		String emptyStackProp = properties.getProperty(PROPERTY_CATCH_EMPTY_STACKTRACE_EXCEPTION);
+		if (emptyStackProp != null)
+		{
+			catchEmptyStacktrace = JRPropertiesUtil.asBoolean(emptyStackProp);
+		}
+		else
+		{
+			//use the old property
+			catchEmptyStacktrace = properties.getBooleanProperty(PROPERTY_CATCH_EMPTY_STACKTRACE);
+		}
 	}
 
 	/**
