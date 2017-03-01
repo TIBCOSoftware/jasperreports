@@ -31,12 +31,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.data.FileDataAdapter;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.Designator;
@@ -147,6 +153,68 @@ public class PropertiesMetadataUtil
 		
 		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.PARAMETER, name);
 		return properties;
+	}
+	
+	public List<PropertyMetadata> getElementProperties(JRElement element)
+	{
+		Collection<PropertyMetadata> allProperties = allProperties();
+		List<PropertyMetadata> elementProperties = new ArrayList<PropertyMetadata>();
+		for (PropertyMetadata propertyMetadata : allProperties)
+		{
+			if (inScope(propertyMetadata, element))
+			{
+				elementProperties.add(propertyMetadata);
+			}
+		}
+		return elementProperties;
+	}
+	
+	protected boolean inScope(PropertyMetadata property, JRElement element)
+	{
+		List<PropertyScope> scopes = property.getScopes();
+		if (scopes.contains(PropertyScope.ELEMENT))
+		{
+			return true;
+		}
+		
+		if (element instanceof JRTextElement && scopes.contains(PropertyScope.TEXT_ELEMENT))
+		{
+			return true;
+		}
+		
+		if (element instanceof JRChart && scopes.contains(PropertyScope.CHART_ELEMENT))
+		{
+			return true;
+		}
+		
+		if (element instanceof JRCrosstab && scopes.contains(PropertyScope.CROSSTAB))
+		{
+			return true;
+		}
+		
+		if (element instanceof JRComponentElement && scopes.contains(PropertyScope.COMPONENT))
+		{
+			List<String> qualifications = property.getScopeQualifications();
+			if (qualifications == null || qualifications.isEmpty())
+			{
+				//assuming all components
+				return true;
+			}
+			
+			ComponentKey key = ((JRComponentElement) element).getComponentKey();
+			if (key == null || key.getNamespace() == null || key.getName() == null)
+			{
+				//key is missing, allowing the property by default
+				return true;
+			}
+			
+			String keyQualification = key.getNamespace() 
+					+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
+					+ key.getName();
+			return qualifications.contains(keyQualification);
+		}
+		
+		return false;
 	}
 
 }

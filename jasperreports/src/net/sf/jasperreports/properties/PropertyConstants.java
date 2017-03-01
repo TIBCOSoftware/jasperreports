@@ -87,6 +87,8 @@ public interface PropertyConstants
 	String MOVE_NO_SIZE = "MoveNoSize";
 	
 	String LTR = "LTR";
+	
+	String COMPONENT_KEY_QUALIFICATION_SEPARATOR = ":";
 
 	String VERSION_1_0_0 = "1.0.0";
 

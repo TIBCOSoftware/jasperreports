@@ -43,6 +43,7 @@ public enum PropertyScope
 	CHART_ELEMENT("Chart"),
 	TEXT_ELEMENT("Text Element"),
 	COMPONENT("Component"),
+	CROSSTAB("Crosstab"),
 	TABLE_COLUMN("Column"),
 	EXTENSION("Extension");
 

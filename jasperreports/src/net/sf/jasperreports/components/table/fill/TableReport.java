@@ -34,6 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.iconlabel.IconLabelComponent;
@@ -134,6 +135,11 @@ public class TableReport implements JRReport
 	public static final String EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_FOUND = "fill.table.report.variable.not.found";
 	public static final String EXCEPTION_MESSAGE_KEY_UNRECOGNIZED_FILTER_EXPRESSION_TYPE = "fill.table.report.unrecognized.filter.expression.type";
 	
+	public static final String METADATA_KEY_QUALIFICATION = 
+			ComponentsExtensionsRegistryFactory.NAMESPACE 
+			+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
+			+ ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME;
+	
 	/**
 	 * Global property that specifies the character to be used on the column header when the tables's column is sorted ascending
 	 */
@@ -191,6 +197,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT, PropertyScope.TABLE_COLUMN},
+			scopeQualifications = {METADATA_KEY_QUALIFICATION},
 			sinceVersion = PropertyConstants.VERSION_4_7_1,
 			valueType = Boolean.class
 			)
@@ -218,6 +225,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {METADATA_KEY_QUALIFICATION},
 			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Boolean.class
 			)
@@ -242,6 +250,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {METADATA_KEY_QUALIFICATION},
 			sinceVersion = PropertyConstants.VERSION_6_1_2,
 			valueType = Boolean.class
 			)
