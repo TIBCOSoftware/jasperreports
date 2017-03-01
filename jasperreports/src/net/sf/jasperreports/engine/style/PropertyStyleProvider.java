@@ -24,6 +24,7 @@ package net.sf.jasperreports.engine.style;
  */
 
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -80,13 +81,15 @@ public class PropertyStyleProvider implements StyleProvider
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_BACKCOLOR = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_backcolor;
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_FORECOLOR = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_forecolor;
 	@Property(
@@ -259,7 +262,8 @@ public class PropertyStyleProvider implements StyleProvider
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_PEN_LINE_COLOR = STYLE_PROPERTY_PEN_PREFIX + JRXmlConstants.ATTRIBUTE_lineColor;
 	@Property(
@@ -314,7 +318,8 @@ public class PropertyStyleProvider implements StyleProvider
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_BOX_PEN_LINE_COLOR = STYLE_PROPERTY_BOX_PEN_PREFIX + JRXmlConstants.ATTRIBUTE_lineColor;
 	@Property(
@@ -334,7 +339,8 @@ public class PropertyStyleProvider implements StyleProvider
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_BOX_LEFT_PEN_LINE_COLOR = STYLE_PROPERTY_BOX_LEFT_PEN_PREFIX + JRXmlConstants.ATTRIBUTE_lineColor;
 	@Property(
@@ -354,7 +360,8 @@ public class PropertyStyleProvider implements StyleProvider
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_BOX_TOP_PEN_LINE_COLOR = STYLE_PROPERTY_BOX_TOP_PEN_PREFIX + JRXmlConstants.ATTRIBUTE_lineColor;
 	@Property(
@@ -374,7 +381,8 @@ public class PropertyStyleProvider implements StyleProvider
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_BOX_RIGHT_PEN_LINE_COLOR = STYLE_PROPERTY_BOX_RIGHT_PEN_PREFIX + JRXmlConstants.ATTRIBUTE_lineColor;
 	@Property(
@@ -394,7 +402,8 @@ public class PropertyStyleProvider implements StyleProvider
 	@Property(
 			category = PropertyConstants.CATEGORY_DESIGN,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_4_8_0
+			sinceVersion = PropertyConstants.VERSION_4_8_0,
+			valueType = Color.class
 			)
 	public static final String STYLE_PROPERTY_BOX_BOTTOM_PEN_LINE_COLOR = STYLE_PROPERTY_BOX_BOTTOM_PEN_PREFIX + JRXmlConstants.ATTRIBUTE_lineColor;
 	@Property(

@@ -111,6 +111,7 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -908,8 +909,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					String convertedPattern = getConvertedPattern(textElement, ((DateTextValue)value).getPattern());
 					if (convertedPattern != null)
 					{
+						Locale locale = jasperPrint.getLocaleCode() == null 
+								? Locale.getDefault() 
+								: JRDataUtils.getLocale(jasperPrint.getLocaleCode());
 						convertedPattern = DateFormatConverter.convert(
-								new Locale(jasperPrint.getLocaleCode()), 
+								locale,
 								convertedPattern.replaceAll("AM/PM", "A").replaceAll("am/pm", "a")
 								);
 						baseStyle.setDataFormat(
@@ -999,8 +1003,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
 					if (convertedPattern != null)
 					{
+						Locale locale = jasperPrint.getLocaleCode() == null 
+								? Locale.getDefault() 
+								: JRDataUtils.getLocale(jasperPrint.getLocaleCode());
 						convertedPattern = DateFormatConverter.convert(
-								new Locale(jasperPrint.getLocaleCode()), 
+								locale, 
 								convertedPattern.replaceAll("AM/PM", "A").replaceAll("am/pm", "a")
 								);
 						baseStyle.setDataFormat(
