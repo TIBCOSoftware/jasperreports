@@ -71,7 +71,7 @@ public interface JRBreak extends JRElement
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "ignore",
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.BREAK_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_5_0_4
 			)
 	String PROPERTY_PAGE_BREAK_NO_PAGINATION = JRPropertiesUtil.PROPERTY_PREFIX + "page.break.no.pagination";

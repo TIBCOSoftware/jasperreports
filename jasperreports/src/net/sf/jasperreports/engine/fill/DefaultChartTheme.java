@@ -160,14 +160,14 @@ public class DefaultChartTheme implements ChartTheme
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Boolean.class,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.value.display.visible";
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_DIAL_LABEL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.label";
@@ -175,42 +175,42 @@ public class DefaultChartTheme implements ChartTheme
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Integer.class,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_RANGE_AXIS_TICK_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.count";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Double.class,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_RANGE_AXIS_TICK_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.interval";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Boolean.class,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_RANGE_AXIS_INTEGER_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.integer.unit";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Integer.class,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_5_0
 			)
 	public static final String PROPERTY_DOMAIN_AXIS_TICK_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.tick.count";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Double.class,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_1_4
 			)
 	public static final String PROPERTY_DOMAIN_AXIS_TICK_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.tick.interval";
 	@Property(
 			category = PropertyConstants.CATEGORY_CHART_THEME,
 			valueType = Boolean.class,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CHART_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_DOMAIN_AXIS_INTEGER_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.integer.unit";

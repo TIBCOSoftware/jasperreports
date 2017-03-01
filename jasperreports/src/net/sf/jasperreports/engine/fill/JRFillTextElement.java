@@ -70,7 +70,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Boolean.class
 			)

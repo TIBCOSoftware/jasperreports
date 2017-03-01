@@ -112,7 +112,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_0_2
 			)
 	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.data";

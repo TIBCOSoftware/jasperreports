@@ -159,7 +159,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_3_7_6,
 			valueType = Boolean.class
 			)

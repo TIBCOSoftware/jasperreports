@@ -98,7 +98,7 @@ public final class JRTextMeasurerUtil
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = "net.sf.jasperreports.engine.fill.TextMeasurerFactory",
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_2_0_3
 			)
 	public static final String PROPERTY_TEXT_MEASURER_FACTORY = 

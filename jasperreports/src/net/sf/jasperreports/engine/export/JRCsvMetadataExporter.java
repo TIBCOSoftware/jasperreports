@@ -66,7 +66,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.column.name";
@@ -83,7 +83,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_0_0,
 			valueType = Boolean.class
 			)
@@ -99,7 +99,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.data";

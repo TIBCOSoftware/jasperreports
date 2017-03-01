@@ -42,6 +42,7 @@ public enum PropertyScope
 	PART("Part"),
 	CHART_ELEMENT("Chart"),
 	TEXT_ELEMENT("Text Element"),
+	BREAK_ELEMENT("Break Element"),
 	COMPONENT("Component"),
 	CROSSTAB("Crosstab"),
 	TABLE_COLUMN("Column"),
