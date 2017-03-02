@@ -101,7 +101,7 @@ public final class FlashPrintElement
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.SAME_DOMAIN,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.GENERIC_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_4_1_3
 			)
 	public static final String PROPERTY_ALLOW_SCRIPT_ACCESS = 

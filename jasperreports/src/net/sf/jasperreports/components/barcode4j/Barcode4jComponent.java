@@ -38,6 +38,9 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public abstract class Barcode4jComponent extends BarcodeComponent
 {
+	
+	public static final String COMPONENT_DESIGNATION = "net.sf.jasperreports.component.element:Barcode4j";
+	
 	public static final String PROPERTY_ORIENTATION = "orientation";
 	public static final String PROPERTY_PATTERN_EXPRESSION = "patternExpression";
 	public static final String PROPERTY_MODULE_WIDTH = "moduleWidth";
@@ -214,5 +217,11 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		this.textPositionValue = TextPositionEnum.getByName(textPosition);
 		this.quietZone = (Double) fields.get("quietZone", null);
 		this.verticalQuietZone = (Double) fields.get("verticalQuietZone", null);
+	}
+
+	@Override
+	public String getDesignation()
+	{
+		return COMPONENT_DESIGNATION;
 	}
 }

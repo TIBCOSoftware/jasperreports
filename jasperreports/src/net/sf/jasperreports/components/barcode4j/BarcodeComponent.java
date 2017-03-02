@@ -37,13 +37,14 @@ import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.util.Designated;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class BarcodeComponent implements Component, Serializable, JRCloneable, JRChangeEventsSupport
+public abstract class BarcodeComponent implements Component, Serializable, JRCloneable, JRChangeEventsSupport, Designated
 {
 
 	public static final String PROPERTY_PREFIX = 

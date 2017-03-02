@@ -53,7 +53,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.FRAME},
 			sinceVersion = PropertyConstants.VERSION_3_5_3,
 			valueType = Boolean.class
 			)

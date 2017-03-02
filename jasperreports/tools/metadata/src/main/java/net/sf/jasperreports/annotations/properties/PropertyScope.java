@@ -45,6 +45,9 @@ public enum PropertyScope
 	BREAK_ELEMENT("Break Element"),
 	COMPONENT("Component"),
 	CROSSTAB("Crosstab"),
+	IMAGE_ELEMENT("Image Element"),
+	FRAME("Frame Element"),
+	GENERIC_ELEMENT("Generic Element"),
 	TABLE_COLUMN("Column"),
 	EXTENSION("Extension");
 

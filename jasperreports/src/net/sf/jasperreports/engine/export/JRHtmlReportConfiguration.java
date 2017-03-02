@@ -45,14 +45,16 @@ public interface JRHtmlReportConfiguration extends HtmlReportConfiguration
 	 * The property itself defaults to <code>true</code>.
 	 * </p>
 	 * @see JRPropertiesUtil
+	 * @deprecated along with {@link JRHtmlExporter}
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.FRAME},
 			sinceVersion = PropertyConstants.VERSION_2_0_1,
 			valueType = Boolean.class
 			)
+	@Deprecated
 	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
 
 	/**

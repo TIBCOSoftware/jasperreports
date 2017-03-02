@@ -25,6 +25,9 @@ package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.components.barbecue.BarbecueComponent;
+import net.sf.jasperreports.components.barcode4j.Barcode4jComponent;
+import net.sf.jasperreports.components.barcode4j.QRCodeComponent;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -149,7 +152,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.IMAGE_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_1,
 			valueType = Boolean.class
 			)
@@ -162,7 +165,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.IMAGE_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_2_2,
 			valueType = Boolean.class
 			)
@@ -175,7 +178,10 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, 
+					PropertyScope.IMAGE_ELEMENT, PropertyScope.CHART_ELEMENT, PropertyScope.COMPONENT},
+			scopeQualifications = {Barcode4jComponent.COMPONENT_DESIGNATION, QRCodeComponent.COMPONENT_DESIGNATION,
+					BarbecueComponent.METADATA_KEY_QUALIFICATION},
 			sinceVersion = PropertyConstants.VERSION_6_3_0,
 			valueType = Boolean.class
 			)

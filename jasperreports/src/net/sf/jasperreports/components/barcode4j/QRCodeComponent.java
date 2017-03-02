@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.JRConstants;
  */
 public class QRCodeComponent extends BarcodeComponent
 {
+	
+	public static final String COMPONENT_DESIGNATION = "net.sf.jasperreports.component.element:QRCode";
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -72,5 +74,11 @@ public class QRCodeComponent extends BarcodeComponent
 		this.errorCorrectionLevel = errorCorrectionLevel;
 		getEventSupport().firePropertyChange(PROPERTY_ERROR_CORRECTION_LEVEL, 
 				old, this.errorCorrectionLevel);
+	}
+
+	@Override
+	public String getDesignation()
+	{
+		return COMPONENT_DESIGNATION;
 	}
 }

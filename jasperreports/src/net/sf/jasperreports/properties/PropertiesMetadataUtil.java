@@ -221,17 +221,29 @@ public class PropertiesMetadataUtil
 				return true;
 			}
 			
-			ComponentKey key = ((JRComponentElement) element).getComponentKey();
-			if (key == null || key.getNamespace() == null || key.getName() == null)
+			JRComponentElement componentElement = (JRComponentElement) element;
+			String qualification;
+			if (componentElement.getComponent() instanceof Designated)
 			{
-				//key is missing, allowing the property by default
-				return true;
+				qualification = ((Designated) componentElement.getComponent()).getDesignation();
+			}
+			else
+			{
+				ComponentKey key = componentElement.getComponentKey();
+				if (key == null || key.getNamespace() == null || key.getName() == null)
+				{
+					//key is missing
+					qualification = null;
+				}
+				else
+				{
+					qualification = key.getNamespace() 
+							+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
+							+ key.getName();
+				}
 			}
 			
-			String keyQualification = key.getNamespace() 
-					+ PropertyConstants.COMPONENT_KEY_QUALIFICATION_SEPARATOR 
-					+ key.getName();
-			return qualifications.contains(keyQualification);
+			return qualification != null && qualifications.contains(qualification);
 		}
 		
 		return false;

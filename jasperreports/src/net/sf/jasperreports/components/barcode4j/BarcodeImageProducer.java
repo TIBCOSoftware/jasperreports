@@ -42,7 +42,8 @@ public interface BarcodeImageProducer
 	@Property(
 			category = PropertyConstants.CATEGORY_BARCODE,
 			defaultValue = "svg",
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {Barcode4jComponent.COMPONENT_DESIGNATION, QRCodeComponent.COMPONENT_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_3_5_2
 			)
 	String PROPERTY_IMAGE_PRODUCER = 
@@ -52,7 +53,8 @@ public interface BarcodeImageProducer
 			name = "net.sf.jasperreports.components.barcode4j.image.producer.{alias}",
 			category = PropertyConstants.CATEGORY_BARCODE,
 			valueType = Class.class,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {Barcode4jComponent.COMPONENT_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_3_5_2
 			)
 	String PROPERTY_PREFIX_IMAGE_PRODUCER = 

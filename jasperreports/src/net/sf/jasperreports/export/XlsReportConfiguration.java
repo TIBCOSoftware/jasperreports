@@ -28,6 +28,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.components.barbecue.BarbecueComponent;
+import net.sf.jasperreports.components.barcode4j.Barcode4jComponent;
+import net.sf.jasperreports.components.barcode4j.QRCodeComponent;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -609,7 +612,10 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.MOVE_NO_SIZE,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, 
+					PropertyScope.IMAGE_ELEMENT, PropertyScope.CHART_ELEMENT, PropertyScope.COMPONENT},
+			scopeQualifications = {Barcode4jComponent.COMPONENT_DESIGNATION, QRCodeComponent.COMPONENT_DESIGNATION,
+					BarbecueComponent.METADATA_KEY_QUALIFICATION},
 			sinceVersion = PropertyConstants.VERSION_5_0_4,
 			valueType = ImageAnchorTypeEnum.class
 			)
