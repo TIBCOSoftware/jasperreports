@@ -85,6 +85,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_1_2_3,
 			valueType = Integer.class
 			)
@@ -97,6 +98,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			name = "net.sf.jasperreports.ejbql.query.hint.{hint}",
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_1_2_3
 			)
 	public static final String PROPERTY_JPA_QUERY_HINT_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "ejbql.query.hint.";
@@ -120,7 +122,7 @@ public class JRJpaQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return QUERY_EXECUTER_NAME;
 	}

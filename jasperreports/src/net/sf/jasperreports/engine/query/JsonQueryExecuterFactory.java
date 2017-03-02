@@ -132,7 +132,7 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory imple
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return JSON_QUERY_EXECUTER_NAME;
 	}

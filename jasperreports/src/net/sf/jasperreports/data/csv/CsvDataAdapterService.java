@@ -40,12 +40,15 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.Designated;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class CsvDataAdapterService extends AbstractDataAdapterService 
+public class CsvDataAdapterService extends AbstractDataAdapterService implements Designated
 {
+	
+	public static final String SERVICE_DESIGNATION = "net.sf.jasperreports.data.adapter:CSV";
 	
 	private DataFileStream dataStream;
 	
@@ -242,6 +245,12 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 		}
 		
 		super.dispose();
+	}
+
+	@Override
+	public String getDesignation()
+	{
+		return SERVICE_DESIGNATION;
 	}
 	
 }

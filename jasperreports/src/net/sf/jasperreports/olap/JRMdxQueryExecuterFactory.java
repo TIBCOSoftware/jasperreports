@@ -107,7 +107,7 @@ public class JRMdxQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return QUERY_EXECUTER_NAME;
 	}

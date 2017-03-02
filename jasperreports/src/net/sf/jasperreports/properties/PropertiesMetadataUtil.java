@@ -33,15 +33,20 @@ import java.util.Map;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.data.DataAdapterService;
+import net.sf.jasperreports.data.DataAdapterServiceUtil;
 import net.sf.jasperreports.data.DataFile;
 import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.data.FileDataAdapter;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.Designated;
@@ -94,15 +99,25 @@ public class PropertiesMetadataUtil
 	
 	public List<PropertyMetadata> getQueryExecuterFieldProperties(String queryLanguage) throws JRException
 	{
-		QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(context).getExecuterFactory(queryLanguage);
-		if (!(queryExecuterFactory instanceof Designated))
+		String qualification = queryExecuterQualification(queryLanguage);
+		if (qualification == null)
 		{
 			return Collections.emptyList();
 		}
-		String queryExecuterName = ((Designated) queryExecuterFactory).getName();
 		
-		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.FIELD, queryExecuterName);
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.FIELD, qualification);
 		return properties;
+	}
+	
+	protected String queryExecuterQualification(String queryLanguage) throws JRException
+	{
+		QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(context).getExecuterFactory(queryLanguage);
+		if (!(queryExecuterFactory instanceof Designated))
+		{
+			return null;
+		}
+		String queryExecuterName = ((Designated) queryExecuterFactory).getDesignation();
+		return queryExecuterName;
 	}
 
 	protected List<PropertyMetadata> filterQualifiedProperties(PropertyScope primaryScope, String qualificationName)
@@ -120,12 +135,24 @@ public class PropertiesMetadataUtil
 		return properties;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<PropertyMetadata> getParameterProperties(DataAdapter dataAdapter)
+	{
+		String qualification = dataFileQualification(dataAdapter);
+		if (qualification == null)
+		{
+			return Collections.emptyList();
+		}
+		
+		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.PARAMETER, qualification);
+		return properties;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected String dataFileQualification(DataAdapter dataAdapter)
 	{
 		if (!(dataAdapter instanceof FileDataAdapter))
 		{
-			return Collections.emptyList();
+			return null;
 		}
 		
 		DataFile dataFile = ((FileDataAdapter) dataAdapter).getDataFile();
@@ -145,14 +172,7 @@ public class PropertiesMetadataUtil
 				}
 			}
 		}
-		
-		if (name == null)
-		{
-			return Collections.emptyList();
-		}
-		
-		List<PropertyMetadata> properties = filterQualifiedProperties(PropertyScope.PARAMETER, name);
-		return properties;
+		return name;
 	}
 	
 	public List<PropertyMetadata> getElementProperties(JRElement element)
@@ -215,6 +235,67 @@ public class PropertiesMetadataUtil
 		}
 		
 		return false;
+	}
+	
+	public List<PropertyMetadata> getReportProperties(JRReport report)
+	{
+		Collection<PropertyMetadata> allProperties = allProperties();
+		List<PropertyMetadata> reportProperties = new ArrayList<PropertyMetadata>();
+		for (PropertyMetadata propertyMetadata : allProperties)
+		{
+			List<PropertyScope> scopes = propertyMetadata.getScopes();
+			if (scopes != null && scopes.contains(PropertyScope.REPORT))
+			{
+				reportProperties.add(propertyMetadata);
+			}
+		}
+		return reportProperties;
+	}
+	
+	protected String dataAdapterQualification(JRDataset dataset, DataAdapter dataAdapter)
+	{
+		ParameterContributorContext contributorContext = new ParameterContributorContext(context,
+				dataset, Collections.<String, Object>emptyMap());
+		DataAdapterServiceUtil serviceUtil = DataAdapterServiceUtil.getInstance(contributorContext);
+		DataAdapterService service = serviceUtil.getService(dataAdapter);
+		return service instanceof Designated ? ((Designated) service).getDesignation() : null;
+	}
+	
+	public List<PropertyMetadata> getDatasetProperties(JRDataset dataset, DataAdapter dataAdapter) throws JRException
+	{
+		String queryLanguage = dataset.getQuery() == null ? null : dataset.getQuery().getLanguage();
+		String queryQualification = queryLanguage == null ? null : queryExecuterQualification(queryLanguage);
+		
+		String dataAdapterQualification = dataAdapter == null ? null : dataAdapterQualification(dataset, dataAdapter);
+		String dataFileQualification = dataAdapter == null ? null : dataFileQualification(dataAdapter);
+		
+		Collection<PropertyMetadata> allProperties = allProperties();
+		List<PropertyMetadata> reportProperties = new ArrayList<PropertyMetadata>();
+		for (PropertyMetadata propertyMetadata : allProperties)
+		{
+			List<PropertyScope> scopes = propertyMetadata.getScopes();
+			if (scopes != null && scopes.contains(PropertyScope.DATASET))
+			{
+				boolean matches;
+				List<String> qualifications = propertyMetadata.getScopeQualifications();
+				if (qualifications == null || qualifications.isEmpty())
+				{
+					matches = true;
+				}
+				else
+				{
+					matches = queryQualification != null && qualifications.contains(queryQualification)
+							|| dataAdapterQualification != null && qualifications.contains(dataAdapterQualification)
+							|| dataFileQualification != null && qualifications.contains(dataFileQualification);
+				}
+				
+				if (matches)
+				{
+					reportProperties.add(propertyMetadata);
+				}
+			}
+		}
+		return reportProperties;
 	}
 
 }

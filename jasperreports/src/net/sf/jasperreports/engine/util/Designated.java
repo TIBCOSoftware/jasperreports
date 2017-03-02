@@ -30,6 +30,6 @@ package net.sf.jasperreports.engine.util;
 public interface Designated
 {
 
-	String getName();
+	String getDesignation();
 	
 }

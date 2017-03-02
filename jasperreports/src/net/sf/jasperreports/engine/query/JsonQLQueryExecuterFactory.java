@@ -54,7 +54,7 @@ public class JsonQLQueryExecuterFactory extends JsonQueryExecuterFactory
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return JSONQL_QUERY_EXECUTER_NAME;
 	}

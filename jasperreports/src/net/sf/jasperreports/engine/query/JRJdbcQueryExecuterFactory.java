@@ -58,6 +58,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME, JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Integer.class
 			)
@@ -70,6 +71,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "forwardOnly",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_3_5_3
 			)
 	public static final String PROPERTY_JDBC_RESULT_SET_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.result.set.type";
@@ -81,6 +83,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "readOnly",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_3_5_3
 			)
 	public static final String PROPERTY_JDBC_CONCURRENCY = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.concurrency";
@@ -102,6 +105,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_3_5_3,
 			valueType = Integer.class
 			)
@@ -114,6 +118,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_1_2,
 			valueType = Boolean.class
 			)
@@ -140,6 +145,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET, PropertyScope.PARAMETER, PropertyScope.FIELD},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_6_1_0
 			)
 	public static final String PROPERTY_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.time.zone";
@@ -201,7 +207,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return QUERY_EXECUTER_NAME;
 	}

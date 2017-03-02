@@ -69,6 +69,7 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory im
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_7_1
 			)
 	public static final String XML_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "xml.source";
@@ -137,7 +138,7 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory im
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return QUERY_EXECUTER_NAME;
 	}

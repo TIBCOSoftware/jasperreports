@@ -87,6 +87,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "list",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_1_2_0
 			)
 	public static final String PROPERTY_HIBERNATE_QUERY_RUN_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "hql.query.run.type";
@@ -102,6 +103,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Integer.class
 			)
@@ -118,6 +120,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_1_3_1,
 			valueType = Boolean.class
 			)
@@ -131,6 +134,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRHibernateQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_1_2_0,
 			valueType = Boolean.class
 			)
@@ -185,7 +189,7 @@ public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactor
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return QUERY_EXECUTER_NAME;
 	}

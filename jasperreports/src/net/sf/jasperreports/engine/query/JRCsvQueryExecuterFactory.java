@@ -27,6 +27,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.data.csv.CsvDataAdapterService;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -61,6 +62,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "csv.source";
@@ -94,6 +96,8 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME, 
+					CsvDataAdapterService.SERVICE_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "csv.encoding";
@@ -108,6 +112,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			name = "net.sf.jasperreports.csv.column.names.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_COLUMN_NAMES = JRPropertiesUtil.PROPERTY_PREFIX + "csv.column.names";
@@ -133,6 +138,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "csv.locale.code";
@@ -148,6 +154,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_TIMEZONE_ID = JRPropertiesUtil.PROPERTY_PREFIX + "csv.timezone.id";
@@ -163,6 +170,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "csv.date.pattern";
@@ -174,6 +182,8 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = ",",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME,
+					CsvDataAdapterService.SERVICE_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_FIELD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "csv.field.delimiter";
@@ -189,6 +199,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "csv.number.pattern";
@@ -200,6 +211,8 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "\\n",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME,
+					CsvDataAdapterService.SERVICE_DESIGNATION},
 			sinceVersion = PropertyConstants.VERSION_4_0_0
 			)
 	public static final String CSV_RECORD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "csv.record.delimiter";
@@ -257,7 +270,7 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 	}
 
 	@Override
-	public String getName()
+	public String getDesignation()
 	{
 		return QUERY_EXECUTER_NAME;
 	}
