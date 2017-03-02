@@ -95,6 +95,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			defaultValue = "hold",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
 			sinceVersion = PropertyConstants.VERSION_3_5_3
 			)
 	public static final String PROPERTY_JDBC_HOLDABILITY = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.holdability";
