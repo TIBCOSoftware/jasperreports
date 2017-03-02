@@ -57,12 +57,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 {
 	private static final Log log = LogFactory.getLog(JEditorPaneHtmlMarkupProcessor.class);
-	public static final String EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS = "util.markup.processor.number.outside.bounds";
-
-	public static final String[] THOUSAND_DIGITS = {"","M","MM","MMM"};
-	public static final String[] HUNDRED_DIGITS = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
-	public static final String[] TEN_DIGITS = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
-	public static final String[] UNIT_DIGITS = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
 	
 	public static final String DEFAULT_BULLET_CHARACTER = "\u2022";
 	public static final String DEFAULT_BULLET_SEPARATOR = ".";
@@ -216,10 +210,10 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 									suffix = getOLBulletChars(orderedListIndex[index] + start - 1, false);
 									break;
 								case 'I':
-									suffix = getOLBulletRomanDigits(orderedListIndex[index] + start, true);
+									suffix = JRStringUtil.getRomanNumeral(orderedListIndex[index] + start, true);
 									break;
 								case 'i':
-									suffix = getOLBulletRomanDigits(orderedListIndex[index] + start, false);
+									suffix = JRStringUtil.getRomanNumeral(orderedListIndex[index] + start, false);
 									break;
 								case '1':
 								default:
@@ -402,58 +396,15 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	 */
 	protected static String getOLBulletChars(int index, boolean isUpperCase)
 	{
-		String result = "";
-		
 		// max 3-letter index is 18277
 		if(index < 0 || index > 18277)	
 		{
 			throw 
 				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS,
+					JRStringUtil.EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS,
 					new Object[]{index});
 		} 
-		else if (index < 26)
-		{
-			// first 26 column names are single letters
-			result = String.valueOf((char)(index + 65));
-		} 
-		else if (index < 702)
-		{
-			// next 676 (= 26^2) column names are 2-letter names
-			result = String.valueOf((char)(index/26 + 64)) 
-				+ String.valueOf((char)(index%26 + 65));
-		} 
-		else 
-		{
-			// next 17576 (= 26^3) column names are 3-letter names;
-			result = String.valueOf((char)((index-26)/676 + 64)) 
-				+ String.valueOf((char)(((index-26)%676)/26 + 65)) 
-				+ String.valueOf((char)(index%26 + 65));
-		}
 		
-		return isUpperCase ? result.toUpperCase() : result.toLowerCase();
-	}
-	
-	/**
-	 * 
-	 * @param number an integer value between 1 and 3999
-	 * @param isUpperCase specifies whether the result should be made of upper case characters
-	 * @return the Roman numeral representation of this number
-	 */
-	protected static String getOLBulletRomanDigits(int number, boolean isUpperCase)
-	{
-		if(number < 1 || number > 3999)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS,
-					new Object[]{number});
-		}
-		String strNumber = ("0000"+String.valueOf(number)).substring(String.valueOf(number).length());
-		String result = THOUSAND_DIGITS[strNumber.charAt(0) - '0'] 
-				+ HUNDRED_DIGITS[strNumber.charAt(1) - '0']
-				+ TEN_DIGITS[strNumber.charAt(2) - '0']
-				+ UNIT_DIGITS[strNumber.charAt(3) - '0'];
-		return isUpperCase ? result : result.toLowerCase();
+		return JRStringUtil.getLetterNumeral(index, isUpperCase);
 	}
 }
