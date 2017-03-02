@@ -52,7 +52,7 @@ public interface XlsMetadataReportConfiguration extends XlsReportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_4_0_2,
 			valueType = Boolean.class
 			)
