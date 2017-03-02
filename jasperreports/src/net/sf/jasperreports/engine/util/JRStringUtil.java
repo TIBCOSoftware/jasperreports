@@ -46,12 +46,18 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public final class JRStringUtil
 {
-
 	protected static final String JAVA_IDENTIFIER_PREFIX = "j";
 	
 	protected static final Pattern PATTERN_CSS_INVALID_CHARACTER = Pattern.compile("[^a-zA-Z0-9_-]+");
 	protected static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
 			'a', 'b', 'c', 'd', 'e', 'f'};
+
+	public static final String EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS = "util.markup.processor.number.outside.bounds";
+
+	protected static final String[] THOUSAND_DIGITS = {"","M","MM","MMM"};
+	protected static final String[] HUNDRED_DIGITS = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+	protected static final String[] TEN_DIGITS = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+	protected static final String[] UNIT_DIGITS = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
 
 	/**
 	 * This method replaces all occurrences of the CR character with the LF character, 
@@ -716,6 +722,41 @@ public final class JRStringUtil
 		{
 			throw new JRRuntimeException(e);
 		}
+	}
+	
+	public static String getLetterNumeral(int number, boolean isUpperCase)
+	{
+		String romanNumeral = "";
+		int tmpNumber = number;
+		while (tmpNumber > 0)
+		{
+			int modulo = (tmpNumber - 1) % 26;
+			romanNumeral = (char)(modulo + 'A') + romanNumeral;
+			tmpNumber = (tmpNumber - modulo) / 26;
+		}
+		return isUpperCase ? romanNumeral : romanNumeral.toLowerCase();
+	}
+	
+	/**
+	 * @param number an integer value between 1 and 3999
+	 * @param isUpperCase specifies whether the result should be made of upper case characters
+	 * @return the Roman numeral representation of this number
+	 */
+	public static String getRomanNumeral(int number, boolean isUpperCase)
+	{
+		if(number < 1 || number > 3999)
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_NUMBER_OUTSIDE_BOUNDS,
+					new Object[]{number});
+		}
+		String strNumber = ("0000"+String.valueOf(number)).substring(String.valueOf(number).length());
+		String result = THOUSAND_DIGITS[strNumber.charAt(0) - '0'] 
+				+ HUNDRED_DIGITS[strNumber.charAt(1) - '0']
+				+ TEN_DIGITS[strNumber.charAt(2) - '0']
+				+ UNIT_DIGITS[strNumber.charAt(3) - '0'];
+		return isUpperCase ? result : result.toLowerCase();
 	}
 
 	private JRStringUtil()

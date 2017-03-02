@@ -9,5 +9,38 @@ inside text elements by setting the </FONT><FONT COLOR="#0000ff"><I>markup
 </I></FONT><FONT COLOR="#000000">attribute available for the
 </FONT><FONT COLOR="#ff00ff"><B>textElement </B></FONT><FONT COLOR="#000000">tag
 to </FONT><FONT COLOR="#ff0000"><I>html</I></FONT><FONT COLOR="#000000">.</FONT></FONT></FONT></P>
+<P/>
+<P/>
+This is a bulleted list of fruits:
+<UL>
+<LI>apple</LI>
+<LI>banana</LI>
+<LI>cherry</LI>
+</UL>
+<P/>
+<P/>
+This is a numbered list of sports starting with number 4:
+<OL start="4">
+<LI>football</LI>
+<LI>rugby</LI>
+<LI>tennis</LI>
+</OL>
+<P/>
+<P/>
+This is a lettered list of shapes starting with letter c:
+<OL type="a" start="3">
+<LI>circle</LI>
+<LI>ellipse</LI>
+<LI>rectangle</LI>
+</OL>
+<P/>
+<P/>
+Following is a numbered list of animals using Roman numerals and starting with number 3 (III):
+<OL type="I" start="3">
+<LI>lion</LI>
+<LI>elephant</LI>
+<LI>zebra</LI>
+</OL>
+<P/>
 </BODY>
 </HTML>
