@@ -204,10 +204,10 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 							switch(((String)type).charAt(0))
 							{
 								case 'A':
-									suffix = getOLBulletChars(orderedListIndex[index] + start - 1, true);
+									suffix = getOLBulletChars(orderedListIndex[index] + start, true);
 									break;
 								case 'a':
-									suffix = getOLBulletChars(orderedListIndex[index] + start - 1, false);
+									suffix = getOLBulletChars(orderedListIndex[index] + start, false);
 									break;
 								case 'I':
 									suffix = JRStringUtil.getRomanNumeral(orderedListIndex[index] + start, true);
