@@ -17,7 +17,7 @@
 		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.1.4" conf="compile,annotations->*"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.1.4" conf="compile,annotations->*"/>
 		<dependency org="com.google.zxing" name="core" rev="3.2.1"/>
-		<dependency org="com.lowagie" name="itext" rev="2.1.7.js6-SNAPSHOT" changing="true"/>
+		<dependency org="com.lowagie" name="itext" rev="2.1.7.js6-SNAPSHOT"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.3"/>
 		<dependency org="commons-collections" name="commons-collections" rev="3.2.2"/>
 		<dependency org="commons-digester" name="commons-digester" rev="2.1"/>
@@ -28,8 +28,8 @@
 		<dependency org="jaxen" name="jaxen" rev="1.1.1"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.4.2-SNAPSHOT" changing="true" conf="annotations->*"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.4.2-SNAPSHOT" changing="true" conf="compile,annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.4.2-SNAPSHOT" conf="annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.4.2-SNAPSHOT" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
 		<dependency org="net.sourceforge.jexcelapi" name="jxl" rev="2.6.10"/>
 		<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>

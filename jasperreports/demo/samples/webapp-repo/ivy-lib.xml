@@ -7,7 +7,7 @@
 		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.1.4"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.1.4"/>
 		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.1.4" conf="test->*"/>
-		<dependency org="com.lowagie" name="itext" rev="2.1.7.js6-SNAPSHOT" changing="true" conf="test->*"/>
+		<dependency org="com.lowagie" name="itext" rev="2.1.7.js6-SNAPSHOT" conf="test->*"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.3" conf="test->*"/>
 		<dependency org="commons-codec" name="commons-codec" rev="1.5" conf="test->*"/>
 		<dependency org="commons-collections" name="commons-collections" rev="3.2.2" conf="test->*"/>
