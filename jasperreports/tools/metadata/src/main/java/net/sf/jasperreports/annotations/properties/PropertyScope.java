@@ -49,7 +49,8 @@ public enum PropertyScope
 	FRAME("Frame Element"),
 	GENERIC_ELEMENT("Generic Element"),
 	TABLE_COLUMN("Column"),
-	EXTENSION("Extension");
+	EXTENSION("Extension"),
+	INTERNAL("Internal");
 
 	private final String label;
 	

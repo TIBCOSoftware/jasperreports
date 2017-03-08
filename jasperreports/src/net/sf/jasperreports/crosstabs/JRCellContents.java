@@ -80,7 +80,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.INTERNAL},
 			sinceVersion = PropertyConstants.VERSION_3_1_2
 			)
 	public static final String PROPERTY_TYPE = PROPERTIES_PREFIX + "type";
@@ -90,7 +90,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.INTERNAL},
 			sinceVersion = PropertyConstants.VERSION_3_1_2,
 			valueType = Integer.class
 			)
@@ -101,7 +101,7 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_CROSSTAB,
-			scopes = {PropertyScope.ELEMENT},
+			scopes = {PropertyScope.INTERNAL},
 			sinceVersion = PropertyConstants.VERSION_3_1_2,
 			valueType = Integer.class
 			)
