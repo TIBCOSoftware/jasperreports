@@ -3,6 +3,6 @@
 		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
 	</info>
 	<dependencies>
-		<dependency org="bouncycastle" name="bcprov-jdk14" rev="139" conf="test->*"/>
+		<dependency org="org.bouncycastle" name="bcprov-jdk15on" rev="1.52" conf="test->*"/>
 	</dependencies>
 </ivy-module>
