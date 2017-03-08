@@ -44,7 +44,6 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -151,7 +150,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	
 	static
 	{
-		Hashtable<String, HSSFColor> hssfColors = HSSFColor.getTripletHash();
+		Map<String, HSSFColor> hssfColors = HSSFColor.getTripletHash();
 		hssfColorsRgbs = new LinkedHashMap<HSSFColor, short[]>();
 		for (HSSFColor color : hssfColors.values())
 		{
