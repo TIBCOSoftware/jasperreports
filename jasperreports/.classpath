@@ -35,12 +35,12 @@
 	<classpathentry kind="lib" path="lib/lucene-core-4.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-queryparser-4.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/olap4j-0.9.7.309-JS-3.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient-4.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.3.6.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.10.1.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.10.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/core-2.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/itext-2.1.7.js3.jar"/>
+	<classpathentry kind="lib" path="lib/itext-2.1.7.js6.jar"/>
 	<classpathentry kind="lib" path="lib/batik-anim-1.8.jar"/>
 	<classpathentry kind="lib" path="lib/batik-awt-util-1.8.jar"/>
 	<classpathentry kind="lib" path="lib/batik-bridge-1.8.jar"/>
