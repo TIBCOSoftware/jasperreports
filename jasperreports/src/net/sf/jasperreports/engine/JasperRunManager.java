@@ -497,12 +497,12 @@ public final class JasperRunManager
 
 
 	/**
-	 * Fills a report and saves it directly into a HTML file. 
+	 * Fills a report and saves it directly into a HTML file.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
 	public String runToHtmlFile(
-		String sourceFileName, 
-		Map<String,Object> params, 
+		String sourceFileName,
+		Map<String,Object> params,
 		Connection conn
 		) throws JRException
 	{
@@ -512,7 +512,7 @@ public final class JasperRunManager
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
 		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
-		
+
 		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
 
 		/*   */
@@ -523,7 +523,7 @@ public final class JasperRunManager
 		String destFileName = destFile.toString();
 
 		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
-		
+
 		return destFileName;
 	}
 
@@ -661,7 +661,423 @@ public final class JasperRunManager
 		/*   */
 		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
 	}
-	
+
+	/**
+	 * Fills a report and saves it directly into a XLS file.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public String runToXlsFile(
+			String sourceFileName,
+			Map<String,Object> params,
+			Connection conn
+	) throws JRException
+	{
+		File sourceFile = new File(sourceFileName);
+
+		/*   */
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
+
+		/*   */
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, conn);
+
+		/*   */
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
+		String destFileName = destFile.toString();
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsFile(jasperPrint, destFileName);
+
+		return destFileName;
+	}
+
+
+	/**
+	 * Fills a report and saves it directly into a XLS file.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 *
+	 * @param sourceFileName the name of the compiled report file
+	 * @param params the parameters map
+	 * @return the name of the generated XLS file
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public String runToXlsFile(
+			String sourceFileName,
+			Map<String,Object> params
+	) throws JRException
+	{
+		File sourceFile = new File(sourceFileName);
+
+		/*   */
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
+
+		/*   */
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
+
+		/*   */
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
+		String destFileName = destFile.toString();
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsFile(jasperPrint, destFileName);
+
+		return destFileName;
+	}
+
+
+	/**
+	 * Fills a report and saves it directly into a XLS file.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public void runToXlsFile(
+			String sourceFileName,
+			String destFileName,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, conn);
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * Fills a report and saves it directly into a XLS file.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 *
+	 * @param sourceFileName source file containing the compile report design
+	 * @param destFileName XLS destination file name
+	 * @param parameters     report parameters map
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public void runToXlsFile(
+			String sourceFileName,
+			String destFileName,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters);
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * Fills a report and sends it directly to an OutputStream in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public void runToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, conn);
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsStream(jasperPrint, outputStream);
+	}
+
+
+	/**
+	 * Fills a report and sends it directly to an OutputStream in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 *
+	 * @param inputStream compiled report input stream
+	 * @param outputStream XLS output stream
+	 * @param parameters parameters map
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public void runToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters);
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsStream(jasperPrint, outputStream);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public byte[] runToXls(
+			String sourceFileName,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, conn);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 *
+	 * @param sourceFileName source file containing the compile report design
+	 * @param parameters     report parameters map
+	 * @return binary XLS output
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public byte[] runToXls(
+			String sourceFileName,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public byte[] runToXls(
+			InputStream inputStream,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, conn);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 *
+	 * @param inputStream  input stream to read the compiled report design object from
+	 * @param parameters   report parameters map
+	 * @return binary XLS output
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public byte[] runToXls(
+			InputStream inputStream,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public byte[] runToXls(
+			JasperReport jasperReport,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, conn);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 *
+	 * @param jasperReport the compiled report
+	 * @param parameters the parameters map
+	 * @return binary XLS output
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public byte[] runToXls(
+			JasperReport jasperReport,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and saves it directly into a XLS file.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public String runToXlsFile(
+			String sourceFileName,
+			Map<String,Object> params,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		File sourceFile = new File(sourceFileName);
+
+		/*   */
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		JasperReportsContext lcJrCtx = jasperFillManager.getLocalJasperReportsContext(sourceFile);
+
+		/*   */
+		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, jrDataSource);
+
+		/*   */
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
+		String destFileName = destFile.toString();
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsFile(jasperPrint, destFileName);
+
+		return destFileName;
+	}
+
+
+	/**
+	 * Fills a report and saves it directly into a XLS file.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public void runToXlsFile(
+			String sourceFileName,
+			String destFileName,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, jrDataSource);
+
+		/*   */
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * Fills a report and sends it directly to an OutputStream in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public void runToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, jrDataSource);
+
+		JasperExportManager.getInstance(jasperReportsContext).exportToXlsStream(jasperPrint, outputStream);
+	}
+
+
+	/**
+	 * Fills a report and sends it to an output stream in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public byte[] runToXls(
+			String sourceFileName,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, jrDataSource);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public byte[] runToXls(
+			InputStream inputStream,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, jrDataSource);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
+
+	/**
+	 * Fills a report and returns byte array object containing the report in XLS format.
+	 * The intermediate JasperPrint object is not saved on disk.
+	 */
+	public byte[] runToXls(
+			JasperReport jasperReport,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException {
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, jrDataSource);
+
+		return JasperExportManager.getInstance(jasperReportsContext).exportToXls(jasperPrint);
+	}
+
 	
 	/**
 	 * @see #runToPdfFile(String, Map, Connection)
@@ -973,5 +1389,238 @@ public final class JasperRunManager
 		) throws JRException
 	{
 		getDefaultInstance().runToHtmlFile(sourceFileName, destFileName, parameters, jrDataSource);
+	}
+
+	/**
+	 * @see #runToXlsFile(String, Map, Connection)
+	 */
+	public static String runReportToXlsFile(
+			String sourceFileName,
+			Map<String,Object> params,
+			Connection conn
+	) throws JRException
+	{
+		return getDefaultInstance().runToXlsFile(sourceFileName, params, conn);
+	}
+
+
+	/**
+	 * @see #runToXlsFile(String, Map)
+	 */
+	public static String runReportToXlsFile(
+			String sourceFileName,
+			Map<String,Object> params
+	) throws JRException
+	{
+		return getDefaultInstance().runToXlsFile(sourceFileName, params);
+	}
+
+
+	/**
+	 * @see #runToXlsFile(String, String, Map, Connection)
+	 */
+	public static void runReportToXlsFile(
+			String sourceFileName,
+			String destFileName,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		getDefaultInstance().runToXlsFile(sourceFileName, destFileName, parameters, conn);
+	}
+
+
+	/**
+	 * @see #runToXlsFile(String, String, Map)
+	 */
+	public static void runReportToXlsFile(
+			String sourceFileName,
+			String destFileName,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		getDefaultInstance().runToXlsFile(sourceFileName, destFileName, parameters);
+	}
+
+
+	/**
+	 * @see #runToXlsStream(InputStream, OutputStream, Map, Connection)
+	 */
+	public static void runReportToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		getDefaultInstance().runToXlsStream(inputStream, outputStream, parameters, conn);
+	}
+
+
+	/**
+	 * @see #runToXlsStream(InputStream, OutputStream, Map)
+	 */
+	public static void runReportToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		getDefaultInstance().runToXlsStream(inputStream, outputStream, parameters);
+	}
+
+
+	/**
+	 * @see #runToXls(String, Map, Connection)
+	 */
+	public static byte[] runReportToXls(
+			String sourceFileName,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(sourceFileName, parameters, conn);
+	}
+
+
+	/**
+	 * @see #runToXls(String, Map)
+	 */
+	public static byte[] runReportToXls(
+			String sourceFileName,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(sourceFileName, parameters);
+	}
+
+
+	/**
+	 * @see #runToXls(InputStream, Map, Connection)
+	 */
+	public static byte[] runReportToXls(
+			InputStream inputStream,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(inputStream, parameters, conn);
+	}
+
+
+	/**
+	 * @see #runToXls(InputStream, Map)
+	 */
+	public static byte[] runReportToXls(
+			InputStream inputStream,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(inputStream, parameters);
+	}
+
+
+	/**
+	 * @see #runToXls(JasperReport, Map, Connection)
+	 */
+	public static byte[] runReportToXls(
+			JasperReport jasperReport,
+			Map<String,Object> parameters,
+			Connection conn
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(jasperReport, parameters, conn);
+	}
+
+
+	/**
+	 * @see #runToXls(JasperReport, Map)
+	 */
+	public static byte[] runReportToXls(
+			JasperReport jasperReport,
+			Map<String,Object> parameters
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(jasperReport, parameters);
+	}
+
+
+	/**
+	 * @see #runToXlsFile(String, Map, JRDataSource)
+	 */
+	public static String runReportToXlsFile(
+			String sourceFileName,
+			Map<String,Object> params,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		return getDefaultInstance().runToXlsFile(sourceFileName, params, jrDataSource);
+	}
+
+
+	/**
+	 * @see #runToXlsFile(String, String, Map, JRDataSource)
+	 */
+	public static void runReportToXlsFile(
+			String sourceFileName,
+			String destFileName,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		getDefaultInstance().runToXlsFile(sourceFileName, destFileName, parameters, jrDataSource);
+	}
+
+
+	/**
+	 * @see #runToXlsStream(InputStream, OutputStream, Map, JRDataSource)
+	 */
+	public static void runReportToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		getDefaultInstance().runToXlsStream(inputStream, outputStream, parameters, jrDataSource);
+	}
+
+
+	/**
+	 * @see #runToXls(String, Map, JRDataSource)
+	 */
+	public static byte[] runReportToXls(
+			String sourceFileName,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(sourceFileName, parameters, jrDataSource);
+	}
+
+
+	/**
+	 * @see #runToXls(InputStream, Map, JRDataSource)
+	 */
+	public static byte[] runReportToXls(
+			InputStream inputStream,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(inputStream, parameters, jrDataSource);
+	}
+
+
+	/**
+	 * @see #runToXls(JasperReport, Map, JRDataSource)
+	 */
+	public static byte[] runReportToXls(
+			JasperReport jasperReport,
+			Map<String,Object> parameters,
+			JRDataSource jrDataSource
+	) throws JRException
+	{
+		return getDefaultInstance().runToXls(jasperReport, parameters, jrDataSource);
 	}
 }

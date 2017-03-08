@@ -30,6 +30,7 @@ import java.io.OutputStream;
 
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -646,5 +647,208 @@ public final class JasperExportManager
 		) throws JRException
 	{
 		getDefaultInstance().exportToHtmlFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * Exports the generated report file specified by the parameter into XLS format.
+	 * The resulting XLS file has the same name as the report object inside the source file,
+	 * plus the <code>*.pdf</code> extension and it is located in the same directory as the source file.
+	 *
+	 * @param sourceFileName source file containing the generated report
+	 * @return resulting XLS file name
+	 * @see net.sf.jasperreports.engine.export.JRXlsExporter
+	 */
+	public String exportToXlsFile(String sourceFileName) throws JRException
+	{
+		File sourceFile = new File(sourceFileName);
+
+		/* We need the report name. */
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls");
+		String destFileName = destFile.toString();
+
+		exportReportToXlsFile(jasperPrint, destFileName);
+
+		return destFileName;
+	}
+
+
+	/**
+	 * Exports the generated report file specified by the first parameter into XLS format,
+	 * the result being placed in the second file parameter.
+	 *
+	 * @param sourceFileName source file containing the generated report
+	 * @param destFileName   file name to place the XLS content into
+	 * @see net.sf.jasperreports.engine.export.JRXlsExporter
+	 */
+	public void exportToXlsFile(
+			String sourceFileName,
+			String destFileName
+	) throws JRException
+	{
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
+
+		exportReportToXlsFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * Exports the generated report file specified by the first parameter into XLS format,
+	 * the result being placed in the second file parameter.
+	 *
+	 * @param jasperPrint  report object to export
+	 * @param destFileName file name to place the XLS content into
+	 * @see net.sf.jasperreports.engine.export.JRXlsExporter
+	 */
+	public void exportToXlsFile(
+			JasperPrint jasperPrint,
+			String destFileName
+	) throws JRException
+	{
+		/*   */
+		JRXlsExporter exporter = new JRXlsExporter(jasperReportsContext);
+
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFileName));
+
+		exporter.exportReport();
+	}
+
+
+	/**
+	 * Exports the generated report read from the supplied input stream into XLS format and
+	 * writes the results to the output stream specified by the second parameter.
+	 *
+	 * @param inputStream  input stream to read the generated report object from
+	 * @param outputStream output stream to write the resulting XLS content to
+	 * @see net.sf.jasperreports.engine.export.JRXlsExporter
+	 */
+	public void exportToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream
+	) throws JRException
+	{
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(inputStream);
+
+		exportReportToXlsStream(jasperPrint, outputStream);
+	}
+
+
+	/**
+	 * Exports the generated report object received as first parameter into XLS format and
+	 * writes the results to the output stream specified by the second parameter.
+	 *
+	 * @param jasperPrint  report object to export
+	 * @param outputStream output stream to write the resulting XLS content to
+	 * @see net.sf.jasperreports.engine.export.JRXlsExporter
+	 */
+	public void exportToXlsStream(
+			JasperPrint jasperPrint,
+			OutputStream outputStream
+	) throws JRException
+	{
+		JRXlsExporter exporter = new JRXlsExporter(jasperReportsContext);
+
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+
+		exporter.exportReport();
+	}
+
+
+	/**
+	 * Exports the generated report object received as parameter into XLS format and
+	 * returns the binary content as a byte array.
+	 *
+	 * @param jasperPrint report object to export
+	 * @return byte array representing the resulting XLS content
+	 * @see net.sf.jasperreports.engine.export.JRXlsExporter
+	 */
+	public byte[] exportToXls(JasperPrint jasperPrint) throws JRException
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		JRXlsExporter exporter = new JRXlsExporter(jasperReportsContext);
+
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
+
+		exporter.exportReport();
+
+		return baos.toByteArray();
+	}
+
+
+	/**
+	 * @see #exportToXlsFile(String)
+	 */
+	public static String exportReportToXlsFile(String sourceFileName) throws JRException
+	{
+		return getDefaultInstance().exportToXlsFile(sourceFileName);
+	}
+
+
+	/**
+	 * @see #exportToXlsFile(String, String)
+	 */
+	public static void exportReportToXlsFile(
+			String sourceFileName,
+			String destFileName
+	) throws JRException
+	{
+		getDefaultInstance().exportToXlsFile(sourceFileName, destFileName);
+	}
+
+
+	/**
+	 * @see #exportToXlsFile(JasperPrint, String)
+	 */
+	public static void exportReportToXlsFile(
+			JasperPrint jasperPrint,
+			String destFileName
+	) throws JRException
+	{
+		getDefaultInstance().exportToXlsFile(jasperPrint, destFileName);
+	}
+
+
+	/**
+	 * @see #exportToXlsStream(InputStream, OutputStream)
+	 */
+	public static void exportReportToXlsStream(
+			InputStream inputStream,
+			OutputStream outputStream
+	) throws JRException
+	{
+		getDefaultInstance().exportToXlsStream(inputStream, outputStream);
+	}
+
+
+	/**
+	 * Exports the generated report object received as first parameter into XLS format and
+	 * writes the results to the output stream specified by the second parameter.
+	 *
+	 * @param jasperPrint  report object to export
+	 * @param outputStream output stream to write the resulting XLS content to
+	 * @see net.sf.jasperreports.engine.export.JRXlsExporter
+	 * @see #exportToXlsStream(JasperPrint, OutputStream)
+	 */
+	public static void exportReportToXlsStream(
+			JasperPrint jasperPrint,
+			OutputStream outputStream
+	) throws JRException
+	{
+		getDefaultInstance().exportToXlsStream(jasperPrint, outputStream);
+	}
+
+
+	/**
+	 * @see #exportToXls(JasperPrint)
+	 */
+	public static byte[] exportReportToXls(JasperPrint jasperPrint) throws JRException
+	{
+		return getDefaultInstance().exportToXls(jasperPrint);
 	}
 }
