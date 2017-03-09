@@ -1,44 +1,51 @@
-<project name="openflashchart" default="javac" basedir=".">
+<project name="openflashchart" default="javac" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how Open Flash Charts could be included in HTML and PDF reports using a specially designed component.</description>
 
 	<property name="class.name" value="OFCApp" />
 	<property name="base.file.name" value="OpenFlashChartReport" />
 	<property name="file.name" value="${basedir}/build/reports/${base.file.name}" />
-	<property name="classes.dir" value="../../../build/classes" />
-	<property name="lib.dir" value="../../../lib" />
-	<property name="fonts.dir" value="../../fonts" />
-	<property name="web.dir" value="./build/web"/>
 	
-	<path id="classpath">
+	<path id="project-classpath">
+		<path refid="project-lib"/>
+		<pathelement location="../../../build/classes"/>
+	</path>
+	
+	<path id="sample-classpath">
 		<pathelement location="./build/classes"/>
 		<pathelement location="./build/component"/>
-		<fileset dir="./lib">
-			<include name="**/*.jar"/>
-		</fileset>
-		<pathelement location="${classes.dir}" />
-		<pathelement location="${fonts.dir}" />
-		<fileset dir="${lib.dir}">
-			<include name="**/*.jar"/>
-		</fileset>
-		<!-- PDF export needs SWF file -->
-		<pathelement location="./web"/>
+		<pathelement location="../../fonts"/>
+		<path refid="project-classpath"/>
 	</path>
 
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<target name="prepare-compile-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:resolve file="./ivy.xml" log="download-only" conf="compile"/> 
+		<ivy:cachepath pathid="project-lib"/> 
+	</target>
+
+	<target name="prepare-test-classpath">
+		<ant dir="../../../" target="compile"/>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:resolve file="./ivy.xml" log="download-only" conf="test"/> 
+		<ivy:cachepath pathid="project-lib"/> 
+	</target>
+
+	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
 		<mkdir dir="./build/classes"/> 
 		<javac srcdir="." destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
-			<classpath refid="classpath"/>
-			<compilerarg value="-Xlint:unchecked"/>
+			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 			<include name="*.java"/>
 		</javac>
 		<mkdir dir="./build/component"/> 
 		<javac srcdir="./src" destdir="./build/component" debug="true" optimize="false" deprecation="true" source="1.6" target="1.6"
 				encoding="ISO-8859-1" includeantruntime="false">
-			<classpath refid="classpath"/>
-			<compilerarg value="-Xlint:unchecked"/>
+			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/component">
@@ -57,10 +64,10 @@
 		</jar>
 	</target>
 
-	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file." depends="prepare-compile-classpath">
 		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
-			<classpath refid="classpath"/>
+			<classpath refid="project-classpath"/>
 		</taskdef>
 		<jrc destdir="./build/reports">
 			<src>
@@ -68,163 +75,164 @@
 					<include name="*.jrxml"/>
 				</fileset>
 			</src>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</jrc> 
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="fill"/>
 			<arg value="${file.name}.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperViewer" fork="true">
-			<classpath refid="classpath"/>
+			<arg value="${file.name}.jrpxml"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+	<target name="print" description="Sends the report in the .jrprint file to the printer." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="print"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="pdf" description="Generates an PDF  version of the report by converting the .jrprint file.">
+	<target name="pdf" description="Generates an PDF  version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="pdf"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xml"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file.">
+	<target name="xmlEmbed" description="Generates an XML version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xmlEmbed"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file.">
+	<target name="html" description="Generates an HTML version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="html"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="rtf"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xls"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="jxl"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">
+	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="csv"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="odt"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="ods"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="docx"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xlsx"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
+	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="pptx"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
+	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xhtml"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="xml4swf" description="Generates an Xml4Swf version of the report by converting the .jrprint file.">
+	<target name="xml4swf" description="Generates an Xml4Swf version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xml4swf"/>
 			<arg value="${file.name}.jrprint"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="decompile">
+	<target name="decompile" description="Decompiles a .jasper file into a .jrxml file." depends="prepare-compile-classpath">
 		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
-			<classpath refid="classpath"/>
+			<classpath refid="project-classpath"/>
 		</taskdef>
 		<jrdc destdir="./build/reports">
 			<src>
@@ -232,36 +240,36 @@
 					<include name="**/*.jasper"/>
 				</fileset>
 			</src>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</jrdc> 
 	</target>
 	
-	<target name="viewHtml" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser.">
-		<mkdir dir="${web.dir}"/>
-		<copy todir="${web.dir}">
+	<target name="viewHtml" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath">
+		<mkdir dir="./build/web"/>
+		<copy todir="./build/web">
 			<fileset dir="./web"/>
-			<fileset dir="./build">
+			<fileset dir="./build/reports">
 				<include name="*.html"/>
 				<include name="*.html_files/*"/>
 			</fileset>
 		</copy>
-		<java classname="${class.name}" fork="true" dir="${web.dir}">
+		<java classname="${class.name}" fork="true" dir="./build/web">
 			<arg value="viewHtml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design." depends="prepare-compile-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="./${base.file.name}.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design." depends="prepare-compile-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${file.name}.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

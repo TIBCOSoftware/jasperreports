@@ -2,20 +2,13 @@
 
 	<description>Shows how table-of-contents structures could be created for the generated reports.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="tableofcontents"/>
 	<property name="sample.base.name" value="TableOfContents" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 
-	<path id="classpath">
-		<pathelement location="./build/classes"/>
-		<pathelement location="../../fonts"/>
-		<pathelement location="../../../build/classes"/>
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-	
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -96,31 +89,45 @@
 		<ant dir="../" target="xhtml"/>
 	</target>
 
-	<target name="viewDesignXml1" description="Launches the design viewer to preview the master XML report design.">
+	<target name="viewDesignXml1" description="Launches the design viewer to preview the master XML report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="reports/TableOfContentsReport.jrxml"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesignXml2" description="Launches the design viewer to preview the subreport XML report design.">
+	<target name="viewDesignXml2" description="Launches the design viewer to preview the part XML report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="reports/HeadingsReport.jrxml"/>
-			<classpath refid="classpath"/>
+			<arg value="reports/TablePart.jrxml"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign1" description="Launches the design viewer to preview the master compiled report design.">
+	<target name="viewDesignXml3" description="Launches the design viewer to preview the part XML report design." depends="prepare-test-classpath">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="reports/TocPart.jrxml"/>
+			<classpath refid="sample-classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign1" description="Launches the design viewer to preview the master compiled report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="build/reports/TableOfContentsReport.jasper"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="viewDesign2" description="Launches the design viewer to preview the subreport compiled report design.">
+	<target name="viewDesign2" description="Launches the design viewer to preview the part compiled report design." depends="prepare-test-classpath">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
-			<arg value="build/reports/HeadingsReport.jasper"/>
-			<classpath refid="classpath"/>
+			<arg value="build/reports/TablePart.jasper"/>
+			<classpath refid="sample-classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign3" description="Launches the design viewer to preview the part compiled report design." depends="prepare-test-classpath">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="build/reports/TocPart.jasper"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

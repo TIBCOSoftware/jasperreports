@@ -2,20 +2,13 @@
 
 	<description>Shows how the XLS data source implementation could be used to fill reports.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="xlsdatasource"/>
 	<property name="sample.base.name" value="XlsDataSource" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
-	<path id="classpath">
-		<pathelement location="build/classes"/>
-		<pathelement location="../../../build/classes" />
-		<pathelement location="../../fonts" />
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -24,17 +17,17 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill1" description="Fills the compiled report design using the Apache POI-based XlsDataSource class and produces the .jrprint file.">
+	<target name="fill1" description="Fills the compiled report design using the Apache POI-based XlsDataSource class and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill1"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="fill2" description="Fills the compiled report design using the JExcelApi-based JRXlsDataSource class and produces the .jrprint file.">
+	<target name="fill2" description="Fills the compiled report design using the JExcelApi-based JRXlsDataSource class and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill2"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

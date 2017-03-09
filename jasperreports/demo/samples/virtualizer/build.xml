@@ -2,20 +2,13 @@
 
 	<description>Shows how very large reports could be generated using a report virtualizer to optimize memory consumption.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="virtualizer"/>
 	<property name="sample.base.name" value="Virtualizer" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
-	<path id="classpath">
-		<pathelement location="build/classes"/>
-		<pathelement location="../../../build/classes" />
-		<pathelement location="../../fonts" />
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -24,10 +17,10 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="view" description="Fills the report and launches the report viewer to preview it.">
+	<target name="view" description="Fills the report and launches the report viewer to preview it." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="view"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
@@ -55,10 +48,10 @@
 		<ant dir="../" target="csv"/>
 	</target>
 
-	<target name="export" description="Fills the report and exports to PDF, XML, HTML and CSV.">
+	<target name="export" description="Fills the report and exports to PDF, XML, HTML and CSV." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="export"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 	

@@ -1,30 +1,23 @@
-<project name="query" default="test" basedir=".">
+<project name="query" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how the report query can be build dynamically using report parameters.</description>
+
+	<import file="../build-sample-classpath.xml"/>
 
 	<property name="sample.dir" value="query"/>
 	<property name="sample.base.name" value="Query" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
-	<path id="classpath">
-		<pathelement location="build/classes"/>
-		<pathelement location="../../../build/classes" />
-		<pathelement location="../../fonts" />
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
 
-	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file." depends="prepare-compile-classpath">
 		<mkdir dir="build/reports"/> 
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="compile"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 		<copy todir="build/reports">
 			<fileset dir="reports">
@@ -33,17 +26,17 @@
 		</copy>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="fillIgnorePagination" description="Fills the compiled report design with no pagination.">
+	<target name="fillIgnorePagination" description="Fills the compiled report design with no pagination." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fillIgnorePagination"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

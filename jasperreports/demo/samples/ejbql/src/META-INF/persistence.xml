@@ -14,7 +14,7 @@
 			<property name="toplink.jdbc.user" value="sa"/>
 			<property name="toplink.jdbc.password" value=""/>
 			<!-- Provider-specific settings -->
-			<property name="toplink.logging.level" value="DEBUG"/>
+			<property name="toplink.logging.level" value="INFO"/>
 			<property name="toplink.platform.class.name" value="oracle.toplink.essentials.platform.database.HSQLPlatform"/>
 		</properties>    
 	</persistence-unit>

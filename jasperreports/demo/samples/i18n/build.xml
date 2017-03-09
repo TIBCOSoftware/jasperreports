@@ -1,21 +1,14 @@
-<project name="i18n" default="test" basedir=".">
+<project name="i18n" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how a report could be rendered in different languages.</description>
+
+	<import file="../build-sample-classpath.xml"/>
 
 	<property name="sample.dir" value="i18n"/>
 	<property name="sample.base.name" value="I18n" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
-	<path id="classpath">
-		<pathelement location="./build/classes"/>
-		<pathelement location="../../../build/classes" />
-		<pathelement location="../../fonts" />
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -28,17 +21,17 @@
 		<ant dir="../" target="fill"/>
 	</target>
 
-	<target name="fillDefault" description="Fills the compiled report design with data and produces the .jrprint file.">
+	<target name="fillDefault" description="Fills the compiled report design with data and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fillDefault"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="view"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 

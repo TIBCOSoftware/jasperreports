@@ -1,22 +1,20 @@
-<project name="HSQLDB" default="runServer" basedir=".">
+<project name="HSQLDB" default="runServer" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Helps starting up the HSQLDB demo database.</description>
 
-	<path id="hsql-classpath">
-		<fileset dir="../../lib">
-			<include name="**/hsqldb*.jar"/>
-		</fileset>
-	</path>
-	
 	<target name="runServer" description="Launches the HSQLDB database server.">
+		<ivy:configure file="../../ivysettings.xml"/>
+		<ivy:cachepath pathid="lib" log="download-only" conf="hsqldb"/> 
 		<java classname="org.hsqldb.Server" fork="true">
-			<classpath refid="hsql-classpath"/>
+			<classpath refid="lib"/>
 		</java>
 	</target>
 
 	<target name="runManager" description="Launches the HSQLDB manager.">
+		<ivy:configure file="../../ivysettings.xml"/>
+		<ivy:cachepath pathid="lib" log="download-only" conf="hsqldb"/> 
 		<java classname="org.hsqldb.util.DatabaseManager" fork="true">
-			<classpath refid="hsql-classpath"/>
+			<classpath refid="lib"/>
 		</java>
 	</target>
   

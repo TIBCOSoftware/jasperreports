@@ -1,9 +1,15 @@
 
-You need to have the ANT build tool correctly installed on your system
-to easily run this sample application. This tool can be downloaded from 
-this location: http://ant.apache.org/
-Please follow their installing instructions to have ANT working on your
-system before trying our sample application.
+You need to have the Apache Ant build tool correctly installed on your system
+and the Apache Ivy dependency management plugin installed in Ant, to easily run 
+this sample application. 
 
-Once you have ANT installed, launch "ant -p" from the command line in this directory
+The Apache Ant build tool can be downloaded from this location:
+http://ant.apache.org/
+The Apache Ivy dependency management plugin can be downloaded from this location:
+http://ant.apache.org/ivy/
+
+Please follow their installing instructions to have Apache Ant and Apache Ivy 
+working on your system before trying our sample application.
+
+Once you have them installed, launch "ant -p" from the command line in this directory
 to learn more about what tasks you could run to build and test the sample.

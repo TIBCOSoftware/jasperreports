@@ -1,0 +1,8 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports">
+		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
+	</info>
+	<dependencies>
+		<dependency org="joda-time" name="joda-time" rev="2.1" conf="compile->*"/>
+	</dependencies>
+</ivy-module>

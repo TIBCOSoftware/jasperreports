@@ -2,20 +2,13 @@
 
 	<description>Shows how custom or JavaBean-based data source implementations could be used to fill reports.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="datasource"/>
 	<property name="sample.base.name" value="DataSource" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
-	<path id="classpath">
-		<pathelement location="build/classes"/>
-		<pathelement location="../../../build/classes" />
-		<pathelement location="../../fonts" />
-		<fileset dir="../../../lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -24,31 +17,31 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill1" description="Fills the compiled report design with data from the CustomDataSource.java and produces the .jrprint file.">
+	<target name="fill1" description="Fills the compiled report design with data from the CustomDataSource.java and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill1"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="fill2" description="Fills the compiled report design with data from the CustomTableModel.java and produces the .jrprint file.">
+	<target name="fill2" description="Fills the compiled report design with data from the CustomTableModel.java and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill2"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="fill3" description="Fills the compiled report design with data from the CustomBeanFactory.java as bean array and produces the .jrprint file.">
+	<target name="fill3" description="Fills the compiled report design with data from the CustomBeanFactory.java as bean array and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill3"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
-	<target name="fill4" description="Fills the compiled report design with data from the CustomBeanFactory.java as bean collection and produces the .jrprint file.">
+	<target name="fill4" description="Fills the compiled report design with data from the CustomBeanFactory.java as bean collection and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill4"/>
-			<classpath refid="classpath"/>
+			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
 
