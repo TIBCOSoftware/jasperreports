@@ -48,8 +48,10 @@
 	</target>
 	
 	<target name="antlr.generate" description="Generates source files for ANTLR grammars">
-		<mkdir dir="./build/antlr-generated-sources"/> 
-		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g"/>
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/>
+		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g">
+			<classpath refid="project-classpath"/>
+		</antlr>
 	</target>
 
 	<target name="jar" depends="compile" description="Builds the JasperReports JAR file.">
