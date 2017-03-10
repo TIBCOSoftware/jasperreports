@@ -48,12 +48,10 @@
 	</target>
 	
 	<target name="antlr.generate" description="Generates source files for ANTLR grammars">
-		<mkdir dir="./build/antlr-generated-sources"/> 
-		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g"/>
-	</target>
-	<target name="antlr.gen-json" description="Generates source files for the JSON query language ANTLR grammar">
-		<mkdir dir="./build/antlr-generated-sources"/>
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/>
+		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g">
+			<classpath refid="project-classpath"/>
+		</antlr>
 		<antlr target="src/net/sf/jasperreports/engine/json/parser/json_grammar.g">
 			<classpath refid="project-classpath"/>
 		</antlr>

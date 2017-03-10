@@ -4,7 +4,7 @@
 
 	<import file="../build-sample-classpath.xml"/>
 
-		<property name="sample.dir" value="i18n"/>
+	<property name="sample.dir" value="i18n"/>
 	<property name="sample.base.name" value="I18n" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
