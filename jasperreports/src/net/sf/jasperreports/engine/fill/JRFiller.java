@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.sql.Connection;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
@@ -61,6 +62,7 @@ public final class JRFiller
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
+			valueType = Locale.class,
 			defaultValue = "system locale",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_5_2_0

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import java.util.Locale;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -125,7 +127,8 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			scopeQualifications = {QUERY_EXECUTER_NAME},
-			sinceVersion = PropertyConstants.VERSION_5_5_2
+			sinceVersion = PropertyConstants.VERSION_5_5_2,
+			valueType = Locale.class
 			)
 	public static final String XLS_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "xls.locale.code";
 	

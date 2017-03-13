@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
@@ -139,7 +140,8 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			scopeQualifications = {JRCsvQueryExecuterFactory.QUERY_EXECUTER_NAME},
-			sinceVersion = PropertyConstants.VERSION_4_0_0
+			sinceVersion = PropertyConstants.VERSION_4_0_0,
+			valueType = Locale.class
 			)
 	public static final String CSV_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "csv.locale.code";
 	
