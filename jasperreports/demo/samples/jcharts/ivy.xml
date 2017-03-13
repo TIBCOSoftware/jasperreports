@@ -4,6 +4,6 @@
 	</info>
 	<dependencies>
 		<dependency org="commons-codec" name="commons-codec" rev="1.5" conf="test->*"/>
-		<dependency org="jcharts" name="jcharts" rev="0.6.0" conf="compile->*"/>
+		<dependency org="jcharts" name="jcharts" rev="0.7.5" conf="compile->*"/>
 	</dependencies>
 </ivy-module>

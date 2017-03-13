@@ -14,7 +14,7 @@
 				<textElement>
 					<font size="22"/>
 				</textElement>
-				<text><![CDATA[jCharts 0.6.0 - Sample Chart Report]]></text>
+				<text><![CDATA[jCharts 0.7.5 - Sample Chart Report]]></text>
 			</staticText>
 			<textField hyperlinkType="Reference">
 				<reportElement x="0" y="40" width="515" height="20" uuid="bfb8c5e9-3535-4ef9-a5c3-5f91708a1ddb"/>
