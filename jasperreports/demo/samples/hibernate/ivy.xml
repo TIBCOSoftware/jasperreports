@@ -8,7 +8,7 @@
 		<dependency org="javax.transaction" name="jta" rev="1.1" conf="test->*"/>
 		<dependency org="log4j" name="log4j" rev="1.2.17" conf="test->*"/>
 		<dependency org="org.javassist" name="javassist" rev="3.20.0-GA" conf="test->*"/>
-		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.8" conf="test->*"/>
-		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.8" conf="test->*"/>
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" conf="test->*"/>
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.1" conf="test->*"/>
 	</dependencies>
 </ivy-module>
