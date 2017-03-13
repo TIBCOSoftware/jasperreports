@@ -27,9 +27,6 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.image.BufferedImage;
 
-import net.sf.jasperreports.engine.JRDefaultScriptlet;
-import net.sf.jasperreports.engine.JRScriptletException;
-
 import org.jCharts.axisChart.AxisChart;
 import org.jCharts.chartData.AxisChartDataSet;
 import org.jCharts.chartData.ChartDataException;
@@ -38,7 +35,11 @@ import org.jCharts.properties.AreaChartProperties;
 import org.jCharts.properties.AxisProperties;
 import org.jCharts.properties.ChartProperties;
 import org.jCharts.properties.LegendProperties;
+import org.jCharts.properties.PropertyException;
 import org.jCharts.types.ChartType;
+
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRScriptletException;
 
 
 /**
@@ -68,7 +69,6 @@ public class JChartsScriptlet extends JRDefaultScriptlet
 
 			ChartProperties chartProperties = new ChartProperties();
 			AxisProperties axisProperties = new AxisProperties();
-			axisProperties.setYAxisRoundValuesToNearest(0);
 			LegendProperties legendProperties = new LegendProperties();
 
 			AxisChart axisChart = new AxisChart(dataSeries, chartProperties, axisProperties, legendProperties, 500, 350);
@@ -79,6 +79,10 @@ public class JChartsScriptlet extends JRDefaultScriptlet
 			axisChart.render();
 
 			super.setVariableValue("ChartImage", bufferedImage);
+		}
+		catch(PropertyException chartDataException) 
+		{
+			throw new JRScriptletException(chartDataException);
 		}
 		catch(ChartDataException chartDataException) 
 		{
