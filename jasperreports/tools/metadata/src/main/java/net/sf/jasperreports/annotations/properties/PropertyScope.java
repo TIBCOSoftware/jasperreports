@@ -35,6 +35,7 @@ public enum PropertyScope
 	CONTEXT("Context"),
 	REPORT("Report"),
 	DATASET("Dataset"),
+	BAND("Band"),
 	PARAMETER("Parameter"),
 	FIELD("Field"),
 	ELEMENT("Element"),
@@ -45,10 +46,12 @@ public enum PropertyScope
 	BREAK_ELEMENT("Break Element"),
 	COMPONENT("Component"),
 	CROSSTAB("Crosstab"),
+	CROSSTAB_CELL("Crosstab Cell"),
 	IMAGE_ELEMENT("Image Element"),
 	FRAME("Frame Element"),
 	GENERIC_ELEMENT("Generic Element"),
 	TABLE_COLUMN("Column"),
+	TABLE_CELL("Table Cell"),
 	EXTENSION("Extension"),
 	INTERNAL("Internal");
 
