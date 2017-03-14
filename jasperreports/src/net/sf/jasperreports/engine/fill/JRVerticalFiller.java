@@ -1984,39 +1984,6 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected void fillPageBand(JRFillBand band, byte evaluation) throws JRException
-	{
-		band.evaluate(evaluation);
-
-		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY);
-
-		if (band.willOverflow() && band.isSplitPrevented())
-		{
-			fillPageBreak(false, evaluation, evaluation, true);
-
-			printBand = band.refill(columnFooterOffsetY - offsetY);
-		}
-
-		fillBand(printBand);
-		offsetY += printBand.getHeight();
-
-		while (band.willOverflow())
-		{
-			fillPageBreak(false, evaluation, evaluation, true);
-
-			printBand = band.fill(columnFooterOffsetY - offsetY);
-
-			fillBand(printBand);
-			offsetY += printBand.getHeight();
-		}
-
-		resolveBandBoundElements(band, evaluation);
-	}
-
-
-	/**
-	 *
-	 */
 	protected SavePoint fillColumnBand(JRFillBand band, byte evaluation) throws JRException
 	{
 		band.evaluate(evaluation);
