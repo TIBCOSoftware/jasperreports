@@ -3,7 +3,7 @@
 		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
 	</info>
 	<dependencies>
-		<dependency org="json" name="json-org" rev="1.0" conf="compile->*"/>
+		<dependency org="org.json" name="json" rev="20070829" conf="compile->*"/>
 		<dependency org="edu.stanford.ejalbert" name="BrowserLauncher2" rev="1.3" conf="compile->*"/>
 		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10" conf="test->*"/>
 	</dependencies>
