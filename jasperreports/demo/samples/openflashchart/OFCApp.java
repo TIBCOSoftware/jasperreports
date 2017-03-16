@@ -50,6 +50,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
@@ -324,7 +325,7 @@ public class OFCApp
 				JRXml4SwfExporter exporter = new JRXml4SwfExporter();
 				
 				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleWriterExporterOutput(destFile));
+				exporter.setExporterOutput(new SimpleXmlExporterOutput(destFile));
 				
 				exporter.exportReport();
 
