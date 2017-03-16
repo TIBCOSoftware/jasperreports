@@ -75,9 +75,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>json</groupId>
-			<artifactId>json-org</artifactId>
-			<version>1.0</version>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20070829</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
