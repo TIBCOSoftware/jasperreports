@@ -59,7 +59,8 @@ public class ChartDataGenerator
 			JSONObject pie = new JSONObject();
 			pie.put("type", "pie");
 			pie.put("animate", true);
-			pie.put("tip", "#val# of #total#<br>#percent#");
+			//Open Flash Chart chokes on # in JSON, commenting for now
+			//pie.put("tip", "#val# of #total#<br>#percent#");
 			pie.put("start-angle", 35);
 			pie.put("border", 2);
 			pie.put("alpha", .6);
@@ -137,7 +138,8 @@ public class ChartDataGenerator
 					
 					JSONObject valueObject = new JSONObject();
 					valueObject.put("top", value);
-					valueObject.put("tip", seriesKey + " #top#");
+					//Open Flash Chart chokes on # in JSON, commenting for now
+					//valueObject.put("tip", seriesKey + " #top#");
 					values.put(valueObject);
 					
 					if (value.doubleValue() > max)
