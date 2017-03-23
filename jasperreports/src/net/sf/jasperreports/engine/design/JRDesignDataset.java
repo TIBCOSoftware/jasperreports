@@ -68,6 +68,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.util.CloneStore;
 import net.sf.jasperreports.engine.util.ContextClassLoaderObjectInputStream;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -1494,13 +1495,15 @@ public class JRDesignDataset extends JRBaseDataset
 			}
 		}
 		
+		CloneStore cloneStore = new CloneStore();
+		
 		if (variablesList != null)
 		{
 			clone.variablesList = new ArrayList<JRVariable>(variablesList.size());
 			clone.variablesMap = new HashMap<String, JRVariable>(variablesList.size());
 			for(int i = 0; i < variablesList.size(); i++)
 			{
-				JRVariable variable = JRCloneUtils.nullSafeClone(variablesList.get(i));
+				JRVariable variable = cloneStore.clone(variablesList.get(i));
 				clone.variablesList.add(variable);
 				clone.variablesMap.put(variable.getName(), variable);
 			}
@@ -1512,7 +1515,7 @@ public class JRDesignDataset extends JRBaseDataset
 			clone.groupsMap = new HashMap<String, JRGroup>(groupsList.size());
 			for(int i = 0; i < groupsList.size(); i++)
 			{
-				JRGroup group = JRCloneUtils.nullSafeClone(groupsList.get(i));
+				JRGroup group = cloneStore.clone(groupsList.get(i));
 				clone.groupsList.add(group);
 				clone.groupsMap.put(group.getName(), group);
 			}

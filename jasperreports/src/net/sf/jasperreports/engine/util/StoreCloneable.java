@@ -21,47 +21,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.crosstabs.base;
+package net.sf.jasperreports.engine.util;
 
-import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRCloneable;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class CrosstabBaseCloneFactory//FIXME use CloneStore instead
+public interface StoreCloneable<T extends StoreCloneable<T>> extends JRCloneable
 {
 
-	private Map<JRVariable, JRVariable> clonedVariables = new HashMap<JRVariable, JRVariable>();
+	T clone(CloneStore cloneStore);
 	
-	public JRVariable clone(JRVariable variable)
-	{
-		JRVariable clone = clonedVariables.get(variable);
-		if (clone == null)
-		{
-			clone = (JRVariable) variable.clone();
-			clonedVariables.put(variable, clone);
-		}
-		return clone;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T> T[] cloneCrosstabObjects(T[] groups)
-	{
-		if (groups == null)
-		{
-			return null;
-		}
-		
-		T[] clones = (T[]) Array.newInstance(groups.getClass().getComponentType(), groups.length);
-		for (int i = 0; i < groups.length; i++)
-		{
-			// assuming CrosstabBaseCloneable
-			clones[i] = (T) ((CrosstabBaseCloneable) groups[i]).clone(this);
-		}
-		return clones;
-	}
 }

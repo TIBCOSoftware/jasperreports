@@ -316,6 +316,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		clone.parameters = JRCloneUtils.cloneArray(parameters);
 		clone.fields = JRCloneUtils.cloneArray(fields);
 		clone.sortFields = JRCloneUtils.cloneArray(sortFields);
+		//FIXME use CloneStore to preserve variable and group references
 		clone.variables = JRCloneUtils.cloneArray(variables);
 		clone.groups = JRCloneUtils.cloneArray(groups);
 		

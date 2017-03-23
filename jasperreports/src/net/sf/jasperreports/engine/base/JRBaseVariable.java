@@ -35,14 +35,16 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.util.CloneStore;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.StoreCloneable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRBaseVariable implements JRVariable, Serializable
+public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<JRBaseVariable>
 {
 
 
@@ -260,6 +262,17 @@ public class JRBaseVariable implements JRVariable, Serializable
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.initialValueExpression = JRCloneUtils.nullSafeClone(initialValueExpression);
 		
+		return clone;
+	}
+
+	@Override
+	public JRBaseVariable clone(CloneStore cloneStore)
+	{
+		JRBaseVariable clone = (JRBaseVariable) clone();
+		//early store for circular dependencies
+		cloneStore.store(this, clone);
+		clone.resetGroup = cloneStore.clone(resetGroup);
+		clone.incrementGroup = cloneStore.clone(incrementGroup);
 		return clone;
 	}
 		

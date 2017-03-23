@@ -37,13 +37,15 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.util.CloneStore;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.StoreCloneable;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
+public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport, StoreCloneable<JRBaseGroup>
 {
 
 
@@ -251,6 +253,12 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	@Override
 	public Object clone() 
 	{
+		return clone(null);
+	}
+
+	@Override
+	public JRBaseGroup clone(CloneStore cloneStore)
+	{
 		JRBaseGroup clone = null;
 
 		try
@@ -261,11 +269,18 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		{
 			throw new JRRuntimeException(e);
 		}
+		
+		if (cloneStore != null)
+		{
+			//early store for circular dependencies
+			cloneStore.store(this, clone);
+		}
 	
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.groupHeader = JRCloneUtils.nullSafeClone(groupHeader);
 		clone.groupFooter = JRCloneUtils.nullSafeClone(groupFooter);
-		clone.countVariable = JRCloneUtils.nullSafeClone(countVariable);
+		clone.countVariable = cloneStore == null ? JRCloneUtils.nullSafeClone(countVariable) 
+				: cloneStore.clone(countVariable);
 		clone.eventSupport = null;
 		
 		return clone;
