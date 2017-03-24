@@ -42,6 +42,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.BidiMap;
+import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -257,13 +259,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				if (useFirstRowAsHeader) 
 				{
 					parseRow();
-					this.columnNames = new LinkedHashMap<String, Integer>();
-					for (int i = 0; i < crtRecordColumnValues.size(); i++) {
-						String name = crtRecordColumnValues.get(i);
-						if(this.columnNames.containsKey(name))
-							name = INDEXED_COLUMN_PREFIX + i;
-						this.columnNames.put(name, Integer.valueOf(i));
-					}
+					assignColumnNames();
 				}
 				processingStarted = true;
 			}
@@ -271,6 +267,42 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			return parseRow();
 		} catch (IOException e) {
 			throw new JRException(e);
+		}
+	}
+	
+	protected void assignColumnNames()
+	{
+		BidiMap indexColumns = new DualHashBidiMap();
+		for (int i = 0; i < crtRecordColumnValues.size(); i++)
+		{
+			String name = crtRecordColumnValues.get(i);
+			
+			Integer existingIdx = (Integer) indexColumns.getKey(name);
+			if (existingIdx == null)
+			{
+				//use the name from the file if possible
+				indexColumns.put(i, name);
+			}
+			else
+			{
+				//the name is taken, force COLUMN_i for this column and recursively if COLUMN_x is already used
+				Integer forceIndex = i;
+				do
+				{
+					String indexName = INDEXED_COLUMN_PREFIX + forceIndex;
+					Integer existingIndex = (Integer) indexColumns.getKey(indexName);
+					indexColumns.put(forceIndex, indexName);
+					forceIndex = existingIndex;
+				}
+				while(forceIndex != null);
+			}
+		}
+		
+		this.columnNames = new LinkedHashMap<String, Integer>();
+		for (int i = 0; i < crtRecordColumnValues.size(); i++)
+		{
+			String columnName = (String) indexColumns.get(i);
+			this.columnNames.put(columnName, i);
 		}
 	}
 
