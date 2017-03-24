@@ -214,9 +214,11 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		}
 
 		iconPrintText.setWidth(
-			(int)iconTextField.getTextWidth()
-			+ iconTextField.getLineBox().getLeftPadding() 
-			+ iconTextField.getLineBox().getRightPadding() 
+			(int)Math.ceil(
+				iconTextField.getTextWidth()
+				+ iconTextField.getLineBox().getLeftPadding() 
+				+ iconTextField.getLineBox().getRightPadding() 
+				)
 			);
 		
 		int commonHeight = Math.max(labelPrintText.getHeight(), iconPrintText.getHeight());
