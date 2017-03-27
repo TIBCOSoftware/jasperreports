@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="XChartReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="XChartScriptlet" uuid="bfa059a3-b0ad-417d-9032-503996c53730">
+	<variable name="ChartImage" class="java.awt.Image" calculation="System"/>
+	<title>
+		<band height="742">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1" uuid="fd60c6eb-343f-433b-80b0-a2c5be88db9a"/>
+			</line>
+			<line>
+				<reportElement x="0" y="3" width="515" height="1" uuid="3da79e3e-dacc-411c-80f5-9558e48f34f1"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="10" width="515" height="30" uuid="c84fe660-310c-4a5a-bd5d-c3fa9b994de0"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[XChart - Sample Chart Report]]></text>
+			</staticText>
+			<textField hyperlinkType="Reference">
+				<reportElement x="0" y="40" width="515" height="20" uuid="bfb8c5e9-3535-4ef9-a5c3-5f91708a1ddb"/>
+				<textFieldExpression><![CDATA["http://knowm.org/open-source/xchart"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://knowm.org/open-source/xchart"]]></hyperlinkReferenceExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="60" width="515" height="1" uuid="c4eaec22-e651-432f-a02b-d2ac9a5ee1bd"/>
+			</line>
+			<line>
+				<reportElement x="0" y="63" width="515" height="1" uuid="69923c44-0d6b-4a76-858b-ca8865c3a19a"/>
+			</line>
+			<image scaleImage="Clip" hAlign="Center">
+				<reportElement x="0" y="70" width="515" height="400" uuid="f521f7f1-a1af-41fe-b953-f7cf0dd6ae57"/>
+				<imageExpression><![CDATA[$V{ChartImage}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+</jasperReport>

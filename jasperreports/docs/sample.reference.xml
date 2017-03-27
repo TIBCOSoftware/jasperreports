@@ -63,6 +63,7 @@
       <feature name="table" sample="table" title="Using the Built-in Table Component"/>
       <feature name="map" sample="map" title="Using the Built-in Map Component"/>
       <feature name="spiderchartcomponent" sample="spiderchartcomponent" title="Using the Built-in Spider Chart Component"/>
+      <feature name="xchart" sample="xchart" title="Rendering Images Using Third Party APIs (XChart Library)"/>
     </content>
   </category>
   
