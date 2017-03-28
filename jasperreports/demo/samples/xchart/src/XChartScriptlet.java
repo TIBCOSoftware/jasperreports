@@ -54,7 +54,7 @@ public class XChartScriptlet extends JRDefaultScriptlet
 		try 
 		{
 		    XYChart xyChart = new XYChartBuilder()
-		    		.width(400)
+		    		.width(515)
 		    		.height(400)
 		    		.title("Fruits Order")
 		    		.xAxisTitle("Day of Week")
@@ -68,6 +68,7 @@ public class XChartScriptlet extends JRDefaultScriptlet
 		    styler.setLegendPosition(Styler.LegendPosition.InsideNW);
 		    styler.setAxisTitlesVisible(true);
 		    styler.setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Area);
+		    styler.setChartBackgroundColor(Color.WHITE);
 		   
 			BufferedImage bufferedImage = BitmapEncoder.getBufferedImage(xyChart);
 			super.setVariableValue("ChartImage", bufferedImage);
