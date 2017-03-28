@@ -23,9 +23,15 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -33,9 +39,6 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -538,14 +541,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				if(isFillAll || group.hasChanged())
 				{
-					SavePoint newSavePoint = fillGroupHeader(group);
-					// fillGroupHeader never returns null, because we need a save point 
+					ElementRange newElementRange = fillGroupHeader(group);
+					// fillGroupHeader never returns null, because we need an element range 
 					// regardless of the group header printing or not
-					newSavePoint.groupIndex = i;
 					
-					if (keepTogetherSavePoint == null && group.isKeepTogether())
+					if (keepTogetherElementRange == null && group.isKeepTogether())
 					{
-						keepTogetherSavePoint = newSavePoint;
+						keepTogetherElementRange = new SimpleGroupKeepTogetherElementRange(newElementRange, i);
 					}
 				}
 			}
@@ -556,10 +558,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private SavePoint fillGroupHeader(JRFillGroup group) throws JRException
+	private ElementRange fillGroupHeader(JRFillGroup group) throws JRException
 	{
-		SavePoint savePoint = null;
-		
 		JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
 
 		if (log.isDebugEnabled() && !groupHeaderSection.isEmpty())
@@ -582,6 +582,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 				);
 		}
 
+		ElementRange elementRange = null;
+		
 		JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
 		for(int i = 0; i < groupHeaderBands.length; i++)
 		{
@@ -616,9 +618,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				setFirstColumn();
 
-				SavePoint newSavePoint = fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+				ElementRange newElementRange = fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
 				
-				savePoint = advanceSavePoint(savePoint, newSavePoint);
+				elementRange = ElementRangeUtil.expand(elementRange, newElementRange);
 
 				isFirstPageBand = false;
 				isFirstColumnBand = true;
@@ -629,12 +631,12 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		isNewGroup = true;
 
-		if (savePoint == null)
+		if (elementRange == null)
 		{
-			// fillGroupHeader never returns null, because we need a save point 
+			// fillGroupHeader never returns null, because we need an element range 
 			// regardless of the group header printing or not
-			savePoint = 
-				new SavePoint(
+			elementRange = 
+				new SimpleElementRange(
 					getCurrentPage(), 
 					columnIndex,
 					isNewPage,
@@ -643,7 +645,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					);
 		}
 		
-		return savePoint;
+		return elementRange;
 	}
 
 
@@ -833,7 +835,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		if (groups != null && groups.length > 0)
 		{
-			SavePoint savePoint = null;
+			GroupFooterElementRange groupFooterElementRange = null;
 			
 			byte evaluation = (isFillAll)?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD;
 
@@ -843,104 +845,88 @@ public class JRHorizontalFiller extends JRBaseFiller
 				
 				if (isFillAll || group.hasChanged())
 				{
-					SavePoint newSavePoint = fillGroupFooter(group, evaluation);
+					GroupFooterElementRange newGroupFooterElementRange = fillGroupFooter(group, evaluation);
 					// fillGroupFooter might return null, because if the group footer does not print, 
 					// its footer position is completely irrelevant
-					if (newSavePoint != null)
+					if (newGroupFooterElementRange != null)
 					{
 						switch (group.getFooterPositionValue())
 						{
 							case STACK_AT_BOTTOM:
 							{
-								savePoint = advanceSavePoint(savePoint, newSavePoint);
+								groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
 
-								if (savePoint != null)
+								if (groupFooterElementRange != null)
 								{
-									savePoint.footerPosition = FooterPositionEnum.STACK_AT_BOTTOM;
+									groupFooterElementRange.setFooterPosition(FooterPositionEnum.STACK_AT_BOTTOM);
 								}
 
 								break;
 							}
 							case FORCE_AT_BOTTOM:
 							{
-								savePoint = advanceSavePoint(savePoint, newSavePoint);
+								groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
 
-								if (savePoint != null)
+								if (groupFooterElementRange != null)
 								{
-									savePoint.moveSavePointContent();
+									ElementRangeUtil.moveContent(groupFooterElementRange, columnFooterOffsetY);
 									offsetY = columnFooterOffsetY;
 								}
 
-								savePoint = null;
+								groupFooterElementRange = null;
 
 								break;
 							}
 							case COLLATE_AT_BOTTOM:
 							{
-								savePoint = advanceSavePoint(savePoint, newSavePoint);
+								groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
 
 								break;
 							}
 							case NORMAL:
 							default:
 							{
-								if (savePoint != null)
+								if (groupFooterElementRange == null)
 								{
-									//only "StackAtBottom" and "CollateAtBottom" save points could get here
-									
-									// check to see if the new save point is on the same page/column as the previous one
-									if (
-										savePoint.page == newSavePoint.page
-										&& savePoint.columnIndex == newSavePoint.columnIndex
-										)
-									{
-										// if the new save point is on the same page/column, 
-										// we just move the marker on the existing save point,
-										// but only if was a "StackAtBottom" one
-										
-										if (savePoint.footerPosition == FooterPositionEnum.STACK_AT_BOTTOM)
-										{
-											savePoint.saveHeightOffset(newSavePoint.heightOffset);
-										}
-										else
-										{
-											// we cancel the "CollateAtBottom" save point
-											savePoint = null;
-										}
-									}
-									else
-									{
-										// page/column break occurred, so the move operation 
-										// must be performed on the previous save point, regardless 
-										// whether it was a "StackAtBottom" or a "CollateAtBottom"
-										savePoint.moveSavePointContent();
-										savePoint = null;
-									}
+									// only "ForceAtBottom" element ranges could get here, but they are already null
+									groupFooterElementRange = null;
 								}
 								else
 								{
-									// only "ForceAtBottom" save points could get here, but they are already null
-									savePoint = null;
+									//only "StackAtBottom" and "CollateAtBottom" element ranges could get here
+
+									// the following expansion cannot change the footerPosition attribute of the range, so the next footerPosition test is still effective here;
+									// in case of CollateAtBottom, the range could be expanded right before it being cancelled (set to null), which is harmless (has no effect)
+									// this expansion here also takes care of the case when page/column break occurred, so the move operation 
+									// must be performed on the previous element range, regardless 
+									// whether it was a "StackAtBottom" or a "CollateAtBottom"
+									groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
+									
+									if (groupFooterElementRange.getFooterPosition() == FooterPositionEnum.COLLATE_AT_BOTTOM)
+									{
+										// we cancel the "CollateAtBottom" element range; the above range expansion might have been useless in this case, but that's OK
+										groupFooterElementRange = null;
+									}
 								}
 							}
 						}
 					}
 					
-					// regardless of whether the fillGroupFooter returned a save point or not 
+					// regardless of whether the fillGroupFooter returned an element range or not 
 					// (footer was printed or not), we just need to mark the end of the group 
 					if (
-						keepTogetherSavePoint != null
-						&& i <= keepTogetherSavePoint.groupIndex
+						keepTogetherElementRange != null
+						&& i <= keepTogetherElementRange.getGroupIndex()
 						)
 					{
-						keepTogetherSavePoint = null;
+						keepTogetherElementRange = null;
 					}
 				}
 			}
 			
-			if (savePoint != null)
+			if (groupFooterElementRange != null)
 			{
-				savePoint.moveSavePointContent();
+				ElementRangeUtil.moveContent(groupFooterElementRange, columnFooterOffsetY);
 				offsetY = columnFooterOffsetY;
 			}
 		}
@@ -950,16 +936,16 @@ public class JRHorizontalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private SavePoint fillGroupFooter(JRFillGroup group, byte evaluation) throws JRException
+	private GroupFooterElementRange fillGroupFooter(JRFillGroup group, byte evaluation) throws JRException
 	{
-		SavePoint savePoint = null;
-		
 		JRFillSection groupFooterSection = (JRFillSection)group.getGroupFooterSection();
 
 		if (log.isDebugEnabled() && !groupFooterSection.isEmpty())
 		{
 			log.debug("Fill " + fillerId + ": " + group.getName() + " footer at " + offsetY);
 		}
+		
+		GroupFooterElementRange groupFooterElementRange = null;
 
 		JRFillBand[] groupFooterBands = groupFooterSection.getFillBands();
 		for(int i = 0; i < groupFooterBands.length; i++)
@@ -979,10 +965,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 					fillPageBreak(false, evaluation, evaluation, true);
 				}
 
-				SavePoint newSavePoint = fillColumnBand(groupFooterBand, evaluation);
-				newSavePoint.footerPosition = group.getFooterPositionValue();
+				ElementRange newElementRange = fillColumnBand(groupFooterBand, evaluation);
+
+				GroupFooterElementRange newGroupFooterElementRange = new SimpleGroupFooterElementRange(newElementRange, group.getFooterPositionValue());
 				
-				savePoint = advanceSavePoint(savePoint, newSavePoint);
+				groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
 
 				isFirstPageBand = false;
 				isFirstColumnBand = true;
@@ -995,7 +982,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		group.setHeaderPrinted(false);
 		group.setFooterPrinted(true);
 		
-		return savePoint;
+		return groupFooterElementRange;
 	}
 
 
@@ -1960,9 +1947,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 					);
 		}
 
-		if (keepTogetherSavePoint != null)
+		if (keepTogetherElementRange != null)
 		{
-			keepTogetherSavePoint.saveEndOffsetY(offsetY);
+			keepTogetherElementRange.getElementRange().expand(offsetY);
 		}
 		
 		isCreatingNewPage = true;
@@ -1978,12 +1965,14 @@ public class JRHorizontalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
+		List<JRPrintElement> elementsToMove = null;
+		
 		if (
-			keepTogetherSavePoint != null
-			&& !keepTogetherSavePoint.isNewPage 
+			keepTogetherElementRange != null
+			&& !keepTogetherElementRange.getElementRange().isNewPage() 
 			)
 		{
-			keepTogetherSavePoint.removeContent();
+			elementsToMove = ElementRangeUtil.removeContent(keepTogetherElementRange.getElementRange());
 		}
 
 		addPage(isResetPageNumber);
@@ -1992,9 +1981,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		fillColumnHeaders(evalNextPage);
 
-		boolean savePointContentMoved = moveKeepTogetherSavePointContent();
+		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(elementsToMove);
 		if (
-			!savePointContentMoved
+			!elementRangeContentMoved
 			&& isReprintGroupHeaders
 			)
 		{
@@ -2007,58 +1996,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 	/**
 	 *
-	 *
-	private void fillColumnBreak(
-		byte evalPrevPage,
-		byte evalNextPage
-		) throws JRException
-	{
-		if (columnIndex == columnCount - 1)
-		{
-			fillPageBreak(false, evalPrevPage, evalNextPage);
-		}
-		else
-		{
-			if (keepTogetherSavePoint != null)
-			{
-				keepTogetherSavePoint.saveEndOffsetY(offsetY);
-			}
-			
-			fillColumnFooter(evalPrevPage);
-
-			resolveGroupBoundImages(evalPrevPage, false);
-			resolveColumnBoundImages(evalPrevPage);
-			resolveGroupBoundTexts(evalPrevPage, false);
-			resolveColumnBoundTexts(evalPrevPage);
-			scriptlet.callBeforeColumnInit();
-			calculator.initializeVariables(JRVariable.RESET_TYPE_COLUMN);
-			scriptlet.callAfterColumnInit();
-
-			columnIndex += 1;
-			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
-			offsetY = columnHeaderOffsetY;
-
-			calculator.getColumnNumber().setValue(
-				Integer.valueOf(((Number)calculator.getColumnNumber().getValue()).intValue() + 1)
-				);
-			calculator.getColumnNumber().setOldValue(
-				calculator.getColumnNumber().getValue()
-				);
-
-			fillColumnHeader(evalNextPage);
-
-			if (keepTogetherSavePoint != null)
-			{
-				moveKeepTogetherSavePointContent();
-			}
-		}
-	}
-
-
-	/**
-	 *
 	 */
-	protected SavePoint fillColumnBand(JRFillBand band, byte evaluation) throws JRException
+	protected ElementRange fillColumnBand(JRFillBand band, byte evaluation) throws JRException
 	{
 		band.evaluate(evaluation);
 
@@ -2066,7 +2005,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		if (
 			band.willOverflow() 
-			&& (band.isSplitPrevented() || keepTogetherSavePoint != null)
+			&& (band.isSplitPrevented() || keepTogetherElementRange != null)
 			)
 		{
 			fillPageBreak(false, evaluation, evaluation, true);
@@ -2074,8 +2013,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 			printBand = band.refill(columnFooterOffsetY - offsetY);
 		}
 
-		SavePoint savePoint = 
-			new SavePoint(
+		ElementRange elementRange = 
+			new SimpleElementRange(
 				getCurrentPage(), 
 				columnIndex,
 				isNewPage,
@@ -2086,8 +2025,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
 		
-		savePoint.saveHeightOffset(columnFooterOffsetY - offsetY);
-		// we mark the save point here, because overflow content beyond this point
+		elementRange.expand(offsetY);
+		// we mark the element range here, because overflow content beyond this point
 		// should be rendered normally, not moved in any way 
 
 		while (band.willOverflow())
@@ -2102,7 +2041,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		resolveBandBoundElements(band, evaluation);
 		
-		return savePoint;
+		return elementRange;
 	}
 
 
