@@ -10,9 +10,11 @@
 		</layout>
 	</appender>
 
+	<!--
 	<logger name="net.sf.jasperreports.virtualization.ReportTest">
 		<level value="debug" />
 	</logger>
+	-->
 
 	<root>
 		<level value="error" />
