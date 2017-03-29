@@ -284,4 +284,45 @@
 	<target name="retrievelibs" description="Retrieve dependencies with Apache Ivy">
 		<ivy:retrieve conf="compile, javaflow, test" pattern="dist/lib/[artifact](-[classifier])-[revision].[ext]"/>
 	</target>
+	
+	<target name="test" depends="compile">
+		<ivy:cachepath pathid="test-compile-libs" log="download-only" conf="test"/>
+		<path id="test-compile">
+			<path refid="test-compile-libs"/>
+			<pathelement location="./build/classes"/>
+		</path>
+		
+		<mkdir dir="./build/test-classes"/>
+		<javac destdir="./build/test-classes" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7" 
+				encoding="ISO-8859-1" includeantruntime="false">
+			<classpath refid="test-compile"/>
+			<src path="./tests"/>
+			<compilerarg value="-Xlint:-unchecked"/>
+			<compilerarg value="-Xlint:-deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
+		</javac>
+		<copy todir="./build/test-classes">
+			<fileset dir="./tests">
+				<include name="**/*.jrxml"/>
+				<include name="**/*.jrpxml"/>
+				<include name="**/*.xml"/>
+				<include name="**/*.csv"/>
+				<include name="**/*.png"/>
+				<include name="**/*.jpg"/>
+				<include name="**/*.json"/>
+			</fileset>
+		</copy>
+		
+		<taskdef resource="testngtasks" classpathref="test-compile"/>
+		<testng outputdir="build/test-output">
+			<classpath>
+				<path refid="test-compile"/>
+				<pathelement location="./build/test-classes"/>
+				<pathelement location="./demo/fonts"/>
+			</classpath>
+			<classfileset dir="./build/test-classes" includes="**/*Test.class" />
+		</testng>
+		
+	</target>
+	
 </project>
