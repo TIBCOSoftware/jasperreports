@@ -314,7 +314,7 @@
 		</copy>
 		
 		<taskdef resource="testngtasks" classpathref="test-compile"/>
-		<testng outputdir="build/test-output">
+		<testng outputdir="build/test-output" haltonfailure="true" haltonskipped="true">
 			<classpath>
 				<path refid="test-compile"/>
 				<pathelement location="./build/test-classes"/>
