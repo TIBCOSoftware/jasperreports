@@ -285,7 +285,7 @@
 		<ivy:retrieve conf="compile, javaflow, test" pattern="dist/lib/[artifact](-[classifier])-[revision].[ext]"/>
 	</target>
 	
-	<target name="test" depends="compile">
+	<target name="test" depends="compile" description="Compiles the test sources and runs the tests">
 		<ivy:cachepath pathid="test-compile-libs" log="download-only" conf="test"/>
 		<path id="test-compile">
 			<path refid="test-compile-libs"/>
