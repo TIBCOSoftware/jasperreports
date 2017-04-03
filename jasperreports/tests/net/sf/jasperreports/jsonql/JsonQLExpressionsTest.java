@@ -25,15 +25,6 @@ package net.sf.jasperreports.jsonql;
 
 import java.lang.reflect.Method;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.json.JRJsonNode;
-import net.sf.jasperreports.engine.json.JsonNodeContainer;
-import net.sf.jasperreports.engine.util.JsonUtil;
-import net.sf.jasperreports.engine.util.json.DefaultJsonQLExecuter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -41,11 +32,17 @@ import org.testng.annotations.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.json.JRJsonNode;
+import net.sf.jasperreports.engine.json.JsonNodeContainer;
+import net.sf.jasperreports.engine.util.JsonUtil;
+import net.sf.jasperreports.engine.util.json.DefaultJsonQLExecuter;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class JsonQLExpressionsTest {
-    private static final Log log = LogFactory.getLog(JsonQLExpressionsTest.class);
 
     private JRJsonNode jrJsonNode;
     private JsonNode expectedResult;

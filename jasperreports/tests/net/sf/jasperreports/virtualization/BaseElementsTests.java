@@ -26,14 +26,13 @@ package net.sf.jasperreports.virtualization;
 import java.io.StringWriter;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
-import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -82,9 +81,9 @@ public class BaseElementsTests extends BaseSerializationTests
 		
 		StringWriter writer = new StringWriter();
 		JRXmlExporter exporter = new JRXmlExporter();
-		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, true);
+		SimpleXmlExporterOutput output = new SimpleXmlExporterOutput(writer);
+		output.setEmbeddingImages(true);
+		exporter.setExporterOutput(output);
 		try
 		{
 			exporter.exportReport();

@@ -37,11 +37,15 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import net.sf.jasperreports.data.BuiltinDataFileServiceFactory;
 import net.sf.jasperreports.data.DataAdapterParameterContributorFactory;
 import net.sf.jasperreports.data.DataFileServiceFactory;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -51,15 +55,10 @@ import net.sf.jasperreports.engine.ParameterContributorFactory;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
-import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -193,9 +192,9 @@ public class ReportTest
 	protected void xmlExport(JasperPrint print, OutputStream out) throws JRException, IOException
 	{
 		JRXmlExporter exporter = new JRXmlExporter();
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
-		exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, true);
+		SimpleXmlExporterOutput output = new SimpleXmlExporterOutput(out);
+		output.setEmbeddingImages(true);
+		exporter.setExporterOutput(output);
 		exporter.exportReport();
 		out.close();
 	}
