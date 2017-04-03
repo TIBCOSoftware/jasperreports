@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 /**
@@ -81,6 +82,7 @@ public class BaseElementsTests extends BaseSerializationTests
 		
 		StringWriter writer = new StringWriter();
 		JRXmlExporter exporter = new JRXmlExporter();
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		SimpleXmlExporterOutput output = new SimpleXmlExporterOutput(writer);
 		output.setEmbeddingImages(true);
 		exporter.setExporterOutput(output);

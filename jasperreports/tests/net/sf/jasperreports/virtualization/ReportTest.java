@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 /**
@@ -192,6 +193,7 @@ public class ReportTest
 	protected void xmlExport(JasperPrint print, OutputStream out) throws JRException, IOException
 	{
 		JRXmlExporter exporter = new JRXmlExporter();
+		exporter.setExporterInput(new SimpleExporterInput(print));
 		SimpleXmlExporterOutput output = new SimpleXmlExporterOutput(out);
 		output.setEmbeddingImages(true);
 		exporter.setExporterOutput(output);
