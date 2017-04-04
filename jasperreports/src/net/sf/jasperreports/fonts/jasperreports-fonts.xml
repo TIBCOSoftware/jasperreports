@@ -2,11 +2,7 @@
 
 <fontFamilies>
 
-	<!-- 
-		Deprecated and no longer used. Kept for backward compatibility with persisted
-		generated reports in JasperPrint or JRPXML format.
-	-->
-	<fontFamily name="Pictonic" visible="false">
+	<fontFamily name="JasperReports Icons" visible="false">
 		<normal>
 			<ttf>net/sf/jasperreports/fonts/icons/icons.ttf</ttf>
 			<svg>net/sf/jasperreports/fonts/icons/icons.svg</svg>
@@ -17,7 +13,11 @@
 		<pdfEmbedded>true</pdfEmbedded>
 	</fontFamily>
 
-	<fontFamily name="JasperReports Icons" visible="false">
+	<!-- 
+		Deprecated and no longer used. Kept for backward compatibility with persisted
+		generated reports in JasperPrint or JRPXML format.
+	-->
+	<fontFamily name="Pictonic" visible="false">
 		<normal>
 			<ttf>net/sf/jasperreports/fonts/icons/icons.ttf</ttf>
 			<svg>net/sf/jasperreports/fonts/icons/icons.svg</svg>
