@@ -709,7 +709,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		JRFillBand[] detailBands = detailSection.getFillBands();
-		for(int i = 0; i < detailBands.length; i++)
+		for (int i = 0; i < detailBands.length; i++)
 		{
 			JRFillBand detailBand = detailBands[i];
 			
@@ -737,21 +737,18 @@ public class JRVerticalFiller extends JRBaseFiller
 		calculator.calculateVariables();
 		scriptlet.callAfterDetailEval();
 
-		if (detailBands != null)
+		for (int i = 0; i < detailBands.length; i++)
 		{
-			for(int i = 0; i < detailBands.length; i++)
+			JRFillBand detailBand = detailBands[i];
+					
+			detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
+
+			if (detailBand.isToPrint())
 			{
-				JRFillBand detailBand = detailBands[i];
-						
-				detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
+				fillColumnBand(detailBand, JRExpression.EVALUATION_DEFAULT);
 
-				if (detailBand.isToPrint())
-				{
-					fillColumnBand(detailBand, JRExpression.EVALUATION_DEFAULT);
-
-					isFirstPageBand = false;
-					isFirstColumnBand = false;
-				}
+				isFirstPageBand = false;
+				isFirstColumnBand = false;
 			}
 		}
 

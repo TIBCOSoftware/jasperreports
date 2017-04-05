@@ -721,7 +721,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 
 		JRFillBand[] detailBands = detailSection.getFillBands();
-		for(int i = 0; i < detailBands.length; i++)
+		for (int i = 0; i < detailBands.length; i++)
 		{
 			JRFillBand detailBand = detailBands[i];
 
@@ -752,75 +752,72 @@ public class JRHorizontalFiller extends JRBaseFiller
 		calculator.calculateVariables();
 		scriptlet.callAfterDetailEval();
 				
-		if (detailBands != null)
+		if (
+			offsetX == lastDetailOffsetX
+			&& offsetY == lastDetailOffsetY
+			)
 		{
-			if (
-				offsetX == lastDetailOffsetX
-				&& offsetY == lastDetailOffsetY
-				)
+			if (columnIndex == columnCount - 1)
 			{
-				if (columnIndex == columnCount - 1)
-				{
-					columnIndex = 0;
-					setOffsetX();
-					setColumnNumberVariable();
+				columnIndex = 0;
+				setOffsetX();
+				setColumnNumberVariable();
 
-					maxDetailOffsetY = 0;
-					currentDetailOffsetY = offsetY;
-				}
-				else
-				{
-					columnIndex++;
-					setOffsetX();
-					offsetY = currentDetailOffsetY;
-
-					setColumnNumberVariable();
-				}
+				maxDetailOffsetY = 0;
+				currentDetailOffsetY = offsetY;
 			}
 			else
 			{
+				columnIndex++;
 				setOffsetX();
-				currentDetailOffsetY = offsetY;
+				offsetY = currentDetailOffsetY;
+
+				setColumnNumberVariable();
 			}
-
-			for(int i = 0; i < detailBands.length; i++)
-			{
-				JRFillBand detailBand = detailBands[i];
-
-				detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
-
-				if (detailBand.isToPrint())
-				{
-					while (
-						//(columnIndex == columnCount - 1 || isNewGroup) &&
-						detailBand.getHeight() > columnFooterOffsetY - offsetY
-						)
-					{
-						byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
-
-						fillPageBreak(
-							false,
-							evalPrevPage,
-							JRExpression.EVALUATION_DEFAULT,
-							true
-							);
-
-						currentDetailOffsetY = offsetY;
-					}
-					
-					fillFixedBand(detailBand, JRExpression.EVALUATION_DEFAULT, false);
-
-					isFirstPageBand = false;
-					isFirstColumnBand = false;
-				}
-			}
-
-			maxDetailOffsetY = maxDetailOffsetY < offsetY ? offsetY : maxDetailOffsetY;
-			offsetY = maxDetailOffsetY;
-
-			lastDetailOffsetX = offsetX;
-			lastDetailOffsetY = offsetY;
 		}
+		else
+		{
+			setOffsetX();
+			currentDetailOffsetY = offsetY;
+		}
+
+		for (int i = 0; i < detailBands.length; i++)
+		{
+			JRFillBand detailBand = detailBands[i];
+
+			detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
+
+			if (detailBand.isToPrint())
+			{
+				while (
+					//(columnIndex == columnCount - 1 || isNewGroup) &&
+					detailBand.getHeight() > columnFooterOffsetY - offsetY
+					)
+				{
+					byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
+
+					fillPageBreak(
+						false,
+						evalPrevPage,
+						JRExpression.EVALUATION_DEFAULT,
+						true
+						);
+
+					currentDetailOffsetY = offsetY;
+				}
+				
+				fillFixedBand(detailBand, JRExpression.EVALUATION_DEFAULT, false);
+
+				isFirstPageBand = false;
+				isFirstColumnBand = false;
+			}
+		}
+
+		maxDetailOffsetY = maxDetailOffsetY < offsetY ? offsetY : maxDetailOffsetY;
+		offsetY = maxDetailOffsetY;
+
+		lastDetailOffsetX = offsetX;
+		lastDetailOffsetY = offsetY;
 		
 		isNewPage = false;
 		isNewColumn = false;
