@@ -3677,6 +3677,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrder(), BucketOrder.ASCENDING);
 		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_class, bucket.getValueClassName());
 		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_bucketExpression, bucket.getExpression());
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_4_2))
+		{
+			writer.writeExpression(JRXmlConstants.ELEMENT_MULTI_AXIS_BUCKET_LABEL_EXPRESSION, bucket.getLabelExpression());
+		}
 		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_comparatorExpression, bucket.getComparatorExpression());
 		
 		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();

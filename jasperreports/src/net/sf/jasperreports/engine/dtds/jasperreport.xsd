@@ -7459,6 +7459,9 @@ property.
   <complexType>
    <sequence>
     <element ref="jr:bucketExpression" minOccurs="0" maxOccurs="1"/>
+    <element name="labelExpression" minOccurs="0" maxOccurs="1">
+     <complexType mixed="true"/>
+    </element>
     <element ref="jr:comparatorExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:bucketProperty" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>

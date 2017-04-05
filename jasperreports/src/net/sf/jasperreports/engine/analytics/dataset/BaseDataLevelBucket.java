@@ -57,6 +57,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 	
 	protected BucketOrder order = BucketOrder.ASCENDING;
 	protected JRExpression expression;
+	protected JRExpression labelExpression;
 	protected JRExpression comparatorExpression;
 	
 	protected List<DataLevelBucketProperty> bucketProperties;
@@ -73,6 +74,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		this.valueClassName = bucket.getValueClassName();
 		this.order = bucket.getOrder();
 		this.expression = factory.getExpression(bucket.getExpression());
+		this.labelExpression = factory.getExpression(bucket.getLabelExpression());
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
 		
 		List<DataLevelBucketProperty> properties = bucket.getBucketProperties();
@@ -106,6 +108,12 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 	public JRExpression getExpression()
 	{
 		return expression;
+	}
+
+	@Override
+	public JRExpression getLabelExpression()
+	{
+		return labelExpression;
 	}
 
 	@Override
@@ -171,6 +179,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 			throw new JRRuntimeException(e);
 		}
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		clone.labelExpression = JRCloneUtils.nullSafeClone(labelExpression);
 		clone.comparatorExpression = JRCloneUtils.nullSafeClone(comparatorExpression);
 		clone.bucketProperties = JRCloneUtils.cloneList(bucketProperties);
 		return clone;
