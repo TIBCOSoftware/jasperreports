@@ -74,8 +74,7 @@ public class ChartCustomizersApp extends AbstractSampleApp
 			long start = System.currentTimeMillis();
 			JasperFillManager.fillReportToFile(
 				reportFile.getAbsolutePath(), 
-				new HashMap<String, Object>(parameters), 
-				getDemoHsqldbConnection()
+				new HashMap<String, Object>(parameters) 
 				);
 			System.err.println("Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
