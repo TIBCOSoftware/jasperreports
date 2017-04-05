@@ -2,6 +2,7 @@
 <csvDataAdapter class="net.sf.jasperreports.data.csv.CsvDataAdapterImpl">
 	<name>Category CSV Data Adapter</name>
 	<fileName>/data/category.csv</fileName>
+	<encoding>UTF-8</encoding>
 	<recordDelimiter>&#13;&#10;</recordDelimiter>
 	<useFirstRowAsHeader>true</useFirstRowAsHeader>
 	<queryExecuterMode>false</queryExecuterMode>
