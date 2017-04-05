@@ -814,6 +814,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_axis = "axis";
 	public static final String ELEMENT_axisLevel = "axisLevel";
 	public static final String ELEMENT_axisLevelBucket = "axisLevelBucket";
+	public static final String ELEMENT_MULTI_AXIS_BUCKET_LABEL_EXPRESSION = "labelExpression";
 	public static final String ELEMENT_bucketProperty = "bucketProperty";
 	public static final String ELEMENT_multiAxisMeasure = "multiAxisMeasure";
 	

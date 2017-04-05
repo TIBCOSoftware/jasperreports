@@ -1692,6 +1692,7 @@ public class JRExpressionCollector
 		
 		DataLevelBucket bucket = level.getBucket();
 		datasetCollector.addExpression(bucket.getExpression());
+		datasetCollector.addExpression(bucket.getLabelExpression());
 		addExpression(bucket.getComparatorExpression());
 		
 		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();

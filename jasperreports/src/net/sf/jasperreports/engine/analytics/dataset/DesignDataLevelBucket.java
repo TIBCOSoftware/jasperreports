@@ -40,6 +40,8 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 
 	public static final String PROPERTY_EXPRESSION = "expression";
 
+	public static final String PROPERTY_LABEL_EXPRESSION = "labelExpression";
+
 	public static final String PROPERTY_ORDER = "order";
 
 	public static final String PROPERTY_VALUE_CLASS = "valueClassName";
@@ -83,6 +85,20 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 		Object old = this.expression;
 		this.expression = expression;
 		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
+	}
+
+	
+	/**
+	 * Sets the label expression.
+	 * 
+	 * @param expression the label expression
+	 * @see DataLevelBucket#getLabelExpression()
+	 */
+	public void setLabelExpression(JRExpression expression)
+	{
+		Object old = this.labelExpression;
+		this.labelExpression = expression;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
 	}
 
 	

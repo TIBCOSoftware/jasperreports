@@ -36,6 +36,8 @@ public interface AxisLevelNode
 	boolean isTotal();
 	
 	Object getValue();
+	
+	String getLabel();
 
 	PropertyValues getNodePropertyValues();
 

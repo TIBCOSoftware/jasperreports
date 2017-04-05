@@ -84,6 +84,13 @@ public interface DataLevelBucket extends JRCloneable
 	 */
 	public JRExpression getExpression();
 	
+	/**
+	 * Optional expression that provides labels for buckets.
+	 * 
+	 * @return the bucket label expression
+	 */
+	public JRExpression getLabelExpression();
+	
 	
 	/**
 	 * Returns the comparator expression.

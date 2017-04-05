@@ -1523,6 +1523,7 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext(bucketPattern, "setBucket");
 		
 		addExpressionRules(digester, bucketPattern + "/" + JRCrosstabBucketFactory.ELEMENT_bucketExpression, "setExpression");
+		addExpressionRules(digester, bucketPattern + "/" + JRXmlConstants.ELEMENT_MULTI_AXIS_BUCKET_LABEL_EXPRESSION, "setLabelExpression");
 		addExpressionRules(digester, bucketPattern + "/" + JRCrosstabBucketFactory.ELEMENT_comparatorExpression, "setComparatorExpression");
 		
 		String bucketExpressionPattern = bucketPattern + "/" + JRXmlConstants.ELEMENT_bucketProperty;

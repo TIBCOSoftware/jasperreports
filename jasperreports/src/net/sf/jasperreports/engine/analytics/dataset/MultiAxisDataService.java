@@ -232,7 +232,8 @@ public class MultiAxisDataService
 
 		BucketDefinition bucketDefinition;
 		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();
-		if (bucketProperties != null && !bucketProperties.isEmpty())
+		if (bucket.getLabelExpression() != null 
+				|| (bucketProperties != null && !bucketProperties.isEmpty()))
 		{
 			// wrapping values in a ValuePropertiesWrapper in order to store property values
 			Map<String, Integer> propertyIndexes = new LinkedHashMap<String, Integer>();
@@ -326,25 +327,36 @@ public class MultiAxisDataService
 		DataLevelBucket bucket = level.getBucket();
 		Object mainValue = calculator.evaluate(bucket.getExpression());
 		
+		JRExpression labelExpression = bucket.getLabelExpression();
 		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();
 		Object bucketValue;
-		if (bucketProperties == null || bucketProperties.isEmpty())
+		if (labelExpression == null && (bucketProperties == null || bucketProperties.isEmpty()))
 		{
 			bucketValue = mainValue;
 		}
 		else
 		{
-			// evaluate property values
-			//FIXME avoid evaluating these for each record
-			Object[] propertyValues = new Object[bucketProperties.size()];
-			for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
+			String label = labelExpression == null ? null : (String) calculator.evaluate(labelExpression);
+			
+			Object[] propertyValues;
+			if (bucketProperties == null || bucketProperties.isEmpty())
 			{
-				DataLevelBucketProperty bucketProperty = it.next();
-				propertyValues[it.previousIndex()] = calculator.evaluate(bucketProperty.getExpression());
+				propertyValues = null;
+			}
+			else
+			{
+				// evaluate property values
+				//FIXME avoid evaluating these for each record
+				propertyValues = new Object[bucketProperties.size()];
+				for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
+				{
+					DataLevelBucketProperty bucketProperty = it.next();
+					propertyValues[it.previousIndex()] = calculator.evaluate(bucketProperty.getExpression());
+				}
 			}
 			
 			// wrap the main value and property values together
-			bucketValue = new ValuePropertiesWrapper(mainValue, propertyValues);
+			bucketValue = new ValuePropertiesWrapper(mainValue, label, propertyValues);
 		}
 		
 		return bucketValue;
@@ -623,6 +635,7 @@ public class MultiAxisDataService
 		protected final BucketMap childrenMap;
 		
 		protected Object value;
+		protected String label;
 		protected PropertyValues propertyValues;
 		
 		public LevelNode(Axis axis, int axisDepth, LevelNode parent, Bucket bucket, BucketMap childrenMap)
@@ -640,25 +653,33 @@ public class MultiAxisDataService
 		{
 			Object bucketValue = bucket.getValue();
 			Object nodeValue = bucketValue;
+			String label = null;
 			PropertyValues propertyValues = null;
 			
 			if (axisDepth > 0 && bucketValue != null)
 			{
 				DataAxisLevel dataLevel = data.getDataAxis(axis).getLevels().get(axisDepth - 1);
-				List<DataLevelBucketProperty> bucketProperties = dataLevel.getBucket().getBucketProperties();
-				if (bucketProperties != null && !bucketProperties.isEmpty())
+				DataLevelBucket dataBucket = dataLevel.getBucket();
+				List<DataLevelBucketProperty> bucketProperties = dataBucket.getBucketProperties();
+				if (dataBucket.getLabelExpression() != null || 
+						(bucketProperties != null && !bucketProperties.isEmpty()))
 				{
 					// unwrap the raw value and the property values
 					ValuePropertiesWrapper valueWrapper = (ValuePropertiesWrapper) bucketValue;
 					nodeValue = valueWrapper.getValue();
+					label = valueWrapper.getLabel();
 					
-					Map<String, Integer> propertyIndexes = axisLevelBucketPropertyIndexes.get(dataLevel);
-					Object[] propertyValuesArray = valueWrapper.getPropertyValues();
-					propertyValues = new MappedPropertyValues(propertyIndexes, propertyValuesArray);
+					if (bucketProperties != null && !bucketProperties.isEmpty())
+					{
+						Map<String, Integer> propertyIndexes = axisLevelBucketPropertyIndexes.get(dataLevel);
+						Object[] propertyValuesArray = valueWrapper.getPropertyValues();
+						propertyValues = new MappedPropertyValues(propertyIndexes, propertyValuesArray);
+					}
 				}
 			}
 			
 			this.value = nodeValue;
+			this.label = label;
 			this.propertyValues = propertyValues;
 		}
 		
@@ -679,6 +700,12 @@ public class MultiAxisDataService
 		public Object getValue()
 		{
 			return value;
+		}
+
+		@Override
+		public String getLabel()
+		{
+			return label;
 		}
 
 		@Override

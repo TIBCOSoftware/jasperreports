@@ -31,11 +31,13 @@ public class ValuePropertiesWrapper implements Comparable<ValuePropertiesWrapper
 {
 
 	private final Object value;
+	private final String label;
 	private final Object[] propertyValues;
 	
-	public ValuePropertiesWrapper(Object value, Object[] propertyValues)
+	public ValuePropertiesWrapper(Object value, String label, Object[] propertyValues)
 	{
 		this.value = value;
+		this.label = label;
 		this.propertyValues = propertyValues;
 	}
 
@@ -67,6 +69,11 @@ public class ValuePropertiesWrapper implements Comparable<ValuePropertiesWrapper
 	public Object getValue()
 	{
 		return value;
+	}
+	
+	public String getLabel()
+	{
+		return label;
 	}
 
 	public Object[] getPropertyValues()
