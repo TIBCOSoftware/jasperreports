@@ -828,16 +828,31 @@ public class JRVerticalFiller extends JRBaseFiller
 								{
 									//only "StackAtBottom" and "CollateAtBottom" element ranges could get here
 
-									// the following expansion cannot change the footerPosition attribute of the range, so the next footerPosition test is still effective here;
-									// in case of CollateAtBottom, the range could be expanded right before it being cancelled (set to null), which is harmless (has no effect)
-									// this expansion here also takes care of the case when page/column break occurred, so the move operation 
-									// must be performed on the previous element range, regardless 
-									// whether it was a "StackAtBottom" or a "CollateAtBottom"
-									groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
-									
-									if (groupFooterElementRange.getFooterPosition() == FooterPositionEnum.COLLATE_AT_BOTTOM)
+									// check to see if the new element range is on the same page/column as the previous one
+									if (
+										groupFooterElementRange.getElementRange().getPage() == newGroupFooterElementRange.getElementRange().getPage()
+										&& groupFooterElementRange.getElementRange().getColumnIndex() == newGroupFooterElementRange.getElementRange().getColumnIndex()
+										)
 									{
-										// we cancel the "CollateAtBottom" element range; the above range expansion might have been useless in this case, but that's OK
+										// if the new element range is on the same page/column, 
+										// we just expand it, but only if was a "StackAtBottom" one
+										
+										if (groupFooterElementRange.getFooterPosition() == FooterPositionEnum.STACK_AT_BOTTOM)
+										{
+											groupFooterElementRange.getElementRange().expand(newGroupFooterElementRange.getElementRange().getBottomY());
+										}
+										else
+										{
+											// we cancel the "CollateAtBottom" element range
+											groupFooterElementRange = null;
+										}
+									}
+									else
+									{
+										// page/column break occurred, so the move operation 
+										// must be performed on the previous save point, regardless 
+										// whether it was a "StackAtBottom" or a "CollateAtBottom"
+										ElementRangeUtil.moveContent(groupFooterElementRange, columnFooterOffsetY);
 										groupFooterElementRange = null;
 									}
 								}
