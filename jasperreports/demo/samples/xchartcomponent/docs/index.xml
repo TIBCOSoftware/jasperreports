@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xchartcomponent</name>
+  <title>XChart Component Sample</title>
+  <description>Shows how XChart components can be included in reports.</description>
+
+  <mainFeature ref="xchartcomponent"/>
+  
+  <!-- xchartcomponent -->
+  
+  <feature name="xchartcomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (XChart Library)">
+    <description>
+How to implement a custom component to wrap charts rendered by the <a href="http://knowm.org/open-source/xchart">XChart</a> library.
+    </description>
+    <since>6.4.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="openflashchart"/>
+    <content>
+<subtitle name="overview">The XChart Component - Overview</subtitle>
+<br/>
+<br/>
+<subtitle name="sample">The XChart Component - Sample</subtitle>
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/xchartcomponent</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/xchartcomponent/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+</sample>

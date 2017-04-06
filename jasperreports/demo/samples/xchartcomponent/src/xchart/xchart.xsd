@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://jasperreports.sourceforge.net/jasperreports/xchart"
+  xmlns:xc="http://jasperreports.sourceforge.net/jasperreports/xchart"
+  xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+  elementFormDefault="qualified">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports"/>
+
+	<element name="XYChart" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="xc:XYDataset"/>
+						<element name="chartTitleExpression">
+							<complexType mixed="true"/>
+						</element>
+						<element name="xAxisTitleExpression">
+							<complexType mixed="true"/>
+						</element>
+						<element name="yAxisTitleExpression">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="XYDataset">
+		<complexType>
+			<sequence>
+				<element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+				<element ref="xc:XYSeries" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+
+ <element name="XYSeries">
+  <annotation>
+   <documentation>Defines a series used in an <elem>XYDataset</elem></documentation>
+  </annotation>
+  <complexType>
+   <sequence>
+    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:xValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:yValueExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+
+</schema>
