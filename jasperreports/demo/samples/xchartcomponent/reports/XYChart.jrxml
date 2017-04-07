@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="XYChart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="a672a9d1-025f-43e7-8b43-800176de42bf">
-	<style name="chartStyle" backcolor="#DDDDDD">
-		<box>
-			<pen lineWidth="1"/>
-		</box>
-	</style>
+	<style name="chartStyle" backcolor="white"/>
 	<subDataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
 		<parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
 		<field name="name" class="java.lang.String"/>
