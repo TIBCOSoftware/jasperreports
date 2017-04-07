@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="XYChart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="a672a9d1-025f-43e7-8b43-800176de42bf">
+	<style name="chartStyle" backcolor="#DDDDDD">
+		<box>
+			<pen lineWidth="1"/>
+		</box>
+	</style>
 	<subDataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
-		<parameter name="xyDatasource"/>
-		<field name="name" class="java.lang.Integer"/>
+		<parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
+		<field name="name" class="java.lang.String"/>
 		<field name="x" class="java.lang.Integer"/>
-		<field name="y" class="java.lang.String"/>
+		<field name="y" class="java.lang.Integer"/>
+		<field name="color" class="java.lang.String"/>
 	</subDataset>
-	<parameter name="xyDatasource"/>
+	<parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
 	<summary>
-		<band height="370">
+		<band height="400">
 			<line>
-				<reportElement x="0" y="0" width="515" height="1" uuid="431b57f6-48bd-4a3e-94de-5eda4917f3ec"/>
+				<reportElement x="0" y="0" width="545" height="1" uuid="431b57f6-48bd-4a3e-94de-5eda4917f3ec"/>
 			</line>
 			<line>
-				<reportElement x="0" y="3" width="515" height="1" uuid="0297663c-f551-4848-8637-48c33f997f57"/>
+				<reportElement x="0" y="3" width="545" height="1" uuid="0297663c-f551-4848-8637-48c33f997f57"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="10" width="515" height="30" uuid="c2ab84e8-bb44-48b9-9909-07c5bf9beb07"/>
-				<textElement>
+				<reportElement x="0" y="10" width="545" height="30" uuid="c2ab84e8-bb44-48b9-9909-07c5bf9beb07"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="22"/>
 				</textElement>
 				<text><![CDATA[XChart - Sample XY Area Chart Component Report]]></text>
 			</staticText>
 			<textField hyperlinkType="Reference">
-				<reportElement x="0" y="40" width="515" height="20" uuid="d375553d-0e4d-4ee4-8a3c-67a865327f4f"/>
+				<reportElement x="0" y="40" width="545" height="20" uuid="d375553d-0e4d-4ee4-8a3c-67a865327f4f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>				
 				<textFieldExpression><![CDATA["http://knowm.org/open-source/xchart"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://knowm.org/open-source/xchart"]]></hyperlinkReferenceExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="60" width="515" height="1" uuid="5a7d83fc-aa72-4375-956b-ad12197927ac"/>
+				<reportElement x="0" y="60" width="545" height="1" uuid="5a7d83fc-aa72-4375-956b-ad12197927ac"/>
 			</line>
 			<line>
-				<reportElement x="0" y="63" width="515" height="1" uuid="f3881688-6985-482b-9794-43755ff935e9"/>
+				<reportElement x="0" y="63" width="545" height="1" uuid="f3881688-6985-482b-9794-43755ff935e9"/>
 			</line>
 			<componentElement>
-				<reportElement x="0" y="70" width="500" height="300" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
+				<reportElement x="0" y="80" width="545" height="320" style="chartStyle" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
 				<xc:XYChart xmlns:xc="http://jasperreports.sourceforge.net/jasperreports/xchart" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/xchart http://jasperreports.sourceforge.net/dtds/xchart.xsd" evaluationTime="Now">
 					<xc:XYDataset>
 						<dataset>
@@ -46,11 +53,12 @@
 							<seriesExpression><![CDATA[$F{name}]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{x}]]></xValueExpression>
 							<yValueExpression><![CDATA[$F{y}]]></yValueExpression>
+							<xc:colorExpression><![CDATA[$F{color}]]></xc:colorExpression>
 						</xc:XYSeries>
 					</xc:XYDataset>
-					<xc:chartTitleExpression><![CDATA["Data"]]></xc:chartTitleExpression>
-					<xc:xAxisTitleExpression><![CDATA["X"]]></xc:xAxisTitleExpression>
-					<xc:yAxisTitleExpression><![CDATA["Y"]]></xc:yAxisTitleExpression>
+					<xc:chartTitleExpression><![CDATA["XY Area Chart"]]></xc:chartTitleExpression>
+					<xc:xAxisTitleExpression><![CDATA["Probability"]]></xc:xAxisTitleExpression>
+					<xc:yAxisTitleExpression><![CDATA["Amount"]]></xc:yAxisTitleExpression>
 				</xc:XYChart>
 			</componentElement>
 		</band>

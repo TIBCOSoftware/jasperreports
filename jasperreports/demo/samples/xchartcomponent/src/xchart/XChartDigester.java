@@ -110,20 +110,25 @@ public class XChartDigester implements XmlDigesterConfigurer
 		digester.addCallMethod(seriesPattern + "/yValueExpression", "setText", 0);
 
 		digester.setRuleNamespaceURI(componentNamespace);
-		String chartTitleExpressionPattern = xyChartPattern + "/chartTitleLabelExpression";
+		
+		digester.addFactoryCreate(seriesPattern + "/colorExpression", JRExpressionFactory.class.getName());
+		digester.addSetNext(seriesPattern + "/colorExpression", "setColorExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod(seriesPattern + "/colorExpression", "setText", 0);
+		
+		String chartTitleExpressionPattern = xyChartPattern + "/chartTitleExpression";
 		digester.addFactoryCreate(chartTitleExpressionPattern, JRExpressionFactory.class.getName());
 		digester.addCallMethod(chartTitleExpressionPattern, "setText", 0);
-		digester.addSetNext(chartTitleExpressionPattern, "setChartTitleLabelExpression", JRExpression.class.getName());
+		digester.addSetNext(chartTitleExpressionPattern, "setChartTitleExpression", JRExpression.class.getName());
 		
-		String xAxisTitleExpressionPattern = xyChartPattern + "/xAxisTitleLabelExpression";
+		String xAxisTitleExpressionPattern = xyChartPattern + "/xAxisTitleExpression";
 		digester.addFactoryCreate(xAxisTitleExpressionPattern, JRExpressionFactory.class.getName());
 		digester.addCallMethod(xAxisTitleExpressionPattern, "setText", 0);
-		digester.addSetNext(xAxisTitleExpressionPattern, "setXAxisTitleLabelExpression", JRExpression.class.getName());
+		digester.addSetNext(xAxisTitleExpressionPattern, "setXAxisTitleExpression", JRExpression.class.getName());
 		
-		String yAxisTitleExpressionPattern = xyChartPattern + "/yAxisTitleLabelExpression";
+		String yAxisTitleExpressionPattern = xyChartPattern + "/yAxisTitleExpression";
 		digester.addFactoryCreate(yAxisTitleExpressionPattern, JRExpressionFactory.class.getName());
 		digester.addCallMethod(yAxisTitleExpressionPattern, "setText", 0);
-		digester.addSetNext(yAxisTitleExpressionPattern, "setYAxisTitleLabelExpression", JRExpression.class.getName());
+		digester.addSetNext(yAxisTitleExpressionPattern, "setYAxisTitleExpression", JRExpression.class.getName());
 		
 	}
 

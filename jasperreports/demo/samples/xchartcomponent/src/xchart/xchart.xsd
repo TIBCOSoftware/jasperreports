@@ -47,9 +47,12 @@
   </annotation>
   <complexType>
    <sequence>
-    <element ref="jr:seriesExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:xValueExpression" minOccurs="0" maxOccurs="1"/>
-    <element ref="jr:yValueExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:seriesExpression" minOccurs="1" maxOccurs="1"/>
+    <element ref="jr:xValueExpression" minOccurs="1" maxOccurs="1"/>
+    <element ref="jr:yValueExpression" minOccurs="1" maxOccurs="1"/>
+	<element name="colorExpression" minOccurs="0" maxOccurs="1">
+		<complexType mixed="true"/>
+	</element>
    </sequence>
   </complexType>
  </element>

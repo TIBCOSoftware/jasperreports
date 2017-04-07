@@ -61,6 +61,7 @@ public class XYChartCompiler implements ComponentCompiler
 				seriesCollector.addExpression(xySeries[i].getSeriesExpression());
 				seriesCollector.addExpression(xySeries[i].getXValueExpression());
 				seriesCollector.addExpression(xySeries[i].getYValueExpression());
+				seriesCollector.addExpression(xySeries[i].getColorExpression());
 			}
 		}
 
@@ -123,17 +124,17 @@ public class XYChartCompiler implements ComponentCompiler
 				JRExpression seriesExpression = series.getSeriesExpression();
 				if(seriesExpression == null)
 				{
-					verifier.addBrokenRule("No series expression for XY dataset", dataset);
+					verifier.addBrokenRule("No series expression for XY series", dataset);
 				}
 				JRExpression xValueExpression = series.getXValueExpression();
 				if(xValueExpression == null)
 				{
-					verifier.addBrokenRule("No X value expression for XY dataset", dataset);
+					verifier.addBrokenRule("No X value expression for XY series", dataset);
 				}
 				JRExpression yValueExpression = series.getYValueExpression();
 				if(yValueExpression == null)
 				{
-					verifier.addBrokenRule("No Y value expression for XY dataset", dataset);
+					verifier.addBrokenRule("No Y value expression for XY series", dataset);
 				}
 			}
 		}

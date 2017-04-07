@@ -23,6 +23,7 @@
  */
 package xchart;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class XYSeriesData
 {
 	private List<Number> xData;
 	private List<Number> yData;
+	private Color color;
 
 	public XYSeriesData()
 	{
@@ -49,5 +51,15 @@ public class XYSeriesData
 	public List<Number> getYData()
 	{
 		return yData;
+	}
+	
+	public Color getColor()
+	{
+		return color;
+	}
+	
+	public void setColor(Color color)
+	{
+		this.color = color;
 	}
 }

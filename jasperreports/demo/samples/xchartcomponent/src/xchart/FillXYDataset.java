@@ -103,6 +103,10 @@ public class FillXYDataset extends JRFillElementDataset implements XYDataset
 				
 				xySeriesData.getXData().add(crtXySeries.getXValue());
 				xySeriesData.getYData().add(crtXySeries.getYValue());
+				if(crtXySeries.getColor() != null)
+				{
+					xySeriesData.setColor(crtXySeries.getColor());
+				}
 			}
 		}
 	}

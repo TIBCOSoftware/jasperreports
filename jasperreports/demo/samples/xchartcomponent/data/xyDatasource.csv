@@ -1,20 +1,20 @@
-﻿"name","x","y"
-"Apples",1,10
-"Apples",3,15
-"Apples",5,10
-"Apples",7,12
-"Apples",9,20
-"Bananas",0,0
-"Bananas",2,5
-"Bananas",4,11
-"Bananas",6,18
-"Bananas",8,10
-"Bananas",10,15
-"Cherries",1,20
-"Cherries",2,10
-"Cherries",3,30
-"Cherries",4,20
-"Cherries",5,20
-"Cherries",6,25
-"Cherries",7,15
-"Cherries",8,20
+﻿"name","x","y","color"
+"Needs Analysis",10,200,"red"
+"Needs Analysis",20,100,
+"Needs Analysis",30,300,
+"Needs Analysis",40,200,
+"Needs Analysis",50,200,
+"Needs Analysis",60,250,
+"Needs Analysis",70,150,
+"Needs Analysis",80,200,
+"Prospecting",0,0,
+"Prospecting",20,50,
+"Prospecting",40,110,
+"Prospecting",60,180,
+"Prospecting",80,100,
+"Prospecting",100,150,
+"Qualification",10,100,"rgba(50, 255, 50, 0.8)"
+"Qualification",30,150,
+"Qualification",50,100,
+"Qualification",70,120,
+"Qualification",90,200,

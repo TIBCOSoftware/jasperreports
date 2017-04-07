@@ -23,6 +23,7 @@
  */
 package xchart;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.image.BufferedImage;
@@ -161,15 +162,29 @@ public class FillXYChart extends BaseFillComponent implements JRFillCloneable
 	    		.xAxisTitle(xAxisTitle == null ? "" : xAxisTitle)
 	    		.yAxisTitle(yAxisTitle == null ? "" : yAxisTitle)
 	    		.build();
+	    XYStyler styler = xyChart.getStyler();
+	    styler.setLegendPosition(Styler.LegendPosition.InsideNE);
+	    styler.setAxisTitlesVisible(true);
+	    styler.setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Area);
+	    styler.setChartBackgroundColor(element.getBackcolor() == null ? Color.WHITE : element.getBackcolor());
 	    
 	    List<Comparable<?>> xySeriesNames = dataset.getXYSeriesNames();
 		Map<Comparable<?>, XYSeriesData> xySeriesMap = dataset.getXYSeriesMap();
 		if(xySeriesMap != null && !xySeriesMap.isEmpty())
 		{
+			int i = 0;
 			for(Comparable<?> name : xySeriesNames)
 			{
 				XYSeriesData data = xySeriesMap.get(name);
-			    xyChart.addSeries(name.toString(), data.getXData(), data.getYData());
+				org.knowm.xchart.XYSeries series = xyChart.addSeries(name.toString(), data.getXData(), data.getYData());
+				Color color = data.getColor();
+				if(color != null)
+				{
+					series.setLineColor(color);
+					styler.getSeriesColors()[i] = color;
+					//series.setFillColor(color);
+				}
+				i++;
 			}
 		}
 		try

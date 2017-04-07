@@ -26,7 +26,234 @@ How to implement a custom component to wrap charts rendered by the <a href="http
 <subtitle name="overview">The XChart Component - Overview</subtitle>
 <br/>
 <br/>
+This sample contains an XY Area chart component implementation based on the <a href="http://knowm.org/open-source/xchart/">XChart</a> library, that illustrates how charts 
+generated with 3-rd party APIs can be embedded in reports generated with the JasperReports library. To make such an integration possible, the chart component provides 
+its specific XSD schema in the <code>src/xchart/xchart.xsd</code> file.
+<br/>
+On the API side, the chart component is represented by the xchart.XYChartComponent class, which exposes the members declared in schema. When the report is filled, 
+a <api href="net/sf/jasperreports/renderers/Renderable.html">Renderable</api> instance is created in order to generate a chart image to be included into the report. 
+<br/>
+<br/>
+<subtitle name="schema">The XChart Component - Schema</subtitle>
+<br/>
+<br/>
+Here is the JRXML schema for the XY chart component:
+<pre><![CDATA[
+<element name="XYChart" substitutionGroup="jr:component">
+  <complexType>
+    <complexContent>
+      <extension base="jr:componentType">
+        <sequence>
+          <element ref="xc:XYDataset"/>
+          <element name="chartTitleExpression">
+            <complexType mixed="true"/>
+          </element>
+          <element name="xAxisTitleExpression">
+            <complexType mixed="true"/>
+          </element>
+          <element name="yAxisTitleExpression">
+            <complexType mixed="true"/>
+          </element>
+        </sequence>
+        <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+        <attribute name="evaluationGroup" type="string" use="optional"/>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+
+<element name="XYDataset">
+  <complexType>
+    <sequence>
+      <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+      <element ref="xc:XYSeries" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+</element>
+
+<element name="XYSeries">
+  <annotation>
+    <documentation>Defines a series used in an <elem>XYDataset</elem></documentation>
+  </annotation>
+  <complexType>
+    <sequence>
+      <element ref="jr:seriesExpression" minOccurs="1" maxOccurs="1"/>
+      <element ref="jr:xValueExpression" minOccurs="1" maxOccurs="1"/>
+      <element ref="jr:yValueExpression" minOccurs="1" maxOccurs="1"/>
+      <element name="colorExpression" minOccurs="0" maxOccurs="1">
+        <complexType mixed="true"/>
+      </element>
+    </sequence>
+  </complexType>
+</element>]]></pre>
+A well defined XY chart configuration contains:
+<ul>
+<li>an <code>XYDataset</code> - the XY chart dataset characterized by its <code>dataset</code> and <code>XYSeries</code> elements.</li>
+<li>a <code>chartTitleExpression</code> - the expression used to set the chart title.</li>
+<li>an <code>xAxisTitleExpression</code> - the expression used to set the X axis title.</li>
+<li>an <code>yAxisTitleExpression</code> - the expression used to set the Y axis title.</li>
+</ul>
+and provide the following attributes:
+<ul>
+<li><code>evaluationTime</code></li>
+</ul>
+and
+<ul>
+<li><code>evaluationGroup</code></li>
+</ul>
+ with the same meaning as for built-in report elements.
+<br/>
+<br/>
+Each <code>XYSeries</code> element is characterized by:
+<ul>
+<li>a <code>seriesExpression</code> - mandatory expression used to set the series name</li>
+<li>an <code>xValueExpression</code> - mandatory numeric expression used to set the X axis value</li>
+<li>an <code>yValueExpression</code> - mandatory numeric expression used to set the Y axis value</li>
+<li>a <code>colorExpression</code> - optional expression used to set the series color. If multiple colors 
+are set for the same series during the component filling process, the last color will be used</li>
+</ul>
+
+<subtitle name="embedding">Embedding The XChart Component</subtitle>
+<br/>
+<br/>
+The <code>src/jasperreports_extension.properties</code> file contains the following entries:
+<ul>
+<li><code>net.sf.jasperreports.extension.registry.factory.xchart=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory</code></li>
+<li><code>net.sf.jasperreports.extension.xchart.spring.beans.resource=xchart/xchart_beans.xml</code></li>
+</ul>
+Hence this component will be registered as Spring-based extension, in accordance with beans defined in the <code>src/xchart/xchart_beans.xml</code>:
+<pre><![CDATA[
+<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+  <property name="xmlParser">
+    <ref local="xmlParser"/>
+  </property>
+  <property name="componentManagers">
+    <map>
+      <entry key="XYChart">
+        <ref local="XYChartManager"/>
+      </entry>
+    </map>
+  </property>
+</bean>
+
+<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+  <property name="namespace">
+    <value>http://jasperreports.sourceforge.net/jasperreports/xchart</value>
+  </property>
+  <property name="publicSchemaLocation">
+    <value>http://jasperreports.sourceforge.net/dtds/xchart.xsd</value>
+  </property>
+  <property name="internalSchemaResource">
+    <value>xchart/xchart.xsd</value>
+  </property>
+  <property name="digesterConfigurer">
+    <bean class="xchart.XChartDigester"/>
+</property>
+</bean>
+
+<bean id="XYChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+  <property name="componentCompiler">
+    <bean class="xchart.XYChartCompiler"/>
+  </property>
+  <property name="componentXmlWriter">
+    <bean class="xchart.XYChartXmlWriter"/>
+  </property>
+  <property name="componentFillFactory">
+    <bean class="xchart.XYChartFillFactory"/>
+  </property>
+</bean>]]></pre>
+The <code>src/xchart</code> directory contains all necessary implementation APIs for this component:
+<ul>
+<li><code>CompiledXYDataset.java</code></li>
+<li><code>DesignXYDataset.java</code></li>
+<li><code>DesignXYSeries.java</code></li>
+<li><code>FillXYChart.java</code></li>
+<li><code>FillXYDataset.java</code></li>
+<li><code>FillXYSeries.java</code></li>
+<li><code>XChartDigester.java</code></li>
+<li><code>XYChartCompiler.java</code></li>
+<li><code>XYChartComponent.java</code></li>
+<li><code>XYChartFillFactory.java</code></li>
+<li><code>XYChartXmlFactory.java</code></li>
+<li><code>XYChartXmlWriter.java</code></li>
+<li><code>XYDataset.java</code></li>
+<li><code>XYDatasetXmlFactory.java</code></li>
+<li><code>XYSeries.java</code></li>
+<li><code>XYSeriesData.java</code></li>
+<li><code>XYSeriesFactory.java</code></li>
+</ul>
 <subtitle name="sample">The XChart Component - Sample</subtitle>
+<br/>
+<br/>
+An example of how to use the XY area chart component is illustrated in the <code>reports/XYChart.jrxml</code> template:
+<pre><![CDATA[
+<style name="chartStyle" backcolor="#DDDDDD">
+  <box>
+    <pen lineWidth="1"/>
+  </box>
+</style>
+<subDataset name="xyDataset" uuid="098b0755-483e-40aa-8ada-b6eaaa95a155">
+  <parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
+  <field name="name" class="java.lang.String"/>
+  <field name="x" class="java.lang.Integer"/>
+  <field name="y" class="java.lang.Integer"/>
+  <field name="color" class="java.lang.String"/>
+</subDataset>
+<parameter class="net.sf.jasperreports.engine.data.JRCsvDataSource" name="xyDatasource"/>
+
+...
+
+<componentElement>
+  <reportElement x="0" y="80" width="545" height="320" style="chartStyle" uuid="d60723de-a9ab-4d33-84a8-8ac759234088"/>
+  <xc:XYChart xmlns:xc="http://jasperreports.sourceforge.net/jasperreports/xchart" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/xchart 
+    http://jasperreports.sourceforge.net/dtds/xchart.xsd" evaluationTime="Now">
+    <xc:XYDataset>
+      <dataset>
+        <datasetRun subDataset="xyDataset" uuid="121717f4-1f69-46c0-908d-7bcbbe1fb714">
+          <dataSourceExpression><![CDATA[$P{xyDatasource}]] ></dataSourceExpression>
+        </datasetRun>
+      </dataset>
+      <xc:XYSeries>
+        <seriesExpression><![CDATA[$F{name}]] ></seriesExpression>
+        <xValueExpression><![CDATA[$F{x}]] ></xValueExpression>
+        <yValueExpression><![CDATA[$F{y}]] ></yValueExpression>
+        <xc:colorExpression><![CDATA[$F{color}]] ></xc:colorExpression>
+      </xc:XYSeries>
+    </xc:XYDataset>
+    <xc:chartTitleExpression><![CDATA["XY Area Chart"]] ></xc:chartTitleExpression>
+    <xc:xAxisTitleExpression><![CDATA["Probability"]] ></xc:xAxisTitleExpression>
+    <xc:yAxisTitleExpression><![CDATA["Amount"]] ></xc:yAxisTitleExpression>
+  </xc:XYChart>
+</componentElement>]]></pre>
+The report is filled using a CSV data source based on the <code>data/xyDatasource.csv</code> file, as shown in <code>src/XChartApp.java</code>:
+<pre><![CDATA[
+public void fill() throws JRException
+{
+  long start = System.currentTimeMillis();
+  Map<String, Object> parameters = new HashMap<String, Object>();
+  try
+  {
+    JRCsvDataSource xyds = new JRCsvDataSource(
+        JRLoader.getLocationInputStream("data/xyDatasource.csv"), 
+        "UTF-8");
+    xyds.setRecordDelimiter("\r\n");
+    xyds.setUseFirstRowAsHeader(true);
+    parameters.put("xyDatasource", xyds);
+  }
+  catch (Exception e)
+  {
+    throw new JRException(e);
+  }
+  JasperFillManager.fillReportToFile(
+      "build/reports/XYChart.jasper", 
+      new HashMap<String, Object>(parameters), 
+      new JREmptyDataSource());
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+}]]></pre>
+The CSV datasource is stored in the <code>xyDatasource</code> parameter that will be passed to the XY chart dataset at runtime.
+The output will be an XY area chart with three different series, having the amount probability on the x-axis and the amount on the y-axis. 
+The series colors are also provided by the CSV datasource parameter.
 <br/>
 <br/>
 <b>Running the Sample</b>

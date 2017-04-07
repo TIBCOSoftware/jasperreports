@@ -37,4 +37,5 @@ public interface XYSeries extends JRCloneable
 	public JRExpression getSeriesExpression();
 	public JRExpression getXValueExpression();
 	public JRExpression getYValueExpression();
+	public JRExpression getColorExpression();
 }

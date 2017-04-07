@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -106,7 +107,7 @@ public class XChartApp extends AbstractSampleApp
 		{
 			throw new JRException(e);
 		}
-		JasperFillManager.fillReportToFile("build/reports/XYChart.jasper", new HashMap<String, Object>(parameters));
+		JasperFillManager.fillReportToFile("build/reports/XYChart.jasper", new HashMap<String, Object>(parameters), new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	

@@ -47,6 +47,7 @@ public class DesignXYSeries implements XYSeries, Serializable
 	protected JRExpression seriesExpression;
 	protected JRExpression xValueExpression;
 	protected JRExpression yValueExpression;
+	protected JRExpression colorExpression;
 	
 	/**
 	 *
@@ -66,6 +67,7 @@ public class DesignXYSeries implements XYSeries, Serializable
 		seriesExpression = factory.getExpression(xySeries.getSeriesExpression());
 		xValueExpression = factory.getExpression(xySeries.getXValueExpression());
 		yValueExpression = factory.getExpression(xySeries.getYValueExpression());
+		colorExpression = factory.getExpression(xySeries.getColorExpression());
 	}
 
 	
@@ -96,10 +98,21 @@ public class DesignXYSeries implements XYSeries, Serializable
 	{
 		return yValueExpression;
 	}
-		
+	
 	public void setYValueExpression(JRExpression expression)
 	{
 		this.yValueExpression = expression;
+	}
+	
+	@Override
+	public JRExpression getColorExpression()
+	{
+		return colorExpression;
+	}
+		
+	public void setColorExpression(JRExpression expression)
+	{
+		this.colorExpression = expression;
 	}
 		
 	@Override
@@ -119,6 +132,7 @@ public class DesignXYSeries implements XYSeries, Serializable
 		clone.seriesExpression = JRCloneUtils.nullSafeClone(seriesExpression);
 		clone.xValueExpression = JRCloneUtils.nullSafeClone(xValueExpression);
 		clone.yValueExpression = JRCloneUtils.nullSafeClone(yValueExpression);
+		clone.colorExpression = JRCloneUtils.nullSafeClone(colorExpression);
 		
 		return clone;
 	}

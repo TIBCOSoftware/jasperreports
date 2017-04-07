@@ -51,6 +51,7 @@ public class XYChartXmlWriter extends AbstractComponentXmlWriter
 	public static final String ELEMENT_chartTitleExpression = "chartTitleExpression";
 	public static final String ELEMENT_xAxisTitleExpression = "xAxisTitleExpression";
 	public static final String ELEMENT_yAxisTitleExpression = "yAxisTitleExpression";
+	public static final String ELEMENT_colorExpression = "colorExpression";
 	public XYChartXmlWriter()
 	{
 		super(DefaultJasperReportsContext.getInstance());
@@ -108,6 +109,7 @@ public class XYChartXmlWriter extends AbstractComponentXmlWriter
 				writeExpression(JRXmlConstants.ELEMENT_seriesExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, xySeries.getSeriesExpression(), false, writer);
 				writeExpression(JRXmlConstants.ELEMENT_xValueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, xySeries.getXValueExpression(), false, writer);
 				writeExpression(JRXmlConstants.ELEMENT_yValueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, xySeries.getYValueExpression(), false, writer);
+				writeExpression(ELEMENT_colorExpression, xySeries.getColorExpression(), false, componentElement, reportWriter);
 				writer.closeElement();
 			}
 		}

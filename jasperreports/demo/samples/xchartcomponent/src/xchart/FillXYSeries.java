@@ -23,10 +23,13 @@
  */
 package xchart;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -43,6 +46,7 @@ public class FillXYSeries implements XYSeries
 	private Comparable<?> series;
 	private Number xValue;
 	private Number yValue;
+	private Color color;
 	
 	/**
 	 *
@@ -75,6 +79,12 @@ public class FillXYSeries implements XYSeries
 	{
 		return parent.getYValueExpression();
 	}
+	
+	@Override
+	public JRExpression getColorExpression()
+	{
+		return parent.getColorExpression();
+	}
 		
 	
 	/**
@@ -100,6 +110,14 @@ public class FillXYSeries implements XYSeries
 	{
 		return yValue;
 	}
+	
+	/**
+	 *
+	 */
+	protected Color getColor()
+	{
+		return color;
+	}
 		
 	
 	/**
@@ -110,6 +128,7 @@ public class FillXYSeries implements XYSeries
 		series = (Comparable<?>)calculator.evaluate(getSeriesExpression()); 
 		xValue = (Number)calculator.evaluate(getXValueExpression()); 
 		yValue = (Number)calculator.evaluate(getYValueExpression());
+		color = JRColorUtil.getColor((String)calculator.evaluate(getColorExpression()), null);
 	}
 
 	@Override
