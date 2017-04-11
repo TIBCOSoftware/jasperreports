@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.groups.keeptogether;
+package net.sf.jasperreports.summary;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,9 +58,9 @@ import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class KeepTogetherTest
+public class SummaryTest
 {
-	private static final Log log = LogFactory.getLog(KeepTogetherTest.class);
+	private static final Log log = LogFactory.getLog(SummaryTest.class);
 	
 	private JasperFillManager fillManager;
 
@@ -79,9 +79,9 @@ public class KeepTogetherTest
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		
-		for (int i = 1; i <= 13; i++)
+		for (int i = 1; i <= 15; i++)
 		{
-			String jrxmlFileName = "net/sf/jasperreports/groups/keeptogether/repo/KeepTogetherReport." + i + ".jrxml";
+			String jrxmlFileName = "net/sf/jasperreports/summary/repo/SummaryReport." + i + ".jrxml";
 			
 			JasperReport report = compileReport(jrxmlFileName);
 			
@@ -91,7 +91,7 @@ public class KeepTogetherTest
 			String xmlExportDigest = xmlExportDigest(print);
 			log.debug("Plain report got " + xmlExportDigest);
 			
-			String referenceXmlExportDigest = getFileDigest("net/sf/jasperreports/groups/keeptogether/repo/KeepTogetherReport." + i + ".reference.jrpxml");
+			String referenceXmlExportDigest = getFileDigest("net/sf/jasperreports/summary/repo/SummaryReport." + i + ".reference.jrpxml");
 			
 			assert xmlExportDigest.equals(referenceXmlExportDigest);
 		}

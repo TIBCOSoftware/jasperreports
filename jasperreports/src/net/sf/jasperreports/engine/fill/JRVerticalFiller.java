@@ -1080,6 +1080,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 			else
 			{
+				//SummaryReport.14 test
+				
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
 
@@ -1123,6 +1125,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		else
 		{
+			//SummaryReport.15 test
+			
 			fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
 			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1137,6 +1141,8 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	private void fillSummaryNoLastFooterNewPage() throws JRException
 	{
+		//SummaryReport.13 test
+		
 		fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
 		fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1241,6 +1247,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 				else
 				{
+					//SummaryReport.8 test
+
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
 
@@ -1259,6 +1267,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 			else
 			{
+				//SummaryReport.9 test
+				
 				setLastPageFooter(true);
 
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1274,6 +1284,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (summary != missingFillBand && summary.isToPrint())
 			{
+				//SummaryReport.10 test
+				
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
 				fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1321,6 +1333,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 			else
 			{
+				//SummaryReport.11 test
+				
 				setLastPageFooter(true);
 
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1332,6 +1346,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		else
 		{
+			//SummaryReport.12 test
+			
 			fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
 			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1423,6 +1439,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 				else
 				{
+					//SummaryReport.1 test
+					
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
 
@@ -1438,6 +1456,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 			else
 			{
+				//SummaryReport.2 test
+				
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
 				fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1501,6 +1521,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 				else
 				{
+					//SummaryReport.3 test
+					
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
 
@@ -1528,11 +1550,16 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 			else
 			{
-				if(offsetY > lastPageColumnFooterOffsetY)
+				if (offsetY > lastPageColumnFooterOffsetY)
 				{
+					//SummaryReport.5 test
 					fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
 				}
-
+				else
+				{
+					//SummaryReport.4 test
+				}
+				
 				setLastPageFooter(true);
 
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1544,6 +1571,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		else if (columnIndex == 0 && offsetY <= lastPageColumnFooterOffsetY)
 		{
+			//SummaryReport.6 test
+			
 			setLastPageFooter(true);
 
 			fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1592,6 +1621,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		else
 		{
+			//SummaryReport.7 test
+			
 			fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
 			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
