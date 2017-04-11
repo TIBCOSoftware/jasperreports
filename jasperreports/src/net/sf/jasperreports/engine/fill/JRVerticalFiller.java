@@ -80,24 +80,8 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		this.pageHeight = pageHeight;
 
-		columnFooterOffsetY = pageHeight - bottomMargin;
-		if (pageFooter != null)
-		{
-			columnFooterOffsetY -= pageFooter.getHeight();
-		}
-		if (columnFooter != null)
-		{
-			columnFooterOffsetY -= columnFooter.getHeight();
-		}
-		lastPageColumnFooterOffsetY = pageHeight - bottomMargin;
-		if (lastPageFooter != null)//FIXMENOW testing with null is awkward since bands can never be null, but rather equal to missingFillBand
-		{
-			lastPageColumnFooterOffsetY -= lastPageFooter.getHeight();
-		}
-		if (columnFooter != null)
-		{
-			lastPageColumnFooterOffsetY -= columnFooter.getHeight();
-		}
+		columnFooterOffsetY = pageHeight - bottomMargin - pageFooter.getHeight() - columnFooter.getHeight();
+		lastPageColumnFooterOffsetY = pageHeight - bottomMargin - lastPageFooter.getHeight() - columnFooter.getHeight();
 		
 		if (log.isDebugEnabled())
 		{
