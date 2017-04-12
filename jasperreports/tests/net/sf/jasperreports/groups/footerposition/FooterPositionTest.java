@@ -73,13 +73,13 @@ public class FooterPositionTest
 	}
 
 	@Test
-	public void keepTogetherReports() throws JRException, NoSuchAlgorithmException, IOException
+	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		
-		for (int i = 1; i <= 14; i++)
+		for (int i = 1; i <= 29; i++)
 		{
 			String jrxmlFileName = "net/sf/jasperreports/groups/footerposition/repo/FooterPositionReport." + i + ".jrxml";
 			
