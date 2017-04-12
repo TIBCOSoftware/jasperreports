@@ -1420,30 +1420,41 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			fillPageHeader(JRExpression.EVALUATION_DEFAULT);
 
-			summary.evaluate(JRExpression.EVALUATION_DEFAULT);
+			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - pageFooter.getHeight());
-
-			if (summary.willOverflow() && summary.isSplitPrevented() && isSubreport())
+			if (summary != missingFillBand && summary.isToPrint())
 			{
-				fillPageFooter(JRExpression.EVALUATION_DEFAULT);
+				//SummaryReport.18 test
 
-				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
-				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
-				resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
-				scriptlet.callBeforePageInit();
-				calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
-				scriptlet.callAfterPageInit();
+				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
-				addPage(false);
-				
-				fillPageHeader(JRExpression.EVALUATION_DEFAULT);
+				JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - pageFooter.getHeight());
 
-				printBand = summary.refill(pageHeight - bottomMargin - offsetY - pageFooter.getHeight());
+				if (summary.willOverflow() && summary.isSplitPrevented() && isSubreport())
+				{
+					fillPageFooter(JRExpression.EVALUATION_DEFAULT);
+
+					resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
+					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
+					resolvePageBoundElements(JRExpression.EVALUATION_DEFAULT);
+					scriptlet.callBeforePageInit();
+					calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
+					scriptlet.callAfterPageInit();
+
+					addPage(false);
+					
+					fillPageHeader(JRExpression.EVALUATION_DEFAULT);
+
+					printBand = summary.refill(pageHeight - bottomMargin - offsetY - pageFooter.getHeight());
+				}
+
+				fillBand(printBand);
+				offsetY += printBand.getHeight();
 			}
-
-			fillBand(printBand);
-			offsetY += printBand.getHeight();
+			else
+			{
+				//SummaryReport.19 test
+			}
 
 			/*   */
 			fillSummaryOverflow();

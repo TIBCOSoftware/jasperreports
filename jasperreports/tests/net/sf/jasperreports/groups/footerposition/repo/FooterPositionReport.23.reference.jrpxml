@@ -159,13 +159,6 @@
 	</page>
 	<page>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="0f1bbacf-e1b5-4d67-98f5-602e866f3679" mode="Transparent" x="40" y="50" width="515" height="120" origin="9" srcId="11" printId="1"/>
-			<box>
-				<pen lineWidth="1.0"/>
-			</box>
-			<textContent><![CDATA[Summary - NO PRINT]]></textContent>
-		</text>
-		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
 			<reportElement uuid="4d4901d4-c4e6-4d31-8f4c-6fa7e1b17ac8" mode="Transparent" x="40" y="692" width="515" height="100" origin="8" srcId="10" printId="1"/>
 			<box>
 				<pen lineWidth="1.0"/>
