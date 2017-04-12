@@ -1252,7 +1252,10 @@ public class JRVerticalFiller extends JRBaseFiller
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
 
-					if (!summary.willOverflow())
+					if (
+						!summary.willOverflow()
+						&& offsetY <= lastPageColumnFooterOffsetY
+						)
 					{
 						setLastPageFooter(true);
 					}

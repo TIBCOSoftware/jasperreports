@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="SummaryReport.17" pageWidth="595" pageHeight="842" topMargin="50" leftMargin="40" bottomMargin="50" rightMargin="40" locale="en_US" timezone="GMT">
 	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
-	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
-	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="1"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="2"/>
 	<origin group="FirstGroup" band="groupHeader"/>
 	<origin group="FirstGroup" band="groupFooter"/>
 	<origin group="SecondGroup" band="groupHeader"/>
@@ -219,6 +219,15 @@
 			</box>
 			<textContent><![CDATA[Summary]]></textContent>
 		</text>
+		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
+			<reportElement uuid="92459f30-bc15-45f2-b734-c260d3bb274f" mode="Transparent" x="40" y="682" width="515" height="110" origin="8" srcId="11" printId="1"/>
+			<box>
+				<pen lineWidth="1.0"/>
+			</box>
+			<textContent><![CDATA[Page Footer]]></textContent>
+		</text>
+	</page>
+	<page>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
 			<reportElement uuid="4d4901d4-c4e6-4d31-8f4c-6fa7e1b17ac8" mode="Transparent" x="40" y="582" width="515" height="210" origin="9" srcId="12" printId="1"/>
 			<box>

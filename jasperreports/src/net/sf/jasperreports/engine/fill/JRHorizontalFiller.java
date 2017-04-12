@@ -1312,10 +1312,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 				}
 				else
 				{
+					//SummaryReport.17 test
+
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
 
-					if (!summary.willOverflow())
+					if (
+						!summary.willOverflow()
+						&& offsetY <= lastPageColumnFooterOffsetY
+						)
 					{
 						setLastPageFooter(true);
 					}
