@@ -79,7 +79,7 @@ public class SummaryTest
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		
-		for (int i = 1; i <= 16; i++)
+		for (int i = 1; i <= 19; i++)
 		{
 			String jrxmlFileName = "net/sf/jasperreports/summary/repo/SummaryReport." + i + ".jrxml";
 			
