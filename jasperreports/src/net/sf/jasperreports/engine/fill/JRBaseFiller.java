@@ -207,6 +207,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected Map<String,Format> dateFormatCache = new HashMap<String,Format>();
 	protected Map<String,Format> numberFormatCache = new HashMap<String,Format>();
+
+	protected GroupFooterElementRange groupFooterPositionElementRange;
 	
 
 	/**

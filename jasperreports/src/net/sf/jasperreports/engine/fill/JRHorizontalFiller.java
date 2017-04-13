@@ -816,8 +816,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		if (groups != null && groups.length > 0)
 		{
-			GroupFooterElementRange groupFooterElementRange = null;
-			
 			byte evaluation = (isFillAll)?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD;
 
 			for(int i = groups.length - 1; i >= 0; i--)
@@ -826,87 +824,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				
 				if (isFillAll || group.hasChanged())
 				{
-					GroupFooterElementRange newGroupFooterElementRange = fillGroupFooter(group, evaluation);
-					// fillGroupFooter might return null, because if the group footer does not print, 
-					// its footer position is completely irrelevant
-					if (newGroupFooterElementRange != null)
-					{
-						switch (group.getFooterPositionValue())
-						{
-							case STACK_AT_BOTTOM:
-							{
-								groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
-
-								if (groupFooterElementRange != null)
-								{
-									groupFooterElementRange.setFooterPosition(FooterPositionEnum.STACK_AT_BOTTOM);
-								}
-
-								break;
-							}
-							case FORCE_AT_BOTTOM:
-							{
-								groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
-
-								if (groupFooterElementRange != null)
-								{
-									ElementRangeUtil.moveContent(groupFooterElementRange, columnFooterOffsetY);
-									offsetY = columnFooterOffsetY;
-								}
-
-								groupFooterElementRange = null;
-
-								break;
-							}
-							case COLLATE_AT_BOTTOM:
-							{
-								groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
-
-								break;
-							}
-							case NORMAL:
-							default:
-							{
-								if (groupFooterElementRange == null)
-								{
-									// only "ForceAtBottom" element ranges could get here, but they are already null
-									groupFooterElementRange = null;
-								}
-								else
-								{
-									//only "StackAtBottom" and "CollateAtBottom" element ranges could get here
-
-									// check to see if the new element range is on the same page/column as the previous one
-									if (
-										groupFooterElementRange.getElementRange().getPage() == newGroupFooterElementRange.getElementRange().getPage()
-										&& groupFooterElementRange.getElementRange().getColumnIndex() == newGroupFooterElementRange.getElementRange().getColumnIndex()
-										)
-									{
-										// if the new element range is on the same page/column, 
-										// we just expand it, but only if was a "StackAtBottom" one
-										
-										if (groupFooterElementRange.getFooterPosition() == FooterPositionEnum.STACK_AT_BOTTOM)
-										{
-											groupFooterElementRange.getElementRange().expand(newGroupFooterElementRange.getElementRange().getBottomY());
-										}
-										else
-										{
-											// we cancel the "CollateAtBottom" element range
-											groupFooterElementRange = null;
-										}
-									}
-									else
-									{
-										// page/column break occurred, so the move operation 
-										// must be performed on the previous save point, regardless 
-										// whether it was a "StackAtBottom" or a "CollateAtBottom"
-										ElementRangeUtil.moveContent(groupFooterElementRange, columnFooterOffsetY);
-										groupFooterElementRange = null;
-									}
-								}
-							}
-						}
-					}
+					fillGroupFooter(group, evaluation);
 					
 					// regardless of whether the fillGroupFooter returned an element range or not 
 					// (footer was printed or not), we just need to mark the end of the group 
@@ -914,9 +832,19 @@ public class JRHorizontalFiller extends JRBaseFiller
 				}
 			}
 			
-			if (groupFooterElementRange != null)
+			// we need to take care of groupFooterPositionElementRange here because all groups footers have been 
+			// rendered and we need to consume remaining space before next groups start;
+			//
+			// but we don't process the last groupFooterPositionElementRange when the report ends (isFillAll true),
+			// because it will be dealt with during summary rendering, depending on whether a last page footer exists or not
+			if (
+				!isFillAll
+				&& groupFooterPositionElementRange != null
+				)
 			{
-				ElementRangeUtil.moveContent(groupFooterElementRange, columnFooterOffsetY);
+				ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
+				groupFooterPositionElementRange = null;
+				// update the offsetY to signal there is no more space left at the bottom after forcing the footer
 				offsetY = columnFooterOffsetY;
 			}
 		}
@@ -926,7 +854,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private GroupFooterElementRange fillGroupFooter(JRFillGroup group, byte evaluation) throws JRException
+	private void fillGroupFooter(JRFillGroup group, byte evaluation) throws JRException
 	{
 		JRFillSection groupFooterSection = (JRFillSection)group.getGroupFooterSection();
 
@@ -935,10 +863,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 			log.debug("Fill " + fillerId + ": " + group.getName() + " footer at " + offsetY);
 		}
 		
-		GroupFooterElementRange groupFooterElementRange = null;
-
 		JRFillBand[] groupFooterBands = groupFooterSection.getFillBands();
-		for(int i = 0; i < groupFooterBands.length; i++)
+		for (int i = 0; i < groupFooterBands.length; i++)
 		{
 			JRFillBand groupFooterBand = groupFooterBands[i];
 			
@@ -957,13 +883,69 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				ElementRange newElementRange = fillColumnBand(groupFooterBand, evaluation);
 
-				GroupFooterElementRange newGroupFooterElementRange = new SimpleGroupFooterElementRange(newElementRange, group.getFooterPositionValue());
-				
-				groupFooterElementRange = ElementRangeUtil.expandOrMove(groupFooterElementRange, newGroupFooterElementRange, columnFooterOffsetY);
+				if (groupFooterPositionElementRange == null)
+				{
+					if (group.getFooterPositionValue() != FooterPositionEnum.NORMAL)
+					{
+						groupFooterPositionElementRange = new SimpleGroupFooterElementRange(newElementRange, group.getFooterPositionValue());
+					}
+				}
+				else
+				{
+					switch (group.getFooterPositionValue())
+					{
+						case STACK_AT_BOTTOM :
+						{
+							groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
+							groupFooterPositionElementRange.setFooterPosition(FooterPositionEnum.STACK_AT_BOTTOM);
+							break;
+						}
+						case FORCE_AT_BOTTOM :
+						{
+							groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
+							groupFooterPositionElementRange.setFooterPosition(FooterPositionEnum.FORCE_AT_BOTTOM);
+							break;
+						}
+						case COLLATE_AT_BOTTOM :
+						{
+							groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
+							break;
+						}
+						case NORMAL :
+						default :
+						{
+							// only StackAtBottom and CollateAtBottom can get here
+							if (groupFooterPositionElementRange.getFooterPosition() == FooterPositionEnum.STACK_AT_BOTTOM)
+							{
+								groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
+							}
+							else
+							{
+								groupFooterPositionElementRange = null;
+							}
+							break;
+						}
+					}
+				}
 
 				isFirstPageBand = false;
 				isFirstColumnBand = true;
 			}
+		}
+
+		// we need to perform ForceAtBottom here because only the group footer as a whole should be forced to bottom, 
+		// not the individual bands in this footer section;
+		// also, when forcing a group footer to bottom, we consider the normal/current columnFooterOffsetY, because it is impossible
+		// to tell at this point if this would be the last page or not (last page footer)
+		if (
+			groupFooterPositionElementRange != null
+			&& groupFooterPositionElementRange.getFooterPosition() == FooterPositionEnum.FORCE_AT_BOTTOM
+			)
+		{
+			ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
+			groupFooterPositionElementRange = null;
+			// update the offsetY to signal there is no more space left at the bottom after forcing the footer
+			offsetY = columnFooterOffsetY;
 		}
 
 		isNewPage = false;
@@ -971,8 +953,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		group.setHeaderPrinted(false);
 		group.setFooterPrinted(true);
-		
-		return groupFooterElementRange;
 	}
 
 
@@ -1005,7 +985,20 @@ public class JRHorizontalFiller extends JRBaseFiller
 			tmpColumnFooterOffsetY = offsetY;
 		}
 
-		for(columnIndex = 0; columnIndex < columnCount; columnIndex++)
+		// we first let the column footer Y offset calculations to occur normally above, 
+		// before attempting to deal with existing groupFooterPositionElementRange
+		if (groupFooterPositionElementRange != null)
+		{
+			// all types of footer position can get here (StackAtBottom, CollapseAtBottom and ForceAtBottom);
+			// ForceAtBottom group footer element ranges could reach this point in case multi-band group footer gets
+			// split across a column/page break; remaining bands in such group footer would be dealt at the end 
+			// of the group footer filling method (see fillGroupFooter() method above)
+			ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
+			groupFooterPositionElementRange = null;
+			// we do not need to set the offsetY because it has already been set properly earlier in this method;
+		}
+		
+		for (columnIndex = 0; columnIndex < columnCount; columnIndex++)
 		{
 			setColumnNumberVariable();
 
@@ -1109,6 +1102,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		if (summary != missingFillBand && summary.isToPrint())
 		{
+			// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
+			if (groupFooterPositionElementRange != null)
+			{
+				ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
+				offsetY = columnFooterOffsetY;
+				// reset the element range here although it will not be checked anymore as the report ends
+				groupFooterPositionElementRange = null;
+			}
+			
 			summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
 			JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
@@ -1188,6 +1190,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 		else
 		{
+			// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
+			
 			fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
 
 			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1202,6 +1206,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	private void fillSummaryNoLastFooterNewPage() throws JRException
 	{
+		// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
+		
 		fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
 
 		fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1278,6 +1284,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			if (summary != missingFillBand && summary.isToPrint())
 			{
+				// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
+				if (groupFooterPositionElementRange != null)
+				{
+					ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
+					offsetY = columnFooterOffsetY;
+					// reset the element range here although it will not be checked anymore as the report ends
+					groupFooterPositionElementRange = null;
+				}
+				
 				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
 				JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
@@ -1329,6 +1344,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 			else
 			{
+				// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
+				
 				setLastPageFooter(true);
 
 				fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
@@ -1346,6 +1363,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			if (summary != missingFillBand && summary.isToPrint())
 			{
+				// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
+				
 				fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
 
 				fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1393,6 +1412,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 			else
 			{
+				// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
+				
 				setLastPageFooter(true);
 
 				fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
@@ -1404,6 +1425,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 		else
 		{
+			// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
+			
 			fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
 
 			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1482,6 +1505,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
+				// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
+				if (groupFooterPositionElementRange != null)
+				{
+					ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
+					offsetY = columnFooterOffsetY;
+					// reset the element range here although it will not be checked anymore as the report ends
+					groupFooterPositionElementRange = null;
+				}
+				
 				JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
 
 				if (summary.willOverflow() && summary.isSplitPrevented())
@@ -1521,6 +1553,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 			else
 			{
+				// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do;
+
 				fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
 
 				fillPageFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1538,6 +1572,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			if (summary != missingFillBand && summary.isToPrint())
 			{
+				// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
+				if (groupFooterPositionElementRange != null)
+				{
+					ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
+					offsetY = columnFooterOffsetY;
+					// reset the element range here although it will not be checked anymore as the report ends
+					groupFooterPositionElementRange = null;
+				}
+				
 				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
 				JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
@@ -1611,7 +1654,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 			else
 			{
-				if(offsetY > lastPageColumnFooterOffsetY)
+				// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do;
+				// it will be either the one in fillPageBreak or the following
+				
+				if (offsetY > lastPageColumnFooterOffsetY)
 				{
 					fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
 				}
@@ -1629,6 +1675,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 				//columnIndex == 0 && 
 				offsetY <= lastPageColumnFooterOffsetY)
 		{
+			// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
+
 			setLastPageFooter(true);
 
 			fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
@@ -1677,6 +1725,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 		else
 		{
+			// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do;
+
 			fillColumnFooters(JRExpression.EVALUATION_DEFAULT);
 
 			fillPageFooter(JRExpression.EVALUATION_DEFAULT);
