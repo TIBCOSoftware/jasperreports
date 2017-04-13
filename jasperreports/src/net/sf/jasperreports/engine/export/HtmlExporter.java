@@ -28,7 +28,6 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
@@ -47,7 +46,6 @@ import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.tools.codec.Base64Encoder;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -128,6 +126,8 @@ import net.sf.jasperreports.renderers.util.SvgDataSniffer;
 import net.sf.jasperreports.renderers.util.SvgFontProcessor;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
+import net.sf.jasperreports.util.codec.AbstractBase64Processor;
+import net.sf.jasperreports.util.codec.Base64Processor;
 
 
 /**
@@ -1439,10 +1439,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						{
 							String imageMimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 
-							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+//							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
 							
-							Base64Encoder encoder = new Base64Encoder(bais, baos);
+							Base64Processor encoder = AbstractBase64Processor.getEncoder(imageData, baos);
 							encoder.process();
 							
 							imageSource = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), "UTF-8"); // UTF-8 is fine as we just need an ASCII compatible encoding for the Base64 array

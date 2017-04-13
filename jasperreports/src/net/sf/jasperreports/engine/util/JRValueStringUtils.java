@@ -32,11 +32,10 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
-
-import org.w3c.tools.codec.Base64Decoder;
-import org.w3c.tools.codec.Base64Encoder;
-import org.w3c.tools.codec.Base64FormatException;
+import net.sf.jasperreports.util.codec.AbstractBase64Processor;
+import net.sf.jasperreports.util.codec.Base64Processor;
 
 
 /**
@@ -554,9 +553,9 @@ public final class JRValueStringUtils
 		{
 			try
 			{
-				ByteArrayInputStream dataIn = new ByteArrayInputStream(data.getBytes());
+				byte[] dataIn = data.getBytes();
 				ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-				Base64Decoder dec = new Base64Decoder(dataIn, bytesOut);
+				Base64Processor dec = AbstractBase64Processor.getDecoder(dataIn, bytesOut);
 				dec.process();
 				
 				ByteArrayInputStream bytesIn = new ByteArrayInputStream(bytesOut.toByteArray());
@@ -571,7 +570,7 @@ public final class JRValueStringUtils
 			{
 				throw new JRRuntimeException(e);
 			}
-			catch (Base64FormatException e)
+			catch (JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -587,10 +586,10 @@ public final class JRValueStringUtils
 				objectOut.writeObject(value);
 				objectOut.close();
 				
-				ByteArrayInputStream bytesIn = new ByteArrayInputStream(bytesOut.toByteArray());
+				byte[] bytesIn = bytesOut.toByteArray();
 				ByteArrayOutputStream dataOut = new ByteArrayOutputStream();				
 				
-				Base64Encoder enc = new Base64Encoder(bytesIn, dataOut);
+				Base64Processor enc = AbstractBase64Processor.getEncoder(bytesIn, dataOut);
 				enc.process();
 				
 				return new String(dataOut.toByteArray(), "UTF-8");
@@ -604,6 +603,10 @@ public final class JRValueStringUtils
 						e);
 			}
 			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			catch (JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}

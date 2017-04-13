@@ -157,14 +157,13 @@
 		<tstamp>
 			<format property="CURRENT_YEAR" pattern="yyyy" locale="en"/>
 		</tstamp>
-		<javadoc packagenames="net.sf.jasperreports.*, org.w3c.tools.codec.*"
+		<javadoc packagenames="net.sf.jasperreports.*"
 				sourcepath="./src"
 				destdir="./dist/docs/api"
 				author="true"
 				version="true"
 				use="true"
 				windowtitle="JasperReports ${version} API"
-				excludepackagenames="org.w3c.tools.codec"
 				maxmemory="1024m"
 				encoding="ISO-8859-1">
 			<doctitle>

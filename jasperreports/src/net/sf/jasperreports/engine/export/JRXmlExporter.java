@@ -29,7 +29,6 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Dimension;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
@@ -39,8 +38,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.w3c.tools.codec.Base64Encoder;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -105,6 +102,8 @@ import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.util.codec.AbstractBase64Processor;
+import net.sf.jasperreports.util.codec.Base64Processor;
 
 
 /**
@@ -916,10 +915,10 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 							
 						try
 						{
-							ByteArrayInputStream bais = new ByteArrayInputStream(dataRenderer.getData(jasperReportsContext));
+//							ByteArrayInputStream bais = new ByteArrayInputStream(dataRenderer.getData(jasperReportsContext));
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
 							
-							Base64Encoder encoder = new Base64Encoder(bais, baos);
+							Base64Processor encoder = AbstractBase64Processor.getEncoder(dataRenderer.getData(jasperReportsContext), baos);
 							encoder.process();
 							
 							imageSource = new String(baos.toByteArray(), "UTF-8"); // UTF-8 is fine as we just need an ASCII compatible encoding for the Base64 array
