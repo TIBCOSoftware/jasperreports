@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import net.sf.jasperreports.engine.JRException;
@@ -30,8 +31,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.SimpleDataRenderer;
-import net.sf.jasperreports.util.codec.AbstractBase64Processor;
-import net.sf.jasperreports.util.codec.Base64Processor;
+import net.sf.jasperreports.util.Base64Util;
 
 
 /**
@@ -107,11 +107,10 @@ public class JRPrintImageSourceObject
 			{
 				try
 				{
-//					ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8"));//FIXMENOW other encodings ?
+					ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8")); //FIXMENOW: other encodings ?
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-					Base64Processor decoder = AbstractBase64Processor.getDecoder(imageSource.getBytes("UTF-8"), baos);	//FIXMENOW other encodings ?
-					decoder.process();
+					Base64Util.decode(bais, baos);
 					
 					renderable = SimpleDataRenderer.getInstance(baos.toByteArray());//, JRImage.ON_ERROR_TYPE_ERROR));
 				}

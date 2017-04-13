@@ -28,6 +28,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Writer;
@@ -126,8 +127,7 @@ import net.sf.jasperreports.renderers.util.SvgDataSniffer;
 import net.sf.jasperreports.renderers.util.SvgFontProcessor;
 import net.sf.jasperreports.search.HitTermInfo;
 import net.sf.jasperreports.search.SpansInfo;
-import net.sf.jasperreports.util.codec.AbstractBase64Processor;
-import net.sf.jasperreports.util.codec.Base64Processor;
+import net.sf.jasperreports.util.Base64Util;
 
 
 /**
@@ -1439,11 +1439,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						{
 							String imageMimeType = JRTypeSniffer.getImageTypeValue(imageData).getMimeType();
 
-//							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+							ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
 							
-							Base64Processor encoder = AbstractBase64Processor.getEncoder(imageData, baos);
-							encoder.process();
+							Base64Util.encode(bais, baos);
 							
 							imageSource = "data:" + imageMimeType + ";base64," + new String(baos.toByteArray(), "UTF-8"); // UTF-8 is fine as we just need an ASCII compatible encoding for the Base64 array
 						}

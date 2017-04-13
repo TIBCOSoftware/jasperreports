@@ -32,10 +32,8 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.util.codec.AbstractBase64Processor;
-import net.sf.jasperreports.util.codec.Base64Processor;
+import net.sf.jasperreports.util.Base64Util;
 
 
 /**
@@ -555,8 +553,7 @@ public final class JRValueStringUtils
 			{
 				byte[] dataIn = data.getBytes();
 				ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-				Base64Processor dec = AbstractBase64Processor.getDecoder(dataIn, bytesOut);
-				dec.process();
+				Base64Util.decode(dataIn, bytesOut);
 				
 				ByteArrayInputStream bytesIn = new ByteArrayInputStream(bytesOut.toByteArray());
 				ObjectInputStream objectIn = new ObjectInputStream(bytesIn);
@@ -567,10 +564,6 @@ public final class JRValueStringUtils
 				throw new JRRuntimeException(e);
 			}
 			catch (ClassNotFoundException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -589,8 +582,7 @@ public final class JRValueStringUtils
 				byte[] bytesIn = bytesOut.toByteArray();
 				ByteArrayOutputStream dataOut = new ByteArrayOutputStream();				
 				
-				Base64Processor enc = AbstractBase64Processor.getEncoder(bytesIn, dataOut);
-				enc.process();
+				Base64Util.encode(bytesIn, dataOut);
 				
 				return new String(dataOut.toByteArray(), "UTF-8");
 			}
@@ -603,10 +595,6 @@ public final class JRValueStringUtils
 						e);
 			}
 			catch (IOException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}
