@@ -32,6 +32,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -39,12 +46,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 
 /**
@@ -255,16 +256,16 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			{
 				return null;
 			}
-			if(cell.getCellType() == Cell.CELL_TYPE_FORMULA) 
+			if (cell.getCellTypeEnum() == CellType.FORMULA) 
 			{
 				FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 				Object value = null;
-				switch (evaluator.evaluateFormulaCell(cell)) 
+				switch (evaluator.evaluateFormulaCellEnum(cell)) 
 				{
-				    case Cell.CELL_TYPE_BOOLEAN:
+				    case BOOLEAN:
 				    	value = cell.getBooleanCellValue();
 				        break;
-				    case Cell.CELL_TYPE_NUMERIC:
+				    case NUMERIC:
 				    	if(Date.class.isAssignableFrom(valueClass)) 
 				    	{
 				    		value = cell.getDateCellValue();
@@ -274,7 +275,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				    		value = cell.getNumericCellValue();
 				    	}
 				        break;
-				    case Cell.CELL_TYPE_STRING:
+				    case STRING:
 				    	value = cell.getStringCellValue();
 				    	if(Date.class.isAssignableFrom(valueClass))
 				    	{
@@ -313,9 +314,9 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 							}					
 				    	}
 				        break;
-				    case Cell.CELL_TYPE_BLANK:
-				    case Cell.CELL_TYPE_ERROR:
-				    case Cell.CELL_TYPE_FORMULA: 
+				    case BLANK:
+				    case ERROR:
+				    case FORMULA: 
 				    default:	
 				        break;
 				}
@@ -328,7 +329,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			if (valueClass.equals(Boolean.class)) 
 			{
-				if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN)
+				if (cell.getCellTypeEnum() == CellType.BOOLEAN)
 				{
 					return cell.getBooleanCellValue();
 				}
@@ -347,7 +348,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			else if (Number.class.isAssignableFrom(valueClass))
 			{
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+				if (cell.getCellTypeEnum() == CellType.NUMERIC)
 				{
 					return convertNumber(cell.getNumericCellValue(), valueClass);
 				}
@@ -373,7 +374,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			else if (Date.class.isAssignableFrom(valueClass))
 			{
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+				if (cell.getCellTypeEnum() == CellType.NUMERIC)
 				{
 					return cell.getDateCellValue();
 				}
