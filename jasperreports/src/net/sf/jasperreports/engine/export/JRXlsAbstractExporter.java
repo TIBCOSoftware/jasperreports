@@ -1314,11 +1314,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						String autofilter = getPropertiesUtil().getProperty(element, PROPERTY_AUTO_FILTER);
 						if("Start".equals(autofilter))
 						{
-							autoFilterStart = "$" + JRStringUtil.getLetterNumeral(colIndex, true) + "$" + (rowIndex + 1);
+							autoFilterStart = "$" + JRStringUtil.getLetterNumeral(colIndex + 1, true) + "$" + (rowIndex + 1);
 						}
 						else if("End".equals(autofilter))
 						{
-							autoFilterEnd = "$" + JRStringUtil.getLetterNumeral(colIndex, true) + "$" + (rowIndex + 1);
+							autoFilterEnd = "$" + JRStringUtil.getLetterNumeral(colIndex + 1, true) + "$" + (rowIndex + 1);
 						}
 						
 						configureDefinedNames(getNature(), element);
@@ -2283,7 +2283,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 */
 	protected String getColumnName(int columnIndex)
 	{
-		return JRStringUtil.getLetterNumeral(columnIndex, true);
+		return JRStringUtil.getLetterNumeral(columnIndex + 1, true);
 	}
 	
 	protected void resetAutoFilters()
