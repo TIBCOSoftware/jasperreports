@@ -4,7 +4,7 @@
 	</info>
 	<dependencies>
 		<dependency org="dom4j" name="dom4j" rev="1.6.1" conf="test->*"/>
-		<dependency org="org.apache.poi" name="poi-ooxml-schemas" rev="3.14" conf="test->*"/>
+		<dependency org="org.apache.poi" name="poi-ooxml-schemas" rev="3.15" conf="test->*"/>
 		<dependency org="org.apache.xmlbeans" name="xmlbeans" rev="2.6.0" conf="test->*"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 	</dependencies>
