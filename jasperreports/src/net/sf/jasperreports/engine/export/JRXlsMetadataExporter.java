@@ -57,6 +57,7 @@ import java.util.Map;
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -73,11 +74,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellReference;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -176,7 +182,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	protected short blackIndex = (new HSSFColor.BLACK()).getIndex();
 	protected short customColorIndex = MIN_COLOR_INDEX;
 
-	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
+	protected FillPatternType backgroundMode = FillPatternType.SOLID_FOREGROUND;
 
 	protected HSSFDataFormat dataFormat;
 
@@ -239,7 +245,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		
 		if (!configuration.isWhitePageBackground())
 		{
-			backgroundMode = HSSFCellStyle.NO_FILL;
+			backgroundMode = FillPatternType.NO_FILL;
 		}
 
 		nature = 
@@ -399,8 +405,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		sheet.setDisplayGridlines(showGridlines);
 		
 		backgroundMode = Boolean.TRUE.equals(sheetInfo.whitePageBackground) 
-				? HSSFCellStyle.SOLID_FOREGROUND 
-				: HSSFCellStyle.NO_FILL;
+				? FillPatternType.SOLID_FOREGROUND 
+				: FillPatternType.NO_FILL;
 		
 		
 //		maxRowFreezeIndex = 0;
@@ -550,7 +556,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				: (CellSettings)currentRow.get(columnName);
 			cell = row.createCell(i);
 			if(cellSettings != null) {
-				int type = cellSettings.getCellType();
+				CellType type = cellSettings.getCellType();
 				cell.setCellType(type);
 				Object cellValue = cellSettings.getCellValue();
 				if(cellValue != null) {
@@ -639,10 +645,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			}
 			BoxStyle boxStyle = new BoxStyle(side, line.getLinePen());
 
-			short mode = backgroundMode;
+			FillPatternType mode = backgroundMode;
 			short backcolor = whiteIndex;
 			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && line.getBackcolor() != null) {
-				mode = HSSFCellStyle.SOLID_FOREGROUND;
+				mode = FillPatternType.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(line.getBackcolor()).getIndex();
 			}
 
@@ -650,8 +656,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				getLoadedCellStyle(
 					mode,
 					backcolor,
-					HSSFCellStyle.ALIGN_LEFT,
-					HSSFCellStyle.VERTICAL_TOP,
+					HorizontalAlignment.LEFT,
+					VerticalAlignment.TOP,
 					(short)0,
 					getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 					boxStyle,
@@ -676,10 +682,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			
 			short forecolor = getWorkbookColor(element.getLinePen().getLineColor()).getIndex();
 
-			short mode = backgroundMode;
+			FillPatternType mode = backgroundMode;
 			short backcolor = whiteIndex;
 			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
-				mode = HSSFCellStyle.SOLID_FOREGROUND;
+				mode = FillPatternType.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 			}
 
@@ -687,8 +693,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				getLoadedCellStyle(
 					mode,
 					backcolor,
-					HSSFCellStyle.ALIGN_LEFT,
-					HSSFCellStyle.VERTICAL_TOP,
+					HorizontalAlignment.LEFT,
+					VerticalAlignment.TOP,
 					(short)0,
 					getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 					new BoxStyle(element),
@@ -716,46 +722,46 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			final short forecolor = getWorkbookColor(textElement.getForecolor()).getIndex();
 
 			TextAlignHolder textAlignHolder = getTextAlignHolder(textElement);
-			short horizontalAlignment = getHorizontalAlignment(textAlignHolder);
-			short verticalAlignment = getVerticalAlignment(textAlignHolder);
+			HorizontalAlignment horizontalAlignment = getHorizontalAlignment(textAlignHolder);
+			VerticalAlignment verticalAlignment = getVerticalAlignment(textAlignHolder);
 			short rotation = getRotation(textAlignHolder);
 			
 			XlsReportConfiguration configuration = getCurrentItemConfiguration();
 
-			short mode = backgroundMode;
+			FillPatternType mode = backgroundMode;
 			short backcolor = whiteIndex;
 			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && textElement.getBackcolor() != null) {
-				mode = HSSFCellStyle.SOLID_FOREGROUND;
+				mode = FillPatternType.SOLID_FOREGROUND;
 				backcolor = getWorkbookColor(textElement.getBackcolor()).getIndex();
 			}
 
 			final StyleInfo baseStyle = isIgnoreTextFormatting(textElement) 
-					? new StyleInfo(
-							mode,
-							whiteIndex,
-							horizontalAlignment,
-							verticalAlignment,
-							(short)0,
-							null,
-							(BoxStyle)null, 
-							isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-							isCellLocked(textElement),
-							isCellHidden(textElement),
-							isShrinkToFit(textElement)
-							)
-					: new StyleInfo(
-							mode,
-							backcolor,
-							horizontalAlignment,
-							verticalAlignment,
-							rotation,
-							getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-							new BoxStyle(textElement), 
-							isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
-							isCellLocked(textElement),
-							isCellHidden(textElement),
-							isShrinkToFit(textElement)
-							);
+				? new StyleInfo(
+					mode,
+					whiteIndex,
+					horizontalAlignment,
+					verticalAlignment,
+					(short)0,
+					null,
+					(BoxStyle)null, 
+					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+					isCellLocked(textElement),
+					isCellHidden(textElement),
+					isShrinkToFit(textElement)
+					)
+				: new StyleInfo(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
+					new BoxStyle(textElement), 
+					isWrapText(textElement) || Boolean.TRUE.equals(((JRXlsExporterNature)nature).getColumnAutoFit(textElement)),
+					isCellLocked(textElement),
+					isCellHidden(textElement),
+					isShrinkToFit(textElement)
+					);
 			
 			final JRStyledText styledText;
 			final String textStr;
@@ -794,7 +800,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					}
 				}
 				
-				cellSettings.importValues(HSSFCell.CELL_TYPE_FORMULA, getLoadedCellStyle(baseStyle), null, formula);
+				cellSettings.importValues(CellType.FORMULA, getLoadedCellStyle(baseStyle), null, formula);
 				
 			} else if (getCurrentItemConfiguration().isDetectCellType()) {
 				TextValue value = getTextValue(textElement, textStr);
@@ -802,9 +808,9 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					@Override
 					public void handle(StringTextValue textValue) {
 						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup())) {
-							cellSettings.importValues(HSSFCell.CELL_TYPE_STRING, getLoadedCellStyle(baseStyle), new HSSFRichTextString(textValue.getText()));
+							cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), new HSSFRichTextString(textValue.getText()));
 						} else {
-							cellSettings.importValues(HSSFCell.CELL_TYPE_STRING, getLoadedCellStyle(baseStyle), getRichTextString(styledText, forecolor, textElement, getTextLocale(textElement)));
+							cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), getRichTextString(styledText, forecolor, textElement, getTextLocale(textElement)));
 						}
 					}
 
@@ -835,7 +841,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 							value = value.doubleValue() / 86400;
 						}
 						
-						cellSettings.importValues(HSSFCell.CELL_TYPE_NUMERIC, getLoadedCellStyle(baseStyle), value);
+						cellSettings.importValues(CellType.NUMERIC, getLoadedCellStyle(baseStyle), value);
 					}
 
 					@Override
@@ -860,20 +866,20 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						} else {
 							value = textValue.getValue() == null ? null : translateDateValue(textElement, textValue.getValue());
 						}
-						cellSettings.importValues(HSSFCell.CELL_TYPE_NUMERIC, getLoadedCellStyle(baseStyle), value);
+						cellSettings.importValues(CellType.NUMERIC, getLoadedCellStyle(baseStyle), value);
 					}
 
 					@Override
 					public void handle(BooleanTextValue textValue) {
 						Boolean value = hasCurrentColumnData ? Boolean.valueOf(textStr) : textValue.getValue();
-						cellSettings.importValues(HSSFCell.CELL_TYPE_BOOLEAN, getLoadedCellStyle(baseStyle), value);
+						cellSettings.importValues(CellType.BOOLEAN, getLoadedCellStyle(baseStyle), value);
 					}
 				});
 			} else {
 				if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup())) {
-					cellSettings.importValues(HSSFCell.CELL_TYPE_STRING, getLoadedCellStyle(baseStyle), new HSSFRichTextString(textStr));
+					cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), new HSSFRichTextString(textStr));
 				} else {
-					cellSettings.importValues(HSSFCell.CELL_TYPE_STRING, getLoadedCellStyle(baseStyle), getRichTextString(styledText, forecolor, textElement, getTextLocale(textElement)));
+					cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), getRichTextString(styledText, forecolor, textElement, getTextLocale(textElement)));
 				}
 			}
 			
@@ -910,7 +916,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					case REFERENCE: {
 						String href = hyperlink.getHyperlinkReference();
 						if (href != null) {
-							link = createHelper.createHyperlink(Hyperlink.LINK_URL);
+							link = createHelper.createHyperlink(HyperlinkType.URL);
 							link.setAddress(href);
 						}
 						break;
@@ -919,7 +925,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						if(!getCurrentItemConfiguration().isIgnoreAnchors()) {
 							String href = hyperlink.getHyperlinkAnchor();
 							if (href != null) {
-								link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+								link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
 								if(anchorLinks.containsKey(href)) {
 									(anchorLinks.get(href)).add(link);
 								} else {
@@ -935,7 +941,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					{
 						Integer hrefPage = (getCurrentItemConfiguration().isOnePagePerSheet() ? hyperlink.getHyperlinkPage() : 0);
 						if (hrefPage != null) {
-							link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+							link = createHelper.createHyperlink(HyperlinkType.DOCUMENT);
 							if(pageLinks.containsKey(sheetsBeforeCurrentReport+hrefPage)) {
 								pageLinks.get(sheetsBeforeCurrentReport + hrefPage).add(link);
 							} else {
@@ -950,7 +956,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						String href = hyperlink.getHyperlinkReference();
 						if (href != null && hyperlink.getHyperlinkAnchor() != null) {
 							href = href + "#" + hyperlink.getHyperlinkAnchor();
-							link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
+							link = createHelper.createHyperlink(HyperlinkType.FILE);
 							link.setAddress(href);
 							
 						}
@@ -960,7 +966,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						String href = hyperlink.getHyperlinkReference();
 						if (href != null && hyperlink.getHyperlinkPage() != null) {
 							href = href + "#JR_PAGE_ANCHOR_0_" + hyperlink.getHyperlinkPage().toString();
-							link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
+							link = createHelper.createHyperlink(HyperlinkType.FILE);
 							link.setAddress(href);
 							
 						}
@@ -973,7 +979,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			} else {
 				String href = customHandler.getHyperlink(hyperlink);
 				if (href != null) {
-					link = createHelper.createHyperlink(Hyperlink.LINK_URL);
+					link = createHelper.createHyperlink(HyperlinkType.URL);
 					link.setAddress(href);
 				}
 			}
@@ -1107,10 +1113,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				{
 					XlsMetadataReportConfiguration configuration = getCurrentItemConfiguration();
 					
-					short mode = backgroundMode;
+					FillPatternType mode = backgroundMode;
 					short backcolor = whiteIndex;
 					if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
-						mode = HSSFCellStyle.SOLID_FOREGROUND;
+						mode = FillPatternType.SOLID_FOREGROUND;
 						backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 					}
 
@@ -1124,8 +1130,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						getLoadedCellStyle(
 							mode,
 							backcolor,
-							HSSFCellStyle.ALIGN_LEFT,
-							HSSFCellStyle.VERTICAL_TOP,
+							HorizontalAlignment.LEFT,
+							VerticalAlignment.TOP,
 							(short)0,
 							getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 							new BoxStyle(element),
@@ -1468,13 +1474,17 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBorder) && style.box != null) {
 				BoxStyle box = style.box;
-				cellStyle.setBorderTop(box.borderStyle[BoxStyle.TOP]);
+				if (box.borderStyle[BoxStyle.TOP] != null)
+					cellStyle.setBorderTop(box.borderStyle[BoxStyle.TOP]);
 				cellStyle.setTopBorderColor(box.borderColour[BoxStyle.TOP]);
-				cellStyle.setBorderLeft(box.borderStyle[BoxStyle.LEFT]);
+				if (box.borderStyle[BoxStyle.LEFT] != null)
+					cellStyle.setBorderLeft(box.borderStyle[BoxStyle.LEFT]);
 				cellStyle.setLeftBorderColor(box.borderColour[BoxStyle.LEFT]);
-				cellStyle.setBorderBottom(box.borderStyle[BoxStyle.BOTTOM]);
+				if (box.borderStyle[BoxStyle.BOTTOM] != null)
+					cellStyle.setBorderBottom(box.borderStyle[BoxStyle.BOTTOM]);
 				cellStyle.setBottomBorderColor(box.borderColour[BoxStyle.BOTTOM]);
-				cellStyle.setBorderRight(box.borderStyle[BoxStyle.RIGHT]);
+				if (box.borderStyle[BoxStyle.RIGHT] != null)
+					cellStyle.setBorderRight(box.borderStyle[BoxStyle.RIGHT]);
 				cellStyle.setRightBorderColor(box.borderColour[BoxStyle.RIGHT]);
 			}
 			loadedCellStyles.put(style, cellStyle);
@@ -1483,56 +1493,56 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 	protected HSSFCellStyle getLoadedCellStyle(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box,
-			boolean isCellLocked,
-			boolean isCellHidden,
-			boolean isShrinkToFit
-			) {
-		
-			return getLoadedCellStyle(new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, true, isCellLocked, isCellHidden, isShrinkToFit));
-		}
+		FillPatternType mode,
+		short backcolor,
+		HorizontalAlignment horizontalAlignment,
+		VerticalAlignment verticalAlignment,
+		short rotation,
+		HSSFFont font,
+		BoxStyle box,
+		boolean isCellLocked,
+		boolean isCellHidden,
+		boolean isShrinkToFit
+		) 
+	{
+		return getLoadedCellStyle(new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, true, isCellLocked, isCellHidden, isShrinkToFit));
+	}
 
 	/**
 	 *
 	 */
-	protected static short getBorderStyle(JRPen pen) {
+	protected static BorderStyle getBorderStyle(JRPen pen) {
 		float lineWidth = pen.getLineWidth().floatValue();
 
 		if (lineWidth > 0f) {
 			switch (pen.getLineStyleValue()) {
 				case DOUBLE : {
-					return HSSFCellStyle.BORDER_DOUBLE;
+					return BorderStyle.DOUBLE;
 				}
 				case DOTTED : {
-					return HSSFCellStyle.BORDER_DOTTED;
+					return BorderStyle.DOTTED;
 				}
 				case DASHED : {
 					if (lineWidth >= 1f) {
-						return HSSFCellStyle.BORDER_MEDIUM_DASHED;
+						return BorderStyle.MEDIUM_DASHED;
 					}
-					return HSSFCellStyle.BORDER_DASHED;
+					return BorderStyle.DASHED;
 				}
 				case SOLID :
 				default : {
 					if (lineWidth >= 2f) {
-						return HSSFCellStyle.BORDER_THICK;
+						return BorderStyle.THICK;
 					}
 					else if (lineWidth >= 1f) {
-						return HSSFCellStyle.BORDER_MEDIUM;
+						return BorderStyle.MEDIUM;
 					} else if (lineWidth >= 0.5f) {
-						return HSSFCellStyle.BORDER_THIN;
+						return BorderStyle.THIN;
 					}
-					return HSSFCellStyle.BORDER_HAIR;
+					return BorderStyle.HAIR;
 				}
 			}
 		}
-		return HSSFCellStyle.BORDER_NONE;
+		return BorderStyle.NONE;
 	}
 	
 	@Override
@@ -1635,7 +1645,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		for(int i = 0; i< columnNames.size(); i++) {
 			String columnName = columnNames.get(i);
 			cell = row.createCell(i);
-			cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			cell.setCellType(CellType.STRING);
 			cell.setCellValue(new HSSFRichTextString(columnName));
 		}
 	}
@@ -1753,32 +1763,32 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		return ps;
 	}
 	
-	private short getHorizontalAlignment(TextAlignHolder alignment) {
+	private HorizontalAlignment getHorizontalAlignment(TextAlignHolder alignment) {
 		switch (alignment.horizontalAlignment) 
 		{
 			case RIGHT:
-				return HSSFCellStyle.ALIGN_RIGHT;
+				return HorizontalAlignment.RIGHT;
 			case CENTER:
-				return HSSFCellStyle.ALIGN_CENTER;
+				return HorizontalAlignment.CENTER;
 			case JUSTIFIED:
-				return HSSFCellStyle.ALIGN_JUSTIFY;
+				return HorizontalAlignment.JUSTIFY;
 			case LEFT:
 			default:
-				return HSSFCellStyle.ALIGN_LEFT;
+				return HorizontalAlignment.LEFT;
 		}
 	}
 
-	private short getVerticalAlignment(TextAlignHolder alignment) {
+	private VerticalAlignment getVerticalAlignment(TextAlignHolder alignment) {
 		switch (alignment.verticalAlignment) {
 			case BOTTOM:
-				return HSSFCellStyle.VERTICAL_BOTTOM;
+				return VerticalAlignment.BOTTOM;
 			case MIDDLE:
-				return HSSFCellStyle.VERTICAL_CENTER;
+				return VerticalAlignment.CENTER;
 			case JUSTIFIED:
-				return HSSFCellStyle.VERTICAL_JUSTIFY;
+				return VerticalAlignment.JUSTIFY;
 			case TOP:
 			default:
-				return HSSFCellStyle.VERTICAL_TOP;
+				return VerticalAlignment.TOP;
 		}
 	}
 
@@ -1890,7 +1900,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				(cf.getFontHeightInPoints() == fontSize) &&
 				((cf.getUnderline() == HSSFFont.U_SINGLE)?(font.isUnderline()):(!font.isUnderline())) &&
 				(cf.getStrikeout() == font.isStrikeThrough()) &&
-				((cf.getBoldweight() == HSSFFont.BOLDWEIGHT_BOLD)?(font.isBold()):(!font.isBold())) &&
+				(cf.getBold() == font.isBold()) &&
 				(cf.getItalic() == font.isItalic()) &&
 				(cf.getTypeOffset() == superscriptType)
 				) {
@@ -1917,7 +1927,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				cellFont.setStrikeout(true);
 			}
 			if (font.isBold()) {
-				cellFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+				cellFont.setBold(true);
 			}
 			if (font.isItalic()) {
 				cellFont.setItalic(true);
@@ -1956,7 +1966,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		protected static final int BOTTOM = 2;
 		protected static final int RIGHT = 3;
 
-		protected short[] borderStyle = new short[4];
+		protected BorderStyle[] borderStyle = new BorderStyle[4];
 		protected short[] borderColour = new short[4];
 		private int hash;
 
@@ -1996,12 +2006,12 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 		public void setPen(JRPen pen) {
 			if (
-				borderStyle[TOP] == HSSFCellStyle.BORDER_NONE
-				&& borderStyle[LEFT] == HSSFCellStyle.BORDER_NONE
-				&& borderStyle[BOTTOM] == HSSFCellStyle.BORDER_NONE
-				&& borderStyle[RIGHT] == HSSFCellStyle.BORDER_NONE
+				borderStyle[TOP] == BorderStyle.NONE
+				&& borderStyle[LEFT] == BorderStyle.NONE
+				&& borderStyle[BOTTOM] == BorderStyle.NONE
+				&& borderStyle[RIGHT] == BorderStyle.NONE
 				) {
-				short style = JRXlsMetadataExporter.getBorderStyle(pen);
+				BorderStyle style = JRXlsMetadataExporter.getBorderStyle(pen);
 				short colour = JRXlsMetadataExporter.this.getWorkbookColor(pen.getLineColor()).getIndex();
 
 				borderStyle[TOP] = style;
@@ -2019,13 +2029,13 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 
 		private int computeHash() {
-			int hashCode = borderStyle[TOP];
+			int hashCode = (borderStyle[TOP] == null ? 0 : borderStyle[TOP].hashCode());
 			hashCode = 31*hashCode + borderColour[TOP];
-			hashCode = 31*hashCode + borderStyle[BOTTOM];
+			hashCode = 31*hashCode + (borderStyle[BOTTOM] == null ? 0 : borderStyle[BOTTOM].hashCode());
 			hashCode = 31*hashCode + borderColour[BOTTOM];
-			hashCode = 31*hashCode + borderStyle[LEFT];
+			hashCode = 31*hashCode + (borderStyle[LEFT] == null ? 0 : borderStyle[LEFT].hashCode());
 			hashCode = 31*hashCode + borderColour[LEFT];
-			hashCode = 31*hashCode + borderStyle[RIGHT];
+			hashCode = 31*hashCode + (borderStyle[RIGHT] == null ? 0 : borderStyle[RIGHT].hashCode());
 			hashCode = 31*hashCode + borderColour[RIGHT];
 			return hashCode;
 		}
@@ -2065,10 +2075,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	 * 
 	 */
 	protected class StyleInfo {
-		protected final short mode;
+		protected final FillPatternType mode;
 		protected final short backcolor;
-		protected final short horizontalAlignment;
-		protected final short verticalAlignment;
+		protected final HorizontalAlignment horizontalAlignment;
+		protected final VerticalAlignment verticalAlignment;
 		protected final short rotation;
 		protected final HSSFFont font;
 		protected final BoxStyle box;
@@ -2080,10 +2090,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		private int hashCode;
 	
 		public StyleInfo(
-			short mode,
+			FillPatternType mode,
 			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
+			HorizontalAlignment horizontalAlignment,
+			VerticalAlignment verticalAlignment,
 			short rotation,
 			HSSFFont font,
 			BoxStyle box,
@@ -2091,7 +2101,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			boolean cellLocked,
 			boolean cellHidden,
 			boolean shrinkToFit
-			) {
+			) 
+		{
 			this.mode = mode;
 			this.backcolor = backcolor;
 			this.horizontalAlignment = horizontalAlignment;
@@ -2108,10 +2119,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	
 		protected int computeHash() {
-			int hash = mode;
+			int hash = mode.hashCode();
 			hash = 31*hash + backcolor;
-			hash = 31*hash + horizontalAlignment;
-			hash = 31*hash + verticalAlignment;
+			hash = 31*hash + horizontalAlignment.hashCode();
+			hash = 31*hash + verticalAlignment.hashCode();
 			hash = 31*hash + rotation;
 			hash = 31*hash + (font == null ? 0 : font.getIndex());
 			hash = 31*hash + (box == null ? 0 : box.hashCode());
@@ -2168,38 +2179,50 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 	
 	
-	protected class CellSettings {
-		private int cellType;
+	protected class CellSettings 
+	{
+		private CellType cellType;
 		private HSSFCellStyle cellStyle;
 		private Object cellValue;
 		private String formula;
 		private Hyperlink link;
 		
-		public CellSettings() {
+		public CellSettings() 
+		{
 		}
-		public CellSettings(HSSFCellStyle cellStyle) {
-			this(HSSFCell.CELL_TYPE_BLANK, cellStyle, null);
+		
+		public CellSettings(HSSFCellStyle cellStyle) 
+		{
+			this(CellType.BLANK, cellStyle, null);
 		}
+		
 		public CellSettings(
-				int cellType,
-				HSSFCellStyle cellStyle,
-				Object cellValue) {
+			CellType cellType,
+			HSSFCellStyle cellStyle,
+			Object cellValue
+			) 
+		{
 			this(cellType, cellStyle, cellValue, null);
 		}
+		
 		public CellSettings(
-				int cellType,
-				HSSFCellStyle cellStyle,
-				Object cellValue,
-				String formula) {
+			CellType cellType,
+			HSSFCellStyle cellStyle,
+			Object cellValue,
+			String formula
+			) 
+		{
 			this(cellType, cellStyle, cellValue, formula, null);
 		}
 		
 		public CellSettings(
-				int cellType,
-				HSSFCellStyle cellStyle,
-				Object cellValue,
-				String formula,
-				Hyperlink link) {
+			CellType cellType,
+			HSSFCellStyle cellStyle,
+			Object cellValue,
+			String formula,
+			Hyperlink link
+			) 
+		{
 			this.cellType = cellType;
 			this.cellStyle = cellStyle;
 			this.cellValue = cellValue;
@@ -2210,53 +2233,70 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		public HSSFCellStyle getCellStyle() {
 			return cellStyle;
 		}
+		
 		public void setCellStyle(HSSFCellStyle cellStyle) {
 			this.cellStyle = cellStyle;
 		}
-		public int getCellType() {
+		
+		public CellType getCellType() {
 			return cellType;
 		}
-		public void setCellType(int cellType) {
+		
+		public void setCellType(CellType cellType) {
 			this.cellType = cellType;
 		}
+		
 		public Object getCellValue() {
 			return cellValue;
 		}
+		
 		public void setCellValue(Object cellValue) {
 			this.cellValue = cellValue;
 		}
+		
 		public String getFormula() {
 			return formula;
 		}
+		
 		public void setFormula(String formula) {
 			this.formula = formula;
 		}
+		
 		public Hyperlink getLink() {
 			return link;
 		}
+		
 		public void setLink(Hyperlink link) {
 			this.link = link;
 		}
 		
 		public void importValues(				
-				int cellType,
-				HSSFCellStyle cellStyle,
-				Object cellValue) {
+			CellType cellType,
+			HSSFCellStyle cellStyle,
+			Object cellValue
+			) 
+		{
 			this.importValues(cellType, cellStyle, cellValue, null);
 		}
+		
 		public void importValues(				
-				int cellType,
-				HSSFCellStyle cellStyle,
-				Object cellValue,
-				String formula) {
+			CellType cellType,
+			HSSFCellStyle cellStyle,
+			Object cellValue,
+			String formula
+			) 
+		{
 			this.importValues(cellType, cellStyle, cellValue, formula, null);
 		}
+		
 		public void importValues(				
-				int cellType,
-				HSSFCellStyle cellStyle,
-				Object cellValue,
-				String formula,
-				Hyperlink link) {
+			CellType cellType,
+			HSSFCellStyle cellStyle,
+			Object cellValue,
+			String formula,
+			Hyperlink link
+			) 
+		{
 			this.cellType = cellType;
 			this.cellStyle = cellStyle;
 			this.cellValue = cellValue;
