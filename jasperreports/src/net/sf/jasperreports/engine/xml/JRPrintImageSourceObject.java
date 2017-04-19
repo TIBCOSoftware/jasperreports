@@ -107,9 +107,9 @@ public class JRPrintImageSourceObject
 			{
 				try
 				{
-					ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8")); //FIXMENOW: other encodings ?
+					ByteArrayInputStream bais = new ByteArrayInputStream(imageSource.getBytes("UTF-8"));//UTF-8 is fine here as Base64 only has ASCII characters anyway
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
+					
 					Base64Util.decode(bais, baos);
 					
 					renderable = SimpleDataRenderer.getInstance(baos.toByteArray());//, JRImage.ON_ERROR_TYPE_ERROR));

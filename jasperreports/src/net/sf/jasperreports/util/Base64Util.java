@@ -23,12 +23,11 @@
  */
 package net.sf.jasperreports.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base64InputStream;
 
 /**
  * Utility class to decode Base64 encoded input stream to output stream 
@@ -40,22 +39,6 @@ public class Base64Util
 {
 	public static final Integer DEFAULT_LINE_LENGTH = 76;
 	public static final byte[] DEFAULT_LINE_SEPARATOR = "\n".getBytes();
-	private static final Base64 processor = new Base64(DEFAULT_LINE_LENGTH, DEFAULT_LINE_SEPARATOR);
-	
-	/**
-	 * Decode a byte array input and write processed data to an output stream
-	 * @param in the byte array to be decoded
-	 * @param out the output stream to write the decoded data
-	 * @throws IOException
-	 */
-	public static void decode(byte[] in, OutputStream out) throws IOException
-	{
-		if(in != null)
-		{
-			out.write(processor.decode(in));
-			out.flush();
-		}
-	}
 	
 	/**
 	 * Decode an input stream and write processed data to an output stream
@@ -65,36 +48,9 @@ public class Base64Util
 	 */
 	public static void decode(InputStream in, OutputStream out) throws IOException
 	{
-		decode(getBytes(in), out);
-	}
-	
-	/**
-	 * Decode a String input and write processed data to an output stream
-	 * @param in the String to be decoded
-	 * @param out the output stream to write the decoded data
-	 * @throws IOException
-	 */
-	public static void decode(String in, OutputStream out) throws IOException
-	{
-		if(in != null)
-		{
-			decode(in.getBytes(), out);
-		}
-	}
-	
-	/**
-	 * Encode a byte array input and write processed data to an output stream
-	 * @param in the byte array to be encoded
-	 * @param out the output stream to write the encoded data
-	 * @throws IOException
-	 */
-	public static void encode(byte[] in, OutputStream out) throws IOException
-	{
-		if(in != null)
-		{
-			out.write(processor.encode(in));
-			out.flush();
-		}
+		Base64InputStream base64is = new Base64InputStream(in);
+
+		copy(base64is, out);
 	}
 	
 	/**
@@ -105,43 +61,25 @@ public class Base64Util
 	 */
 	public static void encode(InputStream in, OutputStream out) throws IOException
 	{
-		encode(getBytes(in), out);
+		Base64InputStream base64is = new Base64InputStream(in, true, DEFAULT_LINE_LENGTH, DEFAULT_LINE_SEPARATOR);
+
+		copy(base64is, out);
 	}
 	
 	/**
-	 * Encode a String input and write processed data to an output stream
-	 * @param in the String to be encoded
-	 * @param out the output stream to write the encoded data
+	 * @param in the input stream to be read
+	 * @param out the output stream to write
 	 * @throws IOException
 	 */
-	public static void encode(String in, OutputStream out) throws IOException
+	private static void copy(InputStream in, OutputStream out) throws IOException
 	{
-		if(in != null)
+		byte[] bytes = new byte[10000];
+		int ln = 0;
+		while ((ln = in.read(bytes)) > 0)
 		{
-			encode(in.getBytes(), out);
+			out.write(bytes, 0, ln);
 		}
-	}
-	
-	/**
-	 * 
-	 * @param in the input stream to be processed
-	 * @return the byte array contained in the input stream
-	 * @throws IOException
-	 */
-	private static byte[] getBytes(InputStream in) throws IOException
-	{
-		if(in != null)
-		{
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			byte[] data = new byte[4096];
-			int i = -1;
-			while ((i = in.read(data, 0, data.length)) != -1) 
-			{
-				out.write(data, 0, i);
-			}
-			out.flush();
-			return out.toByteArray();
-		}
-		return null;
+
+		out.flush();
 	}
 }

@@ -551,7 +551,7 @@ public final class JRValueStringUtils
 		{
 			try
 			{
-				byte[] dataIn = data.getBytes();
+				ByteArrayInputStream dataIn = new ByteArrayInputStream(data.getBytes());
 				ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
 				Base64Util.decode(dataIn, bytesOut);
 				
@@ -579,7 +579,7 @@ public final class JRValueStringUtils
 				objectOut.writeObject(value);
 				objectOut.close();
 				
-				byte[] bytesIn = bytesOut.toByteArray();
+				ByteArrayInputStream bytesIn = new ByteArrayInputStream(bytesOut.toByteArray());
 				ByteArrayOutputStream dataOut = new ByteArrayOutputStream();				
 				
 				Base64Util.encode(bytesIn, dataOut);
