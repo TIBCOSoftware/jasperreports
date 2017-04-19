@@ -86,7 +86,9 @@ Such a part is called a subreport part.
 A subreport part has the following structure in JRXML:
 <pre><![CDATA[
   <part>
-    <p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd" usingCache="true">
+    <p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" 
+      xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd" 
+      usingCache="true">
       <parametersMapExpression>...</parametersMapExpression>
       <subreportParameter name="SubreportParameter1">
         <subreportParameterExpression>...</subreportParameterExpression>
