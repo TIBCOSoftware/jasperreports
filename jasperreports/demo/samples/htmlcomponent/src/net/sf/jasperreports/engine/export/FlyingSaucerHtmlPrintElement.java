@@ -26,6 +26,9 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Dimension;
 import java.io.ByteArrayInputStream;
 
+import org.w3c.dom.Document;
+import org.w3c.tidy.Tidy;
+
 import net.sf.jasperreports.components.html.HtmlComponent;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
@@ -39,9 +42,6 @@ import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.renderers.FlyingSaucerXhtmlToImageRenderer;
 
-import org.w3c.dom.Document;
-import org.w3c.tidy.Tidy;
-
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -51,6 +51,7 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 	public FlyingSaucerHtmlPrintElement(){
 	}
 	
+	@Override
 	public JRPrintImage createImageFromElement(JRGenericPrintElement element) throws JRException {
 		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
 		String scaleType = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE);
@@ -87,10 +88,11 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 			printImage.setHeight(element.getHeight());
 		}
 
-		printImage.setRenderable(renderer);
+		printImage.setRenderer(renderer);
 		return printImage;
 	}
 
+	@Override
 	public JRPrintImage createImageFromComponentElement(JRComponentElement componentElement) throws JRException {
 		HtmlComponent html = (HtmlComponent) componentElement.getComponent();
 		
@@ -115,10 +117,11 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 		printImage.setVerticalImageAlign(html.getVerticalImageAlign());
 		
 		FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), componentElement.getWidth(), componentElement.getHeight());
-		printImage.setRenderable(renderer);
+		printImage.setRenderer(renderer);
 		return printImage;
 	}
 	
+	@Override
 	public Dimension getComputedSize(JRGenericPrintElement element) {
 		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
 		
