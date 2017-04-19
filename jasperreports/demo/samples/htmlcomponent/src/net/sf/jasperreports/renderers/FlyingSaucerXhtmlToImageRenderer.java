@@ -29,20 +29,19 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import org.w3c.dom.Document;
+
 import net.sf.jasperreports.CustomJava2DRenderer;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-
-import org.w3c.dom.Document;
 
 
 /**
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class FlyingSaucerXhtmlToImageRenderer extends JRAbstractSvgRenderer
+public class FlyingSaucerXhtmlToImageRenderer extends AbstractRenderToImageDataRenderer
 {
 
 	private static final long serialVersionUID = 1L;
@@ -60,6 +59,7 @@ public class FlyingSaucerXhtmlToImageRenderer extends JRAbstractSvgRenderer
 		return new Dimension(width, height);
 	}
 	
+	@Override
 	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		return new Dimension(width, height);
@@ -81,6 +81,7 @@ public class FlyingSaucerXhtmlToImageRenderer extends JRAbstractSvgRenderer
 		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
 	}
 	
+	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		AffineTransform origTransform = grx.getTransform();
