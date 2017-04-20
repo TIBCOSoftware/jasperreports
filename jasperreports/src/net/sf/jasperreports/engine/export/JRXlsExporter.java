@@ -448,7 +448,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
-
+		
 		onePagePerSheetMap.put(sheetIndex, configuration.isOnePagePerSheet());
 		sheetsBeforeCurrentReportMap.put(sheetIndex, sheetsBeforeCurrentReport);
 	}
@@ -861,7 +861,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
 					{
 						setStringCellValue(textValue.getText());
-						cell.setCellType(CellType.BLANK);
 					}
 					else
 					{
@@ -1609,11 +1608,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 				XlsReportConfiguration configuration = getCurrentItemConfiguration();
 
-				short mode = backgroundMode;
+				FillPatternType mode = backgroundMode;
 				short backcolor = whiteIndex;
 				if (!configuration.isIgnoreCellBackground() && gridCell.getCellBackcolor() != null)
 				{
-					mode = HSSFCellStyle.SOLID_FOREGROUND;
+					mode = FillPatternType.SOLID_FOREGROUND;
 					backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 				}
 
@@ -1628,8 +1627,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					getLoadedCellStyle(
 						mode,
 						backcolor,
-						HSSFCellStyle.ALIGN_LEFT,
-						HSSFCellStyle.VERTICAL_TOP,
+						HorizontalAlignment.LEFT,
+						VerticalAlignment.TOP,
 						(short)0,
 						getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
 						gridCell,
