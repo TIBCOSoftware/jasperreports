@@ -50,6 +50,7 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			valueType = DataAdapter.class,//for JSS
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = PropertyConstants.VERSION_4_1_1
 			)
