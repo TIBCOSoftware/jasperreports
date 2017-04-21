@@ -244,11 +244,10 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 	}
 
 	protected Calendar getCalendar() {
-		Calendar calendar = new GregorianCalendar();
+		//setting the timezone as early as possible
+		//if the timezone is set after setTime(), set(HOUR_OF_DAY) might change the day
+		Calendar calendar = timeZone == null ? new GregorianCalendar() : new GregorianCalendar(timeZone);
 		calendar.setTime(getCurrentDate());
-		if (this.timeZone != null) {
-			calendar.setTimeZone(timeZone);
-		}
 
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
