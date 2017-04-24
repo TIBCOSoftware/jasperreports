@@ -137,6 +137,17 @@ public class DateRangeBuilder
 	}
 
 	/**
+	 * Returns the week start day used for <code>WEEK</code> expressions.
+	 * 
+	 * @return the week start day
+	 * @see #set(Integer)
+	 */
+	public Integer getWeekStartDay()
+	{
+		return weekStartDay;
+	}
+
+	/**
 	 * <p>
 	 *     Configuration method which set start of a week
 	 *     which will be used during DateRange.getStart and DateRange.getEnd calculations
