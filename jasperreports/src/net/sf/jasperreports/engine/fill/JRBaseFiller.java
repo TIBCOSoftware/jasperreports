@@ -207,8 +207,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected Map<String,Format> dateFormatCache = new HashMap<String,Format>();
 	protected Map<String,Format> numberFormatCache = new HashMap<String,Format>();
-
-	protected GroupKeepTogetherElementRange keepTogetherElementRange;
 	
 
 	/**
@@ -1536,26 +1534,29 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	/**
 	 *
 	 */
-	protected boolean moveKeepTogetherElementRangeContent(List<JRPrintElement> elementsToMove)
+	protected boolean moveKeepTogetherElementRangeContent(
+		ElementRange keepTogetherElementRange,
+		List<JRPrintElement> elementsToMove
+		)
 	{
 		boolean moved = false;
 		
 		if (keepTogetherElementRange != null)
 		{
-			if (keepTogetherElementRange.getElementRange().getPage() == getCurrentPage())
+			if (keepTogetherElementRange.getPage() == getCurrentPage())
 			{
 				// it's a column break
 
-				if (!keepTogetherElementRange.getElementRange().isNewColumn())
+				if (!keepTogetherElementRange.isNewColumn())
 				{
 					ElementRangeUtil.addContent(
 						printPage, 
 						elementsToMove,
 						columnSpacing + columnWidth,
-						offsetY - keepTogetherElementRange.getElementRange().getTopY()
+						offsetY - keepTogetherElementRange.getTopY()
 						);
 
-					offsetY = offsetY + keepTogetherElementRange.getElementRange().getBottomY() - keepTogetherElementRange.getElementRange().getTopY();
+					offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
 					
 					moved = true;
 				}
@@ -1564,16 +1565,16 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			{
 				// it's a page break
 
-				if (!keepTogetherElementRange.getElementRange().isNewPage())
+				if (!keepTogetherElementRange.isNewPage())
 				{
 					ElementRangeUtil.addContent(
 						printPage, 
 						elementsToMove,
-						(columnIndex - keepTogetherElementRange.getElementRange().getColumnIndex()) * (columnSpacing + columnWidth),
-						offsetY - keepTogetherElementRange.getElementRange().getTopY()
+						(columnIndex - keepTogetherElementRange.getColumnIndex()) * (columnSpacing + columnWidth),
+						offsetY - keepTogetherElementRange.getTopY()
 						);
 
-					offsetY = offsetY + keepTogetherElementRange.getElementRange().getBottomY() - keepTogetherElementRange.getElementRange().getTopY();
+					offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
 
 					moved = true;
 				}

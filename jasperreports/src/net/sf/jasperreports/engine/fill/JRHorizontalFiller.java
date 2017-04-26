@@ -529,9 +529,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 					// fillGroupHeader never returns null, because we need an element range 
 					// regardless of the group header printing or not
 					
-					if (keepTogetherElementRange == null && group.isKeepTogether())
+					if (group.getKeepTogetherElementRange() == null && group.isKeepTogether())
 					{
-						keepTogetherElementRange = new SimpleGroupKeepTogetherElementRange(newElementRange, i);
+						group.setKeepTogetherElementRange(newElementRange);
 					}
 				}
 			}
@@ -910,13 +910,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					
 					// regardless of whether the fillGroupFooter returned an element range or not 
 					// (footer was printed or not), we just need to mark the end of the group 
-					if (
-						keepTogetherElementRange != null
-						&& i <= keepTogetherElementRange.getGroupIndex()
-						)
-					{
-						keepTogetherElementRange = null;
-					}
+					group.setKeepTogetherElementRange(null);
 				}
 			}
 			
@@ -1959,9 +1953,12 @@ public class JRHorizontalFiller extends JRBaseFiller
 					);
 		}
 
-		if (keepTogetherElementRange != null)
+		for (JRFillGroup group : groups)
 		{
-			keepTogetherElementRange.getElementRange().expand(offsetY);
+			if (group.getKeepTogetherElementRange() != null)
+			{
+				group.getKeepTogetherElementRange().expand(offsetY);
+			}
 		}
 		
 		isCreatingNewPage = true;
@@ -1977,14 +1974,25 @@ public class JRHorizontalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
+		ElementRange keepTogetherElementRange = null;
+		
+		for (JRFillGroup group : groups)
+		{
+			if (
+				group.getKeepTogetherElementRange() != null
+				&& !group.getKeepTogetherElementRange().isNewPage()
+				)
+			{
+				keepTogetherElementRange = group.getKeepTogetherElementRange();
+				break;
+			}
+		}
+
 		List<JRPrintElement> elementsToMove = null;
 		
-		if (
-			keepTogetherElementRange != null
-			&& !keepTogetherElementRange.getElementRange().isNewPage() 
-			)
+		if (keepTogetherElementRange != null)
 		{
-			elementsToMove = ElementRangeUtil.removeContent(keepTogetherElementRange.getElementRange());
+			elementsToMove = ElementRangeUtil.removeContent(keepTogetherElementRange);
 		}
 
 		addPage(isResetPageNumber);
@@ -1993,7 +2001,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		fillColumnHeaders(evalNextPage);
 
-		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(elementsToMove);
+		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(keepTogetherElementRange, elementsToMove);
 		if (
 			!elementRangeContentMoved
 			&& isReprintGroupHeaders
@@ -2015,14 +2023,31 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		JRPrintBand printBand = band.fill(columnFooterOffsetY - offsetY);
 
-		if (
-			band.willOverflow() 
-			&& (band.isSplitPrevented() || keepTogetherElementRange != null)
-			)
+		if (band.willOverflow())
 		{
-			fillPageBreak(false, evaluation, evaluation, true);
+			boolean toRefill = band.isSplitPrevented();
+			
+			if (!toRefill)
+			{
+				for (JRFillGroup group : groups)
+				{
+					if (
+						group.getKeepTogetherElementRange() != null
+						&& !group.getKeepTogetherElementRange().isNewPage()
+						)
+					{
+						toRefill = true;
+						break;
+					}
+				}
+			}
+			
+			if (toRefill)
+			{
+				fillPageBreak(false, evaluation, evaluation, true);
 
-			printBand = band.refill(columnFooterOffsetY - offsetY);
+				printBand = band.refill(columnFooterOffsetY - offsetY);
+			}
 		}
 
 		ElementRange elementRange = 

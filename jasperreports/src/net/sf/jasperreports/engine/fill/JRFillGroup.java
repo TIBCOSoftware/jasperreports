@@ -62,6 +62,8 @@ public class JRFillGroup implements JRGroup
 	private boolean isTopLevelChange;
 	private boolean isHeaderPrinted;
 	private boolean isFooterPrinted = true;
+	
+	private ElementRange keepTogetherElementRange;
 
 	/**
 	 *
@@ -286,6 +288,22 @@ public class JRFillGroup implements JRGroup
 	public void setFooterPrinted(boolean isFooterPrinted)
 	{
 		this.isFooterPrinted = isFooterPrinted;
+	}
+
+	/**
+	 *
+	 */
+	public ElementRange getKeepTogetherElementRange()
+	{
+		return keepTogetherElementRange;
+	}
+
+	/**
+	 *
+	 */
+	public void setKeepTogetherElementRange(ElementRange keepTogetherElementRange)
+	{
+		this.keepTogetherElementRange = keepTogetherElementRange;
 	}
 
 	@Override
