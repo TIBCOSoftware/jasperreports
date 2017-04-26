@@ -7,6 +7,7 @@
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<group name="FirstGroup" minHeightToStartNewPage="60" keepTogether="true">
+		<groupExpression><![CDATA[$V{FirstGroup_COUNT} > 15]]></groupExpression>
 		<groupHeader>
 			<band height="40">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -66,8 +67,8 @@
 			</band>
 		</groupFooter>
 	</group>
-	<group name="BreakGroup" keepTogether="true">
-		<groupExpression><![CDATA[$V{BreakGroup_COUNT} > 5]]></groupExpression>
+	<group name="ThirdGroup" keepTogether="true">
+		<groupExpression><![CDATA[$V{ThirdGroup_COUNT} > 5]]></groupExpression>
 		<groupHeader>
 			<band height="40">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
