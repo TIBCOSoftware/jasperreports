@@ -256,7 +256,7 @@ public class TableCompiler implements ComponentCompiler
 								datasetRun.getDatasetName());
 						if (dataset != null && dataset.getGroupsMap().get(groupName) == null)
 						{
-							verifier.addBrokenRule("No group named " + groupName 
+							verifier.addBrokenRule("No group named \"" + groupName 
 									+ "\" found in subdataset " + datasetRun.getDatasetName(), 
 									groupCell);
 						}
