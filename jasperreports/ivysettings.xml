@@ -7,6 +7,8 @@
                 root="http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"/>
             <ibiblio name="jr-snapshots" m2compatible="true" usepoms="false"
                 root="http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots/"/>
+            <ibiblio name="jr-releases" m2compatible="true" usepoms="false"
+                root="http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases/"/>
         </chain>
     </resolvers>
 </ivysettings>
