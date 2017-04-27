@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>daterange</name>
+  <title>Date Range Sample</title>
+  <description>Shows different ways the DATERANGE function can be used to generate a complex document.</description>
+
+  <mainFeature ref="daterange"/>
+  
+  <feature name="daterange" title="Date Range">
+    <description>
+Shows different ways the DATERANGE function can be used to generate a complex document.
+    </description>
+    <since>5.0.4</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="query"/>
+    <content>
+<subtitle name="overview">Date Range Overview</subtitle>
+<br/>
+<br/>
+<subtitle name="daterange_sample">The Date Range Sample</subtitle>
+<br/>
+<br/>
+<subtitle name="running_sample">Running the Sample</subtitle>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/daterange</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/daterange/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+</sample>

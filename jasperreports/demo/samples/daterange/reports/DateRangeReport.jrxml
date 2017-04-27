@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DateRangeReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7f657602-9913-42d7-b4e5-7f28789b1a8e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="detail" mode="Opaque" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{CityGroup_COUNT} % 2 == 0]]></conditionExpression>
+			<style backcolor="#EEEEEE"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="MaxOrderID" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[10500]]></defaultValueExpression>
+	</parameter>
+	<parameter name="StartDate" class="net.sf.jasperreports.types.date.DateRange">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[DATERANGE("1996-09-01")]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM Orders WHERE 
+		  OrderID <= $P{MaxOrderID}  
+		  AND $X{[GREATER, OrderDate, StartDate} 
+		  ORDER BY ShipCountry, ShipCity, OrderDate]]>
+	</queryString>
+	<field name="ShippedDate" class="java.sql.Timestamp"/>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<field name="RequiredDate" class="java.sql.Timestamp"/>
+	<field name="CustomerID" class="java.lang.String"/>
+	<field name="OrderID" class="java.lang.Integer"/>
+	<field name="ShipName" class="java.lang.String"/>
+	<field name="ShipVia" class="java.lang.Integer"/>
+	<field name="ShipPostalCode" class="java.lang.String"/>
+	<field name="OrderDate" class="java.sql.Timestamp"/>
+	<field name="ShipCity" class="java.lang.String"/>
+	<field name="ShipAddress" class="java.lang.String"/>
+	<field name="EmployeeID" class="java.lang.Integer"/>
+	<field name="ShipRegion" class="java.lang.String"/>
+	<field name="Freight" class="java.lang.Double"/>
+	<group name="CountryGroup" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="70">
+		<groupExpression><![CDATA[$F{ShipCountry}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="30" forecolor="#FFFFFF" backcolor="#9F9F9F" uuid="b453d8de-f388-4ac2-bbf9-8a24a3cf4e36">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["  " + $F{ShipCountry}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="CityGroup" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="40">
+		<groupExpression><![CDATA[$F{ShipCity}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="20" backcolor="#CCCCCC" uuid="f6307401-86ca-432e-b5b3-77708eb0b457">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["  " + $F{ShipCity}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="462">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="40" uuid="efe3afc1-067c-456d-8287-a6cf41a9f6d8">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Range Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="555" height="30" uuid="417edd63-2939-4f63-a4f4-7859bc00bd65">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.    Relative Date Ranges]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="100" width="100" height="20" backcolor="#CCCCCC" uuid="b5437590-6926-4e90-ac8d-e2526769259e">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="100" width="95" height="20" backcolor="#CCCCCC" uuid="d76e4d8a-b6d1-4a11-ae8f-d11d217576b9">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Expression]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="195" y="100" width="180" height="20" backcolor="#CCCCCC" uuid="a0f5da29-800d-476e-b80c-7aa3d837744b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interval Start]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="375" y="100" width="180" height="20" backcolor="#CCCCCC" uuid="9623bd43-5ef1-43ff-8317-d3c385688389">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interval End]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="100" y="120" width="95" height="20" backcolor="#EEEEEE" uuid="ec9ae446-8437-4f82-89f2-c67563100b65">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"DAY\""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="120" width="100" height="20" backcolor="#EEEEEE" uuid="a629e246-6b0d-455a-bbe7-8379e6443120">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[today]]></text>
+			</staticText>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="195" y="120" width="180" height="20" backcolor="#EEEEEE" uuid="da63a638-5bc6-4a71-915f-cb5ea3c9d3a6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("DAY").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="375" y="120" width="180" height="20" backcolor="#EEEEEE" uuid="7fb693e9-2b12-47cf-8c0e-dc6c2f3c6bc2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("DAY").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="140" width="100" height="20" backcolor="#EEEEEE" uuid="0232c581-2a0c-4939-8bd5-95eebb02b077">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[3 days ago]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="100" y="140" width="95" height="20" backcolor="#EEEEEE" uuid="711fa621-b354-4558-b883-d54fdd6c5192">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"DAY-3\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="195" y="140" width="180" height="20" backcolor="#EEEEEE" uuid="443d6099-c0fc-479d-89ba-7efbff6b9be3">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("DAY-3").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="375" y="140" width="180" height="20" backcolor="#EEEEEE" uuid="0d8e362a-507f-4350-978b-02357736591e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("DAY-3").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="160" width="100" height="20" backcolor="#EEEEEE" uuid="2706e048-8d07-48c1-b798-9d0c20ededb6">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[3 days later]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="100" y="160" width="95" height="20" backcolor="#EEEEEE" uuid="767eb648-e824-45ed-b080-40e63856986e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"DAY+3\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="195" y="160" width="180" height="20" backcolor="#EEEEEE" uuid="2f21ebac-e3e7-49be-b6a3-6c19e315a216">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("DAY+3").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="375" y="160" width="180" height="20" backcolor="#EEEEEE" uuid="d689df50-8a3c-44e0-ac83-0e27abf0379d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("DAY+3").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="180" width="100" height="20" backcolor="#EEEEEE" uuid="98347e9b-bd0a-479c-81e9-b114e3ef1935">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[next week]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="100" y="180" width="95" height="20" backcolor="#EEEEEE" uuid="88a3c617-01b4-417c-84c8-eba5ea522a86">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"WEEK+1\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="195" y="180" width="180" height="20" backcolor="#EEEEEE" uuid="cf82b282-f0fe-4aec-aab8-5f71af80f727">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("WEEK+1").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="375" y="180" width="180" height="20" backcolor="#EEEEEE" uuid="aff2b4c6-e3a3-4d07-8a68-68c9ad960b14">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("WEEK+1").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="200" width="100" height="20" backcolor="#EEEEEE" uuid="a8de9137-7788-4c33-8207-c8cda28d5d04">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[this year]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="100" y="200" width="95" height="20" backcolor="#EEEEEE" uuid="5adff42d-f03e-44b0-8a3d-fd60031b31a0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"YEAR\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="195" y="200" width="180" height="20" backcolor="#EEEEEE" uuid="8397152f-7d01-4e47-ac56-2fba48b16146">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("YEAR").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="375" y="200" width="180" height="20" backcolor="#EEEEEE" uuid="2687a4f5-dacc-4fc0-94a1-80bd01c928a2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("YEAR").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="220" width="100" height="20" backcolor="#EEEEEE" uuid="51c840d5-82e8-4b43-8d2c-d6525113f5c5">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[last month]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="100" y="220" width="95" height="20" backcolor="#EEEEEE" uuid="7b26215d-4d73-4adc-81e0-f0421749431a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"MONTH-1\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="195" y="220" width="180" height="20" backcolor="#EEEEEE" uuid="27726ba2-b18b-42b9-a3ae-cc61b74fd8b8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("MONTH-1").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="375" y="220" width="180" height="20" backcolor="#EEEEEE" uuid="837d42b0-ee53-4383-a528-cd2039852cd5">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("MONTH-1").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="240" width="100" height="20" backcolor="#EEEEEE" uuid="6753bc83-e017-46bb-af0c-0ca3c27b4d57">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[next quarter]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="100" y="240" width="95" height="20" backcolor="#EEEEEE" uuid="f145f054-d42c-45b4-a2db-5bbe18bda049">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"QUARTER+1\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="195" y="240" width="180" height="20" backcolor="#EEEEEE" uuid="99ff2c8f-ce1b-45dd-b738-f246aa97e63f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("QUARTER+1").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Transparent" x="375" y="240" width="180" height="20" backcolor="#EEEEEE" uuid="f5d04922-5329-4366-98d1-a51ed6b758f1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("QUARTER+1").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="260" width="100" height="20" backcolor="#EEEEEE" uuid="e667d8d6-56c2-4c60-a9f1-80cd68455172">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[3 semesters ago]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="100" y="260" width="95" height="20" backcolor="#EEEEEE" uuid="c9b24fbd-32f8-41b8-a6ea-7dccd7c539b0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"SEMI-3\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="195" y="260" width="180" height="20" backcolor="#EEEEEE" uuid="6f91f1c6-1bbf-4426-9757-790325f5890d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("SEMI-3").getStart()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+				<reportElement mode="Opaque" x="375" y="260" width="180" height="20" backcolor="#EEEEEE" uuid="dea71ffe-0e56-4d43-9de7-96035eb6643f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("SEMI-3").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="300" width="555" height="30" uuid="19a61274-0bd4-46bf-9f31-211b9b4f4f89">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2.    Fixed Date and Timestamp with Report Timezone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="340" width="195" height="20" backcolor="#CCCCCC" uuid="9cbd56c9-6ce9-4087-9bf0-1faefd95b76c">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date/Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="195" y="340" width="180" height="20" backcolor="#CCCCCC" uuid="1ea4e353-910e-4e2f-9ab4-4b3a68d90edb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Expression]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="375" y="340" width="180" height="20" backcolor="#CCCCCC" uuid="50b03487-23d8-4f56-a188-97b4984a2958">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interval Start/End]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="360" width="195" height="20" backcolor="#EEEEEE" uuid="7ba3fa7d-3eee-44a9-84ea-fc3aea25aade">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[May 1, 2017]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="195" y="360" width="180" height="20" backcolor="#EEEEEE" uuid="83d69fbe-3b8b-4c40-a67f-2f5655b0f83f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"2017-05-01\""]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy  HH:mm:ss z">
+				<reportElement mode="Transparent" x="375" y="360" width="180" height="20" backcolor="#EEEEEE" uuid="c3cc02d9-f3c3-4c1b-9545-b6be16c4b5d7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("2017-05-01+3").getStart()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="195" y="380" width="180" height="20" backcolor="#EEEEEE" uuid="ca84eecd-d1f6-4e9e-852d-fac232e95099">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["\"2017-05-01 14:25:48\""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="EEE, MMM d, yyyy  HH:mm:ss z">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="375" y="380" width="180" height="20" backcolor="#EEEEEE" uuid="4e307c90-3897-4ae3-a909-f66017abec41">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[DATERANGE("2017-05-01 14:25:48").getEnd()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="380" width="195" height="20" backcolor="#EEEEEE" uuid="f573b087-f5b7-4b86-b6c5-f78699ac98f0">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[May 1, 2017 2:25:48 PM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="422" width="555" height="30" uuid="526d23d5-a2b4-43af-aefe-7339889be7d4">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[3.    Orders Newer than Sep 1, 1996]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement mode="Opaque" x="375" y="0" width="180" height="20" backcolor="#FEFEFE" uuid="99c832c1-7e23-4f43-b8b5-893c0d0f64d4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Freight]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="195" y="0" width="180" height="20" backcolor="#FEFEFE" uuid="ab530571-fd31-4f88-be22-5eaca9d4d5dc">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="195" height="20" backcolor="#FEFEFE" uuid="95e53601-0224-4af2-8fa8-6c7172e530d1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order ID]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="">
+				<reportElement style="detail" mode="Opaque" x="0" y="0" width="195" height="20" uuid="66fdc371-ae07-4e58-91c5-739bb9082cbc">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM d, yyyy">
+				<reportElement style="detail" mode="Opaque" x="195" y="0" width="180" height="20" uuid="df8ff1b4-3d3e-402e-8c74-7582057580cb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="detail" mode="Opaque" x="375" y="0" width="180" height="20" uuid="82343812-2230-496d-8096-86bfb52dcf15">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="43">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="352" y="20" width="100" height="20" uuid="ac58d724-4a02-4a12-b130-dcbc56cc7507">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="452" y="20" width="100" height="20" uuid="97a67a4c-dd1a-4822-a893-9209b971ba9b"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="10" width="555" height="1" uuid="b8735fcb-e1da-4089-a23e-211638bb53b2">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>
