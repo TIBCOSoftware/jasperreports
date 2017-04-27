@@ -6051,4 +6051,17 @@ Property that determines whether loading entities that are not known to the engi
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.week.start.day -->
+  
+  <configProperty name="net.sf.jasperreports.week.start.day">
+    <description>
+Numeric property that determines which is the first weekday by default: 
+<ul>
+<li>if set to 1, the week starts on Sunday</li>
+<li>if set to 2, the week starts on Monday.</li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
 </configReference>

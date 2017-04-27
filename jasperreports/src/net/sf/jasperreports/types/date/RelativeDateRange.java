@@ -32,7 +32,12 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * <p>Implementation of {@link DateRange} for relative range of dates.</p>
@@ -49,6 +54,13 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 	public static final String WEEK_START_DAY_KEY = "week.start.day";
 	public static final String PROPERTIES_FILE_NAME = "relativedate.properties";
 
+	@Property (
+			category = PropertyConstants.CATEGORY_OTHER,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			valueType = Integer.class
+	)
+	public static final String PROPERTY_WEEK_START_DAY = JRPropertiesUtil.PROPERTY_PREFIX + "week.start.day";
 	private static final Pattern PATTERN = Pattern.compile(DATE_RANGE_REGEXP);
 
 	private static Properties props;
@@ -135,7 +147,10 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 			}
 
 			if (weekStart == null) {
-				this.weekStart = DEFAULT_WEEK_START_DAY;
+				//FIXME: set an appropriate context
+				this.weekStart = JRPropertiesUtil
+						.getInstance(DefaultJasperReportsContext.getInstance())
+						.getIntegerProperty(PROPERTY_WEEK_START_DAY, DEFAULT_WEEK_START_DAY);
 			}
 		}
 
