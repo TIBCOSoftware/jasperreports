@@ -28,6 +28,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
@@ -61,7 +62,7 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 
 	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
 
-	private transient GraphicsNode rootNode;
+	private transient SoftReference<GraphicsNode> rootNodeRef;
 	private transient Dimension2D documentSize;
 
 	/**
@@ -84,7 +85,7 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
-		ensureSvg(jasperReportsContext);
+		GraphicsNode rootNode = getRootNode(jasperReportsContext);
 
 		AffineTransform transform = 
 			ViewBox.getPreserveAspectRatioTransform(
@@ -117,7 +118,7 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 	{
 		try
 		{
-			ensureSvg(jasperReportsContext);
+			getRootNode(jasperReportsContext);
 			return documentSize;
 		}
 		catch (JRException e)
@@ -126,54 +127,54 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 		}
 	}
 
-	protected synchronized void ensureSvg(JasperReportsContext jasperReportsContext) throws JRException
+	protected synchronized GraphicsNode getRootNode(JasperReportsContext jasperReportsContext) throws JRException
 	{
-		if (rootNode != null)
+		if (rootNodeRef == null || rootNodeRef.get() == null)
 		{
-			// already loaded
-			return;
-		}
-
-		FontFamilyResolver fontFamilyResolver = BatikFontFamilyResolver.getInstance(jasperReportsContext);
-		
-		UserAgent userAgentForDoc = 
-			new BatikUserAgent(
-				fontFamilyResolver,
-				BatikUserAgent.PIXEL_TO_MM_72_DPI
-				);
-		
-		SVGDocumentFactory documentFactory =
-			new SAXSVGDocumentFactory(userAgentForDoc.getXMLParserClassName(), true);
-		documentFactory.setValidating(userAgentForDoc.isXMLParserValidating());
-
-		SVGDocument document = getSvgDocument(jasperReportsContext, documentFactory);
-
-		Node svgNode = document.getElementsByTagName("svg").item(0);
-		Node svgWidthNode = svgNode.getAttributes().getNamedItem("width");
-		Node svgHeightNode = svgNode.getAttributes().getNamedItem("height");
-		String strSvgWidth = svgWidthNode == null ? null : svgWidthNode.getNodeValue().trim();
-		String strSvgHeight = svgHeightNode == null ? null : svgHeightNode.getNodeValue().trim();
-		
-		float pixel2mm = BatikUserAgent.PIXEL_TO_MM_72_DPI;
-		if (
-			(strSvgWidth != null && strSvgWidth.endsWith("mm"))
-			|| (strSvgHeight != null && strSvgHeight.endsWith("mm"))
-			)
-		{
-			pixel2mm = BatikUserAgent.PIXEL_TO_MM_96_DPI;
-		}
-		
-		UserAgent userAgentForCtx = 
-			new BatikUserAgent(
-				fontFamilyResolver,
-				pixel2mm
-				);
+			FontFamilyResolver fontFamilyResolver = BatikFontFamilyResolver.getInstance(jasperReportsContext);
 			
-		BridgeContext ctx = new BridgeContext(userAgentForCtx);
-		ctx.setDynamic(true);
-		GVTBuilder builder = new GVTBuilder();
-		rootNode = builder.build(ctx, document);
-		documentSize = ctx.getDocumentSize();
+			UserAgent userAgentForDoc = 
+				new BatikUserAgent(
+					fontFamilyResolver,
+					BatikUserAgent.PIXEL_TO_MM_72_DPI
+					);
+			
+			SVGDocumentFactory documentFactory =
+				new SAXSVGDocumentFactory(userAgentForDoc.getXMLParserClassName(), true);
+			documentFactory.setValidating(userAgentForDoc.isXMLParserValidating());
+
+			SVGDocument document = getSvgDocument(jasperReportsContext, documentFactory);
+
+			Node svgNode = document.getElementsByTagName("svg").item(0);
+			Node svgWidthNode = svgNode.getAttributes().getNamedItem("width");
+			Node svgHeightNode = svgNode.getAttributes().getNamedItem("height");
+			String strSvgWidth = svgWidthNode == null ? null : svgWidthNode.getNodeValue().trim();
+			String strSvgHeight = svgHeightNode == null ? null : svgHeightNode.getNodeValue().trim();
+			
+			float pixel2mm = BatikUserAgent.PIXEL_TO_MM_72_DPI;
+			if (
+				(strSvgWidth != null && strSvgWidth.endsWith("mm"))
+				|| (strSvgHeight != null && strSvgHeight.endsWith("mm"))
+				)
+			{
+				pixel2mm = BatikUserAgent.PIXEL_TO_MM_96_DPI;
+			}
+			
+			UserAgent userAgentForCtx = 
+				new BatikUserAgent(
+					fontFamilyResolver,
+					pixel2mm
+					);
+				
+			BridgeContext ctx = new BridgeContext(userAgentForCtx);
+			ctx.setDynamic(true);
+			GVTBuilder builder = new GVTBuilder();
+			GraphicsNode rootNode = builder.build(ctx, document);
+			rootNodeRef = new SoftReference<GraphicsNode>(rootNode);
+			documentSize = ctx.getDocumentSize();
+		}
+		
+		return rootNodeRef.get();
 	}
 	
 
