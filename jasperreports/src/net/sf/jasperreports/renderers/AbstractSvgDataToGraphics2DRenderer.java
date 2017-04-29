@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.SimpleDimension2D;
 
 
 /**
@@ -171,7 +172,11 @@ public abstract class AbstractSvgDataToGraphics2DRenderer extends AbstractRender
 			GVTBuilder builder = new GVTBuilder();
 			GraphicsNode rootNode = builder.build(ctx, document);
 			rootNodeRef = new SoftReference<GraphicsNode>(rootNode);
-			documentSize = ctx.getDocumentSize();
+			
+			//copying the document size object because it has a reference to SVGSVGElementBridge,
+			//which prevents rootNodeRef from being cleared by the garbage collector
+			Dimension2D svgSize = ctx.getDocumentSize();
+			documentSize = new SimpleDimension2D(svgSize.getWidth(), svgSize.getHeight());
 		}
 		
 		return rootNodeRef.get();
