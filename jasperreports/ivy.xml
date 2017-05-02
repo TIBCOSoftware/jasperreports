@@ -49,6 +49,7 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.9"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.9"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.9"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.9"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.9"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.9"/>
