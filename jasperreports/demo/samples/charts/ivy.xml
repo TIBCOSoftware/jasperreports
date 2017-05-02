@@ -5,7 +5,6 @@
 	<dependencies>
 		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.9" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.9" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.9" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.9" conf="test->*"/>

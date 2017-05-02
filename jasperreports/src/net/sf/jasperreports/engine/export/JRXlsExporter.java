@@ -929,10 +929,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				
 				HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 				cell.setCellType(CellType.FORMULA);
+<<<<<<< HEAD
 				
 				// the formula text will be stored in formulaCellsMap in order to be applied only after 
 				// all defined names are created and available in the workbook (see #closeWorkbook())
 				formulaCellsMap.put(cell, formula);
+=======
+				cell.setCellFormula(formula);
+>>>>>>> 6.4.1.x
 				endCreateCell(cellStyle);
 				return;
 			}
