@@ -630,9 +630,17 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (groups != null && groups.length > 0)
 		{
-			for(int i = 0; i < groups.length; i++)
+			for (int i = 0; i < groups.length; i++)
 			{
-				fillGroupHeaderReprint(groups[i], evaluation);
+				JRFillGroup group = groups[i];
+				
+				if (
+					group.isReprintHeaderOnEachPage() 
+					&& (!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
+					)
+				{
+					fillGroupHeaderReprint(groups[i], evaluation);
+				}
 			}
 		}
 	}
@@ -643,35 +651,29 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	 private void fillGroupHeaderReprint(JRFillGroup group, byte evaluation) throws JRException
 	 {
-		if (
-			group.isReprintHeaderOnEachPage() &&
-			(!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
-			)
+		JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
+
+		JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
+		for (int i = 0; i < groupHeaderBands.length; i++)
 		{
-			JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
+			JRFillBand groupHeaderBand = groupHeaderBands[i];
 
-			JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
-			for(int i = 0; i < groupHeaderBands.length; i++)
+			groupHeaderBand.evaluatePrintWhenExpression(evaluation);
+
+			if (groupHeaderBand.isToPrint())
 			{
-				JRFillBand groupHeaderBand = groupHeaderBands[i];
-
-				groupHeaderBand.evaluatePrintWhenExpression(evaluation);
-
-				if (groupHeaderBand.isToPrint())
+				while (
+					groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY 
+					|| group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+					)
 				{
-					while (
-						groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY 
-						|| group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
-						)
-					{
-						fillColumnBreak(evaluation, evaluation);
-					}
-
-					fillColumnBand(groupHeaderBand, evaluation);
-
-					isFirstPageBand = false;
-					isFirstColumnBand = false;
+					fillColumnBreak(evaluation, evaluation);
 				}
+
+				fillColumnBand(groupHeaderBand, evaluation);
+
+				isFirstPageBand = false;
+				isFirstColumnBand = false;
 			}
 		}
 	}
