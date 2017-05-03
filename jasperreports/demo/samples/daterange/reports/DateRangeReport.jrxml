@@ -117,7 +117,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Date]]></text>
+				<text><![CDATA[Date Range]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="100" y="100" width="95" height="20" backcolor="#CCCCCC" uuid="d76e4d8a-b6d1-4a11-ae8f-d11d217576b9">
@@ -140,7 +140,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Interval Start]]></text>
+				<text><![CDATA[Date Range Start]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="375" y="100" width="180" height="20" backcolor="#CCCCCC" uuid="9623bd43-5ef1-43ff-8317-d3c385688389">
@@ -152,7 +152,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Interval End]]></text>
+				<text><![CDATA[Date Range End]]></text>
 			</staticText>
 			<textField pattern="">
 				<reportElement mode="Transparent" x="100" y="120" width="95" height="20" backcolor="#EEEEEE" uuid="ec9ae446-8437-4f82-89f2-c67563100b65">
@@ -510,7 +510,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Interval Start/End]]></text>
+				<text><![CDATA[Date Range Start/End]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="360" width="195" height="20" backcolor="#EEEEEE" uuid="7ba3fa7d-3eee-44a9-84ea-fc3aea25aade">
