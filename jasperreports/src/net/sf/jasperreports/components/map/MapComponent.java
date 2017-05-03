@@ -53,7 +53,6 @@ public interface MapComponent extends Component, JRCloneable
 	public static final String PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "components.map.";
 	
 	@Property(
-			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_5_5_0
@@ -61,7 +60,6 @@ public interface MapComponent extends Component, JRCloneable
 	public static final String PROPERTY_KEY = PROPERTY_PREFIX + "key";
 	
 	@Property(
-			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_5_5_0
@@ -69,7 +67,6 @@ public interface MapComponent extends Component, JRCloneable
 	public static final String PROPERTY_CLIENT_ID = PROPERTY_PREFIX + "client.id";
 	
 	@Property(
-			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_5_5_0
@@ -77,7 +74,6 @@ public interface MapComponent extends Component, JRCloneable
 	public static final String PROPERTY_SIGNATURE = PROPERTY_PREFIX + "signature";
 	
 	@Property(
-			valueType = Class.class,
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_5_5_0

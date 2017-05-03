@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.sql.Connection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -82,6 +83,7 @@ public final class JRFiller
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
+			valueType = TimeZone.class,
 			defaultValue = "system time zone",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_5_2_0
