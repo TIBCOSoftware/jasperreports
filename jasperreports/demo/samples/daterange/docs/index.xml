@@ -21,10 +21,210 @@ Shows different ways the DATERANGE function can be used to generate a complex do
     </documentedBy>
   	<otherSample ref="query"/>
     <content>
-<subtitle name="overview">Date Range Overview</subtitle>
+<subtitle name="overview">Working with Date Ranges</subtitle>
+<br/>
+<br/>
+A date range is a time period completely characterized by its start date and end date. Such time periods are 
+handled in JasperReports using <api href="net/sf/jasperreports/types/date/DateRange.html">DateRange</api> objects that expose 
+the following methods:
+<ul>
+<li><code>public Date getStart()</code> - to retrieve a <code>java.util.Date</code> object, representing the start date</li>
+<li><code>public Date getEnd()</code> - to retrieve a <code>java.util.Date</code> object, representing the end date</li>
+</ul>
+There are 2 kind of <code>DateRange</code> objects: 
+<ul>
+<li>single date object - a date range where the start date is the same as the end date</li>
+<li>relative date range - a date range calculated relatively to the current date, where the start date and the end date are different 
+and depend on the time unit, that can be set as day, week, month, etc.</li>
+</ul>
+The built-in <code>DATERANGE()</code> custom function is implemented to generate <code>DateRange</code> objects within JRXML reports. 
+It can be used in expressions and SQL function clauses (using the <code>$X{}</code> syntax). The <code>DATERANGE()</code> function 
+accepts either a String parameter or a <code>java.util.Date</code>. If called with a <code>java.util.Date</code> parameter, a single 
+date object object will be generated. In case of a String parameter, the result depends on how the String parameter is constructed. 
+If the String represents a valid date (for instance <code>"2000-01-23"</code>) a single date object is returned. If the String parameter 
+is in the form of <code>&lt;keyword&gt; &lt;+|-&gt; &lt;number&gt;</code>, a relative date range object will be delivered. In this 
+expression the <code>&lt;keyword&gt;</code> represents the time unit and may have one of the following values:
+<ul>
+<li><code>DAY</code> - the date range will be calculated based on days relative to the current date</li>
+<li><code>WEEK</code> - the date range will be calculated based on weeks relative to the current date</li>
+<li><code>MONTH</code> - the date range will be calculated based on months relative to the current date</li>
+<li><code>QUARTER</code> - the date range will be calculated based on quarters relative to the current date</li>
+<li><code>SEMI</code> - the date range will be calculated based on semesters relative to the current date</li>
+<li><code>YEAR</code> - the date range will be calculated based on years relative to the current date</li>
+</ul>
+Optionally, the <code>&lt;keyword&gt;</code> may be followed by a + or a - sign and an integer number, representing the amount of time units. 
+Some examples are in the following table:
+<table class="doctable">
+  <tr class="full_border grey_bg">
+    <th>Expression</th>
+    <th>Generated DateRange object</th>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("2000-01-23")</code></td>
+    <td>The day of January 23, 2000, starting at 00:00:00, ending at the same time</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("DAY")</code></td>
+    <td>All the current day, starting at 00:00:00, ending at 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("DAY-1")</code></td>
+    <td>Day of yesterday, starting at 00:00:00, ending at 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("DAY+1")</code></td>
+    <td>Day of tomorrow, starting at 00:00:00, ending at 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("WEEK")</code></td>
+    <td>This week, starting* on Monday 00:00:00, ending on Sunday 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("WEEK+1")</code></td>
+    <td>Next week, starting* on Monday 00:00:00, ending on Sunday 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("WEEK-2")</code></td>
+    <td>2 weeks ago, starting* on Monday 00:00:00, ending on Sunday 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("MONTH")</code></td>
+    <td>This month, starting on the first day of month at 00:00:00, ending on the last day of month at 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("MONTH-6")</code></td>
+    <td>6 months ago, starting on the first day of month at 00:00:00, ending on the last day of month at 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("MONTH+6")</code></td>
+    <td>6 months later from now, starting on the first day of month at 00:00:00, ending on the last day of month at 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("QUARTER")</code></td>
+    <td>this quarter, starting on the first day of quarter at 00:00:00, ending on the last day of quarter at 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("QUARTER-10")</code></td>
+    <td>10 quarters ago, starting on the first day of quarter at 00:00:00, ending on the last day of quarter at 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("QUARTER+1")</code></td>
+    <td>Next quarter, starting on the first day of quarter at 00:00:00, ending on the last day of quarter at 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("SEMI")</code></td>
+    <td>this semester, starting on the first day of semester at 00:00:00, ending on the last day of semester at 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("SEMI-3")</code></td>
+    <td>3 semesters ago, starting on the first day of semester at 00:00:00, ending on the last day of semester at 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("SEMI+3")</code></td>
+    <td>3 semesters later from now, starting on the first day of semester at 00:00:00, ending on the last day of semester at 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("YEAR")</code></td>
+    <td>this year, starting on January 1, 00:00:00, ending on December 31, 23:59:59</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>DATERANGE("YEAR-1")</code></td>
+    <td>last year, starting on January 1, 00:00:00, ending on December 31, 23:59:59</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>DATERANGE("YEAR+10")</code></td>
+    <td>10 years later from now, starting on January 1, 00:00:00, ending on December 31, 23:59:59</td>
+  </tr>
+</table>
+<b>* Note:</b> When working with the <code>WEEK</code> time unit, we have to pay attention to the first day of week. 
+In some cases the week may be considered to start on Monday, while in some other cases the first day of week may be considered Sunday. 
+In order to specify the default behavior, we need to set the net.sf.jasperreports.week.start.day property on the 
+report context. Possible values for this property are:
+<ul>
+<li><code>2</code> - the week starts on Monday (this is the default value)</li>
+<li><code>1</code> - the week starts on Sunday</li>
+</ul>
+The <code>DATERANGE()</code> function can be used also as parameter in SQL query clauses listed in the table below:
+<table class="doctable">
+  <tr class="full_border grey_bg">
+    <th>SQL query clause</th>
+    <th>$X{} expression meaning</th>
+  </tr>
+  <tr class="full_border">
+    <td><code>$X{EQUAL, column, parameter}</code></td>
+    <td>column value &gt;= parameter.getStart() AND column value &lt;= parameter.getEnd()</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>$X{LESS, column, parameter}</code></td>
+    <td>column value &lt; parameter.getStart()</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>$X{LESS], column, parameter}</code></td>
+    <td>column value &lt;= parameter.getEnd()</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>$X{GREATER, column, parameter}</code></td>
+    <td>column value &gt; parameter.getEnd()</td>
+  </tr>
+  <tr class="full_border">
+    <td><code>$X{[GREATER, column, parameter}</code></td>
+    <td>column value &gt;= parameter.getStart()</td>
+  </tr>
+  <tr class="full_border grey_bg">
+    <td><code>$X{BETWEEN, column, parameterStart, parameterEnd}</code></td>
+    <td>column value &gt;= parameterStart.getStart() AND column value &lt;= parameterEnd.getEnd()</td>
+  </tr>
+</table>
+The <code>DATERANGE()</code> function uses the report Locale and Timezone to evaluate date ranges.
 <br/>
 <br/>
 <subtitle name="daterange_sample">The Date Range Sample</subtitle>
+<br/>
+<br/>
+This sample illustrates how the <code>DATERANGE()</code> function can be used in expressions and SQL clause functions. 
+First are shown some relative date ranges with their start/end moments.
+Following is a text field that contains a <code>DATERANGE()</code> function to retrieve a relative date range start:
+<pre><![CDATA[
+<textField pattern="EEE, MMM d, yyyy  HH:mm:ss">
+  <reportElement mode="Transparent" x="195" y="160" width="180" height="20" backcolor="#EEEEEE" uuid="2f21ebac-e3e7-49be-b6a3-6c19e315a216">
+    <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+    <property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+  </reportElement>
+  <textElement verticalAlignment="Middle"/>
+  <textFieldExpression><![CDATA[DATERANGE("DAY+3").getStart()]] ></textFieldExpression>
+</textField>]]></pre>
+In the next report section are shown some examples of how to use the <code>DATERANGE()</code> function to generate single (fixed) date range objects. 
+See this text field for guidance: 
+<pre><![CDATA[
+<textField isStretchWithOverflow="true" pattern="EEE, MMM d, yyyy  HH:mm:ss z">
+  <reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="375" y="380" width="180" height="20" backcolor="#EEEEEE" uuid="4e307c90-3897-4ae3-a909-f66017abec41">
+    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+    <property name="net.sf.jasperreports.export.xls.pattern" value="ddd, MMM d, yyyy  HH:mm:ss"/>
+    <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+  </reportElement>
+  <textElement verticalAlignment="Middle"/>
+  <textFieldExpression><![CDATA[DATERANGE("2017-05-01 14:25:48").getEnd()]] ></textFieldExpression>
+</textField>]]></pre>
+In order to be used in a SQL clause, a report parameter of type <code>DateRange</code> is declared as follows:
+<pre><![CDATA[
+<parameter name="StartDate" class="net.sf.jasperreports.types.date.DateRange">
+  <parameterDescription><![CDATA[]] ></parameterDescription>
+  <defaultValueExpression><![CDATA[DATERANGE("1996-09-01")]] ></defaultValueExpression>
+</parameter>]]></pre>
+It will be used in this parameterized query:
+<pre><![CDATA[
+<queryString>
+SELECT * FROM Orders WHERE 
+    OrderID <= $P{MaxOrderID}  
+    AND $X{[GREATER, OrderDate, StartDate} 
+    ORDER BY ShipCountry, ShipCity, OrderDate
+</queryString>]]></pre>
+
+As a result, the report data source will include only orders newer than September 1, 1996.
 <br/>
 <br/>
 <subtitle name="running_sample">Running the Sample</subtitle>

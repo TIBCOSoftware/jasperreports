@@ -363,7 +363,7 @@
 			<textContent><![CDATA[Col 1]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="40" y="752" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="7" printId="1"/>
+			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="40" y="712" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="7" printId="1"/>
 			<textContent><![CDATA[Third Group Footer]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
