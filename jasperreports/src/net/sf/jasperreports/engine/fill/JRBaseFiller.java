@@ -1537,11 +1537,13 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 *
 	 */
 	protected boolean moveKeepTogetherElementRangeContent(
-		ElementRange keepTogetherElementRange,
+		JRFillGroup group,
 		List<JRPrintElement> elementsToMove
 		)
 	{
 		boolean moved = false;
+		
+		ElementRange keepTogetherElementRange = group == null ? null : group.getKeepTogetherElementRange();
 		
 		if (keepTogetherElementRange != null)
 		{
@@ -1582,7 +1584,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				}
 			}
 			
-			keepTogetherElementRange = null;
+			group.setKeepTogetherElementRange(null);
 		}
 		
 		return moved;

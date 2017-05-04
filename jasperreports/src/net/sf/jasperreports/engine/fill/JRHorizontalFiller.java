@@ -2026,7 +2026,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
-		ElementRange keepTogetherElementRange = null;
+		JRFillGroup keepTogetherGroup = null;
 		
 		for (JRFillGroup group : groups)
 		{
@@ -2035,16 +2035,16 @@ public class JRHorizontalFiller extends JRBaseFiller
 				&& !group.getKeepTogetherElementRange().isNewPage()
 				)
 			{
-				keepTogetherElementRange = group.getKeepTogetherElementRange();
+				keepTogetherGroup = group;
 				break;
 			}
 		}
 
 		List<JRPrintElement> elementsToMove = null;
 		
-		if (keepTogetherElementRange != null)
+		if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
 		{
-			elementsToMove = ElementRangeUtil.removeContent(keepTogetherElementRange);
+			elementsToMove = ElementRangeUtil.removeContent(keepTogetherGroup.getKeepTogetherElementRange());
 		}
 
 		addPage(isResetPageNumber);
@@ -2053,7 +2053,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		fillColumnHeaders(evalNextPage);
 
-		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(keepTogetherElementRange, elementsToMove);
+		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
 		if (
 			!elementRangeContentMoved
 			&& isReprintGroupHeaders

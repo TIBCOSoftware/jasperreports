@@ -1981,7 +1981,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 		
-		ElementRange keepTogetherElementRange = null;
+		JRFillGroup keepTogetherGroup = null;
 		
 		for (JRFillGroup group : groups)
 		{
@@ -1990,16 +1990,16 @@ public class JRVerticalFiller extends JRBaseFiller
 				&& !group.getKeepTogetherElementRange().isNewPage()
 				)
 			{
-				keepTogetherElementRange = group.getKeepTogetherElementRange();
+				keepTogetherGroup = group;
 				break;
 			}
 		}
 		
 		List<JRPrintElement> elementsToMove = null;
 
-		if (keepTogetherElementRange != null)
+		if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
 		{
-			elementsToMove = ElementRangeUtil.removeContent(keepTogetherElementRange);
+			elementsToMove = ElementRangeUtil.removeContent(keepTogetherGroup.getKeepTogetherElementRange());
 		}
 
 		addPage(isResetPageNumber);
@@ -2008,7 +2008,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillColumnHeader(evalNextPage);
 
-		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(keepTogetherElementRange, elementsToMove);
+		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
 		if (
 			!elementRangeContentMoved
 			&& isReprintGroupHeaders
@@ -2051,8 +2051,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			calculator.initializeVariables(ResetTypeEnum.COLUMN, IncrementTypeEnum.COLUMN);
 			scriptlet.callAfterColumnInit();
 
-			ElementRange keepTogetherElementRange = null;
-
+			JRFillGroup keepTogetherGroup = null;
+			
 			for (JRFillGroup group : groups)
 			{
 				if (
@@ -2060,16 +2060,16 @@ public class JRVerticalFiller extends JRBaseFiller
 					&& !group.getKeepTogetherElementRange().isNewPage()
 					)
 				{
-					keepTogetherElementRange = group.getKeepTogetherElementRange();
+					keepTogetherGroup = group;
 					break;
 				}
 			}
 
 			List<JRPrintElement> elementsToMove = null;
 					
-			if (keepTogetherElementRange != null)
+			if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
 			{
-				elementsToMove = ElementRangeUtil.removeContent(keepTogetherElementRange);
+				elementsToMove = ElementRangeUtil.removeContent(keepTogetherGroup.getKeepTogetherElementRange());
 			}
 
 			columnIndex += 1;
@@ -2080,7 +2080,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			fillColumnHeader(evalNextPage);
 
-			moveKeepTogetherElementRangeContent(keepTogetherElementRange, elementsToMove);
+			moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
 		}
 	}
 
