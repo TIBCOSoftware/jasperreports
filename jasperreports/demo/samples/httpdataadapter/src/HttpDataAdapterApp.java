@@ -22,17 +22,11 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -75,7 +69,7 @@ public class HttpDataAdapterApp extends AbstractSampleApp
 			String fileName = reportFile.getAbsolutePath();
 			JasperFillManager.fillReportToFile(
 				fileName, 
-				fileName.substring(0, fileName.indexOf(".jasper")) + ".jrprint",
+				fileName.substring(0, fileName.lastIndexOf(".jasper")) + ".jrprint",
 				null
 				);
 			System.err.println(reportFile.getName() + " filling time : " + (System.currentTimeMillis() - start));
