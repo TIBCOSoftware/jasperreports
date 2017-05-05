@@ -204,7 +204,8 @@ public abstract class DocumentBuilder
 		Dimension dimension, 
 		Color backcolor, 
 		JRExporterGridCell gridCell,
-		boolean isLazy
+		boolean isLazy,
+		RenderersCache imageRenderersCache
 		) throws JRException
 	{
 		String imagePath = null;
@@ -231,7 +232,7 @@ public abstract class DocumentBuilder
 				
 				DataRenderable imageRenderer = 
 					RendererUtil.getInstance(getJasperReportsContext()).getImageDataRenderable(
-						renderersCache,
+						imageRenderersCache,
 						renderer, 
 						dimension, 
 						backcolor

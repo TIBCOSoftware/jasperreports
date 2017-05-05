@@ -1392,18 +1392,20 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	private class InternalImageProcessor
 	{
 		private final JRPrintElement imageElement;
+		private final RenderersCache imageRenderersCache;
 		private final boolean needDimension; 
 		private final int availableImageWidth;
 		private final int availableImageHeight;
 
 		protected InternalImageProcessor(
-			JRPrintElement imageElement,
+			JRPrintImage imageElement,
 			boolean needDimension,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			this.needDimension = needDimension;
 			this.availableImageWidth = availableImageWidth;
 			this.availableImageHeight = availableImageHeight;
@@ -1413,14 +1415,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+				DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable(renderer);
 				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
@@ -1446,7 +1448,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 					DataRenderable imageRenderer = 
 							getRendererUtil().getImageDataRenderable(
-								renderersCache,
+								imageRenderersCache,
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null

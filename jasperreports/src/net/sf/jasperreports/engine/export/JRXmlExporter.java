@@ -891,7 +891,10 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 			{
 				if (renderer instanceof ResourceRenderer)
 				{
-					renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
+					RenderersCache imageRenderersCache = image.isUsingCache() ? renderersCache
+							//creating a fresh RenderersCache for a single call to preserve homogeneity with other exporters
+							: new RenderersCache(getJasperReportsContext());
+					renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 				}
 
 				if (

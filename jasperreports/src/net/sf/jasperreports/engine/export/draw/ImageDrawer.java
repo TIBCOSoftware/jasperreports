@@ -194,7 +194,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
-			Graphics2DRenderable grxRenderer = renderersCache.getGraphics2DRenderable(renderer);
+			Graphics2DRenderable grxRenderer = renderersCache.getGraphics2DRenderable(renderer);//FIXME honor isUsingCache
 			
 			switch (printImage.getScaleImageValue())
 			{

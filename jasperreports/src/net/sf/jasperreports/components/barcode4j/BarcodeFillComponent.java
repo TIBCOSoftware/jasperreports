@@ -136,6 +136,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 			templateImage.setElement(fillContext.getComponentElement());
 			templateImage.setStyle(elementStyle);//already set by setElement, but keeping for safety
 			templateImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
+			templateImage.setUsingCache(false);
 
 			templateImage = deduplicate(templateImage);
 			printTemplates.put(elementStyle, templateImage);

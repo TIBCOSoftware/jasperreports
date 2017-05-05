@@ -137,6 +137,7 @@ import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -1278,6 +1279,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	private class InternalImageProcessor
 	{
 		private final JRPrintImage imageElement;
+		private final RenderersCache imageRenderersCache;
 
 		private final int topPadding;
 		private final int leftPadding;
@@ -1291,6 +1293,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			)
 		{
 			this.imageElement = imageElement;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			
 			topPadding =
 				Math.max(imageElement.getLineBox().getTopPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getTopPen()));
@@ -1314,7 +1317,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			switch (imageElement.getScaleImageValue())
@@ -1323,7 +1326,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				{
 					imageProcessorResult = 
 						processImageClip(
-							renderersCache.getGraphics2DRenderable(renderer)
+							imageRenderersCache.getGraphics2DRenderable(renderer)
 							);
 
 					break;
@@ -1333,7 +1336,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					imageProcessorResult = 
 						processImageFillFrame(
 							getRendererUtil().getImageDataRenderable(
-								renderersCache,
+								imageRenderersCache,
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
@@ -1348,7 +1351,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					imageProcessorResult = 
 						processImageRetainShape(
 							getRendererUtil().getImageDataRenderable(
-								renderersCache,
+								imageRenderersCache,
 								renderer,
 								new Dimension(availableImageWidth, availableImageHeight),
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null

@@ -1309,18 +1309,20 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	private class InternalImageProcessor
 	{
 		private final JRPrintElement imageElement;
+		private final RenderersCache imageRenderersCache;
 		private final boolean needDimension; 
 		private final int availableImageWidth; 
 		private final int availableImageHeight; 
 
 		protected InternalImageProcessor(
-			JRPrintElement imageElement,
+			JRPrintImage imageElement,
 			boolean needDimension,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			this.needDimension = needDimension;
 			this.availableImageWidth = availableImageWidth;
 			this.availableImageHeight = availableImageHeight;
@@ -1330,19 +1332,19 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+				DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable(renderer);
 				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
 			DataRenderable imageRenderer = 
 				getRendererUtil().getImageDataRenderable(
-					renderersCache,
+					imageRenderersCache,
 					renderer,
 					new Dimension(availableImageWidth, availableImageHeight),
 					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
