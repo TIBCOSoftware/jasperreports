@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
@@ -76,6 +77,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 *
 	 */
 	private Renderable renderer;
+	private boolean usedCache;
 	private boolean hasOverflowed;
 	private Integer imageHeight;
 	private Integer imageWidth;
@@ -499,13 +501,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		Renderable newRenderer = null;
 		
+		Boolean isUsingCache = getUsingCache();
+		usedCache = isUsingCache == null ? true : isUsingCache;
 		Object source = evaluateExpression(expression, evaluation);
 		if (source != null)
 		{
-			Boolean isUsingCache = getUsingCache();
 			if (isUsingCache == null)
 			{
-				isUsingCache = source instanceof String;
+				usedCache = isUsingCache = source instanceof String;
+				//FIXME the flag determined based on the expression type is lost in print images
+				//hence the isUsingCache test in exporters yields false positives for images that did not come from Strings
 			}
 			
 			Object srcKey = source;
@@ -695,7 +700,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						// image fill does not normally produce non-lazy ResourceRenderer instances, 
 						// so we do not need to attempt load resource renderers from cache here, as we do in the catch below
 						
-						DimensionRenderable dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
+						RenderersCache renderersCache = usedCache ?  filler.fillContext.getRenderersCache() 
+								: new RenderersCache(filler.getJasperReportsContext());
+						DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
 						
 						if (dimensionRenderer != null)
 						{
@@ -709,10 +716,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 								if (renderer instanceof ResourceRenderer)
 								{
-									renderer = filler.fillContext.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
+									renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 								}
 
-								dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
+								dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
 							}
 							
 							if (dimensionRenderer == null) // OnErrorTypeEnum.BLANK can return null above
@@ -984,7 +991,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			// image fill does not normally produce non-lazy ResourceRenderer instances, 
 			// so we do not need to attempt load resource renderers from cache here, as we do in the catch below
 
-			DimensionRenderable dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
+			RenderersCache renderersCache = usedCache ?  filler.fillContext.getRenderersCache() 
+					: new RenderersCache(filler.getJasperReportsContext());
+			DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
 			
 			if (dimensionRenderer != null)
 			{
@@ -998,10 +1007,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 					if (renderer instanceof ResourceRenderer)
 					{
-						renderer = filler.fillContext.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
+						renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 					}
 					
-					dimensionRenderer = filler.fillContext.getRenderersCache().getDimensionRenderable(renderer);
+					dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
 				}
 				
 				if (dimensionRenderer != null) // OnErrorTypeEnum.BLANK can return null above
