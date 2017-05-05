@@ -1315,6 +1315,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	private class InternalImageProcessor
 	{
 		private final JRPrintElement imageElement;
+		private final RenderersCache imageRenderersCache;
 		private final boolean isLazy; 
 		private final boolean embedImage; 
 		private final boolean needDimension; 
@@ -1323,7 +1324,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		private final int availableImageHeight;
 
 		protected InternalImageProcessor(
-			JRPrintElement imageElement,
+			JRPrintImage imageElement,
 			boolean isLazy,
 			boolean needDimension, 
 			TableCell cell,
@@ -1332,6 +1333,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			)
 		{
 			this.imageElement = imageElement;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			this.isLazy = isLazy;
 			this.embedImage = isEmbedImage(imageElement);
 			this.needDimension = needDimension;
@@ -1355,13 +1357,13 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			{
 				if (renderer instanceof ResourceRenderer)
 				{
-					renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
+					renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 				}
 
 				// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 				if (needDimension)
 				{
-					DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+					DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable(renderer);
 					dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 				}
 
@@ -1383,7 +1385,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						{
 							dataRenderer = 
 								getRendererUtil().getImageDataRenderable(
-									renderersCache,
+									imageRenderersCache,
 									renderer,
 									new Dimension(availableImageWidth, availableImageHeight),
 									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
@@ -1432,7 +1434,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							
 							// we might have received needDimension false above, as a hint, but if we arrive here, 
 							// we definitely need to attempt getting the dimension of the SVG, regardless of scale image type
-							DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+							DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable(renderer);
 							dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 						}
 						else
@@ -1464,7 +1466,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							{
 								dataRenderer = 
 									getRendererUtil().getImageDataRenderable(
-										renderersCache,
+										imageRenderersCache,
 										renderer,
 										new Dimension(availableImageWidth, availableImageHeight),
 										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null

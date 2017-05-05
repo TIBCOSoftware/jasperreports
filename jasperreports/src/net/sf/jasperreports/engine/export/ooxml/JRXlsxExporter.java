@@ -101,6 +101,7 @@ import net.sf.jasperreports.export.XlsxReportConfiguration;
 import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
 import org.apache.commons.logging.Log;
@@ -1224,13 +1225,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	private class InternalImageProcessor
 	{
 		private final JRPrintElement imageElement;
+		private final RenderersCache imageRenderersCache;
 		private final boolean needDimension; 
 		private final JRExporterGridCell cell;
 		private final int availableImageWidth;
 		private final int availableImageHeight;
 
 		protected InternalImageProcessor(
-			JRPrintElement imageElement,
+			JRPrintImage imageElement,
 			boolean needDimension, 
 			JRExporterGridCell cell,
 			int availableImageWidth,
@@ -1238,6 +1240,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			)
 		{
 			this.imageElement = imageElement;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			this.needDimension = needDimension;
 			this.cell = cell;
 			this.availableImageWidth = availableImageWidth;
@@ -1248,14 +1251,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 			Dimension2D dimension = null;
 			if (needDimension)
 			{
-				DimensionRenderable dimensionRenderer = renderersCache.getDimensionRenderable(renderer);
+				DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable(renderer);
 				dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			}
 			
@@ -1281,7 +1284,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 					DataRenderable imageRenderer = 
 						getRendererUtil().getImageDataRenderable(
-							renderersCache,
+							imageRenderersCache,
 							renderer,
 							new Dimension(availableImageWidth, availableImageHeight),
 							ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
+import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
@@ -42,6 +43,7 @@ import net.sf.jasperreports.renderers.util.RendererUtil;
 public class InternalImageProcessor 
 {
 	private final JRPrintImage imageElement;
+	private final RenderersCache imageRenderersCache;
 	private final JRExporterGridCell cell;
 	private final int availableImageWidth;
 	private final int availableImageHeight;
@@ -58,6 +60,8 @@ public class InternalImageProcessor
 		)
 	{
 		this.imageElement = imageElement;
+		this.imageRenderersCache = imageElement.isUsingCache() ? documentBuilder.getRenderersCache() 
+				: new RenderersCache(jasperReportsContext);
 		this.cell = cell;
 		this.availableImageWidth = availableImageWidth;
 		this.availableImageHeight = availableImageHeight;
@@ -73,7 +77,7 @@ public class InternalImageProcessor
 		{
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = documentBuilder.getRenderersCache().getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 		}
 
@@ -106,7 +110,7 @@ public class InternalImageProcessor
 				double normalWidth = availableImageWidth;
 				double normalHeight = availableImageHeight;
 
-				DimensionRenderable dimensionRenderer = documentBuilder.getRenderersCache().getDimensionRenderable(renderer);
+				DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable(renderer);
 				Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 				if (dimension != null)
 				{
@@ -189,7 +193,7 @@ public class InternalImageProcessor
 
 				if (!isLazy)
 				{
-					DimensionRenderable dimensionRenderer = documentBuilder.getRenderersCache().getDimensionRenderable(renderer);
+					DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable(renderer);
 					Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 					if (dimension != null)
 					{
@@ -224,7 +228,8 @@ public class InternalImageProcessor
 					new Dimension(availableImageWidth, availableImageHeight),
 					ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null,
 					cell,
-					isLazy
+					isLazy,
+					imageRenderersCache
 					);
 
 		return 

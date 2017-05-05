@@ -1547,6 +1547,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private class InternalImageProcessor
 	{
 		private final JRPrintImage printImage;
+		private final RenderersCache imageRenderersCache;
 		
 		private final int topPadding;
 		private final int leftPadding;
@@ -1559,6 +1560,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		private InternalImageProcessor(JRPrintImage printImage)
 		{
 			this.printImage = printImage;
+			this.imageRenderersCache = printImage.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			
 			topPadding = printImage.getLineBox().getTopPadding().intValue();
 			leftPadding = printImage.getLineBox().getLeftPadding().intValue();
@@ -1578,7 +1580,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			if (renderer instanceof ResourceRenderer)
 			{
-				renderer = renderersCache.getLoadedRenderer((ResourceRenderer)renderer);
+				renderer = imageRenderersCache.getLoadedRenderer((ResourceRenderer)renderer);
 			}
 			
 			if (renderer instanceof Graphics2DRenderable)
