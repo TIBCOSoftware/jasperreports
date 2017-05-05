@@ -630,12 +630,24 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (groups != null && groups.length > 0)
 		{
+			ElementRange keepTogetherElementRange = null;
+			
 			for (int i = 0; i < groups.length; i++)
 			{
 				JRFillGroup group = groups[i];
 				
 				if (
-					group.isReprintHeaderOnEachPage() 
+					keepTogetherElementRange == null
+					&& group.getKeepTogetherElementRange() != null
+					&& !group.getKeepTogetherElementRange().isNewPage()
+					)
+				{
+					keepTogetherElementRange = group.getKeepTogetherElementRange();
+				}
+
+				if (
+					keepTogetherElementRange == null //we reprint headers only for groups that are "outer" to the one which triggered a potential "keep together" move 
+					&& group.isReprintHeaderOnEachPage() 
 					&& (!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
 					)
 				{
@@ -2008,14 +2020,22 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillColumnHeader(evalNextPage);
 
-		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
-		if (
-			!elementRangeContentMoved
-			&& isReprintGroupHeaders
-			)
+		if (isReprintGroupHeaders)
 		{
 			fillGroupHeadersReprint(evalNextPage);
+
+			ElementRange keepTogetherElementRange = keepTogetherGroup == null ? null : keepTogetherGroup.getKeepTogetherElementRange();
+			
+			if (
+				keepTogetherElementRange != null
+				&& offsetY > keepTogetherElementRange.getTopY()
+				)
+			{
+				throw new JRException(EXCEPTION_MESSAGE_KEY_KEEP_TOGETHER_CONTENT_DOES_NOT_FIT, (Object[]) null);
+			}
 		}
+
+		moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
 
 		isCreatingNewPage = false;
 	}

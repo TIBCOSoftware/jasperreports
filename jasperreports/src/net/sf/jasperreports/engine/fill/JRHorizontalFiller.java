@@ -640,13 +640,25 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		if (groups != null && groups.length > 0)
 		{
+			ElementRange keepTogetherElementRange = null;
+			
 			for (int i = 0; i < groups.length; i++)
 			{
 				JRFillGroup group = groups[i];
 				
 				if (
-					group.isReprintHeaderOnEachPage() &&
-					(!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
+					keepTogetherElementRange == null
+					&& group.getKeepTogetherElementRange() != null
+					&& !group.getKeepTogetherElementRange().isNewPage()
+					)
+				{
+					keepTogetherElementRange = group.getKeepTogetherElementRange();
+				}
+
+				if (
+					keepTogetherElementRange == null //we reprint headers only for groups that are "outer" to the one which triggered a potential "keep together" move 
+					&& group.isReprintHeaderOnEachPage()
+					&& (!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
 					)
 				{
 					fillGroupHeaderReprint(groups[i], evaluation);
@@ -2053,14 +2065,22 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		fillColumnHeaders(evalNextPage);
 
-		boolean elementRangeContentMoved = moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
-		if (
-			!elementRangeContentMoved
-			&& isReprintGroupHeaders
-			)
+		if (isReprintGroupHeaders)
 		{
 			fillGroupHeadersReprint(evalNextPage);
+			
+			ElementRange keepTogetherElementRange = keepTogetherGroup == null ? null : keepTogetherGroup.getKeepTogetherElementRange();
+
+			if (
+				keepTogetherElementRange != null
+				&& offsetY > keepTogetherElementRange.getBottomY()
+				)
+			{
+				throw new JRException("Keep together moved content does not fit on the new page.");
+			}
 		}
+
+		moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
 
 		isCreatingNewPage = false;
 	}

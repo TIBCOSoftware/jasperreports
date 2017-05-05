@@ -101,6 +101,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	public static final String EXCEPTION_MESSAGE_KEY_NO_SUCH_GROUP = "fill.base.filler.no.such.group";
 	public static final String EXCEPTION_MESSAGE_KEY_PAGE_HEADER_OVERFLOW_INFINITE_LOOP = "fill.common.filler.page.header.overflow.infinite.loop";
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE = "fill.base.filler.unsupported.report.section.type";
+	public static final String EXCEPTION_MESSAGE_KEY_KEEP_TOGETHER_CONTENT_DOES_NOT_FIT = "fill.common.filler.keep.together.content.does.not.fit";
 	
 	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 
 
@@ -1536,13 +1537,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	/**
 	 *
 	 */
-	protected boolean moveKeepTogetherElementRangeContent(
+	protected void moveKeepTogetherElementRangeContent(
 		JRFillGroup group,
 		List<JRPrintElement> elementsToMove
 		)
 	{
-		boolean moved = false;
-		
 		ElementRange keepTogetherElementRange = group == null ? null : group.getKeepTogetherElementRange();
 		
 		if (keepTogetherElementRange != null)
@@ -1561,8 +1560,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 						);
 
 					offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
-					
-					moved = true;
 				}
 			}
 			else
@@ -1579,15 +1576,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 						);
 
 					offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
-
-					moved = true;
 				}
 			}
 			
 			group.setKeepTogetherElementRange(null);
 		}
-		
-		return moved;
 	}
 	
 	protected int getFillerId()
