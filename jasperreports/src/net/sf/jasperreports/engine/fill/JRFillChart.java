@@ -763,8 +763,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
-		return new JRTemplateImage(getElementOrigin(), 
+		JRTemplateImage templateImage = new JRTemplateImage(getElementOrigin(), 
 				filler.getJasperPrint().getDefaultStyleProvider(), this);
+		templateImage.setUsingCache(false);
+		return templateImage;
 	}
 
 
