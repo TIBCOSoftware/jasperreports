@@ -1972,11 +1972,14 @@ public class JRVerticalFiller extends JRBaseFiller
 					);
 		}
 
-		for (JRFillGroup group : groups)
+		if (groups != null)
 		{
-			if (group.getKeepTogetherElementRange() != null)
+			for (JRFillGroup group : groups)
 			{
-				group.getKeepTogetherElementRange().expand(offsetY);
+				if (group.getKeepTogetherElementRange() != null)
+				{
+					group.getKeepTogetherElementRange().expand(offsetY);
+				}
 			}
 		}
 		
@@ -1995,15 +1998,18 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 		JRFillGroup keepTogetherGroup = null;
 		
-		for (JRFillGroup group : groups)
+		if (groups != null)
 		{
-			if (
-				group.getKeepTogetherElementRange() != null
-				&& !group.getKeepTogetherElementRange().isNewPage()
-				)
+			for (JRFillGroup group : groups)
 			{
-				keepTogetherGroup = group;
-				break;
+				if (
+					group.getKeepTogetherElementRange() != null
+					&& !group.getKeepTogetherElementRange().isNewPage()
+					)
+				{
+					keepTogetherGroup = group;
+					break;
+				}
 			}
 		}
 		
@@ -2055,11 +2061,14 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 		else
 		{
-			for (JRFillGroup group : groups)
+			if (groups != null)
 			{
-				if (group.getKeepTogetherElementRange() != null)
+				for (JRFillGroup group : groups)
 				{
-					group.getKeepTogetherElementRange().expand(offsetY);
+					if (group.getKeepTogetherElementRange() != null)
+					{
+						group.getKeepTogetherElementRange().expand(offsetY);
+					}
 				}
 			}
 			
@@ -2073,15 +2082,18 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			JRFillGroup keepTogetherGroup = null;
 			
-			for (JRFillGroup group : groups)
+			if (groups != null)
 			{
-				if (
-					group.getKeepTogetherElementRange() != null
-					&& !group.getKeepTogetherElementRange().isNewPage()
-					)
+				for (JRFillGroup group : groups)
 				{
-					keepTogetherGroup = group;
-					break;
+					if (
+						group.getKeepTogetherElementRange() != null
+						&& !group.getKeepTogetherElementRange().isNewPage()
+						)
+					{
+						keepTogetherGroup = group;
+						break;
+					}
 				}
 			}
 
@@ -2120,15 +2132,18 @@ public class JRVerticalFiller extends JRBaseFiller
 			
 			if (!toRefill)
 			{
-				for (JRFillGroup group : groups)
+				if (groups != null)
 				{
-					if (
-						group.getKeepTogetherElementRange() != null
-						&& !group.getKeepTogetherElementRange().isNewColumn()
-						)
+					for (JRFillGroup group : groups)
 					{
-						toRefill = true;
-						break;
+						if (
+							group.getKeepTogetherElementRange() != null
+							&& !group.getKeepTogetherElementRange().isNewColumn()
+							)
+						{
+							toRefill = true;
+							break;
+						}
 					}
 				}
 			}
