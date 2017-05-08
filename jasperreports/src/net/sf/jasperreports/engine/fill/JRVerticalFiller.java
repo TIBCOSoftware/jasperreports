@@ -2088,7 +2088,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				{
 					if (
 						group.getKeepTogetherElementRange() != null
-						&& !group.getKeepTogetherElementRange().isNewPage()
+						&& !group.getKeepTogetherElementRange().isNewColumn()
 						)
 					{
 						keepTogetherGroup = group;
