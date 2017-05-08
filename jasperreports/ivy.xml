@@ -41,15 +41,17 @@
 		<dependency org="org.apache.poi" name="poi-ooxml" rev="3.15"/>
 		<dependency org="org.apache.poi" name="poi" rev="3.15"/>
 		<dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.8"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.8"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.9"/>
 		<dependency org="org.apache-extras.beanshell" name="bsh" rev="2.0b6"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.3.3"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.3.3"/>
