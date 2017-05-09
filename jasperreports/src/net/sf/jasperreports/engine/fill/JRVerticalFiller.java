@@ -630,24 +630,21 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (groups != null && groups.length > 0)
 		{
-			ElementRange keepTogetherElementRange = null;
-			
 			for (int i = 0; i < groups.length; i++)
 			{
 				JRFillGroup group = groups[i];
 				
 				if (
-					keepTogetherElementRange == null
-					&& group.getKeepTogetherElementRange() != null
+					group.getKeepTogetherElementRange() != null
 					&& !group.getKeepTogetherElementRange().isNewPage()
 					)
 				{
-					keepTogetherElementRange = group.getKeepTogetherElementRange();
+					//we reprint headers only for groups that are "outer" to the one which triggered a potential "keep together" move 
+					break;
 				}
 
 				if (
-					keepTogetherElementRange == null //we reprint headers only for groups that are "outer" to the one which triggered a potential "keep together" move 
-					&& group.isReprintHeaderOnEachPage() 
+					group.isReprintHeaderOnEachPage() 
 					&& (!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
 					)
 				{
@@ -2134,6 +2131,10 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				if (groups != null)
 				{
+					// this works even for group headers and footers, not only detail,
+					// because outer groups keep together is honored, while for the
+					// inner keep together groups, the element range would be null 
+					// in-between parent group breaks
 					for (JRFillGroup group : groups)
 					{
 						if (
