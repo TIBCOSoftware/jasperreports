@@ -1546,38 +1546,15 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		
 		if (keepTogetherElementRange != null)
 		{
-			if (keepTogetherElementRange.getPage() == getCurrentPage())
-			{
-				// it's a column break
+			ElementRangeUtil.addContent(
+				printPage, 
+				elementsToMove,
+				//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
+				(columnIndex - keepTogetherElementRange.getColumnIndex()) * (columnSpacing + columnWidth),
+				offsetY - keepTogetherElementRange.getTopY()
+				);
 
-				if (!keepTogetherElementRange.isNewColumn())
-				{
-					ElementRangeUtil.addContent(
-						printPage, 
-						elementsToMove,
-						columnSpacing + columnWidth,
-						offsetY - keepTogetherElementRange.getTopY()
-						);
-
-					offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
-				}
-			}
-			else
-			{
-				// it's a page break
-
-				if (!keepTogetherElementRange.isNewPage())
-				{
-					ElementRangeUtil.addContent(
-						printPage, 
-						elementsToMove,
-						(columnIndex - keepTogetherElementRange.getColumnIndex()) * (columnSpacing + columnWidth),
-						offsetY - keepTogetherElementRange.getTopY()
-						);
-
-					offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
-				}
-			}
+			offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
 			
 			group.setKeepTogetherElementRange(null);
 		}

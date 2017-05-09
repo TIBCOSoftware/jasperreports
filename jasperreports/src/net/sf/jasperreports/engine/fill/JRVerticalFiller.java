@@ -509,19 +509,37 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (groups != null && groups.length > 0)
 		{
-			for(int i = 0; i < groups.length; i++)
+			for (int i = 0; i < groups.length; i++)
 			{
 				JRFillGroup group = groups[i];
 
-				if(isFillAll || group.hasChanged())
+				if (isFillAll || group.hasChanged())
 				{
-					ElementRange newElementRange = fillGroupHeader(group);
-					// fillGroupHeader never returns null, because we need an element range 
-					// regardless of the group header printing or not
+					ElementRange elementRange = fillGroupHeader(group);
 					
-					if (group.getKeepTogetherElementRange() == null && group.isKeepTogether())
+					if (
+						group.getKeepTogetherElementRange() == null 
+						&& group.isKeepTogether()
+						)
 					{
-						group.setKeepTogetherElementRange(newElementRange);
+						if (elementRange == null && !isNewColumn)
+						{
+							// we need an element range for keep together regardless whether the group header was printed or not,
+							// but it does not make sense to create one here if the column is already new
+							elementRange = 
+								new SimpleElementRange(
+									getCurrentPage(), 
+									columnIndex,
+									isNewColumn,
+									offsetY
+									);
+						}
+						
+						if (elementRange != null && !elementRange.isNewColumn())
+						{
+							//there is no point in having a keep together range if the column is already new
+							group.setKeepTogetherElementRange(elementRange);
+						}
 					}
 				}
 			}
@@ -605,20 +623,6 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		isNewGroup = true;
 
-		if (elementRange == null)
-		{
-			// fillGroupHeader never returns null, because we need an element range 
-			// regardless of the group header printing or not
-			elementRange = 
-				new SimpleElementRange(
-					getCurrentPage(), 
-					columnIndex,
-					isNewPage,
-					isNewColumn,
-					offsetY
-					);
-		}
-		
 		return elementRange;
 	}
 
@@ -634,10 +638,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				JRFillGroup group = groups[i];
 				
-				if (
-					group.getKeepTogetherElementRange() != null
-					&& !group.getKeepTogetherElementRange().isNewPage()
-					)
+				if (group.getKeepTogetherElementRange() != null)
 				{
 					//we reprint headers only for groups that are "outer" to the one which triggered a potential "keep together" move 
 					break;
@@ -1999,10 +2000,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			for (JRFillGroup group : groups)
 			{
-				if (
-					group.getKeepTogetherElementRange() != null
-					&& !group.getKeepTogetherElementRange().isNewPage()
-					)
+				if (group.getKeepTogetherElementRange() != null)
 				{
 					keepTogetherGroup = group;
 					break;
@@ -2083,10 +2081,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				for (JRFillGroup group : groups)
 				{
-					if (
-						group.getKeepTogetherElementRange() != null
-						&& !group.getKeepTogetherElementRange().isNewColumn()
-						)
+					if (group.getKeepTogetherElementRange() != null)
 					{
 						keepTogetherGroup = group;
 						break;
@@ -2137,10 +2132,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					// in-between parent group breaks
 					for (JRFillGroup group : groups)
 					{
-						if (
-							group.getKeepTogetherElementRange() != null
-							&& !group.getKeepTogetherElementRange().isNewColumn()
-							)
+						if (group.getKeepTogetherElementRange() != null)
 						{
 							toRefill = true;
 							break;
@@ -2161,7 +2153,6 @@ public class JRVerticalFiller extends JRBaseFiller
 			new SimpleElementRange(
 				getCurrentPage(), 
 				columnIndex, 
-				isNewPage,
 				isNewColumn,
 				offsetY
 				);

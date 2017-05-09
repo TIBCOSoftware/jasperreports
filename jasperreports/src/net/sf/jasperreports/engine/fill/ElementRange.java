@@ -34,8 +34,6 @@ public interface ElementRange
 	
 	public int getColumnIndex();
 	
-	public boolean isNewPage();
-	
 	public boolean isNewColumn();
 	
 	public int getTopY();

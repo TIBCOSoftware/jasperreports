@@ -32,7 +32,6 @@ public class SimpleElementRange implements ElementRange
 {
 	private final JRPrintPage page;
 	private final int columnIndex;
-	private final boolean isNewPage;
 	private final boolean isNewColumn;
 	private final int topY;
 	private int bottomY;
@@ -42,14 +41,12 @@ public class SimpleElementRange implements ElementRange
 	public SimpleElementRange(
 		JRPrintPage page,
 		int columnIndex,
-		boolean isNewPage,
 		boolean isNewColumn,
 		int topY
 		)
 	{
 		this.page = page;
 		this.columnIndex = columnIndex;
-		this.isNewPage = isNewPage;
 		this.isNewColumn = isNewColumn;
 
 		this.firstElementIndex = page.getElements().size(); // this points to the next element added to the page, if any
@@ -68,12 +65,6 @@ public class SimpleElementRange implements ElementRange
 	public int getColumnIndex()
 	{
 		return columnIndex;
-	}
-	
-	@Override
-	public boolean isNewPage()
-	{
-		return isNewPage;
 	}
 	
 	@Override
