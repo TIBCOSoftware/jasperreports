@@ -102,83 +102,78 @@ and the related classes will be saved into the <code>build/classes</code> direct
 <br/>
 Now let's update these report templates. There are some specific Ant targets declared in the <code>build.xml</code> file:
 <pre><![CDATA[
-<path id="classpath">
-  <pathelement location="../../../build/classes"/>
-  <fileset dir="../../../lib">
-    <include name="**/*.jar"/>
-  </fileset>
-</path>
+<target name="define-jru" depends="prepare-compile-classpath">
+  <taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
+    <classpath refid="project-classpath"/>
+  </taskdef>
+</target>
 
-<path id="runClasspath">
-  <path refid="classpath"/>
-  <pathelement location="../../fonts"/>
-  <pathelement location="./build/classes"/>
-</path>
-
-<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
-  <classpath refid="classpath"/>
-</taskdef>
-
-<target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag."> 
+<target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag." depends="define-jru"> 
   <mkdir dir="./build/reports"/> 
   <jru 
-      srcdir="./reports"
-      destdir="./build/reports/update1">
-    <classpath refid="runClasspath"/>
+    srcdir="./reports"
+    destdir="./build/reports">
+    <classpath refid="sample-classpath"/>
     <include name="**/*.jrxml"/>
     <!--
-    <updater>com.update.StyleUpdater</updater>
+      <updater>com.update.StyleUpdater</updater>
     -->
   </jru>
 </target> 
 
-<target name="update2" description="Updates report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+<target name="update2" description="Updates report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag." depends="define-jru">
   <mkdir dir="./build/reports"/> 
-  <jru destdir="./build/reports/update2">
+  <jru destdir="./build/reports">
     <src>
       <fileset dir="./reports">
         <include name="**/*.jrxml"/>
       </fileset>
     </src>
-    <classpath refid="runClasspath"/>
+    <classpath refid="sample-classpath"/>
+    <!--
+      <updater>com.update.StyleUpdater</updater>
+    -->
   </jru> 
 </target> 
 
-<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
-  <classpath refid="classpath"/>
-</taskdef>
-
-<target name="javac" description="Compiles the Java source files used in the report designs.">
+<target name="javac" description="Compiles the Java source files used in the report designs." depends="prepare-compile-classpath">
   <mkdir dir="./build/classes"/> 
   <javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true"
-      encoding="ISO-8859-1" includeantruntime="false">
-      <compilerarg value="-Xlint:unchecked"/>
-      <compilerarg value="-Xlint:-options"/>
+    encoding="ISO-8859-1" includeantruntime="false">
+    <compilerarg value="-Xlint:-unchecked"/>
+    <compilerarg value="-Xlint:-options"/>
+    <classpath refid="sample-classpath"/>
   </javac>
 </target> 
 
-<target name="compile" depends="javac" description="Compiles the initial report designs."> 
+<target name="define-jrc" depends="prepare-compile-classpath">
+  <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+    <classpath refid="project-classpath"/>
+  </taskdef>
+</target>
+
+<target name="compile" depends="javac, define-jrc" description="Compiles the initial report designs."> 
   <mkdir dir="./build/reports"/> 
   <delete dir="./build">
     <include name="**/*.jasper"/>
   </delete>
   <jrc 
-      srcdir="./reports"
-      destdir="./build/reports">
-    <classpath refid="runClasspath"/>
+    srcdir="./reports"
+    destdir="./build/reports">
+    <classpath refid="sample-classpath"/>
     <include name="**/*.jrxml"/>
   </jrc>
 </target> 
 
-<target name="compileUpdated" depends="javac" description="Compiles the updated report designs."> 
+<target name="compileUpdated" depends="javac, define-jrc" description="Compiles the updated report designs."> 
   <mkdir dir="./build/reports"/> 
   <delete dir="./build">
     <include name="**/*.jasper"/>
   </delete>
   <jrc 
-      srcdir="./build/reports"
-      destdir="./build/reports">
-    <classpath refid="runClasspath"/>
+    srcdir="./build/reports"
+    destdir="./build/reports">
+    <classpath refid="sample-classpath"/>
     <include name="**/*.jrxml"/>
   </jrc>
 </target> 
@@ -192,6 +187,7 @@ Now let's update these report templates. There are some specific Ant targets dec
   <echo message=" Ant Update Sample"/>
   <echo message="==================================="/>
   <antcall target="clean" />
+  <antcall target="javac" />
   <antcall target="update1" />
   <antcall target="update2" />
 </target>
@@ -212,9 +208,10 @@ also called to perform its specific update operations. In order to see how they 
 <br/>
 <br/>
 When <code>update2</code> target is called, sources are passed to the Ant task as file set in the <code>&lt;src&gt;</code> tag. Once again we can see that only 
-<code>*.jrxml</code> files are allowed. This target does not provide an <code>&lt;updater&gt;</code> tag, so only default updates will be performed.
+<code>*.jrxml</code> files are allowed. This target also provide a commented <code>&lt;updater&gt;</code> tag. If uncommented, default updates will be performed 
+along with those provided by the updater class.
 <br/>
-After the batch update the destination folder tree will lokk like this:
+After the batch update the destination folder tree will look like this:
 <pre><![CDATA[
                                 build
                                   |
