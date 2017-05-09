@@ -196,20 +196,25 @@ When <code>update1</code> target is called, the root directory for the JRXML sou
 will be passed as parameters to the updater Ant task. The root source directory will be recursively scanned and any JRXML file in the path will be localized. 
 Other file types (see the ignoreme.txt) will be neglected.
 <br/>
+By default, the Ant updater task updates sources based on timestamp differences between source and destination files, or on schema changes. Updated JRXML 
+files will reflect all these changes and syntax updates.
+<br/>
 Also notice here the commented line 
 <pre><![CDATA[
 <!--
 <updater>com.update.StyleUpdater</updater>
 -->]]></pre>
-that calls the <code>StyleUpdater</code> after source files are scanned. By default, the Ant updater task updates sources based on timestamp 
-differences between source and destination files, or on schema changes. When the <code>&lt;updater&gt;</code> tag is present, the related report updater is 
-also called to perform its specific update operations. In order to see how they act, just uncomment this line and run the sample again. If enabled, the 
-<code>StyleUpdater</code> will modify the report <code>Arial_Normal</code> style attributes for font color (blue: #0000FF), font size (14px) and font weight (bold). 
+that calls the <code>StyleUpdater</code> after source files are scanned. When the 
+<code>&lt;updater&gt;</code> tag is present, default updates will be executed anyway, 
+but the related report updater is also called to perform its specific update operations. 
+In order to see how they act, just uncomment this line and run the sample again. If enabled, the 
+<code>StyleUpdater</code> will modify the report <code>Arial_Normal</code> style attributes for 
+font color (blue: #0000FF), font size (14px) and font weight (bold). 
 <br/>
 <br/>
 When <code>update2</code> target is called, sources are passed to the Ant task as file set in the <code>&lt;src&gt;</code> tag. Once again we can see that only 
-<code>*.jrxml</code> files are allowed. This target also provide a commented <code>&lt;updater&gt;</code> tag. If uncommented, default updates will be performed 
-along with those provided by the updater class.
+<code>*.jrxml</code> files are allowed. This target also provide a commented <code>&lt;updater&gt;</code> tag. Default updates will be performed in this case. 
+If the <code>&lt;updater&gt;</code> tag is uncommented, <code>StyleUpdater</code> will also execute its update operations.
 <br/>
 After the batch update the destination folder tree will look like this:
 <pre><![CDATA[
