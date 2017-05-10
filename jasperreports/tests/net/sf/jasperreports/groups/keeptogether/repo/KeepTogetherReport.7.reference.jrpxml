@@ -389,25 +389,25 @@ Header
 			<textContent><![CDATA[Second Group Footer]]></textContent>
 		</text>
 		<text textHeight="55.875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="080f6cd4-258a-479b-b22e-602f23d7e4ca" mode="Opaque" x="40" y="730" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="3" printId="2"/>
+			<reportElement uuid="080f6cd4-258a-479b-b22e-602f23d7e4ca" mode="Opaque" x="305" y="130" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="3" printId="2"/>
 			<textContent><![CDATA[Second 
 Group 
 Header 
 1]]></textContent>
 		</text>
 		<text textHeight="55.875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="d7879f47-39b0-4d91-b226-8ec47c9ab2aa" mode="Opaque" x="305" y="130" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="4" printId="2"/>
+			<reportElement uuid="d7879f47-39b0-4d91-b226-8ec47c9ab2aa" mode="Opaque" x="305" y="185" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="4" printId="2"/>
 			<textContent><![CDATA[Second 
 Group 
 Header 
 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e75a4e94-c0f7-4f36-90a9-dee8b2f00db7" mode="Opaque" x="305" y="185" width="250" height="40" forecolor="#FFFFFF" backcolor="#CC0000" origin="4" srcId="6" printId="3"/>
+			<reportElement uuid="e75a4e94-c0f7-4f36-90a9-dee8b2f00db7" mode="Opaque" x="305" y="240" width="250" height="40" forecolor="#FFFFFF" backcolor="#CC0000" origin="4" srcId="6" printId="3"/>
 			<textContent><![CDATA[Third Group Header]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="225" width="90" height="25" origin="7" srcId="9" printId="11"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="280" width="90" height="25" origin="7" srcId="9" printId="11"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -418,7 +418,7 @@ Header
 			<textContent><![CDATA[Detail 11]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="225" width="80" height="25" origin="7" srcId="10" printId="11"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="280" width="80" height="25" origin="7" srcId="10" printId="11"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -429,7 +429,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="225" width="80" height="25" origin="7" srcId="11" printId="11"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="280" width="80" height="25" origin="7" srcId="11" printId="11"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -440,7 +440,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="250" width="90" height="25" origin="7" srcId="9" printId="12"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="305" width="90" height="25" origin="7" srcId="9" printId="12"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -451,7 +451,7 @@ Header
 			<textContent><![CDATA[Detail 12]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="250" width="80" height="25" origin="7" srcId="10" printId="12"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="305" width="80" height="25" origin="7" srcId="10" printId="12"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -462,7 +462,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="250" width="80" height="25" origin="7" srcId="11" printId="12"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="305" width="80" height="25" origin="7" srcId="11" printId="12"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -473,7 +473,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="275" width="90" height="25" origin="7" srcId="9" printId="13"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="330" width="90" height="25" origin="7" srcId="9" printId="13"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -484,7 +484,7 @@ Header
 			<textContent><![CDATA[Detail 13]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="275" width="80" height="25" origin="7" srcId="10" printId="13"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="330" width="80" height="25" origin="7" srcId="10" printId="13"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -495,7 +495,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="275" width="80" height="25" origin="7" srcId="11" printId="13"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="330" width="80" height="25" origin="7" srcId="11" printId="13"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -506,7 +506,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="300" width="90" height="25" origin="7" srcId="9" printId="14"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="355" width="90" height="25" origin="7" srcId="9" printId="14"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -517,7 +517,7 @@ Header
 			<textContent><![CDATA[Detail 14]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="300" width="80" height="25" origin="7" srcId="10" printId="14"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="355" width="80" height="25" origin="7" srcId="10" printId="14"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -528,7 +528,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="300" width="80" height="25" origin="7" srcId="11" printId="14"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="355" width="80" height="25" origin="7" srcId="11" printId="14"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -539,7 +539,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="325" width="90" height="25" origin="7" srcId="9" printId="15"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="380" width="90" height="25" origin="7" srcId="9" printId="15"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -550,7 +550,7 @@ Header
 			<textContent><![CDATA[Detail 15]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="325" width="80" height="25" origin="7" srcId="10" printId="15"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="380" width="80" height="25" origin="7" srcId="10" printId="15"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -561,7 +561,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="325" width="80" height="25" origin="7" srcId="11" printId="15"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="380" width="80" height="25" origin="7" srcId="11" printId="15"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -572,15 +572,15 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="305" y="350" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="7" printId="3"/>
+			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="305" y="405" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="7" printId="3"/>
 			<textContent><![CDATA[Third Group Footer]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e75a4e94-c0f7-4f36-90a9-dee8b2f00db7" mode="Opaque" x="305" y="390" width="250" height="40" forecolor="#FFFFFF" backcolor="#CC0000" origin="4" srcId="6" printId="4"/>
+			<reportElement uuid="e75a4e94-c0f7-4f36-90a9-dee8b2f00db7" mode="Opaque" x="305" y="445" width="250" height="40" forecolor="#FFFFFF" backcolor="#CC0000" origin="4" srcId="6" printId="4"/>
 			<textContent><![CDATA[Third Group Header]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="430" width="90" height="25" origin="7" srcId="9" printId="16"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="485" width="90" height="25" origin="7" srcId="9" printId="16"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -591,7 +591,7 @@ Header
 			<textContent><![CDATA[Detail 16]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="430" width="80" height="25" origin="7" srcId="10" printId="16"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="485" width="80" height="25" origin="7" srcId="10" printId="16"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -602,7 +602,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="430" width="80" height="25" origin="7" srcId="11" printId="16"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="485" width="80" height="25" origin="7" srcId="11" printId="16"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -613,7 +613,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="455" width="90" height="25" origin="7" srcId="9" printId="17"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="510" width="90" height="25" origin="7" srcId="9" printId="17"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -624,7 +624,7 @@ Header
 			<textContent><![CDATA[Detail 17]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="455" width="80" height="25" origin="7" srcId="10" printId="17"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="510" width="80" height="25" origin="7" srcId="10" printId="17"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -635,7 +635,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="455" width="80" height="25" origin="7" srcId="11" printId="17"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="510" width="80" height="25" origin="7" srcId="11" printId="17"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -646,7 +646,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="480" width="90" height="25" origin="7" srcId="9" printId="18"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="535" width="90" height="25" origin="7" srcId="9" printId="18"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -657,7 +657,7 @@ Header
 			<textContent><![CDATA[Detail 18]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="480" width="80" height="25" origin="7" srcId="10" printId="18"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="535" width="80" height="25" origin="7" srcId="10" printId="18"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -668,7 +668,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="480" width="80" height="25" origin="7" srcId="11" printId="18"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="535" width="80" height="25" origin="7" srcId="11" printId="18"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -679,7 +679,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="505" width="90" height="25" origin="7" srcId="9" printId="19"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="560" width="90" height="25" origin="7" srcId="9" printId="19"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -690,7 +690,7 @@ Header
 			<textContent><![CDATA[Detail 19]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="505" width="80" height="25" origin="7" srcId="10" printId="19"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="560" width="80" height="25" origin="7" srcId="10" printId="19"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -701,7 +701,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="505" width="80" height="25" origin="7" srcId="11" printId="19"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="560" width="80" height="25" origin="7" srcId="11" printId="19"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -712,7 +712,7 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="530" width="90" height="25" origin="7" srcId="9" printId="20"/>
+			<reportElement uuid="aeb122d5-6786-4818-a190-452f0aae8c27" mode="Transparent" x="305" y="585" width="90" height="25" origin="7" srcId="9" printId="20"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -723,7 +723,7 @@ Header
 			<textContent><![CDATA[Detail 20]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="530" width="80" height="25" origin="7" srcId="10" printId="20"/>
+			<reportElement uuid="f9b6555a-7b2b-470a-8f1c-d5454b519c01" mode="Transparent" x="395" y="585" width="80" height="25" origin="7" srcId="10" printId="20"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -734,7 +734,7 @@ Header
 			<textContent><![CDATA[Page 1]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="530" width="80" height="25" origin="7" srcId="11" printId="20"/>
+			<reportElement uuid="f20a3b72-1c2f-4000-8e9d-9e6cd6d02f39" mode="Transparent" x="475" y="585" width="80" height="25" origin="7" srcId="11" printId="20"/>
 			<box>
 				<pen lineWidth="1.0"/>
 				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -745,11 +745,11 @@ Header
 			<textContent><![CDATA[Col 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="305" y="555" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="7" printId="4"/>
+			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="305" y="610" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="7" printId="4"/>
 			<textContent><![CDATA[Third Group Footer]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="de2f8712-c6f2-4e31-a8d9-a676d35e7451" mode="Opaque" x="305" y="595" width="250" height="40" backcolor="#00FFCC" origin="3" srcId="5" printId="2"/>
+			<reportElement uuid="de2f8712-c6f2-4e31-a8d9-a676d35e7451" mode="Opaque" x="305" y="650" width="250" height="40" backcolor="#00FFCC" origin="3" srcId="5" printId="2"/>
 			<textContent><![CDATA[Second Group Footer]]></textContent>
 		</text>
 	</page>
@@ -762,7 +762,7 @@ Header
 1]]></textContent>
 		</text>
 		<text textHeight="55.875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="d7879f47-39b0-4d91-b226-8ec47c9ab2aa" mode="Opaque" x="40" y="105" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="4" printId="3"/>
+			<reportElement uuid="d7879f47-39b0-4d91-b226-8ec47c9ab2aa" mode="Opaque" x="40" y="105" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="4" printId="4"/>
 			<textContent><![CDATA[Second 
 Group 
 Header 
@@ -1126,7 +1126,7 @@ Header
 1]]></textContent>
 		</text>
 		<text textHeight="55.875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="d7879f47-39b0-4d91-b226-8ec47c9ab2aa" mode="Opaque" x="305" y="105" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="4" printId="4"/>
+			<reportElement uuid="d7879f47-39b0-4d91-b226-8ec47c9ab2aa" mode="Opaque" x="305" y="105" width="250" height="55" forecolor="#FFFFFF" backcolor="#009900" origin="2" srcId="4" printId="5"/>
 			<textContent><![CDATA[Second 
 Group 
 Header 

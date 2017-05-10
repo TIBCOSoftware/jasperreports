@@ -525,32 +525,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				if (isFillAll || group.hasChanged())
 				{
-					ElementRange elementRange = fillGroupHeader(group);
-					
-					if (
-						group.getKeepTogetherElementRange() == null 
-						&& group.isKeepTogether()
-						)
-					{
-						if (elementRange == null && !isNewColumn)
-						{
-							// we need an element range for keep together regardless whether the group header was printed or not,
-							// but it does not make sense to create one here if the column is already new
-							elementRange = 
-								new SimpleElementRange(
-									getCurrentPage(), 
-									columnIndex,
-									isNewColumn,
-									offsetY
-									);
-						}
-						
-						if (elementRange != null && !elementRange.isNewColumn())
-						{
-							//there is no point in having a keep together range if the column is already new
-							group.setKeepTogetherElementRange(elementRange);
-						}
-					}
+					fillGroupHeader(group);
 				}
 			}
 		}
@@ -560,7 +535,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private ElementRange fillGroupHeader(JRFillGroup group) throws JRException
+	private void fillGroupHeader(JRFillGroup group) throws JRException
 	{
 		JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
 
@@ -584,8 +559,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 				);
 		}
 
-		ElementRange elementRange = null;
-		
 		JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
 		for(int i = 0; i < groupHeaderBands.length; i++)
 		{
@@ -616,13 +589,39 @@ public class JRHorizontalFiller extends JRBaseFiller
 				group.setFooterPrinted(false);
 			}
 
+			ElementRange elementRange = null;
+			
+			if (group.isKeepTogether())
+			{
+				elementRange = group.getKeepTogetherElementRange();
+				
+				if (elementRange == null && !isNewColumn)
+				{
+					// we need to set a keep together element range for the group
+					// even if its header does not print,
+					// but only if the column is not already new
+					elementRange = 
+						new SimpleElementRange(
+							getCurrentPage(), 
+							columnIndex, 
+							isNewColumn,
+							offsetY
+							);
+					group.setKeepTogetherElementRange(elementRange);
+				}
+			}
+
 			if (groupHeaderBand.isToPrint())
 			{
 				setFirstColumn();
 
 				ElementRange newElementRange = fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
 				
-				elementRange = ElementRangeUtil.expand(elementRange, newElementRange);
+				// in case a column/page break occurred during the filling of the band above,
+				// the provided element range is discarded (we don't capture the return of the expand method below),
+				// but that should not be a problem because the discarded element range was already dealt with during the break, 
+				// because it was a keep together element range
+				ElementRangeUtil.expand(elementRange, newElementRange);
 
 				isFirstPageBand = false;
 				isFirstColumnBand = true;
@@ -632,8 +631,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 		group.setHeaderPrinted(true);
 
 		isNewGroup = true;
-
-		return elementRange;
 	}
 
 
@@ -650,7 +647,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 				
 				if (group.getKeepTogetherElementRange() != null)
 				{
-					//we reprint headers only for groups that are "outer" to the one which triggered a potential "keep together" move
+					// we reprint headers only for groups that are "outer" to the one which 
+					// triggered a potential "keep together" move 
 					break;
 				}
 
@@ -838,8 +836,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 				{
 					fillGroupFooter(group, evaluation);
 					
-					// regardless of whether the fillGroupFooter returned an element range or not 
-					// (footer was printed or not), we just need to mark the end of the group 
+					// regardless of whether the fillGroupFooter was printed or not, 
+					// we just need to mark the end of the group 
 					group.setKeepTogetherElementRange(null);
 				}
 			}
