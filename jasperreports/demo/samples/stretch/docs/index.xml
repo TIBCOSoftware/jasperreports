@@ -115,10 +115,20 @@ text fields which stretch themselves. The element response to the modification o
 layout could be:
 <ul>
 <li><code>strechType= "NoStretch"</code> - The element won't stretch. It preserves its original height.</li>
-<li><code>stretchType="RelativeToBandHeight"</code> - The element adjusts its height to fit the new height of the
-report section it belongs to.</li>
-<li><code>stretchType="RelativeToTallestObject"</code> - if the element belongs to an element group, it can 
-adjust its height to fit the new height of the tallest element in that group</li>
+<li><code>stretchType="ElementGroupHeight"</code> - the element will adapt its height to match the changing 
+height of the overall element group it is part of, without taking into account changes of the Y position of the 
+element due to floating and/or collapsing white space above it.</li>
+<li><code>stretchType="ElementGroupBottom"</code> - the element will adapt its height to match the changing 
+height of the overall element group it is part of, taking into account changes of the Y position of the 
+element due to floating and/or collapsing white space above it. The element's distance to the group's initial 
+bottom edge will be preserved.</li>
+<li><code>stretchType="ContainerHeight"</code> - the element will adapt its height to match the new 
+height of the container it is placed on, without taking into account changes of the Y position of the 
+element due to floating and/or collapsing white space above it.</li>
+<li><code>stretchType="ContainerBottom"</code> - the element will adapt its height to match the new 
+height of the container it is placed on, taking into account changes of the Y position of the 
+element due to floating and/or collapsing white space above it. The element's distance to the container's initial 
+bottom edge will be preserved.</li>
 </ul>
 <br/>
 <br/>
@@ -181,7 +191,7 @@ different elements stretching attributes (<code>positionType</code>, <code>stret
 <pre><![CDATA[
   <elementGroup>
   <line>
-    <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="5" y="5" 
+    <reportElement positionType="Float" stretchType="ElementGroupHeight" x="5" y="5" 
       width="1" height="16" isPrintWhenDetailOverflows="true"/>
     <graphicElement/>
   </line>
@@ -196,7 +206,7 @@ different elements stretching attributes (<code>positionType</code>, <code>stret
     </textFieldExpression>
   </textField>
   <line>
-    <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="135" y="5" 
+    <reportElement positionType="Float" stretchType="ElementGroupHeight" x="135" y="5" 
       width="1" height="16" isPrintWhenDetailOverflows="true"/>
     <graphicElement/>
   </line>
