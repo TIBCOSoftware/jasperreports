@@ -782,6 +782,7 @@ public class JRApiWriter
 		write( groupName + ".setFooterPosition({0});\n", group.getFooterPositionValue(), FooterPositionEnum.NORMAL);
 		
 		write( groupName + ".setKeepTogether({0});\n", group.isKeepTogether(), false);
+		write( groupName + ".setPreventOrphanFooter({0});\n", group.isPreventOrphanFooter(), false);
 
 		writeExpression( group.getExpression(), groupName, "Expression");
 

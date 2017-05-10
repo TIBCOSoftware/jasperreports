@@ -594,6 +594,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
 	public static final String ATTRIBUTE_footerPosition = "footerPosition";
 	public static final String ATTRIBUTE_keepTogether = "keepTogether";
+	public static final String ATTRIBUTE_preventOrphanFooter = "preventOrphanFooter";
 
 	/**
 	 * JRHyperlinkFactory associated constants

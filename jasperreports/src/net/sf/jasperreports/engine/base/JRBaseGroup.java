@@ -60,6 +60,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_KEEP_TOGETHER = "keepTogether";
 	
+	public static final String PROPERTY_PREVENT_ORPHAN_FOOTER = "preventOrphanFooter";
+	
 	public static final String PROPERTY_RESET_PAGE_NUMBER = "isResetPageNumber";
 	
 	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_PAGE = "isReprintHeaderOnEachPage";
@@ -79,6 +81,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected int minHeightToStartNewPage;
 	protected FooterPositionEnum footerPositionValue = FooterPositionEnum.NORMAL;
 	protected boolean keepTogether;
+	protected boolean preventOrphanFooter;
 
 	/**
 	 *
@@ -112,6 +115,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
 		footerPositionValue = group.getFooterPositionValue();
 		keepTogether = group.isKeepTogether();
+		preventOrphanFooter = group.isPreventOrphanFooter();
 		
 		expression = factory.getExpression(group.getExpression());
 
@@ -223,6 +227,20 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		boolean old = this.keepTogether;
 		this.keepTogether = keepTogether;
 		getEventSupport().firePropertyChange(PROPERTY_KEEP_TOGETHER, old, this.keepTogether);
+	}
+		
+	@Override
+	public boolean isPreventOrphanFooter()
+	{
+		return this.preventOrphanFooter;
+	}
+		
+	@Override
+	public void setPreventOrphanFooter(boolean preventOrphanFooter)
+	{
+		boolean old = this.preventOrphanFooter;
+		this.preventOrphanFooter = preventOrphanFooter;
+		getEventSupport().firePropertyChange(PROPERTY_PREVENT_ORPHAN_FOOTER, old, this.preventOrphanFooter);
 	}
 		
 	@Override

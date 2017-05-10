@@ -732,6 +732,10 @@ public class JRVerticalFiller extends JRBaseFiller
 		calculator.calculateVariables();
 		scriptlet.callAfterDetailEval();
 
+		detailElementRange = null;
+
+		boolean keepDetailElementRangeForOrphanFooter = true;
+		
 		for (int i = 0; i < detailBands.length; i++)
 		{
 			JRFillBand detailBand = detailBands[i];
@@ -740,7 +744,34 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (detailBand.isToPrint())
 			{
+				if (
+					keepDetailElementRangeForOrphanFooter
+					&& detailElementRange == null
+					)
+				{
+					detailElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
+				}
+
 				fillColumnBand(detailBand, JRExpression.EVALUATION_DEFAULT);
+				
+				if (detailElementRange == null)
+				{
+					// page/column break occurred so we give up keeping the detail element range altogether;
+					// even if the detail moved onto new page/column completely (did not start at the bottom as it was
+					// non-splitting or did not fit within break height), we still need to give up on keeping
+					// the current detail element range because only the next detail on the page/column would make
+					// sense to move for orphan footers;
+					// if there will be no second detail there, we simply can't move the only detail, so we still have to give up here
+					keepDetailElementRangeForOrphanFooter = false;
+				}
+				else
+				{
+					// there was no overflow, otherwise this range would have been reset to null during page/column break
+					
+					ElementRange newElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
+
+					ElementRangeUtil.expandOrIgnore(detailElementRange, newElementRange);
+				}
 
 				isFirstPageBand = false;
 				isFirstColumnBand = false;
@@ -762,9 +793,39 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			byte evaluation = (isFillAll)?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD;
 
-			for(int i = groups.length - 1; i >= 0; i--)
+			preventOrphanFootersMinLevel = null;
+			for (int i = groups.length - 1; i >= 0; i--)
 			{
 				JRFillGroup group = groups[i];
+				
+				if (
+					(isFillAll || group.hasChanged())
+					&& group.isPreventOrphanFooter()
+					)
+				{
+					// we need to decide up-front if during the current group footers printing,
+					// there are any potential orphans to take care of
+					preventOrphanFootersMinLevel = i;
+					break;
+				}
+			}
+			
+			for (int i = groups.length - 1; i >= 0; i--)
+			{
+				JRFillGroup group = groups[i];
+				
+				crtGroupFootersLevel = i;
+				if (
+					preventOrphanFootersMinLevel != null
+					&& crtGroupFootersLevel < preventOrphanFootersMinLevel
+					)
+				{
+					// reset the element ranges when we get to the group footers
+					// that are outer to the ones for which we need to prevent orphans;
+					// these ranges act like flags to signal we need to deal with orphans
+					orphanGroupFooterDetailElementRange = null;
+					orphanGroupFooterElementRange = null;
+				}
 				
 				if (isFillAll || group.hasChanged())
 				{
@@ -775,6 +836,10 @@ public class JRVerticalFiller extends JRBaseFiller
 					group.setKeepTogetherElementRange(null);
 				}
 			}
+			
+			// resetting orphan footer element ranges because all group footers have been rendered
+			orphanGroupFooterDetailElementRange = null;
+			orphanGroupFooterElementRange = null;
 			
 			// we need to take care of groupFooterPositionElementRange here because all groups footers have been 
 			// rendered and we need to consume remaining space before next groups start;
@@ -817,6 +882,18 @@ public class JRVerticalFiller extends JRBaseFiller
 			if (groupFooterBand.isToPrint())
 			{
 				if (
+					preventOrphanFootersMinLevel != null
+					&& crtGroupFootersLevel >= preventOrphanFootersMinLevel 
+					&& orphanGroupFooterDetailElementRange == null
+					)
+				{
+					// the detail element range can't be null here, unless there is no detail printing;
+					// keeping the detail element range in this separate variable signals we are currently
+					// dealing with orphan group footers
+					orphanGroupFooterDetailElementRange = detailElementRange;
+				}
+				
+				if (
 					groupFooterBand.getBreakHeight() > columnFooterOffsetY - offsetY
 					)
 				{
@@ -841,6 +918,19 @@ public class JRVerticalFiller extends JRBaseFiller
 					// in case the band breaks and the group footer element range needs to
 					// be recreated on the new page
 					groupFooterPositionElementRange.setCurrentFooterPosition(group.getFooterPositionValue());
+				}
+				
+				if (orphanGroupFooterDetailElementRange != null)
+				{
+					ElementRange newElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
+					if (orphanGroupFooterElementRange == null)
+					{
+						orphanGroupFooterElementRange = newElementRange;
+					}
+					else
+					{
+						ElementRangeUtil.expandOrIgnore(orphanGroupFooterElementRange, newElementRange);
+					}
 				}
 				
 				fillColumnBand(groupFooterBand, evaluation);
@@ -1999,6 +2089,19 @@ public class JRVerticalFiller extends JRBaseFiller
 			groupFooterPositionElementRange.getElementRange().expand(offsetY);
 		}
 
+		if (orphanGroupFooterElementRange != null)
+		{
+			// we are during a group footer filling and footers already started to print,
+			// so the current expansion applies to the group footer element range, not the detail element range
+			orphanGroupFooterElementRange.expand(offsetY);
+		}
+		else if (orphanGroupFooterDetailElementRange != null)
+		{
+			// we are during a group footer filling, but footers did not yet start to print,
+			// so the current expansion applies to the detail element range
+			orphanGroupFooterDetailElementRange.expand(offsetY);
+		}
+		
 		isCreatingNewPage = true;
 
 		fillColumnFooter(evalPrevPage);
@@ -2013,7 +2116,6 @@ public class JRVerticalFiller extends JRBaseFiller
 		scriptlet.callAfterPageInit();
 		
 		JRFillGroup keepTogetherGroup = null;
-		
 		if (groups != null)
 		{
 			for (JRFillGroup group : groups)
@@ -2026,12 +2128,28 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 		}
 		
-		ElementRangeContents elementsToMove = null;
-
+		ElementRange elementRangeToMove = null;
+		ElementRange elementRangeToMove2 = null; // we don't have more than two possible element ranges to move; at least for now
 		if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
 		{
-			elementsToMove = ElementRangeUtil.removeContent(keepTogetherGroup.getKeepTogetherElementRange(),
-					delayedActions);
+			elementRangeToMove = keepTogetherGroup.getKeepTogetherElementRange();
+		}
+		else if (orphanGroupFooterDetailElementRange != null)
+		{
+			elementRangeToMove = orphanGroupFooterDetailElementRange;
+			elementRangeToMove2 = orphanGroupFooterElementRange;
+		}
+
+		// remove second range first, otherwise element indexes would become out of range
+		ElementRangeContents elementsToMove2 = null;
+		if (elementRangeToMove2 != null)
+		{
+			elementsToMove2 = ElementRangeUtil.removeContent(elementRangeToMove2, delayedActions);
+		}
+		ElementRangeContents elementsToMove = null;
+		if (elementRangeToMove != null)
+		{
+			elementsToMove = ElementRangeUtil.removeContent(elementRangeToMove, delayedActions);
 		}
 
 		addPage(isResetPageNumber);
@@ -2055,9 +2173,44 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 		}
 
-		moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
+		// reseting all movable element ranges
+		orphanGroupFooterDetailElementRange = null;
+		orphanGroupFooterElementRange = null;
+		if (keepTogetherGroup != null)
+		{
+			keepTogetherGroup.setKeepTogetherElementRange(null);
+		}
 
-		if (
+		if (elementRangeToMove != null)
+		{
+			ElementRangeUtil.addContent(
+				printPage, 
+				currentPageIndex(),
+				elementsToMove,
+				//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
+				(columnIndex - elementRangeToMove.getColumnIndex()) * (columnSpacing + columnWidth),
+				offsetY - elementRangeToMove.getTopY(),
+				delayedActions
+				);
+
+			offsetY = offsetY + elementRangeToMove.getBottomY() - elementRangeToMove.getTopY();
+			
+			if (elementRangeToMove2 != null)
+			{
+				ElementRangeUtil.addContent( 
+					printPage, 
+					currentPageIndex(),
+					elementsToMove2,
+					//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
+					(columnIndex - elementRangeToMove2.getColumnIndex()) * (columnSpacing + columnWidth),
+					offsetY - elementRangeToMove2.getTopY(),
+					delayedActions
+					);
+
+				offsetY = offsetY + elementRangeToMove2.getBottomY() - elementRangeToMove2.getTopY();
+			}
+		} 
+		else if (
 			groupFooterPositionForOverflow != null
 			&& groupFooterPositionForOverflow != FooterPositionEnum.NORMAL
 			)
@@ -2109,6 +2262,19 @@ public class JRVerticalFiller extends JRBaseFiller
 				groupFooterPositionElementRange.getElementRange().expand(offsetY);
 			}
 			
+			if (orphanGroupFooterElementRange != null)
+			{
+				// we are during a group footer filling and footers already started to print,
+				// so the current expansion applies to the group footer element range, not the detail element range
+				orphanGroupFooterElementRange.expand(offsetY);
+			}
+			else if (orphanGroupFooterDetailElementRange != null)
+			{
+				// we are during a group footer filling, but footers did not yet start to print,
+				// so the current expansion applies to the detail element range
+				orphanGroupFooterDetailElementRange.expand(offsetY);
+			}
+			
 			fillColumnFooter(evalPrevPage);
 
 			resolveGroupBoundElements(evalPrevPage, false);
@@ -2118,7 +2284,6 @@ public class JRVerticalFiller extends JRBaseFiller
 			scriptlet.callAfterColumnInit();
 
 			JRFillGroup keepTogetherGroup = null;
-			
 			if (groups != null)
 			{
 				for (JRFillGroup group : groups)
@@ -2131,11 +2296,28 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 			}
 
-			ElementRangeContents elementsToMove = null;
-					
+			ElementRange elementRangeToMove = null;
+			ElementRange elementRangeToMove2 = null; // we don't have more than two possible element ranges to move; at least for now
 			if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
 			{
-				elementsToMove = ElementRangeUtil.removeContent(keepTogetherGroup.getKeepTogetherElementRange(), null);
+				elementRangeToMove = keepTogetherGroup.getKeepTogetherElementRange();
+			}
+			else if (orphanGroupFooterDetailElementRange != null)
+			{
+				elementRangeToMove = orphanGroupFooterDetailElementRange;
+				elementRangeToMove2 = orphanGroupFooterElementRange;
+			}
+			
+			// remove second range first, otherwise element indexes would become out of range
+			ElementRangeContents elementsToMove2 = null;
+			if (elementRangeToMove2 != null)
+			{
+				elementsToMove2 = ElementRangeUtil.removeContent(elementRangeToMove2, delayedActions);
+			}
+			ElementRangeContents elementsToMove = null;
+			if (elementRangeToMove != null)
+			{
+				elementsToMove = ElementRangeUtil.removeContent(elementRangeToMove, null);
 			}
 
 			columnIndex += 1;
@@ -2146,9 +2328,44 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			fillColumnHeader(evalNextPage);
 
-			moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
-			
-			if (
+			// reseting all movable element ranges
+			orphanGroupFooterDetailElementRange = null;
+			orphanGroupFooterElementRange = null;
+			if (keepTogetherGroup != null)
+			{
+				keepTogetherGroup.setKeepTogetherElementRange(null);
+			}
+
+			if (elementRangeToMove != null)
+			{
+				ElementRangeUtil.addContent(
+					printPage, 
+					currentPageIndex(),
+					elementsToMove,
+					//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
+					(columnIndex - elementRangeToMove.getColumnIndex()) * (columnSpacing + columnWidth),
+					offsetY - elementRangeToMove.getTopY(),
+					delayedActions
+					);
+
+				offsetY = offsetY + elementRangeToMove.getBottomY() - elementRangeToMove.getTopY();
+				
+				if (elementRangeToMove2 != null)
+				{
+					ElementRangeUtil.addContent( 
+						printPage, 
+						currentPageIndex(),
+						elementsToMove2,
+						//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
+						(columnIndex - elementRangeToMove2.getColumnIndex()) * (columnSpacing + columnWidth),
+						offsetY - elementRangeToMove2.getTopY(),
+						delayedActions
+						);
+
+					offsetY = offsetY + elementRangeToMove2.getBottomY() - elementRangeToMove2.getTopY();
+				}
+			}
+			else if (
 				groupFooterPositionForOverflow != null
 				&& groupFooterPositionForOverflow != FooterPositionEnum.NORMAL
 				)
@@ -2194,6 +2411,14 @@ public class JRVerticalFiller extends JRBaseFiller
 							break;
 						}
 					}
+				}
+			}
+			
+			if (!toRefill)
+			{
+				if (orphanGroupFooterDetailElementRange != null)
+				{
+					toRefill = true;
 				}
 			}
 			

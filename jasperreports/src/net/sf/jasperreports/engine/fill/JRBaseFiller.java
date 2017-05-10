@@ -210,6 +210,16 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected Map<String,Format> numberFormatCache = new HashMap<String,Format>();
 
 	protected GroupFooterElementRange groupFooterPositionElementRange;
+	// we need to keep detail element range separate from orphan group footer element range
+	// because it is created in advance, as by the time we need to create the element range 
+	// for the current detail, we do not know if any group will break and footers would be filled
+	protected ElementRange detailElementRange;
+	// we use this element range to keep the detail element range once orphan footers start to render;
+	// this is more like a flag to signal that we are currently dealing with orphan group footers
+	protected ElementRange orphanGroupFooterDetailElementRange;
+	// we keep the content of orphan group footers bands in separate element range because in horizontal
+	// filler, the detail element range can have a different columnIndex and thus be moved with a different X offset
+	protected ElementRange orphanGroupFooterElementRange;
 	
 
 	/**
@@ -221,6 +231,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected boolean isNewGroup = true;
 	protected boolean isFirstPageBand;
 	protected boolean isFirstColumnBand;
+	// we call it min level because footers print in reverse order and lower level means outer footer
+	protected Integer preventOrphanFootersMinLevel;
+	protected Integer crtGroupFootersLevel;
 
 	protected int columnIndex;
 
@@ -1540,34 +1553,6 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 
-	/**
-	 *
-	 */
-	protected void moveKeepTogetherElementRangeContent(
-		JRFillGroup group,
-		ElementRangeContents elementsToMove
-		)
-	{
-		ElementRange keepTogetherElementRange = group == null ? null : group.getKeepTogetherElementRange();
-		
-		if (keepTogetherElementRange != null)
-		{
-			ElementRangeUtil.addContent(
-				printPage, 
-				currentPageIndex(),
-				elementsToMove,
-				//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
-				(columnIndex - keepTogetherElementRange.getColumnIndex()) * (columnSpacing + columnWidth),
-				offsetY - keepTogetherElementRange.getTopY(),
-				delayedActions
-				);
-
-			offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();
-			
-			group.setKeepTogetherElementRange(null);
-		}
-	}
-	
 	protected int getFillerId()
 	{
 		return fillerId;
