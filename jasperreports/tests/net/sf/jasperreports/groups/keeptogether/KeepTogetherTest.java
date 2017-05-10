@@ -79,7 +79,7 @@ public class KeepTogetherTest
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		
-		for (int i = 1; i <= 27; i++)
+		for (int i = 1; i <= 29; i++)
 		{
 			String jrxmlFileName = "net/sf/jasperreports/groups/keeptogether/repo/KeepTogetherReport." + i + ".jrxml";
 			
