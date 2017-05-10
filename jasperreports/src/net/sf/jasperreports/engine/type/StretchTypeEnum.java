@@ -57,11 +57,13 @@ public enum StretchTypeEnum implements JREnum
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum#ELEMENT_GROUP_HEIGHT}.
 	 */
+	@Deprecated
 	RELATIVE_TO_TALLEST_OBJECT((byte)1, "RelativeToTallestObject"),
 	
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum#CONTAINER_HEIGHT}.
 	 */
+	@Deprecated
 	RELATIVE_TO_BAND_HEIGHT((byte)2, "RelativeToBandHeight"),
 	
 	/**
