@@ -158,7 +158,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Page">
+			<textField evaluationTime="Column">
 				<reportElement mode="Transparent" x="170" y="0" width="80" height="25" uuid="5d4af51b-c723-4f21-b57f-694eec646580">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
