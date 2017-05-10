@@ -604,7 +604,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 						new SimpleElementRange(
 							getCurrentPage(), 
 							columnIndex, 
-							isNewColumn,
 							offsetY
 							);
 					group.setKeepTogetherElementRange(elementRange);
@@ -2128,7 +2127,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 			new SimpleElementRange(
 				getCurrentPage(), 
 				columnIndex,
-				isNewColumn,
 				offsetY
 				);
 		
