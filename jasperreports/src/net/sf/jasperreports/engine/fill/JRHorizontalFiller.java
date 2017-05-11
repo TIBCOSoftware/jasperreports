@@ -607,6 +607,13 @@ public class JRHorizontalFiller extends JRBaseFiller
 							offsetY
 							);
 					group.setKeepTogetherElementRange(elementRange);
+					// setting a non-null element range here would cause the group header band to be
+					// refilled below and thus kept together, in case a split occurs in it;
+					// the non-null element range will be also moved onto the new page/column in the process,
+					// but it will contain no elements as the already mentioned non-splitting behavior of the group header band
+					// would not add any element to it;
+					// so the keep together element range set here is more like flag to signal the group header itself
+					// should be prevented from splitting in the fillColumnBand call below
 				}
 			}
 
