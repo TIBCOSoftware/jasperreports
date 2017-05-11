@@ -28,7 +28,7 @@
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<text><![CDATA[This seems to be the best solution for creating an outline for the three text fields. It is made up of a single rectangle that stretches with the group that contains the three text fields. The page breaks seem to work very well.]]></text>
+				<text><![CDATA[This seems to be the best solution for creating an outline for the three text fields. All three text fields are enclosed in a single frame with borders, that stretches with the group of elements. The page breaks seem to work very well.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="205" width="130" height="100" uuid="e5b6a24d-b6b2-4878-9408-bb95d4bcfa4d"/>
@@ -104,7 +104,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 			</line>
 			<elementGroup>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="5" y="5" width="1" height="16" isPrintWhenDetailOverflows="true" uuid="27b15b2d-fcaa-43af-9d06-c7261e391f84"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="5" y="5" width="1" height="16" isPrintWhenDetailOverflows="true" uuid="27b15b2d-fcaa-43af-9d06-c7261e391f84"/>
 				</line>
 				<textField isStretchWithOverflow="true">
 					<reportElement x="10" y="5" width="100" height="16" isRemoveLineWhenBlank="true" uuid="2404e8f9-226b-40e9-ad60-9fc46db0cced"/>
@@ -114,12 +114,12 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 					<textFieldExpression><![CDATA["This is a FIRST long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="135" y="5" width="1" height="16" isPrintWhenDetailOverflows="true" uuid="724aa7ae-9940-4271-a4d6-11c90b056876"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="135" y="5" width="1" height="16" isPrintWhenDetailOverflows="true" uuid="724aa7ae-9940-4271-a4d6-11c90b056876"/>
 				</line>
 			</elementGroup>
 			<elementGroup>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="5" y="22" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="fe422236-c951-48df-9f28-3009ed1a3335"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="5" y="22" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="fe422236-c951-48df-9f28-3009ed1a3335"/>
 				</line>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="20" y="22" width="100" height="16" isRemoveLineWhenBlank="true" forecolor="#808080" uuid="3765a34a-a873-4824-961d-f3cd6bef1648"/>
@@ -129,12 +129,12 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 					<textFieldExpression><![CDATA["This is a SECOND long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="135" y="22" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="bd596f8d-a0bc-46d9-b395-456a55e3c2e9"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="135" y="22" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="bd596f8d-a0bc-46d9-b395-456a55e3c2e9"/>
 				</line>
 			</elementGroup>
 			<elementGroup>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="5" y="39" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="57a43404-8521-4064-a8f9-f4cca5dd3a9a"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="5" y="39" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="57a43404-8521-4064-a8f9-f4cca5dd3a9a"/>
 				</line>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="30" y="39" width="100" height="16" isRemoveLineWhenBlank="true" forecolor="#C0C0C0" uuid="1efc559c-d7b6-44fe-9cd9-9aaee6f4e19d"/>
@@ -144,7 +144,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 					<textFieldExpression><![CDATA["This is a THIRD chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="135" y="39" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="718f4e22-67d5-43f4-9022-aa2f49e5ff97"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="135" y="39" width="1" height="16" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="718f4e22-67d5-43f4-9022-aa2f49e5ff97"/>
 				</line>
 			</elementGroup>
 			<line>
@@ -155,7 +155,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 			</line>
 			<elementGroup>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="145" y="5" width="1" height="1" isPrintWhenDetailOverflows="true" uuid="a8862c65-eb99-4aa3-9298-01c9fa13ecdd"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="145" y="5" width="1" height="1" isPrintWhenDetailOverflows="true" uuid="a8862c65-eb99-4aa3-9298-01c9fa13ecdd"/>
 				</line>
 				<textField isStretchWithOverflow="true">
 					<reportElement x="150" y="5" width="100" height="0" isRemoveLineWhenBlank="true" uuid="56c257e1-f97b-4108-8855-d8e15b02418b"/>
@@ -165,12 +165,12 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 					<textFieldExpression><![CDATA["This is a FIRST long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="275" y="5" width="1" height="1" isPrintWhenDetailOverflows="true" uuid="e9d83cbe-95e1-41b8-8e65-5f1c833836e0"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="275" y="5" width="1" height="1" isPrintWhenDetailOverflows="true" uuid="e9d83cbe-95e1-41b8-8e65-5f1c833836e0"/>
 				</line>
 			</elementGroup>
 			<elementGroup>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="145" y="6" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="db785479-8bce-4e6e-8d08-6e5d18264981"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="145" y="6" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="db785479-8bce-4e6e-8d08-6e5d18264981"/>
 				</line>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="160" y="6" width="100" height="0" isRemoveLineWhenBlank="true" forecolor="#808080" uuid="bea8b3fc-c7ee-46d3-9b9d-b2caa39f5412"/>
@@ -180,12 +180,12 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 					<textFieldExpression><![CDATA["This is a SECOND long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="275" y="6" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="88ee71f4-0c3a-443f-a05d-9b773917a0ad"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="275" y="6" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#808080" uuid="88ee71f4-0c3a-443f-a05d-9b773917a0ad"/>
 				</line>
 			</elementGroup>
 			<elementGroup>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="145" y="7" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="38d54328-6c11-4002-8535-370cfa07844c"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="145" y="7" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="38d54328-6c11-4002-8535-370cfa07844c"/>
 				</line>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="170" y="7" width="100" height="0" isRemoveLineWhenBlank="true" forecolor="#C0C0C0" uuid="b90e192c-86b6-4865-92ed-6454c9c32471"/>
@@ -195,44 +195,45 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 					<textFieldExpression><![CDATA["This is a THIRD chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="275" y="7" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="f280fffd-8b73-4da6-8026-ddeed5a5dd09"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="275" y="7" width="1" height="1" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="f280fffd-8b73-4da6-8026-ddeed5a5dd09"/>
 				</line>
 			</elementGroup>
 			<line>
 				<reportElement positionType="Float" x="145" y="8" width="130" height="1" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="338faefd-cde5-443d-8a1a-8fe6f9a95431"/>
 			</line>
-			<elementGroup>
-				<rectangle>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="425" y="4" width="130" height="4" isPrintWhenDetailOverflows="true" uuid="1370e27d-e0a0-431e-89e8-77beaeb0f90d"/>
-				</rectangle>
+			<frame borderSplitType="DrawBorders">
+				<reportElement positionType="Float" x="425" y="4" width="130" height="4" isPrintWhenDetailOverflows="true" uuid="1370e27d-e0a0-431e-89e8-77beaeb0f90d"/>
+				<box border="1Point">
+				<pen lineStyle="Solid" lineWidth="1" lineColor="#000000"/>
+				</box>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="430" y="5" width="100" height="0" isRemoveLineWhenBlank="true" uuid="5ebb523a-b7c7-4903-a2e4-35a67d1cde04"/>
+					<reportElement x="5" y="1" width="100" height="0" mode="Transparent" isRemoveLineWhenBlank="true" uuid="5ebb523a-b7c7-4903-a2e4-35a67d1cde04"/>
 					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["This is a FIRST long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement positionType="Float" x="440" y="6" width="100" height="0" isRemoveLineWhenBlank="true" forecolor="#808080" uuid="8b757162-6ec8-4ba1-826a-0f21c5716ca8"/>
+					<reportElement positionType="Float" x="10" y="2" width="100" height="0" mode="Transparent" isRemoveLineWhenBlank="true" forecolor="#808080" uuid="8b757162-6ec8-4ba1-826a-0f21c5716ca8"/>
 					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["This is a SECOND long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement positionType="Float" x="450" y="7" width="100" height="0" isRemoveLineWhenBlank="true" forecolor="#C0C0C0" uuid="0577f144-ce0e-49aa-8f82-c2aea5bda1a2"/>
+					<reportElement positionType="Float" x="20" y="3" width="100" height="0" mode="Transparent" isRemoveLineWhenBlank="true" forecolor="#C0C0C0" uuid="0577f144-ce0e-49aa-8f82-c2aea5bda1a2"/>
 					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["This is a THIRD chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
-			</elementGroup>
+			</frame>
 			<line>
 				<reportElement positionType="Float" x="285" y="4" width="130" height="1" isPrintWhenDetailOverflows="true" uuid="0ddf6bbc-9a0f-4f4e-abd9-1a8702502230"/>
 			</line>
 			<elementGroup>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="285" y="5" width="1" height="3" isPrintWhenDetailOverflows="true" uuid="a39bb79f-b0a6-4af2-8b46-71e893388c58"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="285" y="5" width="1" height="3" isPrintWhenDetailOverflows="true" uuid="a39bb79f-b0a6-4af2-8b46-71e893388c58"/>
 				</line>
 				<textField isStretchWithOverflow="true">
 					<reportElement x="290" y="5" width="100" height="0" isRemoveLineWhenBlank="true" uuid="f2853b31-798c-419c-81a9-31e1c8c2cc8a"/>
@@ -256,7 +257,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 					<textFieldExpression><![CDATA["This is a THIRD chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="415" y="5" width="1" height="3" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="666e85c1-faeb-4ba7-9a1f-1cbcbaa3ab39"/>
+					<reportElement positionType="Float" stretchType="ElementGroupHeight" x="415" y="5" width="1" height="3" isPrintWhenDetailOverflows="true" forecolor="#C0C0C0" uuid="666e85c1-faeb-4ba7-9a1f-1cbcbaa3ab39"/>
 				</line>
 			</elementGroup>
 			<line>
