@@ -73,12 +73,15 @@ public interface MapComponent extends Component, JRCloneable
 			)
 	public static final String PROPERTY_SIGNATURE = PROPERTY_PREFIX + "signature";
 	
+	@Deprecated
+	public static final String PROPERTY_VERSION = PROPERTY_PREFIX + "version";
+	
 	@Property(
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_5_5_0
+			sinceVersion = PropertyConstants.VERSION_6_4_2
 			)
-	public static final String PROPERTY_VERSION = PROPERTY_PREFIX + "version";
+	public static final String PROPERTY_GOOGLE_VERSION = PROPERTY_PREFIX + "google.version";
 
 	// map attributes:
 	

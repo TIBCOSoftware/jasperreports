@@ -93,6 +93,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String clientId;
 	private String signature;
 	private String key;
+	private String googleVersion;
 	private String version;
 
 	private List<FillItemData> markerDataList;
@@ -161,6 +162,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		clientId = util.getProperty(propertiesHolder, MapComponent.PROPERTY_CLIENT_ID);
 		signature = util.getProperty(propertiesHolder, MapComponent.PROPERTY_SIGNATURE);
 		key = util.getProperty(propertiesHolder, MapComponent.PROPERTY_KEY);
+		googleVersion = util.getProperty(propertiesHolder, MapComponent.PROPERTY_GOOGLE_VERSION);
 		version = util.getProperty(propertiesHolder, MapComponent.PROPERTY_VERSION);
 		
 		Number lat = (Number)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
@@ -380,19 +382,23 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		printElement.setParameterValue(MapComponent.ITEM_PROPERTY_longitude, longitude);
 		printElement.setParameterValue(MapComponent.PARAMETER_ZOOM, zoom);
 		String reqParams = "";
-		if(language != null)
+		if(language != null && language.trim().length() > 0)
 		{
 			reqParams += "&language=" + language;
 		}
-		if(clientId != null) {
+		if(clientId != null && clientId.trim().length() > 0) {
 			reqParams += "&client=" + clientId;
 			if(signature != null) {
 				reqParams += "&signature=" + signature;
 			}
-		} else if(key != null) {
+		} else if(key != null && key.trim().length() > 0) {
 			reqParams += "&key=" + key;
 		}
-		if(version != null) {
+		
+		if(googleVersion != null && googleVersion.trim().length() > 0) {
+			reqParams += "&v=" + googleVersion;
+		} else if(version != null && version.trim().length() > 0 && (version.indexOf('.') < 0 || version.indexOf(".exp") > -1)) {
+			// avoiding name collision of the version property
 			reqParams += "&v=" + version;
 		}
 		if(reqParams.length() > 0) {

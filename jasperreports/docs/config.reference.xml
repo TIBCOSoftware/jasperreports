@@ -2454,15 +2454,16 @@ Property that specifies the Google Maps API key. Using an API key enables additi
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.components.map.version -->
+  <!-- net.sf.jasperreports.components.map.google.version -->
   
-  <configProperty name="net.sf.jasperreports.components.map.version">
+  <configProperty name="net.sf.jasperreports.components.map.google.version">
     <description>
 Property that indicates which version of the Google Maps API to be loaded. The version property may be set as:
 <ul>
-<li>experimental version - specified by including the <code>.exp</code> suffix: <code>&lt;property name="net.sf.jasperreports.components.map.version" value="3.exp"&gt;</code></li>
-<li>release version - specified either with the release major number (<code>&lt;property name="net.sf.jasperreports.components.map.version" value="3"&gt;</code>) or with the release version number (<code>&lt;property name="net.sf.jasperreports.components.map.version" value="3.12"&gt;</code>)</li>
-<li>numbered version - specified with the version number (<code>&lt;property name="net.sf.jasperreports.components.map.version" value="3.11"&gt;</code>)</li>
+<li>experimental version - specified by including the <code>.exp</code> suffix: <code>&lt;property name="net.sf.jasperreports.components.map.google.version" value="3.exp"&gt;</code></li>
+<li>release version - specified either with the release major number (<code>&lt;property name="net.sf.jasperreports.components.map.google.version" value="3"&gt;</code>) or with the release 
+version number (<code>&lt;property name="net.sf.jasperreports.components.map.google.version" value="3.12"&gt;</code>)</li>
+<li>numbered version - specified with the version number (<code>&lt;property name="net.sf.jasperreports.components.map.google.version" value="3.11"&gt;</code>)</li>
 </ul>
 If not specified, the experimental version is loaded by default.
     </description>
