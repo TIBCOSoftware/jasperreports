@@ -45,7 +45,7 @@
 			</band>
 		</groupFooter>
 	</group>
-	<group name="SecondGroup" footerPosition="StackAtBottom">
+	<group name="SecondGroup">
 		<groupHeader>
 			<band height="40">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>

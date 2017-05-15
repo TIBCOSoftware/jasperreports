@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.4.2.qualifier using JasperReports Library version 6.4.2  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FooterPositionReport.38" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="15" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FooterPositionReport.42" pageWidth="595" pageHeight="842" columnWidth="515" columnSpacing="15" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/groups/footerposition/repo/FooterPositionDataAdapter.1.xml"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="twentyfive"/>
@@ -37,7 +37,7 @@
 			</band>
 		</groupFooter>
 	</group>
-	<group name="SecondGroup">
+	<group name="SecondGroup" footerPosition="StackAtBottom">
 		<groupHeader>
 			<band height="40">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -56,7 +56,7 @@
 			<band height="40">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				<textField>
-					<reportElement mode="Opaque" x="0" y="0" width="515" height="40" backcolor="#00FFCC" uuid="de2f8712-c6f2-4e31-a8d9-a676d35e7451">
+					<reportElement mode="Opaque" x="10" y="0" width="505" height="40" backcolor="#00FFCC" uuid="de2f8712-c6f2-4e31-a8d9-a676d35e7451">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -67,7 +67,7 @@
 			</band>
 			<band height="40">
 				<textField isStretchWithOverflow="true">
-					<reportElement mode="Opaque" x="0" y="0" width="515" height="40" backcolor="#00FFCC" uuid="496f2fdc-ff16-48de-a61a-969915a18280">
+					<reportElement mode="Opaque" x="10" y="0" width="505" height="40" backcolor="#00FFCC" uuid="496f2fdc-ff16-48de-a61a-969915a18280">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -82,6 +82,18 @@
  + "Group\n"
  + "Footer\n"
  + "2"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField>
+					<reportElement mode="Opaque" x="10" y="0" width="505" height="40" backcolor="#00FFCC" uuid="35ad04b6-b35d-4a20-ad7d-936fe445ea02">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textFieldExpression><![CDATA["Second Group Footer 3"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
