@@ -79,7 +79,7 @@ public class FooterPositionTest
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		
-		for (int i = 1; i <= 40; i++)
+		for (int i = 1; i <= 46; i++)
 		{
 			String jrxmlFileName = "net/sf/jasperreports/groups/footerposition/repo/FooterPositionReport." + i + ".jrxml";
 			
