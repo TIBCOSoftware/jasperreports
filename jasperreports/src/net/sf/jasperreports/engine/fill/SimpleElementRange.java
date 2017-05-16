@@ -50,6 +50,7 @@ public class SimpleElementRange implements ElementRange
 		this.lastElementIndex = firstElementIndex - 1; // if endElementIndex does not change, it means there is no content to move
 		
 		this.topY = topY;
+		this.bottomY = topY;
 	}
 	
 	@Override

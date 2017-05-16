@@ -363,7 +363,7 @@
 			<textContent><![CDATA[Col 1]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="40" y="752" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="8" printId="1"/>
+			<reportElement uuid="e24ff6bc-cbd0-410b-affe-672738e5573b" mode="Opaque" x="40" y="590" width="250" height="40" backcolor="#FFCCCC" origin="5" srcId="8" printId="1"/>
 			<textContent><![CDATA[Third Group Footer]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
@@ -383,7 +383,7 @@ Group
 ]]></textContent>
 		</text>
 		<text textHeight="27.9375" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="496f2fdc-ff16-48de-a61a-969915a18280" mode="Opaque" x="315" y="220" width="240" height="40" backcolor="#00FFCC" origin="3" srcId="5" printId="2"/>
+			<reportElement uuid="496f2fdc-ff16-48de-a61a-969915a18280" mode="Opaque" x="315" y="672" width="240" height="40" backcolor="#00FFCC" origin="3" srcId="5" printId="2"/>
 			<textContent><![CDATA[Footer
 2]]></textContent>
 		</text>

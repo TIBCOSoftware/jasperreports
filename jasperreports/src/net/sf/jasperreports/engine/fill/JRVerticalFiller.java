@@ -589,12 +589,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					// we need to set a keep together element range for the group
 					// even if its header does not print,
 					// but only if the column is not already new
-					elementRange = 
-						new SimpleElementRange(
-							getCurrentPage(), 
-							columnIndex, 
-							offsetY
-							);
+					elementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
+					
 					group.setKeepTogetherElementRange(elementRange);
 					// setting a non-null element range here would cause the group header band to be
 					// refilled below and thus kept together, in case a split occurs in it;
@@ -608,13 +604,15 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (groupHeaderBand.isToPrint())
 			{
-				ElementRange newElementRange = fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+				fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
 				
+				ElementRange newElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
+					
 				// in case a column/page break occurred during the filling of the band above,
-				// the provided element range is discarded (we don't capture the return of the expand method below),
+				// the provided element range is discarded/ignored,
 				// but that should not be a problem because the discarded element range was already dealt with during the break, 
 				// because it was a keep together element range
-				ElementRangeUtil.expand(elementRange, newElementRange);
+				ElementRangeUtil.expandOrIgnore(elementRange, newElementRange);
 
 				isFirstPageBand = false;
 				isFirstColumnBand = false;
@@ -825,45 +823,55 @@ public class JRVerticalFiller extends JRBaseFiller
 					fillColumnBreak(evaluation, evaluation);
 				}
 
-				ElementRange newElementRange = fillColumnBand(groupFooterBand, evaluation);
-
-				if (groupFooterPositionElementRange == null)
+				if (
+					groupFooterPositionElementRange == null 
+					&& group.getFooterPositionValue() != FooterPositionEnum.NORMAL
+					)
 				{
-					if (group.getFooterPositionValue() != FooterPositionEnum.NORMAL)
-					{
-						groupFooterPositionElementRange = new SimpleGroupFooterElementRange(newElementRange, group.getFooterPositionValue());
-					}
+					groupFooterPositionElementRange = 
+						new SimpleGroupFooterElementRange(
+							new SimpleElementRange(getCurrentPage(), columnIndex, offsetY), 
+							group.getFooterPositionValue()
+							);
 				}
-				else
+
+				if (groupFooterPositionElementRange != null)
 				{
+					// keep the current group footer position because it will be needed
+					// in case the band breaks and the group footer element range needs to
+					// be recreated on the new page
+					groupFooterPositionElementRange.setCurrentFooterPosition(group.getFooterPositionValue());
+				}
+				
+				fillColumnBand(groupFooterBand, evaluation);
+				
+				ElementRange newElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
+				
+				if (groupFooterPositionElementRange != null)
+				{
+					ElementRangeUtil.expandOrIgnore(groupFooterPositionElementRange.getElementRange(), newElementRange);
+
 					switch (group.getFooterPositionValue())
 					{
 						case STACK_AT_BOTTOM :
 						{
-							groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
-							groupFooterPositionElementRange.setFooterPosition(FooterPositionEnum.STACK_AT_BOTTOM);
+							groupFooterPositionElementRange.setMasterFooterPosition(FooterPositionEnum.STACK_AT_BOTTOM);
 							break;
 						}
 						case FORCE_AT_BOTTOM :
 						{
-							groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
-							groupFooterPositionElementRange.setFooterPosition(FooterPositionEnum.FORCE_AT_BOTTOM);
+							groupFooterPositionElementRange.setMasterFooterPosition(FooterPositionEnum.FORCE_AT_BOTTOM);
 							break;
 						}
 						case COLLATE_AT_BOTTOM :
 						{
-							groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
 							break;
 						}
 						case NORMAL :
 						default :
 						{
 							// only StackAtBottom and CollateAtBottom can get here
-							if (groupFooterPositionElementRange.getFooterPosition() == FooterPositionEnum.STACK_AT_BOTTOM)
-							{
-								groupFooterPositionElementRange.getElementRange().expand(newElementRange.getBottomY());
-							}
-							else
+							if (groupFooterPositionElementRange.getMasterFooterPosition() == FooterPositionEnum.COLLATE_AT_BOTTOM)
 							{
 								groupFooterPositionElementRange = null;
 							}
@@ -883,7 +891,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		// to tell at this point if this would be the last page or not (last page footer)
 		if (
 			groupFooterPositionElementRange != null
-			&& groupFooterPositionElementRange.getFooterPosition() == FooterPositionEnum.FORCE_AT_BOTTOM
+			&& groupFooterPositionElementRange.getMasterFooterPosition() == FooterPositionEnum.FORCE_AT_BOTTOM
 			)
 		{
 			ElementRangeUtil.moveContent(groupFooterPositionElementRange, columnFooterOffsetY);
@@ -1982,6 +1990,15 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 		}
 		
+		FooterPositionEnum groupFooterPositionForOverflow = null;
+		if (groupFooterPositionElementRange != null)
+		{
+			groupFooterPositionForOverflow = groupFooterPositionElementRange.getCurrentFooterPosition();
+			// we are during group footers filling, otherwise this element range would have been null;
+			// adding the content of the group footer band that is currently breaking
+			groupFooterPositionElementRange.getElementRange().expand(offsetY);
+		}
+
 		isCreatingNewPage = true;
 
 		fillColumnFooter(evalPrevPage);
@@ -2040,6 +2057,20 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
 
+		if (
+			groupFooterPositionForOverflow != null
+			&& groupFooterPositionForOverflow != FooterPositionEnum.NORMAL
+			)
+		{
+			// here we are during a group footer filling that broke over onto a new page;
+			// recreating the group footer element range for the overflow content of the band
+			groupFooterPositionElementRange = 
+				new SimpleGroupFooterElementRange(
+					new SimpleElementRange(getCurrentPage(), columnIndex, offsetY), 
+					groupFooterPositionForOverflow
+					);
+		}
+
 		isCreatingNewPage = false;
 	}
 
@@ -2067,6 +2098,15 @@ public class JRVerticalFiller extends JRBaseFiller
 						group.getKeepTogetherElementRange().expand(offsetY);
 					}
 				}
+			}
+			
+			FooterPositionEnum groupFooterPositionForOverflow = null;
+			if (groupFooterPositionElementRange != null)
+			{
+				groupFooterPositionForOverflow = groupFooterPositionElementRange.getCurrentFooterPosition();
+				// we are during group footers filling, otherwise this element range would have been null;
+				// adding the content of the group footer band that is currently breaking
+				groupFooterPositionElementRange.getElementRange().expand(offsetY);
 			}
 			
 			fillColumnFooter(evalPrevPage);
@@ -2107,6 +2147,20 @@ public class JRVerticalFiller extends JRBaseFiller
 			fillColumnHeader(evalNextPage);
 
 			moveKeepTogetherElementRangeContent(keepTogetherGroup, elementsToMove);
+			
+			if (
+				groupFooterPositionForOverflow != null
+				&& groupFooterPositionForOverflow != FooterPositionEnum.NORMAL
+				)
+			{
+				// here we are during a group footer filling that broke over onto a new column;
+				// recreating the group footer element range for the overflow content of the band
+				groupFooterPositionElementRange = 
+					new SimpleGroupFooterElementRange(
+						new SimpleElementRange(getCurrentPage(), columnIndex, offsetY), 
+						groupFooterPositionForOverflow
+						);
+			}
 		}
 	}
 
@@ -2114,7 +2168,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected ElementRange fillColumnBand(JRFillBand band, byte evaluation) throws JRException
+	protected void fillColumnBand(JRFillBand band, byte evaluation) throws JRException
 	{
 		band.evaluate(evaluation);
 
@@ -2151,20 +2205,9 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 		}
 
-		ElementRange elementRange = 
-			new SimpleElementRange(
-				getCurrentPage(), 
-				columnIndex, 
-				offsetY
-				);
-		
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
 		
-		elementRange.expand(offsetY);
-		// we mark the element range here, because overflow content beyond this point
-		// should be rendered normally, not moved in any way 
-
 		while (band.willOverflow())
 		{
 			fillColumnBreak(evaluation, evaluation);
@@ -2176,8 +2219,6 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		resolveBandBoundElements(band, evaluation);
-		
-		return elementRange;
 	}
 
 

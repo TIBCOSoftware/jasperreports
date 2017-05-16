@@ -31,16 +31,16 @@ import net.sf.jasperreports.engine.type.FooterPositionEnum;
 public class SimpleGroupFooterElementRange implements GroupFooterElementRange
 {
 	private final ElementRange elementRange;
-	private FooterPositionEnum footerPosition;
-	//private int distanceToColumnFooter;
+	private FooterPositionEnum masterFooterPosition;
+	private FooterPositionEnum crtFooterPosition;
 
 	public SimpleGroupFooterElementRange(
 		ElementRange elementRange,
-		FooterPositionEnum footerPosition
+		FooterPositionEnum masterFooterPosition
 		)
 	{
 		this.elementRange = elementRange;
-		this.footerPosition = footerPosition;
+		this.masterFooterPosition = masterFooterPosition;
 	}
 	
 	@Override
@@ -50,26 +50,26 @@ public class SimpleGroupFooterElementRange implements GroupFooterElementRange
 	}
 	
 	@Override
-	public FooterPositionEnum getFooterPosition()
+	public FooterPositionEnum getMasterFooterPosition()
 	{
-		return footerPosition;
+		return masterFooterPosition;
 	}
 	
 	@Override
-	public void setFooterPosition(FooterPositionEnum footerPosition)
+	public void setMasterFooterPosition(FooterPositionEnum masterFooterPosition)
 	{
-		this.footerPosition = footerPosition;
+		this.masterFooterPosition = masterFooterPosition;
 	}
 	
-//	@Override
-//	public int getDistanceToColumnFooter()
-//	{
-//		return distanceToColumnFooter;
-//	}
-//	
-//	@Override
-//	public void setDistanceToColumnFooter(int distanceToColumnFooter)
-//	{
-//		this.distanceToColumnFooter = distanceToColumnFooter;
-//	}
+	@Override
+	public FooterPositionEnum getCurrentFooterPosition()
+	{
+		return crtFooterPosition;
+	}
+	
+	@Override
+	public void setCurrentFooterPosition(FooterPositionEnum crtFooterPosition)
+	{
+		this.crtFooterPosition = crtFooterPosition;
+	}
 }
