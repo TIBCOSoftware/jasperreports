@@ -1539,7 +1539,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected void moveKeepTogetherElementRangeContent(
 		JRFillGroup group,
-		List<JRPrintElement> elementsToMove
+		ElementRangeContents elementsToMove
 		)
 	{
 		ElementRange keepTogetherElementRange = group == null ? null : group.getKeepTogetherElementRange();
@@ -1551,7 +1551,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				elementsToMove,
 				//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
 				(columnIndex - keepTogetherElementRange.getColumnIndex()) * (columnSpacing + columnWidth),
-				offsetY - keepTogetherElementRange.getTopY()
+				offsetY - keepTogetherElementRange.getTopY(),
+				delayedActions
 				);
 
 			offsetY = offsetY + keepTogetherElementRange.getBottomY() - keepTogetherElementRange.getTopY();

@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ReportTest
+public class GroupKeepTogetherTest
 {
 	
 	private Report report;
@@ -45,8 +45,8 @@ public class ReportTest
 	@BeforeClass
 	public void initReport() throws JRException, IOException
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/FirstJasper.jrxml", 
-				"net/sf/jasperreports/virtualization/FirstJasper.reference.jrpxml");
+		report = new Report("net/sf/jasperreports/virtualization/repo/GroupKeepTogether.jrxml", 
+				"net/sf/jasperreports/virtualization/GroupKeepTogether.reference.jrpxml");
 		report.init();
 	}
 	

@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -137,36 +136,49 @@ public final class ElementRangeUtil
 	/**
 	 *
 	 */
-	public static List<JRPrintElement> removeContent(ElementRange elementRange)
+	public static ElementRangeContents removeContent(ElementRange elementRange, 
+			DelayedFillActions delayedActions) 
 	{
-		List<JRPrintElement> elementsToMove = null;
+		ElementRangeContents contents = new ElementRangeContents();
 		if (elementRange.getFirstElementIndex() <= elementRange.getLastElementIndex())
 		{
-			elementsToMove = new ArrayList<JRPrintElement>();
-			
 			for (int i = elementRange.getLastElementIndex(); i >= elementRange.getFirstElementIndex(); i--)
 			{
-				elementsToMove.add(elementRange.getPage().getElements().remove(i));//FIXME this breaks delayed evaluations
+				contents.addElement(elementRange.getPage().getElements().remove(i));
 			}
 		}
-		return elementsToMove;
+		
+		if (delayedActions != null)
+		{
+			delayedActions.collectElementEvaluations(elementRange.getPage(), 
+					contents.getElements(), contents);
+		}
+		
+		return contents;
 	}
 	
 	/**
 	 *
 	 */
-	public static void addContent(JRPrintPage printPage, List<JRPrintElement> elementsToMove, int xdelta, int ydelta)
+	public static void addContent(JRPrintPage printPage, ElementRangeContents elementsToMove, int xdelta, int ydelta,
+			DelayedFillActions delayedActions)
 	{
-		if (elementsToMove != null)
+		if (elementsToMove != null && !elementsToMove.getElements().isEmpty())
 		{
-			for (int i = elementsToMove.size() - 1; i >= 0; i--)// elementsToMove were added in reverse order
+			List<JRPrintElement> elements = elementsToMove.getElements();
+			for (int i = elements.size() - 1; i >= 0; i--)// elementsToMove were added in reverse order
 			{
-				JRPrintElement printElement = elementsToMove.get(i);
+				JRPrintElement printElement = elements.get(i);
 	
 				printElement.setX(printElement.getX() + xdelta);
 				printElement.setY(printElement.getY() + ydelta);
 	
 				printPage.addElement(printElement);
+			}
+			
+			if (delayedActions != null && elementsToMove.hasEvaluations())
+			{
+				delayedActions.addElementEvaluations(printPage, elementsToMove);
 			}
 		}
 	}

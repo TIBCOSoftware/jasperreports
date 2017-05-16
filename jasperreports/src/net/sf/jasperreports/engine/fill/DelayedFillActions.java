@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -389,65 +390,41 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		FillPageKey pageKey = new FillPageKey(page);
 		VirtualElementsData virtualData = object.getVirtualData();
 		
-		for (Map.Entry<JREvaluationTime, LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
-			actionsMap.entrySet())
+		final Map<JREvaluationTime, Map<JRPrintElement, Integer>> evaluations = new LinkedHashMap<>();
+		doCollectElementEvaluations(page, virtualData.getElements(), new ElementEvaluationsCollector()
 		{
-			final JREvaluationTime evaluationTime = boundMapEntry.getKey();
-			LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>> map = boundMapEntry.getValue();
-			
-			synchronized (map)
+			@Override
+			public void collect(JRPrintElement printElement, JRFillElement fillElement, JREvaluationTime evaluationTime)
 			{
-				final LinkedMap<Object, EvaluationBoundAction> actionsMap = map.get(pageKey);
-				
-				if (actionsMap != null && !actionsMap.isEmpty())
+				Map<JRPrintElement, Integer> elementEvaluations = evaluations.get(evaluationTime);
+				if (elementEvaluations == null)
 				{
 					// collection delayed evaluations for elements that are about to be externalized.
 					// the evaluations store the ID of the fill elements in order to serialize the data.
-					final Map<JRPrintElement, Integer> elementEvaluations = new LinkedHashMap<JRPrintElement, Integer>();
-					
-					// FIXME optimize for pages with a single virtual block
-					// create a deep element visitor
-					PrintElementVisitor<Void> visitor = new UniformPrintElementVisitor<Void>(true)
-					{
-						@Override
-						protected void visitElement(JRPrintElement element, Void arg)
-						{
-							// remove the action from the map because we're saving it as part of the page.
-							// ugly cast but acceptable for now.
-							ElementEvaluationAction action = (ElementEvaluationAction) actionsMap.remove(element);
-							if (action != null)
-							{
-								elementEvaluations.put(element, action.element.printElementOriginator.getSourceElementId());
-								
-								if (log.isDebugEnabled())
-								{
-									log.debug(id + " saving evaluation " + evaluationTime + " of element " + element 
-											+ " on object " + object);
-								}
-							}
-						}
-					};
-					
-					for (JRPrintElement element : virtualData.getElements())
-					{
-						element.accept(visitor, null);
-					}
-					
-					if (!elementEvaluations.isEmpty())
-					{
-						// save the evaluations in the virtual data
-						virtualData.setElementEvaluations(id, evaluationTime, elementEvaluations);
-						
-						// add an action for the page so that it gets devirtualized on resolveBoundElements
-						VirtualizedPageEvaluationAction virtualizedAction = new VirtualizedPageEvaluationAction(object, id);
-						actionsMap.add(null, virtualizedAction);
-						
-						if (log.isDebugEnabled())
-						{
-							log.debug(id + " created action " + virtualizedAction);
-						}
-					}
+					elementEvaluations = new LinkedHashMap<JRPrintElement, Integer>();
+					evaluations.put(evaluationTime, elementEvaluations);
 				}
+				
+				elementEvaluations.put(printElement, fillElement.printElementOriginator.getSourceElementId());
+			}
+		});
+		
+		for (Map.Entry<JREvaluationTime, Map<JRPrintElement, Integer>> evalEntry : evaluations.entrySet())
+		{
+			JREvaluationTime evaluationTime = evalEntry.getKey();
+			Map<JRPrintElement, Integer> elementEvaluations = evalEntry.getValue();
+			
+			// save the evaluations in the virtual data
+			virtualData.setElementEvaluations(id, evaluationTime, elementEvaluations);
+			
+			// add an action for the page so that it gets devirtualized on resolveBoundElements
+			VirtualizedPageEvaluationAction virtualizedAction = new VirtualizedPageEvaluationAction(object, id);
+			LinkedMap<Object, EvaluationBoundAction> pageActions = actionsMap.get(evaluationTime).get(pageKey);
+			pageActions.add(null, virtualizedAction);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug(id + " created action " + virtualizedAction);
 			}
 		}
 	}
@@ -613,6 +590,105 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		{
 			int sourceId = ((VirtualizedPageEvaluationAction) action).getSourceId();
 			registerTransferredId(sourceId);
+		}
+	}
+
+	public void collectElementEvaluations(JRPrintPage page, List<JRPrintElement> elements, 
+			final ElementEvaluationsCollector collector)
+	{
+		fillContext.lockVirtualizationContext();
+		try
+		{
+			doCollectElementEvaluations(page, elements, collector);
+		}
+		finally
+		{
+			fillContext.unlockVirtualizationContext();
+		}
+	}
+	
+	
+	protected void doCollectElementEvaluations(JRPrintPage page, List<JRPrintElement> elements, 
+			final ElementEvaluationsCollector collector)
+	{
+		FillPageKey pageKey = new FillPageKey(page);
+		
+		for (Map.Entry<JREvaluationTime, LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
+			actionsMap.entrySet())
+		{
+			final JREvaluationTime evaluationTime = boundMapEntry.getKey();
+			LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>> map = boundMapEntry.getValue();
+			
+			synchronized (map)
+			{
+				final LinkedMap<Object, EvaluationBoundAction> actionsMap = map.get(pageKey);
+				
+				if (actionsMap != null && !actionsMap.isEmpty())
+				{
+					// FIXME optimize for pages with a single virtual block
+					// create a deep element visitor
+					PrintElementVisitor<Void> visitor = new UniformPrintElementVisitor<Void>(true)
+					{
+						@Override
+						protected void visitElement(JRPrintElement element, Void arg)
+						{
+							// remove the action from the map because we're saving it as part of the page.
+							// ugly cast but acceptable for now.
+							ElementEvaluationAction action = (ElementEvaluationAction) actionsMap.remove(element);
+							if (action != null)
+							{
+								if (log.isDebugEnabled())
+								{
+									log.debug(id + " collecting evaluation " + evaluationTime + " of element " + element);
+								}
+								collector.collect(element, action.element, evaluationTime);
+							}
+						}
+					};
+					
+					for (JRPrintElement element : elements)
+					{
+						element.accept(visitor, null);
+					}
+				}
+			}
+		}
+	}
+	
+	public void addElementEvaluations(JRPrintPage page, ElementEvaluationsSource source)
+	{
+		FillPageKey pageKey = new FillPageKey(page);
+		
+		for (Map.Entry<JREvaluationTime, LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
+			actionsMap.entrySet())
+		{
+			JREvaluationTime evaluationTime = boundMapEntry.getKey();
+			LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>> map = boundMapEntry.getValue();
+			
+			synchronized (map)
+			{
+				LinkedMap<Object, EvaluationBoundAction> actionsMap = pageActionsMap(map, pageKey);
+				
+				Map<JRPrintElement, JRFillElement> elementEvaluations = source.getEvaluations(evaluationTime);
+				if (elementEvaluations != null)
+				{
+					for (Map.Entry<JRPrintElement, JRFillElement> entry : elementEvaluations.entrySet())
+					{
+						JRPrintElement element = entry.getKey();
+						JRFillElement fillElement = entry.getValue();
+						
+						if (log.isDebugEnabled())
+						{
+							log.debug(id + " got evaluation " + evaluationTime 
+									+ ", source id " + fillElement.printElementOriginator.getSourceElementId() 
+									+ ", on " + element + ", using " + fillElement);
+						}
+						
+						actionsMap.add(element, new ElementEvaluationAction(fillElement, element));
+					}
+				}
+				
+			}
 		}
 	}
 	
