@@ -45,6 +45,23 @@ public final class ElementRangeUtil
 	/**
 	 *
 	 */
+	public static void expandOrIgnore(ElementRange elementRange, ElementRange newElementRange)
+	{
+		if (
+			elementRange != null
+			&& elementRange.getPage() == newElementRange.getPage()
+			&& elementRange.getColumnIndex() == newElementRange.getColumnIndex()
+			)
+		{
+			// if the new element range is on the same page/column, 
+			// we just move the marker on the existing element range 
+			elementRange.expand(newElementRange.getBottomY());
+		}
+	}
+	
+	/**
+	 *
+	 *
 	public static ElementRange expand(ElementRange elementRange, ElementRange newElementRange)
 	{
 		if (elementRange == null)
@@ -120,7 +137,7 @@ public final class ElementRangeUtil
 	 */
 	public static void moveContent(GroupFooterElementRange groupFooterElementRange, int columnFooterOffsetY)
 	{
-		if (groupFooterElementRange.getFooterPosition() != FooterPositionEnum.NORMAL)//FIXME is footerPosition testing required here?
+		if (groupFooterElementRange.getMasterFooterPosition() != FooterPositionEnum.NORMAL)//FIXME is footerPosition testing required here?
 		{
 			ElementRange elementRange = groupFooterElementRange.getElementRange();
 			int distanceToColumnFooter = columnFooterOffsetY - elementRange.getBottomY();

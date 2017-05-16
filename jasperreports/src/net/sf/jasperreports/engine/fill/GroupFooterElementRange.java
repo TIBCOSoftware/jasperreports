@@ -32,11 +32,11 @@ public interface GroupFooterElementRange
 {
 	public ElementRange getElementRange();
 	
-//	public int getDistanceToColumnFooter();
-//	
-//	public void setDistanceToColumnFooter(int distanceToColumnFooter);
-
-	public FooterPositionEnum getFooterPosition();
+	public FooterPositionEnum getMasterFooterPosition();
 	
-	public void setFooterPosition(FooterPositionEnum footerPosition);
+	public void setMasterFooterPosition(FooterPositionEnum footerPosition);
+
+	public FooterPositionEnum getCurrentFooterPosition();
+	
+	public void setCurrentFooterPosition(FooterPositionEnum footerPosition);
 }
