@@ -23,15 +23,12 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -2057,11 +2054,12 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 		}
 
-		List<JRPrintElement> elementsToMove = null;
+		ElementRangeContents elementsToMove = null;
 		
 		if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
 		{
-			elementsToMove = ElementRangeUtil.removeContent(keepTogetherGroup.getKeepTogetherElementRange());
+			elementsToMove = ElementRangeUtil.removeContent(keepTogetherGroup.getKeepTogetherElementRange(),
+					delayedActions);
 		}
 
 		addPage(isResetPageNumber);
