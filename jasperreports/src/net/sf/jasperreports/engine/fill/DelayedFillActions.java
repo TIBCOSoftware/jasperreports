@@ -391,7 +391,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		VirtualElementsData virtualData = object.getVirtualData();
 		
 		final Map<JREvaluationTime, Map<JRPrintElement, Integer>> evaluations = new LinkedHashMap<>();
-		doCollectElementEvaluations(page, virtualData.getElements(), new ElementEvaluationsCollector()
+		ElementEvaluationsCollector collector = new ElementEvaluationsCollector()
 		{
 			@Override
 			public void collect(JRPrintElement printElement, JRFillElement fillElement, JREvaluationTime evaluationTime)
@@ -407,7 +407,9 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 				
 				elementEvaluations.put(printElement, fillElement.printElementOriginator.getSourceElementId());
 			}
-		});
+		};
+		
+		doCollectElementEvaluations(page, virtualData.getElements(), collector, false);
 		
 		for (Map.Entry<JREvaluationTime, Map<JRPrintElement, Integer>> evalEntry : evaluations.entrySet())
 		{
@@ -599,7 +601,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 		fillContext.lockVirtualizationContext();
 		try
 		{
-			doCollectElementEvaluations(page, elements, collector);
+			doCollectElementEvaluations(page, elements, collector, true);
 		}
 		finally
 		{
@@ -609,7 +611,7 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 	
 	
 	protected void doCollectElementEvaluations(JRPrintPage page, List<JRPrintElement> elements, 
-			final ElementEvaluationsCollector collector)
+			final ElementEvaluationsCollector collector, boolean clearEmpty)
 	{
 		FillPageKey pageKey = new FillPageKey(page);
 		
@@ -650,14 +652,19 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 					{
 						element.accept(visitor, null);
 					}
+					
+					if (clearEmpty && actionsMap.isEmpty())
+					{
+						map.remove(pageKey);
+					}
 				}
 			}
 		}
 	}
 	
-	public void addElementEvaluations(JRPrintPage page, ElementEvaluationsSource source)
+	public void addElementEvaluations(JRPrintPage page, int pageIndex, ElementEvaluationsSource source)
 	{
-		FillPageKey pageKey = new FillPageKey(page);
+		FillPageKey pageKey = new FillPageKey(page, pageIndex);
 		
 		for (Map.Entry<JREvaluationTime, LinkedHashMap<FillPageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
 			actionsMap.entrySet())
@@ -667,11 +674,11 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 			
 			synchronized (map)
 			{
-				LinkedMap<Object, EvaluationBoundAction> actionsMap = pageActionsMap(map, pageKey);
-				
 				Map<JRPrintElement, JRFillElement> elementEvaluations = source.getEvaluations(evaluationTime);
 				if (elementEvaluations != null)
 				{
+					LinkedMap<Object, EvaluationBoundAction> actionsMap = pageActionsMap(map, pageKey);
+					
 					for (Map.Entry<JRPrintElement, JRFillElement> entry : elementEvaluations.entrySet())
 					{
 						JRPrintElement element = entry.getKey();

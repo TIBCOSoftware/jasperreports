@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SampleReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b5bf102-916b-4454-9864-2ee39f799344">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/async/repo/empty30.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8"/>
+	<variable name="groupVar" class="java.lang.Integer">
+		<variableExpression><![CDATA[($V{REPORT_COUNT} - 1) / 10]]></variableExpression>
+	</variable>
+	<group name="group" keepTogether="true">
+		<groupExpression><![CDATA[$V{groupVar}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<textField evaluationTime="Group" evaluationGroup="group">
+					<reportElement x="0" y="0" width="300" height="25" uuid="0d8e587f-e376-4d31-864b-5f3acc4f745e"/>
+					<textFieldExpression><![CDATA["group header " + $V{groupVar}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="300" height="25" uuid="f5fb616b-bb5b-4da7-8c1b-f9421a407b22"/>
+				<textFieldExpression><![CDATA["record " + $V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

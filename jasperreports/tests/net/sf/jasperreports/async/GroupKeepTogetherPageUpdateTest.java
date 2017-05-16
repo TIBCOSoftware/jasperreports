@@ -21,49 +21,58 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.virtualization;
+package net.sf.jasperreports.async;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import net.sf.jasperreports.Report;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.fill.FillListener;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class GroupKeepTogetherTest
+public class GroupKeepTogetherPageUpdateTest
 {
 	
-	private Report report;
+	private AsyncReport report;
 
 	@BeforeClass
 	public void initReport() throws JRException, IOException
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/GroupKeepTogether.jrxml", 
-				"net/sf/jasperreports/virtualization/GroupKeepTogether.reference.jrpxml");
+		report = new AsyncReport("net/sf/jasperreports/async/repo/GroupKeepTogether.jrxml", 
+				"net/sf/jasperreports/async/repo/GroupKeepTogether.reference.jrpxml");
 		report.init();
 	}
 	
 	@Test
-	public void baseReport() throws JRException, NoSuchAlgorithmException, IOException
+	public void report() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		report.runReport(null);
-	}
-	
-	@Test
-	public void virtualizedReport() throws JRException, NoSuchAlgorithmException, IOException
-	{
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		JRGzipVirtualizer virtualizer = new JRGzipVirtualizer(3);
-		params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
+		final AtomicInteger secondPageUpdateCount = new AtomicInteger(0);
+		report.runReport(null, new FillListener()
+		{
+			@Override
+			public void pageUpdated(JasperPrint jasperPrint, int pageIndex)
+			{
+				if (pageIndex == 1)
+				{
+					secondPageUpdateCount.incrementAndGet();
+				}
+			}
+			
+			@Override
+			public void pageGenerated(JasperPrint jasperPrint, int pageIndex)
+			{
+				//NOP
+			}
+		});
 		
-		report.runReport(params);
+		assert secondPageUpdateCount.get() == 1;
 	}
+
 }

@@ -1409,10 +1409,16 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, JREvaluationTime evaluationTime)
 	{
 		// the key contains the page and its index; the index is only stored so that we have it in resolveBoundElements
-		int pageIndex = ((Number) calculator.getPageNumber().getValue()).intValue() - 1;
+		int pageIndex = currentPageIndex();
 		FillPageKey pageKey = new FillPageKey(printPage, pageIndex);
 		
 		addBoundElement(element, printElement, evaluationTime, pageKey);
+	}
+
+	protected int currentPageIndex()
+	{
+		int pageIndex = ((Number) calculator.getPageNumber().getValue()).intValue() - 1;
+		return pageIndex;
 	}
 
 	protected void subreportPageFilled(JRPrintPage subreportPage)
@@ -1548,6 +1554,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		{
 			ElementRangeUtil.addContent(
 				printPage, 
+				currentPageIndex(),
 				elementsToMove,
 				//regardless whether there was page break or column  break, the X offset needs to account for columnIndex difference
 				(columnIndex - keepTogetherElementRange.getColumnIndex()) * (columnSpacing + columnWidth),

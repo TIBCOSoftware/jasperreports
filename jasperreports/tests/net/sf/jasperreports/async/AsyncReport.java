@@ -21,49 +21,52 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.virtualization;
+package net.sf.jasperreports.async;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import java.util.Map;
 
 import net.sf.jasperreports.Report;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.fill.AsynchronousFillHandle;
+import net.sf.jasperreports.engine.fill.FillListener;
+import net.sf.jasperreports.web.servlets.AsyncJasperPrintAccessor;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class GroupKeepTogetherTest
+public class AsyncReport extends Report
 {
-	
-	private Report report;
 
-	@BeforeClass
-	public void initReport() throws JRException, IOException
+	public AsyncReport(String jrxml, String jrpxml)
 	{
-		report = new Report("net/sf/jasperreports/virtualization/repo/GroupKeepTogether.jrxml", 
-				"net/sf/jasperreports/virtualization/GroupKeepTogether.reference.jrpxml");
-		report.init();
+		super(jrxml, jrpxml);
 	}
 	
-	@Test
-	public void baseReport() throws JRException, NoSuchAlgorithmException, IOException
+	public void runReport(Map<String, Object> params, FillListener fillListener)
 	{
-		report.runReport(null);
+		try
+		{
+			Map<String, Object> reportParams = reportParams(params);
+			AsynchronousFillHandle asyncHandle = AsynchronousFillHandle.createHandle(
+					jasperReportsContext, report, reportParams);
+			
+			if (fillListener != null)
+			{
+				asyncHandle.addFillListener(fillListener);
+			}
+			
+			AsyncJasperPrintAccessor accessor = new AsyncJasperPrintAccessor(asyncHandle);
+			asyncHandle.startFill();
+			JasperPrint print = accessor.getFinalJasperPrint();
+			reportComplete(reportParams, print);
+		}
+		catch (JRException | NoSuchAlgorithmException | IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
-	
-	@Test
-	public void virtualizedReport() throws JRException, NoSuchAlgorithmException, IOException
-	{
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		JRGzipVirtualizer virtualizer = new JRGzipVirtualizer(3);
-		params.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
-		
-		report.runReport(params);
-	}
+
 }

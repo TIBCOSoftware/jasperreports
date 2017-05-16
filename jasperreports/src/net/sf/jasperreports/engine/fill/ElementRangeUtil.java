@@ -160,7 +160,8 @@ public final class ElementRangeUtil
 	/**
 	 *
 	 */
-	public static void addContent(JRPrintPage printPage, ElementRangeContents elementsToMove, int xdelta, int ydelta,
+	public static void addContent(JRPrintPage printPage, int pageIndex,
+			ElementRangeContents elementsToMove, int xdelta, int ydelta,
 			DelayedFillActions delayedActions)
 	{
 		if (elementsToMove != null && !elementsToMove.getElements().isEmpty())
@@ -178,7 +179,7 @@ public final class ElementRangeUtil
 			
 			if (delayedActions != null && elementsToMove.hasEvaluations())
 			{
-				delayedActions.addElementEvaluations(printPage, elementsToMove);
+				delayedActions.addElementEvaluations(printPage, pageIndex, elementsToMove);
 			}
 		}
 	}

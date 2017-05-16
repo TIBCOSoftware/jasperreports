@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.virtualization;
+package net.sf.jasperreports;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,12 +78,20 @@ public class Report
 		this.jrpxml = jrpxml;
 	}
 	
-	private JasperReport report;
+	protected SimpleJasperReportsContext jasperReportsContext;
+	protected JasperReport report;
 	private JasperFillManager fillManager;
 	private String referenceJRPXMLDigest;
 
 	public void init()
 	{
+		jasperReportsContext = new SimpleJasperReportsContext();
+		// for some reason data adapter extensions are not registered by default
+		jasperReportsContext.setExtensions(ParameterContributorFactory.class, 
+				Collections.singletonList(DataAdapterParameterContributorFactory.getInstance()));
+		jasperReportsContext.setExtensions(DataFileServiceFactory.class, 
+				Collections.singletonList(BuiltinDataFileServiceFactory.instance()));
+		
 		try
 		{
 			compileReport();
@@ -110,13 +118,6 @@ public class Report
 		
 		report = JasperCompileManager.compileReport(design);
 		
-		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
-		// for some reason data adapter extensions are not registered by default
-		jasperReportsContext.setExtensions(ParameterContributorFactory.class, 
-				Collections.singletonList(DataAdapterParameterContributorFactory.getInstance()));
-		jasperReportsContext.setExtensions(DataFileServiceFactory.class, 
-				Collections.singletonList(BuiltinDataFileServiceFactory.instance()));
-		
 		fillManager = JasperFillManager.getInstance(jasperReportsContext);
 	}
 
@@ -131,39 +132,47 @@ public class Report
 	
 	public void runReport(Map<String, Object> params)
 	{
-		if (params == null)
-		{
-			params = new HashMap<String, Object>();
-		}
-		
-		JRVirtualizer virtualizer = (JRVirtualizer) params.get(JRParameter.REPORT_VIRTUALIZER);
-		
-		params.put(JRParameter.REPORT_LOCALE, Locale.US);
-		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
-		
+		Map<String, Object> reportParams = reportParams(params);
 		try
 		{
-			JasperPrint print = fillManager.fill(report, params);
-			
-			if (virtualizer instanceof JRAbstractLRUVirtualizer)
-			{
-				((JRAbstractLRUVirtualizer) virtualizer).setReadOnly(true);
-			}
-			
-			assert !print.getPages().isEmpty();
-			
-			String digestString = xmlDigest(print);
-			log.debug("Report " + jrxml + " got " + digestString);
-			assert digestString.equals(referenceJRPXMLDigest);
-			
-			if (virtualizer != null)
-			{
-				virtualizer.cleanup();
-			}
+			JasperPrint print = fillManager.fill(report, reportParams);
+			reportComplete(reportParams, print);
 		}
 		catch (JRException | NoSuchAlgorithmException | IOException e)
 		{
 			throw new RuntimeException(e);
+		}
+	}
+
+	protected Map<String, Object> reportParams(Map<String, Object> params)
+	{
+		if (params == null)
+		{
+			params = new HashMap<String, Object>();
+		}
+		params.put(JRParameter.REPORT_LOCALE, Locale.US);
+		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
+		return params;
+	}
+
+	protected void reportComplete(Map<String, Object> params, JasperPrint print)
+			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
+	{
+		JRVirtualizer virtualizer = (JRVirtualizer) params.get(JRParameter.REPORT_VIRTUALIZER);
+		if (virtualizer instanceof JRAbstractLRUVirtualizer)
+		{
+			((JRAbstractLRUVirtualizer) virtualizer).setReadOnly(true);
+		}
+		
+		assert !print.getPages().isEmpty();
+		
+		String digestString = xmlDigest(print);
+		log.debug("Report " + jrxml + " got " + digestString);
+		assert digestString.equals(referenceJRPXMLDigest);
+		
+		if (virtualizer != null)
+		{
+			virtualizer.cleanup();
 		}
 	}
 
