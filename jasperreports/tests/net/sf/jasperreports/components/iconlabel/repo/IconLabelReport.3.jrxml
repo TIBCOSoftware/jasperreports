@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IconLabelReport.3" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="4f4cbf5b-ee86-41d0-804f-5b17e8c13e40">
+	<style name="Main" isDefault="true" mode="Opaque" fontName="DejaVu Sans" fontSize="12">
+		<box>
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Component" style="Main" forecolor="#000000" backcolor="#FFFF00">
+		<box padding="10">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Label" style="Main" forecolor="#0000FF" backcolor="#00FFFF" hTextAlign="Center" hImageAlign="Center">
+		<box padding="10">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<style name="Icon" style="Main" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="Pictonic">
+		<box padding="10">
+			<pen lineWidth="1.0"/>
+		</box>
+	</style>
+	<group name="Dummy">
+		<groupHeader>
+			<band height="15">
+				<componentElement>
+					<reportElement style="Component" stretchType="RelativeToBandHeight" x="0" y="0" width="200" height="15" uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c"/>
+					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Vertical" horizontalAlignment="Right" verticalAlignment="Bottom">
+						<c:label>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0"/>
+								<box padding="5">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Bottom">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Text."]]></textFieldExpression>
+							</textField>
+						</c:label>
+						<c:icon>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Icon" x="0" y="0" width="1" height="1" uuid="8a92e5ce-e1c2-40df-8b1f-dbfe4f4b713b"/>
+								<textFieldExpression><![CDATA["\uE001\n\uE002\n\uE004\n\uE001\n\uE002\n\uE004\n\uE001\n\uE002\n\uE004\n\uE001\n\uE002\n\uE004"]]></textFieldExpression>
+							</textField>
+						</c:icon>
+					</c:iconLabel>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="640">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Main" stretchType="RelativeToBandHeight" x="0" y="0" width="515" height="640" uuid="1b8394cf-650c-4732-b1ea-f40d41439f22"/>
+				<textFieldExpression><![CDATA["TITLE"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>
