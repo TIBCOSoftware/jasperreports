@@ -79,7 +79,7 @@ public class FramesTest
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		
-		for (int i = 1; i <= 2; i++)
+		for (int i = 1; i <= 4; i++)
 		{
 			String jrxmlFileName = "net/sf/jasperreports/frames/repo/FramesReport." + i + ".jrxml";
 			

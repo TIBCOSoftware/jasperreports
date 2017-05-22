@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.2.qualifier using JasperReports Library version 6.4.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FramesReport.3" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<group name="dummy">
+		<groupHeader>
+			<band height="742">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="515" height="742" backcolor="#FFFF00" uuid="5b650a5c-451f-45e0-9153-80e66a661248"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement mode="Opaque" x="0" y="0" width="515" height="25" backcolor="#00FFFF" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+						<textFieldExpression><![CDATA["This report shows that the Y position of bottom elements is irrelevant in frame overflow." + "\nblah\nblah\nblah."]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="592" width="260" height="25" backcolor="#00FFFF" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+						<textFieldExpression><![CDATA["BOTTOM1"]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="260" y="617" width="255" height="25" backcolor="#00FFFF" uuid="19ce6e87-e50b-44a3-9e11-be52254d221c"/>
+						<textFieldExpression><![CDATA["BOTTOM2"]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+			<band height="1">
+				<line>
+					<reportElement x="0" y="0" width="515" height="1" forecolor="red" uuid="20df6e87-e50b-44a3-9e11-be52254d221c"/>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>
