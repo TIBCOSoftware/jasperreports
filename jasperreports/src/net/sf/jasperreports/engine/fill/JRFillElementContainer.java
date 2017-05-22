@@ -64,9 +64,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	private JRFillElement[] bandBottomElements;
 	private JRFillElement[] removableElements;
 	
-	private boolean willOverflow;
+	protected boolean willOverflowWithElements;
+	protected boolean willOverflowWithWhiteSpace;
 	protected boolean isOverflow;
-	private boolean currentOverflow;
+	protected boolean currentOverflowWithElements;
+	protected boolean currentOverflowWithWhiteSpace;
 	private boolean currentOverflowAllowed;
 	
 	private int stretchHeight;
@@ -414,13 +416,13 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	 */
 	public boolean willOverflow()
 	{
-		return willOverflow;
+		return willOverflowWithElements || willOverflowWithWhiteSpace;
 	}
 
 
 	protected void initFill()
 	{
-		isOverflow = willOverflow;
+		isOverflow = willOverflow();
 		firstY = 0;
 		atLeastOneElementIsToPrint = false;
 	}
@@ -434,7 +436,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		boolean isOverflowAllowed
 		) throws JRException
 	{
-		currentOverflow = false;
+		currentOverflowWithElements = false;
+		currentOverflowWithWhiteSpace = false;
 		currentOverflowAllowed = isOverflowAllowed;
 
 		int calculatedStretchHeight = getContainerHeight();
@@ -449,12 +452,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			{
 				JRFillElement element = ySortedElements[i];
 
-				currentOverflow = 
+				currentOverflowWithElements = 
 					element.prepare(
 						availableHeight + getElementFirstY(element),
 						isOverflow
 						) 
-					|| currentOverflow;
+					|| currentOverflowWithElements;
 
 				element._moveDependantElements();
 
@@ -491,11 +494,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		
 		if (calculatedStretchHeight > availableHeight + firstY)
 		{
-			currentOverflow = true;
+			currentOverflowWithWhiteSpace = true;
 		}
 		
 		// stretchHeight includes firstY, which is subtracted in fillElements
-		if (currentOverflow)
+		if (currentOverflowWithElements || currentOverflowWithWhiteSpace)
 		{
 			stretchHeight = availableHeight + firstY;
 		}
@@ -504,7 +507,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			stretchHeight = calculatedStretchHeight;
 		}
 
-		willOverflow = currentOverflow && isOverflowAllowed;
+		willOverflowWithElements = currentOverflowWithElements && isOverflowAllowed;
+		willOverflowWithWhiteSpace = currentOverflowWithWhiteSpace && isOverflowAllowed;
 	}
 
 	
@@ -522,7 +526,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			return;
 		}
 		
-		currentOverflow = false;
+		currentOverflowWithElements = false;
+		currentOverflowWithWhiteSpace = false;
 		currentOverflowAllowed = isOverflowAllowed;
 
 		firstY = isOverflow ? getActualContainerHeight() : 0;
@@ -533,12 +538,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		{
 			for (JRFillElement element : ySortedElements)
 			{
-				currentOverflow = 
+				currentOverflowWithElements = 
 					element.prepare(
 						availableHeight + getElementFirstY(element),
 						isOverflow
 						) 
-					|| currentOverflow;
+					|| currentOverflowWithElements;
 				
 				// it does not seem to make sense for elements that do not print because of their isToPrint() returning false,
 				// to push other dependent elements, but it was always like that; furthermore, such disappearing elements are pushed by 
@@ -567,6 +572,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		}
 		
 		stretchHeight = getContainerHeight();
+		//FIXME might need to add firstY above, because it says below stretchHeight contains firstY; 
+		// this initialization here matters when band overflows with white space and no element is rendered on the next page
 
 		// certain elements have stretched to their natural height, while others have been moved in the process;
 		// we are now ready to calculate the stretch height of the current container, so that we can use that for
@@ -608,11 +615,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		
 		if (calculatedStretchHeight > availableHeight + firstY)
 		{
-			currentOverflow = true;
+			currentOverflowWithWhiteSpace = true;
 		}
 		
 		// stretchHeight includes firstY, which is subtracted in fillElements
-		if (currentOverflow)
+		if (currentOverflowWithElements || currentOverflowWithWhiteSpace)
 		{
 			stretchHeight = availableHeight + firstY;
 		}
@@ -621,7 +628,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			stretchHeight = calculatedStretchHeight;
 		}
 
-		willOverflow = currentOverflow && isOverflowAllowed;
+		willOverflowWithElements = currentOverflowWithElements && isOverflowAllowed;
+		willOverflowWithWhiteSpace = currentOverflowWithWhiteSpace && isOverflowAllowed;
 	}
 
 	/**
@@ -673,7 +681,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	@Override
 	public boolean isCurrentOverflow()
 	{
-		return currentOverflow;
+		return currentOverflowWithElements || currentOverflowWithWhiteSpace;
 	}
 
 	@Override
@@ -818,16 +826,27 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 		//{
 			if (bandBottomElements != null && bandBottomElements.length > 0)
 			{
-				for(int i = 0; i < bandBottomElements.length; i++)
+				for (int i = 0; i < bandBottomElements.length; i++)
 				{
 					JRFillElement element = bandBottomElements[i];
 
-					element.setRelativeY(
-						element.getY() + stretchHeight - getActualContainerHeight()
-						);
-
-					// band bottom elements do not print if there will be an overflow
-					element.setToPrint(element.isToPrint() && !willOverflow);
+					if (element.isToPrint())
+					{
+						// band bottom elements do not print if there will be an overflow
+						if (currentOverflowWithElements || currentOverflowWithWhiteSpace)
+						{
+							currentOverflowWithElements = true;
+						}
+						
+						element.setToPrint(!((currentOverflowWithElements || willOverflowWithWhiteSpace) && currentOverflowAllowed));// don't use willOverflow() method as it is overridden at least in bands
+					}
+					
+					if (element.isToPrint())
+					{
+						element.setRelativeY(
+							element.getY() + stretchHeight - getActualContainerHeight()
+							);
+					}
 				}
 			}
 		//}
@@ -1109,7 +1128,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			}
 		}
 		
-		willOverflow = false;
+		willOverflowWithElements = false;
+		willOverflowWithWhiteSpace = false;
 	}
 	
 	protected int getFirstY()
