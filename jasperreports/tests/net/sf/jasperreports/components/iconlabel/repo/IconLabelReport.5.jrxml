@@ -28,7 +28,7 @@
 					<c:iconLabel xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" iconPosition="Start" labelFill="Vertical" horizontalAlignment="Right" verticalAlignment="Bottom">
 						<c:label>
 							<textField isStretchWithOverflow="true">
-								<reportElement style="Label" x="0" y="0" width="1" height="1" uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0"/>
+								<reportElement isPrintWhenDetailOverflows="true" style="Label" x="0" y="0" width="1" height="1" uuid="605b583e-639e-4f8d-b5cd-d89424bff3b0"/>
 								<box padding="5">
 									<pen lineWidth="1.0"/>
 								</box>
