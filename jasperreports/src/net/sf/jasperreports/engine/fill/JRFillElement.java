@@ -516,7 +516,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected boolean isToPrint()
+	public boolean isToPrint()
 	{
 		return isToPrint;
 	}
@@ -548,7 +548,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected boolean isAlreadyPrinted()
+	public boolean isAlreadyPrinted()
 	{
 		return isAlreadyPrinted;
 	}
@@ -556,7 +556,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected void setAlreadyPrinted(boolean isAlreadyPrinted)
+	public void setAlreadyPrinted(boolean isAlreadyPrinted)
 	{
 		this.isAlreadyPrinted = isAlreadyPrinted;
 	}

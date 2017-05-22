@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="IconLabelReport.3" pageWidth="595" pageHeight="842" topMargin="50" leftMargin="40" bottomMargin="50" rightMargin="40" locale="en_US" timezone="GMT">
 	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
-	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
-	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="1"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="2"/>
 	<origin group="Dummy" band="groupHeader"/>
 	<origin group="Dummy" band="groupFooter"/>
 	<origin band="title"/>
@@ -49,6 +49,22 @@
 
 
 ]]></textContent>
+			</text>
+		</frame>
+	</page>
+	<page>
+		<frame>
+			<reportElement uuid="699cc790-7e42-410b-a2aa-4ea21dc65f2c" style="Component" x="40" y="50" width="200" height="144" origin="0" srcId="1" printId="2"/>
+			<text textHeight="104.625" lineSpacingFactor="1.0898438" leadingOffset="-0.9609375">
+				<reportElement uuid="8a92e5ce-e1c2-40df-8b1f-dbfe4f4b713b" style="Icon" x="109" y="0" width="32" height="124" srcId="3" printId="2"/>
+				<textContent><![CDATA[
+
+
+
+
+
+
+]]></textContent>
 			</text>
 		</frame>
 	</page>

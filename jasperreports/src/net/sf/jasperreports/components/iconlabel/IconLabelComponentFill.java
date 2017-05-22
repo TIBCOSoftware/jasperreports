@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.ConditionalStyleAwareFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
@@ -169,13 +170,25 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 	
 	public void fillHorizontal()
 	{
-		try
+		if (labelTextField.isToPrint())
 		{
-			labelPrintText = (JRPrintText)labelTextField.fill();
+			try
+			{
+				labelPrintText = (JRPrintText)labelTextField.fill();
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
-		catch (JRException e)
+		else
 		{
-			throw new JRRuntimeException(e);
+			// create dummy print text to keep position and size calculations below simple
+			labelPrintText = new JRBasePrintText(getDefaultStyleProvider());
+			labelPrintText.setX(labelTextField.getX());
+			labelPrintText.setY(labelTextField.getX());
+			labelPrintText.setWidth(labelTextField.getWidth());
+			labelPrintText.setHeight(labelTextField.getHeight());
 		}
 		
 		if (
@@ -206,15 +219,27 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 				);
 		}
 
-		try
+		if (iconTextField.isToPrint())
 		{
-			iconPrintText = (JRPrintText)iconTextField.fill();
+			try
+			{
+				iconPrintText = (JRPrintText)iconTextField.fill();
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
-		catch (JRException e)
+		else
 		{
-			throw new JRRuntimeException(e);
+			// create dummy print text to keep position and size calculations below simple
+			iconPrintText = new JRBasePrintText(getDefaultStyleProvider());
+			iconPrintText.setX(iconTextField.getX());
+			iconPrintText.setY(iconTextField.getX());
+			iconPrintText.setWidth(iconTextField.getWidth());
+			iconPrintText.setHeight(iconTextField.getHeight());
 		}
-
+		
 		iconPrintText.setWidth(
 			(int)Math.ceil(
 				iconTextField.getTextWidth()
@@ -599,9 +624,13 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		
 		iconTextField.setWidth(availableWidth);
 		
+		boolean overflow = false;
+		
 		try
 		{
-			iconTextField.prepare(textAvailableHeight, fillContext.getFillContainerContext().isCurrentOverflow());
+			// in the absence of the real overflow flag, passing true is best,
+			// because on the first prepare attempt, all text is still remaining to be rendered
+			overflow = iconTextField.prepare(textAvailableHeight, true);
 		}
 		catch (JRException e)
 		{
@@ -640,7 +669,9 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 
 		try
 		{
-			labelTextField.prepare(textAvailableHeight, fillContext.getFillContainerContext().isCurrentOverflow());
+			// in the absence of the real overflow flag, passing true is best,
+			// because on the first prepare attempt, all text is still remaining to be rendered
+			overflow = labelTextField.prepare(textAvailableHeight, true) || overflow;
 		}
 		catch (JRException e)
 		{
@@ -670,10 +701,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 					iconTextField.rewind();
 					iconTextField.reset();
 					iconTextField.setWidth(labelAvailableWidth);
-					iconTextField.prepare(
-						iconAvailableHeight, 
-						fillContext.getFillContainerContext().isCurrentOverflow()
-						);
+					overflow = iconTextField.prepare(iconAvailableHeight, true) || overflow; // overflow true is the next best thing, when not having the real thing
 					iconsVisible = iconTextField.getStretchHeight() <= iconAvailableHeight;
 					//iconsVisible = iconTextField.getPrintElementHeight() <= iconAvailableHeight;
 				}
@@ -691,7 +719,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			+ getLineBox().getTopPadding()
 			+ getLineBox().getBottomPadding();
 
-		return FillPrepareResult.printStretch(stretchHeight, false);
+		return FillPrepareResult.printStretch(stretchHeight, overflow);
 	}
 	
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
@@ -718,8 +746,14 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 		//printElement.iconLabelComponent.getLineBox().clone(printElement);
 //		if (contentVisible)
 //		{
-			printElement.addElement(labelPrintText);
-			if (iconsVisible)
+			labelTextField.setAlreadyPrinted(labelTextField.isToPrint() || labelTextField.isAlreadyPrinted());
+			iconTextField.setAlreadyPrinted(iconTextField.isToPrint() || iconTextField.isAlreadyPrinted());
+
+			if (labelTextField.isToPrint())
+			{
+				printElement.addElement(labelPrintText);
+			}
+			if (iconTextField.isToPrint() && iconsVisible)
 			{
 				printElement.addElement(iconPrintText);
 			}
