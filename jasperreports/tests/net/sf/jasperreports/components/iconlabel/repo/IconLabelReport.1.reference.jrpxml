@@ -21,7 +21,7 @@
 			<pen lineWidth="1.0"/>
 		</box>
 	</style>
-	<style name="Icon" style="Main" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="Pictonic">
+	<style name="Icon" style="Main" forecolor="#FF0000" backcolor="#FFC800" hTextAlign="Center" hImageAlign="Center" fontName="JasperReports Icons">
 		<box padding="10">
 			<pen lineWidth="1.0"/>
 		</box>
