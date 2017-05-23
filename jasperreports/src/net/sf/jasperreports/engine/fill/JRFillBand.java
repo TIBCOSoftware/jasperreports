@@ -449,20 +449,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
-	@Override
-	public boolean willOverflow()
-	{
-		return willOverflowWithElements;// historically, bands do not overflow with white space 
-	}
-
-
-	@Override
-	public boolean isCurrentOverflow()
-	{
-		return currentOverflowWithElements;// historically, bands do not overflow with white space 
-	}
-
-
 	protected boolean isVariableUsedInReturns(String variableName)
 	{
 		boolean used = false;
