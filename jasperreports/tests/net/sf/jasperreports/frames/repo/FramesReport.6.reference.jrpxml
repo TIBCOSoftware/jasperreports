@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="FramesReport.6" pageWidth="595" pageHeight="842" topMargin="50" leftMargin="40" bottomMargin="50" rightMargin="40" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<origin group="dummy" band="groupHeader"/>
+	<origin group="dummy" band="groupFooter"/>
+	<origin band="detail"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<page>
+		<text textHeight="83.8125" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
+			<reportElement uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" x="40" y="50" width="515" height="83" backcolor="#00FFFF" origin="0" srcId="1" printId="1"/>
+			<textContent><![CDATA[This report shows that "the column bands" such as the detail and group headers and footers, do not trigger a page/column break when they overflow with white space. And if they don't, then there should be no extra blank space after this.
+blah
+blah
+blah.]]></textContent>
+		</text>
+	</page>
+</jasperPrint>

@@ -435,6 +435,12 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 
+	protected boolean willOverflowWithElements()
+	{
+		return willOverflowWithElements;
+	}
+
+
 	@Override
 	protected int getContainerHeight()
 	{

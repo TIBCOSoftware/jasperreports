@@ -2210,8 +2210,27 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 		while (band.willOverflow())
 		{
-			fillColumnBreak(evaluation, evaluation);
+			// this overflow here is special in the sense that it is the overflow of a detail band or group header or footer,
+			// which are the only bands that are involved with movable element ranges such as keep together, footer position or orphan footer;
+			// it is also special in the sense that it is an overflow after the band actually generated some content on the current page/column
+			// and is not an early overflow like the one occurring when the band does not fit with its declared height or is non-splitting band;
+			// having said that, it is OK to be more specific about the type of overflow here and only deal with non-white-space overflows of the band,
+			// as they are the only ones which actually need to introduce a page/column break and continue rendering their remaining elements;
+			// white space band overflows do not render anything on the next page/column and don't even preserve their remaining white space (historical behavior);
+			// avoiding a page/column break here in case of white space overflows helps with preserving the detail element range, which would
+			// thus be moved onto the new page/column as a non-breaking detail, if orphan footers follow; 
+			// a page/column break here would cause the existing detail element range to be discarded (lost on subsequent element range expand),
+			// and thus it would not be moved in case orphan footer follows, 
+			// even if nothing gets rendered by this detail on the next page/column 
+			if (band.willOverflowWithElements())
+			{
+				fillColumnBreak(evaluation, evaluation);
+			}
 
+			// we continue filling band overflow normally, because even in case of white space band overflow, nothing gets actually rendered
+			// and the offsetY remains unchanged;
+			// but we need to do this because the isOverflow flag would eventually be set to false and thus the current band rendering would end,
+			// bringing the band into a state ready for the next filling
 			printBand = band.fill(columnFooterOffsetY - offsetY);
 
 			fillBand(printBand);

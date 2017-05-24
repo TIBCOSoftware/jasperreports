@@ -571,9 +571,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 			}
 		}
 		
-		stretchHeight = getContainerHeight();
-		//FIXME might need to add firstY above, because it says below stretchHeight contains firstY; 
-		// this initialization here matters when band overflows with white space and no element is rendered on the next page
+		// normally, we should add firstY here, because it says below stretchHeight contains firstY; 
+		// this initialization matters when band overflows with white space and no element is rendered on the next page;
+		// but we don't add it because, historically, bands did not preserve the white space when overflowing, unlike frames for example,
+		// which re-render at their design height even when overflowing with white space
+		stretchHeight = getContainerHeight();// + firstY;
 
 		// certain elements have stretched to their natural height, while others have been moved in the process;
 		// we are now ready to calculate the stretch height of the current container, so that we can use that for
