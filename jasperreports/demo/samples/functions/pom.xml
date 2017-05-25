@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-functions</artifactId>
-	<version>6.1.2-SNAPSHOT</version>
+	<version>6.1.2</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Functions</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -92,7 +92,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.1.2-SNAPSHOT</version>
+			<version>6.1.2</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
