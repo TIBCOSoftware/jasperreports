@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-fonts</artifactId>
-	<version>6.4.1-SNAPSHOT</version>
+	<version>6.4.1</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Font Extension</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -79,16 +79,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Nexus Release Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-		<snapshotRepository>
-			<id>jr-ce-snapshots</id>
-			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 </project>
