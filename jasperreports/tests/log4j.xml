@@ -11,7 +11,7 @@
 	</appender>
 
 	<!--
-	<logger name="net.sf.jasperreports.virtualization.ReportTest">
+	<logger name="net.sf.jasperreports.Report">
 		<level value="debug" />
 	</logger>
 	-->
