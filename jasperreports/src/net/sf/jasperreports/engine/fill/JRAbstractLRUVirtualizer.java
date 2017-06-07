@@ -228,7 +228,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	
 	private final Cache pagedIn;
 
-	private final ReferenceMap pagedOut;
+	protected final ReferenceMap pagedOut;
 
 	protected volatile WeakReference<JRVirtualizable> lastObjectRef;
 	protected ReferenceMap lastObjectMap;
