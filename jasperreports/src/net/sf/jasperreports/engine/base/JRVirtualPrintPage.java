@@ -111,8 +111,21 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	
 	/**
 	 * Constructs a virtualizable page.
+	 * 
+	 * @param printObject
+	 * @param virtualizationContext
+	 * @deprecated replaced by {@link #JRVirtualPrintPage(JRVirtualizationContext)}
 	 */
+	@Deprecated
 	public JRVirtualPrintPage(JasperPrint printObject, JRVirtualizationContext virtualizationContext)
+	{
+		this(virtualizationContext);
+	}
+	
+	/**
+	 * Constructs a virtualizable page.
+	 */
+	public JRVirtualPrintPage(JRVirtualizationContext virtualizationContext)
 	{
 		super();
 		

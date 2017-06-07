@@ -1151,7 +1151,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 		if (fillContext.isUsingVirtualizer())
 		{
-			JRVirtualPrintPage virtualPage = new JRVirtualPrintPage(jasperPrint, virtualizationContext);
+			JRVirtualPrintPage virtualPage = new JRVirtualPrintPage(virtualizationContext);
 			page = virtualPage;
 		}
 		else
