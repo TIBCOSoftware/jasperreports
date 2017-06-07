@@ -44,6 +44,8 @@ import java.util.Map;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.base.StandardPrintParts;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.StyleResolver;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -60,7 +62,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JasperPrint implements Serializable, JRPropertiesHolder
+public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEventsSupport
 {
 
 	public static final String EXCEPTION_MESSAGE_KEY_DUPLICATE_STYLE = "engine.jasper.print.duplicate.style";
@@ -97,6 +99,23 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			)
 	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "print.collapse.missing.bookmark.levels";
+	
+	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_PAGE_WIDTH = "pageWidth";
+	public static final String PROPERTY_PAGE_HEIGHT = "pageHeight";
+	public static final String PROPERTY_TOP_MARGIN = "topMargin";
+	public static final String PROPERTY_LEFT_MARGIN = "leftMargin";
+	public static final String PROPERTY_BOTTOM_MARGIN = "bottomMargin";
+	public static final String PROPERTY_RIGHT_MARGIN = "rightMargin";
+	public static final String PROPERTY_ORIENTATION = "orientation";
+	public static final String PROPERTY_STYLES = "styles";
+	public static final String PROPERTY_ORIGINS = "origins";
+	public static final String PROPERTY_PARTS = "parts";
+	public static final String PROPERTY_PAGES = "pages";
+	public static final String PROPERTY_BOOKMARKS = "bookmarks";
+	public static final String PROPERTY_FORMAT_FACTORY_CLASS = "formatFactoryClass";
+	public static final String PROPERTY_LOCALE_CODE = "localeCode";
+	public static final String PROPERTY_TIME_ZONE_ID = "timeZoneId";
 	
 	/**
 	 * A small class for implementing just the style provider functionality.
@@ -254,7 +273,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setName(String name)
 	{
+		Object old = this.name;
 		this.name = name;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
+		}
 	}
 
 	/**
@@ -307,7 +331,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setPageWidth(int pageWidth)
 	{
+		Object old = this.pageWidth;
 		this.pageWidth = pageWidth;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_PAGE_WIDTH, old, this.pageWidth);
+		}
 	}
 
 	/**
@@ -325,7 +354,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setPageHeight(int pageHeight)
 	{
+		Object old = this.pageHeight;
 		this.pageHeight = pageHeight;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_PAGE_HEIGHT, old, this.pageHeight);
+		}
 	}
 
 	/**
@@ -343,7 +377,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setTopMargin(Integer topMargin)
 	{
+		Object old = this.topMargin;
 		this.topMargin = topMargin;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_TOP_MARGIN, old, this.topMargin);
+		}
 	}
 
 	/**
@@ -361,7 +400,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setLeftMargin(Integer leftMargin)
 	{
+		Object old = this.leftMargin;
 		this.leftMargin = leftMargin;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_LEFT_MARGIN, old, this.leftMargin);
+		}
 	}
 
 	/**
@@ -379,7 +423,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setBottomMargin(Integer bottomMargin)
 	{
+		Object old = this.bottomMargin;
 		this.bottomMargin = bottomMargin;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_BOTTOM_MARGIN, old, this.bottomMargin);
+		}
 	}
 
 	/**
@@ -397,7 +446,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setRightMargin(Integer rightMargin)
 	{
+		Object old = this.rightMargin;
 		this.rightMargin = rightMargin;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_RIGHT_MARGIN, old, this.rightMargin);
+		}
 	}
 
 	/**
@@ -417,7 +471,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setOrientation(OrientationEnum orientationValue)
 	{
+		Object old = this.orientationValue;
 		this.orientationValue = orientationValue;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientationValue);
+		}
 	}
 
 	@Override
@@ -555,6 +614,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			{
 				setDefaultStyle(style);
 			}
+			
+			if (hasEventSupport())
+			{
+				getEventSupport().fireCollectionElementAddedEvent(PROPERTY_STYLES, style, stylesList.size() - 1);
+			}
 		}
 	}
 
@@ -578,8 +642,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 				setDefaultStyle(null);
 			}
 
-			stylesList.remove(style);
+			boolean removed = stylesList.remove(style);
 			stylesMap.remove(style.getName());
+			if (removed && hasEventSupport())
+			{
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_STYLES, style, -1);//FIXME index
+			}
 		}
 		
 		return style;
@@ -618,6 +686,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		{
 			originsList.add(origin);
 			originsMap.put(origin, Integer.valueOf(originsList.size() - 1));
+			
+			if (hasEventSupport())
+			{
+				getEventSupport().fireCollectionElementAddedEvent(PROPERTY_ORIGINS, origin, originsList.size() - 1);
+			}
 		}
 	}
 
@@ -633,6 +706,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			for(int i = 0; i < originsList.size(); i++)
 			{
 				originsMap.put(originsList.get(i), Integer.valueOf(i));
+			}
+			
+			if (hasEventSupport())
+			{
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_ORIGINS, origin, -1);//FIXME index
 			}
 		}
 		
@@ -669,6 +747,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		}
 
 		parts.addPart(pageIndex, part);
+		
+		if (hasEventSupport())
+		{
+			getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARTS, part, pageIndex);
+		}
 	}
 
 	/**
@@ -681,7 +764,14 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			return null;
 		}
 
-		return parts.removePart(pageIndex);
+		PrintPart part = parts.removePart(pageIndex);
+		
+		if (part != null && hasEventSupport())
+		{
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARTS, part, pageIndex);
+		}
+		
+		return part;
 	}
 
 	/**
@@ -699,6 +789,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	{
 		anchorIndexes = null;
 		pages.add(page);
+		
+		if (hasEventSupport())
+		{
+			getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PAGES, page, pages.size() - 1);
+		}
 	}
 
 	/**
@@ -708,6 +803,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	{
 		anchorIndexes = null;
 		pages.add(index, page);
+		
+		if (hasEventSupport())
+		{
+			getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PAGES, page, index);
+		}
 	}
 
 	/**
@@ -716,7 +816,14 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	public synchronized JRPrintPage removePage(int index)
 	{
 		anchorIndexes = null;
-		return pages.remove(index);
+		JRPrintPage page = pages.remove(index);
+		
+		if (page != null && hasEventSupport())
+		{
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PAGES, page, index);
+		}
+		
+		return page;
 	}
 
 	/**
@@ -737,6 +844,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 			bookmarks = new ArrayList<PrintBookmark>();
 		}
 		bookmarks.add(bookmark);
+		
+		if (hasEventSupport())
+		{
+			getEventSupport().fireCollectionElementAddedEvent(PROPERTY_BOOKMARKS, bookmark, bookmarks.size() - 1);
+		}
 	}
 	
 	/**
@@ -744,7 +856,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setBookmarks(List<PrintBookmark> bookmarks)
 	{
+		Object old = this.bookmarks;
 		this.bookmarks = bookmarks;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_BOOKMARKS, old, this.bookmarks);
+		}
 	}
 
 	/**
@@ -810,7 +927,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setFormatFactoryClass(String formatFactoryClass)
 	{
+		Object old = this.formatFactoryClass;
 		this.formatFactoryClass = formatFactoryClass;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_FORMAT_FACTORY_CLASS, old, this.formatFactoryClass);
+		}
 	}
 
 
@@ -843,7 +965,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setLocaleCode(String localeCode)
 	{
+		Object old = this.localeCode;
 		this.localeCode = localeCode;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_LOCALE_CODE, old, this.localeCode);
+		}
 	}
 
 
@@ -876,7 +1003,12 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public void setTimeZoneId(String timeZoneId)
 	{
+		Object old = this.timeZoneId;
 		this.timeZoneId = timeZoneId;
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_TIME_ZONE_ID, old, this.timeZoneId);
+		}
 	}
 		
 	/*
@@ -897,6 +1029,27 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		{
 			orientationValue = OrientationEnum.getByValue(orientation);
 		}
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	protected boolean hasEventSupport()
+	{
+		return eventSupport != null;
+	}
+	
+	@Override
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 
 
