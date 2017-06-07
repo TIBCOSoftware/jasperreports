@@ -905,8 +905,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 //		
 //		password = 
 //			getStringParameter(
-//				JExcelApiExporterParameter.PASSWORD,
-//				JExcelApiExporterParameter.PROPERTY_PASSWORD
+//				JRXlsAbstractExporterParameter.PASSWORD,
+//				JRXlsAbstractExporterParameter.PROPERTY_PASSWORD
 //				);
 	}
 	

@@ -220,35 +220,6 @@ public class BookApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
-	public void jxl() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/BookReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-
-		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiExporter();
-
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		exporter.setConfiguration(configuration);
-
-		exporter.exportReport();
-
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
 	public void csv() throws JRException
 	{
 		long start = System.currentTimeMillis();

@@ -233,12 +233,6 @@ public class JRXlsAbstractExporterParameter extends net.sf.jasperreports.engine.
 
 	
 	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#isCreateCustomPalette()}.
-	 */
-	public static final net.sf.jasperreports.engine.JRExporterParameter CREATE_CUSTOM_PALETTE = 
-		new JExcelApiExporterParameter("Create Custom Palette");
-
-	/**
 	 * @deprecated Replaced by {@link XlsExporterConfiguration#PROPERTY_CREATE_CUSTOM_PALETTE}.
 	 */
 	public static final String PROPERTY_CREATE_CUSTOM_PALETTE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.create.custom.palette";

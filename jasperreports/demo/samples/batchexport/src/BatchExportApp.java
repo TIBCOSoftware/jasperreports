@@ -77,7 +77,6 @@ public class BatchExportApp extends AbstractSampleApp
 		html();
 		rtf();
 		xls();
-		jxl();
 		csv();
 		odt();
 		ods();
@@ -197,34 +196,6 @@ public class BatchExportApp extends AbstractSampleApp
 		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.xls"));
 		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-		configuration.setOnePagePerSheet(false);
-		exporter.setConfiguration(configuration);
-		
-		exporter.exportReport();
-
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void jxl() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
-		jasperPrintList.add((JasperPrint)JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
-		
-		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiExporter();
-		
-		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("build/reports/BatchExportReport.jxl.xls"));
-		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
 		configuration.setOnePagePerSheet(false);
 		exporter.setConfiguration(configuration);
 		

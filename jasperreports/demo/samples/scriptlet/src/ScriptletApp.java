@@ -83,7 +83,6 @@ public class ScriptletApp extends AbstractSampleApp
 		html();
 		rtf();
 		xls();
-		jxl();
 		csv();
 		odt();
 		ods();
@@ -195,36 +194,6 @@ public class ScriptletApp extends AbstractSampleApp
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
 		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
-		exporter.setConfiguration(configuration);
-		
-		exporter.exportReport();
-
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void jxl() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/ScriptletReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-		
-		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
 		configuration.setOnePagePerSheet(true);
 		configuration.setProgressMonitor(new SimpleExportProgressMonitor());
 		exporter.setConfiguration(configuration);

@@ -158,14 +158,6 @@
 		</java>
 	</target>
 
-	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library." depends="prepare-test-classpath">
-		<java classname="${class.name}" fork="true">
-			<arg value="jxl"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="csv"/>
@@ -292,7 +284,6 @@
 		<antcall target="html" />
 		<antcall target="rtf" />
 		<antcall target="xls" />
-		<antcall target="jxl" />
 		<antcall target="csv" />
 		<antcall target="odt" />
 		<antcall target="ods" />

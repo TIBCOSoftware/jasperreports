@@ -43,10 +43,6 @@
 		<ant dir="../" target="xls"/>
 	</target>
 
-	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
-		<ant dir="../" target="jxl"/>
-	</target>
-
 	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
 		<ant dir="../" target="docx"/>
 	</target>

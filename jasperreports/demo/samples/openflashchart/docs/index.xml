@@ -204,9 +204,6 @@ Hence the Open Flash Chart components will be registered as Spring-based extensi
           <entry key="net.sf.jasperreports.xls">
             <bean class="net.sf.jasperreports.components.ofc.ChartXlsHandler"/>
           </entry>
-          <entry key="net.sf.jasperreports.jxl">
-            <bean class="net.sf.jasperreports.components.ofc.ChartJExcelApiHandler"/>
-          </entry>
           <entry key="net.sf.jasperreports.rtf">
             <bean class="net.sf.jasperreports.components.ofc.ChartRtfHandler"/>
           </entry>
@@ -255,8 +252,6 @@ replacement, to be used in output formats that not support Flash</li>
 <li><code>ChartDataGenerator.java</code> - class that generates data for pie and bar charts in JSON format</li>
 <li><code>ChartDocxHandler.java</code> - handler class for the DOCX output format. Produces text replacement for the Flash object.</li>
 <li><code>ChartHtmlHandler.java</code> - handler class for the HTML output format. Embeds the Flash object into the HTML page.</li>
-<li><code>ChartJExcelApiHandler.java</code> - handler class for the Excel 2003 output format, using the JExcelApiExporter (based on the JExcelApi library). 
-Produces text replacement for the Flash object.</li>
 <li><code>ChartNoPdfHandler.java</code> - handler class for the PDF output format that produces text replacement for the Flash object</li>
 <li><code>ChartOdsHandler.java</code> - handler class for the ODS output format. Produces text replacement for the Flash object.</li>
 <li><code>ChartOdtHandler.java</code> - handler class for the ODT output format. Produces text replacement for the Flash object.</li>

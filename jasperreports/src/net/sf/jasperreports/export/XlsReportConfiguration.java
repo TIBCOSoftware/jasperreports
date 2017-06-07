@@ -1264,7 +1264,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(
-		type=net.sf.jasperreports.engine.export.JExcelApiExporterParameter.class,
+		type=net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter.class,
 		name="PASSWORD"
 		)
 	@ExporterProperty(PROPERTY_PASSWORD)
@@ -1289,7 +1289,6 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * correspondent proprietary format pattern as correspondent value
 	 * <p/>
 	 * @see org.apache.poi.hssf.usermodel.HSSFDataFormat
-	 * @see jxl.write.NumberFormat
 	 */
 	@SuppressWarnings("deprecation")
 	@ExporterParameter(

@@ -173,15 +173,6 @@ XLSX:
   configuration.setOnePagePerSheet(false);
   configuration.setRemoveEmptySpaceBetweenRows(true);
   exporter.setConfiguration(configuration);]]></pre>
-For comparison, the <code>OnePagePerSheet</code> setting was turned on (<code>true</code>) for the JExcelApi exporter (see the <code>jxl()</code> method):
-<pre><![CDATA[
-JExcelApi:
-
-  net.sf.jasperreports.export.SimpleJxlExporterConfiguration configuration = 
-	new net.sf.jasperreports.export.SimpleJxlExporterConfiguration();
-  configuration.setOnePagePerSheet(true);
-  configuration.setRemoveEmptySpaceBetweenRows(true);
-  exporter.setConfiguration(configuration);]]></pre>
 <b>Running the Sample</b>
 <br/>
 <br/>

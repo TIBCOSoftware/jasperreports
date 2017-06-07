@@ -105,8 +105,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 			{
 				@SuppressWarnings("deprecation")
 				String depXhtmlKey = net.sf.jasperreports.engine.export.JRXhtmlExporter.XHTML_EXPORTER_KEY;
-				@SuppressWarnings("deprecation")
-				String depJExcelApiKey = net.sf.jasperreports.engine.export.JExcelApiExporter.JXL_EXPORTER_KEY;
 				if (
 					FlashPrintElement.FLASH_ELEMENT_NAME.equals(elementName) 
 					&& HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey)
@@ -139,17 +137,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					{
 						return MapElementXlsHandler.getInstance();
 					}
-					else if(depJExcelApiKey.equals(exporterKey))
-					{
-						@SuppressWarnings("deprecation")
-						net.sf.jasperreports.components.map.MapElementJExcelApiHandler depHandler = 
-							net.sf.jasperreports.components.map.MapElementJExcelApiHandler.getInstance();
-						return depHandler;
-					}
-//					else if(JExcelApiMetadataExporter.JXL_METADATA_EXPORTER_KEY.equals(exporterKey))
-//					{
-//						return MapElementJExcelApiMetadataHandler.getInstance();
-//					}
 					else if(JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementXlsxHandler.getInstance();
@@ -209,13 +196,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					else if (JRCsvExporter.CSV_EXPORTER_KEY.equals(exporterKey))
 					{
 						return IconLabelElementCsvHandler.getInstance();
-					}		
-					else if (depJExcelApiKey.equals(exporterKey))
-					{
-						@SuppressWarnings("deprecation")
-						net.sf.jasperreports.components.iconlabel.IconLabelElementJExcelApiHandler depHandler =
-							net.sf.jasperreports.components.iconlabel.IconLabelElementJExcelApiHandler.getInstance();
-						return depHandler;
 					}		
 					else if (JRXlsExporter.XLS_EXPORTER_KEY.equals(exporterKey))
 					{
