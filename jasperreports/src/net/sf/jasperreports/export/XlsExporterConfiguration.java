@@ -187,8 +187,7 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 * other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
 	 * Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
 	 * <p>
-	 * This setting is used in Excel exporters based either on Apache POI APIs ({@link JRXlsExporter}) or on JExcelApi library 
-	 * ({@link net.sf.jasperreports.engine.export.JExcelApiExporter JExcelApiExporter}). There's no similar property for the {@link JRXlsxExporter}.
+	 * This setting is used in the Excel exporter based on Apache POI APIs ({@link JRXlsExporter}). There's no similar property for the {@link JRXlsxExporter}.
 	 * @see #PROPERTY_WORKBOOK_TEMPLATE
 	 */
 	@ExporterProperty(PROPERTY_WORKBOOK_TEMPLATE)

@@ -17,16 +17,9 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill1" description="Fills the compiled report design using the Apache POI-based XlsDataSource class and produces the .jrprint file." depends="prepare-test-classpath">
+	<target name="fill" description="Fills the compiled report design using the Apache POI-based XlsDataSource class and produces the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="fill1"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
-	<target name="fill2" description="Fills the compiled report design using the JExcelApi-based JRXlsDataSource class and produces the .jrprint file." depends="prepare-test-classpath">
-		<java classname="${sample.app.name}" fork="true">
-			<arg value="fill2"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
@@ -65,10 +58,6 @@
 	
 	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
 		<ant dir="../" target="xls"/>
-	</target>
-
-	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
-		<ant dir="../" target="jxl"/>
 	</target>
 
 	<target name="csv" description="Generates a CSV version of the report by converting the .jrprint file.">

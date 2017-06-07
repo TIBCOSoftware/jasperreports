@@ -214,63 +214,86 @@
 					<imageExpression><![CDATA["jilagan-butterfly.svg"]]></imageExpression>
 				</image>
 				<image scaleImage="FillFrame">
-					<reportElement mode="Opaque" x="400" y="0" width="150" height="40" backcolor="#DDDDFF" uuid="858e3729-6b20-4761-bfef-ed371e8efad9"/>
+					<reportElement mode="Opaque" x="400" y="0" width="150" height="40" backcolor="#DDDDFF" uuid="58e3729-6b20-4761-bfef-ed371e8efad9"/>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
 					<imageExpression><![CDATA["jilagan-butterfly.svg"]]></imageExpression>
 				</image>
 			</band>
-			<band height="150">
+			<band height="50">
+				<image>
+					<reportElement x="0" y="0" width="150" height="40" uuid="e27c3ef3-010c-482b-965e-a48565d5736d"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<imageExpression><![CDATA["marbles.tif"]]></imageExpression>
+				</image>
+				<image hAlign="Center" vAlign="Middle" scaleImage="Clip">
+					<reportElement x="200" y="0" width="150" height="40" uuid="299ad0a8-08fe-4eb2-8750-c67fc8d9145a"/>
+					<box padding="5">
+						<pen lineWidth="0.5"/>
+					</box>
+					<imageExpression><![CDATA["marbles.tif"]]></imageExpression>
+				</image>
+				<image scaleImage="FillFrame">
+					<reportElement mode="Opaque" x="400" y="0" width="150" height="40" backcolor="#DDDDFF" uuid="758e3729-6b20-4761-bfef-ed371e8efad9"/>
+					<box>
+						<pen lineWidth="0.5"/>
+					</box>
+					<imageExpression><![CDATA["marbles.tif"]]></imageExpression>
+				</image>
+			</band>
+			<band height="125">
 				<image scaleImage="Clip" hAlign="Right" vAlign="Bottom" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="0" y="0" width="150" height="140" backcolor="#DDFFDD" uuid="98193509-96ae-4edf-9a23-94b4090ac615"/>
+					<reportElement mode="Opaque" x="0" y="0" width="150" height="115" backcolor="#DDFFDD" uuid="98193509-96ae-4edf-9a23-94b4090ac615"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="Clip" vAlign="Middle" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="200" y="0" width="40" height="140" backcolor="#DDFFDD" uuid="0c5213f6-2809-4a71-ae01-716a6d8fa48f"/>
+					<reportElement mode="Opaque" x="200" y="0" width="40" height="115" backcolor="#DDFFDD" uuid="0c5213f6-2809-4a71-ae01-716a6d8fa48f"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="FillFrame" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="250" y="0" width="40" height="140" backcolor="#DDFFDD" uuid="37feb626-ff67-492d-8362-dd2e801f2d32"/>
+					<reportElement mode="Opaque" x="250" y="0" width="40" height="115" backcolor="#DDFFDD" uuid="37feb626-ff67-492d-8362-dd2e801f2d32"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="RetainShape" vAlign="Middle" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="300" y="0" width="40" height="140" backcolor="#DDFFDD" uuid="b0a002a8-09bb-4ad1-a2b1-c8bbd1dd7c82"/>
+					<reportElement mode="Opaque" x="300" y="0" width="40" height="115" backcolor="#DDFFDD" uuid="b0a002a8-09bb-4ad1-a2b1-c8bbd1dd7c82"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="RetainShape" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="400" y="0" width="150" height="140" backcolor="#DDFFDD" uuid="b4759a3e-c39d-4847-bf25-1b217320f668"/>
+					<reportElement mode="Opaque" x="400" y="0" width="150" height="115" backcolor="#DDFFDD" uuid="b4759a3e-c39d-4847-bf25-1b217320f668"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.png"]]></hyperlinkReferenceExpression>
 				</image>
 			</band>
-			<band height="150">
+			<band height="125">
 				<image scaleImage="Clip" hAlign="Right" vAlign="Bottom" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="0" y="0" width="150" height="140" backcolor="#DDFFDD" uuid="b9e2b8b0-85f8-4236-a861-e3d7a12eda84"/>
+					<reportElement mode="Opaque" x="0" y="0" width="150" height="115" backcolor="#DDFFDD" uuid="b9e2b8b0-85f8-4236-a861-e3d7a12eda84"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="Clip" vAlign="Middle" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="200" y="0" width="40" height="140" backcolor="#DDFFDD" uuid="1f6f9acc-01d3-42e6-95c0-880d4e36945a"/>
+					<reportElement mode="Opaque" x="200" y="0" width="40" height="115" backcolor="#DDFFDD" uuid="1f6f9acc-01d3-42e6-95c0-880d4e36945a"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="FillFrame" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="250" y="0" width="40" height="140" backcolor="#DDFFDD" uuid="e14de3e7-1393-4f58-9289-780953605fdd"/>
+					<reportElement mode="Opaque" x="250" y="0" width="40" height="115" backcolor="#DDFFDD" uuid="e14de3e7-1393-4f58-9289-780953605fdd"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="RetainShape" vAlign="Middle" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="300" y="0" width="40" height="140" backcolor="#DDFFDD" uuid="62d2f30d-a73b-4443-baa0-0e36aed831fb"/>
+					<reportElement mode="Opaque" x="300" y="0" width="40" height="115" backcolor="#DDFFDD" uuid="62d2f30d-a73b-4443-baa0-0e36aed831fb"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>
 				<image scaleImage="RetainShape" isLazy="true" onErrorType="Icon" hyperlinkType="Reference">
-					<reportElement mode="Opaque" x="400" y="0" width="150" height="140" backcolor="#DDFFDD" uuid="8353450d-6b29-4139-9f34-274362589355"/>
+					<reportElement mode="Opaque" x="400" y="0" width="150" height="115" backcolor="#DDFFDD" uuid="8353450d-6b29-4139-9f34-274362589355"/>
 					<imageExpression><![CDATA["http://jasperreports.sourceforge.net/jasperreports.svg"]]></imageExpression>
 					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sf.net/jasperreports.svg"]]></hyperlinkReferenceExpression>
 				</image>

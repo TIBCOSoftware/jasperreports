@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -82,6 +82,12 @@ public class JRGroupFactory extends JRBaseFactory
 		if (keepTogether != null && keepTogether.length() > 0)
 		{
 			group.setKeepTogether(Boolean.valueOf(keepTogether).booleanValue());
+		}
+
+		String preventOrphanFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_preventOrphanFooter);
+		if (preventOrphanFooter != null && preventOrphanFooter.length() > 0)
+		{
+			group.setPreventOrphanFooter(Boolean.valueOf(preventOrphanFooter).booleanValue());
 		}
 
 		return group;

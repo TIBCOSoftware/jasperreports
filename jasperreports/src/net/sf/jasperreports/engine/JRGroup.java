@@ -218,7 +218,17 @@ public interface JRGroup extends JRCloneable
 	 * Sets the flag that signals if the group should be prevented from splitting on first break attempt.
 	 */
 	public void setKeepTogether(boolean keepTogether);
+	
+	/**
+	 * Gets the flag that signals if the group footer should be prevented from appearing without a detail at the top of a new page/column.
+	 */
+	public boolean isPreventOrphanFooter();
 		
+	/**
+	 * Sets the flag that signals if the group should be prevented from appearing without a detail at the top of a new page/column.
+	 */
+	public void setPreventOrphanFooter(boolean preventOrphanFooter);
+	
 	/**
 	 * Gets the expression that defines what records in the group have in common.
 	 */

@@ -76,9 +76,6 @@
 						<entry key="net.sf.jasperreports.xls">
 							<bean class="net.sf.jasperreports.components.ofc.ChartXlsHandler"/>
 						</entry>
-						<entry key="net.sf.jasperreports.jxl">
-							<bean class="net.sf.jasperreports.components.ofc.ChartJExcelApiHandler"/>
-						</entry>
 						<entry key="net.sf.jasperreports.rtf">
 							<bean class="net.sf.jasperreports.components.ofc.ChartRtfHandler"/>
 						</entry>

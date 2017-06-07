@@ -72,7 +72,6 @@ public class OFCApp
 	private static final String TASK_HTML = "html";
 	private static final String TASK_RTF = "rtf";
 	private static final String TASK_XLS = "xls";
-	private static final String TASK_JXL = "jxl";
 	private static final String TASK_CSV = "csv";
 	private static final String TASK_ODT = "odt";
 	private static final String TASK_ODS = "ods";
@@ -165,28 +164,6 @@ public class OFCApp
 				configuration.setOnePagePerSheet(true);
 				exporter.setConfiguration(configuration);
 				
-				exporter.exportReport();
-
-				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if (TASK_JXL.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-
-				net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-					new net.sf.jasperreports.engine.export.JExcelApiExporter();
-
-				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-				net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-					new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-				configuration.setOnePagePerSheet(true);
-				exporter.setConfiguration(configuration);
-
 				exporter.exportReport();
 
 				System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
@@ -426,7 +403,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | pptx | xhtml | xml4swf | viewHtml" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | pptx | xhtml | xml4swf | viewHtml" );
 	}
 
 

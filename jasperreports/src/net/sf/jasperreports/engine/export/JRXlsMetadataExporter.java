@@ -1734,12 +1734,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	
 	@Override
 	protected void setFreezePane(int rowIndex, int colIndex) {
-		//FIXME: recalculate freeze pane edges depending on exported columns
-		
-//		if(rowIndex > 0 || colIndex > 0)
-//		{
-//			sheet.createFreezePane(Math.max(0, colIndex), Math.max(0, rowIndex));
-//		}
+		if(rowIndex > 0 || colIndex > 0)
+		{
+			sheet.createFreezePane(Math.max(0, colIndex), Math.max(0, rowIndex));
+		}
 	}
 	
 	/**

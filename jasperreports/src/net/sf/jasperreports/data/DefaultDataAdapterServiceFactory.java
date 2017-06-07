@@ -52,7 +52,6 @@ import net.sf.jasperreports.data.provider.DataSourceProviderDataAdapter;
 import net.sf.jasperreports.data.provider.DataSourceProviderDataAdapterService;
 import net.sf.jasperreports.data.qe.QueryExecuterDataAdapter;
 import net.sf.jasperreports.data.qe.QueryExecuterDataAdapterService;
-import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
 import net.sf.jasperreports.data.xls.XlsDataAdapterService;
 import net.sf.jasperreports.data.xlsx.XlsxDataAdapter;
@@ -61,7 +60,6 @@ import net.sf.jasperreports.data.xml.XmlDataAdapter;
 import net.sf.jasperreports.data.xml.XmlDataAdapterService;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
 import net.sf.jasperreports.data.xmla.XmlaDataAdapterService;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 
@@ -131,21 +129,7 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 		}
 		else if (dataAdapter instanceof XlsDataAdapter)
 		{
-			if (
-				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
-					AbstractXlsDataAdapterService.PROPERTY_DATA_ADAPTER_USE_LEGACY_JEXCELAPI,
-					false
-					)
-				)
-			{
-				@SuppressWarnings("deprecation")
-				DataAdapterService dep = new net.sf.jasperreports.data.xls.JxlDataAdapterService(jasperReportsContext, (XlsDataAdapter)dataAdapter);
-				dataAdapterService = dep;
-			}
-			else
-			{
-				dataAdapterService = new XlsDataAdapterService(context, (XlsDataAdapter)dataAdapter);
-			}
+			dataAdapterService = new XlsDataAdapterService(context, (XlsDataAdapter)dataAdapter);
 		}
 		// end excel
 

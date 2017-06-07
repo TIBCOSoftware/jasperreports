@@ -71,11 +71,6 @@ public final class TextInputElementHandlerBundle implements GenericElementHandle
 //			return new HtmlElementXlsHandler();
 //		}
 //		else if (NAME.equals(elementName)
-//				&& JExcelApiExporter.JXL_EXPORTER_KEY.equals(exporterKey))
-//		{
-//			return new HtmlElementJExcelHandler();
-//		}		
-//		else if (NAME.equals(elementName)
 //				&& JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 //		{
 //			return new HtmlElementGraphics2DHandler();

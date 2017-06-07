@@ -3617,26 +3617,6 @@ and specifies the path to a JSON schema file that will be used to generate the J
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.jxl.use.temp.file -->
-  
-  <configProperty name="net.sf.jasperreports.export.jxl.use.temp.file">
-    <description>
-Boolean property enabling the JExcelApiExporter to use temporary files when creating large documents.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.jxl.cell.complex.format -->
-  
-  <configProperty name="net.sf.jasperreports.export.jxl.cell.complex.format">
-    <description>
-Boolean property specifying whether the cell format pattern is user-defined. 
-When set to <code>true</code>, the exporter will assume that the specified pattern is well defined. 
-If the pattern is invalid, it won't be taken into account by the Excel file viewer.
-    </description>
-  </configProperty>
-  
-  
   <!-- net.sf.jasperreports.export.ods.flexible.row.height -->
   
   <configProperty name="net.sf.jasperreports.export.ods.flexible.row.height">
@@ -4812,9 +4792,8 @@ the template will be exported first and the content of the exported report will 
 other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
 Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
 <br/>
-This property is used in Excel exporters based either on Apache POI APIs 
-(<api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>) or on JExcelApi library 
-(<api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api>). There's no similar property 
+This property is used in the Excel exporter based on Apache POI APIs 
+(<api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>). There's no similar property 
 for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>.
     </description>
   </configProperty>
@@ -4861,8 +4840,7 @@ The property should be used when all sheets in the document have the same freeze
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
 </ul>
     </description>
@@ -4891,8 +4869,7 @@ with maximum column index.
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>
@@ -4909,8 +4886,7 @@ The property should be used when all sheets in the document have the same freeze
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
 </ul>
     </description>
@@ -4939,8 +4915,7 @@ with maximum row index.
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsMetadataExporter.html">JRXlsMetadataExporter</api></li>
 <li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api> (since 6.2.0)</li>
 </ul>
     </description>

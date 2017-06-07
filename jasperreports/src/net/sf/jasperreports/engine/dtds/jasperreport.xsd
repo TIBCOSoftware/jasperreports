@@ -1687,6 +1687,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="preventOrphanFooter" use="optional" default="false">
+ 	<annotation>
+  	 <documentation>Flag that prevents the group from appearing alone at the top of a new page/column.</documentation>
+ 	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true">
+	  	<annotation>
+	   	 <documentation>The last detail section is moved onto the new page/column so that the group footer does not appear alone.</documentation>
+	  	</annotation>
+	  </enumeration> 
+      <enumeration value="false">
+	  	<annotation>
+	   	 <documentation>The group footer can appear alone at the top of a new page/column, without a detail section.</documentation>
+	  	</annotation>
+	  </enumeration> 
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

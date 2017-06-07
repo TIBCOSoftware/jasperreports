@@ -79,16 +79,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Nexus Release Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-		<snapshotRepository>
-			<id>jr-ce-snapshots</id>
-			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 </project>

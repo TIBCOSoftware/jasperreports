@@ -338,9 +338,8 @@ content of the template document at export time. All settings of the template do
 binary objects will be also exported into the generated document. Templates can be loaded from 
 Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
 <br/>
-This property may be used in Excel exporters based either on Apache POI APIs (such as 
-<api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>) or on the 
-JExcelApi library (the <api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api>). 
+This property may be used in the Excel exporter based on Apache POI APIs (
+<api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>). 
 There's no similar property for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>.</li>
 <li><api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS">net.sf.jasperreports.export.xls.workbook.template.keep.sheets</api> 
 - specifies whether to keep the 
@@ -355,8 +354,8 @@ To get an idea about how these properties work, see how they are set in the <cod
 sample, at report level. Excel template files are saved in the <code>demo/samples/xlsfeatures/data</code> directory, where you could examine the 
 <code>macro.xlt</code> template for this particular case. 
 <br/>
-After running the sample take a look at generated <code>MacroReport.xls</code> and <code>MacroReport.jxl.xls</code> reports. 
-You will see that the first sheet of these reports was loaded from the template file. In the following sheets, you can run 
+After running the sample, take a look at generated <code>MacroReport.xls</code> report. 
+You will see that the first sheet of this report was loaded from the template file. In the following sheets, you can run 
 the macro imported from the template file by pressing CTRL+SHIFT+T and see how fonts and column width changed.
 <br/>
 <br/>

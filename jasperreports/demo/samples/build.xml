@@ -173,13 +173,6 @@
 		</java>
 	</target>
 
-	<target name="jxl" depends="prepare-test-classpath">
-		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
-			<arg value="jxl"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
 	<target name="csv" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="csv"/>
@@ -197,13 +190,6 @@
 	<target name="xlsMetadata" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xlsMetadata"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-	
-	<target name="jxlMetadata" depends="prepare-test-classpath">
-		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
-			<arg value="jxlMetadata"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>

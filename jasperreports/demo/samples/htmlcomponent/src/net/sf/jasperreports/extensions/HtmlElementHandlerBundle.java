@@ -91,11 +91,6 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 			return new HtmlElementXlsHandler();
 		}
 		else if (NAME.equals(elementName)
-				&& net.sf.jasperreports.engine.export.JExcelApiExporter.JXL_EXPORTER_KEY.equals(exporterKey))
-		{
-			return new net.sf.jasperreports.engine.export.HtmlElementJExcelHandler();
-		}		
-		else if (NAME.equals(elementName)
 				&& JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new HtmlElementGraphics2DHandler();

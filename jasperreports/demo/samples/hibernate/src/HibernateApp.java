@@ -82,7 +82,6 @@ public class HibernateApp extends AbstractSampleApp
 		html();
 		rtf();
 		xls();
-		jxl();
 		csv();
 		odt();
 		ods();
@@ -250,39 +249,6 @@ public class HibernateApp extends AbstractSampleApp
 			configuration.setOnePagePerSheet(true);
 			exporter.setConfiguration(configuration);
 		
-			exporter.exportReport();
-
-			System.err.println("Report : " + sourceFile + ". XLS creation time : " + (System.currentTimeMillis() - start));
-		}
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void jxl() throws JRException
-	{
-		File[] files = getFiles(new File("build/reports"), "jrprint");
-		for(int i = 0; i < files.length; i++)
-		{
-			long start = System.currentTimeMillis();
-			File sourceFile = files[i];
-
-			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-
-			net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-				new net.sf.jasperreports.engine.export.JExcelApiExporter();
-
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-			net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-				new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-			configuration.setOnePagePerSheet(true);
-			exporter.setConfiguration(configuration);
-
 			exporter.exportReport();
 
 			System.err.println("Report : " + sourceFile + ". XLS creation time : " + (System.currentTimeMillis() - start));

@@ -87,7 +87,7 @@ public class CategoryMarkerCustomizer extends AbstractMarkerCustomizer
 
 		String fontName = getProperty(PROPERTY_FONT_NAME);
 		if (fontName == null) {
-			fontName = font.getFontName();
+			fontName = font.getName();
 		}
 
 		Float fontSize = getFloatProperty(PROPERTY_FONT_SIZE);

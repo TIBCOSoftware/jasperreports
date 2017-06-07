@@ -74,14 +74,13 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	 */
 	public void test() throws JRException
 	{
-		fill1();
+		fill();
 		pdf();
 		xmlEmbed();
 		xml();
 		html();
 		rtf();
 		xls();
-		jxl();
 		csv();
 		odt();
 		ods();
@@ -94,7 +93,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void fill1() throws JRException
+	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		//Preparing parameters
@@ -106,31 +105,11 @@ public class XlsDataSourceApp extends AbstractSampleApp
 		states.add("Trial");
 		parameters.put("IncludedStates", states);
 		
-		JasperFillManager.fillReportToFile("build/reports/XlsDataSourceReport.jasper", parameters, getDataSource1());
+		JasperFillManager.fillReportToFile("build/reports/XlsDataSourceReport.jasper", parameters, getDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
-	/**
-	 *
-	 */
-	public void fill2() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		//Preparing parameters
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("ReportTitle", "Address Report");
-		parameters.put("DataFile", "XlsDataSource.data.xls - XLS data source");
-		Set<String> states = new HashSet<String>();
-		states.add("Active");
-		states.add("Trial");
-		parameters.put("IncludedStates", states);
-
-		JasperFillManager.fillReportToFile("build/reports/XlsDataSourceReport.jasper", parameters, getDataSource2());
-		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
-	}
-
-
 	/**
 	 *
 	 */
@@ -229,35 +208,6 @@ public class XlsDataSourceApp extends AbstractSampleApp
 		configuration.setOnePagePerSheet(false);
 		exporter.setConfiguration(configuration);
 		
-		exporter.exportReport();
-
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void jxl() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/XlsDataSourceReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-
-		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiExporter();
-
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		exporter.setConfiguration(configuration);
-
 		exporter.exportReport();
 
 		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
@@ -411,7 +361,7 @@ public class XlsDataSourceApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	private static ExcelDataSource getDataSource1() throws JRException
+	private static ExcelDataSource getDataSource() throws JRException
 	{
 		ExcelDataSource ds;
 		
@@ -427,33 +377,6 @@ public class XlsDataSourceApp extends AbstractSampleApp
 //			ds.setSheetSelection("xlsdatasource2");
 		}
 		catch (Exception e)
-		{
-			throw new JRException(e);
-		}
-		
-		return ds;
-	}
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	private static net.sf.jasperreports.engine.data.JRXlsDataSource getDataSource2() throws JRException
-	{
-		net.sf.jasperreports.engine.data.JRXlsDataSource ds;
-		
-		try
-		{
-			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
-			int[] columnIndexes = new int[]{0, 2, 3, 4, 5};
-			ds = new net.sf.jasperreports.engine.data.JRXlsDataSource(JRLoader.getLocationInputStream("data/XlsDataSource.data.xls"));
-//			ds.setUseFirstRowAsHeader(true);
-			ds.setColumnNames(columnNames, columnIndexes);
-			
-			//uncomment the below line to see how sheet selection works
-//			ds.setSheetSelection("xlsdatasource2");
-		}
-		catch (IOException e)
 		{
 			throw new JRException(e);
 		}

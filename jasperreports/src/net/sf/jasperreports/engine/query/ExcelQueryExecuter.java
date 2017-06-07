@@ -29,8 +29,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
-import net.sf.jasperreports.data.xls.AbstractXlsDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -39,9 +41,6 @@ import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Excel query executer implementation.
@@ -55,8 +54,6 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 	private static final String EXCEL_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.ExcelDataSource";
 	private static final String XLS_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.XlsDataSource";
 	private static final String XLSX_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.JRXlsxDataSource";
-	private static final String JXL_DATA_SOURCE_CLASS = "net.sf.jasperreports.engine.data.JRXlsDataSource";
-	private static final String JXL_WORKBOOK_CLASS = "jxl.Workbook";
 	private static final String XLS_WORKBOOK_CLASS = "org.apache.poi.hssf.usermodel.HSSFWorkbook";
 	private static final String XLSX_WORKBOOK_CLASS = "org.apache.poi.xssf.usermodel.XSSFWorkbook";
 	
@@ -94,11 +91,7 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 		if (workbook != null) 
 		{
 			String workbookClassName = workbook.getClass().getName();
-			if (JXL_WORKBOOK_CLASS.equals(workbookClassName))
-			{
-				dataSourceClassName = JXL_DATA_SOURCE_CLASS;
-			}
-			else if (XLS_WORKBOOK_CLASS.equals(workbookClassName))
+			if (XLS_WORKBOOK_CLASS.equals(workbookClassName))
 			{
 				dataSourceClassName = XLS_DATA_SOURCE_CLASS;
 			}
@@ -130,14 +123,7 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 			{
 				case XLS :
 				{
-					if (getBooleanParameterOrProperty(AbstractXlsDataAdapterService.PROPERTY_DATA_ADAPTER_USE_LEGACY_JEXCELAPI, false))
-					{
-						dataSourceClassName = JXL_DATA_SOURCE_CLASS;
-					}
-					else
-					{
-						dataSourceClassName = XLS_DATA_SOURCE_CLASS;
-					}
+					dataSourceClassName = XLS_DATA_SOURCE_CLASS;
 					break;
 				}
 				case XLSX :

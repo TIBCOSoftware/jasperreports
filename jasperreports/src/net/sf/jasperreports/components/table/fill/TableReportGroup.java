@@ -138,6 +138,12 @@ public class TableReportGroup implements JRGroup
 	}
 
 	@Override
+	public boolean isPreventOrphanFooter()
+	{
+		return datasetGroup.isPreventOrphanFooter();
+	}
+
+	@Override
 	public boolean isReprintHeaderOnEachPage()
 	{
 		return datasetGroup.isReprintHeaderOnEachPage();
@@ -169,6 +175,12 @@ public class TableReportGroup implements JRGroup
 
 	@Override
 	public void setKeepTogether(boolean keepTogether)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setPreventOrphanFooter(boolean preventOrphanFooter)
 	{
 		throw new UnsupportedOperationException();
 	}

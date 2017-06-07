@@ -90,10 +90,8 @@ public class JasperApp extends AbstractSampleApp
 		html();
 		rtf();
 		xls();
-		jxl();
 		csv();
 		csvMetadata();
-		jxlMetadata();
 		xlsMetadata();
 		jsonMetadata();
 		odt();
@@ -286,74 +284,6 @@ public class JasperApp extends AbstractSampleApp
 		
 		exporter.exportReport();
 
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void jxl() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FirstJasper.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.xls");
-
-		Map<String, String> dateFormats = new HashMap<String, String>();
-		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
-
-		net.sf.jasperreports.engine.export.JExcelApiExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiExporter();
-
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
-
-		exporter.exportReport();
-
-		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void jxlMetadata() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/FirstJasper.jrprint");
-		
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".jxl.metadata.xls");
-		
-		Map<String, String> dateFormats = new HashMap<String, String>();
-		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");
-		
-		net.sf.jasperreports.engine.export.JExcelApiMetadataExporter exporter = 
-			new net.sf.jasperreports.engine.export.JExcelApiMetadataExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
-		net.sf.jasperreports.export.SimpleJxlMetadataReportConfiguration configuration = 
-			new net.sf.jasperreports.export.SimpleJxlMetadataReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		configuration.setDetectCellType(true);
-		configuration.setFormatPatternsMap(dateFormats);
-		exporter.setConfiguration(configuration);
-		
-		exporter.exportReport();
-		
 		System.err.println("XLS creation time : " + (System.currentTimeMillis() - start));
 	}
 	

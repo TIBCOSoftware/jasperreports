@@ -209,6 +209,17 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	@Override
+	public boolean isPreventOrphanFooter()
+	{
+		return parent.isPreventOrphanFooter();
+	}
+		
+	@Override
+	public void setPreventOrphanFooter(boolean preventOrphanFooter)
+	{
+	}
+		
+	@Override
 	public JRSection getGroupHeaderSection()
 	{
 		return groupHeaderSection;

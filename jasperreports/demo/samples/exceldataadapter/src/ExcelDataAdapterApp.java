@@ -95,10 +95,6 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 //		String deprecatedFactory = net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory.class.getName();
 //		jasperReportsContext.setProperty("net.sf.jasperreports.query.executer.factory.xls", deprecatedFactory);
 //		jasperReportsContext.setProperty("net.sf.jasperreports.query.executer.factory.XLS", deprecatedFactory);
-		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsQeDataAdapterReport.jasper");
-		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsQeDataAdapter.xml");
-//		JasperFillManager.getInstance(jasperReportsContext).fillToFile(jasperReport, "build/reports/JxlQeDataAdapterReport.jrprint", parameters);
-		JasperFillManager.fillReportToFile(jasperReport, "build/reports/JxlQeDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 		
 		//data source mode
 		parameters.put("DataFile", "Excel data adapter for XLS data source");
@@ -113,11 +109,6 @@ public class ExcelDataAdapterApp extends AbstractSampleApp
 		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsxDataAdapterReport.jasper");
 		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsxDataAdapter.xml");
 		JasperFillManager.fillReportToFile(jasperReport, "build/reports/XlsxDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
-		
-		jasperReport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ExcelXlsDataAdapterReport.jasper");
-		jasperReport.setProperty(DataAdapterParameterContributorFactory.PROPERTY_DATA_ADAPTER_LOCATION, "data/XlsDataAdapter.xml");
-//		JasperFillManager.getInstance(jasperReportsContext).fillToFile(jasperReport, "build/reports/JxlDataAdapterReport.jrprint", parameters);
-		JasperFillManager.fillReportToFile(jasperReport, "build/reports/JxlDataAdapterReport.jrprint", new HashMap<String, Object>(parameters));
 		
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
