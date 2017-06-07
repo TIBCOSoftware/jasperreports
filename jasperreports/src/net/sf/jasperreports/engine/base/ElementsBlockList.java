@@ -62,14 +62,20 @@ public class ElementsBlockList implements ElementStore, Serializable
 		size = block.size();
 	}
 
-	protected void addBlock()
+	public void addBlock(ElementsBlock block)
 	{
 		incrementBlocks();
 		
-		ElementsBlock block = new ElementsBlock(blocks[0].getContext(), blocks[0].getPage());
 		blocks[blockCount] = block;
 		offsets[blockCount] = size;
+		size += block.size();
 		++blockCount;
+	}
+	
+	protected void addBlock()
+	{
+		ElementsBlock block = new ElementsBlock(blocks[0].getContext(), blocks[0].getPage());
+		addBlock(block);
 		
 		if (log.isDebugEnabled())
 		{
@@ -91,6 +97,11 @@ public class ElementsBlockList implements ElementStore, Serializable
 			System.arraycopy(offsets, 0, newOffsets, 0, blockCount);
 			offsets = newOffsets;
 		}
+	}
+
+	public ElementsBlock[] getBlocks()
+	{
+		return blocks;
 	}
 
 	@Override

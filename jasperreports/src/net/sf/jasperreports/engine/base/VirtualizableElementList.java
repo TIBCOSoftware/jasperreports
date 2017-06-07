@@ -55,6 +55,12 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		
 		initStore(page);
 	}
+	
+	protected VirtualizableElementList(JRVirtualizationContext virtualizationContext, ElementStore store)
+	{
+		this.virtualizationContext = virtualizationContext;
+		this.store = store;
+	}
 
 	private void initStore(JRVirtualPrintPage page)
 	{
@@ -65,6 +71,11 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		{
 			log.debug("created block " + this.store + " for " + this);
 		}
+	}
+	
+	public ElementStore getElementStore()
+	{
+		return store;
 	}
 
 	public synchronized void set(List<JRPrintElement> elements)

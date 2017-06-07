@@ -226,7 +226,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 
 	private PrintParts parts;
 	//FIXME unsynchronize on serialization?
-	private List<JRPrintPage> pages = Collections.synchronizedList(new ArrayList<JRPrintPage>());
+	private List<JRPrintPage> pages;
 
 	private transient Map<String,JRPrintAnchorIndex> anchorIndexes;
 	private DefaultStyleProvider defaultStyleProvider;
@@ -245,9 +245,16 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 	 */
 	public JasperPrint()
 	{
+		this(new ArrayList<JRPrintPage>());
+	}
+
+	protected JasperPrint(List<JRPrintPage> pages)
+	{
 		defaultStyleProvider = new DefaultStyleProvider(null);
 
 		propertiesMap = new JRPropertiesMap();
+		
+		this.pages = Collections.synchronizedList(pages);
 	}
 
 	/**

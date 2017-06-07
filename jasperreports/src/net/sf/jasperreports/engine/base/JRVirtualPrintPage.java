@@ -96,7 +96,7 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	public static final String PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "virtual.page.element.size";
 	
-	private VirtualizableElementList elements;
+	protected VirtualizableElementList elements;
 	
 	/**
 	 * Constructs a virtualizable page.
@@ -135,6 +135,10 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 		{
 			log.debug("created list " + this.elements + " for page " + this);
 		}
+	}
+	
+	protected JRVirtualPrintPage()
+	{
 	}
 
 	@Override

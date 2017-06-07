@@ -86,6 +86,15 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 		this.size = 0;
 		this.deepElementCount = 0;
 	}
+	
+	public ElementsBlock(JRVirtualizationContext context, JRVirtualPrintPage page, String uid, int size)
+	{
+		this.context = context;
+		this.page = page;
+		this.uid = uid;
+		this.size = size;
+		//no need to set deepElementCount
+	}
 
 	private void lockContext()
 	{
