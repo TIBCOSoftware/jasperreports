@@ -34,6 +34,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
+import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
 import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
@@ -121,17 +122,30 @@ public class VirtualizationSerializer
 	
 	public final void writeData(JRVirtualizable o, OutputStream out) throws IOException
 	{
-		VirtualizationOutput oos = new VirtualizationOutput(out, this, o.getContext());
 		Object virtualData = o.getVirtualData();
+		JRVirtualizationContext context = o.getContext();
+		writeData(virtualData, context, out);
+	}
+
+	public final void writeData(Object virtualData, JRVirtualizationContext context, OutputStream out) throws IOException
+	{
+		VirtualizationOutput oos = new VirtualizationOutput(out, this, context);
 		oos.writeJRObject(virtualData);
 		oos.flush();
 	}
 	
 	public final void readData(JRVirtualizable o, InputStream in) throws IOException
 	{
+		Object virtualData = readData(o.getContext(), in);
+		o.setVirtualData(virtualData);
+	}
+	
+	public final Object readData(JRVirtualizationContext context, InputStream in) throws IOException
+	{
 		@SuppressWarnings("resource")
-		VirtualizationInput ois = new VirtualizationInput(in, this, o.getContext());
-		o.setVirtualData(ois.readJRObject());
+		VirtualizationInput ois = new VirtualizationInput(in, this, context);
+		Object readObject = ois.readJRObject();
+		return readObject;
 	}
 
 }
