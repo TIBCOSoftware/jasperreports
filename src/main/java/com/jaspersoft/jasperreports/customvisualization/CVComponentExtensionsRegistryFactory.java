@@ -146,16 +146,6 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 				{
 					return CVElementXlsHandler.getInstance();
 				}
-				else if (net.sf.jasperreports.engine.export.JExcelApiExporter.JXL_EXPORTER_KEY.equals(exporterKey))
-				{
-					return com.jaspersoft.jasperreports.customvisualization.export.CVElementJExcelApiHandler
-							.getInstance();
-				}
-				// else if
-				// (JExcelApiMetadataExporter.JXL_METADATA_EXPORTER_KEY.equals(exporterKey))
-				// {
-				// return CVElementJExcelApiMetadataHandler.getInstance();
-				// }
 				else if (JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
 				{
 					return CVElementXlsxHandler.getInstance();
