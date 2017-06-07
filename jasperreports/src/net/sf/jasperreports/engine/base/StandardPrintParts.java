@@ -130,5 +130,12 @@ public class StandardPrintParts implements PrintParts, Serializable
 		Map.Entry<Integer, PrintPart> partEntry = parts.floorEntry(pageIndex);
 		return partEntry == null ? null : partEntry.getValue().getPageFormat();
 	}
+	
+	public StandardPrintParts shallowClone()
+	{
+		StandardPrintParts clone = new StandardPrintParts();
+		clone.parts.putAll(this.parts);
+		return clone;
+	}
 
 }

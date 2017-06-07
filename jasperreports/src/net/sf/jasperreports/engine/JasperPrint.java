@@ -1031,6 +1031,45 @@ public class JasperPrint implements Serializable, JRPropertiesHolder, JRChangeEv
 		}
 	}
 	
+	public void copyFrom(JasperPrint jasperPrint)
+	{
+		this.name = jasperPrint.name;
+		this.pageWidth = jasperPrint.pageWidth;
+		this.pageHeight = jasperPrint.pageHeight;
+		this.topMargin = jasperPrint.topMargin;
+		this.leftMargin = jasperPrint.leftMargin;
+		this.bottomMargin = jasperPrint.bottomMargin;
+		this.rightMargin = jasperPrint.rightMargin;
+		this.orientationValue = jasperPrint.orientationValue;
+		this.formatFactoryClass = jasperPrint.formatFactoryClass;
+		this.localeCode = jasperPrint.localeCode;
+		this.timeZoneId = jasperPrint.timeZoneId;
+		
+		if (jasperPrint.propertiesMap != null)
+		{
+			this.propertiesMap = jasperPrint.propertiesMap.cloneProperties();
+		}
+		
+		this.stylesList.addAll(jasperPrint.stylesList);
+		this.stylesMap.putAll(jasperPrint.stylesMap);
+		this.defaultStyleProvider.setDefaultStyle(jasperPrint.defaultStyleProvider.getDefaultStyle());
+
+		this.originsList.addAll(jasperPrint.originsList);
+		this.originsMap.putAll(jasperPrint.originsMap);
+		
+		if (jasperPrint.bookmarks != null)
+		{
+			this.bookmarks = new ArrayList<>(jasperPrint.bookmarks);
+		}
+		
+		if (jasperPrint.parts != null)
+		{
+			this.parts = ((StandardPrintParts) jasperPrint.parts).shallowClone();
+		}
+		
+		this.pages.addAll(jasperPrint.pages);
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	protected boolean hasEventSupport()
