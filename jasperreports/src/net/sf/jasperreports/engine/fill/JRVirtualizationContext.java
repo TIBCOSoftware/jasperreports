@@ -364,7 +364,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		return virtualizer;
 	}
 
-	protected void setVirtualizer(JRVirtualizer virtualizer)
+	public void setVirtualizer(JRVirtualizer virtualizer)
 	{
 		this.virtualizer = virtualizer;
 	}
@@ -583,5 +583,15 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			context = context.parentContext;
 		}
 		return context;
+	}
+
+	public Map<String, Renderable> getCachedRenderers()
+	{
+		return cachedRenderers;
+	}
+
+	public Map<String, JRTemplateElement> getCachedTemplates()
+	{
+		return cachedTemplates;
 	}
 }
