@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
@@ -129,8 +130,7 @@ public class CVComponentExtensionsRegistryFactory implements ExtensionsRegistryF
 				{
 					return CVElementGraphics2DHandler.getInstance();
 				}
-				if (net.sf.jasperreports.engine.export.JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey)
-						|| net.sf.jasperreports.engine.export.JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+				if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
 				{
 					return CVElementHtmlHandler.getInstance();
 				}
