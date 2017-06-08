@@ -227,7 +227,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 	protected final VirtualizationSerializer serializer;
 	
-	private final Cache pagedIn;
+	protected final Cache pagedIn;
 
 	protected final ReferenceMap pagedOut;
 
