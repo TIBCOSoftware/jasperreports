@@ -29,7 +29,9 @@ import java.io.IOException;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
-import net.sf.jasperreports.engine.util.VirtualizationSerializer;
+import net.sf.jasperreports.engine.util.LocalVirtualizationSerializer;
+import net.sf.jasperreports.engine.virtualization.LocalVirtualizationInput;
+import net.sf.jasperreports.engine.virtualization.LocalVirtualizationOutput;
 import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
 import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
@@ -99,7 +101,7 @@ public class BaseSerializationTests
 	protected static class SerializationJob
 	{
 		protected final JRVirtualizationContext virtualizationContext;
-		protected final VirtualizationSerializer serializer;
+		protected final LocalVirtualizationSerializer serializer;
 		
 		private ByteArrayOutputStream bout;
 		private VirtualizationOutput out;
@@ -108,7 +110,7 @@ public class BaseSerializationTests
 		public SerializationJob(JRVirtualizationContext virtualizationContext)
 		{
 			this.virtualizationContext = virtualizationContext;
-			this.serializer = new VirtualizationSerializer();
+			this.serializer = new LocalVirtualizationSerializer();
 		}
 		
 		public VirtualizationOutput out() throws IOException
@@ -116,7 +118,7 @@ public class BaseSerializationTests
 			if (out == null)
 			{
 				bout = new ByteArrayOutputStream();
-				out = new VirtualizationOutput(bout, serializer, virtualizationContext);
+				out = new LocalVirtualizationOutput(bout, serializer, virtualizationContext);
 			}
 			
 			return out;
@@ -129,7 +131,7 @@ public class BaseSerializationTests
 				out.close();
 				
 				ByteArrayInputStream bin = new ByteArrayInputStream(bout.toByteArray());
-				in = new VirtualizationInput(bin, serializer, virtualizationContext);
+				in = new LocalVirtualizationInput(bin, serializer, virtualizationContext);
 			}
 			
 			return in;
