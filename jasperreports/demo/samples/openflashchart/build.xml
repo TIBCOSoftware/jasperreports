@@ -206,14 +206,6 @@
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file." depends="prepare-test-classpath">
-		<java classname="${class.name}" fork="true">
-			<arg value="xhtml"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
 	<target name="xml4swf" description="Generates an Xml4Swf version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xml4swf"/>
@@ -237,7 +229,7 @@
 		</jrdc> 
 	</target>
 	
-	<target name="viewHtml" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath">
+	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath">
 		<mkdir dir="./build/web"/>
 		<copy todir="./build/web">
 			<fileset dir="./web"/>
@@ -290,7 +282,6 @@
 		<antcall target="docx" />
 		<antcall target="xlsx" />
 		<antcall target="pptx" />
-		<antcall target="xhtml" />
 		<antcall target="xml4swf" />
 	</target>
 	

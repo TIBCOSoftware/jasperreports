@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.export.HtmlElementPptxHandler;
 import net.sf.jasperreports.engine.export.HtmlElementRtfHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsxHandler;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
@@ -70,18 +71,13 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{
-		if (NAME.equals(elementName) 
-				&& net.sf.jasperreports.engine.export.JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
-		{
-			return new net.sf.jasperreports.engine.export.HtmlElementXhtmlHandler();
-		} 
-		else if (NAME.equals(elementName)
+		if (NAME.equals(elementName)
 				&& JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new HtmlElementPdfHandler();
 		}
 		else if (NAME.equals(elementName)
-				&& net.sf.jasperreports.engine.export.JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+				&& HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new HtmlElementHtmlHandler();
 		}

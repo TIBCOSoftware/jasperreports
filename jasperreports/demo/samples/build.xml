@@ -236,13 +236,6 @@
 		</java>
 	</target>
 
-	<target name="xhtml" depends="prepare-test-classpath">
-		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
-			<arg value="xhtml"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
 	<target name="run" depends="prepare-test-classpath">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="run"/>

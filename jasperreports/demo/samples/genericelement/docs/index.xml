@@ -169,11 +169,9 @@ widgets for the JasperReports project, provided by the <a href="http://ohloh.net
 Both generic elements share the same <code>namespace</code>, but they have different names. This means that there are two 
 different types (<code>languages</code> and <code>stats</code>) to be processed at export time using specific export handlers.
 <br/>
-In our example both <code>languages</code> and <code>stats</code> types are processed identically, using the same handler, but 
-still depending on the output format. One can see two handler classes in the <code>src/net/sf/jasperreports/ohloh</code> directory:
+In our example both <code>languages</code> and <code>stats</code> types are processed identically, using the same handler. One can see the handler class in the <code>src/net/sf/jasperreports/ohloh</code> directory:
 <ul>
 <li><code>OhlohWidgetHtmlHandler</code> - registered for the HTML output format</li>
-<li><code>OhlohWidgetXhtmlHandler</code> - registered for the XHTML output format</li>
 </ul>
 To register these handlers, two properties were defined in the <code>jasperreports_extension.properties</code> file:
 <ul>
@@ -195,18 +193,12 @@ namespace:
           <entry key="net.sf.jasperreports.html">
             <ref local="languagesHtmlExportHandler"/>
           </entry>
-          <entry key="net.sf.jasperreports.xhtml">
-            <ref local="languagesXhtmlExportHandler"/>
-          </entry>
         </map>
       </entry>
       <entry key="stats">
         <map>
           <entry key="net.sf.jasperreports.html">
             <ref local="statsHtmlExportHandler"/>
-          </entry>
-          <entry key="net.sf.jasperreports.xhtml">
-            <ref local="statsXhtmlExportHandler"/>
           </entry>
         </map>
       </entry>
@@ -227,19 +219,8 @@ namespace:
 <bean id="statsHtmlExportHandler" class="net.sf.jasperreports.ohloh.OhlohWidgetHtmlHandler"
     parent="baseHtmlExportHandler">
   <property name="widgetName" value="project_basic_stats"/>
-</bean>
-
-<bean id="languagesXhtmlExportHandler" class="net.sf.jasperreports.ohloh.OhlohWidgetXhtmlHandler"
-    parent="languagesHtmlExportHandler">
-  <property name="widgetName" value="project_languages"/>
-</bean>
-
-<bean id="statsXhtmlExportHandler" class="net.sf.jasperreports.ohloh.OhlohWidgetXhtmlHandler"
-    parent="statsHtmlExportHandler">
-  <property name="widgetName" value="project_basic_stats"/>
 </bean>]]></pre>
-Notice the <code>languages</code> and <code>stats</code> keys in the exporter bundle map, each one providing two different handlers: 
-one for the HTML format, the other for the XHTML format. 
+Notice the <code>languages</code> and <code>stats</code> keys in the exporter bundle map, each one providing a handler for the HTML format. 
 <br/>
 Also notice the Spring bean property <code>widgetName</code> defined for all export handlers, in order to store the widget name required 
 at export time.
@@ -248,9 +229,6 @@ Further, one can see that
 <code>net.sf.jasperreports.ohloh.OhlohWidgetHtmlHandler</code> class handles both <code>languages</code> and <code>stats</code> for the 
 HTML output, preparing a &lt;script/&gt; snippet to be included in the generated HTML document, in order to request a specific widget from 
 the <a href="http://ohloh.net" target="_blank">ohloh.net</a> site.
-<br/>
-The <code>net.sf.jasperreports.ohloh.OhlohWidgetXhtmlHandler</code> class prepares the results for the XHTML output, including additional layout 
-information for the generic element along with the &lt;script/&gt; snippet.
 <br/>
 <br/>
 Now it's time go back to generic elements in the JRXML file. The only two parameters required by the <a href="http://ohloh.net" target="_blank">ohloh.net</a> 
@@ -270,7 +248,7 @@ Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> 
 <br/>
 In a command prompt/terminal window set the current folder to <code>demo/samples/genericelement</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
-It will generate the HTML and XHTML pages containing the sample report in the <code>demo/samples/genericelement/build/reports</code> directory. 
+It will generate the HTML pages containing the sample report in the <code>demo/samples/genericelement/build/reports</code> directory. 
 <br/>
 Then the report will open in the JasperReports internal viewer.
     </content>

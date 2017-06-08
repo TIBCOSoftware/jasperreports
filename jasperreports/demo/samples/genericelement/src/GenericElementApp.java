@@ -59,7 +59,6 @@ public class GenericElementApp extends AbstractSampleApp
 		xmlEmbed();
 		xml();
 		html();
-		xhtml();
 	}
 
 
@@ -104,31 +103,6 @@ public class GenericElementApp extends AbstractSampleApp
 		long start = System.currentTimeMillis();
 		JasperExportManager.exportReportToHtmlFile("build/reports/GenericElementReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void xhtml() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/GenericElementReport.jrprint");
-
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
-		
-		net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-			new net.sf.jasperreports.engine.export.JRXhtmlExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
-		
-		exporter.exportReport();
-
-		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
 	

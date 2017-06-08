@@ -78,7 +78,6 @@ public class OFCApp
 	private static final String TASK_DOCX = "docx";
 	private static final String TASK_XLSX = "xlsx";
 	private static final String TASK_PPTX = "pptx";
-	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_XML4SWF = "xml4swf";
 	private static final String TASK_VIEW_HTML = "viewHtml";
 	
@@ -273,24 +272,6 @@ public class OFCApp
 
 				System.err.println("PPTX creation time : " + (System.currentTimeMillis() - start));
 			}
-			else if (TASK_XHTML.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
-				
-				net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-					new net.sf.jasperreports.engine.export.JRXhtmlExporter();
-				
-				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
-				
-				exporter.exportReport();
-
-				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-			}
 			else if (TASK_XML4SWF.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
@@ -403,7 +384,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | pptx | xhtml | xml4swf | viewHtml" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | pptx | xml4swf | viewHtml" );
 	}
 
 

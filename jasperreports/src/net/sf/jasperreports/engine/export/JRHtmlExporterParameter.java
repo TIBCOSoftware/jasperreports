@@ -141,18 +141,6 @@ public class JRHtmlExporterParameter extends net.sf.jasperreports.engine.JRExpor
 
 
 	/**
-	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#isUsingImagesToAlign()}.
-	 */
-	public static final JRHtmlExporterParameter IS_USING_IMAGES_TO_ALIGN = new JRHtmlExporterParameter("Is Using Images To Align");
-
-
-	/**
-	 * @deprecated Replaced by {@link JRHtmlExporterConfiguration#PROPERTY_USING_IMAGES_TO_ALIGN}.
-	 */
-	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRHtmlExporterConfiguration.PROPERTY_USING_IMAGES_TO_ALIGN;
-
-
-	/**
 	 * @deprecated Replaced by {@link HtmlReportConfiguration#isWrapBreakWord()}.
 	 */
 	public static final JRHtmlExporterParameter IS_WRAP_BREAK_WORD = new JRHtmlExporterParameter("Is Wrap Break Word");
@@ -190,17 +178,6 @@ public class JRHtmlExporterParameter extends net.sf.jasperreports.engine.JRExpor
 	 * @deprecated Replaced by {@link HtmlReportConfiguration#getZoomRatio()}.
 	 */
 	public static final JRHtmlExporterParameter ZOOM_RATIO = new JRHtmlExporterParameter("Zoom Ratio");
-
-	/**
-	 * @deprecated Replaced by {@link JRHtmlReportConfiguration#isFramesAsNestedTables()}.
-	 */
-	public static final JRHtmlExporterParameter FRAMES_AS_NESTED_TABLES = new JRHtmlExporterParameter("Export Frames as Nested Tables");
-	
-
-	/**
-	 * @deprecated Replaced by {@link JRHtmlReportConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
-	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRHtmlReportConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
 	
 
 	/**

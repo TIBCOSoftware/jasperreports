@@ -35,10 +35,6 @@
 		<ant dir="../" target="html"/>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
-		<ant dir="../" target="xhtml"/>
-	</target>
-	
 	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
 		<ant dir="../" target="xls"/>
 	</target>

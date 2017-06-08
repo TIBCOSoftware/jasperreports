@@ -103,8 +103,6 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 			public GenericElementHandler getHandler(String elementName,
 					String exporterKey)
 			{
-				@SuppressWarnings("deprecation")
-				String depXhtmlKey = net.sf.jasperreports.engine.export.JRXhtmlExporter.XHTML_EXPORTER_KEY;
 				if (
 					FlashPrintElement.FLASH_ELEMENT_NAME.equals(elementName) 
 					&& HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey)
@@ -114,14 +112,11 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				}
 				if (MapComponent.MAP_ELEMENT_NAME.equals(elementName))
 				{
-					if(JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
+					if (JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementGraphics2DHandler.getInstance();
 					}
-					if(
-						HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey) 
-						|| depXhtmlKey.equals(exporterKey)
-						)
+					if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementHtmlHandler.getInstance();
 					}
@@ -186,10 +181,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					{
 						return new IconLabelElementGraphics2DHandler();
 					}		
-					else if (
-						HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey) 
-						|| depXhtmlKey.equals(exporterKey)
-						)
+					else if (HtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
 					{
 						return IconLabelElementHtmlHandler.getInstance();
 					}		

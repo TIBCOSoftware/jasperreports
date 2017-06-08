@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.util.FlashUtils;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need to make a similar one for XHTML?
+public class FlashHtmlHandler implements GenericElementHtmlHandler
 {
 
 	private static final FlashHtmlHandler INSTANCE = new FlashHtmlHandler();

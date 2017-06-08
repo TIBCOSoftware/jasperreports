@@ -15,18 +15,12 @@
 						<entry key="net.sf.jasperreports.html">
 							<ref local="languagesHtmlExportHandler"/>
 						</entry>
-						<entry key="net.sf.jasperreports.xhtml">
-							<ref local="languagesXhtmlExportHandler"/>
-						</entry>
 					</map>
 				</entry>
 				<entry key="stats">
 					<map>
 						<entry key="net.sf.jasperreports.html">
 							<ref local="statsHtmlExportHandler"/>
-						</entry>
-						<entry key="net.sf.jasperreports.xhtml">
-							<ref local="statsXhtmlExportHandler"/>
 						</entry>
 					</map>
 				</entry>
@@ -46,16 +40,6 @@
 	
 	<bean id="statsHtmlExportHandler" class="net.sf.jasperreports.ohloh.OhlohWidgetHtmlHandler"
 			parent="baseHtmlExportHandler">
-		<property name="widgetName" value="project_basic_stats"/>
-	</bean>
-
-	<bean id="languagesXhtmlExportHandler" class="net.sf.jasperreports.ohloh.OhlohWidgetXhtmlHandler"
-			parent="languagesHtmlExportHandler">
-		<property name="widgetName" value="project_languages"/>
-	</bean>
-	
-	<bean id="statsXhtmlExportHandler" class="net.sf.jasperreports.ohloh.OhlohWidgetXhtmlHandler"
-			parent="statsHtmlExportHandler">
 		<property name="widgetName" value="project_basic_stats"/>
 	</bean>
 
