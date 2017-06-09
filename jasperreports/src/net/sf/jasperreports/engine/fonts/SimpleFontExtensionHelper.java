@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRXmlUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.util.StringBuilderWriter;
@@ -145,6 +146,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		try
 		{
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setFeature(JRXmlUtils.FEATURE_DISALLOW_DOCTYPE, true);
+			
 			documentBuilder = factory.newDocumentBuilder();
 			documentBuilder.setErrorHandler(this);
 		}
