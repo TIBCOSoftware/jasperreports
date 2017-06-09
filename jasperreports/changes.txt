@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.3.2 (2017-05-25)
+JasperReports 6.3.2 (2017-06-09)
 ---------------------------------------------
 
 - dependencies upgrade;
