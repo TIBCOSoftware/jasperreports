@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.1.2 (2017-05-25)
+JasperReports 6.1.2 (2017-06-09)
 ---------------------------------------------
 
 - removed all JAR dependencies from project and introduced Apache Ivy dependency management
