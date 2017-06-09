@@ -211,6 +211,8 @@ public class JRStyledTextParser implements ErrorHandler
 		try
 		{
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setFeature(JRXmlUtils.FEATURE_DISALLOW_DOCTYPE, true);
+			
 			documentBuilder = factory.newDocumentBuilder();
 			documentBuilder.setErrorHandler(this);
 		}
