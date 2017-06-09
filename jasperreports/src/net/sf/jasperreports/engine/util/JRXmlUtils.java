@@ -32,7 +32,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,6 +54,10 @@ public final class JRXmlUtils
 	public static final String EXCEPTION_MESSAGE_KEY_DOCUMENT_BUILDER_FACTORY_CREATION_FAILURE = "util.xml.document.builder.factory.creation.failure";
 	public static final String EXCEPTION_MESSAGE_KEY_DOCUMENT_PARSING_FAILURE = "util.xml.document.parsing.failure";
 	
+	//FIXME doc
+	public static final String PROPERTY_ALLOW_DOCTYPE = JRPropertiesUtil.PROPERTY_PREFIX + "xml.allow.doctype";
+	
+	public static final String FEATURE_DISALLOW_DOCTYPE = "http://apache.org/xml/features/disallow-doctype-decl";
 	
 	public static Document parse(InputSource is) throws JRException
 	{
@@ -241,6 +247,11 @@ public final class JRXmlUtils
 		dbf.setNamespaceAware(isNamespaceAware);
 		try
 		{
+			if (!allowDoctype())
+			{
+				dbf.setFeature(FEATURE_DISALLOW_DOCTYPE, true);
+			}
+			
 			return dbf.newDocumentBuilder();
 		}
 		catch (ParserConfigurationException e)
@@ -253,6 +264,12 @@ public final class JRXmlUtils
 		}
 	}
 
+	protected static boolean allowDoctype()
+	{
+		//FIXME use a context?
+		return JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(
+				PROPERTY_ALLOW_DOCTYPE, false);
+	}
 	
 	public static Document createDocument(Node sourceNode) throws JRException
 	{
