@@ -75,15 +75,7 @@
 
 	<target name="war" depends="prepare" description="Builds the Web application .war file.">
 		<war warfile="./build/${war.name}" webxml="./build/webapp/WEB-INF/web.xml">
-			<classes dir="./build/webapp/WEB-INF/classes/">
-				<include name="**/*.class" />
-				<include name="**/*.properties" />
-				<include name="**/*.xml" />
-				<include name="**/*.vm" />
-			</classes>
-			<lib dir="./build/webapp/WEB-INF/lib/">
-				<include name="*.jar" />
-			</lib>
+			<fileset dir="./build/webapp/"/>
 		</war>
 	</target>
 	
