@@ -1,0 +1,65 @@
+<ivy-module version="2.0">
+	<info organisation="net.sf.jasperreports" module="jasperreports"/>
+	<configurations>
+		<include file="../../ivy.xml"/>
+	</configurations>
+	<dependencies>
+		<dependency org="org.ow2.asm" name="asm" rev="5.1"/>
+		<dependency org="org.ow2.asm" name="asm-commons" rev="5.1"/>
+		<dependency org="org.eclipse.jetty.fcgi" name="fcgi-client" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.fcgi" name="fcgi-server" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.http2" name="http2-common" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.http2" name="http2-server" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.websocket" name="javax-websocket-client-impl" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.websocket" name="javax-websocket-server-impl" rev="9.4.6.v20170531"/>
+		<dependency org="javax.annotation" name="javax.annotation-api" rev="1.2"/>
+		<dependency org="org.eclipse.jetty.orbit" name="javax.mail.glassfish" rev="1.4.1.v201005082020"/>
+		<dependency org="org.eclipse.jetty.orbit" name="javax.security.auth.message" rev="1.0.0.v201108011116"/>
+		<dependency org="javax.transaction" name="javax.transaction-api" rev="1.2"/>
+		<dependency org="javax.websocket" name="javax.websocket-api" rev="1.0"/>
+		<dependency org="org.eclipse.jetty" name="jetty-alpn-server" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-annotations" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-ant" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-client" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-continuation" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-deploy" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.gcloud" name="jetty-gcloud-session-manager" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-http" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-infinispan" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-io" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-jaas" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-jaspi" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-jmx" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-jndi" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-jndi" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.memcached" name="jetty-memcached-sessions" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-nosql" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-plus" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-proxy" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-quickstart" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-rewrite" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.toolchain" name="jetty-schemas" rev="3.1"/>
+		<dependency org="org.eclipse.jetty" name="jetty-security" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-server" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-servlet" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-servlets" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.toolchain.setuid" name="jetty-setuid-java" rev="1.0.3"/>
+		<dependency org="org.eclipse.jetty" name="jetty-spring" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-unixsocket" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-util" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-webapp" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty" name="jetty-xml" rev="9.4.6.v20170531"/>
+		<dependency org="org.apache.taglibs" name="taglibs-standard-impl" rev="1.2.5"/>
+		<dependency org="org.apache.taglibs" name="taglibs-standard-spec" rev="1.2.5"/>
+		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.4.2"/>
+		<dependency org="org.eclipse.jetty" name="apache-jsp" rev="9.4.6.v20170531"/>
+		<dependency org="org.mortbay.jasper" name="apache-el" rev="8.5.9.1"/>
+		<dependency org="org.mortbay.jasper" name="apache-jsp" rev="8.5.9.1"/>
+		<dependency org="org.eclipse.ecf" name="javax.servlet" rev="3.1.0.v201410161800"/>
+		<dependency org="org.eclipse.jetty.websocket" name="websocket-api" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.websocket" name="websocket-client" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.websocket" name="websocket-common" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.websocket" name="websocket-server" rev="9.4.6.v20170531"/>
+		<dependency org="org.eclipse.jetty.websocket" name="websocket-servlet" rev="9.4.6.v20170531"/>
+	</dependencies>
+</ivy-module>
