@@ -229,19 +229,38 @@
 		</jrdc> 
 	</target>
 	
-	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath">
-		<mkdir dir="./build/web"/>
-		<copy todir="./build/web">
+	<target name="prepare-jetty-classpath">
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:resolve file="../ivy-jetty.xml" log="download-only" conf="test"/> 
+		<ivy:cachepath pathid="jetty.plugin.classpath"/> 
+	</target>
+
+	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath, prepare-jetty-classpath">
+		<mkdir dir="./build/webapp"/>
+		<copy todir="./build/webapp">
 			<fileset dir="./web"/>
 			<fileset dir="./build/reports">
 				<include name="*.html"/>
 				<include name="*.html_files/*"/>
 			</fileset>
 		</copy>
-		<java classname="${class.name}" fork="true" dir="./build/web">
+		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
+		<typedef name="connector" classname="org.eclipse.jetty.ant.types.Connector"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<typedef name="webApp" classname="org.eclipse.jetty.ant.AntWebAppContext"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<jetty.run daemon="true">
+			<webApp war="./build/webapp" contextPath="/"/>
+			<connectors>
+				<connector port="8080"/>
+			</connectors>
+		</jetty.run>
+		<java classname="${class.name}" fork="true">
 			<arg value="viewHtml"/>
 			<classpath refid="sample-classpath"/>
 		</java>
+		<echo></echo>
+		<input>Press the Return key to stop the Jetty web server and exit Ant the process...</input>
 	</target>
 
 	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design." depends="prepare-compile-classpath">

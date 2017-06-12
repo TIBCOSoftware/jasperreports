@@ -29,6 +29,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import edu.stanford.ejalbert.BrowserLauncher;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -45,21 +46,17 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.SimpleXmlExporterOutput;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public class OFCApp
 {
-
-	private static final int HTTP_PORT = 7162;
 
 	/**
 	 *
@@ -291,7 +288,7 @@ public class OFCApp
 			}
 			else if (TASK_VIEW_HTML.equals(taskName))
 			{
-				launchReport();
+				launchBrowser();
 			}
 			else
 			{
@@ -308,32 +305,9 @@ public class OFCApp
 		}
 	}
 
-	protected static void launchReport() throws Exception
+	protected static void launchBrowser()
 	{
-		System.out.println("Starting an embedded web server on port " + HTTP_PORT);
-		System.out.println("Kill/interrupt this process to shutdown the server");
-		
-		//starting the web server
-		new NanoHTTPD(HTTP_PORT);
-		
-		//launching the browser
-		launchBrowser("html");
-		launchBrowser("x.html");
-		
-		//waiting for a long time so that the server does not shut down
-		try
-		{
-			Thread.sleep(48 * 60 * 60 * 1000);
-		}
-		catch (InterruptedException e)
-		{
-			//interrupted
-		}
-	}
-
-	protected static void launchBrowser(String extension)
-	{
-		String reportURI = "http://localhost:" + HTTP_PORT + "/OpenFlashChartReport." + extension;
+		String reportURI = "http://localhost:8080/OpenFlashChartReport.html";
 		
 		System.out.println("Launching a browser to for " + reportURI);
 		System.out.println("If a browser is not launched, please navigate to this URL manually");
