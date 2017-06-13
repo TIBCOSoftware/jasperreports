@@ -1,0 +1,12 @@
+<root totalResults="30">
+	<animal name="Alligator" size="30" type="reptile" image="reptiles/alligator.jpg"/>
+	<animal name="Bearded Dragon" size="30" type="reptile" image="reptiles/bearded-dragon.jpg"/>
+	<animal name="Chameleon" size="23" type="reptile" image="reptiles/chameleon.jpg"/>
+	<animal name="Crocodile" size="37" type="reptile" image="reptiles/crocodile.jpg"/>
+	<animal name="Gecko" size="18" type="reptile" image="reptiles/gecko.jpg"/>
+	<animal name="Iguana" size="38" type="reptile" image="reptiles/iguana.jpg"/>
+	<animal name="Perentie" size="27" type="reptile" image="reptiles/perentie.jpg"/>
+	<animal name="Rattle Snake" size="45" type="reptile" image="reptiles/rattle-snake.jpg"/>
+	<animal name="Splendor Skink" size="31" type="reptile" image="reptiles/splendor-skink.jpg"/>
+	<animal name="Spotted Baumwaran" size="39" type="reptile" image="reptiles/spotted-baumwaran.jpg"/>
+</root>

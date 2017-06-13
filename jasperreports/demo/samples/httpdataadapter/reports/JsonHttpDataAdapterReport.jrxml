@@ -1,39 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.qualifier using JasperReports Library version 6.3.1  -->
-<!-- 2016-08-31T14:11:42 -->
+<!-- Created with Jaspersoft Studio version 6.4.2.qualifier using JasperReports Library version 6.4.2  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JsonHttpDataAdapterReport" columnCount="3" pageWidth="595" pageHeight="842" columnWidth="171" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="b85a2cf8-dd0c-4a31-804c-e7b217f9b42b">
 	<property name="net.sf.jasperreports.data.adapter" value="data/JsonHttpDataAdapter.xml"/>
-	<subDataset name="FetchDataset" uuid="753275b1-35e7-428e-87be-88a1863e1c06">
-		<parameter name="title" class="java.lang.String"/>
-	</subDataset>
+	<subDataset name="FetchDataset" uuid="753275b1-35e7-428e-87be-88a1863e1c06"/>
 	<subDataset name="MoviesDataset" uuid="bb6eeca6-9992-4268-8570-db12d8d5c79d">
 		<property name="net.sf.jasperreports.data.adapter" value="data/JsonHttpDataAdapter.xml"/>
-		<parameter name="title" class="java.lang.String">
-			<property name="net.sf.jasperreports.http.data.url.parameter" value="s"/>
-		</parameter>
 		<parameter name="page" class="java.lang.Integer">
 			<property name="net.sf.jasperreports.http.data.url.parameter"/>
 		</parameter>
 		<queryString language="jsonql">
-			<![CDATA[Search]]>
+			<![CDATA[animals]]>
 		</queryString>
-		<field name="title" class="java.lang.String">
-			<property name="net.sf.jasperreports.jsonql.field.expression" value="Title"/>
+		<field name="name" class="java.lang.String">
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="name"/>
 		</field>
-		<field name="year" class="java.lang.Integer">
-			<property name="net.sf.jasperreports.jsonql.field.expression" value="Year"/>
+		<field name="size" class="java.lang.Integer">
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="size"/>
 		</field>
 		<field name="type" class="java.lang.String">
-			<property name="net.sf.jasperreports.jsonql.field.expression" value="Type"/>
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="type"/>
 		</field>
-		<field name="poster" class="java.lang.String">
-			<property name="net.sf.jasperreports.jsonql.field.expression" value="Poster"/>
+		<field name="image" class="java.lang.String">
+			<property name="net.sf.jasperreports.jsonql.field.expression" value="image"/>
 		</field>
 	</subDataset>
-	<parameter name="title" class="java.lang.String" evaluationTime="Early">
-		<property name="net.sf.jasperreports.http.data.url.parameter" value="s"/>
-		<defaultValueExpression><![CDATA["aliens"]]></defaultValueExpression>
-	</parameter>
 	<queryString language="jsonql">
 		<![CDATA[]]>
 	</queryString>
@@ -50,14 +40,14 @@
 				<textElement textAlignment="Center">
 					<font size="22"/>
 				</textElement>
-				<textFieldExpression><![CDATA["OMDb API"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["HTTP Data Adapter Report"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="40" width="515" height="20" uuid="823dfcca-53db-4d93-9de4-f11b18188e95"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA["The Open Movie Database"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["List of Animals"]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -69,7 +59,7 @@
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["Current search on title: \"" + $P{title} + "\" returned " + $F{totalResults} + " results."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Current HTTP request for JSON data returned " + $F{totalResults} + " results."]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -79,9 +69,6 @@
 				<reportElement x="0" y="0" width="170" height="65" uuid="a7ece49e-f10a-43eb-8c09-86353ba9225d"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="FetchDataset" uuid="61c31d0f-e3b3-46c6-a11a-8c5d8b7016cf">
-						<datasetParameter name="title">
-							<datasetParameterExpression><![CDATA[$P{title}]]></datasetParameterExpression>
-						</datasetParameter>
 						<dataSourceExpression><![CDATA[new JREmptyDataSource((int)(Math.ceil($F{totalResults} / 10d)))]]></dataSourceExpression>
 					</datasetRun>
 					<jr:listContents height="65" width="170">
@@ -89,9 +76,6 @@
 							<reportElement x="0" y="0" width="170" height="65" uuid="ef2ce737-0796-45e1-b7cb-7d595e8f6c7e"/>
 							<jr:list printOrder="Vertical">
 								<datasetRun subDataset="MoviesDataset" uuid="134b029e-9e8b-401f-9bd1-2a6087ea1242">
-									<datasetParameter name="title">
-										<datasetParameterExpression><![CDATA[$P{title}]]></datasetParameterExpression>
-									</datasetParameter>
 									<datasetParameter name="page">
 										<datasetParameterExpression><![CDATA[$V{REPORT_COUNT}]]></datasetParameterExpression>
 									</datasetParameter>
@@ -99,7 +83,7 @@
 								<jr:listContents height="65" width="170">
 									<textField isBlankWhenNull="true">
 										<reportElement x="0" y="0" width="50" height="60" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b81">
-											<printWhenExpression><![CDATA[$F{poster} == null || "N/A".equals($F{poster})]]></printWhenExpression>
+											<printWhenExpression><![CDATA[$F{image} == null || "N/A".equals($F{image})]]></printWhenExpression>
 										</reportElement>
 										<box>
 											<pen lineWidth="0.1"/>
@@ -107,20 +91,20 @@
 									</textField>
 									<image>
 										<reportElement x="0" y="0" width="50" height="60" uuid="2719d9f4-8092-4a8b-96f2-4ae8e6893b80">
-											<printWhenExpression><![CDATA[$F{poster} != null && !"N/A".equals($F{poster})]]></printWhenExpression>
+											<printWhenExpression><![CDATA[$F{image} != null && !"N/A".equals($F{image})]]></printWhenExpression>
 										</reportElement>
-										<imageExpression><![CDATA[$F{poster}]]></imageExpression>
+										<imageExpression><![CDATA["http://localhost:8080/image.jsp?name=" + $F{image}]]></imageExpression>
 									</image>
 									<textField isStretchWithOverflow="true">
 										<reportElement x="55" y="0" width="114" height="12" uuid="01569877-14f7-446d-b7bc-822f76698abe"/>
 										<textElement>
 											<font isBold="true"/>
 										</textElement>
-										<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 									</textField>
 									<textField>
 										<reportElement positionType="Float" x="55" y="14" width="114" height="12" uuid="eeea0d4c-cb97-4fd3-91cf-b72b3dde0107"/>
-										<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+										<textFieldExpression><![CDATA[$F{size} + "kb"]]></textFieldExpression>
 									</textField>
 									<textField>
 										<reportElement positionType="Float" x="55" y="26" width="114" height="12" uuid="a531e713-3704-4712-bf86-28420338e08c"/>

@@ -235,7 +235,7 @@
 		<ivy:cachepath pathid="jetty.plugin.classpath"/> 
 	</target>
 
-	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath, prepare-jetty-classpath">
+	<target name="jetty.run" depends="prepare-jetty-classpath">
 		<mkdir dir="./build/webapp"/>
 		<copy todir="./build/webapp">
 			<fileset dir="./web"/>
@@ -255,6 +255,9 @@
 				<connector port="8080"/>
 			</connectors>
 		</jetty.run>
+	</target>
+
+	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath, jetty.run">
 		<java classname="${class.name}" fork="true">
 			<arg value="viewHtml"/>
 			<classpath refid="sample-classpath"/>

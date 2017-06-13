@@ -50,7 +50,6 @@ public class HttpDataAdapterApp extends AbstractSampleApp
 	 */
 	public void test() throws JRException
 	{
-		fill();
 		pdf();
 		html();
 	}

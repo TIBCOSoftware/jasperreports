@@ -1,0 +1,12 @@
+<root totalResults="30">
+	<animal name="Bald Eagle" size="24" type="bird" image="birds/bald-eagle.jpg"/>
+	<animal name="Blue Tit" size="20" type="bird" image="birds/blue-tit.jpg"/>
+	<animal name="Cape Crane" size="29" type="bird" image="birds/cape-crane.jpg"/>
+	<animal name="European Eagle Owl" size="24" type="bird" image="birds/european-eagle-owl.jpg"/>
+	<animal name="Hummingbird" size="13" type="bird" image="birds/hummingbird.jpg"/>
+	<animal name="Kingfisher" size="16" type="bird" image="birds/kingfisher.jpg"/>
+	<animal name="Merle" size="19" type="bird" image="birds/merle.jpg"/>
+	<animal name="Pelican" size="27" type="bird" image="birds/pelican.jpg"/>
+	<animal name="Sparrow" size="17" type="bird" image="birds/sparrow.jpg"/>
+	<animal name="Swan" size="30" type="bird" image="birds/swan.jpg"/>
+</root>
