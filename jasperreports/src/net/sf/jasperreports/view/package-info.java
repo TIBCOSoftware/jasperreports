@@ -29,7 +29,7 @@
  * proprietary format or in the proprietary XML format produced by the internal XML 
  * exporter. It is a Swing-based component. Other Java applications can easily integrate this 
  * component without having to export the documents into more popular formats in order to 
- * be viewed or printed. The {@link net.sf.jasperreports.view.JRViewer} class represents 
+ * be viewed or printed. The {@link net.sf.jasperreports.swing.JRViewer} class represents 
  * this visual component. It can be customized to respond to a particular application's needs 
  * by subclassing it. For example, you could add or remove buttons from the existing 
  * toolbar.
@@ -63,7 +63,7 @@
  * with the JasperReports library.
  * <p> 
  * The report viewers mentioned previously use the visual component represented by the 
- * {@link net.sf.jasperreports.view.JRViewer} class and its companions. It is in fact a 
+ * {@link net.sf.jasperreports.swing.JRViewer} class and its companions. It is in fact a 
  * special <code>javax.swing.JPanel</code> component that is capable of displaying generated 
  * reports. It can be easily incorporated into other Java Swing-based applications or 
  * applets. 
@@ -82,10 +82,10 @@
  * point to external documents. To do this, simply implement the 
  * {@link net.sf.jasperreports.view.JRHyperlinkListener} interface and add an instance 
  * of this listener class to register with the viewer component, using the 
- * {@link net.sf.jasperreports.view.JRViewer#addHyperlinkListener(JRHyperlinkListener) addHyperlinkListener(JRHyperlinkListener)} method exposed by the 
- * {@link net.sf.jasperreports.view.JRViewer} class. By doing this, you ensure that the 
+ * {@link net.sf.jasperreports.swing.JRViewer#addHyperlinkListener(JRHyperlinkListener) addHyperlinkListener(JRHyperlinkListener)} method exposed by the 
+ * {@link net.sf.jasperreports.swing.JRViewer} class. By doing this, you ensure that the 
  * viewer will also call the implementation of the 
- * {@link net.sf.jasperreports.view.JRViewer#gotoHyperlink(net.sf.jasperreports.engine.JRPrintHyperlink) gotoHyperlink(JRPrintHyperlink)} method in which 
+ * {@link net.sf.jasperreports.swing.JRViewer#gotoHyperlink(net.sf.jasperreports.engine.JRPrintHyperlink) gotoHyperlink(JRPrintHyperlink)} method in which 
  * the external references are handled. 
  * </p><p>
  * There are two ways of rendering the current document page on the viewer component: 
@@ -103,9 +103,9 @@
  * performance that can be seen when scrolling the page. 
  * </p><p>
  * Switching between the two rendering methods can be controlled by setting the 
- * {@link net.sf.jasperreports.view.JRViewer#VIEWER_RENDER_BUFFER_MAX_SIZE net.sf.jasperreports.viewer.render.buffer.max.size} configuration property. 
+ * {@link net.sf.jasperreports.swing.JRViewer#VIEWER_RENDER_BUFFER_MAX_SIZE net.sf.jasperreports.viewer.render.buffer.max.size} configuration property. 
  * The value of this property represents the maximum size (in pixels) of a buffered image 
- * that would be used by the {@link net.sf.jasperreports.view.JRViewer} component to render 
+ * that would be used by the {@link net.sf.jasperreports.swing.JRViewer} component to render 
  * a report page (the first rendering technique). If rendering a report page requires an 
  * image larger than this threshold (that is, image width x image height > maximum size), 
  * then the report page will be rendered directly on the viewer component. 
