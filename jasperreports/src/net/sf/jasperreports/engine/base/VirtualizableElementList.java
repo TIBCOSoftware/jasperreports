@@ -45,9 +45,9 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	
 	private static final Log log = LogFactory.getLog(VirtualizableElementList.class);
 
-	private final JRVirtualizationContext virtualizationContext;
+	protected final JRVirtualizationContext virtualizationContext;
 
-	private ElementStore store;
+	protected ElementStore store;
 	
 	public VirtualizableElementList(JRVirtualizationContext virtualizationContext, JRVirtualPrintPage page)
 	{
