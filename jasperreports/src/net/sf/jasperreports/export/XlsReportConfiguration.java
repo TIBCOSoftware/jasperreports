@@ -407,7 +407,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.HYPERLINK},
-			sinceVersion = PropertyConstants.NOT_AVAILABLE,
+			sinceVersion = PropertyConstants.VERSION_5_1_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;

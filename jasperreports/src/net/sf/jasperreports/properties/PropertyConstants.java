@@ -90,8 +90,6 @@ public interface PropertyConstants
 	
 	String COMPONENT_KEY_QUALIFICATION_SEPARATOR = ":";
 
-	String NOT_AVAILABLE = "N/A";
-	
 	String VERSION_1_0_0 = "1.0.0";
 
 	String VERSION_1_2_0 = "1.2.0";
@@ -182,6 +180,8 @@ public interface PropertyConstants
 
 	String VERSION_5_0_4 = JRConstants.VERSION_5_0_4;
 
+	String VERSION_5_1_2 = "5.1.2";
+	
 	String VERSION_5_2_0 = "5.2.0";
 
 	String VERSION_5_5_0 = JRConstants.VERSION_5_5_0;
