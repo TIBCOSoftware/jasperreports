@@ -15,8 +15,10 @@
 		<ant dir="../" target="compile"/>
 	</target>
 
-	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file." depends="jetty.run">
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<antcall target="jetty.run" />
 		<ant dir="../" target="fill"/>
+		<antcall target="jetty.stop" />
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
@@ -75,12 +77,17 @@
 			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
 		<typedef name="webApp" classname="org.eclipse.jetty.ant.AntWebAppContext"
 			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
-		<jetty.run daemon="true">
+		<jetty.run daemon="true" stopPort="9999" stopKey="9999">
 			<webApp war="${basedir}/build/webapp" contextPath="/"/>
 			<connectors>
 				<connector port="8080"/>
 			</connectors>
 		</jetty.run>
+	</target>
+
+	<target name="jetty.stop" depends="prepare-jetty-classpath">
+		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
+		<jetty.stop stopPort="9999" stopKey="9999" stopWait="10"/>
 	</target>
 
 	<target name="test" description="Runs the sample.">
