@@ -331,6 +331,13 @@ public interface PdfExporterConfiguration extends ExporterConfiguration
 	 * By default the property is set to <code>false</code>.
 	 * </p>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_2_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_JUSTIFIED_LETTER_SPACING = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.justified.letter.spacing";
 	
 	/**

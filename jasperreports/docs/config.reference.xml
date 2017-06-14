@@ -2913,14 +2913,72 @@ Property indicating the default PDF font embedding behavior, if not specified in
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.{format}.ignore.hyperlink -->
+  <!-- net.sf.jasperreports.export.docx.ignore.hyperlink -->
   
-  <configProperty name="net.sf.jasperreports.export.{format}.ignore.hyperlink">
+  <configProperty name="net.sf.jasperreports.export.docx.ignore.hyperlink">
     <description>
-Properties with this syntax are used by the exporters to determine if a certain hyperlink should be activated or not. 
-These flags can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name. The 
-available output formats for filling in the {format} placeholder are: html, pdf, rtf, xls, docx, pptx, odt. When the 
-format is set to 'xls', this property will be applied for XLS, XLSX and ODS exporters.
+This property is used by the DOCX exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.ignore.hyperlink">
+    <description>
+This property is used by the HTML exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.odt.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.odt.ignore.hyperlink">
+    <description>
+This property is used by the ODT exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.ignore.hyperlink">
+    <description>
+This property is used by the PDF exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.ignore.hyperlink">
+    <description>
+This property is used by the PPTX exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.rtf.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.rtf.ignore.hyperlink">
+    <description>
+This property is used by the RTF exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.ignore.hyperlink">
+    <description>
+This property is used by XLS, XLSX and ODS exporters to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
     </description>
   </configProperty>
   
@@ -3645,6 +3703,15 @@ If the property is <code>true</code>, export parameters override report hints; t
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.matcher.filter.key -->
+  
+  <configProperty name="net.sf.jasperreports.export.matcher.filter.key">
+    <description>
+Property that specifies a key for the element, in order to make it eligible for the exporter filter during the report export.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.128.bit.key -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.128.bit.key">
@@ -3748,6 +3815,15 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.justified.letter.spacing -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.justified.letter.spacing">
+    <description>
+Property that determines whether justified text alignment can modify letter spacing in words. Default value is <code>false</code>.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.metadata.author -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.metadata.author">
@@ -3816,6 +3892,54 @@ Property that specifies whether the document title should be displayed in the ti
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isDisplayMetadataTitle()">isDisplayMetadataTitle()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.even.page.offset.x -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.even.page.offset.x">
+    <description>
+Property that specifies the X offset (in pixels) for moving elements in even page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getEvenPageOffsetX()">getEvenPageOffsetX()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.even.page.offset.y -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.even.page.offset.y">
+    <description>
+Property that specifies the Y offset (in pixels) for moving elements in even page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getEvenPageOffsetY()">getEvenPageOffsetY()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.odd.page.offset.x -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.odd.page.offset.x">
+    <description>
+Property that specifies the X offset (in pixels) for moving elements in odd page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getOddPageOffsetX()">getOddPageOffsetX()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.odd.page.offset.y -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.odd.page.offset.y">
+    <description>
+Property that specifies the Y offset (in pixels) for moving elements in odd page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getOddPageOffsetY()">getOddPageOffsetY()</api> PDF export configuration setting.
     </description>
   </configProperty>
   

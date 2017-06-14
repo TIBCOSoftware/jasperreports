@@ -23,11 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.annotations.properties.Property;
-import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -36,13 +33,9 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public interface JRPrintHyperlink
 {
 
-	@Property(
-			name = "net.sf.jasperreports.export.{format}.ignore.hyperlink",
-			category = PropertyConstants.CATEGORY_EXPORT,
-			valueType = Boolean.class,
-			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.HYPERLINK},
-			sinceVersion = PropertyConstants.VERSION_5_0_4
-			)
+	/**
+	 * Properties with this suffix are used to specify whether this hyperlink should be ignored at export time
+	 */
 	public static final String PROPERTY_IGNORE_HYPERLINK_SUFFIX = "ignore.hyperlink";
 
 	/**

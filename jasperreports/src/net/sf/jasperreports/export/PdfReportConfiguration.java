@@ -92,6 +92,12 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.HYPERLINK},
+			sinceVersion = PropertyConstants.NOT_AVAILABLE,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRPdfExporter.PDF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
@@ -109,21 +115,49 @@ public interface PdfReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Property that provides a default value for the {@link #getOddPageOffsetX()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_0_4,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_ODD_PAGE_OFFSET_X = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.odd.page.offset.x";
 
 	/**
 	 * Property that provides a default value for the {@link #getOddPageOffsetY()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_0_4,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_ODD_PAGE_OFFSET_Y = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.odd.page.offset.y";
 
 	/**
 	 * Property that provides a default value for the {@link #getEvenPageOffsetX()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_0_4,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_EVEN_PAGE_OFFSET_X = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.even.page.offset.x";
 
 	/**
 	 * Property that provides a default value for the {@link #getEvenPageOffsetY()} export configuration setting.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "0",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_0_4,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_EVEN_PAGE_OFFSET_Y = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.even.page.offset.y";
 
 	public static final String PROPERTY_PREFIX_GLYPH_RENDERER_BLOCKS = 

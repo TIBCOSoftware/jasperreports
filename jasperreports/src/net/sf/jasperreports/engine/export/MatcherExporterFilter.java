@@ -33,10 +33,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -47,6 +50,11 @@ public class MatcherExporterFilter implements ExporterFilter
 	/**
 	 *
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_5_5_0
+			)
 	public static final String PROPERTY_MATCHER_EXPORT_FILTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "export.matcher.filter.key";
 
 	private Set<String> includes;
