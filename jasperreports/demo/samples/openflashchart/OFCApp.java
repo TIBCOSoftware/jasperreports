@@ -287,11 +287,19 @@ public class OFCApp
 			else if (TASK_VIEW_HTML.equals(taskName))
 			{
 				String reportURI = "http://localhost:8080/OpenFlashChartReport.html";
-				
-				System.out.println("Launching a browser to for " + reportURI);
-				System.out.println("If a browser is not launched, please navigate to this URL manually");
-				
-				Desktop.getDesktop().browse(new URI(reportURI));
+
+				if (Desktop.isDesktopSupported())
+				{
+					System.out.println("Launching a browser for " + reportURI);
+					System.out.println("If a browser is not launched, please navigate to this URL manually.");
+					
+					Desktop.getDesktop().browse(new URI(reportURI));
+				}
+				else
+				{
+					System.out.println("Desktop is not supported and could not launch browser for " + reportURI);
+					System.out.println("Please navigate to this URL manually.");
+				}
 			}
 			else
 			{
