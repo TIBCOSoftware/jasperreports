@@ -90,6 +90,7 @@ public final class FlashPrintElement
 	 * <p>
 	 * Defaults to <code>false</code>.
 	 */
+	@Deprecated 
 	public static final String PROPERTY_IGNORE_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "export.swf.ignore.size";
 	
 	/**

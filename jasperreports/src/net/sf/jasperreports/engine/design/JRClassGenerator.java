@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
@@ -52,6 +54,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.functions.FunctionSupport;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -59,7 +62,15 @@ import net.sf.jasperreports.functions.FunctionSupport;
  */
 public class JRClassGenerator
 {
-	
+	/**
+	 * Property that determines the maximum size of a generated Java method
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_5_5_2,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_MAX_METHOD_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.max.java.method.size";
 	
 	

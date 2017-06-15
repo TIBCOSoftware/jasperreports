@@ -375,6 +375,15 @@ This mapping was previously specified using the <code>fieldDescription</code> at
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.json.date.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.json.date.pattern">
+    <description>
+Parameter/property holding the format pattern used to instantiate <code>java.util.Date</code> instances.    
+	</description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.json.field.expression -->
   
   <configProperty name="net.sf.jasperreports.json.field.expression">
@@ -382,6 +391,51 @@ This mapping was previously specified using the <code>fieldDescription</code> at
 Property specifying the JSON expression for the dataset field in case a JSON data source is used. 
 This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
     </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.locale.code -->
+  
+  <configProperty name="net.sf.jasperreports.json.locale.code">
+    <description>
+Built-in parameter/property holding the <code>java.lang.String</code> code of the locale to be used when parsing the JSON data.
+<br/>
+The allowed format is: <code>language[_country[_variant]]</code>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.number.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.json.number.pattern">
+    <description>
+Parameter/property holding the format pattern used to instantiate <code>java.lang.Number</code> instances.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.source -->
+  
+  <configProperty name="net.sf.jasperreports.json.source">
+    <description>
+Built-in parameter/property holding the value of the source for the JSON file. 
+<br/>
+It can be:
+<ul>
+<li>a resource on the classpath</li>
+<li>a file from the filesystem, with an absolute or relative path</li>
+<li>a url</li>
+</ul>    
+	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.timezone.id -->
+  
+  <configProperty name="net.sf.jasperreports.json.timezone.id">
+    <description>
+Built-in parameter/property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the JSON data. 
+	</description>
   </configProperty>
   
   
@@ -700,6 +754,73 @@ for parsing JRXMLs.
 <br/>
 By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html">JRReportSaxParserFactory</api> 
 as report parser factory.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.max.groovy.method.size -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.max.groovy.method.size">
+    <description>
+Property that determines the maximum size of a generated groovy method.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.max.java.method.size -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.max.java.method.size">
+    <description>
+Property that determines the maximum size of a generated Java method.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.expressions.per.script -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.expressions.per.script">
+    <description>
+Property that determines the maximum number of report expressions that will be included in a single generated Java class.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.optimization.level -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.optimization.level">
+    <description>
+Property that determines the optimization level to use when compiling expressions into Java bytecode.
+<br/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.script.max.size -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.script.max.size">
+    <description>
+Property that determines the maximum size of a script that will be compiled into a single Java class.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.evaluator.optimization.level -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.evaluator.optimization.level">
+    <description>
+Property that determines the optimization level to use when compiling expressions into Java bytecode.
+<br/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.legacy.expression.parser -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.expression.parser">
+    <description>
+Property that specifies whether a legacy parser method should be used to parse this expression. Default value is <code>false</code>.
     </description>
   </configProperty>
   
@@ -2534,6 +2655,15 @@ Property that specifies the character to be used on the column header when the t
   <configProperty name="net.sf.jasperreports.components.filter.char">
     <description>
 Property that specifies the character to be used on the column header when the tables's column has a filtered applied
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.icon.font -->
+  
+  <configProperty name="net.sf.jasperreports.components.icon.font">
+    <description>
+Global property that specifies the font to be used for the icons on the column header
     </description>
   </configProperty>
   

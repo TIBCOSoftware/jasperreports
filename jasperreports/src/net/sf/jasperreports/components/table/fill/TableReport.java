@@ -176,6 +176,11 @@ public class TableReport implements JRReport
 	/**
 	 * Global property that specifies the font to be used for the icons on the column header
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_5_5_0
+			)
 	public static final String PROPERTY_ICON_FONT = JRPropertiesUtil.PROPERTY_PREFIX + "components.icon.font";
 
 	/**

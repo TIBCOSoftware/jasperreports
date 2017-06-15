@@ -25,12 +25,15 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.Designated;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * JSON query executer factory.
@@ -51,7 +54,7 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory imple
 	public static final String JSON_INPUT_STREAM = "JSON_INPUT_STREAM";
 	
 	/**
-	 * Built-in parameter holding the value of the source for the JSON file. 
+	 * Built-in parameter/property holding the value of the source for the JSON file. 
 	 * <p/>
 	 * It can be:
 	 * <ul>
@@ -60,19 +63,37 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory imple
 	 * 	<li>a url</li>
 	 * </ul>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public static final String JSON_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "json.source";
 	
 	//FIXME javadoc
 	public static final String JSON_SOURCES = JRPropertiesUtil.PROPERTY_PREFIX + "json.sources";
 	
 	/**
-	 * Parameter holding the format pattern used to instantiate java.util.Date instances.
+	 * Parameter/property holding the format pattern used to instantiate java.util.Date instances.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public final static String JSON_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "json.date.pattern";
 	
 	/**
-	 * Parameter holding the format pattern used to instantiate java.lang.Number instances.
+	 * Parameter/property holding the format pattern used to instantiate java.lang.Number instances.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public final static String JSON_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "json.number.pattern";
 
 	/**
@@ -85,6 +106,12 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory imple
 	 * <p/>
 	 * The allowed format is: language[_country[_variant]] 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public static final String JSON_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "json.locale.code";
 	
 	/**
@@ -95,6 +122,12 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory imple
 	/**
 	 * Built-in parameter/property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the JSON data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JsonQueryExecuterFactory.JSON_QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public static final String JSON_TIMEZONE_ID = JRPropertiesUtil.PROPERTY_PREFIX + "json.timezone.id";
 	
 	private final static Object[] JSON_BUILTIN_PARAMETERS = {
