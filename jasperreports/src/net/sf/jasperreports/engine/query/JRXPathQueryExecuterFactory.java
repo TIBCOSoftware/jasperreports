@@ -82,6 +82,12 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory im
 	/**
 	 * Property holding the value of the date format pattern to be used when parsing the XML data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public static final String PROPERTY_XML_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xml.date.pattern";
 
 	/**
@@ -92,6 +98,12 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory im
 	/**
 	 * Property holding the value of the number format pattern to be used when parsing the XLS data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public static final String PROPERTY_XML_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xml.number.pattern";
 	
 	/**

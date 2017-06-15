@@ -2072,6 +2072,15 @@ When this property is set, the engine saves the original text in the <api href="
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.print.transfer.{arbitrary_suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.print.transfer.{arbitrary_suffix}">
+    <description>
+Properties having this prefix specify the properties to be transfered from report templates to print objects during the report filling.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.text.truncate.at.char -->
   
   <configProperty name="net.sf.jasperreports.text.truncate.at.char">
@@ -2183,6 +2192,15 @@ Property specifying the <api href="net/sf/jasperreports/engine/fill/JRSubreportR
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.legacy.element.stretch.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.element.stretch.enabled">
+    <description>
+Property that indicates whether a legacy stretch type for the element is enabled.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.evaluator.class.reference.fix.enabled -->
   
   <configProperty name="net.sf.jasperreports.evaluator.class.reference.fix.enabled">
@@ -2882,6 +2900,18 @@ for parsing XML exports.
 <br/>
 By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/PrintSaxParserFactory.html">PrintSaxParserFactory</api> 
 as report parser factory.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.template.xml.parser.factory -->
+  
+  <configProperty name="net.sf.jasperreports.template.xml.parser.factory">
+    <description>
+Property that gives a parser factory class which should be used for parsing style templates.
+<br/>
+By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/TemplateSaxParserFactory.html">TemplateSaxParserFactory</api> 
+as style templates parser factory.
     </description>
   </configProperty>
   
@@ -6090,6 +6120,34 @@ and DrawBorders, in which case both fragments have borders drawn on all sides.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.jdbc.fields.time.zone -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.fields.time.zone">
+    <description>
+Property specifying the default time zone to be used for all date/time fields when sending and retrieving date/time values to and from the database.
+<br/>
+The property can be set globally or at dataset level.
+<br/>
+The property value can be a time zone ID or REPORT_TIME_ZONE.
+In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api>) will be used.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.jdbc.parameters.time.zone -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.parameters.time.zone">
+    <description>
+Property specifying the default time zone to be used for all date/time parameters when sending and retrieving date/time values to and from the database.
+<br/>
+The property can be set globally or at dataset level.
+<br/>
+The property value can be a time zone ID or REPORT_TIME_ZONE.
+In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api>) will be used.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.jdbc.time.zone -->
   
   <configProperty name="net.sf.jasperreports.jdbc.time.zone">
@@ -6117,12 +6175,82 @@ This mapping was previously specified using the <code>fieldDescription</code> at
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.xls.format -->
+  
+  <configProperty name="net.sf.jasperreports.xls.format">
+    <description>
+Built-in parameter/property holding the value of the Excel format to be used when parsing the Excel data source.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.sheet.selection -->
+  
+  <configProperty name="net.sf.jasperreports.xls.sheet.selection">
+    <description>
+Built-in parameter/property holding the value of the sheet name to be used when parsing the Excel data source.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.date.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.xml.date.pattern">
+    <description>
+Property holding the value of the date format pattern to be used when parsing the XML data.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.detect.namespaces -->
+  
+  <configProperty name="net.sf.jasperreports.xml.detect.namespaces">
+    <description>
+Boolean parameter/property that specifies whether the XML document should be parsed for namespaces or not.
+This property is meaningful only when:
+<ul>
+<li>the <api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api> 
+parameter is not provided or provided with a <code>null</code> value
+</li>
+<li>there are no properties prefixed with 
+<api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#XML_NAMESPACE_PREFIX">XML_NAMESPACE_PREFIX</api>;
+</li>
+<li>the xpath query expression that is provided <b>contains</b> XML namespace prefixes
+</li>
+</ul>
+It defaults to <code>false</code>
+	</description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.xml.load.unknown.entities -->
   
   <configProperty name="net.sf.jasperreports.xml.load.unknown.entities">
     <description>
 Property that determines whether loading entities that are not known to the engine is allowed.
     </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.namespace.{arbitrary_prefix} -->
+  
+  <configProperty name="net.sf.jasperreports.xml.namespace.{arbitrary_prefix}">
+    <description>
+Prefix for properties holding the namespace prefix and uri (e.g. net.sf.jasperreports.xml.namespace.{arbitrary_prefix} = uri).
+<br/>
+This property has a lower priority than 
+<api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api>, 
+that, if it is specified, will cause the prefixed properties not to be searched for.
+	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.number.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.xml.number.pattern">
+    <description>
+Property holding the value of the number format pattern to be used when parsing the XLS data.
+	</description>
   </configProperty>
   
   

@@ -79,6 +79,12 @@ public interface JRSaxParserFactory
 	 * By default, this property is set to use {@link TemplateSaxParserFactory}
 	 * as style template parser factory.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			defaultValue = "net.sf.jasperreports.engine.xml.TemplateSaxParserFactory",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_3_0
+			)
 	String PROPERTY_TEMPLATE_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "template.xml.parser.factory";
 	
 	/**

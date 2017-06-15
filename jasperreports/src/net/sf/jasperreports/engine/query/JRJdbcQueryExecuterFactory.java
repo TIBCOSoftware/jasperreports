@@ -147,13 +147,25 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET, PropertyScope.PARAMETER, PropertyScope.FIELD},
 			scopeQualifications = {QUERY_EXECUTER_NAME},
-			sinceVersion = PropertyConstants.VERSION_6_1_0
+			sinceVersion = PropertyConstants.VERSION_4_6_0
 			)
 	public static final String PROPERTY_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.time.zone";
 	
 	//FIXME to be documented soon
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_6_1_0
+			)
 	public static final String PROPERTY_PARAMETERS_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.parameters.time.zone";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_6_1_0
+			)
 	public static final String PROPERTY_FIELDS_TIME_ZONE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.fields.time.zone";
 
 	/**

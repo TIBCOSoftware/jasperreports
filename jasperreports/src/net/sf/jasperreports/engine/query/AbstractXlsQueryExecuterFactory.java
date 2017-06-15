@@ -183,6 +183,12 @@ public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecu
 	/**
 	 * Built-in parameter/property holding the value of the sheet name to be used when parsing the Excel data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_5_5_2
+			)
 	public static final String XLS_SHEET_SELECTION = JRPropertiesUtil.PROPERTY_PREFIX + "xls.sheet.selection";
 	
 	/**
