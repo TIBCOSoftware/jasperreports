@@ -22,14 +22,13 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.awt.Desktop;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import edu.stanford.ejalbert.BrowserLauncher;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -82,7 +81,6 @@ public class OFCApp
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args)
 	{
 		if(args.length == 0)
@@ -288,7 +286,12 @@ public class OFCApp
 			}
 			else if (TASK_VIEW_HTML.equals(taskName))
 			{
-				launchBrowser();
+				String reportURI = "http://localhost:8080/OpenFlashChartReport.html";
+				
+				System.out.println("Launching a browser to for " + reportURI);
+				System.out.println("If a browser is not launched, please navigate to this URL manually");
+				
+				Desktop.getDesktop().browse(new URI(reportURI));
 			}
 			else
 			{
@@ -305,52 +308,6 @@ public class OFCApp
 		}
 	}
 
-	protected static void launchBrowser()
-	{
-		String reportURI = "http://localhost:8080/OpenFlashChartReport.html";
-		
-		System.out.println("Launching a browser to for " + reportURI);
-		System.out.println("If a browser is not launched, please navigate to this URL manually");
-		
-		boolean launched = false;
-		try
-		{
-			// attempting Java 1.6
-			// ugly reflection code to avoid a dependency on Java 1.6
-			Class desktopClass = Class.forName("java.awt.Desktop");
-			Method isDesktopSupportedMethod = desktopClass.getMethod("isDesktopSupported", 
-					(java.lang.Class[]) null);
-			Boolean isDesktopSupported = (Boolean) isDesktopSupportedMethod.invoke(null, 
-					(java.lang.Object[]) null);
-			if (isDesktopSupported.booleanValue())
-			{
-				Method getDesktopMethod = desktopClass.getMethod("getDesktop", 
-						(java.lang.Class[]) null);
-				Object desktop = getDesktopMethod.invoke(null, (java.lang.Object[]) null);
-				Method browseMethod = desktopClass.getMethod("browse", new Class[]{URI.class});
-				browseMethod.invoke(desktop, new Object[]{new URI(reportURI)});
-				launched = true;
-			}
-		}
-		catch (Exception e)
-		{
-			// not Java 1.6?
-			System.out.println("Failed to launch a browser using Java 1.6 APIs");
-		}
-		
-		if (!launched)
-		{
-			try
-			{
-				new BrowserLauncher().openURLinBrowser(reportURI);
-			}
-			catch (Exception e)
-			{
-				System.out.println("Failed to launch a browser: " + e.getMessage());
-			}
-		}
-	}
-	
 	/**
 	 *
 	 */

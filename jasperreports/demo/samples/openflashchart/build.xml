@@ -257,7 +257,8 @@
 		</jetty.run>
 	</target>
 
-	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath, jetty.run">
+	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath">
+		<antcall target="jetty.run"/>
 		<java classname="${class.name}" fork="true">
 			<arg value="viewHtml"/>
 			<classpath refid="sample-classpath"/>
