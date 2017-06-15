@@ -16,9 +16,9 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
-		<antcall target="jetty.run" />
+		<antcall target="jetty.run"/>
 		<ant dir="../" target="fill"/>
-		<antcall target="jetty.stop" />
+		<antcall target="jetty.stop"/>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">

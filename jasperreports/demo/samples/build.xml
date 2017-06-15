@@ -60,7 +60,7 @@
 
 	<target name="javac" depends="prepare-compile-classpath">
 		<mkdir dir="${sample.dir}/build/classes"/> 
-		<javac srcdir="${sample.dir}/src" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7"
+		<javac srcdir="${sample.dir}/src" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
@@ -297,7 +297,7 @@
 
 	<target name="writeApiXml" depends="prepare-compile-classpath">
 		<mkdir dir="${sample.dir}/build/classes"/> 
-		<javac srcdir="${sample.dir}/build/reports" destdir="${sample.dir}/build/reports" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7"
+		<javac srcdir="${sample.dir}/build/reports" destdir="${sample.dir}/build/reports" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
