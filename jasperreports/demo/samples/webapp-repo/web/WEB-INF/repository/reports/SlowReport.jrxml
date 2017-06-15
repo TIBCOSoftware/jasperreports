@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+	name="SlowReport" pageWidth="595" pageHeight="842" columnWidth="555"
+	leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+	whenNoDataType="AllSectionsNoDetail">
+	<property name="net.sf.jasperreports.measure.simple.text.exact"
+		value="always" />
+	<property name="net.sf.jasperreports.data.adapter" value="/data/EmptyDataAdapter.5000.xml"/>
+	<variable name="groupIndex" class="java.lang.Integer"
+		resetType="None">
+		<variableExpression>$V{group_COUNT}</variableExpression>
+	</variable>
+	<variable name="reportIndex" class="java.lang.Integer"
+		resetType="None">
+		<variableExpression>$V{REPORT_COUNT}</variableExpression>
+	</variable>
+	<group name="group">
+		<groupExpression>($V{REPORT_COUNT} - 1) / 1500</groupExpression>
+	</group>
+	<detail>
+		<band height="100">
+			<textField>
+				<reportElement x="0" y="0" width="200" height="100" />
+				<textElement markup="html" />
+				<textFieldExpression><![CDATA["<p><b>record " + $V{REPORT_COUNT} + "</b></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Auto">
+				<reportElement x="200" y="0" width="200" height="100" />
+				<textElement markup="html" />
+				<textFieldExpression><![CDATA["<p><b>group index " + $V{groupIndex} + " out of " + $V{group_COUNT} + "</b></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Auto">
+				<reportElement x="400" y="0" width="200" height="100" />
+				<textElement markup="html" />
+				<textFieldExpression><![CDATA["<p><b>report index " + $V{reportIndex} + " out of " + $V{REPORT_COUNT} + "</b></p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
