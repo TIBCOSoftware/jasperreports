@@ -2304,6 +2304,17 @@ Property that specifies a default value for the <code>whenNoDataType</code> attr
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.subreport.generate.rectangle -->
+  
+  <configProperty name="net.sf.jasperreports.subreport.generate.rectangle">
+    <description>
+Property used to specify when rectangle elements should be generated  for subreports during the report filling. 
+If the property value is <code>always</code>, rectangle elements will be always generated, otherwise they will be created 
+only if the subreport element is not transparent or it has properties.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.subreport.runner.factory -->
   
   <configProperty name="net.sf.jasperreports.subreport.runner.factory">

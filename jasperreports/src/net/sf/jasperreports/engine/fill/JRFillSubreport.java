@@ -38,6 +38,8 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -72,6 +74,7 @@ import net.sf.jasperreports.engine.type.OverflowType;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -88,6 +91,16 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_SECTION_TYPE = "fill.subreport.unsupported.section.type";
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_SOURCE_CLASS = "fill.subreport.unknown.source.class";
 			
+	/**
+	 * Property used to specify when rectangle elements should be generated  for subreports during the report filling. 
+	 * If the property value is <code>always</code>, rectangle elements will be always generated, otherwise they will 
+	 * be created only if the subreport element is not transparent or it has properties
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET, PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_0_3
+			)
 	public static final String PROPERTY_SUBREPORT_GENERATE_RECTANGLE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "subreport.generate.rectangle";
 	
