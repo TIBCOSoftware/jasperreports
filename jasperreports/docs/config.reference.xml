@@ -2483,6 +2483,15 @@ Property that provides the crosstab column span of a print frame. (FIXME not a u
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.crosstab.column.header.sort.measure.index -->
+  
+  <configProperty name="net.sf.jasperreports.crosstab.column.header.sort.measure.index">
+    <description>
+Property that provides the index of measure to be used for sorting the crosstab.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.crosstab.ignore.width -->
   
   <configProperty name="net.sf.jasperreports.crosstab.ignore.width">
@@ -2506,6 +2515,15 @@ Property that enables/disables the interactivity in the crosstab component.
 Property that enables/disables the floating headers in the crosstab component when scrolling.
 <br/>
 If the interactivity has been disabled by setting <a href="#net.sf.jasperreports.crosstab.interactive">net.sf.jasperreports.crosstab.interactive</a> to <code>false</code>, then setting this property will have no effect.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.crosstab.row.group.column.header -->
+
+  <configProperty name="net.sf.jasperreports.crosstab.row.group.column.header">
+    <description>
+Property that specifies this element is the column header for a row group represented by its index.
     </description>
   </configProperty>
   
@@ -2565,6 +2583,33 @@ levels as the image producer property, to allow the customization of the generat
 <br/>
 <b>Note: </b>This property does not apply to QRCode barcodes which are generated based on a different library (ZXing). For 
 QRCode barcodes, see <a href="#net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}">net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}</a>.
+   	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.antiAlias -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.antiAlias">
+    <description>
+Flag property that specify the barcode image should use antialiasing. Default value is <code>true</code>.
+   	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.gray -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.gray">
+    <description>
+Flag property that specify the barcode image should use the gray color scheme. Default value is <code>true</code>.
+   	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.resolution -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.resolution">
+    <description>
+Property that specify the barcode image resolution (ppi). Default value is 300.
    	</description>
   </configProperty>
   
@@ -2943,6 +2988,17 @@ this version will be skipped by the JRXML writers (see the <code><api href="net/
 during the report template generation. If not set, the version is considered to be the currenly deployed version.
 	</description>
     <api>net/sf/jasperreports/engine/xml/JRXmlBaseWriter.html#PROPERTY_REPORT_VERSION</api>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.viewer.async -->
+  
+  <configProperty name="net.sf.jasperreports.viewer.async">
+    <description>
+Property that determines whether a report can be generated and displayed asynchronously in a viewer.
+<br/>
+Asynchronous report generation implies displaying report pages before the report is complete.
+    </description>
   </configProperty>
   
   

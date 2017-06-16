@@ -197,8 +197,20 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	public static final String PROPERTY_ORDER_BY_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.order.by.column";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_5_5_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_ROW_GROUP_COLUMN_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.row.group.column.header";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_CROSSTAB,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_5_5_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_COLUMN_HEADER_SORT_MEASURE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.column.header.sort.measure.index";
 	
 	public static final String CROSSTAB_INTERACTIVE_ELEMENT_NAME = "crosstabInteractiveElement";
