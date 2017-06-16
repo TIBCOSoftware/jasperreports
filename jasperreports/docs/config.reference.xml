@@ -2979,6 +2979,42 @@ Otherwise the <code>jasperreports.properties</code> file is loaded, if found in 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.date.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.sql.date.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for elements of type <code>java.sql.Date</code> in the report.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.time.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.sql.time.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for elements of type <code>java.sql.Time</code> in the report.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.timestamp.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.sql.timestamp.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for elements of type <code>java.sql.Timestamp</code> in the report.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.report.version -->
   
   <configProperty name="net.sf.jasperreports.report.version">
@@ -3061,6 +3097,38 @@ should be caught.
 <br/>
 This is useful when running on a Sun server JVM (java -server), which might omit 
 exception stacktraces in some cases.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.measure.simple.text -->
+  
+  <configProperty name="net.sf.jasperreports.measure.simple.text">
+    <description>
+Flag property that specifies whether a faster text measurer should be used for simple texts (text without markup or complex scripts). 
+Default value is <code>true</code>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.measure.simple.text.element.cache.size -->
+  
+  <configProperty name="net.sf.jasperreports.measure.simple.text.element.cache.size">
+    <description>
+Property that specifies the size of the element font infos cache. Default value is 2000.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.measure.simple.text.exact -->
+  
+  <configProperty name="net.sf.jasperreports.measure.simple.text.exact">
+    <description>
+Property that specifies the exact text measuring type. Possible values are:
+<ul>
+<li><code>always</code> - the entire text is measured without considering possible line breaks</li>
+<li><code>multiline</code> - the entire text is measured taking into account possible line breaks</li>
+</ul>
     </description>
   </configProperty>
   

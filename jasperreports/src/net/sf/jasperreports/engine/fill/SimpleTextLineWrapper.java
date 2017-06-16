@@ -46,11 +46,14 @@ import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.engine.util.Pair;
 
 /**
@@ -59,9 +62,21 @@ import net.sf.jasperreports.engine.util.Pair;
 public class SimpleTextLineWrapper implements TextLineWrapper
 {
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_7_1
+			)
 	public static final String PROPERTY_MEASURE_EXACT = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text.exact";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "2000",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_7_1,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_ELEMENT_CACHE_SIZE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text.element.cache.size";
 

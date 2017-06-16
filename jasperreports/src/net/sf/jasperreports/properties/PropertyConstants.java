@@ -176,6 +176,8 @@ public interface PropertyConstants
 
 	String VERSION_4_8_0 = JRConstants.VERSION_4_8_0;
 
+	String VERSION_5_0_0 = "5.0.0";
+	
 	String VERSION_5_0_1 = JRConstants.VERSION_5_0_1;
 
 	String VERSION_5_0_4 = JRConstants.VERSION_5_0_4;
