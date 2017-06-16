@@ -6532,4 +6532,14 @@ Numeric property that determines which is the first weekday by default:
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.velocity.{arbitrary_suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.velocity.{arbitrary_suffix}">
+    <description>
+Properties with this prefix are loaded into an <code>org.apache.velocity.app.VelocityEngine</code> instance object in 
+order to process velocity templates.
+    </description>
+  </configProperty>
+  
+  
 </configReference>
