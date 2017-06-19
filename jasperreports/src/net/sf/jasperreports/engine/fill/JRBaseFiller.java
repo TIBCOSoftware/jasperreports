@@ -1525,6 +1525,64 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	}
 
 
+	/**
+	 *
+	 */
+	protected JRFillGroup getKeepTogetherGroup()
+	{
+		Integer keepTogetherGroupLevel = null;
+
+		if (groups != null)
+		{
+			// check to see if there is any group that needs to be kept together or does not have the required min details
+			for (int i = 0; i <  groups.length; i++)
+			{
+				JRFillGroup group = groups[i];
+				if (
+					group.getKeepTogetherElementRange() != null
+					&& (group.isKeepTogether() || !group.hasMinDetails())
+					)
+				{
+					keepTogetherGroupLevel = i;
+					break;
+				}
+			}
+		}
+		
+		if (
+			keepTogetherGroupLevel != null
+			|| orphanGroupFooterDetailElementRange != null
+			)
+		{
+			// if there was a group that was going to be moved, either because it had keepTogether or less than required min details,
+			// or if there is an orphan to be moved, we need to check if the outer groups still meet their required min details or need 
+			// to be moved themselves, possibly instead of the inner group
+			
+			int detailsToMove = Math.max(
+				keepTogetherGroupLevel == null ? 0 : groups[keepTogetherGroupLevel].getDetailsCount(),
+				orphanGroupFooterDetailElementRange == null ? 0 : 1
+				);
+			
+			int lcMaxGrpIdx = keepTogetherGroupLevel == null ? groups.length : keepTogetherGroupLevel;
+			
+			for (int i = 0; i <  lcMaxGrpIdx; i++)
+			{
+				JRFillGroup group = groups[i];
+				if (
+					group.getKeepTogetherElementRange() != null
+					&& !group.hasMinDetails(detailsToMove)
+					)
+				{
+					keepTogetherGroupLevel = i;
+					break;
+				}
+			}
+		}
+		
+		return keepTogetherGroupLevel == null ? null : groups[keepTogetherGroupLevel];
+	}
+
+
 //	protected JRStyle getConsolidatedStyle(String consolidatedStyleName)
 //	{
 //		return (JRStyle) consolidatedStyles.get(consolidatedStyleName);

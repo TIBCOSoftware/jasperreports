@@ -779,6 +779,7 @@ public class JRApiWriter
 		write( groupName + ".setStartNewPage({0});\n", group.isStartNewPage(), false);
 		write( groupName + ".setReprintHeaderOnEachPage({0});\n", group.isReprintHeaderOnEachPage(), false);
 		write( groupName + ".setMinHeightToStartNewPage({0});\n", group.getMinHeightToStartNewPage());
+		write( groupName + ".setMinDetailsToStartFromTop({0});\n", group.getMinDetailsToStartFromTop());
 		write( groupName + ".setFooterPosition({0});\n", group.getFooterPositionValue(), FooterPositionEnum.NORMAL);
 		
 		write( groupName + ".setKeepTogether({0});\n", group.isKeepTogether(), false);

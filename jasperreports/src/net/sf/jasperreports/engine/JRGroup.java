@@ -200,6 +200,16 @@ public interface JRGroup extends JRCloneable
 	public void setMinHeightToStartNewPage(int minHeight);
 		
 	/**
+	 * Gets the minimum number of details to be rendered on the current column, to avoid starting the group on a new column.
+	 */
+	public int getMinDetailsToStartFromTop();
+
+	/**
+	 * Sets the minimum number of details to be rendered on the current column, to avoid starting the group on a new column.
+	 */
+	public void setMinDetailsToStartFromTop(int minDetails);
+		
+	/**
 	 * Specifies how the group footer section behaves with regards to its position on the current page.
 	 */
 	public FooterPositionEnum getFooterPositionValue();

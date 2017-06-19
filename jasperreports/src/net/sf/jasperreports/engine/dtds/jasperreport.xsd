@@ -1639,6 +1639,11 @@
   	 <documentation>Minimum amount of vertically space needed at the bottom of the column in order to place the group header on the current column.</documentation>
  	</annotation>
    </attribute>
+   <attribute name="minDetailsToStartFromTop" type="NMTOKEN" use="optional" default="0">
+ 	<annotation>
+  	 <documentation>Minimum number of details to be rendered on the current column, to avoid starting the group on a new column.</documentation>
+ 	</annotation>
+   </attribute>
    <attribute name="footerPosition" use="optional" default="Normal">
 	<annotation>
 	 <documentation>Specifies how the group footer section behaves with regards to its position on the current page.</documentation>

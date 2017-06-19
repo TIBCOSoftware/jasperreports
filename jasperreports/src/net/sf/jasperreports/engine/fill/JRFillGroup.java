@@ -62,6 +62,7 @@ public class JRFillGroup implements JRGroup
 	private boolean isTopLevelChange;
 	private boolean isHeaderPrinted;
 	private boolean isFooterPrinted = true;
+	private int detailsCount;
 	
 	private ElementRange keepTogetherElementRange;
 
@@ -184,7 +185,18 @@ public class JRFillGroup implements JRGroup
 	public void setMinHeightToStartNewPage(int minHeight)
 	{
 	}
+	
+	@Override
+	public int getMinDetailsToStartFromTop()
+	{
+		return parent.getMinDetailsToStartFromTop();
+	}
 		
+	@Override
+	public void setMinDetailsToStartFromTop(int minDetails)
+	{
+	}
+	
 	@Override
 	public FooterPositionEnum getFooterPositionValue()
 	{
@@ -316,7 +328,47 @@ public class JRFillGroup implements JRGroup
 	{
 		this.keepTogetherElementRange = keepTogetherElementRange;
 	}
+	
+	/**
+	 *
+	 */
+	protected void incrementDetailsCount()
+	{
+		detailsCount++;
+	}
+	
+	/**
+	 *
+	 */
+	protected void resetDetailsCount()
+	{
+		detailsCount = 0;
+	}
 
+	/**
+	 *
+	 */
+	protected boolean hasMinDetails()
+	{
+		return hasMinDetails(0);
+	}
+
+	/**
+	 *
+	 */
+	protected boolean hasMinDetails(int detailsToMove)
+	{
+		return getMinDetailsToStartFromTop() == 0 || getMinDetailsToStartFromTop() <= detailsCount - detailsToMove;
+	}
+
+	/**
+	 *
+	 */
+	protected int getDetailsCount()
+	{
+		return detailsCount;
+	}
+		
 	@Override
 	public Object clone() 
 	{

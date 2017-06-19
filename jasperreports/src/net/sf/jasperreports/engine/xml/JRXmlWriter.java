@@ -841,6 +841,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isResetPageNumber, group.isResetPageNumber(), false);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage, group.isReprintHeaderOnEachPage(), false);
 		writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage, group.getMinHeightToStartNewPage());
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_4_2))
+		{
+			writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_minDetailsToStartFromTop, group.getMinDetailsToStartFromTop());
+		}
 		if (isNewerVersionOrEqual(JRConstants.VERSION_3_6_2))
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_footerPosition, group.getFooterPositionValue(), FooterPositionEnum.NORMAL);

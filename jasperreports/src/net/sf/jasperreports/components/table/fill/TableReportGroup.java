@@ -126,6 +126,12 @@ public class TableReportGroup implements JRGroup
 	}
 
 	@Override
+	public int getMinDetailsToStartFromTop()
+	{
+		return datasetGroup.getMinDetailsToStartFromTop();
+	}
+
+	@Override
 	public String getName()
 	{
 		return datasetGroup.getName();
@@ -187,6 +193,12 @@ public class TableReportGroup implements JRGroup
 
 	@Override
 	public void setMinHeightToStartNewPage(int minHeight)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setMinDetailsToStartFromTop(int minDetails)
 	{
 		throw new UnsupportedOperationException();
 	}
