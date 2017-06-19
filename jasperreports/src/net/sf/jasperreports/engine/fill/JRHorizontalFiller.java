@@ -683,10 +683,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				setFirstColumn();
 
-				while (
-					groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
-					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
-					)
+				while (groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY)
 				{
 					fillPageBreak(false, evaluation, evaluation, true);
 				}
