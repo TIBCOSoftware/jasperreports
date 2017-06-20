@@ -233,7 +233,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected boolean isFirstColumnBand;
 	// we call it min level because footers print in reverse order and lower level means outer footer
 	protected Integer preventOrphanFootersMinLevel;
-	protected Integer crtGroupFootersLevel;
+	protected int crtGroupFootersLevel;
 
 	protected int columnIndex;
 
