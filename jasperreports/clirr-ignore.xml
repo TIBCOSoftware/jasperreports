@@ -1,28 +1,130 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/data/http/HttpDataLocation</className>
-		<differenceType>7012</differenceType>
-		<method>*getBody()</method>
+		<className>net/sf/jasperreports/engine/export/JRHtml*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/ReportContext</className>
-		<differenceType>7012</differenceType>
-		<method>*clearParameterValues()</method>
+		<className>net/sf/jasperreports/engine/export/JRXhtml*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/ReportContext</className>
-		<differenceType>7012</differenceType>
-		<method>*removeParameterValue(java.lang.String)</method>
+		<className>net/sf/jasperreports/**/*JExcelApi*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/oasis/GraphicStyle</className>
+		<className>net/sf/jasperreports/**/*Jxl*</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>org/w3c/tools/codec/Base64*</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/query/JRXlsQueryExecuter*</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/data/JRXlsDataSource</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/view/JR*Viewer*</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/data/xls/AbstractXlsDataAdapterService</className>
+		<differenceType>6011</differenceType>
+		<field>PROPERTY_DATA_ADAPTER_USE_LEGACY_JEXCELAPI</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/design/JRDesignExpression</className>
+		<differenceType>6011</differenceType>
+		<field>PLACEHOLDER_*</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRHtmlExporterParameter</className>
+		<differenceType>6011</differenceType>
+		<field>PROPERTY_*</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRHtmlExporterParameter</className>
+		<differenceType>6001</differenceType>
+		<field>FRAMES_AS_NESTED_TABLES</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRHtmlExporterParameter</className>
+		<differenceType>6001</differenceType>
+		<field>IS_USING_IMAGES_TO_ALIGN</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRBaseFiller</className>
+		<differenceType>6001</differenceType>
+		<field>keepTogetherSavePoint</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/XlsReportConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*getPrint*Margin()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/XlsReportConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*getDefinedNames()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRGroup</className>
+		<differenceType>7012</differenceType>
+		<method>*PreventOrphanFooter(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRExpression</className>
+		<differenceType>7012</differenceType>
+		<method>*getType()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/analytics/data/AxisLevelNode</className>
+		<differenceType>7012</differenceType>
+		<method>*getLabel()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/analytics/dataset/DataLevelBucket</className>
+		<differenceType>7012</differenceType>
+		<method>*getLabelExpression()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/design/JRDesignExpression</className>
 		<differenceType>7002</differenceType>
-		<method>*GraphicStyle(net.sf.jasperreports.engine.export.oasis.WriterHelper, net.sf.jasperreports.engine.JRPrintGraphicElement)</method>
+		<method>*chunkStringToType(java.lang.String)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/data/http/HttpDataService</className>
-		<differenceType>7005</differenceType>
-		<method>*setAuthentication(java.util.Map, org.apache.http.client.protocol.HttpClientContext)</method>
-		<to>*setAuthentication(java.util.Map, org.apache.http.impl.client.HttpClientBuilder)</to>
+		<className>net/sf/jasperreports/engine/fill/JR*Filler</className>
+		<differenceType>7002</differenceType>
+		<method>*fillPageBand(net.sf.jasperreports.engine.fill.JRFillBand, byte)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRBaseFiller</className>
+		<differenceType>7002</differenceType>
+		<method>*SavePoint*(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/renderers/AbstractSvgDataToGraphics2DRenderer</className>
+		<differenceType>7002</differenceType>
+		<method>*ensureSvg(net.sf.jasperreports.engine.JasperReportsContext)</method>
+	</difference>	
+	<difference>
+		<className>net/sf/jasperreports/engine/export/oasis/DocumentBuilder</className>
+		<differenceType>7004</differenceType>
+		<method>*getImagePath(net.sf.jasperreports.renderers.Renderable, java.awt.Dimension, java.awt.Color, net.sf.jasperreports.engine.export.JRExporterGridCell, boolean)</method>
+	</difference>	
+	<difference>
+		<className>net/sf/jasperreports/engine/util/ValuePropertiesWrapper</className>
+		<differenceType>7004</differenceType>
+		<method>*ValuePropertiesWrapper(java.lang.Object, java.lang.Object[])</method>
+	</difference>	
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JR*Filler</className>
+		<differenceType>7006</differenceType>
+		<method>*fillColumnBand(net.sf.jasperreports.engine.fill.JRFillBand, byte)</method>
+		<to>void</to>
 	</difference>
 </differences>
