@@ -30,7 +30,7 @@ import net.sf.jasperreports.repo.JasperDesignCache;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ResetInCacheCommand implements Command 
+public class ResetInCacheCommand implements Command
 {
 	
 	private Command command;

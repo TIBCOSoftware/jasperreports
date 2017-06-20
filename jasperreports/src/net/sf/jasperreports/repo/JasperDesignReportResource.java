@@ -23,13 +23,15 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JasperDesignReportResource extends ReportResource
+public class JasperDesignReportResource extends ReportResource implements Serializable
 {
 	private JasperDesign jasperDesign;
 	

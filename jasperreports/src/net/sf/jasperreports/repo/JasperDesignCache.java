@@ -26,14 +26,12 @@ package net.sf.jasperreports.repo;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -46,12 +44,15 @@ import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JasperDesignCache
+public class JasperDesignCache implements Serializable
 {
 	
 	private static final Log log = LogFactory.getLog(JasperDesignCache.class);

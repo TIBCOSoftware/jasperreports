@@ -23,12 +23,13 @@
  */
 package net.sf.jasperreports.web.commands;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class CommandStack {
+public class CommandStack implements Serializable {
 	private LinkedList<Command> commandStack = new LinkedList<Command>();
 	private LinkedList<Command> redoStack = new LinkedList<Command>();
 

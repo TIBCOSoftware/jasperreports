@@ -23,13 +23,15 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 
 /**
  * @author Narcis Marcu (nmarcu@users.sourceforge.net)
  */
-public class HyperlinkData {
+public class HyperlinkData implements Serializable {
 
 	private String id;
 	private String href;

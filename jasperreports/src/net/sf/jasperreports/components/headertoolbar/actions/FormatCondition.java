@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -34,7 +35,7 @@ import net.sf.jasperreports.components.sort.FilterTypesEnum;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class FormatCondition {
+public class FormatCondition implements Serializable {
 	
 	private String conditionStart;
 	private String conditionEnd;

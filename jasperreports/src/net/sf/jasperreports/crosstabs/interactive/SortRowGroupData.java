@@ -23,12 +23,14 @@
  */
 package net.sf.jasperreports.crosstabs.interactive;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class SortRowGroupData
+public class SortRowGroupData implements Serializable
 {
 
 	private String crosstabId;

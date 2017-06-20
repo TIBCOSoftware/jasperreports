@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs.interactive;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.crosstabs.JRCrosstabColumnGroup;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
@@ -37,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class CrosstabOrderAttributes
+public class CrosstabOrderAttributes implements Serializable
 {
 	
 	private static final Log log = LogFactory.getLog(CrosstabOrderAttributes.class);

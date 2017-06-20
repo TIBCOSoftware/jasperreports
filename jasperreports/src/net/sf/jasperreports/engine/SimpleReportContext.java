@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -30,7 +31,7 @@ import java.util.Random;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class SimpleReportContext implements ReportContext
+public class SimpleReportContext implements ReportContext, Serializable
 {
 
 	private static final Random RND = new Random();

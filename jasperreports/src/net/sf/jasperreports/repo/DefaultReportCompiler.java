@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
@@ -32,19 +34,19 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class DefaultReportCompiler implements ReportCompiler
+public class DefaultReportCompiler implements ReportCompiler, Serializable
 {
-	private JasperCompileManager compileManager;
+	private JasperReportsContext jasperReportsContext;
 
-	public DefaultReportCompiler(JasperReportsContext context)
+	public DefaultReportCompiler(JasperReportsContext jasperReportsContext)
 	{
-		compileManager = JasperCompileManager.getInstance(context);
+		this.jasperReportsContext = jasperReportsContext;
 	}
 
 	@Override
 	public JasperReport compile(JasperDesign design) throws JRException
 	{
-		return compileManager.compile(design);
+		return JasperCompileManager.getInstance(jasperReportsContext).compile(design);
 	}
 
 }

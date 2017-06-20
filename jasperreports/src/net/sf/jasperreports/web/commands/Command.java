@@ -24,10 +24,12 @@
 package net.sf.jasperreports.web.commands;
 
 
+import java.io.Serializable;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public interface Command {
+public interface Command extends Serializable {
 	
 	public void execute() throws CommandException;
 	

@@ -24,13 +24,15 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class BaseColumnData {
+public class BaseColumnData implements Serializable {
 	
 	private String tableUuid;
 	
