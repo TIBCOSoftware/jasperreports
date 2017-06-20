@@ -255,16 +255,6 @@ public class XlsxSheetHelper extends BaseHelper
 			write("/>\n");	
 		}
 		
-		if (rowBreaks.size() > 0)
-		{
-			write("<rowBreaks count=\"" + rowBreaks.size() + "\" manualBreakCount=\"" + rowBreaks.size() + "\">");
-			for (Integer rowBreakIndex : rowBreaks)
-			{
-				write("<brk id=\"" + (rowBreakIndex + 1) + "\" man=\"1\"/>");
-			}
-			write("</rowBreaks>");
-		}
-
 		if (hasHeaderOrFooter(printSettings)) 
 		{
 			write("<headerFooter>");
@@ -308,13 +298,24 @@ public class XlsxSheetHelper extends BaseHelper
 				}
 				write("</oddFooter>");
 			}
-			write("</headerFooter>");
+			write("</headerFooter>\n");
 		}
 		else if(!firstPageNotSet)
 		{
 			write("<headerFooter><oddFooter>&amp;CPage &amp;P</oddFooter></headerFooter>\n");
 		}
 		
+		if (rowBreaks.size() > 0)
+		{
+			write("<rowBreaks count=\"" + rowBreaks.size() + "\" manualBreakCount=\"" + rowBreaks.size() + "\">");
+			for (Integer rowBreakIndex : rowBreaks)
+			{
+				write("<brk id=\"" + (rowBreakIndex + 1) + "\" man=\"1\"/>");
+			}
+			write("</rowBreaks>");
+		}
+
+
 		write("<drawing r:id=\"rIdDr" + index + "\"/>");
 		write("</worksheet>");		
 	}
