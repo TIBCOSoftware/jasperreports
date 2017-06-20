@@ -2127,7 +2127,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		
 		ElementRange elementRangeToMove = null;
 		ElementRange elementRangeToMove2 = null; // we don't have more than two possible element ranges to move; at least for now
-		if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
+		if (keepTogetherGroup != null)
 		{
 			elementRangeToMove = keepTogetherGroup.getKeepTogetherElementRange();
 		}
@@ -2295,7 +2295,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			ElementRange elementRangeToMove = null;
 			ElementRange elementRangeToMove2 = null; // we don't have more than two possible element ranges to move; at least for now
-			if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
+			if (keepTogetherGroup != null)
 			{
 				elementRangeToMove = keepTogetherGroup.getKeepTogetherElementRange();
 			}
