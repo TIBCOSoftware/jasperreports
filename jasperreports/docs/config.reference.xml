@@ -6440,6 +6440,42 @@ This mapping was previously specified using the <code>fieldDescription</code> at
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.phantomjs.executable.path -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.executable.path">
+    <description>
+Property specifying the path to the PhantomJS binary/executable file.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.max.process.count -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.max.process.count">
+    <description>
+Property specifying the maximum number of PhantomJS processes. Default value is 8.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.start.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.start.timeout">
+    <description>
+Property specifying the PhantomJS process start timeout (in milliseconds).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.tempdir.path -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.tempdir.path">
+    <description>
+Property specifying the path to the directory of temporary files.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.xls.format -->
   
   <configProperty name="net.sf.jasperreports.xls.format">

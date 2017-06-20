@@ -61,6 +61,8 @@ public interface PropertyConstants
 	String CATEGORY_REPOSITORY = PREFIX_CATEGORY + "repository";
 	
 	String CATEGORY_OTHER = PREFIX_CATEGORY + "other";
+	
+	String CATEGORY_PHANTOM_JS = PREFIX_CATEGORY + "phantomjs";
 
 	String BOOLEAN_FALSE = "false";
 	
@@ -217,6 +219,8 @@ public interface PropertyConstants
 	String VERSION_6_3_0 = JRConstants.VERSION_6_3_0;
 
 	String VERSION_6_3_1 = JRConstants.VERSION_6_3_1;
+	
+	String VERSION_6_4_0 = "6.4.0";
 
 	String VERSION_6_4_2 = JRConstants.VERSION_6_4_2;
 	
