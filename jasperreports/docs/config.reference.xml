@@ -56,6 +56,18 @@
     <name>JasperReports Repository</name>
   </category>
   
+  <category key="net.sf.jasperreports.metadata.property.category:data.cache">
+    <name>Data Cache</name>
+  </category>
+  
+  <category key="net.sf.jasperreports.metadata.property.category:phantomjs">
+    <name>PhantomJS</name>
+  </category>
+  
+  <category key="net.sf.jasperreports.metadata.property.category:web.util">
+    <name>Web Util</name>
+  </category>
+  
   <category key="net.sf.jasperreports.metadata.property.category:other">
     <name>Other</name>
   </category>
@@ -179,6 +191,33 @@ Property holding the <code>java.lang.String</code> value of the time zone id to 
   <configProperty name="net.sf.jasperreports.data.adapter">
     <description>
 Property that provides the location of a data adapter resource to be used for the dataset.    
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.data.cache.included -->
+  
+  <configProperty name="net.sf.jasperreports.data.cache.included">
+    <description>
+Flag property that specifies if the data snapshot can be persisted. Default value is <code>true</code>.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.data.cache.persistable -->
+  
+  <configProperty name="net.sf.jasperreports.data.cache.persistable">
+    <description>
+Flag property that specifies if the data snapshot can be persisted. Default value is <code>true</code>.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.data.cache.recordable -->
+  
+  <configProperty name="net.sf.jasperreports.data.cache.recordable">
+    <description>
+Flag property that specifies if data recording is enabled. Default value is <code>true</code>.
     </description>
   </configProperty>
   
@@ -6449,6 +6488,42 @@ Property specifying the path to the PhantomJS binary/executable file.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.phantomjs.expiration.count -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.expiration.count">
+    <description>
+Property specifying the number of jobs after PhantomJS will expire. Default value is 1000.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.expiration.time -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.expiration.time">
+    <description>
+Property specifying the PhantomJS expiration time (in milliseconds). Default value is 1200000 (20 minutes).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.idle.ping.interval -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.idle.ping.interval">
+    <description>
+Property specifying the PhantomJS process idle ping interval (in milliseconds). Default value is 40000 (40 seconds).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.idle.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.idle.timeout">
+    <description>
+Property specifying the PhantomJS process idle timeout (in milliseconds). Default value is 300000 (5 minutes).
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.phantomjs.max.process.count -->
   
   <configProperty name="net.sf.jasperreports.phantomjs.max.process.count">
@@ -6458,11 +6533,29 @@ Property specifying the maximum number of PhantomJS processes. Default value is 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.phantomjs.pool.borrow.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.pool.borrow.timeout">
+    <description>
+Property specifying the PhantomJS pool borrow timeout (in milliseconds). Default value is 120000 (2 minutes).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.request.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.request.timeout">
+    <description>
+Property specifying the PhantomJS request timeout (in milliseconds). Default value is 60000 (1 minute).
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.phantomjs.start.timeout -->
   
   <configProperty name="net.sf.jasperreports.phantomjs.start.timeout">
     <description>
-Property specifying the PhantomJS process start timeout (in milliseconds).
+Property specifying the PhantomJS process start timeout (in milliseconds). Default value is 10000 (10 seconds).
     </description>
   </configProperty>
   
@@ -6574,6 +6667,78 @@ Numeric property that determines which is the first weekday by default:
     <description>
 Properties with this prefix are loaded into an <code>org.apache.velocity.app.VelocityEngine</code> instance object in 
 order to process velocity templates.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.embed.component.metadata.in.html.output -->
+  
+  <configProperty name="net.sf.jasperreports.web.embed.component.metadata.in.html.output">
+    <description>
+Property that specifies whether the component metadata should be embedded in HTML output.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.report.execution.path -->
+  
+  <configProperty name="net.sf.jasperreports.web.report.execution.path">
+    <description>
+Property that specifies the report execution path.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.report.interaction.path -->
+  
+  <configProperty name="net.sf.jasperreports.web.report.interaction.path">
+    <description>
+Property that specifies the report interaction path.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.report.resources.path -->
+  
+  <configProperty name="net.sf.jasperreports.web.report.resources.path">
+    <description>
+Property that specifies the report resources path.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.dynamic.resource -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.dynamic.resource">
+    <description>
+Property that specifies the name of the request parameter that indicates if this is a dynamic resource.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.resource.bundle -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.resource.bundle">
+    <description>
+Property that specifies the name of the request parameter associated with this resource bundle.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.resource.locale -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.resource.locale">
+    <description>
+Property that specifies the name of the request parameter associated with this resource Locale.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.resource.uri -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.resource.uri">
+    <description>
+Property that specifies the name of the request parameter associated with this resource URI.
     </description>
   </configProperty>
   

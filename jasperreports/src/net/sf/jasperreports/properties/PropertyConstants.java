@@ -63,6 +63,10 @@ public interface PropertyConstants
 	String CATEGORY_OTHER = PREFIX_CATEGORY + "other";
 	
 	String CATEGORY_PHANTOM_JS = PREFIX_CATEGORY + "phantomjs";
+	
+	String CATEGORY_DATA_CACHE = PREFIX_CATEGORY + "data.cache";
+	
+	String CATEGORY_WEB_UTIL = PREFIX_CATEGORY + "web.util";
 
 	String BOOLEAN_FALSE = "false";
 	

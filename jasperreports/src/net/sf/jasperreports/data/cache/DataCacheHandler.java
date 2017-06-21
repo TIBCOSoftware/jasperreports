@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -36,10 +39,31 @@ public interface DataCacheHandler
 	
 	String PARAMETER_DATA_CACHE_HANDLER = "net.sf.jasperreports.data.cache.handler";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_CACHE,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
 	String PROPERTY_DATA_RECORDABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.recordable";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_CACHE,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
 	String PROPERTY_DATA_PERSISTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.persistable";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_CACHE,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
 	String PROPERTY_INCLUDED = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.included";
 
 	boolean isRecordingEnabled();
