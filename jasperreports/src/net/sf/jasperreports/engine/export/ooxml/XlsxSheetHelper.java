@@ -312,7 +312,7 @@ public class XlsxSheetHelper extends BaseHelper
 			{
 				write("<brk id=\"" + (rowBreakIndex + 1) + "\" man=\"1\"/>");
 			}
-			write("</rowBreaks>");
+			write("</rowBreaks>\n");
 		}
 
 
