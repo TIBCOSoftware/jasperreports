@@ -59,8 +59,7 @@ public interface DataCacheHandler
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_CACHE,
-			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.PARAMETER, PropertyScope.SUBDATASET_RUN, PropertyScope.SUBREPORT, PropertyScope.PART},
 			sinceVersion = PropertyConstants.VERSION_4_6_0,
 			valueType = Boolean.class
 			)

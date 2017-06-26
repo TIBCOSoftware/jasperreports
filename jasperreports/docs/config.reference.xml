@@ -199,7 +199,9 @@ Property that provides the location of a data adapter resource to be used for th
   
   <configProperty name="net.sf.jasperreports.data.cache.included">
     <description>
-Flag property that specifies if the data snapshot can be persisted. Default value is <code>true</code>.
+Flag property that specifies if data associated with this object (report parameter, subreport element, subdataset run, report part) 
+will be included in the data snapshot. Default value is <code>false</code> for report parameters and <code>true</code> for 
+subreport elements, subdataset run and report parts.
     </description>
   </configProperty>
   
@@ -6528,7 +6530,7 @@ Property specifying the PhantomJS process idle timeout (in milliseconds). Defaul
   
   <configProperty name="net.sf.jasperreports.phantomjs.max.process.count">
     <description>
-Property specifying the maximum number of PhantomJS processes. Default value is 8.
+Property specifying the maximum number of processes in the PhantomJS pool. Default value is 8.
     </description>
   </configProperty>
   
@@ -6537,7 +6539,8 @@ Property specifying the maximum number of PhantomJS processes. Default value is 
   
   <configProperty name="net.sf.jasperreports.phantomjs.pool.borrow.timeout">
     <description>
-Property specifying the PhantomJS pool borrow timeout (in milliseconds). Default value is 120000 (2 minutes).
+Property specifying the PhantomJS pool process borrow timeout (in milliseconds). Default value is 120000 (2 minutes). 
+If no process is available after this time an exception will be thrown.
     </description>
   </configProperty>
   

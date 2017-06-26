@@ -74,21 +74,63 @@ public class PhantomJS
 	public static final String PROPERTY_PHANTOMJS_MAX_PROCESS_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.max.process.count";
 	public static final int DEFAULT_PHANTOMJS_MAX_PROCESS_COUNT = 8;//8 processes
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			defaultValue = "120000",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PHANTOMJS_POOL_BORROW_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.pool.borrow.timeout";
 	public static final int DEFAULT_PHANTOMJS_POOL_BORROW_TIMEOUT = 120000;//2 minutes
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			defaultValue = "300000",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PHANTOMJS_IDLE_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.idle.timeout";
 	public static final int DEFAULT_PHANTOMJS_IDLE_TIMEOUT = 300000;//5 minutes
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			defaultValue = "40000",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PHANTOMJS_IDLE_PING_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.idle.ping.interval";
-	public static final int DEFAULT_PHANTOMJS_IDLE_PING_INTERVAL = 40000;//30 seconds
+	public static final int DEFAULT_PHANTOMJS_IDLE_PING_INTERVAL = 40000;//40 seconds
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			defaultValue = "1000",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PHANTOMJS_EXPIRATION_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.expiration.count";
 	public static final int DEFAULT_PHANTOMJS_EXPIRATION_COUNT = 1000;//expire after 1000 jobs
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			defaultValue = "1200000",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PHANTOMJS_EXPIRATION_TIME = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.expiration.time";
 	public static final int DEFAULT_PHANTOMJS_EXPIRATION_TIME = 1200000;//expire after 20 mins
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			defaultValue = "60000",
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_4_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_PHANTOMJS_REQUEST_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.request.timeout";
 	public static final int DEFAULT_PHANTOMJS_REQUEST_TIMEOUT = 60000;//timeout after 1 minute
 	
