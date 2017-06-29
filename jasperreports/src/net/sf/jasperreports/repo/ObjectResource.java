@@ -29,8 +29,8 @@ package net.sf.jasperreports.repo;
  */
 public class ObjectResource<T> implements Resource
 {
-	private String name;
-	private T value;
+	protected String name;
+	protected T value;
 	
 	@Override
 	public String getName()

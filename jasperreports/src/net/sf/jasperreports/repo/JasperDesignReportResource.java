@@ -23,16 +23,17 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.Serializable;
-
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JasperDesignReportResource extends ReportResource implements Serializable
+public class JasperDesignReportResource extends ReportResource
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	private JasperDesign jasperDesign;
 	
 	/**

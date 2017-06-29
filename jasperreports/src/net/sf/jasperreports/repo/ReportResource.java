@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.repo;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReport;
 
 
@@ -31,6 +32,8 @@ import net.sf.jasperreports.engine.JasperReport;
  */
 public class ReportResource extends SerializableResource<JasperReport>
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	/**
 	 * 
 	 */
