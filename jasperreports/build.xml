@@ -292,7 +292,7 @@
 		</path>
 		
 		<mkdir dir="./build/test-classes"/>
-		<javac destdir="./build/test-classes" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7" 
+		<javac destdir="./build/test-classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8" 
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="test-compile"/>
 			<src path="./tests"/>

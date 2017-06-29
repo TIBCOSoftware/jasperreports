@@ -34,11 +34,6 @@ import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.export.Exporter;
-import net.sf.jasperreports.export.ExporterInput;
-import net.sf.jasperreports.export.HtmlExporterConfiguration;
-import net.sf.jasperreports.export.HtmlExporterOutput;
-import net.sf.jasperreports.export.HtmlReportConfiguration;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
@@ -66,18 +61,10 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
         contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
 
-        Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter = context.getExporterRef();
-        HtmlExporter htmlExporter2 = exporter instanceof HtmlExporter ? (HtmlExporter)exporter : null;
-        if (htmlExporter2 == null)
-        {
-            xhtmlExport(exporter, contextMap, element);
-        }
-        else
-        {
-            contextMap.put("elementX", htmlExporter2.toSizeUnit((float)element.getX()));
-            contextMap.put("elementY", htmlExporter2.toSizeUnit((float)element.getY()));
-        }
+        HtmlExporter htmlExporter = (HtmlExporter)context.getExporterRef();
 
+        contextMap.put("elementX", htmlExporter.toSizeUnit((float)element.getX()));
+        contextMap.put("elementY", htmlExporter.toSizeUnit((float)element.getY()));
         contextMap.put("elementWidth", element.getWidth());
         contextMap.put("elementHeight", element.getHeight());
 
@@ -137,33 +124,5 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 	public boolean toExport(JRGenericPrintElement element)
     {
 		return true;
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void xhtmlExport(
-		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
-		Map<String, Object> contextMap,
-		JRGenericPrintElement element
-		)
-	{
-		net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
-			exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
-			? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
-			: null; 
-		if (xhtmlExporter == null)
-		{
-			net.sf.jasperreports.engine.export.JRHtmlExporter htmlExporter = 
-				exporter instanceof net.sf.jasperreports.engine.export.JRHtmlExporter 
-				? (net.sf.jasperreports.engine.export.JRHtmlExporter)exporter 
-				: null; 
-			contextMap.put("elementX", htmlExporter.toSizeUnit(element.getX()));
-			contextMap.put("elementY", htmlExporter.toSizeUnit(element.getY()));
-		}
-		else
-		{
-			contextMap.put("xhtml", "xhtml");
-			contextMap.put("elementX", xhtmlExporter.toSizeUnit(element.getX()));
-			contextMap.put("elementY", xhtmlExporter.toSizeUnit(element.getY()));
-		}
 	}
 }

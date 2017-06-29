@@ -22,8 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.awt.Desktop;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,21 +45,17 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.SimpleXmlExporterOutput;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public class OFCApp
 {
-
-	private static final int HTTP_PORT = 7162;
 
 	/**
 	 *
@@ -78,7 +74,6 @@ public class OFCApp
 	private static final String TASK_DOCX = "docx";
 	private static final String TASK_XLSX = "xlsx";
 	private static final String TASK_PPTX = "pptx";
-	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_XML4SWF = "xml4swf";
 	private static final String TASK_VIEW_HTML = "viewHtml";
 	
@@ -86,7 +81,6 @@ public class OFCApp
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args)
 	{
 		if(args.length == 0)
@@ -273,24 +267,6 @@ public class OFCApp
 
 				System.err.println("PPTX creation time : " + (System.currentTimeMillis() - start));
 			}
-			else if (TASK_XHTML.equals(taskName))
-			{
-				File sourceFile = new File(fileName);
-		
-				JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-		
-				File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
-				
-				net.sf.jasperreports.engine.export.JRXhtmlExporter exporter = 
-					new net.sf.jasperreports.engine.export.JRXhtmlExporter();
-				
-				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleHtmlExporterOutput(destFile));
-				
-				exporter.exportReport();
-
-				System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-			}
 			else if (TASK_XML4SWF.equals(taskName))
 			{
 				File sourceFile = new File(fileName);
@@ -310,7 +286,20 @@ public class OFCApp
 			}
 			else if (TASK_VIEW_HTML.equals(taskName))
 			{
-				launchReport();
+				String reportURI = "http://localhost:8080/OpenFlashChartReport.html";
+
+				if (Desktop.isDesktopSupported())
+				{
+					System.out.println("Launching a browser for " + reportURI);
+					System.out.println("If a browser is not launched, please navigate to this URL manually.");
+					
+					Desktop.getDesktop().browse(new URI(reportURI));
+				}
+				else
+				{
+					System.out.println("Desktop is not supported and could not launch browser for " + reportURI);
+					System.out.println("Please navigate to this URL manually.");
+				}
 			}
 			else
 			{
@@ -327,75 +316,6 @@ public class OFCApp
 		}
 	}
 
-	protected static void launchReport() throws Exception
-	{
-		System.out.println("Starting an embedded web server on port " + HTTP_PORT);
-		System.out.println("Kill/interrupt this process to shutdown the server");
-		
-		//starting the web server
-		new NanoHTTPD(HTTP_PORT);
-		
-		//launching the browser
-		launchBrowser("html");
-		launchBrowser("x.html");
-		
-		//waiting for a long time so that the server does not shut down
-		try
-		{
-			Thread.sleep(48 * 60 * 60 * 1000);
-		}
-		catch (InterruptedException e)
-		{
-			//interrupted
-		}
-	}
-
-	protected static void launchBrowser(String extension)
-	{
-		String reportURI = "http://localhost:" + HTTP_PORT + "/OpenFlashChartReport." + extension;
-		
-		System.out.println("Launching a browser to for " + reportURI);
-		System.out.println("If a browser is not launched, please navigate to this URL manually");
-		
-		boolean launched = false;
-		try
-		{
-			// attempting Java 1.6
-			// ugly reflection code to avoid a dependency on Java 1.6
-			Class desktopClass = Class.forName("java.awt.Desktop");
-			Method isDesktopSupportedMethod = desktopClass.getMethod("isDesktopSupported", 
-					(java.lang.Class[]) null);
-			Boolean isDesktopSupported = (Boolean) isDesktopSupportedMethod.invoke(null, 
-					(java.lang.Object[]) null);
-			if (isDesktopSupported.booleanValue())
-			{
-				Method getDesktopMethod = desktopClass.getMethod("getDesktop", 
-						(java.lang.Class[]) null);
-				Object desktop = getDesktopMethod.invoke(null, (java.lang.Object[]) null);
-				Method browseMethod = desktopClass.getMethod("browse", new Class[]{URI.class});
-				browseMethod.invoke(desktop, new Object[]{new URI(reportURI)});
-				launched = true;
-			}
-		}
-		catch (Exception e)
-		{
-			// not Java 1.6?
-			System.out.println("Failed to launch a browser using Java 1.6 APIs");
-		}
-		
-		if (!launched)
-		{
-			try
-			{
-				new BrowserLauncher().openURLinBrowser(reportURI);
-			}
-			catch (Exception e)
-			{
-				System.out.println("Failed to launch a browser: " + e.getMessage());
-			}
-		}
-	}
-	
 	/**
 	 *
 	 */
@@ -403,7 +323,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | pptx | xhtml | xml4swf | viewHtml" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | csv | odt | ods | docx | xlsx | pptx | xml4swf | viewHtml" );
 	}
 
 

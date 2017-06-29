@@ -207,9 +207,6 @@ Hence the Open Flash Chart components will be registered as Spring-based extensi
           <entry key="net.sf.jasperreports.rtf">
             <bean class="net.sf.jasperreports.components.ofc.ChartRtfHandler"/>
           </entry>
-          <entry key="net.sf.jasperreports.xhtml">
-            <bean class="net.sf.jasperreports.components.ofc.ChartXhtmlHandler"/>
-          </entry>
           <entry key="net.sf.jasperreports.odt">
             <bean class="net.sf.jasperreports.components.ofc.ChartOdtHandler"/>
           </entry>
@@ -234,7 +231,7 @@ Hence the Open Flash Chart components will be registered as Spring-based extensi
   </property>
 </bean>]]></pre>
 One can notice the <code>Chart*Handler</code> classes in the <code>chartsExportHandlerBundle</code>, used to handle the output for 
-different export formats. Excepting the HTML/XHTML and PDF that provide support for Flash objects, all other output format handlers 
+different export formats. Excepting the HTML and PDF that provide support for Flash objects, all other output format handlers 
 extend the <code>net.sf.jasperreports.components.ofc.BaseChartHandler</code> class, ensuring that the generated element will display 
 the replacement text <code>'[Open Flash Chart Component]'</code> instead.
 <br/>
@@ -259,7 +256,6 @@ replacement, to be used in output formats that not support Flash</li>
 <li><code>ChartPptxHandler.java</code> - handler class for the PPTX output format. Produces text replacement for the Flash object.</li>
 <li><code>ChartRtfHandler.java</code> - handler class for the RTF output format. Produces text replacement for the Flash object.</li>
 <li><code>ChartsDigester.java</code> - the digester class for the chart component</li>
-<li><code>ChartXhtmlHandler.java</code> - handler class for the XHTML output format. Embeds the Flash object into the generated HTML page.</li>
 <li><code>ChartXlsHandler.java</code> - handler class for the Excel 2003 output format, using the JRXlsExporter (based on the Apache POI library). 
 Produces text replacement for the Flash object.</li>
 <li><code>ChartXlsxHandler.java</code> - handler class for the Excel 2010 (XLSX) output format. Produces text replacement for the Flash object.</li>
@@ -335,11 +331,11 @@ test</code> command.
 It will generate all supported document types containing the sample report in the <code>demo/samples/openflashchart/build/reports</code> directory. 
 <br/>
 You will notice that all generated documents excepting <code>OpenFlashChartReport.html</code> and <code>OpenFlashChartReport.x.html</code> are displaying two text elements labeled 
-<code>'[Open Flash Chart Component]'</code>. Also, when opening the HTML and XHTML pages, they are apparently empty. That's because of security restrictions that prevent Flash objects 
+<code>'[Open Flash Chart Component]'</code>. Also, when opening the HTML pages, they are apparently empty. That's because of security restrictions that prevent Flash objects 
 to communicate with the HTML pages wherein they are embedded.
 <br/>
 Such a problem could be avoided using a HTTP server. This exactly happens when the <code>&gt; ant viewHtml</code> command is run in the terminal. A NanoHTTPD server is started and 
-the served web page may now access the trusted SWF file. Both pie and bar charts can be observed in the browser, for both HTML and XHTML output formats. 
+the served web page may now access the trusted SWF file. Both pie and bar charts can be observed in the browser for the HTML output format. 
     </content>
   </feature>
 

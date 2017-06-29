@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<display-name>JasperReports</display-name>
+
+
+	<context-param>
+		<param-name>net.sf.jasperreports.web.file.repository.root</param-name>
+		<param-value>/WEB-INF/repository</param-value>
+		<description>This is a context parameter example</description>
+	</context-param>
+
+	<listener>
+		<listener-class>net.sf.jasperreports.web.listeners.JasperReportsContextListener</listener-class>
+	</listener>	
+
+	<servlet>
+		<servlet-name>DefaultViewerServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ViewerServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CustomViewerServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ViewerServlet</servlet-class>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.header.template</param-name>
+			<param-value>viewer/CustomHeaderTemplate.vm</param-value>
+		</init-param>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.body.template</param-name>
+			<param-value>viewer/CustomBodyTemplate.vm</param-value>
+		</init-param>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.footer.template</param-name>
+			<param-value>viewer/CustomFooterTemplate.vm</param-value>
+		</init-param>
+	</servlet>
+	
+	<!--  begin: report execution servlets -->
+	<servlet>
+		<servlet-name>ReportContextCreatorServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportContextCreatorServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportOutputServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportOutputServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportPageStatusServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportPageStatusServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportActionServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportActionServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ReportJiveComponentsServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ReportJiveComponentsServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RequirejsConfigServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.RequirejsConfigServlet</servlet-class>
+	</servlet>
+	<!-- end: report execution servlets -->
+	
+	<servlet>
+		<servlet-name>ResourceServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ResourceServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>DefaultViewerServlet</servlet-name>
+		<url-pattern>/servlets/viewer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CustomViewerServlet</servlet-name>
+		<url-pattern>/servlets/myviewer</url-pattern>
+	</servlet-mapping>
+	
+	<!--  begin: report execution servlets mappings -->
+	<servlet-mapping>
+		<servlet-name>ReportContextCreatorServlet</servlet-name>
+		<url-pattern>/servlets/reportcontext</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportOutputServlet</servlet-name>
+		<url-pattern>/servlets/reportoutput</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportPageStatusServlet</servlet-name>
+		<url-pattern>/servlets/reportpagestatus</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportActionServlet</servlet-name>
+		<url-pattern>/servlets/reportaction</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportJiveComponentsServlet</servlet-name>
+		<url-pattern>/servlets/reportcomponents</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RequirejsConfigServlet</servlet-name>
+		<url-pattern>/servlets/requirejsconfig</url-pattern>
+	</servlet-mapping>
+	<!-- end: report execution servlets mappings -->
+	
+	<servlet-mapping>
+		<servlet-name>ResourceServlet</servlet-name>
+		<url-pattern>/servlets/resources/*</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

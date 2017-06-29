@@ -143,6 +143,12 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.HYPERLINK},
+			sinceVersion = PropertyConstants.VERSION_5_1_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	
@@ -296,7 +302,7 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		value=PROPERTY_ACCESSIBLE,
 		booleanDefault=false
 		)
-	public Boolean isAccessibleHtml();
+	public Boolean isAccessibleHtml(); //FIXME this only worked in the ancient HTML exporter; if need to supported this again, look into history
 	
 	
 	/**

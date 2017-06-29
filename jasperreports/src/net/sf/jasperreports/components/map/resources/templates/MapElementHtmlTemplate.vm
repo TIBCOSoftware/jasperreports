@@ -1,9 +1,4 @@
-<div 
-#if(${xhtml})
-	style='position: absolute; left: ${elementX}; top: ${elementY}; width: ${elementWidth}px; height: ${elementHeight}px;
-#else
-	style='width: ${elementWidth}px; height: ${elementHeight}px;
-#end
+<div style='width: ${elementWidth}px; height: ${elementHeight}px;
 	#if(${backgroundColor}) 
 		background-color: \#${backgroundColor};
 	#end

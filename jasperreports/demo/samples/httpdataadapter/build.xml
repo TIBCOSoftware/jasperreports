@@ -1,4 +1,4 @@
-<project name="htmldataadapter" default="test" basedir=".">
+<project name="htmldataadapter" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Shows how the HTTP data adapters can be used to fill reports.</description>
 
@@ -16,7 +16,9 @@
 	</target>
 
 	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<antcall target="jetty.run"/>
 		<ant dir="../" target="fill"/>
+		<antcall target="jetty.stop"/>
 	</target>
 
 	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
@@ -59,6 +61,35 @@
 		<ant dir="../" target="clean-sample"/>
 	</target>
 	
+	<target name="prepare-jetty-classpath">
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:resolve file="../ivy-jetty.xml" log="download-only" conf="test"/> 
+		<ivy:cachepath pathid="jetty.plugin.classpath"/> 
+	</target>
+
+	<target name="jetty.run" depends="prepare-jetty-classpath">
+		<mkdir dir="${basedir}/build/webapp"/>
+		<copy todir="${basedir}/build/webapp">
+			<fileset dir="${basedir}/web"/>
+		</copy>
+		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
+		<typedef name="connector" classname="org.eclipse.jetty.ant.types.Connector"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<typedef name="webApp" classname="org.eclipse.jetty.ant.AntWebAppContext"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<jetty.run daemon="true" stopPort="9999" stopKey="9999">
+			<webApp war="${basedir}/build/webapp" contextPath="/"/>
+			<connectors>
+				<connector port="8080"/>
+			</connectors>
+		</jetty.run>
+	</target>
+
+	<target name="jetty.stop" depends="prepare-jetty-classpath">
+		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
+		<jetty.stop stopPort="9999" stopKey="9999" stopWait="10"/>
+	</target>
+
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
 		<echo message=" HTTP Data Adapter Sample"/>
@@ -66,6 +97,7 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile" />
+		<antcall target="fill" />
 		<ant dir="../" target="test"/>
 	</target>
 

@@ -28,9 +28,12 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -42,6 +45,12 @@ import org.apache.velocity.app.VelocityEngine;
  */
 public class VelocityUtil
 {
+	@Property(
+			name = "net.sf.jasperreports.velocity.{arbitrary_suffix}",
+			category = PropertyConstants.CATEGORY_OTHER,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_7_1
+			)
 	private static final String VELOCITY_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "velocity.";
 	private static final VelocityEngine velocityEngine;
 	

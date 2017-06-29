@@ -164,7 +164,6 @@ public class ReportOutputServlet extends AbstractServlet
 		//boolean hasPages = pageCount == null || pageCount > 0;//FIXMEJIVE we should call pageStatus here
 		boolean hasPages = jasperPrintAccessor.pageStatus(0, null).pageExists();
 		
-//		JRXhtmlExporter exporter = new JRXhtmlExporter(getJasperReportsContext());
 		HtmlExporter exporter = new HtmlExporter(getJasperReportsContext());
 
 		SimpleHtmlExporterConfiguration exporterConfig = new SimpleHtmlExporterConfiguration();

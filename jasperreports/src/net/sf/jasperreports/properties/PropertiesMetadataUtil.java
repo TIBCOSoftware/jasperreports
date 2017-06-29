@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
@@ -224,6 +225,11 @@ public class PropertiesMetadataUtil
 		}
 		
 		if (element instanceof JRFrame && scopes.contains(PropertyScope.FRAME))
+		{
+			return true;
+		}
+		
+		if (element instanceof JRSubreport && scopes.contains(PropertyScope.SUBREPORT))
 		{
 			return true;
 		}

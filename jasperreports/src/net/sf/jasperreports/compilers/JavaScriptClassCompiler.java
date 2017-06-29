@@ -38,14 +38,18 @@ import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.optimizer.ClassCompiler;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
+import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.CompositeExpressionChunkVisitor;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Compiler for reports that use JavaScript as expression language.
@@ -65,6 +69,12 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 	 * 
 	 * See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_7_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_OPTIMIZATION_LEVEL = JRPropertiesUtil.PROPERTY_PREFIX
 			+ "javascript.class.compiler.optimization.level";
 
@@ -72,6 +82,12 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 	 * Property that determines the maximum number of report expressions that will be included
 	 * in a single generated Java class.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_7_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_EXPRESSIONS_PER_SCRIPT = JRPropertiesUtil.PROPERTY_PREFIX
 			+ "javascript.class.compiler.expressions.per.script";
 	
@@ -79,6 +95,12 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 	 * Property that determines the maximum size of a script that will be compiled into
 	 * a single Java class.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_7_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_SCRIPT_MAX_SIZE = JRPropertiesUtil.PROPERTY_PREFIX
 			+ "javascript.class.compiler.script.max.size";
 	

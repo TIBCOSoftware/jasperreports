@@ -56,6 +56,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE = "minHeightToStartNewPage";
 	
+	public static final String PROPERTY_MIN_DETAILS_TO_START_FROM_TOP = "minDetailsToStartFromTop";
+	
 	public static final String PROPERTY_FOOTER_POSITION = "footerPosition";
 	
 	public static final String PROPERTY_KEEP_TOGETHER = "keepTogether";
@@ -79,6 +81,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected boolean isResetPageNumber;
 	protected boolean isReprintHeaderOnEachPage;
 	protected int minHeightToStartNewPage;
+	protected int minDetailsToStartFromTop;
 	protected FooterPositionEnum footerPositionValue = FooterPositionEnum.NORMAL;
 	protected boolean keepTogether;
 	protected boolean preventOrphanFooter;
@@ -113,6 +116,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		isResetPageNumber = group.isResetPageNumber();
 		isReprintHeaderOnEachPage = group.isReprintHeaderOnEachPage();
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
+		minDetailsToStartFromTop = group.getMinDetailsToStartFromTop();
 		footerPositionValue = group.getFooterPositionValue();
 		keepTogether = group.isKeepTogether();
 		preventOrphanFooter = group.isPreventOrphanFooter();
@@ -200,7 +204,21 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		this.minHeightToStartNewPage = minHeight;
 		getEventSupport().firePropertyChange(PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE, old, this.minHeightToStartNewPage);
 	}
-
+	
+	@Override
+	public int getMinDetailsToStartFromTop()
+	{
+		return this.minDetailsToStartFromTop;
+	}
+	
+	@Override
+	public void setMinDetailsToStartFromTop(int minDetails)
+	{
+		int old = this.minDetailsToStartFromTop;
+		this.minDetailsToStartFromTop = minDetails;
+		getEventSupport().firePropertyChange(PROPERTY_MIN_DETAILS_TO_START_FROM_TOP, old, this.minDetailsToStartFromTop);
+	}
+	
 	@Override
 	public FooterPositionEnum getFooterPositionValue()
 	{

@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.engine.type;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * There are two main reasons for an element to stretch.
@@ -118,6 +121,12 @@ public enum StretchTypeEnum implements JREnum
 	/**
 	 * 
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_5_1_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.element.stretch.enabled";
 	

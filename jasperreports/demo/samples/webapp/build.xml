@@ -8,7 +8,7 @@
 	</path>
 	
 	<path id="sample-classpath">
-		<pathelement location="./WEB-INF/classes/"/>
+		<pathelement location="./build/webapp/WEB-INF/classes/"/>
 		<pathelement location="../../fonts"/>
 		<path refid="project-classpath"/>
 	</path>
@@ -20,25 +20,19 @@
 		<ivy:cachepath pathid="project-lib"/> 
 	</target>
 
-	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
-		<ant dir="../../../" target="jar"/>
-		<copy todir="./WEB-INF/lib">
-			<fileset dir="../../../dist">
-				<include name="**/jasperreports-*.jar"/>
-				<exclude name="**/jasperreports-javaflow-*.jar"/>
-			</fileset>
-		</copy>
-		<ivy:configure file="../../../ivysettings.xml" override="true"/>
-		<ivy:retrieve file="./ivy-lib.xml" pattern="./WEB-INF/lib/[artifact]-[revision].[ext]" log="download-only" conf="test"/> 
-	</target>
-
-	<target name="javac" description="Compiles the java source files of the web application." depends="prepare, prepare-compile-classpath">
-		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7"
+	<target name="javac" description="Compiles the java source files of the web application." depends="prepare-compile-classpath">
+		<mkdir dir="./build/webapp/WEB-INF/classes"/> 
+		<javac srcdir="./src/" destdir="./build/webapp/WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
+		<copy todir="./build/webapp/WEB-INF/classes">
+			<fileset dir="./src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design." depends="prepare-compile-classpath">
@@ -55,41 +49,56 @@
 		</java>
 	</target>
 
-	<target name="clean" description="Deletes all the generated files.">
-		<delete>
-			<fileset dir="." includes="**/*.class" />
-			<fileset dir="./reports" includes="**/*.jasper" />
-			<fileset dir="./reports" includes="**/*.html" />
-			<fileset dir="./jsp" includes="**/*.html" />
-			<fileset dir="." includes="**/*.war" />
-			<fileset dir="." includes="**/*.jar" />
-		</delete>
-		<delete dir="./reports/WebappReport.html_files" />
-		<delete dir="./jsp/html/reportPage.html_files" />
+	<target name="prepare" description="Copies the required JAR files from the project's /lib directory" depends="javac">
+		<ant dir="../../../" target="jar"/>
+		<mkdir dir="./build/webapp/WEB-INF/lib"/> 
+		<copy todir="./build/webapp/WEB-INF/lib">
+			<fileset dir="../../../dist">
+				<include name="**/jasperreports-*.jar"/>
+				<exclude name="**/jasperreports-javaflow-*.jar"/>
+			</fileset>
+		</copy>
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:retrieve file="./ivy-lib.xml" pattern="./build/webapp/WEB-INF/lib/[artifact]-[revision].[ext]" log="download-only" conf="test"/> 
+		<copy todir="./build/webapp/">
+			<fileset dir="./web"/>
+		</copy>
 	</target>
 
-	<target name="war" depends="javac" description="Builds the Web application .war file.">
-		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.xml">
-			<fileset dir="." includes="**/*.css" />
-			<fileset dir="." includes="**/*.html" />
-			<fileset dir="." includes="**/*.jsp" />
-			<fileset dir="." includes="**/*.class" excludes="**/WEB-INF/classes/**/*.class"/>
-			<fileset dir="." includes="**/*.jar" excludes="**/WEB-INF/lib/**/*.jar"/>
-			<fileset dir="." includes="**/WEB-INF/classes/**/*.java"/>
-			<fileset dir="." includes="**/*.gif" />
-			<fileset dir="." includes="**/*.GIF" />
-			<fileset dir="." includes="**/*.png" />
-			<fileset dir="." includes="**/*.jrxml" />
-			<classes dir="./WEB-INF/classes/">
-				<include name="**/*.class" />
-				<include name="**/*.csv" />
-			</classes>
-			<lib dir="./WEB-INF/lib/">
-				<include name="*.jar" />
-			</lib>
+	<target name="war" depends="prepare" description="Builds the Web application .war file.">
+		<war warfile="./build/jasper-webapp.war" webxml="./build/webapp/WEB-INF/web.xml">
+			<fileset dir="./build/webapp/"/>
 		</war>
 	</target>
 	
+	<target name="prepare-jetty-classpath">
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:resolve file="../ivy-jetty.xml" log="download-only" conf="test"/> 
+		<ivy:cachepath pathid="jetty.plugin.classpath"/> 
+	</target>
+
+	<!--
+		To debug the Web application ran here with Jetty, you need to add the following to the ANT_OPTS environment variable:
+		 -Xdebug -agentlib:jdwp=transport=dt_socket,address=9999,server=y,suspend=n
+	-->
+	<target name="jetty.run" depends="prepare-jetty-classpath, prepare">
+		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
+		<typedef name="connector" classname="org.eclipse.jetty.ant.types.Connector"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<typedef name="webApp" classname="org.eclipse.jetty.ant.AntWebAppContext"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<jetty.run>
+			<webApp war="./build/webapp" contextPath="/jasper-webapp" tempDirectory="./build/jetty-temp"/>
+			<connectors>
+				<connector port="8080"/>
+			</connectors>
+		</jetty.run>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete dir="./build" />
+	</target>
+
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
 		<echo message=" Webapp Sample"/>

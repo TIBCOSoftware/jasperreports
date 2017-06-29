@@ -25,11 +25,14 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Query executer factory for Excel file type.
@@ -44,6 +47,12 @@ public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 	/**
 	 * Built-in parameter/property holding the value of the Excel format to be used when parsing the Excel data.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {AbstractXlsQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_5_5_2
+			)
 	public static final String XLS_FORMAT = JRPropertiesUtil.PROPERTY_PREFIX + "xls.format";
 
 	private final static Object[] XLS_BUILTIN_PARAMETERS = {

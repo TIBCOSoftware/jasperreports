@@ -25,11 +25,14 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Jaxen XPath query executer factory.
@@ -42,7 +45,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 {
 	/**
-	 * Built-in parameter holdin the value of the <code>javax.xml.parsers.DocumentBuilderFactor</code> used to create 
+	 * Built-in parameter holding the value of the <code>javax.xml.parsers.DocumentBuilderFactor</code> used to create 
 	 * documents of type <code>org.w3c.dom.Document<code>
 	 */
 	public final static String PARAMETER_DOCUMENT_BUILDER_FACTORY = "DOCUMENT_BUILDER_FACTORY";
@@ -61,6 +64,13 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 	 * the prefixed properties not to be searched for.  
 	 * </p>
 	 */
+	@Property(
+			name="net.sf.jasperreports.xml.namespace.{arbitrary_prefix}",
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0
+			)
 	public final static String XML_NAMESPACE_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "xml.namespace.";
 	
 	/**
@@ -81,6 +91,14 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 	 * </p>
 	 * It defaults to <code>false</code>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {JRXPathQueryExecuterFactory.QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
 	public final static String XML_DETECT_NAMESPACES = JRPropertiesUtil.PROPERTY_PREFIX + "xml.detect.namespaces";
 	
 	private final static Object[] JAXEN_XPATH_BUILTIN_PARAMETERS = {

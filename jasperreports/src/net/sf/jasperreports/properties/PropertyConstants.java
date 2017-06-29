@@ -61,6 +61,12 @@ public interface PropertyConstants
 	String CATEGORY_REPOSITORY = PREFIX_CATEGORY + "repository";
 	
 	String CATEGORY_OTHER = PREFIX_CATEGORY + "other";
+	
+	String CATEGORY_PHANTOM_JS = PREFIX_CATEGORY + "phantomjs";
+	
+	String CATEGORY_DATA_CACHE = PREFIX_CATEGORY + "data.cache";
+	
+	String CATEGORY_WEB_UTIL = PREFIX_CATEGORY + "web.util";
 
 	String BOOLEAN_FALSE = "false";
 	
@@ -176,10 +182,14 @@ public interface PropertyConstants
 
 	String VERSION_4_8_0 = JRConstants.VERSION_4_8_0;
 
+	String VERSION_5_0_0 = "5.0.0";
+	
 	String VERSION_5_0_1 = JRConstants.VERSION_5_0_1;
 
 	String VERSION_5_0_4 = JRConstants.VERSION_5_0_4;
 
+	String VERSION_5_1_2 = "5.1.2";
+	
 	String VERSION_5_2_0 = "5.2.0";
 
 	String VERSION_5_5_0 = JRConstants.VERSION_5_5_0;
@@ -193,6 +203,8 @@ public interface PropertyConstants
 	String VERSION_6_0_0 = JRConstants.VERSION_6_0_0;
 
 	String VERSION_6_0_2 = JRConstants.VERSION_6_0_2;
+	
+	String VERSION_6_0_3 = "6.0.3";
 
 	String VERSION_6_0_4 = "6.0.4";
 
@@ -211,6 +223,8 @@ public interface PropertyConstants
 	String VERSION_6_3_0 = JRConstants.VERSION_6_3_0;
 
 	String VERSION_6_3_1 = JRConstants.VERSION_6_3_1;
+	
+	String VERSION_6_4_0 = "6.4.0";
 
 	String VERSION_6_4_2 = JRConstants.VERSION_6_4_2;
 	

@@ -137,12 +137,32 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHyperlink
 {
 
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_5_0_0
+			)
 	public static final String PROPERTY_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "pattern.timezone";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.DATASET},
+			sinceVersion = PropertyConstants.VERSION_6_1_1
+			)
 	public static final String PROPERTY_SQL_DATE_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "sql.date.pattern.timezone";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.DATASET},
+			sinceVersion = PropertyConstants.VERSION_6_1_1
+			)
 	public static final String PROPERTY_SQL_TIMESTAMP_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "sql.timestamp.pattern.timezone";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.DATASET},
+			sinceVersion = PropertyConstants.VERSION_6_1_1
+			)
 	public static final String PROPERTY_SQL_TIME_FORMAT_TIMEZONE = JRPropertiesUtil.PROPERTY_PREFIX + "sql.time.pattern.timezone";
 
 	public static final String FORMAT_TIMEZONE_SYSTEM = "System";

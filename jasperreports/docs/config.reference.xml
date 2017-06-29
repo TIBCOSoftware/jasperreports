@@ -56,6 +56,18 @@
     <name>JasperReports Repository</name>
   </category>
   
+  <category key="net.sf.jasperreports.metadata.property.category:data.cache">
+    <name>Data Cache</name>
+  </category>
+  
+  <category key="net.sf.jasperreports.metadata.property.category:phantomjs">
+    <name>PhantomJS</name>
+  </category>
+  
+  <category key="net.sf.jasperreports.metadata.property.category:web.util">
+    <name>Web Util</name>
+  </category>
+  
   <category key="net.sf.jasperreports.metadata.property.category:other">
     <name>Other</name>
   </category>
@@ -179,6 +191,35 @@ Property holding the <code>java.lang.String</code> value of the time zone id to 
   <configProperty name="net.sf.jasperreports.data.adapter">
     <description>
 Property that provides the location of a data adapter resource to be used for the dataset.    
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.data.cache.included -->
+  
+  <configProperty name="net.sf.jasperreports.data.cache.included">
+    <description>
+Flag property that specifies if data associated with this object (report parameter, subreport element, subdataset run, report part) 
+will be included in the data snapshot. Default value is <code>false</code> for report parameters and <code>true</code> for 
+subreport elements, subdataset run and report parts.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.data.cache.persistable -->
+  
+  <configProperty name="net.sf.jasperreports.data.cache.persistable">
+    <description>
+Flag property that specifies if the data snapshot can be persisted. Default value is <code>true</code>.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.data.cache.recordable -->
+  
+  <configProperty name="net.sf.jasperreports.data.cache.recordable">
+    <description>
+Flag property that specifies if data recording is enabled. Default value is <code>true</code>.
     </description>
   </configProperty>
   
@@ -375,6 +416,15 @@ This mapping was previously specified using the <code>fieldDescription</code> at
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.json.date.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.json.date.pattern">
+    <description>
+Parameter/property holding the format pattern used to instantiate <code>java.util.Date</code> instances.    
+	</description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.json.field.expression -->
   
   <configProperty name="net.sf.jasperreports.json.field.expression">
@@ -382,6 +432,51 @@ This mapping was previously specified using the <code>fieldDescription</code> at
 Property specifying the JSON expression for the dataset field in case a JSON data source is used. 
 This mapping was previously specified using the <code>fieldDescription</code> attribute, but using this custom property is now recommended.
     </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.locale.code -->
+  
+  <configProperty name="net.sf.jasperreports.json.locale.code">
+    <description>
+Built-in parameter/property holding the <code>java.lang.String</code> code of the locale to be used when parsing the JSON data.
+<br/>
+The allowed format is: <code>language[_country[_variant]]</code>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.number.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.json.number.pattern">
+    <description>
+Parameter/property holding the format pattern used to instantiate <code>java.lang.Number</code> instances.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.source -->
+  
+  <configProperty name="net.sf.jasperreports.json.source">
+    <description>
+Built-in parameter/property holding the value of the source for the JSON file. 
+<br/>
+It can be:
+<ul>
+<li>a resource on the classpath</li>
+<li>a file from the filesystem, with an absolute or relative path</li>
+<li>a url</li>
+</ul>    
+	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.json.timezone.id -->
+  
+  <configProperty name="net.sf.jasperreports.json.timezone.id">
+    <description>
+Built-in parameter/property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the JSON data. 
+	</description>
   </configProperty>
   
   
@@ -700,6 +795,73 @@ for parsing JRXMLs.
 <br/>
 By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/JRReportSaxParserFactory.html">JRReportSaxParserFactory</api> 
 as report parser factory.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.max.groovy.method.size -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.max.groovy.method.size">
+    <description>
+Property that determines the maximum size of a generated groovy method.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.compiler.max.java.method.size -->
+  
+  <configProperty name="net.sf.jasperreports.compiler.max.java.method.size">
+    <description>
+Property that determines the maximum size of a generated Java method.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.expressions.per.script -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.expressions.per.script">
+    <description>
+Property that determines the maximum number of report expressions that will be included in a single generated Java class.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.optimization.level -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.optimization.level">
+    <description>
+Property that determines the optimization level to use when compiling expressions into Java bytecode.
+<br/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.class.compiler.script.max.size -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.class.compiler.script.max.size">
+    <description>
+Property that determines the maximum size of a script that will be compiled into a single Java class.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.javascript.evaluator.optimization.level -->
+  
+  <configProperty name="net.sf.jasperreports.javascript.evaluator.optimization.level">
+    <description>
+Property that determines the optimization level to use when compiling expressions into Java bytecode.
+<br/>
+See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.legacy.expression.parser -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.expression.parser">
+    <description>
+Property that specifies whether a legacy parser method should be used to parse this expression. Default value is <code>false</code>.
     </description>
   </configProperty>
   
@@ -2072,6 +2234,15 @@ When this property is set, the engine saves the original text in the <api href="
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.print.transfer.{arbitrary_suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.print.transfer.{arbitrary_suffix}">
+    <description>
+Properties having this prefix specify the properties to be transfered from report templates to print objects during the report filling.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.text.truncate.at.char -->
   
   <configProperty name="net.sf.jasperreports.text.truncate.at.char">
@@ -2174,6 +2345,17 @@ Property that specifies a default value for the <code>whenNoDataType</code> attr
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.subreport.generate.rectangle -->
+  
+  <configProperty name="net.sf.jasperreports.subreport.generate.rectangle">
+    <description>
+Property used to specify when rectangle elements should be generated  for subreports during the report filling. 
+If the property value is <code>always</code>, rectangle elements will be always generated, otherwise they will be created 
+only if the subreport element is not transparent or it has properties.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.subreport.runner.factory -->
   
   <configProperty name="net.sf.jasperreports.subreport.runner.factory">
@@ -2183,6 +2365,15 @@ Property specifying the <api href="net/sf/jasperreports/engine/fill/JRSubreportR
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.legacy.element.stretch.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.element.stretch.enabled">
+    <description>
+Property that indicates whether a legacy stretch type for the element is enabled.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.evaluator.class.reference.fix.enabled -->
   
   <configProperty name="net.sf.jasperreports.evaluator.class.reference.fix.enabled">
@@ -2333,6 +2524,15 @@ Property that provides the crosstab column span of a print frame. (FIXME not a u
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.crosstab.column.header.sort.measure.index -->
+  
+  <configProperty name="net.sf.jasperreports.crosstab.column.header.sort.measure.index">
+    <description>
+Property that provides the index of measure to be used for sorting the crosstab.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.crosstab.ignore.width -->
   
   <configProperty name="net.sf.jasperreports.crosstab.ignore.width">
@@ -2356,6 +2556,15 @@ Property that enables/disables the interactivity in the crosstab component.
 Property that enables/disables the floating headers in the crosstab component when scrolling.
 <br/>
 If the interactivity has been disabled by setting <a href="#net.sf.jasperreports.crosstab.interactive">net.sf.jasperreports.crosstab.interactive</a> to <code>false</code>, then setting this property will have no effect.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.crosstab.row.group.column.header -->
+
+  <configProperty name="net.sf.jasperreports.crosstab.row.group.column.header">
+    <description>
+Property that specifies this element is the column header for a row group represented by its index.
     </description>
   </configProperty>
   
@@ -2415,6 +2624,33 @@ levels as the image producer property, to allow the customization of the generat
 <br/>
 <b>Note: </b>This property does not apply to QRCode barcodes which are generated based on a different library (ZXing). For 
 QRCode barcodes, see <a href="#net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}">net.sf.jasperreports.components.barcode4j.qrcode.producer.{alias}</a>.
+   	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.antiAlias -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.antiAlias">
+    <description>
+Flag property that specify the barcode image should use antialiasing. Default value is <code>true</code>.
+   	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.gray -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.gray">
+    <description>
+Flag property that specify the barcode image should use the gray color scheme. Default value is <code>true</code>.
+   	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.barcode4j.image.resolution -->
+  
+  <configProperty name="net.sf.jasperreports.components.barcode4j.image.resolution">
+    <description>
+Property that specify the barcode image resolution (ppi). Default value is 300.
    	</description>
   </configProperty>
   
@@ -2516,6 +2752,15 @@ Property that specifies the character to be used on the column header when the t
   <configProperty name="net.sf.jasperreports.components.filter.char">
     <description>
 Property that specifies the character to be used on the column header when the tables's column has a filtered applied
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.icon.font -->
+  
+  <configProperty name="net.sf.jasperreports.components.icon.font">
+    <description>
+Global property that specifies the font to be used for the icons on the column header
     </description>
   </configProperty>
   
@@ -2775,6 +3020,42 @@ Otherwise the <code>jasperreports.properties</code> file is loaded, if found in 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for this element.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.date.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.sql.date.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for elements of type <code>java.sql.Date</code> in the report.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.time.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.sql.time.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for elements of type <code>java.sql.Time</code> in the report.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.sql.timestamp.pattern.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.sql.timestamp.pattern.timezone">
+    <description>
+Property that specifies the timezone ID for elements of type <code>java.sql.Timestamp</code> in the report.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.report.version -->
   
   <configProperty name="net.sf.jasperreports.report.version">
@@ -2784,6 +3065,17 @@ this version will be skipped by the JRXML writers (see the <code><api href="net/
 during the report template generation. If not set, the version is considered to be the currenly deployed version.
 	</description>
     <api>net/sf/jasperreports/engine/xml/JRXmlBaseWriter.html#PROPERTY_REPORT_VERSION</api>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.viewer.async -->
+  
+  <configProperty name="net.sf.jasperreports.viewer.async">
+    <description>
+Property that determines whether a report can be generated and displayed asynchronously in a viewer.
+<br/>
+Asynchronous report generation implies displaying report pages before the report is complete.
+    </description>
   </configProperty>
   
   
@@ -2850,6 +3142,38 @@ exception stacktraces in some cases.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.measure.simple.text -->
+  
+  <configProperty name="net.sf.jasperreports.measure.simple.text">
+    <description>
+Flag property that specifies whether a faster text measurer should be used for simple texts (text without markup or complex scripts). 
+Default value is <code>true</code>. 
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.measure.simple.text.element.cache.size -->
+  
+  <configProperty name="net.sf.jasperreports.measure.simple.text.element.cache.size">
+    <description>
+Property that specifies the size of the element font infos cache. Default value is 2000.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.measure.simple.text.exact -->
+  
+  <configProperty name="net.sf.jasperreports.measure.simple.text.exact">
+    <description>
+Property that specifies the exact text measuring type. Possible values are:
+<ul>
+<li><code>always</code> - the entire text is measured without considering possible line breaks</li>
+<li><code>multiline</code> - the entire text is measured taking into account possible line breaks</li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix} -->
   
   <configProperty name="net.sf.jasperreports.jrxml.writer.exclude.properties.{suffix}">
@@ -2886,6 +3210,18 @@ as report parser factory.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.template.xml.parser.factory -->
+  
+  <configProperty name="net.sf.jasperreports.template.xml.parser.factory">
+    <description>
+Property that gives a parser factory class which should be used for parsing style templates.
+<br/>
+By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/TemplateSaxParserFactory.html">TemplateSaxParserFactory</api> 
+as style templates parser factory.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.default.pdf.font.name -->
   
   <configProperty name="net.sf.jasperreports.default.pdf.font.name">
@@ -2913,14 +3249,72 @@ Property indicating the default PDF font embedding behavior, if not specified in
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.{format}.ignore.hyperlink -->
+  <!-- net.sf.jasperreports.export.docx.ignore.hyperlink -->
   
-  <configProperty name="net.sf.jasperreports.export.{format}.ignore.hyperlink">
+  <configProperty name="net.sf.jasperreports.export.docx.ignore.hyperlink">
     <description>
-Properties with this syntax are used by the exporters to determine if a certain hyperlink should be activated or not. 
-These flags can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name. The 
-available output formats for filling in the {format} placeholder are: html, pdf, rtf, xls, docx, pptx, odt. When the 
-format is set to 'xls', this property will be applied for XLS, XLSX and ODS exporters.
+This property is used by the DOCX exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.ignore.hyperlink">
+    <description>
+This property is used by the HTML exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.odt.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.odt.ignore.hyperlink">
+    <description>
+This property is used by the ODT exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.ignore.hyperlink">
+    <description>
+This property is used by the PDF exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.ignore.hyperlink">
+    <description>
+This property is used by the PPTX exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.rtf.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.rtf.ignore.hyperlink">
+    <description>
+This property is used by the RTF exporter to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.ignore.hyperlink -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.ignore.hyperlink">
+    <description>
+This property is used by XLS, XLSX and ODS exporters to determine if a certain hyperlink should be activated or not. 
+This flag can be controlled at hyperlink declaration level by using the hyperlink parameter with the same name.
     </description>
   </configProperty>
   
@@ -3315,20 +3709,6 @@ Its value is used as default for the
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.html.frames.as.nested.tables -->
-  
-  <configProperty name="net.sf.jasperreports.export.html.frames.as.nested.tables">
-    <description>
-This property specifies whether <api href="net/sf/jasperreports/engine/JRPrintFrame.html">JRPrintFrame</api> frames are to be exported as nested HTML tables.
-<br/>
-Its value is used as default for the 
-<api href="net/sf/jasperreports/engine/export/JRHtmlReportConfiguration.html#isFramesAsNestedTables()">isFramesAsNestedTables()</api> HTML export configuration setting.
-<br/>
-If set to <code>false</code>, the frame content will be integrated into the master/page HTML table.
-    </description>
-  </configProperty>
-  
-  
   <!-- net.sf.jasperreports.export.html.between.pages -->
   
   <configProperty name="net.sf.jasperreports.export.html.between.pages">
@@ -3387,9 +3767,8 @@ Its value is used as default for the
   
   <configProperty name="net.sf.jasperreports.export.html.class">
     <description>
-Property used to specify the value of the CSS <code>class</code> attribute of elements when exported to HTML and XHTML formats. The value of this property 
-will be used as the value for the <code>class</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or 
-the <code>class</code> attribute of the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
+Property used to specify the value of the CSS <code>class</code> attribute of elements when exported to HTML format. The value of this property 
+will be used as the value for the <code>class</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML.
     </description>
   </configProperty>
   
@@ -3427,9 +3806,8 @@ This property specifies whether the HTML embedded SVG should have the font famil
   
   <configProperty name="net.sf.jasperreports.export.html.id">
     <description>
-Property used to specify the value of the <code>ID</code> attribute of elements when exported to HTML and XHTML formats. The value of this property will be used 
-as the value for the <code>id</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or the <code>id</code> attribute of 
-the <code>&lt;span&gt;</code> or <code>&lt;div&gt;</code> tag for the element, when exported to XHTML/CSS.
+Property used to specify the value of the <code>ID</code> attribute of elements when exported to HTML format. The value of this property will be used 
+as the value for the <code>id</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML.
     </description>
   </configProperty>
   
@@ -3455,15 +3833,6 @@ specifications like "px" for pixels or "pt" for points. The default value is "px
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#getSizeUnit()">getSizeUnit()</api> HTML export configuration setting.
-    </description>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.export.html.using.images.to.align -->
-  
-  <configProperty name="net.sf.jasperreports.export.html.using.images.to.align">
-    <description>
-Property that specifies whether the export engine should use small transparent spacer images for aligning content.
     </description>
   </configProperty>
   
@@ -3670,6 +4039,15 @@ If the property is <code>true</code>, export parameters override report hints; t
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.matcher.filter.key -->
+  
+  <configProperty name="net.sf.jasperreports.export.matcher.filter.key">
+    <description>
+Property that specifies a key for the element, in order to make it eligible for the exporter filter during the report export.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.128.bit.key -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.128.bit.key">
@@ -3773,6 +4151,15 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.justified.letter.spacing -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.justified.letter.spacing">
+    <description>
+Property that determines whether justified text alignment can modify letter spacing in words. Default value is <code>false</code>.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.metadata.author -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.metadata.author">
@@ -3841,6 +4228,54 @@ Property that specifies whether the document title should be displayed in the ti
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PdfExporterConfiguration.html#isDisplayMetadataTitle()">isDisplayMetadataTitle()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.even.page.offset.x -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.even.page.offset.x">
+    <description>
+Property that specifies the X offset (in pixels) for moving elements in even page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getEvenPageOffsetX()">getEvenPageOffsetX()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.even.page.offset.y -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.even.page.offset.y">
+    <description>
+Property that specifies the Y offset (in pixels) for moving elements in even page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getEvenPageOffsetY()">getEvenPageOffsetY()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.odd.page.offset.x -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.odd.page.offset.x">
+    <description>
+Property that specifies the X offset (in pixels) for moving elements in odd page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getOddPageOffsetX()">getOddPageOffsetX()</api> PDF export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.odd.page.offset.y -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.odd.page.offset.y">
+    <description>
+Property that specifies the Y offset (in pixels) for moving elements in odd page number pages, to simulate gutter margins.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PdfReportConfiguration.html#getOddPageOffsetY()">getOddPageOffsetY()</api> PDF export configuration setting.
     </description>
   </configProperty>
   
@@ -5991,6 +6426,34 @@ and DrawBorders, in which case both fragments have borders drawn on all sides.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.jdbc.fields.time.zone -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.fields.time.zone">
+    <description>
+Property specifying the default time zone to be used for all date/time fields when sending and retrieving date/time values to and from the database.
+<br/>
+The property can be set globally or at dataset level.
+<br/>
+The property value can be a time zone ID or REPORT_TIME_ZONE.
+In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api>) will be used.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.jdbc.parameters.time.zone -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.parameters.time.zone">
+    <description>
+Property specifying the default time zone to be used for all date/time parameters when sending and retrieving date/time values to and from the database.
+<br/>
+The property can be set globally or at dataset level.
+<br/>
+The property value can be a time zone ID or REPORT_TIME_ZONE.
+In the latter case the report time zone (as in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_TIME_ZONE">JRParameter.REPORT_TIME_ZONE</api>) will be used.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.jdbc.time.zone -->
   
   <configProperty name="net.sf.jasperreports.jdbc.time.zone">
@@ -6018,12 +6481,173 @@ This mapping was previously specified using the <code>fieldDescription</code> at
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.phantomjs.executable.path -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.executable.path">
+    <description>
+Property specifying the path to the PhantomJS binary/executable file.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.expiration.count -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.expiration.count">
+    <description>
+Property specifying the number of jobs after PhantomJS will expire. Default value is 1000.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.expiration.time -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.expiration.time">
+    <description>
+Property specifying the PhantomJS expiration time (in milliseconds). Default value is 1200000 (20 minutes).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.idle.ping.interval -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.idle.ping.interval">
+    <description>
+Property specifying the PhantomJS process idle ping interval (in milliseconds). Default value is 40000 (40 seconds).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.idle.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.idle.timeout">
+    <description>
+Property specifying the PhantomJS process idle timeout (in milliseconds). Default value is 300000 (5 minutes).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.max.process.count -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.max.process.count">
+    <description>
+Property specifying the maximum number of processes in the PhantomJS pool. Default value is 8.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.pool.borrow.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.pool.borrow.timeout">
+    <description>
+Property specifying the PhantomJS pool process borrow timeout (in milliseconds). Default value is 120000 (2 minutes). 
+If no process is available after this time an exception will be thrown.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.request.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.request.timeout">
+    <description>
+Property specifying the PhantomJS request timeout (in milliseconds). Default value is 60000 (1 minute).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.start.timeout -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.start.timeout">
+    <description>
+Property specifying the PhantomJS process start timeout (in milliseconds). Default value is 10000 (10 seconds).
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.tempdir.path -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.tempdir.path">
+    <description>
+Property specifying the path to the directory of temporary files.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.format -->
+  
+  <configProperty name="net.sf.jasperreports.xls.format">
+    <description>
+Built-in parameter/property holding the value of the Excel format to be used when parsing the Excel data source.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xls.sheet.selection -->
+  
+  <configProperty name="net.sf.jasperreports.xls.sheet.selection">
+    <description>
+Built-in parameter/property holding the value of the sheet name to be used when parsing the Excel data source.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.date.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.xml.date.pattern">
+    <description>
+Property holding the value of the date format pattern to be used when parsing the XML data.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.detect.namespaces -->
+  
+  <configProperty name="net.sf.jasperreports.xml.detect.namespaces">
+    <description>
+Boolean parameter/property that specifies whether the XML document should be parsed for namespaces or not.
+This property is meaningful only when:
+<ul>
+<li>the <api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api> 
+parameter is not provided or provided with a <code>null</code> value
+</li>
+<li>there are no properties prefixed with 
+<api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#XML_NAMESPACE_PREFIX">XML_NAMESPACE_PREFIX</api>;
+</li>
+<li>the xpath query expression that is provided <b>contains</b> XML namespace prefixes
+</li>
+</ul>
+It defaults to <code>false</code>
+	</description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.xml.load.unknown.entities -->
   
   <configProperty name="net.sf.jasperreports.xml.load.unknown.entities">
     <description>
 Property that determines whether loading entities that are not known to the engine is allowed.
     </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.namespace.{arbitrary_prefix} -->
+  
+  <configProperty name="net.sf.jasperreports.xml.namespace.{arbitrary_prefix}">
+    <description>
+Prefix for properties holding the namespace prefix and uri (e.g. net.sf.jasperreports.xml.namespace.{arbitrary_prefix} = uri).
+<br/>
+This property has a lower priority than 
+<api href="net/sf/jasperreports/engine/query/XalanXPathQueryExecuterFactory.html#PARAMETER_XML_NAMESPACE_MAP">PARAMETER_XML_NAMESPACE_MAP</api>, 
+that, if it is specified, will cause the prefixed properties not to be searched for.
+	</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.xml.number.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.xml.number.pattern">
+    <description>
+Property holding the value of the number format pattern to be used when parsing the XLS data.
+	</description>
   </configProperty>
   
   
@@ -6036,6 +6660,88 @@ Numeric property that determines which is the first weekday by default:
 <li>if set to 1, the week starts on Sunday</li>
 <li>if set to 2, the week starts on Monday.</li>
 </ul>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.velocity.{arbitrary_suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.velocity.{arbitrary_suffix}">
+    <description>
+Properties with this prefix are loaded into an <code>org.apache.velocity.app.VelocityEngine</code> instance object in 
+order to process velocity templates.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.embed.component.metadata.in.html.output -->
+  
+  <configProperty name="net.sf.jasperreports.web.embed.component.metadata.in.html.output">
+    <description>
+Property that specifies whether the component metadata should be embedded in HTML output.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.report.execution.path -->
+  
+  <configProperty name="net.sf.jasperreports.web.report.execution.path">
+    <description>
+Property that specifies the report execution path.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.report.interaction.path -->
+  
+  <configProperty name="net.sf.jasperreports.web.report.interaction.path">
+    <description>
+Property that specifies the report interaction path.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.report.resources.path -->
+  
+  <configProperty name="net.sf.jasperreports.web.report.resources.path">
+    <description>
+Property that specifies the report resources path.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.dynamic.resource -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.dynamic.resource">
+    <description>
+Property that specifies the name of the request parameter that indicates if this is a dynamic resource.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.resource.bundle -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.resource.bundle">
+    <description>
+Property that specifies the name of the request parameter associated with this resource bundle.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.resource.locale -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.resource.locale">
+    <description>
+Property that specifies the name of the request parameter associated with this resource Locale.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.web.request.parameter.resource.uri -->
+  
+  <configProperty name="net.sf.jasperreports.web.request.parameter.resource.uri">
+    <description>
+Property that specifies the name of the request parameter associated with this resource URI.
     </description>
   </configProperty>
   

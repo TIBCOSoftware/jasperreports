@@ -61,9 +61,6 @@
 						<entry key="net.sf.jasperreports.xls">
 							<bean class="net.sf.jasperreports.engine.export.HtmlElementXlsHandler"/>
 						</entry>
-						<entry key="net.sf.jasperreports.xhtml">
-							<bean class="net.sf.jasperreports.engine.export.HtmlElementHtmlHandler"/>
-						</entry>
 					</map>
 				</entry>
 			</map>

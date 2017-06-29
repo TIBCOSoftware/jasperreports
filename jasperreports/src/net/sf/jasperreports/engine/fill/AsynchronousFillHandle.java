@@ -27,12 +27,16 @@ import java.sql.Connection;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.components.barcode4j.Barcode4jComponent;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Class used to perform report filling asychronously.
@@ -51,6 +55,13 @@ public class AsynchronousFillHandle extends BaseFillHandle
 	 * Asynchronous report generation implies displaying report pages before the report is complete.
 	 */
 	// TODO lucianc use in web viewer
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE
+			)
 	public static final String PROPERTY_REPORT_ASYNC = JRPropertiesUtil.PROPERTY_PREFIX + "viewer.async";
 	
 	protected Thread fillThread;

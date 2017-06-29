@@ -584,11 +584,15 @@ public class JRHorizontalFiller extends JRBaseFiller
 				setNewGroupInBands(group);
 
 				group.setFooterPrinted(false);
+				group.resetDetailsCount();
 			}
 
 			ElementRange elementRange = null;
 			
-			if (group.isKeepTogether())
+			if (
+				group.isKeepTogether()
+				|| group.getMinDetailsToStartFromTop() > 0
+				)
 			{
 				elementRange = group.getKeepTogetherElementRange();
 				
@@ -646,7 +650,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				JRFillGroup group = groups[i];
 				
-				if (group.getKeepTogetherElementRange() != null)
+				if (
+					group.getKeepTogetherElementRange() != null
+					&& (group.isKeepTogether() || !group.hasMinDetails())
+					)
 				{
 					// we reprint headers only for groups that are "outer" to the one which 
 					// triggered a potential "keep together" move 
@@ -683,10 +690,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				setFirstColumn();
 
-				while (
-					groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
-					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
-					)
+				while (groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY)
 				{
 					fillPageBreak(false, evaluation, evaluation, true);
 				}
@@ -779,6 +783,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		detailElementRange = null;
 
 		boolean keepDetailElementRangeForOrphanFooter = true;
+		boolean atLeastOneDetailBandPrinted = false;
 		
 		for (int i = 0; i < detailBands.length; i++)
 		{
@@ -829,11 +834,24 @@ public class JRHorizontalFiller extends JRBaseFiller
 					ElementRangeUtil.expandOrIgnore(detailElementRange, newElementRange);
 				}
 
+				atLeastOneDetailBandPrinted = true;
+				
 				isFirstPageBand = false;
 				isFirstColumnBand = false;
 			}
 		}
 
+		if (atLeastOneDetailBandPrinted)
+		{
+			if (groups != null)
+			{
+				for (JRFillGroup group : groups)
+				{
+					group.incrementDetailsCount();
+				}
+			}
+		}
+	 
 		maxDetailOffsetY = maxDetailOffsetY < offsetY ? offsetY : maxDetailOffsetY;
 		offsetY = maxDetailOffsetY;
 
@@ -2155,22 +2173,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
-		JRFillGroup keepTogetherGroup = null;
-		if (groups != null)
-		{
-			for (JRFillGroup group : groups)
-			{
-				if (group.getKeepTogetherElementRange() != null)
-				{
-					keepTogetherGroup = group;
-					break;
-				}
-			}
-		}
+		JRFillGroup keepTogetherGroup = getKeepTogetherGroup();
 
 		ElementRange elementRangeToMove = null;
 		ElementRange elementRangeToMove2 = null; // we don't have more than two possible element ranges to move; at least for now
-		if (keepTogetherGroup != null && keepTogetherGroup.getKeepTogetherElementRange() != null)
+		if (keepTogetherGroup != null)
 		{
 			elementRangeToMove = keepTogetherGroup.getKeepTogetherElementRange();
 		}
@@ -2290,7 +2297,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 					// in-between parent group breaks
 					for (JRFillGroup group : groups)
 					{
-						if (group.getKeepTogetherElementRange() != null)
+						if (
+							group.getKeepTogetherElementRange() != null
+							&& (group.isKeepTogether() || !group.hasMinDetails())
+							)
 						{
 							toRefill = true;
 							break;

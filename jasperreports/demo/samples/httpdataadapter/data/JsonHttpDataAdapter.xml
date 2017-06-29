@@ -4,7 +4,7 @@
 	<dataFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xsi:type="httpDataLocation">
 		<method>GET</method>
-		<url><![CDATA[http://www.omdbapi.com/?r=json]]></url>
+		<url><![CDATA[http://localhost:8080/data.jsp?type=json]]></url>
 	</dataFile>
 	<useConnection>true</useConnection>
 	<timeZone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 

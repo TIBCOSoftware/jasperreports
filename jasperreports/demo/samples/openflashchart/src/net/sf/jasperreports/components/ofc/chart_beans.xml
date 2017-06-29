@@ -79,9 +79,6 @@
 						<entry key="net.sf.jasperreports.rtf">
 							<bean class="net.sf.jasperreports.components.ofc.ChartRtfHandler"/>
 						</entry>
-						<entry key="net.sf.jasperreports.xhtml">
-							<bean class="net.sf.jasperreports.components.ofc.ChartXhtmlHandler"/>
-						</entry>
 						<entry key="net.sf.jasperreports.odt">
 							<bean class="net.sf.jasperreports.components.ofc.ChartOdtHandler"/>
 						</entry>

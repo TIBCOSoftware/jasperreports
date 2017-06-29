@@ -25,6 +25,8 @@ package net.sf.jasperreports.compilers;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -34,6 +36,7 @@ import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
 import net.sf.jasperreports.functions.FunctionsUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * JavaScript expression evaluator that compiles expressions at fill time.
@@ -49,6 +52,12 @@ public class JavaScriptEvaluator extends JREvaluator implements JasperReportsCon
 	 * 
 	 * See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_7_0,
+			valueType = Integer.class
+			)
 	public static final String PROPERTY_OPTIMIZATION_LEVEL = JRPropertiesUtil.PROPERTY_PREFIX 
 			+ "javascript.evaluator.optimization.level";
 	

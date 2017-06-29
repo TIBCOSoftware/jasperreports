@@ -29,10 +29,13 @@ import java.io.ByteArrayOutputStream;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.Renderable;
 
@@ -43,12 +46,36 @@ import net.sf.jasperreports.renderers.Renderable;
 public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 {
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_BARCODE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {Barcode4jComponent.COMPONENT_DESIGNATION},
+			sinceVersion = PropertyConstants.VERSION_3_5_2,
+			valueType = Integer.class,
+			defaultValue = "300"
+			)
 	public static final String PROPERTY_RESOLUTION = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.resolution";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_BARCODE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {Barcode4jComponent.COMPONENT_DESIGNATION},
+			sinceVersion = PropertyConstants.VERSION_3_5_2,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE
+			)
 	public static final String PROPERTY_GRAY = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.gray";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_BARCODE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {Barcode4jComponent.COMPONENT_DESIGNATION},
+			sinceVersion = PropertyConstants.VERSION_3_5_2,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE
+			)
 	public static final String PROPERTY_ANTIALIAS = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.antiAlias";
 	

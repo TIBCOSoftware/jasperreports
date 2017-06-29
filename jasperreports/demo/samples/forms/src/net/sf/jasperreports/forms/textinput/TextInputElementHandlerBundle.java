@@ -49,22 +49,12 @@ public final class TextInputElementHandlerBundle implements GenericElementHandle
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{
-//		if (NAME.equals(elementName) 
-//				&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
-//		{
-//			return new HtmlElementXhtmlHandler();
-//		} 
 //		else if (NAME.equals(elementName)
 		if (TextInputElement.TEXT_INPUT_ELEMENT_NAME.equals(elementName)
 				&& JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new TextInputElementPdfHandler();
 		}
-//		else if (NAME.equals(elementName)
-//				&& JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
-//		{
-//			return new HtmlElementHtmlHandler();
-//		}
 //		else if (NAME.equals(elementName)
 //				&& JRXlsExporter.XLS_EXPORTER_KEY.equals(exporterKey))
 //		{

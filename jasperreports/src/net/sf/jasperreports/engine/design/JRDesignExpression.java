@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionChunk;
@@ -43,6 +45,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.util.ExpressionParser;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -55,6 +58,16 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	/**
+	 * Property that specifies whether a legacy parser method should be used to parse this expression. Default value is <code>false</code>.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_COMPILE,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_5_5_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_LEGACY_PARSER = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "legacy.expression.parser";
 	

@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.velocity.VelocityContext;
+
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
 import net.sf.jasperreports.components.sort.actions.FilterAction;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
@@ -54,8 +56,6 @@ import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
-
-import org.apache.velocity.VelocityContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -109,8 +109,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("uuid", element.getUUID().toString());
 
-			xhtmlExport(exporter, velocityContext, element);
-			
 			velocityContext.put("elementWidth", element.getWidth());
 			velocityContext.put("elementHeight", element.getHeight());
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
@@ -255,22 +253,5 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		}
 		
 		return result;
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void xhtmlExport(
-		Exporter<ExporterInput, ? extends HtmlReportConfiguration, ? extends HtmlExporterConfiguration, HtmlExporterOutput> exporter,
-		VelocityContext velocityContext,
-		JRGenericPrintElement element
-		)
-	{
-		net.sf.jasperreports.engine.export.JRXhtmlExporter xhtmlExporter = 
-			exporter instanceof net.sf.jasperreports.engine.export.JRXhtmlExporter 
-			? (net.sf.jasperreports.engine.export.JRXhtmlExporter)exporter 
-			: null;
-		if (xhtmlExporter != null) {
-			velocityContext.put("elementX", xhtmlExporter.toSizeUnit(element.getX()));
-			velocityContext.put("elementY", xhtmlExporter.toSizeUnit(element.getY()));
-		}
 	}
 }

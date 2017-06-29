@@ -32,6 +32,8 @@ import java.util.StringTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -47,6 +49,7 @@ import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -185,6 +188,13 @@ public class TextMeasurer implements JRTextMeasurer
 	private static final Log log = LogFactory.getLog(TextMeasurer.class);
 	
 	//FIXME remove this after measureSimpleText() is proven to be stable
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_4_6_0,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text";
 
 	protected JasperReportsContext jasperReportsContext;

@@ -35,7 +35,7 @@
 
 	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
 		<mkdir dir="./build/classes"/> 
-		<javac srcdir="." destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7"
+		<javac srcdir="." destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
@@ -43,7 +43,7 @@
 			<include name="*.java"/>
 		</javac>
 		<mkdir dir="./build/component"/> 
-		<javac srcdir="./src" destdir="./build/component" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7"
+		<javac srcdir="./src" destdir="./build/component" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
@@ -206,14 +206,6 @@
 		</java>
 	</target>
 
-	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file." depends="prepare-test-classpath">
-		<java classname="${class.name}" fork="true">
-			<arg value="xhtml"/>
-			<arg value="${file.name}.jrprint"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
 	<target name="xml4swf" description="Generates an Xml4Swf version of the report by converting the .jrprint file." depends="prepare-test-classpath">
 		<java classname="${class.name}" fork="true">
 			<arg value="xml4swf"/>
@@ -237,19 +229,42 @@
 		</jrdc> 
 	</target>
 	
-	<target name="viewHtml" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath">
-		<mkdir dir="./build/web"/>
-		<copy todir="./build/web">
+	<target name="prepare-jetty-classpath">
+		<ivy:configure file="../../../ivysettings.xml" override="true"/>
+		<ivy:resolve file="../ivy-jetty.xml" log="download-only" conf="test"/> 
+		<ivy:cachepath pathid="jetty.plugin.classpath"/> 
+	</target>
+
+	<target name="jetty.run" depends="prepare-jetty-classpath">
+		<mkdir dir="./build/webapp"/>
+		<copy todir="./build/webapp">
 			<fileset dir="./web"/>
 			<fileset dir="./build/reports">
 				<include name="*.html"/>
 				<include name="*.html_files/*"/>
 			</fileset>
 		</copy>
-		<java classname="${class.name}" fork="true" dir="./build/web">
+		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
+		<typedef name="connector" classname="org.eclipse.jetty.ant.types.Connector"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<typedef name="webApp" classname="org.eclipse.jetty.ant.AntWebAppContext"
+			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />
+		<jetty.run daemon="true">
+			<webApp war="./build/webapp" contextPath="/"/>
+			<connectors>
+				<connector port="8080"/>
+			</connectors>
+		</jetty.run>
+	</target>
+
+	<target name="viewHtml" description="Displays the HTML reports by starting an embedded web server and launching a browser." depends="prepare-test-classpath">
+		<antcall target="jetty.run"/>
+		<java classname="${class.name}" fork="true">
 			<arg value="viewHtml"/>
 			<classpath refid="sample-classpath"/>
 		</java>
+		<echo></echo>
+		<input>Press the Return key to stop the Jetty web server and exit Ant the process...</input>
 	</target>
 
 	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design." depends="prepare-compile-classpath">
@@ -290,7 +305,6 @@
 		<antcall target="docx" />
 		<antcall target="xlsx" />
 		<antcall target="pptx" />
-		<antcall target="xhtml" />
 		<antcall target="xml4swf" />
 	</target>
 	

@@ -61,6 +61,12 @@ public interface OdtReportConfiguration extends ReportExportConfiguration
 	/**
 	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
 	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.HYPERLINK},
+			sinceVersion = PropertyConstants.VERSION_5_1_2,
+			valueType = Boolean.class
+			)
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**

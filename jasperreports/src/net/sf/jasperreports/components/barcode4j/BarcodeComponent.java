@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  */
 public abstract class BarcodeComponent implements Component, Serializable, JRCloneable, JRChangeEventsSupport, Designated
 {
-
+	// used as prefix for specific barcode component properties
 	public static final String PROPERTY_PREFIX = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "components.barcode4j.";
 

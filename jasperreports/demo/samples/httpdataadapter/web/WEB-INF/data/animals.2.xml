@@ -1,0 +1,12 @@
+<root totalResults="30">
+	<animal name="Deer" size="22" type="mammal" image="mammals/deer.jpg"/>
+	<animal name="Dolphin" size="18" type="mammal" image="mammals/dolphin.jpg"/>
+	<animal name="Elephant" size="27" type="mammal" image="mammals/elephant.jpg"/>
+	<animal name="Fix" size="23" type="mammal" image="mammals/fox.jpg"/>
+	<animal name="Hedgehog" size="41" type="mammal" image="mammals/hedgehog.jpg"/>
+	<animal name="Hippo" size="29" type="mammal" image="mammals/hippo.jpg"/>
+	<animal name="Otter" size="23" type="mammal" image="mammals/otter.jpg"/>
+	<animal name="Squirrel" size="24" type="mammal" image="mammals/squirrel.jpg"/>
+	<animal name="Tiger" size="42" type="mammal" image="mammals/tiger.jpg"/>
+	<animal name="Zebra" size="48" type="mammal" image="mammals/zebra.jpg"/>
+</root>
