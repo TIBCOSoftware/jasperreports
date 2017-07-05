@@ -641,14 +641,14 @@
 			<textContent><![CDATA[Break Group Footer]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e88061ad-7d0e-40ce-9219-e477b7586661" mode="Transparent" x="40" y="715" width="250" height="15" origin="8" srcId="11" printId="1"/>
+			<reportElement uuid="e88061ad-7d0e-40ce-9219-e477b7586661" mode="Transparent" x="40" y="600" width="250" height="15" origin="8" srcId="11" printId="1"/>
 			<box>
 				<pen lineWidth="1.0"/>
 			</box>
 			<textContent><![CDATA[Float Column Footer]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="e88061ad-7d0e-40ce-9219-e477b7586661" mode="Transparent" x="305" y="715" width="250" height="15" origin="8" srcId="11" printId="2"/>
+			<reportElement uuid="e88061ad-7d0e-40ce-9219-e477b7586661" mode="Transparent" x="305" y="600" width="250" height="15" origin="8" srcId="11" printId="2"/>
 			<box>
 				<pen lineWidth="1.0"/>
 			</box>

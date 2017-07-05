@@ -220,6 +220,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	// we keep the content of orphan group footers bands in separate element range because in horizontal
 	// filler, the detail element range can have a different columnIndex and thus be moved with a different X offset
 	protected ElementRange orphanGroupFooterElementRange;
+	// keep the content of floating column footer so that it can be moved up in case content is moved
+	// from one page/column to the next due to keep together, min details or orphan footer groups
+	protected ElementRange floatColumnFooterElementRange;
 	
 
 	/**

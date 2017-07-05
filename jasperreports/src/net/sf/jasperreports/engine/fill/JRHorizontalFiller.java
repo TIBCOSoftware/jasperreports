@@ -1122,6 +1122,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 			// we do not need to set the offsetY because it has already been set properly earlier in this method;
 		}
 		
+		if (isFloatColumnFooter && !ignorePagination)
+		{
+			floatColumnFooterElementRange = new SimpleElementRange(getCurrentPage(), 0, tmpColumnFooterOffsetY);
+		}
+		
 		for (columnIndex = 0; columnIndex < columnCount; columnIndex++)
 		{
 			setColumnNumberVariable();
@@ -1135,6 +1140,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				fillFixedBand(columnFooter, evaluation, false);
 			}
+		}
+		
+		if (floatColumnFooterElementRange != null)
+		{
+			floatColumnFooterElementRange.expand(offsetY);
 		}
 	}
 
@@ -2185,6 +2195,20 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			elementRangeToMove = orphanGroupFooterDetailElementRange;
 			elementRangeToMove2 = orphanGroupFooterElementRange;
+		}
+
+		if (
+			floatColumnFooterElementRange != null 
+			&& elementRangeToMove != null
+			&& (elementRangeToMove.getColumnIndex() == 0 || elementRangeToMove2 != null) 
+				// either the moved detail is from first column, or there were some group footers moved too,
+				// otherwise the float column footer does not need to be moved
+			)
+		{
+			ElementRangeUtil.moveContent(
+				floatColumnFooterElementRange, 
+				elementRangeToMove.getColumnIndex() == 0 ? elementRangeToMove.getTopY() : elementRangeToMove2.getTopY()
+				);
 		}
 
 		// remove second range first, otherwise element indexes would become out of range

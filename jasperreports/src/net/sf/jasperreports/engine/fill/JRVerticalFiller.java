@@ -1063,7 +1063,17 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (columnFooter.isToPrint())
 		{
+			if (isFloatColumnFooter && !ignorePagination)
+			{
+				floatColumnFooterElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
+			}
+			
 			fillFixedBand(columnFooter, evaluation);
+			
+			if (floatColumnFooterElementRange != null)
+			{
+				floatColumnFooterElementRange.expand(offsetY);
+			}
 		}
 
 		if (isFloatColumnFooter && !ignorePagination)
@@ -2147,6 +2157,11 @@ public class JRVerticalFiller extends JRBaseFiller
 			elementRangeToMove2 = orphanGroupFooterElementRange;
 		}
 
+		if (floatColumnFooterElementRange != null && elementRangeToMove != null)
+		{
+			ElementRangeUtil.moveContent(floatColumnFooterElementRange, elementRangeToMove.getTopY());
+		}
+
 		// remove second range first, otherwise element indexes would become out of range
 		ElementRangeContents elementsToMove2 = null;
 		if (elementRangeToMove2 != null)
@@ -2302,6 +2317,11 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				elementRangeToMove = orphanGroupFooterDetailElementRange;
 				elementRangeToMove2 = orphanGroupFooterElementRange;
+			}
+			
+			if (floatColumnFooterElementRange != null && elementRangeToMove != null)
+			{
+				ElementRangeUtil.moveContent(floatColumnFooterElementRange, elementRangeToMove.getTopY());
 			}
 			
 			// remove second range first, otherwise element indexes would become out of range
