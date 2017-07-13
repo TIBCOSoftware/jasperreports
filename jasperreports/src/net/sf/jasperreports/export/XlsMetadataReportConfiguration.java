@@ -65,7 +65,7 @@ public interface XlsMetadataReportConfiguration extends XlsReportConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	@Property(
-			name = "net.sf.jasperreports.export.xls.column.names.{suffix}",
+			name = "net.sf.jasperreports.export.xls.column.names.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_4_0_2
