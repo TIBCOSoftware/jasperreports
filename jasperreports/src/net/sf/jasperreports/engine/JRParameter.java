@@ -295,6 +295,8 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * property of the report template.
 	 */
 	public static final String IS_IGNORE_PAGINATION = "IS_IGNORE_PAGINATION";
+	
+	public static final String MAX_PAGE_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "max.page.height";
 
 	
 	/**

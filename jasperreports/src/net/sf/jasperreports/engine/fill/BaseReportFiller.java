@@ -480,7 +480,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		
 		ignorePagination = ignore;
 		parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination);
-		ignorePaginationSet();
+		ignorePaginationSet(parameterValues);
 	}
 	
 	protected Boolean getOwnIgnorePagination(Map<String,Object> parameterValues, boolean onlySetAttribute)
@@ -500,7 +500,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		return onlySetAttribute ? null : false;
 	}
 	
-	protected abstract void ignorePaginationSet();
+	protected abstract void ignorePaginationSet(Map<String, Object> parameterValues);
 	
 	public boolean isIgnorePagination()
 	{

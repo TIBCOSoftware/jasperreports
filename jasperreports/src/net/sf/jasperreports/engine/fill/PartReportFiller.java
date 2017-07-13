@@ -264,7 +264,7 @@ public class PartReportFiller extends BaseReportFiller
 	}
 
 	@Override
-	protected void ignorePaginationSet()
+	protected void ignorePaginationSet(Map<String, Object> parameterValues)
 	{
 		//NOP
 	}
