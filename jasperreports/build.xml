@@ -25,8 +25,8 @@
 			<compilerarg value="-processorpath"/>
 			<compilerarg value="${annotations-paths}"/>
 			<compilerarg value="-AmetadataMessagesName=metadata_messages"/>
-			<compilerarg value="-ApropertiesDoc=docs/config.reference.xml"/>
-			<compilerarg value="-AconfigReferenceOut=build/config.reference.xml"/>
+			<compilerarg value="-ApropertiesDoc=${basedir}/docs/config.reference.xml"/>
+			<compilerarg value="-AconfigReferenceOut=${basedir}/build/config.reference.xml"/>
 		</javac>
 		
 		<copy todir="./build/classes">
