@@ -76,5 +76,9 @@ rJUdC5TgiwIAAHhwAAAAAHg=]]>
 				</box>
 			</frame>
 		</frame>
+		<text textHeight="11.777344" lineSpacingFactor="1.1777344" leadingOffset="-2.109375">
+			<reportElement uuid="bc2b716b-fb5a-4083-aeb9-0a37068edf9b" mode="Opaque" x="20" y="45" width="90" height="30" backcolor="#00FFFF" origin="1" srcId="8" printId="1"/>
+			<textContent><![CDATA[END]]></textContent>
+		</text>
 	</page>
 </jasperPrint>
