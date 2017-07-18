@@ -2,6 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.4.2.qualifier using JasperReports Library version 6.4.2  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CrosstabReport.3" pageWidth="1600" pageHeight="1400" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1130" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="885d79b2-35fe-4141-b51c-e2445e098e6d">
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/crosstabs/repo/CrosstabDataAdapter.1.xml"/>
+	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
 	<summary>
 		<band height="51" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
