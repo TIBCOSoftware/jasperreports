@@ -1507,7 +1507,17 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 			if (startColumnIndex == lastColumnIndex)
 			{
-				int availableWidth = getWidth() - lineBox.getLeftPadding() - lineBox.getRightPadding();
+				int availableWidth;
+				if (ignoreWidth)
+				{
+					//FIXME lucianc this assumes that the crosstab is not placed in a subreport or table
+					availableWidth = filler.maxPageWidth - filler.leftMargin - filler.rightMargin
+							- getX() - lineBox.getLeftPadding() - lineBox.getRightPadding();
+				}
+				else
+				{
+					availableWidth = getWidth() - lineBox.getLeftPadding() - lineBox.getRightPadding();
+				}
 
 				columnHeaders = getGroupHeaders(availableWidth - rowHeadersXOffset, columnXOffsets, columnBreakable, startColumnIndex, columnHeadersData, columnGroups);
 				lastColumnIndex = startColumnIndex + columnHeaders.size();
@@ -1656,7 +1666,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			int lastIndex;
 			for (lastIndex = firstIndex; 
 				lastIndex < headersData[0].length 
-					&& (ignoreWidth || offsets[lastIndex + 1] <= maxOffset); 
+					&& offsets[lastIndex + 1] <= maxOffset; 
 				++lastIndex)
 			{
 				HeaderCell[] groupHeaders = new HeaderCell[groups.length];

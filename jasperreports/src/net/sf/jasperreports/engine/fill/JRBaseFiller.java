@@ -104,7 +104,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	public static final String EXCEPTION_MESSAGE_KEY_UNSUPPORTED_REPORT_SECTION_TYPE = "fill.base.filler.unsupported.report.section.type";
 	
 	private static final int PAGE_HEIGHT_PAGINATION_IGNORED = 0x7d000000;//less than Integer.MAX_VALUE to avoid 
-
+	private static final int PAGE_WIDTH_IGNORED = 0x7d000000;
+	
 	protected BandReportFillerParent bandReportParent;
 
 	private JRStyledTextParser styledTextParser = JRStyledTextParser.getInstance();
@@ -121,6 +122,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected RunDirectionEnum columnDirection;
 
 	protected int pageWidth;
+	protected int maxPageWidth;
 
 	protected int pageHeight;
 
@@ -954,6 +956,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				setPageHeight(maxPageHeight);
 			}
 		}
+		
+		maxPageWidth = getMaxPageWidth(parameterValues);
 	}
 	
 	protected int getMaxPageHeight(Map<String,Object> parameterValues)
@@ -977,6 +981,30 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		}
 		
 		return maxPageHeight;
+	}
+	
+	protected int getMaxPageWidth(Map<String,Object> parameterValues)
+	{
+		Integer maxPageWidthParam = (Integer) parameterValues.get(JRParameter.MAX_PAGE_WIDTH);
+		int maxPageWidth = maxPageWidthParam != null ?  maxPageWidthParam : PAGE_WIDTH_IGNORED;
+		
+		if (maxPageWidth < pageWidth)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("max page width " + maxPageWidth + " smaller than report page width " + pageWidth);
+			}
+			
+			//use the report page width
+			maxPageWidth = pageWidth;
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("max page width is " + maxPageWidth);
+		}
+		
+		return maxPageWidth;
 	}
 	
 	protected void recordUsedPageHeight(int pageHeight)
