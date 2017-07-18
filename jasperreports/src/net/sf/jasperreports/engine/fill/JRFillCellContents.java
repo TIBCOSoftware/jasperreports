@@ -198,18 +198,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 	
 	
-	protected void setHeight(int height)
-	{
-		this.height = height;
-	}
-	
-	
-	protected void setWidth(int width)
-	{
-		this.width = width;
-	}
-	
-	
 	public JRFillCellContents getBoxContents(boolean left, boolean right, boolean top)
 	{
 		if (lineBox == null)
