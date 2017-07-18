@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.2.qualifier using JasperReports Library version 6.4.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CrosstabReport.3" pageWidth="1600" pageHeight="1400" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1130" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="885d79b2-35fe-4141-b51c-e2445e098e6d">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/crosstabs/repo/CrosstabDataAdapter.1.xml"/>
+	<summary>
+		<band height="465" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<crosstab columnBreakOffset="40" ignoreWidth="false">
+				<reportElement mode="Opaque" x="0" y="0" width="1560" height="465" backcolor="#FEFFFF" uuid="261e4a5e-10ff-4206-be94-2147125a3514"/>
+				<rowGroup name="pYear" width="1">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA["2017"]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#FF3300" mode="Opaque">
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<pen lineWidth="1.0" lineColor="orange"/>
+							</box>
+							<line>
+								<reportElement mode="Transparent" x="0" y="0" width="1" height="25" isRemoveLineWhenBlank="true" forecolor="blue" uuid="9a7e8651-3afe-4dec-8c3b-998247423da9">
+									<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+								</reportElement>
+							</line>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="metric_month" height="0">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA["x"]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents/>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="CommissionEarnedMeasure" class="java.lang.Integer" calculation="Sum">
+					<measureExpression><![CDATA[1]]></measureExpression>
+				</measure>
+				<crosstabCell width="90" height="25">
+					<cellContents backcolor="yellow" mode="Opaque">
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<pen lineWidth="1.0" lineColor="green"/>
+						</box>
+						<textField>
+							<reportElement mode="Transparent" x="0" y="0" width="90" height="25" isRemoveLineWhenBlank="true" uuid="9a7e8651-3afe-4dec-8c3b-998247423da8">
+								<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+							</reportElement>
+							<textFieldExpression><![CDATA["blah"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

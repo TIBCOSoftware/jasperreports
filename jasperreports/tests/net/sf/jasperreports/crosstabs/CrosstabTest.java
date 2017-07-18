@@ -38,6 +38,6 @@ public class CrosstabTest extends AbstractCrosstabTest
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabReport", 2);
+		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabReport", 3);
 	}
 }
