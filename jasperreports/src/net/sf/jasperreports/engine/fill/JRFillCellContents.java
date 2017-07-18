@@ -161,6 +161,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		verticalPositionType = cellContents.verticalPositionType;
 	}
+	
+	@Override
+	public boolean isLegacyElementStretchEnabled() 
+	{
+		return true;
+	}
 
 	@Override
 	public Color getBackcolor()
