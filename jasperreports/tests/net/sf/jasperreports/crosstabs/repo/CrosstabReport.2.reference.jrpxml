@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="CrosstabReport.2" pageWidth="595" pageHeight="81" topMargin="10" leftMargin="20" bottomMargin="10" rightMargin="20" orientation="Landscape" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="2"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="3"/>
+	<origin band="detail"/>
+	<origin band="summary"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Large" style="Sans_Normal" fontSize="10"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<page/>
+	<page>
+		<frame>
+			<reportElement x="20" y="10" width="165" height="51" origin="1" srcId="1" printId="1">
+				<property name="net.sf.jasperreports.export.crosstab.crosstabId" value="12fcc3d0-f46e-4987-be7d-05226d019b24.0"/>
+			</reportElement>
+			<genericElement>
+				<reportElement x="0" y="0" width="1" height="1" origin="1" srcId="1" printId="2"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports" name="crosstabInteractiveElement"/>
+				<genericElementParameter name="crosstabId">
+					<genericElementParameterValue class="java.lang.String">
+						<![CDATA[12fcc3d0-f46e-4987-be7d-05226d019b24]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="crosstabFragmentId">
+					<genericElementParameterValue class="java.lang.String">
+						<![CDATA[12fcc3d0-f46e-4987-be7d-05226d019b24.0]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="startColumnIndex">
+					<genericElementParameterValue class="java.lang.Integer">
+						<![CDATA[0]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="hasFloatingHeaders">
+					<genericElementParameterValue class="java.lang.Boolean">
+						<![CDATA[true]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="rowGroups">
+					<genericElementParameterValue class="java.util.ArrayList">
+						<![CDATA[rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAAC
+c3IAQm5ldC5zZi5qYXNwZXJyZXBvcnRzLmNyb3NzdGFicy5pbnRlcmFjdGl2ZS5Sb3dHcm91cElu
+dGVyYWN0aXZlSW5mbwAAAAAAACfYAgACWgAIc29ydGFibGVMAAVvcmRlcnQAO0xuZXQvc2YvamFz
+cGVycmVwb3J0cy9lbmdpbmUvYW5hbHl0aWNzL2RhdGFzZXQvQnVja2V0T3JkZXI7eHABfnIAOW5l
+dC5zZi5qYXNwZXJyZXBvcnRzLmVuZ2luZS5hbmFseXRpY3MuZGF0YXNldC5CdWNrZXRPcmRlcgAA
+AAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQACUFTQ0VORElOR3NxAH4A
+AgFxAH4AB3g=]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="dataColumns">
+					<genericElementParameterValue class="java.util.ArrayList">
+						<![CDATA[rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAAB
+c3IAOW5ldC5zZi5qYXNwZXJyZXBvcnRzLmNyb3NzdGFicy5pbnRlcmFjdGl2ZS5EYXRhQ29sdW1u
+SW5mbwAAAAAAACfYAgADTAAMY29sdW1uVmFsdWVzdAAQTGphdmEvdXRpbC9MaXN0O0wABW9yZGVy
+dAA7TG5ldC9zZi9qYXNwZXJyZXBvcnRzL2VuZ2luZS9hbmFseXRpY3MvZGF0YXNldC9CdWNrZXRP
+cmRlcjtMABBzb3J0TWVhc3VyZUluZGV4dAATTGphdmEvbGFuZy9JbnRlZ2VyO3hwc3EAfgAAAAAA
+AXcEAAAAAXNyAD9uZXQuc2YuamFzcGVycmVwb3J0cy5jcm9zc3RhYnMuZmlsbC5jYWxjdWxhdGlv
+bi5Db2x1bW5WYWx1ZUluZm8AAAAAAAAn2AIAA1oABXRvdGFsTAAFdmFsdWV0ABJMamF2YS9sYW5n
+L1N0cmluZztMAAl2YWx1ZVR5cGVxAH4ACXhwAHQAAUN0ABBqYXZhLmxhbmcuU3RyaW5neHBzcgAR
+amF2YS5sYW5nLkludGVnZXIS4qCk94GHOAIAAUkABXZhbHVleHIAEGphdmEubGFuZy5OdW1iZXKG
+rJUdC5TgiwIAAHhwAAAAAHg=]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+			</genericElement>
+			<frame>
+				<reportElement x="0" y="0" width="50" height="51" origin="1" srcId="3" printId="1">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
+					<reportElement uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0" x="5" y="0" width="40" height="51" origin="1" srcId="2" printId="1"/>
+					<textContent><![CDATA[Outer]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement x="50" y="0" width="70" height="17" origin="1" srcId="6" printId="3">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text verticalAlignment="Middle" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188" valueClass="java.lang.Integer">
+					<reportElement uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" y="0" width="60" height="16" origin="1" srcId="5" printId="3"/>
+					<textContent><![CDATA[1]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="120" y="0" width="45" height="17" backcolor="#FFFFFF" origin="1" srcId="14" printId="3">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textAlignment="Right" verticalAlignment="Middle" textHeight="17.460938" lineSpacingFactor="1.1640625" leadingOffset="-3.5375977">
+					<reportElement uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" x="0" y="0" width="40" height="17" origin="1" srcId="13" printId="3"/>
+					<font size="15"/>
+					<textContent><![CDATA[V]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement x="50" y="17" width="70" height="17" origin="1" srcId="6" printId="4">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text verticalAlignment="Middle" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188" valueClass="java.lang.Integer">
+					<reportElement uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" y="0" width="60" height="16" origin="1" srcId="5" printId="4"/>
+					<textContent><![CDATA[2]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="120" y="17" width="45" height="17" backcolor="#FFFFFF" origin="1" srcId="14" printId="4">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textAlignment="Right" verticalAlignment="Middle" textHeight="17.460938" lineSpacingFactor="1.1640625" leadingOffset="-3.5375977">
+					<reportElement uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" x="0" y="0" width="40" height="17" origin="1" srcId="13" printId="4"/>
+					<font size="15"/>
+					<textContent><![CDATA[V]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement x="50" y="34" width="70" height="17" origin="1" srcId="6" printId="5">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text verticalAlignment="Middle" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188" valueClass="java.lang.Integer">
+					<reportElement uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" y="0" width="60" height="16" origin="1" srcId="5" printId="5"/>
+					<textContent><![CDATA[3]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="120" y="34" width="45" height="17" backcolor="#FFFFFF" origin="1" srcId="14" printId="5">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textAlignment="Right" verticalAlignment="Middle" textHeight="17.460938" lineSpacingFactor="1.1640625" leadingOffset="-3.5375977">
+					<reportElement uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" x="0" y="0" width="40" height="17" origin="1" srcId="13" printId="5"/>
+					<font size="15"/>
+					<textContent><![CDATA[V]]></textContent>
+				</text>
+			</frame>
+		</frame>
+	</page>
+	<page>
+		<frame>
+			<reportElement x="20" y="10" width="165" height="54" origin="1" srcId="1" printId="3">
+				<property name="net.sf.jasperreports.export.crosstab.crosstabId" value="12fcc3d0-f46e-4987-be7d-05226d019b24.1"/>
+			</reportElement>
+			<genericElement>
+				<reportElement x="0" y="0" width="1" height="1" origin="1" srcId="1" printId="4"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports" name="crosstabInteractiveElement"/>
+				<genericElementParameter name="crosstabId">
+					<genericElementParameterValue class="java.lang.String">
+						<![CDATA[12fcc3d0-f46e-4987-be7d-05226d019b24]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="crosstabFragmentId">
+					<genericElementParameterValue class="java.lang.String">
+						<![CDATA[12fcc3d0-f46e-4987-be7d-05226d019b24.1]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="startColumnIndex">
+					<genericElementParameterValue class="java.lang.Integer">
+						<![CDATA[0]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="hasFloatingHeaders">
+					<genericElementParameterValue class="java.lang.Boolean">
+						<![CDATA[true]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="rowGroups">
+					<genericElementParameterValue class="java.util.ArrayList">
+						<![CDATA[rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAAC
+c3IAQm5ldC5zZi5qYXNwZXJyZXBvcnRzLmNyb3NzdGFicy5pbnRlcmFjdGl2ZS5Sb3dHcm91cElu
+dGVyYWN0aXZlSW5mbwAAAAAAACfYAgACWgAIc29ydGFibGVMAAVvcmRlcnQAO0xuZXQvc2YvamFz
+cGVycmVwb3J0cy9lbmdpbmUvYW5hbHl0aWNzL2RhdGFzZXQvQnVja2V0T3JkZXI7eHABfnIAOW5l
+dC5zZi5qYXNwZXJyZXBvcnRzLmVuZ2luZS5hbmFseXRpY3MuZGF0YXNldC5CdWNrZXRPcmRlcgAA
+AAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQACUFTQ0VORElOR3NxAH4A
+AgFxAH4AB3g=]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+				<genericElementParameter name="dataColumns">
+					<genericElementParameterValue class="java.util.ArrayList">
+						<![CDATA[rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAAB
+c3IAOW5ldC5zZi5qYXNwZXJyZXBvcnRzLmNyb3NzdGFicy5pbnRlcmFjdGl2ZS5EYXRhQ29sdW1u
+SW5mbwAAAAAAACfYAgADTAAMY29sdW1uVmFsdWVzdAAQTGphdmEvdXRpbC9MaXN0O0wABW9yZGVy
+dAA7TG5ldC9zZi9qYXNwZXJyZXBvcnRzL2VuZ2luZS9hbmFseXRpY3MvZGF0YXNldC9CdWNrZXRP
+cmRlcjtMABBzb3J0TWVhc3VyZUluZGV4dAATTGphdmEvbGFuZy9JbnRlZ2VyO3hwc3EAfgAAAAAA
+AXcEAAAAAXNyAD9uZXQuc2YuamFzcGVycmVwb3J0cy5jcm9zc3RhYnMuZmlsbC5jYWxjdWxhdGlv
+bi5Db2x1bW5WYWx1ZUluZm8AAAAAAAAn2AIAA1oABXRvdGFsTAAFdmFsdWV0ABJMamF2YS9sYW5n
+L1N0cmluZztMAAl2YWx1ZVR5cGVxAH4ACXhwAHQAAUN0ABBqYXZhLmxhbmcuU3RyaW5neHBzcgAR
+amF2YS5sYW5nLkludGVnZXIS4qCk94GHOAIAAUkABXZhbHVleHIAEGphdmEubGFuZy5OdW1iZXKG
+rJUdC5TgiwIAAHhwAAAAAHg=]]>
+					</genericElementParameterValue>
+				</genericElementParameter>
+			</genericElement>
+			<frame>
+				<reportElement x="0" y="0" width="50" height="54" origin="1" srcId="3" printId="2">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
+					<reportElement uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0" x="5" y="0" width="40" height="54" origin="1" srcId="2" printId="2"/>
+					<textContent><![CDATA[Outer]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement x="50" y="0" width="70" height="17" origin="1" srcId="6" printId="6">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text verticalAlignment="Middle" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188" valueClass="java.lang.Integer">
+					<reportElement uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" y="0" width="60" height="16" origin="1" srcId="5" printId="6"/>
+					<textContent><![CDATA[4]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="120" y="0" width="45" height="17" backcolor="#FFFFFF" origin="1" srcId="14" printId="6">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textAlignment="Right" verticalAlignment="Middle" textHeight="17.460938" lineSpacingFactor="1.1640625" leadingOffset="-3.5375977">
+					<reportElement uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" x="0" y="0" width="40" height="17" origin="1" srcId="13" printId="6"/>
+					<font size="15"/>
+					<textContent><![CDATA[V]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement x="50" y="17" width="70" height="17" origin="1" srcId="6" printId="7">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text verticalAlignment="Middle" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188" valueClass="java.lang.Integer">
+					<reportElement uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f" x="5" y="0" width="60" height="16" origin="1" srcId="5" printId="7"/>
+					<textContent><![CDATA[5]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="120" y="17" width="45" height="17" backcolor="#FFFFFF" origin="1" srcId="14" printId="7">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textAlignment="Right" verticalAlignment="Middle" textHeight="17.460938" lineSpacingFactor="1.1640625" leadingOffset="-3.5375977">
+					<reportElement uuid="e256b054-5bed-4834-a6ec-260b20ee28ae" x="0" y="0" width="40" height="17" origin="1" srcId="13" printId="7"/>
+					<font size="15"/>
+					<textContent><![CDATA[V]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="50" y="34" width="70" height="20" backcolor="#E0FFFF" origin="1" srcId="8" printId="1">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowheader"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text verticalAlignment="Middle" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
+					<reportElement uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc" x="5" y="0" width="60" height="20" origin="1" srcId="7" printId="1"/>
+					<textContent><![CDATA[Total]]></textContent>
+				</text>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="120" y="34" width="45" height="20" backcolor="#E0FFFF" origin="1" srcId="12" printId="1">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
+					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
+					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<text textAlignment="Right" verticalAlignment="Middle" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
+					<reportElement uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6" x="0" y="0" width="40" height="20" origin="1" srcId="11" printId="1"/>
+					<textContent><![CDATA[T]]></textContent>
+				</text>
+			</frame>
+		</frame>
+	</page>
+</jasperPrint>
