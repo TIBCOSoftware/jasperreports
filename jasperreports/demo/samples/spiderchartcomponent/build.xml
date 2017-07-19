@@ -1,4 +1,4 @@
-<project name="jchartscomponent" default="test" basedir=".">
+<project name="spiderchartcomponent" default="test" basedir=".">
 
 	<description>Shows how spider chart components can be included in reports.</description>
 
