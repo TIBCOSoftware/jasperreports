@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.2.qualifier using JasperReports Library version 6.4.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CrosstabReport.2" pageWidth="595" pageHeight="81" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10" uuid="488fc4c0-8d4e-4bd3-8f28-3497b7349729">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/crosstabs/repo/CrosstabDataAdapter.2.xml"/>
+	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Large" style="Sans_Normal" fontSize="10"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<summary>
+		<band height="30">
+			<crosstab isRepeatColumnHeaders="false">
+				<reportElement x="0" y="10" width="555" height="20" uuid="12fcc3d0-f46e-4987-be7d-05226d019b24">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<rowGroup name="Outer" width="50" headerPosition="Stretch">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA["R"]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField>
+								<reportElement x="5" y="0" width="40" height="36" uuid="2b574bb6-b7c0-4cbd-918b-d56b101147a0"/>
+								<textFieldExpression><![CDATA["Outer"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Inner" width="70" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$V{REPORT_COUNT}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField>
+								<reportElement x="5" y="0" width="60" height="16" uuid="f9d671c3-2ea1-46bc-b187-a76fc2f95d8f"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{Inner}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#E0FFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<staticText>
+								<reportElement x="5" y="0" width="60" height="20" uuid="f6e837cb-ffde-492b-a2d6-7cc1da59decc"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="Single" height="0">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA["C"]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents/>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="SomeCount" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA["something"]]></measureExpression>
+				</measure>
+				<crosstabCell width="45" height="16">
+					<cellContents backcolor="#FFFFFF" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="#0">
+							<reportElement x="0" y="0" width="40" height="16" uuid="e256b054-5bed-4834-a6ec-260b20ee28ae"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="15"/>
+							</textElement>
+							<textFieldExpression><![CDATA["V"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="20" rowTotalGroup="Inner">
+					<cellContents backcolor="#E0FFFF" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement x="0" y="0" width="40" height="20" uuid="57f1e3a4-c7d7-4122-91e4-46ee46b1f9d6"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA["T"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

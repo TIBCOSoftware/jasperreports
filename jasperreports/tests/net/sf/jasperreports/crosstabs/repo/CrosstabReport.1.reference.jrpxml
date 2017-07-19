@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="CrosstabReport.1" pageWidth="1600" pageHeight="1400" topMargin="20" leftMargin="20" bottomMargin="20" rightMargin="20" orientation="Landscape" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<origin band="detail"/>
+	<origin band="summary"/>
+	<page>
+		<frame>
+			<reportElement mode="Opaque" x="20" y="20" width="91" height="25" backcolor="#FEFFFF" origin="1" srcId="1" printId="1"/>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="1" height="25" backcolor="#FF3300" origin="1" srcId="2" printId="1">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
+				</reportElement>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="1" y="0" width="90" height="0" backcolor="#FFFF00" origin="1" srcId="7" printId="1">
+					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0" lineColor="#00FF00"/>
+				</box>
+			</frame>
+		</frame>
+		<text textHeight="11.777344" lineSpacingFactor="1.1777344" leadingOffset="-2.109375">
+			<reportElement uuid="bc2b716b-fb5a-4083-aeb9-0a37068edf9b" mode="Opaque" x="20" y="45" width="90" height="30" backcolor="#00FFFF" origin="1" srcId="8" printId="1"/>
+			<textContent><![CDATA[END]]></textContent>
+		</text>
+	</page>
+</jasperPrint>
