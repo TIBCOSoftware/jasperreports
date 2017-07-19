@@ -1,7 +1,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
 	<persistence-unit name="pu1">
 		<!-- Provider class name is required in Java SE -->
-		<provider>oracle.toplink.essentials.ejb.cmp3.EntityManagerFactoryProvider</provider>
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- All persistence classes must be listed -->
 		<class>Person</class>
 		<class>Movie</class>
@@ -9,13 +9,12 @@
 		<class>Varia</class>		
 		<properties>
 			<!-- Provider-specific connection properties -->
-			<property name="toplink.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
-			<property name="toplink.jdbc.url" value="jdbc:hsqldb:file:build/db"/>
-			<property name="toplink.jdbc.user" value="sa"/>
-			<property name="toplink.jdbc.password" value=""/>
+			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+			<property name="hibernate.connection.url" value="jdbc:hsqldb:file:build/db"/>
+			<property name="hibernate.connection.username" value="sa"/>
+			<property name="hibernate.connection.password" value=""/>
 			<!-- Provider-specific settings -->
-			<property name="toplink.logging.level" value="INFO"/>
-			<property name="toplink.platform.class.name" value="oracle.toplink.essentials.platform.database.HSQLPlatform"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
 		</properties>    
 	</persistence-unit>
 </persistence>

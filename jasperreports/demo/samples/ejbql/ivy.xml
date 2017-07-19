@@ -3,6 +3,13 @@
 		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
 	</info>
 	<dependencies>
+		<dependency org="dom4j" name="dom4j" rev="1.6.1" conf="test->*"/>
 		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10" conf="test->*"/>
+		<dependency org="javax.transaction" name="jta" rev="1.1" conf="test->*"/>
+		<dependency org="org.hibernate" name="hibernate-annotations" rev="3.3.1.GA" conf="test->*"/>
+		<dependency org="org.hibernate" name="hibernate-commons-annotations" rev="3.0.0.ga" conf="test->*"/>
+		<dependency org="org.hibernate" name="hibernate-entitymanager" rev="3.3.2.GA" conf="test->*"/>
+		<dependency org="org.javassist" name="javassist" rev="3.20.0-GA" conf="test->*"/>
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" conf="test->*"/>
 	</dependencies>
 </ivy-module>
