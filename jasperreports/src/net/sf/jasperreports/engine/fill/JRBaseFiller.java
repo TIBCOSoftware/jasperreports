@@ -1272,6 +1272,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			for (JRPrintElement element : elements)
 			{
 				printPage.addElement(element);
+				recordUsedWidth(element);
 			}
 		}
 		else
@@ -1282,8 +1283,14 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				element.setX(element.getX() + offsetX);
 				element.setY(element.getY() + offsetY);
 				printPage.addElement(element);
+				recordUsedWidth(element);
 			}
 		}
+	}
+	
+	protected void recordUsedWidth(JRPrintElement element)
+	{
+		recordUsedPageWidth(element.getX() + element.getWidth() + rightMargin);
 	}
 
 

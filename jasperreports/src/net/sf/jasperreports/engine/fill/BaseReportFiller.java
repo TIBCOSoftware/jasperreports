@@ -115,6 +115,8 @@ public abstract class BaseReportFiller implements ReportFiller
 	private boolean threadInterrupted;
 
 	protected FillListener fillListener;
+	
+	protected int usedPageWidth = 0;
 
 	public BaseReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport, 
 			FillerParent parent) throws JRException
@@ -774,6 +776,19 @@ public abstract class BaseReportFiller implements ReportFiller
 	protected void resolveMasterBoundElements() throws JRException
 	{
 		resolveBoundElements(JREvaluationTime.EVALUATION_TIME_MASTER, JRExpression.EVALUATION_DEFAULT);
+	}
+	
+	public void recordUsedPageWidth(int width)
+	{
+		if (width > usedPageWidth)
+		{
+			usedPageWidth = width;
+		}
+	}
+	
+	public int getUsedPageWidth()
+	{
+		return usedPageWidth;
 	}
 
 }
