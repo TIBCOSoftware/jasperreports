@@ -115,6 +115,8 @@ public abstract class BaseReportFiller implements ReportFiller
 	private boolean threadInterrupted;
 
 	protected FillListener fillListener;
+	
+	protected int usedPageWidth = 0;
 
 	public BaseReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport, 
 			FillerParent parent) throws JRException
@@ -480,7 +482,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		
 		ignorePagination = ignore;
 		parameterValues.put(JRParameter.IS_IGNORE_PAGINATION, ignorePagination);
-		ignorePaginationSet();
+		ignorePaginationSet(parameterValues);
 	}
 	
 	protected Boolean getOwnIgnorePagination(Map<String,Object> parameterValues, boolean onlySetAttribute)
@@ -500,7 +502,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		return onlySetAttribute ? null : false;
 	}
 	
-	protected abstract void ignorePaginationSet();
+	protected abstract void ignorePaginationSet(Map<String, Object> parameterValues);
 	
 	public boolean isIgnorePagination()
 	{
@@ -774,6 +776,19 @@ public abstract class BaseReportFiller implements ReportFiller
 	protected void resolveMasterBoundElements() throws JRException
 	{
 		resolveBoundElements(JREvaluationTime.EVALUATION_TIME_MASTER, JRExpression.EVALUATION_DEFAULT);
+	}
+	
+	public void recordUsedPageWidth(int width)
+	{
+		if (width > usedPageWidth)
+		{
+			usedPageWidth = width;
+		}
+	}
+	
+	public int getUsedPageWidth()
+	{
+		return usedPageWidth;
 	}
 
 }

@@ -321,6 +321,7 @@ public class SubreportFillPart extends BasePartFillComponent
 			}
 			
 			output.addPage(pageAdded.getPage(), pageAdded.getDelayedActions());
+			fillContext.getFiller().recordUsedPageWidth(pageAdded.getFiller().getUsedPageWidth());
 			
 			if (pageAdded.hasReportEnded())
 			{
