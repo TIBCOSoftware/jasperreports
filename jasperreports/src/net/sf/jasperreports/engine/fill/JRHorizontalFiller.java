@@ -197,9 +197,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 		}
 
+		recordUsedPageHeight(offsetY + bottomMargin);
 		if (ignorePagination)
 		{
-			jasperPrint.setPageHeight(offsetY + bottomMargin);
+			jasperPrint.setPageHeight(usedPageHeight);
 		}
 
 		if (isSubreport())
@@ -2078,6 +2079,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 		if (isSubreport())
 		{
 			addPageToParent(false);
+		}
+		
+		if (printPage != null)
+		{
+			recordUsedPageHeight(offsetY + bottomMargin);
 		}
 
 		printPage = newPage();
