@@ -503,7 +503,17 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		Boolean isUsingCache = getUsingCache();
 		usedCache = isUsingCache == null ? true : isUsingCache;
-		Object source = evaluateExpression(expression, evaluation);
+		Object source = null;
+		
+		try
+		{
+			source = evaluateExpression(expression, evaluation);
+		}
+		catch (Exception e)
+		{
+			source = RendererUtil.getInstance(filler.getJasperReportsContext()).handleImageError(e, getOnErrorTypeValue());
+		}
+		
 		if (source != null)
 		{
 			if (isUsingCache == null)
