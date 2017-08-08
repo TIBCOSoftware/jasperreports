@@ -463,7 +463,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
-		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, null);//FIXMEXLSX check this null
+		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, getExporterKey());
 		
 		slideHelper.exportHeader();
 		slideRelsHelper.exportHeader();
