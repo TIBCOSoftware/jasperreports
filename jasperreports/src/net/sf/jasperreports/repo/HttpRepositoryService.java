@@ -28,10 +28,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.sf.jasperreports.data.http.HttpDataConnection;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.config.CookieSpecs;
@@ -43,6 +39,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+
+import net.sf.jasperreports.data.http.HttpDataConnection;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -89,7 +89,18 @@ public class HttpRepositoryService implements StreamRepositoryService
 		HttpRequestBase request = createRequest(uri);
 		HttpDataConnection dataConnection =  new HttpDataConnection(httpClient, request);
 
-		return dataConnection.getInputStream();
+		InputStream is = null;
+		
+		try
+		{
+			is = dataConnection.getInputStream();
+		}
+		catch (Exception e)
+		{
+			//nothing to do
+		}
+		
+		return is;
 	}
 	
 	@Override

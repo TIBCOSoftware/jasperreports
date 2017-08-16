@@ -45,7 +45,7 @@ public class HttpRepositoryServiceExtensionsRegistryFactory implements Extension
 	 * 
 	 */
 	public final static String HTTP_REPOSITORY_PROPERTY_PREFIX =
-		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "http.repository.service";
+		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "http.repository.service.";
 	
 	/**
 	 * Specifies the file repository root location.
