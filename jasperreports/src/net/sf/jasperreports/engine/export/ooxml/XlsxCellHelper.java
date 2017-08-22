@@ -29,8 +29,10 @@ import java.util.Locale;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -141,22 +143,38 @@ public class XlsxCellHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 
+		int styleIndex = 0;
+		
+		if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+		{
+			styleIndex = ((ElementGridCell)((OccupiedGridCell)gridCell).getOccupier()).getStyleIndex();
+		}
+		else
+		{
+			styleIndex = 
+				styleHelper.getCellStyle(
+					gridCell, 
+					pattern, 
+					locale, 
+					isWrapText, 
+					isHidden, 
+					isLocked, 
+					isShrinkToFit, 
+					isIgnoreTextFormatting,
+					rotation,
+					sheetInfo
+					);
+			if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+			{
+				((ElementGridCell)gridCell).setStyleIndex(styleIndex);
+			}
+		}
+		
 		write("  <c r=\"" 
-				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
-				+ (rowIndex + 1) 
-				+ "\" s=\"" 
-				+ styleHelper.getCellStyle(
-						gridCell, 
-						pattern, 
-						locale, 
-						isWrapText, 
-						isHidden, 
-						isLocked, 
-						isShrinkToFit, 
-						isIgnoreTextFormatting,
-						rotation,
-						sheetInfo) 
-				+ "\"");
+			+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
+			+ (rowIndex + 1) 
+			+ "\" s=\"" + styleIndex + "\""
+			);
 		String type = textValueHandler.getType();
 		if (type != null)
 		{

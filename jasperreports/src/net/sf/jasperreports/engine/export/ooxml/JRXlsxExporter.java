@@ -67,7 +67,6 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
-import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -1696,8 +1695,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	@Override
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
-		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		//ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
+		cellHelper.exportHeader(occupiedGridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		cellHelper.exportFooter();
 	}
 
