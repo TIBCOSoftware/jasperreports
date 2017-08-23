@@ -75,8 +75,7 @@ public class JRStyledText implements Cloneable
 	public static final String PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "awt.superscript.fix.enabled";
 
 	private static final boolean AWT_SUPERSCRIPT_FIX_ENABLED = 
-		System.getProperty("java.version").startsWith("1.6") 
-		&& JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED);
+		JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBooleanProperty(PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED);
 	
 	private static final Set<Attribute> FONT_ATTRS = new HashSet<Attribute>();
 	static
