@@ -33,8 +33,8 @@
 		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.8.2" conf="test->*"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.4.2-SNAPSHOT" conf="annotations->*"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.4.2-SNAPSHOT" conf="compile,annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.4.3-SNAPSHOT" conf="annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.4.3-SNAPSHOT" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
 		<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.1" conf="test->*"/>
