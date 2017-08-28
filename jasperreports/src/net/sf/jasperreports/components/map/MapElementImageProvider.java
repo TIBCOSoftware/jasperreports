@@ -152,7 +152,7 @@ public class MapElementImageProvider
 		}
 
 		String imageLocation = 
-			"http://maps.google.com/maps/api/staticmap?center=" 
+			"https://maps.googleapis.com/maps/api/staticmap?center=" 
 			+ latitude 
 			+ "," 
 			+ longitude 
