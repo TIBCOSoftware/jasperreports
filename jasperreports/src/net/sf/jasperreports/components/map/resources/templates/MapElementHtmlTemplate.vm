@@ -9,9 +9,9 @@
 #if (!${gotReportContext})
 	#if (${exporterFirstAttempt})
 		#if(${reqParams})
-			<script class='jasperreports' src='//maps.google.com/maps/api/js?sensor=false${reqParams}'></script>
+			<script class='jasperreports' src='https://maps.google.com/maps/api/js?sensor=false${reqParams}'></script>
 		#else
-			<script class='jasperreports' src='//maps.google.com/maps/api/js?sensor=false'></script>
+			<script class='jasperreports' src='https://maps.google.com/maps/api/js?sensor=false'></script>
 		#end
 		<script class='jasperreports' type='text/javascript'>
 			if (typeof jasperreports === 'undefined') jasperreports = {};
@@ -86,6 +86,7 @@
 						if(p) {
 							for(var k=0; k<p.length; k++){
 								var props = p[k],o={}, l=[],isPoly = false;
+								var poly;
 								for(prop in props){
 									if(prop === 'locations' && props[prop]){
 										var loc = props[prop];
@@ -102,11 +103,14 @@
 								o['map']=map;
 								if(isPoly){
 									o['paths']=l;
-									new google.maps.Polygon(o);
+									poly = new google.maps.Polygon(o);
 								} else {
 									o['path']=l;
-									new google.maps.Polyline(o);
+									poly = new google.maps.Polyline(o);
 								}
+			                    if(o['path.hyperlink']){
+			                    	google.maps.event.addListener(poly, 'click', function(){window.open(this['path.hyperlink'], this['path.hyperlink.target'])});
+			                    }
 							}
 						}
 					},

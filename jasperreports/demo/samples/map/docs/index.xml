@@ -429,6 +429,16 @@ Default value is <code>false</code></li>
 follow the curvature of the Earth when the path contour is dragged. Defaults to <code>false</code>.</li>
 <li><code>visible</code> - optional; boolean value. If set to <code>true</code>, the path is visible on the map. Defaults to <code>true</code>.</li>
 <li><code>zIndex</code> - optional; integer value. Represents the zIndex compared to other path elements</li>
+<li><code>path.hyperlink</code> - optional; string value. Represents the hyperlink associated with this path on click event.</li>
+<li><code>path.hyperlink.target</code> - optional; string value. Represents the hyperlink target associated with this path on click event. Allowed values are:
+<ul>
+<li><code>_blank</code></li>
+<li><code>_parent</code></li>
+<li><code>_self</code></li>
+<li><code>_top</code></li>
+<li>a valid window/frame name</li>
+</ul>
+</li>
 </ul>
 <b>Notes:</b> 
 <ul>
@@ -463,6 +473,8 @@ The own properties of the current style will override the parent properties.</li
 <li><code>geodesic</code></li>
 <li><code>visible</code></li>
 <li><code>zIndex</code></li>
+<li><code>path.hyperlink</code></li>
+<li><code>path.hyperlink.target</code></li>
 </ul>
 <b>Notes:</b> 
 <ul>

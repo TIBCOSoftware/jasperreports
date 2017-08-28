@@ -126,6 +126,7 @@ define(function(require){
             if(p) {
                 for(var k=0; k<p.length; k++){
                     var props = p[k],o={},l=[],isPoly = false;
+                    var poly;
                     for(prop in props){
                         if(prop === 'locations' && props[prop]){
                             var loc = props[prop];
@@ -142,10 +143,13 @@ define(function(require){
                     o['map']=map;
                     if(isPoly){
                         o['paths']=l;
-                        new google.maps.Polygon(o);
+                        poly = new google.maps.Polygon(o);
                     } else {
                         o['path']=l;
-                        new google.maps.Polyline(o);
+                        poly = new google.maps.Polyline(o);
+                    }
+                    if(o['path.hyperlink']){
+                    	gg.event.addListener(poly, 'click', function(){window.open(o['path.hyperlink'], o['path.hyperlink.target'])});
                     }
                 }
             }
