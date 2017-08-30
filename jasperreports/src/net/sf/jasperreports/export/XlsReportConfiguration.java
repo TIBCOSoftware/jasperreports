@@ -401,8 +401,15 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			)
 	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.names.";
 	
+	/**
+	 * Properties having <code>net.sf.jasperreports.export.xls.format.patterns.map.</code> prefix are used to store specific Excel 
+	 * format patterns that correspond to their related Java format pattern. The <code>{arbitrary_pattern}</code> suffix represents 
+	 * the Java pattern and the property value is the related Excel pattern. When these properties are defined in a JRXML report design, 
+	 * special characters should be XML-escaped. When they are defined in a properties file, one should also escape special characters.  
+	 * If some properties are defined in the report, they will override the context properties.
+	 */
 	@Property(
-			name = "net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_format}",
+			name = "net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_pattern}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_6_4_3

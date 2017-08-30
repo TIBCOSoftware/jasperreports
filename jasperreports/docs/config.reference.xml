@@ -4965,6 +4965,19 @@ Allowed values are:
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_pattern} -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_pattern}">
+    <description>
+Properties having <code>net.sf.jasperreports.export.xls.format.patterns.map.</code> prefix are used to store specific Excel 
+format patterns that correspond to their related Java format pattern. The <code>{arbitrary_pattern}</code> suffix represents 
+the Java pattern and the property value is the related Excel pattern. When these properties are defined in a JRXML report design, 
+special characters should be XML-escaped. When they are defined in a properties file, one should also escape special characters. 
+If some properties are defined in the report, they will override the context properties.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xls.ignore.anchors -->
   
   <configProperty name="net.sf.jasperreports.export.xls.ignore.anchors">
