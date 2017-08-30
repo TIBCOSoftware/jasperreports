@@ -26,7 +26,9 @@ package net.sf.jasperreports.export;
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -171,6 +173,19 @@ public class PropertiesExporterConfigurationFactory<C extends CommonExportConfig
 			if (properties != null && !properties.isEmpty())
 			{
 				value = properties.toArray(new PropertySuffix[properties.size()]);
+			}
+		}
+		else if(Map.class.equals(type))
+		{
+			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(propertiesHolder, propertyName);
+			if (properties != null && !properties.isEmpty())
+			{
+				Map<String,String> values = new HashMap<String,String>();
+				for(PropertySuffix propertySuffix : properties)
+				{
+					values.put(propertySuffix.getSuffix(), propertySuffix.getValue());
+				}
+				value = values;
 			}
 		}
 		else
