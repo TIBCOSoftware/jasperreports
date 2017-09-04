@@ -143,13 +143,14 @@ public class XlsxCellHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 
-		int styleIndex = 0;
+		Integer styleIndex = null;
 		
 		if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 		{
 			styleIndex = ((ElementGridCell)((OccupiedGridCell)gridCell).getOccupier()).getStyleIndex();
 		}
-		else
+		
+		if (styleIndex == null)
 		{
 			styleIndex = 
 				styleHelper.getCellStyle(
@@ -164,7 +165,10 @@ public class XlsxCellHelper extends BaseHelper
 					rotation,
 					sheetInfo
 					);
-			if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+			if (
+				gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL
+				&& gridCell instanceof ElementGridCell
+				)
 			{
 				((ElementGridCell)gridCell).setStyleIndex(styleIndex);
 			}
