@@ -562,7 +562,9 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				while (
 					groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
-					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY 
+					//FIXME in multi-band group headers, it can happen that some bands fit on the remaining space on the page,
+					// while the rest of them will honor minHeightToStartNewPage; maybe only the first printing band should honor this property
 					)
 				{
 					fillColumnBreak(
