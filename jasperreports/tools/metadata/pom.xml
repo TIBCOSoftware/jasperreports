@@ -4,7 +4,7 @@
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-metadata</artifactId>
 	<packaging>jar</packaging>
-	<version>6.4.2-SNAPSHOT</version>
+	<version>6.4.3-SNAPSHOT</version>
 	<name>jasperreports-metadata</name>
 	<url>http://jasperreports.sourceforge.net</url>
 	<build>

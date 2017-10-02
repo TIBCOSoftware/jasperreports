@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.4.2 (2017-0x-xx)
+JasperReports 6.4.3 (2017-1x-xx)
 ---------------------------------------------
 
 - simple text expressions;
