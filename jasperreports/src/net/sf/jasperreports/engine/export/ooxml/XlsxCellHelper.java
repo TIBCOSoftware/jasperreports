@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 
 
@@ -83,12 +84,12 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	 */
 	public void exportHeader(
-		JRExporterGridCell gridCell,
-		int rowIndex,
-		int colIndex, 
-		int maxColIndex,
-		JRXlsAbstractExporter.SheetInfo sheetInfo
-		) 
+			JRExporterGridCell gridCell,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex,
+			JRXlsAbstractExporter.SheetInfo sheetInfo
+			) 
 	{
 		exportHeader(
 				gridCell,
@@ -105,6 +106,75 @@ public class XlsxCellHelper extends BaseHelper
 				false, 
 				RotationEnum.NONE, 
 				sheetInfo);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportHeader(
+			JRExporterGridCell gridCell,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex, 
+			TextValue textValue,
+			String pattern,
+			Locale locale,
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting, 
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo
+			) 
+	{
+		exportHeader(
+				gridCell,
+				rowIndex,
+				colIndex, 
+				maxColIndex, 
+				textValue,
+				pattern,
+				locale,
+				isWrapText,
+				isHidden,
+				isLocked,
+				isShrinkToFit,
+				isIgnoreTextFormatting, 
+				rotation,
+				sheetInfo,
+				null
+				);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportHeader(
+		JRExporterGridCell gridCell,
+		int rowIndex,
+		int colIndex, 
+		int maxColIndex,
+		JRXlsAbstractExporter.SheetInfo sheetInfo,
+		LineDirectionEnum direction
+		) 
+	{
+		exportHeader(
+				gridCell,
+				rowIndex, 
+				colIndex, 
+				maxColIndex, 
+				null, 
+				null, 
+				null, 
+				true, 
+				false, 
+				false, 
+				false, 
+				false, 
+				RotationEnum.NONE, 
+				sheetInfo,
+				direction);
 	}
 
 	/**
@@ -124,7 +194,8 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isShrinkToFit,
 		boolean isIgnoreTextFormatting, 
 		RotationEnum rotation,
-		JRXlsAbstractExporter.SheetInfo sheetInfo
+		JRXlsAbstractExporter.SheetInfo sheetInfo,
+		LineDirectionEnum direction
 		) 
 	{
 		try
@@ -163,7 +234,8 @@ public class XlsxCellHelper extends BaseHelper
 					isShrinkToFit, 
 					isIgnoreTextFormatting,
 					rotation,
-					sheetInfo
+					sheetInfo,
+					direction
 					);
 			if (
 				gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL

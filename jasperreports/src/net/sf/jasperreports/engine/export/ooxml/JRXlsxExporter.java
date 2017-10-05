@@ -1340,10 +1340,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
+		LineDirectionEnum direction = null;
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if(line.getHeight() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getTopPen();
 			}
@@ -1354,7 +1360,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		}
 		else
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if(line.getWidth() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getLeftPen();
 			}
@@ -1369,7 +1380,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
