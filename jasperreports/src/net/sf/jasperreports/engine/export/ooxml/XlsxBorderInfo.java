@@ -109,7 +109,8 @@ public class XlsxBorderInfo
 			+ "|" + borderStyle[LEFT_BORDER] + "|" + borderColor[LEFT_BORDER]
 			+ "|" + borderStyle[BOTTOM_BORDER] + "|" + borderColor[BOTTOM_BORDER]
 			+ "|" + borderStyle[RIGHT_BORDER] + "|" + borderColor[RIGHT_BORDER]
-			+ "|" + borderStyle[DIAGONAL_BORDER] + "|" + borderColor[DIAGONAL_BORDER];
+			+ "|" + borderStyle[DIAGONAL_BORDER] + "|" + borderColor[DIAGONAL_BORDER]
+			+ "|" + direction;
 	}
 
 	public LineDirectionEnum getDirection() 
