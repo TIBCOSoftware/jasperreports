@@ -44,7 +44,7 @@ define(function(require){
 
             // try to load the Gogle Maps API once, otherwise conflicts will happen
             if (typeof google === 'undefined' || (typeof google !== 'undefined' && typeof google.maps === 'undefined')) {
-                require(["async!http://maps.google.com/maps/api/js?sensor=false" + reqParams + "!callback"], function() {
+            		require(["async!//maps.google.com/maps/api/js?sensor=false" + reqParams + "!callback"], function() {
                     it._showMap(it.config.id, instData.latitude, instData.longitude, instData.zoom, instData.mapType, instData.markerList, instData.pathsList);
                 });
             } else {
