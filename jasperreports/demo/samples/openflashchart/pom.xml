@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-ofc</artifactId>
-	<version>6.4.3-SNAPSHOT</version>
+	<version>6.4.3</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Open Flash Chart Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.4.3-SNAPSHOT</version>
+			<version>6.4.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

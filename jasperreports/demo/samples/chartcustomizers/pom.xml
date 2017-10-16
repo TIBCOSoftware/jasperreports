@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-customizers</artifactId>
-	<version>6.4.3-SNAPSHOT</version>
+	<version>6.4.3</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Customizers</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -21,6 +21,11 @@
 		<url>https://github.com/Jaspersoft/jasperreports</url>
 	</scm>
 	<repositories>
+		<repository>
+			<id>jr-ce-releases</id>
+			<name>JasperReports CE Releases</name>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
+		</repository>
 		<repository>
 			<id>jr-ce-snapshots</id>
 			<name>JasperReports CE Snapshots</name>
@@ -93,7 +98,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.4.3-SNAPSHOT</version>
+			<version>6.4.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

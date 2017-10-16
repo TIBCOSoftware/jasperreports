@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>6.4.3-SNAPSHOT</version>
+	<version>6.4.3</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -55,6 +55,11 @@
 		<repository>
 			<id>jaspersoft-third-party</id>
 			<url>http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+		</repository>
+		<repository>
+			<id>jr-ce-releases</id>
+			<name>JasperReports CE Releases</name>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
 		</repository>
 		<repository>
 			<id>jr-snapshots</id>
@@ -123,7 +128,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>6.4.3-SNAPSHOT</version>
+							<version>6.4.3</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -550,7 +555,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>6.4.3-SNAPSHOT</version>
+			<version>6.4.3</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
