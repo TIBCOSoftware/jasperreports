@@ -2,10 +2,30 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.4.3 (2017-1x-xx)
+JasperReports 6.4.3 (2017-10-16)
 ---------------------------------------------
 
-- simple text expressions;
+- removed JExcelApi dependency and the deprecated source code using it, 
+including exporters, data sources and query executers;
+
+- removed deprecated HTML and XHTML exporters;
+
+- support for simple text expressions to simplify writing expressions for custom properties, 
+which rely on direct parameter/field/variable reference in-place value expansion, 
+instead of the usual Java language string concatenation syntax;
+
+- introducing support for custom properties annotations for better documentation 
+of all available JasperReports configurations and for enhanced custom properties 
+helper tools in Jaspersoft Studio;
+
+- added new isPreventOrphanFooter flag added to report and dataset group definitions, 
+to avoid rendering group footers without any accompanying record at the top of new pages;
+
+- added new minDetailsToStartFromTop attribute in report and dataset group definitions, 
+to avoid rendering group headers too low on the page, where not enough detail records can fit;
+
+- refactored some of the provided samples, including the Web application samples, 
+to make use of the Jetty engine and make it easier to test them locally;
 
 - minor bug fixes and improvements;
 

@@ -57,6 +57,11 @@
 			<url>http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
 		</repository>
 		<repository>
+			<id>jr-ce-releases</id>
+			<name>JasperReports CE Releases</name>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
+		</repository>
+		<repository>
 			<id>jr-snapshots</id>
 			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots/</url>
 		</repository>
@@ -174,8 +179,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.0-M1</version>
 				<configuration>
 					<quiet>true</quiet>
+					<doclint>none</doclint>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -1,7 +1,7 @@
 <ivysettings>
     <settings defaultResolver="maven"/>
     <resolvers>
-        <chain name="maven" changingPattern=".*-SNAPSHOT.*">
+        <chain name="maven">
             <ibiblio name="ibiblio" m2compatible="true" usepoms="false"/>
             <ibiblio name="jaspersoft" m2compatible="true" usepoms="false"
                 root="http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"/>
