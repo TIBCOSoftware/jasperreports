@@ -2,6 +2,15 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.4.4 (2017-1x-xx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.4.3 (2017-10-16)
 ---------------------------------------------
 
@@ -18,7 +27,7 @@ instead of the usual Java language string concatenation syntax;
 of all available JasperReports configurations and for enhanced custom properties 
 helper tools in Jaspersoft Studio;
 
-- added new isPreventOrphanFooter flag added to report and dataset group definitions, 
+- added new isPreventOrphanFooter flag in report and dataset group definitions, 
 to avoid rendering group footers without any accompanying record at the top of new pages;
 
 - added new minDetailsToStartFromTop attribute in report and dataset group definitions, 
