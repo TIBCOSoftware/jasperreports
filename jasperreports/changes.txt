@@ -5,6 +5,8 @@ JasperReports Library Change Log
 JasperReports 6.4.4 (2017-1x-xx)
 ---------------------------------------------
 
+- xls format pattern properties;
+
 - minor bug fixes and improvements;
 
 
