@@ -79,7 +79,7 @@ public interface MapComponent extends Component, JRCloneable
 	@Property(
 			category = PropertyConstants.CATEGORY_MAP,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2
+			sinceVersion = PropertyConstants.VERSION_6_4_3
 			)
 	public static final String PROPERTY_GOOGLE_VERSION = PROPERTY_PREFIX + "google.version";
 

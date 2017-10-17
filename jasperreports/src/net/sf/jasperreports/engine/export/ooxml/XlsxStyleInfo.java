@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRTextAlignment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -56,6 +57,7 @@ public class XlsxStyleInfo
 	protected boolean whitePageBackground;
 	protected boolean ignoreCellBackground;
 	protected boolean ignoreCellBorder;
+	protected LineDirectionEnum direction;
 
 	/**
 	 *
@@ -71,7 +73,8 @@ public class XlsxStyleInfo
 		boolean isShrinkToFit,
 		boolean isIgnoreTextFormatting,
 		int rotation,
-		JRXlsAbstractExporter.SheetInfo sheetInfo
+		JRXlsAbstractExporter.SheetInfo sheetInfo,
+		LineDirectionEnum direction
 		)
 	{
 		this.formatIndex = formatIndex;
@@ -116,6 +119,7 @@ public class XlsxStyleInfo
 		{
 			this.ignoreCellBorder = sheetInfo.ignoreCellBorder;
 		}
+		this.direction = direction;
 	}
 	
 	protected String getHorizontalAlignment(HorizontalTextAlignEnum hAlign, VerticalTextAlignEnum vAlign, int rotation)
@@ -255,6 +259,6 @@ public class XlsxStyleInfo
 		return 
 		formatIndex + "|" + fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign 
 		+ "|" + isWrapText + "|" + isHidden + "|" + isLocked + "|" + isShrinkToFit + "|" + rotation + "|" + whitePageBackground 
-		+ "|" + ignoreCellBackground + "|" + ignoreCellBorder;
+		+ "|" + ignoreCellBackground + "|" + ignoreCellBorder + "|" + direction;
 	}
 }

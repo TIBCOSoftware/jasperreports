@@ -782,7 +782,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_PAGE_TOP_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.top.margin";
@@ -809,7 +809,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_PAGE_LEFT_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.left.margin";
@@ -836,7 +836,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_PAGE_BOTTOM_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.bottom.margin";
@@ -863,7 +863,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_PAGE_RIGHT_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.right.margin";
@@ -890,7 +890,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_HEADER_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.header.margin";
@@ -917,7 +917,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_FOOTER_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.footer.margin";
@@ -984,7 +984,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			name = "net.sf.jasperreports.export.xls.defined.names.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2
+			sinceVersion = PropertyConstants.VERSION_6_4_3
 			)
 	public static final String PROPERTY_DEFINED_NAMES_PREFIX = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "defined.names.";
 	

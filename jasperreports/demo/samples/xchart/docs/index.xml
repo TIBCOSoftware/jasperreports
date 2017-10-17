@@ -14,7 +14,7 @@
     <description>
 How to render images using the <a href="http://knowm.org/open-source/xchart">XChart</a> library.
     </description>
-    <since>6.4.2</since>
+    <since>6.4.3</since>
     <documentedBy>
       <author>
     	<name>Sanda Zaharia</name>

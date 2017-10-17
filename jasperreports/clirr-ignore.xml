@@ -127,4 +127,51 @@
 		<method>*fillColumnBand(net.sf.jasperreports.engine.fill.JRFillBand, byte)</method>
 		<to>void</to>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRGroup</className>
+		<differenceType>7012</differenceType>
+		<method>*etMinDetailsToStartFromTop*</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRPropertiesUtil</className>
+		<differenceType>7002</differenceType>
+		<method>*getLongProperty*</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter</className>
+		<differenceType>7013</differenceType>
+		<method>*updateSheet(net.sf.jasperreports.engine.JRPrintElement)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/XlsxSheetHelper</className>
+		<differenceType>7004</differenceType>
+		<method>*exportFooter(int, net.sf.jasperreports.engine.PrintPageFormat, boolean, java.lang.String, java.lang.Integer, java.lang.Integer, boolean, java.lang.Integer)</method>
+	</difference>	
+	<difference>
+		<className>net/sf/jasperreports/engine/export/ooxml/XlsxWorkbookHelper</className>
+		<differenceType>7004</differenceType>
+		<method>*exportSheet(int, java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/*Filler</className>
+		<differenceType>7004</differenceType>
+		<method>*ignorePaginationSet()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillCellContents</className>
+		<differenceType>7002</differenceType>
+		<method>*setWidth(int)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillCellContents</className>
+		<differenceType>7002</differenceType>
+		<method>*setHeight(int)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/TextMeasurer$TextMeasuredState</className>
+		<differenceType>6004</differenceType>
+		<field>*ontSize*</field>
+		<from>int</from>
+		<to>float</to>
+	</difference>
 </differences>

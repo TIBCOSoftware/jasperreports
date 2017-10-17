@@ -57,7 +57,7 @@ public class RelativeDateRange extends AbstractDateRange implements DateRangeExp
 	@Property (
 			category = PropertyConstants.CATEGORY_OTHER,
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Integer.class
 	)
 	public static final String PROPERTY_WEEK_START_DAY = JRPropertiesUtil.PROPERTY_PREFIX + "week.start.day";

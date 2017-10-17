@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -97,14 +98,15 @@ public class XlsxStyleHelper extends BaseHelper
 		boolean  isShrinkToFit,
 		boolean isIgnoreTextFormatting,
 		RotationEnum rotation,
-		JRXlsAbstractExporter.SheetInfo sheetInfo
+		JRXlsAbstractExporter.SheetInfo sheetInfo,
+		LineDirectionEnum direction
 		)
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
 				formatHelper.getFormat(pattern) + 1,
 				fontHelper.getFont(gridCell, locale) + 1,
-				borderHelper.getBorder(gridCell, sheetInfo) + 1,
+				borderHelper.getBorder(gridCell, sheetInfo, direction) + 1,
 				gridCell,
 				isWrapText,
 				isHidden,
@@ -112,7 +114,8 @@ public class XlsxStyleHelper extends BaseHelper
 				isShrinkToFit,
 				isIgnoreTextFormatting, 
 				getRotation(rotation),
-				sheetInfo
+				sheetInfo,
+				direction
 				);
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)

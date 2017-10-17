@@ -5627,7 +5627,7 @@ For instance, a left header property that contains the 'Page &lt;i&gt; of &lt;n&
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.left" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same left header property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5661,7 +5661,7 @@ For instance, a center header property that contains the 'Page &lt;i&gt; of &lt;
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.center" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same center header property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5695,7 +5695,7 @@ For instance, a right header property that contains the 'Page &lt;i&gt; of &lt;n
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same right header property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5729,7 +5729,7 @@ For instance, a left footer property that contains the 'Page &lt;i&gt; of &lt;n&
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.left" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same left footer property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5763,7 +5763,7 @@ For instance, a center footer property that contains the 'Page &lt;i&gt; of &lt;
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.center" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same center footer property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5797,7 +5797,7 @@ For instance, a right footer property that contains the 'Page &lt;i&gt; of &lt;n
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same right footer property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
