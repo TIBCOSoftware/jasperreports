@@ -102,22 +102,22 @@ In this case the <code>EEE, MMM d, yyyy</code> pattern, completely valid in Java
 <code>ddd, mmm d, yyyy</code> pattern when exporting report to Excel.
 <br/>
 <br/>
-<subtitle name="formatPatternsMap">Format Patterns Map Properties</subtitle>    
+<subtitle name="formatPatterns">Format Pattern Properties</subtitle>    
 <br/>
 <br/>
 In case we have several reports where the same Excel specific patterns should be applied, or if we have several elements in a report 
 sharing the same format pattern, a huge effort will be consumed to write a <code>net.sf.jasperreports.export.xls.pattern</code> property per each 
 affected textfield. We need a global setting to manage format patterns globally.
 <br/>
-Starting with JasperReports v.6.4.3 were introduced the 
-<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#FORMAT_PATTERNS_MAP_PREFIX">net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_pattern}</api> 
+Starting with JasperReports v.6.4.4 were introduced the 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#FORMAT_PATTERN_PREFIX">net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}</api> 
 properties. These properties can be set per report context or per report. Properties defined in the report will override the context properties.
 <br/>
 <br/>
 The <code>{arbitrary_pattern}</code> suffix represents a Java format pattern that is present in a report, and the property value represents the 
 corresponding Excel format pattern. At export time, whenever an element provides a Java pattern, the exporter looks first for the 
 <code>net.sf.jasperreports.export.xls.pattern</code> property at element level. If no such property is found, then the exporter looks into 
-the format patterns map constructed from all the <code>net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_pattern}</code> properties. 
+the format patterns map constructed from all the <code>net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}</code> properties. 
 Keys of this map are the Java patterns and values are the related Excel patterns. If the exporter finds the Java pattern it is looking for, it 
 will apply the related Excel pattern for that element.
 <br/>
@@ -126,23 +126,19 @@ When these properties are defined in JRXML or in a properties file, special char
 (for instance: '&lt;', '&amp;', etc, in JRXML; or '=', whitespace, etc, in the properties file).
 <br/>
 <br/>
-An element-level property <code>net.sf.jasperreports.export.xls.pattern</code> takes precedence over <code>net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_pattern}</code>.
+An element-level property <code>net.sf.jasperreports.export.xls.pattern</code> takes precedence over <code>net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}</code>.
 <br/>
 <br/>
 An example of working with these properties can be found in the <code>FormatPatternsMap.jrxml</code> JRXML sample. Here there are some 
 textfields with Java format patterns declared in their <code>pattern</code> attribute, that are unreadable in Excel. They are translated 
-into Excel patterns using the <code>net.sf.jasperreports.export.xls.format.patterns.map.{arbitrary_pattern}</code> properties declared in 
+into Excel patterns using the <code>net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}</code> properties declared in 
 <code>jasperreports.properties</code> file.
 <br/>
 <br/>
 The JRXML sample:
 <pre><![CDATA[
 <textField pattern="EEE, MMM d, yyyy">
-	<reportElement x="180" y="135" width="300" height="30" uuid="60dd5839-6f84-4da8-a9a5-76c9f2370e1e">
-		<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-	</reportElement>
+	<reportElement x="180" y="135" width="300" height="30" uuid="60dd5839-6f84-4da8-a9a5-76c9f2370e1e"/>
 	<textFieldExpression><![CDATA[new java.util.Date()]] ></textFieldExpression>
 </textField>
 
@@ -151,9 +147,6 @@ The JRXML sample:
 <textField pattern="hh:mm a">
 	<reportElement x="180" y="165" width="300" height="30" uuid="60dd5839-6f84-4da8-a9a5-76c9f2370e1e">
 		<property name="net.sf.jasperreports.export.xls.pattern" value="hh:mm AM/PM"/>
-		<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 	</reportElement>
 	<textFieldExpression><![CDATA[new java.util.Date()]] ></textFieldExpression>
 </textField>
@@ -161,31 +154,23 @@ The JRXML sample:
 ...
 
 <textField pattern="#,##0.00¤">
-	<reportElement x="180" y="195" width="300" height="30" uuid="e6f74411-edd0-4e48-b277-1cda87817fd0">
-		<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-	</reportElement>
+	<reportElement x="180" y="195" width="300" height="30" uuid="e6f74411-edd0-4e48-b277-1cda87817fd0"/>
 	<textFieldExpression><![CDATA[1234.567]] ></textFieldExpression>
 </textField>
 
 ...
 
 <textField pattern="#,##0.00">
-	<reportElement x="180" y="225" width="300" height="30" uuid="8ad57dcc-9a06-4c26-bfcb-444a96149105">
-		<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-		<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-	</reportElement>
+	<reportElement x="180" y="225" width="300" height="30" uuid="8ad57dcc-9a06-4c26-bfcb-444a96149105"/>
 	<textFieldExpression><![CDATA[0.25]] ></textFieldExpression>
 </textField>
 ]]></pre>
 The <code>jasperreports.properties</code> file:  
 <pre><![CDATA[
 # whitespaces in property key should be prefixed with '\'
-net.sf.jasperreports.export.xls.format.patterns.map.EEE,\ MMM\ d,\ yyyy=ddd, MMM dd, yyyy
-net.sf.jasperreports.export.xls.format.patterns.map.#,##0.00¤=#,##0.00$
-net.sf.jasperreports.export.xls.format.patterns.map.#,##0.00=#,##0.00%]]></pre>
+net.sf.jasperreports.export.xls.pattern.EEE,\ MMM\ d,\ yyyy=ddd, MMM dd, yyyy
+net.sf.jasperreports.export.xls.pattern.#,##0.00¤=#,##0.00$
+net.sf.jasperreports.export.xls.pattern.#,##0.00=#,##0.00%]]></pre>
 In this case the <code>'EEE, MMM d, yyyy'</code> pattern is replaced with the 
 equivalent <code>'ddd, mmm dd, yyyy'</code> pattern when exporting report to Excel. 
 <code>'#,##0.00¤'</code> is replaced with <code>'#,##0.00$'</code> and <code>'#,##0.00'</code> is replaced with <code>'#,##0.00%'</code>.

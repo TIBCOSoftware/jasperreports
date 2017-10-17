@@ -168,7 +168,7 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 				value = values;
 			}
 		}
-		else if(PropertySuffix[].class.equals(type))
+		else if (PropertySuffix[].class.equals(type))
 		{
 			List<PropertySuffix> properties = propertiesUtil.getProperties(propertyName);
 			if (properties != null && !properties.isEmpty())
@@ -176,13 +176,13 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 				value = properties.toArray(new PropertySuffix[properties.size()]);
 			}
 		}
-		else if(Map.class.equals(type))
+		else if (Map.class.equals(type))
 		{
 			List<PropertySuffix> properties = propertiesUtil.getProperties(propertyName);
 			if (properties != null && !properties.isEmpty())
 			{
 				Map<String,String> values = new HashMap<String,String>();
-				for(PropertySuffix propertySuffix : properties)
+				for (PropertySuffix propertySuffix : properties)
 				{
 					values.put(propertySuffix.getSuffix(), propertySuffix.getValue());
 				}
