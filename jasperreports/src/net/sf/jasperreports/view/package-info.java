@@ -82,10 +82,10 @@
  * point to external documents. To do this, simply implement the 
  * {@link net.sf.jasperreports.view.JRHyperlinkListener} interface and add an instance 
  * of this listener class to register with the viewer component, using the 
- * {@link net.sf.jasperreports.swing.JRViewer#addHyperlinkListener(JRHyperlinkListener) addHyperlinkListener(JRHyperlinkListener)} method exposed by the 
- * {@link net.sf.jasperreports.swing.JRViewer} class. By doing this, you ensure that the 
+ * {@link net.sf.jasperreports.swing.JRViewerPanel#addHyperlinkListener(JRHyperlinkListener) addHyperlinkListener(JRHyperlinkListener)} method exposed by the 
+ * {@link net.sf.jasperreports.swing.JRViewerPanel} class. By doing this, you ensure that the 
  * viewer will also call the implementation of the 
- * {@link net.sf.jasperreports.swing.JRViewer#gotoHyperlink(net.sf.jasperreports.engine.JRPrintHyperlink) gotoHyperlink(JRPrintHyperlink)} method in which 
+ * {@link net.sf.jasperreports.swing.JRViewerPanel#gotoHyperlink(net.sf.jasperreports.engine.JRPrintHyperlink) gotoHyperlink(JRPrintHyperlink)} method in which 
  * the external references are handled. 
  * </p><p>
  * There are two ways of rendering the current document page on the viewer component: 
