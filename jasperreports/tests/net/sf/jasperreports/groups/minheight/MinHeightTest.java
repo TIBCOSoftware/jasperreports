@@ -39,6 +39,6 @@ public class MinHeightTest extends AbstractGroupTest
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/groups/minheight/repo", "MinHeightReport", 1);
+		testReports("net/sf/jasperreports/groups/minheight/repo", "MinHeightReport", 2);
 	}
 }
