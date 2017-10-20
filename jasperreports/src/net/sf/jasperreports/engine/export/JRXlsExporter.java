@@ -150,6 +150,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static final String XLS_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xls";
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
+	private static short A2_PAPERSIZE = (short)66; 	/* A2_PAPERSIZE defined locally since it is not declared in HSSFPrintSetup */
 	
 	private static Map<HSSFColor, short[]> hssfColorsRgbs;
 	
@@ -2004,15 +2005,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 			// Compare to ISO 216 A-Series (A3-A5). All other ISO 216 formats
 			// not supported by POI Api yet.
-			// A3 papersize also not supported by POI Api yet.
-			for (int i = 4; i < 6; i++)
+			for (int i = 2; i < 6; i++)
 			{
 				int w = calculateWidthForDinAN(i);
 				int h = calculateHeightForDinAN(i);
 
 				if (((w == width) && (h == height)) || ((h == width) && (w == height)))
 				{
-					if (i == 4)
+					if (i == 2)
+					{
+						// local A2_PAPERSIZE constant
+						ps = A2_PAPERSIZE;
+					}
+					if (i == 3)
+					{
+						ps = HSSFPrintSetup.A3_PAPERSIZE;
+					}
+					else if (i == 4)
 					{
 						ps = HSSFPrintSetup.A4_PAPERSIZE;
 					}
