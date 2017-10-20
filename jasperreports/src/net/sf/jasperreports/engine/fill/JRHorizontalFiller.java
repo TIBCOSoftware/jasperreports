@@ -557,8 +557,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 				);
 		}
 
+		boolean isFirstHeaderBandToPrint = true;
+		boolean isGroupReset = false;
+		
 		JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
-		for(int i = 0; i < groupHeaderBands.length; i++)
+		for (int i = 0; i < groupHeaderBands.length; i++)
 		{
 			JRFillBand groupHeaderBand = groupHeaderBands[i];
 
@@ -568,7 +571,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				while (
 					groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
-					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+					(isFirstHeaderBandToPrint && group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY)
 					)
 				{
 					fillPageBreak(
@@ -580,12 +583,16 @@ public class JRHorizontalFiller extends JRBaseFiller
 				}
 			}
 
-			if (i == 0)
+			if (!isGroupReset && (isFirstHeaderBandToPrint || i == groupHeaderBands.length - 1))
 			{
+				// perform this group reset before the first header band prints, 
+				// or before the last header band, regardless if it prints or not 
 				setNewGroupInBands(group);
 
 				group.setFooterPrinted(false);
 				group.resetDetailsCount();
+				
+				isGroupReset = true;
 			}
 
 			ElementRange elementRange = null;
@@ -631,6 +638,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				isFirstPageBand = false;
 				isFirstColumnBand = true;
+				
+				isFirstHeaderBandToPrint = false;
 			}
 		}
 
