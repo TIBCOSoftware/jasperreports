@@ -551,8 +551,11 @@ public class JRVerticalFiller extends JRBaseFiller
 				);
 		}
 
+		boolean isFirstHeaderBandToPrint = true;
+		boolean isGroupReset = false;
+		
 		JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
-		for(int i = 0; i < groupHeaderBands.length; i++)
+		for (int i = 0; i < groupHeaderBands.length; i++)
 		{
 			JRFillBand groupHeaderBand = groupHeaderBands[i];
 
@@ -562,9 +565,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				while (
 					groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
-					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY 
-					//FIXME in multi-band group headers, it can happen that some bands fit on the remaining space on the page,
-					// while the rest of them will honor minHeightToStartNewPage; maybe only the first printing band should honor this property
+					(isFirstHeaderBandToPrint && group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY) 
 					)
 				{
 					fillColumnBreak(
@@ -574,12 +575,16 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 			}
 
-			if (i == 0)
+			if (!isGroupReset && (isFirstHeaderBandToPrint || i == groupHeaderBands.length - 1))
 			{
+				// perform this group reset before the first header band prints, 
+				// or before the last header band, regardless if it prints or not 
 				setNewGroupInBands(group);
 
 				group.setFooterPrinted(false);
 				group.resetDetailsCount();
+				
+				isGroupReset = true;
 			}
 
 			ElementRange elementRange = null;
@@ -623,6 +628,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				isFirstPageBand = false;
 				isFirstColumnBand = false;
+				
+				isFirstHeaderBandToPrint = false;
 			}
 		}
 
