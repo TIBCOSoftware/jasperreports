@@ -39,6 +39,6 @@ public class MinDetailsTest extends AbstractGroupTest
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/groups/mindetails/repo", "MinDetailsReport", 33);
+		testReports("net/sf/jasperreports/groups/mindetails/repo", "MinDetailsReport", 36);
 	}
 }
