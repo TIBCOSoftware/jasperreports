@@ -106,10 +106,10 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="70">
+		<band height="60">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="0" width="515" height="70" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c">
+				<reportElement mode="Transparent" x="0" y="0" width="515" height="60" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>

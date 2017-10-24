@@ -5,7 +5,7 @@
 	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/groups/mindetails/repo/MinDetailsDataAdapter.1.xml"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KeepTogetherDataAdapter.2.xml"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-	<group name="FirstGroup" minHeightToStartNewPage="60" minDetailsToStartFromTop="11">
+	<group name="FirstGroup" minHeightToStartNewPage="60" minDetailsToStartFromTop="10">
 		<groupExpression><![CDATA[$V{FirstGroup_COUNT} > 15]]></groupExpression>
 		<groupHeader>
 			<band height="40">
@@ -98,10 +98,10 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="205">
+		<band height="180">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement mode="Transparent" x="0" y="0" width="515" height="205" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c">
+				<reportElement mode="Transparent" x="0" y="0" width="515" height="180" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -114,6 +114,23 @@
 			</textField>
 		</band>
 	</title>
+	<pageHeader>
+		<band height="25">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="0" width="515" height="25" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Page Header"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
 	<detail>
 		<band height="25">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>

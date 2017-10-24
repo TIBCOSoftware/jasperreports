@@ -590,13 +590,13 @@ public class JRVerticalFiller extends JRBaseFiller
 			ElementRange elementRange = null;
 			
 			if (
-				group.isKeepTogether()
+				(group.isKeepTogether() && !isNewColumn)
 				|| group.getMinDetailsToStartFromTop() > 0
 				)
 			{
 				elementRange = group.getKeepTogetherElementRange();
 				
-				if (elementRange == null && !isNewColumn)
+				if (elementRange == null)
 				{
 					// we need to set a keep together element range for the group
 					// even if its header does not print,
