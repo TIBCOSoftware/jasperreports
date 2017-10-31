@@ -5,7 +5,7 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
 	<title>
-		<band height="25" splitType="Prevent">
+		<band height="25">
 			<subreport>
 				<reportElement x="0" y="0" width="515" height="25" uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27"/>
 				<subreportExpression><![CDATA[$P{TEST}.compileReport("net/sf/jasperreports/bands/splittypeprevent/repo/SplitTypePreventReport.5.subreport.1.jrxml")]]></subreportExpression>
