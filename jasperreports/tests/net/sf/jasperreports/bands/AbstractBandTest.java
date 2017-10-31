@@ -61,6 +61,8 @@ public abstract class AbstractBandTest
 {
 	private static final Log log = LogFactory.getLog(AbstractBandTest.class);
 	
+	private static final String TEST = "TEST";
+
 	private JasperFillManager fillManager;
 
 	@BeforeClass
@@ -76,6 +78,7 @@ public abstract class AbstractBandTest
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
+		params.put(TEST, this);
 		
 		for (int i = 1; i <= maxFileNumber; i++)
 		{
@@ -97,7 +100,7 @@ public abstract class AbstractBandTest
 		}
 	}
 
-	protected JasperReport compileReport(String jrxmlFileName) throws JRException, IOException
+	public JasperReport compileReport(String jrxmlFileName) throws JRException, IOException
 	{
 		JasperReport jasperReport = null;
 		
