@@ -1244,7 +1244,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	{
 		summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-		if (summary != missingFillBand && summary.isToPrint())
+		if (summary.isToPrint())
 		{
 			// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
 			if (groupFooterPositionElementRange != null)
@@ -1358,7 +1358,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 		summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-		if (summary != missingFillBand && summary.isToPrint())
+		if (summary.isToPrint())
 		{
 			resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
 			resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
@@ -1426,7 +1426,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			if (summary != missingFillBand && summary.isToPrint())
+			if (summary.isToPrint())
 			{
 				// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
 				if (groupFooterPositionElementRange != null)
@@ -1505,7 +1505,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			if (summary != missingFillBand && summary.isToPrint())
+			if (summary.isToPrint())
 			{
 				// do nothing about groupFooterPositionElementRange because the following fillColumnFooter will do
 				
@@ -1588,7 +1588,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			if (summary != missingFillBand && summary.isToPrint())
+			if (summary.isToPrint())
 			{
 				//SummaryReport.18 test
 
@@ -1645,7 +1645,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			if (summary != missingFillBand && summary.isToPrint())
+			if (summary.isToPrint())
 			{
 				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
@@ -1714,7 +1714,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			if (summary != missingFillBand && summary.isToPrint())
+			if (summary.isToPrint())
 			{
 				// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
 				if (groupFooterPositionElementRange != null)
@@ -1829,7 +1829,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-			if (summary != missingFillBand && summary.isToPrint())
+			if (summary.isToPrint())
 			{
 				resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
 				resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
@@ -1896,7 +1896,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-				if (summary != missingFillBand && summary.isToPrint())
+				if (summary.isToPrint())
 				{
 					resolveGroupBoundElements(JRExpression.EVALUATION_DEFAULT, true);
 					resolveColumnBoundElements(JRExpression.EVALUATION_DEFAULT);
@@ -1938,7 +1938,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				summary.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
-				if (summary != missingFillBand && summary.isToPrint())
+				if (summary.isToPrint())
 				{
 					summary.evaluate(JRExpression.EVALUATION_DEFAULT);
 
