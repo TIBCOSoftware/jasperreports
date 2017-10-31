@@ -319,9 +319,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	protected boolean isToPrint()
 	{
 		return
-			(isPrintWhenExpressionNull() ||
-			 (!isPrintWhenExpressionNull() &&
-			  isPrintWhenTrue()));
+			this != filler.missingFillBand
+			&& (isPrintWhenExpressionNull() 
+			|| (!isPrintWhenExpressionNull() && isPrintWhenTrue()));
 	}
 
 
