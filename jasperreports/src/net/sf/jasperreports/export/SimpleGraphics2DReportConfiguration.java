@@ -32,6 +32,7 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 	private Float zoomRatio;
 	private Boolean isMinimizePrinterJobSize;
 	private Boolean isIgnoreMissingFont;
+	private Boolean isWhitePageBackground;
 
 	/**
 	 * 
@@ -80,5 +81,23 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 	public void setIgnoreMissingFont(Boolean isIgnoreMissingFont)
 	{
 		this.isIgnoreMissingFont = isIgnoreMissingFont;
+	}
+
+	@Override
+	public Boolean isWhitePageBackground()
+	{
+		return isWhitePageBackground;
+	}
+
+	/**
+	 * Sets the flag that determines whether to draw white page backgrounds.
+	 * 
+	 * @param isWhitePageBackground whether to draw white page backgrounds
+	 * @see Graphics2DReportConfiguration#PROPERTY_WHITE_PAGE_BACKGROUND
+	 * @since 6.4.4
+	 */
+	public void setWhitePageBackground(Boolean isWhitePageBackground)
+	{
+		this.isWhitePageBackground = isWhitePageBackground;
 	}
 }

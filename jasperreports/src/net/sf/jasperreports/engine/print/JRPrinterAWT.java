@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.print;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -270,20 +271,30 @@ public class JRPrinterAWT implements Printable
 	{
 		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
 		
+		int rasterWidth = (int) Math.ceil(pageFormat.getPageWidth() * zoom);
+		int rasterHeight = (int) Math.ceil(pageFormat.getPageHeight() * zoom);
 		Image pageImage = new BufferedImage(
-			(int)(pageFormat.getPageWidth() * zoom) + 1,
-			(int)(pageFormat.getPageHeight() * zoom) + 1,
+			rasterWidth,
+			rasterHeight,
 			BufferedImage.TYPE_INT_RGB
 			);
+		
+		Graphics imageGraphics = pageImage.getGraphics();
+		Graphics graphics = imageGraphics.create();
+		//filling the image background here because JRGraphics2DExporter.exportPage uses the page size
+		//which can be smaller than the image size due to Math.ceil above
+		graphics.setColor(Color.white);
+		graphics.fillRect(0, 0, rasterWidth, rasterHeight);
 
 		JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
 		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
-		output.setGraphics2D((Graphics2D)pageImage.getGraphics());
+		output.setGraphics2D((Graphics2D) imageGraphics);
 		exporter.setExporterOutput(output);
 		SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
 		configuration.setPageIndex(pageIndex);
 		configuration.setZoomRatio(zoom);
+		configuration.setWhitePageBackground(false);
 		exporter.setConfiguration(configuration);
 		exporter.exportReport();
 		

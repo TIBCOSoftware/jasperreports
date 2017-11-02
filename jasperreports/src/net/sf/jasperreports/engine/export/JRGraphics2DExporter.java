@@ -160,6 +160,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 	 */
 	protected PrintDrawVisitor drawVisitor;
 	
+	private boolean whitePageBackground = true;
+	
 	protected class ExporterContext extends BaseExporterContext implements JRGraphics2DExporterContext
 	{
 	}
@@ -261,6 +263,8 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
 				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont
 				);
+		
+		whitePageBackground = configuration.isWhitePageBackground();
 	}
 
 	
@@ -328,13 +332,16 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		JRPrintPage page = pages.get(pageIndex);
 		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
 
-		grx.setColor(Color.white);
-		grx.fillRect(
-			0, 
-			0, 
-			pageFormat.getPageWidth(), 
-			pageFormat.getPageHeight()
-			);
+		if (whitePageBackground)
+		{
+			grx.setColor(Color.white);
+			grx.fillRect(
+				0, 
+				0, 
+				pageFormat.getPageWidth(), 
+				pageFormat.getPageHeight()
+				);
+		}
 
 		grx.setColor(Color.black);
 		grx.setStroke(new BasicStroke(1));

@@ -594,9 +594,8 @@ public final class FontUtil
 						new Object[]{face.getName(), family.getName()});
 			}
 
-			awtFont = awtFont.deriveFont(size);
-
-			awtFont = awtFont.deriveFont(style);// & ~faceStyle);
+			//deriving with style and size in one call, because deriving with size and then style loses the float size
+			awtFont = awtFont.deriveFont(style, size);// & ~faceStyle);
 		}
 		return awtFont;
 	}
