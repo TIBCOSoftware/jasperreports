@@ -6761,4 +6761,16 @@ Property that specifies the name of the request parameter associated with this r
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.graphics2d.white.page.background -->
+  
+  <configProperty name="net.sf.jasperreports.export.graphics2d.white.page.background">
+    <description>
+Property that that determines whether the Graphics2D exporter is to draw white backgrounds for exported pages.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/Graphics2DReportConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> Graphics2D export configuration setting.
+    </description>
+  </configProperty>
+  
+  
 </configReference>
