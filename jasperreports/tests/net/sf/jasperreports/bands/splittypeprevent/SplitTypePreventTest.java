@@ -39,6 +39,6 @@ public class SplitTypePreventTest extends AbstractBandTest
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/bands/splittypeprevent/repo", "SplitTypePreventReport", 6);
+		testReports("net/sf/jasperreports/bands/splittypeprevent/repo", "SplitTypePreventReport", 38);
 	}
 }
