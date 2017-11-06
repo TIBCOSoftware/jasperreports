@@ -28,12 +28,13 @@ import java.security.NoSuchAlgorithmException;
 
 import org.testng.annotations.Test;
 
+import net.sf.jasperreports.AbstractTest;
 import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class CrosstabTest extends AbstractCrosstabTest
+public class CrosstabTest extends AbstractTest
 {
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException

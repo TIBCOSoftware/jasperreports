@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.crosstabs;
+package net.sf.jasperreports;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -57,10 +57,12 @@ import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class AbstractCrosstabTest
+public abstract class AbstractTest
 {
-	private static final Log log = LogFactory.getLog(AbstractCrosstabTest.class);
+	private static final Log log = LogFactory.getLog(AbstractTest.class);
 	
+	private static final String TEST = "TEST";
+
 	private JasperFillManager fillManager;
 
 	@BeforeClass
@@ -76,6 +78,7 @@ public abstract class AbstractCrosstabTest
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
+		params.put(TEST, this);
 		
 		for (int i = 1; i <= maxFileNumber; i++)
 		{
@@ -97,7 +100,7 @@ public abstract class AbstractCrosstabTest
 		}
 	}
 
-	protected JasperReport compileReport(String jrxmlFileName) throws JRException, IOException
+	public JasperReport compileReport(String jrxmlFileName) throws JRException, IOException
 	{
 		JasperReport jasperReport = null;
 		

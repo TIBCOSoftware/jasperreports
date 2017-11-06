@@ -28,13 +28,13 @@ import java.security.NoSuchAlgorithmException;
 
 import org.testng.annotations.Test;
 
+import net.sf.jasperreports.AbstractTest;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.groups.AbstractGroupTest;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class OrphanFooterTest extends AbstractGroupTest
+public class OrphanFooterTest extends AbstractTest
 {
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
