@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -87,15 +88,31 @@ public abstract class AbstractTest
 			JasperReport report = compileReport(jrxmlFileName);
 			if (report != null)
 			{
-				JasperPrint print = fillManager.fill(report, params);
-				assert !print.getPages().isEmpty();
+				String exportDigest = null;
+				String referenceExportDigest = null;
+
+				JasperPrint print = null;
+				try
+				{
+					print = fillManager.fill(report, params);
+				}
+				catch (Throwable t)
+				{
+					exportDigest = errExportDigest(t);
+					referenceExportDigest = getFileDigest(folderName + "/" + fileNamePrefix + "." + i + ".reference.err");
+				}
 				
-				String xmlExportDigest = xmlExportDigest(print);
-				log.debug("Plain report got " + xmlExportDigest);
+				if (print != null)
+				{
+					assert !print.getPages().isEmpty();
+					
+					exportDigest = xmlExportDigest(print);
+					log.debug("Plain report got " + exportDigest);
+					
+					referenceExportDigest = getFileDigest(folderName + "/" + fileNamePrefix + "." + i + ".reference.jrpxml");
+				}
 				
-				String referenceXmlExportDigest = getFileDigest(folderName + "/" + fileNamePrefix + "." + i + ".reference.jrpxml");
-				
-				assert xmlExportDigest.equals(referenceXmlExportDigest);
+				assert exportDigest.equals(referenceExportDigest);
 			}
 		}
 	}
@@ -155,6 +172,32 @@ public abstract class AbstractTest
 		}
 		finally
 		{
+			output.close();
+		}
+		
+		return toDigestString(digest);
+	}
+
+	protected String errExportDigest(Throwable t) 
+			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
+	{
+		File outputFile = createXmlOutputFile();
+		log.debug("Error stack trace at " + outputFile.getAbsolutePath());
+		
+		MessageDigest digest = MessageDigest.getInstance("SHA-1");
+		FileOutputStream output = new FileOutputStream(outputFile);
+		OutputStreamWriter osw = null;
+		try
+		{
+			DigestOutputStream out = new DigestOutputStream(output, digest);
+			//PrintStream ps = new PrintStream(out);
+			//t.printStackTrace(ps);
+			osw = new OutputStreamWriter(out, "UTF-8");
+			osw.write(t.getMessage());
+		}
+		finally
+		{
+			osw.close();
 			output.close();
 		}
 		

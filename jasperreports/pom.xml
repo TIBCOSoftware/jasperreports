@@ -107,6 +107,7 @@
 					<include>**/*.png</include>
 					<include>**/*.jpg</include>
 					<include>**/*.json</include>
+					<include>**/*.err</include>
 				</includes>
 			</testResource>
 		</testResources>
