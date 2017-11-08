@@ -129,6 +129,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					addPage(printPage);
 					setFirstColumn();
 					offsetY = topMargin;
+					isFirstPageBand = true;
+					isFirstColumnBand = true;
 
 					fillBackground();
 
@@ -172,6 +174,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					addPage(printPage);
 					setFirstColumn();
 					offsetY = topMargin;
+					isFirstPageBand = true;
+					isFirstColumnBand = true;
 
 					fillBackground();
 
@@ -226,6 +230,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		addPage(printPage);
 		setFirstColumn();
 		offsetY = topMargin;
+		isFirstPageBand = true;
+		isFirstColumnBand = true;
 
 		fillBackground();
 
@@ -398,7 +404,6 @@ public class JRVerticalFiller extends JRBaseFiller
 		columnHeaderOffsetY = offsetY;
 
 		isNewPage = true;
-		isFirstPageBand = true;
 	}
 
 
@@ -441,6 +446,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		setNewPageColumnInBands();
+		isFirstColumnBand = true;
 
 		columnHeader.evaluatePrintWhenExpression(evaluation);
 
@@ -496,7 +502,6 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		isNewColumn = true;
-		isFirstColumnBand = true;
 	}
 
 
@@ -2075,6 +2080,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		setFirstColumn();
 		offsetY = topMargin;
+		isFirstPageBand = true;
+		isFirstColumnBand = true;
 
 		fillBackground();
 	}
@@ -2246,6 +2253,9 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				offsetY = offsetY + elementRangeToMove2.getBottomY() - elementRangeToMove2.getTopY();
 			}
+			
+			isFirstPageBand = false;
+			isFirstColumnBand = false;
 		} 
 		else if (
 			groupFooterPositionForOverflow != null
@@ -2395,6 +2405,9 @@ public class JRVerticalFiller extends JRBaseFiller
 
 					offsetY = offsetY + elementRangeToMove2.getBottomY() - elementRangeToMove2.getTopY();
 				}
+				
+				isFirstPageBand = false;
+				isFirstColumnBand = false;
 			}
 			else if (
 				groupFooterPositionForOverflow != null
