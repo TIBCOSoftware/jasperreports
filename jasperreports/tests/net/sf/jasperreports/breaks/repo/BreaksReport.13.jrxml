@@ -9,7 +9,7 @@
 			<printWhenExpression><![CDATA[$V{REPORT_COUNT} != 2]]></printWhenExpression>
 			<textField>
 				<reportElement x="0" y="0" width="170" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
-				<textFieldExpression><![CDATA["Master Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="45">
@@ -19,7 +19,7 @@
 			</break>
 			<textField>
 				<reportElement x="0" y="20" width="170" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
-				<textFieldExpression><![CDATA["Master Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
