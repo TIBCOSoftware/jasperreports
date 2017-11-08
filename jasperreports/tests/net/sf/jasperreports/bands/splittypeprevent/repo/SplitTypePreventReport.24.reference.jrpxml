@@ -14,14 +14,8 @@
 				<pen lineWidth="0.0"/>
 			</graphicElement>
 		</rectangle>
-		<rectangle>
-			<reportElement uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" mode="Opaque" x="211" y="50" width="170" height="742" backcolor="#C8DBFA" origin="0" srcId="2" printId="2"/>
-			<graphicElement fill="Solid">
-				<pen lineWidth="0.0"/>
-			</graphicElement>
-		</rectangle>
 		<text textHeight="740.34375" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="211" y="50" width="170" height="742" origin="1" srcId="3" printId="2"/>
+			<reportElement uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="40" y="50" width="170" height="742" origin="1" srcId="3" printId="1"/>
 			<box>
 				<pen lineWidth="1.0"/>
 			</box>
@@ -81,13 +75,13 @@ e
 ]]></textContent>
 		</text>
 		<rectangle>
-			<reportElement uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" mode="Opaque" x="382" y="50" width="170" height="69" backcolor="#C8DBFA" origin="0" srcId="2" printId="3"/>
+			<reportElement uuid="0f3b9177-2ee7-49bc-b722-85fc2e174e27" mode="Opaque" x="211" y="50" width="170" height="69" backcolor="#C8DBFA" origin="0" srcId="2" printId="2"/>
 			<graphicElement fill="Solid">
 				<pen lineWidth="0.0"/>
 			</graphicElement>
 		</rectangle>
 		<text textHeight="69.84375" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="382" y="50" width="170" height="69" origin="1" srcId="3" printId="3"/>
+			<reportElement uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Transparent" x="211" y="50" width="170" height="69" origin="1" srcId="3" printId="2"/>
 			<box>
 				<pen lineWidth="1.0"/>
 			</box>
@@ -98,11 +92,11 @@ e
 more.]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="382" y="119" width="170" height="25" origin="0" srcId="1" printId="1"/>
+			<reportElement uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="211" y="119" width="170" height="25" origin="0" srcId="1" printId="1"/>
 			<textContent><![CDATA[Master Detail 2]]></textContent>
 		</text>
 		<text textHeight="13.96875" lineSpacingFactor="1.1640625" leadingOffset="-2.8300781">
-			<reportElement uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="382" y="144" width="170" height="25" origin="0" srcId="1" printId="2"/>
+			<reportElement uuid="79233e16-81a6-4907-b940-c59cad5cdcd2" x="211" y="144" width="170" height="25" origin="0" srcId="1" printId="2"/>
 			<textContent><![CDATA[Master Detail 3]]></textContent>
 		</text>
 	</page>
