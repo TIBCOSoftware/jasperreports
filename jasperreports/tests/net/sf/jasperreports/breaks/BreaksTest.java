@@ -39,6 +39,6 @@ public class BreaksTest extends AbstractTest
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/breaks/repo", "BreaksReport", 35);
+		testReports("net/sf/jasperreports/breaks/repo", "BreaksReport", 41);
 	}
 }
