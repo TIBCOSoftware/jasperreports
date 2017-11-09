@@ -700,8 +700,11 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				fillColumnBand(groupHeaderBand, evaluation);
 
-				isFirstPageBand = false;
-				isFirstColumnBand = false;
+				//isFirstPageBand = false;
+				if (columnCount > 1)
+				{
+					isFirstColumnBand = false;
+				}
 			}
 		}
 	}

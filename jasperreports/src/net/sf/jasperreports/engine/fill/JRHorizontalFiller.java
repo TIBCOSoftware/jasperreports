@@ -712,7 +712,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 				fillColumnBand(groupHeaderBand, evaluation);
 
-				isFirstPageBand = false;
+				//isFirstPageBand = false;
 				isFirstColumnBand = true;
 			}
 		}
