@@ -45,6 +45,10 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XmlDataSniffer
 {
 	private static final String SAX_EXCEPTION_MESSAGE_VALID_XML = "something unique";
+	
+	private static final String FEATURE_EXTERNAL_GENERAL_ENTITIES = "http://xml.org/sax/features/external-general-entities";
+	private static final String FEATURE_EXTERNAL_PARAMETER_ENTITIES = "http://xml.org/sax/features/external-parameter-entities";
+	private static final String FEATURE_LOAD_EXTERNAL_DTD = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
 
 	private static class ValidXmlSAXException extends SAXException
 	{
@@ -68,33 +72,49 @@ public class XmlDataSniffer
 	 */
 	public static boolean isXmlData(byte[] data)
 	{
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		
+		XmlSniffResult sniffResult = sniffXml(data);
+		return sniffResult != null;
+	}
+	
+	public static XmlSniffResult sniffXml(byte[] data)
+	{
 		SaxHandler handler = new SaxHandler();
 		
 		ByteArrayInputStream bais = new ByteArrayInputStream(data);
 
 		try 
 		{
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setValidating(false);
+			factory.setNamespaceAware(false);
+			factory.setXIncludeAware(false);
+			factory.setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, false);
+			factory.setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, false);
+			factory.setFeature(FEATURE_LOAD_EXTERNAL_DTD, false);
+			
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(bais, handler);
-			return true;
+			return new XmlSniffResult(handler.rootElementName);
 		}
 		catch (ValidXmlSAXException e)
 		{
-			return true;
+			return new XmlSniffResult(handler.rootElementName);
 		}
 		catch (SAXException | ParserConfigurationException | IOException e)
 		{
-			return false;
+			return null;
 		}
 	}
 	
 	private static class SaxHandler extends DefaultHandler
 	{
+		private String rootElementName;
+
 		@Override
 		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
 		{
+			this.rootElementName = (qName != null && !qName.isEmpty()) ? qName
+					: ((localName != null && !localName.isEmpty()) ? localName : null);
 			throw new ValidXmlSAXException();
 		}
 
@@ -103,6 +123,21 @@ public class XmlDataSniffer
 		{
 			//stop any attempt to load entities
 			throw new ValidXmlSAXException();
+		}
+	}
+	
+	public static class XmlSniffResult
+	{
+		private final String rootElementName;
+		
+		public XmlSniffResult(String rootElementName)
+		{
+			this.rootElementName = rootElementName;
+		}
+
+		public String getRootElementName()
+		{
+			return rootElementName;
 		}
 	}
 }
