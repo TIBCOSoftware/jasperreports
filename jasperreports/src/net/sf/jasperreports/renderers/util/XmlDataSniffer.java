@@ -30,9 +30,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.helpers.DefaultHandler;
 
 
@@ -44,6 +48,9 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XmlDataSniffer
 {
+	
+	private static final Log log = LogFactory.getLog(XmlDataSniffer.class);
+	
 	private static final String SAX_EXCEPTION_MESSAGE_VALID_XML = "something unique";
 	
 	private static final String FEATURE_EXTERNAL_GENERAL_ENTITIES = "http://xml.org/sax/features/external-general-entities";
@@ -78,20 +85,20 @@ public class XmlDataSniffer
 	
 	public static XmlSniffResult sniffXml(byte[] data)
 	{
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		factory.setValidating(false);
+		factory.setNamespaceAware(false);
+		factory.setXIncludeAware(false);
+		setParserFeature(factory, FEATURE_EXTERNAL_GENERAL_ENTITIES, false);
+		setParserFeature(factory, FEATURE_EXTERNAL_PARAMETER_ENTITIES, false);
+		setParserFeature(factory, FEATURE_LOAD_EXTERNAL_DTD, false);
+		
 		SaxHandler handler = new SaxHandler();
 		
 		ByteArrayInputStream bais = new ByteArrayInputStream(data);
 
 		try 
 		{
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			factory.setValidating(false);
-			factory.setNamespaceAware(false);
-			factory.setXIncludeAware(false);
-			factory.setFeature(FEATURE_EXTERNAL_GENERAL_ENTITIES, false);
-			factory.setFeature(FEATURE_EXTERNAL_PARAMETER_ENTITIES, false);
-			factory.setFeature(FEATURE_LOAD_EXTERNAL_DTD, false);
-			
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(bais, handler);
 			return new XmlSniffResult(handler.rootElementName);
@@ -103,6 +110,21 @@ public class XmlDataSniffer
 		catch (SAXException | ParserConfigurationException | IOException e)
 		{
 			return null;
+		}
+	}
+
+	protected static void setParserFeature(SAXParserFactory factory, String feature, boolean value)
+	{
+		try
+		{
+			factory.setFeature(feature, value);
+		}
+		catch (SAXNotRecognizedException | SAXNotSupportedException | ParserConfigurationException e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Failed to set parser feature " + feature + ", error " + e);
+			}
 		}
 	}
 	
