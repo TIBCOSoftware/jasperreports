@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.4.qualifier using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubreportColumnsReport.1.subreport.1" columnCount="3" pageWidth="595" pageHeight="842" columnWidth="80" columnSpacing="5" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.99.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<sortField name="REPORT_COUNT" type="Variable"/>
+	<variable name="TotalRecords" class="java.lang.Integer">
+		<variableExpression><![CDATA[
+$P{REPORT_DATA_SOURCE} instanceof net.sf.jasperreports.engine.fill.SortedDataSource
+? ((net.sf.jasperreports.engine.fill.SortedDataSource)$P{REPORT_DATA_SOURCE}).getRecords().size()
+: 0
+		]]></variableExpression>
+	</variable>
+	<variable name="TopPageRecord" class="java.lang.Integer" resetType="Page" calculation="First">
+		<variableExpression><![CDATA[$V{REPORT_COUNT} - 1]]></variableExpression>
+	</variable>
+	<group name="dummy" isStartNewColumn="true">
+		<groupExpression><![CDATA[($V{COLUMN_COUNT} > (($V{TotalRecords} - $V{TopPageRecord}) / 3 + (($V{COLUMN_NUMBER} <= ($V{TotalRecords} - $V{TopPageRecord}) % 3) ? 1 : 0)))]]></groupExpression>
+	</group>
+	<detail>
+		<band height="30" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="0" y="0" width="80" height="30" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="30" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="0" width="80" height="30" backcolor="#5BB5F5" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Column Footer"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>
