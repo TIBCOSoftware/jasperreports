@@ -558,6 +558,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					Image img = (Image) source;
 					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorTypeValue());
 				}
+				else if (source instanceof byte[])
+				{
+					byte[] data = (byte[]) source;
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(data);
+				}
 				else if (source instanceof InputStream)
 				{
 					InputStream is = (InputStream) source;

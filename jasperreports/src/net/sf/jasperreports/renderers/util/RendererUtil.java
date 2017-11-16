@@ -235,6 +235,11 @@ public class RendererUtil
 	}
 
 
+	public Renderable getRenderable(byte[] data)
+	{
+		return SimpleDataRenderer.getInstance(data);
+	}
+	
 	/**
 	 *
 	 */
