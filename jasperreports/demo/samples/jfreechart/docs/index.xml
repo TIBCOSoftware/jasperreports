@@ -21,7 +21,7 @@ How to render images using the <a href="http://jfree.org/jfreechart/">JFreeChart
     	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
-  	<otherSample ref="jcharts"/>
+  	<otherSample ref="xchart"/>
     <content>
 <b>Rendering Graphic Objects</b>
 <br/>

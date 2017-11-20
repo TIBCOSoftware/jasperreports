@@ -45,6 +45,9 @@ public class ElementGridCell extends JRExporterGridCell
 	private PrintElementIndex parentIndex;
 	private int elementIndex;
 
+	// used only by XLSX exporter for now
+	private Integer styleIndex;
+
 	/**
 	 *
 	 */
@@ -160,4 +163,19 @@ public class ElementGridCell extends JRExporterGridCell
 		return container;
 	}
 
+	/**
+	 * 	Used only by XLSX exporter for now.
+	 */
+	public void setStyleIndex(Integer styleIndex)
+	{
+		this.styleIndex = styleIndex;
+	}
+
+	/**
+	 * 	Used only by XLSX exporter for now.
+	 */
+	public Integer getStyleIndex()
+	{
+		return styleIndex;
+	}
 }

@@ -33,8 +33,8 @@
 		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.8.2" conf="test->*"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.4.2-SNAPSHOT" conf="annotations->*"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.4.2-SNAPSHOT" conf="compile,annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.4.4-SNAPSHOT" conf="annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.4.4-SNAPSHOT" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
 		<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.1" conf="test->*"/>
@@ -63,7 +63,7 @@
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.3.3"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.3.3"/>
 		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.5"/>
-		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.3.1"/>
+		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.4.2"/>
 		<dependency org="org.hibernate" name="hibernate-core" rev="3.3.2.GA"/>
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
 		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>

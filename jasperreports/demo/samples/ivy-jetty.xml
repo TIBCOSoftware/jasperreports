@@ -13,7 +13,6 @@
 		<dependency org="org.eclipse.jetty.websocket" name="javax-websocket-client-impl" rev="9.4.6.v20170531"/>
 		<dependency org="org.eclipse.jetty.websocket" name="javax-websocket-server-impl" rev="9.4.6.v20170531"/>
 		<dependency org="javax.annotation" name="javax.annotation-api" rev="1.2"/>
-		<dependency org="org.eclipse.jetty.orbit" name="javax.mail.glassfish" rev="1.4.1.v201005082020"/>
 		<dependency org="org.eclipse.jetty.orbit" name="javax.security.auth.message" rev="1.0.0.v201108011116"/>
 		<dependency org="javax.transaction" name="javax.transaction-api" rev="1.2"/>
 		<dependency org="javax.websocket" name="javax.websocket-api" rev="1.0"/>

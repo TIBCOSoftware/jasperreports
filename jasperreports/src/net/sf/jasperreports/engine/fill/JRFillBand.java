@@ -45,6 +45,8 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 
@@ -319,9 +321,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	protected boolean isToPrint()
 	{
 		return
-			(isPrintWhenExpressionNull() ||
-			 (!isPrintWhenExpressionNull() &&
-			  isPrintWhenTrue()));
+			this != filler.missingFillBand
+			&& (isPrintWhenExpressionNull() 
+			|| (!isPrintWhenExpressionNull() && isPrintWhenTrue()));
 	}
 
 
@@ -543,6 +545,16 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 					&& getPrintWhenExpression() == null);
 	}
 
+	protected boolean isColumnBand()
+	{
+		BandTypeEnum bandType = origin.getBandTypeValue();
+		
+		return
+			bandType == BandTypeEnum.GROUP_HEADER
+			|| bandType == BandTypeEnum.GROUP_FOOTER
+			|| bandType == BandTypeEnum.DETAIL;
+	}
+
 	protected boolean isPageBreakInhibited()
 	{
 		boolean isPageBreakInhibited = filler.isFirstPageBand && !atLeastOneElementIsToPrint;
@@ -553,6 +565,41 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		}
 		
 		return isPageBreakInhibited;
+	}
+	
+	protected boolean isSplitTypePreventInhibited()
+	{
+		return isSplitTypePreventInhibited(true);
+	}
+	
+	protected boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+	{
+		boolean isSplitTypePreventInhibited = false;
+		
+		if (
+			((filler.printOrder == PrintOrderEnum.VERTICAL && filler.isFirstColumnBand)
+			|| (filler.printOrder == PrintOrderEnum.HORIZONTAL && filler.isFirstPageBand))
+			&& (isTopLevelCall || !atLeastOneElementIsToPrint)
+			)
+		{
+			if (isColumnBand() && filler.columnIndex < filler.columnCount - 1)
+			{
+				isSplitTypePreventInhibited = true;
+			}
+			else
+			{
+				if (filler.isSubreport())
+				{
+					isSplitTypePreventInhibited = filler.bandReportParent.isSplitTypePreventInhibited(false);
+				}
+				else
+				{
+					isSplitTypePreventInhibited = true;
+				}
+			}
+		}
+		
+		return isSplitTypePreventInhibited;
 	}
 	
 	@Override

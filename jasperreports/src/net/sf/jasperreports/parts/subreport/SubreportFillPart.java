@@ -322,6 +322,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
+		public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+		{
+			return true;
+		}
+
+		@Override
 		public void addPage(FillerPageAddedEvent pageAdded) throws JRException
 		{
 			if (pageAdded.getPageIndex() == 0)
@@ -333,6 +339,7 @@ public class SubreportFillPart extends BasePartFillComponent
 			}
 			
 			output.addPage(pageAdded.getPage(), pageAdded.getDelayedActions());
+			fillContext.getFiller().recordUsedPageWidth(pageAdded.getFiller().getUsedPageWidth());
 			
 			if (pageAdded.hasReportEnded())
 			{

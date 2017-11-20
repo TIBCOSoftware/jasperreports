@@ -56,8 +56,6 @@
       <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)"/>
       <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)"/>
       <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
-      <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)"/>
-      <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)"/>
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)"/>
       <feature name="list" sample="list" title="Using the Built-in List Component"/>
       <feature name="table" sample="table" title="Using the Built-in Table Component"/>

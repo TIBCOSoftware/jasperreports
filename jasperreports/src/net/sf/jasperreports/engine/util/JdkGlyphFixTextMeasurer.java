@@ -137,7 +137,7 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 			category = PropertyConstants.CATEGORY_OTHER,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_6_4_2,
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_CATCH_EMPTY_STACKTRACE_EXCEPTION = JRPropertiesUtil.PROPERTY_PREFIX 

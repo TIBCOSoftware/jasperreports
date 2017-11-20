@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="6.4.2"/>
+	<property name="version" value="6.4.4"/>
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>
@@ -25,8 +25,8 @@
 			<compilerarg value="-processorpath"/>
 			<compilerarg value="${annotations-paths}"/>
 			<compilerarg value="-AmetadataMessagesName=metadata_messages"/>
-			<compilerarg value="-ApropertiesDoc=docs/config.reference.xml"/>
-			<compilerarg value="-AconfigReferenceOut=build/config.reference.xml"/>
+			<compilerarg value="-ApropertiesDoc=${basedir}/docs/config.reference.xml"/>
+			<compilerarg value="-AconfigReferenceOut=${basedir}/build/config.reference.xml"/>
 		</javac>
 		
 		<copy todir="./build/classes">
@@ -192,7 +192,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="scm-tag" value="jr-6-4-2"/>
+	<property name="scm-tag" value="jr-6-4-4"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 

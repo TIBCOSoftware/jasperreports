@@ -3433,16 +3433,17 @@ Stores the character encoding for exported reports.
   <configProperty name="net.sf.jasperreports.export.csv.column.name">
     <description>
 Property specifying the name of the CSV exported column the element belongs to.
-It must be one of the column names in the <a href="#net.sf.jasperreports.export.csv.column.names.{suffix}">net.sf.jasperreports.export.csv.column.names.{suffix}</a>, if provided.    
+It must be one of the column names in the <a href="#net.sf.jasperreports.export.csv.column.names.{arbitrary_name}">net.sf.jasperreports.export.csv.column.names.{suffix}</a>, if provided.    
 	</description>
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.csv.column.names.{suffix} -->
+  <!-- net.sf.jasperreports.export.csv.column.names.{arbitrary_name} -->
   
-  <configProperty name="net.sf.jasperreports.export.csv.column.names.{suffix}">
+  <configProperty name="net.sf.jasperreports.export.csv.column.names.{arbitrary_name}">
     <description>
-Properties having this prefix contain comma-separated names of the columns that will be exported to CSV.
+Properties with '<code>net.sf.jasperreports.export.csv.column.names.</code>' prefix contain a list of 
+comma-separated names of the columns used in the metadata-based CSV export.
 <br/>
 Column names in this property are used as default list for the 
 <api href="net/sf/jasperreports/export/CsvMetadataReportConfiguration.html#getColumnNames()">getColumnNames()</api> 
@@ -4671,17 +4672,18 @@ Its value is used as default for the
   <configProperty name="net.sf.jasperreports.export.xls.column.name">
     <description>
 Represents the name for the column that should appear in the metadata-based Excel export. It must be one of the column names stored in 
-<a href="#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a>, if provided.    
+<a href="#net.sf.jasperreports.export.xls.column.names.{arbitrary_name}">net.sf.jasperreports.export.xls.column.names.{suffix}</a>, if provided.    
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporter.html#PROPERTY_COLUMN_NAME</api>
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.column.names.{suffix} -->
+  <!-- net.sf.jasperreports.export.xls.column.names.{arbitrary_name} -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.column.names.{suffix}">
+  <configProperty name="net.sf.jasperreports.export.xls.column.names.{arbitrary_name}">
     <description>
-Properties having this prefix contain comma-separated column names used in the metadata-based Excel export. 
+Properties with '<code>net.sf.jasperreports.export.xls.column.names.</code>' prefix contain a list of comma-separated 
+column names used in the metadata-based Excel export. 
 <br/>
 Column names in these properties are used as default list of values for the 
 <api href="net/sf/jasperreports/export/XlsMetadataReportConfiguration.html#getColumnNames()">getColumnNames()</api> Excel metadata export configuration setting.
@@ -4959,6 +4961,19 @@ Allowed values are:
 <li><code>true</code></li>
 <li><code>false</code></li>
 </ul>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern} -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}">
+    <description>
+Properties having <code>net.sf.jasperreports.export.xls.pattern.</code> prefix are used to store specific Excel 
+format patterns that correspond to their related Java format pattern. The <code>{arbitrary_pattern}</code> suffix represents 
+the Java pattern and the property value is the related Excel pattern. When these properties are defined in a JRXML report design, 
+special characters should be XML-escaped. When they are defined in a properties file, one should also escape special characters. 
+If some properties are defined in the report, they will override the context properties.
     </description>
   </configProperty>
   
@@ -5612,7 +5627,7 @@ For instance, a left header property that contains the 'Page &lt;i&gt; of &lt;n&
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.left" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same left header property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5646,7 +5661,7 @@ For instance, a center header property that contains the 'Page &lt;i&gt; of &lt;
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.center" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same center header property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5680,7 +5695,7 @@ For instance, a right header property that contains the 'Page &lt;i&gt; of &lt;n
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.header.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same right header property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5714,7 +5729,7 @@ For instance, a left footer property that contains the 'Page &lt;i&gt; of &lt;n&
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.left" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same left footer property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5748,7 +5763,7 @@ For instance, a center footer property that contains the 'Page &lt;i&gt; of &lt;
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.center" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same center footer property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -5782,7 +5797,7 @@ For instance, a right footer property that contains the 'Page &lt;i&gt; of &lt;n
 <code>&lt;property name="net.sf.jasperreports.export.xls.sheet.footer.right" value="Page &amp;amp;P of &amp;amp;N"/&gt;</code>
 <br/>
 <br/>
-Starting with v.6.4.2 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
+Starting with v.6.4.3 this property can be set also at element level, in order to control headers/footers in each sheet separately. 
 If several elements in a sheet contain the same right footer property, the value for the last element in the sheet will be considered.
 Properties set at element level take priority over properties set globally or per report level.
     </description>
@@ -6742,6 +6757,18 @@ Property that specifies the name of the request parameter associated with this r
   <configProperty name="net.sf.jasperreports.web.request.parameter.resource.uri">
     <description>
 Property that specifies the name of the request parameter associated with this resource URI.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.graphics2d.white.page.background -->
+  
+  <configProperty name="net.sf.jasperreports.export.graphics2d.white.page.background">
+    <description>
+Property that that determines whether the Graphics2D exporter is to draw white backgrounds for exported pages.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/Graphics2DReportConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> Graphics2D export configuration setting.
     </description>
   </configProperty>
   

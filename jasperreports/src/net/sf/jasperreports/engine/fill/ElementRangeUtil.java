@@ -142,11 +142,24 @@ public final class ElementRangeUtil
 			ElementRange elementRange = groupFooterElementRange.getElementRange();
 			int distanceToColumnFooter = columnFooterOffsetY - elementRange.getBottomY();
 			//no page/column break occurred
-			for(int i = elementRange.getFirstElementIndex(); i <= elementRange.getLastElementIndex(); i++)
+			for (int i = elementRange.getFirstElementIndex(); i <= elementRange.getLastElementIndex(); i++)
 			{
 				JRPrintElement printElement = elementRange.getPage().getElements().get(i);
 				printElement.setY(printElement.getY() + distanceToColumnFooter);
 			}
+		}
+	}
+	
+	/**
+	 *
+	 */
+	public static void moveContent(ElementRange elementRange, int topY)
+	{
+		int distanceToNewTopY = topY - elementRange.getTopY();
+		for (int i = elementRange.getFirstElementIndex(); i <= elementRange.getLastElementIndex(); i++)
+		{
+			JRPrintElement printElement = elementRange.getPage().getElements().get(i);
+			printElement.setY(printElement.getY() + distanceToNewTopY);
 		}
 	}
 	

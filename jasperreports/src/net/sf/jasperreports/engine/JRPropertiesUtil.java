@@ -603,7 +603,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesHolder, key);
 		
-		return value == null ? null : asInteger(value);
+		return value == null || value.trim().length() == 0 ? null : asInteger(value);
 	}
 	
 	/**
@@ -619,7 +619,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesHolder, key);
 		
-		return value == null ? defaultValue : asInteger(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asInteger(value);
 	}
 	
 	/**
@@ -635,7 +635,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesMap, key);
 		
-		return value == null ? defaultValue : asInteger(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asInteger(value);
 	}
 
 	/**
@@ -649,7 +649,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(key);
 		
-		return value == null ? defaultValue : asInteger(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asInteger(value);
 	}
 
 	/**
@@ -664,7 +664,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesHolder, key);
 		
-		return value == null ? null : asFloat(value);
+		return value == null || value.trim().length() == 0 ? null : asFloat(value);
 	}
 	
 	/**
@@ -680,7 +680,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesHolder, key);
 		
-		return value == null ? defaultValue : asFloat(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asFloat(value);
 	}
 	
 	/**
@@ -696,7 +696,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesMap, key);
 		
-		return value == null ? defaultValue : asFloat(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asFloat(value);
 	}
 
 	/**
@@ -710,7 +710,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(key);
 		
-		return value == null ? defaultValue : asFloat(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asFloat(value);
 	}
 
 	/**
@@ -736,22 +736,6 @@ public final class JRPropertiesUtil
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLongProperty(JRPropertiesMap, String, long)}.
-	 */
-	public long getLongProperty(JRPropertiesMap propertiesMap, String key, int defaultValue)
-	{
-		return getLongProperty(propertiesMap, key, (long)defaultValue);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getLongProperty(JRPropertiesHolder, String, long)}.
-	 */
-	public long getLongProperty(JRPropertiesHolder propertiesHolder, String key, int defaultValue)
-	{
-		return getLongProperty(propertiesHolder, key, (long)defaultValue);
-	}
-
-	/**
 	 * Returns the value of a property as a long, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 
@@ -764,7 +748,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesMap, key);
 		
-		return value == null ? defaultValue : asLong(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asLong(value);
 	}
 	
 	/**
@@ -780,7 +764,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesHolder, key);
 		
-		return value == null ? defaultValue : asLong(value);
+		return value == null || value.trim().length() == 0 ? defaultValue : asLong(value);
 	}
 
 	/**
@@ -795,7 +779,7 @@ public final class JRPropertiesUtil
 	{
 		String value = getProperty(propertiesHolder, key);
 		
-		return value == null ? null : asDouble(value);
+		return value == null || value.trim().length() == 0 ? null : asDouble(value);
 	}
 	
 	protected static JRPropertiesMap getOwnProperties(JRPropertiesHolder propertiesHolder)

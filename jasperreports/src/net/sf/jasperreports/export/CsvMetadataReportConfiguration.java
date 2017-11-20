@@ -65,7 +65,7 @@ public interface CsvMetadataReportConfiguration extends CsvReportConfiguration
 	 * @see JRPropertiesUtil
 	 */
 	@Property(
-			name = "net.sf.jasperreports.export.csv.column.names.{suffix}",
+			name = "net.sf.jasperreports.export.csv.column.names.{arbitrary_name}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_4_0_0

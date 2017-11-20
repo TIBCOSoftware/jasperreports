@@ -841,7 +841,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isResetPageNumber, group.isResetPageNumber(), false);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage, group.isReprintHeaderOnEachPage(), false);
 		writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage, group.getMinHeightToStartNewPage());
-		if (isNewerVersionOrEqual(JRConstants.VERSION_6_4_2))
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_4_3))
 		{
 			writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_minDetailsToStartFromTop, group.getMinDetailsToStartFromTop());
 		}
@@ -850,7 +850,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_footerPosition, group.getFooterPositionValue(), FooterPositionEnum.NORMAL);
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_keepTogether, group.isKeepTogether(), false);
 		}
-		if (isNewerVersionOrEqual(JRConstants.VERSION_6_4_2))
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_4_3))
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_preventOrphanFooter, group.isPreventOrphanFooter(), false);
 		}
@@ -3685,7 +3685,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrder(), BucketOrder.ASCENDING);
 		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_class, bucket.getValueClassName());
 		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_bucketExpression, bucket.getExpression());
-		if(isNewerVersionOrEqual(JRConstants.VERSION_6_4_2))
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_4_3))
 		{
 			writer.writeExpression(JRXmlConstants.ELEMENT_MULTI_AXIS_BUCKET_LABEL_EXPRESSION, bucket.getLabelExpression());
 		}

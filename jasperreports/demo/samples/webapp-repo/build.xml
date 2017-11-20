@@ -89,7 +89,7 @@
 		To debug the Web application ran here with Jetty, you need to add the following to the ANT_OPTS environment variable:
 		 -Xdebug -agentlib:jdwp=transport=dt_socket,address=9999,server=y,suspend=n
 	-->
-	<target name="jetty.run" depends="prepare-jetty-classpath, prepare">
+	<target name="jetty.run" depends="prepare-jetty-classpath, prepare" description="Launches the Web application at http://localhost:8080/jasperreports">
 		<taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
 		<typedef name="connector" classname="org.eclipse.jetty.ant.types.Connector"
 			classpathref="jetty.plugin.classpath" loaderref="jetty.loader" />

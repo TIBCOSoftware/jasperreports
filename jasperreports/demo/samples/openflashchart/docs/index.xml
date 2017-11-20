@@ -277,7 +277,7 @@ Produces text replacement for the Flash object.</li>
 <li><code>PieChartXmlWriter.java</code> - the XML writer for the pie chart component</li>
 <li><code>PieDataset.java</code> - class for the pie dataset</li>
 </ul>
-<subtitle name="sample">The JCharts Component - Sample</subtitle>
+<subtitle name="sample">The Open Flash Chart Component - Sample</subtitle>
 <br/>
 <br/>
 The <code>OpenFlashChartReport.jrxml</code> template in the <code>demo/samples/openflashchart</code> directory contains both the pie chart 

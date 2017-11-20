@@ -2383,6 +2383,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	public void exportText(JRPrintText text) throws DocumentException
 	{
 		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector, null);
+
 		if (styledText == null)
 		{
 			return;
@@ -2436,23 +2437,22 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				);
 			pdfContentByte.fill();
 		}
-
+		
+		if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
+		{
+			tagHelper.startText(styledText.getText(), text.getLinkType() != null);
+		}
+		else
+		{
+			tagHelper.startText(text.getLinkType() != null);
+		}
+		
+		/* rendering only non empty texts  */
 		if (styledText.length() > 0)
 		{
-			if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
-			{
-				tagHelper.startText(styledText.getText(), text.getLinkType() != null);
-			}
-			else
-			{
-				tagHelper.startText(text.getLinkType() != null);
-			}
-			
-			/*   */
 			textRenderer.render();
-
-			tagHelper.endText();
 		}
+		tagHelper.endText();
 
 		atrans = new AffineTransform();
 		atrans.rotate(-angle, textRenderer.getX(), pageFormat.getPageHeight() - textRenderer.getY());

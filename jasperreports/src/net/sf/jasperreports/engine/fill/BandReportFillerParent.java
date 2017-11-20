@@ -44,6 +44,8 @@ public interface BandReportFillerParent extends FillerParent
 
 	boolean isPageBreakInhibited();
 
+	boolean isSplitTypePreventInhibited(boolean isTolLevelCall);
+
 	void addPage(FillerPageAddedEvent pageAdded) throws JRException;
 
 	String getReportLocation();

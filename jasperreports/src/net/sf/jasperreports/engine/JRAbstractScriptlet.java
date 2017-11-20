@@ -113,7 +113,7 @@ public abstract class JRAbstractScriptlet
 	 */
 	public Object getFieldValue(String fieldName) throws JRScriptletException
 	{
-		JRFillField field = this.fieldsMap.get(fieldName);
+		JRFillField field = fieldsMap == null ? null : fieldsMap.get(fieldName);
 		if (field == null)
 		{
 			throw 

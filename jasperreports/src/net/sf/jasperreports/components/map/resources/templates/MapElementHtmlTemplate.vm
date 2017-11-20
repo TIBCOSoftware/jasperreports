@@ -9,9 +9,9 @@
 #if (!${gotReportContext})
 	#if (${exporterFirstAttempt})
 		#if(${reqParams})
-			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false${reqParams}'></script>
+			<script class='jasperreports' src='https://maps.google.com/maps/api/js?sensor=false${reqParams}'></script>
 		#else
-			<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false'></script>
+			<script class='jasperreports' src='https://maps.google.com/maps/api/js?sensor=false'></script>
 		#end
 		<script class='jasperreports' type='text/javascript'>
 			if (typeof jasperreports === 'undefined') jasperreports = {};
@@ -63,8 +63,9 @@
 								    };
 							    if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) this.configureImage('icon', markerProps, markerOptions);
 							    else if (markerProps['icon'] && markerProps['icon'].length > 0) markerOptions['icon'] = markerProps['icon'];
-							    else if (markerProps['color'] && markerProps['color'].length > 0) markerOptions['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + ((markerProps['label'] && markerProps['label'].length > 0) ? markerProps['label'] : '%E2%80%A2')+ '%7C' + markerProps['color'];
-							    else if(markerProps['label'] && markerProps['label'].length > 0) markerOptions['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + markerProps['label'] + '%7CFE7569';
+							    else if (markerProps['color'] && markerProps['color'].length > 0) {
+							    		markerOptions['icon'] = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%7C' + markerProps['color'];
+							    }
 							    if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) this.configureImage('shadow', markerProps, markerOptions);
 						        else if(markerProps['shadow'] && markerProps['shadow'].length > 0) markerOptions['shadow'] = markerProps['shadow'];
 							    for (j in markerProps) {
@@ -86,6 +87,7 @@
 						if(p) {
 							for(var k=0; k<p.length; k++){
 								var props = p[k],o={}, l=[],isPoly = false;
+								var poly;
 								for(prop in props){
 									if(prop === 'locations' && props[prop]){
 										var loc = props[prop];
@@ -102,11 +104,14 @@
 								o['map']=map;
 								if(isPoly){
 									o['paths']=l;
-									new google.maps.Polygon(o);
+									poly = new google.maps.Polygon(o);
 								} else {
 									o['path']=l;
-									new google.maps.Polyline(o);
+									poly = new google.maps.Polyline(o);
 								}
+			                    if(o['path.hyperlink']){
+			                    	google.maps.event.addListener(poly, 'click', function(){window.open(this['path.hyperlink'], this['path.hyperlink.target'])});
+			                    }
 							}
 						}
 					},

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.4.qualifier using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BreaksReport.24" printOrder="Horizontal" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<title>
+		<band height="500">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="0" y="0" width="515" height="500" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Title"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="30">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="0" y="0" width="515" height="30" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="500">
+			<break>
+				<reportElement x="0" y="10" width="100" height="1" uuid="9dbae581-b65f-4bcf-a68b-a331d59d5e1e"/>
+			</break>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="0" y="20" width="515" height="480" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Summary"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

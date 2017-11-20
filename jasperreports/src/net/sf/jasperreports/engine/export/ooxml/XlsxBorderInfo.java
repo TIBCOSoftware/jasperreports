@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.export.LengthUtil;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -37,15 +38,17 @@ public class XlsxBorderInfo
 	/**
 	 *
 	 */
-	protected static final String[] BORDER = new String[]{"top", "left", "bottom", "right"};
+	protected static final String[] BORDER = new String[]{"top", "left", "bottom", "right", "diagonal"};
 	protected static final int TOP_BORDER = 0;
 	protected static final int LEFT_BORDER = 1;
 	protected static final int BOTTOM_BORDER = 2;
 	protected static final int RIGHT_BORDER = 3;
+	protected static final int DIAGONAL_BORDER = 4;
 	
-	protected String[] borderColor = new String[4];
-	protected String[] borderStyle = new String[4];
-	protected String[] borderPadding = new String[4];
+	protected String[] borderColor = new String[5];
+	protected String[] borderStyle = new String[5];
+	protected String[] borderPadding = new String[5];
+	protected LineDirectionEnum direction;
 
 	/**
 	 *
@@ -60,6 +63,29 @@ public class XlsxBorderInfo
 		borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding().intValue()));
 		setBorder(box.getRightPen(), RIGHT_BORDER);
 		borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding().intValue()));
+	}
+	
+	/**
+	 *
+	 */
+	public XlsxBorderInfo(JRLineBox box, LineDirectionEnum direction)
+	{
+		if(direction != null)
+		{
+			setBorder(box.getPen(), DIAGONAL_BORDER);
+		}
+		else
+		{
+			setBorder(box.getTopPen(), TOP_BORDER);
+			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding().intValue()));
+			setBorder(box.getLeftPen(), LEFT_BORDER);
+			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding().intValue()));
+			setBorder(box.getBottomPen(), BOTTOM_BORDER);
+			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding().intValue()));
+			setBorder(box.getRightPen(), RIGHT_BORDER);
+			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding().intValue()));
+		}
+		this.direction = direction;
 	}
 	
 	/**
@@ -82,7 +108,14 @@ public class XlsxBorderInfo
 			borderStyle[TOP_BORDER] + "|" + borderColor[TOP_BORDER] 
 			+ "|" + borderStyle[LEFT_BORDER] + "|" + borderColor[LEFT_BORDER]
 			+ "|" + borderStyle[BOTTOM_BORDER] + "|" + borderColor[BOTTOM_BORDER]
-			+ "|" + borderStyle[RIGHT_BORDER] + "|" + borderColor[RIGHT_BORDER];
+			+ "|" + borderStyle[RIGHT_BORDER] + "|" + borderColor[RIGHT_BORDER]
+			+ "|" + borderStyle[DIAGONAL_BORDER] + "|" + borderColor[DIAGONAL_BORDER]
+			+ "|" + direction;
+	}
+
+	public LineDirectionEnum getDirection() 
+	{
+		return this.direction;
 	}
 
 	/**

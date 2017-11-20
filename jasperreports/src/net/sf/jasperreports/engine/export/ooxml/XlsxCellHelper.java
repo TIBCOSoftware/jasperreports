@@ -29,14 +29,17 @@ import java.util.Locale;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 
 
@@ -81,12 +84,12 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	 */
 	public void exportHeader(
-		JRExporterGridCell gridCell,
-		int rowIndex,
-		int colIndex, 
-		int maxColIndex,
-		JRXlsAbstractExporter.SheetInfo sheetInfo
-		) 
+			JRExporterGridCell gridCell,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex,
+			JRXlsAbstractExporter.SheetInfo sheetInfo
+			) 
 	{
 		exportHeader(
 				gridCell,
@@ -103,6 +106,75 @@ public class XlsxCellHelper extends BaseHelper
 				false, 
 				RotationEnum.NONE, 
 				sheetInfo);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportHeader(
+			JRExporterGridCell gridCell,
+			int rowIndex,
+			int colIndex, 
+			int maxColIndex, 
+			TextValue textValue,
+			String pattern,
+			Locale locale,
+			boolean isWrapText,
+			boolean isHidden,
+			boolean isLocked,
+			boolean isShrinkToFit,
+			boolean isIgnoreTextFormatting, 
+			RotationEnum rotation,
+			JRXlsAbstractExporter.SheetInfo sheetInfo
+			) 
+	{
+		exportHeader(
+				gridCell,
+				rowIndex,
+				colIndex, 
+				maxColIndex, 
+				textValue,
+				pattern,
+				locale,
+				isWrapText,
+				isHidden,
+				isLocked,
+				isShrinkToFit,
+				isIgnoreTextFormatting, 
+				rotation,
+				sheetInfo,
+				null
+				);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportHeader(
+		JRExporterGridCell gridCell,
+		int rowIndex,
+		int colIndex, 
+		int maxColIndex,
+		JRXlsAbstractExporter.SheetInfo sheetInfo,
+		LineDirectionEnum direction
+		) 
+	{
+		exportHeader(
+				gridCell,
+				rowIndex, 
+				colIndex, 
+				maxColIndex, 
+				null, 
+				null, 
+				null, 
+				true, 
+				false, 
+				false, 
+				false, 
+				false, 
+				RotationEnum.NONE, 
+				sheetInfo,
+				direction);
 	}
 
 	/**
@@ -122,7 +194,8 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isShrinkToFit,
 		boolean isIgnoreTextFormatting, 
 		RotationEnum rotation,
-		JRXlsAbstractExporter.SheetInfo sheetInfo
+		JRXlsAbstractExporter.SheetInfo sheetInfo,
+		LineDirectionEnum direction
 		) 
 	{
 		try
@@ -141,22 +214,43 @@ public class XlsxCellHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 
+		Integer styleIndex = null;
+		
+		if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+		{
+			styleIndex = ((ElementGridCell)((OccupiedGridCell)gridCell).getOccupier()).getStyleIndex();
+		}
+		
+		if (styleIndex == null)
+		{
+			styleIndex = 
+				styleHelper.getCellStyle(
+					gridCell, 
+					pattern, 
+					locale, 
+					isWrapText, 
+					isHidden, 
+					isLocked, 
+					isShrinkToFit, 
+					isIgnoreTextFormatting,
+					rotation,
+					sheetInfo,
+					direction
+					);
+			if (
+				gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL
+				&& gridCell instanceof ElementGridCell
+				)
+			{
+				((ElementGridCell)gridCell).setStyleIndex(styleIndex);
+			}
+		}
+		
 		write("  <c r=\"" 
-				+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
-				+ (rowIndex + 1) 
-				+ "\" s=\"" 
-				+ styleHelper.getCellStyle(
-						gridCell, 
-						pattern, 
-						locale, 
-						isWrapText, 
-						isHidden, 
-						isLocked, 
-						isShrinkToFit, 
-						isIgnoreTextFormatting,
-						rotation,
-						sheetInfo) 
-				+ "\"");
+			+ JRXlsAbstractExporter.getColumIndexName(colIndex, maxColIndex) 
+			+ (rowIndex + 1) 
+			+ "\" s=\"" + styleIndex + "\""
+			);
 		String type = textValueHandler.getType();
 		if (type != null)
 		{

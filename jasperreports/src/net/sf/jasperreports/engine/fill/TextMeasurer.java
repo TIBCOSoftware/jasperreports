@@ -233,8 +233,8 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		protected int textOffset;
 		protected int lines;
-		protected int fontSizeSum;
-		protected int firstLineMaxFontSize;
+		protected float fontSizeSum;
+		protected float firstLineMaxFontSize;
 		protected int paragraphStartLine;
 		protected float textWidth;
 		protected float textHeight;

@@ -276,6 +276,9 @@ ga('send', 'pageview');
     <xsl:when test="xsd:complexContent/xsd:extension">
       <xsl:apply-templates select="xsd:complexContent/xsd:extension"/>
     </xsl:when>
+    <xsl:when test="xsd:choice">
+      <xsl:apply-templates select="xsd:sequence"/>
+    </xsl:when>
     <xsl:otherwise>
       <xsl:if test="xsd:sequence">
         <xsl:apply-templates select="xsd:sequence"/>
@@ -357,6 +360,7 @@ ga('send', 'pageview');
   </tr>
   </xsl:if>
   <xsl:apply-templates select="xsd:complexType/xsd:sequence"/>
+  <xsl:apply-templates select="xsd:complexType/xsd:choice"/>
   <xsl:if test="xsd:complexType/xsd:attribute">
   <tr>
     <td></td>
@@ -417,6 +421,17 @@ ga('send', 'pageview');
   <tr>
     <td></td>
 	<td colspan="4"><span class="label"><br/>Contains</span></td>
+  </tr>
+  <xsl:apply-templates/>
+</xsl:template>
+
+
+<xsl:template match="xsd:complexType/xsd:choice">
+  <tr>
+    <td></td>
+	<td colspan="4"><span class="label"><br/>Contains
+	<xsl:if test="@maxOccurs='1'"> one of the following
+	</xsl:if>:</span></td>
   </tr>
   <xsl:apply-templates/>
 </xsl:template>

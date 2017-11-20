@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
 /**
@@ -52,14 +53,14 @@ public class XlsxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public int getBorder(JRExporterGridCell gridCell, JRXlsAbstractExporter.SheetInfo sheetInfo)
+	public int getBorder(JRExporterGridCell gridCell, JRXlsAbstractExporter.SheetInfo sheetInfo, LineDirectionEnum direction)
 	{
 		if (Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) || gridCell.getBox() == null)
 		{
 			return -1;			
 		}
 
-		XlsxBorderInfo borderInfo = new XlsxBorderInfo(gridCell.getBox());
+		XlsxBorderInfo borderInfo = new XlsxBorderInfo(gridCell.getBox(), direction);
 		Integer borderIndex = borderCache.get(borderInfo.getId());
 		if (borderIndex == null)
 		{
@@ -99,12 +100,18 @@ public class XlsxBorderHelper extends BaseHelper
 	{
 //		if(info.hasBorder())
 		{
-			write("<border>");
-			exportBorder(info, DocxBorderInfo.LEFT_BORDER);
-			exportBorder(info, DocxBorderInfo.RIGHT_BORDER);
-			exportBorder(info, DocxBorderInfo.TOP_BORDER);
-			exportBorder(info, DocxBorderInfo.BOTTOM_BORDER);
-			write("<diagonal/></border>\n");
+			write("<border");
+			if(info.getDirection() != null)
+			{
+				write(info.getDirection().equals(LineDirectionEnum.TOP_DOWN) ? " diagonalDown=\"1\"" : " diagonalUp=\"1\"");
+			}
+			write(">");
+			exportBorder(info, XlsxBorderInfo.LEFT_BORDER);
+			exportBorder(info, XlsxBorderInfo.RIGHT_BORDER);
+			exportBorder(info, XlsxBorderInfo.TOP_BORDER);
+			exportBorder(info, XlsxBorderInfo.BOTTOM_BORDER);
+			exportBorder(info, XlsxBorderInfo.DIAGONAL_BORDER);
+			write("</border>\n");
 		}
 //		
 //		write("      <w:tcMar>\n");
@@ -120,17 +127,17 @@ public class XlsxBorderHelper extends BaseHelper
 	 */
 	private void exportBorder(XlsxBorderInfo info, int side)
 	{
-		write("<" + DocxBorderInfo.BORDER[side]);
+		write("<" + XlsxBorderInfo.BORDER[side]);
   		if (info.borderStyle[side] != null)
 		{
   			write(" style=\"" + info.borderStyle[side] + "\"");
 		}
 		write(">");
-		if (info.borderColor[side] != null)//FIXMEDOCX check this; use default color?
+		if (info.borderColor[side] != null)	//FIXMEDOCX check this; use default color?
 		{
 			write("<color rgb=\"" + info.borderColor[side] + "\"/>");
 		}
-		write("</" + DocxBorderInfo.BORDER[side] + ">");
+		write("</" + XlsxBorderInfo.BORDER[side] + ">");
 	}
 	
 //	/**
@@ -140,7 +147,7 @@ public class XlsxBorderHelper extends BaseHelper
 //	{
 //		if (info.borderPadding[side] != null)
 //		{
-//			write("       <w:" + DocxBorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
+//			write("       <w:" + XlsxBorderInfo.BORDER[side] +" w:w=\"" + info.borderPadding[side] + "\" w:type=\"dxa\" />\n");
 //		}
 //	}
 

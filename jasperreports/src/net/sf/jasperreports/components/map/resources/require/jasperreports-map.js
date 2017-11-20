@@ -44,7 +44,7 @@ define(function(require){
 
             // try to load the Gogle Maps API once, otherwise conflicts will happen
             if (typeof google === 'undefined' || (typeof google !== 'undefined' && typeof google.maps === 'undefined')) {
-                require(["async!http://maps.google.com/maps/api/js?sensor=false" + reqParams + "!callback"], function() {
+                require(["async!//maps.google.com/maps/api/js?sensor=false" + reqParams + "!callback"], function() {
                     it._showMap(it.config.id, instData.latitude, instData.longitude, instData.zoom, instData.mapType, instData.markerList, instData.pathsList);
                 });
             } else {
@@ -105,8 +105,9 @@ define(function(require){
                     };
                     if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) it._configureImage('icon', markerProps, markerOptions);
                     else if (markerProps['icon'] && markerProps['icon'].length > 0) markerOptions['icon'] = markerProps['icon'];
-                    else if (markerProps['color'] && markerProps['color'].length > 0) markerOptions['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + ((markerProps['label'] && markerProps['label'].length > 0) ? markerProps['label'] : '%E2%80%A2')+ '%7C' + markerProps['color'];
-                    else if(markerProps['label'] && markerProps['label'].length > 0) markerOptions['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + markerProps['label'] + '%7CFE7569';
+                    else if (markerProps['color'] && markerProps['color'].length > 0) {
+                    		markerOptions['icon'] = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%7C' + markerProps['color'];
+                    	}
                     if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) it._configureImage('shadow', markerProps, markerOptions);
                     else if(markerProps['shadow'] && markerProps['shadow'].length > 0) markerOptions['shadow'] = markerProps['shadow'];
                     for (j in markerProps) {
@@ -126,6 +127,7 @@ define(function(require){
             if(p) {
                 for(var k=0; k<p.length; k++){
                     var props = p[k],o={},l=[],isPoly = false;
+                    var poly;
                     for(prop in props){
                         if(prop === 'locations' && props[prop]){
                             var loc = props[prop];
@@ -142,10 +144,13 @@ define(function(require){
                     o['map']=map;
                     if(isPoly){
                         o['paths']=l;
-                        new google.maps.Polygon(o);
+                        poly = new google.maps.Polygon(o);
                     } else {
                         o['path']=l;
-                        new google.maps.Polyline(o);
+                        poly = new google.maps.Polyline(o);
+                    }
+                    if(o['path.hyperlink']){
+                    	gg.event.addListener(poly, 'click', function(){window.open(o['path.hyperlink'], o['path.hyperlink.target'])});
                     }
                 }
             }

@@ -39,6 +39,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
@@ -64,7 +67,6 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
-import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -103,9 +105,6 @@ import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -741,7 +740,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		
 		cellHelper = new XlsxCellHelper(jasperReportsContext, sheetWriter, styleHelper);
 		
-		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, null);//FIXMEXLSX check this null
+		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, getExporterKey());
 		
 		boolean showGridlines = true;
 		if (sheetInfo.sheetShowGridlines == null)
@@ -1341,10 +1340,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
+		LineDirectionEnum direction = null;
 		float ratio = line.getWidth() / line.getHeight();
 		if (ratio > 1)
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if(line.getHeight() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getTopPen();
 			}
@@ -1355,7 +1360,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		}
 		else
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			if(line.getWidth() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 			{
 				pen = box.getLeftPen();
 			}
@@ -1370,7 +1380,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1680,8 +1690,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		{
 			throw new JRException(e);
 		}
-
-//		runHelper = new RunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 	}
 
 	protected void setBackground() {
@@ -1698,8 +1706,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	@Override
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
-		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		//ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
+		cellHelper.exportHeader(occupiedGridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
 		cellHelper.exportFooter();
 	}
 
