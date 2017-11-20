@@ -53,7 +53,7 @@ public class HttpRepositoryServiceExtensionsRegistryFactory implements Extension
 	@Property(
 			category = PropertyConstants.CATEGORY_REPOSITORY,
 			scopes = {PropertyScope.GLOBAL, PropertyScope.EXTENSION},
-			sinceVersion = PropertyConstants.VERSION_6_4_2
+			sinceVersion = PropertyConstants.VERSION_6_4_4
 			)
 	public final static String PROPERTY_HTTP_REPOSITORY_URL = HTTP_REPOSITORY_PROPERTY_PREFIX + "url";
 	
