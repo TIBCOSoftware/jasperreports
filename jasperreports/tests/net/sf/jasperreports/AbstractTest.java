@@ -84,6 +84,7 @@ public abstract class AbstractTest
 		for (int i = 1; i <= maxFileNumber; i++)
 		{
 			String jrxmlFileName = folderName + "/" + fileNamePrefix + "." + i + ".jrxml";
+			log.debug("Running report " + jrxmlFileName);
 			
 			JasperReport report = compileReport(jrxmlFileName);
 			if (report != null)
