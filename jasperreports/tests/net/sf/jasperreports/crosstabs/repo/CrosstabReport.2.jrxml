@@ -5,7 +5,7 @@
 	<property name="net.sf.jasperreports.crosstab.interactive" value="false"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Large" style="Sans_Normal" fontSize="10"/>
-	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" style="Sans_Normal" isBold="true"/>
 	<summary>
 		<band height="30">
 			<crosstab isRepeatColumnHeaders="false">
