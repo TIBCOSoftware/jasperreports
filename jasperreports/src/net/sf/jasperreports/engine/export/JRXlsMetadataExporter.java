@@ -1811,7 +1811,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			
 			//envelope sizes
 			if (ps == -1) {
-				// ISO 269 sizes - "Envelope DL" (110 � 220 mm)
+				// ISO 269 sizes - "Envelope DL" (110 x 220 mm)
 				if (((width == 110) && (height == 220)) || ((width == 220) && (height == 110))) {
 					ps = HSSFPrintSetup.ENVELOPE_DL_PAPERSIZE;
 				}
@@ -1819,19 +1819,19 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 			// Compare to common North American Paper Sizes (ANSI X3.151-1987).
 			if (ps == -1) {
-				// ANSI X3.151-1987 - "Letter" (216 � 279 mm)
+				// ANSI X3.151-1987 - "Letter" (216 x 279 mm)
 				if (((width == 216) && (height == 279)) || ((width == 279) && (height == 216))) {
 					ps = HSSFPrintSetup.LETTER_PAPERSIZE;
 				}
-				// ANSI X3.151-1987 - "Legal" (216 � 356 mm)
+				// ANSI X3.151-1987 - "Legal" (216 x 356 mm)
 				if (((width == 216) && (height == 356)) || ((width == 356) && (height == 216))) {
 					ps = HSSFPrintSetup.LEGAL_PAPERSIZE;
 				}
-				// ANSI X3.151-1987 - "Executive" (190 � 254 mm)
+				// ANSI X3.151-1987 - "Executive" (190 x 254 mm)
 				else if (((width == 190) && (height == 254)) || ((width == 254) && (height == 190))) {
 					ps = HSSFPrintSetup.EXECUTIVE_PAPERSIZE;
 				}
-				// ANSI X3.151-1987 - "Ledger/Tabloid" (279 � 432 mm)
+				// ANSI X3.151-1987 - "Ledger/Tabloid" (279 x 432 mm)
 				// Not supported by POI Api yet.
 			}
 		}

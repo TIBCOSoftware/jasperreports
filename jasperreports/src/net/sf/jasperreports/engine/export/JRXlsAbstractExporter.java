@@ -2031,8 +2031,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		return name;
 	}
 
-	// Berechnungsvorschriften f�r die DIN Formate A, B, und C.
-	// Die Angabe der Breite/H�he erfolgt in [mm].
+	// Berechnungsvorschriften für die DIN Formate A, B, und C.
+	// Die Angabe der Breite/Höhe erfolgt in [mm].
 
 	protected final int calculateWidthForDinAN(int n)
 	{
