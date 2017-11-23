@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
@@ -108,29 +107,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public JRTemplatePrintText()
 	{
 		
-	}
-	
-	/**
-	 * Creates a print text element.
-	 * 
-	 * @param text the template text that the element will use
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintText(JRTemplateText, int)}
-	 */
-	public JRTemplatePrintText(JRTemplateText text)
-	{
-		super(text);
-	}
-	
-	/**
-	 * Creates a print text element.
-	 * 
-	 * @param text the template text that the element will use
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplatePrintText(JRTemplateText, PrintElementOriginator)}
-	 */
-	public JRTemplatePrintText(JRTemplateText text, int sourceElementId)
-	{
-		super(text, sourceElementId);
 	}
 	
 	/**
@@ -392,33 +368,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		this.textHeight = textHeight;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getLineSpacingValue()
-	{
-		return getParagraph().getLineSpacing();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getOwnLineSpacingValue()
-	{
-		return getParagraph().getOwnLineSpacing();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	@Override
-	public void setLineSpacing(LineSpacingEnum lineSpacing)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
 	@Override
 	public String getMarkup()
 	{

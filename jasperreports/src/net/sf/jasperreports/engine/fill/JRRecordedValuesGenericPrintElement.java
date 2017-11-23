@@ -51,48 +51,11 @@ public class JRRecordedValuesGenericPrintElement extends
 	 * Creates a generic print element.
 	 * 
 	 * @param template the element template to be used by the element
-	 * @deprecated provide a source Id via {@link #JRRecordedValuesGenericPrintElement(JRTemplateGenericElement, int)}
-	 */
-	public JRRecordedValuesGenericPrintElement(JRTemplateGenericElement template)
-	{
-		super(template);
-	}
-
-	/**
-	 * Creates a generic print element.
-	 * 
-	 * @param template the element template to be used by the element
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRRecordedValuesGenericPrintElement(JRTemplateGenericElement, PrintElementOriginator)}
-	 */
-	public JRRecordedValuesGenericPrintElement(JRTemplateGenericElement template, int sourceElementId)
-	{
-		super(template, sourceElementId);
-	}
-
-	/**
-	 * Creates a generic print element.
-	 * 
-	 * @param template the element template to be used by the element
 	 * @param originator
 	 */
 	public JRRecordedValuesGenericPrintElement(JRTemplateGenericElement template, PrintElementOriginator originator)
 	{
 		super(template, originator);
-	}
-
-	/**
-	 * Creates a generic print element.
-	 * 
-	 * @param template the element template to be used by the element
-	 * @param sourceElementId the Id of the source element
-	 * @param parameterCount the number of parameters that the element will have
-	 * @deprecated replaced by {@link #JRRecordedValuesGenericPrintElement(JRTemplateGenericElement, PrintElementOriginator, int)}
-	 */
-	public JRRecordedValuesGenericPrintElement(JRTemplateGenericElement template, int sourceElementId,
-			int parameterCount)
-	{
-		super(template, sourceElementId, parameterCount);
 	}
 
 	/**

@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -341,33 +340,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getLineSpacingValue()
-	{
-		return getParagraph().getLineSpacing();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getOwnLineSpacingValue()
-	{
-		return getParagraph().getOwnLineSpacing();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	@Override
-	public void setLineSpacing(LineSpacingEnum lineSpacing)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
 	@Override
 	public String getMarkup()
 	{

@@ -51,29 +51,6 @@ public class JRTemplatePrintEllipse extends JRTemplatePrintGraphicElement implem
 	 * Creates a print ellipse element.
 	 * 
 	 * @param ellipse the template ellipse that the element will use
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintEllipse(JRTemplateEllipse, int)}
-	 */
-	public JRTemplatePrintEllipse(JRTemplateEllipse ellipse)
-	{
-		super(ellipse);
-	}
-
-	/**
-	 * Creates a print ellipse element.
-	 * 
-	 * @param ellipse the template ellipse that the element will use
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplatePrintEllipse(JRTemplateEllipse, PrintElementOriginator)}
-	 */
-	public JRTemplatePrintEllipse(JRTemplateEllipse ellipse, int sourceElementId)
-	{
-		super(ellipse, sourceElementId);
-	}
-
-	/**
-	 * Creates a print ellipse element.
-	 * 
-	 * @param ellipse the template ellipse that the element will use
 	 * @param originator
 	 */
 	public JRTemplatePrintEllipse(JRTemplateEllipse ellipse, PrintElementOriginator originator)

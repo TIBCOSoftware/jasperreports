@@ -49,27 +49,6 @@ public class JRRecordedValuesPrintImage extends JRTemplatePrintImage implements 
 	/**
 	 * 
 	 * @param image
-	 * @deprecated provide a source Id via {@link #JRRecordedValuesPrintImage(JRTemplateImage, int)}
-	 */
-	public JRRecordedValuesPrintImage(JRTemplateImage image)
-	{
-		super(image);
-	}
-
-	/**
-	 * 
-	 * @param image
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRRecordedValuesPrintImage(JRTemplateImage, PrintElementOriginator)}
-	 */
-	public JRRecordedValuesPrintImage(JRTemplateImage image, int sourceElementId)
-	{
-		super(image, sourceElementId);
-	}
-
-	/**
-	 * 
-	 * @param image
 	 * @param originator
 	 */
 	public JRRecordedValuesPrintImage(JRTemplateImage image, PrintElementOriginator originator)

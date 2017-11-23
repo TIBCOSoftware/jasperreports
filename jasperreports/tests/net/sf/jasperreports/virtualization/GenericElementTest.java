@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRGenericElementType;
+import net.sf.jasperreports.engine.fill.DefaultPrintElementOriginator;
 import net.sf.jasperreports.engine.fill.JREvaluationTime;
 import net.sf.jasperreports.engine.fill.JRRecordedValues;
 import net.sf.jasperreports.engine.fill.JRRecordedValuesGenericPrintElement;
@@ -55,7 +56,7 @@ public class GenericElementTest extends BaseElementsTests
 	public void recordedValues()
 	{
 		JRTemplateGenericElement template = genericTemplate();
-		JRRecordedValuesGenericPrintElement element = new JRRecordedValuesGenericPrintElement(template, 12);
+		JRRecordedValuesGenericPrintElement element = new JRRecordedValuesGenericPrintElement(template, new DefaultPrintElementOriginator(12));
 		setElement(element);
 		
 		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
@@ -91,7 +92,7 @@ public class GenericElementTest extends BaseElementsTests
 	protected JRTemplateGenericPrintElement genericElement()
 	{
 		JRTemplateGenericElement template = genericTemplate();
-		JRTemplateGenericPrintElement element = new JRTemplateGenericPrintElement(template, 12);
+		JRTemplateGenericPrintElement element = new JRTemplateGenericPrintElement(template, new DefaultPrintElementOriginator(12));
 		setElement(element);
 		return element;
 	}
