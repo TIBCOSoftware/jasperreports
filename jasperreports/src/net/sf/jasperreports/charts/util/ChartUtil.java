@@ -214,14 +214,6 @@ public final class ChartUtil
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getTheme(String)}.
-	 */
-	public static ChartTheme getChartTheme(String themeName)
-	{
-		return getDefaultInstance().getTheme(themeName);
-	}
-
-	/**
 	 * 
 	 */
 	public ChartRenderableFactory getChartRenderableFactory(String renderType)
@@ -245,15 +237,6 @@ public final class ChartUtil
 		}
 	}
 
-	/**
-	 * @deprecated replaced by {@link #createIntegerTickUnits(Locale)}
-	 */
-	@Deprecated
-	public TickUnitSource createIntegerTickUnits()
-	{
-		return createIntegerTickUnits(Locale.getDefault());
-	}
-	
 	public TickUnitSource createIntegerTickUnits(Locale locale)
 	{
         DecimalFormatSymbols formatSymbols = DecimalFormatSymbols.getInstance(locale);
@@ -324,15 +307,6 @@ public final class ChartUtil
 		units.add(new NumberTickUnit(5000000000000000000L, df1));
 		
 		return units;
-	}
-	
-	/**
-	 * @deprecated replaced by {@link #createStandardTickUnits(Locale)}
-	 */
-	@Deprecated
-	public TickUnitSource createStandardTickUnits()
-	{
-		return createStandardTickUnits(Locale.getDefault());
 	}
 	
 	public TickUnitSource createStandardTickUnits(Locale locale)

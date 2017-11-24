@@ -41,11 +41,13 @@ public final class TextInputElementHandlerBundle implements GenericElementHandle
 		return INSTANCE;
 	}
 	
+	@Override
 	public String getNamespace()
 	{
 		return NAMESPACE;
 	}
 	
+	@Override
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{

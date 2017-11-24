@@ -51,6 +51,7 @@ public class HtmlElementDocxHandler implements GenericElementDocxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

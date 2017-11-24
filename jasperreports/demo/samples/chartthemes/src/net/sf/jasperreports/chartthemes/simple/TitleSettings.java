@@ -27,16 +27,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import org.jfree.ui.HorizontalAlignment;
+import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.VerticalAlignment;
+
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-
-import org.jfree.ui.HorizontalAlignment;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.VerticalAlignment;
 
 
 /**
@@ -195,6 +195,7 @@ public class TitleSettings implements JRChangeEventsSupport, Serializable
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

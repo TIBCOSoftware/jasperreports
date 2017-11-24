@@ -83,13 +83,6 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 	}
 
 	@Override
-	@Deprecated
-	public SortOrderEnum getOrderValue()
-	{
-		return BucketOrder.toSortOrderEnum(bucketOrder);
-	}
-
-	@Override
 	public BucketOrder getOrder()
 	{
 		return bucketOrder;

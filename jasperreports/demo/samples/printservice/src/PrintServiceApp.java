@@ -32,7 +32,6 @@ import javax.print.attribute.PrintServiceAttributeSet;
 import javax.print.attribute.standard.MediaSizeName;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -47,10 +46,10 @@ import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -69,9 +68,7 @@ public class PrintServiceApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 	}
@@ -175,10 +172,8 @@ public class PrintServiceApp extends AbstractSampleApp
 		image.setWidth(165);
 		image.setHeight(40);
 		image.setScaleImage(ScaleImageEnum.CLIP);
-		image.setRenderable(
-			JRImageRenderer.getInstance(
-				JRLoader.loadBytesFromResource("jasperreports.png")
-				)
+		image.setRenderer(
+			ResourceRenderer.getInstance("jasperreports.png", false)
 			);
 		page.addElement(image);
 

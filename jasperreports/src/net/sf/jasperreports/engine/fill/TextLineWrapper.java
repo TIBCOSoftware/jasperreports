@@ -47,11 +47,6 @@ public interface TextLineWrapper
 
 	TextLine baseTextLine(int index);
 
-	/**
-	 * @deprecated Replaced by {@link #maxFontsize(int, int)}.
-	 */
-	int maxFontSize(int start, int end);
-
 	float maxFontsize(int start, int end);
 
 	String getLineText(int start, int end);

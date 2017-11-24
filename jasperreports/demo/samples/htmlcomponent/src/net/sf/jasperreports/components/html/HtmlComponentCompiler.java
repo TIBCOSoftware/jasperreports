@@ -34,17 +34,20 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  */
 public class HtmlComponentCompiler implements ComponentCompiler {
 
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector) {
 		HtmlComponent htmlComponent = (HtmlComponent) component;
 		collector.addExpression(htmlComponent.getHtmlContentExpression());
 	}
 	
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory) {
 		HtmlComponent htmlComponent = (HtmlComponent) component;
 		return new HtmlComponent(htmlComponent, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier) {
 		// TODO
 	}

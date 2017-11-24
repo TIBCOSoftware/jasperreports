@@ -62,9 +62,7 @@ public class ColorProvider implements PaintProvider
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Paint getPaint()
 	{
 		return color;

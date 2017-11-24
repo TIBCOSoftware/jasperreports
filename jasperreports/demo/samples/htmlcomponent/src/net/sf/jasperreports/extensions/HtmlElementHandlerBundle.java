@@ -62,12 +62,13 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 		return INSTANCE;
 	}
 	
+	@Override
 	public String getNamespace()
 	{
 		return NAMESPACE;
 	}
 	
-	@SuppressWarnings("deprecation")
+	@Override
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{

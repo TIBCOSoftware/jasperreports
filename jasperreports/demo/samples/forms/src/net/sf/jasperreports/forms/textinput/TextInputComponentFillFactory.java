@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 public class TextInputComponentFillFactory implements ComponentFillFactory
 {
 
+	@Override
 	public FillComponent toFillComponent(Component component,
 			JRFillObjectFactory factory)
 	{
@@ -42,6 +43,7 @@ public class TextInputComponentFillFactory implements ComponentFillFactory
 		return new TextInputComponentFill(textInputComponent, factory);
 	}
 
+	@Override
 	public FillComponent cloneFillComponent(FillComponent component,
 			JRFillCloneFactory factory)
 	{

@@ -29,11 +29,11 @@ import java.awt.Paint;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialScale;
 import org.jfree.chart.plot.dial.StandardDialRange;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -81,6 +81,7 @@ public class ScaledDialRange extends StandardDialRange
 	 * @param frame  the dial's reference frame (in Java2D space).
 	 * @param view  the dial's view rectangle (in Java2D space).
 	 */
+	@Override
 	public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame, 
 			Rectangle2D view) {
 		
@@ -115,6 +116,7 @@ public class ScaledDialRange extends StandardDialRange
 	 * 
 	 * @return A boolean.
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -134,6 +136,7 @@ public class ScaledDialRange extends StandardDialRange
 	 * 
 	 * @return The hash code.
 	 */
+	@Override
 	public int hashCode() {
 		int temp = Float.floatToIntBits(this.lineWidth);
 		return 37 * super.hashCode() + (temp ^ (temp >>> 32));		
@@ -148,6 +151,7 @@ public class ScaledDialRange extends StandardDialRange
 	 * @throws CloneNotSupportedException if any of the attributes of this 
 	 *     instance cannot be cloned.
 	 */
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}

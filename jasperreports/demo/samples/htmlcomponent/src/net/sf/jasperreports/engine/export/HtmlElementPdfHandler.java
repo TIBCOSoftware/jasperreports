@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
  */
 public class HtmlElementPdfHandler implements GenericElementPdfHandler 
 {
+	@Override
 	public void exportElement(JRPdfExporterContext exporterContext,
 			JRGenericPrintElement element) {
 		try
@@ -45,6 +46,7 @@ public class HtmlElementPdfHandler implements GenericElementPdfHandler
 		}
 	}
 	
+	@Override
 	public boolean toExport(JRGenericPrintElement element) 
 	{
 		return true;

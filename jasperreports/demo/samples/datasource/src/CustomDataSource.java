@@ -82,9 +82,7 @@ public class CustomDataSource implements JRDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public boolean next() throws JRException
 	{
 		index++;
@@ -93,9 +91,7 @@ public class CustomDataSource implements JRDataSource
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getFieldValue(JRField field) throws JRException
 	{
 		Object value = null;

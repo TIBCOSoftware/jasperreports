@@ -66,9 +66,7 @@ public class FileImageProvider implements ImageProvider
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Image getImage(JasperReportsContext jasperReportsContext)
 	{
 		try

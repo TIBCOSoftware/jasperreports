@@ -47,9 +47,7 @@ public class JsonQLDataSourceApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		fill();

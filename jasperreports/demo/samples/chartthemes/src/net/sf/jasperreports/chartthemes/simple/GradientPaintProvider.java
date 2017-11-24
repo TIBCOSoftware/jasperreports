@@ -65,9 +65,7 @@ public class GradientPaintProvider implements PaintProvider
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public Paint getPaint()
 	{
 		return new GradientPaint(0, 0, color1, 0, 0, color2);

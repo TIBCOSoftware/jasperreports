@@ -33,9 +33,12 @@ import net.sf.jasperreports.engine.util.ReportUpdater;
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
-public class StyleUpdater implements ReportUpdater {
+public class StyleUpdater implements ReportUpdater 
+{
 	
-	public JasperDesign update(JasperDesign jasperDesign){
+	@Override
+	public JasperDesign update(JasperDesign jasperDesign)
+	{
 		JRDesignStyle style = (JRDesignStyle)jasperDesign.getStyles()[0];
 		style.setForecolor(Color.BLUE);
 		style.setFontSize(14f);

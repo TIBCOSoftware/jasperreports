@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 public class HtmlComponentDesignConverter implements ComponentDesignConverter
 {
 	
+	@Override
 	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
 	{
 		if (element.getComponent() == null)

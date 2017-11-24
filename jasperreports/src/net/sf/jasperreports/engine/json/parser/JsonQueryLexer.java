@@ -79,6 +79,7 @@ public JsonQueryLexer(LexerSharedInputState state) {
 	literals.put(new ANTLRHashString("false", this), new Integer(50));
 }
 
+@Override
 public Token nextToken() throws TokenStreamException {
 	Token theRetToken=null;
 tryAgain:

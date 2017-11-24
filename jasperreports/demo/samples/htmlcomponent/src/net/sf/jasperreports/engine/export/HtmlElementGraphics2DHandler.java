@@ -37,17 +37,19 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
  */
 public class HtmlElementGraphics2DHandler implements GenericElementGraphics2DHandler {
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}
 
+	@Override
 	public void exportElement(JRGraphics2DExporterContext exporterContext, JRGenericPrintElement element, Graphics2D grx, Offset offset) {
 		HtmlPrintElement htmlPrintElement;
 		try {
 			htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			
 			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
-			ImageDrawer imageDrawer = exporter.getFrameDrawer().getDrawVisitor().getImageDrawer();
+			ImageDrawer imageDrawer = exporter.getDrawVisitor().getImageDrawer();
 			
 			imageDrawer.draw(
 					grx,

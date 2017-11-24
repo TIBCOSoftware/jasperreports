@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-import net.sf.jasperreports.renderers.AwtComponentRenderer;
+import net.sf.jasperreports.renderers.AwtComponentRendererImpl;
 
 
 /**
@@ -54,6 +54,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 	public DefaultHtmlPrintElement(){
 	}
 	
+	@Override
 	public JRPrintImage createImageFromElement(JRGenericPrintElement element) {
 		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
 		String scaleType = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE);
@@ -80,11 +81,12 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		printImage.setMode(element.getModeValue());
 		printImage.setBackcolor(element.getBackcolor());
 		printImage.setForecolor(element.getForecolor());
-		printImage.setRenderable(new AwtComponentRenderer(editorPane));
+		printImage.setRenderer(new AwtComponentRendererImpl(editorPane));
 
 		return printImage;
 	}
 
+	@Override
 	public JRPrintImage createImageFromComponentElement(JRComponentElement componentElement) throws JRException {
 		HtmlComponent html = (HtmlComponent) componentElement.getComponent();
 		
@@ -115,11 +117,12 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		printImage.setBackcolor(componentElement.getBackcolor());
 		printImage.setForecolor(componentElement.getForecolor());
 
-		printImage.setRenderable(new AwtComponentRenderer(editorPane));
+		printImage.setRenderer(new AwtComponentRendererImpl(editorPane));
 		
 		return printImage;
 	}
 
+	@Override
 	public Dimension getComputedSize(JRGenericPrintElement element) {
 		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
 		JEditorPane editorPane = new JEditorPane();

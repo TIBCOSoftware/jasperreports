@@ -144,15 +144,6 @@ public class ComplexTextLineWrapper implements TextLineWrapper
 				context.getElement().getFontsize());
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #maxFontsize(int, int)}.
-	 */
-	@Override
-	public int maxFontSize(int start, int end)
-	{
-		return (int)maxFontsize(start, end);
-	}
-	
 	@Override
 	public String getLineText(int start, int end)
 	{

@@ -138,6 +138,7 @@ public class ChartThemeSettings implements JRChangeEventsSupport, Serializable
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

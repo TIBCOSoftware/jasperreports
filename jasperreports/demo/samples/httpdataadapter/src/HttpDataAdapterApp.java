@@ -45,9 +45,7 @@ public class HttpDataAdapterApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		pdf();

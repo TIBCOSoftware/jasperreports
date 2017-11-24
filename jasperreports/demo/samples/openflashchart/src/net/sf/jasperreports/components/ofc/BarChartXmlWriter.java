@@ -43,14 +43,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public class BarChartXmlWriter extends AbstractComponentXmlWriter
 {
-	/**
-	 * @deprecated Replaced by {@link BarChartXmlWriter#BarChartXmlWriter(JasperReportsContext)}.
-	 */
-	public BarChartXmlWriter()
-	{
-		super(DefaultJasperReportsContext.getInstance());
-	}
-	
 	public BarChartXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);

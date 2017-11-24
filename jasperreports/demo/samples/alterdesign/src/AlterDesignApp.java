@@ -54,9 +54,7 @@ public class AlterDesignApp extends AbstractSampleApp
 	}
 
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		fill();

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.html;
 
+import org.apache.commons.digester.Digester;
+
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -32,14 +34,13 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
-import org.apache.commons.digester.Digester;
-
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class HtmlComponentDigester implements XmlDigesterConfigurer
 {
 
+	@Override
 	public void configureDigester(Digester digester)
 	{
 		setHtmlComponentRules(digester);

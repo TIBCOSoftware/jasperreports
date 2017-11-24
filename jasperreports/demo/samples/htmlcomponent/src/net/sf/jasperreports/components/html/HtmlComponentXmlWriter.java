@@ -54,11 +54,13 @@ public class HtmlComponentXmlWriter extends AbstractComponentXmlWriter
 		super(jasperReportsContext);
 	}
 	
+	@Override
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
 		return true;
 	}
 	
+	@Override
 	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException 
 	{
 		Component component = componentElement.getComponent();

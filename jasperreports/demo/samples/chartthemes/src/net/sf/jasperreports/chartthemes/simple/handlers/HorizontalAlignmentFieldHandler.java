@@ -40,9 +40,7 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -52,9 +50,7 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 		return ((HorizontalAlignment)value).toString();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -70,17 +66,13 @@ public class HorizontalAlignmentFieldHandler extends GeneralizedFieldHandler
 			? HorizontalAlignment.RIGHT : null;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return HorizontalAlignment.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		//-- Since it's marked as a string...just return null,

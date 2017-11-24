@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  */
 public class HtmlElementHtmlHandler implements GenericElementHtmlHandler
 {
+	@Override
 	public String getHtmlFragment(JRHtmlExporterContext exporterContext,
 			JRGenericPrintElement element)
 	{
@@ -54,6 +55,7 @@ public class HtmlElementHtmlHandler implements GenericElementHtmlHandler
 		return script.toString();
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return true;

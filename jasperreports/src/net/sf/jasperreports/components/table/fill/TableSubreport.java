@@ -125,15 +125,6 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 		return returnValues;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public Boolean isOwnUsingCache()
-	{
-		return false;
-	}
-
 	@Override
 	public Boolean getUsingCache()
 	{
@@ -142,15 +133,6 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 
 	@Override
 	public Boolean isRunToBottom()
-	{
-		return false;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public boolean isUsingCache()
 	{
 		return false;
 	}

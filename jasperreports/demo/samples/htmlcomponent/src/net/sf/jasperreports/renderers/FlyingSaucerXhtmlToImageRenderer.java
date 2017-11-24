@@ -32,7 +32,6 @@ import java.awt.geom.Rectangle2D;
 import org.w3c.dom.Document;
 
 import net.sf.jasperreports.CustomJava2DRenderer;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -65,22 +64,6 @@ public class FlyingSaucerXhtmlToImageRenderer extends AbstractRenderToImageDataR
 		return new Dimension(width, height);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
-	 */
-	public Dimension2D getDimension()
-	{
-		return getDimension(DefaultJasperReportsContext.getInstance());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
-	 */
-	public void render(Graphics2D grx, Rectangle2D rectangle) 
-	{
-		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
-	}
-	
 	@Override
 	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{

@@ -23,16 +23,17 @@
  */
 package net.sf.jasperreports.forms.textinput;
 
+import org.apache.commons.digester.Digester;
+
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
-
-import org.apache.commons.digester.Digester;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class TextInputComponentDigester implements XmlDigesterConfigurer
 {
+	@Override
 	public void configureDigester(Digester digester)
 	{
 		addTextInputComponentRules(digester);

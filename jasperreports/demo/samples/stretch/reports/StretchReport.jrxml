@@ -203,25 +203,25 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 			</line>
 			<frame borderSplitType="DrawBorders">
 				<reportElement positionType="Float" x="425" y="4" width="130" height="4" isPrintWhenDetailOverflows="true" uuid="1370e27d-e0a0-431e-89e8-77beaeb0f90d"/>
-				<box border="1Point">
-				<pen lineStyle="Solid" lineWidth="1" lineColor="#000000"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="5" y="1" width="100" height="0" mode="Transparent" isRemoveLineWhenBlank="true" uuid="5ebb523a-b7c7-4903-a2e4-35a67d1cde04"/>
+					<reportElement mode="Transparent" x="5" y="1" width="100" height="0" isRemoveLineWhenBlank="true" uuid="5ebb523a-b7c7-4903-a2e4-35a67d1cde04"/>
 					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["This is a FIRST long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement positionType="Float" x="10" y="2" width="100" height="0" mode="Transparent" isRemoveLineWhenBlank="true" forecolor="#808080" uuid="8b757162-6ec8-4ba1-826a-0f21c5716ca8"/>
+					<reportElement positionType="Float" mode="Transparent" x="10" y="2" width="100" height="0" isRemoveLineWhenBlank="true" forecolor="#808080" uuid="8b757162-6ec8-4ba1-826a-0f21c5716ca8"/>
 					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["This is a SECOND long chunk of text that will cause the text field to stretch outside its defined height and force other elements to move downwards."]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement positionType="Float" x="20" y="3" width="100" height="0" mode="Transparent" isRemoveLineWhenBlank="true" forecolor="#C0C0C0" uuid="0577f144-ce0e-49aa-8f82-c2aea5bda1a2"/>
+					<reportElement positionType="Float" mode="Transparent" x="20" y="3" width="100" height="0" isRemoveLineWhenBlank="true" forecolor="#C0C0C0" uuid="0577f144-ce0e-49aa-8f82-c2aea5bda1a2"/>
 					<textElement textAlignment="Justified">
 						<font size="12"/>
 					</textElement>

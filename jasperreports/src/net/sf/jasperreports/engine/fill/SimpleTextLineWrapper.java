@@ -53,8 +53,8 @@ import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
-import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -784,15 +784,6 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	public float maxFontsize(int start, int end)
 	{
 		return fontKey.size;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #maxFontsize(int, int)}.
-	 */
-	@Override
-	public int maxFontSize(int start, int end)
-	{
-		return (int)maxFontsize(start, end);
 	}
 
 	@Override

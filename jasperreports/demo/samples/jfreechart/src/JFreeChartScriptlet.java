@@ -27,15 +27,15 @@
  * David Gilbert - david.gilbert@object-refinery.com
  */
 
-import net.sf.jasperreports.engine.JRDefaultScriptlet;
-import net.sf.jasperreports.engine.JRScriptletException;
-import net.sf.jasperreports.renderers.JCommonDrawableRenderer;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.Rotation;
+
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRScriptletException;
+import net.sf.jasperreports.renderers.JCommonDrawableRendererImpl;
 
 
 /**
@@ -45,9 +45,7 @@ public class JFreeChartScriptlet extends JRDefaultScriptlet
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterReportInit() throws JRScriptletException
 	{
 		DefaultPieDataset dataset = new DefaultPieDataset();
@@ -73,7 +71,7 @@ public class JFreeChartScriptlet extends JRDefaultScriptlet
 		plot.setNoDataMessage("No data to display");
 
 		/*   */
-		this.setVariableValue("Chart", new JCommonDrawableRenderer(chart));
+		this.setVariableValue("Chart", new JCommonDrawableRendererImpl(chart));
 	}
 
 

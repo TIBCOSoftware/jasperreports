@@ -25,9 +25,9 @@ package net.sf.jasperreports.chartthemes.simple.handlers;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.util.JRColorUtil;
-
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
+
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
@@ -43,9 +43,7 @@ public class ColorFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -55,9 +53,7 @@ public class ColorFieldHandler extends GeneralizedFieldHandler
 		return "#" + JRColorUtil.getColorHexa((Color)value);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -67,17 +63,13 @@ public class ColorFieldHandler extends GeneralizedFieldHandler
 		return JRColorUtil.getColor((String)value, null);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return Color.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		//-- Since it's marked as a string...just return null,

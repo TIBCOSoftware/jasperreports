@@ -217,15 +217,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public boolean isUsingCache()
-	{
-		return ((JRSubreport)parent).isUsingCache();
-	}
-		
-	/**
 	 *
 	 */
 	public boolean usingCache()
@@ -1114,16 +1105,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	protected void resolveElement (JRPrintElement element, byte evaluation)
 	{
 		// nothing
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public Boolean isOwnUsingCache()
-	{
-		return ((JRSubreport)parent).isOwnUsingCache();
 	}
 
 

@@ -26,12 +26,12 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.awt.Color;
 import java.awt.Paint;
 
-import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
-import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.block.BlockFrame;
 import org.jfree.ui.RectangleInsets;
+
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * 
@@ -113,6 +113,7 @@ public class BlockBorderProvider implements BlockFrameProvider, JRChangeEventsSu
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

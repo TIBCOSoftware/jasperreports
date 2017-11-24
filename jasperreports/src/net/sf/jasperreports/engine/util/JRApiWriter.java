@@ -576,15 +576,6 @@ public class JRApiWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeReport(JRReport, Writer)}.
-	 */
-	protected void writeReport(Writer aWriter)
-	{
-		writeReport(report, aWriter);
-	}
-
-
-	/**
 	 * 
 	 *
 	 */

@@ -31,12 +31,12 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.StandardDialScale;
 import org.jfree.text.TextUtilities;
 import org.jfree.ui.TextAnchor;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -79,6 +79,7 @@ public class ScaledDialScale extends StandardDialScale
 	 * @param view  the visible part of the plot (<code>null</code> not 
 	 *     permitted).
 	 */
+	@Override
 	public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame, 
 			Rectangle2D view) {
 		

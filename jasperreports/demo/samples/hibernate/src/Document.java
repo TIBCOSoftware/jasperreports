@@ -63,6 +63,7 @@ public class Document
 		this.total = total;
 	}
 
+	@Override
 	public String toString()
 	{
 		return id + ":" + total + " of " + address;

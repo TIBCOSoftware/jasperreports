@@ -363,14 +363,6 @@ public class JRVerifier
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #verifyDesign(JasperReportsContext, JasperDesign, JRExpressionCollector)}.
-	 */
-	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
-	{
-		return verifyDesign(DefaultJasperReportsContext.getInstance(), jasperDesign, expressionCollector);
-	}
-
-	/**
 	 * Validates a {@link JasperDesign report design}.
 	 *
 	 * @param jasperDesign the report design
@@ -400,7 +392,7 @@ public class JRVerifier
 	 */
 	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign)
 	{
-		return verifyDesign(jasperDesign, null);
+		return verifyDesign(DefaultJasperReportsContext.getInstance(), jasperDesign, null);
 	}
 
 	/**

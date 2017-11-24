@@ -35,20 +35,6 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.charts.JRPiePlot;
-import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.type.MeterShapeEnum;
-import net.sf.jasperreports.charts.type.ValueLocationEnum;
-import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.charts.util.JRMeterInterval;
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.fill.DefaultChartTheme;
-
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAnchor;
 import org.jfree.chart.axis.CategoryLabelPositions;
@@ -84,6 +70,20 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
+import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -100,9 +100,7 @@ public class AegeanChartTheme extends GenericChartTheme
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot) throws JRException
 	{
 
@@ -118,9 +116,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		}
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void configurePlot(Plot plot, JRChartPlot jrPlot)
 	{
 
@@ -162,6 +158,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		}
 	}
 
+	@Override
 	protected JFreeChart createScatterChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createScatterChart();
@@ -173,9 +170,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createPieChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createPieChart();
@@ -208,9 +203,7 @@ public class AegeanChartTheme extends GenericChartTheme
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createPie3DChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createPie3DChart();
@@ -250,6 +243,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
+	@Override
 	protected JFreeChart createBar3DChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createBar3DChart();
@@ -270,6 +264,7 @@ public class AegeanChartTheme extends GenericChartTheme
 	}
 
 
+	@Override
 	protected JFreeChart createStackedBar3DChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createStackedBar3DChart();
@@ -289,9 +284,7 @@ public class AegeanChartTheme extends GenericChartTheme
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createBubbleChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createBubbleChart();
@@ -309,9 +302,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createGanttChart() throws JRException
 	{
 
@@ -375,9 +366,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createMeterChart() throws JRException
 	{
 		// Start by creating the plot that will hold the meter
@@ -550,9 +539,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createThermometerChart() throws JRException
 	{
 		JRThermometerPlot jrPlot = (JRThermometerPlot)getPlot();
@@ -672,9 +659,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createDialChart() throws JRException
 	{
 
@@ -874,9 +859,7 @@ public class AegeanChartTheme extends GenericChartTheme
 
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createCandlestickChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createCandlestickChart();
