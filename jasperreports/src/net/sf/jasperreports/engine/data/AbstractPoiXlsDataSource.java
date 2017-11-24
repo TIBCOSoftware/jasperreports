@@ -234,21 +234,25 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 
 			Sheet sheet = workbook.getSheetAt(sheetIndex);
 			Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
-			if(cell == null)
+			if (cell == null)
 			{
 				return null;
 			}
-			if (cell.getCellTypeEnum() == CellType.FORMULA) 
+			@SuppressWarnings("deprecation")
+			CellType cellType = cell.getCellTypeEnum();
+			if (cellType == CellType.FORMULA) 
 			{
 				FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 				Object value = null;
-				switch (evaluator.evaluateFormulaCellEnum(cell)) 
+				@SuppressWarnings("deprecation")
+				CellType evalCellType = evaluator.evaluateFormulaCellEnum(cell);
+				switch (evalCellType) 
 				{
 				    case BOOLEAN:
 				    	value = cell.getBooleanCellValue();
 				        break;
 				    case NUMERIC:
-				    	if(Date.class.isAssignableFrom(valueClass)) 
+				    	if (Date.class.isAssignableFrom(valueClass)) 
 				    	{
 				    		value = cell.getDateCellValue();
 				    	} 
@@ -259,9 +263,9 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				        break;
 				    case STRING:
 				    	value = cell.getStringCellValue();
-				    	if(Date.class.isAssignableFrom(valueClass))
+				    	if (Date.class.isAssignableFrom(valueClass))
 				    	{
-							if(value == null || ((String)value).trim().length() == 0)
+							if (value == null || ((String)value).trim().length() == 0)
 							{
 								value = null;
 							}
@@ -279,7 +283,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				    	} 
 				    	else if (Number.class.isAssignableFrom(valueClass))
 				    	{
-							if(value == null || ((String)value).trim().length() == 0)
+							if (value == null || ((String)value).trim().length() == 0)
 							{
 								value = null;
 							}
@@ -311,14 +315,14 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			if (valueClass.equals(Boolean.class)) 
 			{
-				if (cell.getCellTypeEnum() == CellType.BOOLEAN)
+				if (cellType == CellType.BOOLEAN)
 				{
 					return cell.getBooleanCellValue();
 				}
 				else 
 				{
 					String value = cell.getStringCellValue();
-					if(value == null || value.trim().length() == 0)
+					if (value == null || value.trim().length() == 0)
 					{
 						return null;
 					}
@@ -330,14 +334,14 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			else if (Number.class.isAssignableFrom(valueClass))
 			{
-				if (cell.getCellTypeEnum() == CellType.NUMERIC)
+				if (cellType == CellType.NUMERIC)
 				{
 					return convertNumber(cell.getNumericCellValue(), valueClass);
 				}
 				else
 				{
 					String value = cell.getStringCellValue();
-					if(value == null || value.trim().length() == 0)
+					if (value == null || value.trim().length() == 0)
 					{
 						return null;
 					}
@@ -356,14 +360,14 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			}
 			else if (Date.class.isAssignableFrom(valueClass))
 			{
-				if (cell.getCellTypeEnum() == CellType.NUMERIC)
+				if (cellType == CellType.NUMERIC)
 				{
 					return cell.getDateCellValue();
 				}
 				else
 				{
 					String value = cell.getStringCellValue();
-					if(value == null || value.trim().length() == 0)
+					if (value == null || value.trim().length() == 0)
 					{
 						return null;
 					}
@@ -411,7 +415,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 			for(int columnIndex = 0; columnIndex < row.getLastCellNum(); columnIndex++)
 			{
 				Cell cell = row.getCell(columnIndex);
-				if(cell != null)
+				if (cell != null)
 				{
 					columnNames.put(cell.toString(), columnIndex);
 				}
@@ -429,7 +433,7 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 				Integer columnIndex = it.next();
 				Row row = sheet.getRow(recordIndex) ;
 				Cell cell = row.getCell(columnIndex);
-				if(cell != null)
+				if (cell != null)
 				{
 					newColumnNames.put(cell.toString(), columnIndex);
 				}

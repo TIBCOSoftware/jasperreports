@@ -86,7 +86,7 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterContributorF
 	@Override
 	public DataAdapterService getDataAdapterService(ParameterContributorContext context, DataAdapter dataAdapter)
 	{
-		JasperReportsContext jasperReportsContext = context.getJasperReportsContext();
+		//JasperReportsContext jasperReportsContext = context.getJasperReportsContext();
 		DataAdapterService dataAdapterService = null;
 		
 		if (dataAdapter instanceof BeanDataAdapter)
