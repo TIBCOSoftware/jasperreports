@@ -33,6 +33,7 @@ import org.apache.batik.bridge.FontFamilyResolver;
 import org.apache.batik.gvt.font.GVTFontFamily;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.HtmlFontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 
@@ -90,6 +91,17 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 		if (gvtFontFamily == null)
 		{
 			FontInfo fontInfo = fontUtil.getFontInfoIgnoreCase(familyName, null);//FIXMEBATIK locale
+			
+			if (fontInfo == null)
+			{
+				// svg font-family could have locale suffix because it is needed in svg measured by phantomjs;
+				int localeSeparatorPos = familyName.lastIndexOf(HtmlFontFamily.LOCALE_SEPARATOR);
+				if (localeSeparatorPos > 0)
+				{
+					String family = familyName.substring(0, localeSeparatorPos);
+					fontInfo = fontUtil.getFontInfoIgnoreCase(family, null);//FIXMEBATIK locale
+				}
+			}
 			
 			if (fontInfo != null)
 			{
