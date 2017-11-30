@@ -1,10 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.jaspersoft.jasperreports</groupId>
     <artifactId>jasperreports-customvisualization</artifactId>
-    <version>6.4.3-SNAPSHOT</version>
+    <version>6.4.3</version>
     <packaging>jar</packaging>
     <name>JasperReports Custom Visualization Component</name>
     <url>http://maven.apache.org</url>
@@ -12,7 +11,7 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.4.3-SNAPSHOT</version>
+            <version>6.4.3</version>
             <scope>compile</scope>
         </dependency>
 		<dependency>
@@ -52,10 +51,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-                <groupId>hsqldb</groupId>
-                <artifactId>hsqldb</artifactId>
-                <version>1.8.0.10</version>
-                <scope>test</scope>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.10</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
