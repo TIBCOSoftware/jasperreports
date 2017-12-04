@@ -890,7 +890,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		@Override
 		public boolean equals(Object obj)
 		{
-			if(obj == null) 
+			if (obj == null) 
 			{
 				return this == null;
 			}
@@ -1024,7 +1024,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		
 //		gridRowFreezeIndex = Math.max(0, getPropertiesUtil().getIntegerProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_ROW, 0) - 1);
 //		gridColumnFreezeIndex = Math.max(0, getColumnIndex(getPropertiesUtil().getProperty(jasperPrint, XlsReportConfiguration.PROPERTY_FREEZE_COLUMN)));	
-		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		if (jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
 		{
 			// allows null values for the property
 			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
@@ -1054,7 +1054,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 			
-			if(!hasGlobalSheetNames())
+			if (!hasGlobalSheetNames())
 			{
 				sheetNamesIndex = 0;
 			}
@@ -1071,7 +1071,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 				if (configuration.isOnePagePerSheet())
 				{
-					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+					for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.interrupted())
 						{
@@ -1105,7 +1105,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					}
 					int startRow = 0;
 
-					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+					for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.interrupted())
 						{
@@ -1119,7 +1119,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				}
 				pageExported = true;
 			} 
-			else if(reportIndex == items.size() -1 && !pageExported)
+			else if (reportIndex == items.size() -1 && !pageExported)
 			{
 				exportEmptyReport();
 			}
@@ -1174,14 +1174,14 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int skippedRows = 0;
 		int rowIndex = startRow;
 		int rowCount = grid.getRowCount();
-		for(int y = 0; y < rowCount; y++)
+		for (int y = 0; y < rowCount; y++)
 		{
 			Cut yCut = yCuts.getCut(y);
 
 			rowIndex = y - skippedRows + startRow;
 
 			//if number of rows is too large a new sheet is created and populated with remaining rows
-			if(
+			if (
 				(maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
 				|| yCut.isBreak() 
 				)
@@ -1221,7 +1221,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 				int emptyCols = 0;
 				int rowSize = gridRow.size();
-				for(int xCutIndex = 0; xCutIndex < rowSize; xCutIndex++)
+				for (int xCutIndex = 0; xCutIndex < rowSize; xCutIndex++)
 				{
 					Cut xCut = xCuts.getCut(xCutIndex);
 
@@ -1229,7 +1229,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 					emptyCols += isRemoveEmptySpaceBetweenColumns && isEmptyCol ? 1 : 0;
 					
 					int colIndex = xCutIndex - emptyCols;
-					if(colIndex > maxColumnIndex)
+					if (colIndex > maxColumnIndex)
 					{
 						throw 
 							new JRException(
@@ -1252,7 +1252,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 						addOccupiedCell((OccupiedGridCell)gridCell, colIndex, rowIndex);
 					}
-					else if(gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+					else if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
 					{
 						if (emptyCellColSpan > 0)
 						{
@@ -1287,36 +1287,36 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 //									: colIndex
 //									);
 //
-//						if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
+//						if (rowFreezeIndex > 0 || columnFreezeIndex > 0)
 //						{
 //							setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 //						}
 						
 //						String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
-//						if(sheetName != null)
+//						if (sheetName != null)
 //						{
 //							setSheetName(sheetName);
 //						}
 
 
 //						boolean start = getPropertiesUtil().getBooleanProperty(element, PROPERTY_AUTO_FILTER_START, false);
-//						if(start && rowIndex < MAX_ROW_INDEX)
+//						if (start && rowIndex < MAX_ROW_INDEX)
 //						{
 //							autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
 //						}
 //						
 //						boolean end = getPropertiesUtil().getBooleanProperty(element, PROPERTY_AUTO_FILTER_END, false);
-//						if(end && rowIndex < MAX_ROW_INDEX)
+//						if (end && rowIndex < MAX_ROW_INDEX)
 //						{
 //							autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
 //						}
 //						
 						String autofilter = getPropertiesUtil().getProperty(element, PROPERTY_AUTO_FILTER);
-						if("Start".equals(autofilter))
+						if ("Start".equals(autofilter))
 						{
 							autoFilterStart = "$" + JRStringUtil.getLetterNumeral(colIndex + 1, true) + "$" + (rowIndex + 1);
 						}
-						else if("End".equals(autofilter))
+						else if ("End".equals(autofilter))
 						{
 							autoFilterEnd = "$" + JRStringUtil.getLetterNumeral(colIndex + 1, true) + "$" + (rowIndex + 1);
 						}
@@ -1382,7 +1382,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				skippedRows++;
 //				setRowHeight(y, 0);
 //
-//				for(int x = 0; x < grid[y].length; x++)
+//				for (int x = 0; x < grid[y].length; x++)
 //				{
 //					addBlankCell(x, y);
 //					setCell(x, y);
@@ -1395,11 +1395,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			addRowBreak(rowCount - skippedRows + startRow - 1);
 		}
 		
-		if(autoFilterStart != null)
+		if (autoFilterStart != null)
 		{
 			setAutoFilter(autoFilterStart + ":" + (autoFilterEnd != null ? autoFilterEnd : autoFilterStart));
 		}
-		else if(autoFilterEnd != null)
+		else if (autoFilterEnd != null)
 		{
 			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
 		}
@@ -1447,13 +1447,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		int skippedRows = 0;
 		int rowIndex = 0;
 		int rowCount = yCuts.size() - 1;
-		for(int y = startCutIndex; y < rowCount; y++)
+		for (int y = startCutIndex; y < rowCount; y++)
 		{
 			Cut yCut = yCuts.getCut(y);
 			
 			rowIndex = y - skippedRows;
 
-			if(
+			if (
 				y > startCutIndex &&
 				((maxRowsPerSheet > 0 && rowIndex >= maxRowsPerSheet)
 				|| yCut.isBreak()) 
@@ -1522,13 +1522,13 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 								? pageScale 
 								: configuration.getPageScale();
 				Integer freezeColumn = (Integer)yCut.getProperty(PROPERTY_FREEZE_COLUMN_EDGE);
-				if(freezeColumn != null && (!elementLevelColumnFreeze || freezeColumn > sheetInfo.columnFreezeIndex))
+				if (freezeColumn != null && (!elementLevelColumnFreeze || freezeColumn > sheetInfo.columnFreezeIndex))
 				{
 					sheetInfo.columnFreezeIndex = Math.max(0, freezeColumn);
 					elementLevelColumnFreeze = true;
 				}
 				Integer freezeRow = (Integer)yCut.getProperty(PROPERTY_FREEZE_ROW_EDGE);
-				if(freezeRow != null && (!elementLevelRowFreeze || freezeRow > sheetInfo.rowFreezeIndex))
+				if (freezeRow != null && (!elementLevelRowFreeze || freezeRow > sheetInfo.rowFreezeIndex))
 				{
 					sheetInfo.rowFreezeIndex = Math.max(0, freezeRow);
 					elementLevelRowFreeze = true;
@@ -1557,51 +1557,51 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void configurePrintSettings(SheetInfo.SheetPrintSettings printSettings, Cut yCut) 
 	{
 		Integer value = null;
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN)) 
 		{
 			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN);
 			// The maximum value will be considered as page margin
-			if(printSettings.getTopMargin() == null || printSettings.getTopMargin() < value)
+			if (printSettings.getTopMargin() == null || printSettings.getTopMargin() < value)
 			{
 				printSettings.setTopMargin(value);
 			}
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN)) 
 		{
 			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN);
-			if(printSettings.getLeftMargin() == null || printSettings.getLeftMargin() < value)
+			if (printSettings.getLeftMargin() == null || printSettings.getLeftMargin() < value)
 			{
 				printSettings.setLeftMargin(value);
 			}
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN)) 
 		{
 			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN);
-			if(printSettings.getBottomMargin() == null || printSettings.getBottomMargin() < value)
+			if (printSettings.getBottomMargin() == null || printSettings.getBottomMargin() < value)
 			{
 				printSettings.setBottomMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN));
 			}
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN)) 
 		{
 			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN);
-			if(printSettings.getRightMargin() == null || printSettings.getRightMargin() < value)
+			if (printSettings.getRightMargin() == null || printSettings.getRightMargin() < value)
 			{
 				printSettings.setRightMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN));
 			}
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN)) 
 		{
 			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN);
-			if(printSettings.getHeaderMargin() == null || printSettings.getHeaderMargin() < value)
+			if (printSettings.getHeaderMargin() == null || printSettings.getHeaderMargin() < value)
 			{
 				printSettings.setHeaderMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN));
 			}
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN)) 
 		{
 			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN);
-			if(printSettings.getFooterMargin() == null || printSettings.getFooterMargin() < value)
+			if (printSettings.getFooterMargin() == null || printSettings.getFooterMargin() < value)
 			{
 				printSettings.setFooterMargin((Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN));
 			}
@@ -1610,27 +1610,27 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected void updatePrintSettings(SheetInfo.SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
 	{
-		if(printSettings.getTopMargin() == null) 
+		if (printSettings.getTopMargin() == null) 
 		{
 			printSettings.setTopMargin(configuration.getPrintPageTopMargin() == null ? 0 : configuration.getPrintPageTopMargin());
 		}
-		if(printSettings.getLeftMargin() == null) 
+		if (printSettings.getLeftMargin() == null) 
 		{
 			printSettings.setLeftMargin(configuration.getPrintPageLeftMargin() == null ? 0 : configuration.getPrintPageLeftMargin());
 		}
-		if(printSettings.getBottomMargin() == null) 
+		if (printSettings.getBottomMargin() == null) 
 		{
 			printSettings.setBottomMargin(configuration.getPrintPageBottomMargin() == null ? 0 : configuration.getPrintPageBottomMargin());
 		}
-		if(printSettings.getRightMargin() == null) 
+		if (printSettings.getRightMargin() == null) 
 		{
 			printSettings.setRightMargin(configuration.getPrintPageRightMargin() == null ? 0 : configuration.getPrintPageRightMargin());
 		}
-		if(printSettings.getHeaderMargin() == null) 
+		if (printSettings.getHeaderMargin() == null) 
 		{
 			printSettings.setHeaderMargin(configuration.getPrintHeaderMargin() == null ? 0 : configuration.getPrintHeaderMargin());
 		}
-		if(printSettings.getFooterMargin() == null) 
+		if (printSettings.getFooterMargin() == null) 
 		{
 			printSettings.setFooterMargin(configuration.getPrintFooterMargin() == null ? 0 : configuration.getPrintFooterMargin());
 		}
@@ -1638,27 +1638,27 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected void configureHeaderFooter(SheetInfo.SheetPrintSettings printSettings, Cut yCut) 
 	{
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT)) 
 		{
 			printSettings.setHeaderLeft((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT));
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER)) 
 		{
 			printSettings.setHeaderCenter((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER));
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT)) 
 		{
 			printSettings.setHeaderRight((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT));
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT)) 
 		{
 			printSettings.setFooterLeft((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT));
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER)) 
 		{
 			printSettings.setFooterCenter((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER));
 		}
-		if(yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT)) 
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT)) 
 		{
 			printSettings.setFooterRight((String)yCut.getProperty(XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT));
 		}
@@ -1666,27 +1666,27 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected void updateHeaderFooter(SheetInfo.SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
 	{
-		if(printSettings.getHeaderLeft() == null) 
+		if (printSettings.getHeaderLeft() == null) 
 		{
 			printSettings.setHeaderLeft(configuration.getSheetHeaderLeft());
 		}
-		if(printSettings.getHeaderCenter() == null) 
+		if (printSettings.getHeaderCenter() == null) 
 		{
 			printSettings.setHeaderCenter(configuration.getSheetHeaderCenter());
 		}
-		if(printSettings.getHeaderRight() == null) 
+		if (printSettings.getHeaderRight() == null) 
 		{
 			printSettings.setHeaderRight(configuration.getSheetHeaderRight());
 		}
-		if(printSettings.getFooterLeft() == null) 
+		if (printSettings.getFooterLeft() == null) 
 		{
 			printSettings.setFooterLeft(configuration.getSheetFooterLeft());
 		}
-		if(printSettings.getFooterCenter() == null) 
+		if (printSettings.getFooterCenter() == null) 
 		{
 			printSettings.setFooterCenter(configuration.getSheetFooterCenter());
 		}
-		if(printSettings.getFooterRight() == null) 
+		if (printSettings.getFooterRight() == null) 
 		{
 			printSettings.setFooterRight(configuration.getSheetFooterRight());
 		}
@@ -1719,11 +1719,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected void mergeAndSetRowLevels(XlsRowLevelInfo levelInfo, SortedMap<String, Boolean> rowLevelMap, int rowIndex)
 	{
-		SortedMap<String, Integer> crtLevelMap = levelInfo.getLevelMap();
-
 		if (rowLevelMap != null)
 		{
-			for(String level : rowLevelMap.keySet())
+			SortedMap<String, Integer> crtLevelMap = levelInfo.getLevelMap();
+
+			for (String level : rowLevelMap.keySet())
 			{
 				Boolean isEndMarker = rowLevelMap.get(level);
 				
@@ -1738,7 +1738,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						setRowLevels(levelInfo, level);
 
 						//clean up current level group and nested level groups as they were closed 
-						for(Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
+						for (Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
 						{
 							if (level.compareTo(it.next()) <= 0)
 							{
@@ -1747,7 +1747,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						}
 					}
 				}
-				else
+				else // if (!isEndMarker)  // FIXMEXLS we should not add level if it is an end marker
 				{
 					//the level group is not yet open
 
@@ -1758,7 +1758,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						setRowLevels(levelInfo, level);
 						
 						//clean up nested level groups as they were closed; the current one is not yet among them 
-						for(Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
+						for (Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
 						{
 							if (level.compareTo(it.next()) < 0)
 							{
@@ -1793,7 +1793,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		sheetRatio = Math.max(1f, sheetRatio);
 		
 		int emptyCols = 0;
-		for(int xCutIndex = 0; xCutIndex < xCuts.size() - 1; xCutIndex++)
+		for (int xCutIndex = 0; xCutIndex < xCuts.size() - 1; xCutIndex++)
 		{
 			Cut xCut = xCuts.getCut(xCutIndex);
 
@@ -1979,7 +1979,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 */
 	private String getSheetName(String sheetName, String defaultSheetName)
 	{
-		if(sheetName != null)
+		if (sheetName != null)
 		{
 			if (sheetNames != null && sheetNamesIndex < sheetNames.length) 
 			{
@@ -2008,7 +2008,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		String txtIndex = "";
 		String validSheetName = sheetName.length() < 32 ? sheetName : sheetName.substring(0, 31);
 		
-		if(sheetNamesMap.containsKey(validSheetName))
+		if (sheetNamesMap.containsKey(validSheetName))
 		{
 			// sheet names must be unique; altering sheet name using number of occurrences
 			crtIndex = sheetNamesMap.get(validSheetName).intValue() + 1;
@@ -2018,7 +2018,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		sheetNamesMap.put(validSheetName, crtIndex);
 
 		String name = sheetName;
-		if(txtIndex.length() > 0)
+		if (txtIndex.length() > 0)
 		{
 			name += " " + txtIndex;
 		}
@@ -2142,10 +2142,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected String getFormula(JRPrintText text)
 	{
 		String formula = JRPropertiesUtil.getOwnProperty(text, JRXlsAbstractExporter.PROPERTY_CELL_FORMULA);
-		if( formula != null)
+		if ( formula != null)
 		{
 			formula = formula.trim();
-			if(formula.startsWith("="))
+			if (formula.startsWith("="))
 			{
 				formula = formula.substring(1);
 			}
@@ -2264,12 +2264,12 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected int getColumnIndex(String columnName)
 	{
 		int index = -1;
-		if(columnName != null)
+		if (columnName != null)
 		{
 			String upperColumnName = columnName.toUpperCase();
-			if(upperColumnName.matches("[A-Z]*"))
+			if (upperColumnName.matches("[A-Z]*"))
 			{
-				for(int i = 0; i < upperColumnName.length(); i++)
+				for (int i = 0; i < upperColumnName.length(); i++)
 				{
 					index += (upperColumnName.charAt(i) - 64) * (int)Math.pow(26, upperColumnName.length() - i - 1);
 				}
@@ -2384,14 +2384,14 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	public static String getColumIndexName(int colIndex, int maxColIndex)
 	{
 		
-		if(colIndex < 0)
+		if (colIndex < 0)
 		{
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_NEGATIVE_COLUMN_INDEX, 
 					new Object[]{colIndex});
 		} 
-		else if(colIndex > maxColIndex)	
+		else if (colIndex > maxColIndex)	
 		{
 			throw 
 				new JRRuntimeException(
@@ -2421,7 +2421,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected void configureDefinedNames(ExporterNature exporterNature, JRPrintElement element)
 	{
-		if(exporterNature instanceof JRXlsAbstractExporterNature)
+		if (exporterNature instanceof JRXlsAbstractExporterNature)
 		{
 			configureDefinedNames(((JRXlsAbstractExporterNature)exporterNature).getDefinedNames(element));
 		}
@@ -2429,9 +2429,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected void configureDefinedNames(PropertySuffix[] names)
 	{
-		if(names != null)
+		if (names != null)
 		{
-			for(PropertySuffix definedName : names)
+			for (PropertySuffix definedName : names)
 			{
 				configureDefinedNames(definedName);
 			}
@@ -2440,18 +2440,18 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected void configureDefinedNames(PropertySuffix propertySuffix)
 	{
-		if(propertySuffix != null)
+		if (propertySuffix != null)
 		{
 			String name = propertySuffix.getSuffix();
 			String value = propertySuffix.getValue();
-			if(name != null && name.trim().length() > 0 && value != null && value.length() > 0)
+			if (name != null && name.trim().length() > 0 && value != null && value.length() > 0)
 			{
 				String[] valueScope = value.split(DEFAULT_DEFINED_NAME_SCOPE_SEPARATOR);
-				if(valueScope[0] != null && valueScope[0].length() > 0)
+				if (valueScope[0] != null && valueScope[0].length() > 0)
 				{
 					String scope = valueScope.length > 1 ? valueScope[1] : DEFAULT_DEFINED_NAME_SCOPE;
 					NameScope nameScope = new NameScope(name, scope);
-					if(valueScope[0].startsWith("="))
+					if (valueScope[0].startsWith("="))
 					{
 						definedNamesMap.put(nameScope, valueScope[0].substring(1));
 					}

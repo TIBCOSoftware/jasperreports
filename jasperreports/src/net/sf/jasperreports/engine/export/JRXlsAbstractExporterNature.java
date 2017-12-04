@@ -29,11 +29,33 @@
 
 package net.sf.jasperreports.engine.export;
 
+import static java.lang.Math.max;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_DEFINED_NAMES_PREFIX;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_IGNORE_CELL_BACKGROUND;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_IGNORE_CELL_BORDER;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PAGE_SCALE;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_FOOTER_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_HEADER_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_BOTTOM_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_TAB_COLOR;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_WHITE_PAGE_BACKGROUND;
+
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import static java.lang.Math.*;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -43,7 +65,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import static net.sf.jasperreports.export.XlsReportConfiguration.*;
 
 
 /**
@@ -445,6 +466,13 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 				levelMap.put(level, "end".equalsIgnoreCase(marker));
 			}
 			
+// FIXMEXLS we should preserve existing outline level information in the current y cut
+//			SortedMap<String, Boolean> oldLevelMap = (SortedMap<String, Boolean>)cut.getProperty(JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX);
+//			if (oldLevelMap != null)
+//			{
+//				oldLevelMap.putAll(levelMap);
+//				levelMap = oldLevelMap;
+//			}
 			cut.setProperty(JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX, levelMap);
 		}
 		
