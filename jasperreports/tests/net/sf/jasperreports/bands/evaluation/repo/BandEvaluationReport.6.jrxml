@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.4.qualifier using JasperReports Library version 6.4.4  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BandEvaluationReport.6" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="256" columnSpacing="3" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.50.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<pen lineWidth="0.0"/>
+		<box>
+			<pen lineWidth="0.1"/>
+		</box>
+	</style>
+	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+	<variable name="PageCount" class="java.lang.Integer" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="ColCount" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<group name="dummy">
+		<groupExpression><![CDATA[$V{dummy_COUNT} > 15]]></groupExpression>
+		<groupHeader>
+			<band height="500" splitType="Prevent">
+				<printWhenExpression><![CDATA[$V{REPORT_COUNT} > 1]]></printWhenExpression>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="0" y="0" width="255" height="500" uuid="5112c9cf-544e-4bfd-b702-8a0123dd24c5"/>
+					<textFieldExpression><![CDATA["Group Header " + $V{REPORT_COUNT} + " Page " + $V{PAGE_NUMBER} + " Col " + $V{COLUMN_NUMBER}
+ + "\nPageCount " +  $V{PageCount} + " ColCount " + $V{ColCount} + "\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="0" width="515" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+				<textFieldExpression><![CDATA["Page Header - Record " + $V{REPORT_COUNT} + " Page " + $V{PAGE_NUMBER} + " Col " + $V{COLUMN_NUMBER} + "\nPageCount " +  $V{PageCount} + " ColCount " + $V{ColCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="0" width="255" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+				<textFieldExpression><![CDATA["Column Header - Record " + $V{REPORT_COUNT} + " Page " + $V{PAGE_NUMBER} + " Col " + $V{COLUMN_NUMBER} + "\nPageCount " +  $V{PageCount} + " ColCount " + $V{ColCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} != 15]]></printWhenExpression>
+			<textField>
+				<reportElement x="0" y="0" width="255" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+				<textFieldExpression><![CDATA["Detail " + $V{REPORT_COUNT} + " Page " + $V{PAGE_NUMBER} + " Col " + $V{COLUMN_NUMBER} + "\nPageCount " +  $V{PageCount} + " ColCount " + $V{ColCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="0" width="255" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+				<textFieldExpression><![CDATA["Column Footer - Record " + $V{REPORT_COUNT} + " Page " + $V{PAGE_NUMBER} + " Col " + $V{COLUMN_NUMBER} + "\nPageCount " +  $V{PageCount} + " ColCount " + $V{ColCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="0" width="515" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+				<textFieldExpression><![CDATA["Page Footer - Record " + $V{REPORT_COUNT} + " Page " + $V{PAGE_NUMBER} + " Col " + $V{COLUMN_NUMBER} + "\nPageCount " +  $V{PageCount} + " ColCount " + $V{ColCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
