@@ -100,18 +100,18 @@ pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="f35b7907-602b-4dad-b549-84e845974533" x="40" y="682" width="255" height="55" origin="5" srcId="7" printId="1"/>
 			<textContent><![CDATA[Column Footer
-PC 4 CC 4 GC 0 PN 1 CN 1 RC 4
-pc 4 cc 4 gc null pn 1 cn 1 gn 2
-PC 4 CC 4 GC 0 PN 1 CN 1 RC 4
-pc 4 cc 4 gc null pn 1 cn 1 gn 2]]></textContent>
+PC 4 CC 4 GC 2 PN 1 CN 1 RC 4
+pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 4 CC 4 GC 2 PN 1 CN 1 RC 4
+pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		</text>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="aabf77e6-13d0-405e-8843-827dd28bbf07" x="40" y="737" width="515" height="55" origin="6" srcId="8" printId="1"/>
 			<textContent><![CDATA[Page Footer
-PC 4 CC 4 GC 0 PN 1 CN 1 RC 4
-pc 4 cc 4 gc null pn 1 cn 1 gn 2
-PC 4 CC 4 GC 0 PN 1 CN 1 RC 4
-pc 4 cc 4 gc null pn 1 cn 1 gn 2]]></textContent>
+PC 4 CC 4 GC 2 PN 1 CN 1 RC 4
+pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 4 CC 4 GC 2 PN 1 CN 1 RC 4
+pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		</text>
 	</page>
 	<page>
@@ -134,10 +134,10 @@ pc null cc null gc null pn 1 cn null gn 2]]></textContent>
 		<text textHeight="513.35156" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="5e4f773c-728d-428a-b5be-1dfbaf56eefc" x="40" y="160" width="255" height="522" origin="0" srcId="2" printId="2"/>
 			<textContent><![CDATA[Group Header
-PC 4 CC 4 GC 0 PN 1 CN 1 RC 4
-pc 4 cc 4 gc null pn 1 cn 1 gn 2
-PC 4 CC 4 GC 0 PN 1 CN 1 RC 4
-pc 4 cc 4 gc null pn 1 cn 1 gn 2
+PC 0 CC 0 GC 0 PN 2 CN 1 RC 4
+pc null cc null gc null pn 1 cn null gn 2
+PC 0 CC 0 GC 0 PN 1 CN 1 RC 4
+pc null cc null gc null pn 1 cn null gn 2
 m
 o
 r

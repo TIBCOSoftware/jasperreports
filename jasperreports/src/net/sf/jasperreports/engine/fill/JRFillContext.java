@@ -108,6 +108,11 @@ public class JRFillContext
 	 */
 	private final boolean legacyElementStretchEnabled;
 
+	/**
+	 * @deprecated To be removed.
+	 */
+	private final boolean legacyBandEvaluationEnabled;
+
 	
 	/**
 	 * Constructs a fill context.
@@ -129,6 +134,11 @@ public class JRFillContext
 		legacyElementStretchEnabled = 
 			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
 				StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED
+				);
+		
+		legacyBandEvaluationEnabled = 
+			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
+				JRCalculator.PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
 				);
 	}
 
@@ -311,6 +321,15 @@ public class JRFillContext
 	public boolean isLegacyElementStretchEnabled()
 	{
 		return legacyElementStretchEnabled;
+	}
+	
+	
+	/**
+	 * @deprecated To be removed.
+	 */
+	public boolean isLegacyBandEvaluationEnabled()
+	{
+		return legacyBandEvaluationEnabled;
 	}
 	
 	

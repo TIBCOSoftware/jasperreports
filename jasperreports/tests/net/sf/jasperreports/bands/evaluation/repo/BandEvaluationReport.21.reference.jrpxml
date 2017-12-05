@@ -100,16 +100,16 @@ pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="e00cc028-794b-4457-a99b-5d85f848cc81" x="299" y="105" width="255" height="55" origin="3" srcId="5" printId="2"/>
 			<textContent><![CDATA[Column Header
-PC 4 CC 4 GC 2 PN 1 CN 2 RC 4
-pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 4 CC 0 GC 2 PN 1 CN 2 RC 4
+pc 4 cc null gc 2 pn 1 cn 1 gn 2
 PC 4 CC 4 GC 2 PN 1 CN 1 RC 4
 pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		</text>
 		<text textHeight="398.10938" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="5e4f773c-728d-428a-b5be-1dfbaf56eefc" x="299" y="160" width="255" height="398" origin="1" srcId="3" printId="2"/>
 			<textContent><![CDATA[Group Footer
-PC 4 CC 4 GC 2 PN 1 CN 1 RC 4
-pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 4 CC 0 GC 2 PN 1 CN 2 RC 4
+pc 4 cc null gc 2 pn 1 cn 1 gn 2
 PC 4 CC 4 GC 2 PN 1 CN 1 RC 4
 pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
 m
@@ -279,16 +279,16 @@ pc 5 cc 5 gc 2 pn 2 cn 1 gn 5]]></textContent>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="e00cc028-794b-4457-a99b-5d85f848cc81" x="299" y="105" width="255" height="55" origin="3" srcId="5" printId="4"/>
 			<textContent><![CDATA[Column Header
-PC 5 CC 5 GC 2 PN 2 CN 2 RC 10
-pc 5 cc 5 gc 2 pn 2 cn 1 gn 5
+PC 5 CC 0 GC 2 PN 2 CN 2 RC 10
+pc 5 cc null gc 2 pn 2 cn 1 gn 5
 PC 5 CC 5 GC 2 PN 2 CN 1 RC 10
 pc 5 cc 5 gc 2 pn 2 cn 1 gn 5]]></textContent>
 		</text>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="66924081-7270-4248-9a74-af1165fc6a62" x="299" y="160" width="255" height="55" origin="1" srcId="2" printId="4"/>
 			<textContent><![CDATA[Group Footer
-PC 5 CC 5 GC 2 PN 2 CN 2 RC 10
-pc 5 cc 5 gc 2 pn 2 cn 1 gn 5
+PC 5 CC 0 GC 2 PN 2 CN 2 RC 10
+pc 5 cc null gc 2 pn 2 cn 1 gn 5
 PC 5 CC 5 GC 2 PN 2 CN 1 RC 10
 pc 5 cc 5 gc 2 pn 2 cn 1 gn 5]]></textContent>
 		</text>

@@ -266,7 +266,7 @@ public class JRFillGroup implements JRGroup
 	}
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public boolean isTopLevelChange()
 	{

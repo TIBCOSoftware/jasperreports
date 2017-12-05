@@ -52,6 +52,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
+	private Object previousIncrementedValue;
 	private Object previousOldValue;
 	private Object oldValue;
 	private Object estimatedValue;
@@ -225,6 +226,22 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	public void setIncrementedValue(Object incrementedValue)
 	{
 		this.incrementedValue = incrementedValue;
+	}
+
+	/**
+	 *
+	 */
+	public Object getPreviousIncrementedValue()
+	{
+		return previousIncrementedValue;
+	}
+		
+	/**
+	 *
+	 */
+	public void setPreviousIncrementedValue(Object previousIncrementedValue)
+	{
+		this.previousIncrementedValue = previousIncrementedValue;
 	}
 
 	@Override

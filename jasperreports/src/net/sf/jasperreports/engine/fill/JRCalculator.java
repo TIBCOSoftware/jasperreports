@@ -30,6 +30,8 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -37,6 +39,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -65,6 +68,17 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 public class JRCalculator implements JRFillExpressionEvaluator
 {
 
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_5_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_LEGACY_BAND_EVALUATION_ENABLED = 
+		JRPropertiesUtil.PROPERTY_PREFIX + "legacy.band.evaluation.enabled";
 
 	/**
 	 *
@@ -79,6 +93,11 @@ public class JRCalculator implements JRFillExpressionEvaluator
 
 	private JRFillVariable pageNumber;
 	private JRFillVariable columnNumber;
+	
+	/**
+	 * @deprecated To be removed.
+	 */
+	private boolean legacyBandEvaluationEnabled;
 	
 	/**
 	 * The expression evaluator
@@ -136,6 +155,12 @@ public class JRCalculator implements JRFillExpressionEvaluator
 					true
 					);
 		evaluator.init(parsm, fldsm,varsm, whenResourceMissingType, ignoreNPE);
+		
+		legacyBandEvaluationEnabled = 
+			JRPropertiesUtil.getInstance(getFillDataset().getJasperReportsContext())
+				.getBooleanProperty(
+					PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
+					);
 	}
 
 
@@ -160,17 +185,18 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	public void calculateVariables() throws JRException
+	public void calculateVariables(boolean incrementDatasets) throws JRException
 	{
 		if (variables != null && variables.length > 0)
 		{
-			for(int i = 0; i < variables.length; i++)
+			for (int i = 0; i < variables.length; i++)
 			{
 				JRFillVariable variable = variables[i];
 				Object expressionValue = evaluate(variable.getExpression());
 				Object newValue = variable.getIncrementer().increment(variable, expressionValue, AbstractValueProvider.getCurrentValueProvider());
 				variable.setValue(newValue);
 				variable.setInitialized(false);
+				variable.setPreviousIncrementedValue(variable.getIncrementedValue());
 
 				if (variable.getIncrementTypeValue() == IncrementTypeEnum.NONE)
 				{
@@ -179,9 +205,9 @@ public class JRCalculator implements JRFillExpressionEvaluator
 			}
 		}
 
-		if (datasets != null && datasets.length > 0)
+		if (incrementDatasets && datasets != null && datasets.length > 0)
 		{
-			for(int i = 0; i < datasets.length; i++)
+			for (int i = 0; i < datasets.length; i++)
 			{
 				JRFillElementDataset elementDataset = datasets[i];
 				elementDataset.evaluate(this);
@@ -192,6 +218,20 @@ public class JRCalculator implements JRFillExpressionEvaluator
 				}
 			}
 		}
+	}
+
+
+	protected void recalculateVariables() throws JRException
+	{
+		if (variables != null)
+		{
+			for (JRFillVariable variable : variables)
+			{
+				variable.setIncrementedValue(variable.getPreviousIncrementedValue());
+			}
+		}
+		
+		calculateVariables(false);
 	}
 
 
@@ -333,6 +373,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		if (variable.getIncrementTypeValue() != IncrementTypeEnum.NONE)
 		{
 			boolean toIncrement = false;
+			boolean toSetPreviousValue = false;
 			switch (incrementType)
 			{
 				case REPORT :
@@ -347,11 +388,13 @@ public class JRCalculator implements JRFillExpressionEvaluator
 						variable.getIncrementTypeValue() == IncrementTypeEnum.PAGE || 
 						variable.getIncrementTypeValue() == IncrementTypeEnum.COLUMN
 						);
+					toSetPreviousValue = toIncrement;
 					break;
 				}
 				case COLUMN :
 				{
 					toIncrement = (variable.getIncrementTypeValue() == IncrementTypeEnum.COLUMN);
+					toSetPreviousValue = toIncrement;
 					break;
 				}
 				case GROUP :
@@ -372,6 +415,10 @@ public class JRCalculator implements JRFillExpressionEvaluator
 			if (toIncrement)
 			{
 				variable.setIncrementedValue(variable.getValue());
+				if (toSetPreviousValue && !legacyBandEvaluationEnabled)
+				{
+					variable.setPreviousIncrementedValue(variable.getValue());
+				}
 //				variable.setValue(
 //					evaluate(variable.getInitialValueExpression())
 //					);
@@ -449,6 +496,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		if (variable.getResetTypeValue() != ResetTypeEnum.NONE)
 		{
 			boolean toInitialize = false;
+			boolean toSetOldValue = false;
 			switch (resetType)
 			{
 				case REPORT :
@@ -463,11 +511,13 @@ public class JRCalculator implements JRFillExpressionEvaluator
 						variable.getResetTypeValue() == ResetTypeEnum.PAGE || 
 						variable.getResetTypeValue() == ResetTypeEnum.COLUMN
 						);
+					toSetOldValue = toInitialize;
 					break;
 				}
 				case COLUMN :
 				{
 					toInitialize = (variable.getResetTypeValue() == ResetTypeEnum.COLUMN);
+					toSetOldValue = toInitialize;
 					break;
 				}
 				case GROUP :
@@ -492,6 +542,11 @@ public class JRCalculator implements JRFillExpressionEvaluator
 					);
 				variable.setInitialized(true);
 				variable.setIncrementedValue(null);
+				if (toSetOldValue && !legacyBandEvaluationEnabled)
+				{
+					variable.setOldValue(variable.getValue());
+					variable.setPreviousIncrementedValue(null);
+				}
 			}
 		}
 		else

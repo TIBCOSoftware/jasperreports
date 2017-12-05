@@ -365,7 +365,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	protected void detail() throws JRScriptletException, JRException
 	{
 		dataset.delegateScriptlet.callBeforeDetailEval();
-		dataset.calculator.calculateVariables();
+		dataset.calculator.calculateVariables(true);
 		dataset.delegateScriptlet.callAfterDetailEval();
 	}
 

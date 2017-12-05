@@ -359,13 +359,38 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 *
 	 */
 	protected JRPrintBand refill(
+		byte evaluation,
 		int availableHeight
 		) throws JRException
 	{
 		rewind();
 		restoreSavedVariables();
 
-		return fill(availableHeight);
+		JRPrintBand printBand = null;
+		
+		@SuppressWarnings("deprecation")
+		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
+		if (isLegacyBandEvaluationEnabled)
+		{
+			printBand = fill(availableHeight);
+		}
+		else
+		{
+			evaluatePrintWhenExpression(evaluation);
+			
+			if (isToPrint())
+			{
+				evaluate(evaluation);
+				
+				printBand = fill(availableHeight);
+			}
+			else
+			{
+				printBand = new JRPrintBand();
+			}
+		}
+		
+		return printBand;
 	}
 
 

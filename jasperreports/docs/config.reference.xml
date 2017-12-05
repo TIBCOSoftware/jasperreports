@@ -2374,6 +2374,15 @@ Property that indicates whether a legacy stretch type for the element is enabled
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.legacy.band.evaluation.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.band.evaluation.enabled">
+    <description>
+Property that indicates whether the legacy band evaluation is enabled.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.evaluator.class.reference.fix.enabled -->
   
   <configProperty name="net.sf.jasperreports.evaluator.class.reference.fix.enabled">
