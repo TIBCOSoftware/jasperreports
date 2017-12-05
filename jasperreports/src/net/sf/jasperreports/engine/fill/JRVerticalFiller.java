@@ -1599,8 +1599,6 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (summary.isToPrint())
 			{
-				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
-
 				// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
 				if (groupFooterPositionElementRange != null)
 				{
@@ -1610,6 +1608,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					groupFooterPositionElementRange = null;
 				}
 				
+				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
+
 				JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
 
 				if (summary.willOverflow() && summary.isSplitPrevented() && !summary.isSplitTypePreventInhibited())
