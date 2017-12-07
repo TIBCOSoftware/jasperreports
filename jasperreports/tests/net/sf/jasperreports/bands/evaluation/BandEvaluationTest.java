@@ -39,6 +39,6 @@ public class BandEvaluationTest extends AbstractTest
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/bands/evaluation/repo", "BandEvaluationReport", 24);
+		testReports("net/sf/jasperreports/bands/evaluation/repo", "BandEvaluationReport", 26);
 	}
 }
