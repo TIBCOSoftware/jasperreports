@@ -58,7 +58,7 @@ public class QRCodeComponent extends BarcodeComponent
 			category = PropertyConstants.CATEGORY_BARCODE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
 			scopeQualifications = {QRCodeComponent.COMPONENT_DESIGNATION},
-			sinceVersion = PropertyConstants.VERSION_6_4_4,
+			sinceVersion = PropertyConstants.VERSION_6_5_0,
 			defaultValue = PROPERTY_DEFAULT_ENCODING
 			)
 	public static final String PROPERTY_QRCODE_CHARACTER_ENCODING = 

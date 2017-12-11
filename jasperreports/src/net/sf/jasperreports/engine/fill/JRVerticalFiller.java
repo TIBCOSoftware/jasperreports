@@ -2064,20 +2064,18 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		printPage = newPage();
 
+		JRFillVariable pageNumberVar = calculator.getPageNumber();
 		if (isResetPageNumber)
 		{
-			calculator.getPageNumber().setValue(Integer.valueOf(1));
+			pageNumberVar.setValue(Integer.valueOf(1));
 		}
 		else
 		{
-			calculator.getPageNumber().setValue(
-				Integer.valueOf(((Number)calculator.getPageNumber().getValue()).intValue() + 1)
+			pageNumberVar.setValue(
+				Integer.valueOf(((Number)pageNumberVar.getValue()).intValue() + 1)
 				);
 		}
-
-		calculator.getPageNumber().setOldValue(
-			calculator.getPageNumber().getValue()
-			);
+		pageNumberVar.setOldValue(pageNumberVar.getValue());
 
 		addPage(printPage);
 

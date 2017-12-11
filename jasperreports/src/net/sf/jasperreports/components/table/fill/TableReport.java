@@ -1090,7 +1090,7 @@ public class TableReport implements JRReport
 				headerBaseProperties.put(column.hashCode(), columnClassProperties.getPropertiesMap());
 				
 				frame.addElement(0, genericElement);
-			} else 
+			} else if (isInteractiveTable)
 			{
 				String columnName = String.valueOf(columnIndex);
 				String cellId = columnName + "_" + column.hashCode();
@@ -2300,6 +2300,10 @@ public class TableReport implements JRReport
 	public UUID getUUID()
 	{
 		return mainDataset.getUUID();
+	}
+
+	public boolean isInteractiveTable() {
+		return isInteractiveTable;
 	}
 
 	public void setTableInstanceIndex(int instanceIndex)

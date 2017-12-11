@@ -444,7 +444,10 @@ public class FillTable extends BaseFillComponent
 	public JRPrintElement fill()
 	{
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), printElementOriginator);
-		printFrame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
+
+		if (fillSubreport.getTableReport().getBaseReport().isInteractiveTable()) {
+			printFrame.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
+		}
 
 		JRLineBox lineBox = printFrame.getLineBox();
 		

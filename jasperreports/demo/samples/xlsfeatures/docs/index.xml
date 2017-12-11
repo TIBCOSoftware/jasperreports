@@ -109,7 +109,7 @@ In case we have several reports where the same Excel specific patterns should be
 sharing the same format pattern, a huge effort will be consumed to write a <code>net.sf.jasperreports.export.xls.pattern</code> property per each 
 affected textfield. We need a global setting to manage format patterns globally.
 <br/>
-Starting with JasperReports v.6.4.4 were introduced the 
+Starting with JasperReports v.6.5.0 were introduced the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#FORMAT_PATTERN_PREFIX">net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}</api> 
 properties. These properties can be set per report context or per report. Properties defined in the report will override the context properties.
 <br/>

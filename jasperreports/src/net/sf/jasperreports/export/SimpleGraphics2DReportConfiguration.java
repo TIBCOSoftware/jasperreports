@@ -94,7 +94,7 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 	 * 
 	 * @param isWhitePageBackground whether to draw white page backgrounds
 	 * @see Graphics2DReportConfiguration#PROPERTY_WHITE_PAGE_BACKGROUND
-	 * @since 6.4.4
+	 * @since 6.5.0
 	 */
 	public void setWhitePageBackground(Boolean isWhitePageBackground)
 	{
