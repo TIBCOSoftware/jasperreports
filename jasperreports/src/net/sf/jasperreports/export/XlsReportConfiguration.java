@@ -412,7 +412,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			name = "net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}",
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_4_4
+			sinceVersion = PropertyConstants.VERSION_6_5_0
 			)
 	public static final String FORMAT_PATTERN_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.pattern.";
 	
