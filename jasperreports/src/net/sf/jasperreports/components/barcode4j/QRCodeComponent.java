@@ -23,7 +23,11 @@
  */
 package net.sf.jasperreports.components.barcode4j;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * Contains the main settings for the QRCode component
@@ -41,6 +45,24 @@ public class QRCodeComponent extends BarcodeComponent
 	public static final String PROPERTY_ERROR_CORRECTION_LEVEL = "errorCorrectionLevel";
 
 	public static final String PROPERTY_DEFAULT_ENCODING = "UTF-8";
+	
+	/**
+	 * Property that provides the character encoding to be used for QR code component elements.
+	 * 
+	 * <p>
+	 * The property can be set at context/global, report and component element levels.
+	 * The default encoding is UTF-8.
+	 * </p>
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_BARCODE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.COMPONENT},
+			scopeQualifications = {QRCodeComponent.COMPONENT_DESIGNATION},
+			sinceVersion = PropertyConstants.VERSION_6_4_4,
+			defaultValue = PROPERTY_DEFAULT_ENCODING
+			)
+	public static final String PROPERTY_QRCODE_CHARACTER_ENCODING = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "components.qrcode.character.encoding";
 		
 	private Integer margin;
 	private ErrorCorrectionLevelEnum errorCorrectionLevel;

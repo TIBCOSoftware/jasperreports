@@ -64,7 +64,11 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		QRCodeWriter writer = new QRCodeWriter();
 
 		Map<EncodeHintType,Object> hints = new HashMap<EncodeHintType,Object>();
-		hints.put(EncodeHintType.CHARACTER_SET, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
+		
+		String encoding = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
+				componentElement, QRCodeComponent.PROPERTY_QRCODE_CHARACTER_ENCODING, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
+		hints.put(EncodeHintType.CHARACTER_SET, encoding);
+		
 		hints.put(EncodeHintType.ERROR_CORRECTION, qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel());
 		
 		int margin = qrCodeBean.getMargin() == null ? QRCodeSVGImageProducer.DEFAULT_MARGIN : qrCodeBean.getMargin();

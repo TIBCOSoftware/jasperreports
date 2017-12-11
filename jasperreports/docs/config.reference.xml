@@ -6773,4 +6773,13 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.components.qrcode.character.encoding -->
+  
+  <configProperty name="net.sf.jasperreports.components.qrcode.character.encoding">
+    <description>
+Property that provides the character encoding to be used for QR code component elements.
+    </description>
+  </configProperty>
+  
+  
 </configReference>
