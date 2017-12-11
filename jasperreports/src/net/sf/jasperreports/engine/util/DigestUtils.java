@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -84,6 +85,25 @@ public final class DigestUtils
 			// should not happen
 			throw new JRRuntimeException(e);
 		}
+	}
+	
+	public UUID deriveUUID(UUID base, String text)
+	{
+		MD5Digest textMD5 = md5(text);
+		long md5Low = textMD5.getLow();
+		long md5High = textMD5.getHigh();
+		return deriveUUID(base, md5Low, md5High);
+	}
+	
+	public UUID deriveUUID(UUID base, long maskLow, long maskHigh)
+	{
+		long baseMostSig = base.getMostSignificantBits();
+		long baseLeastSig = base.getLeastSignificantBits();
+		
+		return new UUID(
+				baseMostSig ^ (maskLow & 0xffffffffffff0fffl),//preserve version 
+				baseLeastSig ^ (maskHigh & 0x3fffffffffffffffl)//preserve variant
+				);
 	}
 	
 }

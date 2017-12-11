@@ -117,6 +117,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.DigestUtils;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.Pair;
@@ -438,11 +439,13 @@ public class TableReport implements JRReport
 	protected class ReportBandInfo
 	{
 		final JRDesignBand band;
+		final String bandId;
 		final List<BandRowInfo> rows = new ArrayList<BandRowInfo>();
 		
-		ReportBandInfo(JRDesignBand band)
+		ReportBandInfo(JRDesignBand band, String bandId)
 		{
 			this.band = band;
+			this.bandId = bandId;
 		}
 
 		protected void cellAdded(int rowLevel, CellInfo cell)
@@ -488,6 +491,11 @@ public class TableReport implements JRReport
 		List<BandRowInfo> getRows()
 		{
 			return rows;
+		}
+		
+		String getBandId()
+		{
+			return bandId;
 		}
 	}
 
@@ -596,6 +604,13 @@ public class TableReport implements JRReport
 			return null;
 		}
 
+		protected UUID deriveUUID()
+		{
+			UUID columnUUID = fillColumn.getTableColumn().getUUID();
+			UUID derived = DigestUtils.instance().deriveUUID(columnUUID, bandInfo.getBandId());
+			return derived;
+		}
+		
 		protected abstract Cell columnCell(Column column);
 		
 		protected JRElement createColumnCell(Column column, JRElementGroup parentGroup, Cell cell)
@@ -607,7 +622,7 @@ public class TableReport implements JRReport
 		{
 			return createCell(parentGroup, cell, 
 					column.getWidth(), fillColumn.getWidth(), 
-					xOffset, yOffset, column.hashCode(), forceFrame);
+					xOffset, yOffset, column.hashCode(), deriveUUID(), forceFrame);
 		}
 		
 		@Override
@@ -653,7 +668,7 @@ public class TableReport implements JRReport
 		{
 			return createCell(elementGroup, cell, 
 					columnGroup.getWidth(), fillColumn.getWidth(), 
-					xOffset, yOffset, null, false);
+					xOffset, yOffset, null, deriveUUID(), false);
 		}
 
 		protected abstract Cell columnGroupCell(ColumnGroup group);
@@ -720,7 +735,7 @@ public class TableReport implements JRReport
 				
 				JRElement cellElement = createCell(elementGroup, cell, 
 						columnGroup.getWidth(), fillColumn.getWidth(), 
-						origXOffset, yOffset, null, false);
+						origXOffset, yOffset, null, deriveUUID(), false);
 				elementGroup.addElement(cellElement);
 				bandInfo.cellAdded(level, new CellInfo(cellElement, rowSpan, colSpan));
 				
@@ -779,7 +794,7 @@ public class TableReport implements JRReport
 		final JRDesignBand detailBand = new JRDesignBand();
 		detailBand.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(detailBand);
+		ReportBandInfo bandInfo = new ReportBandInfo(detailBand, BandTypeEnum.DETAIL.getName());
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
@@ -1173,7 +1188,7 @@ public class TableReport implements JRReport
 		{
 			JRDesignFrame frame = (JRDesignFrame) createCell(elementGroup, cell, 
 					columnGroup.getWidth(), fillColumn.getWidth(), 
-					xOffset, yOffset, null, true);
+					xOffset, yOffset, null, deriveUUID(), true);
 			frame.getPropertiesMap().setProperty(HtmlExporter.PROPERTY_HTML_CLASS, "jrcolGroupHeader");
 			return frame;
 		}
@@ -1218,7 +1233,7 @@ public class TableReport implements JRReport
 		JRDesignBand columnHeader = new JRDesignBand();
 		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(columnHeader);
+		ReportBandInfo bandInfo = new ReportBandInfo(columnHeader, BandTypeEnum.COLUMN_HEADER.getName());
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
@@ -1271,7 +1286,7 @@ public class TableReport implements JRReport
 		JRDesignBand pageFooter = new JRDesignBand();
 		pageFooter.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(pageFooter);
+		ReportBandInfo bandInfo = new ReportBandInfo(pageFooter, BandTypeEnum.PAGE_FOOTER.getName());
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
@@ -1323,7 +1338,7 @@ public class TableReport implements JRReport
 		JRDesignBand title = new JRDesignBand();
 		title.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(title);
+		ReportBandInfo bandInfo = new ReportBandInfo(title, BandTypeEnum.TITLE.getName());
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
@@ -1375,7 +1390,7 @@ public class TableReport implements JRReport
 		JRDesignBand summary = new JRDesignBand();
 		summary.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(summary);
+		ReportBandInfo bandInfo = new ReportBandInfo(summary, BandTypeEnum.SUMMARY.getName());
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
@@ -1433,7 +1448,7 @@ public class TableReport implements JRReport
 		JRDesignBand header = new JRDesignBand();
 		header.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(header);
+		ReportBandInfo bandInfo = new ReportBandInfo(header, BandTypeEnum.GROUP_HEADER + "-" + groupName);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
@@ -1491,7 +1506,7 @@ public class TableReport implements JRReport
 		JRDesignBand footer = new JRDesignBand();
 		footer.setSplitType(SplitTypeEnum.PREVENT);
 		
-		ReportBandInfo bandInfo = new ReportBandInfo(footer);
+		ReportBandInfo bandInfo = new ReportBandInfo(footer, BandTypeEnum.GROUP_FOOTER + "-" + groupName);
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
 		{
@@ -1651,6 +1666,10 @@ public class TableReport implements JRReport
 		// we can't do that directly to the band since its print when expression
 		// is evaluated too soon
 		JRDesignFrame footerFrame = new JRDesignFrame();
+		UUID uuid = DigestUtils.instance().deriveUUID(
+				fillContext.getComponentElement().getUUID(), 
+				BandTypeEnum.GROUP_FOOTER + "-" + SUMMARY_GROUP_NAME);
+		footerFrame.setUUID(uuid);
 		footerFrame.setX(0);
 		footerFrame.setY(0);
 		footerFrame.setWidth(computeTableWidth(fillColumns));
@@ -1696,7 +1715,7 @@ public class TableReport implements JRReport
 
 	protected JRElement createCell(JRElementGroup parentGroup, Cell cell, 
 			int originalWidth, int width, 
-			int x, int y, Integer columnHashCode, 
+			int x, int y, Integer columnHashCode, UUID uuid, 
 			boolean forceFrame)
 	{
 		if (!forceFrame)
@@ -1709,6 +1728,7 @@ public class TableReport implements JRReport
 		}
 		
 		JRDesignFrame frame = new JRDesignFrame(this);
+		frame.setUUID(uuid);
 		frame.setElementGroup(parentGroup);
 		frame.setX(x);
 		frame.setY(y);

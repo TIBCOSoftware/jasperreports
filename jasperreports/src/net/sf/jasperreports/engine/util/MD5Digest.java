@@ -43,6 +43,16 @@ public final class MD5Digest implements Serializable
 		this.low = low;
 		this.high = high;
 	}
+	
+	public long getLow()
+	{
+		return low;
+	}
+	
+	public long getHigh()
+	{
+		return high;
+	}
 
 	@Override
 	public int hashCode()
