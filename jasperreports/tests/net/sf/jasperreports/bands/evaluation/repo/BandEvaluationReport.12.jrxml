@@ -21,13 +21,13 @@
 	<variable name="PageNumber" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
 	</variable>
-	<variable name="ColumnNumber" class="java.lang.Integer" incrementType="Column" calculation="Count">
+	<variable name="ColumnNumber" class="java.lang.Integer" resetType="Page" incrementType="Column" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
 	</variable>
 	<variable name="GroupNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="dummy" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
 	</variable>
-	<variable name="All" class="java.lang.String">
+	<variable name="All" class="java.lang.String" resetType="None">
 		<variableExpression><![CDATA["PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT}
 + "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}]]></variableExpression>
 	</variable>
