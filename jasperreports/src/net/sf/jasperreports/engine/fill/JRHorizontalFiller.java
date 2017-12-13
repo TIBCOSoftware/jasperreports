@@ -729,6 +729,26 @@ public class JRHorizontalFiller extends JRBaseFiller
 			log.debug("Fill " + fillerId + ": detail at " + offsetY);
 		}
 
+		if (
+			offsetX == lastDetailOffsetX
+			&& offsetY == lastDetailOffsetY
+			)
+		{
+			if (columnIndex == columnCount - 1)
+			{
+				columnIndex = 0;
+
+				maxDetailOffsetY = 0;
+			}
+			else
+			{
+				columnIndex++;
+
+				offsetY = currentDetailOffsetY;
+			}
+
+		}
+
 		if (!detailSection.areAllPrintWhenExpressionsNull())
 		{
 			calculator.estimateVariables();
@@ -744,8 +764,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 			if (detailBand.isToPrint())
 			{
 				while (
-					(columnIndex == columnCount - 1 || isNewGroup)
-					&& detailBand.getHeight() > columnFooterOffsetY - offsetY
+					//(columnIndex == columnCount - 1 || isNewGroup) &&
+					detailBand.getHeight() > columnFooterOffsetY - offsetY
 					)
 				{
 					byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
@@ -766,34 +786,11 @@ public class JRHorizontalFiller extends JRBaseFiller
 		calculator.calculateVariables();
 		scriptlet.callAfterDetailEval();
 				
-		if (
-			offsetX == lastDetailOffsetX
-			&& offsetY == lastDetailOffsetY
-			)
-		{
-			if (columnIndex == columnCount - 1)
-			{
-				columnIndex = 0;
-				setOffsetX();
-				setColumnNumberVariable();
+		setColumnNumberVariable();
 
-				maxDetailOffsetY = 0;
-				currentDetailOffsetY = offsetY;
-			}
-			else
-			{
-				columnIndex++;
-				setOffsetX();
-				offsetY = currentDetailOffsetY;
+		setOffsetX();
 
-				setColumnNumberVariable();
-			}
-		}
-		else
-		{
-			setOffsetX();
-			currentDetailOffsetY = offsetY;
-		}
+		currentDetailOffsetY = offsetY;
 
 		detailElementRange = null;
 
