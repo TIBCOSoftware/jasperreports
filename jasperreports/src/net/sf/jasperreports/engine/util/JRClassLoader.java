@@ -38,7 +38,7 @@ public class JRClassLoader extends ClassLoader
 
 	private static ProtectionDomainFactory protectionDomainFactory;
 	
-	protected static synchronized ProtectionDomainFactory getProtectionDomainFactory()
+	public static synchronized ProtectionDomainFactory getProtectionDomainFactory()
 	{
 		if (protectionDomainFactory == null)
 		{
