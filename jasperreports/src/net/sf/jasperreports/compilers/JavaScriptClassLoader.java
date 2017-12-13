@@ -25,6 +25,10 @@ package net.sf.jasperreports.compilers;
 
 import net.sf.jasperreports.compilers.JavaScriptCompiledData.CompiledClass;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.ProtectionDomainFactory;
+
+import java.security.ProtectionDomain;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,6 +49,8 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 	
 	public static final String EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR = "compilers.javascript.instance.error";
 	public static final String EXCEPTION_MESSAGE_KEY_LOAD_ERROR = "compilers.javascript.load.error";
+	
+	private volatile ProtectionDomain protectionDomain;
 	
 	public JavaScriptClassLoader()
 	{
@@ -93,7 +99,9 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 
 			try
 			{
-				scriptClass = defineClass(className, compiledClass.getClassBytes());
+				ProtectionDomain domain = getProtectionDomain();
+				byte[] classBytes = compiledClass.getClassBytes();
+				scriptClass = defineClass(className, classBytes, 0, classBytes.length, domain);
 				linkClass(scriptClass);
 			}
 			catch (SecurityException e)
@@ -115,6 +123,24 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 		}
 		
 		return (Class<? extends Script>) scriptClass;
+	}
+
+	protected ProtectionDomain getProtectionDomain()
+	{
+		ProtectionDomain domain = protectionDomain;
+		if (domain == null)
+		{
+			synchronized (this)
+			{
+				domain = protectionDomain;
+				if (domain == null)
+				{
+					ProtectionDomainFactory protectionDomainFactory = JRClassLoader.getProtectionDomainFactory();
+					domain = protectionDomain = protectionDomainFactory.getProtectionDomain(this);
+				}
+			}
+		}
+		return domain;
 	}
 	
 	@Override
