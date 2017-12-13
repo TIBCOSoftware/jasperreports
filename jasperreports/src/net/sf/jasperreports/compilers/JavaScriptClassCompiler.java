@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
-import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.CompositeExpressionChunkVisitor;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
