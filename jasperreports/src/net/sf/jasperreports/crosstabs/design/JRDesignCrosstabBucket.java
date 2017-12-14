@@ -116,7 +116,7 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 	 * 	<li>{@link SortOrderEnum#ASCENDING SortOrderEnum.ASCENDING}</li>
 	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
 	 * </ul>
-	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getOrderValue()
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getOrder()
 	 * 
 	 * @deprecated replaced by {@link #setOrder(BucketOrder)}
 	 */
