@@ -3197,6 +3197,18 @@ This feature does not apply to property expressions.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.jrxml.writer.exclude.uuids -->
+  
+  <configProperty name="net.sf.jasperreports.jrxml.writer.exclude.uuids">
+    <description>
+Property to control the writing of UUIDs for report elements and other report entities in the generated JRXML representation of the report template.
+When the UUDIs are missing in the JRXML report template definition, they will be regenerated automatically on report template loading.
+Excluding UUIDs from generated JRXML is useful for triggering their regeneration and thus ensuring they are unique again in case the report template source
+was edited manually and UUIDs were duplicated by copy/paste.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xml.validation -->
   
   <configProperty name="net.sf.jasperreports.export.xml.validation">

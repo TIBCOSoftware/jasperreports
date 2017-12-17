@@ -239,21 +239,27 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public static final String PREFIX_EXCLUDE_PROPERTIES = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "jrxml.writer.exclude.properties.";
 
+	@Property(
+			name = "net.sf.jasperreports.jrxml.writer.exclude.uuids",
+			category = PropertyConstants.CATEGORY_OTHER,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_5_1
+			)
+	public static final String PROPERTY_EXCLUDE_UUIDS = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "jrxml.writer.exclude.uuids";
+
 	/**
 	 *
 	 */
 	private JasperReportsContext jasperReportsContext;
 	
 	private List<Pattern> excludePropertiesPattern;
+	private boolean excludeUuids;
 
 	/**
 	 *
 	 */
 	private JRReport report;
-	/**
-	 * @deprecated To be removed.
-	 */
-	private String encoding;
 
 	private XmlWriterVisitor xmlWriterVisitor = new XmlWriterVisitor(this);
 
@@ -264,18 +270,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public JRXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		
-		initExcludeProperties();
-	}
-
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected JRXmlWriter(JRReport report, String encoding)
-	{
-		this.report = report;
-		this.encoding = encoding;
 		
 		initExcludeProperties();
 	}
@@ -295,6 +289,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			Pattern pattern = Pattern.compile(regex);
 			excludePropertiesPattern.add(pattern);
 		}
+
+		excludeUuids = JRPropertiesUtil.getInstance(context).getBooleanProperty(PROPERTY_EXCLUDE_UUIDS);
 	}
 
 
@@ -304,6 +300,24 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public JRReport getReport()
 	{
 		return report;
+	}
+
+
+	/**
+	 *
+	 */
+	public boolean isExcludeUuids()
+	{
+		return excludeUuids;
+	}
+
+
+	/**
+	 *
+	 */
+	public void setExcludeUuids(boolean excludeUuids)
+	{
+		this.excludeUuids = excludeUuids;
 	}
 
 
@@ -475,7 +489,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resourceBundle, report.getResourceBundle());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, report.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isIgnorePagination, report.isIgnorePagination(), false);
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_6_0))
+		if (
+			isNewerVersionOrEqual(JRConstants.VERSION_4_6_0)
+			&& !isExcludeUuids()
+			)
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_uuid, report.getUUID().toString());
 		}
@@ -600,15 +617,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.closeElement();
 
 		out.flush();
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #writeReport(JRReport, String, Writer)}.
-	 */
-	protected void writeReport(Writer out) throws IOException
-	{
-		writeReport(report, encoding, out);
 	}
 
 
@@ -973,7 +981,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, evaluationTime.getEvaluationTimeType());
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, evaluationTime.getEvaluationGroup());
 			}
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_uuid, part.getUUID().toString());
+			if (!isExcludeUuids())
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_uuid, part.getUUID().toString());
+			}
 
 			writeProperties(part);
 			writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, part.getPrintWhenExpression(), false);
@@ -1075,7 +1086,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, element.getOwnForecolor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, element.getOwnBackcolor());
 		
-		if(isNewerVersionOrEqual(JRConstants.VERSION_4_6_0))
+		if (
+			isNewerVersionOrEqual(JRConstants.VERSION_4_6_0)
+			&& !isExcludeUuids()
+			)
 		{
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID().toString());
 		}
@@ -3309,7 +3323,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scriptletClass, dataset.getScriptletClass());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resourceBundle, dataset.getResourceBundle());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenResourceMissingType, dataset.getWhenResourceMissingTypeValue(), WhenResourceMissingTypeEnum.NULL);
-		if (isNewerVersionOrEqual(JRConstants.VERSION_4_6_0))
+		if (
+			isNewerVersionOrEqual(JRConstants.VERSION_4_6_0)
+			&& !isExcludeUuids() 
+			)
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_uuid, dataset.getUUID().toString());
 		}
@@ -3418,7 +3435,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_subDataset, datasetRun.getDatasetName());
 		if (isNewerVersionOrEqual(JRConstants.VERSION_4_6_0))
 		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, datasetRun.getUUID().toString());
+			if (!isExcludeUuids())
+			{
+				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, datasetRun.getUUID().toString());
+			}
 			writeProperties(datasetRun);
 		}
 

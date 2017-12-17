@@ -230,4 +230,6 @@ public interface PropertyConstants
 
 	String VERSION_6_5_0 = "6.5.0";
 
+	String VERSION_6_5_1 = "6.5.1";
+
 }
