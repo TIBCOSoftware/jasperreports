@@ -73,6 +73,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_6_5_0,
 			valueType = Boolean.class

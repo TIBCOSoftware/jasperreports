@@ -123,6 +123,7 @@ public enum StretchTypeEnum implements JREnum
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_5_1_2,
 			valueType = Boolean.class
