@@ -126,32 +126,32 @@ pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="7d9f1ec7-5136-40b5-a341-5b68632328ac" x="40" y="50" width="515" height="55" origin="2" srcId="4" printId="2"/>
 			<textContent><![CDATA[Page Header
-PC 4 CC 4 GC 2 PN 2 CN 1 RC 4 four
-pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 0 CC 0 GC 2 PN 2 CN 1 RC 4 four
+pc null cc null gc 2 pn 1 cn null gn 2
 PC 4 CC 4 GC 2 PN 1 CN 1 RC 4 four
 pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		</text>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="e00cc028-794b-4457-a99b-5d85f848cc81" x="40" y="105" width="255" height="55" origin="3" srcId="5" printId="3"/>
 			<textContent><![CDATA[Column Header
-PC 4 CC 4 GC 2 PN 2 CN 1 RC 4 four
-pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 0 CC 0 GC 2 PN 2 CN 1 RC 4 four
+pc null cc null gc 2 pn 1 cn null gn 2
 PC 4 CC 4 GC 2 PN 1 CN 1 RC 4 four
 pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		</text>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="e00cc028-794b-4457-a99b-5d85f848cc81" x="299" y="105" width="255" height="55" origin="3" srcId="5" printId="4"/>
 			<textContent><![CDATA[Column Header
-PC 4 CC 4 GC 2 PN 2 CN 2 RC 4 four
-pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 0 CC 0 GC 2 PN 2 CN 2 RC 4 four
+pc null cc null gc 2 pn 1 cn null gn 2
 PC 4 CC 4 GC 2 PN 1 CN 1 RC 4 four
 pc 4 cc 4 gc 2 pn 1 cn 1 gn 2]]></textContent>
 		</text>
 		<text textHeight="398.10938" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="5e4f773c-728d-428a-b5be-1dfbaf56eefc" x="40" y="160" width="255" height="400" origin="1" srcId="3" printId="1"/>
 			<textContent><![CDATA[Group Footer
-PC 4 CC 4 GC 2 PN 2 CN 1 RC 4 four
-pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
+PC 0 CC 0 GC 2 PN 2 CN 1 RC 4 four
+pc null cc null gc 2 pn 1 cn null gn 2
 PC 4 CC 4 GC 2 PN 1 CN 1 RC 4 four
 pc 4 cc 4 gc 2 pn 1 cn 1 gn 2
 m
@@ -241,32 +241,32 @@ pc 2 cc 2 gc 2 pn 2 cn 1 gn 3]]></textContent>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="7d9f1ec7-5136-40b5-a341-5b68632328ac" x="40" y="50" width="515" height="55" origin="2" srcId="4" printId="3"/>
 			<textContent><![CDATA[Page Header
-PC 2 CC 2 GC 2 PN 3 CN 1 RC 6 six
-pc 2 cc 2 gc 2 pn 2 cn 1 gn 3
+PC 0 CC 0 GC 2 PN 3 CN 1 RC 6 six
+pc null cc null gc 2 pn 2 cn null gn 3
 PC 2 CC 2 GC 2 PN 2 CN 1 RC 6 six
 pc 2 cc 2 gc 2 pn 2 cn 1 gn 3]]></textContent>
 		</text>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="e00cc028-794b-4457-a99b-5d85f848cc81" x="40" y="105" width="255" height="55" origin="3" srcId="5" printId="5"/>
 			<textContent><![CDATA[Column Header
-PC 2 CC 2 GC 2 PN 3 CN 1 RC 6 six
-pc 2 cc 2 gc 2 pn 2 cn 1 gn 3
+PC 0 CC 0 GC 2 PN 3 CN 1 RC 6 six
+pc null cc null gc 2 pn 2 cn null gn 3
 PC 2 CC 2 GC 2 PN 2 CN 1 RC 6 six
 pc 2 cc 2 gc 2 pn 2 cn 1 gn 3]]></textContent>
 		</text>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="e00cc028-794b-4457-a99b-5d85f848cc81" x="299" y="105" width="255" height="55" origin="3" srcId="5" printId="6"/>
 			<textContent><![CDATA[Column Header
-PC 2 CC 2 GC 2 PN 3 CN 2 RC 6 six
-pc 2 cc 2 gc 2 pn 2 cn 1 gn 3
+PC 0 CC 0 GC 2 PN 3 CN 2 RC 6 six
+pc null cc null gc 2 pn 2 cn null gn 3
 PC 2 CC 2 GC 2 PN 2 CN 1 RC 6 six
 pc 2 cc 2 gc 2 pn 2 cn 1 gn 3]]></textContent>
 		</text>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="66924081-7270-4248-9a74-af1165fc6a62" x="40" y="160" width="255" height="55" origin="1" srcId="2" printId="2"/>
 			<textContent><![CDATA[Group Footer
-PC 2 CC 2 GC 2 PN 3 CN 1 RC 6 six
-pc 2 cc 2 gc 2 pn 2 cn 1 gn 3
+PC 0 CC 0 GC 2 PN 3 CN 1 RC 6 six
+pc null cc null gc 2 pn 2 cn null gn 3
 PC 2 CC 2 GC 2 PN 2 CN 1 RC 6 six
 pc 2 cc 2 gc 2 pn 2 cn 1 gn 3]]></textContent>
 		</text>
