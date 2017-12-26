@@ -1514,6 +1514,12 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			}
 		}
 		
+		revertVariablesToOldValues();
+	}
+
+
+	protected void revertVariablesToOldValues()
+	{
 		if (variables != null && variables.length > 0)
 		{
 			for (int i = 0; i < variables.length; i++)

@@ -2584,7 +2584,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					boolean isLegacyBandEvaluationEnabled = getFillContext().isLegacyBandEvaluationEnabled(); 
 					if (!isLegacyBandEvaluationEnabled)
 					{
-						mainDataset.revertToOldValues();
+						mainDataset.revertVariablesToOldValues();
 						
 						calculator.recalculateVariables();
 					}
