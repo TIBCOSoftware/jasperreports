@@ -90,7 +90,7 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 		
 		if (gvtFontFamily == null)
 		{
-			FontInfo fontInfo = fontUtil.getFontInfoIgnoreCase(familyName, null);//FIXMEBATIK locale
+			FontInfo fontInfo = fontUtil.getFontInfo(familyName, true, null);//FIXMEBATIK locale
 			
 			if (fontInfo == null)
 			{
@@ -99,7 +99,7 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 				if (localeSeparatorPos > 0)
 				{
 					String family = familyName.substring(0, localeSeparatorPos);
-					fontInfo = fontUtil.getFontInfoIgnoreCase(family, null);//FIXMEBATIK locale
+					fontInfo = fontUtil.getFontInfo(family, true, null);//FIXMEBATIK locale
 				}
 			}
 			

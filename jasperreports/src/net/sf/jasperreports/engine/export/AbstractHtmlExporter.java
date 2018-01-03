@@ -285,9 +285,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		)
 	{
 		FontInfo fontInfo =
-			ignoreCase
-			? FontUtil.getInstance(jasperReportsContext).getFontInfoIgnoreCase(fontFamily, locale)
-			: FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamily, locale);
+			FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamily, ignoreCase, locale);
 		
 		String htmlFamily = fontFamily;
 		if (fontInfo != null)
