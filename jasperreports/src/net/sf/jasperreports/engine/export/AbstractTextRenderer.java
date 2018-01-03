@@ -715,17 +715,16 @@ public abstract class AbstractTextRenderer
 		return LINE_BREAK_FONT_RENDER_CONTEXT;
 	}
 
-}
 
-
-/**
- * 
- */
-class TabSegment
-{
-	public TextLayout layout;
-	public AttributedString as;//FIXMETAB rename these
-	public String text;
-	public float leftX;
-	public float rightX;
+	/**
+	 * 
+	 */
+	public static class TabSegment
+	{
+		public TextLayout layout;
+		public AttributedString as;//FIXMETAB rename these
+		public String text;
+		public float leftX;
+		public float rightX;
+	}
 }
