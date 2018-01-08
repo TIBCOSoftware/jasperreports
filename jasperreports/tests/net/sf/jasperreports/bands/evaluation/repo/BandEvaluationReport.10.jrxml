@@ -57,6 +57,11 @@
 + "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
 + "\n" + $V{All}]]></textFieldExpression>
 				</textField>
+				<textField>
+					<reportElement isPrintRepeatedValues="false" x="155" y="0" width="100" height="15" uuid="deaf226c-cf74-4f72-abc9-7dddce05c9ac"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{simple}]]></textFieldExpression>
+				</textField>
 			</band>
 			<band height="400" splitType="Prevent">
 				<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 4]]></printWhenExpression>
@@ -67,6 +72,11 @@
 + "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
 + "\n" + $V{All}
 + "\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement isPrintRepeatedValues="false" x="155" y="0" width="100" height="15" uuid="d709675f-9140-4603-be69-791e56ba9767"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{simple}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
