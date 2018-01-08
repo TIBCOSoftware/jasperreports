@@ -662,7 +662,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private void fillGroupHeadersReprint(byte evaluation) throws JRException
+	private void fillGroupHeadersReprint(byte evaluation, boolean isPageBreak) throws JRException
 	{
 		if (groups != null && groups.length > 0)
 		{
@@ -681,7 +681,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 
 				if (
-					group.isReprintHeaderOnEachPage() 
+					(group.isReprintHeaderOnEachColumn() || (group.isReprintHeaderOnEachPage() && isPageBreak)) 
 					&& (!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
 					)
 				{
@@ -2303,7 +2303,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (isReprintGroupHeaders)
 		{
-			fillGroupHeadersReprint(evalNextPage);
+			fillGroupHeadersReprint(evalNextPage, true);
 
 			ElementRange keepTogetherElementRange = keepTogetherGroup == null ? null : keepTogetherGroup.getKeepTogetherElementRange();
 			
@@ -2468,6 +2468,21 @@ public class JRVerticalFiller extends JRBaseFiller
 			setColumnNumberVar();
 
 			fillColumnHeader(evalNextPage);
+
+			//if (isReprintGroupHeaders)
+			{
+				fillGroupHeadersReprint(evalNextPage, false);
+
+				ElementRange keepTogetherElementRange = keepTogetherGroup == null ? null : keepTogetherGroup.getKeepTogetherElementRange();
+				
+				if (
+					keepTogetherElementRange != null
+					&& offsetY > keepTogetherElementRange.getTopY()
+					)
+				{
+					throw new JRException(EXCEPTION_MESSAGE_KEY_KEEP_TOGETHER_CONTENT_DOES_NOT_FIT, (Object[]) null);
+				}
+			}
 
 			// reseting all movable element ranges
 			orphanGroupFooterDetailElementRange = null;

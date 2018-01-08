@@ -224,12 +224,12 @@ public interface PropertyConstants
 
 	String VERSION_6_3_1 = JRConstants.VERSION_6_3_1;
 	
-	String VERSION_6_4_0 = "6.4.0";
+	String VERSION_6_4_0 = JRConstants.VERSION_6_4_0;
 
 	String VERSION_6_4_3 = JRConstants.VERSION_6_4_3;
 
 	String VERSION_6_5_0 = "6.5.0";
 
-	String VERSION_6_5_1 = "6.5.1";
+	String VERSION_6_5_1 = JRConstants.VERSION_6_5_1;
 
 }

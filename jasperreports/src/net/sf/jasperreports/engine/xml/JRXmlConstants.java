@@ -591,6 +591,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_isStartNewPage = "isStartNewPage";
 	public static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
 	public static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
+	public static final String ATTRIBUTE_isReprintHeaderOnEachColumn = "isReprintHeaderOnEachColumn";
 	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
 	public static final String ATTRIBUTE_minDetailsToStartFromTop = "minDetailsToStartFromTop";
 	public static final String ATTRIBUTE_footerPosition = "footerPosition";

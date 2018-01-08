@@ -156,6 +156,12 @@ public class TableReportGroup implements JRGroup
 	}
 
 	@Override
+	public boolean isReprintHeaderOnEachColumn()
+	{
+		return datasetGroup.isReprintHeaderOnEachColumn();
+	}
+
+	@Override
 	public boolean isResetPageNumber()
 	{
 		return datasetGroup.isResetPageNumber();
@@ -205,6 +211,12 @@ public class TableReportGroup implements JRGroup
 
 	@Override
 	public void setReprintHeaderOnEachPage(boolean isReprint)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setReprintHeaderOnEachColumn(boolean isReprint)
 	{
 		throw new UnsupportedOperationException();
 	}
