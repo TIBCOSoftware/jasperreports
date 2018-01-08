@@ -183,6 +183,12 @@ r
 e
 ]]></textContent>
 		</text>
+		<image scaleImage="RetainShape" hAlign="Right" vAlign="Top">
+			<reportElement uuid="d709675f-9140-4603-be69-791e56ba9767" x="454" y="160" width="100" height="15" origin="4" srcId="8" printId="2"/>
+			<imageSource>
+				<![CDATA[img_0]]>
+			</imageSource>
+		</image>
 		<text textHeight="52.382812" lineSpacingFactor="1.1640625" leadingOffset="-2.1225586">
 			<reportElement uuid="f35b7907-602b-4dad-b549-84e845974533" x="299" y="682" width="255" height="55" origin="5" srcId="9" printId="2"/>
 			<textContent><![CDATA[Column Footer

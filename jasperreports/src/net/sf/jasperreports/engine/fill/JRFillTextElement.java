@@ -97,6 +97,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private int textEnd;
 	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
+	private String oldRawText;
 	private String rawText;
 	private JRStyledText styledText;
 	private JRStyledText processedStyledText;
@@ -552,6 +553,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected void setRawText(String rawText)
 	{
+		this.oldRawText = this.rawText;
 		this.rawText = rawText;
 		styledText = null;
 		processedStyledText = null;
@@ -574,6 +576,12 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	@Override
 	public void rewind()
 	{
+		@SuppressWarnings("deprecation")
+		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
+		if (!isLegacyBandEvaluationEnabled)
+		{
+			this.rawText = this.oldRawText;
+		}
 		resetTextChunk();
 	}
 

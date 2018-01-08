@@ -564,15 +564,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			}
 		}
 
-		String oldRawText = getRawText();
+		String crtRawText = getRawText();
 		String newRawText = processMarkupText(String.valueOf(strValue));
 
 		setRawText(newRawText);
 		resetTextChunk();
 
 		setValueRepeating(
-				(oldRawText == null && newRawText == null) ||
-				(oldRawText != null && oldRawText.equals(newRawText))
+			(crtRawText == null && newRawText == null) ||
+			(crtRawText != null && crtRawText.equals(newRawText))
 			);
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
