@@ -2,8 +2,14 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.5.1 (2018-0x-xx)
+JasperReports 6.5.1 (2018-01-09)
 ---------------------------------------------
+
+- configuration property added to exclude UUIDs attributes from the JRXML report source format
+produced by the JRXmlWriter class.
+
+- added new group level attribute to control the reprinting of group headers on each column,
+in vertically filled multi-column reports. 
 
 - minor bug fixes and improvements;
 
