@@ -1,3 +1,17 @@
 <differences>
-
+	<difference>
+		<className>net/sf/jasperreports/engine/JRGroup</className>
+		<differenceType>7012</differenceType>
+		<method>*eprintHeaderOnEachColumn(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/xml/JRXmlWriter</className>
+		<differenceType>7002</differenceType>
+		<method>*writeReport(java.io.Writer)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/xml/JRXmlWriter</className>
+		<differenceType>7002</differenceType>
+		<method>*JRXmlWriter(net.sf.jasperreports.engine.JRReport, java.lang.String)</method>
+	</difference>
 </differences>
