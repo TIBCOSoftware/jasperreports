@@ -7,6 +7,18 @@
 	<version>6.5.1</version>
 	<name>jasperreports-metadata</name>
 	<url>http://jasperreports.sourceforge.net</url>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://jasperreports.sourceforge.net/license.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
+		<tag>jr-6-5-1</tag>
+		<url>https://github.com/TIBCOSoftware/jasperreports</url>
+	</scm>
 	<build>
 		<plugins>
 			<plugin>
