@@ -162,7 +162,7 @@ public class HttpRepositoryService implements StreamRepositoryService
 		return new HttpGet(requestURI);
 	}
 
-	protected URI getRequestURI(String resourceUri)
+	public URI getRequestURI(String resourceUri)
 	{
 		try
 		{
