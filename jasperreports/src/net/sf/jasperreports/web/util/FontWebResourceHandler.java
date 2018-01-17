@@ -130,80 +130,75 @@ public class FontWebResourceHandler implements WebResourceHandler
 		return request.getContextPath() + WebUtil.getInstance(jasperReportsContext).getResourcesPath() + "/";
 		//String basePath = request.getContextPath() + webUtil.getResourcesBasePath();
 	}
-}
 
-
-/**
- * 
- */
-class FontFamilyHtmlResourceHandler implements HtmlResourceHandler
-{
-	private String basePath;
-	private Map<String, String> fontFaceIds;
-	
-	protected FontFamilyHtmlResourceHandler(String basePath, HtmlFontFamily htmlFontFamily)
+	public static class FontFamilyHtmlResourceHandler implements HtmlResourceHandler
 	{
-		this.basePath = basePath;
-		fontFaceIds = new HashMap<String, String>();
-		
-		FontFamily fontFamily = htmlFontFamily.getFontFamily();
-		
-		FontFace fontFace = fontFamily.getNormalFace();
-		if (fontFace != null)
-		{
-			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, false);
-			addHtmlFont(htmlFont);
-		}
-		
-		fontFace = fontFamily.getBoldFace();
-		if (fontFace != null)
-		{
-			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, false);
-			addHtmlFont(htmlFont);
-		}
-		
-		fontFace = fontFamily.getItalicFace();
-		if (fontFace != null)
-		{
-			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, true);
-			addHtmlFont(htmlFont);
-		}
-		
-		fontFace = fontFamily.getBoldItalicFace();
-		if (fontFace != null)
-		{
-			HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, true);
-			addHtmlFont(htmlFont);
-		}
-	}
+		private String basePath;
+		private Map<String, String> fontFaceIds;
 
-	protected void addHtmlFont(HtmlFont htmlFont)
-	{
-		fontFaceIds.put(htmlFont.getId() + ".ttf", htmlFont.getTtf());
-		fontFaceIds.put(htmlFont.getId() + ".eot", htmlFont.getEot());
-		fontFaceIds.put(htmlFont.getId() + ".woff", htmlFont.getWoff());
-		fontFaceIds.put(htmlFont.getId() + ".svg", htmlFont.getSvg());
-	}
-
-	@Override
-	public String getResourcePath(String id) 
-	{
-		if (fontFaceIds.containsKey(id))
+		public FontFamilyHtmlResourceHandler(String basePath, HtmlFontFamily htmlFontFamily)
 		{
-			return basePath + fontFaceIds.get(id);
-		}
-		return basePath + id;
-	}
+			this.basePath = basePath;
+			fontFaceIds = new HashMap<String, String>();
 
-	@Override
-	public void handleResource(String id, byte[] data) 
-	{
+			FontFamily fontFamily = htmlFontFamily.getFontFamily();
+
+			FontFace fontFace = fontFamily.getNormalFace();
+			if (fontFace != null)
+			{
+				HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, false);
+				addHtmlFont(htmlFont);
+			}
+
+			fontFace = fontFamily.getBoldFace();
+			if (fontFace != null)
+			{
+				HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, false);
+				addHtmlFont(htmlFont);
+			}
+
+			fontFace = fontFamily.getItalicFace();
+			if (fontFace != null)
+			{
+				HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, false, true);
+				addHtmlFont(htmlFont);
+			}
+
+			fontFace = fontFamily.getBoldItalicFace();
+			if (fontFace != null)
+			{
+				HtmlFont htmlFont = HtmlFont.getInstance(htmlFontFamily, htmlFontFamily.getLocale(), fontFace, true, true);
+				addHtmlFont(htmlFont);
+			}
+		}
+
+		protected void addHtmlFont(HtmlFont htmlFont)
+		{
+			fontFaceIds.put(htmlFont.getId() + ".ttf", htmlFont.getTtf());
+			fontFaceIds.put(htmlFont.getId() + ".eot", htmlFont.getEot());
+			fontFaceIds.put(htmlFont.getId() + ".woff", htmlFont.getWoff());
+			fontFaceIds.put(htmlFont.getId() + ".svg", htmlFont.getSvg());
+		}
+
+		@Override
+		public String getResourcePath(String id)
+		{
+			if (fontFaceIds.containsKey(id))
+			{
+				return basePath + fontFaceIds.get(id);
+			}
+			return basePath + id;
+		}
+
+		@Override
+		public void handleResource(String id, byte[] data)
+		{
+		}
 	}
 }
 
-
 /**
- * @deprecated Replaced by {@link #FontFamilyHtmlResourceHandler}.
+ * @deprecated Replaced by {@link #FontWebResourceHandler.FontFamilyHtmlResourceHandler}.
  */
 class FontHtmlResourceHandler implements HtmlResourceHandler
 {
