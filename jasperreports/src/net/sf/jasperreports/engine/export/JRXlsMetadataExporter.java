@@ -1139,7 +1139,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				? getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() 
 				: forecolor;
 			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes, locale);
-			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
+			if(!isIgnoreTextFormatting((JRPrintText)defaultFont))
+			{
+				richTextStr.applyFont(iterator.getIndex(), runLimit, font);
+			}
 			iterator.setIndex(runLimit);
 		}
 		return richTextStr;
