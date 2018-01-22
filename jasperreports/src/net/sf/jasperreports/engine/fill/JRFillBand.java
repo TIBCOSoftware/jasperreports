@@ -107,6 +107,12 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		{
 			//FIXMERETURN check something
 		}
+
+		@Override
+		public JRFillVariable getToVariable(String name)
+		{
+			return filler.getVariable(name);
+		}
 	};
 
 	private Set<FillReturnValues> returnValuesSet;

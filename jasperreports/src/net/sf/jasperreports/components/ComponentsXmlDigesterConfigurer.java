@@ -51,6 +51,7 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.ItemPropertyXmlFactory;
 import net.sf.jasperreports.components.items.ItemXmlFactory;
 import net.sf.jasperreports.components.list.DesignListContents;
+import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.StandardListComponent;
 import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
@@ -123,6 +124,8 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addObjectCreate(listContentsPattern, DesignListContents.class);
 		digester.addSetProperties(listContentsPattern);
 		digester.addSetNext(listContentsPattern, "setContents");
+		// rule to set the context dataset name
+		digester.addRule(listContentsPattern, new DatasetRunReportContextRule<>(ListComponent.class));
 	}
 
 	@SuppressWarnings("deprecation")

@@ -28,6 +28,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.CommonReturnValue;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.fill.FillReturnValues.SourceContext;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -105,7 +106,7 @@ public abstract class JRFillCommonReturnValue implements CommonReturnValue
 	/**
 	 * Gets the incrementer to be used for this copied value.
 	 */
-	public JRIncrementer getIncrementer()
+	public JRIncrementer getIncrementer(SourceContext sourceContext)
 	{
 		if (incrementer == null)
 		{
@@ -114,7 +115,7 @@ public abstract class JRFillCommonReturnValue implements CommonReturnValue
 			JRIncrementerFactory incrementerFactory;
 			if (incrementerFactoryClassName == null)
 			{
-				JRVariable toVariable = filler.getVariable(getToVariable());
+				JRVariable toVariable = sourceContext.getToVariable(getToVariable());
 				incrementerFactory = JRDefaultIncrementerFactory.getFactory(toVariable.getValueClass());
 			}
 			else

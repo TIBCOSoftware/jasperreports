@@ -135,34 +135,54 @@ public class ListComponentCompiler implements ComponentCompiler
 				}
 			}
 			
-			JRElement[] elements = listContents.getElements();
-			if (elements != null)
+			String subdataset = datasetRun == null ? null : datasetRun.getDatasetName();
+			if (subdataset != null)
 			{
-				for (int i = 0; i < elements.length; i++)
+				verifier.pushSubdatasetContext(subdataset);
+			}
+			try
+			{
+				verifyContents(verifier, listContents, contentsWidth);
+			}
+			finally
+			{
+				if (subdataset != null)
 				{
-					JRElement element = elements[i];
-					
-					verifier.verifyElement(element);
-					
-					if (element.getX() < 0 || element.getY() < 0)
-					{
-						verifier.addBrokenRule("Element must be placed at positive coordinates.", 
-								element);
-					}
-					
-					if (element.getY() + element.getHeight() > listContents.getHeight())
-					{
-						verifier.addBrokenRule("Element reaches outside list contents height: y = " 
-								+ element.getY() + ", height = " + element.getHeight() 
-								+ ", list contents height = " + listContents.getHeight() + ".", element);
-					}
-					
-					if (element.getX() + element.getWidth() > contentsWidth)
-					{
-						verifier.addBrokenRule("Element reaches outside list contents width: x = " 
-								+ element.getX() + ", width = " + element.getWidth() 
-								+ ", list contents width = " + contentsWidth + ".", element);
-					}
+					verifier.popSubdatasetContext();
+				}
+			}			
+		}
+	}
+
+	protected void verifyContents(JRVerifier verifier, ListContents listContents, int contentsWidth)
+	{
+		JRElement[] elements = listContents.getElements();
+		if (elements != null)
+		{
+			for (int i = 0; i < elements.length; i++)
+			{
+				JRElement element = elements[i];
+				
+				verifier.verifyElement(element);
+				
+				if (element.getX() < 0 || element.getY() < 0)
+				{
+					verifier.addBrokenRule("Element must be placed at positive coordinates.", 
+							element);
+				}
+				
+				if (element.getY() + element.getHeight() > listContents.getHeight())
+				{
+					verifier.addBrokenRule("Element reaches outside list contents height: y = " 
+							+ element.getY() + ", height = " + element.getHeight() 
+							+ ", list contents height = " + listContents.getHeight() + ".", element);
+				}
+				
+				if (element.getX() + element.getWidth() > contentsWidth)
+				{
+					verifier.addBrokenRule("Element reaches outside list contents width: x = " 
+							+ element.getX() + ", width = " + element.getWidth() 
+							+ ", list contents width = " + contentsWidth + ".", element);
 				}
 			}
 		}

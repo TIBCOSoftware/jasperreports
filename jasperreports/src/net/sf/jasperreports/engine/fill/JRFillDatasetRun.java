@@ -159,9 +159,8 @@ public class JRFillDatasetRun implements JRDatasetRun
 			}
 			
 			@Override
-			public JRVariable getToVariable(String name) {
-				//FIXME should we look for the variable in expressionEvaluator.getFillDataset()?
-				return filler.getVariable(name);
+			public JRFillVariable getToVariable(String name) {
+				return expressionEvaluator.getFillDataset().getVariable(name);
 			}
 			
 			@Override

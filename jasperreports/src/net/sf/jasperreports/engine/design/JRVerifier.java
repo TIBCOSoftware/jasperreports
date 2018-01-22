@@ -1713,7 +1713,8 @@ public class JRVerifier
 			addBrokenRule("Return value destination variable name missing.", returnValue);
 		}
 
-		if (!jasperDesign.getVariablesMap().containsKey(returnValue.getToVariable()))
+		JRDesignDataset dataset = currentDataset();
+		if (dataset == null || !dataset.getVariablesMap().containsKey(returnValue.getToVariable()))
 		{
 			addBrokenRule("Return value destination variable not found.", returnValue);
 		}

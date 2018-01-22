@@ -84,5 +84,6 @@ public abstract class AbstractVariableReturnValueSourceContext implements FillRe
 	
 	public abstract JRVariable getFromVariable(String name);
 
-	public abstract JRVariable getToVariable(String name);
+	@Override
+	public abstract JRFillVariable getToVariable(String name);
 }

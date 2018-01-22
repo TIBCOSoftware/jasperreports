@@ -136,8 +136,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 
 		@Override
-		public JRVariable getToVariable(String name) {
-			return filler.getVariable(name);
+		public JRFillVariable getToVariable(String name) {
+			return expressionEvaluator.getFillDataset().getVariable(name);
 		}
 
 		@Override
