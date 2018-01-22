@@ -21,27 +21,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.table;
-
-import net.sf.jasperreports.engine.xml.DatasetRunReportContextRule;
+package net.sf.jasperreports.engine;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @deprecated use {@link DatasetRunReportContextRule}
  */
-@Deprecated
-public class TableReportContextXmlRule extends DatasetRunReportContextRule<TableComponent>
+public interface DatasetRunHolder
 {
-	
-	/**
-	 * @deprecated no longer used
-	 */
-	@Deprecated
-	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_LOCATE_OBJECT = "components.table.cannot.locate.object";
 
-	public TableReportContextXmlRule()
-	{
-		super(TableComponent.class);
-	}
+	JRDatasetRun getDatasetRun();
 	
 }
