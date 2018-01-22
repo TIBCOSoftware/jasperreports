@@ -287,6 +287,7 @@ public class JRVerifier
 	private JRExpressionCollector expressionCollector;
 
 	private LinkedList<JRComponentElement> currentComponentElementStack = new LinkedList<JRComponentElement>();
+	private LinkedList<String> datasetContextStack = new LinkedList<>();
 	
 	private boolean allowElementNegativeWidth;
 	private final boolean allowElementNegativeX;
@@ -1673,7 +1674,8 @@ public class JRVerifier
 						addBrokenRule("Subreport return value to variable name missing.", returnValue);
 					}
 
-					if (!jasperDesign.getVariablesMap().containsKey(returnValue.getToVariable()))
+					JRDesignDataset dataset = currentDataset();
+					if (dataset == null || !dataset.getVariablesMap().containsKey(returnValue.getToVariable()))
 					{
 						addBrokenRule("Subreport return value to variable not found.", returnValue);
 					}
@@ -2794,6 +2796,24 @@ public class JRVerifier
 				compiler.verify(component, this);
 			}
 		}
+	}
+	
+	public void pushSubdatasetContext(String subdatasetName)
+	{
+		datasetContextStack.addFirst(subdatasetName);
+	}
+	
+	public void popSubdatasetContext()
+	{
+		datasetContextStack.removeFirst();
+	}
+	
+	protected JRDesignDataset currentDataset()
+	{
+		String subdatasetName = datasetContextStack.isEmpty() ? null : datasetContextStack.getFirst();
+		JRDesignDataset dataset = subdatasetName == null ? jasperDesign.getMainDesignDataset()
+				: (JRDesignDataset) jasperDesign.getDatasetMap().get(subdatasetName);
+		return dataset;
 	}
 	
 }

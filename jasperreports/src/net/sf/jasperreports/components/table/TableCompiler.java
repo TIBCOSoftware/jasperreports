@@ -95,7 +95,23 @@ public class TableCompiler implements ComponentCompiler
 		{
 			if (!detectLoops(verifier, columns))
 			{
-				verifyColumns(table, verifier);
+				String subdataset = datasetRun == null ? null : datasetRun.getDatasetName();
+				if (subdataset != null)
+				{
+					verifier.pushSubdatasetContext(subdataset);
+				}
+				try
+				{
+					verifyColumns(table, verifier);
+				}
+				finally
+				{
+					if (subdataset != null)
+					{
+						verifier.popSubdatasetContext();
+					}
+				}
+				
 				verifyColumnHeights(table, verifier);
 			}
 		}
