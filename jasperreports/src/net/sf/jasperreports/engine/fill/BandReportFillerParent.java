@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRStyle;
 public interface BandReportFillerParent extends FillerParent
 {
 
+	String getReportName();
+	
 	void registerSubfiller(JRBaseFiller filler);
 
 	void unregisterSubfiller(JRBaseFiller filler);

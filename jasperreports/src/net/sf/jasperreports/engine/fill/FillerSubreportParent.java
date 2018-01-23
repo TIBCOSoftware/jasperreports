@@ -59,6 +59,12 @@ public class FillerSubreportParent implements BandReportFillerParent
 	}
 
 	@Override
+	public String getReportName()
+	{
+		return parentElement.getReportName();
+	}
+
+	@Override
 	public BaseReportFiller getFiller()
 	{
 		return parentFiller;
