@@ -1128,7 +1128,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale) {
 		String text = styledText.getText();
-		System.out.println("text="+ text);
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
 		int runLimit = 0;
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
