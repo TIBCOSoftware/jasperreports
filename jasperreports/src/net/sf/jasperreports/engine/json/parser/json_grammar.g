@@ -591,12 +591,11 @@ protected EXP
     : ('e'|'E') ('+'|'-')? (DIGIT)+
     ;
 protected ESC
-    : '\\'(
-        'n' { $setText("\n"); }
-        | 'r' { $setText("\r"); }
-        | 't' { $setText("\t"); }
-        | '"' { $setText("\""); }
-        )
+    : '\\' .
+        {
+            String ruleText = $getText;
+            $setText(ruleText);
+        }
     ;
 protected ID_START_LETTER
     : 'a'..'z'

@@ -23,25 +23,21 @@
  */
 package net.sf.jasperreports.engine.json.expression.member.evaluation;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.sf.jasperreports.engine.json.JRJsonNode;
 import net.sf.jasperreports.engine.json.JsonNodeContainer;
 import net.sf.jasperreports.engine.json.expression.EvaluationContext;
 import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
 import net.sf.jasperreports.engine.json.expression.member.ObjectKeyExpression;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -51,6 +47,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
 
     private ObjectKeyExpression expression;
     private boolean isCalledFromFilter;
+    private Pattern fieldNamePattern;
 
 
     public ObjectKeyExpressionEvaluator(EvaluationContext evaluationContext, ObjectKeyExpression expression) {
@@ -63,6 +60,10 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
 
         this.expression = expression;
         this.isCalledFromFilter = isCalledFromFilter;
+
+        if (!expression.isWildcard()) {
+            this.fieldNamePattern = Pattern.compile(expression.getObjectKey());
+        }
     }
 
     @Override
@@ -232,22 +233,35 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
 
     private JRJsonNode goDeeperIntoObjectNode(JRJsonNode jrJsonNode, boolean keepMissingNode) {
         ObjectNode dataNode = (ObjectNode) jrJsonNode.getDataNode();
+        ArrayNode container = getEvaluationContext().getObjectMapper().createArrayNode();
 
-        // allow missing nodes to be returned
-        JsonNode deeperNode = dataNode.path(expression.getObjectKey());
+        Iterator<String> fieldNamesIterator = dataNode.fieldNames();
+        while (fieldNamesIterator.hasNext()) {
+            String fieldName = fieldNamesIterator.next();
+            Matcher fieldNameMatcher = fieldNamePattern.matcher(fieldName);
 
-        // if the deeper node is object/value => filter and add it
-        if (!deeperNode.isMissingNode() &&
-                (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray())) {
+            if (fieldNameMatcher.matches()) {
+                JsonNode deeperNode = dataNode.path(fieldName);
 
-            JRJsonNode child = jrJsonNode.createChild(deeperNode);
-            if (applyFilter(child)) {
-                return child;
+                // if the deeper node is object/value => filter and add it
+                if (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray()) {
+
+                    JRJsonNode child = jrJsonNode.createChild(deeperNode);
+                    if (applyFilter(child)) {
+                        container.add(deeperNode);
+                    }
+                }
             }
         }
+
+        if (container.size() > 1) {
+            return jrJsonNode.createChild(container);
+        } else if (container.size() == 1) {
+            return jrJsonNode.createChild(container.get(0));
+        }
         // Filtering expressions need the missing node to check for null
-        else if (keepMissingNode && deeperNode.isMissingNode()) {
-            return jrJsonNode.createChild(deeperNode);
+        else if (keepMissingNode) {
+            return jrJsonNode.createChild(MissingNode.getInstance());
         }
 
         return null;

@@ -79,7 +79,6 @@ public JsonQueryLexer(LexerSharedInputState state) {
 	literals.put(new ANTLRHashString("false", this), new Integer(50));
 }
 
-@Override
 public Token nextToken() throws TokenStreamException {
 	Token theRetToken=null;
 tryAgain:
@@ -826,45 +825,12 @@ tryAgain:
 		int _saveIndex;
 		
 		match('\\');
-		{
-		switch ( LA(1)) {
-		case 'n':
-		{
-			match('n');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\n");
-			}
-			break;
-		}
-		case 'r':
-		{
-			match('r');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\r");
-			}
-			break;
-		}
-		case 't':
-		{
-			match('t');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\t");
-			}
-			break;
-		}
-		case '"':
-		{
-			match('"');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\"");
-			}
-			break;
-		}
-		default:
-		{
-			throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());
-		}
-		}
+		matchNot(EOF_CHAR);
+		if ( inputState.guessing==0 ) {
+			
+			String ruleText = new String(text.getBuffer(),_begin,text.length()-_begin);
+			text.setLength(_begin); text.append(ruleText);
+			
 		}
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);
