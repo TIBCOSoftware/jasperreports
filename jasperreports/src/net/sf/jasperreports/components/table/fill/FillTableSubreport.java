@@ -226,4 +226,11 @@ public class FillTableSubreport extends JRFillSubreport
 	{
 		filler.registerReportStyles(getUUID(), styles);
 	}
+	
+	@Override
+	protected String getReportName()
+	{
+		String tableName = tableReport.getBaseReport().getTableName();
+		return tableName == null ? super.getReportName() : tableName;
+	}
 }

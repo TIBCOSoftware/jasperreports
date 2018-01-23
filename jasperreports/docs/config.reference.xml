@@ -6803,4 +6803,14 @@ Property that provides the character encoding to be used for QR code component e
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.components.table.name -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.name">
+    <description>
+Property that provides a name for table.
+The name is used as report name in element origins.
+    </description>
+  </configProperty>
+  
+  
 </configReference>

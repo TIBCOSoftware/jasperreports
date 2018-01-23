@@ -955,7 +955,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					else
 					{
-						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()) || isIgnoreTextFormatting(textElement))
 						{
 							setStringCellValue(textValue.getText());
 						}
@@ -1040,7 +1040,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		else
 		{
 			HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-			if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()) || isIgnoreTextFormatting(textElement))
 			{
 				setStringCellValue(textStr);
 			}

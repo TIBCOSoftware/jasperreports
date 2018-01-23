@@ -273,7 +273,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 		createReportTemplates(factory);
 
-		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
+		String reportName = this.bandReportParent == null ? null : this.bandReportParent.getReportName();
 		
 		background = createFillBand(jasperReport.getBackground(), reportName, BandTypeEnum.BACKGROUND);
 		title = createFillBand(jasperReport.getTitle(), reportName, BandTypeEnum.TITLE);

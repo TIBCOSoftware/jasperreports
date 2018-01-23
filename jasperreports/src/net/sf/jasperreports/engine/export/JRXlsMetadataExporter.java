@@ -882,7 +882,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				value.handle(new TextValueHandler() {
 					@Override
 					public void handle(StringTextValue textValue) {
-						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup())) {
+						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()) || isIgnoreTextFormatting(textElement)) {
 							cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), new HSSFRichTextString(textValue.getText()));
 						} else {
 							cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), getRichTextString(styledText, forecolor, textElement, getTextLocale(textElement)));
@@ -951,7 +951,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					}
 				});
 			} else {
-				if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup())) {
+				if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()) || isIgnoreTextFormatting(textElement)) {
 					cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), new HSSFRichTextString(textStr));
 				} else {
 					cellSettings.importValues(CellType.STRING, getLoadedCellStyle(baseStyle), getRichTextString(styledText, forecolor, textElement, getTextLocale(textElement)));
@@ -1128,6 +1128,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 
 	protected HSSFRichTextString getRichTextString(JRStyledText styledText, short forecolor, JRFont defaultFont, Locale locale) {
 		String text = styledText.getText();
+		System.out.println("text="+ text);
 		HSSFRichTextString richTextStr = new HSSFRichTextString(text);
 		int runLimit = 0;
 		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();

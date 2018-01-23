@@ -328,6 +328,22 @@ public class TableReport implements JRReport
 			)
 	public static final String PROPERTY_COLUMN_CONDITIONALLY_FORMATTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.conditionally.formattable";
 
+	/**
+	 * Property that provides a name for table.
+	 * 
+	 * <p>
+	 * The name is used as report name in element origins.
+	 * </p>
+	 * @see JROrigin#getReportName()
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.COMPONENT},
+			scopeQualifications = {METADATA_KEY_QUALIFICATION},
+			sinceVersion = PropertyConstants.VERSION_6_5_2
+			)
+	public static final String PROPERTY_TABLE_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.name";
+
 
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
@@ -356,6 +372,7 @@ public class TableReport implements JRReport
 	private final Map<Integer, JRPropertiesMap> headerHtmlBaseProperties;
 	
 	private final JRPropertiesUtil propertiesUtil;
+	private String tableName;
 	private boolean isInteractiveTable;
 	private boolean hasFloatingHeader;
 	private boolean isGeneratePdfTags;
@@ -377,6 +394,8 @@ public class TableReport implements JRReport
 		this.parentReport = fillContext.getFiller().getJasperReport();
 		this.mainDataset = mainDataset;
 		this.builtinEvaluatorFactory = builtinEvaluatorFactory;
+		
+		this.tableName = JRPropertiesUtil.getOwnProperty(fillContext.getComponentElement(), PROPERTY_TABLE_NAME);
 		
 		this.propertiesUtil = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
 		
@@ -434,6 +453,11 @@ public class TableReport implements JRReport
 			// use the regular page footer
 			this.lastPageFooter = null;
 		}
+	}
+	
+	public String getTableName()
+	{
+		return tableName;
 	}
 	
 	protected class ReportBandInfo

@@ -274,6 +274,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
+		public String getReportName()
+		{
+			return jasperReport.getName();
+		}
+
+		@Override
 		public BaseReportFiller getFiller()
 		{
 			return fillContext.getFiller();

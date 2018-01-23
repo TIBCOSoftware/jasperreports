@@ -1155,4 +1155,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		//NOP
 	}
+	
+	protected String getReportName()
+	{
+		return jasperReport.getName();
+	}
 }
