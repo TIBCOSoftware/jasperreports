@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="TableWithSubreportReturn" pageWidth="595" pageHeight="842" topMargin="30" leftMargin="20" bottomMargin="30" rightMargin="20" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<origin band="title"/>
+	<origin band="detail"/>
+	<origin report="SubreportForReturn" band="detail"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<page>
+		<frame>
+			<reportElement uuid="d3ebffbc-badc-4c5c-b704-369fbeae5a21" x="20" y="30" width="555" height="30" origin="0" srcId="1" printId="1"/>
+			<text textHeight="11.640625" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+				<reportElement uuid="c475c968-5a05-4331-8147-5fc24a48070b" x="0" y="0" width="555" height="20" origin="2" srcId="4" printId="1"/>
+				<textContent><![CDATA[subreport foo]]></textContent>
+			</text>
+		</frame>
+		<text textHeight="11.640625" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="e53b932e-91b0-41d1-8d6c-b9b41f483a91" x="20" y="80" width="555" height="30" origin="0" srcId="3" printId="1"/>
+			<textContent><![CDATA[main foo]]></textContent>
+		</text>
+	</page>
+</jasperPrint>
