@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
  */
 public class HtmlElementXlsxHandler implements GenericElementXlsxHandler
 {
+	@Override
 	public void exportElement(
 		JRXlsxExporterContext exporterContext,
 		JRGenericPrintElement element,
@@ -56,10 +57,12 @@ public class HtmlElementXlsxHandler implements GenericElementXlsxHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}
 	
+	@Override
 	public JRPrintImage getImage(JRXlsxExporterContext exporterContext, JRGenericPrintElement element) throws JRException
 	{
 		HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();

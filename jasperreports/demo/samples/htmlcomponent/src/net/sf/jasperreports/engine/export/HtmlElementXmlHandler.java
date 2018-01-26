@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
  */
 public class HtmlElementXmlHandler implements GenericElementXmlHandler
 {
+	@Override
 	public void exportElement(
 			JRXmlExporterContext exporterContext,
 		JRGenericPrintElement element
@@ -49,6 +50,7 @@ public class HtmlElementXmlHandler implements GenericElementXmlHandler
 		}
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}

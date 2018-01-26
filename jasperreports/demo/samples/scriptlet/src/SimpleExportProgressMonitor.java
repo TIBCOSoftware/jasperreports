@@ -32,9 +32,7 @@ public class SimpleExportProgressMonitor implements JRExportProgressMonitor
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterPageExport()
 	{
 		System.out.println("call afterPageExport");

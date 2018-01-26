@@ -233,9 +233,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	protected boolean isCreatingNewPage;
 	protected boolean isNewPage;
 	protected boolean isNewColumn;
-	protected boolean isNewGroup = true;
 	protected boolean isFirstPageBand;
 	protected boolean isFirstColumnBand;
+	// indicates if values from current record have already appeared on current page through a band being evaluated with JRExpression.EVALUATION_DEFAULT
+	protected boolean isCrtRecordOnPage;
+	protected boolean isCrtRecordOnColumn;
 	// we call it min level because footers print in reverse order and lower level means outer footer
 	protected Integer preventOrphanFootersMinLevel;
 	protected int crtGroupFootersLevel;
@@ -271,7 +273,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 		createReportTemplates(factory);
 
-		String reportName = factory.getFiller().isSubreport() ? factory.getFiller().getJasperReport().getName() : null;
+		String reportName = this.bandReportParent == null ? null : this.bandReportParent.getReportName();
 		
 		background = createFillBand(jasperReport.getBackground(), reportName, BandTypeEnum.BACKGROUND);
 		title = createFillBand(jasperReport.getTitle(), reportName, BandTypeEnum.TITLE);
@@ -1165,6 +1167,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected boolean next() throws JRException
 	{
+		isCrtRecordOnPage = false;
+		isCrtRecordOnColumn = false;
+		
 		return mainDataset.next();
 	}
 

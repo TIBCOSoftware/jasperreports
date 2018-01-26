@@ -36,14 +36,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.jfree.chart.HashUtilities;
 import org.jfree.chart.plot.dial.DialLayerChangeEvent;
 import org.jfree.chart.plot.dial.DialPlot;
-import org.jfree.chart.plot.dial.DialScale;
 import org.jfree.chart.plot.dial.DialPointer.Pointer;
+import org.jfree.chart.plot.dial.DialScale;
 import org.jfree.io.SerialUtilities;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -121,6 +121,7 @@ public class ScaledDialPointer extends Pointer
 	 *
 	 * @since 1.0.8
 	 */
+	@Override
 	public Paint getFillPaint() {
 		return this.fillPaint;
 	}
@@ -135,6 +136,7 @@ public class ScaledDialPointer extends Pointer
 	 *
 	 * @since 1.0.8
 	 */
+	@Override
 	public void setFillPaint(Paint paint) {
 		if (paint == null) {
 			throw new IllegalArgumentException("Null 'paint' argument.");
@@ -151,6 +153,7 @@ public class ScaledDialPointer extends Pointer
 	 * @param frame  the dial's reference frame.
 	 * @param view  the dial's view.
 	 */
+	@Override
 	public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame,
 			Rectangle2D view) {
 
@@ -210,6 +213,7 @@ public class ScaledDialPointer extends Pointer
 	 *
 	 * @return A boolean.
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -231,6 +235,7 @@ public class ScaledDialPointer extends Pointer
 	 *
 	 * @return A hash code.
 	 */
+	@Override
 	public int hashCode() {
 		int result = super.hashCode();
 		result = HashUtilities.hashCode(result, this.fillPaint);

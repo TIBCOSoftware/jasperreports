@@ -40,9 +40,7 @@ public class AxisLocationHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -52,9 +50,7 @@ public class AxisLocationHandler extends GeneralizedFieldHandler
 		return ((AxisLocation)value).toString();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -72,17 +68,13 @@ public class AxisLocationHandler extends GeneralizedFieldHandler
 		? AxisLocation.TOP_OR_RIGHT : null;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return AxisLocation.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		//-- Since it's marked as a string...just return null,

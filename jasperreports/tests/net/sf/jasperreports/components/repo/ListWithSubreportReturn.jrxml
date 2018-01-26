@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TableWithSubreportReturn" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1d1d4b5d-e211-4b7d-80ac-73e229b5e9fb">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<subDataset name="ListData" uuid="5ed45609-588e-443d-8e47-8aad0fb8d213">
+		<parameter name="subreport" class="net.sf.jasperreports.engine.JasperReport"/>
+		<variable name="ReturnedVariable" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="subreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<variable name="MainVariable" class="java.lang.String"/>
+	<title>
+		<band height="100">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="50" uuid="d3ebffbc-badc-4c5c-b704-369fbeae5a21">
+					<property name="net.sf.jasperreports.components.table.name" value="table"/>
+				</reportElement>
+				<c:list xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="ListData" uuid="ef00c42c-8d00-44cc-8bb0-6896605f92a0">
+						<datasetParameter name="subreport">
+							<datasetParameterExpression><![CDATA[$P{subreport}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+						<returnValue fromVariable="ReturnedVariable" toVariable="MainVariable"/>
+					</datasetRun>
+					<c:listContents height="30">
+						<subreport>
+							<reportElement x="0" y="0" width="555" height="30" uuid="b27ca6cb-bfae-4455-8fee-52ad902b1490"/>
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+							<returnValue subreportVariable="VariableForReturn" toVariable="ReturnedVariable"/>
+							<subreportExpression><![CDATA[$P{subreport}]]></subreportExpression>
+						</subreport>
+					</c:listContents>
+				</c:list>
+			</componentElement>
+			<textField evaluationTime="Band">
+				<reportElement x="0" y="50" width="555" height="30" uuid="e53b932e-91b0-41d1-8d6c-b9b41f483a91"/>
+				<textFieldExpression><![CDATA["main " + $V{MainVariable}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

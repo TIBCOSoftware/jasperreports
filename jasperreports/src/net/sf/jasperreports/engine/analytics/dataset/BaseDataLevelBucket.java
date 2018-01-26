@@ -92,13 +92,6 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 	}
 
 	@Override
-	@Deprecated
-	public SortOrderEnum getOrderValue()
-	{
-		return BucketOrder.toSortOrderEnum(order);
-	}
-	
-	@Override
 	public BucketOrder getOrder()
 	{
 		return order;

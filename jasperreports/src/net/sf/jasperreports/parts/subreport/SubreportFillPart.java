@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JRHorizontalFiller;
 import net.sf.jasperreports.engine.fill.JRVerticalFiller;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
@@ -115,7 +116,7 @@ public class SubreportFillPart extends BasePartFillComponent
 			}
 			
 			@Override
-			public JRVariable getToVariable(String name) {
+			public JRFillVariable getToVariable(String name) {
 				return fillContext.getFiller().getVariable(name);
 			}
 			
@@ -270,6 +271,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		protected PartBandParent(PartPrintOutput output)
 		{
 			this.output = output;
+		}
+
+		@Override
+		public String getReportName()
+		{
+			return jasperReport.getName();
 		}
 
 		@Override

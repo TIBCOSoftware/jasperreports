@@ -40,9 +40,7 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -76,9 +74,7 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 			? "Align.TOP_RIGHT" : null;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -112,17 +108,13 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 			? new Integer(Align.TOP_RIGHT) : null;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return Integer.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		//-- Since it's marked as a string...just return null,

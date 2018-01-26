@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.forms.textinput;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -35,9 +35,7 @@ import org.xml.sax.Attributes;
 public class TextInputComponentFactory extends JRBaseFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public Object createObject(Attributes atts)
 	{
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);

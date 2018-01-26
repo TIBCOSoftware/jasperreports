@@ -2374,6 +2374,15 @@ Property that indicates whether a legacy stretch type for the element is enabled
   </configProperty>
 
 
+  <!-- net.sf.jasperreports.legacy.band.evaluation.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.legacy.band.evaluation.enabled">
+    <description>
+Property that indicates whether the legacy band evaluation is enabled.
+    </description>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.evaluator.class.reference.fix.enabled -->
   
   <configProperty name="net.sf.jasperreports.evaluator.class.reference.fix.enabled">
@@ -3184,6 +3193,18 @@ a regular expression that matches property names in the <code>JRReport</code> ob
 excluded from the generated JRXML representation.
 <br/>
 This feature does not apply to property expressions.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.jrxml.writer.exclude.uuids -->
+  
+  <configProperty name="net.sf.jasperreports.jrxml.writer.exclude.uuids">
+    <description>
+Property to control the writing of UUIDs for report elements and other report entities in the generated JRXML representation of the report template.
+When the UUDIs are missing in the JRXML report template definition, they will be regenerated automatically on report template loading.
+Excluding UUIDs from generated JRXML is useful for triggering their regeneration and thus ensuring they are unique again in case the report template source
+was edited manually and UUIDs were duplicated by copy/paste.
     </description>
   </configProperty>
   
@@ -6769,6 +6790,25 @@ Property that that determines whether the Graphics2D exporter is to draw white b
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/Graphics2DReportConfiguration.html#isWhitePageBackground()">isWhitePageBackground()</api> Graphics2D export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.qrcode.character.encoding -->
+  
+  <configProperty name="net.sf.jasperreports.components.qrcode.character.encoding">
+    <description>
+Property that provides the character encoding to be used for QR code component elements.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.components.table.name -->
+  
+  <configProperty name="net.sf.jasperreports.components.table.name">
+    <description>
+Property that provides a name for table.
+The name is used as report name in element origins.
     </description>
   </configProperty>
   

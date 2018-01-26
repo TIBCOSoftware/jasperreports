@@ -88,36 +88,28 @@ public class CustomTableModel extends AbstractTableModel
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getColumnCount()
 	{
 		return this.columnNames.length;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getColumnName(int columnIndex)
 	{
 		return this.columnNames[columnIndex];
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRowCount()
 	{
 		return this.data.length;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
 		return this.data[rowIndex][columnIndex];

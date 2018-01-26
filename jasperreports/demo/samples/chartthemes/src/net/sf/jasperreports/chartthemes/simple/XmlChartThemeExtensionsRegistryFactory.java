@@ -59,9 +59,7 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 	public final static String PROPERTY_XML_CHART_THEME_REGISTRY_FACTORY =
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_FACTORY_PREFIX + "xml.chart.themes";
 	
-	/**
-	 * 
-	 */
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId,
 			JRPropertiesMap properties)
 	{

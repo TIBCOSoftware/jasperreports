@@ -243,15 +243,6 @@ public interface JRSubreport extends JRElement
 
 
 	/**
-	 * Indicates if the engine is loading the current subreport from cache.
-	 * Implementations of this method rely on default values that depend on the type of the subreport expression
-	 * if a value was not explicitly set of this flag.
-	 * @return true if the subreport should be loaded from cache, false otherwise
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	public boolean isUsingCache();
-
-	/**
 	 *
 	 */
 	public JRExpression getParametersMapExpression();
@@ -285,17 +276,6 @@ public interface JRSubreport extends JRElement
 
 	
 
-	/**
-	 * Indicates if the engine is loading the current subreport from cache.
-	 * Implementations of this method return the actual value for the internal flag that was explicitly 
-	 * set on this subreport.
-	 * @return Boolean.TRUE if the subreport should be loaded from cache, Boolean.FALSE otherwise 
-	 * or null in case the flag was never explicitly set on this subreport element
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	public Boolean isOwnUsingCache();
-	
-	
 	/**
 	 * Indicates if the engine is loading the current subreport from cache.
 	 * Implementations of this method return the actual value for the internal flag that was explicitly 

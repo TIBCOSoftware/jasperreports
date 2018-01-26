@@ -131,6 +131,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					offsetY = topMargin;
 					isFirstPageBand = true;
 					isFirstColumnBand = true;
+					isCrtRecordOnPage = false;
+					isCrtRecordOnColumn = false;
 
 					fillBackground();
 
@@ -176,6 +178,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					offsetY = topMargin;
 					isFirstPageBand = true;
 					isFirstColumnBand = true;
+					isCrtRecordOnPage = false;
+					isCrtRecordOnColumn = false;
 
 					fillBackground();
 
@@ -232,6 +236,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		offsetY = topMargin;
 		isFirstPageBand = true;
 		isFirstColumnBand = true;
+		isCrtRecordOnPage = false;
+		isCrtRecordOnColumn = false;
 
 		fillBackground();
 
@@ -314,11 +320,17 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				addPage(false);
 
-				printBand = title.refill(pageHeight - bottomMargin - offsetY);
+				printBand = 
+					title.refill(
+						JRExpression.EVALUATION_DEFAULT, 
+						pageHeight - bottomMargin - offsetY
+						);
 			}
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
+			isCrtRecordOnPage = true;
+			isCrtRecordOnColumn = true;
 
 			while (title.willOverflow())
 			{
@@ -335,6 +347,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 			}
 
 			resolveBandBoundElements(title, JRExpression.EVALUATION_DEFAULT);
@@ -426,6 +440,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = evaluation == JRExpression.EVALUATION_DEFAULT;
+				isCrtRecordOnColumn = isCrtRecordOnPage;
 
 				resolveBandBoundElements(band, evaluation);
 			}
@@ -475,6 +491,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					columnIndex += 1;
 					setOffsetX();
 					offsetY = columnHeaderOffsetY;
+					isCrtRecordOnColumn = false;
 
 					setColumnNumberVar();
 				}
@@ -537,13 +554,13 @@ public class JRVerticalFiller extends JRBaseFiller
 			log.debug("Fill " + fillerId + ": " + group.getName() + " header at " + offsetY);
 		}
 
-		byte evalPrevPage = (group.isTopLevelChange()?JRExpression.EVALUATION_OLD:JRExpression.EVALUATION_DEFAULT);
+		//byte evalPrevPage = (group.isTopLevelChange()?JRExpression.EVALUATION_OLD:JRExpression.EVALUATION_DEFAULT);
 
 		if ( (group.isStartNewPage() || group.isResetPageNumber()) && !isNewPage )
 		{
 			fillPageBreak(
 				group.isResetPageNumber(),
-				evalPrevPage,
+				isCrtRecordOnPage ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD, //evalPrevPage,
 				JRExpression.EVALUATION_DEFAULT,
 				true
 				);
@@ -551,7 +568,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		else if ( group.isStartNewColumn() && !isNewColumn )
 		{
 			fillColumnBreak(
-				evalPrevPage,
+				isCrtRecordOnColumn ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD, //evalPrevPage,
 				JRExpression.EVALUATION_DEFAULT
 				);
 		}
@@ -574,7 +591,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					)
 				{
 					fillColumnBreak(
-						evalPrevPage,
+						isCrtRecordOnColumn ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD, //evalPrevPage,
 						JRExpression.EVALUATION_DEFAULT
 						);
 				}
@@ -621,7 +638,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (groupHeaderBand.isToPrint())
 			{
-				fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+				fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT, false);
 				
 				ElementRange newElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
 					
@@ -639,15 +656,13 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		group.setHeaderPrinted(true);
-
-		isNewGroup = true;
 	}
 
 
 	/**
 	 *
 	 */
-	private void fillGroupHeadersReprint(byte evaluation) throws JRException
+	private void fillGroupHeadersReprint(byte evaluation, boolean isPageBreak) throws JRException
 	{
 		if (groups != null && groups.length > 0)
 		{
@@ -666,7 +681,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 
 				if (
-					group.isReprintHeaderOnEachPage() 
+					(group.isReprintHeaderOnEachColumn() || (group.isReprintHeaderOnEachPage() && isPageBreak)) 
 					&& (!group.hasChanged() || (group.hasChanged() && group.isHeaderPrinted()))
 					)
 				{
@@ -695,10 +710,10 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				while (groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY)
 				{
-					fillColumnBreak(evaluation, evaluation);
+					fillColumnBreak(evaluation, evaluation); // using same evaluation for both side of the break is ok here
 				}
 
-				fillColumnBand(groupHeaderBand, evaluation);
+				fillColumnBand(groupHeaderBand, evaluation, false);
 
 				//isFirstPageBand = false;
 				if (columnCount > 1)
@@ -738,10 +753,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					detailBand.getBreakHeight() > columnFooterOffsetY - offsetY
 					)
 				{
-					byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
-
 					fillColumnBreak(
-						evalPrevPage,
+						isCrtRecordOnColumn ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD,
 						JRExpression.EVALUATION_DEFAULT
 						);
 				}
@@ -751,7 +764,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 
 		scriptlet.callBeforeDetailEval();
-		calculator.calculateVariables();
+		calculator.calculateVariables(true);
 		scriptlet.callAfterDetailEval();
 
 		detailElementRange = null;
@@ -775,7 +788,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					detailElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
 				}
 
-				fillColumnBand(detailBand, JRExpression.EVALUATION_DEFAULT);
+				fillColumnBand(detailBand, JRExpression.EVALUATION_DEFAULT, !atLeastOneDetailBandPrinted); //recalculate variables on refill if this is the first detail band
 				
 				if (detailElementRange == null)
 				{
@@ -816,7 +829,6 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		isNewPage = false;
 		isNewColumn = false;
-		isNewGroup = false;
 	}
 
 
@@ -933,7 +945,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					groupFooterBand.getBreakHeight() > columnFooterOffsetY - offsetY
 					)
 				{
-					fillColumnBreak(evaluation, evaluation);
+					fillColumnBreak(evaluation, evaluation); // using same evaluation for both side of the break is ok here
 				}
 
 				if (
@@ -969,7 +981,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					}
 				}
 				
-				fillColumnBand(groupFooterBand, evaluation);
+				fillColumnBand(groupFooterBand, evaluation, false);
 				
 				ElementRange newElementRange = new SimpleElementRange(getCurrentPage(), columnIndex, offsetY);
 				
@@ -1221,10 +1233,16 @@ public class JRVerticalFiller extends JRBaseFiller
 					fillPageHeader(JRExpression.EVALUATION_DEFAULT);
 				}
 
-				printBand = summary.refill(pageHeight - bottomMargin - offsetY - (isSummaryWithPageHeaderAndFooter?pageFooter.getHeight():0));
+				printBand = 
+					summary.refill(
+						JRExpression.EVALUATION_DEFAULT, 
+						pageHeight - bottomMargin - offsetY - (isSummaryWithPageHeaderAndFooter?pageFooter.getHeight():0)
+						);
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 
 				/*   */
 				fillSummaryOverflow();
@@ -1237,6 +1255,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 
 				fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
@@ -1262,6 +1282,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+					isCrtRecordOnPage = true;
+					isCrtRecordOnColumn = true;
 
 					/*   */
 					fillSummaryOverflow();
@@ -1347,11 +1369,17 @@ public class JRVerticalFiller extends JRBaseFiller
 					fillPageHeader(JRExpression.EVALUATION_DEFAULT);
 				}
 
-				printBand = summary.refill(pageHeight - bottomMargin - offsetY - (isSummaryWithPageHeaderAndFooter?pageFooter.getHeight():0));
+				printBand = 
+					summary.refill(
+						JRExpression.EVALUATION_DEFAULT, 
+						pageHeight - bottomMargin - offsetY - (isSummaryWithPageHeaderAndFooter?pageFooter.getHeight():0)
+						);
 			}
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
+			isCrtRecordOnPage = true;
+			isCrtRecordOnColumn = true;
 
 			/*   */
 			fillSummaryOverflow();
@@ -1406,10 +1434,16 @@ public class JRVerticalFiller extends JRBaseFiller
 					
 					fillPageHeader(JRExpression.EVALUATION_DEFAULT);
 					
-					printBand = summary.refill(pageHeight - bottomMargin - offsetY - pageFooter.getHeight());
+					printBand = 
+						summary.refill(
+							JRExpression.EVALUATION_DEFAULT,
+							pageHeight - bottomMargin - offsetY - pageFooter.getHeight()
+							);
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+					isCrtRecordOnPage = true;
+					isCrtRecordOnColumn = true;
 				}
 				else
 				{
@@ -1417,6 +1451,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+					isCrtRecordOnPage = true;
+					isCrtRecordOnColumn = true;
 
 					if (
 						!summary.willOverflow()
@@ -1493,11 +1529,17 @@ public class JRVerticalFiller extends JRBaseFiller
 					
 					fillPageHeader(JRExpression.EVALUATION_DEFAULT);
 
-					printBand = summary.refill(pageHeight - bottomMargin - offsetY - pageFooter.getHeight());
+					printBand = 
+						summary.refill(
+							JRExpression.EVALUATION_DEFAULT,
+							pageHeight - bottomMargin - offsetY - pageFooter.getHeight()
+							);
 				}
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 
 				/*   */
 				fillSummaryOverflow();
@@ -1563,11 +1605,17 @@ public class JRVerticalFiller extends JRBaseFiller
 					
 					fillPageHeader(JRExpression.EVALUATION_DEFAULT);
 
-					printBand = summary.refill(pageHeight - bottomMargin - offsetY - pageFooter.getHeight());
+					printBand = 
+						summary.refill(
+							JRExpression.EVALUATION_DEFAULT,
+							pageHeight - bottomMargin - offsetY - pageFooter.getHeight()
+							);
 				}
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 			}
 			else
 			{
@@ -1599,8 +1647,6 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (summary.isToPrint())
 			{
-				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
-
 				// deal with groupFooterPositionElementRange here because summary will attempt to use remaining space
 				if (groupFooterPositionElementRange != null)
 				{
@@ -1610,6 +1656,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					groupFooterPositionElementRange = null;
 				}
 				
+				summary.evaluate(JRExpression.EVALUATION_DEFAULT);
+
 				JRPrintBand printBand = summary.fill(columnFooterOffsetY - offsetY);
 
 				if (summary.willOverflow() && summary.isSplitPrevented() && !summary.isSplitTypePreventInhibited())
@@ -1627,10 +1675,16 @@ public class JRVerticalFiller extends JRBaseFiller
 
 					addPage(false);
 
-					printBand = summary.refill(pageHeight - bottomMargin - offsetY);
+					printBand = 
+						summary.refill(
+							JRExpression.EVALUATION_DEFAULT, 
+							pageHeight - bottomMargin - offsetY
+							);
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+					isCrtRecordOnPage = true;
+					isCrtRecordOnColumn = true;
 				}
 				else
 				{
@@ -1638,6 +1692,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+					isCrtRecordOnPage = true;
+					isCrtRecordOnColumn = true;
 
 					fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
@@ -1704,10 +1760,16 @@ public class JRVerticalFiller extends JRBaseFiller
 
 						addPage(false);
 
-						printBand = summary.refill(pageHeight - bottomMargin - offsetY);
+						printBand = 
+							summary.refill(
+								JRExpression.EVALUATION_DEFAULT,
+								pageHeight - bottomMargin - offsetY
+								);
 
 						fillBand(printBand);
 						offsetY += printBand.getHeight();
+						isCrtRecordOnPage = true;
+						isCrtRecordOnColumn = true;
 					}
 					else
 					{
@@ -1715,10 +1777,16 @@ public class JRVerticalFiller extends JRBaseFiller
 
 						setLastPageFooter(true);
 
-						printBand = summary.refill(lastPageColumnFooterOffsetY - offsetY);
+						printBand = 
+							summary.refill(
+								JRExpression.EVALUATION_DEFAULT,
+								lastPageColumnFooterOffsetY - offsetY
+								);
 
 						fillBand(printBand);
 						offsetY += printBand.getHeight();
+						isCrtRecordOnPage = true;
+						isCrtRecordOnColumn = true;
 
 						fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
 
@@ -1731,6 +1799,8 @@ public class JRVerticalFiller extends JRBaseFiller
 					
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+					isCrtRecordOnPage = true;
+					isCrtRecordOnColumn = true;
 
 					fillPageBreak(false, JRExpression.EVALUATION_DEFAULT, JRExpression.EVALUATION_DEFAULT, false);
 
@@ -1742,6 +1812,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 						fillBand(printBand);
 						offsetY += printBand.getHeight();
+						isCrtRecordOnPage = true;
+						isCrtRecordOnColumn = true;
 					}
 
 					fillColumnFooter(JRExpression.EVALUATION_DEFAULT);
@@ -1818,11 +1890,17 @@ public class JRVerticalFiller extends JRBaseFiller
 
 					addPage(false);
 
-					printBand = summary.refill(pageHeight - bottomMargin - offsetY);
+					printBand = 
+						summary.refill(
+							JRExpression.EVALUATION_DEFAULT,
+							pageHeight - bottomMargin - offsetY
+							);
 				}
 
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 
 				/*   */
 				fillSummaryOverflow();
@@ -1887,11 +1965,17 @@ public class JRVerticalFiller extends JRBaseFiller
 
 						addPage(false);
 
-						printBand = summary.refill(pageHeight - bottomMargin - offsetY);
+						printBand = 
+							summary.refill(
+								JRExpression.EVALUATION_DEFAULT,
+								pageHeight - bottomMargin - offsetY
+								);
 					}
 
 					fillBand(printBand);
 					offsetY += printBand.getHeight();
+					isCrtRecordOnPage = true;
+					isCrtRecordOnColumn = true;
 
 					/*   */
 					fillSummaryOverflow();
@@ -1922,15 +2006,23 @@ public class JRVerticalFiller extends JRBaseFiller
 
 						addPage(false);
 
-						printBand = summary.refill(pageHeight - bottomMargin - offsetY);
+						printBand = 
+							summary.refill(
+								JRExpression.EVALUATION_DEFAULT,
+								pageHeight - bottomMargin - offsetY
+								);
 
 						fillBand(printBand);
 						offsetY += printBand.getHeight();
+						isCrtRecordOnPage = true;
+						isCrtRecordOnColumn = true;
 					}
 					else
 					{
 						fillBand(printBand);
 						offsetY += printBand.getHeight();
+						isCrtRecordOnPage = true;
+						isCrtRecordOnColumn = true;
 
 						fillPageFooter(JRExpression.EVALUATION_DEFAULT);
 					}
@@ -1979,6 +2071,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
+			isCrtRecordOnPage = true;
+			isCrtRecordOnColumn = true;
 		}
 
 		resolveBandBoundElements(summary, JRExpression.EVALUATION_DEFAULT);
@@ -2040,6 +2134,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 				fillBand(printBand);
 				//offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 				
 				//FIXMENOW does not have resolveBandBoundElements
 			}
@@ -2064,20 +2160,18 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		printPage = newPage();
 
+		JRFillVariable pageNumberVar = calculator.getPageNumber();
 		if (isResetPageNumber)
 		{
-			calculator.getPageNumber().setValue(Integer.valueOf(1));
+			pageNumberVar.setValue(Integer.valueOf(1));
 		}
 		else
 		{
-			calculator.getPageNumber().setValue(
-				Integer.valueOf(((Number)calculator.getPageNumber().getValue()).intValue() + 1)
+			pageNumberVar.setValue(
+				Integer.valueOf(((Number)pageNumberVar.getValue()).intValue() + 1)
 				);
 		}
-
-		calculator.getPageNumber().setOldValue(
-			calculator.getPageNumber().getValue()
-			);
+		pageNumberVar.setOldValue(pageNumberVar.getValue());
 
 		addPage(printPage);
 
@@ -2085,6 +2179,8 @@ public class JRVerticalFiller extends JRBaseFiller
 		offsetY = topMargin;
 		isFirstPageBand = true;
 		isFirstColumnBand = true;
+		isCrtRecordOnPage = false;
+		isCrtRecordOnColumn = false;
 
 		fillBackground();
 	}
@@ -2207,7 +2303,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (isReprintGroupHeaders)
 		{
-			fillGroupHeadersReprint(evalNextPage);
+			fillGroupHeadersReprint(evalNextPage, true);
 
 			ElementRange keepTogetherElementRange = keepTogetherGroup == null ? null : keepTogetherGroup.getKeepTogetherElementRange();
 			
@@ -2367,10 +2463,26 @@ public class JRVerticalFiller extends JRBaseFiller
 			columnIndex += 1;
 			setOffsetX();
 			offsetY = columnHeaderOffsetY;
+			isCrtRecordOnColumn = false;
 
 			setColumnNumberVar();
 
 			fillColumnHeader(evalNextPage);
+
+			//if (isReprintGroupHeaders)
+			{
+				fillGroupHeadersReprint(evalNextPage, false);
+
+				ElementRange keepTogetherElementRange = keepTogetherGroup == null ? null : keepTogetherGroup.getKeepTogetherElementRange();
+				
+				if (
+					keepTogetherElementRange != null
+					&& offsetY > keepTogetherElementRange.getTopY()
+					)
+				{
+					throw new JRException(EXCEPTION_MESSAGE_KEY_KEEP_TOGETHER_CONTENT_DOES_NOT_FIT, (Object[]) null);
+				}
+			}
 
 			// reseting all movable element ranges
 			orphanGroupFooterDetailElementRange = null;
@@ -2432,7 +2544,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected void fillColumnBand(JRFillBand band, byte evaluation) throws JRException
+	protected void fillColumnBand(JRFillBand band, byte evaluation, boolean recalculateVariables) throws JRException
 	{
 		band.evaluate(evaluation);
 
@@ -2474,14 +2586,33 @@ public class JRVerticalFiller extends JRBaseFiller
 			
 			if (toRefill)
 			{
-				fillColumnBreak(evaluation, evaluation);
+				fillColumnBreak(
+					evaluation == JRExpression.EVALUATION_DEFAULT 
+						? (isCrtRecordOnColumn ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD) 
+						: evaluation, 
+					evaluation
+					);
 
-				printBand = band.refill(columnFooterOffsetY - offsetY);
+				if (recalculateVariables)
+				{
+					@SuppressWarnings("deprecation")
+					boolean isLegacyBandEvaluationEnabled = getFillContext().isLegacyBandEvaluationEnabled(); 
+					if (!isLegacyBandEvaluationEnabled)
+					{
+						mainDataset.revertVariablesToOldValues();
+						
+						calculator.recalculateVariables();
+					}
+				}
+				
+				printBand = band.refill(evaluation, columnFooterOffsetY - offsetY);
 			}
 		}
 
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
+		isCrtRecordOnPage = evaluation == JRExpression.EVALUATION_DEFAULT;
+		isCrtRecordOnColumn = isCrtRecordOnPage;
 		
 		while (band.willOverflow())
 		{
@@ -2499,7 +2630,12 @@ public class JRVerticalFiller extends JRBaseFiller
 			// even if nothing gets rendered by this detail on the next page/column 
 			if (band.willOverflowWithElements())
 			{
-				fillColumnBreak(evaluation, evaluation);
+				fillColumnBreak(
+					evaluation == JRExpression.EVALUATION_DEFAULT 
+						? (isCrtRecordOnColumn ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD) 
+						: evaluation, 
+					evaluation
+					);
 			}
 
 			// we continue filling band overflow normally, because even in case of white space band overflow, nothing gets actually rendered
@@ -2510,6 +2646,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
+			isCrtRecordOnPage = evaluation == JRExpression.EVALUATION_DEFAULT;
+			isCrtRecordOnColumn = isCrtRecordOnPage;
 		}
 
 		resolveBandBoundElements(band, evaluation);
@@ -2527,6 +2665,8 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillBand(printBand);
 		offsetY += printBand.getHeight();
+		isCrtRecordOnPage = evaluation == JRExpression.EVALUATION_DEFAULT;
+		isCrtRecordOnColumn = isCrtRecordOnPage;
 
 		resolveBandBoundElements(band, evaluation);
 	}
@@ -2641,11 +2781,17 @@ public class JRVerticalFiller extends JRBaseFiller
 				
 				addPage(false);
 				
-				printBand = noData.refill(pageHeight - bottomMargin - offsetY);
+				printBand = 
+					noData.refill(
+						JRExpression.EVALUATION_DEFAULT,
+						pageHeight - bottomMargin - offsetY
+						);
 			}
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
+			isCrtRecordOnPage = true;
+			isCrtRecordOnColumn = true;
 
 			while (noData.willOverflow())
 			{
@@ -2662,6 +2808,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				
 				fillBand(printBand);
 				offsetY += printBand.getHeight();
+				isCrtRecordOnPage = true;
+				isCrtRecordOnColumn = true;
 			}
 
 			resolveBandBoundElements(noData, JRExpression.EVALUATION_DEFAULT);

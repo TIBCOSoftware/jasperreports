@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>6.4.4-reporting-service-SNAPSHOT</version>
+	<version>6.5.2-reporting-service-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -16,9 +16,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:https://github.com/Jaspersoft/jasperreports.git</connection>
-		<tag>jr-6-4-4</tag>
-		<url>https://github.com/Jaspersoft/jasperreports</url>
+		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
+		<tag>jr-6-5-2</tag>
+		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -129,7 +129,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>6.4.4-SNAPSHOT</version>
+							<version>6.5.1</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -190,7 +190,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>clirr-maven-plugin</artifactId>
 				<configuration>
-					<comparisonVersion>6.4.1</comparisonVersion>
+					<comparisonVersion>6.5.1</comparisonVersion>
 					<ignoredDifferencesFile>${basedir}/clirr-ignore.xml</ignoredDifferencesFile>
 				</configuration>
 			</plugin>
@@ -467,19 +467,19 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.1.4</version>
+			<version>2.9.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.1.4</version>
+			<version>2.9.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.1.4</version>
+			<version>2.9.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -558,7 +558,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>6.4.4-SNAPSHOT</version>
+			<version>6.5.1</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

@@ -89,28 +89,6 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable, Vir
 	}
 	
 	/**
-	 *
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintElement(JRTemplateElement, int)}
-	 */
-	protected JRTemplatePrintElement(JRTemplateElement element)
-	{
-		this(element, UNSET_SOURCE_ELEMENT_ID);
-	}
-	
-	/**
-	 * 
-	 * @param element
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplatePrintElement(JRTemplateElement, PrintElementOriginator)}
-	 */
-	protected JRTemplatePrintElement(JRTemplateElement element, int sourceElementId)
-	{
-		template = element;
-		this.sourceElementId = sourceElementId;
-		this.printElementId = UNSET_PRINT_ELEMENT_ID;
-	}
-	
-	/**
 	 * @param element
 	 * @param originator
 	 */

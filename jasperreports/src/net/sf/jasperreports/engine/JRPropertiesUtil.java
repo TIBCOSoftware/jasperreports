@@ -454,6 +454,25 @@ public final class JRPropertiesUtil
 	}
 
 	/**
+	 * Returns the value of a property, looking first in the supplied properties holder
+	 * and then in the system properties, using a default value if the property is not found.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @param defaultValue the value to return if no property is found
+	 * @return the property value
+	 */
+	public String getProperty(JRPropertiesHolder propertiesHolder, String key, String defaultValue)
+	{
+		String value = getProperty(propertiesHolder, key);
+		if (value == null)
+		{
+			value = defaultValue;
+		}
+		return value;
+	}
+
+	/**
 	 * Returns the value of a property, looking for it in several properties holders
 	 * and then in the system properties.
 	 * 

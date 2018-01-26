@@ -26,7 +26,6 @@ package net.sf.jasperreports.crosstabs;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * Crosstab groups bucketing information interface.
@@ -56,22 +55,6 @@ public interface JRCrosstabBucket extends JRCloneable
 	 * <p>
 	 * The possible values are:
 	 * <ul>
-	 * 	<li>{@link SortOrderEnum#ASCENDING SortOrderEnum.ASCENDING}</li>
-	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
-	 * </ul>
-	 * 
-	 * @return the bucket sorting type
-	 * 
-	 * @deprecated replaced by {@link #getOrder()}
-	 */
-	@Deprecated
-	public SortOrderEnum getOrderValue();
-	
-	/**
-	 * Returns the bucket sorting type.
-	 * <p>
-	 * The possible values are:
-	 * <ul>
 	 * 	<li>{@link BucketOrder#ASCENDING BucketOrder.ASCENDING}</li>
 	 * 	<li>{@link BucketOrder#DESCENDING BucketOrder.DESCENDING}</li>
 	 * 	<li>{@link BucketOrder#NONE BucketOrder.NONE}</li>
@@ -95,7 +78,7 @@ public interface JRCrosstabBucket extends JRCloneable
 	 * Returns the comparator expression.
 	 * <p>
 	 * The result of this expression is used to sort the buckets, in ascending or
-	 * descending order (given by {@link #getOrderValue() getOrderValue()}.
+	 * descending order (given by {@link #getOrder() getOrder()}.
 	 * If the bucket has an order by expression, the comparator will be used to
 	 * compare values as produced by that expression.
 	 * If no comparator expression is specified, the natural order will be used.

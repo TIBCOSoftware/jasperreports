@@ -29,12 +29,12 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 
-import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
-import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-
 import org.jfree.chart.block.BlockFrame;
 import org.jfree.chart.block.LineBorder;
 import org.jfree.ui.RectangleInsets;
+
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 /**
  * 
@@ -115,6 +115,7 @@ public class LineBorderProvider implements BlockFrameProvider, JRChangeEventsSup
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

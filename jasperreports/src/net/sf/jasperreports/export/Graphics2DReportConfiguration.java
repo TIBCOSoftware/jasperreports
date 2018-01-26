@@ -65,7 +65,7 @@ public interface Graphics2DReportConfiguration extends ReportExportConfiguration
 			category = PropertyConstants.CATEGORY_EXPORT,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_4_4,
+			sinceVersion = PropertyConstants.VERSION_6_5_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.white.page.background";
@@ -116,7 +116,7 @@ public interface Graphics2DReportConfiguration extends ReportExportConfiguration
 	 * Flag that determines whether the exporter is to draw white backgrounds for exported pages.
 	 *  
 	 * @see #PROPERTY_WHITE_PAGE_BACKGROUND
-	 * @since 6.4.4
+	 * @since 6.5.0
 	 */
 	@ExporterProperty(
 		value=PROPERTY_WHITE_PAGE_BACKGROUND, 

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-html-component</artifactId>
-	<version>6.4.4-SNAPSHOT</version>
+	<version>6.5.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports HTML Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -16,9 +16,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:https://github.com/Jaspersoft/jasperreports.git</connection>
-		<tag>jr-6-4-4</tag>
-		<url>https://github.com/Jaspersoft/jasperreports</url>
+		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
+		<tag>jr-6-5-2</tag>
+		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<repositories>
 		<repository>
@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.4.4-SNAPSHOT</version>
+			<version>6.5.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

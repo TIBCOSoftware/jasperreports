@@ -160,7 +160,7 @@ public abstract class JRAbstractScriptlet
 		{
 			throw 
 				new JRScriptletException(
-					EXCEPTION_MESSAGE_KEY_VARIABLE_NOT_FOUND,
+					EXCEPTION_MESSAGE_KEY_VARIABLE_VALUE_INCOMPATIBLE,
 					new Object[]{variableName, variable.getValueClassName()});
 		}
 		

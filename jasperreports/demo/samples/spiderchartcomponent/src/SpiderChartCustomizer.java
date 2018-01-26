@@ -24,17 +24,17 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import org.jfree.chart.JFreeChart;
+
 import net.sf.jasperreports.components.charts.AbstractChartCustomizer;
 import net.sf.jasperreports.components.charts.ChartComponent;
-
-import org.jfree.chart.JFreeChart;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  */
 public class SpiderChartCustomizer extends AbstractChartCustomizer
 {
-
+	@Override
 	public void customize(JFreeChart chart, ChartComponent chartComponent)
 	{
 		chart.getPlot().setOutlineVisible(true);

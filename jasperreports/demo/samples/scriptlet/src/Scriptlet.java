@@ -33,63 +33,49 @@ public class Scriptlet extends JRDefaultScriptlet
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeReportInit() throws JRScriptletException
 	{
 		System.out.println("call beforeReportInit");
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterReportInit() throws JRScriptletException
 	{
 		System.out.println("call afterReportInit");
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforePageInit() throws JRScriptletException
 	{
 		System.out.println("call   beforePageInit : PAGE_NUMBER = " + this.getVariableValue("PAGE_NUMBER"));
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterPageInit() throws JRScriptletException
 	{
 		System.out.println("call   afterPageInit  : PAGE_NUMBER = " + this.getVariableValue("PAGE_NUMBER"));
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeColumnInit() throws JRScriptletException
 	{
 		System.out.println("call     beforeColumnInit");
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterColumnInit() throws JRScriptletException
 	{
 		System.out.println("call     afterColumnInit");
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeGroupInit(String groupName) throws JRScriptletException
 	{
 		if (groupName.equals("CityGroup"))
@@ -99,9 +85,7 @@ public class Scriptlet extends JRDefaultScriptlet
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterGroupInit(String groupName) throws JRScriptletException
 	{
 		if (groupName.equals("CityGroup"))
@@ -124,18 +108,14 @@ public class Scriptlet extends JRDefaultScriptlet
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void beforeDetailEval() throws JRScriptletException
 	{
 		System.out.println("        detail");
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterDetailEval() throws JRScriptletException
 	{
 	}

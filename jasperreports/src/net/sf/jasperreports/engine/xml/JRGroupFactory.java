@@ -66,6 +66,12 @@ public class JRGroupFactory extends JRBaseFactory
 			group.setReprintHeaderOnEachPage(Boolean.valueOf(isReprintHeaderOnEachPage).booleanValue());
 		}
 
+		String isReprintHeaderOnEachColumn = atts.getValue(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachColumn);
+		if (isReprintHeaderOnEachColumn != null && isReprintHeaderOnEachColumn.length() > 0)
+		{
+			group.setReprintHeaderOnEachColumn(Boolean.valueOf(isReprintHeaderOnEachColumn).booleanValue());
+		}
+
 		String minHeightToStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage);
 		if (minHeightToStartNewPage != null && minHeightToStartNewPage.length() > 0)
 		{

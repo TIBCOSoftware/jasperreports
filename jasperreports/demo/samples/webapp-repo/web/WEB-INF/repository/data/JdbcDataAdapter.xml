@@ -8,5 +8,4 @@
 	<url>jdbc:hsqldb:hsql://localhost</url>
 	<database></database>
 	<serverAddress></serverAddress>
-	<classpathPaths>organization_1/jars/hsqldb-1.8.0-10.jar</classpathPaths>
 </jdbcDataAdapter>

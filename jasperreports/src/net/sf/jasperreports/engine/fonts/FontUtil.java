@@ -179,180 +179,133 @@ public final class FontUtil
 	 * Returns font information containing the font family, font face and font style.
 	 * 
 	 * @param name the font family or font face name
+	 * @param ignoreCase the flag to specify if family names or face names are searched by ignoring case or not
+	 * @param locale the locale
+	 * @return a font info object
+	 */
+	public FontInfo getFontInfo(String name, boolean ignoreCase, Locale locale)
+	{
+		FontInfo awtFamilyMatchFontInfo = null;
+
+		//FIXMEFONT do some cache
+		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
+		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
+		{
+			FontFamily family = itf.next();
+			if (locale == null || family.supportsLocale(locale))
+			{
+				if (equals(name, family.getName(), ignoreCase))
+				{
+					return new FontInfo(family, null, Font.PLAIN);
+				}
+				
+				FontFace face = family.getNormalFace();
+				if (face != null)
+				{
+					if (equals(name, face.getName(), ignoreCase))
+					{
+						return new FontInfo(family, face, Font.PLAIN);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& face.getFont() != null
+						&& equals(name, face.getFont().getFamily(), ignoreCase)
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.PLAIN);
+					}
+				}
+
+				face = family.getBoldFace();
+				if (face != null)
+				{
+					if (equals(name, face.getName(), ignoreCase))
+					{
+						return new FontInfo(family, face, Font.BOLD);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& face.getFont() != null
+						&& equals(name, face.getFont().getFamily(), ignoreCase)
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD);
+					}
+				}
+
+				face = family.getItalicFace();
+				if (face != null)
+				{
+					if (equals(name, face.getName(), ignoreCase))
+					{
+						return new FontInfo(family, face, Font.ITALIC);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& face.getFont() != null
+						&& equals(name, face.getFont().getFamily(), ignoreCase)
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.ITALIC);
+					}
+				}
+
+				face = family.getBoldItalicFace();
+				if (face != null)
+				{
+					if (equals(name, face.getName(), ignoreCase))
+					{
+						return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					}
+					else if (
+						awtFamilyMatchFontInfo == null
+						&& face.getFont() != null
+						&& equals(name, face.getFont().getFamily(), ignoreCase)
+						)
+					{
+						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD | Font.ITALIC);
+					}
+				}
+			}
+		}
+		
+		return awtFamilyMatchFontInfo;
+	}
+
+
+	private static boolean equals(String value1, String value2, boolean ignoreCase)
+	{
+		return ignoreCase ? value1.equalsIgnoreCase(value2) : value1.equals(value2);
+	}
+	
+	
+	/**
+	 * Returns font information containing the font family, font face and font style, searching for names case sensitive.
+	 * 
+	 * @param name the font family or font face name
 	 * @param locale the locale
 	 * @return a font info object
 	 */
 	public FontInfo getFontInfo(String name, Locale locale)
 	{
-		FontInfo awtFamilyMatchFontInfo = null;
-
-		//FIXMEFONT do some cache
-		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
-		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
-		{
-			FontFamily family = itf.next();
-			if (locale == null || family.supportsLocale(locale))
-			{
-				if (name.equals(family.getName()))
-				{
-					return new FontInfo(family, null, Font.PLAIN);
-				}
-
-				FontFace face = family.getNormalFace();
-				if (face != null)
-				{
-					if (name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.PLAIN);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equals(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.PLAIN);
-					}
-				}
-				
-				face = family.getBoldFace();
-				if (face != null)
-				{
-					if (name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.BOLD);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equals(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD);
-					}
-				}
-				
-				face = family.getItalicFace();
-				if (face != null)
-				{
-					if (name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.ITALIC);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equals(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.ITALIC);
-					}
-				}
-				
-				face = family.getBoldItalicFace();
-				if (face != null)
-				{
-					if (name.equals(face.getName()))
-					{
-						return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equals(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD | Font.ITALIC);
-					}
-				}
-			}
-		}
-		
-		return awtFamilyMatchFontInfo;
+		return getFontInfo(name, false, locale);
 	}
 
 
+	/**
+	 * Returns font information containing the font family, font face and font style, searching for names case insensitive.
+	 * 
+	 * @param name the font family or font face name
+	 * @param locale the locale
+	 * @return a font info object
+	 * @deprecated Replaced by {@link #getFontInfo(String, boolean, Locale)}.
+	 */
 	public FontInfo getFontInfoIgnoreCase(String name, Locale locale)
 	{
-		FontInfo awtFamilyMatchFontInfo = null;
-
-		//FIXMEFONT do some cache
-		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
-		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
-		{
-			FontFamily family = itf.next();
-			if (locale == null || family.supportsLocale(locale))
-			{
-				if (name.equalsIgnoreCase(family.getName()))
-				{
-					return new FontInfo(family, null, Font.PLAIN);
-				}
-				
-				FontFace face = family.getNormalFace();
-				if (face != null)
-				{
-					if (name.equalsIgnoreCase(face.getName()))
-					{
-						return new FontInfo(family, face, Font.PLAIN);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equalsIgnoreCase(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.PLAIN);
-					}
-				}
-
-				face = family.getBoldFace();
-				if (face != null)
-				{
-					if (name.equalsIgnoreCase(face.getName()))
-					{
-						return new FontInfo(family, face, Font.BOLD);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equalsIgnoreCase(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD);
-					}
-				}
-
-				face = family.getItalicFace();
-				if (face != null)
-				{
-					if (name.equalsIgnoreCase(face.getName()))
-					{
-						return new FontInfo(family, face, Font.ITALIC);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equalsIgnoreCase(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.ITALIC);
-					}
-				}
-
-				face = family.getBoldItalicFace();
-				if (face != null)
-				{
-					if (name.equalsIgnoreCase(face.getName()))
-					{
-						return new FontInfo(family, face, Font.BOLD | Font.ITALIC);
-					}
-					else if (
-						awtFamilyMatchFontInfo == null
-						&& name.equalsIgnoreCase(face.getFont().getFamily())
-						)
-					{
-						awtFamilyMatchFontInfo = new FontInfo(family, face, Font.BOLD | Font.ITALIC);
-					}
-				}
-			}
-		}
-		
-		return awtFamilyMatchFontInfo;
+		return getFontInfo(name, true, locale);
 	}
-	
+
+
 	public FontSetInfo getFontSetInfo(String name, Locale locale, boolean ignoreMissingFonts)
 	{
 		//FIXMEFONT do some cache

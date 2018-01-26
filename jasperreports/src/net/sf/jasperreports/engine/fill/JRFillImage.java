@@ -77,6 +77,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 *
 	 */
 	private Renderable renderer;
+	private Renderable oldRenderer;
 	private boolean usedCache;
 	private boolean hasOverflowed;
 	private Integer imageHeight;
@@ -608,9 +609,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			}
 		}
 
-		setValueRepeating(this.renderer == newRenderer);
-	
+		Renderable crtRenderer = getRenderable();
+
+		this.oldRenderer = renderer;
 		this.renderer = newRenderer;
+
+		setValueRepeating(crtRenderer == newRenderer);
 		
 		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
@@ -622,6 +626,20 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 	
 
+	@Override
+	public void rewind()
+	{
+		super.rewind();
+		
+		@SuppressWarnings("deprecation")
+		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
+		if (!isLegacyBandEvaluationEnabled)
+		{
+			this.renderer = this.oldRenderer;
+		}
+	}
+
+	
 	@Override
 	protected boolean prepare(
 		int availableHeight,

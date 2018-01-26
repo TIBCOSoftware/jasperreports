@@ -27,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
@@ -54,12 +53,12 @@ import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.renderers.ResourceRenderer;
 
 
 /**
@@ -78,9 +77,7 @@ public class NoReportApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public void test() throws JRException
 	{
 		pdf();
@@ -414,10 +411,8 @@ public class NoReportApp extends AbstractSampleApp
 		image.setWidth(165);
 		image.setHeight(40);
 		image.setScaleImage(ScaleImageEnum.CLIP);
-		image.setRenderable(
-			JRImageRenderer.getInstance(
-				JRLoader.loadBytesFromResource("jasperreports.png")
-				)
+		image.setRenderer(
+			ResourceRenderer.getInstance("jasperreports.png", false)
 			);
 		page.addElement(image);
 

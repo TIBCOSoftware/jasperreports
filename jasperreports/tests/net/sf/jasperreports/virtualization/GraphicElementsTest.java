@@ -25,6 +25,9 @@ package net.sf.jasperreports.virtualization;
 
 import java.util.UUID;
 
+import org.testng.annotations.Test;
+
+import net.sf.jasperreports.engine.fill.DefaultPrintElementOriginator;
 import net.sf.jasperreports.engine.fill.JRTemplateEllipse;
 import net.sf.jasperreports.engine.fill.JRTemplateLine;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintEllipse;
@@ -32,8 +35,6 @@ import net.sf.jasperreports.engine.fill.JRTemplatePrintGraphicElement;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintLine;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintRectangle;
 import net.sf.jasperreports.engine.fill.JRTemplateRectangle;
-
-import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -45,7 +46,7 @@ public class GraphicElementsTest extends BaseElementsTests
 	public void line()
 	{
 		JRTemplateLine template = new JRTemplateLine(null, null);
-		JRTemplatePrintLine line = new JRTemplatePrintLine(template, 12);
+		JRTemplatePrintLine line = new JRTemplatePrintLine(template, new DefaultPrintElementOriginator(12));
 		setElement(line);
 		compareSerialized(line);
 	}
@@ -54,7 +55,7 @@ public class GraphicElementsTest extends BaseElementsTests
 	public void rectangle()
 	{
 		JRTemplateRectangle template = new JRTemplateRectangle(null, null);
-		JRTemplatePrintRectangle rectangle= new JRTemplatePrintRectangle(template, 12);
+		JRTemplatePrintRectangle rectangle= new JRTemplatePrintRectangle(template, new DefaultPrintElementOriginator(12));
 		setElement(rectangle);
 		compareSerialized(rectangle);
 	}
@@ -63,7 +64,7 @@ public class GraphicElementsTest extends BaseElementsTests
 	public void ellipse()
 	{
 		JRTemplateEllipse template = new JRTemplateEllipse(null, null);
-		JRTemplatePrintEllipse ellipse = new JRTemplatePrintEllipse(template, 12);
+		JRTemplatePrintEllipse ellipse = new JRTemplatePrintEllipse(template, new DefaultPrintElementOriginator(12));
 		setElement(ellipse);
 		compareSerialized(ellipse);
 	}

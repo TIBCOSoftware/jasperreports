@@ -24,7 +24,7 @@
 
 /*
  * Contributors:
- * Joakim Sandstr�m - sanjoa@users.sourceforge.net
+ * Joakim Sandström - sanjoa@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.export;
 

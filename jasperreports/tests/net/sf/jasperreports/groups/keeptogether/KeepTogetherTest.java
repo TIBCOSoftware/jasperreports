@@ -39,6 +39,6 @@ public class KeepTogetherTest extends AbstractTest
 	@Test
 	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/groups/keeptogether/repo", "KeepTogetherReport", 36);
+		testReports("net/sf/jasperreports/groups/keeptogether/repo", "KeepTogetherReport", 38);
 	}
 }

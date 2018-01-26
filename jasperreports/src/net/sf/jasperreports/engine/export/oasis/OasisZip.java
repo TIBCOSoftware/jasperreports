@@ -176,6 +176,11 @@ public abstract class OasisZip extends AbstractZip
 		{
 			metaWriter = metaEntry.getWriter();
 			metaWriter.write(PROLOG);
+			metaWriter.write("<office:document-meta");
+			metaWriter.write(" xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\"");
+			metaWriter.write(" office:version=\"");
+			metaWriter.write(ContentBuilder.VERSION);
+			metaWriter.write("\"/>");
 			metaWriter.flush();
 			exportZipEntries.add(metaEntry);
 		}

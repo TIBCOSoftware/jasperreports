@@ -23,9 +23,9 @@
  */
 package net.sf.jasperreports.chartthemes.simple.handlers;
 
-import net.sf.jasperreports.charts.type.EdgeEnum;
-
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
+
+import net.sf.jasperreports.charts.type.EdgeEnum;
 
 
 /**
@@ -41,9 +41,7 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -55,9 +53,7 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 		return ((EdgeEnum)value).getName();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -68,17 +64,13 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 		return EdgeEnum.getByName((String)value);
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return EdgeEnum.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		//-- Since it's marked as a string...just return null,

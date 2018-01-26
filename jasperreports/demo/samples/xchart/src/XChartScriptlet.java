@@ -24,21 +24,18 @@
 
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
-
-import net.sf.jasperreports.engine.JRDefaultScriptlet;
-import net.sf.jasperreports.engine.JRScriptletException;
 
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
-import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler;
-import org.knowm.xchart.style.Styler.LegendPosition;
 import org.knowm.xchart.style.XYStyler;
+
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRScriptletException;
+
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
@@ -46,9 +43,7 @@ public class XChartScriptlet extends JRDefaultScriptlet
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterReportInit() throws JRScriptletException 
 	{
 		try 

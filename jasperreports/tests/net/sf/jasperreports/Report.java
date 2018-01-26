@@ -103,7 +103,7 @@ public class Report
 		}
 	}
 	
-	protected void compileReport() throws JRException, IOException
+	public JasperReport compileReport() throws JRException, IOException
 	{
 		InputStream jrxmlInput = JRLoader.getResourceInputStream(jrxml);
 		JasperDesign design;
@@ -118,7 +118,10 @@ public class Report
 		
 		report = JasperCompileManager.compileReport(design);
 		
+		//TODO do we need this here?
 		fillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		return report;
 	}
 
 	protected void readReferenceDigest() throws JRException, NoSuchAlgorithmException

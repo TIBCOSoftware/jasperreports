@@ -327,7 +327,7 @@ public class PartReportFiller extends BaseReportFiller
 	protected void calculateDetail() throws JRScriptletException, JRException
 	{
 		scriptlet.callBeforeDetailEval();
-		calculator.calculateVariables();
+		calculator.calculateVariables(true);
 		scriptlet.callAfterDetailEval();
 	}
 

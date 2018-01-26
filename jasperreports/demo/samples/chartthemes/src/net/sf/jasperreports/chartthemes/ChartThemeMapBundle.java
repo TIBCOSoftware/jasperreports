@@ -36,11 +36,13 @@ public class ChartThemeMapBundle implements ChartThemeBundle
 
 	private Map<String, ChartTheme> themes;
 	
+	@Override
 	public ChartTheme getChartTheme(String themeName)
 	{
 		return themes.get(themeName);
 	}
 
+	@Override
 	public String[] getChartThemeNames()
 	{
 		return themes.keySet().toArray(new String[themes.size()]);

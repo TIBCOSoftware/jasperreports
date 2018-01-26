@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
+import net.sf.jasperreports.engine.export.XmlResourceHandler;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -84,6 +85,7 @@ public abstract class AbstractTest
 		for (int i = 1; i <= maxFileNumber; i++)
 		{
 			String jrxmlFileName = folderName + "/" + fileNamePrefix + "." + i + ".jrxml";
+			log.debug("Running report " + jrxmlFileName);
 			
 			JasperReport report = compileReport(jrxmlFileName);
 			if (report != null)
@@ -238,7 +240,26 @@ public abstract class AbstractTest
 		
 		exporter.setExporterInput(new SimpleExporterInput(print));
 		SimpleXmlExporterOutput output = new SimpleXmlExporterOutput(out);
-		output.setEmbeddingImages(true);
+		String imagesNoEmbed = print.getProperty("net.sf.jasperreports.export.xml.images.no.embed");
+		if (Boolean.valueOf(imagesNoEmbed))
+		{
+			output.setEmbeddingImages(false);
+			output.setImageHandler(new XmlResourceHandler() {
+
+				@Override
+				public void handleResource(String id, byte[] data) {
+				}
+				
+				@Override
+				public String getResourceSource(String id) {
+					return id;
+				}
+			});
+		}
+		else
+		{
+			output.setEmbeddingImages(true);
+		}
 		exporter.setExporterOutput(output);
 		exporter.exportReport();
 		out.close();

@@ -576,15 +576,6 @@ public class JRApiWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeReport(JRReport, Writer)}.
-	 */
-	protected void writeReport(Writer aWriter)
-	{
-		writeReport(report, aWriter);
-	}
-
-
-	/**
 	 * 
 	 *
 	 */
@@ -778,6 +769,7 @@ public class JRApiWriter
 		write( groupName + ".setStartNewColumn({0});\n", group.isStartNewColumn(), false);
 		write( groupName + ".setStartNewPage({0});\n", group.isStartNewPage(), false);
 		write( groupName + ".setReprintHeaderOnEachPage({0});\n", group.isReprintHeaderOnEachPage(), false);
+		write( groupName + ".setReprintHeaderOnEachColumn({0});\n", group.isReprintHeaderOnEachColumn(), false);
 		write( groupName + ".setMinHeightToStartNewPage({0});\n", group.getMinHeightToStartNewPage());
 		write( groupName + ".setMinDetailsToStartFromTop({0});\n", group.getMinDetailsToStartFromTop());
 		write( groupName + ".setFooterPosition({0});\n", group.getFooterPositionValue(), FooterPositionEnum.NORMAL);

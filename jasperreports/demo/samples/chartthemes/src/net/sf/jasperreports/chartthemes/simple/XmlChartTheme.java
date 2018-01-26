@@ -30,10 +30,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRLoader;
-
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.xml.MarshalException;
@@ -41,6 +37,10 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
 import org.xml.sax.InputSource;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 
@@ -82,9 +82,7 @@ public class XmlChartTheme extends SimpleChartTheme
 	}
 	
 	
-	/**
-	 *
-	 */
+	@Override
 	public ChartThemeSettings getChartThemeSettings()
 	{
 		if (chartThemeSettings == null)

@@ -87,11 +87,13 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 		this.clipOnOverflow = component.getClipOnOverflow();
 	}
 	
+	@Override
 	public void setContext(ComponentContext context)
 	{
 		this.context = context;
 	}
 
+	@Override
 	public ComponentContext getContext()
 	{
 		return context;
@@ -236,6 +238,7 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 				old, this.clipOnOverflow);
 	}
 
+	@Override
 	public Object clone()
 	{
 		HtmlComponent clone = null;
@@ -253,6 +256,7 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 		return clone;
 	}
 
+	@Override
 	public JRPropertyChangeSupport getEventSupport() {
 		synchronized (this)
 		{

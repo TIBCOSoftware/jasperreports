@@ -48,6 +48,7 @@ public class ChartThemeBundlesExtensionsRegistry implements ExtensionsRegistry
 		this.chartThemeBundles.add(chartThemeBundle);
 	}
 	
+	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (ChartThemeBundle.class.equals(extensionType)) 

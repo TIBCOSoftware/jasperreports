@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TableWithSubreportReturn" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="1011d9e0-eab0-4b1f-9045-a4ddcc593b7b">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<subDataset name="TableData" uuid="e0badce9-c896-43eb-8f79-ca8a1cb00100">
+		<variable name="Variable" class="java.lang.String">
+			<variableExpression><![CDATA["foo"]]></variableExpression>
+		</variable>
+	</subDataset>
+	<variable name="ReturnedVariable" class="java.lang.String"/>
+	<title>
+		<band height="130">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="100" uuid="c0b7929e-a7d2-4fd8-953d-786e51206938">
+					<property name="net.sf.jasperreports.components.table.name" value="table"/>
+				</reportElement>
+				<c:table xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="TableData" uuid="35b504c6-1416-40fe-a2b8-748fead7f816">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+						<returnValue fromVariable="Variable" toVariable="ReturnedVariable"/>
+					</datasetRun>
+					<c:column width="555" uuid="b6570951-c61b-497c-9fcc-e4a7b1103c13">
+						<c:detailCell height="30">
+							<textField>
+								<reportElement x="0" y="0" width="555" height="30" uuid="6d11f434-8056-411e-afc8-fd98bd6d83d0"/>
+								<textFieldExpression><![CDATA["table " + $V{Variable}]]></textFieldExpression>
+							</textField>
+						</c:detailCell>
+					</c:column>
+				</c:table>
+			</componentElement>
+			<textField evaluationTime="Band">
+				<reportElement x="0" y="100" width="555" height="30" uuid="1632cadd-cbfc-41d7-a8af-018ef1881467"/>
+				<textFieldExpression><![CDATA["main " + $V{ReturnedVariable}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

@@ -29,16 +29,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.testng.annotations.Test;
+
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
+import net.sf.jasperreports.engine.fill.DefaultPrintElementOriginator;
 import net.sf.jasperreports.engine.fill.JREvaluationTime;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintText;
 import net.sf.jasperreports.engine.fill.JRTemplateText;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
-
-import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -139,7 +140,7 @@ public class VirtualElementsDataTest extends BaseElementsTests
 	protected JRTemplatePrintText textElement(String text)
 	{
 		JRTemplateText template = new JRTemplateText(null, null);
-		JRTemplatePrintText element = new JRTemplatePrintText(template, 10);
+		JRTemplatePrintText element = new JRTemplatePrintText(template, new DefaultPrintElementOriginator(10));
 		element.setUUID(UUID.randomUUID());
 		element.setX(10);
 		element.setY(20);
@@ -155,7 +156,7 @@ public class VirtualElementsDataTest extends BaseElementsTests
 	protected JRTemplatePrintFrame frame()
 	{
 		JRTemplateFrame template = new JRTemplateFrame(null, null);
-		JRTemplatePrintFrame frame = new JRTemplatePrintFrame(template, 10);
+		JRTemplatePrintFrame frame = new JRTemplatePrintFrame(template, new DefaultPrintElementOriginator(10));
 		frame.setUUID(UUID.randomUUID());
 		frame.setX(10);
 		frame.setY(20);

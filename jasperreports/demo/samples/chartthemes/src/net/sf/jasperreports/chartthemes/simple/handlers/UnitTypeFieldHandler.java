@@ -40,9 +40,7 @@ public class UnitTypeFieldHandler extends GeneralizedFieldHandler
 		super();
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponGet(Object value)
 	{
 		if (value == null)
@@ -52,9 +50,7 @@ public class UnitTypeFieldHandler extends GeneralizedFieldHandler
 		return ((UnitType)value).toString();
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object convertUponSet(Object value)
 	{
 		if (value == null)
@@ -68,17 +64,13 @@ public class UnitTypeFieldHandler extends GeneralizedFieldHandler
 			? UnitType.ABSOLUTE : null;
 	}
 	
-	/**
-	 *
-	 */
+	@Override
 	public Class<?> getFieldType()
 	{
 		return UnitType.class;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public Object newInstance(Object parent) throws IllegalStateException
 	{
 		//-- Since it's marked as a string...just return null,

@@ -23,86 +23,25 @@
  */
 package net.sf.jasperreports.components.table;
 
-import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.engine.xml.XmlLoaderReportContext;
-
-import org.apache.commons.digester.Rule;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.xml.DatasetRunReportContextRule;
 
 /**
- * 
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @deprecated use {@link DatasetRunReportContextRule}
  */
-public class TableReportContextXmlRule extends Rule
+@Deprecated
+public class TableReportContextXmlRule extends DatasetRunReportContextRule<TableComponent>
 {
-
-	private static final Log log = LogFactory.getLog(TableReportContextXmlRule.class);
+	
+	/**
+	 * @deprecated no longer used
+	 */
+	@Deprecated
 	public static final String EXCEPTION_MESSAGE_KEY_CANNOT_LOCATE_OBJECT = "components.table.cannot.locate.object";
-	
-	@Override
-	public void begin(String namespace, String name, Attributes attributes)
-			throws Exception
-	{
-		JRXmlLoader xmlLoader = getXmlLoader();
-		TableComponent table = getTableComponent();
-		JRDatasetRun datasetRun = table.getDatasetRun();
-		String datasetName = datasetRun == null ? null : datasetRun.getDatasetName();
-		
-		if (log.isDebugEnabled())
-		{
-			log.debug("Pushing report context for dataset name " + datasetName);
-		}
-		
-		XmlLoaderReportContext reportContext = new XmlLoaderReportContext(datasetName);
-		xmlLoader.pushReportContext(reportContext);
-	}
 
-	@Override
-	public void end(String namespace, String name) throws Exception
+	public TableReportContextXmlRule()
 	{
-		JRXmlLoader xmlLoader = getXmlLoader();
-		
-		if (log.isDebugEnabled())
-		{
-			log.debug("Popping report context");
-		}
-		
-		xmlLoader.popReportContext();
-	}
-	
-	protected JRXmlLoader getXmlLoader()
-	{
-		return (JRXmlLoader) digester.peek(digester.getCount() - 1);
-	}
-	
-	protected TableComponent getTableComponent()
-	{
-		TableComponent table = null;
-		int stackCount = digester.getCount();
-		for (int idx = 0; idx < stackCount; ++idx)
-		{
-			Object stackObject = digester.peek(idx);
-			if (stackObject instanceof TableComponent)
-			{
-				table = (TableComponent) stackObject;
-				break;
-			}
-		}
-		
-		if (table == null)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_CANNOT_LOCATE_OBJECT,
-					(Object[])null);
-		}
-		
-		return table;
+		super(TableComponent.class);
 	}
 	
 }

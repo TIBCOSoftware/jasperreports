@@ -110,7 +110,7 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 	 * 	<li>{@link SortOrderEnum#ASCENDING SortOrderEnum.ASCENDING}</li>
 	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
 	 * </ul>
-	 * @see DataLevelBucket#getOrderValue()
+	 * @see DataLevelBucket#getOrder()
 	 * 
 	 * @deprecated replaced by {@link #setOrder(BucketOrder)}
 	 */

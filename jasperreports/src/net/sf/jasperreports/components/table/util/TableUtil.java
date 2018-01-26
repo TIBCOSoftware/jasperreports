@@ -36,7 +36,6 @@ import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
-import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
@@ -47,7 +46,6 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRTextField;
-import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
@@ -315,36 +313,6 @@ public class TableUtil
 			}
 		}
 		return null;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
-	 */
-	public static JRDesignTextElement getColumnHeaderTextElement(StandardColumn column) 
-	{
-		return getCellElement(JRDesignTextElement.class, column.getColumnHeader(), true);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
-	 */
-	public static JRDesignTextElement getCellTextElement(Cell cell, boolean oneElementPerCell) 
-	{
-		return getCellElement(JRDesignTextElement.class, cell, oneElementPerCell);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
-	 */
-	public static JRTextField getColumnDetailTextElement(Column column) {
-		return getCellElement(JRTextField.class, column.getDetailCell(), true);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getCellElement(Class, Cell, boolean)}.
-	 */
-	public static JRTextField getCellDetailTextElement(Cell cell, boolean oneElementPerCell) {
-		return getCellElement(JRTextField.class, cell, oneElementPerCell);
 	}
 
 	/**

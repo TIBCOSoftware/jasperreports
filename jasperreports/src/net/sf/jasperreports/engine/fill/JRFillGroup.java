@@ -176,6 +176,17 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	@Override
+	public boolean isReprintHeaderOnEachColumn()
+	{
+		return parent.isReprintHeaderOnEachColumn();
+	}
+		
+	@Override
+	public void setReprintHeaderOnEachColumn(boolean isReprint)
+	{
+	}
+		
+	@Override
 	public int getMinHeightToStartNewPage()
 	{
 		return parent.getMinHeightToStartNewPage();
@@ -266,7 +277,7 @@ public class JRFillGroup implements JRGroup
 	}
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public boolean isTopLevelChange()
 	{

@@ -57,6 +57,7 @@ public class OhlohWidgetHtmlHandler implements
 		this.projectIDParameter = projectIDParameter;
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return getProjectID(element) != null;
@@ -67,6 +68,7 @@ public class OhlohWidgetHtmlHandler implements
 		return (String) element.getParameterValue(getProjectIDParameter());
 	}
 
+	@Override
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		StringBuilder script = new StringBuilder(128);

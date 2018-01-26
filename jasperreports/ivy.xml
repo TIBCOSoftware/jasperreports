@@ -14,9 +14,9 @@
 		<dependency org="antlr" name="antlr" rev="2.7.5"/>
 		<dependency org="com.adobe.xmp" name="xmpcore" rev="5.1.1"/>
 		<dependency org="com.beust" name="jcommander" rev="1.27" conf="test->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.1.4" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.1.4" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.1.4" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.9.3" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.9.3" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.9.3" conf="compile,annotations->*"/>
 		<dependency org="com.google.zxing" name="core" rev="3.2.1"/>
 		<dependency org="com.lowagie" name="itext" rev="2.1.7.js6"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.3"/>
@@ -31,10 +31,11 @@
 		<dependency org="jaxen" name="jaxen" rev="1.1.1"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.8.2" conf="test->*"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.8.2" conf="test->*"/>
+		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.8.2" conf="test->*"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.4.4-SNAPSHOT" conf="annotations->*"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.4.4-SNAPSHOT" conf="compile,annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.5.1" conf="annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.5.1" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
 		<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.1" conf="test->*"/>

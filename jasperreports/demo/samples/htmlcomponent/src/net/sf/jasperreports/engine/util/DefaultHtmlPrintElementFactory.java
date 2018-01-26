@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.export.DefaultHtmlPrintElement;
  */
 public class DefaultHtmlPrintElementFactory implements HtmlPrintElementFactory {
 
+	@Override
 	public HtmlPrintElement getHtmlPrintElement() {
 		return new DefaultHtmlPrintElement();
 	}

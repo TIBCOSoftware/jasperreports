@@ -47,6 +47,8 @@ public class FillReturnValues
 		void check(CommonReturnValue returnValue) throws JRException;
 		
 		Object getValue(CommonReturnValue returnValue);
+		
+		JRFillVariable getToVariable(String name);
 	}
 
 	private static final Log log = LogFactory.getLog(FillReturnValues.class);
@@ -192,7 +194,7 @@ public class FillReturnValues
 	{
 		try
 		{
-			JRFillVariable variable = filler.getVariable(returnValue.getToVariable());
+			JRFillVariable variable = sourceContext.getToVariable(returnValue.getToVariable());
 			Object value = sourceContext.getValue(returnValue);
 			
 			if (log.isTraceEnabled())
@@ -201,7 +203,7 @@ public class FillReturnValues
 //						+ " to " + returnValue.getToVariable());
 			}
 			
-			Object newValue = returnValue.getIncrementer().increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
+			Object newValue = returnValue.getIncrementer(sourceContext).increment(variable, value, AbstractValueProvider.getCurrentValueProvider());
 			variable.setOldValue(newValue);
 			variable.setValue(newValue);
 			variable.setIncrementedValue(newValue);

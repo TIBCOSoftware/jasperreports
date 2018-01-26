@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.export.FlyingSaucerHtmlPrintElement;
  */
 public class FlyingSaucerHtmlPrintElementFactory implements HtmlPrintElementFactory {
 
+	@Override
 	public HtmlPrintElement getHtmlPrintElement() {
 		return new FlyingSaucerHtmlPrintElement();
 	}

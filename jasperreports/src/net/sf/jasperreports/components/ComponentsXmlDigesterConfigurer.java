@@ -33,7 +33,6 @@ import net.sf.jasperreports.components.barcode4j.EAN13Component;
 import net.sf.jasperreports.components.barcode4j.EAN8Component;
 import net.sf.jasperreports.components.barcode4j.ErrorCorrectionLevelEnum;
 import net.sf.jasperreports.components.barcode4j.Interleaved2Of5Component;
-import net.sf.jasperreports.components.barcode4j.OrientationEnum;
 import net.sf.jasperreports.components.barcode4j.OrientationRule;
 import net.sf.jasperreports.components.barcode4j.PDF417Component;
 import net.sf.jasperreports.components.barcode4j.POSTNETComponent;
@@ -52,6 +51,7 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.ItemPropertyXmlFactory;
 import net.sf.jasperreports.components.items.ItemXmlFactory;
 import net.sf.jasperreports.components.list.DesignListContents;
+import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.StandardListComponent;
 import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
@@ -61,13 +61,14 @@ import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardColumnGroup;
 import net.sf.jasperreports.components.table.StandardGroupCell;
 import net.sf.jasperreports.components.table.StandardTableFactory;
-import net.sf.jasperreports.components.table.TableReportContextXmlRule;
+import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.xml.DatasetRunReportContextRule;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -123,6 +124,8 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addObjectCreate(listContentsPattern, DesignListContents.class);
 		digester.addSetProperties(listContentsPattern);
 		digester.addSetNext(listContentsPattern, "setContents");
+		// rule to set the context dataset name
+		digester.addRule(listContentsPattern, new DatasetRunReportContextRule<>(ListComponent.class));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -445,7 +448,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addObjectCreate(pattern, DesignCell.class);
 		digester.addSetNext(pattern, setNextMethod);
 		// rule to set the context dataset name
-		digester.addRule(pattern, new TableReportContextXmlRule());
+		digester.addRule(pattern, new DatasetRunReportContextRule<>(TableComponent.class));
 		
 		digester.addSetProperties(pattern,
 				new String[]{JRXmlConstants.ATTRIBUTE_style}, 

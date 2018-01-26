@@ -26,13 +26,13 @@ package net.sf.jasperreports.chartthemes.simple;
 import java.awt.Stroke;
 import java.io.Serializable;
 
+import org.jfree.ui.RectangleInsets;
+
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-
-import org.jfree.ui.RectangleInsets;
 
 
 /**
@@ -132,6 +132,7 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 
 	private transient JRPropertyChangeSupport eventSupport;
 	
+	@Override
 	public JRPropertyChangeSupport getEventSupport()
 	{
 		synchronized (this)

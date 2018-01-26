@@ -88,6 +88,7 @@ public class FormComponentsExtensionsRegistryFactory implements
 		
 		REGISTRY = new ExtensionsRegistry()
 		{
+			@Override
 			@SuppressWarnings("unchecked")
 			public <T> List<T> getExtensions(Class<T> extensionType) 
 			{
@@ -101,6 +102,7 @@ public class FormComponentsExtensionsRegistryFactory implements
 		};
 	}
 	
+	@Override
 	public ExtensionsRegistry createRegistry(String registryId,
 			JRPropertiesMap properties)
 	{

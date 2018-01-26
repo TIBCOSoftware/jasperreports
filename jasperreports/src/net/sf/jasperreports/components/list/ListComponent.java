@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.list;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
+import net.sf.jasperreports.engine.DatasetRunHolder;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRVisitable;
@@ -35,7 +36,7 @@ import net.sf.jasperreports.engine.type.PrintOrderEnum;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ListComponent extends Component, JRCloneable, JRVisitable
+public interface ListComponent extends Component, JRCloneable, JRVisitable, DatasetRunHolder
 {
 
 	/**
@@ -47,6 +48,7 @@ public interface ListComponent extends Component, JRCloneable, JRVisitable
 	 * 
 	 * @return the subdataset run information
 	 */
+	@Override
 	JRDatasetRun getDatasetRun();
 
 	/**

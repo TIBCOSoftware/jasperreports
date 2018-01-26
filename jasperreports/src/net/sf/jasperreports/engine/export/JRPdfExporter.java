@@ -718,10 +718,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 							: 0));
 						
 				pdfWriter.setEncryption(
-					configuration.is128BitKey(),
-					configuration.getUserPassword(),
-					configuration.getOwnerPassword(),
-					perms
+					PdfWriter.getISOBytes(configuration.getUserPassword()),
+					PdfWriter.getISOBytes(configuration.getOwnerPassword()),
+					perms,
+					configuration.is128BitKey() ? PdfWriter.STANDARD_ENCRYPTION_128 : PdfWriter.STANDARD_ENCRYPTION_40
 					);
 			}
 			

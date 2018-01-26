@@ -183,9 +183,19 @@ public interface JRGroup extends JRCloneable
 	public boolean isReprintHeaderOnEachPage();
 		
 	/**
+	 * Gets the flag that signals if the group header should be reprinted at the beginning of each column, in vertically filled reports only.
+	 */
+	public boolean isReprintHeaderOnEachColumn();
+		
+	/**
 	 * Sets the flag that signals if the group header should be reprinted at the beginning of each page.
 	 */
 	public void setReprintHeaderOnEachPage(boolean isReprint);
+		
+	/**
+	 * Sets the flag that signals if the group header should be reprinted at the beginning of each column, in vertically filled reports only.
+	 */
+	public void setReprintHeaderOnEachColumn(boolean isReprint);
 		
 	/**
 	 * Gets the minimum amount of vertical space needed at the bottom of the column in order to place the

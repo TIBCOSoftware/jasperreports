@@ -1559,7 +1559,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 					{
 						sheetHelper.write("<is>");	//FIXMENOW make writer util; check everywhere
 						String markup = text.getMarkup();
-						boolean isStyledText = markup != null && !JRCommonText.MARKUP_NONE.equals(markup);
+						boolean isStyledText = markup != null && !JRCommonText.MARKUP_NONE.equals(markup) && !isIgnoreTextFormatting(text);
 						exportStyledText(text.getStyle(), styledText, getTextLocale(text), isStyledText);
 						sheetHelper.write("</is>");
 					}

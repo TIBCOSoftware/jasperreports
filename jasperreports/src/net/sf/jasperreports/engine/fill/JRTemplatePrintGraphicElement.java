@@ -54,25 +54,6 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	
 	/**
 	 *
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintGraphicElement(JRTemplateGraphicElement, int)}
-	 */
-	protected JRTemplatePrintGraphicElement(JRTemplateGraphicElement graphicElement)
-	{
-		super(graphicElement);
-	}
-
-	/**
-	 *
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplatePrintGraphicElement(JRTemplateGraphicElement, PrintElementOriginator)}
-	 */
-	protected JRTemplatePrintGraphicElement(JRTemplateGraphicElement graphicElement, int sourceElementId)
-	{
-		super(graphicElement, sourceElementId);
-	}
-
-	/**
-	 *
 	 * @param originator
 	 */
 	protected JRTemplatePrintGraphicElement(JRTemplateGraphicElement graphicElement, PrintElementOriginator originator)

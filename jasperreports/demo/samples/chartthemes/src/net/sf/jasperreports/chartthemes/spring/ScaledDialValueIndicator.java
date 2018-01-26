@@ -29,13 +29,13 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRConstants;
-
 import org.jfree.chart.plot.dial.DialPlot;
 import org.jfree.chart.plot.dial.DialValueIndicator;
 import org.jfree.text.TextUtilities;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.Size2D;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -82,6 +82,7 @@ public class ScaledDialValueIndicator extends DialValueIndicator
 	 * @param frame  the dial frame (ignored here).
 	 * @param view  the view rectangle (<code>null</code> not permitted).
 	 */
+	@Override
 	public void draw(Graphics2D g2, DialPlot plot, Rectangle2D frame,
 			Rectangle2D view) {
 
@@ -147,6 +148,7 @@ public class ScaledDialValueIndicator extends DialValueIndicator
 	 *
 	 * @return A boolean.
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -166,6 +168,7 @@ public class ScaledDialValueIndicator extends DialValueIndicator
 	 *
 	 * @return The hash code.
 	 */
+	@Override
 	public int hashCode() {
 		return 37 * super.hashCode() + scale;
 	}
@@ -178,6 +181,7 @@ public class ScaledDialValueIndicator extends DialValueIndicator
 	 * @throws CloneNotSupportedException if some attribute of this instance
 	 *     cannot be cloned.
 	 */
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}

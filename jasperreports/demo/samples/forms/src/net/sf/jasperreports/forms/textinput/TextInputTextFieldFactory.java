@@ -33,9 +33,7 @@ import net.sf.jasperreports.engine.xml.JRTextFieldFactory;
 public class TextInputTextFieldFactory extends JRTextFieldFactory
 {
 
-	/**
-	 *
-	 */
+	@Override
 	public JRDesignTextField getTextField()
 	{
 		TextInputComponent textInputComponent = (TextInputComponent)digester.peek();

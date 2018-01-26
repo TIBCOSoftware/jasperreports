@@ -67,11 +67,13 @@ public class TextInputComponent implements ContextAwareComponent, Serializable, 
 		this.context = new BaseComponentContext(component.getContext(), objectFactory);
 	}
 
+	@Override
 	public void setContext(ComponentContext context)
 	{
 		this.context = context;
 	}
 	
+	@Override
 	public ComponentContext getContext()
 	{
 		return context;
@@ -103,9 +105,7 @@ public class TextInputComponent implements ContextAwareComponent, Serializable, 
 		getEventSupport().firePropertyChange(PROPERTY_MULTI_LINE, old, this.multiLine);
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public JRPropertyChangeSupport getEventSupport() 
 	{
 		synchronized (this)

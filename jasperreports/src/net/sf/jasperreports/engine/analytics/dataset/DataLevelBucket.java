@@ -27,7 +27,6 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -46,22 +45,6 @@ public interface DataLevelBucket extends JRCloneable
 	 */
 	public String getValueClassName();
 		
-	/**
-	 * Returns the bucket sorting type.
-	 * <p>
-	 * The possible values are:
-	 * <ul>
-	 * 	<li>{@link SortOrderEnum#ASCENDING SortOrderEnum.ASCENDING}</li>
-	 * 	<li>{@link SortOrderEnum#DESCENDING SortOrderEnum.DESCENDING}</li>
-	 * </ul>
-	 * 
-	 * @return the bucket sorting type
-	 * 
-	 * @deprecated replaced by {@link #getOrder()}
-	 */
-	@Deprecated
-	public SortOrderEnum getOrderValue();
-
 	/**
 	 * Returns the bucket sorting type.
 	 * <p>

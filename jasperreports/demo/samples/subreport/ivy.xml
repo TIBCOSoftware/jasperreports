@@ -3,6 +3,6 @@
 		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
 	</info>
 	<dependencies>
-		<dependency org="hsqldb" name="hsqldb" rev="1.8.0.10" conf="test->*;javaflow->*"/>
+		<dependency org="org.hsqldb" name="hsqldb" rev="2.4.0" conf="test->*;javaflow->*"/>
 	</dependencies>
 </ivy-module>

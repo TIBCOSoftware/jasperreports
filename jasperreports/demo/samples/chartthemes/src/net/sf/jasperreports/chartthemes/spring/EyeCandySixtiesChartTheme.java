@@ -40,22 +40,6 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import net.sf.jasperreports.charts.JRMeterPlot;
-import net.sf.jasperreports.charts.JRPie3DPlot;
-import net.sf.jasperreports.charts.JRPiePlot;
-import net.sf.jasperreports.charts.JRScatterPlot;
-import net.sf.jasperreports.charts.JRThermometerPlot;
-import net.sf.jasperreports.charts.JRValueDisplay;
-import net.sf.jasperreports.charts.type.MeterShapeEnum;
-import net.sf.jasperreports.charts.type.ValueLocationEnum;
-import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.charts.util.JRMeterInterval;
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.fill.DefaultChartTheme;
-
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.CategoryAnchor;
@@ -110,6 +94,22 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.ui.TextAnchor;
 
+import net.sf.jasperreports.charts.JRMeterPlot;
+import net.sf.jasperreports.charts.JRPie3DPlot;
+import net.sf.jasperreports.charts.JRPiePlot;
+import net.sf.jasperreports.charts.JRScatterPlot;
+import net.sf.jasperreports.charts.JRThermometerPlot;
+import net.sf.jasperreports.charts.JRValueDisplay;
+import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.charts.type.ValueLocationEnum;
+import net.sf.jasperreports.charts.util.ChartUtil;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
+import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -128,15 +128,13 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	{
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void configureChart(JFreeChart jfreeChart, JRChartPlot jrPlot) throws JRException
 	{
 		super.configureChart(jfreeChart, jrPlot);
 
 		TextTitle title = jfreeChart.getTitle();
-		if(title != null)
+		if (title != null)
 		{
 			RectangleInsets padding = title.getPadding();
 			double bottomPadding = Math.max(padding.getBottom(), 15d);
@@ -148,20 +146,18 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		jfreeChart.setBackgroundPaint(new GradientPaint(0f, 0f, gp.getColor1(), 0f, getChart().getHeight() * 0.7f, gp.getColor2(), false));
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected void configurePlot(Plot plot, JRChartPlot jrPlot)
 	{
 		super.configurePlot(plot, jrPlot);
-		if(plot instanceof CategoryPlot)
+		if (plot instanceof CategoryPlot)
 		{
 			CategoryPlot categoryPlot = (CategoryPlot)plot;
 			CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 			CategoryDataset categoryDataset = categoryPlot.getDataset();
-			if(categoryDataset != null)
+			if (categoryDataset != null)
 			{
-				for(int i = 0; i < categoryDataset.getRowCount(); i++)
+				for (int i = 0; i < categoryDataset.getRowCount(); i++)
 				{
 					categoryRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 				}
@@ -171,14 +167,14 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			categoryPlot.setDomainGridlinesVisible(false);
 			
 		}
-		else if(plot instanceof XYPlot)
+		else if (plot instanceof XYPlot)
 		{
 			XYPlot xyPlot = (XYPlot)plot;
 			XYDataset xyDataset = xyPlot.getDataset();
-			if(xyDataset != null)
+			if (xyDataset != null)
 			{
 				XYItemRenderer xyItemRenderer = xyPlot.getRenderer();
-				for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+				for (int i = 0; i < xyDataset.getSeriesCount(); i++)
 				{
 					xyItemRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 				}
@@ -192,6 +188,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		}
 	}
 
+	@Override
 	protected JFreeChart createXyAreaChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createXyAreaChart();
@@ -203,9 +200,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createPieChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createPieChart();
@@ -213,7 +208,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JRPiePlot jrPiePlot = (JRPiePlot)getPlot();
 		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels().booleanValue();
 
-		if(isShowLabels && piePlot.getLabelGenerator() != null)
+		if (isShowLabels && piePlot.getLabelGenerator() != null)
 		{
 			piePlot.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			piePlot.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
@@ -223,9 +218,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		piePlot.setShadowYOffset(10);
 		piePlot.setShadowPaint(new GradientPaint(0, getChart().getHeight() / 2, new Color(41, 120, 162), 0, getChart().getHeight(), Color.white));
 		PieDataset pieDataset = piePlot.getDataset();
-		if(pieDataset != null)
+		if (pieDataset != null)
 		{
-			for(int i = 0; i < pieDataset.getItemCount(); i++)
+			for (int i = 0; i < pieDataset.getItemCount(); i++)
 			{
 				piePlot.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
 				//makes pie colors darker
@@ -238,9 +233,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createPie3DChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createPie3DChart();
@@ -248,7 +241,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
 		JRPie3DPlot jrPiePlot = (JRPie3DPlot)getPlot();
 		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels().booleanValue();
-		if(isShowLabels && piePlot3D.getLabelGenerator() != null)
+		if (isShowLabels && piePlot3D.getLabelGenerator() != null)
 		{
 			piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
@@ -269,9 +262,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 //		);
 
 		PieDataset pieDataset = piePlot3D.getDataset();
-		if(pieDataset != null)
+		if (pieDataset != null)
 		{
-			for(int i = 0; i < pieDataset.getItemCount(); i++)
+			for (int i = 0; i < pieDataset.getItemCount(); i++)
 			{
 				piePlot3D.setSectionOutlinePaint(pieDataset.getKey(i), ChartThemesConstants.TRANSPARENT_PAINT);
 			}
@@ -282,9 +275,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createBarChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createBarChart();
@@ -297,9 +288,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
 			);
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		if(categoryDataset != null)
+		if (categoryDataset != null)
 		{
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			for (int i = 0; i < categoryDataset.getRowCount(); i++)
 			{
 				barRenderer.setSeriesPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 			}
@@ -307,9 +298,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createStackedBarChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createStackedBarChart();
@@ -323,9 +312,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			);
 
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		if(categoryDataset != null)
+		if (categoryDataset != null)
 		{
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			for (int i = 0; i < categoryDataset.getRowCount(); i++)
 			{
 				barRenderer.setSeriesPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 			}
@@ -333,6 +322,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
+	@Override
 	protected JFreeChart createBar3DChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createBar3DChart();
@@ -349,9 +339,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		barRenderer3D.setItemMargin(0);
 
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		if(categoryDataset != null)
+		if (categoryDataset != null)
 		{
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			for (int i = 0; i < categoryDataset.getRowCount(); i++)
 			{
 				barRenderer3D.setSeriesPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 			}
@@ -360,6 +350,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	}
 
 
+	@Override
 	protected JFreeChart createStackedBar3DChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createStackedBar3DChart();
@@ -373,9 +364,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createBubbleChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createBubbleChart();
@@ -385,9 +374,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		bubbleRenderer = new GradientXYBubbleRenderer(bubbleRenderer.getScaleType());
 		xyPlot.setRenderer(bubbleRenderer);
 		XYDataset xyDataset = xyPlot.getDataset();
-		if(xyDataset != null)
+		if (xyDataset != null)
 		{
-			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+			for (int i = 0; i < xyDataset.getSeriesCount(); i++)
 			{
 				bubbleRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 				bubbleRenderer.setSeriesPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
@@ -397,9 +386,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createXYBarChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createXYBarChart();
@@ -410,9 +397,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 				new StandardGradientPaintTransformer(GradientPaintTransformType.HORIZONTAL)
 				);
 		XYDataset xyDataset = xyPlot.getDataset();
-		if(xyDataset != null)
+		if (xyDataset != null)
 		{
-			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+			for (int i = 0; i < xyDataset.getSeriesCount(); i++)
 			{
 				renderer.setSeriesPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
 			}
@@ -420,6 +407,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
+	@Override
 	protected JFreeChart createScatterChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createScatterChart();
@@ -438,9 +426,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		boolean isShowLines = scatterPlot.getShowLines() == null ? false : scatterPlot.getShowLines().booleanValue();
 		lineRenderer.setBaseLinesVisible(isShowLines);
 		XYDataset xyDataset = xyPlot.getDataset();
-		if(xyDataset != null)
+		if (xyDataset != null)
 		{
-			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+			for (int i = 0; i < xyDataset.getSeriesCount(); i++)
 			{
 				lineRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 				lineRenderer.setSeriesFillPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
@@ -451,6 +439,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
+	@Override
 	protected JFreeChart createXyLineChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createXyLineChart();
@@ -467,9 +456,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		line3DRenderer.setBaseShapesVisible(lineRenderer.getBaseShapesVisible());
 		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 		XYDataset xyDataset = xyPlot.getDataset();
-		if(xyDataset != null)
+		if (xyDataset != null)
 		{
-			for(int i = 0; i < xyDataset.getSeriesCount(); i++)
+			for (int i = 0; i < xyDataset.getSeriesCount(); i++)
 			{
 				line3DRenderer.setSeriesStroke(i, stroke);
 				line3DRenderer.setSeriesLinesVisible(i, lineRenderer.getBaseLinesVisible());
@@ -484,18 +473,16 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createLineChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createLineChart();
 		CategoryPlot categoryPlot = (CategoryPlot)jfreeChart.getPlot();
 		LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer)categoryPlot.getRenderer();
-		lineRenderer.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		lineRenderer.setBaseStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 //		Stroke stroke = new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
-		for(int i = 0; i < lineRenderer.getRowCount(); i++)
+		for (int i = 0; i < lineRenderer.getRowCount(); i++)
 		{
 			lineRenderer.setSeriesOutlinePaint(i, ChartThemesConstants.TRANSPARENT_PAINT);
 			lineRenderer.setSeriesFillPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(i));
@@ -510,9 +497,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createGanttChart() throws JRException
 	{
 
@@ -555,9 +540,9 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		barRenderer.setSeriesPaint(0, ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS.get(3));
 		barRenderer.setSeriesPaint(1, ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS.get(0));
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
-		if(categoryDataset != null)
+		if (categoryDataset != null)
 		{
-			for(int i = 0; i < categoryDataset.getRowCount(); i++)
+			for (int i = 0; i < categoryDataset.getRowCount(); i++)
 			{
 				barRenderer.setSeriesItemLabelFont(i, categoryPlot.getDomainAxis().getTickLabelFont());
 				barRenderer.setSeriesItemLabelsVisible(i, true);
@@ -569,9 +554,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		return jfreeChart;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createMeterChart() throws JRException
 	{
 		// Start by creating the plot that will hold the meter
@@ -622,12 +605,12 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		
 		Range range = convertRange(jrPlot.getDataRange());
 		// Set the meter's range
-		if(range != null)
+		if (range != null)
 		{
 			chartPlot.setRange(range);
 			double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
 			dialUnitScale = ChartThemesUtilities.getScale(bound);
-			if((range.getLowerBound() == (int)range.getLowerBound() &&
+			if ((range.getLowerBound() == (int)range.getLowerBound() &&
 					range.getUpperBound() == (int)range.getUpperBound() &&
 					tickInterval == (int)tickInterval) ||
 					dialUnitScale > 1
@@ -635,11 +618,11 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			{
 				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
-			else if(dialUnitScale == 1)
+			else if (dialUnitScale == 1)
 			{
 				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
-			else if(dialUnitScale <= 0)
+			else if (dialUnitScale <= 0)
 			{
 				chartPlot.setTickLabelFormat(new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(getLocale())));
 			}
@@ -657,7 +640,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 				false
 				);
 		
-		if(jrPlot.getMeterBackgroundColor() != null)
+		if (jrPlot.getMeterBackgroundColor() != null)
 		{
 			chartPlot.setDialBackgroundPaint(jrPlot.getMeterBackgroundColor());
 		}
@@ -670,12 +653,12 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		chartPlot.setNeedlePaint(needlePaint);
 		
 		JRValueDisplay display = jrPlot.getValueDisplay();
-		if(display != null)
+		if (display != null)
 		{
 			Color valueColor = display.getColor() == null ? Color.BLACK : display.getColor();
 			chartPlot.setValuePaint(valueColor);
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
-			if(pattern != null)
+			if (pattern != null)
 				chartPlot.setTickLabelFormat( new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(getLocale())));
 			JRFont displayFont = display.getFont();
 			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
@@ -688,11 +671,11 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		String label = getChart().hasProperties() ?
 				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
 		
-		if(label != null)
+		if (label != null)
 		{
-			if(dialUnitScale < 0)
+			if (dialUnitScale < 0)
 				label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
-			else if(dialUnitScale < 3)
+			else if (dialUnitScale < 3)
 				label = new MessageFormat(label).format(new Object[]{"1"});
 			else
 				label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
@@ -714,10 +697,10 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			int size = Math.min(3, intervals.size());
 			
 			int colorStep = 0;
-			if(size > 3)
+			if (size > 3)
 				colorStep = 255 / (size - 3);
 			
-			for(int i = 0; i < size; i++)
+			for (int i = 0; i < size; i++)
 			{
 				JRMeterInterval interval = intervals.get(i);
 				Color color = i < 3 
@@ -746,9 +729,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createThermometerChart() throws JRException
 	{
 		JRThermometerPlot jrPlot = (JRThermometerPlot)getPlot();
@@ -770,7 +751,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 		Range range = convertRange(jrPlot.getDataRange());
 
-		if(range != null)
+		if (range != null)
 		{
 			// Set the boundary of the thermomoter
 			chartPlot.setLowerBound(range.getLowerBound());
@@ -784,7 +765,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		// Set the color of the mercury.  Only used when the value is outside of
 		// any defined ranges.
 		Paint paint = jrPlot.getMercuryColor();
-		if(paint != null)
+		if (paint != null)
 		{
 			chartPlot.setUseSubrangePaint(false);
 		}
@@ -864,9 +845,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createDialChart() throws JRException
 	{
 
@@ -888,7 +867,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		// get data for diagrams
 		DialPlot dialPlot = new DialPlot();
 		//dialPlot.setView(0.0, 0.0, 1.0, 1.0);
-		if(getDataset() != null)
+		if (getDataset() != null)
 		{
 			dialPlot.setDataset((ValueDataset)getDataset());
 		}
@@ -905,7 +884,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		StandardDialScale scale = null;
 		int dialUnitScale = 1;
 		Range range = convertRange(jrPlot.getDataRange());
-		if(range != null)
+		if (range != null)
 		{
 			double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
 			dialUnitScale = ChartThemesUtilities.getScale(bound);
@@ -922,7 +901,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 					(upperBound - lowerBound)/(tickCount-1),
 					15
 					);
-			if((lowerBound == (int)lowerBound &&
+			if ((lowerBound == (int)lowerBound &&
 					upperBound == (int)upperBound &&
 					scale.getMajorTickIncrement() == (int)scale.getMajorTickIncrement()) ||
 					dialUnitScale > 1
@@ -930,12 +909,12 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			{
 				scale.setTickLabelFormatter(new DecimalFormat("#,##0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
-			else if(dialUnitScale == 1)
+			else if (dialUnitScale == 1)
 			{
 	
 				scale.setTickLabelFormatter(new DecimalFormat("#,##0.0", DecimalFormatSymbols.getInstance(getLocale())));
 			}
-			else if(dialUnitScale <= 0)
+			else if (dialUnitScale <= 0)
 			{
 				scale.setTickLabelFormatter(new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(getLocale())));
 			}
@@ -973,10 +952,10 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		{
 			int size = Math.min(3, intervals.size());
 			int colorStep = 0;
-			if(size > 3)
+			if (size > 3)
 				colorStep = 255 / (size - 3);
 			
-			for(int i = 0; i < size; i++)
+			for (int i = 0; i < size; i++)
 			{
 				JRMeterInterval interval = intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange());
@@ -1005,7 +984,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JRValueDisplay display = jrPlot.getValueDisplay();
 		String displayVisibility = display != null && getChart().hasProperties() 
 			? getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE) : "false";
-		if(Boolean.parseBoolean(displayVisibility))
+		if (Boolean.parseBoolean(displayVisibility))
 		{
 			ScaledDialValueIndicator dvi = new ScaledDialValueIndicator(0, dialUnitScale);
 			dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
@@ -1014,7 +993,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			dvi.setPaint(Color.WHITE);
 
 			String pattern = display.getMask() != null ? display.getMask() : "#,##0.####";
-			if(pattern != null)
+			if (pattern != null)
 				dvi.setNumberFormat( new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(getLocale())));
 			dvi.setRadius(0.15);
 			dvi.setValueAnchor(RectangleAnchor.CENTER);
@@ -1025,19 +1004,19 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		String label = getChart().hasProperties() ?
 				getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DIAL_LABEL) : null;
 		
-		if(label != null)
+		if (label != null)
 		{
 			JRFont displayFont = jrPlot.getValueDisplay().getFont();
 			Font themeDisplayFont = getFont((JRFont)getDefaultValue(defaultPlotPropertiesMap, ChartThemesConstants.PLOT_DISPLAY_FONT), displayFont, defaultBaseFontSize);
-			if(dialUnitScale < 0)
+			if (dialUnitScale < 0)
 				label = new MessageFormat(label).format(new Object[]{String.valueOf(Math.pow(10, dialUnitScale))});
-			else if(dialUnitScale < 3)
+			else if (dialUnitScale < 3)
 				label = new MessageFormat(label).format(new Object[]{"1"});
 			else
 				label = new MessageFormat(label).format(new Object[]{String.valueOf((int)Math.pow(10, dialUnitScale-2))});
 		
 			String[] textLines = label.split("\\n");
-			for(int i = 0; i < textLines.length; i++)
+			for (int i = 0; i < textLines.length; i++)
 			{
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
 				dialAnnotation.setFont(themeDisplayFont);
@@ -1081,18 +1060,16 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	protected JFreeChart createCandlestickChart() throws JRException
 	{
 		JFreeChart jfreeChart = super.createCandlestickChart();
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		CandlestickRenderer renderer = (CandlestickRenderer)xyPlot.getRenderer();
 		DefaultHighLowDataset dataset = (DefaultHighLowDataset)xyPlot.getDataset();
-		if(dataset != null)
+		if (dataset != null)
 		{
-			for(int i = 0; i < dataset.getSeriesCount(); i++)
+			for (int i = 0; i < dataset.getSeriesCount(); i++)
 			{
 				renderer.setSeriesFillPaint(i, ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS.get(i));
 				renderer.setSeriesPaint(i, Color.DARK_GRAY);
@@ -1109,12 +1086,13 @@ class SquareXYAreaRenderer extends XYAreaRenderer
 
 	public SquareXYAreaRenderer(XYAreaRenderer parent)
 	{
-		super(XYAreaRenderer.AREA, parent.getToolTipGenerator(), parent.getURLGenerator());
+		super(XYAreaRenderer.AREA, parent.getBaseToolTipGenerator(), parent.getURLGenerator());
 	}
 
+	@Override
 	public LegendItem getLegendItem(int datasetIndex, int series)
 	{
-		if(datasetIndex > -1 && series > -1)
+		if (datasetIndex > -1 && series > -1)
 		{
 			setLegendArea(new Rectangle2D.Double(-3, -3, 6, 6));
 			return super.getLegendItem(datasetIndex, series);
@@ -1133,6 +1111,7 @@ class GradientXYBubbleRenderer extends XYBubbleRenderer
 		super(scaleType);
 	}
 
+	@Override
 	public void drawItem(Graphics2D g2, XYItemRendererState state, Rectangle2D dataArea, PlotRenderingInfo info, XYPlot plot, ValueAxis domainAxis, ValueAxis rangeAxis, XYDataset dataset, int series, int item, CrosshairState crosshairState, int pass)
 	{
 		// return straight away if the item is not visible
@@ -1250,6 +1229,7 @@ class GradientBarRenderer3D extends BarRenderer3D
 		setBaseItemLabelsVisible(barRenderer3D.getBaseItemLabelsVisible());
 	}
 
+	@Override
 	public void drawItem(Graphics2D g2,
 		CategoryItemRendererState state,
 		Rectangle2D dataArea,

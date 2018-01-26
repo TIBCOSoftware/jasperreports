@@ -100,6 +100,7 @@ public class Address
 		this.documents = documents;
 	}
 
+	@Override
 	public String toString()
 	{
 		return id + ":" + firstName + "," + lastName + "," + street + "," + city;

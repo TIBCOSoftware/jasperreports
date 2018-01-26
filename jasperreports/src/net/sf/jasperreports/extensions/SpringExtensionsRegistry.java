@@ -74,8 +74,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 				log.debug("Getting bean " + name + " as extension of type "
 						+ extensionType.getName());
 			}
-			@SuppressWarnings("unchecked")
-			T bean = (T) beanFactory.getBean(name, extensionType);
+			T bean = beanFactory.getBean(name, extensionType);
 			beans.add(bean);
 		}
 		return beans;

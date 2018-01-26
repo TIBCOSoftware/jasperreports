@@ -136,8 +136,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 
 		@Override
-		public JRVariable getToVariable(String name) {
-			return filler.getVariable(name);
+		public JRFillVariable getToVariable(String name) {
+			return expressionEvaluator.getFillDataset().getVariable(name);
 		}
 
 		@Override
@@ -216,15 +216,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public boolean isUsingCache()
-	{
-		return ((JRSubreport)parent).isUsingCache();
-	}
-		
 	/**
 	 *
 	 */
@@ -1117,16 +1108,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public Boolean isOwnUsingCache()
-	{
-		return ((JRSubreport)parent).isOwnUsingCache();
-	}
-
-
 	@Override
 	public Boolean getUsingCache()
 	{
@@ -1173,5 +1154,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	protected void registerReportStyles(List<JRStyle> styles)
 	{
 		//NOP
+	}
+	
+	protected String getReportName()
+	{
+		return jasperReport.getName();
 	}
 }
