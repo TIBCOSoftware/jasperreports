@@ -81,7 +81,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	protected JROrigin origin;
 	
 	private SplitTypeEnum splitType;
-	private int breakHeight;
+	private Integer breakHeight;
 
 	private FillReturnValues returnValues;
 	private FillReturnValues.SourceContext returnValuesContext = new FillReturnValues.SourceContext() 
@@ -150,29 +150,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 				);
 		registerReturnValues(returnValues);
 		
-		splitType = (parent == null ? null : parent.getSplitTypeValue());
-		if (splitType == null)
-		{
-			splitType = 
-				SplitTypeEnum.getByName(
-					filler.getPropertiesUtil().getProperty(filler.getMainDataset(), JRBand.PROPERTY_SPLIT_TYPE)
-					);
-		}
-		
-		breakHeight = getHeight();
-		if (
-			SplitTypeEnum.IMMEDIATE == getSplitTypeValue()
-			&& elements != null && elements.length > 0
-			)
-		{
-			for(int i = 0; i < elements.length; i++)
-			{
-				JRElement element = elements[i];
-				int bottom = element.getY() + element.getHeight();
-				breakHeight = bottom < breakHeight ? bottom : breakHeight;
-			}
-		}
-
 		initElements();
 
 		initConditionalStyles();
@@ -268,12 +245,44 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	public int getBreakHeight()
 	{
+		// needs to be lazy calculated because it depends on splitType, which is itself lazy loaded
+		if (breakHeight == null)
+		{
+			breakHeight = getHeight();
+			if (
+				SplitTypeEnum.IMMEDIATE == getSplitTypeValue()
+				&& elements != null && elements.length > 0
+				)
+			{
+				for(int i = 0; i < elements.length; i++)
+				{
+					JRElement element = elements[i];
+					int bottom = element.getY() + element.getHeight();
+					breakHeight = bottom < breakHeight ? bottom : breakHeight;
+				}
+			}
+		}
+
 		return breakHeight;
 	}
 
 	@Override
 	public SplitTypeEnum getSplitTypeValue()
 	{
+		// needs to be lazy loaded because in JRFillBand constructor above, the filler.getMainDataset() is not yet set, 
+		// when the band is a group band
+		if (splitType == null)
+		{
+			splitType = (parent == null ? null : parent.getSplitTypeValue());
+			if (splitType == null)
+			{
+				splitType = 
+					SplitTypeEnum.getByName(
+						filler.getPropertiesUtil().getProperty(filler.getMainDataset(), JRBand.PROPERTY_SPLIT_TYPE)
+						);
+			}
+		}
+		
 		return splitType;
 	}
 

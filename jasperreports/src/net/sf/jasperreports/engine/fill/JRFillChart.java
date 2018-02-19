@@ -169,7 +169,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected List<JRChartCustomizer> chartCustomizers;
 	
 	protected String renderType;
-	protected String themeName;
+	protected ChartTheme theme;
 
 	protected JFreeChart jfreeChart;
 	protected ChartHyperlinkProvider chartHyperlinkProvider;
@@ -327,12 +327,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{
 			renderType = filler.getPropertiesUtil().getProperty(getParentProperties(), JRChart.PROPERTY_CHART_RENDER_TYPE);
 		}
-		
-		themeName = chart.getTheme();
-		if(themeName == null)
-		{
-			themeName = filler.getPropertiesUtil().getProperty(getParentProperties(), JRChart.PROPERTY_CHART_THEME);
-		}
 	}
 
 	/**
@@ -433,7 +427,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	@Override
 	public String getTheme()
 	{
-		return themeName;
+		return ((JRChart)parent).getTheme();
 	}
 
 	@Override
@@ -825,10 +819,22 @@ public class JRFillChart extends JRFillElement implements JRChart
 		evaluateDatasetRun(evaluation);
 		evaluateStyle(evaluation);
 
-		ChartTheme theme = ChartUtil.getInstance(filler.getJasperReportsContext()).getTheme(themeName);
+		// needs to be lazy loaded here because in the JRFillChart constructor above, the parent properties could return null,
+		// as the filler main dataset is not yet set, if the current band is a group band
+		if (theme == null)
+		{
+			String themeName = getTheme();
+			if(themeName == null)
+			{
+				themeName = filler.getPropertiesUtil().getProperty(getParentProperties(), JRChart.PROPERTY_CHART_THEME);
+			}
+
+			theme = ChartUtil.getInstance(filler.getJasperReportsContext()).getTheme(themeName);
+		}
 		
 		if (getChartType() == JRChart.CHART_TYPE_MULTI_AXIS)
 		{
+			//FIXMECHARTTHEME multi axis charts do not support themes
 			createMultiAxisChart(evaluation);
 		}
 		else
