@@ -340,7 +340,7 @@ public class TableReport implements JRReport
 			category = PropertyConstants.CATEGORY_TABLE,
 			scopes = {PropertyScope.COMPONENT},
 			scopeQualifications = {METADATA_KEY_QUALIFICATION},
-			sinceVersion = PropertyConstants.VERSION_6_5_2
+			sinceVersion = PropertyConstants.VERSION_6_6_0
 			)
 	public static final String PROPERTY_TABLE_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.name";
 
