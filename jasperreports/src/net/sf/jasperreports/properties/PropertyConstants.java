@@ -232,6 +232,6 @@ public interface PropertyConstants
 
 	String VERSION_6_5_1 = JRConstants.VERSION_6_5_1;
 
-	String VERSION_6_5_2 = "6.5.2";
+	String VERSION_6_6_0 = "6.6.0";
 
 }
