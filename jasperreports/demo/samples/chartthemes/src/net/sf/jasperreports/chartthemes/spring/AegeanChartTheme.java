@@ -552,7 +552,13 @@ public class AegeanChartTheme extends GenericChartTheme
 		chartPlot.getRangeAxis().setStandardTickUnits(chartUtil.createIntegerTickUnits(getLocale()));
 
 		// Build a chart around this plot
-		JFreeChart jfreeChart = new JFreeChart(chartPlot);
+		JFreeChart jfreeChart = 
+				new JFreeChart(
+					evaluateTextExpression(getChart().getTitleExpression()),
+					null, 
+					chartPlot, 
+					getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+					);
 
 		// Set the generic options
 		configureChart(jfreeChart, getPlot());

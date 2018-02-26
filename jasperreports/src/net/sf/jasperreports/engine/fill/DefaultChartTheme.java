@@ -1994,7 +1994,13 @@ public class DefaultChartTheme implements ChartTheme
 		}
 
 		// Build a chart around this plot
-		JFreeChart jfreeChart = new JFreeChart(chartPlot);
+		JFreeChart jfreeChart = 
+				new JFreeChart(
+					evaluateTextExpression(getChart().getTitleExpression()),
+					null, 
+					chartPlot, 
+					isShowLegend()
+					);
 
 		// Set the generic options
 		configureChart(jfreeChart);
