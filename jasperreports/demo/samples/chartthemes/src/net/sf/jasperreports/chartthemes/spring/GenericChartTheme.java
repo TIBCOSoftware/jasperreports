@@ -1176,9 +1176,47 @@ public class GenericChartTheme implements ChartTheme
 				bar3DPlot.getYOffsetDouble() == null ? StackedBarRenderer3D.DEFAULT_Y_OFFSET : bar3DPlot.getYOffsetDouble().doubleValue()
 				);
 
-		stackedBarRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
-		stackedBarRenderer3D.setBaseItemLabelsVisible( bar3DPlot.getShowLabels() );
+		boolean isShowLabels = bar3DPlot.getShowLabels() == null ? false : bar3DPlot.getShowLabels().booleanValue();
+		stackedBarRenderer3D.setBaseItemLabelsVisible(isShowLabels);
+		if(isShowLabels)
+		{
+			JRItemLabel itemLabel = bar3DPlot.getItemLabel();
 
+			stackedBarRenderer3D.setBaseItemLabelFont(
+				getFontUtil().getAwtFont(
+					getFont(itemLabel == null ? null : itemLabel.getFont()), 
+					getLocale()
+					)
+				);
+			
+			if(itemLabel != null)
+			{
+				if(itemLabel.getColor() != null)
+				{
+					stackedBarRenderer3D.setBaseItemLabelPaint(itemLabel.getColor());
+				}
+				else
+				{
+					stackedBarRenderer3D.setBaseItemLabelPaint(getChart().getForecolor());
+				}
+//				categoryRenderer.setBaseFillPaint(itemLabel.getBackgroundColor());
+//				if(itemLabel.getMask() != null)
+//				{
+//					barRenderer3D.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+//							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
+//							new DecimalFormat(itemLabel.getMask())));
+//				}
+//				else
+//				{
+				stackedBarRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+//				}
+			}
+			else
+			{
+				stackedBarRenderer3D.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+				stackedBarRenderer3D.setBaseItemLabelPaint(getChart().getForecolor());
+			}
+		}
 		categoryPlot.setRenderer(stackedBarRenderer3D);
 
 		// Handle the axis formating for the category axis
@@ -1234,8 +1272,78 @@ public class GenericChartTheme implements ChartTheme
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
 
 		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
-		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
-		categoryRenderer.setBaseItemLabelsVisible(isShowLabels);
+		categoryRenderer.setBaseItemLabelsVisible( isShowLabels );
+		Comparable<?> rangeAxisMaxValue = (Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression());
+		if(isShowLabels)
+		{
+			if (rangeAxisMaxValue == null)
+			{
+				//in case the bars are horizontal and there was no range max value specified, 
+				//we try to make the axis a little longer for labels to fit on the plot
+				Axis axis = categoryPlot.getRangeAxis();
+				if (axis instanceof ValueAxis)
+				{
+					if(!(axis instanceof DateAxis))
+					{
+						float rangeAxisMaxRatio = 1f;
+						
+						if (barPlot.getOrientationValue() == PlotOrientationEnum.HORIZONTAL)
+						{
+							rangeAxisMaxRatio = 
+								JRPropertiesUtil.getInstance(getChartContext().getJasperReportsContext()).getFloatProperty(
+									getChart(), "net.sf.jasperreports.chart.bar.horizontal.range.max.value.ratio", 1.25f
+									);
+						}
+						else
+						{
+							rangeAxisMaxRatio = 
+								JRPropertiesUtil.getInstance(getChartContext().getJasperReportsContext()).getFloatProperty(
+									getChart(), "net.sf.jasperreports.chart.bar.vertical.range.max.value.ratio", 1.1f
+									);
+						}
+						
+						((ValueAxis)axis).setUpperBound(((ValueAxis)axis).getUpperBound() * rangeAxisMaxRatio);
+					}
+				}
+			}
+
+			JRItemLabel itemLabel = barPlot.getItemLabel();
+			
+			categoryRenderer.setBaseItemLabelFont(
+					getFontUtil().getAwtFont(
+					getFont(itemLabel == null ? null : itemLabel.getFont()), 
+					getLocale()
+					)
+				);
+			
+			if(itemLabel != null)
+			{
+				if(itemLabel.getColor() != null)
+				{
+					categoryRenderer.setBaseItemLabelPaint(itemLabel.getColor());
+				}
+				else
+				{
+					categoryRenderer.setBaseItemLabelPaint(getChart().getForecolor());
+				}
+//				categoryRenderer.setBaseFillPaint(itemLabel.getBackgroundColor());
+//				if(itemLabel.getMask() != null)
+//				{
+//					categoryRenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator(
+//							StandardCategoryItemLabelGenerator.DEFAULT_LABEL_FORMAT_STRING, 
+//							new DecimalFormat(itemLabel.getMask())));
+//				}
+//				else
+//				{
+					categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+//				}
+			}
+			else
+			{
+				categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
+				categoryRenderer.setBaseItemLabelPaint(getChart().getForecolor());
+			}
+		}
 		categoryRenderer.setShadowVisible(false);
 
 		// Handle the axis formating for the category axis
@@ -1252,7 +1360,7 @@ public class GenericChartTheme implements ChartTheme
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(), barPlot.getValueAxisVerticalTickLabels(),
 				barPlot.getOwnValueAxisLineColor(), true,
 				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
+				rangeAxisMaxValue);
 
 		return jfreeChart;
 	}
@@ -1821,7 +1929,13 @@ public class GenericChartTheme implements ChartTheme
 		}
 
 		// Build a chart around this plot
-		JFreeChart jfreeChart = new JFreeChart(chartPlot);
+		JFreeChart jfreeChart = 
+				new JFreeChart(
+					evaluateTextExpression(getChart().getTitleExpression()),
+					null, 
+					chartPlot, 
+					isShowLegend()
+					);
 
 		// Set the generic options
 		configureChart(jfreeChart, getPlot());
@@ -2925,4 +3039,5 @@ public class GenericChartTheme implements ChartTheme
 	{
 		this.defaultChartTypePropertiesMap = defaultChartTypePropertiesMap;
 	}
+		
 }

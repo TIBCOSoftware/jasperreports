@@ -59,7 +59,7 @@ public class GroovyApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/GroovyReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/GroovyReport.jasper", null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
