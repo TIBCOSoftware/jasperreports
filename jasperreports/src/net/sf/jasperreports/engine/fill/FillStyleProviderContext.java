@@ -103,6 +103,6 @@ public class FillStyleProviderContext implements StyleProviderContext
 	@Override
 	public TimeZone getTimeZone()
 	{
-		return element.filler.getTimeZone();
+		return element.getTimeZone();
 	}
 }

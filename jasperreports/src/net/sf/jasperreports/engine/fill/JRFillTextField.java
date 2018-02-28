@@ -71,6 +71,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	private Object value;
+	
+	private TimeZone ownTimeZone;
 
 	/**
 	 *
@@ -521,9 +523,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		) throws JRException
 	{
 		evaluateProperties(evaluation);
-		evaluateStyle(evaluation);
 		
 		value = evaluateExpression(getExpression(), evaluation);
+		determineOwnTimeZone();
+		
+		evaluateStyle(evaluation);
 		
 		String strValue = null;
 
@@ -542,7 +546,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
-			TimeZone ownTimeZone = determineOwnTimeZone();
 			Format format = getFormat(value, ownTimeZone);
 
 			evaluateTextFormat(format, value, ownTimeZone);
@@ -584,10 +587,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
 	}
 
-
-	protected TimeZone determineOwnTimeZone()
+	@Override
+	protected TimeZone getTimeZone()
 	{
-		TimeZone ownTimeZone = null;
+		return ownTimeZone == null ? super.getTimeZone() : ownTimeZone;
+	}
+
+	protected void determineOwnTimeZone()
+	{
+		ownTimeZone = null;
 		if (value instanceof java.util.Date)
 		{
 			// read the element's format timezone property
@@ -618,7 +626,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				ownTimeZone = getPatternTimeZone(PROPERTY_FORMAT_TIMEZONE);
 			}
 		}
-		return ownTimeZone;
 	}
 
 
