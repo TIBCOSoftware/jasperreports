@@ -35,6 +35,7 @@ import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.web.actions.ActionException;
@@ -45,6 +46,8 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public ConditionalFormattingAction() {
 	}

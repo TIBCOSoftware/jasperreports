@@ -25,6 +25,7 @@ package net.sf.jasperreports.web.commands;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
@@ -35,6 +36,8 @@ import net.sf.jasperreports.web.actions.ActionException;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class MultiActionCommand implements Command {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JasperReportsContext jasperReportsContext;
 	private ReportContext reportContext;

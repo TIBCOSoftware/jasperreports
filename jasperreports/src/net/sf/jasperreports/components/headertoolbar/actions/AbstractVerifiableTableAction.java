@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 import java.util.UUID;
 
 import net.sf.jasperreports.components.table.StandardTable;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
@@ -39,6 +40,9 @@ import net.sf.jasperreports.web.commands.CommandTarget;
  */
 public abstract class AbstractVerifiableTableAction extends AbstractAction 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	protected BaseColumnData columnData;
 	
 	protected StandardTable table;

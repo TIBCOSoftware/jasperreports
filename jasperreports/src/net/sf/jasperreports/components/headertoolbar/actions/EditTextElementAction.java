@@ -33,6 +33,7 @@ import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
@@ -50,6 +51,8 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class EditTextElementAction extends AbstractVerifiableTableAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public EditTextElementAction() {
 	}

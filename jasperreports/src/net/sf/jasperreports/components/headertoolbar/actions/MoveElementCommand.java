@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.web.commands.Command;
 
@@ -31,6 +32,8 @@ import net.sf.jasperreports.web.commands.Command;
  */
 public class MoveElementCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private int x;
 	private int oldX;

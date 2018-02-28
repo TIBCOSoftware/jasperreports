@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.ColumnValueInfo;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 
 /**
@@ -34,6 +35,8 @@ import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
  */
 public class SortByColumnData implements Serializable
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private String crosstabId;
 	private BucketOrder order;

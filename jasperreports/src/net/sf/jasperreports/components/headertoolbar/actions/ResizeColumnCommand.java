@@ -35,6 +35,7 @@ import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRChild;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.base.JRBaseElement;
@@ -47,6 +48,8 @@ import net.sf.jasperreports.web.commands.CommandStack;
  */
 public class ResizeColumnCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private StandardTable table;
 	private ResizeColumnData resizeColumnData;

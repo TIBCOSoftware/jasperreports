@@ -33,6 +33,8 @@ import java.util.Random;
  */
 public class SimpleReportContext implements ReportContext, Serializable
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private static final Random RND = new Random();
 	

@@ -25,6 +25,7 @@ package net.sf.jasperreports.web.actions;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -41,6 +42,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class SearchAction extends AbstractAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private SearchData searchData;
 

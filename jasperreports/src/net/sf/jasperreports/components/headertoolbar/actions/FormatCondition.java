@@ -30,12 +30,15 @@ import java.util.TimeZone;
 import net.sf.jasperreports.components.sort.AbstractFieldComparator;
 import net.sf.jasperreports.components.sort.FieldComparatorFactory;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class FormatCondition implements Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private String conditionStart;
 	private String conditionEnd;

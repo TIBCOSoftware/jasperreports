@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -34,6 +35,8 @@ import net.sf.jasperreports.web.util.JacksonUtil;
  */
 public class ConditionalFormattingCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String COLUMN_CONDITIONAL_FORMATTING_PROPERTY = "net.sf.jasperreports.components.headertoolbar.conditional.formatting";
 	

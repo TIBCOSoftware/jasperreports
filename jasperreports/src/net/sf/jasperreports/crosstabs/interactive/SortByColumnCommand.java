@@ -30,6 +30,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.OrderByColumnInfo;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.fill.JRFillCrosstab;
@@ -42,6 +43,8 @@ import net.sf.jasperreports.web.util.JacksonUtil;
  */
 public class SortByColumnCommand implements Command
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private static final Log log = LogFactory.getLog(SortByColumnCommand.class);
 

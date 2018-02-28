@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 import net.sf.jasperreports.components.table.StandardColumn;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.web.commands.Command;
 
@@ -31,6 +32,8 @@ import net.sf.jasperreports.web.commands.Command;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class HideUnhideColumnCommand implements Command {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private String expressionText;
 	

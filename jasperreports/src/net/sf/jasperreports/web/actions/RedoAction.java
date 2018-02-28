@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.web.actions;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.web.commands.CommandStack;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class RedoAction extends AbstractAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public RedoAction() {
 	}

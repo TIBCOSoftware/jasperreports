@@ -29,6 +29,7 @@ import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.web.commands.Command;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
@@ -37,6 +38,8 @@ import net.sf.jasperreports.web.commands.CommandStack;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class HideUnhideColumnsCommand implements Command {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private StandardTable table;
 	private HideUnhideColumnData columnData;

@@ -26,10 +26,15 @@ package net.sf.jasperreports.web.commands;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class CommandStack implements Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	private LinkedList<Command> commandStack = new LinkedList<Command>();
 	private LinkedList<Command> redoStack = new LinkedList<Command>();
 

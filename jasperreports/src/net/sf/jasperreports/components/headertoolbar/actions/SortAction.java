@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 
 import net.sf.jasperreports.components.sort.actions.SortCommand;
 import net.sf.jasperreports.components.sort.actions.SortData;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -37,6 +38,8 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class SortAction extends AbstractVerifiableTableAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public SortAction() {
 	}

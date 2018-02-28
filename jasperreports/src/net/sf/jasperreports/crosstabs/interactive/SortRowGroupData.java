@@ -25,6 +25,7 @@ package net.sf.jasperreports.crosstabs.interactive;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 
 /**
@@ -32,6 +33,8 @@ import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
  */
 public class SortRowGroupData implements Serializable
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private String crosstabId;
 	private int groupIndex;

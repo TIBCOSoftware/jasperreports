@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 import java.util.List;
 
 import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.web.commands.Command;
 
 /**
@@ -33,6 +34,8 @@ import net.sf.jasperreports.web.commands.Command;
  */
 public class SimpleMoveColumnCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private List<BaseColumn> columns;
 	private BaseColumn column;

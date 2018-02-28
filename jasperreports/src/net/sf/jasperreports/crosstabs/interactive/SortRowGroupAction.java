@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs.interactive;
 import java.util.UUID;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
@@ -40,6 +41,9 @@ import org.apache.commons.logging.LogFactory;
  */
 public class SortRowGroupAction extends AbstractAction
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	private static final Log log = LogFactory.getLog(SortRowGroupAction.class);
 
 	private SortRowGroupData sortData;

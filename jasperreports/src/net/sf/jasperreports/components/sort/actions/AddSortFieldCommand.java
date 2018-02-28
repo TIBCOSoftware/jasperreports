@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.sort.actions;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
@@ -34,6 +35,8 @@ import net.sf.jasperreports.web.commands.Command;
  */
 public class AddSortFieldCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JRDesignDataset dataset;
 	private JRDesignSortField sortField;

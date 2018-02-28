@@ -26,6 +26,7 @@ package net.sf.jasperreports.web.actions;
 import java.io.File;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
@@ -40,6 +41,8 @@ import net.sf.jasperreports.repo.JasperDesignReportResource;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class SaveAction extends AbstractAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public SaveAction() {
 	}

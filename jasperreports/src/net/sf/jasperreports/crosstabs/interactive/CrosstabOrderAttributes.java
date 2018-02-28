@@ -30,6 +30,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabDataset;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 
@@ -41,6 +42,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CrosstabOrderAttributes implements Serializable
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private static final Log log = LogFactory.getLog(CrosstabOrderAttributes.class);
 

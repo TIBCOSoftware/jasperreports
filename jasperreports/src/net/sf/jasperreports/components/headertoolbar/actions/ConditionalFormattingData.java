@@ -30,11 +30,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ConditionalFormattingData extends BaseColumnData {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private int columnIndex;
 	private String conditionType;

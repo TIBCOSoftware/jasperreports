@@ -27,10 +27,14 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class EditTextElementData extends BaseColumnData {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String APPLY_TO_HEADING = "heading";
 	public static final String APPLY_TO_DETAIL_ROWS = "detailrows";

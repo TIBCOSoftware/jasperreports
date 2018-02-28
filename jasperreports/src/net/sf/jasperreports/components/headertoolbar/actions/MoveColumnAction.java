@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
@@ -33,6 +34,8 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class MoveColumnAction extends AbstractVerifiableTableAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public MoveColumnAction() {
 	}

@@ -23,11 +23,14 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class ResizeColumnData extends BaseColumnData {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private int columnIndex;
 	private int width;

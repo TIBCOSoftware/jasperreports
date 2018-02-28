@@ -27,6 +27,7 @@ import java.util.List;
 
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
@@ -38,6 +39,8 @@ import net.sf.jasperreports.web.util.JacksonUtil;
  */
 public class FilterCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String DATASET_FILTER_PROPERTY = "net.sf.jasperreports.filters";
 	

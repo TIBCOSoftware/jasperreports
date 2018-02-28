@@ -29,10 +29,14 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class BaseColumnData implements Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private String tableUuid;
 	

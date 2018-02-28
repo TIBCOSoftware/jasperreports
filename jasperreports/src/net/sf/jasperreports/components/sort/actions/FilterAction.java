@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.sort.actions;
 
 import java.util.UUID;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
@@ -41,6 +42,8 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class FilterAction extends AbstractAction {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private FilterData filterData;
 	protected static FormatFactory formatFactory = new DefaultFormatFactory();

@@ -24,11 +24,14 @@
 package net.sf.jasperreports.components.sort.actions;
 
 import net.sf.jasperreports.components.headertoolbar.actions.BaseColumnData;
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class FilterData extends BaseColumnData {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private String fieldName;
 	private String fieldValueStart;

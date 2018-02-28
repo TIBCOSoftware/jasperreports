@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.web.commands;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.repo.JasperDesignCache;
@@ -32,6 +33,8 @@ import net.sf.jasperreports.repo.JasperDesignCache;
  */
 public class ResetInCacheCommand implements Command
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Command command;
 	private JasperReportsContext jasperReportsContext;

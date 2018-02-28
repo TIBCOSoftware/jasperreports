@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 import net.sf.jasperreports.components.table.StandardBaseColumn;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.web.commands.Command;
 
 /**
@@ -31,6 +32,9 @@ import net.sf.jasperreports.web.commands.Command;
  */
 public class SimpleResizeColumnCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	private StandardBaseColumn column;
 	private int oldWidth;
 	private int width;
