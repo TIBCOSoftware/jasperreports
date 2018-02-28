@@ -675,9 +675,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return filler.getLocale();
 	}
 
+	@Override
 	public TimeZone getTimeZone()
 	{
-		return filler.getTimeZone();
+		return super.getTimeZone();
 	}
 
 	@Override

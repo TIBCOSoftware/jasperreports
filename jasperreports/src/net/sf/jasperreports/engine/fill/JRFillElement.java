@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -788,6 +789,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		}
 	}
 
+	protected TimeZone getTimeZone()
+	{
+		return filler.getTimeZone();
+	}
 
 	/**
 	 *
