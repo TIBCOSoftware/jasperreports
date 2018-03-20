@@ -75,7 +75,7 @@ public class CVComponentTest extends TestCase
 	 * Create the test case
 	 *
 	 * @param testName
-	 *            name of the test case
+	 *			name of the test case
 	 */
 	public CVComponentTest(String testName)
 	{
@@ -111,39 +111,39 @@ public class CVComponentTest extends TestCase
 		// System.out.println("Templates directory: " + templatesDirectory );
 		System.out.println("Default encoding: " + Charset.defaultCharset().displayName());
 
-                String phantomJsPath = context.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
-                
-                if (phantomJsPath == null)
-                {
-                    phantomJsPath = System.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
-                    if (phantomJsPath != null)
-                    {
-                        System.out.println("Loading phantomjs from: " + phantomJsPath);
-                        context.setProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH, phantomJsPath);
-                    }
-                    else
-                    {
-                        File guessedPath = new File("/usr/local/bin/phantomjs");
-                        if (guessedPath.exists())
-                        {
-                            System.out.println("Found phantomjs at " + guessedPath.getAbsolutePath());
-                            context.setProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH, guessedPath.getAbsolutePath());
-                        }
-                        else
-                        {
-                            System.out.println("No phantomjs property set, assuming it is in the path");
-                        }
-                    }
-                }
-                else
-                {
-                    System.out.println("PhantomJs path defined in jasperreports.properties");
-                }
-                
+		String phantomJsPath = context.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
+		
+		if (phantomJsPath == null)
+		{
+			phantomJsPath = System.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
+			if (phantomJsPath != null)
+			{
+				System.out.println("Loading phantomjs from: " + phantomJsPath);
+				context.setProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH, phantomJsPath);
+			}
+			else
+			{
+				File guessedPath = new File("/usr/local/bin/phantomjs");
+				if (guessedPath.exists())
+				{
+					System.out.println("Found phantomjs at " + guessedPath.getAbsolutePath());
+					context.setProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH, guessedPath.getAbsolutePath());
+				}
+				else
+				{
+					System.out.println("No phantomjs property set, assuming it is in the path");
+				}
+			}
+		}
+		else
+		{
+			System.out.println("PhantomJs path defined in jasperreports.properties");
+		}
+				
 		context.setProperty(CVConstants.CV_REQUIREJS_PROPERTY, "file://" + scriptsDirectory + "/require.js");
-                
-                context.setProperty("cv.keepTemporaryFiles", "true");
-                
+		
+		context.setProperty("cv.keepTemporaryFiles", "true");
+		
 	}
 
 	/**
@@ -153,8 +153,8 @@ public class CVComponentTest extends TestCase
 	{
 		return new TestSuite(CVComponentTest.class);
 	}
-        
-        public void testLeaflet() throws Exception
+	
+	public void testLeaflet() throws Exception
 	{
 		testReport("LeafLetMarkers_sample.jrxml", false, getJsonDataSource());
 		//testReport("subdataset_test_sample.jrxml", true);
@@ -223,10 +223,11 @@ public class CVComponentTest extends TestCase
 	// testReport("reports/RaphaelJS_dots.jrxml");
 	// }
 
-        private void testReport(String filename, boolean useConnection) throws Exception
+	private void testReport(String filename, boolean useConnection) throws Exception
 	{
-            testReport(filename, useConnection, null);
-        }
+		testReport(filename, useConnection, null);
+	}
+	
 	/**
 	 * Rigourous Test :-)
 	 */
@@ -250,10 +251,10 @@ public class CVComponentTest extends TestCase
 				connection = getHsql();
 				params.put("REPORT_CONNECTION", connection);
 			}
-                        else if (ds != null)
-                        {
-                            params.put("REPORT_DATA_SOURCE", ds);
-                        }
+			else if (ds != null)
+			{
+				params.put("REPORT_DATA_SOURCE", ds);
+			}
 
 			jasperPrint = JasperFillManager.fillReport(report, params);
 			export(jasperPrint);
@@ -285,11 +286,10 @@ public class CVComponentTest extends TestCase
 		JasperExportManager.exportReportToHtmlFile(jasperPrint,
 				new File(outputDir, jasperPrint.getName() + ".html").getPath());
 
-                
 		JasperExportManager.exportReportToPdfFile(jasperPrint,
 				new File(outputDir, jasperPrint.getName() + ".pdf").getPath());
 
-                /*
+		/*
 		JRDocxExporter docxExporter = new JRDocxExporter();
 		docxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		docxExporter.setExporterOutput(
@@ -325,7 +325,8 @@ public class CVComponentTest extends TestCase
 		rtfExporter
 				.setExporterOutput(new SimpleWriterExporterOutput(new File(outputDir, jasperPrint.getName() + ".rtf")));
 		rtfExporter.exportReport();
-*/
+		*/
+		
 		// Other exporters, while possibly supported, are deprecated or no
 		// longer used.
 	}
@@ -339,9 +340,9 @@ public class CVComponentTest extends TestCase
 		String password = "";
 		return DriverManager.getConnection(connectString, user, password);
 	}
-        
-        
-        protected JRDataSource getJsonDataSource() throws Exception
+
+
+	protected JRDataSource getJsonDataSource() throws Exception
 	{
 		return new JsonDataSource(new java.io.File(new java.io.File(".").getCanonicalPath(), "src/test/resources/data.json"));
 	}
