@@ -30,6 +30,7 @@ import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FileResolver;
@@ -42,12 +43,17 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  */
 public class DefaultRepositoryService implements StreamRepositoryService
 {
+	
+	public static final String PROPERTY_FILES_ENABLED = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "default.file.repository.enabled";
+	
 	public static final String EXCEPTION_MESSAGE_KEY_NOT_IMPLEMENTED = "repo.default.not.implemented";
 	
 	/**
 	 * 
 	 */
 	protected JasperReportsContext jasperReportsContext;
+	private boolean filesEnabled;
 
 	/**
 	 * 
@@ -62,6 +68,8 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	public DefaultRepositoryService(JasperReportsContext jasperReportsContext) 
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.filesEnabled = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
+				PROPERTY_FILES_ENABLED, true);
 	}
 	
 	/**
@@ -99,7 +107,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 				return JRLoader.getInputStream(url);
 			}
 
-			File file = JRResourcesUtil.resolveFile(uri, fileResolver);
+			File file = resolveFile(uri);
 			if (file != null)
 			{
 				return JRLoader.getInputStream(file);
@@ -114,6 +122,21 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		catch (JRException e)
 		{
 			throw new JRRuntimeException(e);
+		}
+		
+		return null;
+	}
+
+	protected File resolveFile(String uri)
+	{
+		if (fileResolver != null)
+		{
+			return fileResolver.resolveFile(uri);
+		}
+		
+		if (filesEnabled)
+		{
+			return JRResourcesUtil.resolveFile(uri);
 		}
 		
 		return null;

@@ -289,6 +289,12 @@ public final class JRResourcesUtil
 			return fileResolver.resolveFile(location);
 		}
 
+		return resolveFile(location);
+	}
+
+
+	public static File resolveFile(String location)
+	{
 		File file = new File(location);
 		if (file.exists() && file.isFile())
 		{
