@@ -29,6 +29,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -39,11 +44,15 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class FileRepositoryService implements StreamRepositoryService
 {
+	
+	private static final Log log = LogFactory.getLog(FileRepositoryService.class);
+	
 	public static final String EXCEPTION_MESSAGE_KEY_NOT_IMPLEMENTED = "repo.file.not.implemented";
 	
 	private JasperReportsContext jasperReportsContext;
 	private String root;
 	private boolean resolveAbsolutePath;//FIXMEREPO consider giving up on this
+	private Path rootNormalizedPath;
 	
 	/**
 	 * 
@@ -75,6 +84,17 @@ public class FileRepositoryService implements StreamRepositoryService
 		return root;
 	}
 	
+	protected Path rootNormalizedPath()
+	{
+		Path rootPath = rootNormalizedPath;
+		if (rootPath == null)
+		{
+			Path path = Paths.get(root);
+			rootPath = rootNormalizedPath = path.normalize();
+		}
+		return rootPath;
+	}
+	
 	@Override
 	public InputStream getInputStream(String uri)
 	{
@@ -83,7 +103,20 @@ public class FileRepositoryService implements StreamRepositoryService
 		if (uri != null)
 		{
 			file = new File(getRoot(), uri);
-			if (!file.exists() || !file.isFile())
+			if (file.exists() && file.isFile())
+			{
+				//checking that syntactically the requested path is still inside the root
+				//we are not dealing with symlinks/real paths for now
+				Path rootPath = rootNormalizedPath();
+				Path filePath = file.toPath().normalize();
+				if (!filePath.startsWith(rootPath))
+				{
+					log.warn("Requested path " + uri + " normalized to " + filePath
+							+ ", which falls outside repository root path " + rootPath);
+					file = null;
+				}
+			}
+			else
 			{
 				if (resolveAbsolutePath)
 				{
