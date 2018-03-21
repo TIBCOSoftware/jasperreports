@@ -33,8 +33,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.fill.JRFiller;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 
 /**
@@ -989,13 +987,14 @@ public final class JasperFillManager
 	 */
 	protected JasperReportsContext getLocalJasperReportsContext(File file)
 	{
-		SimpleFileResolver fileResolver =
-			new SimpleFileResolver(
+		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver =
+			new net.sf.jasperreports.engine.util.SimpleFileResolver(
 				Arrays.asList(new File[]{file.getParentFile(), new File(".")})
 				);
 		fileResolver.setResolveAbsolutePath(true);
 		
-		LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+		net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
+			new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
 		localJasperReportsContext.setFileResolver(fileResolver);
 		return localJasperReportsContext;
 	}

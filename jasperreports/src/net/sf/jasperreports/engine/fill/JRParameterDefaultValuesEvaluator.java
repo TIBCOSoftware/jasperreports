@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 
 
 /**
@@ -76,7 +75,9 @@ public final class JRParameterDefaultValuesEvaluator
 		JRDataset reportDataset = report.getMainDataset();
 		JRFillDataset fillDataset = factory.getDataset(reportDataset);
 		
-		fillDataset.setJasperReportsContext(LocalJasperReportsContext.getLocalContext(jasperReportsContext, initialParameters));
+		fillDataset.setJasperReportsContext(
+			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(jasperReportsContext, initialParameters)
+			);
 		
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();

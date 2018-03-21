@@ -52,24 +52,6 @@ public final class JRResourcesUtil
 	private static final String PROPERTIES_FILE_EXTENSION = ".properties";
 
 	/** 
-	 * @deprecated To be removed.
-	 */
-	private static FileResolver globalFileResolver;
-	/** 
-	 * @deprecated To be removed.
-	 */
-	private static ThreadLocalStack localFileResolverStack = new ThreadLocalStack();
-
-	/** 
-	 * @deprecated To be removed.
-	 */
-	private static URLStreamHandlerFactory globalURLHandlerFactory;
-	/** 
-	 * @deprecated To be removed.
-	 */
-	private static ThreadLocalStack localURLHandlerFactoryStack = new ThreadLocalStack();
-
-	/** 
 	 *
 	 */
 	private static ClassLoader globalClassLoader;
@@ -86,7 +68,6 @@ public final class JRResourcesUtil
 	 * @param urlHandlerFactory an URL stream handler factory to use
 	 * @return an URL if the parsing is successful
 	 * @see #getURLHandler(String, URLStreamHandlerFactory)
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
 	 */
 	public static URL createURL(String spec, URLStreamHandlerFactory urlHandlerFactory)
 	{
@@ -117,7 +98,6 @@ public final class JRResourcesUtil
 	 * @param spec the <code>String</code> to parse as an URL
 	 * @param urlHandlerFact an URL stream handler factory
 	 * @return an URL stream handler if one was found for the protocol of the URL
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
 	 */
 	public static URLStreamHandler getURLHandler(String spec, URLStreamHandlerFactory urlHandlerFact)
 	{
@@ -181,104 +161,12 @@ public final class JRResourcesUtil
 
 	
 	/**
-	 * Returns a file resolver.
-	 * <p/>
-	 * The first not null value from the following is returned:
-	 * <ul>
-	 * 	<li>the value of the parameter</li>
-	 * 	<li>the thread local file resolver</li>
-	 * 	<li>the global file resolver</li>
-	 * </ul>
-	 * 
-	 * @param fileRes a file resolver that will be returned if not null
-	 * @return a file resolver
-	 * @see #setGlobalFileResolver(FileResolver)
-	 * @see #setThreadFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static FileResolver getFileResolver(FileResolver fileRes)
-	{
-		FileResolver fileResolver = fileRes;
-		if (fileResolver == null)
-		{
-			fileResolver = getThreadFileResolver();
-			if (fileResolver == null)
-			{
-				fileResolver = globalFileResolver;
-			}
-		}
-		return fileResolver;
-	}
-
-	
-	/**
-	 * Returns the global file resolver.
-	 * 
-	 * @return the global file resolver
-	 * @see #setGlobalFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static FileResolver getGlobalFileResolver()
-	{
-		return globalFileResolver;
-	}
-
-	
-	/**
-	 * Returns the thread local file resolver.
-	 * 
-	 * @return the thread local file resolver.
-	 * @see #setThreadFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static FileResolver getThreadFileResolver()
-	{
-		return (FileResolver) localFileResolverStack.top();
-	}
-
-	
-	/**
-	 * Sets the thread local file resolver.
-	 * 
-	 * @param fileResolver a file resolver.
-	 * @see #getFileResolver(FileResolver)
-	 * @see #resetThreadFileResolver()
-	 * @deprecated To be removed.
-	 */
-	public static void setThreadFileResolver(FileResolver fileResolver)
-	{
-		localFileResolverStack.push(fileResolver);
-	}
-	
-	
-	/**
-	 * Resets the the thread local file resolver to its previous value.
-	 * @deprecated To be removed.
-	 */
-	public static void resetThreadFileResolver()
-	{
-		localFileResolverStack.pop();
-	}
-
-	/**
-	 * Sets a global file resolver to be used for file resolution.
-	 * 
-	 * @param fileResolver the file resolver
-	 * @see #getFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static void setGlobalFileResolver(FileResolver fileResolver)
-	{
-		globalFileResolver = fileResolver;
-	}
-
-	
-	/**
 	 * Attempts to find a file using a file resolver.
 	 * 
 	 * @param location file name
 	 * @param fileRes a file resolver
 	 * @return the file, if found
+	 * @deprecated To be removed.
 	 */
 	public static File resolveFile(String location, FileResolver fileRes)
 	{
@@ -305,99 +193,6 @@ public final class JRResourcesUtil
 	}
 
 
-	/**
-	 * Returns an URL steam handler factory.
-	 * <p/>
-	 * The first not null value from the following is returned:
-	 * <ul>
-	 * 	<li>the value of the parameter</li>
-	 * 	<li>the thread local URL stream handler factory</li>
-	 * 	<li>the global URL stream handler factory</li>
-	 * </ul>
-	 * 
-	 * @param urlHandlerFact an URL steam handler factory that will be returned if not null
-	 * @return an URL steam handler factory
-	 * @see #setGlobalURLHandlerFactory(URLStreamHandlerFactory)
-	 * @see #setThreadURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static URLStreamHandlerFactory getURLHandlerFactory(URLStreamHandlerFactory urlHandlerFact)
-	{
-		URLStreamHandlerFactory urlHandlerFactory = urlHandlerFact;
-		if (urlHandlerFactory == null)
-		{
-			urlHandlerFactory = getThreadURLStreamHandlerFactory();
-			if (urlHandlerFactory == null)
-			{
-				urlHandlerFactory = globalURLHandlerFactory;
-			}
-		}
-		return urlHandlerFactory;
-	}
-
-	
-	/**
-	 * Returns the global URL stream handler factory.
-	 * 
-	 * @return the global URL stream handler factory
-	 * @see #setGlobalURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static URLStreamHandlerFactory getGlobalURLStreamHandlerFactory()
-	{
-		return globalURLHandlerFactory;
-	}
-
-	
-	/**
-	 * Returns the thread local URL stream handler factory.
-	 * 
-	 * @return the thread local URL stream handler factory.
-	 * @see #setThreadURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static URLStreamHandlerFactory getThreadURLStreamHandlerFactory()
-	{
-		return (URLStreamHandlerFactory) localURLHandlerFactoryStack.top();
-	}
-
-	
-	/**
-	 * Sets the thread local URL stream handler factory.
-	 * 
-	 * @param urlHandlerFactory an URL stream handler factory.
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
-	 * @see #resetThreadURLHandlerFactory()
-	 * @deprecated To be removed.
-	 */
-	public static void setThreadURLHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
-	{
-		localURLHandlerFactoryStack.push(urlHandlerFactory);
-	}
-	
-	
-	/**
-	 * Resets the the thread local URL stream handler factory to its previous value.
-	 * @deprecated To be removed.
-	 */
-	public static void resetThreadURLHandlerFactory()
-	{
-		localURLHandlerFactoryStack.pop();
-	}
-
-	/**
-	 * Sets a global URL stream handler facotry to be used for resource resolution.
-	 * 
-	 * @param urlHandlerFactory the URL stream handler factory
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static void setGlobalURLHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
-	{
-		globalURLHandlerFactory = urlHandlerFactory;
-	}
-
-	
 	/**
 	 * Returns a class loader.
 	 * <p/>
@@ -457,7 +252,6 @@ public final class JRResourcesUtil
 	 * 
 	 * @param classLoader a class loader
 	 * @see #getClassLoader(ClassLoader)
-	 * @see #resetThreadURLHandlerFactory()
 	 */
 	public static void setThreadClassLoader(ClassLoader classLoader)
 	{

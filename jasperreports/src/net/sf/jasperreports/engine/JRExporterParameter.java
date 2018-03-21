@@ -221,13 +221,6 @@ public class JRExporterParameter
 
 	
 	/**
-	 * The {@link net.sf.jasperreports.engine.util.FileResolver FileResolver} instance to be used while exporting the report.
-	 * @deprecated Replaced by {@link JasperReportsContext}.
-	 */
-	public static final JRExporterParameter FILE_RESOLVER = new JRExporterParameter("File REsolver");
-
-	
-	/**
 	 * @deprecated Replaced by {@link ReportExportConfiguration#getHyperlinkProducerFactory()}.
 	 */
 	public static final JRExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRExporterParameter("Hyperlink producer factory");

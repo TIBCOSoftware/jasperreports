@@ -56,7 +56,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -285,7 +284,8 @@ public abstract class BaseReportFiller implements ReportFiller
 
 	protected final void setParametersToContext(Map<String,Object> parameterValues)
 	{
-		JasperReportsContext localContext = LocalJasperReportsContext.getLocalContext(jasperReportsContext, parameterValues);
+		JasperReportsContext localContext = 
+			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(jasperReportsContext, parameterValues);
 		if (localContext != jasperReportsContext)
 		{
 			setJasperReportsContext(localContext);

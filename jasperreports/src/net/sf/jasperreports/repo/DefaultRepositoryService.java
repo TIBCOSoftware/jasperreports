@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
@@ -60,7 +59,10 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	 */
 	protected ClassLoader classLoader;
 	protected URLStreamHandlerFactory urlHandlerFactory;
-	protected FileResolver fileResolver;
+	/**
+	 * @deprecated To be removed. 
+	 */
+	protected net.sf.jasperreports.engine.util.FileResolver fileResolver;
 
 	/**
 	 *
@@ -89,9 +91,9 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	}
 	
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
-	public void setFileResolver(FileResolver fileResolver) 
+	public void setFileResolver(net.sf.jasperreports.engine.util.FileResolver fileResolver) 
 	{
 		this.fileResolver = fileResolver;
 	}
@@ -127,6 +129,9 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		return null;
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected File resolveFile(String uri)
 	{
 		if (fileResolver != null)
