@@ -129,7 +129,7 @@
 				</section>
 			</manifest>		
 			<fileset dir="./demo/fonts">
-				<exclude name="**/log4j.properties"/>
+				<exclude name="**/log4j*.*"/>
 				<exclude name="**/readme.txt"/>
 				<exclude name="**/pom.xml"/>
 			</fileset>
