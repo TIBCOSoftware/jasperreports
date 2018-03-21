@@ -36,7 +36,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import com.fasterxml.jackson.core.util.BufferRecyclers;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -656,7 +656,7 @@ public final class JRStringUtil
 		}
 		
 		// using Jackson's string quote method
-		char[] escapedChars = JsonStringEncoder.getInstance().quoteAsString(text);
+		char[] escapedChars = BufferRecyclers.getJsonStringEncoder().quoteAsString(text);
 		if (text.contentEquals(CharBuffer.wrap(escapedChars)))
 		{
 			// nothing changed

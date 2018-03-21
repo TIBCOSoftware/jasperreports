@@ -28,17 +28,17 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import net.sf.jasperreports.engine.json.JRJsonNode;
-import net.sf.jasperreports.engine.json.JsonNodeContainer;
-import net.sf.jasperreports.engine.json.expression.EvaluationContext;
-import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
-import net.sf.jasperreports.engine.json.expression.member.ObjectConstructionExpression;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import net.sf.jasperreports.engine.json.JRJsonNode;
+import net.sf.jasperreports.engine.json.JsonNodeContainer;
+import net.sf.jasperreports.engine.json.expression.EvaluationContext;
+import net.sf.jasperreports.engine.json.expression.member.MemberExpression;
+import net.sf.jasperreports.engine.json.expression.member.ObjectConstructionExpression;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -125,7 +125,7 @@ public class ObjectConstructionExpressionEvaluator extends AbstractMemberExpress
                 JRJsonNode deeperChild = from.createChild(deeperNode);
 
                 if (applyFilter(deeperChild)) {
-                    newNode.put(objectKey, deeperNode);
+                    newNode.set(objectKey, deeperNode);
                 }
             }
         }

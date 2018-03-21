@@ -36,7 +36,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.io.JsonStringEncoder;
+import com.fasterxml.jackson.core.util.BufferRecyclers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -302,7 +302,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		if (bookmarks != null && bookmarks.size() > 0)
 		{
 			// exclude the methods marked with @JsonIgnore in PrintBookmarkMixin from PrintBookmark implementation
-			jacksonUtil.getObjectMapper().addMixInAnnotations(PrintBookmark.class, PrintBookmarkMixin.class);
+			jacksonUtil.getObjectMapper().addMixIn(PrintBookmark.class, PrintBookmarkMixin.class);
 
 			if (gotFirstJsonFragment)
 			{
@@ -343,7 +343,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			if (!parts.startsAtZero())
 			{
 				writer.write("{\"idx\": 0, \"name\": \"");
-				writer.write(JsonStringEncoder.getInstance().quoteAsString(jasperPrint.getName()));
+				writer.write(BufferRecyclers.getJsonStringEncoder().quoteAsString(jasperPrint.getName()));
 				writer.write("\"}");
 				if (parts.partCount() > 1)
 				{
@@ -360,7 +360,7 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 				PrintPart part = partsEntry.getValue();
 				
 				writer.write("{\"idx\": " + idx + ", \"name\": \"");
-				writer.write(JsonStringEncoder.getInstance().quoteAsString(part.getName()));
+				writer.write(BufferRecyclers.getJsonStringEncoder().quoteAsString(part.getName()));
 				writer.write("\"}");
 				if (it.hasNext())
 				{
