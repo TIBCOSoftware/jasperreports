@@ -511,24 +511,28 @@
 			<artifactId>lucene-core</artifactId>
 			<version>4.5.1</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-common</artifactId>
 			<version>4.5.1</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
 			<version>4.5.1</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.olap4j</groupId>
 			<artifactId>olap4j</artifactId>
 			<version>0.9.7.309-JS-3</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -542,6 +546,7 @@
 			<artifactId>core</artifactId>
 			<version>3.2.1</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
