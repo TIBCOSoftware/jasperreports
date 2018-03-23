@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.List;
 
+import org.apache.commons.javaflow.api.continuable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -127,6 +128,7 @@ public class FillerSubreportParent implements BandReportFillerParent
 	}
 
 	@Override
+	@continuable
 	public void addPage(FillerPageAddedEvent pageAdded) throws JRException
 	{
 		currentPageStretchHeight = pageAdded.getPageStretchHeight();
@@ -146,6 +148,7 @@ public class FillerSubreportParent implements BandReportFillerParent
 		}
 	}
 
+	@continuable
 	protected void suspendSubreportRunner(FillerPageAddedEvent pageAdded) throws JRException
 	{
 		if (subreportRunner == null)

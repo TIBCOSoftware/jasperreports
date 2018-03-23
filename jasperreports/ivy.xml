@@ -37,9 +37,12 @@
 		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.5.1" conf="annotations->*"/>
 		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.5.1" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
+		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.api" rev="2.2.1"/>
+		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.tools.ant" rev="2.2.1"/>
+		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.tools.jar" rev="2.2.1" conf="javaflow->*"/>
+		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.providers.asm5" rev="2.2.1" conf="javaflow->*"/>
 		<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.1" conf="test->*"/>
-		<dependency org="org.apache.commons" name="commons-javaflow" rev="20160505"/>
 		<dependency org="org.apache.commons" name="commons-pool2" rev="2.4.2"/>
 		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.3.6"/>
 		<dependency org="org.apache.httpcomponents" name="httpcore" rev="4.3.3"/>
@@ -70,7 +73,7 @@
 		<dependency org="org.jfree" name="jfreechart" rev="1.0.19"/>
 		<dependency org="org.mozilla" name="rhino" rev="1.7.6"/>
 		<dependency org="org.olap4j" name="olap4j" rev="0.9.7.309-JS-3"/>
-		<dependency org="org.ow2.asm" name="asm-all" rev="4.0" conf="javaflow->*"/>
+		<dependency org="org.ow2.asm" name="asm-all" rev="5.2" conf="javaflow->*"/>
 		<dependency org="org.springframework" name="spring-beans" rev="3.2.18.RELEASE"/>
 		<dependency org="org.springframework" name="spring-core" rev="3.2.18.RELEASE"/>
 		<dependency org="org.testng" name="testng" rev="6.8.1" conf="test->*"/>

@@ -46,6 +46,7 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.javaflow.api.continuable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -540,6 +541,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 
 	@Override
+	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues) throws JRException
 	{
 		if (parameterValues == null)
@@ -954,6 +956,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	/**
 	 *
 	 */
+	@continuable
 	protected abstract void fillReport() throws JRException;
 
 	@Override
@@ -1343,6 +1346,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		}
 	}
 	
+	@continuable
 	protected void addPageToParent(final boolean ended) throws JRException
 	{
 		if (printPage == null)
