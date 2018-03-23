@@ -93,7 +93,7 @@
 			replace="net.sf.jasperreports.subreport.runner.factory=net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory">
 		</replaceregexp>
 
-		<javaflow srcdir="./build/javaflow" destdir="./build/javaflow" mode="asm">
+		<javaflow srcdir="./build/javaflow" destdir="./build/javaflow" mode="asm5">
 			<include name="net/sf/jasperreports/engine/fill/BaseReportFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>

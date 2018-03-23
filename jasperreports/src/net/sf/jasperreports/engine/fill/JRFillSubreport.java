@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.javaflow.api.continuable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -729,6 +730,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		return parameterValues;
 	}
 
+	@continuable
 	protected void fillSubreport() throws JRException
 	{
 		if (getConnectionExpression() != null)

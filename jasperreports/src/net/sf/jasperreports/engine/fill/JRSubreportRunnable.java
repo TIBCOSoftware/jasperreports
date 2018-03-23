@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import org.apache.commons.javaflow.api.continuable;
 
 /**
  * Abstract base for {@link java.lang.Runnable Runnable}-based
@@ -49,6 +50,7 @@ public abstract class JRSubreportRunnable implements Runnable
 	}
 	
 	@Override
+	@continuable
 	public void run()
 	{
 		running = true;		

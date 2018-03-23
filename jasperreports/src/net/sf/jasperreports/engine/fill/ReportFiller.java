@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.fill;
 import java.sql.Connection;
 import java.util.Map;
 
+import org.apache.commons.javaflow.api.continuable;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -36,10 +38,13 @@ import net.sf.jasperreports.engine.JasperPrint;
 public interface ReportFiller
 {
 
+	@continuable
 	JasperPrint fill(Map<String, Object> parameters, Connection connection) throws JRException;
 
+	@continuable
 	JasperPrint fill(Map<String, Object> parameters, JRDataSource dataSource) throws JRException;
 
+	@continuable
 	JasperPrint fill(Map<String, Object> parameters) throws JRException;
 
 	void addFillListener(FillListener listener);

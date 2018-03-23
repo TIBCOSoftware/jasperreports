@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.List;
 
+import org.apache.commons.javaflow.api.continuable;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRStyle;
 
@@ -48,6 +50,7 @@ public interface BandReportFillerParent extends FillerParent
 
 	boolean isSplitTypePreventInhibited(boolean isTolLevelCall);
 
+	@continuable
 	void addPage(FillerPageAddedEvent pageAdded) throws JRException;
 
 	String getReportLocation();

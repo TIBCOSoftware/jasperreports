@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import org.apache.commons.javaflow.api.continuable;
+
 import net.sf.jasperreports.engine.JRException;
 
 
@@ -92,6 +94,7 @@ public interface JRSubreportRunner
 	 * 
 	 * @throws JRException
 	 */
+	@continuable
 	void suspend() throws JRException;	
 	
 	/**

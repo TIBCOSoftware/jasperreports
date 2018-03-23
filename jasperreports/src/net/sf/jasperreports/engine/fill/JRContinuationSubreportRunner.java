@@ -23,9 +23,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-
-import org.apache.commons.javaflow.Continuation;
-
+import org.apache.commons.javaflow.api.Continuation;
+import org.apache.commons.javaflow.api.continuable;
 
 /**
  * Implemetation of {@link net.sf.jasperreports.engine.fill.JRSubreportRunner JRSubreportRunner}
@@ -58,7 +57,7 @@ public class JRContinuationSubreportRunner extends JRSubreportRunnable implement
 	@Override
 	public JRSubreportRunResult resume()
 	{
-		continuation = Continuation.continueWith(continuation);
+		continuation = continuation.resume(null);
 		return runResult();
 	}
 
@@ -74,6 +73,7 @@ public class JRContinuationSubreportRunner extends JRSubreportRunnable implement
 	}
 
 	@Override
+	@continuable
 	public void suspend()
 	{
 		Continuation.suspend();

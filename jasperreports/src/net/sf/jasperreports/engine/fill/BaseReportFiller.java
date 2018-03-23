@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.commons.javaflow.api.continuable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -375,6 +376,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	}
 
 	@Override
+	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues, Connection conn) throws JRException
 	{
 		if (parameterValues == null)
@@ -393,6 +395,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	}
 
 	@Override
+	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues, JRDataSource ds) throws JRException
 	{
 		if (parameterValues == null)
