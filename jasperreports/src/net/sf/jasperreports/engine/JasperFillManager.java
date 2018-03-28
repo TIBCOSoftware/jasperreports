@@ -31,6 +31,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.fill.JRFiller;
+import net.sf.jasperreports.engine.fill.JasperReportSource;
+import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 
@@ -119,9 +121,9 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params, connection);
 		
 		JRSaver.saveObject(jasperPrint, destFileName);
 		
@@ -152,9 +154,9 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 
@@ -182,9 +184,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params, connection);
 		
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
@@ -209,9 +211,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
@@ -279,9 +281,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		return JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		return JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params, connection);
 	}
 
 	
@@ -302,10 +304,10 @@ public final class JasperFillManager
 		File sourceFile = new File(sourceFileName);
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-		
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
 
-		return JRFiller.fill(lcJrCtx, jasperReport, params);
+		return JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params);
 	}
 
 	
@@ -497,9 +499,9 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params, dataSource);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 		
@@ -527,9 +529,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params, dataSource);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
@@ -576,9 +578,9 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		return JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+		return JRFiller.fill(jasperReportsContext, 
+				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				params, dataSource);
 	}
 
 	
@@ -983,8 +985,9 @@ public final class JasperFillManager
 
 
 	/**
-	 * 
+	 * @deprecated replaced by {@link JasperReportSource}
 	 */
+	@Deprecated
 	protected JasperReportsContext getLocalJasperReportsContext(File file)
 	{
 		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver =

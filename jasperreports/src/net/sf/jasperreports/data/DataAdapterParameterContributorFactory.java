@@ -36,7 +36,11 @@ import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.DataAdapterResource;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -78,8 +82,15 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 		String dataAdapterUri = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(context.getDataset(), PROPERTY_DATA_ADAPTER_LOCATION); 
 		if (dataAdapterUri != null)
 		{
-			DataAdapterResource dataAdapterResource = RepositoryUtil.getInstance(context.getJasperReportsContext()).getResourceFromLocation(dataAdapterUri, DataAdapterResource.class);
-			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getInstance(context).getService(dataAdapterResource.getDataAdapter());
+			DataAdapterResource dataAdapterResource = RepositoryUtil.getInstance(context.getRepositoryContext()).getResourceFromLocation(dataAdapterUri, DataAdapterResource.class);
+			
+			RepositoryResourceContext adapterResourceContext = SimpleRepositoryResourceContext.childOf(
+					context.getRepositoryContext().getResourceContext(), dataAdapterUri);
+			RepositoryContext adapterRepositoryContext = SimpleRepositoryContext.of(context.getJasperReportsContext(), 
+					adapterResourceContext);
+			ParameterContributorContext adapterContext = context.withRepositoryContext(adapterRepositoryContext);
+			
+			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getInstance(adapterContext).getService(dataAdapterResource.getDataAdapter());
 			
 			return Collections.singletonList(dataAdapterService);
 		}

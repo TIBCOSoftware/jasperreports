@@ -68,7 +68,6 @@ import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
@@ -262,11 +261,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected JRBaseFiller(
 		JasperReportsContext jasperReportsContext, 
-		JasperReport jasperReport, 
+		JasperReportSource reportSource,  
 		BandReportFillerParent parent 
 		) throws JRException
 	{
-		super(jasperReportsContext, jasperReport, parent);
+		super(jasperReportsContext, reportSource, parent);
 		
 		this.bandReportParent = parent;
 

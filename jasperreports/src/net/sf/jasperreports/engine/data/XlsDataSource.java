@@ -29,6 +29,8 @@ import java.io.InputStream;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -83,9 +85,13 @@ public class XlsDataSource extends AbstractPoiXlsDataSource
 	 */
 	public XlsDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
 	{
-		super(jasperReportsContext, location);
+		this(SimpleRepositoryContext.of(jasperReportsContext), location);
 	}
 
+	public XlsDataSource(RepositoryContext context, String location) throws JRException, IOException
+	{
+		super(context, location);
+	}
 	
 	/**
 	 * @see #XlsDataSource(JasperReportsContext, String)

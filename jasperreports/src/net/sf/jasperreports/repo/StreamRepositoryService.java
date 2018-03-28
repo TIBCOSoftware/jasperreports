@@ -38,6 +38,11 @@ public interface StreamRepositoryService extends RepositoryService
 	 */
 	public InputStream getInputStream(String uri);
 	
+	default public InputStream getInputStream(RepositoryContext context, String uri)
+	{
+		return getInputStream(uri);
+	}
+	
 	/**
 	 * 
 	 */

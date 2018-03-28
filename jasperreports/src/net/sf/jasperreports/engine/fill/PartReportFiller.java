@@ -88,13 +88,19 @@ public class PartReportFiller extends BaseReportFiller
 	
 	public PartReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport) throws JRException
 	{
-		this(jasperReportsContext, jasperReport, null);
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), null);
 	}
 	
 	public PartReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport, 
 			PartFillerParent parent) throws JRException
 	{
-		super(jasperReportsContext, jasperReport, parent);
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), parent);
+	}
+	
+	public PartReportFiller(JasperReportsContext jasperReportsContext, JasperReportSource reportSource, 
+			PartFillerParent parent) throws JRException
+	{
+		super(jasperReportsContext, reportSource, parent);
 		
 		detailParts = new FillParts(jasperReport.getDetailSection(), factory);
 		

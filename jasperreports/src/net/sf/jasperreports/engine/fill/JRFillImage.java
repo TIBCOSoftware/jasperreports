@@ -551,7 +551,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					}
 					else
 					{
-						newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+						newRenderer = RendererUtil.getInstance(filler.getRepositoryContext()).getNonLazyRenderable(strSource, getOnErrorTypeValue());
 					}
 				}
 				else if (source instanceof Image)

@@ -108,7 +108,7 @@ public class JRFillReportTemplate implements JRReportTemplate
 			
 			if (source instanceof String)
 			{
-				template = JRXmlTemplateLoader.getInstance(filler.getJasperReportsContext()).loadTemplate((String) source);
+				template = JRXmlTemplateLoader.getInstance(filler.getRepositoryContext()).loadTemplate((String) source);//TODO use parent template context
 			}
 			else if (source instanceof File)
 			{

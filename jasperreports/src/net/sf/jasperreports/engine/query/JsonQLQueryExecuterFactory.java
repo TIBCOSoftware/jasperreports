@@ -50,7 +50,18 @@ public class JsonQLQueryExecuterFactory extends JsonQueryExecuterFactory
 		Map<String, ? extends JRValueParameter> parameters
 		) throws JRException
 	{
-		return new JsonQLQueryExecuter(jasperReportsContext, dataset, parameters);
+		return createQueryExecuter(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parameters);
+	}
+	
+	@Override
+	public JRQueryExecuter createQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parameters
+		) throws JRException
+	{
+		return new JsonQLQueryExecuter(context, dataset, parameters);
 	}
 
 	@Override

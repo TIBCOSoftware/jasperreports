@@ -76,7 +76,9 @@ import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 
 /**
@@ -400,7 +402,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 		else if (source instanceof java.lang.String)
 		{
-			report = RepositoryUtil.getInstance(filler.getJasperReportsContext()).getReport(filler.getFillContext().getReportContext(), (String)source);
+			report = RepositoryUtil.getInstance(filler.getRepositoryContext()).getReport(filler.getFillContext().getReportContext(), (String)source);
 //						(JasperReport)JRLoader.loadObjectFromLocation(
 //							(String)source, 
 //							filler.reportClassLoader,
@@ -543,18 +545,22 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 		
 		subFillerParent = new FillerSubreportParent(this, evaluator);
+
+		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.childOf(
+				filler.getRepositoryContext().getResourceContext(), getReportLocation());
+		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportContext);
 		
 		switch (jasperReport.getPrintOrderValue())
 		{
 			case HORIZONTAL :
 			{
-				subreportFiller = new JRHorizontalFiller(filler.getJasperReportsContext(), jasperReport, subFillerParent);
+				subreportFiller = new JRHorizontalFiller(filler.getJasperReportsContext(), reportSource, subFillerParent);
 				break;
 			}
 			case VERTICAL :
 			default :
 			{
-				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), jasperReport, subFillerParent);
+				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), reportSource, subFillerParent);
 				break;
 			}
 		}

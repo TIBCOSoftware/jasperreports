@@ -49,15 +49,15 @@ public final class RepositoryUtil
 	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<List<RepositoryService>>();
 	
 
-	private JasperReportsContext jasperReportsContext;
+	private RepositoryContext context;
 
 
 	/**
 	 *
 	 */
-	private RepositoryUtil(JasperReportsContext jasperReportsContext)//FIXMECONTEXT try to reuse utils as much as you can
+	private RepositoryUtil(RepositoryContext context)//FIXMECONTEXT try to reuse utils as much as you can
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.context = context;
 	}
 	
 	
@@ -66,7 +66,12 @@ public final class RepositoryUtil
 	 */
 	public static RepositoryUtil getInstance(JasperReportsContext jasperReportsContext)
 	{
-		return new RepositoryUtil(jasperReportsContext);
+		return getInstance(SimpleRepositoryContext.of(jasperReportsContext));
+	}
+	
+	public static RepositoryUtil getInstance(RepositoryContext repositoryContext)
+	{
+		return new RepositoryUtil(repositoryContext);
 	}
 	
 	
@@ -81,7 +86,7 @@ public final class RepositoryUtil
 			return cachedServices;
 		}
 		
-		List<RepositoryService> services = jasperReportsContext.getExtensions(RepositoryService.class);
+		List<RepositoryService> services = context.getJasperReportsContext().getExtensions(RepositoryService.class);
 		
 		// set if not already set
 		if (repositoryServices.compareAndSet(null, services))
@@ -101,7 +106,7 @@ public final class RepositoryUtil
 	{
 		JasperReport jasperReport = null;
 		
-		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+		JasperDesignCache cache = JasperDesignCache.getInstance(context.getJasperReportsContext(), reportContext);
 		if (cache != null)
 		{
 			jasperReport = cache.getJasperReport(location);
@@ -141,7 +146,7 @@ public final class RepositoryUtil
 		{
 			for (RepositoryService service : services)
 			{
-				resource = service.getResource(location, resourceType);
+				resource = service.getResource(context, location, resourceType);
 				if (resource != null)
 				{
 					break;
@@ -187,7 +192,7 @@ public final class RepositoryUtil
 		{
 			for (RepositoryService service : services)
 			{
-				inputStreamResource = service.getResource(location, InputStreamResource.class);
+				inputStreamResource = service.getResource(context, location, InputStreamResource.class);
 				if (inputStreamResource != null)
 				{
 					break;

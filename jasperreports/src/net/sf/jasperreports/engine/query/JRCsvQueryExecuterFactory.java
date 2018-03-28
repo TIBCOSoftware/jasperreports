@@ -263,7 +263,18 @@ public class JRCsvQueryExecuterFactory extends AbstractQueryExecuterFactory impl
 		Map<String, ? extends JRValueParameter> parameters
 		) throws JRException 
 	{
-		return new JRCsvQueryExecuter(jasperReportsContext, dataset, parameters);
+		return createQueryExecuter(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parameters);
+	}
+
+	@Override
+	public JRQueryExecuter createQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parameters
+		) throws JRException 
+	{
+		return new JRCsvQueryExecuter(context, dataset, parameters);
 	}
 
 	@Override

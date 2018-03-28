@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.data.IndexedDataSource;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
+import net.sf.jasperreports.engine.query.SimpleQueryExecutionContext;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -90,6 +91,8 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.MD5Digest;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -594,7 +597,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		}
 		else
 		{
-			loadedBundle = JRResourcesUtil.loadResourceBundle(getJasperReportsContext(), resourceBundleBaseName, locale);
+			loadedBundle = JRResourcesUtil.loadResourceBundle(getRepositoryContext(), resourceBundleBaseName, locale);
 		}
 		return loadedBundle;
 	}
@@ -1142,7 +1145,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	public void contributeParameters(Map<String,Object> parameterValues) throws JRException
 	{
-		parameterContributors = getParameterContributors(new ParameterContributorContext(getJasperReportsContext(), this, parameterValues));
+		parameterContributors = getParameterContributors(new ParameterContributorContext(getRepositoryContext(), this, parameterValues));
 		if (parameterContributors != null)
 		{
 			for(ParameterContributor contributor : parameterContributors)
@@ -1166,6 +1169,13 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return filler == null
 				? (jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
 				: filler.getJasperReportsContext();
+	}
+	
+	protected RepositoryContext getRepositoryContext()
+	{
+		return filler == null
+				? SimpleRepositoryContext.of(jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
+				: filler.getRepositoryContext();
 	}
 	
 	/**
@@ -1239,7 +1249,9 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			}
 			
 			QueryExecuterFactory queryExecuterFactory = JRQueryExecuterUtils.getInstance(getJasperReportsContext()).getExecuterFactory(query.getLanguage());
-			queryExecuter = queryExecuterFactory.createQueryExecuter(getJasperReportsContext(), this, parametersMap);
+			SimpleQueryExecutionContext queryExecutionContext = SimpleQueryExecutionContext.of(
+					getJasperReportsContext(), getRepositoryContext());
+			queryExecuter = queryExecuterFactory.createQueryExecuter(queryExecutionContext, this, parametersMap);
 			filler.fillContext.setRunningQueryExecuter(queryExecuter);
 			
 			return queryExecuter.createDatasource();

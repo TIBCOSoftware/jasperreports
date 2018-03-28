@@ -48,6 +48,8 @@ import net.sf.jasperreports.engine.util.JsonUtil;
 import net.sf.jasperreports.engine.util.json.DefaultJsonQLExecuter;
 import net.sf.jasperreports.engine.util.json.JsonQLExecuter;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -98,7 +100,11 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
     }
 
     public JsonQLDataSource(JasperReportsContext jasperReportsContext, String jsonSource, String selectExpression) throws JRException {
-        this(JsonUtil.parseJson(jasperReportsContext, jsonSource), selectExpression);
+        this(SimpleRepositoryContext.of(jasperReportsContext), jsonSource, selectExpression);
+    }
+
+    public JsonQLDataSource(RepositoryContext repositoryContext, String jsonSource, String selectExpression) throws JRException {
+        this(JsonUtil.parseJson(repositoryContext, jsonSource), selectExpression);
     }
 
     protected JsonQLDataSource(JsonNode jacksonJsonTree, String selectExpression) throws JRException {

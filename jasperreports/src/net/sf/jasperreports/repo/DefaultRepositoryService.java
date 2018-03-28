@@ -101,6 +101,12 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	@Override
 	public InputStream getInputStream(String uri)
 	{
+		return getInputStream(SimpleRepositoryContext.of(jasperReportsContext), uri);
+	}
+	
+	@Override
+	public InputStream getInputStream(RepositoryContext context, String uri)
+	{
 		try
 		{
 			URL url = JRResourcesUtil.createURL(uri, urlHandlerFactory);
@@ -109,7 +115,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 				return JRLoader.getInputStream(url);
 			}
 
-			File file = resolveFile(uri);
+			File file = resolveFile(context, uri);
 			if (file != null)
 			{
 				return JRLoader.getInputStream(file);
@@ -132,7 +138,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	/**
 	 * @deprecated To be removed.
 	 */
-	protected File resolveFile(String uri)
+	protected File resolveFile(RepositoryContext context, String uri)
 	{
 		if (fileResolver != null)
 		{
@@ -141,7 +147,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		
 		if (filesEnabled)
 		{
-			return JRResourcesUtil.resolveFile(uri);
+			return JRResourcesUtil.resolveFile(context, uri);
 		}
 		
 		return null;
@@ -171,10 +177,16 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	@Override
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
+		return getResource(SimpleRepositoryContext.of(jasperReportsContext), uri, resourceType);
+	}
+	
+	@Override
+	public <K extends Resource> K getResource(RepositoryContext context, String uri, Class<K> resourceType)
+	{
 		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(DefaultRepositoryService.class, resourceType);
 		if (persistenceService != null)
 		{
-			return (K)persistenceService.load(uri, this);
+			return (K) persistenceService.load(context, uri, this);
 		}
 		return null;
 	}

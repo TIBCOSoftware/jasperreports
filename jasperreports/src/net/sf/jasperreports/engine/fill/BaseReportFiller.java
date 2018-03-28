@@ -57,6 +57,8 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -80,6 +82,8 @@ public abstract class BaseReportFiller implements ReportFiller
 	 * The report.
 	 */
 	protected JasperReport jasperReport;
+	
+	protected RepositoryContext repositoryContext;
 
 	protected JRCalculator calculator;
 
@@ -121,11 +125,18 @@ public abstract class BaseReportFiller implements ReportFiller
 	public BaseReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport, 
 			FillerParent parent) throws JRException
 	{
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), parent);
+	}
+
+	public BaseReportFiller(JasperReportsContext jasperReportsContext, JasperReportSource reportSource, 
+			FillerParent parent) throws JRException
+	{
 		JRGraphEnvInitializer.initializeGraphEnv();
 		
 		setJasperReportsContext(jasperReportsContext);
 		
-		this.jasperReport = jasperReport;
+		this.jasperReport = reportSource.getReport();
+		this.repositoryContext = SimpleRepositoryContext.of(jasperReportsContext, reportSource.getRepositoryReportContext());
 		jasperReportSet();
 		
 		this.parent = parent;
@@ -255,6 +266,11 @@ public abstract class BaseReportFiller implements ReportFiller
 	public JasperReportsContext getJasperReportsContext()
 	{
 		return jasperReportsContext;
+	}
+	
+	public RepositoryContext getRepositoryContext()
+	{
+		return repositoryContext;
 	}
 
 	public JRPropertiesUtil getPropertiesUtil()

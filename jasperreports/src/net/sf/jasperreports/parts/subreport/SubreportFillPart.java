@@ -60,7 +60,9 @@ import net.sf.jasperreports.engine.fill.JRFillSubreport;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JRHorizontalFiller;
 import net.sf.jasperreports.engine.fill.JRVerticalFiller;
+import net.sf.jasperreports.engine.fill.JasperReportSource;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
+import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 import net.sf.jasperreports.engine.part.BasePartFillComponent;
 import net.sf.jasperreports.engine.part.FillingPrintPart;
 import net.sf.jasperreports.engine.part.PartPrintOutput;
@@ -68,6 +70,8 @@ import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.BookmarksFlatDataSource;
 import net.sf.jasperreports.parts.PartFillerParent;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -214,6 +218,15 @@ public class SubreportFillPart extends BasePartFillComponent
 		
 		return filler;
 	}
+	
+	protected JasperReportSource jasperReportSource()
+	{
+		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.childOf(
+				fillContext.getFiller().getRepositoryContext().getResourceContext(),
+				reportSource instanceof String ? (String) reportSource : null);
+		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportContext);
+		return reportSource;
+	}
 
 	protected JRBaseFiller createBandSubfiller(final PartPrintOutput output) throws JRException
 	{
@@ -222,10 +235,10 @@ public class SubreportFillPart extends BasePartFillComponent
 		switch (jasperReport.getPrintOrderValue())
 		{
 		case HORIZONTAL:
-			bandFiller = new JRHorizontalFiller(getJasperReportsContext(), jasperReport, bandParent);
+			bandFiller = new JRHorizontalFiller(getJasperReportsContext(), jasperReportSource(), bandParent);
 			break;
 		case VERTICAL:
-			bandFiller = new JRVerticalFiller(getJasperReportsContext(), jasperReport, bandParent);
+			bandFiller = new JRVerticalFiller(getJasperReportsContext(), jasperReportSource(), bandParent);
 			break;
 		default:
 			throw 
@@ -255,7 +268,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	protected BaseReportFiller createPartSubfiller(PartPrintOutput output) throws JRException
 	{
 		PartParent partParent = new PartParent(output);
-		PartReportFiller partFiller = new PartReportFiller(getJasperReportsContext(), jasperReport, partParent);
+		PartReportFiller partFiller = new PartReportFiller(getJasperReportsContext(), jasperReportSource(), partParent);
 		return partFiller;
 	}
 	

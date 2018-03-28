@@ -140,7 +140,18 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory im
 		Map<String,? extends JRValueParameter> parameters
 		) throws JRException
 	{
-		return new JRXPathQueryExecuter(jasperReportsContext, dataset, parameters);
+		return createQueryExecuter(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parameters);
+	}
+
+	@Override
+	public JRQueryExecuter createQueryExecuter(
+		QueryExecutionContext context, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		) throws JRException
+	{
+		return new JRXPathQueryExecuter(context, dataset, parameters);
 	}
 
 	@Override

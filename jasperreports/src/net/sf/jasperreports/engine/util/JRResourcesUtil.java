@@ -28,15 +28,22 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.repo.ResourceBundleResource;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -46,6 +53,9 @@ import net.sf.jasperreports.repo.ResourceBundleResource;
  */
 public final class JRResourcesUtil
 {
+	
+	private static final Log log = LogFactory.getLog(JRResourcesUtil.class);
+	
 	/**
 	 * 
 	 */
@@ -177,19 +187,87 @@ public final class JRResourcesUtil
 			return fileResolver.resolveFile(location);
 		}
 
-		return resolveFile(location);
+		return resolveFile(null, location);
 	}
 
 
-	public static File resolveFile(String location)
+	public static File resolveFile(RepositoryContext context, String location)
 	{
-		File file = new File(location);
-		if (file.exists() && file.isFile())
+		File file = locateFile(location, context == null ? null : context.getResourceContext());
+		if (file != null && file.isFile())
 		{
 			return file;
 		}
 		
 		return null;
+	}
+	
+	protected static File locateFile(String location, RepositoryResourceContext resourceContext)
+	{
+		File file = new File(location);
+		if (file.exists())
+		{
+			return file;
+		}
+		
+		//attempting to treat absolute paths as relative paths, that's what SimpleFileResolver(".") did
+		if (Paths.get(location).isAbsolute())
+		{
+			file = new File(".", location);
+			if (file.exists())
+			{
+				return file;
+			}
+		}
+		
+		if (resourceContext != null)
+		{
+			File contextDir = locateContextDirectory(resourceContext);
+			if (contextDir != null)
+			{
+				file = new File(contextDir, location);
+				if (file.exists())
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("resolved location " + location + " relative to the context " + contextDir);
+					}
+					
+					return file;
+				}
+			}
+		}
+		
+		return null;
+	}
+
+
+	protected static File locateContextDirectory(RepositoryResourceContext resourceContext)
+	{
+		File contextFolder = null;
+		if (resourceContext != null)
+		{
+			if (resourceContext.getContextResourceLocation() == null)
+			{
+				contextFolder = locateContextDirectory(resourceContext.getParentContext());
+			}
+			else
+			{
+				File contextFile = locateFile(resourceContext.getContextResourceLocation(), resourceContext.getParentContext());
+				if (contextFile != null)
+				{
+					if (contextFile.isFile())
+					{
+						contextFolder = contextFile.getParentFile();
+					}
+					else if (contextFile.isDirectory())
+					{
+						contextFolder = contextFile;
+					}
+				}
+			}
+		}
+		return contextFolder;
 	}
 
 
@@ -399,6 +477,11 @@ public final class JRResourcesUtil
 	 */
 	public static ResourceBundle loadResourceBundle(JasperReportsContext jasperReportsContext, String baseName, Locale locale)
 	{
+		return loadResourceBundle(SimpleRepositoryContext.of(jasperReportsContext), baseName, locale);
+	}
+	
+	public static ResourceBundle loadResourceBundle(RepositoryContext repositoryContext, String baseName, Locale locale)
+	{
 		ResourceBundle resourceBundle = null;
 		MissingResourceException ex = null;
 		try
@@ -422,7 +505,7 @@ public final class JRResourcesUtil
 				try
 				{
 					resourceBundleResource = 
-							RepositoryUtil.getInstance(jasperReportsContext).getResourceFromLocation(
+							RepositoryUtil.getInstance(repositoryContext).getResourceFromLocation(
 								baseName + suffix + PROPERTIES_FILE_EXTENSION, 
 								ResourceBundleResource.class
 								);

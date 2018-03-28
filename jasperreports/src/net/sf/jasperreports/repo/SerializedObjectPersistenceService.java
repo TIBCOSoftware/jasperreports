@@ -43,9 +43,15 @@ public class SerializedObjectPersistenceService implements PersistenceService
 	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
+		return load(null, uri, repositoryService);
+	}
+
+	@Override
+	public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
+	{
 		SerializableResource<Serializable> resource = null; 
 
-		InputStreamResource isResource = repositoryService.getResource(uri, InputStreamResource.class);
+		InputStreamResource isResource = repositoryService.getResource(context, uri, InputStreamResource.class);
 		
 		InputStream is = isResource == null ? null : isResource.getInputStream();
 		if (is != null)

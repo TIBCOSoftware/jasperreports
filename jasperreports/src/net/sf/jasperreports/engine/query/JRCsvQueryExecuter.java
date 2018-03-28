@@ -69,9 +69,18 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
 		Map<String, ? extends JRValueParameter> parametersMap
+		)
+	{
+		this(SimpleQueryExecutionContext.of(jasperReportsContext), dataset, parametersMap);
+	}
+	
+	protected JRCsvQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parametersMap
 		) 
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		super(context, dataset, parametersMap);
 	}
 
 	@Override
@@ -110,9 +119,9 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 							String csvSource = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_SOURCE);
 							if (csvSource != null) {
 								if (csvCharset != null) {
-									datasource = new JRCsvDataSource(getJasperReportsContext(), csvSource, csvCharset);
+									datasource = new JRCsvDataSource(getRepositoryContext(), csvSource, csvCharset);
 								} else {
-									datasource = new JRCsvDataSource(getJasperReportsContext(), csvSource);
+									datasource = new JRCsvDataSource(getRepositoryContext(), csvSource);
 								}
 							} else {
 								if (log.isWarnEnabled()){

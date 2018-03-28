@@ -46,7 +46,7 @@ public class RepositoryDataLocationService implements DataFileService
 	
 	public RepositoryDataLocationService(ParameterContributorContext context, RepositoryDataLocation dataLocation)
 	{
-		this.repository = RepositoryUtil.getInstance(context.getJasperReportsContext());
+		this.repository = RepositoryUtil.getInstance(context.getRepositoryContext());
 		this.dataLocation = dataLocation;
 	}
 

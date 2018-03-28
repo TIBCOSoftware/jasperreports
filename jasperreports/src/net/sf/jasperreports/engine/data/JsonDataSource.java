@@ -51,6 +51,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JsonUtil;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -134,9 +136,14 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 	 * @param location a String representing JSON data source
 	 * @param selectExpression a String representing the select expression
 	 */
-	public JsonDataSource(JasperReportsContext jasperReportsContext, String location, String selectExpression) throws JRException 
+	public JsonDataSource(JasperReportsContext jasperReportsContext, String location, String selectExpression) throws JRException
 	{
-		this(JsonUtil.parseJson(jasperReportsContext, location), selectExpression);
+		this(SimpleRepositoryContext.of(jasperReportsContext), location, selectExpression);
+	}
+	
+	public JsonDataSource(RepositoryContext repositoryContext, String location, String selectExpression) throws JRException 
+	{
+		this(JsonUtil.parseJson(repositoryContext, location), selectExpression);
 	}
 
 	/**
