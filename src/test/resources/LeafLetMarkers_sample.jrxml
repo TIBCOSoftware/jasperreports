@@ -5,8 +5,8 @@
 		<![CDATA[select store_name, lat, long from store]]>
 	</queryString>
 	<field name="store_name" class="java.lang.String"/>
-	<field name="lat" class="java.math.BigDecimal"/>
-	<field name="long" class="java.math.BigDecimal"/>
+	<field name="lat" class="java.lang.String"/>
+	<field name="long" class="java.lang.String"/>
 	<title>
 		<band height="555" splitType="Stretch">
 			<frame>
