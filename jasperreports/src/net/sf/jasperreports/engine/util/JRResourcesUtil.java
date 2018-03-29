@@ -29,6 +29,7 @@ import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
@@ -275,22 +276,30 @@ public final class JRResourcesUtil
 		File contextFolder = null;
 		if (resourceContext != null)
 		{
-			if (resourceContext.getContextResourceLocation() == null)
+			String contextResource = resourceContext.getContextResourceLocation();
+			if (contextResource == null)
 			{
 				contextFolder = locateContextDirectory(resourceContext.getParentContext(), rootLocator);
 			}
 			else
 			{
-				File contextFile = locateFile(resourceContext.getParentContext(), resourceContext.getContextResourceLocation(), rootLocator);
-				if (contextFile != null)
+				try
 				{
-					if (contextFile.isFile())
+					Path contextDir = Paths.get(contextResource).getParent();
+					if (contextDir != null)
 					{
-						contextFolder = contextFile.getParentFile();
+						File contextFile = locateFile(resourceContext.getParentContext(), contextDir.toString(), rootLocator);
+						if (contextFile != null && contextFile.isDirectory())
+						{
+							contextFolder = contextFile;
+						}
 					}
-					else if (contextFile.isDirectory())
+				}
+				catch (InvalidPathException e)
+				{
+					if (log.isDebugEnabled())
 					{
-						contextFolder = contextFile;
+						log.debug("location \"" + contextResource + "\" is not a file path: " + e);
 					}
 				}
 			}
