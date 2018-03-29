@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
@@ -217,12 +218,22 @@ public final class JRResourcesUtil
 		}
 		
 		//attempting to treat absolute paths as relative paths, that's what SimpleFileResolver(".") did
-		if (Paths.get(location).isAbsolute())
+		try
 		{
-			file = new File(".", location);
-			if (file.exists())
+			if (Paths.get(location).isAbsolute())
 			{
-				return file;
+				file = new File(".", location);
+				if (file.exists())
+				{
+					return file;
+				}
+			}
+		}
+		catch (InvalidPathException e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("location \"" + location + "\" is not a file path: " + e);
 			}
 		}
 		
