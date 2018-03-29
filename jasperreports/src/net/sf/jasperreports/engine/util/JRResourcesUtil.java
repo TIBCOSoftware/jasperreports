@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -193,7 +194,12 @@ public final class JRResourcesUtil
 
 	public static File resolveFile(RepositoryContext context, String location)
 	{
-		File file = locateFile(location, context == null ? null : context.getResourceContext());
+		return resolveFile(context, location, JRResourcesUtil::defaultLocateFile);
+	}
+
+	public static File resolveFile(RepositoryContext context, String location, Function<String, File> rootLocator)
+	{
+		File file = locateFile(context == null ? null : context.getResourceContext(), location, rootLocator);
 		if (file != null && file.isFile())
 		{
 			return file;
@@ -202,7 +208,7 @@ public final class JRResourcesUtil
 		return null;
 	}
 	
-	protected static File locateFile(String location, RepositoryResourceContext resourceContext)
+	protected static File defaultLocateFile(String location)
 	{
 		File file = new File(location);
 		if (file.exists())
@@ -220,9 +226,20 @@ public final class JRResourcesUtil
 			}
 		}
 		
+		return null;
+	}
+	
+	protected static File locateFile(RepositoryResourceContext resourceContext, String location, Function<String, File> rootLocator)
+	{
+		File file = rootLocator.apply(location);
+		if (file != null)
+		{
+			return file;
+		}
+		
 		if (resourceContext != null)
 		{
-			File contextDir = locateContextDirectory(resourceContext);
+			File contextDir = locateContextDirectory(resourceContext, rootLocator);
 			if (contextDir != null)
 			{
 				file = new File(contextDir, location);
@@ -242,18 +259,18 @@ public final class JRResourcesUtil
 	}
 
 
-	protected static File locateContextDirectory(RepositoryResourceContext resourceContext)
+	protected static File locateContextDirectory(RepositoryResourceContext resourceContext, Function<String, File> rootLocator)
 	{
 		File contextFolder = null;
 		if (resourceContext != null)
 		{
 			if (resourceContext.getContextResourceLocation() == null)
 			{
-				contextFolder = locateContextDirectory(resourceContext.getParentContext());
+				contextFolder = locateContextDirectory(resourceContext.getParentContext(), rootLocator);
 			}
 			else
 			{
-				File contextFile = locateFile(resourceContext.getContextResourceLocation(), resourceContext.getParentContext());
+				File contextFile = locateFile(resourceContext.getParentContext(), resourceContext.getContextResourceLocation(), rootLocator);
 				if (contextFile != null)
 				{
 					if (contextFile.isFile())

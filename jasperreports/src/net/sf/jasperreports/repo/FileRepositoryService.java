@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
 
 /**
@@ -98,38 +99,20 @@ public class FileRepositoryService implements StreamRepositoryService
 	@Override
 	public InputStream getInputStream(String uri)
 	{
+		return getInputStream(SimpleRepositoryContext.of(jasperReportsContext), uri);
+	}
+	
+	@Override
+	public InputStream getInputStream(RepositoryContext context, String uri)
+	{
 		File file = null;
 
 		if (uri != null)
 		{
-			file = new File(getRoot(), uri);
-			if (file.exists() && file.isFile())
+			file = JRResourcesUtil.resolveFile(context, uri, this::locateFile);
+			if (file != null && !file.isFile())
 			{
-				//checking that syntactically the requested path is still inside the root
-				//we are not dealing with symlinks/real paths for now
-				Path rootPath = rootNormalizedPath();
-				Path filePath = file.toPath().normalize();
-				if (!filePath.startsWith(rootPath))
-				{
-					log.warn("Requested path " + uri + " normalized to " + filePath
-							+ ", which falls outside repository root path " + rootPath);
-					file = null;
-				}
-			}
-			else
-			{
-				if (resolveAbsolutePath)
-				{
-					file = new File(uri);
-					if (!file.exists() || !file.isFile())
-					{
-						file = null;
-					}
-				}
-				else
-				{
-					file = null;
-				}
+				file = null;
 			}
 
 		}
@@ -149,6 +132,40 @@ public class FileRepositoryService implements StreamRepositoryService
 		}
 		
 		return is;
+	}
+	
+	protected File locateFile(String location)
+	{
+		File file = new File(getRoot(), location);
+		if (file.exists())
+		{
+			//checking that syntactically the requested path is still inside the root
+			//we are not dealing with symlinks/real paths for now
+			Path rootPath = rootNormalizedPath();
+			Path filePath = file.toPath().normalize();
+			if (!filePath.startsWith(rootPath))
+			{
+				log.warn("Requested path " + location + " normalized to " + filePath
+						+ ", which falls outside repository root path " + rootPath);
+				file = null;
+			}
+		}
+		else
+		{
+			if (resolveAbsolutePath)
+			{
+				file = new File(location);
+				if (!file.exists())
+				{
+					file = null;
+				}
+			}
+			else
+			{
+				file = null;
+			}
+		}
+		return file;
 	}
 	
 	@Override
@@ -200,10 +217,16 @@ public class FileRepositoryService implements StreamRepositoryService
 	@Override
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
+		return getResource(SimpleRepositoryContext.of(jasperReportsContext), uri, resourceType);
+	}
+	
+	@Override
+	public <K extends Resource> K getResource(RepositoryContext context, String uri, Class<K> resourceType)
+	{
 		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(FileRepositoryService.class, resourceType);
 		if (persistenceService != null)
 		{
-			return (K)persistenceService.load(uri, this);
+			return (K) persistenceService.load(context, uri, this);
 		}
 		return null;
 	}
