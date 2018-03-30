@@ -101,12 +101,10 @@ public class FileRepositoryService implements StreamRepositoryService
 	{
 		return getInputStream(SimpleRepositoryContext.of(jasperReportsContext), uri);
 	}
-	
-	@Override
-	public InputStream getInputStream(RepositoryContext context, String uri)
+
+	public File getFile(RepositoryContext context, String uri)
 	{
 		File file = null;
-
 		if (uri != null)
 		{
 			file = JRResourcesUtil.resolveFile(context, uri, this::locateFile);
@@ -114,11 +112,16 @@ public class FileRepositoryService implements StreamRepositoryService
 			{
 				file = null;
 			}
-
 		}
-
+		return file;
+	}
+	
+	@Override
+	public InputStream getInputStream(RepositoryContext context, String uri)
+	{
 		InputStream is = null;
-
+		
+		File file = getFile(context, uri);
 		if (file != null)
 		{
 			try
