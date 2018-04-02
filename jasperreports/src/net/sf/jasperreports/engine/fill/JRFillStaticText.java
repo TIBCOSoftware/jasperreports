@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 {
 
+	private final String text;
 
 	/**
 	 *
@@ -53,7 +54,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 			{
 				text = "";
 			}
-			setRawText(text);
+			this.text = text;
 		}
 
 
@@ -61,12 +62,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 	{
 		super(staticText, factory);
 
-		String text = processMarkupText(staticText.getText());
-		if (text == null)
-		{
-			text = "";
-		}
-		setRawText(text);
+		this.text = staticText.text;
 	}
 
 
@@ -110,6 +106,8 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		evaluateProperties(evaluation);
 		evaluateStyle(evaluation);
 
+		//setting the text each time so that super.rewind() works fine
+		setRawText(this.text);
 		resetTextChunk();
 		
 		setValueRepeating(true);
