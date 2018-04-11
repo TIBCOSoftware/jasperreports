@@ -23,7 +23,6 @@ How to compile all your JRXML report source files at application build time usin
     	<email>teodord@users.sourceforge.net</email>
       </author>
     </documentedBy>
-  	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>

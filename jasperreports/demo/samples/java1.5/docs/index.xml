@@ -23,7 +23,6 @@ How to use Java 1.5 language specific features inside report expressions.
       </author>
     </documentedBy>
   	<otherSample ref="antcompile"/>
-  	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="javascript"/>
     <content>

@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
  * languages can be used if a corresponding report compiler able to produce the information
  * needed for expression evaluation at runtime is available. Currently, JasperReports ships
  * with report compilers that can compile report templates using the Groovy scripting
- * language, JavaScript or BeanShell script, inside report expressions.
+ * language or JavaScript, inside report expressions.
  * </p><p>
  * For simplicity's sake, in the next paragraphs we'll assume that expressions
  * have been written using the Java language.

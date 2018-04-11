@@ -23,7 +23,6 @@ How to implement a custom report compiler and how to register it with a custom d
       </author>
     </documentedBy>
   	<otherSample ref="antcompile"/>
-  	<otherSample ref="beanshell"/>
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>
@@ -74,7 +73,7 @@ used for the report expressions or the mechanism used for their runtime evaluati
 <br/>
 <br/>
 The default language used for the report expressions is Java, but report expressions 
-can be written in any other scripting language (like Groovy, JavaScript, BeanShell, etc) as long as a report 
+can be written in any other scripting language (like Groovy, JavaScript, etc) as long as a report 
 compiler implementation that can evaluate them at runtime is available. The expression language is 
 specified using the <code>language</code> attribute within the <code>&lt;jasperReport/&gt;</code> element.
 <br/>
@@ -102,8 +101,7 @@ reads first a configuration property called
 implementation class for the Java expression language. If this property is found, the facade 
 instantiates a compiler object of that class and delegates the report compilation to it. 
 <br/>
-Similar properties that map the Groovy, JavaScript and 
-BeanShell report compilers to the <code>groovy</code>, <code>javascript</code> and <code>bsh</code> report languages  
+Similar properties that map the Groovy and JavaScript report compilers to the <code>groovy</code> and <code>javascript</code> report languages  
 are also available in JasperReports (see the next section).
 <br/> 
 If the report uses Java as language and no specific compiler has been set for this 
@@ -144,20 +142,18 @@ generated Java source file on the fly.
 As shown above, report expressions can be written in scripting languages other than Java, taking advantage of these specific languages features. 
 The only condition is to make available a report compiler implementation able to evaluate them at runtime. 
 <br/>
-The JasperReports library provides built-in compiler implementations for three scripting languages: Groovy, 
-JavaScript and BeanShell:
+The JasperReports library provides built-in compiler implementations for these scripting languages: Groovy, 
+JavaScript:
 <ul>
 <li><api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api></li>
 <li><api href="net/sf/jasperreports/compilers/JavaScriptCompiler.html">JavaScriptCompiler</api></li>
-<li><api href="net/sf/jasperreports/compilers/JRBshCompiler.html">JRBshCompiler</api></li>
 </ul>
-If the <code>language</code> attribute is set to <code>groovy</code>, or <code>javascript</code>, 
-or <code>bsh</code> (which stands for BeanSHell), or any other scripting language, then the <code>JasperCompileManager</code> facade looks for 
+If the <code>language</code> attribute is set to <code>groovy</code>, or <code>javascript</code> 
+or any other scripting language, then the <code>JasperCompileManager</code> facade looks for 
 the <code>net.sf.jasperreports.compiler.&lt;language&gt;</code> property, to see whether a compiler 
 implementation class is available for the specified language. Default values for these language-specific properties are:
 <ul>
 <li><code>net.sf.jasperreports.compiler.groovy=net.sf.jasperreports.compilers.JRGroovyCompiler</code></li>
-<li><code>net.sf.jasperreports.compiler.bsh=net.sf.jasperreports.compilers.JRBshCompiler</code></li>
 <li><code>net.sf.jasperreports.compiler.javascript=net.sf.jasperreports.compilers.JavaScriptCompiler</code></li>
 </ul>
 <b><a name="groovyCompiler">The</a> Built-in Groovy Compiler</b>
@@ -181,34 +177,6 @@ which extends itself the less specific <api href="net/sf/jasperreports/engine/de
 While its parents handle general or Java-related compiling features, the <code>JRGroovyCompiler</code> takes care only for the Groovy-specific operations.
 It implements four methods from the <code>JRAbstractCompiler</code> class:
 <br/>
-<br/>
-<code>protected abstract String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException;</code> 
-<br/>
-<code>protected abstract void checkLanguage(String language) throws JRException;</code> 
-<br/>
-<code>protected abstract JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;</code> 
-<br/>
-<code>protected abstract String getSourceFileName(String unitName);</code> 
-<br/>
-<br/>
-<b><a name="bshCompiler">The</a> Built-in BeanShell Compiler</b>
-<br/>
-<br/>
-When the <code>language</code> attribute is set to <code>bsh</code>, 
-it means that BeanShell scripting language will be used within report expressions. 
-The default compiler implementation to handle all BeanShell requirements is specified 
-using the <code>net.sf.jasperreports.compiler.bsh</code> property:
-<br/>
-<br/>
-<code>net.sf.jasperreports.compiler.bsh=net.sf.jasperreports.compilers.JRBshCompiler</code>
-<br/>
-<br/>
-The <api href="net/sf/jasperreports/compilers/JRBshCompiler.html">JRBshCompiler</api> class 
-extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class and 
-implements five methods from its parent:
-<br/>
-<br/>
-<code>protected JREvaluator loadEvaluator(Serializable compileData, String unitName) throws JRException;</code> 
 <br/>
 <code>protected abstract String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException;</code> 
 <br/>
@@ -344,7 +312,6 @@ How to use Groovy scripting for report expressions.
       </author>
     </documentedBy>
   	<otherSample ref="antcompile"/>
-  	<otherSample ref="beanshell"/>
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>

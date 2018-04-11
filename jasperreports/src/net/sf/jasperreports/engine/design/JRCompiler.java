@@ -78,14 +78,12 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * compiler implementation that can evaluate them at runtime is available.
  * <p>
  * JasperReports currently ships report compiler implementations for the Groovy scripting
- * language (<a href="http://groovy.codehaus.org">http://groovy.codehaus.org</a>), 
- * JavaScript (<a href="http://www.mozilla.org/rhino">http://www.mozilla.org/rhino</a>), and
- * the BeanShell scripting library (<a href="http://www.beanshell.org">http://www.beanshell.org</a>). </p>
+ * language (<a href="http://groovy.codehaus.org">http://groovy.codehaus.org</a>) and 
+ * JavaScript (<a href="http://www.mozilla.org/rhino">http://www.mozilla.org/rhino</a>). </p>
  * The related compiler implementation classes are:
  * <ul>
  * <li>{@link net.sf.jasperreports.compilers.JRGroovyCompiler}</li>
  * <li>{@link net.sf.jasperreports.compilers.JavaScriptCompiler}</li>
- * <li>{@link net.sf.jasperreports.compilers.JRBshCompiler}</li>
  * </ul>
  * <p>
  * Since the most common scenario is to use the Java language for writing report
