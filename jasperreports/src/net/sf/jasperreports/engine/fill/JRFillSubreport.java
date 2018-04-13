@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
 import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 
@@ -121,8 +122,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	private boolean cacheIncluded;
 	private Connection connection;
 	private JRDataSource dataSource;
-	private JasperReport jasperReport;
+	private JasperReportSource jasperReportSource;
 	private Object source;
+	private String reportLocation;
 
 	private Map<JasperReport,JREvaluator> loadedEvaluators;
 	
@@ -349,10 +351,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 	}
 
-	protected JasperReport evaluateReport(byte evaluation) throws JRException
+	protected JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
 		JasperReport report = null;
+		String contextLocation = null;
 		
+		reportLocation = null;
 		JRExpression expression = getExpression();
 		source = evaluateExpression(expression, evaluation);
 		if (source != null) // FIXME put some default broken image like in browsers
@@ -363,22 +367,50 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				isUsingCache = source instanceof String;
 			}
 			
-			if (isUsingCache && filler.fillContext.hasLoadedSubreport(source))
+			Object reportSource = source;
+			if (source instanceof String)
 			{
-				report = filler.fillContext.getLoadedSubreport(source);
+				reportLocation = (String) source;
+				
+				RepositoryUtil repository = RepositoryUtil.getInstance(filler.getRepositoryContext());
+				ResourceInfo resourceInfo = repository.getResourceInfo(reportLocation);//TODO lucianc cache with context path
+				if (resourceInfo != null)
+				{
+					//using the resolved (non relative) location to load and cache the report
+					reportSource = reportLocation = resourceInfo.getRepositoryResourceLocation();
+					contextLocation = resourceInfo.getRepositoryContextLocation();
+					if (log.isDebugEnabled())
+					{
+						log.debug("subreport source " + source + " resolved to " + reportLocation
+								+ ", context " + contextLocation);
+					}					
+				}
+			}
+			
+			if (isUsingCache && filler.fillContext.hasLoadedSubreport(reportSource))
+			{
+				report = filler.fillContext.getLoadedSubreport(reportSource);
 			}
 			else
 			{
-				report = loadReport(source, filler);
+				report = loadReport(reportSource, filler);
 				
 				if (isUsingCache)
 				{
-					filler.fillContext.registerLoadedSubreport(source, report);
+					filler.fillContext.registerLoadedSubreport(reportSource, report);
 				}
 			}
 		}
+
+		if (report == null)
+		{
+			return null;
+		}
 		
-		return report;
+		RepositoryResourceContext currentContext = filler.getRepositoryContext().getResourceContext();
+		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
+				currentContext == null ? null : currentContext.getFallbackContext());
+		return SimpleJasperReportSource.from(report, reportContext);
 	}
 
 	public static JasperReport loadReport(Object source, BaseReportFiller filler) throws JRException
@@ -431,9 +463,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		evaluateProperties(evaluation);
 		evaluateStyle(evaluation);
 
-		jasperReport = evaluateReport(evaluation);
+		jasperReportSource = evaluateReportSource(evaluation);
 		
-		if (jasperReport != null)
+		if (jasperReportSource != null)
 		{
 			JRFillDataset parentDataset = expressionEvaluator.getFillDataset();
 			datasetPosition = new FillDatasetPosition(parentDataset.fillPosition);
@@ -476,8 +508,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 	}
 
+	protected JasperReport getReport()
+	{
+		return jasperReportSource == null ? null : jasperReportSource.getReport();
+	}
+
 	protected Map<String, Object> evaluateParameterValues(byte evaluation) throws JRException
 	{
+		JasperReport jasperReport = getReport();
 		return getParameterValues(
 			filler, 
 			expressionEvaluator,
@@ -492,6 +530,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected DatasetExpressionEvaluator loadReportEvaluator() throws JRException
 	{
+		JasperReport jasperReport = getReport();
 		DatasetExpressionEvaluator evaluator = null;
 		boolean usingCache = usingCache();
 		if (usingCache)
@@ -511,13 +550,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	
 	protected void evictReportEvaluator()
 	{
-		loadedEvaluators.remove(jasperReport);
+		loadedEvaluators.remove(getReport());
 	}
 
 
 	protected DatasetExpressionEvaluator createEvaluator() throws JRException
 	{
-		return JasperCompileManager.getInstance(filler.getJasperReportsContext()).getEvaluator(jasperReport);
+		return JasperCompileManager.getInstance(filler.getJasperReportsContext()).getEvaluator(
+				getReport());
 	}
 
 
@@ -529,6 +569,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	
 	protected void initSubreportFiller(DatasetExpressionEvaluator evaluator) throws JRException
 	{
+		JasperReport jasperReport = getReport();
 		if (log.isDebugEnabled())
 		{
 			log.debug("Fill " + filler.fillerId + ": creating subreport filler for " + jasperReport.getName());
@@ -546,21 +587,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		subFillerParent = new FillerSubreportParent(this, evaluator);
 
-		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.childOf(
-				filler.getRepositoryContext().getResourceContext(), getReportLocation());
-		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportContext);
-		
 		switch (jasperReport.getPrintOrderValue())
 		{
 			case HORIZONTAL :
 			{
-				subreportFiller = new JRHorizontalFiller(filler.getJasperReportsContext(), reportSource, subFillerParent);
+				subreportFiller = new JRHorizontalFiller(filler.getJasperReportsContext(), jasperReportSource, subFillerParent);
 				break;
 			}
 			case VERTICAL :
 			default :
 			{
-				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), reportSource, subFillerParent);
+				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), jasperReportSource, subFillerParent);
 				break;
 			}
 		}
@@ -1049,6 +1086,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected void validateReport() throws JRException
 	{
+		JasperReport jasperReport = getReport();
 		if (!checkedReports.contains(jasperReport))
 		{
 			verifyBandHeights();
@@ -1065,6 +1103,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		if (!filler.isIgnorePagination())
 		{
+			JasperReport jasperReport = getReport();
+			
 			int pageHeight;
 			int topMargin = jasperReport.getTopMargin();
 			int bottomMargin = jasperReport.getBottomMargin();
@@ -1156,7 +1196,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected String getReportLocation()
 	{
-		return source instanceof String ? (String) source : null;
+		return reportLocation;
 	}
 
 	protected void registerReportStyles(List<JRStyle> styles)
@@ -1166,6 +1206,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	
 	protected String getReportName()
 	{
-		return jasperReport.getName();
+		return getReport().getName();
 	}
 }

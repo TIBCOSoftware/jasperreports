@@ -30,8 +30,6 @@ import java.sql.Connection;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.fill.JRFiller;
-import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -92,11 +90,8 @@ public final class JasperRunManager
 		File sourceFile = new File(sourceFileName);
 
 		/*   */
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		/*   */
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				JasperFillManager.getReportSource(jasperReportsContext, sourceFile), 
 				params, conn);
 
 		/*   */
@@ -127,11 +122,8 @@ public final class JasperRunManager
 		File sourceFile = new File(sourceFileName);
 
 		/*   */
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		/*   */
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				JasperFillManager.getReportSource(jasperReportsContext, sourceFile), 
 				params);
 
 		/*   */
@@ -376,11 +368,8 @@ public final class JasperRunManager
 		File sourceFile = new File(sourceFileName);
 
 		/*   */
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		/*   */
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				JasperFillManager.getReportSource(jasperReportsContext, sourceFile), 
 				params, jrDataSource);
 
 		/*   */
@@ -504,11 +493,8 @@ public final class JasperRunManager
 		File sourceFile = new File(sourceFileName);
 
 		/*   */
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		/*   */
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				JasperFillManager.getReportSource(jasperReportsContext, sourceFile), 
 				params, conn);
 
 		/*   */
@@ -539,11 +525,8 @@ public final class JasperRunManager
 		File sourceFile = new File(sourceFileName);
 
 		/*   */
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		/*   */
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				JasperFillManager.getReportSource(jasperReportsContext, sourceFile), 
 				params);
 
 		/*   */
@@ -614,11 +597,8 @@ public final class JasperRunManager
 		File sourceFile = new File(sourceFileName);
 
 		/*   */
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		/*   */
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				JasperFillManager.getReportSource(jasperReportsContext, sourceFile), 
 				params, jrDataSource);
 
 		/*   */

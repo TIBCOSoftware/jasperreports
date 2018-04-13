@@ -26,11 +26,33 @@ package net.sf.jasperreports.repo;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface RepositoryResourceContext
+public class StandardResourceInfo implements ResourceInfo
 {
 
-	RepositoryResourceContext getFallbackContext();
+	private String resourceLocation;
+
+	private String contextLocation;
 	
-	String getContextLocation();
+	@Override
+	public String getRepositoryResourceLocation()
+	{
+		return resourceLocation;
+	}
+
+	public void setRepositoryResourceLocation(String resourceLocation)
+	{
+		this.resourceLocation = resourceLocation;
+	}
+
+	@Override
+	public String getRepositoryContextLocation()
+	{
+		return contextLocation;
+	}
+
+	public void setRepositoryContextLocation(String contextLocation)
+	{
+		this.contextLocation = contextLocation;
+	}
 
 }

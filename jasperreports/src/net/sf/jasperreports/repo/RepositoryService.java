@@ -50,4 +50,9 @@ public interface RepositoryService
 		return getResource(uri, resourceType);
 	}
 	
+	public default ResourceInfo getResourceInfo(RepositoryContext context, String location)
+	{
+		return null;
+	}
+	
 }

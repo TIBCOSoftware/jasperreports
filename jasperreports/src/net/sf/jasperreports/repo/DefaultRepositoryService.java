@@ -191,5 +191,29 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		return null;
 	}
 
+	@Override
+	public ResourceInfo getResourceInfo(RepositoryContext context, String location)
+	{
+		//detecting URLs
+		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
+		if (url != null)
+		{
+			//not supporting paths relative to URLs
+			return null;
+		}
+
+		File file = resolveFile(context, location);
+		if (file != null)
+		{
+			StandardResourceInfo resourceInfo = new StandardResourceInfo();
+			resourceInfo.setRepositoryResourceLocation(file.getPath());
+			resourceInfo.setRepositoryContextLocation(file.getParent());
+			return resourceInfo;
+		}
+		
+		//TODO lucianc classloader resources
+		return null;
+	}
+
 
 }

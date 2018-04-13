@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.fill.JasperReportSource;
 import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 
 /**
@@ -122,7 +124,7 @@ public final class JasperFillManager
 		String destFileName = destFile.toString();
 
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile, jasperReport), 
 				params, connection);
 		
 		JRSaver.saveObject(jasperPrint, destFileName);
@@ -155,7 +157,7 @@ public final class JasperFillManager
 		String destFileName = destFile.toString();
 
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile, jasperReport), 
 				params);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
@@ -182,10 +184,8 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile), 
 				params, connection);
 		
 		JRSaver.saveObject(jasperPrint, destFileName);
@@ -209,10 +209,8 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile), 
 				params);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
@@ -279,10 +277,8 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
 		return JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile), 
 				params, connection);
 	}
 
@@ -303,10 +299,8 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
 		return JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile), 
 				params);
 	}
 
@@ -500,7 +494,7 @@ public final class JasperFillManager
 		String destFileName = destFile.toString();
 
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile, jasperReport), 
 				params, dataSource);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
@@ -527,10 +521,8 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
 		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile), 
 				params, dataSource);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
@@ -576,10 +568,8 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
 		return JRFiller.fill(jasperReportsContext, 
-				SimpleJasperReportSource.from(jasperReport, sourceFileName), 
+				getReportSource(sourceFile), 
 				params, dataSource);
 	}
 
@@ -1000,5 +990,27 @@ public final class JasperFillManager
 			new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
 		localJasperReportsContext.setFileResolver(fileResolver);
 		return localJasperReportsContext;
+	}
+	
+	protected static JasperReportSource getReportSource(JasperReportsContext jasperReportsContext, 
+			File reportFile) throws JRException
+	{
+		JasperFillManager manager = getInstance(jasperReportsContext);
+		return manager.getReportSource(reportFile);
+	}
+	
+	protected JasperReportSource getReportSource(File reportFile) throws JRException
+	{
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportFile);
+		return getReportSource(reportFile, jasperReport);
+	}
+
+	protected JasperReportSource getReportSource(File reportFile, JasperReport jasperReport)
+	{
+		//attempting resolve absolute paths as relative, that's what SimpleFileResolver(".") did
+		RepositoryResourceContext fallbackContext = SimpleRepositoryResourceContext.of(".");
+		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(
+				reportFile.getParent(), fallbackContext);
+		return SimpleJasperReportSource.from(jasperReport, reportContext);
 	}
 }

@@ -26,11 +26,11 @@ package net.sf.jasperreports.repo;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface RepositoryResourceContext
+public interface ResourceInfo
 {
 
-	RepositoryResourceContext getFallbackContext();
-	
-	String getContextLocation();
+	String getRepositoryResourceLocation();
 
+	String getRepositoryContextLocation();
+	
 }

@@ -29,50 +29,45 @@ package net.sf.jasperreports.repo;
 public class SimpleRepositoryResourceContext implements RepositoryResourceContext
 {
 
-	public static SimpleRepositoryResourceContext of(String resourceLocation)
+	public static SimpleRepositoryResourceContext of(String contextLocation)
 	{
 		SimpleRepositoryResourceContext context = new SimpleRepositoryResourceContext();
-		context.setContextResourceLocation(resourceLocation);
+		context.setContextLocation(contextLocation);
 		return context;
 	}
 	
-	public static RepositoryResourceContext childOf(RepositoryResourceContext parentContext, String resourceLocation)
+	public static RepositoryResourceContext of(String contextLocation, RepositoryResourceContext fallbackContext)
 	{
-		if (resourceLocation == null)
-		{
-			return parentContext;
-		}
-		
 		SimpleRepositoryResourceContext context = new SimpleRepositoryResourceContext();
-		context.setContextResourceLocation(resourceLocation);
-		context.setParentContext(parentContext);
+		context.setContextLocation(contextLocation);
+		context.setFallbackContext(fallbackContext);
 		return context;
 	}
 	
-	private RepositoryResourceContext parentContext;
+	private RepositoryResourceContext fallbackContext;
 	
-	private String resourceLocation;
+	private String contextLocation;
 
 	@Override
-	public RepositoryResourceContext getParentContext()
+	public RepositoryResourceContext getFallbackContext()
 	{
-		return parentContext;
+		return fallbackContext;
 	}
 
-	public void setParentContext(RepositoryResourceContext parentContext)
+	public void setFallbackContext(RepositoryResourceContext fallbackContext)
 	{
-		this.parentContext = parentContext;
+		this.fallbackContext = fallbackContext;
 	}
 	
 	@Override
-	public String getContextResourceLocation()
+	public String getContextLocation()
 	{
-		return resourceLocation;
+		return contextLocation;
 	}
 
-	public void setContextResourceLocation(String resourceLocation)
+	public void setContextLocation(String contextLocation)
 	{
-		this.resourceLocation = resourceLocation;
+		this.contextLocation = contextLocation;
 	}
 
 }

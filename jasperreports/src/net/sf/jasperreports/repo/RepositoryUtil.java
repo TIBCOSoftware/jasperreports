@@ -268,4 +268,22 @@ public final class RepositoryUtil
 
 		return baos.toByteArray();
 	}
+	
+	public ResourceInfo getResourceInfo(String location)
+	{
+		ResourceInfo resourceInfo = null;
+		List<RepositoryService> services = getServices();
+		if (services != null)
+		{
+			for (RepositoryService service : services)
+			{
+				resourceInfo = service.getResourceInfo(context, location);
+				if (resourceInfo != null)
+				{
+					break;
+				}
+			}
+		}
+		return resourceInfo;
+	}
 }

@@ -29,7 +29,6 @@ import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
@@ -218,26 +217,6 @@ public final class JRResourcesUtil
 			return file;
 		}
 		
-		//attempting to treat absolute paths as relative paths, that's what SimpleFileResolver(".") did
-		try
-		{
-			if (Paths.get(location).isAbsolute())
-			{
-				file = new File(".", location);
-				if (file.exists())
-				{
-					return file;
-				}
-			}
-		}
-		catch (InvalidPathException e)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("location \"" + location + "\" is not a file path: " + e);
-			}
-		}
-		
 		return null;
 	}
 	
@@ -251,60 +230,54 @@ public final class JRResourcesUtil
 		
 		if (resourceContext != null)
 		{
-			File contextDir = locateContextDirectory(resourceContext, rootLocator);
-			if (contextDir != null)
+			RepositoryResourceContext context = resourceContext;
+			while (context != null)
 			{
-				file = new File(contextDir, location);
-				if (file.exists())
+				File contextDir = locateContextDirectory(context, rootLocator);
+				if (contextDir != null)
 				{
-					if (log.isDebugEnabled())
+					file = new File(contextDir, location);
+					if (file.exists())
 					{
-						log.debug("resolved location " + location + " relative to the context " + contextDir);
+						if (log.isDebugEnabled())
+						{
+							log.debug("resolved location " + location + " relative to the context " + contextDir);
+						}
+						
+						return file;
 					}
-					
-					return file;
 				}
+				
+				context = context.getFallbackContext();
 			}
 		}
 		
 		return null;
 	}
 
-
 	protected static File locateContextDirectory(RepositoryResourceContext resourceContext, Function<String, File> rootLocator)
 	{
-		File contextFolder = null;
-		if (resourceContext != null)
+		String contextLocation = resourceContext.getContextLocation();
+		if (contextLocation != null)
 		{
-			String contextResource = resourceContext.getContextResourceLocation();
-			if (contextResource == null)
+			try
 			{
-				contextFolder = locateContextDirectory(resourceContext.getParentContext(), rootLocator);
-			}
-			else
-			{
-				try
+				Paths.get(contextLocation);//valid patch check
+				File contextDir = rootLocator.apply(contextLocation);
+				if (contextDir != null && contextDir.isDirectory())
 				{
-					Path contextDir = Paths.get(contextResource).getParent();
-					if (contextDir != null)
-					{
-						File contextFile = locateFile(resourceContext.getParentContext(), contextDir.toString(), rootLocator);
-						if (contextFile != null && contextFile.isDirectory())
-						{
-							contextFolder = contextFile;
-						}
-					}
+					return contextDir;
 				}
-				catch (InvalidPathException e)
+			}
+			catch (InvalidPathException e)
+			{
+				if (log.isDebugEnabled())
 				{
-					if (log.isDebugEnabled())
-					{
-						log.debug("location \"" + contextResource + "\" is not a file path: " + e);
-					}
+					log.debug("location \"" + contextLocation + "\" is not a file path: " + e);
 				}
 			}
 		}
-		return contextFolder;
+		return null;
 	}
 
 

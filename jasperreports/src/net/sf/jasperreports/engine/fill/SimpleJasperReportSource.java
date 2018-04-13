@@ -40,9 +40,9 @@ public class SimpleJasperReportSource implements JasperReportSource
 		return source;
 	}
 
-	public static SimpleJasperReportSource from(JasperReport report, String reportLocation)
+	public static SimpleJasperReportSource from(JasperReport report, String contextLocation)
 	{
-		return from(report, SimpleRepositoryResourceContext.of(reportLocation));
+		return from(report, SimpleRepositoryResourceContext.of(contextLocation));
 	}
 
 	public static SimpleJasperReportSource from(JasperReport report, RepositoryResourceContext reportContext)
