@@ -57,6 +57,10 @@ import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
+import net.sf.jasperreports.repo.ResourcePathKey;
 
 
 /**
@@ -524,10 +528,19 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				//hence the isUsingCache test in exporters yields false positives for images that did not come from Strings
 			}
 			
+			boolean lazy = isLazy();
+			RepositoryContext repositoryContext = filler.getRepositoryContext();
 			Object srcKey = source;
 			if (source instanceof String)
 			{
-				srcKey = new Pair<Boolean, String>(isLazy(), (String)source);
+				String contextPath = null;
+				if (!lazy && repositoryContext.getResourceContext() != null)
+				{
+					contextPath = repositoryContext.getResourceContext().getContextLocation();
+				}
+				ResourcePathKey pathKey = new ResourcePathKey(contextPath, (String) source);
+				
+				srcKey = new Pair<>(lazy, pathKey);
 			}
 
 			if (isUsingCache && filler.fillContext.hasLoadedRenderer(srcKey))
@@ -545,13 +558,39 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				if (source instanceof String)
 				{
 					String strSource = (String) source;
-					if (isLazy())
+					if (lazy)//TODO lucianc resolve within repository context?
 					{
 						newRenderer = ResourceRenderer.getInstance(strSource, true);
 					}
 					else
 					{
-						newRenderer = RendererUtil.getInstance(filler.getRepositoryContext()).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+						ResourceInfo resourceInfo = RepositoryUtil.getInstance(repositoryContext).getResourceInfo((String) source);
+						if (resourceInfo == null)
+						{
+							newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+						}
+						else
+						{
+							String absoluteLocation = resourceInfo.getRepositoryResourceLocation();
+							if (log.isDebugEnabled())
+							{
+								log.debug("image " + source + " resolved to " + absoluteLocation);
+							}
+							ResourcePathKey absolutePathKey = new ResourcePathKey(null, absoluteLocation);
+							Object absoluteKey = new Pair<>(lazy, absolutePathKey);
+							if (isUsingCache && filler.fillContext.hasLoadedRenderer(absoluteKey))
+							{
+								newRenderer = filler.fillContext.getLoadedRenderer(absoluteKey);
+							}
+							else
+							{
+								newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(absoluteLocation, getOnErrorTypeValue());
+								if (isUsingCache)
+								{
+									filler.fillContext.registerLoadedRenderer(absoluteKey, newRenderer);
+								}
+							}
+						}						
 					}
 				}
 				else if (source instanceof Image)
