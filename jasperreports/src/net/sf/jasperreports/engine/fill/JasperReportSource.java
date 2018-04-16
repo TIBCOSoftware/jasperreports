@@ -34,6 +34,8 @@ public interface JasperReportSource
 
 	JasperReport getReport();
 	
+	String getReportLocation();
+	
 	RepositoryResourceContext getRepositoryReportContext();
 	
 }

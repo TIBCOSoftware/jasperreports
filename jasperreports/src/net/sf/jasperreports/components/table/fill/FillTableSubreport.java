@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTemplate;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
@@ -87,7 +86,9 @@ public class FillTableSubreport extends JRFillSubreport
 	@Override
 	protected JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
-		return SimpleJasperReportSource.from(tableReport, filler.getRepositoryContext().getResourceContext());
+		return SimpleJasperReportSource.from(tableReport,
+				filler.getReportSource().getReportLocation(),
+				filler.getRepositoryContext().getResourceContext());
 	}
 
 	@Override

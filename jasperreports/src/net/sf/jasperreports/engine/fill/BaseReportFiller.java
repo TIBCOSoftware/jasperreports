@@ -78,6 +78,8 @@ public abstract class BaseReportFiller implements ReportFiller
 
 	protected List<String> printTransferPropertyPrefixes;
 
+	protected JasperReportSource reportSource;
+	
 	/**
 	 * The report.
 	 */
@@ -135,6 +137,7 @@ public abstract class BaseReportFiller implements ReportFiller
 		
 		setJasperReportsContext(jasperReportsContext);
 		
+		this.reportSource = reportSource;
 		this.jasperReport = reportSource.getReport();
 		this.repositoryContext = SimpleRepositoryContext.of(jasperReportsContext, reportSource.getRepositoryReportContext());
 		jasperReportSet();
@@ -276,6 +279,11 @@ public abstract class BaseReportFiller implements ReportFiller
 	public JRPropertiesUtil getPropertiesUtil()
 	{
 		return propertiesUtil;
+	}
+
+	public JasperReportSource getReportSource()
+	{
+		return reportSource;
 	}
 
 	/**

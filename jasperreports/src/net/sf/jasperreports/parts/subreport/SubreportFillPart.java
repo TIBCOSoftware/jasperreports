@@ -106,7 +106,6 @@ public class SubreportFillPart extends BasePartFillComponent
 	private FillReturnValues.SourceContext returnValuesSource;
 
 	private Object reportSource;
-	private String reportLocation;
 	private JasperReportSource jasperReportSource;
 	private Map<String, Object> parameterValues;
 	
@@ -166,7 +165,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	private JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
 		reportSource = fillContext.evaluate(subreportPart.getExpression(), evaluation);
-		reportLocation = null;
+		String reportLocation = null;
 		
 		String contextLocation = null;
 		Object source = reportSource;
@@ -193,7 +192,7 @@ public class SubreportFillPart extends BasePartFillComponent
 		RepositoryResourceContext currentContext = currentRepositoryContext.getResourceContext();
 		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
 				currentContext == null ? null : currentContext.getFallbackContext());
-		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportContext);
+		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportLocation, reportContext);
 		return reportSource;
 	}
 	
@@ -416,7 +415,7 @@ public class SubreportFillPart extends BasePartFillComponent
 		@Override
 		public String getReportLocation()
 		{
-			return reportSource instanceof String ? (String) reportSource : null;
+			return jasperReportSource == null ? null : jasperReportSource.getReportLocation();
 		}
 
 		@Override

@@ -75,7 +75,7 @@ public class JRFillContext
 	
 	private Map<Object,Renderable> loadedImageRenderers;
 	private RenderersCache renderersCache;
-	private Map<Object,JasperReport> loadedSubreports;
+	private Map<Object,JasperReportSource> loadedSubreports;
 	private Map<Object,JRTemplate> loadedTemplates;
 	private DeduplicableRegistry deduplicableRegistry;
 	private boolean usingVirtualizer;
@@ -125,7 +125,7 @@ public class JRFillContext
 		
 		loadedImageRenderers = new HashMap<Object,Renderable>();
 		renderersCache = new RenderersCache(jasperReportsContext);
-		loadedSubreports = new HashMap<Object,JasperReport>();
+		loadedSubreports = new HashMap<>();
 		loadedTemplates = new HashMap<Object,JRTemplate>();
 		deduplicableRegistry = new DeduplicableRegistry();
 		
@@ -213,7 +213,7 @@ public class JRFillContext
 	 * @param source the source of the subreport
 	 * @return whether the subreport has been cached
 	 * @see #getLoadedSubreport(Object)
-	 * @see #registerLoadedSubreport(Object, JasperReport)
+	 * @see #registerLoadedSubreport(Object, JasperReportSource)
 	 */
 	public boolean hasLoadedSubreport(Object source)
 	{
@@ -226,9 +226,9 @@ public class JRFillContext
 	 * 
 	 * @param source the source of the subreport
 	 * @return the cached subreport
-	 * @see #registerLoadedSubreport(Object, JasperReport)
+	 * @see #registerLoadedSubreport(Object, JasperReportSource)
 	 */
-	public JasperReport getLoadedSubreport(Object source)
+	public JasperReportSource getLoadedSubreport(Object source)
 	{
 		return loadedSubreports.get(source); 
 	}
@@ -243,7 +243,7 @@ public class JRFillContext
 	 * @param subreport the loaded subreport
 	 * @see #getLoadedSubreport(Object)
 	 */
-	public void registerLoadedSubreport(Object source, JasperReport subreport)
+	public void registerLoadedSubreport(Object source, JasperReportSource subreport)
 	{
 		loadedSubreports.put(source, subreport);
 	}

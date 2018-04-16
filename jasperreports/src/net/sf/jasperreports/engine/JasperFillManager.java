@@ -1011,6 +1011,6 @@ public final class JasperFillManager
 		RepositoryResourceContext fallbackContext = SimpleRepositoryResourceContext.of(".");
 		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(
 				reportFile.getParent(), fallbackContext);
-		return SimpleJasperReportSource.from(jasperReport, reportContext);
+		return SimpleJasperReportSource.from(jasperReport, reportFile.getPath(), reportContext);
 	}
 }

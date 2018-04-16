@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.repo.RepositoryResourceContext;
-import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -40,20 +39,17 @@ public class SimpleJasperReportSource implements JasperReportSource
 		return source;
 	}
 
-	public static SimpleJasperReportSource from(JasperReport report, String contextLocation)
-	{
-		return from(report, SimpleRepositoryResourceContext.of(contextLocation));
-	}
-
-	public static SimpleJasperReportSource from(JasperReport report, RepositoryResourceContext reportContext)
+	public static SimpleJasperReportSource from(JasperReport report, String reportLocation, RepositoryResourceContext reportContext)
 	{
 		SimpleJasperReportSource source = new SimpleJasperReportSource();
 		source.setReport(report);
+		source.setReportLocation(reportLocation);
 		source.setRepositoryReportContext(reportContext);
 		return source;
 	}
 	
 	private JasperReport report;
+	private String reportLocation;
 	private RepositoryResourceContext repositoryContext;
 	
 	public SimpleJasperReportSource()
@@ -69,6 +65,17 @@ public class SimpleJasperReportSource implements JasperReportSource
 	public void setReport(JasperReport report)
 	{
 		this.report = report;
+	}
+
+	@Override
+	public String getReportLocation()
+	{
+		return reportLocation;
+	}
+
+	public void setReportLocation(String reportLocation)
+	{
+		this.reportLocation = reportLocation;
 	}
 
 	@Override

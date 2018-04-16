@@ -79,6 +79,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.repo.ResourceInfo;
+import net.sf.jasperreports.repo.ResourcePathKey;
 import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 
@@ -124,7 +125,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	private JRDataSource dataSource;
 	private JasperReportSource jasperReportSource;
 	private Object source;
-	private String reportLocation;
 
 	private Map<JasperReport,JREvaluator> loadedEvaluators;
 	
@@ -353,10 +353,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
-		JasperReport report = null;
-		String contextLocation = null;
+		JasperReportSource report = null;
 		
-		reportLocation = null;
 		JRExpression expression = getExpression();
 		source = evaluateExpression(expression, evaluation);
 		if (source != null) // FIXME put some default broken image like in browsers
@@ -367,37 +365,64 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				isUsingCache = source instanceof String;
 			}
 			
-			Object reportSource = source;
+			Object cacheKey = source;
 			if (source instanceof String)
 			{
-				reportLocation = (String) source;
-				
-				RepositoryUtil repository = RepositoryUtil.getInstance(filler.getRepositoryContext());
-				ResourceInfo resourceInfo = repository.getResourceInfo(reportLocation);//TODO lucianc cache with context path
-				if (resourceInfo != null)
+				String contextPath = null;
+				if (filler.getRepositoryContext().getResourceContext() != null)
 				{
-					//using the resolved (non relative) location to load and cache the report
-					reportSource = reportLocation = resourceInfo.getRepositoryResourceLocation();
-					contextLocation = resourceInfo.getRepositoryContextLocation();
-					if (log.isDebugEnabled())
-					{
-						log.debug("subreport source " + source + " resolved to " + reportLocation
-								+ ", context " + contextLocation);
-					}					
+					contextPath = filler.getRepositoryContext().getResourceContext().getContextLocation();
 				}
+				cacheKey = new ResourcePathKey(contextPath, (String) source);
 			}
 			
-			if (isUsingCache && filler.fillContext.hasLoadedSubreport(reportSource))
+			if (isUsingCache && filler.fillContext.hasLoadedSubreport(cacheKey))
 			{
-				report = filler.fillContext.getLoadedSubreport(reportSource);
+				report = filler.fillContext.getLoadedSubreport(cacheKey);
 			}
 			else
 			{
-				report = loadReport(reportSource, filler);
+				if (source instanceof String)
+				{
+					RepositoryUtil repository = RepositoryUtil.getInstance(filler.getRepositoryContext());
+					ResourceInfo resourceInfo = repository.getResourceInfo((String) source);
+					if (resourceInfo == null)
+					{
+						report = loadReportSource(source, null);
+					}
+					else
+					{
+						String reportLocation = resourceInfo.getRepositoryResourceLocation();
+						String contextLocation = resourceInfo.getRepositoryContextLocation();
+						if (log.isDebugEnabled())
+						{
+							log.debug("subreport source " + source + " resolved to " + reportLocation
+									+ ", context " + contextLocation);
+						}
+						
+						ResourcePathKey absolutePathKey = new ResourcePathKey(null, reportLocation);
+						if (isUsingCache && filler.fillContext.hasLoadedSubreport(absolutePathKey))
+						{
+							report = filler.fillContext.getLoadedSubreport(absolutePathKey);
+						}
+						else
+						{
+							report = loadReportSource(reportLocation, contextLocation);
+							if (isUsingCache)
+							{
+								filler.fillContext.registerLoadedSubreport(absolutePathKey, report);
+							}
+						}
+					}					
+				}
+				else
+				{
+					report = loadReportSource(source, null);
+				}
 				
 				if (isUsingCache)
 				{
-					filler.fillContext.registerLoadedSubreport(reportSource, report);
+					filler.fillContext.registerLoadedSubreport(cacheKey, report);
 				}
 			}
 		}
@@ -407,10 +432,23 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			return null;
 		}
 		
-		RepositoryResourceContext currentContext = filler.getRepositoryContext().getResourceContext();
-		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
-				currentContext == null ? null : currentContext.getFallbackContext());
-		return SimpleJasperReportSource.from(report, reportContext);
+		return report;
+	}
+	
+	protected JasperReportSource loadReportSource(Object reportSource, String contextLocation) throws JRException
+	{
+		JasperReport jasperReport = loadReport(reportSource, filler);
+		JasperReportSource report = null;
+		if (jasperReport != null)
+		{
+			RepositoryResourceContext currentContext = filler.getRepositoryContext().getResourceContext();
+			RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
+					currentContext == null ? null : currentContext.getFallbackContext());
+			report = SimpleJasperReportSource.from(jasperReport, 
+					reportSource instanceof String ? (String) reportSource : null, 
+					reportContext);
+		}
+		return report;
 	}
 
 	public static JasperReport loadReport(Object source, BaseReportFiller filler) throws JRException
@@ -1196,7 +1234,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected String getReportLocation()
 	{
-		return reportLocation;
+		return jasperReportSource == null ? null : jasperReportSource.getReportLocation();
 	}
 
 	protected void registerReportStyles(List<JRStyle> styles)
