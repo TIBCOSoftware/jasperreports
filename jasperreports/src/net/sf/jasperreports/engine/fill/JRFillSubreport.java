@@ -368,12 +368,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			Object cacheKey = source;
 			if (source instanceof String)
 			{
-				String contextPath = null;
-				if (filler.getRepositoryContext().getResourceContext() != null)
-				{
-					contextPath = filler.getRepositoryContext().getResourceContext().getContextLocation();
-				}
-				cacheKey = new ResourcePathKey(contextPath, (String) source);
+				cacheKey = ResourcePathKey.inContext(filler.getRepositoryContext(), (String) source);
 			}
 			
 			if (isUsingCache && filler.fillContext.hasLoadedSubreport(cacheKey))
@@ -400,7 +395,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 									+ ", context " + contextLocation);
 						}
 						
-						ResourcePathKey absolutePathKey = new ResourcePathKey(null, reportLocation);
+						ResourcePathKey absolutePathKey = ResourcePathKey.absolute(reportLocation);
 						if (isUsingCache && filler.fillContext.hasLoadedSubreport(absolutePathKey))
 						{
 							report = filler.fillContext.getLoadedSubreport(absolutePathKey);

@@ -33,6 +33,10 @@ import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
+import net.sf.jasperreports.repo.ResourcePathKey;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,9 +73,9 @@ public class JRFillReportTemplate implements JRReportTemplate
 		return parent.getSourceExpression();
 	}
 
-	public JRTemplate evaluate() throws JRException
+	public ReportTemplateSource evaluate() throws JRException
 	{
-		JRTemplate template;
+		ReportTemplateSource template;
 		JRExpression sourceExpression = getSourceExpression();
 		Object source = filler.evaluateExpression(sourceExpression, JRExpression.EVALUATION_DEFAULT);
 		if (source == null)
@@ -82,22 +86,29 @@ public class JRFillReportTemplate implements JRReportTemplate
 		{
 			if (source instanceof JRTemplate)
 			{
-				template = (JRTemplate) source;
+				template = ReportTemplateSource.of((JRTemplate) source);
 			}
 			else
 			{
-				template = loadTemplate(source, filler);
+				template = loadTemplate(source, filler, filler.getRepositoryContext());
 			}
 		}
 		return template;
 	}
 
-	protected static JRTemplate loadTemplate(Object source, JRBaseFiller filler) throws JRException
+	protected static ReportTemplateSource loadTemplate(Object source, JRBaseFiller filler, 
+			RepositoryContext repositoryContext) throws JRException
 	{
-		JRTemplate template;
-		if (filler.fillContext.hasLoadedTemplate(source))
+		Object cacheKey = source;
+		if (source instanceof String)
 		{
-			template = filler.fillContext.getLoadedTemplate(source);
+			cacheKey = ResourcePathKey.inContext(repositoryContext, (String) source);
+		}
+		
+		ReportTemplateSource templateSource;
+		if (filler.fillContext.hasLoadedTemplate(cacheKey))
+		{
+			templateSource = filler.fillContext.getLoadedTemplate(cacheKey);
 		}
 		else
 		{
@@ -108,19 +119,42 @@ public class JRFillReportTemplate implements JRReportTemplate
 			
 			if (source instanceof String)
 			{
-				template = JRXmlTemplateLoader.getInstance(filler.getRepositoryContext()).loadTemplate((String) source);//TODO use parent template context
+				ResourceInfo resourceInfo = RepositoryUtil.getInstance(repositoryContext).getResourceInfo((String) source);
+				if (resourceInfo == null)
+				{
+					JRTemplate template = JRXmlTemplateLoader.getInstance(repositoryContext).loadTemplate((String) source);
+					templateSource = ReportTemplateSource.of(template);
+				}
+				else
+				{
+					String resourceLocation = resourceInfo.getRepositoryResourceLocation();
+					ResourcePathKey absoluteKey = ResourcePathKey.absolute(resourceLocation);
+					if (filler.fillContext.hasLoadedTemplate(absoluteKey))
+					{
+						templateSource = filler.fillContext.getLoadedTemplate(absoluteKey);
+					}
+					else
+					{
+						JRTemplate template = JRXmlTemplateLoader.getInstance(repositoryContext).loadTemplate(resourceLocation);
+						templateSource = ReportTemplateSource.of(template, resourceInfo);
+						filler.fillContext.registerLoadedTemplate(absoluteKey, templateSource);
+					}
+				}
 			}
 			else if (source instanceof File)
 			{
-				template = JRXmlTemplateLoader.getInstance(filler.getJasperReportsContext()).loadTemplate((File) source);
+				JRTemplate template = JRXmlTemplateLoader.getInstance(filler.getJasperReportsContext()).loadTemplate((File) source);
+				templateSource = ReportTemplateSource.of(template);
 			}
 			else if (source instanceof URL)
 			{
-				template = JRXmlTemplateLoader.getInstance(filler.getJasperReportsContext()).loadTemplate((URL) source);
+				JRTemplate template = JRXmlTemplateLoader.getInstance(filler.getJasperReportsContext()).loadTemplate((URL) source);
+				templateSource = ReportTemplateSource.of(template);
 			}
 			else if (source instanceof InputStream)
 			{
-				template = JRXmlTemplateLoader.getInstance(filler.getJasperReportsContext()).loadTemplate((InputStream) source);
+				JRTemplate template = JRXmlTemplateLoader.getInstance(filler.getJasperReportsContext()).loadTemplate((InputStream) source);
+				templateSource = ReportTemplateSource.of(template);
 			}
 			else
 			{
@@ -131,9 +165,9 @@ public class JRFillReportTemplate implements JRReportTemplate
 						);
 			}
 			
-			filler.fillContext.registerLoadedTemplate(source, template);
+			filler.fillContext.registerLoadedTemplate(cacheKey, templateSource);
 		}
-		return template;
+		return templateSource;
 	}
 	
 }

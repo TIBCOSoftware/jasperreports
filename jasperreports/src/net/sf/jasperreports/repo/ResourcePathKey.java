@@ -30,6 +30,18 @@ import net.sf.jasperreports.engine.util.ObjectUtils;
  */
 public class ResourcePathKey
 {
+	
+	public static ResourcePathKey absolute(String resoucePath)
+	{
+		return new ResourcePathKey(null, resoucePath);
+	}
+	
+	public static ResourcePathKey inContext(RepositoryContext repositoryContext, String resoucePath)
+	{
+		String contextPath = repositoryContext == null || repositoryContext.getResourceContext() == null ? null
+				: repositoryContext.getResourceContext().getContextLocation();
+		return new ResourcePathKey(contextPath, resoucePath);
+	}
 
 	private final String contextPath;
 	

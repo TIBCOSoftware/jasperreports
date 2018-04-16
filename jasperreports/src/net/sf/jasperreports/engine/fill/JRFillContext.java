@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -76,7 +75,7 @@ public class JRFillContext
 	private Map<Object,Renderable> loadedImageRenderers;
 	private RenderersCache renderersCache;
 	private Map<Object,JasperReportSource> loadedSubreports;
-	private Map<Object,JRTemplate> loadedTemplates;
+	private Map<Object,ReportTemplateSource> loadedTemplates;
 	private DeduplicableRegistry deduplicableRegistry;
 	private boolean usingVirtualizer;
 	private JRPrintPage printPage;
@@ -126,7 +125,7 @@ public class JRFillContext
 		loadedImageRenderers = new HashMap<Object,Renderable>();
 		renderersCache = new RenderersCache(jasperReportsContext);
 		loadedSubreports = new HashMap<>();
-		loadedTemplates = new HashMap<Object,JRTemplate>();
+		loadedTemplates = new HashMap<>();
 		deduplicableRegistry = new DeduplicableRegistry();
 		
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
@@ -444,7 +443,7 @@ public class JRFillContext
 	 * @param source the source of the template
 	 * @return whether the template has been cached
 	 * @see #getLoadedTemplate(Object)
-	 * @see #registerLoadedTemplate(Object, JRTemplate)
+	 * @see #registerLoadedTemplate(Object, ReportTemplateSource)
 	 */
 	public boolean hasLoadedTemplate(Object source)
 	{
@@ -455,11 +454,11 @@ public class JRFillContext
 	/**
 	 * Gets a cached template.
 	 * 
-	 * @param source the source of the templage
-	 * @return the cached templage
-	 * @see #registerLoadedTemplate(Object, JRTemplate)
+	 * @param source the source of the template
+	 * @return the cached template
+	 * @see #registerLoadedTemplate(Object, ReportTemplateSource)
 	 */
-	public JRTemplate getLoadedTemplate(Object source)
+	public ReportTemplateSource getLoadedTemplate(Object source)
 	{
 		return loadedTemplates.get(source); 
 	}
@@ -471,12 +470,12 @@ public class JRFillContext
 	 * The template is cached for further use.
 	 * 
 	 * @param source the source that was used to load the template
-	 * @param template the loaded templage
+	 * @param templateSource the loaded template
 	 * @see #getLoadedTemplate(Object)
 	 */
-	public void registerLoadedTemplate(Object source, JRTemplate template)
+	public void registerLoadedTemplate(Object source, ReportTemplateSource templateSource)
 	{
-		loadedTemplates.put(source, template);
+		loadedTemplates.put(source, templateSource);
 	}
 	
 	/**

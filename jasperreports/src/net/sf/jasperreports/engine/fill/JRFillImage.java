@@ -533,13 +533,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			Object srcKey = source;
 			if (source instanceof String)
 			{
-				String contextPath = null;
-				if (!lazy && repositoryContext.getResourceContext() != null)
-				{
-					contextPath = repositoryContext.getResourceContext().getContextLocation();
-				}
-				ResourcePathKey pathKey = new ResourcePathKey(contextPath, (String) source);
-				
+				ResourcePathKey pathKey = ResourcePathKey.inContext(lazy ? null : repositoryContext, (String) source);				
 				srcKey = new Pair<>(lazy, pathKey);
 			}
 
@@ -576,7 +570,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							{
 								log.debug("image " + source + " resolved to " + absoluteLocation);
 							}
-							ResourcePathKey absolutePathKey = new ResourcePathKey(null, absoluteLocation);
+							ResourcePathKey absolutePathKey = ResourcePathKey.absolute(absoluteLocation);
 							Object absoluteKey = new Pair<>(lazy, absolutePathKey);
 							if (isUsingCache && filler.fillContext.hasLoadedRenderer(absoluteKey))
 							{
