@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
@@ -65,18 +66,18 @@ public abstract class AbstractTest
 	
 	private static final String TEST = "TEST";
 
-	private JasperFillManager fillManager;
+	private JasperReportsContext jasperReportsContext;
 
 	@BeforeClass
 	public void init() throws JRException, IOException
 	{
-		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
-		
-		fillManager = JasperFillManager.getInstance(jasperReportsContext);
+		jasperReportsContext = new SimpleJasperReportsContext();
 	}
 
 	protected void testReports(String folderName, String fileNamePrefix, int maxFileNumber) throws JRException, NoSuchAlgorithmException, IOException
 	{
+		JasperFillManager fillManager = JasperFillManager.getInstance(getJasperReportsContext());
+		
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(JRParameter.REPORT_LOCALE, Locale.US);
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
@@ -119,6 +120,19 @@ public abstract class AbstractTest
 		}
 	}
 
+	protected JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
+
+	protected void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+
+	/**
+	 * This method is used for compiling subreports.
+	 */
 	public JasperReport compileReport(String jrxmlFileName) throws JRException, IOException
 	{
 		JasperReport jasperReport = null;
