@@ -24,10 +24,15 @@
 package net.sf.jasperreports.repo;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
+import java.nio.file.Path;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -42,6 +47,8 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  */
 public class DefaultRepositoryService implements StreamRepositoryService
 {
+	
+	private static final Log log = LogFactory.getLog(DefaultRepositoryService.class);
 	
 	public static final String PROPERTY_FILES_ENABLED = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "default.file.repository.enabled";
@@ -206,8 +213,23 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		if (file != null)
 		{
 			StandardResourceInfo resourceInfo = new StandardResourceInfo();
-			resourceInfo.setRepositoryResourceLocation(file.getPath());
-			resourceInfo.setRepositoryContextLocation(file.getParent());
+			try
+			{
+				//resolving to real path to eliminate .. and .
+				Path path = file.toPath().toRealPath();
+				resourceInfo.setRepositoryResourceLocation(path.toString());
+				
+				Path parentPath = path.getParent();
+				resourceInfo.setRepositoryContextLocation(parentPath == null ? null : parentPath.toString());
+			}
+			catch (IOException e)
+			{
+				log.warn("Failed to resolve real path for file " + file, e);
+				
+				//using the paths as present in the File object
+				resourceInfo.setRepositoryResourceLocation(file.getPath());
+				resourceInfo.setRepositoryContextLocation(file.getParent());
+			}
 			return resourceInfo;
 		}
 		
