@@ -212,25 +212,19 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		File file = resolveFile(context, location);
 		if (file != null)
 		{
-			StandardResourceInfo resourceInfo = new StandardResourceInfo();
 			try
 			{
 				//resolving to real path to eliminate .. and .
 				Path path = file.toPath().toRealPath();
-				resourceInfo.setRepositoryResourceLocation(path.toString());
-				
-				Path parentPath = path.getParent();
-				resourceInfo.setRepositoryContextLocation(parentPath == null ? null : parentPath.toString());
+				return StandardResourceInfo.from(path);
 			}
 			catch (IOException e)
 			{
 				log.warn("Failed to resolve real path for file " + file, e);
 				
 				//using the paths as present in the File object
-				resourceInfo.setRepositoryResourceLocation(file.getPath());
-				resourceInfo.setRepositoryContextLocation(file.getParent());
+				return StandardResourceInfo.from(file);
 			}
-			return resourceInfo;
 		}
 		
 		//TODO lucianc classloader resources

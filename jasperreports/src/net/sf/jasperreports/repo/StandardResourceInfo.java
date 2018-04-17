@@ -23,12 +23,32 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.io.File;
+import java.nio.file.Path;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 public class StandardResourceInfo implements ResourceInfo
 {
 
+	public static StandardResourceInfo from(File resourceFile)
+	{
+		StandardResourceInfo info = new StandardResourceInfo();
+		info.setRepositoryResourceLocation(resourceFile.getPath());
+		info.setRepositoryContextLocation(resourceFile.getParent());
+		return info;
+	}
+
+	public static StandardResourceInfo from(Path resourcePath)
+	{
+		StandardResourceInfo info = new StandardResourceInfo();
+		info.setRepositoryResourceLocation(resourcePath.toString());
+		Path parentPath = resourcePath.getParent();
+		info.setRepositoryContextLocation(parentPath == null ? null : parentPath.toString());
+		return info;
+	}
+	
 	private String resourceLocation;
 
 	private String contextLocation;
