@@ -155,7 +155,18 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory imple
 		Map<String, ? extends JRValueParameter> parameters
 		) throws JRException
 	{
-		return new JsonQueryExecuter(jasperReportsContext, dataset, parameters);
+		return createQueryExecuter(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parameters);
+	}
+
+	@Override
+	public JRQueryExecuter createQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parameters
+		) throws JRException
+	{
+		return new JsonQueryExecuter(context, dataset, parameters);
 	}
 
 	@Override

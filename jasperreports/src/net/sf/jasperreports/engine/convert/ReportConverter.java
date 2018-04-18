@@ -344,7 +344,7 @@ public class ReportConverter
 		JRTemplate template;
 		try
 		{
-			template = JRXmlTemplateLoader.getInstance(getJasperReportsContext()).loadTemplate(location);
+			template = JRXmlTemplateLoader.getInstance(getJasperReportsContext()).loadTemplate(location);//TODO lucianc repository context
 		}
 		catch (Exception e)
 		{

@@ -43,7 +43,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuter;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 /**
  * XML data source implementation that allows to access the data from a xml
@@ -314,11 +316,21 @@ public class JRXmlDataSource extends AbstractXmlDataSource<JRXmlDataSource>
 			String uri, 
 			String selectExpression,
 			boolean isNamespaceAware
+			) throws JRException
+	{
+		this(SimpleRepositoryContext.of(jasperReportsContext), uri, selectExpression, isNamespaceAware);
+	}
+
+	public JRXmlDataSource(
+			RepositoryContext context, 
+			String uri, 
+			String selectExpression,
+			boolean isNamespaceAware
 			) throws JRException 
 	{
 		this(
-			jasperReportsContext, 
-			RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(uri), 
+			context.getJasperReportsContext(), 
+			RepositoryUtil.getInstance(context).getInputStreamFromLocation(uri), 
 			selectExpression,
 			isNamespaceAware
 			);

@@ -35,9 +35,15 @@ public class SerializedReportPersistenceService extends SerializedObjectPersiste
 	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
+		return load(null, uri, repositoryService);
+	}
+	
+	@Override
+	public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
+	{
 		ReportResource reportResource = null;
 		
-		SerializableResource resource = (SerializableResource)super.load(uri, repositoryService);
+		SerializableResource resource = (SerializableResource)super.load(context, uri, repositoryService);
 		
 		if (resource != null)
 		{
@@ -47,5 +53,4 @@ public class SerializedReportPersistenceService extends SerializedObjectPersiste
 		
 		return reportResource;
 	}
-	
 }

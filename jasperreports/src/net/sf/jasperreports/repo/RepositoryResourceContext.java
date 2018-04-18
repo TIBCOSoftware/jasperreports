@@ -23,45 +23,16 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.InputStream;
-
-
-
-
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class InputStreamPersistenceService implements PersistenceService
+public interface RepositoryResourceContext
 {
 
-	@Override
-	public Resource load(String uri, RepositoryService repositoryService)
-	{
-		return load(null, uri, repositoryService);
-	}
-
-	@Override
-	public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
-	{
-		InputStreamResource resource = null; 
-
-		StreamRepositoryService streamRepositoryService = (StreamRepositoryService)repositoryService;
-		
-		InputStream is = streamRepositoryService.getInputStream(context, uri);
-		if (is != null)
-		{
-			resource = new InputStreamResource();
-			resource.setInputStream(is);
-		}
-
-		return resource;
-	}
+	RepositoryResourceContext getFallbackContext();
 	
-	@Override
-	public void save(Resource resource, String uri, RepositoryService repositoryService)
-	{
-		//FIXMEREPO probably nothing to do
-	}
-	
+	String getContextLocation();
+
+	RepositoryResourceContext getDerivedContextFallback();
+
 }

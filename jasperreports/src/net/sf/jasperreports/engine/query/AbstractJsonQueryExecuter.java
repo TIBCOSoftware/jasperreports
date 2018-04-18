@@ -63,7 +63,17 @@ public abstract class AbstractJsonQueryExecuter<T extends JRAbstractTextDataSour
 		Map<String, ? extends JRValueParameter> parametersMap
 		)
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		this(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parametersMap);
+	}
+	
+	public AbstractJsonQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parametersMap
+		)
+	{
+		super(context, dataset, parametersMap);
 		parseQuery();
 	}
 

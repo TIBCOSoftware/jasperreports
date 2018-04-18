@@ -43,4 +43,16 @@ public interface RepositoryService
 	 * 
 	 */
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType);
+	
+	public default <K extends Resource> K getResource(RepositoryContext context, 
+			String uri, Class<K> resourceType)
+	{
+		return getResource(uri, resourceType);
+	}
+	
+	public default ResourceInfo getResourceInfo(RepositoryContext context, String location)
+	{
+		return null;
+	}
+	
 }

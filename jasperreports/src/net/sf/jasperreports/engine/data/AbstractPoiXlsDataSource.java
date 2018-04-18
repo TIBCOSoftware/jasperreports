@@ -45,7 +45,9 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FormatUtils;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -113,7 +115,12 @@ public abstract class AbstractPoiXlsDataSource extends AbstractXlsDataSource
 	 */
 	public AbstractPoiXlsDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location));
+		this(SimpleRepositoryContext.of(jasperReportsContext), location);
+	}
+
+	public AbstractPoiXlsDataSource(RepositoryContext context, String location) throws JRException, IOException
+	{
+		this(RepositoryUtil.getInstance(context).getInputStreamFromLocation(location));
 		this.closeInputStream = true;
 	}
 

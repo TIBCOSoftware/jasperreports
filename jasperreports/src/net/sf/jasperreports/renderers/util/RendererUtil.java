@@ -53,7 +53,9 @@ import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.WrappingRenderToImageDataRenderer;
 import net.sf.jasperreports.renderers.util.SvgDataSniffer.SvgInfo;
 import net.sf.jasperreports.renderers.util.XmlDataSniffer.XmlSniffResult;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -78,15 +80,15 @@ public class RendererUtil
 	/**
 	 *
 	 */
-	private final JasperReportsContext jasperReportsContext;
+	private final RepositoryContext context;
 	private SvgDataSniffer svgDataSniffer;
 
 	/**
 	 *
 	 */
-	private RendererUtil(JasperReportsContext jasperReportsContext)
+	private RendererUtil(RepositoryContext context)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.context = context;
 	}
 
 
@@ -95,7 +97,12 @@ public class RendererUtil
 	 */
 	public static RendererUtil getInstance(JasperReportsContext jasperReportsContext)
 	{
-		return new RendererUtil(jasperReportsContext);
+		return getInstance(SimpleRepositoryContext.of(jasperReportsContext));
+	}
+
+	public static RendererUtil getInstance(RepositoryContext context)
+	{
+		return new RendererUtil(context);
 	}
 
 
@@ -143,7 +150,7 @@ public class RendererUtil
 	 */
 	public boolean isSvgData(DataRenderable dataRenderable) throws JRException
 	{
-		return isSvgData(dataRenderable.getData(jasperReportsContext));
+		return isSvgData(dataRenderable.getData(context.getJasperReportsContext()));//TODO pass report context?
 	}
 
 
@@ -154,7 +161,7 @@ public class RendererUtil
 	{
 		if (svgDataSniffer == null)
 		{
-			svgDataSniffer = SvgDataSniffer.getInstance(jasperReportsContext);
+			svgDataSniffer = SvgDataSniffer.getInstance(context.getJasperReportsContext());
 		}
 		return svgDataSniffer;
 	}
@@ -169,7 +176,7 @@ public class RendererUtil
 
 		try
 		{
-			data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(resourceLocation);
+			data = RepositoryUtil.getInstance(context).getBytesFromLocation(resourceLocation);
 		}
 		catch (Exception e)
 		{
@@ -220,7 +227,7 @@ public class RendererUtil
 		byte[] data = null;
 		try
 		{
-			data = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType);
+			data = JRImageLoader.getInstance(context.getJasperReportsContext()).loadBytesFromAwtImage(image, imageType);
 		}
 		catch (Exception e)
 		{

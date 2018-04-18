@@ -45,6 +45,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.javaflow.api.continuable;
 import org.apache.commons.logging.Log;
@@ -68,7 +69,6 @@ import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
@@ -85,6 +85,10 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.StyleResolver;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 
 /**
@@ -158,7 +162,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	protected JRFillReportTemplate[] reportTemplates;
 	
-	protected List<JRTemplate> templates;
+	protected List<ReportTemplateSource> templates;
 
 	protected JRStyle defaultStyle;
 	
@@ -262,11 +266,11 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected JRBaseFiller(
 		JasperReportsContext jasperReportsContext, 
-		JasperReport jasperReport, 
+		JasperReportSource reportSource,  
 		BandReportFillerParent parent 
 		) throws JRException
 	{
-		super(jasperReportsContext, jasperReport, parent);
+		super(jasperReportsContext, reportSource, parent);
 		
 		this.bandReportParent = parent;
 
@@ -770,13 +774,13 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 
 	protected void collectTemplates() throws JRException
 	{
-		templates = new ArrayList<JRTemplate>();
+		templates = new ArrayList<>();
 
 		if (reportTemplates != null)
 		{
 			for (JRFillReportTemplate reportTemplate : reportTemplates)
 			{
-				JRTemplate template = reportTemplate.evaluate();
+				ReportTemplateSource template = reportTemplate.evaluate();
 				if (template != null)
 				{
 					templates.add(template);
@@ -788,13 +792,16 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				JRParameter.REPORT_TEMPLATES, true);
 		if (paramTemplates != null)
 		{
-			templates.addAll(paramTemplates);
+			for (JRTemplate template : paramTemplates)
+			{
+				templates.add(ReportTemplateSource.of(template));
+			}
 		}
 	}
 
 	public List<JRTemplate> getTemplates()
 	{
-		return templates;
+		return templates.stream().map(source -> source.getTemplate()).collect(Collectors.toList());
 	}
 	
 	protected List<JRStyle> collectTemplateStyles() throws JRException
@@ -803,26 +810,43 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		
 		List<JRStyle> externalStyles = new ArrayList<JRStyle>();
 		HashSet<String> loadedLocations = new HashSet<String>();
-		for (JRTemplate template : templates)
+		for (ReportTemplateSource template : templates)
 		{
 			collectStyles(template, externalStyles, loadedLocations);
 		}
 		return externalStyles;
 	}
 
-	protected void collectStyles(JRTemplate template, List<JRStyle> externalStyles, Set<String> loadedLocations) throws JRException
+	protected void collectStyles(ReportTemplateSource template, List<JRStyle> externalStyles, Set<String> loadedLocations) throws JRException
 	{
 		HashSet<String> parentLocations = new HashSet<String>();
 		collectStyles(template, externalStyles, loadedLocations, parentLocations);
 	}
 	
-	protected void collectStyles(JRTemplate template, List<JRStyle> externalStyles, 
+	protected void collectStyles(ReportTemplateSource templateSource, List<JRStyle> externalStyles, 
 			Set<String> loadedLocations, Set<String> templateParentLocations) throws JRException
 	{
-		collectIncludedTemplates(template, externalStyles, 
+		String templateLocation = templateSource.getTemplateResourceInfo() == null ? null
+				: templateSource.getTemplateResourceInfo().getRepositoryResourceLocation();
+		if (templateLocation != null && !templateParentLocations.add(templateLocation))
+		{
+			throw 
+				new JRRuntimeException(
+					EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND,  
+					new Object[]{templateLocation} 
+					);
+		}
+		
+		if (templateLocation != null && !loadedLocations.add(templateLocation))
+		{
+			//already loaded
+			return;
+		}
+		
+		collectIncludedTemplates(templateSource, externalStyles, 
 				loadedLocations, templateParentLocations);
 
-		JRStyle[] templateStyles = template.getStyles();
+		JRStyle[] templateStyles = templateSource.getTemplate().getStyles();
 		if (templateStyles != null)
 		{
 			for (int i = 0; i < templateStyles.length; i++)
@@ -843,35 +867,29 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		}
 	}
 
-	protected void collectIncludedTemplates(JRTemplate template, List<JRStyle> externalStyles, 
+	protected void collectIncludedTemplates(ReportTemplateSource templateSource, List<JRStyle> externalStyles, 
 			Set<String> loadedLocations, Set<String> templateParentLocations) throws JRException
 	{
-		JRTemplateReference[] includedTemplates = template.getIncludedTemplates();
-		if (includedTemplates != null)
+		JRTemplateReference[] includedTemplates = templateSource.getTemplate().getIncludedTemplates();
+		if (includedTemplates != null && includedTemplates.length > 0)
 		{
+			RepositoryResourceContext currentContext = repositoryContext.getResourceContext();
+			String contextLocation = templateSource.getTemplateResourceInfo() == null ? null 
+					: templateSource.getTemplateResourceInfo().getRepositoryContextLocation();
+			RepositoryResourceContext templateResourceContext = SimpleRepositoryResourceContext.of(contextLocation,
+					currentContext == null ? null : currentContext.getDerivedContextFallback());
+			RepositoryContext templateRepositoryContext = SimpleRepositoryContext.of(repositoryContext.getJasperReportsContext(), 
+					templateResourceContext);
+			
 			for (int i = 0; i < includedTemplates.length; i++)
 			{
 				JRTemplateReference reference = includedTemplates[i];
 				String location = reference.getLocation();
-
-				if (!templateParentLocations.add(location))
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_CIRCULAR_DEPENDENCY_FOUND,  
-							new Object[]{location} 
-							);
-				}
 				
-				if (loadedLocations.add(location))
-				{
-					//template not yet loaded
-					JRTemplate includedTemplate = JRFillReportTemplate.loadTemplate(
-							location, this);
-					collectStyles(includedTemplate, externalStyles, 
-							loadedLocations, templateParentLocations);
-					
-				}
+				ReportTemplateSource includedTemplate = JRFillReportTemplate.loadTemplate(
+						location, this, templateRepositoryContext);
+				collectStyles(includedTemplate, externalStyles, 
+						loadedLocations, templateParentLocations);
 			}
 		}
 	}

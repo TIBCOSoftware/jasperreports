@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
 
 /**
@@ -52,7 +53,8 @@ public class FileRepositoryService implements StreamRepositoryService
 	private JasperReportsContext jasperReportsContext;
 	private String root;
 	private boolean resolveAbsolutePath;//FIXMEREPO consider giving up on this
-	private Path rootNormalizedPath;
+	private volatile Path rootNormalizedPath;
+	private Path rootRealPath;
 	
 	/**
 	 * 
@@ -66,6 +68,7 @@ public class FileRepositoryService implements StreamRepositoryService
 		this.jasperReportsContext = jasperReportsContext;
 		this.root = root;
 		this.resolveAbsolutePath = resolveAbsolutePath;
+		setRootRealPath();
 	}
 	
 	/**
@@ -74,6 +77,7 @@ public class FileRepositoryService implements StreamRepositoryService
 	public void setRoot(String root)
 	{
 		this.root = root;
+		setRootRealPath();
 	}
 	
 	/**
@@ -98,44 +102,29 @@ public class FileRepositoryService implements StreamRepositoryService
 	@Override
 	public InputStream getInputStream(String uri)
 	{
-		File file = null;
+		return getInputStream(SimpleRepositoryContext.of(jasperReportsContext), uri);
+	}
 
+	public File getFile(RepositoryContext context, String uri)
+	{
+		File file = null;
 		if (uri != null)
 		{
-			file = new File(getRoot(), uri);
-			if (file.exists() && file.isFile())
+			file = JRResourcesUtil.resolveFile(context, uri, this::locateFile);
+			if (file != null && !file.isFile())
 			{
-				//checking that syntactically the requested path is still inside the root
-				//we are not dealing with symlinks/real paths for now
-				Path rootPath = rootNormalizedPath();
-				Path filePath = file.toPath().normalize();
-				if (!filePath.startsWith(rootPath))
-				{
-					log.warn("Requested path " + uri + " normalized to " + filePath
-							+ ", which falls outside repository root path " + rootPath);
-					file = null;
-				}
+				file = null;
 			}
-			else
-			{
-				if (resolveAbsolutePath)
-				{
-					file = new File(uri);
-					if (!file.exists() || !file.isFile())
-					{
-						file = null;
-					}
-				}
-				else
-				{
-					file = null;
-				}
-			}
-
 		}
-
+		return file;
+	}
+	
+	@Override
+	public InputStream getInputStream(RepositoryContext context, String uri)
+	{
 		InputStream is = null;
-
+		
+		File file = getFile(context, uri);
 		if (file != null)
 		{
 			try
@@ -149,6 +138,40 @@ public class FileRepositoryService implements StreamRepositoryService
 		}
 		
 		return is;
+	}
+	
+	protected File locateFile(String location)
+	{
+		File file = new File(getRoot(), location);
+		if (file.exists())
+		{
+			//checking that syntactically the requested path is still inside the root
+			//we are not dealing with symlinks/real paths for now
+			Path rootPath = rootNormalizedPath();
+			Path filePath = file.toPath().normalize();
+			if (!filePath.startsWith(rootPath))
+			{
+				log.warn("Requested path " + location + " normalized to " + filePath
+						+ ", which falls outside repository root path " + rootPath);
+				file = null;
+			}
+		}
+		else
+		{
+			if (resolveAbsolutePath)
+			{
+				file = new File(location);
+				if (!file.exists())
+				{
+					file = null;
+				}
+			}
+			else
+			{
+				file = null;
+			}
+		}
+		return file;
 	}
 	
 	@Override
@@ -200,10 +223,57 @@ public class FileRepositoryService implements StreamRepositoryService
 	@Override
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
+		return getResource(SimpleRepositoryContext.of(jasperReportsContext), uri, resourceType);
+	}
+	
+	@Override
+	public <K extends Resource> K getResource(RepositoryContext context, String uri, Class<K> resourceType)
+	{
 		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(FileRepositoryService.class, resourceType);
 		if (persistenceService != null)
 		{
-			return (K)persistenceService.load(uri, this);
+			return (K) persistenceService.load(context, uri, this);
+		}
+		return null;
+	}
+	
+	private void setRootRealPath()
+	{
+		Path path = Paths.get(root);
+		try
+		{
+			rootRealPath = path.toRealPath();
+		}
+		catch (IOException e)
+		{
+			log.warn("Failed to resolve real path for root " + root, e);
+			rootRealPath = null;
+		}
+	}
+
+	@Override
+	public ResourceInfo getResourceInfo(RepositoryContext context, String location)
+	{
+		File file = getFile(context, location);
+		if (file != null)
+		{
+			try
+			{
+				Path filePath = file.toPath().toRealPath();
+				if (rootRealPath != null && filePath.startsWith(rootRealPath))
+				{
+					Path relativePath = rootRealPath.relativize(filePath);
+					return StandardResourceInfo.from(relativePath);
+				}
+				else if(resolveAbsolutePath)
+				{
+					return StandardResourceInfo.from(filePath);
+				}
+			}
+			catch (IOException e)
+			{
+				log.warn("Failed to resolve real path for file " + file, e);
+			}
 		}
 		return null;
 	}

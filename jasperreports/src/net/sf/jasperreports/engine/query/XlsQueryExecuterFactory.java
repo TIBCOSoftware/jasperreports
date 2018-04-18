@@ -73,7 +73,18 @@ public class XlsQueryExecuterFactory extends AbstractXlsQueryExecuterFactory
 		Map<String,? extends JRValueParameter> parameters
 		) throws JRException 
 	{
-		return new XlsQueryExecuter(jasperReportsContext, dataset, parameters);
+		return createQueryExecuter(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parameters);
+	}
+
+	@Override
+	public JRQueryExecuter createQueryExecuter(
+		QueryExecutionContext context, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		) throws JRException 
+	{
+		return new XlsQueryExecuter(context, dataset, parameters);
 	}
 
 	@Override

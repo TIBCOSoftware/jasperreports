@@ -67,7 +67,16 @@ public class JRVerticalFiller extends JRBaseFiller
 		BandReportFillerParent parent 
 		) throws JRException
 	{
-		super(jasperReportsContext, jasperReport, parent);
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), parent);
+	}
+
+	public JRVerticalFiller(
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource, 
+		BandReportFillerParent parent 
+		) throws JRException
+	{
+		super(jasperReportsContext, reportSource, parent);
 
 		setPageHeight(pageHeight);
 	}

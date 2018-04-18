@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated To be removed.
  */
 public class SimpleFileResolver implements FileResolver
 {

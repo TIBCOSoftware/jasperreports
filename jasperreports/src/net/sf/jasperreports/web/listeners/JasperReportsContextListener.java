@@ -29,8 +29,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.web.servlets.AbstractServlet;
 
 
@@ -42,9 +40,10 @@ public class JasperReportsContextListener implements ServletContextListener
 	@Override
 	public void	contextInitialized(ServletContextEvent ce) 
 	{
-		LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(DefaultJasperReportsContext.getInstance());
-		SimpleFileResolver fileResolver = 
-			new SimpleFileResolver(
+		net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
+			new net.sf.jasperreports.engine.util.LocalJasperReportsContext(DefaultJasperReportsContext.getInstance());
+		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver = 
+			new net.sf.jasperreports.engine.util.SimpleFileResolver(
 				new File(
 					new File(ce.getServletContext().getRealPath("/")), 
 					ce.getServletContext().getInitParameter("net.sf.jasperreports.web.file.repository.root")

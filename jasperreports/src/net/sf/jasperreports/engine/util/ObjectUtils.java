@@ -196,6 +196,11 @@ public class ObjectUtils
 		return new HashCode();
 	}
 	
+	public static int hashCode(Object o)
+	{
+		return o == null ? 0 : o.hashCode();
+	}
+	
 	/**
 	 * Determines whether two objects are the same as instances.
 	 * 

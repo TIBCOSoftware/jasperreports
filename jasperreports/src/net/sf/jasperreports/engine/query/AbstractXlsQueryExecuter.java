@@ -63,9 +63,19 @@ public abstract class AbstractXlsQueryExecuter extends JRAbstractQueryExecuter {
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parametersMap
+		)
+	{
+		this(SimpleQueryExecutionContext.of(jasperReportsContext),
+				dataset, parametersMap);
+	}
+	
+	protected AbstractXlsQueryExecuter(
+		QueryExecutionContext context, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parametersMap
 		) 
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		super(context, dataset, parametersMap);
 	}
 
 	protected AbstractXlsQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap) 

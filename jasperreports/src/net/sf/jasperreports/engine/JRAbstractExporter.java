@@ -52,14 +52,12 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.CompositeExporterConfigurationFactory;
 import net.sf.jasperreports.export.Exporter;
@@ -542,10 +540,10 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		if (
 			parameters.containsKey(JRExporterParameter.CLASS_LOADER)
 			|| parameters.containsKey(JRExporterParameter.URL_HANDLER_FACTORY)
-			|| parameters.containsKey(JRExporterParameter.FILE_RESOLVER)
 			)
 		{
-			LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+			net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
+				new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
 
 			if (parameters.containsKey(JRExporterParameter.CLASS_LOADER))
 			{
@@ -557,11 +555,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 				localJasperReportsContext.setURLStreamHandlerFactory((URLStreamHandlerFactory)parameters.get(JRExporterParameter.URL_HANDLER_FACTORY));
 			}
 
-			if (parameters.containsKey(JRExporterParameter.FILE_RESOLVER))
-			{
-				localJasperReportsContext.setFileResolver((FileResolver)parameters.get(JRExporterParameter.FILE_RESOLVER));
-			}
-			
 			setJasperReportsContext(localJasperReportsContext);
 		}
 		

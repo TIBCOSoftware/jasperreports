@@ -58,9 +58,19 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parametersMap
+		)
+	{
+		this(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parametersMap);
+	}
+	
+	protected JRXlsxQueryExecuter(
+		QueryExecutionContext context, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parametersMap
 		) 
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		super(context, dataset, parametersMap);
 	}
 
 	@Override
@@ -100,7 +110,7 @@ public class JRXlsxQueryExecuter extends AbstractXlsQueryExecuter
 							xlsxSource = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_SOURCE);
 						}
 						if (xlsxSource != null) {
-							datasource = new JRXlsxDataSource(getJasperReportsContext(), xlsxSource);
+							datasource = new JRXlsxDataSource(getRepositoryContext(), xlsxSource);//TODO
 						} else {
 							if (log.isWarnEnabled()){
 								log.warn("No XLS source was provided.");

@@ -37,6 +37,11 @@ public interface PersistenceService
 	 * 
 	 */
 	public Resource load(String uri, RepositoryService repositoryService);
+
+	default public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
+	{
+		return load(uri, repositoryService);
+	}
 	
 	/**
 	 * 

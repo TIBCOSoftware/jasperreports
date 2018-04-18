@@ -29,7 +29,6 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -74,7 +73,6 @@ import net.sf.jasperreports.engine.type.HorizontalPosition;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.ElementsVisitorUtils;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.Pair;
@@ -161,7 +159,6 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 	private PropertyChangeListener measureClassChangeListener = new MeasureClassChangeListener();
 	
-	@SuppressWarnings("deprecation")
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
 		JRParameter.REPORT_CONTEXT, ReportContext.class, 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
@@ -169,9 +166,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
 		JRParameter.REPORT_TIME_ZONE, TimeZone.class, 
 		JRParameter.REPORT_FORMAT_FACTORY, FormatFactory.class, 
-		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
-		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class,
-		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class};
+		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class};
 	
 	private static final Object[] BUILT_IN_VARIABLES = new Object[] { 
 		JRCrosstab.VARIABLE_ROW_COUNT, Integer.class, 

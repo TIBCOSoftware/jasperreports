@@ -24,16 +24,20 @@
 package net.sf.jasperreports.repo;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
+import java.nio.file.Path;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
@@ -43,6 +47,8 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  */
 public class DefaultRepositoryService implements StreamRepositoryService
 {
+	
+	private static final Log log = LogFactory.getLog(DefaultRepositoryService.class);
 	
 	public static final String PROPERTY_FILES_ENABLED = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "default.file.repository.enabled";
@@ -60,7 +66,10 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	 */
 	protected ClassLoader classLoader;
 	protected URLStreamHandlerFactory urlHandlerFactory;
-	protected FileResolver fileResolver;
+	/**
+	 * @deprecated To be removed. 
+	 */
+	protected net.sf.jasperreports.engine.util.FileResolver fileResolver;
 
 	/**
 	 *
@@ -89,15 +98,21 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	}
 	
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
-	public void setFileResolver(FileResolver fileResolver) 
+	public void setFileResolver(net.sf.jasperreports.engine.util.FileResolver fileResolver) 
 	{
 		this.fileResolver = fileResolver;
 	}
 	
 	@Override
 	public InputStream getInputStream(String uri)
+	{
+		return getInputStream(SimpleRepositoryContext.of(jasperReportsContext), uri);
+	}
+	
+	@Override
+	public InputStream getInputStream(RepositoryContext context, String uri)
 	{
 		try
 		{
@@ -107,7 +122,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 				return JRLoader.getInputStream(url);
 			}
 
-			File file = resolveFile(uri);
+			File file = resolveFile(context, uri);
 			if (file != null)
 			{
 				return JRLoader.getInputStream(file);
@@ -127,7 +142,10 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		return null;
 	}
 
-	protected File resolveFile(String uri)
+	/**
+	 * @deprecated To be removed.
+	 */
+	protected File resolveFile(RepositoryContext context, String uri)
 	{
 		if (fileResolver != null)
 		{
@@ -136,7 +154,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 		
 		if (filesEnabled)
 		{
-			return JRResourcesUtil.resolveFile(uri);
+			return JRResourcesUtil.resolveFile(context, uri);
 		}
 		
 		return null;
@@ -166,11 +184,50 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	@Override
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
+		return getResource(SimpleRepositoryContext.of(jasperReportsContext), uri, resourceType);
+	}
+	
+	@Override
+	public <K extends Resource> K getResource(RepositoryContext context, String uri, Class<K> resourceType)
+	{
 		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(DefaultRepositoryService.class, resourceType);
 		if (persistenceService != null)
 		{
-			return (K)persistenceService.load(uri, this);
+			return (K) persistenceService.load(context, uri, this);
 		}
+		return null;
+	}
+
+	@Override
+	public ResourceInfo getResourceInfo(RepositoryContext context, String location)
+	{
+		//detecting URLs
+		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
+		if (url != null)
+		{
+			//not supporting paths relative to URLs
+			return null;
+		}
+
+		File file = resolveFile(context, location);
+		if (file != null)
+		{
+			try
+			{
+				//resolving to real path to eliminate .. and .
+				Path path = file.toPath().toRealPath();
+				return StandardResourceInfo.from(path);
+			}
+			catch (IOException e)
+			{
+				log.warn("Failed to resolve real path for file " + file, e);
+				
+				//using the paths as present in the File object
+				return StandardResourceInfo.from(file);
+			}
+		}
+		
+		//TODO lucianc classloader resources
 		return null;
 	}
 

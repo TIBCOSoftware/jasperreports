@@ -21,47 +21,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.repo;
+package net.sf.jasperreports.engine.fill;
 
-import java.io.InputStream;
-
-
-
-
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class InputStreamPersistenceService implements PersistenceService
+public interface JasperReportSource
 {
 
-	@Override
-	public Resource load(String uri, RepositoryService repositoryService)
-	{
-		return load(null, uri, repositoryService);
-	}
-
-	@Override
-	public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
-	{
-		InputStreamResource resource = null; 
-
-		StreamRepositoryService streamRepositoryService = (StreamRepositoryService)repositoryService;
-		
-		InputStream is = streamRepositoryService.getInputStream(context, uri);
-		if (is != null)
-		{
-			resource = new InputStreamResource();
-			resource.setInputStream(is);
-		}
-
-		return resource;
-	}
+	JasperReport getReport();
 	
-	@Override
-	public void save(Resource resource, String uri, RepositoryService repositoryService)
-	{
-		//FIXMEREPO probably nothing to do
-	}
+	String getReportLocation();
+	
+	RepositoryResourceContext getRepositoryReportContext();
 	
 }

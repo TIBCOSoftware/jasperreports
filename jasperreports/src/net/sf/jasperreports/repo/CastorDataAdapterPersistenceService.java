@@ -45,9 +45,15 @@ public class CastorDataAdapterPersistenceService extends CastorObjectPersistence
 	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
+		return load(null, uri, repositoryService);
+	}
+	
+	@Override
+	public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
+	{
 		DataAdapterResource dataAdapterResource = null;
 		
-		CastorResource resource = (CastorResource)super.load(uri, repositoryService);
+		CastorResource resource = (CastorResource)super.load(context, uri, repositoryService);
 		
 		if (resource != null)
 		{
