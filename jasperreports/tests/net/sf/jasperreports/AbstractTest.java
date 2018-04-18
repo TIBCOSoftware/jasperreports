@@ -76,6 +76,11 @@ public abstract class AbstractTest
 
 	protected void testReports(String folderName, String fileNamePrefix, int maxFileNumber) throws JRException, NoSuchAlgorithmException, IOException
 	{
+		testReports(folderName, fileNamePrefix, fileNamePrefix, maxFileNumber);
+	}
+	
+	protected void testReports(String folderName, String fileNamePrefix, String exportFileNamePrefix, int maxFileNumber) throws JRException, NoSuchAlgorithmException, IOException
+	{
 		JasperFillManager fillManager = JasperFillManager.getInstance(getJasperReportsContext());
 		
 		HashMap<String, Object> params = new HashMap<String, Object>();
@@ -102,7 +107,7 @@ public abstract class AbstractTest
 				catch (Throwable t)
 				{
 					exportDigest = errExportDigest(t);
-					referenceExportDigest = getFileDigest(folderName + "/" + fileNamePrefix + "." + i + ".reference.err");
+					referenceExportDigest = getFileDigest(folderName + "/" + exportFileNamePrefix + "." + i + ".reference.err");
 				}
 				
 				if (print != null)
@@ -112,7 +117,7 @@ public abstract class AbstractTest
 					exportDigest = xmlExportDigest(print);
 					log.debug("Plain report got " + exportDigest);
 					
-					referenceExportDigest = getFileDigest(folderName + "/" + fileNamePrefix + "." + i + ".reference.jrpxml");
+					referenceExportDigest = getFileDigest(folderName + "/" + exportFileNamePrefix + "." + i + ".reference.jrpxml");
 				}
 				
 				assert exportDigest.equals(referenceExportDigest);
