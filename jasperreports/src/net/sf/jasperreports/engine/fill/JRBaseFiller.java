@@ -877,7 +877,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			String contextLocation = templateSource.getTemplateResourceInfo() == null ? null 
 					: templateSource.getTemplateResourceInfo().getRepositoryContextLocation();
 			RepositoryResourceContext templateResourceContext = SimpleRepositoryResourceContext.of(contextLocation,
-					currentContext == null ? null : currentContext.getFallbackContext());
+					currentContext == null ? null : currentContext.getDerivedContextFallback());
 			RepositoryContext templateRepositoryContext = SimpleRepositoryContext.of(repositoryContext.getJasperReportsContext(), 
 					templateResourceContext);
 			

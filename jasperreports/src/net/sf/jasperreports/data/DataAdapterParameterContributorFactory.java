@@ -108,7 +108,7 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 			
 			RepositoryResourceContext currentContext = context.getRepositoryContext().getResourceContext();
 			RepositoryResourceContext adapterResourceContext = SimpleRepositoryResourceContext.of(contextLocation,
-					currentContext == null ? null : currentContext.getFallbackContext());
+					currentContext == null ? null : currentContext.getDerivedContextFallback());
 			RepositoryContext adapterRepositoryContext = SimpleRepositoryContext.of(context.getJasperReportsContext(), 
 					adapterResourceContext);
 			ParameterContributorContext adapterContext = context.withRepositoryContext(adapterRepositoryContext);

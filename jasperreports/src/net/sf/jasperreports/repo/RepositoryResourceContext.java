@@ -33,4 +33,6 @@ public interface RepositoryResourceContext
 	
 	String getContextLocation();
 
+	RepositoryResourceContext getDerivedContextFallback();
+
 }

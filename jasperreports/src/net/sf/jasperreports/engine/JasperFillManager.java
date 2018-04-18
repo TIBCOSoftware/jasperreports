@@ -30,11 +30,14 @@ import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Map;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.fill.JRFiller;
 import net.sf.jasperreports.engine.fill.JasperReportSource;
 import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
@@ -69,6 +72,35 @@ import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
  */
 public final class JasperFillManager
 {
+	
+	/**
+	 * Property that determines whether resource paths in subreports, style templates and data adapters 
+	 * should be interpreted as relative to the master report location.
+	 * <br/>
+	 * Starting with version 6.6.0, relative paths in subreports, style templates and data adapters are
+	 * resolved as relative to the resource that contains them.
+	 * Prior to version 6.6.0, relative paths in subreports, style templates and data adapters were 
+	 * resolved as relative to the master report resource.
+	 * This property can be set to <code>true</code> to restore the pre 6.6.0 functionality.
+	 * <br/>
+	 * The default value of the property is <code>false</code>.
+	 * <br/>
+	 * 
+	 * @deprecated The property should only be set when upgrading from a version older than 6.6.0 with a repository
+	 * that relied on the fact that paths were relative to the master report.
+	 * The property might be removed at some point in the future.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_REPOSITORY,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_6_0,
+			valueType = Boolean.class
+			)
+	@Deprecated
+	public static final String PROPERTY_LEGACY_RELATIVE_PATH_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX
+			+ "legacy.relative.path.enabled";
+	
 	private final JasperReportsContext jasperReportsContext;
 
 
@@ -1009,8 +1041,17 @@ public final class JasperFillManager
 	{
 		//attempting resolve absolute paths as relative, that's what SimpleFileResolver(".") did
 		RepositoryResourceContext fallbackContext = SimpleRepositoryResourceContext.of(".");
-		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(
+		SimpleRepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(
 				reportFile.getParent(), fallbackContext);
+		
+		boolean legacyRelativePath = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperReport, 
+				PROPERTY_LEGACY_RELATIVE_PATH_ENABLED, false);
+		if (legacyRelativePath)
+		{
+			//attempt to resolve paths as relative to the master report for backward compatibility
+			reportContext.setSelfAsDerivedFallback(true);
+		}
+		
 		return SimpleJasperReportSource.from(jasperReport, reportFile.getPath(), reportContext);
 	}
 }

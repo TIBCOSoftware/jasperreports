@@ -438,7 +438,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		{
 			RepositoryResourceContext currentContext = filler.getRepositoryContext().getResourceContext();
 			RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
-					currentContext == null ? null : currentContext.getFallbackContext());
+					currentContext == null ? null : currentContext.getDerivedContextFallback());
 			report = SimpleJasperReportSource.from(jasperReport, 
 					reportSource instanceof String ? (String) reportSource : null, 
 					reportContext);

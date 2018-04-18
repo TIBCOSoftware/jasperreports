@@ -36,7 +36,7 @@ public class SimpleRepositoryResourceContext implements RepositoryResourceContex
 		return context;
 	}
 	
-	public static RepositoryResourceContext of(String contextLocation, RepositoryResourceContext fallbackContext)
+	public static SimpleRepositoryResourceContext of(String contextLocation, RepositoryResourceContext fallbackContext)
 	{
 		SimpleRepositoryResourceContext context = new SimpleRepositoryResourceContext();
 		context.setContextLocation(contextLocation);
@@ -47,6 +47,8 @@ public class SimpleRepositoryResourceContext implements RepositoryResourceContex
 	private RepositoryResourceContext fallbackContext;
 	
 	private String contextLocation;
+	
+	private boolean selfAsDerivedFallback;
 
 	@Override
 	public RepositoryResourceContext getFallbackContext()
@@ -68,6 +70,22 @@ public class SimpleRepositoryResourceContext implements RepositoryResourceContex
 	public void setContextLocation(String contextLocation)
 	{
 		this.contextLocation = contextLocation;
+	}
+
+	@Override
+	public RepositoryResourceContext getDerivedContextFallback()
+	{
+		return selfAsDerivedFallback ? this : fallbackContext;
+	}
+
+	public boolean isSelfAsDerivedFallback()
+	{
+		return selfAsDerivedFallback;
+	}
+
+	public void setSelfAsDerivedFallback(boolean selfAsDerivedFallback)
+	{
+		this.selfAsDerivedFallback = selfAsDerivedFallback;
 	}
 
 }

@@ -191,7 +191,7 @@ public class SubreportFillPart extends BasePartFillComponent
 		
 		RepositoryResourceContext currentContext = currentRepositoryContext.getResourceContext();
 		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
-				currentContext == null ? null : currentContext.getFallbackContext());
+				currentContext == null ? null : currentContext.getDerivedContextFallback());
 		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportLocation, reportContext);
 		return reportSource;
 	}
