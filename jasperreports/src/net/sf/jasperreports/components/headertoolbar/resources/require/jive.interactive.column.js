@@ -812,11 +812,7 @@ define(["jquery.ui", "jive"], function($, jive) {
             });
 
             metadata.filterTypeOperator && it.jc.filterType.val(metadata.filterTypeOperator);
-            if (filtertype === 'text') {
-                it.jc.filterStart.val(jive.decodeHTML(metadata.fieldValueStart));
-            } else {
-                it.jc.filterStart.val(metadata.fieldValueStart);
-            }
+            it.jc.filterStart.val(metadata.fieldValueStart);
 
             var filterOff = metadata.filterTypeOperator == null ? true : false;
             $('input[name="clearFilter"][value="'+filterOff+'"]').prop("checked",true);

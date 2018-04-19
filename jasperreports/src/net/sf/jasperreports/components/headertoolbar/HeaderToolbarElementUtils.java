@@ -185,12 +185,6 @@ public class HeaderToolbarElementUtils
 	{
 		switch (FilterTypesEnum.getByName(filterData.getFilterType())) 
 		{
-			case TEXT :
-			{
-				// html encode the conditions for text based columns
-				filterData.setFieldValueStart(JRStringUtil.htmlEncode(filterData.getFieldValueStart()));
-				break;
-			}
 			case DATE :
 			case TIME :
 			{
