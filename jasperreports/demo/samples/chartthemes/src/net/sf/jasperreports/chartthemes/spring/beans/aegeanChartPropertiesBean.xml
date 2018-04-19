@@ -56,14 +56,14 @@
 	</bean>
 	
 	<util:list id="aegeanSeriesColors">
-		<ref local="aegeanSeriesColor0"/>
-		<ref local="aegeanSeriesColor1"/>
-		<ref local="aegeanSeriesColor2"/>
-		<ref local="aegeanSeriesColor3"/>
-		<ref local="aegeanSeriesColor4"/>
-		<ref local="aegeanSeriesColor5"/>
-		<ref local="aegeanSeriesColor6"/>
-		<ref local="aegeanSeriesColor7"/>
+		<ref bean="aegeanSeriesColor0"/>
+		<ref bean="aegeanSeriesColor1"/>
+		<ref bean="aegeanSeriesColor2"/>
+		<ref bean="aegeanSeriesColor3"/>
+		<ref bean="aegeanSeriesColor4"/>
+		<ref bean="aegeanSeriesColor5"/>
+		<ref bean="aegeanSeriesColor6"/>
+		<ref bean="aegeanSeriesColor7"/>
 	</util:list>
 
 	<bean id="aegeanSeriesColor0" class="java.awt.Color"> 

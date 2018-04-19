@@ -8,7 +8,7 @@
 		<property name="themes">
 			<map>
 				<entry key="generic">
-					<ref local="genericChartTheme"/>
+					<ref bean="genericChartTheme"/>
 				</entry>
 				<entry key="default.spring">
 					<ref bean="defaultChartTheme"/>
