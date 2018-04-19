@@ -7,15 +7,15 @@
 
 	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
 		<property name="xmlParser">
-			<ref local="xmlParser"/>
+			<ref bean="xmlParser"/>
 		</property>
 		<property name="componentManagers">
 			<map>
 				<entry key="pieChart">
-					<ref local="pieChartManager"/>
+					<ref bean="pieChartManager"/>
 				</entry>
 				<entry key="barChart">
-					<ref local="barChartManager"/>
+					<ref bean="barChartManager"/>
 				</entry>
 			</map>
 		</property>
@@ -48,12 +48,9 @@
 		</property>
 	</bean>
 
-	<bean id="barChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+	<bean id="barChartManager" class="net.sf.jasperreports.components.ofc.BarChartComponentManager">
 		<property name="componentCompiler">
 			<bean class="net.sf.jasperreports.components.ofc.BarChartCompiler"/>
-		</property>
-		<property name="componentXmlWriter">
-			<bean class="net.sf.jasperreports.components.ofc.BarChartXmlWriter"/>
 		</property>
 		<property name="componentFillFactory">
 			<bean class="net.sf.jasperreports.components.ofc.BarChartFillFactory"/>

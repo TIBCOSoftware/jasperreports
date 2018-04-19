@@ -7,12 +7,12 @@
 
 	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
 		<property name="xmlParser">
-			<ref local="xmlParser"/>
+			<ref bean="xmlParser"/>
 		</property>
 		<property name="componentManagers">
 			<map>
 				<entry key="XYChart">
-					<ref local="XYChartManager"/>
+					<ref bean="XYChartManager"/>
 				</entry>
 			</map>
 		</property>

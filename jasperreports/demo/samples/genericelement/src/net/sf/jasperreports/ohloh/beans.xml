@@ -13,14 +13,14 @@
 				<entry key="languages">
 					<map>
 						<entry key="net.sf.jasperreports.html">
-							<ref local="languagesHtmlExportHandler"/>
+							<ref bean="languagesHtmlExportHandler"/>
 						</entry>
 					</map>
 				</entry>
 				<entry key="stats">
 					<map>
 						<entry key="net.sf.jasperreports.html">
-							<ref local="statsHtmlExportHandler"/>
+							<ref bean="statsHtmlExportHandler"/>
 						</entry>
 					</map>
 				</entry>
