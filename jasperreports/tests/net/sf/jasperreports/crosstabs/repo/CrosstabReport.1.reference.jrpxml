@@ -15,7 +15,7 @@
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="1" y="0" width="90" height="0" backcolor="#FFFF00" origin="1" srcId="7" printId="1">
+				<reportElement mode="Opaque" x="1" y="0" width="90" height="25" backcolor="#FFFF00" origin="1" srcId="7" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">

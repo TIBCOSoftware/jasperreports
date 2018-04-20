@@ -45,9 +45,9 @@ public class CrosstabStretchTest extends AbstractTest
 		setJasperReportsContext(jasperReportsContext);
 
 		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "true");
-		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", "CrosstabLegacyStretchReport", 6);
+		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", "CrosstabLegacyStretchReport", 7);
 		
 		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "false");
-		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", 6);
+		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", 7);
 	}
 }

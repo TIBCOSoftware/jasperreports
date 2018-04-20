@@ -8,9 +8,9 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
 	<page>
 		<frame>
-			<reportElement mode="Opaque" x="20" y="20" width="91" height="0" backcolor="#FEFFFF" origin="1" srcId="1" printId="1"/>
+			<reportElement mode="Opaque" x="20" y="20" width="91" height="25" backcolor="#FEFFFF" origin="1" srcId="1" printId="1"/>
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="1" height="0" backcolor="#FF3300" origin="1" srcId="3" printId="1">
+				<reportElement mode="Opaque" x="0" y="0" width="1" height="25" backcolor="#FF3300" origin="1" srcId="3" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -18,7 +18,7 @@
 				</box>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="1" y="0" width="90" height="0" backcolor="#FFFF00" origin="1" srcId="8" printId="1">
+				<reportElement mode="Opaque" x="1" y="0" width="90" height="25" backcolor="#FFFF00" origin="1" srcId="8" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -27,7 +27,7 @@
 			</frame>
 		</frame>
 		<text textHeight="11.640625" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
-			<reportElement uuid="82e67080-00ab-4784-9a7b-c65e06bf1421" mode="Opaque" x="20" y="21" width="90" height="30" backcolor="#00FFFF" origin="1" srcId="9" printId="1"/>
+			<reportElement uuid="82e67080-00ab-4784-9a7b-c65e06bf1421" mode="Opaque" x="20" y="45" width="90" height="30" backcolor="#00FFFF" origin="1" srcId="9" printId="1"/>
 			<textContent><![CDATA[END]]></textContent>
 		</text>
 	</page>
