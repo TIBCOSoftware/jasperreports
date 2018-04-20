@@ -163,12 +163,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	}
 	
 	@Override
-	public boolean isLegacyElementStretchEnabled() 
-	{
-		return true;
-	}
-
-	@Override
 	public Color getBackcolor()
 	{
 		return parentCell.getBackcolor();

@@ -2670,7 +2670,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					contents.setX(columnXOffsets[column] - columnXOffsets[startColumnIndex] + xOffset);
 					contents.setY(rowY + yOffset);
 
-					int rowCellHeight = contents.getPrintHeight();
+					int rowCellHeight = 
+						contents.isLegacyElementStretchEnabled() // this test is probably not needed, but using it just to be safe 
+						? contents.getPrintHeight() 
+						: Math.max(contents.getPrintHeight(), contents.getHeight());
 					if (rowCellHeight > preparedRowHeight)
 					{
 						preparedRowHeight = rowCellHeight;

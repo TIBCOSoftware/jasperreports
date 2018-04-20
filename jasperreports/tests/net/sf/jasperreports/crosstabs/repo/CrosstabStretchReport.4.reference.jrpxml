@@ -62,7 +62,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</genericElementParameter>
 			</genericElement>
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="50" height="630" backcolor="#FFFF00" origin="1" srcId="5" printId="1">
+				<reportElement mode="Opaque" x="0" y="0" width="50" height="675" backcolor="#FFFF00" origin="1" srcId="5" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="15"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
@@ -79,7 +79,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="0" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="1">
+				<reportElement mode="Opaque" x="50" y="0" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -96,7 +96,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="0" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="1">
+				<reportElement mode="Opaque" x="100" y="0" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -112,7 +112,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="0" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="1">
+				<reportElement mode="Opaque" x="150" y="0" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -127,7 +127,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="45" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="2">
+				<reportElement mode="Opaque" x="100" y="45" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="2">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -143,7 +143,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="45" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="2">
+				<reportElement mode="Opaque" x="150" y="45" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="2">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -158,7 +158,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="90" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="1">
+				<reportElement mode="Opaque" x="100" y="90" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -180,7 +180,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="135" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="2">
+				<reportElement mode="Opaque" x="50" y="135" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="2">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -197,7 +197,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="135" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="3">
+				<reportElement mode="Opaque" x="100" y="135" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="3">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -213,7 +213,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="135" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="3">
+				<reportElement mode="Opaque" x="150" y="135" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="3">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -228,7 +228,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="180" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="4">
+				<reportElement mode="Opaque" x="100" y="180" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="4">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -244,7 +244,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="180" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="4">
+				<reportElement mode="Opaque" x="150" y="180" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="4">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -259,7 +259,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="225" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="2">
+				<reportElement mode="Opaque" x="100" y="225" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="2">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -281,7 +281,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="270" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="3">
+				<reportElement mode="Opaque" x="50" y="270" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="3">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -298,7 +298,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="270" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="5">
+				<reportElement mode="Opaque" x="100" y="270" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="5">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -314,7 +314,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="270" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="5">
+				<reportElement mode="Opaque" x="150" y="270" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="5">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -329,7 +329,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="315" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="6">
+				<reportElement mode="Opaque" x="100" y="315" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="6">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -345,7 +345,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="315" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="6">
+				<reportElement mode="Opaque" x="150" y="315" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="6">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -360,7 +360,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="360" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="3">
+				<reportElement mode="Opaque" x="100" y="360" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="3">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -382,7 +382,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="405" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="4">
+				<reportElement mode="Opaque" x="50" y="405" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="4">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -399,7 +399,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="405" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="7">
+				<reportElement mode="Opaque" x="100" y="405" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="7">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -415,7 +415,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="405" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="7">
+				<reportElement mode="Opaque" x="150" y="405" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="7">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -430,7 +430,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="450" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="8">
+				<reportElement mode="Opaque" x="100" y="450" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="8">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -446,7 +446,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="450" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="8">
+				<reportElement mode="Opaque" x="150" y="450" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="8">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -461,7 +461,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="495" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="4">
+				<reportElement mode="Opaque" x="100" y="495" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="4">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -483,7 +483,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="540" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="5">
+				<reportElement mode="Opaque" x="50" y="540" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="5">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -500,7 +500,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="540" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="9">
+				<reportElement mode="Opaque" x="100" y="540" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="9">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -516,7 +516,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="540" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="9">
+				<reportElement mode="Opaque" x="150" y="540" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="9">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -531,7 +531,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="585" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="10">
+				<reportElement mode="Opaque" x="100" y="585" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="10">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -547,7 +547,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="585" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="10">
+				<reportElement mode="Opaque" x="150" y="585" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="10">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -562,7 +562,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="630" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="5">
+				<reportElement mode="Opaque" x="100" y="630" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="5">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -642,7 +642,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</genericElementParameter>
 			</genericElement>
 			<frame>
-				<reportElement mode="Opaque" x="0" y="0" width="50" height="675" backcolor="#FFFF00" origin="1" srcId="5" printId="2">
+				<reportElement mode="Opaque" x="0" y="0" width="50" height="720" backcolor="#FFFF00" origin="1" srcId="5" printId="2">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="16"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
@@ -659,7 +659,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="0" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="6">
+				<reportElement mode="Opaque" x="50" y="0" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="6">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -676,7 +676,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="0" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="13">
+				<reportElement mode="Opaque" x="100" y="0" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="13">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -692,7 +692,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="0" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="13">
+				<reportElement mode="Opaque" x="150" y="0" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="13">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -707,7 +707,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="45" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="14">
+				<reportElement mode="Opaque" x="100" y="45" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="14">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -723,7 +723,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="45" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="14">
+				<reportElement mode="Opaque" x="150" y="45" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="14">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -738,7 +738,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="90" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="6">
+				<reportElement mode="Opaque" x="100" y="90" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="6">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -760,7 +760,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="135" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="7">
+				<reportElement mode="Opaque" x="50" y="135" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="7">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -777,7 +777,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="135" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="15">
+				<reportElement mode="Opaque" x="100" y="135" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="15">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -793,7 +793,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="135" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="15">
+				<reportElement mode="Opaque" x="150" y="135" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="15">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -808,7 +808,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="180" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="16">
+				<reportElement mode="Opaque" x="100" y="180" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="16">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -824,7 +824,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="180" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="16">
+				<reportElement mode="Opaque" x="150" y="180" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="16">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -839,7 +839,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="225" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="7">
+				<reportElement mode="Opaque" x="100" y="225" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="7">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -861,7 +861,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="270" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="8">
+				<reportElement mode="Opaque" x="50" y="270" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="8">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -878,7 +878,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="270" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="17">
+				<reportElement mode="Opaque" x="100" y="270" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="17">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -894,7 +894,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="270" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="17">
+				<reportElement mode="Opaque" x="150" y="270" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="17">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -909,7 +909,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="315" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="18">
+				<reportElement mode="Opaque" x="100" y="315" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="18">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -925,7 +925,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="315" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="18">
+				<reportElement mode="Opaque" x="150" y="315" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="18">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -940,7 +940,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="360" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="8">
+				<reportElement mode="Opaque" x="100" y="360" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="8">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -962,7 +962,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="405" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="9">
+				<reportElement mode="Opaque" x="50" y="405" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="9">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -979,7 +979,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="405" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="19">
+				<reportElement mode="Opaque" x="100" y="405" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="19">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -995,7 +995,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="405" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="19">
+				<reportElement mode="Opaque" x="150" y="405" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="19">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -1010,7 +1010,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="450" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="20">
+				<reportElement mode="Opaque" x="100" y="450" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="20">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -1026,7 +1026,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="450" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="20">
+				<reportElement mode="Opaque" x="150" y="450" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="20">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -1041,7 +1041,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="495" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="9">
+				<reportElement mode="Opaque" x="100" y="495" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="9">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -1063,7 +1063,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="540" width="50" height="105" backcolor="#FFC800" origin="1" srcId="10" printId="10">
+				<reportElement mode="Opaque" x="50" y="540" width="50" height="135" backcolor="#FFC800" origin="1" srcId="10" printId="10">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.row.span" value="3"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
@@ -1080,7 +1080,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="540" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="21">
+				<reportElement mode="Opaque" x="100" y="540" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="21">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -1096,7 +1096,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="540" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="21">
+				<reportElement mode="Opaque" x="150" y="540" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="21">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -1111,7 +1111,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="585" width="50" height="30" backcolor="#EB7FE9" origin="1" srcId="18" printId="22">
+				<reportElement mode="Opaque" x="100" y="585" width="50" height="45" backcolor="#EB7FE9" origin="1" srcId="18" printId="22">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -1127,7 +1127,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="150" y="585" width="100" height="30" backcolor="#00FFFF" origin="1" srcId="30" printId="22">
+				<reportElement mode="Opaque" x="150" y="585" width="100" height="45" backcolor="#00FFFF" origin="1" srcId="30" printId="22">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="Data"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="0"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtdatacell"/>
@@ -1142,7 +1142,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</text>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="100" y="630" width="50" height="30" backcolor="#AE6BB0" origin="1" srcId="22" printId="10">
+				<reportElement mode="Opaque" x="100" y="630" width="50" height="45" backcolor="#AE6BB0" origin="1" srcId="22" printId="10">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="2"/>
 					<property name="net.sf.jasperreports.export.html.class" value="jrxtrowfloating jrxtrowheader"/>
@@ -1164,7 +1164,7 @@ rJUdC5TgiwIAAHhwAAAAAHg=
 				</reportElement>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="50" y="675" width="100" height="30" backcolor="#F78B0F" origin="1" srcId="14" printId="1">
+				<reportElement mode="Opaque" x="50" y="675" width="100" height="45" backcolor="#F78B0F" origin="1" srcId="14" printId="1">
 					<property name="net.sf.jasperreports.crosstab.cell.type" value="RowHeader"/>
 					<property name="net.sf.jasperreports.crosstab.cell.column.span" value="2"/>
 					<property name="net.sf.jasperreports.export.crosstab.columnIndex" value="1"/>
