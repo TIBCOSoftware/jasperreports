@@ -42,6 +42,8 @@ import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_LEFT_MARGIN;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_RIGHT_MARGIN;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_HEIGHT;
+import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_PRINT_PAGE_WIDTH;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT;
 import static net.sf.jasperreports.export.XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT;
@@ -554,6 +556,20 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		{
 			cut.setProperty(PROPERTY_COLUMN_WIDTH_RATIO, columnWidthRatio);
 		}
+		
+		Integer printPageHeight = getPrintPageHeight(element);
+		// only positive  values are allowed
+		if(printPageHeight != null && printPageHeight > 0)
+		{
+			cut.setProperty(PROPERTY_PRINT_PAGE_HEIGHT, printPageHeight);
+		}
+		
+		Integer printPageWidth = getPrintPageWidth(element);
+		// only positive  values are allowed
+		if(printPageWidth != null && printPageWidth > 0)
+		{
+			cut.setProperty(PROPERTY_PRINT_PAGE_WIDTH, printPageWidth);
+		}
 
 		setMargin(getPrintPageTopMargin(element), cut, PROPERTY_PRINT_PAGE_TOP_MARGIN);
 		setMargin(getPrintPageLeftMargin(element), cut, PROPERTY_PRINT_PAGE_LEFT_MARGIN);
@@ -622,6 +638,30 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
 			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_PAGE_RIGHT_MARGIN, 0);
+		}
+		return null;
+	}
+	
+	public Integer getPrintPageHeight(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_PAGE_HEIGHT)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_PAGE_HEIGHT);
+		}
+		return null;
+	}
+	
+	public Integer getPrintPageWidth(JRPrintElement element) {
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_PRINT_PAGE_WIDTH)
+				)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getIntegerProperty(element, PROPERTY_PRINT_PAGE_WIDTH);
 		}
 		return null;
 	}

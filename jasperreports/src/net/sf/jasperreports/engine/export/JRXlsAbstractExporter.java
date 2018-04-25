@@ -69,6 +69,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -723,9 +724,11 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		public Float columnWidthRatio;
 		public SheetPrintSettings printSettings;
 		
-		public class SheetPrintSettings 
+		public class SheetPrintSettings implements PrintPageFormat
 		{
 
+			private Integer pageHeight;
+			private Integer pageWidth;
 			private Integer topMargin;
 			private Integer leftMargin;
 			private Integer bottomMargin;
@@ -740,10 +743,35 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			private String footerCenter;
 			private String footerRight;
 			
+			private OrientationEnum orientation;
+			
 			public SheetPrintSettings() 
 			{
 			}
 			
+			@Override
+			public Integer getPageHeight() 
+			{
+				return pageHeight;
+			}
+			
+			public void setPageHeight(Integer pageHeight) 
+			{
+				this.pageHeight = pageHeight;
+			}
+			
+			@Override
+			public Integer getPageWidth() 
+			{
+				return pageWidth;
+			}
+			
+			public void setPageWidth(Integer pageWidth) 
+			{
+				this.pageWidth = pageWidth;
+			}
+			
+			@Override
 			public Integer getTopMargin() 
 			{
 				return topMargin;
@@ -754,6 +782,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				this.topMargin = topMargin;
 			}
 
+			@Override
 			public Integer getLeftMargin() 
 			{
 				return leftMargin;
@@ -764,6 +793,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				this.leftMargin = leftMargin;
 			}
 
+			@Override
 			public Integer getBottomMargin() 
 			{
 				return bottomMargin;
@@ -774,6 +804,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				this.bottomMargin = bottomMargin;
 			}
 
+			@Override
 			public Integer getRightMargin() 
 			{
 				return rightMargin;
@@ -862,6 +893,15 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			public void setFooterRight(String footerRight) 
 			{
 				this.footerRight = footerRight;
+			}
+
+			@Override
+			public OrientationEnum getOrientation() {
+				return orientation;
+			}
+
+			public void setOrientation(OrientationEnum orientation) {
+				this.orientation = orientation;
 			}
 		}
 	}
@@ -1557,6 +1597,24 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected void configurePrintSettings(SheetInfo.SheetPrintSettings printSettings, Cut yCut) 
 	{
 		Integer value = null;
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_HEIGHT)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_HEIGHT);
+			// The maximum value will be considered as page height
+			if (printSettings.getPageHeight() == null || printSettings.getPageHeight() < value)
+			{
+				printSettings.setPageHeight(value);
+			}
+		}
+		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_WIDTH)) 
+		{
+			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_WIDTH);
+			// The maximum value will be considered as page height
+			if (printSettings.getPageWidth() == null || printSettings.getPageWidth() < value)
+			{
+				printSettings.setPageWidth(value);
+			}
+		}
 		if (yCut.hasProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN)) 
 		{
 			value = (Integer)yCut.getProperty(XlsReportConfiguration.PROPERTY_PRINT_PAGE_TOP_MARGIN);
@@ -1610,6 +1668,18 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	
 	protected void updatePrintSettings(SheetInfo.SheetPrintSettings printSettings, XlsReportConfiguration configuration) 
 	{
+		if (printSettings.getPageHeight() == null) 
+		{
+			printSettings.setPageHeight(configuration.getPrintPageHeight() == null 
+					? jasperPrint.getPageHeight() 
+					: configuration.getPrintPageHeight());
+		}
+		if (printSettings.getPageWidth() == null) 
+		{
+			printSettings.setPageWidth(configuration.getPrintPageWidth() == null 
+					? jasperPrint.getPageWidth() 
+					: configuration.getPrintPageWidth());
+		}
 		if (printSettings.getTopMargin() == null) 
 		{
 			printSettings.setTopMargin(configuration.getPrintPageTopMargin() == null ? 0 : configuration.getPrintPageTopMargin());

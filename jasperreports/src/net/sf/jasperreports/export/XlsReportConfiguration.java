@@ -869,6 +869,56 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_PRINT_PAGE_RIGHT_MARGIN = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.right.margin";
 	
 	/**
+	 * Property used to provide a default value for the {@link #getPrintPageHeight()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
+			valueType = Integer.class
+			)
+	public static final String PROPERTY_PRINT_PAGE_HEIGHT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.height";
+	
+	/**
+	 * Property used to provide a default value for the {@link #getPrintPageWidth()} export configuration setting.
+	 * The property can be set:
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_BOTTOM_MARGIN
+	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_4_3,
+			valueType = Integer.class
+			)
+	public static final String PROPERTY_PRINT_PAGE_WIDTH = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.width";
+	
+	/**
 	 * Property used to provide a default value for the {@link #getPrintHeaderMargin()} export configuration setting.
 	 * The property can be set:
 	 * Property scope:
@@ -1559,6 +1609,24 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 			value=PROPERTY_PRINT_PAGE_RIGHT_MARGIN
 			)
 	public Integer getPrintPageRightMargin();
+	
+	/**
+	 * Specifies the page height in print preview pane, measured in pixels. 
+	 */
+	@ExporterProperty(
+			value=PROPERTY_PRINT_PAGE_HEIGHT,
+			nullDefault=true
+			)
+	public Integer getPrintPageHeight();
+	
+	/**
+	 * Specifies the page width in print preview pane, measured in pixels. 
+	 */
+	@ExporterProperty(
+			value=PROPERTY_PRINT_PAGE_WIDTH,
+			nullDefault=true
+			)
+	public Integer getPrintPageWidth();
 	
 	/**
 	 * Specifies the sheet header margin in print preview pane, measured in pixels. Default value is 0. 

@@ -101,6 +101,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -386,7 +387,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		patriarch = sheet.createDrawingPatriarch();
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();
 		printSetup.setLandscape(pageFormat.getOrientation() == OrientationEnum.LANDSCAPE);
-		short paperSize = getSuitablePaperSize();
+		short paperSize = getSuitablePaperSize(sheetInfo.printSettings);
 
 		if(paperSize != -1)
 		{
@@ -1983,10 +1984,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	}
 
 
-	private final short getSuitablePaperSize()
+	private final short getSuitablePaperSize(SheetPrintSettings printSettings)
 	{
 
-		if (pageFormat == null)
+		if (printSettings == null)
 		{
 			return -1;
 		}
@@ -1994,11 +1995,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		long height = 0;
 		short ps = -1;
 
-		if ((pageFormat.getPageWidth() != 0) && (pageFormat.getPageHeight() != 0))
+		if ((printSettings.getPageWidth() != 0) && (printSettings.getPageHeight() != 0))
 		{
 
-			double dWidth = (pageFormat.getPageWidth() / 72.0);
-			double dHeight = (pageFormat.getPageHeight() / 72.0);
+			double dWidth = (printSettings.getPageWidth() / 72.0);
+			double dHeight = (printSettings.getPageHeight() / 72.0);
 
 			height = Math.round(dHeight * 25.4);
 			width = Math.round(dWidth * 25.4);

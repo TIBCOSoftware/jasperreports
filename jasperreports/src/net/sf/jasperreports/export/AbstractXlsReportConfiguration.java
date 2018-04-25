@@ -83,6 +83,8 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	private Integer printPageLeftMargin;
 	private Integer printPageBottomMargin;
 	private Integer printPageRightMargin;
+	private Integer printPageHeight;
+	private Integer printPageWidth;
 	private Integer printHeaderMargin;
 	private Integer printFooterMargin;
 	private PropertySuffix[] definedNames;
@@ -805,6 +807,28 @@ public class AbstractXlsReportConfiguration extends SimpleReportExportConfigurat
 	public void setPrintPageRightMargin(Integer printPageRightMargin)
 	{
 		this.printPageRightMargin = printPageRightMargin;
+	}
+	
+	@Override
+	public Integer getPrintPageHeight() 
+	{
+		return printPageHeight;
+	}
+	
+	public void setPrintPageHeight(Integer printPageHeight)
+	{
+		this.printPageHeight = printPageHeight;
+	}
+	
+	@Override
+	public Integer getPrintPageWidth() 
+	{
+		return printPageWidth;
+	}
+	
+	public void setPrintPageWidth(Integer printPageWidth)
+	{
+		this.printPageWidth = printPageWidth;
 	}
 	
 	@Override

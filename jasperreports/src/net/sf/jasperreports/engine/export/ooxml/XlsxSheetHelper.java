@@ -241,7 +241,7 @@ public class XlsxSheetHelper extends BaseHelper
 			}
 		}
 		
-		PaperSizeEnum pSize = OoxmlUtils.getSuitablePaperSize(jasperPrint);
+		PaperSizeEnum pSize = OoxmlUtils.getSuitablePaperSize(printSettings);
 		String paperSize = pSize == PaperSizeEnum.UNDEFINED ? "" : " paperSize=\"" + pSize.getOoxmlValue() + "\"";
 		write(paperSize);	
 		
