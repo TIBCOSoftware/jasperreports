@@ -888,7 +888,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_3,
+			sinceVersion = PropertyConstants.VERSION_6_6_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_PAGE_HEIGHT = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.height";
@@ -913,7 +913,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_4_3,
+			sinceVersion = PropertyConstants.VERSION_6_6_0,
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_PRINT_PAGE_WIDTH = JRXlsAbstractExporter.XLS_EXPORTER_PROPERTIES_PREFIX + "print.page.width";
