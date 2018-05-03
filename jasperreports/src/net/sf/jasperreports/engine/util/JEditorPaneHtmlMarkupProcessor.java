@@ -28,6 +28,7 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import javax.swing.JEditorPane;
@@ -102,13 +103,15 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		{
 			whitespaces[i] = "";
 		}
-		JRStyledText styledText = new JRStyledText();
+		
+		StringBuilder text = new StringBuilder();
+		List<JRStyledText.Run> styleRuns = new ArrayList<>();
 		
 		for(int i = 0; i < elements.size(); i++)
 		{
 			if (bodyOccurred && chunk != null)
 			{
-				styledText.append(chunk);
+				text.append(chunk);
 				Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
 				if (hyperlink != null)
 				{
@@ -117,7 +120,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				if (!styleAttributes.isEmpty())
 				{
-					styledText.addRun(new JRStyledText.Run(styleAttributes, 
+					styleRuns.add(new JRStyledText.Run(styleAttributes, 
 							startOffset + crtOffset, endOffset + crtOffset));
 				}
 			}
@@ -225,22 +228,53 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			}
 		}
 
-		if (chunk != null && !"\n".equals(chunk))
+		if (chunk != null)
 		{
-			styledText.append(chunk);
-			Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
-			if (hyperlink != null)
+			if (!"\n".equals(chunk))
 			{
-				styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
-				hyperlink = null;
+				text.append(chunk);
+				Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
+				if (hyperlink != null)
+				{
+					styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
+					hyperlink = null;
+				}
+				if (!styleAttributes.isEmpty())
+				{
+					styleRuns.add(new JRStyledText.Run(styleAttributes, 
+							startOffset + crtOffset, endOffset + crtOffset));
+				}
 			}
-			if (!styleAttributes.isEmpty())
+			else
 			{
-				styledText.addRun(new JRStyledText.Run(styleAttributes, 
-						startOffset + crtOffset, endOffset + crtOffset));
+				//final newline, not appending
+				//check if there's any style run that would have covered it, that can happen if there's a <li> tag with style
+				int length = text.length();
+				for (ListIterator<JRStyledText.Run> it = styleRuns.listIterator(); it.hasNext();)
+				{
+					JRStyledText.Run run = it.next();
+					//only looking at runs that end at the position where the newline should have been
+					//we don't want to hide bugs in which runs that span after the text length are created
+					if (run.endIndex == length + 1)
+					{
+						if (run.startIndex < run.endIndex - 1)
+						{
+							it.set(new JRStyledText.Run(run.attributes, run.startIndex, run.endIndex - 1));
+						}
+						else
+						{
+							it.remove();
+						}
+					}
+				}
 			}
 		}
 		
+		JRStyledText styledText = new JRStyledText(null, text.toString());
+		for (JRStyledText.Run run : styleRuns)
+		{
+			styledText.addRun(run);
+		}
 		styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
 		
 		return JRStyledTextParser.getInstance().write(styledText);
