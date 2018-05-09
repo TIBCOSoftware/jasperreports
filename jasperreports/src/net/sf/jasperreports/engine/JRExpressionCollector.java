@@ -553,7 +553,7 @@ public class JRExpressionCollector
 		List<JRExpression> compiledExpressions = new ArrayList<>(expressions.size());
 		for (JRExpression expression : expressions)
 		{
-			if (expression.getType() == null || expression.getType() != ExpressionTypeEnum.SIMPLE_TEXT)
+			if (expression.getType() != ExpressionTypeEnum.SIMPLE_TEXT)
 			{
 				compiledExpressions.add(expression);
 			}

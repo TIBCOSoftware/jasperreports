@@ -201,6 +201,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
@@ -1164,6 +1165,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			expressionText = valueExpression.getText();
 			expressionType = valueExpression.getType();
+			if (
+				expressionType == ExpressionTypeEnum.SIMPLE_TEXT
+				&& isOlderVersionThan(JRConstants.VERSION_6_4_3)
+				)
+			{
+				expressionType = null;
+				expressionText = JRExpressionUtil.convertSimpleTextExpression(valueExpression);
+			}
 		}
 		
 		writer.writeCDATAElement(
@@ -1190,6 +1199,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			expressionText = valueExpression.getText();
 			expressionType = valueExpression.getType();
+			if (
+				expressionType == ExpressionTypeEnum.SIMPLE_TEXT
+				&& isOlderVersionThan(JRConstants.VERSION_6_4_3)
+				)
+			{
+				expressionType = null;
+				expressionText = JRExpressionUtil.convertSimpleTextExpression(valueExpression);
+			}
 		}
 		
 		writer.writeCDATAElement(
