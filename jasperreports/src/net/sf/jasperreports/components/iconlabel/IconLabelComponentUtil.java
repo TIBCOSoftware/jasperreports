@@ -219,7 +219,6 @@ public class IconLabelComponentUtil
 			labelTextField.setAnchorNameExpression(textField.getAnchorNameExpression());
 			labelTextField.setEvaluationTime(textField.getEvaluationTimeValue());
 			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
-			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
 		}
 
 		JRHyperlink hyperlink = parentElement instanceof JRHyperlink ? (JRHyperlink)parentElement : null;
