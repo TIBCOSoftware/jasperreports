@@ -6,7 +6,7 @@
 		
 	<target name="define-jru" depends="prepare-compile-classpath">
 		<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
-			<classpath refid="project-classpath"/>
+			<classpath refid="sample-classpath"/>
 		</taskdef>
 	</target>
 
