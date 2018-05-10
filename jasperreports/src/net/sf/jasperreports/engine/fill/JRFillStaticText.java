@@ -249,4 +249,11 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		return false;
 	}
 
+
+	@Override
+	public String getText()
+	{
+		return ((JRStaticText) parent).getText();
+	}
+
 }
