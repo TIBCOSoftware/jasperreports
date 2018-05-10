@@ -334,7 +334,7 @@ You will notice that all generated documents excepting <code>OpenFlashChartRepor
 <code>'[Open Flash Chart Component]'</code>. Also, when opening the HTML pages, they are apparently empty. That's because of security restrictions that prevent Flash objects 
 to communicate with the HTML pages wherein they are embedded.
 <br/>
-Such a problem could be avoided using a HTTP server. This exactly happens when the <code>&gt; ant viewHtml</code> command is run in the terminal. A NanoHTTPD server is started and 
+Such a problem could be avoided using a HTTP server. This exactly happens when the <code>&gt; ant viewHtml</code> command is run in the terminal. A Jetty server instance is started and 
 the served web page may now access the trusted SWF file. Both pie and bar charts can be observed in the browser for the HTML output format. 
     </content>
   </feature>
