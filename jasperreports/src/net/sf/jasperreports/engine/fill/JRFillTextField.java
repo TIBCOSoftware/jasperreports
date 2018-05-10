@@ -680,7 +680,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				}
 
 				if (
-					getTextEnd() >= getText().length()
+					getTextEnd() >= getTextString().length()
 					|| !isStretchWithOverflow()
 					|| !getRotationValue().equals(RotationEnum.NONE)
 					)
@@ -752,7 +752,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 					// the available vertical space is sufficient
 
 					if (
-						getTextEnd() < getText().length() 
+						getTextEnd() < getTextString().length() 
 						|| getTextEnd() == 0
 						)
 					{
@@ -768,7 +768,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 							// display all its content
 
 							chopTextElement(availableHeight - getRelativeY() - getHeight());
-							if (getTextEnd() < getText().length())// - 1)
+							if (getTextEnd() < getTextString().length())// - 1)
 							{
 								// even after the current chop operation there is some text left
 								// that will overflow on the next page
@@ -810,7 +810,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			if (
 				isToPrint &&
 				isRemoveLineWhenBlank() &&	//FIXME if the line won't be removed due to other elements 
-				getText().substring(		// present on that line, the background does not appear
+				getTextString().substring(		// present on that line, the background does not appear
 					getTextStart(),
 					getTextEnd()
 					).trim().length() == 0

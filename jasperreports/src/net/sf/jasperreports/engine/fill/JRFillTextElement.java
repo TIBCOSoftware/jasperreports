@@ -626,7 +626,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public String getText()
+	public String getTextString()
 	{
 		JRStyledText tmpStyledText = getStyledText();
 
