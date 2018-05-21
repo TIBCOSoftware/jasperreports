@@ -1,0 +1,309 @@
+SUBSCRIPTION SERVICES AGREEMENT
+
+
+READ THIS AGREEMENT BEFORE DOWNLOADING THE SOFTWARE
+
+THANK YOU FOR CHOOSING THIS JASPERSOFT SOFTWARE PRODUCT.  BY CLICKING ON THE "I
+AGREE" BUTTON OR BY DOWNLOADING OR OTHERWISE INSTALLING THE SOFTWARE, YOU
+("CUSTOMER" OR "YOU") ARE AGREEING TO THIS AGREEMENT.  IF YOU DO NOT AGREE WITH
+ALL OF THIS AGREEMENT, PLEASE CONTACT YOUR SALES REPRESENTATIVE.  IN THIS
+AGREEMENT, "JASPERSOFT" MEANS JASPERSOFT CORPORATION.
+
+Copyright (C) 2009 JASPERSOFT CORPORATION.  All Rights Reserved. 
+
+Warning:  This computer program is protected by copyright laws and
+international treaties.  Unauthorized use, duplication or distribution of this
+program or any portion of it without the express written consent of JASPERSOFT
+is strictly prohibited.  ALL RIGHTS RESERVED. 
+
+JASPERSOFT, JasperReports, JasperServer, JasperAnalysis, JasperETL, iReport,
+and JASPERSOFT BI Suite are trademarks of JASPERSOFT.  Any other trademarks are
+for identification purposes only and are the property of their respective
+owners.
+
+IMPORTANT NOTICE REGARDING JASPERREPORTS PROFESSIONAL DEVELOPER LICENSES:  If
+You purchased a JasperReports Professional Developer license, the following
+additional terms and conditions apply:  1) The term of the license shall be for
+a period of one (1) year after delivery or download; 2) No helpdesk support or
+use of the Jaspersoft Customer Support Portal is provided; JASPERSOFT may
+provide certain updates, as determined solely by JASPERSOFT; 3) The license is
+provided "as is," without warranty of any kind or nature; 4) The JasperReports
+Professional Developer license is for a single user solely in a development
+environment, and not for use in production or run-time environments.
+
+U.S. GOVERNMENT END-USERS: 
+
+This Software Product and the Related Materials are "commercial items" as that
+term is defined in 48 C.F.R. 2.101 (October 1995) consisting of "commercial
+computer software" and "commercial computer software documentation" as such
+terms are used in 48 C.F.R. 12.212 (September 1995).  Consistent with 48 C.F.R.
+12.212 and 48 C.F.R. 227.7202-1, 227.7202-3 and 227.7202-4 (June 1995), if the
+Customer hereunder is the U.S. Government or any agency or department thereof,
+the Software and the Related Materials are licensed hereunder (i) only as a
+commercial item, and (ii) with only those rights as are granted to all other
+end users pursuant to the terms and conditions of this Agreement. 
+
+TERMS AND CONDITIONS
+
+1.  Grant of License.  Subject to the terms and conditions contained in this
+Agreement, JASPERSOFT hereby grants Customer, beginning on the date Customer
+first downloads the JASPERSOFT Software (the "Effective Date") and during the
+term specified in Section 13, a non-exclusive, non-transferable,
+non-assignable, non-sublicensable, worldwide license to use, solely for
+internal business purposes (including use by external users, namely employees,
+customers, and partners), the object code of the JASPERSOFT Software.  The
+JASPERSOFT Software and the Support provided pursuant to Section 4, if any,
+shall constitute the "Services").  Customer may view the source code of the
+JASPERSOFT Software, however, JASPERSOFT shall not provide any support or
+maintenance in respect of any modifications to the JASPERSOFT Software.  The
+JASPERSOFT Software may not be distributed to any other person or entity except
+as expressly set forth below in this Section 1.
+
+In the event that Customer has purchased an ISV Subscription, this Agreement
+shall also incorporate the terms and conditions of JASPERSOFT's "ISV Terms and
+Conditions" set forth at http://www.jaspersoft.com/termsdl/ISV_v061607.htm for
+the "Customer Application(s)" identified in the applicable Order Form or
+Purchase Order.
+
+2.  Proprietary Rights.  Customer acknowledges that JASPERSOFT controls all
+right, title and interest in and to the JASPERSOFT Software and all
+intellectual property rights relating thereto. The JASPERSOFT Software is the
+valuable intellectual property of JASPERSOFT and constitutes confidential and
+proprietary information of JASPERSOFT. JASPERSOFT does not grant to Customer
+any other right or license, either express or implied, in the JASPERSOFT
+Software except as specified in this Agreement, and Customer's use of the
+JASPERSOFT Software shall be subject to the restrictions set forth in this
+Agreement.  
+
+3.  Restrictions on Use.  Except as expressly permitted in this Agreement,
+Customer shall not (and shall not allow any third party to) (i) decompile,
+disassemble, or otherwise reverse engineer the JASPERSOFT Software (except to
+the extent expressly permitted under applicable law); (ii) provide, lease,
+lend, use for timesharing or otherwise use or allow others to use the
+JASPERSOFT Software to or for the benefit of third parties; (iii) incorporate
+into or with other hardware or software, or create a derivative work of any
+part of the JASPERSOFT Software; (iv) disseminate performance information or
+analysis from any source relating to the JASPERSOFT Software; (v) remove any
+product identification, copyright notice or other proprietary legend from the
+JASPERSOFT Software; or (vi) use only the JASPERSOFT Software product(s) for
+which a subscription has been purchased and corresponding license key(s) have
+been issued. 
+
+4.  Support.  "Support" under this Agreement means those services which
+Customer has purchased and JASPERSOFT has agreed to provide under the terms and
+conditions set forth at
+http://www.jaspersoft.com/ss_subscriptionservices-details.html and
+http://www.jaspersoft.com/termsdl/Support_v070708.htm.  
+
+5.  Enhancements and Upgrades.  During the term of this Agreement, JASPERSOFT
+shall provide to Customer enhancements and upgrades, if any, of the JASPERSOFT
+Software it makes generally available, free of additional charge.  
+
+6.  Export Control.  Customer will comply with all relevant laws and
+regulations regarding export of JASPERSOFT Software.  Customer shall indemnify
+and hold JASPERSOFT harmless from any claim arising out of a breach of this
+Section 6.
+
+7.  Payment Terms.  Amounts due shall be considered paid when JASPERSOFT is in
+receipt of the amount due or upon confirmation of receipt by a bank designated
+by JASPERSOFT.  All payments hereunder shall be in U.S. dollars.  Annual
+Subscription Fees are exclusive of, and Customer shall pay for, if applicable:
+shipping; any sales, use, property, value added or similar taxes; federal,
+state or local or other charges imposed on or with respect to the JASPERSOFT
+Software or its delivery, use or possession; but not including taxes based upon
+the net U.S. income of JASPERSOFT.  If Customer is required under any
+applicable law or regulation, domestic or foreign, to withhold or deduct any
+portion of the payments due to JASPERSOFT, then the sum payable to JASPERSOFT
+will be increased by the amount necessary so that JASPERSOFT receives an amount
+equal to the sum it would have received had Customer made no withholdings or
+deductions.
+
+Customer will make payment within thirty (30) days of the date of the invoice
+(the "due date").  For all payments not received within thirty (30) days of the
+due date, a late payment fee shall accrue daily on such unpaid amounts at the
+rate of one-and-one-half percent (1.5%) per month or the maximum rate permitted
+by law, whichever is lower.  JASPERSOFT shall also be entitled to any
+reasonable collection costs, including attorneys' fees.  If Customer is paying
+by credit card, Customer authorizes JASPERSOFT to bill Customer's credit card
+for the Services for the initial term and for the amount due at the time of
+renewal. Upon expiration of the initial term, the Services shall be
+automatically renewed at JASPERSOFT's then-current pricing, unless Customer
+notifies JASPERSOFT in writing at least ninety (90) days prior to the scheduled
+renewal date of its intention not to renew.  If JASPERSOFT has approved
+Customer to be invoiced, JASPERSOFT will invoice Customer for the fees due as
+of the date of this Agreement and upon the submission of any future purchase
+order.  Any and all payments made by Customer pursuant to this Agreement are
+non-refundable.  JASPERSOFT reserves the right to suspend or cancel performance
+of all or part of the Services and/or change its credit terms if actual payment
+has not been received within sixty (60) days of the invoice date.
+
+8.  Warranty and Liability; Indemnification.  JASPERSOFT expressly warrants
+that it is the owner or Customer of JASPERSOFT Software, including any and all
+copyrights and trade secrets, and has the right and authority to enter into
+this Agreement and to license JASPERSOFT Software to Customer in accordance
+with the terms herein as of the Effective Date.  For the period beginning on
+the original date of delivery of the JASPERSOFT Software and continuing for
+thirty (30) days thereafter, JASPERSOFT expressly warrants that the JASPERSOFT
+Software will perform substantially in accordance with the written
+specifications contained in the documentation provided with the JASPERSOFT
+Software.  
+
+JASPERSOFT shall indemnify and hold harmless Customer and its officers,
+employees, agents and representatives and defend any action brought against
+same with respect to any third-party claim, demand or cause of action,
+including reasonable attorney's fees, to the extent that it is based upon a
+claim that the JASPERSOFT Software infringes or violates any United States
+patents, copyrights, trade secrets, or other proprietary rights of a third
+party.  Customer may, at its own expense, assist in such defense if it so
+chooses, provided that JASPERSOFT shall control such defense and all
+negotiations relating to the settlement of any such claim.  Customer shall
+promptly provide JASPERSOFT with written notice of any claim which Customer
+believes falls within the scope of this Section 8.  In the event that the
+JASPERSOFT Software or any portion thereof is held to constitute an
+infringement and its use is enjoined, JASPERSOFT may, at its sole option and
+expense, (i) modify the infringing JASPERSOFT Software so that it is
+non-infringing, (ii) procure for Customer the right to continue to use the
+infringing JASPERSOFT Software, or (iii) replace said JASPERSOFT Software with
+suitable, non-infringing software.  Notwithstanding the foregoing, JASPERSOFT
+will have no obligation for any claims to the extent such claims result from
+(i) modifications or alterations of the JASPERSOFT Software made by or for
+Customer or any other party that were not provided by JASPERSOFT or authorized
+by JASPERSOFT in writing; (ii) use outside the scope of the license granted
+hereunder, (iii) use of a superseded or previous version of the JASPERSOFT
+Software if infringement would have been avoided by the use of a newer version
+which JASPERSOFT made available to Customer, or (iv) use of the JASPERSOFT
+Software in combination with any other software, hardware or products not
+supplied by JASPERSOFT.  This indemnity obligation is subject to the limitation
+of liability and the other pertinent terms and conditions of this Agreement and
+does not apply to the Sun Microsystems and Tomcat components.
+
+EXCEPT AS PROVIDED IN THIS SECTION, ALL SOFTWARE LICENSED HEREUNDER IS PROVIDED
+"AS IS."  IN ADDITION, THE FOREGOING WARRANTIES SHALL NOT APPLY IN THE EVENT
+THAT CUSTOMER BREACHES ANY OF THE RESTRICTIONS ON USE OF THE JASPERSOFT
+SOFTWARE.
+
+The foregoing warranties are exclusive of all other warranties, whether
+written, oral, express or implied, including but not limited to any warranty of
+non-infringement of third party rights and the implied warranties of
+merchantability or fitness for a particular purpose. 
+
+IN NO EVENT SHALL JASPERSOFT BE LIABLE TO CUSTOMER OR ANY THIRD PARTY OR END
+USER for any special, indirect, consequential or contingent damages including
+loss of profits, or any amounts in excess of the fees actually paid to
+JASPERSOFT by Customer (the foregoing being collectively called "DAMAGES")
+incurred by Customer or any other third party.  Such non-liability for damages
+shall apply whether in an action based on contract, tort or any other such
+theory, EVEN IF JASPERSOFT HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+9.  Third-Party Software.  Customer agrees to be bound by all of the terms and
+conditions applicable to end users of any third-party software licenses to
+products embedded in or distributed with the JASPERSOFT Software.  The
+third-party software license terms and conditions are set forth in the
+"Third-Party Notices" file delivered with certain JASPERSOFT Software products.
+Customer agrees not to use or access any third-party software as a "stand-alone
+product," or in a manner other than in connection with the JASPERSOFT Software.
+JASPERSOFT and its licensors make no warranties, express or implied, with
+respect to the third-party software, and Customer agrees not to assert any
+claims against JASPERSOFT's third-party licensors relating to this Agreement.
+Such third-party licensors of JASPERSOFT are intended third-party beneficiaries
+of this Agreement.  Source code may not be provided for all third-party
+software, and Customer agrees not to reverse engineer, decompile, or otherwise
+derive the source code of any software provided hereunder.
+
+10.  JASPERSOFT Professional Services.  In the event that Customer has
+purchased any consulting services from JASPERSOFT, this Agreement incorporates
+the Consulting Services Terms and Conditions set forth at
+http://www.jaspersoft.com/terms.html.  This Agreement also incorporates the
+terms and conditions of any Statement of Work (SOW) package purchased by
+Customer, which are set forth at http://www.jaspersoft.com/ss_consulting.html,
+as follows:
+
+JASPERSOFT BI Suite Jumpstart - Business Intelligence Workshop
+JASPERSOFT BI Suite Jumpstart - Operational Reporting Workshop
+JASPERSOFT - Time for Hire
+JASPERSOFT - JBIS 4-day Technical Training
+
+11.  No Agency.  The Parties are independent contractors. Neither Party is an
+employee, agent, joint venturer or legal representative of the other Party for
+any purpose. Neither Party shall have the authority to enter into any legal or
+equitable obligation for the other Party. Under no circumstances may either
+Party hold itself out to have agency authority for the other Party. The Parties
+agree not to make false or misleading statements, claims or representations
+about the other Party, its products or the relationship between the Parties.
+
+12.  Governing Law.  This Agreement is in accordance with, and shall be
+governed by and construed under, the laws of the State of California and
+applicable United States statutes.  Such governance and construction explicitly
+excludes the State of California's body of laws governing conflict of laws and
+the 1980 United Nations Convention on Contracts for the International Sale of
+Goods.  Customer hereby irrevocably consents to jurisdiction of the state or
+federal courts located in San Francisco County, California.  To the extent
+permitted by law, the provisions of this Agreement shall supersede any
+provisions of the Uniform Commercial Code as adopted or made applicable to this
+Agreement in any competent jurisdiction.
+
+13.  Term; Termination.  This Agreement and the licenses granted hereunder
+shall remain in effect for a period of one (1) year from the Effective Date,
+unless a different term is ordered and paid for by Customer, and unless earlier
+terminated as set forth herein.  JASPERSOFT may terminate this Agreement and
+the licenses granted hereunder, upon written notice for any material breach of
+this Agreement that Customer fails to cure within sixty (60) days following
+written notice specifying such breach.  In the event of termination of this
+Agreement for any cause, all rights granted hereunder automatically revert to
+the granting Party.
+
+14.  Waiver.  The Party entitled to the benefit of any provision of this
+Agreement may waive said provision. Neither Party shall be deemed, by any act
+or omission, to have waived any of its rights or remedies hereunder unless such
+waiver is in writing and signed by an authorized officer of such Party.  Such a
+waiver shall be limited specifically to the extent set forth in said writing.
+Waiver as to one event shall not be construed as waiver of any right or remedy
+as it relates to any subsequent event.
+
+15.  Force Majeure.  If by reason of Force Majeure including, without
+limitation, earthquakes, governmental regulation, fire, flood, labor
+difficulties, civil disorder and all acts of God, a Party is unable to perform
+in whole or in part its obligations as set forth in this Agreement, except for
+payment obligations, such Party shall not be liable to the other for its
+failure to perform said obligations.
+
+16.  Severability.  If the application of any provision or provisions of this
+Agreement to any particular set of facts or circumstances is held to be invalid
+or unenforceable by a court of competent jurisdiction, the validity of said
+provision or provisions to any other particular set of facts or circumstances
+shall not, in any way, be affected.  Such provision or provisions shall be
+reformed without further action by the Parties to the extent necessary to make
+such provision or provisions enforceable when applied to that set of facts or
+circumstances.
+
+17.  Affirmative Action/Equal Opportunity Employer.  JASPERSOFT is an
+Affirmative Action/equal employment opportunity employer who will employ
+qualified individuals with disabilities and qualified protected veterans.
+
+18.  Survival.  The following sections shall survive the termination of this
+Agreement for any cause: 2, 3, 6, 8, 9, and 12.
+
+19.  Rules of Construction.  As used in this Agreement, all terms used in the
+singular shall be deemed to include the plural, and vice versa, as the context
+requires. Descriptive headings are inserted for convenience only and shall not
+be utilized in interpreting this Agreement. 
+
+20.  Amendment.  This Agreement may not be modified or amended except in a
+writing signed by a duly authorized representative of each party.
+
+21.  Entire Agreement.  This Agreement constitutes the exclusive terms and
+conditions with respect to the subject matter hereof, notwithstanding any
+different or additional terms that may be contained in the form of purchase
+order or other document used by Customer to place orders or otherwise effect
+transactions hereunder.  This Agreement represents the final, complete and
+exclusive statement of the agreement between the parties with respect to
+subject matter hereof and all prior written agreements and all prior and
+contemporaneous oral agreements with respect to the subject matter hereof are
+merged therein.
+
+22.  Publicity.  During the term of this Agreement, Customer and JASPERSOFT may
+engage in co-marketing and publicity programs, including advertisements in
+trade and other publications, only upon written approval of both parties.  Such
+approval shall not be unreasonably withheld.  Notwithstanding the foregoing,
+written approval shall not be necessary with respect to JASPERSOFT's use of
+Customer's name and logo as a reference and in marketing materials. 

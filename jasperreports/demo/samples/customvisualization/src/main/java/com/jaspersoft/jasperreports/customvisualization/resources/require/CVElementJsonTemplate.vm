@@ -1,0 +1,7 @@
+"${elementId}": {
+    "id": "${elementId}",
+    "type": "CVComponent",
+    "module": "cv-component",
+    "renderer": "${configuration.module}",
+    "instanceData" : ${configuration.instanceData}
+}
