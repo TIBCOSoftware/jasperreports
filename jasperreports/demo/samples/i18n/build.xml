@@ -35,6 +35,13 @@
 		</java>
 	</target>
 
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file." depends="prepare-test-classpath">
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="viewXml"/>
+			<classpath refid="sample-classpath"/>
+		</java>
+	</target>
+
 	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
 		<ant dir="../" target="pdf"/>
 	</target>

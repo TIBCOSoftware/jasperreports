@@ -134,6 +134,19 @@ public class I18nApp extends AbstractSampleApp
 	/**
 	 *
 	 */
+	public void viewXml() throws JRException
+	{
+		Locale locale = chooseLocale();
+		if (locale != null)
+		{
+			JasperViewer.viewReport("build/reports/I18nReport.jrpxml", true, true, locale);
+		}
+	}
+
+
+	/**
+	 *
+	 */
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
