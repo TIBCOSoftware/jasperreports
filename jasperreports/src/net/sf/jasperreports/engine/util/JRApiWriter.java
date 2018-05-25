@@ -2021,7 +2021,7 @@ public class JRApiWriter
 
 			if (plot.getOrientationValue() != null && plot.getOrientationValue().getOrientation() != PlotOrientation.VERTICAL)
 			{
-				write( plotName + ".setOrientation(PlotOrientation.{0});\n", plot.getOrientationValue());
+				write( plotName + ".setOrientation({0});\n", plot.getOrientationValue());
 			}
 
 			write( plotName + ".setBackgroundAlpha({0});\n", plot.getBackgroundAlphaFloat());
