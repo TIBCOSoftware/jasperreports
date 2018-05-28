@@ -2117,8 +2117,7 @@ public class JRApiWriter
 		Boolean axisVerticalTickLabels, 
 		Double labelRotation, 
 		Color axisLineColor,
-		String parentName,
-		String axisNameSuffix
+		String parentName
 		) 
 	{
 		if (axisLabelFont == null && axisLabelColor == null &&
@@ -2126,24 +2125,27 @@ public class JRApiWriter
 		{
 			return;
 		}
-		String axisName = parentName + axisNameSuffix;
 
-		write( "JRCategoryAxisFormat " + axisName + " = " + parentName + ";\n");
-		write( axisName + ".setCategoryAxisTickLabelRotation({0});\n", labelRotation);
+		write( parentName + ".setCategoryAxisTickLabelRotation({0});\n", labelRotation);
+		write( parentName + ".setCategoryAxisLabelColor({0});\n", axisLabelColor);
+		write( parentName + ".setCategoryAxisTickLabelColor({0});\n", axisTickLabelColor);
+		write( parentName + ".setCategoryAxisLineColor({0});\n", axisLineColor);
+		write( parentName + ".setCategoryAxisTickLabelMask(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(axisTickLabelMask));
+		write( parentName + ".setCategoryAxisVerticalTickLabels({0});\n", getBooleanText(axisVerticalTickLabels));
 
-		writeAxisFormat(
-			indent,
-			axisLabelFont, 
-			axisLabelColor,
-			axisTickLabelFont, 
-			axisTickLabelColor,
-			axisTickLabelMask, 
-			axisVerticalTickLabels, 
-			axisLineColor,
-			parentName,
-			axisNameSuffix,
-			false
-			);
+		
+		if (axisLabelFont != null)
+		{
+			write( parentName + ".setCategoryAxisLabelFont(new JRBaseFont());\n");
+			writeFont( axisLabelFont, parentName + ".getCategoryAxisLabelFont()");
+		}
+
+		if (axisTickLabelFont != null)
+		{
+			write( parentName + ".setCategoryAxisTickLabelFont(new JRBaseFont());\n");
+			writeFont( axisTickLabelFont, parentName + ".getCategoryAxisTickLabelFont()");
+		}
+
 		//write( parentName + ".set" + axisNameSuffix + "(" + axisName + ");\n");
 		
 		flush();
@@ -2236,7 +2238,7 @@ public class JRApiWriter
 					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName, "CategoryAxisFormat"
+					plotName
 					);
 			
 			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
@@ -2316,7 +2318,7 @@ public class JRApiWriter
 					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName, "CategoryAxisFormat"
+					plotName
 					);
 			
 			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
@@ -2401,7 +2403,7 @@ public class JRApiWriter
 					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName, "CategoryAxisFormat"
+					plotName
 					);
 			
 			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
@@ -2688,7 +2690,7 @@ public class JRApiWriter
 					plot.getCategoryAxisTickLabelFont(), plot.getOwnCategoryAxisTickLabelColor(),
 					plot.getCategoryAxisTickLabelMask(), plot.getCategoryAxisVerticalTickLabels(), 
 					plot.getCategoryAxisTickLabelRotation(), plot.getOwnCategoryAxisLineColor(),
-					plotName, "CategoryAxisFormat"
+					plotName
 					);
 			
 			writeExpression( plot.getValueAxisLabelExpression(), plotName, "ValueAxisLabelExpression");
