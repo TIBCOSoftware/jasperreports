@@ -1,17 +1,257 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/engine/JRGroup</className>
+		<className>net/sf/jasperreports/engine/JRExporterParameter</className>
+		<differenceType>6001</differenceType>
+		<field>FILE_RESOLVER</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRParameter</className>
+		<differenceType>6011</differenceType>
+		<field>REPORT_FILE_RESOLVER</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/JRParameter</className>
+		<differenceType>6011</differenceType>
+		<field>REPORT_URL_HANDLER_FACTORY</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/JRResourcesUtil</className>
+		<differenceType>7002</differenceType>
+		<method>*et*FileResolver(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/JRResourcesUtil</className>
+		<differenceType>7002</differenceType>
+		<method>*et*HandlerFactory(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/table/TableReportContextXmlRule</className>
+		<differenceType>7002</differenceType>
+		<method>*getTableComponent()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/table/fill/FillTableSubreport</className>
+		<differenceType>7002</differenceType>
+		<method>*evaluateReport(byte)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>7002</differenceType>
+		<method>*get*Idx(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>7002</differenceType>
+		<method>*isAncestorClassLoader(java.lang.ClassLoader)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>7002</differenceType>
+		<method>*resolveClass(java.io.ObjectStreamClass, int)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>6001</differenceType>
+		<field>class*</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>6011</differenceType>
+		<field>CLASSLOADER_IDX_NOT_SET</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>7013</differenceType>
+		<method>*createInput(net.sf.jasperreports.engine.fill.JRVirtualizationContext, java.io.InputStream)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>7013</differenceType>
+		<method>*createOutput(net.sf.jasperreports.engine.fill.JRVirtualizationContext, java.io.OutputStream)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/VirtualizationSerializer</className>
+		<differenceType>3005</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/AbstractVariableReturnValueSourceContext</className>
+		<differenceType>7006</differenceType>
+		<method>*getToVariable(java.lang.String)</method>
+		<to>net.sf.jasperreports.engine.fill.JRFillVariable</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/BandReportFillerParent</className>
 		<differenceType>7012</differenceType>
-		<method>*eprintHeaderOnEachColumn(*)</method>
+		<method>*getReportName()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/xml/JRXmlWriter</className>
-		<differenceType>7002</differenceType>
-		<method>*writeReport(java.io.Writer)</method>
+		<className>net/sf/jasperreports/engine/fill/FillReturnValues$SourceContext</className>
+		<differenceType>7012</differenceType>
+		<method>*getToVariable(java.lang.String)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/xml/JRXmlWriter</className>
+		<className>net/sf/jasperreports/engine/fill/JRFillChart</className>
+		<differenceType>6001</differenceType>
+		<field>themeName</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillCommonReturnValue</className>
+		<differenceType>7004</differenceType>
+		<method>*getIncrementer()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillContext</className>
+		<differenceType>7006</differenceType>
+		<method>*getLoadedSubreport(java.lang.Object)</method>
+		<to>net.sf.jasperreports.engine.fill.JasperReportSource</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillContext</className>
+		<differenceType>7006</differenceType>
+		<method>*getLoadedTemplate(java.lang.Object)</method>
+		<to>net.sf.jasperreports.engine.fill.ReportTemplateSource</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillContext</className>
+		<differenceType>7005</differenceType>
+		<method>*</method>
+		<to>*</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFiller</className>
+		<differenceType>7005</differenceType>
+		<method>*</method>
+		<to>*</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRBaseFiller</className>
+		<differenceType>7005</differenceType>
+		<method>*</method>
+		<to>*</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillReportTemplate</className>
+		<differenceType>7006</differenceType>
+		<method>*evaluate()</method>
+		<to>net.sf.jasperreports.engine.fill.ReportTemplateSource</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillReportTemplate</className>
+		<differenceType>7006</differenceType>
+		<method>*loadTemplate(java.lang.Object, net.sf.jasperreports.engine.fill.JRBaseFiller)</method>
+		<to>net.sf.jasperreports.engine.fill.ReportTemplateSource</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillReportTemplate</className>
+		<differenceType>7004</differenceType>
+		<method>*loadTemplate(java.lang.Object, net.sf.jasperreports.engine.fill.JRBaseFiller)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillSubreport</className>
 		<differenceType>7002</differenceType>
-		<method>*JRXmlWriter(net.sf.jasperreports.engine.JRReport, java.lang.String)</method>
+		<method>*evaluateReport(byte)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/types/date/TimestampRange</className>
+		<differenceType>7012</differenceType>
+		<method>*getStart()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/types/date/TimestampRange</className>
+		<differenceType>7012</differenceType>
+		<method>*getEnd()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/parts/PartFillerParent</className>
+		<differenceType>7012</differenceType>
+		<method>*getFiller()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillTextElement</className>
+		<differenceType>7002</differenceType>
+		<method>*getText()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillTextField</className>
+		<differenceType>7006</differenceType>
+		<method>*determineOwnTimeZone()</method>
+		<to>void</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/query/QueryExecuterFactory</className>
+		<differenceType>7012</differenceType>
+		<method>*createQueryExecuter(net.sf.jasperreports.engine.query.QueryExecutionContext, net.sf.jasperreports.engine.JRDataset, java.util.Map)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/JRApiWriter</className>
+		<differenceType>7004</differenceType>
+		<method>*writeCategoryAxisFormat(java.lang.String, net.sf.jasperreports.engine.JRFont, java.awt.Color, net.sf.jasperreports.engine.JRFont, java.awt.Color, java.lang.String, java.lang.Boolean, java.lang.Double, java.awt.Color, java.lang.String, java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/virtualization/VirtualizationInput</className>
+		<differenceType>7004</differenceType>
+		<method>*VirtualizationInput(java.io.InputStream, net.sf.jasperreports.engine.util.VirtualizationSerializer, net.sf.jasperreports.engine.fill.JRVirtualizationContext)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/virtualization/VirtualizationOutput</className>
+		<differenceType>7004</differenceType>
+		<method>*VirtualizationOutput(java.io.OutputStream, net.sf.jasperreports.engine.util.VirtualizationSerializer, net.sf.jasperreports.engine.fill.JRVirtualizationContext)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/XlsReportConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*getPrintPage*()</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/parameters/ParameterResolver</className>
+		<differenceType>7012</differenceType>
+		<method>*getMapParameter(net.sf.jasperreports.engine.JRExporterParameter, java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/repo/PersistenceService</className>
+		<differenceType>7012</differenceType>
+		<method>*load(net.sf.jasperreports.repo.RepositoryContext, java.lang.String, net.sf.jasperreports.repo.RepositoryService)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/repo/RepositoryService</className>
+		<differenceType>7012</differenceType>
+		<method>*getResource(net.sf.jasperreports.repo.RepositoryContext, java.lang.String, java.lang.Class)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/repo/RepositoryService</className>
+		<differenceType>7012</differenceType>
+		<method>*getResourceInfo(net.sf.jasperreports.repo.RepositoryContext, java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/repo/StreamRepositoryService</className>
+		<differenceType>7012</differenceType>
+		<method>*getInputStream(net.sf.jasperreports.repo.RepositoryContext, java.lang.String)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/search/LuceneSimpleAnalyzer</className>
+		<differenceType>7004</differenceType>
+		<method>*LuceneSimpleAnalyzer(org.apache.lucene.util.Version, boolean, boolean)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/search/LuceneSimpleAnalyzer</className>
+		<differenceType>7004</differenceType>
+		<method>*createComponents(java.lang.String, java.io.Reader)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/search/LuceneUtil</className>
+		<differenceType>7006</differenceType>
+		<method>*buildQuery(java.util.List)</method>
+		<to>org.apache.lucene.search.spans.SpanQuery</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/search/LuceneUtil</className>
+		<differenceType>7006</differenceType>
+		<method>*displayTokens(java.lang.String, java.lang.String)</method>
+		<to>java.lang.String</to>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/web/actions/AbstractAction$ActionErrors</className>
+		<differenceType>7004</differenceType>
+		<method>*AbstractAction$ActionErrors(net.sf.jasperreports.engine.util.MessageProvider, java.util.Locale)</method>
 	</difference>
 </differences>
