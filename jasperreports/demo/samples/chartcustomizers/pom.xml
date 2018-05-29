@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-customizers</artifactId>
-	<version>6.6.0-SNAPSHOT</version>
+	<version>6.6.0</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Customizers</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.6.0-SNAPSHOT</version>
+			<version>6.6.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
