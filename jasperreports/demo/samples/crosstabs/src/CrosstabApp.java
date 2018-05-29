@@ -331,7 +331,7 @@ public class CrosstabApp extends AbstractSampleApp
 		
 			exporter.exportReport();
 
-			System.err.println("Report : " + sourceFile + ". ODT creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". ODS creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
