@@ -2,8 +2,16 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.6.0 (2018-0x-xx)
+JasperReports 6.6.0 (2018-05-29)
 ---------------------------------------------
+
+- upgrade to Java 8; starting with this release, the binary distribution of the JR library
+is compiled for the Java 8 platform and is no longer guaranteed to be compatible with Java 7;
+
+- deprecated file resolver built-in parameters have been removed, while the FileResolver interface
+and its related APIs have been now deprecated themselves and prepared for future removal.
+
+- enhanced repository service API to support relative paths when referencing resources; 
 
 - minor bug fixes and improvements;
 
