@@ -86,7 +86,7 @@
  * <a href="http://dejavu-fonts.org">http://dejavu-fonts.org</a> project and
  * are made available to the samples as a font extension.
  * <p/>
- * This font extension is found in the <code>/demo/fonts</code> folder of the JasperReports project
+ * This font extension is found in the <code>/ext/fonts</code> folder of the JasperReports project
  * distribution package and consists of the following files:
  * <p/>
  * <code>jasperreports_extension.properties</code>

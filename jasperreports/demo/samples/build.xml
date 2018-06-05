@@ -32,7 +32,7 @@
 
 	<path id="sample-classpath">
 		<pathelement location="${sample.dir}/build/classes"/>
-		<pathelement location="../fonts"/>
+		<pathelement location="../../ext/fonts"/>
 		<path refid="project-classpath"/>
 	</path>
 

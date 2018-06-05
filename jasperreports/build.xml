@@ -128,7 +128,7 @@
 					<attribute name="Implementation-Vendor" value="TIBCO Software Inc."/>
 				</section>
 			</manifest>		
-			<fileset dir="./demo/fonts">
+			<fileset dir="./ext/fonts">
 				<exclude name="**/log4j*.*"/>
 				<exclude name="**/readme.txt"/>
 				<exclude name="**/pom.xml"/>
@@ -317,7 +317,7 @@
 			<classpath>
 				<path refid="test-compile"/>
 				<pathelement location="./build/test-classes"/>
-				<pathelement location="./demo/fonts"/>
+				<pathelement location="./ext/fonts"/>
 			</classpath>
 			<classfileset dir="./build/test-classes" includes="**/*Test.class" />
 		</testng>
