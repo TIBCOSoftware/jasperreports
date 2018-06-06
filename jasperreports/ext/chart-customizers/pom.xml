@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-customizers</artifactId>
-	<version>6.6.0</version>
+	<version>6.7.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Customizers</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -33,16 +33,6 @@
 		</repository>
 	</repositories>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<includes>
-					<include>**/jasperreports_extension.properties</include>
-					<include>**/*.xml</include>
-				</includes>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -50,10 +40,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<excludes>
-						<exclude>**/*App.java</exclude>
-						<exclude>*.java</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
