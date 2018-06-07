@@ -30,6 +30,9 @@ import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.fill.JRFiller;
@@ -39,6 +42,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
 import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 
@@ -72,6 +77,8 @@ import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
  */
 public final class JasperFillManager
 {
+	
+	private static final Log log = LogFactory.getLog(JasperFillManager.class);
 	
 	/**
 	 * Property that determines whether resource paths in subreports, style templates and data adapters 
@@ -319,6 +326,27 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the specified file and returns
 	 * the generated report object.
 	 * 
+	 * @param reportLocation the repository location of the compiled report
+	 * @param params     report parameters map
+	 * @param connection     JDBC connection object to use for executing the report internal SQL query
+	 * @return generated report object
+	 */
+	public JasperPrint fillFromRepo(
+		String reportLocation, 
+		Map<String,Object> params,
+		Connection connection
+		) throws JRException
+	{
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(reportLocation), 
+				params, connection);
+	}
+
+	
+	/**
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
 	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @return generated report object
@@ -333,6 +361,26 @@ public final class JasperFillManager
 
 		return JRFiller.fill(jasperReportsContext, 
 				getReportSource(sourceFile), 
+				params);
+	}
+
+	
+	/**
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
+	 * @param reportLocation the repository location of the compiled report
+	 * @param params     report parameters map
+	 * @return generated report object
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public JasperPrint fillFromRepo(
+		String reportLocation, 
+		Map<String,Object> params
+		) throws JRException
+	{
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(reportLocation), 
 				params);
 	}
 
@@ -602,6 +650,27 @@ public final class JasperFillManager
 
 		return JRFiller.fill(jasperReportsContext, 
 				getReportSource(sourceFile), 
+				params, dataSource);
+	}
+
+	
+	/**
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
+	 * @param reportLocation the repository location of the compiled report
+	 * @param params     report parameters map
+	 * @param dataSource     data source object
+	 * @return generated report object
+	 */
+	public JasperPrint fillFromRepo(
+		String reportLocation, 
+		Map<String,Object> params,
+		JRDataSource dataSource
+		) throws JRException
+	{
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(reportLocation), 
 				params, dataSource);
 	}
 
@@ -1053,5 +1122,32 @@ public final class JasperFillManager
 		}
 		
 		return SimpleJasperReportSource.from(jasperReport, reportFile.getPath(), reportContext);
+	}
+	
+	protected JasperReportSource getReportSource(String location) throws JRException
+	{
+		RepositoryUtil repository = RepositoryUtil.getInstance(jasperReportsContext);
+		ResourceInfo resourceInfo = repository.getResourceInfo(location);
+		JasperReportSource source;
+		if (resourceInfo == null)
+		{
+			JasperReport report = repository.getReport(null, location);
+			source = SimpleJasperReportSource.from(report, location, null);
+		}
+		else
+		{
+			String reportLocation = resourceInfo.getRepositoryResourceLocation();
+			String contextLocation = resourceInfo.getRepositoryContextLocation();
+			if (log.isDebugEnabled())
+			{
+				log.debug("report location " + location + " resolved to " + reportLocation
+						+ ", context " + contextLocation);
+			}
+			
+			JasperReport report = repository.getReport(null, reportLocation);
+			source = SimpleJasperReportSource.from(report, reportLocation, 
+					SimpleRepositoryResourceContext.of(contextLocation));
+		}
+		return source;
 	}
 }
