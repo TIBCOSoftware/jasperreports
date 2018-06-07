@@ -11,27 +11,21 @@
 
 	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
 		<mkdir dir="./build/classes"/> 
-		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
+		<javac srcdir="../../../ext/chart-themes/src/main/java" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/classes">
-			<fileset dir="./src">
+			<fileset dir="../../../ext/chart-themes/src/main/resources">
 				<include name="**/*.properties"/>
 				<include name="**/*.xml"/>
 				<include name="**/*.jrctx"/>
 				<include name="**/*.png"/>
-				<exclude name="**/pom.xml"/>
-				<exclude name="**/build.xml"/>
 			</fileset>
 		</copy>
-		<copy todir="./build/classes">
-			<fileset dir="${basedir}">
-				<include name="**/*.csv"/>
-			</fileset>
-		</copy>
+		<ant dir="../" target="javac"/>
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">

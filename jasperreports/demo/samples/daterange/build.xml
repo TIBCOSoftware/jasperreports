@@ -2,12 +2,26 @@
 
 	<description>Shows how different features of the library could be used to generate a complex document.</description>
 
+	<import file="../build-sample-classpath.xml"/>
+
 	<property name="sample.dir" value="daterange"/>
 	<property name="sample.base.name" value="DateRange" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="DateRangeReport" />
 	
-	<target name="javac" description="Compiles the java source files of the test application.">
+	<target name="javac" description="Compiles the java source files of the test application." depends="prepare-compile-classpath">
+		<mkdir dir="./build/classes"/> 
+		<javac srcdir="../../../ext/functions/src/main/java" destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
+				encoding="ISO-8859-1" includeantruntime="false">
+			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-unchecked"/>
+			<compilerarg value="-Xlint:-options"/>
+		</javac>
+		<copy todir="./build/classes">
+			<fileset dir="../../../ext/functions/src/main/resources">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
 		<ant dir="../" target="javac"/>
 	</target>
 
