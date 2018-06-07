@@ -138,7 +138,7 @@ public final class JasperFillManager
 	 * having the same name as the report design as declared in the source file, 
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 */
@@ -172,7 +172,7 @@ public final class JasperFillManager
 	 * having the same name as the report design as declared in the source file, 
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
@@ -202,7 +202,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the file received as the first parameter
 	 * and places the result in the file specified by the second parameter.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName   file name to place the generated report into
 	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
@@ -228,7 +228,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the file received as the first parameter
 	 * and places the result in the file specified by the second parameter.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName   file name to place the generated report into
 	 * @param params     report parameters map
 	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
@@ -296,7 +296,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the specified file and returns
 	 * the generated report object.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 * @return generated report object
@@ -319,7 +319,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the specified file and returns
 	 * the generated report object.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @return generated report object
 	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
@@ -508,7 +508,7 @@ public final class JasperFillManager
 	 * having the same name as the report design as declared in the source file, 
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param dataSource     data source object
 	 */
@@ -539,7 +539,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the file received as the first parameter
 	 * and places the result in the file specified by the second parameter.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName   file name to place the generated report into
 	 * @param params     report parameters map
 	 * @param dataSource     data source object
@@ -587,7 +587,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the specified file and returns
 	 * the generated report object.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param dataSource     data source object
 	 * @return generated report object

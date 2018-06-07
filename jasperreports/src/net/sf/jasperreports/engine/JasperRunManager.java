@@ -160,7 +160,7 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a PDF file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName PDF destination file name
 	 * @param parameters     report parameters map
 	 * @throws JRException
@@ -249,7 +249,7 @@ public final class JasperRunManager
 	 * Fills a report and returns byte array object containing the report in PDF format.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param parameters     report parameters map
 	 * @return binary PDF output
 	 * @throws JRException
@@ -563,7 +563,7 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a HTML file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName name of the destination HTML file
 	 * @param parameters     report parameters map
 	 * @throws JRException
