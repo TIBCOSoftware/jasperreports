@@ -113,7 +113,7 @@ public class FillerSubreportParent implements BandReportFillerParent
 	@Override
 	public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
 	{
-		return parentElement.getBand().isSplitTypePreventInhibited(isTopLevelCall);
+		return parentElement != null && parentElement.getBand() != null && parentElement.getBand().isSplitTypePreventInhibited(isTopLevelCall);
 	}
 
 	@Override
