@@ -82,6 +82,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	private Renderable renderer;
 	private Renderable oldRenderer;
+	private Object prevSource;
+	private Renderable prevRenderer;
 	private boolean usedCache;
 	private boolean hasOverflowed;
 	private Integer imageHeight;
@@ -599,8 +601,18 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				}
 				else if (source instanceof InputStream)
 				{
-					InputStream is = (InputStream) source;
-					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
+					if (this.prevSource != null && source == this.prevSource)//testing for object identity
+					{
+						//the image can be evaluated twice when the band is prevented to split
+						//if the image source is a stream, we can't read it again
+						//TODO do the same thing for other source types (file, url, string) too?
+						newRenderer = this.prevRenderer;
+					}
+					else
+					{
+						InputStream is = (InputStream) source;
+						newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
+					}
 				}
 				else if (source instanceof URL)
 				{
@@ -646,6 +658,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		this.oldRenderer = renderer;
 		this.renderer = newRenderer;
+		
+		this.prevSource = source;
+		this.prevRenderer = renderer;
 
 		setValueRepeating(crtRenderer == newRenderer);
 		
