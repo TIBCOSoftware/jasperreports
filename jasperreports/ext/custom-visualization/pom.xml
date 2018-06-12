@@ -52,9 +52,9 @@
 						</manifestEntries>
 						<manifestSections>
 							<manifestSection>
-								<name>net/sf/jasperreports/engine/</name>
+								<name>net/sf/jasperreports/customvisualization/</name>
 								<manifestEntries>
-									<Specification-Title>JasperReports Library Chart Themes</Specification-Title>
+									<Specification-Title>JasperReports Library Custom Visualization Component</Specification-Title>
 									<Specification-Version>${pom.version}</Specification-Version>
 									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.customvisualization</Implementation-Title>
