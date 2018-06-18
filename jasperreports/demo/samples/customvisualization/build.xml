@@ -14,7 +14,7 @@
 	
 	<path id="sample-classpath">
 		<pathelement location="./build/classes"/>
-		<pathelement location="./libraries"/>
+		<pathelement location="./build/libraries"/>
 		<pathelement location="../../../ext/fonts"/>
 		<path refid="project-classpath"/>
 	</path>
@@ -163,10 +163,32 @@
 		<echo message="======================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />
+		<antcall target="build-components"/>
 		<antcall target="compile" />
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="test"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>
+
+	<target name="build-components" description="Build the components" depends="prepare-test-classpath">
+		<echo message="Compiling the custom visualization components..."/>
+		<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="libraries/sparkline">
+			<arg value="-opt"/>
+			<arg value="-1"/>
+			<arg value="../r.js"/>
+			<arg value="-o"/>
+			<arg value="build.js"/>
+			<arg value="out=../../build/libraries/sparkline/sparkline.min.js"/>
+			<classpath refid="sample-classpath"/>
+		</java>
+	  <copy todir="./build/libraries">
+			<fileset dir="libraries">
+				<include name="**/*.css"/>
+			</fileset>
+		</copy>
+
+	</target>
+
+	
 </project>

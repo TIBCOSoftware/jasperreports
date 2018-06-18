@@ -10,5 +10,9 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.9" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.9" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.0" conf="test->*"/>
+
+		<!-- Dependencies required to compile a CVC from sources -->
+		<dependency org="com.google.javascript" name="closure-compiler" rev="v20160208"/>
+
 	</dependencies>
 </ivy-module>
