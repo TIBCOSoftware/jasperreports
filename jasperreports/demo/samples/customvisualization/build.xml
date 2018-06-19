@@ -171,17 +171,20 @@
 		</java>
 	</target>
 
-	<target name="build-components" description="Build the components" depends="prepare-test-classpath">
+	<target name="build-components" description="Build the components">
 		<echo message="Compiling the custom visualization components..."/>
-		<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="libraries/sparkline">
-			<arg value="-opt"/>
-			<arg value="-1"/>
-			<arg value="../r.js"/>
-			<arg value="-o"/>
-			<arg value="build.js"/>
-			<arg value="out=../../build/libraries/sparkline/sparkline.min.js"/>
-			<classpath refid="sample-classpath"/>
-		</java>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="leafletmarkers"/>
+		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="sparkline"/>
+		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="figures"/>
+		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="radial_progress"/>
+		</antcall>
 	  <copy todir="./build/libraries">
 			<fileset dir="libraries">
 				<include name="**/*.css"/>
@@ -190,5 +193,16 @@
 
 	</target>
 
+  <target name="build-component" description="Build a single component" depends="prepare-test-classpath">
+			<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="libraries/${cvc.component.name}">
+			<arg value="-opt"/>
+			<arg value="-1"/>
+			<arg value="../r.js"/>
+			<arg value="-o"/>
+			<arg value="build.js"/>
+			<arg value="out=../../build/libraries/${cvc.component.name}/${cvc.component.name}.min.js"/>
+			<classpath refid="sample-classpath"/>
+		</java>
+	</target>
 	
 </project>
