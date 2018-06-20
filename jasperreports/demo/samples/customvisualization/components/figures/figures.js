@@ -22,7 +22,6 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 define('figures',['d3'], function (d3) {
 
 	 return function (instanceData) {	
