@@ -195,9 +195,9 @@
 	</target>
 	
 	<target name="test" description="Runs the sample." depends="prepare-test-classpath">
-		<echo message="======================================="/>
+		<echo message="======================================"/>
 		<echo message=" Custom Visualization Component Sample"/>
-		<echo message="======================================="/>
+		<echo message="======================================"/>
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="components"/>
