@@ -2,7 +2,7 @@
     optimize: 'none', // Uncomment this property to disable the uglify of the libraries
     baseUrl: '',
     paths: {
-			'd3': '../d3/d3-5.5.0.min' , 		
+			'd3': '../../libraries/d3/d3-5.5.0.min' , 		
 			'figures': 'figures' 		
 	}, 
 		

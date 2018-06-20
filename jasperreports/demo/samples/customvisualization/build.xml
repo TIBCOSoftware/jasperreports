@@ -14,7 +14,7 @@
 	
 	<path id="sample-classpath">
 		<pathelement location="./build/classes"/>
-		<pathelement location="./build/libraries"/>
+		<pathelement location="./build/components"/>
 		<pathelement location="../../../ext/fonts"/>
 		<path refid="project-classpath"/>
 	</path>
@@ -55,32 +55,37 @@
 
 	<target name="components" description="Builds the components.">
 		<antcall target="build-component">
+			<param name="cvc.component.name" value="figures"/>
+		</antcall>
+		<antcall target="build-component">
 			<param name="cvc.component.name" value="leafletmarkers"/>
+		</antcall>
+		<copy todir="./build/components/leafletmarkers">
+			<fileset dir="libraries/leaflet">
+				<include name="**/*.css"/>
+			</fileset>
+		</copy>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="radialprogress"/>
 		</antcall>
 		<antcall target="build-component">
 			<param name="cvc.component.name" value="sparkline"/>
 		</antcall>
-		<antcall target="build-component">
-			<param name="cvc.component.name" value="figures"/>
-		</antcall>
-		<antcall target="build-component">
-			<param name="cvc.component.name" value="radialprogress"/>
-		</antcall>
-		<copy todir="./build/libraries">
-			<fileset dir="libraries">
+		<copy todir="./build/components">
+			<fileset dir="components">
 				<include name="**/*.css"/>
 			</fileset>
 		</copy>
 	</target>
 
 	<target name="build-component" depends="prepare-test-classpath">
-		<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="libraries/${cvc.component.name}">
+		<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="components/${cvc.component.name}">
 			<arg value="-opt"/>
 			<arg value="-1"/>
-			<arg value="../requirejs/r.js"/>
+			<arg value="../../libraries/requirejs/r.js"/>
 			<arg value="-o"/>
 			<arg value="build.js"/>
-			<arg value="out=../../build/libraries/${cvc.component.name}/${cvc.component.name}.min.js"/>
+			<arg value="out=../../build/components/${cvc.component.name}/${cvc.component.name}.min.js"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>

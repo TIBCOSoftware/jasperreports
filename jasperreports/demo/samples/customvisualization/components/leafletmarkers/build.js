@@ -2,11 +2,11 @@
     optimize: 'none', // Uncomment this property to disable the uglify of the libraries
     baseUrl: '',
     paths: {
-            'leaflet': 'leaflet' ,
-            'leaflet-providers': 'leaflet-providers',
-            'leaflet-omnivore': 'leaflet-omnivore.min',
+            'leaflet': '../../libraries/leaflet/leaflet' ,
+            'leaflet-providers': '../../libraries/leaflet/leaflet-providers',
+            'leaflet-omnivore': '../../libraries/leaflet/leaflet-omnivore.min',
+            'leaflet-ajax': '../../libraries/leaflet/leaflet-ajax',
             'icon': 'icon',
-            'leaflet-ajax': 'leaflet-ajax',
 			'leafletmarkers': 'leafletmarkers' 		
 	}, 
 		
