@@ -2,7 +2,7 @@
 
 	<description>Shows how the chart themes could be used to change the look and feel of all chart types.</description>
 
-	<property name="sample.dir"  value="customvisualization"/>
+	<property name="sample.dir" value="customvisualization"/>
 	<property name="sample.base.name" value="CustomVisualization" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="LeafletMarkers" />
