@@ -22,7 +22,7 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
- define('radial_progress',['d3'], function (d3) {
+ define('radialprogress',['d3'], function (d3) {
 
 	 return function (instanceData) {	
 		

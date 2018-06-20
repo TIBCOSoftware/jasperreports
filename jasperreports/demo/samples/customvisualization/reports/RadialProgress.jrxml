@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 7.2.0.qualifier using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="radial_progress_sample" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RadialProgress" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
 	<subDataset name="Sample Dataset" uuid="389de2fa-2302-46df-88e2-d6ee19522008">
 		<field name="value" class="java.lang.String"/>
 	</subDataset>
@@ -16,9 +16,9 @@
 			<componentElement>
 				<reportElement x="20" y="80" width="200" height="200" uuid="055461ec-db73-49cc-a1ee-afa947fc8255"/>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="script" value="radial_progress/radial_progress.min.js"/>
-					<cvc:itemProperty name="css" value="radial_progress/radial_progress.css"/>
-					<cvc:itemProperty name="module" value="radial_progress"/>
+					<cvc:itemProperty name="script" value="radialprogress/radialprogress.min.js"/>
+					<cvc:itemProperty name="css" value="radialprogress/radialprogress.css"/>
+					<cvc:itemProperty name="module" value="radialprogress"/>
 					<cvc:itemProperty name="value" value="90"/>
 					<cvc:itemProperty name="target" value="100"/>
 					<cvc:itemProperty name="valueFormat" value=".1%"/>
@@ -39,9 +39,9 @@
 			<componentElement>
 				<reportElement x="330" y="80" width="200" height="200" uuid="3f275638-ba0a-4d97-8767-887edd421c33"/>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
-					<cvc:itemProperty name="script" value="radial_progress/radial_progress.min.js"/>
-					<cvc:itemProperty name="css" value="radial_progress/radial_progress.css"/>
-					<cvc:itemProperty name="module" value="radial_progress"/>
+					<cvc:itemProperty name="script" value="radialprogress/radialprogress.min.js"/>
+					<cvc:itemProperty name="css" value="radialprogress/radialprogress.css"/>
+					<cvc:itemProperty name="module" value="radialprogress"/>
 					<cvc:itemProperty name="value" value="540"/>
 					<cvc:itemProperty name="target" value="100"/>
 					<cvc:itemProperty name="valueFormat" value=".1%"/>

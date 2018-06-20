@@ -115,7 +115,7 @@ public class CustomVisualizationApp extends AbstractSampleApp
 	public void view() throws JRException
 	{
 		JasperReportsContext jasperReportsContext = getJasperReportsContext();
-		JasperViewer.viewReport(jasperReportsContext, "build/reports/LeafLetMarkers_sample.jrprint", false, true);
+		JasperViewer.viewReport(jasperReportsContext, "build/reports/LeafletMarkers.jrprint", false, true);
 	}
 	
 	
@@ -125,7 +125,7 @@ public class CustomVisualizationApp extends AbstractSampleApp
 	public void viewXml() throws JRException
 	{
 		JasperReportsContext jasperReportsContext = getJasperReportsContext();
-		JasperViewer.viewReport(jasperReportsContext, "build/reports/LeafLetMarkers_sample.jrpxml", true, true);
+		JasperViewer.viewReport(jasperReportsContext, "build/reports/LeafletMarkers.jrpxml", true, true);
 	}
 
 
@@ -136,7 +136,7 @@ public class CustomVisualizationApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JasperReportsContext jasperReportsContext = getJasperReportsContext();
-		JasperPrintManager.getInstance(jasperReportsContext).print("build/reports/LeafLetMarkers_sample.jrprint", true);
+		JasperPrintManager.getInstance(jasperReportsContext).print("build/reports/LeafletMarkers.jrprint", true);
 		System.err.println("Printing time : " + (System.currentTimeMillis() - start));
 	}
 	

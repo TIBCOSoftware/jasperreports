@@ -5,7 +5,7 @@
 	<property name="sample.dir" value="customvisualization"/>
 	<property name="sample.base.name" value="CustomVisualization" />
 	<property name="sample.app.name" value="${sample.base.name}App" />
-	<property name="sample.report.name" value="LeafLetMarkers_sample" />
+	<property name="sample.report.name" value="LeafletMarkers" />
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>
@@ -51,6 +51,38 @@
 			</fileset>
 		</copy>
 		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="components" description="Builds the components.">
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="leafletmarkers"/>
+		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="sparkline"/>
+		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="figures"/>
+		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="radialprogress"/>
+		</antcall>
+		<copy todir="./build/libraries">
+			<fileset dir="libraries">
+				<include name="**/*.css"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build-component" depends="prepare-test-classpath">
+		<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="libraries/${cvc.component.name}">
+			<arg value="-opt"/>
+			<arg value="-1"/>
+			<arg value="../requirejs/r.js"/>
+			<arg value="-o"/>
+			<arg value="build.js"/>
+			<arg value="out=../../build/libraries/${cvc.component.name}/${cvc.component.name}.min.js"/>
+			<classpath refid="sample-classpath"/>
+		</java>
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
@@ -163,44 +195,10 @@
 		<echo message="======================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />
-		<antcall target="build-components"/>
+		<antcall target="components"/>
 		<antcall target="compile" />
 		<java classname="${sample.app.name}" fork="true">
 			<arg value="test"/>
-			<classpath refid="sample-classpath"/>
-		</java>
-	</target>
-
-	<target name="build-components" description="Build the components">
-		<echo message="Compiling the custom visualization components..."/>
-		<antcall target="build-component">
-			<param name="cvc.component.name" value="leafletmarkers"/>
-		</antcall>
-		<antcall target="build-component">
-			<param name="cvc.component.name" value="sparkline"/>
-		</antcall>
-		<antcall target="build-component">
-			<param name="cvc.component.name" value="figures"/>
-		</antcall>
-		<antcall target="build-component">
-			<param name="cvc.component.name" value="radial_progress"/>
-		</antcall>
-	  <copy todir="./build/libraries">
-			<fileset dir="libraries">
-				<include name="**/*.css"/>
-			</fileset>
-		</copy>
-
-	</target>
-
-  <target name="build-component" description="Build a single component" depends="prepare-test-classpath">
-			<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="libraries/${cvc.component.name}">
-			<arg value="-opt"/>
-			<arg value="-1"/>
-			<arg value="../r.js"/>
-			<arg value="-o"/>
-			<arg value="build.js"/>
-			<arg value="out=../../build/libraries/${cvc.component.name}/${cvc.component.name}.min.js"/>
 			<classpath refid="sample-classpath"/>
 		</java>
 	</target>

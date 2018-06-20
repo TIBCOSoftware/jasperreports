@@ -28,7 +28,6 @@
 				</reportElement>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
 					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="sparkline/sparkline.css"/>
 					<cvc:itemProperty name="script" value="sparkline/sparkline.min.js"/>
 					<cvc:itemProperty name="lineColor" value="#000000"/>
 					<cvc:itemProperty name="lineOpacity" value="1"/>
@@ -74,7 +73,6 @@ Antialias: off]]></text>
 				<reportElement x="280" y="83" width="240" height="50" uuid="5cbaa6c3-0cfe-4c1c-8a4a-afa0b3faeb9b"/>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd">
 					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="sparkline/sparkline.css"/>
 					<cvc:itemProperty name="script" value="sparkline/sparkline.min.js"/>
 					<cvc:itemProperty name="lineColor" value="#000000"/>
 					<cvc:itemProperty name="lineOpacity" value="1"/>
@@ -117,7 +115,6 @@ Antialias: off]]></text>
 				</reportElement>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" onErrorType="Icon">
 					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="sparkline/sparkline.css"/>
 					<cvc:itemProperty name="script" value="sparkline/sparkline.min.js"/>
 					<cvc:itemProperty name="lineColor" value="#000000"/>
 					<cvc:itemProperty name="lineOpacity" value="1"/>
@@ -160,7 +157,6 @@ Antialias: off]]></text>
 				</reportElement>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" onErrorType="Icon">
 					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="sparkline/sparkline.css"/>
 					<cvc:itemProperty name="script" value="sparkline/sparkline.min.js"/>
 					<cvc:itemProperty name="lineColor" value="#000000"/>
 					<cvc:itemProperty name="lineOpacity" value="1"/>
@@ -203,7 +199,6 @@ Antialias: off]]></text>
 				</reportElement>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" onErrorType="Icon">
 					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="sparkline/sparkline.css"/>
 					<cvc:itemProperty name="script" value="sparkline/sparkline.min.js"/>
 					<cvc:itemProperty name="lineColor" value="#000000"/>
 					<cvc:itemProperty name="lineOpacity" value="1"/>
@@ -246,7 +241,6 @@ Antialias: off]]></text>
 				</reportElement>
 				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" onErrorType="Icon">
 					<cvc:itemProperty name="module" value="sparkline"/>
-					<cvc:itemProperty name="css" value="sparkline/sparkline.css"/>
 					<cvc:itemProperty name="script" value="sparkline/sparkline.min.js"/>
 					<cvc:itemProperty name="lineColor" value="#000000"/>
 					<cvc:itemProperty name="lineOpacity" value="1"/>
