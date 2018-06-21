@@ -82,7 +82,7 @@
 		<java classname="org.mozilla.javascript.tools.shell.Main" fork="true" dir="components/${cvc.component.name}">
 			<arg value="-opt"/>
 			<arg value="-1"/>
-			<arg value="../../libraries/requirejs/r.js"/>
+			<arg value="../../libraries/requirejs/r-2.3.5.js"/>
 			<arg value="-o"/>
 			<arg value="build.js"/>
 			<arg value="out=../../build/components/${cvc.component.name}/${cvc.component.name}.min.js"/>
