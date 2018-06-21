@@ -68,7 +68,7 @@ public class CVElementRtfHandler implements GenericElementRtfHandler
 		{
 			JRPrintImage chartImage = 
 				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element, false);
+					.getImage(exporterContext.getJasperReportsContext(), element);
 			JRRtfExporter exporter = (JRRtfExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage);
 		}

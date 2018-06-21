@@ -21,37 +21,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-define('cv-component',["require"], function(require){
-    var cvComponent = function(config) {
-        this.config = config;
-        this.parent = null;
-        this.loader = null;
-        this._init();
-    };
+package net.sf.jasperreports.customvisualization.export;
 
-    cvComponent.prototype = {
-        // internal API
-        _init: function() {
-            var it = this;
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.export.GenericElementHandler;
 
-            // Cleanup the DIV...
-            // This is due to a bug in the interactive viewer which
-            // inovkes the component twice.
-            var element = document.getElementById(it.config.id);
-            if (element)
-            {
-                var currentSvgTags = element.getElementsByTagName("svg");
-                if (currentSvgTags.length > 0) {
-                    element.removeChild(currentSvgTags[0]);
-                };
-            }
+import java.net.MalformedURLException;
+import java.net.URL;
 
-            require([it.config.renderer], function(renderer) {
-                    renderer(it.config.instanceData);
-            });
+/**
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
+ */
+public abstract class CVElementAbstractGenericHandler implements GenericElementHandler {
 
-        }
+    @Override
+    public boolean toExport(JRGenericPrintElement element) {
+        return true;
     }
 
-    return cvComponent;
-});
+    protected static boolean isUrl(String location)
+    {
+        try
+        {
+            new URL(location);
+        }
+        catch (MalformedURLException e)
+        {
+            return false;
+        }
+        return true;
+    }
+}

@@ -46,6 +46,7 @@ public final class CVPrintElement
 	public static final String SCRIPT_URI = "script_uri";
 	public static final String NAMESPACE = "namespace";
 	public static final String CSS = "css";
+	public static final String CSS_URI = "css_uri";
 	public static final String MODULE = "module";
 	public static final OnErrorTypeEnum DEFAULT_ON_ERROR_TYPE = OnErrorTypeEnum.ERROR;
 

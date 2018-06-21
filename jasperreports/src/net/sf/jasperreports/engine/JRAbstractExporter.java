@@ -401,7 +401,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	/**
 	 *
 	 */
-	protected O getExporterOutput()
+	public O getExporterOutput()
 	{
 		return exporterOutput;
 	}
