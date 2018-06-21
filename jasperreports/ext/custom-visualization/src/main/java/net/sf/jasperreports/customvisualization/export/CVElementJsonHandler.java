@@ -23,32 +23,28 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.VelocityContext;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.Processor;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
+import net.sf.jasperreports.engine.export.HtmlResourceHandler;
+import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.engine.export.JsonExporterContext;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVElementJsonHandler implements GenericElementJsonHandler
+public class CVElementJsonHandler extends CVElementAbstractGenericHandler implements GenericElementJsonHandler
 {
 	private static final CVElementJsonHandler INSTANCE = new CVElementJsonHandler();
 	private static final Log log = LogFactory.getLog(CVElementJsonHandler.class);
@@ -72,10 +68,7 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 	@Override
 	public String getJsonFragment(JsonExporterContext context, JRGenericPrintElement element)
 	{
-		Map<String, Object> contextMap = new HashMap<String, Object>();
-		contextMap.put("elementId", "element" + element.hashCode());
-
-		Map<String, Object> originalConfiguration = 
+		Map<String, Object> originalConfiguration =
 			(Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
 
 		if (originalConfiguration == null)
@@ -88,26 +81,16 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 		Map<String, Object> configuration = new HashMap<String, Object>();
 		configuration.putAll(originalConfiguration);
 
-		if (
-			context != null 
-			&& context.getExporterRef() != null
-			&& context.getExporterRef().getReportContext() != null
-			)
-		{
-			configuration.put("isInteractiveViewer", true);
-		}
-		else
-		{
-			configuration.put("isInteractiveViewer", false);
-		}
-
 		ObjectMapper mapper = new ObjectMapper();
 		try
 		{
-
 			if (!configuration.containsKey("instanceData"))
 			{
-				Map<String, Object> jsonConfiguration = createConfigurationForJSON(configuration);
+				JsonExporter exporter = ((JsonExporter)context.getExporterRef());
+				HtmlResourceHandler htmlResourceHandler = exporter.getExporterOutput() != null ?
+						exporter.getExporterOutput().getFontHandler() : null;
+
+				Map<String, Object> jsonConfiguration = createConfigurationForJSON(configuration, htmlResourceHandler);
 				String instanceData = mapper.writeValueAsString(jsonConfiguration);
 
 				configuration.put("instanceData", instanceData);
@@ -120,49 +103,11 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 
 		configuration.put("module", element.getParameterValue(CVPrintElement.MODULE));
 
-		contextMap.put("configuration", configuration);
+		Map<String, Object> velocityContext = new HashMap<String, Object>();
+		velocityContext.put("elementId", "element" + element.hashCode());
+		velocityContext.put("configuration", configuration);
 
-		// Pre export the object programmatically...
-
-		// RepositoryUtil ru =
-		// RepositoryUtil.getInstance(context.getJasperReportsContext());
-		String s = "{}";
-		try
-		{
-			// Loading resource...
-			InputStream is = CVElementJsonHandler.class.getClassLoader().getResourceAsStream(CV_ELEMENT_JSON_TEMPLATE);
-			// if (is == null)
-			// {
-			// System.out.println("Unable to laod the template for json..." +
-			// CVElementJsonHandler.class.getClassLoader().getResource(CV_ELEMENT_JSON_TEMPLATE));
-			// }
-
-			InputStreamReader templateReader = new InputStreamReader(is, "UTF-8");
-			StringWriter output = new StringWriter(128);
-			VelocityUtil.getVelocityEngine().evaluate(
-				new VelocityContext(contextMap), 
-				output, 
-				CV_ELEMENT_JSON_TEMPLATE,
-				templateReader
-				);
-			output.flush();
-			output.close();
-
-			s = output.toString();
-
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			throw new JRRuntimeException(e);
-		}
-		return s;
-	}
-
-	@Override
-	public boolean toExport(JRGenericPrintElement element)
-	{
-		return true;
+		return VelocityUtil.processTemplate(CV_ELEMENT_JSON_TEMPLATE, velocityContext);
 	}
 
 	/**
@@ -177,12 +122,10 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 	 * @param configuration
 	 * @return
 	 */
-	public static Map<String, Object> createConfigurationForJSON(Map<String, Object> configuration)
+	public static Map<String, Object> createConfigurationForJSON(Map<String, Object> configuration,
+			 								HtmlResourceHandler htmlResourceHandler)
 	{
-
-		// Create a copy of configuration with all the serializable objects in
-		// it...
-		Map<String, Object> jsonConfiguration = new HashMap<String, Object>();
+		Map<String, Object> jsonConfiguration = new HashMap<>();
 
 		JRTemplateGenericPrintElement element = (JRTemplateGenericPrintElement) configuration.get("element");
 
@@ -196,10 +139,7 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 			jsonConfiguration.put(Processor.CONF_WIDTH, element.getWidth());
 			jsonConfiguration.put(Processor.CONF_HEIGHT, element.getHeight());
 
-			// configuration.put(Processor.CONF_WIDTH, element.getWidth());
-			// configuration.put(Processor.CONF_HEIGHT, element.getHeight());
-
-			for (String prop : element.getPropertiesMap().getPropertyNames())
+			for (String prop: element.getPropertiesMap().getPropertyNames())
 			{
 				jsonConfiguration.put("property." + prop, element.getPropertiesMap().getProperty(prop));
 				configuration.put("property." + prop, element.getPropertiesMap().getProperty(prop));
@@ -207,11 +147,18 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 
 			jsonConfiguration.put("id", "element" + element.hashCode());
 
-			// configuration.put(CVPrintElement.MODULE,
-			// element.getParameterValue(CVPrintElement.MODULE));
 			if (element.getParameterValue(CVPrintElement.SCRIPT_URI) != null)
 			{
-				configuration.put(CVPrintElement.SCRIPT_URI, element.getParameterValue(CVPrintElement.SCRIPT_URI));
+				String scriptLocation = getResourceURL((String)element.getParameterValue(CVPrintElement.SCRIPT_URI),
+						htmlResourceHandler);
+				configuration.put(CVPrintElement.SCRIPT_URI, scriptLocation);
+			}
+
+			if (element.getParameterValue(CVPrintElement.CSS_URI) != null)
+			{
+				String cssLocation = getResourceURL((String)element.getParameterValue(CVPrintElement.CSS_URI),
+						htmlResourceHandler);
+				configuration.put(CVPrintElement.CSS_URI, cssLocation);
 			}
 		}
 
@@ -237,6 +184,16 @@ public class CVElementJsonHandler implements GenericElementJsonHandler
 		}
 
 		return jsonConfiguration;
+	}
+
+	protected static String getResourceURL(String scriptResourceLocation, HtmlResourceHandler htmlResourceHandler)
+	{
+		if (htmlResourceHandler != null && !isUrl(scriptResourceLocation))
+		{
+			return htmlResourceHandler.getResourcePath(scriptResourceLocation);
+		}
+
+		return scriptResourceLocation;
 	}
 
 }

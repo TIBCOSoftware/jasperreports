@@ -468,18 +468,6 @@ public class CustomVisualizationApp extends AbstractSampleApp
 	private JasperReportsContext getJasperReportsContext() throws JRException
 	{
 		JasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
-
-		String scriptsDirectory = null;
-
-		try
-		{
-			scriptsDirectory = new File(".", "build/classes/scripts").getCanonicalPath();
-		}
-		catch (IOException e)
-		{
-			throw new JRException(e);
-		}
-
 		String phantomJsPath = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
 		
 		if (phantomJsPath == null)
@@ -509,10 +497,6 @@ public class CustomVisualizationApp extends AbstractSampleApp
 			System.out.println("PhantomJs path defined in jasperreports.properties");
 		}
 				
-		jasperReportsContext.setProperty(CVConstants.CV_REQUIREJS_PROPERTY, "file://" + scriptsDirectory + "/require.js");
-		
-		jasperReportsContext.setProperty("cv.keepTemporaryFiles", "true");
-		
 		return jasperReportsContext;
 	}
 }

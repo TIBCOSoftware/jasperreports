@@ -23,28 +23,17 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.jasperreports.customvisualization.CVPrintElement;
+import net.sf.jasperreports.customvisualization.CVUtils;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.repo.RepositoryUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.Map;
-
-import net.sf.jasperreports.customvisualization.CVPrintElement;
-import net.sf.jasperreports.customvisualization.CVUtils;
-import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Giulio Toffoli (gtoffoli@tibco.com)
@@ -52,66 +41,52 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 {
 	private static final Log log = LogFactory.getLog(CVElementPhantomJSImageProvider.class);
-	private static final Random RANDOM = new Random();
+	private static final String CVC_RESOURCE_PREFIX = "jr_cv_";
 
-	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_PATH = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.executable.path";
-	public static final String PROPERTY_CVC_PHANTOMJS_DEBUG = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.debug";
-        public static final String PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.executable.timeout";
-	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_HIGHCHARTS_TIMEOUT = "com.jaspersoft.jasperreports.highcharts.phantomjs.executable.timeout";
-	public static final String PROPERTY_PHANTOMJS_TEMPDIR_PATH = "com.jaspersoft.jasperreports.highcharts.phantomjs.tempdir.path";
+	private static final String PHANTOMJS_COMPONENT_TEMPLATE = "net/sf/jasperreports/customvisualization/templates/phantomjs_component.vm";
 
-	public static final String DIV2SVG_SCRIPT = "net/sf/jasperreports/customvisualization/scripts/div2svg.js";
-	public static final String SVG2PNG_SCRIPT = "net/sf/jasperreports/customvisualization/scripts/svg2png.js";
-	
+	public static final String PROPERTY_PHANTOMJS_PREFIX = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.";
+
+	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_PATH = PROPERTY_PHANTOMJS_PREFIX + "executable.path";
+	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT = PROPERTY_PHANTOMJS_PREFIX + "executable.timeout";
+	public static final String PROPERTY_PHANTOMJS_TEMPDIR_PATH = PROPERTY_PHANTOMJS_PREFIX + "tempdir.path";
+	public static final String PROPERTY_PHANTOMJS_DEBUG = PROPERTY_PHANTOMJS_PREFIX + "debug";
+
+	private final String[] scriptResourceLocations = new String[] {
+			"net/sf/jasperreports/customvisualization/scripts/div2svg.js",
+			"net/sf/jasperreports/customvisualization/resources/require/require.js",
+			"net/sf/jasperreports/customvisualization/resources/require/cv-component.js"
+	};
+
+	private ConcurrentHashMap<String, String> commonScripts = new ConcurrentHashMap<>(16, 0.75f, 1);
+
+
 	/**
 	 * Returns the location of a newly created image,
 	 * 
-	 * @param exporterContext
+	 * @param jasperReportsContext
 	 * @param element
-	 * @param svg
-	 *            boolean, true to get an SVG, false to get a PNG
-	 * @return
+	 * @return image byte array
 	 * @throws Exception
 	 */
 	@Override
 	public byte[] getImageData(
 		JasperReportsContext jasperReportsContext, 
-		JRGenericPrintElement element, 
-		boolean createSvg
-		) throws Exception
+		JRGenericPrintElement element) throws Exception
 	{
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null)
 		{
 			throw new JRRuntimeException("Configuration object is null.");
 		}
 
-		String phantomjsExecutablePath = "phantomjs";
-                
-                if (jasperReportsContext
-				.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH) != null)
+		String phantomjsExecutablePath = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
+		if (phantomjsExecutablePath == null)
 		{
-			phantomjsExecutablePath = jasperReportsContext
-					.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
-		}
-
-		boolean componentDebug = false;
-		if (jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_CVC_PHANTOMJS_DEBUG) != null)
-		{
-			componentDebug = jasperReportsContext
-					.getProperty(CVElementPhantomJSImageProvider.PROPERTY_CVC_PHANTOMJS_DEBUG).equals("true");
+			phantomjsExecutablePath = "phantomjs";
 		}
 
 		int phantomjsTimeout;
-                
-                // Check for either the CVC specific timeout or the Highcharts timeout set for the phantomjs executable...
-                // If none of the two properties are set, the timeout is set to 60 seconds.
-                // Please also note that this timeout is the really maximum time allowed to complete the rendering. There is another
-                // timeout that plays a more important role, which is the internal script timeout waiting for the page to be ready to
-                // render. This timeout is set by default to 30 seconds, and can be personalized element by element by setting the
-                // CVC property "render-timeout" (this is not an element property, just a regular CVC property).
-		String timeoutProperty = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT) != null 
-                                ? jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT) : 
-                                  jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_HIGHCHARTS_TIMEOUT);
+		String timeoutProperty = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT);
 		if (timeoutProperty != null)
 		{
 			phantomjsTimeout = Integer.parseInt(timeoutProperty);
@@ -121,78 +96,65 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 			phantomjsTimeout = 60000;
 		}
 
-		String phantomjsTempFolderPath = jasperReportsContext
-				.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_TEMPDIR_PATH);
-
+		String phantomjsTempFolderPath = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_TEMPDIR_PATH);
 		if (phantomjsTempFolderPath == null)
 		{
 			phantomjsTempFolderPath = System.getProperty("java.io.tmpdir");
 		}
 
 		File tempFolder = new File(phantomjsTempFolderPath);
-
 		if (tempFolder.exists())
 		{
-			String tempFileName = TEMP_RESOURCE_PREFIX + System.currentTimeMillis() + "_"
-					+ RANDOM.nextInt(Integer.MAX_VALUE);
-
-			// Collect the files that must be deleted as we finish to render
-			// everything...
-			List<File> cleanableResourcePaths = new ArrayList<File>();
+			// Collect the files that must be deleted as we finish to render everything
+			List<File> cleanableResourcePaths = new ArrayList<>();
 
 			try
 			{
-				if (log.isDebugEnabled())
-				{
-					log.debug(
-						"Saving Div2Svg.js in a temporary directory: "
-						+ CVElementPhantomJSImageProvider.class.getClassLoader().getResource(DIV2SVG_SCRIPT) + " "
-						+ new File(tempFolder, tempFileName + "_div2svg.js")
-						);
+				List<String> scripts = new ArrayList<>();
+				RepositoryUtil repositoryUtil = RepositoryUtil.getInstance(jasperReportsContext);
+
+				for (String scriptLocation: scriptResourceLocations) {
+					scripts.add(copyResourceToTempFolder(scriptLocation, tempFolder, cleanableResourcePaths,
+							true, repositoryUtil));
 				}
-				File div2svgFile = createFile(new File(tempFolder, tempFileName + "_div2svg.js"),
-						CVElementPhantomJSImageProvider.class.getClassLoader().getResourceAsStream(DIV2SVG_SCRIPT));
-				cleanableResourcePaths.add(div2svgFile);
 
-				File svg2pngFile = createFile(new File(tempFolder, tempFileName + "_svg2png.js"),
-						CVElementPhantomJSImageProvider.class.getClassLoader().getResourceAsStream(SVG2PNG_SCRIPT));
-				cleanableResourcePaths.add(svg2pngFile);
+				scripts.add(copyResourceToTempFolder((String)element.getParameterValue(CVPrintElement.SCRIPT_URI),
+						tempFolder, cleanableResourcePaths, true, repositoryUtil));
 
-				StringBuilder htmlPage = new StringBuilder();
-				htmlPage.append(
-						"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/></head><body>");
+				String cssUriParameter = (String)element.getParameterValue(CVPrintElement.CSS_URI);
+				String cssUri = null;
+				if (cssUriParameter != null) {
+					cssUri= copyResourceToTempFolder(cssUriParameter, tempFolder, cleanableResourcePaths,
+							true, repositoryUtil);
+				}
 
-                                String htmlFragment = 
-					CVElementHtmlHandler.getInstance()
-						.getHtmlFragment(jasperReportsContext, null, element, true);
+				String htmlPage = getHtmlPage(
+						jasperReportsContext,
+						element,
+						scripts.subList(1, scripts.size()),
+						cssUri);
 
-				htmlPage.append(htmlFragment);
-				htmlPage.append("</body></html>");
+				File htmlPageFile = createTempFile("in.html", tempFolder, cleanableResourcePaths, false);
+				try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes());
+					 OutputStream os = new FileOutputStream(htmlPageFile)) {
+					CVUtils.byteStreamCopy(is, os);
+				}
 
-				File htmlPageFile = createFile(new File(tempFolder, tempFileName + ".html"),
-						new ByteArrayInputStream(htmlPage.toString().getBytes()));
-				cleanableResourcePaths.add(htmlPageFile);
+				File outputSvgFile = createTempFile("out.svg", tempFolder, cleanableResourcePaths, false);
+				boolean renderAsPng = CVUtils.isRenderAsPng(element);
 
-				File outputSvgFile = new File(tempFolder, tempFileName + ".svg");
-
-				// We should not delete the SVG file until it is actually
-				// consumed...
-				cleanableResourcePaths.add(outputSvgFile);
-
-                                boolean renderAsPng = CVUtils.isRenderAsPng(element);
-                                String format = renderAsPng ? "png" : "svg";
-                                
-                                
 				try
 				{
-					runCommand(
-							new String[] { phantomjsExecutablePath, div2svgFile.toString(),
-                                                                        "--output-format=" + format,
-                                                                        "--timeout=" + CVUtils.getTimeout(element),
-                                                                        "--zoom-factor=" + CVUtils.getZoomFactor(element),
-									htmlPageFile.toURI().toURL().toString(), outputSvgFile.toString() },
-							tempFolder, phantomjsTimeout);
-
+					runCommand(new String[] {
+							phantomjsExecutablePath,
+							scripts.get(0),
+							"--output-format=" + (renderAsPng ? "png" : "svg"),
+							"--timeout=" + CVUtils.getTimeout(element),
+                            "--zoom-factor=" + CVUtils.getZoomFactor(element),
+							htmlPageFile.getName(),
+							outputSvgFile.getName()
+							},
+						tempFolder, phantomjsTimeout);
 				}
 				catch (Exception ex)
 				{
@@ -206,38 +168,13 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 							"Error while executing the javascript file to generate the SVG image.");
 				}
 
-				if (createSvg || renderAsPng)
-				{
-					ByteArrayOutputStream os = new ByteArrayOutputStream();
-					copyStream(new FileInputStream(outputSvgFile), os);
+				try (InputStream is = new FileInputStream(outputSvgFile);
+					 ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+					CVUtils.byteStreamCopy(is, os);
 
 					return os.toByteArray();
 				}
 
-				File outputPngFile = new File(tempFolder, tempFileName + ".png");
-				cleanableResourcePaths.add(outputPngFile);
-
-				try
-				{
-					runCommand(
-							new String[] { phantomjsExecutablePath, svg2pngFile.toString(),
-									outputSvgFile.toURI().toURL().toString(), outputPngFile.toString() },
-							tempFolder, phantomjsTimeout);
-				}
-				catch (Exception ex)
-				{
-					throw new JRRuntimeException("Unable to convert the SVG file into a PNG image: " + ex.getMessage());
-				}
-
-				if (!outputPngFile.exists() || outputPngFile.length() <= 0)
-				{
-					throw new JRRuntimeException("Unable to convert the SVG file into a PNG image");
-				}
-
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				copyStream(new FileInputStream(outputPngFile), os);
-
-				return os.toByteArray();
 			}
 			finally
 			{
@@ -245,19 +182,20 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 				{
 					if (cleanableResource.exists() && cleanableResource.canWrite())
 					{
-						if (element.getPropertiesMap().getProperty("cv.keepTemporaryFiles") == null
-                                                                    || !element.getPropertiesMap().getProperty("cv.keepTemporaryFiles").equals("true"))
-						{
+						JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+						boolean isPhantomJSinDebugMode = propertiesUtil.getBooleanProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_DEBUG, false);
+
+						String keepTempFilesProperty = element.getPropertiesMap().getProperty("cv.keepTemporaryFiles");
+						boolean keepTempFiles = keepTempFilesProperty != null && keepTempFilesProperty.equals("true");
+
+						if (!(isPhantomJSinDebugMode && keepTempFiles)) {
 							if (log.isDebugEnabled())
 							{
 								log.debug("Cleaning up resource after rendering of element " + element.hashCode() + ": "
 										+ cleanableResource.getAbsolutePath());
 							}
 
-							if (!componentDebug)
-							{
-								cleanableResource.delete();
-							}
+							cleanableResource.delete();
 						}
 					}
 				}
@@ -270,13 +208,108 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 		}
 	}
 
+	public String getHtmlPage(
+			JasperReportsContext jrContext,
+			JRGenericPrintElement element,
+			List<String> scripts,
+			String cssUri
+	)
+	{
+		Map<String, Object> originalConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
+
+		if (originalConfiguration == null)
+		{
+			if (log.isWarnEnabled())
+			{
+				log.warn("Configuration object in the element " + element + " is NULL!");
+			}
+			throw new JRRuntimeException("Configuration object in the element " + element + " is NULL!");
+		}
+
+		// Duplicate the configuration.
+		Map<String, Object> configuration = new HashMap<String, Object>();
+		configuration.putAll(originalConfiguration);
+
+		ObjectMapper mapper = new ObjectMapper();
+		try
+		{
+			Map<String, Object> jsonConfiguration = CVElementJsonHandler.createConfigurationForJSON(configuration, null);
+			jsonConfiguration.put("animation", false);
+
+			String instanceData = mapper.writeValueAsString(jsonConfiguration);
+			configuration.put("instanceData", instanceData);
+		}
+		catch (Exception ex)
+		{
+			if (log.isWarnEnabled())
+			{
+				log.warn("Error dumping the JSON for the configuration...: " + ex.getMessage(), ex);
+			}
+			throw new JRRuntimeException("Error dumping the JSON for the configuration...: " + ex.getMessage());
+		}
+
+		configuration.put("element", element);
+
+		Map<String, Object> velocityContext = new HashMap<>();
+		velocityContext.put("scripts", scripts);
+		velocityContext.put("configuration", configuration);
+		velocityContext.put("module", element.getParameterValue(CVPrintElement.MODULE));
+		velocityContext.put("cssUri", cssUri);
+
+        return CVUtils.fillVelocityTemplate(jrContext, PHANTOMJS_COMPONENT_TEMPLATE, velocityContext);
+	}
+
+	protected String copyResourceToTempFolder(String resourceLocation,
+											  File tempFolder, List<File> cleanableResources,
+											  boolean isCommonResource, RepositoryUtil repositoryUtil) {
+		String tempResourceName = commonScripts.get(resourceLocation);
+
+		if (tempResourceName == null) {
+			try {
+				String resourceName = CVUtils.getResourceName(resourceLocation);
+				File tempFile = createTempFile(resourceName, tempFolder, cleanableResources, isCommonResource);
+
+				if (log.isDebugEnabled()) {
+					log.debug("Copying " + resourceLocation + " to " + tempFile);
+				}
+
+				try (InputStream is = repositoryUtil.getInputStreamFromLocation(resourceLocation);
+					 OutputStream os = new FileOutputStream(tempFile)) {
+					CVUtils.byteStreamCopy(is, os);
+				}
+
+				tempResourceName = tempFile.getName();
+				commonScripts.put(resourceLocation, tempResourceName);
+
+			} catch (IOException | JRException e) {
+				throw new JRRuntimeException(e);
+			}
+		} else {
+			if (log.isDebugEnabled()) {
+				log.debug("Serving cached tempResourceName: " + tempResourceName + " for " + resourceLocation);
+			}
+		}
+
+		return tempResourceName;
+	}
+
+	protected File createTempFile(String name, File tempFolder, List<File> cleanableResources, boolean isCommonResource) throws IOException {
+		File tempFile = File.createTempFile(CVC_RESOURCE_PREFIX, "_" + name, tempFolder);
+		if (isCommonResource) {
+			tempFile.deleteOnExit();
+		} else {
+			cleanableResources.add(tempFile);
+		}
+
+		return tempFile;
+	}
+
 	/**
 	 * Executes a command within the given timeout.
 	 * 
 	 * @param args
 	 * @param currentDirectory
 	 * @param timeout
-	 * @return
 	 */
 	private static void runCommand(String[] args, File currentDirectory, final int timeout)
 	{
@@ -285,7 +318,6 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 
 		try
 		{
-
 			String cmd = "";
 			for (String arg : args)
 			{

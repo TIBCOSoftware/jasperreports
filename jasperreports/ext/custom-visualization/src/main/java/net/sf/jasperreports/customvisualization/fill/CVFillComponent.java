@@ -23,34 +23,13 @@
  */
 package net.sf.jasperreports.customvisualization.fill;
 
-import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
-
-import java.io.File;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.customvisualization.CVComponent;
 import net.sf.jasperreports.customvisualization.CVConstants;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.Processor;
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillContextProvider;
@@ -62,6 +41,17 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
 
 public class CVFillComponent extends BaseFillComponent implements Serializable, FillContextProvider
 {
@@ -311,31 +301,13 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 		}
 
 		element.setParameterValue(CVPrintElement.CONFIGURATION, configuration);
-
-		// Check the jasperreports property
-		// (CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY) to see if we are allowed
-		// to load the resource from any location or just from the classpath
-		String cpOnly = 
-			JRPropertiesUtil.getInstance(this.context)
-				.getProperty(CVConstants.CV_SCRIPT_FROM_CLASSPATH_ONLY_PROPERTY);
-		boolean classpathOnly = cpOnly != null && "true".equals(cpOnly);
-
-		String script = loadResource(scriptSource, classpathOnly);
-
-		element.setParameterValue(CVPrintElement.SCRIPT, script);
-
-		// We store also the script URI (o resource name) to be passed in the
-		// configuration
-		// for Visualize.js
 		element.setParameterValue(CVPrintElement.SCRIPT_URI, scriptSource);
 
-		if (cssSource != null && !cssSource.equals(""))
-		{
-			String css = loadResource(cssSource, false);
-			element.setParameterValue(CVPrintElement.CSS, css);
+		if (cssSource != null && ((String) cssSource).trim().length() > 0) {
+			element.setParameterValue(CVPrintElement.CSS_URI, cssSource);
 		}
 
-		String moduleName = 
+		String moduleName =
 			(configuration.containsKey(CVPrintElement.MODULE))
 			? (String) configuration.get(CVPrintElement.MODULE) : null;
 

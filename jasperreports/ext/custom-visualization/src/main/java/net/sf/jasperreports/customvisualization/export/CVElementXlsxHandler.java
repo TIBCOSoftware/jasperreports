@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
@@ -34,6 +31,8 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementXlsxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporterContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Giulio Toffoli (gtoffoli@tibco.com)
@@ -72,7 +71,7 @@ public class CVElementXlsxHandler implements GenericElementXlsxHandler
 		{
 			JRPrintImage chartImage = 
 				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element, false);
+					.getImage(exporterContext.getJasperReportsContext(), element);
 			JRXlsxExporter exporter = (JRXlsxExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, 0, 0, null);// TODO lucianc is this OK?
 		}
@@ -85,6 +84,6 @@ public class CVElementXlsxHandler implements GenericElementXlsxHandler
 	@Override
 	public JRPrintImage getImage(JRXlsxExporterContext jrxec, JRGenericPrintElement jrgpe) throws JRException
 	{
-		return CVElementImageProvider.getDefaultProvider().getImage(jrxec.getJasperReportsContext(), jrgpe, true);
+		return CVElementImageProvider.getDefaultProvider().getImage(jrxec.getJasperReportsContext(), jrgpe);
 	}
 }

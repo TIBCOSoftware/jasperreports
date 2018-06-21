@@ -23,17 +23,15 @@
  */
 package net.sf.jasperreports.customvisualization;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.engine.export.JRExporterContext;
-import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
-import net.sf.jasperreports.web.WebReportContext;
-import net.sf.jasperreports.web.util.WebUtil;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.web.util.VelocityUtil;
+import org.apache.velocity.VelocityContext;
+
+import java.io.*;
+import java.util.Map;
 
 /**
  *
@@ -41,192 +39,122 @@ import net.sf.jasperreports.web.util.WebUtil;
  */
 public class CVUtils
 {
-	public static String getResourceWebPath(JRHtmlExporterContext context, JasperReportsContext jrContext, String path)
-	{
-		ReportContext reportContext = null;
+	/**
+	 * Check if the element configuration specifies to render this component as png instead of looking for an SVG
+	 *
+	 * @param element
+	 * @return
+	 */
+	public static boolean isRenderAsPng(JRGenericPrintElement element) {
 
-		if (context != null && context.getExporterRef() != null)
+		if (element.hasParameter(CVPrintElement.CONFIGURATION))
 		{
-			reportContext = context.getExporterRef().getReportContext();
-		}
-
-		WebUtil webUtil = WebUtil.getInstance(jrContext);
-
-		if (
-			!path.toLowerCase().startsWith("http://") 
-			&& !path.toLowerCase().startsWith("https://")
-			&& !path.toLowerCase().startsWith("://")
-			)
-		{
-			path = webUtil.getResourcePath(path);
-			String contextPath = null;
-			if (
-				reportContext instanceof WebReportContext 
-				&& ((WebReportContext) reportContext).getParameterValue(net.sf.jasperreports.web.WebReportContext.APPLICATION_CONTEXT_PATH) != null
-				)
+			Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
+			if (componentConfiguration.containsKey("renderAsPng"))
 			{
-				contextPath = "" + ((WebReportContext) reportContext)
-						.getParameterValue(net.sf.jasperreports.web.WebReportContext.APPLICATION_CONTEXT_PATH);
-			}
-			else if (context != null)
-			{
-				contextPath = getRequestContextPath(context);
-			}
-
-			path = contextPath + path;
-		}
-
-		return path;
-	}
-
-	public static String getRequestContextPath(JRExporterContext exporterContext)
-	{
-		try
-		{
-			Class.forName("javax.servlet.http.HttpServletRequest");
-		}
-		catch (ClassNotFoundException e)
-		{
-			// not in a servlet container
-			return null;
-		}
-
-		return doGetRequestContextPath(exporterContext);
-	}
-
-	private static String doGetRequestContextPath(JRExporterContext exporterContext)
-	{
-		HttpServletRequest request = getRequest(exporterContext);
-
-		if (request == null)
-		{
-			return null;
-		}
-
-		return request.getContextPath();
-	}
-
-	private static HttpServletRequest getRequest(JRExporterContext exporterContext)
-	{
-		HttpServletRequest request = null;
-
-		Map<String, Object> values = exporterContext.getValues();
-		if (values != null)
-		{
-			for (Object value : values.values())
-			{
-				if (value instanceof HttpServletRequest)
+				Object renderAsPngProperty = componentConfiguration.get("renderAsPng");
+				if (renderAsPngProperty != null)
 				{
-					request = (HttpServletRequest) value;
-					break;
+					return Boolean.valueOf(renderAsPngProperty.toString()).booleanValue();
 				}
 			}
 		}
+		return false;
+	}
 
-		if (request == null)
+
+	/**
+	 * Check if the element configuration specifies the zoom to be used when the export is performed as raster image.
+	 * Default is 1.0f.
+	 * Bigger is the zoom, higher is the quality, bigger is the file exported.
+	 *
+	 * @param element
+	 * @return
+	 */
+	public static float getZoomFactor(JRGenericPrintElement element) {
+
+		if (element.hasParameter(CVPrintElement.CONFIGURATION))
 		{
-			@SuppressWarnings("deprecation")
-			Map<net.sf.jasperreports.engine.JRExporterParameter, Object> params = exporterContext.getExportParameters();
-			if (params != null)
+			Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
+			if (componentConfiguration.containsKey("render-zoom-factor"))
 			{
-				for (Object param : params.values())
+				Object property = componentConfiguration.get("render-zoom-factor");
+				if (property != null)
 				{
-					if (param instanceof HttpServletRequest)
+					try {
+						return Float.valueOf(property.toString()).floatValue();
+					} catch (Exception ex)
 					{
-						request = (HttpServletRequest) param;
-						break;
+
 					}
 				}
 			}
 		}
-
-		return request;
+		return 1.0f;
 	}
         
         
-        /**
-         * Check if the element configuration specifies to render this component as png instead of looking for an SVG
-         * 
-         * @param element
-         * @return 
-         */
-        public static boolean isRenderAsPng(JRGenericPrintElement element) {
-            
-            if (element.hasParameter(CVPrintElement.CONFIGURATION))
-            {
-                Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
-                if (componentConfiguration.containsKey("renderAsPng"))
-                {
-                    Object renderAsPngProperty = componentConfiguration.get("renderAsPng");
-                    if (renderAsPngProperty != null)
-                    {
-                        return Boolean.valueOf(renderAsPngProperty.toString()).booleanValue();
-                    }
-                }
-            }
-            return false;
-        }
-        
-        
-        /**
-         * Check if the element configuration specifies the zoom to be used when the export is performed as raster image.
-         * Default is 1.0f.
-         * Bigger is the zoom, higher is the quality, bigger is the file exported.
-         * 
-         * @param element
-         * @return 
-         */
-        public static float getZoomFactor(JRGenericPrintElement element) {
-            
-            if (element.hasParameter(CVPrintElement.CONFIGURATION))
-            {
-                Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
-                if (componentConfiguration.containsKey("render-zoom-factor"))
-                {
-                    Object property = componentConfiguration.get("render-zoom-factor");
-                    if (property != null)
-                    {
-                        try {
-                            return Float.valueOf(property.toString()).floatValue();
-                        } catch (Exception ex)
-                        {
-                            
-                        }
-                    }
-                }
-            }
-            return 1.0f;
-        }
-        
-        
-        
-        /**
-         * Check if the element configuration specifies the zoom to be used when the export is performed as raster image.
-         * Default is 2.0f.
-         * Bigger is the zoom, higher is the quality, bigger is the file exported.
-         * 
-         * @param element
-         * @return 
-         */
-        public static long getTimeout(JRGenericPrintElement element) {
-            
-            if (element.hasParameter(CVPrintElement.CONFIGURATION))
-            {
-                Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
-                if (componentConfiguration.containsKey("render-timeout"))
-                {
-                    Object property = componentConfiguration.get("render-timeout");
-                    if (property != null)
-                    {
-                        try {
-                            return Long.valueOf(property.toString()).longValue();
-                        } catch (Exception ex)
-                        {
-                            
-                        }
-                    }
-                }
-            }
-            return 3000;
-        }
+	public static long getTimeout(JRGenericPrintElement element) {
+
+		if (element.hasParameter(CVPrintElement.CONFIGURATION))
+		{
+			Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
+			if (componentConfiguration.containsKey("render-timeout"))
+			{
+				Object property = componentConfiguration.get("render-timeout");
+				if (property != null)
+				{
+					try {
+						return Long.valueOf(property.toString()).longValue();
+					} catch (Exception ex)
+					{
+
+					}
+				}
+			}
+		}
+		return 3000;
+	}
+
+	public static String fillVelocityTemplate(
+			JasperReportsContext jrContext,
+			String velocityTemplate,
+			Map<String, Object> velocityContext
+	)
+	{
+		RepositoryUtil ru = RepositoryUtil.getInstance(jrContext);
+
+		try
+		{
+			InputStream is = ru.getInputStreamFromLocation(velocityTemplate);
+			InputStreamReader templateReader = new InputStreamReader(is, "UTF-8");
+			StringWriter output = new StringWriter(128);
+			VelocityUtil.getVelocityEngine().evaluate(new VelocityContext(velocityContext), output, velocityTemplate,
+					templateReader);
+			output.flush();
+			output.close();
+
+			return output.toString();
+		}
+		catch (Exception e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+	public static void byteStreamCopy(InputStream is, OutputStream os) throws IOException {
+		byte[] buf = new byte[8192];
+		int read;
+		while ((read = is.read(buf)) != -1) {
+			os.write(buf, 0, read);
+		}
+	}
+
+	public static String getResourceName(String resourceLocation) {
+		// location can be both classpath resource and file path
+		int slashIndex = resourceLocation.lastIndexOf('/');
+		int separatorIndex = resourceLocation.lastIndexOf(File.separator);
+		int nameIndex = Math.max(slashIndex, separatorIndex);
+		return nameIndex >= 0 ? resourceLocation.substring(nameIndex + 1) : resourceLocation;
+	}
 }

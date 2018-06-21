@@ -69,7 +69,7 @@ public class CVElementOdtHandler implements GenericElementOdtHandler
 		{
 			JRPrintImage chartImage = 
 				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element, false);
+					.getImage(exporterContext.getJasperReportsContext(), element);
 			JROdtExporter exporter = (JROdtExporter) exporterContext.getExporterRef();
 			exporter.exportImage(exporterContext.getTableBuilder(), chartImage, gridCell);
 		}
