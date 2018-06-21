@@ -26,7 +26,7 @@
 	optimize: 'none', // Uncomment this property to disable the uglify of the libraries
 	baseUrl: '',
 	paths: {
-		'leaflet': '../../libraries/leaflet/leaflet' ,
+		'leaflet': '../../libraries/leaflet/leaflet-1.3.1' ,
 		'icon': 'icon',
 		'leafletmarkers': 'leafletmarkers' 		
 	}, 
