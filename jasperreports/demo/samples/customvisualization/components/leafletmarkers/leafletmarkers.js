@@ -26,7 +26,7 @@ define('leafletmarkers', ['leaflet', 'icon'], function (L) {
     return function (instanceData) {
 
 
-        var L = require('leaflet');
+        //var L = require('leaflet');
         // Ignore styles is no longer required if the component is set to be exported directly as PNG
         //window.cvcIgnoreSVGStyles = true;	
 
