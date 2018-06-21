@@ -27,10 +27,7 @@
 	baseUrl: '',
 	paths: {
 		'leaflet': '../../libraries/leaflet/leaflet' ,
-		'leaflet-providers': '../../libraries/leaflet/leaflet-providers',
-		'leaflet-omnivore': '../../libraries/leaflet/leaflet-omnivore.min',
-		'leaflet-ajax': '../../libraries/leaflet/leaflet-ajax',
-		'icon': 'icon',
+  	'icon': 'icon',
 		'leafletmarkers': 'leafletmarkers' 		
 	}, 
 

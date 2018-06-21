@@ -28,8 +28,6 @@
 					<cvc:itemProperty name="lat" value="39.8282"/>
 					<cvc:itemProperty name="lon" value="-98.5795"/>
 					<cvc:itemProperty name="zoom" value="4"/>
-					<cvc:itemProperty name="dataUrl"/>
-					<cvc:itemProperty name="provider" value="NASAGIBS.ViirsEarthAtNight2012"/>
 					<cvc:cvData>
 						<dataset/>
 						<cvc:item>

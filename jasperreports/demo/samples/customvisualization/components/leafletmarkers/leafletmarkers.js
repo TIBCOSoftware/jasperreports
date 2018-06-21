@@ -21,11 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-define('leafletmarkers', ['leaflet', 'leaflet-providers', 'leaflet-ajax', 'icon'], function (L) {
+define('leafletmarkers', ['leaflet', 'icon'], function (L) {
 
     return function (instanceData) {
 
+
+        var L = require('leaflet');
         // Ignore styles is no longer required if the component is set to be exported directly as PNG
         //window.cvcIgnoreSVGStyles = true;	
 
@@ -38,12 +39,13 @@ define('leafletmarkers', ['leaflet', 'leaflet-providers', 'leaflet-ajax', 'icon'
         // When we export a report on the server side, we want to set the flag window.componentRendered to signal that
         // all the rendering is complete and ready to be exported.
         // For this we use a function that increment a counter of the operations that needs to be completed asynchronously
-        // such as tiles loading and json data loading
-        // The operations are 2, so as the counter reach 2, we are ready to render.
+        // such as tiles loading or json data loading if this component would support it.
+        // In this case the only async operation executed is the tiles loading,
+        // so as soon the counter reach 1, we are ready to render.
         function loadedCompleted() {
             fully_loaded++;
 
-            if (fully_loaded >= 2) {
+            if (fully_loaded >= 1) {
                 window.componentRendered = true;
             }
         }
@@ -65,45 +67,20 @@ define('leafletmarkers', ['leaflet', 'leaflet-providers', 'leaflet-ajax', 'icon'
         });
 
 
-        // Free layer very cool!
-        //L.tileLayer.provider('Stamen.Watercolor').addTo(map);
-        if (typeof instanceData.provider == 'undefined' || instanceData.provider == "") {
-            instanceData.provider = 'OpenTopoMap';
-        }
-
-        // The map provider is specified by the user.
-        // We store the layer in order to attach a listener that will tell us
-        // when the tiles are fully ready.
-        var tile_layer = L.tileLayer.provider(instanceData.provider).addTo(map);
+        // Free tile layer provided by OpenTopoMap
+        var tile_layer = L.tileLayer(
+                'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+                {
+                    maxZoom: 17,
+                    attribution: 'Map data: {attribution.OpenStreetMap}, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                }
+            ).addTo(map);
         tile_layer.on("load", function () {
             loadedCompleted();
         });
 
         // Set the center of the map based on the user preferences...
         map.setView([instanceData.lat, instanceData.lon], instanceData.zoom);
-
-
-        // Loading the GeoJSON via ajax...
-        // "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"
-        // "https://raw.githubusercontent.com/datasets/geo-boundaries-us-110m/master/json/ne_110m_admin_1_states_provinces_shp_scale_rank.geojson"
-        if (typeof instanceData.dataUrl != 'undefined' && instanceData.dataUrl != "") {
-            console.log("Loading geoJSON from: " + instanceData.dataUrl);
-            L.Util.ajax(instanceData.dataUrl).then(function (data) {
-                L.geoJson(data, {
-                    pointToLayer: function (feature, latlng) {
-                        return L.marker(latlng, { icon: myIcon() });
-                    }
-                }).addTo(map);
-
-                // Markers loaded and displayed
-                loadedCompleted();
-            });
-        }
-        else // If we are not loading anything, we need to mark this process completed.
-        {
-            // This call will increment the counter of processes completed.
-            loadedCompleted();
-        }
 
         // If tiles are not loaded in less than 10 seconds, still declare the report to be completed...
         setTimeout(10000, function () {
@@ -117,8 +94,8 @@ define('leafletmarkers', ['leaflet', 'leaflet-providers', 'leaflet-ajax', 'icon'
                     .bindPopup(marker.label);
             });
         }
-    };
 
+    };
 
 });
 
