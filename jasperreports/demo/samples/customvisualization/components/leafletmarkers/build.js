@@ -27,7 +27,7 @@
 	baseUrl: '',
 	paths: {
 		'leaflet': '../../libraries/leaflet/leaflet' ,
-  	'icon': 'icon',
+		'icon': 'icon',
 		'leafletmarkers': 'leafletmarkers' 		
 	}, 
 
