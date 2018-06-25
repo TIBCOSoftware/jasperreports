@@ -40,7 +40,10 @@ import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -301,10 +304,10 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 		}
 
 		element.setParameterValue(CVPrintElement.CONFIGURATION, configuration);
-		element.setParameterValue(CVPrintElement.SCRIPT_URI, scriptSource);
+		element.setParameterValue(CVPrintElement.SCRIPT_URI, toPrintLocation((String) scriptSource));
 
 		if (cssSource != null && ((String) cssSource).trim().length() > 0) {
-			element.setParameterValue(CVPrintElement.CSS_URI, cssSource);
+			element.setParameterValue(CVPrintElement.CSS_URI, toPrintLocation((String) cssSource));
 		}
 
 		String moduleName =
@@ -357,6 +360,14 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 			throw new JRRuntimeException("No 'module' property defined for a Custom Visualization Component.");
 		}
 
+	}
+	
+	protected String toPrintLocation(String location)
+	{
+		//resolve paths relative to the report
+		RepositoryContext repositoryContext = fillContext.getFiller().getRepositoryContext();
+		ResourceInfo resourceInfo = RepositoryUtil.getInstance(repositoryContext).getResourceInfo(location);
+		return resourceInfo == null ? location : resourceInfo.getRepositoryResourceLocation();
 	}
 
 	@Override
