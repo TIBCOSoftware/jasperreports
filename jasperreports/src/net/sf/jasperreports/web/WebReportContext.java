@@ -25,6 +25,7 @@ package net.sf.jasperreports.web;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -111,16 +112,13 @@ public class WebReportContext implements ReportContext
 	private WebReportContext()
 	{
 		parameterValues = new HashMap<String, Object>();
+		id = UUID.randomUUID().toString();
 //		parameterValues.put(JRParameter.REPORT_CONTEXT, this);
 	}
 
 	@Override
 	public String getId()
 	{
-		if (id == null)
-		{
-			id = String.valueOf(System.currentTimeMillis());//FIXMEJIVE make stronger?
-		}
 		return id;
 	}
 
