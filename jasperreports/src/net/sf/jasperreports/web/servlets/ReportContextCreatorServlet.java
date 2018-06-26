@@ -103,7 +103,7 @@ public class ReportContextCreatorServlet extends AbstractServlet {
 			}
 			// end: run report
 
-			out.println("{\"contextid\": " + webReportContext.getId() + "}");
+			out.println("{\"contextid\": \"" + webReportContext.getId() + "\"}");
 
 		} else {
 			response.setStatus(400);
