@@ -24,11 +24,16 @@
 package net.sf.jasperreports.web.listeners;
 
 import java.io.File;
+import java.util.Collections;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.SimpleJasperReportsContext;
+import net.sf.jasperreports.repo.DefaultRepositoryService;
+import net.sf.jasperreports.repo.FileRepositoryService;
+import net.sf.jasperreports.repo.RepositoryService;
 import net.sf.jasperreports.web.servlets.AbstractServlet;
 
 
@@ -40,18 +45,20 @@ public class JasperReportsContextListener implements ServletContextListener
 	@Override
 	public void	contextInitialized(ServletContextEvent ce) 
 	{
-		net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
-			new net.sf.jasperreports.engine.util.LocalJasperReportsContext(DefaultJasperReportsContext.getInstance());
-		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver = 
-			new net.sf.jasperreports.engine.util.SimpleFileResolver(
-				new File(
-					new File(ce.getServletContext().getRealPath("/")), 
-					ce.getServletContext().getInitParameter("net.sf.jasperreports.web.file.repository.root")
-					)
-				);
-		localJasperReportsContext.setFileResolver(fileResolver);
+		DefaultJasperReportsContext defaultContext = DefaultJasperReportsContext.getInstance();
+		defaultContext.setProperty(DefaultRepositoryService.PROPERTY_FILES_ENABLED, Boolean.toString(false));
 		
-		AbstractServlet.setJasperReportsContext(localJasperReportsContext);
+		File repositoryFolder = new File(
+			new File(ce.getServletContext().getRealPath("/")), 
+			ce.getServletContext().getInitParameter("net.sf.jasperreports.web.file.repository.root")
+			);
+		FileRepositoryService repositoryService = new FileRepositoryService(defaultContext, 
+				repositoryFolder.getPath(), false);
+		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
+		jasperReportsContext.setExtensions(RepositoryService.class, Collections.singletonList(repositoryService));
+		//assuming that FileRepositoryPersistenceServiceFactory is registered separately (via jasperreports_extension.properties)
+		
+		AbstractServlet.setJasperReportsContext(jasperReportsContext);
 	}
 
 	@Override
