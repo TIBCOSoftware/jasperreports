@@ -209,6 +209,12 @@ public class DefaultRepositoryService implements StreamRepositoryService
 			return null;
 		}
 
+		if (fileResolver != null)
+		{
+			//not dealing with file resolvers
+			return null;
+		}
+		
 		File file = resolveFile(context, location);
 		if (file != null)
 		{
