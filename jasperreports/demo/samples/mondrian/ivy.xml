@@ -13,6 +13,6 @@
 		<dependency org="org.hsqldb" name="hsqldb" rev="2.4.0" conf="test->*"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-1.2-api" rev="2.8.2" conf="test->*"/>
 		<dependency org="xalan" name="serializer" rev="2.7.2" conf="test->*"/>
-		<dependency org="postgresql" name="postgresql" rev="9.2-1002.jdbc4" conf="test->*"/>
+		<dependency org="postgresql" name="postgresql" rev="9.4-1210.jdbc41" conf="test->*"/>
 	</dependencies>
 </ivy-module>
