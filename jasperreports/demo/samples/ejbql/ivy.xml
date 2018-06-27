@@ -5,7 +5,7 @@
 	<dependencies>
 		<dependency org="dom4j" name="dom4j" rev="1.6.1" conf="test->*"/>
 		<dependency org="org.hsqldb" name="hsqldb" rev="2.4.0" conf="test->*"/>
-		<dependency org="javax.transaction" name="jta" rev="1.1" conf="test->*"/>
+		<dependency org="javax.transaction" name="javax.transaction-api" rev="1.2" conf="test->*"/>
 		<dependency org="org.hibernate" name="hibernate-annotations" rev="3.3.1.GA" conf="test->*"/>
 		<dependency org="org.hibernate" name="hibernate-commons-annotations" rev="3.0.0.ga" conf="test->*"/>
 		<dependency org="org.hibernate" name="hibernate-entitymanager" rev="3.3.2.GA" conf="test->*"/>
