@@ -5,6 +5,8 @@ JasperReports Library Change Log
 JasperReports 6.7.0 (2018-0x-xx)
 ---------------------------------------------
 
+- deprecated BeanShell (BSH) report compiled has been removed from the library.
+
 - minor bug fixes and improvements;
 
 
