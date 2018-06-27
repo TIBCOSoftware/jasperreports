@@ -11,6 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
 	<summary>
 		<band height="60" splitType="Stretch">
 			<crosstab columnBreakOffset="40" ignoreWidth="false">
