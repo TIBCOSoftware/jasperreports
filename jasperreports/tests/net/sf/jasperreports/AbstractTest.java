@@ -174,7 +174,7 @@ public abstract class AbstractTest
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
 		messageDigest.update(bytes);
 		String digest = toDigestString(messageDigest);
-		log.debug("Reference report digest is " + digest);
+		log.debug("Reference report digest is " + digest + " for " + fileName);
 		return digest;
 	}
 	
