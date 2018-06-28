@@ -487,6 +487,12 @@
 			<artifactId>testng</artifactId>
 			<version>6.8.1</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.beanshell</groupId>
+					<artifactId>bsh</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
