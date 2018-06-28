@@ -59,7 +59,7 @@ public class CVElementGraphics2DHandler implements GenericElementGraphics2DHandl
 
 			imageDrawer.draw(
 				grx,
-				CVElementImageProvider.getDefaultProvider().getImage(exporterContext.getJasperReportsContext(), element),
+				CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element),
 				offset.getX(),
 				offset.getY()
 				);

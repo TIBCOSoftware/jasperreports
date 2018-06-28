@@ -69,9 +69,9 @@ public class CVElementXlsxHandler implements GenericElementXlsxHandler
 
 		try
 		{
-			JRPrintImage chartImage = 
-				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element);
+			JRPrintImage chartImage =
+					CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+
 			JRXlsxExporter exporter = (JRXlsxExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, 0, 0, null);// TODO lucianc is this OK?
 		}
@@ -84,6 +84,6 @@ public class CVElementXlsxHandler implements GenericElementXlsxHandler
 	@Override
 	public JRPrintImage getImage(JRXlsxExporterContext jrxec, JRGenericPrintElement jrgpe) throws JRException
 	{
-		return CVElementImageProvider.getDefaultProvider().getImage(jrxec.getJasperReportsContext(), jrgpe);
+		return CVElementImageProvider.getInstance().getImage(jrxec.getJasperReportsContext(), jrgpe);
 	}
 }

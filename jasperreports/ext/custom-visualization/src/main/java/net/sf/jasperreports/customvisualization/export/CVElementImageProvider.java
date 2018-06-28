@@ -42,15 +42,17 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public abstract class CVElementImageProvider
+public class CVElementImageProvider
 {
 	private static final Log log = LogFactory.getLog(CVElementImageProvider.class);
 
-	private static final CVElementImageProvider defaultProvider = new CVElementPhantomJSImageProvider();
+	private static final CVElementImageProvider INSTANCE = new CVElementImageProvider();
 
-	public static CVElementImageProvider getDefaultProvider()
+	private CVElementImageDataProvider cvElementImageDataProvider = new CVElementDefaultImageDataProvider();
+
+	public static CVElementImageProvider getInstance()
 	{
-		return defaultProvider;
+		return INSTANCE;
 	}
 
 	/**
@@ -110,7 +112,7 @@ public abstract class CVElementImageProvider
 			{
 				try
 				{
-					byte[] imageData = getImageData(jasperReportsContext, element);
+					byte[] imageData = cvElementImageDataProvider.getImageData(jasperReportsContext, element);
 
 					if (renderAsPng)
 					{
@@ -150,7 +152,5 @@ public abstract class CVElementImageProvider
 
 		return printImage;
 	}
-
-	public abstract byte[] getImageData(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws Exception;
 
 }
