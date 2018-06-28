@@ -75,8 +75,8 @@ public class CVElementOdsHandler implements GenericElementOdsHandler
 		try
 		{
 			JRPrintImage chartImage = 
-				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element);
+				CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
+
 			JROdsExporter exporter = (JROdsExporter) exporterContext.getExporterRef();
 			exporter.exportImage(chartImage, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}

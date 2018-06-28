@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.*;
@@ -38,12 +37,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author Giulio Toffoli (gtoffoli@tibco.com)
  */
-public class CVElementPhantomJSImageProvider extends CVElementImageProvider
+public class CVElementPhantomJSImageDataProvider extends CVElementAbstractImageDataProvider
 {
-	private static final Log log = LogFactory.getLog(CVElementPhantomJSImageProvider.class);
+	private static final Log log = LogFactory.getLog(CVElementPhantomJSImageDataProvider.class);
 	private static final String CVC_RESOURCE_PREFIX = "jr_cv_";
-
-	private static final String PHANTOMJS_COMPONENT_TEMPLATE = "net/sf/jasperreports/customvisualization/templates/phantomjs_component.vm";
 
 	public static final String PROPERTY_PHANTOMJS_PREFIX = "com.jaspersoft.jasperreports.components.customvisualization.phantomjs.";
 
@@ -79,14 +76,14 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 			throw new JRRuntimeException("Configuration object is null.");
 		}
 
-		String phantomjsExecutablePath = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
+		String phantomjsExecutablePath = jasperReportsContext.getProperty(CVElementPhantomJSImageDataProvider.PROPERTY_PHANTOMJS_EXECUTABLE_PATH);
 		if (phantomjsExecutablePath == null)
 		{
 			phantomjsExecutablePath = "phantomjs";
 		}
 
 		int phantomjsTimeout;
-		String timeoutProperty = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT);
+		String timeoutProperty = jasperReportsContext.getProperty(CVElementPhantomJSImageDataProvider.PROPERTY_PHANTOMJS_EXECUTABLE_TIMEOUT);
 		if (timeoutProperty != null)
 		{
 			phantomjsTimeout = Integer.parseInt(timeoutProperty);
@@ -96,7 +93,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 			phantomjsTimeout = 60000;
 		}
 
-		String phantomjsTempFolderPath = jasperReportsContext.getProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_TEMPDIR_PATH);
+		String phantomjsTempFolderPath = jasperReportsContext.getProperty(CVElementPhantomJSImageDataProvider.PROPERTY_PHANTOMJS_TEMPDIR_PATH);
 		if (phantomjsTempFolderPath == null)
 		{
 			phantomjsTempFolderPath = System.getProperty("java.io.tmpdir");
@@ -183,7 +180,7 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 					if (cleanableResource.exists() && cleanableResource.canWrite())
 					{
 						JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-						boolean isPhantomJSinDebugMode = propertiesUtil.getBooleanProperty(CVElementPhantomJSImageProvider.PROPERTY_PHANTOMJS_DEBUG, false);
+						boolean isPhantomJSinDebugMode = propertiesUtil.getBooleanProperty(CVElementPhantomJSImageDataProvider.PROPERTY_PHANTOMJS_DEBUG, false);
 
 						String keepTempFilesProperty = element.getPropertiesMap().getProperty("cv.keepTemporaryFiles");
 						boolean keepTempFiles = keepTempFilesProperty != null && keepTempFilesProperty.equals("true");
@@ -206,57 +203,6 @@ public class CVElementPhantomJSImageProvider extends CVElementImageProvider
 		{
 			throw new JRRuntimeException("Temp folder '" + tempFolder + "' does not exist!");
 		}
-	}
-
-	public String getHtmlPage(
-			JasperReportsContext jrContext,
-			JRGenericPrintElement element,
-			List<String> scripts,
-			String cssUri
-	)
-	{
-		Map<String, Object> originalConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
-
-		if (originalConfiguration == null)
-		{
-			if (log.isWarnEnabled())
-			{
-				log.warn("Configuration object in the element " + element + " is NULL!");
-			}
-			throw new JRRuntimeException("Configuration object in the element " + element + " is NULL!");
-		}
-
-		// Duplicate the configuration.
-		Map<String, Object> configuration = new HashMap<String, Object>();
-		configuration.putAll(originalConfiguration);
-
-		ObjectMapper mapper = new ObjectMapper();
-		try
-		{
-			Map<String, Object> jsonConfiguration = CVElementJsonHandler.createConfigurationForJSON(configuration, null);
-			jsonConfiguration.put("animation", false);
-
-			String instanceData = mapper.writeValueAsString(jsonConfiguration);
-			configuration.put("instanceData", instanceData);
-		}
-		catch (Exception ex)
-		{
-			if (log.isWarnEnabled())
-			{
-				log.warn("Error dumping the JSON for the configuration...: " + ex.getMessage(), ex);
-			}
-			throw new JRRuntimeException("Error dumping the JSON for the configuration...: " + ex.getMessage());
-		}
-
-		configuration.put("element", element);
-
-		Map<String, Object> velocityContext = new HashMap<>();
-		velocityContext.put("scripts", scripts);
-		velocityContext.put("configuration", configuration);
-		velocityContext.put("module", element.getParameterValue(CVPrintElement.MODULE));
-		velocityContext.put("cssUri", cssUri);
-
-        return CVUtils.fillVelocityTemplate(jrContext, PHANTOMJS_COMPONENT_TEMPLATE, velocityContext);
 	}
 
 	protected String copyResourceToTempFolder(String resourceLocation,

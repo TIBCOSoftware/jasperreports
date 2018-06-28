@@ -67,9 +67,8 @@ public class CVElementDocxHandler implements GenericElementDocxHandler
 
 		try
 		{
-			JRPrintImage chartImage = 
-				CVElementImageProvider.getDefaultProvider()
-					.getImage(exporterContext.getJasperReportsContext(), element);
+			JRPrintImage chartImage =
+					CVElementImageProvider.getInstance().getImage(exporterContext.getJasperReportsContext(), element);
 						
 			JRDocxExporter exporter = (JRDocxExporter) exporterContext.getExporterRef();
 	  		exporter.exportImage(exporterContext.getTableHelper(), chartImage, gridCell);
