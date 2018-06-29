@@ -62,6 +62,7 @@
       <feature name="spiderchartcomponent" sample="spiderchartcomponent" title="Using the Built-in Spider Chart Component"/>
       <feature name="xchart" sample="xchart" title="Rendering Images Using Third Party APIs (XChart Library)"/>
       <feature name="xchartcomponent" sample="xchartcomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (XChart Library)"/>
+      <feature name="customvisualization" sample="customvisualization" title="Custom Visualization Components"/>
     </content>
   </category>
   
