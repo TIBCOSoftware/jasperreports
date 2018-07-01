@@ -4,10 +4,11 @@
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
 	<version>6.7.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
 	<description>JasperReports Library</description>
+
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License</name>
@@ -15,14 +16,19 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
 		<tag>jr-6-6-0</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
+
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
 	<developers>
 		<developer>
 			<id>teodord</id>
@@ -67,35 +73,7 @@
 		</repository>
 	</repositories>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>tests</testSourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<includes>
-					<include>**/*.dtd</include>
-					<include>**/*.xsd</include>
-					<include>**/*.rels</include>
-					<include>**/*.xml</include>
-					<include>**/*.properties</include>
-					<include>**/*.png</include>
-					<include>**/*.GIF</include>
-					<include>**/*.gif</include>
-					<include>**/*.ico</include>
-					<include>**/*TokenTypes.txt</include>
-					<include>**/*.vm</include>
-					<include>**/*.js</include>
-					<include>**/*.css</include>
-					<include>**/*.ttf</include>
-					<include>**/*.otf</include>
-					<include>**/*.woff</include>
-					<include>**/*.eot</include>
-					<include>**/*.svg</include>
-					<include>**/*.svgz</include>
-					<include>**/*.tmpl</include>
-				</includes>
-			</resource>
-		</resources>
 		<testResources>
 			<testResource>
 				<directory>tests</directory>
@@ -117,9 +95,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
 					<fork>true</fork><!-- TODO lucianc is this ok? -->
 					<compilerArgs>
 						<arg>-AmetadataMessagesName=metadata_messages</arg>
@@ -136,35 +111,10 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<id>copy_additional_resources</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>process-resources</phase>
-						<configuration>
-							<outputDirectory>${basedir}/target/classes</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}</directory>
-									<includes>
-										<include>license.txt</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
-						<manifestFile>${basedir}/src/META-INF/MANIFEST.MF</manifestFile>
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>

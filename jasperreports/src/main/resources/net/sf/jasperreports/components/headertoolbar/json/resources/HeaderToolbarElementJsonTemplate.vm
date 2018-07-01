@@ -1,0 +1,82 @@
+#if (${exporterFirstAttempt})
+"${tableUUID}": {
+	"id": "${tableUUID}",
+	#if (${tableName})"name": "${tableName}",#end
+	"type": "table",
+	"module": "jive.table",
+	"uimodule": "jive.interactive.column",
+	"allColumnsData": ${allColumnNames},
+	"allColumnGroupsData": ${allColumnGroupsData},
+    "hasFloatingHeader": ${hasFloatingHeader}
+	#if (!${templateAlreadyLoaded})
+	, "genericProperties": {
+		"fontSizes": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+		"fonts": {
+			"extension": [#set ($extFontSize=$fontExtensionsFontNames.size())
+			#foreach ($fontName in ${fontExtensionsFontNames}) "$JRStringUtil.escapeString4JavaScript($fontName)" #if($velocityCount<$extFontSize),#end#end
+			],
+			"system": [#set ($sysFontSize=$systemFontNames.size())
+			#foreach ($fontName in ${systemFontNames}) "$JRStringUtil.escapeString4JavaScript($fontName)" #if($velocityCount<$sysFontSize),#end#end
+			]
+		},
+        "patterns": {
+            "numeric": ${numericPatterns},
+            "date": ${datePatterns},
+            "time": ${timePatterns}
+        },
+        "operators": {
+            "numeric" :${numericOperators},
+            "date" :${dateOperators},
+            "time" :${timeOperators},
+            "text" :${textOperators},
+            "boolean" :${booleanOperators}
+        },
+        "filterPatterns": {
+            "numeric": "${numericFilterPattern}",
+            "date": "${dateFilterPattern}",
+            "time": "${timeFilterPattern}"
+        },
+        "calendarPatterns": {
+            "date": "${calendarDatePattern}",
+            "time": "${calendarTimePattern}"
+        }
+	}
+	#end	 
+}, 
+#end
+"${columnUuid}": {
+    "id": "${columnUuid}",
+	"name": "${columnName}",
+    "type": "column",
+    "parentId": "${tableUUID}",
+    "selector": ".jrcolHeader",
+    "proxySelector": ".jrcel",
+    "columnIndex": ${columnIndex},
+    "columnLabel": "$JRStringUtil.escapeJSONString(${columnLabel})",
+    "dataType": "${dataType}",
+    "filterData": {"actionName": "filter"},
+    "clearData": {"actionName": "filter", "filterData": {"clearFilter": true}},
+    "canSort": ${canSort},
+    #if (${canSort})
+    "headerToolbar": {
+    	"sortAscBtn": {"sortData": {"actionName":"sort","sortData":${sortAscData}}},
+        "sortDescBtn": {"sortData": {"actionName":"sort","sortData":${sortDescData}}}
+    },
+    #end
+    "canFilter": ${canFilter},
+    #if (${canFilter})
+    "filtering": {
+        "filterData": ${filterData}
+    },
+    #end
+    #if ($conditionalFormattingData)
+    "conditionalFormattingData": ${conditionalFormattingData},
+    "canFormatConditionally": true,
+    #else
+    "canFormatConditionally": false,
+    #end
+    #if ($colHeaderData)
+    "headingsTabContent": ${colHeaderData},
+    #end
+    "valuesTabContent": ${colValueData}
+}
