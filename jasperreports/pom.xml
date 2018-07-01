@@ -57,6 +57,7 @@
 			<timezone>+2</timezone>
 		</developer>
 	</developers>
+
 	<repositories>
 		<repository>
 			<id>jaspersoft-third-party</id>
@@ -72,29 +73,17 @@
 			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots/</url>
 		</repository>
 	</repositories>
+
 	<build>
-		<testSourceDirectory>tests</testSourceDirectory>
-		<testResources>
-			<testResource>
-				<directory>tests</directory>
-				<includes>
-					<include>**/*.jrxml</include>
-					<include>**/*.jrpxml</include>
-					<include>**/*.xml</include>
-					<include>**/*.csv</include>
-					<include>**/*.png</include>
-					<include>**/*.jpg</include>
-					<include>**/*.json</include>
-					<include>**/*.err</include>
-				</includes>
-			</testResource>
-		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.0</version>
+				<version>3.7.0</version>
 				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
 					<fork>true</fork><!-- TODO lucianc is this ok? -->
 					<compilerArgs>
 						<arg>-AmetadataMessagesName=metadata_messages</arg>
@@ -112,25 +101,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
 				<configuration>
 					<archive>
-						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<systemPropertyVariables>
-						<xmlOutputDir>${project.build.directory}/surefire</xmlOutputDir>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>3.0.1</version>
 				<configuration>
 					<quiet>true</quiet>
 					<doclint>none</doclint>
