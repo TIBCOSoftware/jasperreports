@@ -18,7 +18,7 @@
 		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false" excludes="**/package-info.java">
 			<classpath refid="project-classpath"/>
-			<src path="./src"/>
+			<src path="./src/main/java"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
@@ -30,7 +30,7 @@
 		</javac>
 		
 		<copy todir="./build/classes">
-			<fileset dir="./src">
+			<fileset dir="./src/main/resources">
 				<include name="**/*.dtd"/>
 				<include name="**/*.xsd"/>
 				<include name="**/*.rels"/>
@@ -56,17 +56,17 @@
 	
 	<target name="antlr.generate" description="Generates source files for ANTLR grammars">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/>
-		<antlr target="src/net/sf/jasperreports/olap/mapping/mapping.g">
+		<antlr target="src/main/resources/net/sf/jasperreports/olap/mapping/mapping.g">
 			<classpath refid="project-classpath"/>
 		</antlr>
-		<antlr target="src/net/sf/jasperreports/engine/json/parser/json_grammar.g">
+		<antlr target="src/main/resources/net/sf/jasperreports/engine/json/parser/json_grammar.g">
 			<classpath refid="project-classpath"/>
 		</antlr>
 	</target>
 
 	<target name="jar" depends="compile" description="Builds the JasperReports JAR file.">
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
+		<jar jarfile="./dist/jasperreports-${version}.jar" manifest="src/main/resources/META-INF/MANIFEST.MF">
 			<fileset dir="./build/classes"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>
@@ -105,7 +105,7 @@
 		</javaflow>
 
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
+		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar" manifest="src/main/resources/META-INF/MANIFEST.MF">
 			<fileset dir="./build/javaflow"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>
@@ -158,7 +158,7 @@
 			<format property="CURRENT_YEAR" pattern="yyyy" locale="en"/>
 		</tstamp>
 		<javadoc packagenames="net.sf.jasperreports.*"
-				sourcepath="./src"
+				sourcepath="./src/main/resources"
 				destdir="./dist/docs/api"
 				author="true"
 				version="true"
@@ -208,7 +208,7 @@
 	
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
-		<xslt basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
+		<xslt basedir="src/main/resources/net/sf/jasperreports/engine/dtds" in="src/main/resources/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
 			<classpath refid="project-classpath"/>
@@ -217,7 +217,7 @@
 	
 	<target name="partschemaref" description="Generates the Report Parts Schema Reference.">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
-		<xslt basedir="src/net/sf/jasperreports/parts" in="src/net/sf/jasperreports/parts/parts.xsd" destdir="dist/docs" style="docs/parts.schema.reference.xsl" out="./dist/docs/parts.schema.reference.html">
+		<xslt basedir="src/main/resources/net/sf/jasperreports/parts" in="src/main/resources/net/sf/jasperreports/parts/parts.xsd" destdir="dist/docs" style="docs/parts.schema.reference.xsl" out="./dist/docs/parts.schema.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
 			<classpath refid="project-classpath"/>
@@ -226,7 +226,7 @@
 	
 	<target name="componentschemaref" description="Generates the Component Schema Reference.">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
-		<xslt basedir="src/net/sf/jasperreports/components" in="src/net/sf/jasperreports/components/components.xsd" destdir="dist/docs" style="docs/components.schema.reference.xsl" out="./dist/docs/components.schema.reference.html">
+		<xslt basedir="src/main/resources/net/sf/jasperreports/components" in="src/main/resources/net/sf/jasperreports/components/components.xsd" destdir="dist/docs" style="docs/components.schema.reference.xsl" out="./dist/docs/components.schema.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
 			<classpath refid="project-classpath"/>
@@ -295,13 +295,13 @@
 		<javac destdir="./build/test-classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8" 
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="test-compile"/>
-			<src path="./tests"/>
+			<src path="./src/test/java"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:-deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/test-classes">
-			<fileset dir="./tests">
+			<fileset dir="./src/test/resources">
 				<include name="**/*.jrxml"/>
 				<include name="**/*.jrpxml"/>
 				<include name="**/*.xml"/>
