@@ -28,6 +28,7 @@ import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.phantomjs.PhantomJS;
+import net.sf.jasperreports.phantomjs.ScriptManager;
 import net.sf.jasperreports.util.Base64Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,10 +64,11 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 		}
 
 		PhantomJS phantom = PhantomJS.instance();
+		ScriptManager scriptManager = phantom.getScriptManager();
 		List<String> scriptFilenames = new ArrayList<>();
 
 		for (String scriptLocation: scriptResourceLocations) {
-			scriptFilenames.add(phantom.getScriptManager().getScriptFilename(scriptLocation));
+			scriptFilenames.add(scriptManager.getScriptFilename(scriptLocation, jasperReportsContext));
 		}
 
 		if (log.isDebugEnabled()) {
@@ -74,12 +76,14 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 			log.debug("Configured css URI: " + element.getParameterValue(CVPrintElement.CSS_URI));
 		}
 
-		scriptFilenames.add(phantom.getScriptManager().getScriptFilename((String)element.getParameterValue(CVPrintElement.SCRIPT_URI)));
+		scriptFilenames.add(scriptManager.getScriptFilename(
+				(String)element.getParameterValue(CVPrintElement.SCRIPT_URI),
+				jasperReportsContext));
 
 		String cssUriParameter = (String)element.getParameterValue(CVPrintElement.CSS_URI);
 		String cssUri = null;
 		if (cssUriParameter != null) {
-			cssUri= phantom.getScriptManager().getScriptFilename(cssUriParameter);
+			cssUri= scriptManager.getScriptFilename(cssUriParameter, jasperReportsContext);
 		}
 
 		StringBuilder script = new StringBuilder();

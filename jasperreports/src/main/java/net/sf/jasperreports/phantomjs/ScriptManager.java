@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
 
+import net.sf.jasperreports.repo.RepositoryUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -52,6 +53,8 @@ public class ScriptManager
 	
 	private final File tempFolder;
 	private final ConcurrentMapping<String, File> scriptFiles;
+
+	private JasperReportsContext jasperReportsContext;
 	
 	public ScriptManager(JasperReportsContext jasperReportsContext)
 	{
@@ -74,11 +77,13 @@ public class ScriptManager
 		this.scriptFiles = new ConcurrentMapping<>(new ConcurrentMapping.Mapper<String, File>()
 		{
 			@Override
-			public File compute(String key)
+			public File compute(String key, JasperReportsContext jasperReportsContext)
 			{
-				return copyScript(key);
+				return copyScript(key, jasperReportsContext);
 			}
 		});
+
+		this.jasperReportsContext = jasperReportsContext;
 	}
 	
 	public File getTempFolder()
@@ -88,27 +93,32 @@ public class ScriptManager
 
 	public String getScriptFilename(String scriptLocation)
 	{
+		return getScriptFilename(scriptLocation, jasperReportsContext);
+	}
+
+	public String getScriptFilename(String scriptLocation, JasperReportsContext jasperReportsContext)
+	{
 		//TODO lucianc use safer keys (classloader)
-		File scriptFile = scriptFiles.get(scriptLocation);
+		File scriptFile = scriptFiles.get(scriptLocation, jasperReportsContext);
 		return scriptFile.getName();
 	}
 
-	protected File copyScript(String scriptLocation)
+	protected File copyScript(String scriptLocation, JasperReportsContext jasperReportsContext)
 	{
 		String resourceName = getResourceName(scriptLocation);
 		try
 		{
 			File file = File.createTempFile(TEMP_FILE_PREFIX, "_" + resourceName, tempFolder);
 			file.deleteOnExit();//TODO lucianc leak
-			
+
 			if (log.isDebugEnabled())
 			{
 				log.debug("copying " + scriptLocation + " to " + file);
 			}
-		
+
 			byte[] buf = new byte[COPY_BUFFER_SIZE];
-			try (InputStream input = JRLoader.getLocationInputStream(scriptLocation);
-					OutputStream output = new FileOutputStream(file))
+			try (InputStream input = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(scriptLocation);
+				 OutputStream output = new FileOutputStream(file))
 			{
 				int read = 0;
 				while ((read = input.read(buf)) > 0)
@@ -116,7 +126,7 @@ public class ScriptManager
 					output.write(buf, 0, read);
 				}
 			}
-			
+
 			return file;
 		}
 		catch (IOException | JRException e)
