@@ -71,6 +71,12 @@
 		<antcall target="build-component">
 			<param name="cvc.component.name" value="sparkline"/>
 		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="simplerectangle"/>
+		</antcall>
+		<antcall target="build-component">
+			<param name="cvc.component.name" value="d3rectangle"/>
+		</antcall>
 		<copy todir="./build/components">
 			<fileset dir="components">
 				<include name="**/*.css"/>
