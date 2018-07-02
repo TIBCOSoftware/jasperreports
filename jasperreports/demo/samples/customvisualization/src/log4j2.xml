@@ -10,7 +10,9 @@
 		<Root level="error">
 			<AppenderRef ref="STDOUT"/>
 		</Root>
-		<!--<Logger name="net.sf.jasperreports.customvisualization.export" level="debug"/>-->
-		<!--<Logger name="net.sf.jasperreports.phantomjs" level="debug"/>-->
+		<!--
+		<Logger name="net.sf.jasperreports.customvisualization.export" level="debug"/>
+		<Logger name="net.sf.jasperreports.phantomjs" level="debug"/>
+		-->
 	</Loggers>
 </Configuration>

@@ -128,8 +128,11 @@
 		</java>
 	</target>
 
-	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file.">
-		<ant dir="../" target="pdf"/>
+	<target name="pdf" description="Generates a PDF version of the report by converting the .jrprint file." depends="prepare-test-classpath">
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="pdf"/>
+			<classpath refid="sample-classpath"/>
+		</java>
 	</target>
 
 	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
