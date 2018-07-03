@@ -73,7 +73,7 @@ exports.perform = function(call) {
 
     // Prepare the page content by prefixing the resources URI with phantomjs' working directory
     htmlPageContent = htmlPageContent.replace(/src="/g, "src=\"file://" + fs.workingDirectory + "/");
-    htmlPageContent = htmlPageContent.replace(/href="/g, "href=\"file://" + fs.workingDirectory + "/");
+    htmlPageContent = htmlPageContent.replace(/href="/g, "href=\"./" + fs.workingDirectory + "/");
 
     // Set the actual component HTML content
     page.content = htmlPageContent;
