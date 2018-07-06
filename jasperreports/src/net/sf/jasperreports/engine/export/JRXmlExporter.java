@@ -486,6 +486,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 						if (
 							isNewerVersionOrEqual(JRConstants.VERSION_6_4_0)
 							&& encodedValue.length() != value.length()
+							&& value.trim().equals(value)
 							)
 						{
 							xmlWriter.writeCDATA(value);

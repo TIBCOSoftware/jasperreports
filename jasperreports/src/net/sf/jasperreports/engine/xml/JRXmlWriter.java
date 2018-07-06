@@ -643,6 +643,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 							if (
 								isNewerVersionOrEqual(JRConstants.VERSION_6_4_0)
 								&& encodedValue.length() != value.length()
+								&& value.trim().equals(value)
 								)
 							{
 								writer.writeCDATA(value);
