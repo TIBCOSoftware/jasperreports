@@ -116,32 +116,6 @@ public class CVUtils
 		return 3000;
 	}
 
-	public static String fillVelocityTemplate(
-			JasperReportsContext jrContext,
-			String velocityTemplate,
-			Map<String, Object> velocityContext
-	)
-	{
-		RepositoryUtil ru = RepositoryUtil.getInstance(jrContext);
-
-		try
-		{
-			InputStream is = ru.getInputStreamFromLocation(velocityTemplate);
-			InputStreamReader templateReader = new InputStreamReader(is, "UTF-8");
-			StringWriter output = new StringWriter(128);
-			VelocityUtil.getVelocityEngine().evaluate(new VelocityContext(velocityContext), output, velocityTemplate,
-					templateReader);
-			output.flush();
-			output.close();
-
-			return output.toString();
-		}
-		catch (Exception e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
 	public static void byteStreamCopy(InputStream is, OutputStream os) throws IOException {
 		byte[] buf = new byte[8192];
 		int read;

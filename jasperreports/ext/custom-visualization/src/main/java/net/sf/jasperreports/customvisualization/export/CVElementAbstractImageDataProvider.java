@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.web.util.VelocityUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -90,6 +91,6 @@ public abstract class CVElementAbstractImageDataProvider implements CVElementIma
 		velocityContext.put("module", element.getParameterValue(CVPrintElement.MODULE));
 		velocityContext.put("cssUri", cssUri);
 
-		return CVUtils.fillVelocityTemplate(jrContext, PHANTOMJS_COMPONENT_TEMPLATE, velocityContext);
+		return VelocityUtil.processTemplate(PHANTOMJS_COMPONENT_TEMPLATE, velocityContext);
 	}
 }

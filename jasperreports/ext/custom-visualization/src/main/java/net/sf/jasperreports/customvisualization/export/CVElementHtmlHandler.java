@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.*;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.web.util.VelocityUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -142,7 +143,7 @@ public class CVElementHtmlHandler extends CVElementAbstractGenericHandler implem
 
 		velocityContext.put("configuration", configuration);
 
-		return CVUtils.fillVelocityTemplate(jrContext, COMPONENT_TEMPLATE, velocityContext);
+		return VelocityUtil.processTemplate(COMPONENT_TEMPLATE, velocityContext);
 	}
 
 	protected String getResourceURL(String scriptResourceLocation, HtmlResourceHandler htmlResourceHandler, RepositoryUtil repositoryUtil)
