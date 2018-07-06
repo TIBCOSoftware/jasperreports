@@ -39,8 +39,7 @@ import java.util.*;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageDataProvider
-{
+public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageDataProvider {
 	private static final Log log = LogFactory.getLog(JRPhantomCVElementImageDataProvider.class);
 
 	private final String[] scriptResourceLocations = new String[] {
@@ -56,10 +55,9 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 	@Override
 	public byte[] getImageData(
 		JasperReportsContext jasperReportsContext, 
-		JRGenericPrintElement element) throws Exception
-	{
-		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null)
-		{
+		JRGenericPrintElement element) throws Exception {
+
+		if (element.getParameterValue(CVPrintElement.CONFIGURATION) == null) {
 			throw new JRRuntimeException("Configuration object is null.");
 		}
 
@@ -94,7 +92,16 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 				element,
 				scriptFilenames.subList(1, scriptFilenames.size()),
 				cssUri);
-		script.append("\"htmlPageContent\": \"" + JRStringUtil.escapeJSONString(htmlPage) + "\",");
+
+		File htmlTempFile = File.createTempFile("cv_", ".html", scriptManager.getTempFolder());
+
+		try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes());
+			 OutputStream os = new FileOutputStream(htmlTempFile) ) {
+
+			CVUtils.byteStreamCopy(is, os);
+		}
+
+		script.append("\"componentHtmlFile\": \"" + htmlTempFile.getName() + "\",");
 
 		boolean renderAsPng = CVUtils.isRenderAsPng(element);
 		script.append("\"outputFormat\": \"" + (renderAsPng ? "png" : "svg") + "\",");
@@ -107,6 +114,10 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 		}
 
 		String requestOutput = phantom.runRequest(requestString);
+
+		// Remove the temporary component HTML file
+		htmlTempFile.delete();
+
 		if (log.isTraceEnabled()) {
 			if (requestOutput == null || requestOutput.length() == 0) {
 				log.trace("Got null or empty request output!");

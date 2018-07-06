@@ -27,7 +27,7 @@ exports.perform = function(call) {
 		page = require('webpage').create(),
 		fs = require('fs'),
 
-		htmlPageContent = requestArgs.htmlPageContent,
+		componentHtmlFile = requestArgs.componentHtmlFile,
 		outputFormat = requestArgs.outputFormat,
 		zoomFactor = requestArgs.zoomFactor || 2.0,
 
@@ -71,12 +71,11 @@ exports.perform = function(call) {
         console.log('Resource timed out (#' + request.id + '): ' + JSON.stringify(request));
     };
 
-    // Prepare the page content by prefixing the resources URI with phantomjs' working directory
-    htmlPageContent = htmlPageContent.replace(/src="/g, "src=\"file://" + fs.workingDirectory + "/");
-    htmlPageContent = htmlPageContent.replace(/href="/g, "href=\"file://" + fs.workingDirectory + "/");
-
-    // Set the actual component HTML content
-    page.content = htmlPageContent;
+    page.open(componentHtmlFile, function(status) {
+        if (status === "fail") {
+            call.sendError("Unable to open component HTML file!");
+        }
+    });
 
     interval = window.setInterval(function() {
         componentRendered = page.evaluate(function() {
