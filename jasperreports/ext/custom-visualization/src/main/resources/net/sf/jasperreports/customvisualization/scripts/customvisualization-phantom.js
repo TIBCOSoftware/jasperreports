@@ -162,7 +162,7 @@ exports.perform = function(call) {
 
                             var defsTags = svg.getElementsByTagName("defs"),
                                 defs_element,
-                                innerDefs;
+                                styleElem;
 
                             if (defsTags.length == 0) {
                                 defs_element = document.createElement('defs');
@@ -180,9 +180,10 @@ exports.perform = function(call) {
                             if (typeof window.cvcIgnoreSVGStyles !== 'undefined' && window.cvcIgnoreSVGStyles == true) {
                               // Don't add any style, since the batik may not like it.
                             } else if (styles) {
-                                innerDefs = defs_element.innerHTML;
-                                innerDefs += '<style type="text/css"><![CDATA[' + styles + ']]></style>';
-                                defs_element.innerHTML = innerDefs;
+                                styleElem = document.createElement('style');
+                                styleElem.type = 'text/css';
+                                styleElem.appendChild(document.createTextNode(styles));
+                                defs_element.appendChild(styleElem);
                             }
 
                             var source = (new XMLSerializer()).serializeToString(svg).replace('<defs xmlns="http://www.w3.org/1999/xhtml">','<defs>'); //.replace('</style>', '<![CDATA[' + styles + ']]></style>');
