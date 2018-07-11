@@ -416,7 +416,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				InputStream is = null;
 				try
 				{
-					is = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStreamFromLocation(jsonSchemaResource);
+					is = getRepository().getInputStreamFromLocation(jsonSchemaResource);
 					jsonSchema = new Scanner(is, "UTF-8").useDelimiter("\\A").next();
 				}
 				finally
