@@ -71,6 +71,9 @@ import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -144,6 +147,12 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		public JasperReportsContext getJasperReportsContext()
 		{
 			return JRAbstractExporter.this.getJasperReportsContext();
+		}
+		
+		@Override
+		public RepositoryUtil getRepository()
+		{
+			return JRAbstractExporter.this.getRepository();
 		}
 		
 		@Override
@@ -490,6 +499,12 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		return rendererUtil;
 	}
 
+	public RepositoryUtil getRepository()
+	{
+		RepositoryResourceContext resourceContext = crtItem == null ? null : crtItem.getRepositoryReportContext();
+		SimpleRepositoryContext repositoryContext = SimpleRepositoryContext.of(getJasperReportsContext(), resourceContext);
+		return RepositoryUtil.getInstance(repositoryContext);
+	}
 	
 	@Override
 	public abstract void exportReport() throws JRException;

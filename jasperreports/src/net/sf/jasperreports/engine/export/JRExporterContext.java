@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -55,6 +56,11 @@ public interface JRExporterContext
 	 *
 	 */
 	public JasperReportsContext getJasperReportsContext();
+	
+	default public RepositoryUtil getRepository()
+	{
+		return RepositoryUtil.getInstance(getJasperReportsContext());
+	}
 
 	/**
 	 * Returns the report which is currently exported.

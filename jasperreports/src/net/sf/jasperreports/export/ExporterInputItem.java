@@ -24,6 +24,7 @@
 package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 
 
 /**
@@ -36,6 +37,11 @@ public interface ExporterInputItem
 	 */
 	public JasperPrint getJasperPrint();
 
+	default public RepositoryResourceContext getRepositoryReportContext()
+	{
+		return null;
+	}
+	
 	/**
 	 * 
 	 */

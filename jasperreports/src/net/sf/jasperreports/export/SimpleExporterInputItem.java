@@ -24,6 +24,7 @@
 package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 
 
 /**
@@ -32,6 +33,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 public class SimpleExporterInputItem implements ExporterInputItem
 {
 	private JasperPrint jasperPrint;
+	private RepositoryResourceContext repositoryContext;
 	private ReportExportConfiguration configuration;
 	
 	
@@ -40,7 +42,7 @@ public class SimpleExporterInputItem implements ExporterInputItem
 	 */
 	public SimpleExporterInputItem(JasperPrint jasperPrint)
 	{
-		this(jasperPrint, null);
+		this(jasperPrint, null, null);
 	}
 
 	
@@ -49,7 +51,15 @@ public class SimpleExporterInputItem implements ExporterInputItem
 	 */
 	public SimpleExporterInputItem(JasperPrint jasperPrint, ReportExportConfiguration configuration)
 	{
+		this(jasperPrint, null, configuration);
+	}
+
+	
+	public SimpleExporterInputItem(JasperPrint jasperPrint, RepositoryResourceContext repositoryContext, 
+			ReportExportConfiguration configuration)
+	{
 		this.jasperPrint = jasperPrint;
+		this.repositoryContext = repositoryContext;
 		this.configuration = configuration;
 	}
 
@@ -65,5 +75,12 @@ public class SimpleExporterInputItem implements ExporterInputItem
 	public ReportExportConfiguration getConfiguration()
 	{
 		return configuration;
+	}
+
+
+	@Override
+	public RepositoryResourceContext getRepositoryReportContext()
+	{
+		return repositoryContext;
 	}
 }
