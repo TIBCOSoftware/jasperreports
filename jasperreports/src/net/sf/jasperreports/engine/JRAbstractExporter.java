@@ -739,7 +739,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			exporterInput = new net.sf.jasperreports.export.parameters.ParametersExporterInput(parameters);
 		}
 		
-		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
+		crtItem = exporterInput.getItems().get(0);//for getRepository
+		jasperPrint = crtItem.getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
 	}
 
 	
