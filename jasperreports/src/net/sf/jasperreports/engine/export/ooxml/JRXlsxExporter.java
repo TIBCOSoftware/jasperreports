@@ -1621,7 +1621,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		try
 		{
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);
-			xlsxZip = new XlsxZip(jasperReportsContext, memoryThreshold == null ? null : JRPropertiesUtil.asInteger(memoryThreshold));
+			xlsxZip = new XlsxZip(jasperReportsContext, getRepository(), 
+					memoryThreshold == null ? null : JRPropertiesUtil.asInteger(memoryThreshold));
 
 			wbHelper = new XlsxWorkbookHelper(jasperReportsContext, xlsxZip.getWorkbookEntry().getWriter(), definedNames);
 			wbHelper.exportHeader();

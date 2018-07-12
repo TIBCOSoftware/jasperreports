@@ -127,7 +127,6 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -284,7 +283,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			InputStream templateIs = null;
 			try 
 			{
-				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(lcWorkbookTemplate);
+				templateIs = getRepository().getInputStreamFromLocation(lcWorkbookTemplate);
 				if (templateIs == null)
 				{
 					throw 
