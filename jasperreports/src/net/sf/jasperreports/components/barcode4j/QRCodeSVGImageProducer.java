@@ -79,7 +79,10 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		
 		String encoding = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
 				componentElement, QRCodeComponent.PROPERTY_QRCODE_CHARACTER_ENCODING, QRCodeComponent.PROPERTY_DEFAULT_ENCODING);
-		hints.put(EncodeHintType.CHARACTER_SET, encoding);
+		if (!encoding.isEmpty())
+		{
+			hints.put(EncodeHintType.CHARACTER_SET, encoding);
+		}
 		
 		ErrorCorrectionLevel errorCorrectionLevel = qrCodeBean.getErrorCorrectionLevel().getErrorCorrectionLevel();
 		hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrectionLevel);
