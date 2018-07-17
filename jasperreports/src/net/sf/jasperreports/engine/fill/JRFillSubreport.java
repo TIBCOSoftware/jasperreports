@@ -1241,4 +1241,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		return getReport().getName();
 	}
+
+	protected boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+	{
+		return fillContainerContext.isSplitTypePreventInhibited(isTopLevelCall);
+	}
 }

@@ -798,4 +798,11 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, newClasses);
 	}
 
+	@Override
+	public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+	{
+		//FIXME implement logic
+		return false;
+	}
+
 }

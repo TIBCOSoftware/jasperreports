@@ -140,4 +140,11 @@ public class FillListContents extends JRFillElementContainer
 			moveBandBottomElements();
 		}
 	}
+
+	@Override
+	public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+	{
+		//FIXME implement logic
+		return false;
+	}
 }

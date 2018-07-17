@@ -511,6 +511,13 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 			return containerHeight; 
 		}
+
+		@Override
+		public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+		{
+			//not actually called because fillContainerContext in the children is actually the band
+			return JRFillFrame.this.fillContainerContext.isSplitTypePreventInhibited(isTopLevelCall);
+		}
 	}
 	
 }

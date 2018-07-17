@@ -612,7 +612,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		return isSplitTypePreventInhibited(true);
 	}
 	
-	protected boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+	@Override
+	public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
 	{
 		boolean isSplitTypePreventInhibited = false;
 		

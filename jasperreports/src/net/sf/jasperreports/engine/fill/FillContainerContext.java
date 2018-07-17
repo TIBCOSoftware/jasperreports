@@ -36,4 +36,6 @@ public interface FillContainerContext
 	
 	boolean isCurrentOverflowAllowed();
 	
+	boolean isSplitTypePreventInhibited(boolean isTopLevelCall);
+	
 }
