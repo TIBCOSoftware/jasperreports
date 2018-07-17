@@ -92,24 +92,38 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 	protected void evaluateBarcodeRenderable(BarcodeComponent barcodeComponent)
 	{
-		BarcodeImageProducer imageProducer = 
-			BarcodeUtils.getInstance(jasperReportsContext).getProducer(
-				componentElement);
-		renderable = imageProducer.createImage(
-				jasperReportsContext,
-				componentElement, 
-				barcodeBean, message);
+		if (message == null)
+		{
+			renderable = null;
+		}
+		else
+		{
+			BarcodeImageProducer imageProducer = 
+				BarcodeUtils.getInstance(jasperReportsContext).getProducer(
+					componentElement);
+			renderable = imageProducer.createImage(
+					jasperReportsContext,
+					componentElement, 
+					barcodeBean, message);
+		}
 	}
 	
 	protected void evaluateBarcodeRenderable(QRCodeBean qrCodeBean)
 	{
-		QRCodeImageProducer imageProducer = 
-			BarcodeUtils.getInstance(jasperReportsContext).getQRCodeProducer(
-				componentElement);
-		renderable = imageProducer.createImage(
-				jasperReportsContext,
-				componentElement, 
-				qrCodeBean, message);
+		if (message == null)
+		{
+			renderable = null;
+		}
+		else
+		{
+			QRCodeImageProducer imageProducer = 
+				BarcodeUtils.getInstance(jasperReportsContext).getQRCodeProducer(
+					componentElement);
+			renderable = imageProducer.createImage(
+					jasperReportsContext,
+					componentElement, 
+					qrCodeBean, message);
+		}
 	}
 	
 	protected void setBaseAttributes(Barcode4jComponent barcodeComponent)
