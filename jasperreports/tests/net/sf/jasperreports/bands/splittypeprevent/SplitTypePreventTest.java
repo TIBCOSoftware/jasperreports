@@ -47,6 +47,6 @@ public class SplitTypePreventTest extends AbstractTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/bands/splittypeprevent/repo", "SplitTypePreventReport", 46);
+		return runReportArgs("net/sf/jasperreports/bands/splittypeprevent/repo", "SplitTypePreventReport", 47);
 	}
 }
