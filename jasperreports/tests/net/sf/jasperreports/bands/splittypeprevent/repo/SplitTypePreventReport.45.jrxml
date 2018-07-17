@@ -23,7 +23,9 @@
 	<summary>
 		<band height="30" splitType="Stretch">
 			<componentElement>
-				<reportElement x="0" y="0" width="80" height="30" uuid="925687dc-60db-4517-938e-81db7f2a95b1"/>
+				<reportElement x="0" y="0" width="80" height="30" uuid="925687dc-60db-4517-938e-81db7f2a95b1">
+					<property name="net.sf.jasperreports.components.table.name" value="table"/>
+				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 					<datasetRun subDataset="Empty Dataset1" uuid="2a498229-6a44-4a2d-919f-180bd7aed50b"/>
 					<jr:column width="80" uuid="18a87b02-f4d5-4dd4-a113-927b3573337a">
