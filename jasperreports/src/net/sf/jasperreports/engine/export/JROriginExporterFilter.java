@@ -137,7 +137,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_2_0_3
 			)
-	private static final String KEEP_FIRST_PREFIX = "keep.first.";
+	public static final String KEEP_FIRST_PREFIX = "keep.first.";
 	private static final String BAND_PREFIX = "band.";
 	private static final String GROUP_PREFIX = "group.";
 	private static final String REPORT_PREFIX = "report.";

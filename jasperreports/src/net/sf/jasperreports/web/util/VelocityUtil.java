@@ -51,7 +51,7 @@ public class VelocityUtil
 			scopes = {PropertyScope.CONTEXT},
 			sinceVersion = PropertyConstants.VERSION_4_7_1
 			)
-	private static final String VELOCITY_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "velocity.";
+	public static final String VELOCITY_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "velocity.";
 	private static final VelocityEngine velocityEngine;
 	
 	static {
