@@ -63,7 +63,7 @@ import net.sf.jasperreports.metadata.properties.StandardPropertiesMetadataSerial
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
 @SupportedAnnotationTypes("net.sf.jasperreports.annotations.properties.Property")
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedOptions({PropertyProcessor.OPTION_MESSAGES_NAME,
 	PropertyProcessor.OPTION_PROPERTIES_DOC,
 	PropertyProcessor.OPTION_CONFIG_REFERENCE_OUT})
