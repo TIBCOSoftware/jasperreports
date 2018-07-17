@@ -19,6 +19,17 @@
 		<tag>jr-6-6-0</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
+	<repositories>
+		<repository>
+			<id>jr-ce-releases</id>
+			<name>JasperReports CE Releases</name>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
+		</repository>
+		<repository>
+			<id>jr-snapshots</id>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots/</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
