@@ -214,7 +214,7 @@ public abstract class AbstractTest
 			//PrintStream ps = new PrintStream(out);
 			//t.printStackTrace(ps);
 			osw = new OutputStreamWriter(out, "UTF-8");
-			osw.write(t.getMessage());
+			osw.write(String.valueOf(t.getMessage()));
 		}
 		finally
 		{
