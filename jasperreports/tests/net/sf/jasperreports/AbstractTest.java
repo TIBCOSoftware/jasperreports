@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -53,6 +54,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.XmlResourceHandler;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleXmlExporterOutput;
@@ -103,34 +105,34 @@ public abstract class AbstractTest
 		
 		log.debug("Running report " + jrxmlFileName);
 		
-		JasperReport report = compileReport(jrxmlFileName);
-		if (report != null)
+		try
 		{
-			String exportDigest = null;
-			String referenceExportDigest = null;
-
-			JasperPrint print = null;
-			try
+			JasperReport report = compileReport(jrxmlFileName);
+			if (report != null)
 			{
-				print = fillManager.fill(report, params);
-			}
-			catch (Throwable t)
-			{
-				exportDigest = errExportDigest(t);
-				referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".err");
-			}
-			
-			if (print != null)
-			{
+				JasperPrint print = fillManager.fill(report, params);
+				
 				assert !print.getPages().isEmpty();
 				
-				exportDigest = xmlExportDigest(print);
+				String exportDigest = xmlExportDigest(print);
 				log.debug("Plain report got " + exportDigest);
 				
-				referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".jrpxml");
+				String referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".jrpxml");
+				assert exportDigest.equals(referenceExportDigest);
+			}
+		}
+		catch (Throwable t)
+		{
+			String errorDigest = errExportDigest(t);
+			String referenceErrorDigest = getFileDigest(referenceFileNamePrefix + ".err");
+			if (referenceErrorDigest == null)
+			{
+				log.error("Report " + jrxmlFileName + " failed", t);
+				//we don't have a reference error, it's an unexpected exception
+				throw t;
 			}
 			
-			assert exportDigest.equals(referenceExportDigest);
+			assert errorDigest.equals(referenceErrorDigest);
 		}
 	}
 
@@ -179,7 +181,14 @@ public abstract class AbstractTest
 
 	protected String getFileDigest(String fileName) throws JRException, NoSuchAlgorithmException
 	{
-		byte[] bytes = JRLoader.loadBytesFromResource(fileName);
+		URL resourceURL = JRResourcesUtil.findClassLoaderResource(fileName, null);
+		if (resourceURL == null)
+		{
+			log.debug("did not find resource " + fileName);
+			return null;
+		}
+		
+		byte[] bytes = JRLoader.loadBytes(resourceURL);
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
 		messageDigest.update(bytes);
 		String digest = toDigestString(messageDigest);
