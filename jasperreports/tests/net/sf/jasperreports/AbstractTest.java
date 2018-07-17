@@ -74,12 +74,25 @@ public abstract class AbstractTest
 		jasperReportsContext = new SimpleJasperReportsContext();
 	}
 
-	protected void testReports(String folderName, String fileNamePrefix, int maxFileNumber) throws JRException, NoSuchAlgorithmException, IOException
+	protected Object[][] runReportArgs(String folderName, String fileNamePrefix, int maxFileNumber)
 	{
-		testReports(folderName, fileNamePrefix, fileNamePrefix, maxFileNumber);
+		return runReportArgs(folderName, fileNamePrefix, fileNamePrefix, maxFileNumber);
 	}
-	
-	protected void testReports(String folderName, String fileNamePrefix, String exportFileNamePrefix, int maxFileNumber) throws JRException, NoSuchAlgorithmException, IOException
+
+	protected Object[][] runReportArgs(String folderName, String fileNamePrefix, String exportFileNamePrefix, int maxFileNumber)
+	{
+		Object[][] args = new Object[maxFileNumber][];
+		for (int i = 1; i <= maxFileNumber; i++)
+		{
+			String jrxmlFileName = folderName + "/" + fileNamePrefix + "." + i + ".jrxml";
+			String referenceFileNamePrefix = folderName + "/" + exportFileNamePrefix + "." + i + ".reference";
+			args[i - 1] = new Object[] {jrxmlFileName, referenceFileNamePrefix};
+		}
+		return args;
+	}
+
+	protected void runReport(String jrxmlFileName, String referenceFileNamePrefix) 
+			throws JRException, IOException, NoSuchAlgorithmException, FileNotFoundException
 	{
 		JasperFillManager fillManager = JasperFillManager.getInstance(getJasperReportsContext());
 		
@@ -88,40 +101,36 @@ public abstract class AbstractTest
 		params.put(JRParameter.REPORT_TIME_ZONE, TimeZone.getTimeZone("GMT"));
 		params.put(TEST, this);
 		
-		for (int i = 1; i <= maxFileNumber; i++)
+		log.debug("Running report " + jrxmlFileName);
+		
+		JasperReport report = compileReport(jrxmlFileName);
+		if (report != null)
 		{
-			String jrxmlFileName = folderName + "/" + fileNamePrefix + "." + i + ".jrxml";
-			log.debug("Running report " + jrxmlFileName);
-			
-			JasperReport report = compileReport(jrxmlFileName);
-			if (report != null)
-			{
-				String exportDigest = null;
-				String referenceExportDigest = null;
+			String exportDigest = null;
+			String referenceExportDigest = null;
 
-				JasperPrint print = null;
-				try
-				{
-					print = fillManager.fill(report, params);
-				}
-				catch (Throwable t)
-				{
-					exportDigest = errExportDigest(t);
-					referenceExportDigest = getFileDigest(folderName + "/" + exportFileNamePrefix + "." + i + ".reference.err");
-				}
-				
-				if (print != null)
-				{
-					assert !print.getPages().isEmpty();
-					
-					exportDigest = xmlExportDigest(print);
-					log.debug("Plain report got " + exportDigest);
-					
-					referenceExportDigest = getFileDigest(folderName + "/" + exportFileNamePrefix + "." + i + ".reference.jrpxml");
-				}
-				
-				assert exportDigest.equals(referenceExportDigest);
+			JasperPrint print = null;
+			try
+			{
+				print = fillManager.fill(report, params);
 			}
+			catch (Throwable t)
+			{
+				exportDigest = errExportDigest(t);
+				referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".err");
+			}
+			
+			if (print != null)
+			{
+				assert !print.getPages().isEmpty();
+				
+				exportDigest = xmlExportDigest(print);
+				log.debug("Plain report got " + exportDigest);
+				
+				referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".jrpxml");
+			}
+			
+			assert exportDigest.equals(referenceExportDigest);
 		}
 	}
 

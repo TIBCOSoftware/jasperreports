@@ -26,6 +26,7 @@ package net.sf.jasperreports.groups.startnewpage;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import net.sf.jasperreports.AbstractTest;
@@ -36,9 +37,16 @@ import net.sf.jasperreports.engine.JRException;
  */
 public class StartNewPageTest extends AbstractTest
 {
-	@Test
-	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
+	@Test(dataProvider = "testArgs")
+	public void testReport(String jrxmlFileName, String referenceFileNamePrefix) 
+			throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/groups/startnewpage/repo", "StartNewPageReport", 50);
+		runReport(jrxmlFileName, referenceFileNamePrefix);
+	}
+	
+	@DataProvider
+	public Object[][] testArgs()
+	{
+		return runReportArgs("net/sf/jasperreports/groups/startnewpage/repo", "StartNewPageReport", 50);
 	}
 }

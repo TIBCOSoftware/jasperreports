@@ -26,6 +26,7 @@ package net.sf.jasperreports.crosstabs;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import net.sf.jasperreports.AbstractTest;
@@ -38,16 +39,37 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  */
 public class CrosstabStretchTest extends AbstractTest
 {
-	@Test
-	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
+	@Test(dataProvider = "testArgsLegacy")
+	public void testReportLegacy(String jrxmlFileName, String referenceFileNamePrefix) 
+			throws JRException, NoSuchAlgorithmException, IOException
 	{
 		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
 		setJasperReportsContext(jasperReportsContext);
 
 		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "true");
-		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", "CrosstabLegacyStretchReport", 7);
+		runReport(jrxmlFileName, referenceFileNamePrefix);
+	}
+	
+	@DataProvider
+	public Object[][] testArgsLegacy()
+	{
+		return runReportArgs("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", "CrosstabLegacyStretchReport", 7);
+	}
+	
+	@Test(dataProvider = "testArgs")
+	public void testReport(String jrxmlFileName, String referenceFileNamePrefix) 
+			throws JRException, NoSuchAlgorithmException, IOException
+	{
+		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
+		setJasperReportsContext(jasperReportsContext);
 		
 		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "false");
-		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", 7);
+		runReport(jrxmlFileName, referenceFileNamePrefix);
+	}
+	
+	@DataProvider
+	public Object[][] testArgs()
+	{
+		return runReportArgs("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", 7);
 	}
 }
