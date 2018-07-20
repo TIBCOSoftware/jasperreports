@@ -16,7 +16,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>jr-6-6-0</tag>
+		<tag>jr-6-7-0</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<repositories>
