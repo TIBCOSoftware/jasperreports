@@ -1,2 +1,36 @@
 <differences>
+	<difference>
+		<className>net/sf/jasperreports/compilers/JRBsh*</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/JRExporterContext</className>
+		<differenceType>7012</differenceType>
+		<method>*net.sf.jasperreports.repo.RepositoryUtil getRepository()</method>method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/FillContainerContext</className>
+		<differenceType>7012</differenceType>
+		<method>*isSplitTypePreventInhibited(boolean)</method>method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/export/ExporterInputItem</className>
+		<differenceType>7012</differenceType>
+		<method>*getRepositoryReportContext()</method>method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/ConcurrentMapping</className>
+		<differenceType>7004</differenceType>
+		<method>*get(java.lang.Object)</method>
+	</difference>	
+	<difference>
+		<className>net/sf/jasperreports/engine/util/ConcurrentMapping$Mapper</className>
+		<differenceType>7004</differenceType>
+		<method>*compute(java.lang.Object)</method>
+	</difference>	
+	<difference>
+		<className>net/sf/jasperreports/phantomjs/ScriptManager</className>
+		<differenceType>7004</differenceType>
+		<method>*copyScript(java.lang.String)</method>
+	</difference>	
 </differences>
