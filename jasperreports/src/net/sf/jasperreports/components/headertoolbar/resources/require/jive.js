@@ -113,15 +113,16 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                 left: null,
                 setElement: function(selector){
                     this.jo = $(selector);
-                    this.jo.draggable();
                     this.jo.draggable({
                         cursorAt: { top: 40, left: -30 },
+                        containment: "parent",
+                        scroll: false,
                         start: function(ev,ui) {
                             jive.hide(['foobar','marker']);
                             jive.interactive[jive.selected.ie.config.type].onDragStart(ev,ui);
                         },
                         drag: function(ev,ui){
-                            jive.interactive[jive.selected.ie.config.type].onDrag(ev,ui);
+                            jive.interactive[jive.selected.ie.config.type].onDebouncedDrag(ev,ui);
                         },
                         stop:function(ev,ui) {
                             jive.interactive[jive.selected.ie.config.type].onDragStop(ev,ui);
@@ -135,13 +136,12 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                         this.setElement('#jive_overlay');
                         isFirstTimeSelection = true;
                     }
-                    this.jo.draggable();
                     this.jo.css({
                         width: dim.w * (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1),
                         height: dim.h
                     }).draggable('option','helper', function(event) {
-                            return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
-                        });
+                        return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
+                    });
                     this.jo.appendTo(jive.getReportContainer()).show();
                     this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
 
@@ -1536,6 +1536,24 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
             jive.ui.overlay.show(dim);
             jive.ui.marker.show(dim);
             jive.ui.foobar.show(dim);
+        },
+        debounce: function(fn, millis, now) {
+            var timeout = null;
+
+            return function() {
+                var thisContext = this,
+                    args = arguments;
+
+                if (now) {
+                    fn.apply(thisContext, args);
+                } else {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function() {
+                        timeout = null;
+                        fn.apply(thisContext, args);
+                    }, millis);
+                }
+            };
         }
     }
 
