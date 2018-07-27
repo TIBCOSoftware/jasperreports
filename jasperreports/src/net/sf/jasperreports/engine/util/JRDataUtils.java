@@ -132,9 +132,10 @@ public final class JRDataUtils
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		int min = calendar.get(Calendar.MINUTE);
 		int sec = calendar.get(Calendar.SECOND);
+		int millis = calendar.get(Calendar.MILLISECOND);
 		
 		double result = getGregorianToJulianDay(year, month + 1, day) +
-				(Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);	
+				(Math.floor(millis + 1000 * (sec + 60 * (min + 60 * hour)) + 0.5) / 86400000.0);	
 		return (result - JULIAN_1900) + 1 + ((result > 2415078.5) ? 1 : 0);
 	}
 	
