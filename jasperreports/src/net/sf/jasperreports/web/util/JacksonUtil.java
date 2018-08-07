@@ -29,6 +29,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRValueStringUtils;
+
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -37,13 +44,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
-import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.JRValueStringUtils;
 
 
 /**
@@ -265,7 +265,7 @@ public class JacksonUtil
 							Object next = it.next();
 							paramValues.add(JRValueStringUtils.serialize(next.getClass().getName(), next));
 						}
-						params.set(hParam.getName(), paramValues);
+						params.put(hParam.getName(), paramValues);
 					}
 					else
 					{
@@ -274,7 +274,7 @@ public class JacksonUtil
 				}
 			}
 
-			hyperlinkNode.set("params", params);
+			hyperlinkNode.put("params", params);
 		}
 
 		return hyperlinkNode;

@@ -41,7 +41,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.util.BufferRecyclers;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -1101,7 +1101,7 @@ public class JsonMetadataExporter extends JRAbstractExporter<JsonMetadataReportC
 				writer.write("\"");
 			} else {
 				writer.write("\"");
-				writer.write(BufferRecyclers.getJsonStringEncoder().quoteAsString(value.toString()));
+				writer.write(JsonStringEncoder.getInstance().quoteAsString(value.toString()));
 				writer.write("\"");
 			}
 		} else {
