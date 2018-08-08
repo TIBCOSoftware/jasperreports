@@ -48,6 +48,8 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 {
 	private static final Log log = LogFactory.getLog(JdbcDataAdapterService.class);
 	public static final String EXCEPTION_MESSAGE_KEY_PASSWORD_REQUIRED = "data.jdbc.password.required";
+	public static final String EXCEPTION_MESSAGE_KEY_INVALID_URL = "data.jdbc.invalid.url";
+	public static final String EXCEPTION_MESSAGE_KEY_CONNECTION_NOT_CREATED = "data.jdbc.connection.not.created";
 	
 	private Connection connection = null; 
 
@@ -167,7 +169,17 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				
 				connection = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
 				if(connection == null)
-					throw new SQLException("No suitable driver found for "+ jdbcDataAdapter.getUrl());
+				{
+					boolean urlValid = driver.acceptsURL(jdbcDataAdapter.getUrl());
+					if (!urlValid)
+					{
+						throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_INVALID_URL, 
+								new Object[] {jdbcDataAdapter.getUrl(), jdbcDataAdapter.getDriver()});
+					}
+					
+					throw new JRRuntimeException(EXCEPTION_MESSAGE_KEY_CONNECTION_NOT_CREATED, 
+							new Object[] {jdbcDataAdapter.getUrl()});
+				}
 			}
 			catch (ClassNotFoundException ex){
 				throw new JRRuntimeException(ex);
