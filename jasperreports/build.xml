@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="6.6.0"/>
+	<property name="version" value="6.7.0"/>
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>

@@ -4,7 +4,7 @@
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-annotation-processors</artifactId>
 	<packaging>jar</packaging>
-	<version>6.7.0-SNAPSHOT</version>
+	<version>6.7.0</version>
 	<name>jasperreports-annotation-processors</name>
 	<url>http://jasperreports.sourceforge.net</url>
 	<licenses>
