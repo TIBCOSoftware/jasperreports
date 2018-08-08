@@ -117,6 +117,7 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			scopeQualifications = {QUERY_EXECUTER_NAME},
 			valueType = Integer.class

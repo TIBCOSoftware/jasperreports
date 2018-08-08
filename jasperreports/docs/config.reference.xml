@@ -554,6 +554,8 @@ storing character or binary values created by the
     <description>
 Property specifying the number of seconds to wait for the <code>Statement</code> created by the 
 <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api> to execute.
+<br/>
+Default value is 0 meaning that there is no limit.
     </description>
   </configProperty>
   
