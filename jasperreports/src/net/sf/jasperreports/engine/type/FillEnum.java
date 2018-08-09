@@ -33,7 +33,12 @@ public enum FillEnum implements JREnum
 	 * Constant useful for specifying that the inside of an element should be drawn using the background color. It
 	 * is ignored if the element draw mode is transparent.
 	 */
-	SOLID((byte)1, "Solid");
+	SOLID((byte)1, "Solid"),
+
+	/**
+	 * Constant for specifying that the inside of an element should be drawn using a gradient of two colors.
+	 */
+	GRADIENT((byte)2, "Gradient");
 
 	/**
 	 *

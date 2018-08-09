@@ -807,6 +807,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_rectangle);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_radius, rectangle.getOwnRadius());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_fill, rectangle.getOwnFillValue());
 
 		exportReportElement(rectangle);
 		exportGraphicElement(rectangle);

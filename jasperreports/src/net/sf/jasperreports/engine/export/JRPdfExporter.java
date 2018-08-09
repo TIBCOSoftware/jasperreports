@@ -83,6 +83,8 @@ import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfOutline;
+import com.lowagie.text.pdf.PdfShading;
+import com.lowagie.text.pdf.PdfShadingPattern;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
@@ -119,6 +121,7 @@ import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -1313,12 +1316,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 */
 	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
-		pdfContentByte.setRGBColorFill(
-			rectangle.getBackcolor().getRed(),
-			rectangle.getBackcolor().getGreen(),
-			rectangle.getBackcolor().getBlue()
-			);
-
 		preparePen(pdfContentByte, rectangle.getLinePen(), PdfContentByte.LINE_CAP_PROJECTING_SQUARE);
 
 		float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
@@ -1327,14 +1324,34 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 		if (rectangle.getModeValue() == ModeEnum.OPAQUE)
 		{
-			pdfContentByte.roundRectangle(
-				rectangle.getX() + lcOffsetX,
-				pageFormat.getPageHeight() - rectangle.getY() - lcOffsetY - rectangle.getHeight(),
-				rectangle.getWidth(),
-				rectangle.getHeight(),
-				rectangle.getRadius()
-				);
+			int x = rectangle.getX() + lcOffsetX;
+			int y = pageFormat.getPageHeight() - rectangle.getY() - lcOffsetY - rectangle.getHeight();
+			int width = rectangle.getWidth();
+			int height = rectangle.getHeight();
 
+			float gradientX = x + (width / 2);
+			float gradientY1 = y;
+			float gradientY2 = y + height;
+
+			if (rectangle.getFillValue() == FillEnum.SOLID)
+			{
+				pdfContentByte.setRGBColorFill(
+					rectangle.getBackcolor().getRed(),
+					rectangle.getBackcolor().getGreen(),
+					rectangle.getBackcolor().getBlue()
+					);
+			}
+			else if (rectangle.getFillValue() == FillEnum.GRADIENT)
+			{
+				Color startColor = rectangle.getBackcolor();
+				Color endColor = rectangle.getForecolor();
+				PdfShading pdfShading = PdfShading.simpleAxial(pdfWriter, gradientX, gradientY1, gradientX, gradientY2, startColor,
+						endColor);
+				PdfShadingPattern pdfShadingPattern = new PdfShadingPattern(pdfShading);
+				pdfContentByte.setShadingFill(pdfShadingPattern);
+			}
+
+			pdfContentByte.roundRectangle(x, y, width, height, rectangle.getRadius());
 			pdfContentByte.fill();
 		}
 

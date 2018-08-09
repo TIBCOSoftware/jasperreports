@@ -125,6 +125,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		printRectangle.setY(this.getRelativeY());
 		printRectangle.setWidth(getWidth());
 		printRectangle.setHeight(this.getStretchHeight());
+		printRectangle.setFill(this.getFillValue());
 		transferProperties(printRectangle);
 		
 		return printRectangle;
