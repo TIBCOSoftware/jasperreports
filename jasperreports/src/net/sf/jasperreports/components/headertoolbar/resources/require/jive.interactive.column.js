@@ -144,8 +144,8 @@ define(function(require) {
 
                 cols = parentContainer.find('td.jrcolHeader[data-coluuid=' + colUuid + ']');
                 firstCol = cols.eq(0);
-                if (cols.size() > 0) {
-                    lastCol = cols.eq(cols.size()-1);
+                if (cols.length > 0) {
+                    lastCol = cols.eq(cols.length - 1);
                 } else {
                     lastCol = firstCol;
                 }
@@ -1739,7 +1739,7 @@ define(function(require) {
                 table = row.closest('table'),
                 rows = table.find('tr');
 
-            if (next.size() > 0 && rows.index(row) < (rows.size() - 2)) {
+            if (next.length > 0 && rows.index(row) < (rows.length - 2)) {
                 row.insertAfter(next);
                 table.trigger('rowchange');
             }
