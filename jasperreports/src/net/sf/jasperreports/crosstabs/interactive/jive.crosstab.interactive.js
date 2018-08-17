@@ -29,7 +29,7 @@ define(function(require) {
         templateCss = require("text!jive.crosstab.templates.styles.css"),
         jivei18nText = require("text!jive.i18n.tmpl");
 
-    require("jquery-ui");
+    require("jquery-ui/position");
 
 	var jivei18n = JSON.parse(jivei18nText),
         i18nfn = function (key) {

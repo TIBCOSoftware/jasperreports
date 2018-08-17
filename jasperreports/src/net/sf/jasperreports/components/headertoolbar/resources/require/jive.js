@@ -29,7 +29,8 @@ define(function(require) {
         css = require("csslink!jive.vm.css"),
         jivei18nText = require("text!jive.i18n.tmpl");
 
-    require("jquery.timepicker");
+    require("jquery-ui/position");
+    require("jquery-ui/widgets/draggable");
 
     var clickEventName = 'click';
 

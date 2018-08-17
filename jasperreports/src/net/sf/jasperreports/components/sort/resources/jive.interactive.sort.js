@@ -28,8 +28,6 @@ define(function(require) {
         css = require("text!jive.sort.vm.css"),
         filterDialogTemplate = require("text!jive.filterDialog.tmpl");
 
-    require("jquery-ui");
-
     var InteractiveSort = {
         initialized: false,
         selected: null,

@@ -29,7 +29,7 @@ define(function(require) {
         $ = require("jquery"),
         UrlManager = require("jasperreports-url-manager");
 
-    require("jquery-ui");
+    require("jquery-ui/position");
 
 	var Viewer = function(o) {
         var it = this;

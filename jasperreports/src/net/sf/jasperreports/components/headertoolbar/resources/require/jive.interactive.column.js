@@ -26,7 +26,9 @@ define(function(require) {
     var $ = require("jquery"),
         jive = require("jive");
 
-    require("jquery-ui");
+    require("jquery-ui/position");
+    require("jquery-ui/widgets/draggable");
+    require("jquery-ui/widgets/timepicker");
 
     var EventManager = null;
 
