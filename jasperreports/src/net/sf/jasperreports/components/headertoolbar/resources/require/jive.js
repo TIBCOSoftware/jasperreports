@@ -22,7 +22,15 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 'text!jive.i18n.tmpl'], function($, templates, css, jivei18nText) {
+define(function(require) {
+
+    var $ = require("jquery"),
+        templates = require("text!jive.templates.tmpl"),
+        css = require("csslink!jive.vm.css"),
+        jivei18nText = require("text!jive.i18n.tmpl");
+
+    require("jquery.timepicker");
+
     var clickEventName = 'click';
 
     if(/Android|iPhone|iPad/i.test(navigator.userAgent) ) {

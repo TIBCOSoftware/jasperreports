@@ -22,7 +22,12 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define(["jquery.ui", "jive"], function($, jive) {
+define(function(require) {
+    var $ = require("jquery"),
+        jive = require("jive");
+
+    require("jquery-ui");
+
     var EventManager = null;
 
     var DURATION_PATTERN = "[h]:mm:ss";

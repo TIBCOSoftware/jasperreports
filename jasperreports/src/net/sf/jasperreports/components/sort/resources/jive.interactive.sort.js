@@ -22,7 +22,13 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define(["jquery.ui", "text!jive.sort.vm.css", "text!jive.filterDialog.tmpl"], function($, css, filterDialogTemplate) {
+define(function(require) {
+
+    var $ = require("jquery"),
+        css = require("text!jive.sort.vm.css"),
+        filterDialogTemplate = require("text!jive.filterDialog.tmpl");
+
+    require("jquery-ui");
 
     var InteractiveSort = {
         initialized: false,
