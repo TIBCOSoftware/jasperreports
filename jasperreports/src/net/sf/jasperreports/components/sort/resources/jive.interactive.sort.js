@@ -51,7 +51,7 @@ define(function(require) {
                 });
 
                 // disable browser contextual menu when right-clicking
-                $(document).bind("contextmenu", function() {
+                $(document).on("contextmenu", function() {
                     return false;
                 });
 
@@ -71,7 +71,7 @@ define(function(require) {
 
             // iPad events
             if ('createTouch' in document) {
-                $('document').bind("touchmove",function(evt){
+                $('document').on("touchmove", function(evt){
                     it.touchStartOn = undefined;
                 });
                 sortlinks.on('click', function(evt){

@@ -376,7 +376,7 @@ define(function(require) {
                         jo = $(this);
                         jo.parent().next().find('input, select').toggle();
                     });
-                    $('#dialogOk, #dialogCancel').bind(clickEventName,function(e){
+                    $('#dialogOk, #dialogCancel').on(clickEventName, function(e) {
                         if(this.className.indexOf('disabled') < 0){
                             if(this.id == 'dialogCancel'){
                                 jive.active = false;
