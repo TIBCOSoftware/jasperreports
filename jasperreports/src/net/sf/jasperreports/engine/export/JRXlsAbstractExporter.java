@@ -1432,7 +1432,10 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 		if (configuration.isForcePageBreaks())
 		{
-			addRowBreak(rowCount - skippedRows + startRow - 1);
+			int pageBreakRow = rowCount - skippedRows + startRow - 1;
+			if (pageBreakRow >= 0) {
+				addRowBreak(pageBreakRow);
+			}
 		}
 		
 		if (autoFilterStart != null)
