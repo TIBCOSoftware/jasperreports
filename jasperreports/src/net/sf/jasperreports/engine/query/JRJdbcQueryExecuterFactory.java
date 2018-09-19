@@ -117,9 +117,9 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_SOURCE,
-			defaultValue = "0",
 			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			scopeQualifications = {QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_6_8_0,
 			valueType = Integer.class
 	)
 	public static final String PROPERTY_JDBC_QUERY_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.query.timeout";

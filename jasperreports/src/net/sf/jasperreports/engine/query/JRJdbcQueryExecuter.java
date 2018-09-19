@@ -461,10 +461,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					statement.setMaxFieldSize(maxFieldSize);
 				}
 				
-				int queryTimeoutValue = getPropertiesUtil().getIntegerProperty(dataset,
-						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_QUERY_TIMEOUT,
-						0);
-				if (queryTimeoutValue != 0)
+				Integer queryTimeoutValue = getPropertiesUtil().getIntegerProperty(dataset,
+						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_QUERY_TIMEOUT);
+				if (queryTimeoutValue != null && queryTimeoutValue >= 0)
 				{
 					statement.setQueryTimeout(queryTimeoutValue);
 				}
