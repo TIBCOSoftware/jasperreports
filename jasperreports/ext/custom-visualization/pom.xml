@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-custom-visualization</artifactId>
-	<version>6.8.0-SNAPSHOT</version>
+	<version>task-JRS-17828-jrl-upgrade-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Custom Visualization Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.8.0-SNAPSHOT</version>
+			<version>task-JRS-17828-jrl-upgrade-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

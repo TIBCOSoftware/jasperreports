@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>6.8.0-JRS-17828-SNAPSHOT</version>
+	<version>task-JRS-17828-jrl-upgrade-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
