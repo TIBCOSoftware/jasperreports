@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-functions</artifactId>
-	<version>task-JRS-17828-jrl-upgrade-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Functions</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>task-JRS-17828-jrl-upgrade-SNAPSHOT</version>
+			<version>develop-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
