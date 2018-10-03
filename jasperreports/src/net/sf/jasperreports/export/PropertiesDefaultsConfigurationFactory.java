@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,7 +29,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -166,12 +168,25 @@ public class PropertiesDefaultsConfigurationFactory<C extends CommonExportConfig
 				value = values;
 			}
 		}
-		else if(PropertySuffix[].class.equals(type))
+		else if (PropertySuffix[].class.equals(type))
 		{
 			List<PropertySuffix> properties = propertiesUtil.getProperties(propertyName);
 			if (properties != null && !properties.isEmpty())
 			{
 				value = properties.toArray(new PropertySuffix[properties.size()]);
+			}
+		}
+		else if (Map.class.equals(type))
+		{
+			List<PropertySuffix> properties = propertiesUtil.getProperties(propertyName);
+			if (properties != null && !properties.isEmpty())
+			{
+				Map<String,String> values = new HashMap<String,String>();
+				for (PropertySuffix propertySuffix : properties)
+				{
+					values.put(propertySuffix.getSuffix(), propertySuffix.getValue());
+				}
+				value = values;
 			}
 		}
 		else

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -46,7 +46,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -64,14 +66,14 @@ public class JRXmlTemplateLoader
 	public static final String EXCEPTION_MESSAGE_KEY_TEMPLATE_READING_ERROR = "xml.template.loader.template.reading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_URL_CONNECTION_ERROR = "xml.template.loader.url.connection.error";
 	
-	private JasperReportsContext jasperReportsContext;
+	private RepositoryContext repositoryContext;
 	
 	/**
 	 *
 	 */
-	private JRXmlTemplateLoader(JasperReportsContext jasperReportsContext)
+	private JRXmlTemplateLoader(RepositoryContext repositoryContext)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.repositoryContext = repositoryContext;
 	}
 	
 	/**
@@ -79,7 +81,7 @@ public class JRXmlTemplateLoader
 	 */
 	private static JRXmlTemplateLoader getDefaultInstance()
 	{
-		return new JRXmlTemplateLoader(DefaultJasperReportsContext.getInstance());
+		return getInstance(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
@@ -88,7 +90,12 @@ public class JRXmlTemplateLoader
 	 */
 	public static JRXmlTemplateLoader getInstance(JasperReportsContext jasperReportsContext)
 	{
-		return new JRXmlTemplateLoader(jasperReportsContext);
+		return getInstance(SimpleRepositoryContext.of(jasperReportsContext));
+	}
+	
+	public static JRXmlTemplateLoader getInstance(RepositoryContext repositoryContext)
+	{
+		return new JRXmlTemplateLoader(repositoryContext);
 	}
 	
 	
@@ -103,7 +110,7 @@ public class JRXmlTemplateLoader
 	 */
 	public JRTemplate loadTemplate(String location) throws JRException
 	{
-		byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(location);
+		byte[] data = RepositoryUtil.getInstance(repositoryContext).getBytesFromLocation(location);
 		return load(new ByteArrayInputStream(data));
 	}
 	
@@ -193,7 +200,8 @@ public class JRXmlTemplateLoader
 	 */
 	public JRTemplate loadTemplate(InputStream data)
 	{
-		JRXmlDigester digester = JRXmlTemplateDigesterFactory.instance().createDigester(jasperReportsContext);
+		JRXmlDigester digester = JRXmlTemplateDigesterFactory.instance().createDigester(
+				repositoryContext.getJasperReportsContext());
 		try
 		{
 			return (JRTemplate) digester.parse(data);

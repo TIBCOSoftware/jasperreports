@@ -3,6 +3,6 @@
 		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
 	</info>
 	<dependencies>
-		<dependency org="joda-time" name="joda-time" rev="2.1" conf="compile->*"/>
+		<dependency org="joda-time" name="joda-time" rev="2.9.9" conf="compile->*"/>
 	</dependencies>
 </ivy-module>

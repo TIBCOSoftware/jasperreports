@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,19 +28,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.testng.annotations.Test;
+
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.fill.DefaultPrintElementOriginator;
 import net.sf.jasperreports.engine.fill.JREvaluationTime;
 import net.sf.jasperreports.engine.fill.JRRecordedValues;
 import net.sf.jasperreports.engine.fill.JRRecordedValuesPrintText;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintText;
 import net.sf.jasperreports.engine.fill.JRTemplateText;
-
-import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -258,7 +259,7 @@ public class TextElementTest extends BaseElementsTests
 	public void recordedValues()
 	{
 		JRTemplateText template = new JRTemplateText(null, null);
-		JRRecordedValuesPrintText text = new JRRecordedValuesPrintText(template, 10);
+		JRRecordedValuesPrintText text = new JRRecordedValuesPrintText(template, new DefaultPrintElementOriginator(10));
 		setTextElement(text);
 		
 		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
@@ -313,7 +314,7 @@ public class TextElementTest extends BaseElementsTests
 	protected JRTemplatePrintText textElement()
 	{
 		JRTemplateText template = new JRTemplateText(null, null);
-		JRTemplatePrintText text = new JRTemplatePrintText(template, 10);
+		JRTemplatePrintText text = new JRTemplatePrintText(template, new DefaultPrintElementOriginator(10));
 		setTextElement(text);
 		return text;
 	}

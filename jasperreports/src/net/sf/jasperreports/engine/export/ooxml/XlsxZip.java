@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -47,6 +47,8 @@ public class XlsxZip extends FileBufferedZip
 	 * 
 	 */
 	private final JasperReportsContext jasperReportsContext;
+	
+	private final RepositoryUtil repository;
 
 	/**
 	 * 
@@ -71,9 +73,15 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	public XlsxZip(JasperReportsContext jasperReportsContext, Integer memoryThreshold) throws IOException
 	{
+		this(jasperReportsContext, RepositoryUtil.getInstance(jasperReportsContext), memoryThreshold);
+	}
+	
+	public XlsxZip(JasperReportsContext jasperReportsContext, RepositoryUtil repository, Integer memoryThreshold) throws IOException
+	{
 		super(memoryThreshold);
 
 		this.jasperReportsContext = jasperReportsContext;
+		this.repository = repository;
 		
 		workbookEntry = createEntry("xl/workbook.xml");
 		addEntry(workbookEntry);
@@ -201,7 +209,7 @@ public class XlsxZip extends FileBufferedZip
 		ZipInputStream templateZipIs = null;
 		try
 		{
-			templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(template);
+			templateIs = repository.getInputStreamFromLocation(template);//TODO
 			if (templateIs == null)
 			{
 				throw 

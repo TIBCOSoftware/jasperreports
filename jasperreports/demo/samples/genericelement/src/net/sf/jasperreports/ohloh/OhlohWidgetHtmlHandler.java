@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -57,6 +57,7 @@ public class OhlohWidgetHtmlHandler implements
 		this.projectIDParameter = projectIDParameter;
 	}
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return getProjectID(element) != null;
@@ -67,6 +68,7 @@ public class OhlohWidgetHtmlHandler implements
 		return (String) element.getParameterValue(getProjectIDParameter());
 	}
 
+	@Override
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		StringBuilder script = new StringBuilder(128);

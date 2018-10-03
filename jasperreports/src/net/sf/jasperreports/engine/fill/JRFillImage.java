@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -57,6 +57,10 @@ import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
+import net.sf.jasperreports.repo.ResourcePathKey;
 
 
 /**
@@ -77,6 +81,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 *
 	 */
 	private Renderable renderer;
+	private Renderable oldRenderer;
+	private Object prevSource;
+	private Renderable prevRenderer;
 	private boolean usedCache;
 	private boolean hasOverflowed;
 	private Integer imageHeight;
@@ -523,10 +530,13 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				//hence the isUsingCache test in exporters yields false positives for images that did not come from Strings
 			}
 			
+			boolean lazy = isLazy();
+			RepositoryContext repositoryContext = filler.getRepositoryContext();
 			Object srcKey = source;
 			if (source instanceof String)
 			{
-				srcKey = new Pair<Boolean, String>(isLazy(), (String)source);
+				ResourcePathKey pathKey = ResourcePathKey.inContext(lazy ? null : repositoryContext, (String) source);				
+				srcKey = new Pair<>(lazy, pathKey);
 			}
 
 			if (isUsingCache && filler.fillContext.hasLoadedRenderer(srcKey))
@@ -544,13 +554,39 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				if (source instanceof String)
 				{
 					String strSource = (String) source;
-					if (isLazy())
+					if (lazy)//TODO lucianc resolve within repository context?
 					{
 						newRenderer = ResourceRenderer.getInstance(strSource, true);
 					}
 					else
 					{
-						newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+						ResourceInfo resourceInfo = RepositoryUtil.getInstance(repositoryContext).getResourceInfo((String) source);
+						if (resourceInfo == null)
+						{
+							newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(strSource, getOnErrorTypeValue());
+						}
+						else
+						{
+							String absoluteLocation = resourceInfo.getRepositoryResourceLocation();
+							if (log.isDebugEnabled())
+							{
+								log.debug("image " + source + " resolved to " + absoluteLocation);
+							}
+							ResourcePathKey absolutePathKey = ResourcePathKey.absolute(absoluteLocation);
+							Object absoluteKey = new Pair<>(lazy, absolutePathKey);
+							if (isUsingCache && filler.fillContext.hasLoadedRenderer(absoluteKey))
+							{
+								newRenderer = filler.fillContext.getLoadedRenderer(absoluteKey);
+							}
+							else
+							{
+								newRenderer = RendererUtil.getInstance(repositoryContext).getNonLazyRenderable(absoluteLocation, getOnErrorTypeValue());
+								if (isUsingCache)
+								{
+									filler.fillContext.registerLoadedRenderer(absoluteKey, newRenderer);
+								}
+							}
+						}						
 					}
 				}
 				else if (source instanceof Image)
@@ -558,10 +594,25 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					Image img = (Image) source;
 					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorTypeValue());
 				}
+				else if (source instanceof byte[])
+				{
+					byte[] data = (byte[]) source;
+					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(data);
+				}
 				else if (source instanceof InputStream)
 				{
-					InputStream is = (InputStream) source;
-					newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
+					if (this.prevSource != null && source == this.prevSource)//testing for object identity
+					{
+						//the image can be evaluated twice when the band is prevented to split
+						//if the image source is a stream, we can't read it again
+						//TODO do the same thing for other source types (file, url, string) too?
+						newRenderer = this.prevRenderer;
+					}
+					else
+					{
+						InputStream is = (InputStream) source;
+						newRenderer = RendererUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
+					}
 				}
 				else if (source instanceof URL)
 				{
@@ -603,9 +654,15 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			}
 		}
 
-		setValueRepeating(this.renderer == newRenderer);
-	
+		Renderable crtRenderer = getRenderable();
+
+		this.oldRenderer = renderer;
 		this.renderer = newRenderer;
+		
+		this.prevSource = source;
+		this.prevRenderer = renderer;
+
+		setValueRepeating(crtRenderer == newRenderer);
 		
 		this.anchorName = (String) evaluateExpression(this.getAnchorNameExpression(), evaluation);
 		this.hyperlinkReference = (String) evaluateExpression(this.getHyperlinkReferenceExpression(), evaluation);
@@ -617,6 +674,20 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 	
 
+	@Override
+	public void rewind()
+	{
+		super.rewind();
+		
+		@SuppressWarnings("deprecation")
+		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
+		if (!isLegacyBandEvaluationEnabled)
+		{
+			this.renderer = this.oldRenderer;
+		}
+	}
+
+	
 	@Override
 	protected boolean prepare(
 		int availableHeight,

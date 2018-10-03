@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -35,18 +35,21 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 public class TextInputComponentCompiler implements ComponentCompiler 
 {
 
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector) 
 	{
 		TextInputComponent textInputComponent = (TextInputComponent) component;
 		collector.collect(textInputComponent.getTextField());
 	}
 	
+	@Override
 	public Component toCompiledComponent(Component component, JRBaseObjectFactory baseFactory) 
 	{
 		TextInputComponent textInputComponent = (TextInputComponent) component;
 		return new TextInputComponent(textInputComponent, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier) 
 	{
 		// TODO

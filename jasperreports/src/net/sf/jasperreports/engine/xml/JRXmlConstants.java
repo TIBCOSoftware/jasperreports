@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -591,6 +591,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_isStartNewPage = "isStartNewPage";
 	public static final String ATTRIBUTE_isResetPageNumber = "isResetPageNumber";
 	public static final String ATTRIBUTE_isReprintHeaderOnEachPage = "isReprintHeaderOnEachPage";
+	public static final String ATTRIBUTE_isReprintHeaderOnEachColumn = "isReprintHeaderOnEachColumn";
 	public static final String ATTRIBUTE_minHeightToStartNewPage = "minHeightToStartNewPage";
 	public static final String ATTRIBUTE_minDetailsToStartFromTop = "minDetailsToStartFromTop";
 	public static final String ATTRIBUTE_footerPosition = "footerPosition";

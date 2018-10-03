@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -29,7 +29,6 @@ import java.util.concurrent.Executor;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
-import net.sf.jasperreports.components.barcode4j.Barcode4jComponent;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -105,7 +104,20 @@ public class AsynchronousFillHandle extends BaseFillHandle
 		Connection conn
 		) throws JRException
 	{
-		super(jasperReportsContext, jasperReport, parameters, dataSource, conn);
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport),
+				parameters, dataSource, conn);
+	}
+	
+	
+	protected AsynchronousFillHandle (
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource,
+		Map<String,Object> parameters,
+		JRDataSource dataSource,
+		Connection conn
+		) throws JRException
+	{
+		super(jasperReportsContext, reportSource, parameters, dataSource, conn);
 	}
 	
 	/**
@@ -157,7 +169,18 @@ public class AsynchronousFillHandle extends BaseFillHandle
 		JRDataSource dataSource
 		) throws JRException
 	{
-		return new AsynchronousFillHandle(jasperReportsContext, jasperReport, parameters, dataSource);
+		return createHandle(jasperReportsContext, SimpleJasperReportSource.from(jasperReport),
+				parameters, dataSource);
+	}
+	
+	public static AsynchronousFillHandle createHandle(
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource,
+		Map<String,Object> parameters,
+		JRDataSource dataSource
+		) throws JRException
+	{
+		return new AsynchronousFillHandle(jasperReportsContext, reportSource, parameters, dataSource, null);
 	}
 
 
@@ -178,7 +201,19 @@ public class AsynchronousFillHandle extends BaseFillHandle
 		Connection conn
 		) throws JRException
 	{
-		return new AsynchronousFillHandle(jasperReportsContext, jasperReport, parameters, conn);
+		return createHandle(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), 
+				parameters, conn);
+	}
+
+	
+	public static AsynchronousFillHandle createHandle(
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource,
+		Map<String,Object> parameters,
+		Connection conn
+		) throws JRException
+	{
+		return new AsynchronousFillHandle(jasperReportsContext, reportSource, parameters, null, conn);
 	}
 
 
@@ -197,7 +232,16 @@ public class AsynchronousFillHandle extends BaseFillHandle
 		Map<String,Object> parameters
 		) throws JRException
 	{
-		return new AsynchronousFillHandle(jasperReportsContext, jasperReport, parameters);
+		return createHandle(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), parameters);
+	}
+	
+	public static AsynchronousFillHandle createHandle(
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource,
+		Map<String,Object> parameters
+		) throws JRException
+	{
+		return new AsynchronousFillHandle(jasperReportsContext, reportSource, parameters, null, null);
 	}
 	
 	

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -216,33 +216,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		Object old = this.rotationValue;
 		this.rotationValue = rotationValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_ROTATION, old, this.rotationValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getLineSpacingValue()
-	{
-		return getParagraph().getLineSpacing();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getOwnLineSpacingValue()
-	{
-		return getParagraph().getOwnLineSpacing();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	@Override
-	public void setLineSpacing(LineSpacingEnum lineSpacing)
-	{
-		getParagraph().setLineSpacing(lineSpacing);
 	}
 
 	@Override

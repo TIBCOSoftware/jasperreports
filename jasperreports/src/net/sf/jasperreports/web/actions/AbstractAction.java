@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.web.actions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -30,8 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRParameter;
@@ -49,12 +49,16 @@ import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.commands.CommandTarget;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="actionName")
-public abstract class AbstractAction implements Action {
+public abstract class AbstractAction implements Action, Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PARAM_COMMAND_STACK = "net.sf.jasperreports.command.stack";
 	public static final String ERR_CONCAT_STRING = "<#_#>";
@@ -81,8 +85,9 @@ public abstract class AbstractAction implements Action {
 			commandStack = new CommandStack();
 			reportContext.setParameterValue(PARAM_COMMAND_STACK, commandStack);
 		}
-		errors = new ActionErrors(MessageUtil.getInstance(jasperReportsContext).getMessageProvider(getMessagesBundle()),
-				(Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE));
+		errors = new ActionErrors(jasperReportsContext,
+				(Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE),
+				getMessagesBundle());
 	}
 	
 	public JasperReportsContext getJasperReportsContext() {
@@ -110,21 +115,26 @@ public abstract class AbstractAction implements Action {
 	public abstract void performAction() throws ActionException;
 
 
-	public static class ActionErrors {
+	public static class ActionErrors implements Serializable {
 		
-		private MessageProvider messageProvider;
+		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+		private JasperReportsContext jasperReportsContext;
+		private transient MessageProvider messageProvider;
 		private Locale locale;
+		private String messageBundle;
 		private List<String> errorMessages;
 
 
-		public ActionErrors (MessageProvider messageProvider, Locale locale) {
-			this.messageProvider = messageProvider;
+		public ActionErrors (JasperReportsContext jasperReportsContext, Locale locale, String messageBundle) {
+			this.jasperReportsContext = jasperReportsContext;
 			this.locale = locale;
+			this.messageBundle = messageBundle;
 			this.errorMessages = new ArrayList<String>();
 		}
 		
 		public void add(String messageKey, Object... args) {
-			errorMessages.add(messageProvider.getMessage(messageKey, args, locale));
+			errorMessages.add(getMessageProvider().getMessage(messageKey, args, locale));
 		}
 
 		public void add(String messageKey) {
@@ -132,7 +142,7 @@ public abstract class AbstractAction implements Action {
 		}
 
 		public void addAndThrow(String messageKey, Object... args) throws ActionException {
-			errorMessages.add(messageProvider.getMessage(messageKey, args, locale));
+			errorMessages.add(getMessageProvider().getMessage(messageKey, args, locale));
 			throwAll();
 		}
 		
@@ -156,6 +166,14 @@ public abstract class AbstractAction implements Action {
 				}
 				throw new ActionException(errBuilder.toString());
 			}	
+		}
+
+		private MessageProvider getMessageProvider() {
+			if (messageProvider == null) {
+				messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(messageBundle);
+			}
+
+			return messageProvider;
 		}
 	}
 

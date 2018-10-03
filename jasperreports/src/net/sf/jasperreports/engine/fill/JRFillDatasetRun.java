@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -159,9 +159,8 @@ public class JRFillDatasetRun implements JRDatasetRun
 			}
 			
 			@Override
-			public JRVariable getToVariable(String name) {
-				//FIXME should we look for the variable in expressionEvaluator.getFillDataset()?
-				return filler.getVariable(name);
+			public JRFillVariable getToVariable(String name) {
+				return expressionEvaluator.getFillDataset().getVariable(name);
 			}
 			
 			@Override
@@ -365,7 +364,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	protected void detail() throws JRScriptletException, JRException
 	{
 		dataset.delegateScriptlet.callBeforeDetailEval();
-		dataset.calculator.calculateVariables();
+		dataset.calculator.calculateVariables(true);
 		dataset.delegateScriptlet.callAfterDetailEval();
 	}
 

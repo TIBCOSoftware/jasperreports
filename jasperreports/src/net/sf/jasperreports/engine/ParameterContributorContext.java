@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,14 +25,18 @@ package net.sf.jasperreports.engine;
 
 import java.util.Map;
 
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class ParameterContributorContext
+public class ParameterContributorContext implements Cloneable
 {
 
 	private JasperReportsContext jasperReportsContext;
+	private RepositoryContext repositoryContext;
 	private JRDataset dataset;
 	private Map<String,Object> parameterValues;
 
@@ -45,9 +49,35 @@ public class ParameterContributorContext
 		Map<String,Object> parameterValues
 		)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this(SimpleRepositoryContext.of(jasperReportsContext),
+				dataset, parameterValues);
+	}
+	
+	public ParameterContributorContext(
+		RepositoryContext repositoryContext,
+		JRDataset dataset,
+		Map<String,Object> parameterValues
+		)
+	{
+		this.jasperReportsContext = repositoryContext.getJasperReportsContext();
+		this.repositoryContext = repositoryContext;
 		this.dataset = dataset;
 		this.parameterValues = parameterValues;
+	}
+	
+	public ParameterContributorContext withRepositoryContext(RepositoryContext repositoryContext)
+	{
+		try
+		{
+			ParameterContributorContext clone = (ParameterContributorContext) clone();
+			clone.repositoryContext = repositoryContext;
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// should not happen
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	/**
@@ -56,6 +86,11 @@ public class ParameterContributorContext
 	public JasperReportsContext getJasperReportsContext()
 	{
 		return jasperReportsContext;
+	}
+	
+	public RepositoryContext getRepositoryContext()
+	{
+		return repositoryContext;
 	}
 	
 	/**

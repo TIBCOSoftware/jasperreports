@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,18 +26,27 @@ package net.sf.jasperreports.crosstabs;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import net.sf.jasperreports.AbstractTest;
 import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class CrosstabTest extends AbstractCrosstabTest
+public class CrosstabTest extends AbstractTest
 {
-	@Test
-	public void testReports() throws JRException, NoSuchAlgorithmException, IOException
+	@Test(dataProvider = "testArgs")
+	public void testReport(String jrxmlFileName, String referenceFileNamePrefix) 
+			throws JRException, NoSuchAlgorithmException, IOException
 	{
-		testReports("net/sf/jasperreports/crosstabs/repo", "CrosstabReport", 3);
+		runReport(jrxmlFileName, referenceFileNamePrefix);
+	}
+	
+	@DataProvider
+	public Object[][] testArgs()
+	{
+		return runReportArgs("net/sf/jasperreports/crosstabs/repo", "CrosstabReport", 3);
 	}
 }

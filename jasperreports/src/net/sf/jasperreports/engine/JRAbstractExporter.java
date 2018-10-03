@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,14 +52,12 @@ import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.export.CompositeExporterConfigurationFactory;
 import net.sf.jasperreports.export.Exporter;
@@ -73,6 +71,9 @@ import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.util.RendererUtil;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -146,6 +147,12 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		public JasperReportsContext getJasperReportsContext()
 		{
 			return JRAbstractExporter.this.getJasperReportsContext();
+		}
+		
+		@Override
+		public RepositoryUtil getRepository()
+		{
+			return JRAbstractExporter.this.getRepository();
 		}
 		
 		@Override
@@ -403,7 +410,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	/**
 	 *
 	 */
-	protected O getExporterOutput()
+	public O getExporterOutput()
 	{
 		return exporterOutput;
 	}
@@ -492,6 +499,12 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		return rendererUtil;
 	}
 
+	public RepositoryUtil getRepository()
+	{
+		RepositoryResourceContext resourceContext = crtItem == null ? null : crtItem.getRepositoryReportContext();
+		SimpleRepositoryContext repositoryContext = SimpleRepositoryContext.of(getJasperReportsContext(), resourceContext);
+		return RepositoryUtil.getInstance(repositoryContext);
+	}
 	
 	@Override
 	public abstract void exportReport() throws JRException;
@@ -542,10 +555,10 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		if (
 			parameters.containsKey(JRExporterParameter.CLASS_LOADER)
 			|| parameters.containsKey(JRExporterParameter.URL_HANDLER_FACTORY)
-			|| parameters.containsKey(JRExporterParameter.FILE_RESOLVER)
 			)
 		{
-			LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+			net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
+				new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
 
 			if (parameters.containsKey(JRExporterParameter.CLASS_LOADER))
 			{
@@ -557,11 +570,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 				localJasperReportsContext.setURLStreamHandlerFactory((URLStreamHandlerFactory)parameters.get(JRExporterParameter.URL_HANDLER_FACTORY));
 			}
 
-			if (parameters.containsKey(JRExporterParameter.FILE_RESOLVER))
-			{
-				localJasperReportsContext.setFileResolver((FileResolver)parameters.get(JRExporterParameter.FILE_RESOLVER));
-			}
-			
 			setJasperReportsContext(localJasperReportsContext);
 		}
 		
@@ -731,7 +739,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			exporterInput = new net.sf.jasperreports.export.parameters.ParametersExporterInput(parameters);
 		}
 		
-		jasperPrint = exporterInput.getItems().get(0).getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
+		crtItem = exporterInput.getItems().get(0);//for getRepository
+		jasperPrint = crtItem.getJasperPrint();//this is just for the sake of getCurrentConfiguration() calls made prior to any setCurrentExporterInputItem() call
 	}
 
 	

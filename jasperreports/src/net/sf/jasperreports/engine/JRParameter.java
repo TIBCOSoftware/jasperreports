@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.ParameterEvaluationTimeEnum;
-import net.sf.jasperreports.engine.util.FileResolver;
 
 
 /**
@@ -249,22 +248,6 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	public static final String REPORT_CLASS_LOADER = "REPORT_CLASS_LOADER";
 
 	
-	/**
-	 * A <tt>java.net.URLStreamHandlerFactory</tt> instance to be used during the report filling process to 
-	 * handle custom URL protocols for loading resources such as images, fonts and subreport templates.
-	 * @deprecated Replaced by {@link JasperReportsContext}.
-	 */
-	public static final String REPORT_URL_HANDLER_FACTORY = "REPORT_URL_HANDLER_FACTORY";
-
-
-	/**
-	 * A {@link FileResolver} instance to be used during the report filling process to 
-	 * handle locate files on disk using relative paths.
-	 * @deprecated Replaced by {@link JasperReportsContext}.
-	 */
-	public static final String REPORT_FILE_RESOLVER = "REPORT_FILE_RESOLVER";
-
-
 	/**
 	 * A {@link net.sf.jasperreports.engine.util.FormatFactory} instance to be used 
 	 * during the report filling process to create instances of <code>java.text.DateFormat</code> to format date text

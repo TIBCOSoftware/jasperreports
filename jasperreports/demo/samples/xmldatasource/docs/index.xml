@@ -44,8 +44,10 @@ the document node itself. The XPath expression is executed when the
 data source is instantiated; each item in the resulting node set will generate a
 record in the data source.</li>
 <li>An XPath expression to select the field value for every field in the data set, 
-when iterating through records. The field’s XPath expression is provided by the {@link #PROPERTY_FIELD_EXPRESSION} 
-custom property at field level. The use of the {@link net.sf.jasperreports.engine.JRField#getDescription() field description} to specify the XPath expression 
+when iterating through records. The field’s XPath expression is provided by the 
+<a href="../../config.reference.html#net.sf.jasperreports.xpath.field.expression" target="_blank">net.sf.jasperreports.xpath.field.expression</a> 
+custom property at field level. The use of the <api href="net/sf/jasperreports/engine/JRField.html#getDescription--">JRField#getDescription()</api> field description 
+to specify the XPath expression 
 is still supported, but is now discouraged, the above mentioned custom property taking precedence 
 over the field description.</li>
 </ul>

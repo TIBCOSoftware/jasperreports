@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,6 +32,7 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 	private Float zoomRatio;
 	private Boolean isMinimizePrinterJobSize;
 	private Boolean isIgnoreMissingFont;
+	private Boolean isWhitePageBackground;
 
 	/**
 	 * 
@@ -80,5 +81,23 @@ public class SimpleGraphics2DReportConfiguration extends SimpleReportExportConfi
 	public void setIgnoreMissingFont(Boolean isIgnoreMissingFont)
 	{
 		this.isIgnoreMissingFont = isIgnoreMissingFont;
+	}
+
+	@Override
+	public Boolean isWhitePageBackground()
+	{
+		return isWhitePageBackground;
+	}
+
+	/**
+	 * Sets the flag that determines whether to draw white page backgrounds.
+	 * 
+	 * @param isWhitePageBackground whether to draw white page backgrounds
+	 * @see Graphics2DReportConfiguration#PROPERTY_WHITE_PAGE_BACKGROUND
+	 * @since 6.5.0
+	 */
+	public void setWhitePageBackground(Boolean isWhitePageBackground)
+	{
+		this.isWhitePageBackground = isWhitePageBackground;
 	}
 }

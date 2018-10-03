@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -61,33 +61,6 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	 * Creates a generic print element.
 	 * 
 	 * @param template the template to use for the element
-	 * @deprecated provide a source Id via {@link #JRTemplateGenericPrintElement(JRTemplateGenericElement, int)}
-	 */
-	public JRTemplateGenericPrintElement(JRTemplateGenericElement template)
-	{
-		super(template);
-		
-		parameters = new LinkedHashMap<String,Object>();
-	}
-	
-	/**
-	 * Creates a generic print element.
-	 * 
-	 * @param template the template to use for the element
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplateGenericPrintElement(JRTemplateGenericElement, PrintElementOriginator)}
-	 */
-	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, int sourceElementId)
-	{
-		super(template, sourceElementId);
-		
-		parameters = new LinkedHashMap<String,Object>();
-	}
-	
-	/**
-	 * Creates a generic print element.
-	 * 
-	 * @param template the template to use for the element
 	 * @param originator
 	 */
 	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, PrintElementOriginator originator)
@@ -95,22 +68,6 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 		super(template, originator);
 		
 		parameters = new LinkedHashMap<String,Object>();
-	}
-	
-	/**
-	 * Creates a generic print element.
-	 * 
-	 * @param template the template to use for the element
-	 * @param sourceElementId the Id of the source element
-	 * @param parameterCount the number of parameters that the element will have
-	 * @deprecated replaced by {@link #JRTemplateGenericPrintElement(JRTemplateGenericElement, PrintElementOriginator, int)}
-	 */
-	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, int sourceElementId,
-			int parameterCount)
-	{
-		super(template, sourceElementId);
-		
-		parameters = new LinkedHashMap<String,Object>(parameterCount * 4 / 3, 0.75f);
 	}
 	
 	/**

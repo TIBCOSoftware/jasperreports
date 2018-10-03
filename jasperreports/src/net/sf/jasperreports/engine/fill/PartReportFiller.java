@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -88,13 +88,19 @@ public class PartReportFiller extends BaseReportFiller
 	
 	public PartReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport) throws JRException
 	{
-		this(jasperReportsContext, jasperReport, null);
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), null);
 	}
 	
 	public PartReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport, 
 			PartFillerParent parent) throws JRException
 	{
-		super(jasperReportsContext, jasperReport, parent);
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), parent);
+	}
+	
+	public PartReportFiller(JasperReportsContext jasperReportsContext, JasperReportSource reportSource, 
+			PartFillerParent parent) throws JRException
+	{
+		super(jasperReportsContext, reportSource, parent);
 		
 		detailParts = new FillParts(jasperReport.getDetailSection(), factory);
 		
@@ -327,7 +333,7 @@ public class PartReportFiller extends BaseReportFiller
 	protected void calculateDetail() throws JRScriptletException, JRException
 	{
 		scriptlet.callBeforeDetailEval();
-		calculator.calculateVariables();
+		calculator.calculateVariables(true);
 		scriptlet.callAfterDetailEval();
 	}
 

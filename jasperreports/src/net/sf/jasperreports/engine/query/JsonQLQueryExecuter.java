@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -54,7 +54,17 @@ public class JsonQLQueryExecuter extends AbstractJsonQueryExecuter<JsonQLDataSou
 		Map<String, ? extends JRValueParameter> parametersMap
 		)
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		this(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parametersMap);
+	}
+	
+	public JsonQLQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parametersMap
+		)
+	{
+		super(context, dataset, parametersMap);
 	}
 
 	@Override
@@ -92,7 +102,7 @@ public class JsonQLQueryExecuter extends AbstractJsonQueryExecuter<JsonQLDataSou
 
 	@Override
 	protected JsonQLDataSource getJsonDataInstance(String jsonSource) throws JRException {
-		return new JsonQLDataSource(getJasperReportsContext(), jsonSource, getQueryString());
+		return new JsonQLDataSource(getRepositoryContext(), jsonSource, getQueryString());
 	}
 
 	@Override

@@ -6,7 +6,7 @@
 		
 	<target name="define-jru" depends="prepare-compile-classpath">
 		<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
-			<classpath refid="project-classpath"/>
+			<classpath refid="sample-classpath"/>
 		</taskdef>
 	</target>
 
@@ -18,6 +18,7 @@
 			<classpath refid="sample-classpath"/>
 			<include name="**/*.jrxml"/>
 			<!--
+			<updater>com.update.RenewUuidsUpdater</updater>
 			<updater>com.update.StyleUpdater</updater>
 			-->
 		</jru>
@@ -33,6 +34,7 @@
 			</src>
 			<classpath refid="sample-classpath"/>
 			<!--
+			<updater>com.update.RenewUuidsUpdater</updater>
 			<updater>com.update.StyleUpdater</updater>
 			-->
 		</jru> 

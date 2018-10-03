@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -55,9 +56,15 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 		JRDesignSubreportReturnValue returnValue = new JRDesignSubreportReturnValue();
 
 		String variableName = atts.getValue(JRXmlConstants.ATTRIBUTE_toVariable);
-		JRVariable variable = design.getVariablesMap().get(variableName);
+		
+		XmlLoaderReportContext reportContext = xmlLoader.getReportContext();
+		String subdatasetName = reportContext == null ? null : reportContext.getSubdatesetName();
+		JRDesignDataset dataset = subdatasetName == null ? design.getMainDesignDataset() 
+				: (JRDesignDataset) design.getDatasetMap().get(subdatasetName);
+		JRVariable variable = dataset == null ? null : dataset.getVariablesMap().get(variableName);
 		if (variable == null)
 		{
+			//TODO do we need this check here?  JRVerifier.verifySubreport also validates return values
 			xmlLoader.addError(new JRValidationException("Unknown variable " + variableName, returnValue));
 		}
 		

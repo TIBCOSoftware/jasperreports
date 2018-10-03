@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jfree.data.general.Dataset;
+import org.jfree.data.time.RegularTimePeriod;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+
 import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.util.TimeSeriesLabelGenerator;
@@ -40,11 +45,6 @@ import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
-import org.jfree.data.general.Dataset;
-import org.jfree.data.time.RegularTimePeriod;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -141,7 +141,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 				TimeSeries series = seriesMap.get(seriesName);
 				if(series == null)
 				{
-					series = new TimeSeries(seriesName.toString(), getTimePeriod());
+					series = new TimeSeries(seriesName.toString());
 					seriesNames.add(seriesName);
 					seriesMap.put(seriesName, series);
 				}

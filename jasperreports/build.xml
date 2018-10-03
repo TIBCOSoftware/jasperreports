@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="6.4.31"/>
+	<property name="version" value="6.8.0"/>
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>
@@ -15,7 +15,7 @@
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
 		<ivy:cachepath pathid="annotations-lib" log="download-only" conf="annotations"/>
 		<pathconvert property="annotations-paths" refid="annotations-lib"/>
-		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.7" source="1.7" 
+		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false" excludes="**/package-info.java">
 			<classpath refid="project-classpath"/>
 			<src path="./src"/>
@@ -93,7 +93,7 @@
 			replace="net.sf.jasperreports.subreport.runner.factory=net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory">
 		</replaceregexp>
 
-		<javaflow srcdir="./build/javaflow" destdir="./build/javaflow" mode="asm">
+		<javaflow srcdir="./build/javaflow" destdir="./build/javaflow" mode="asm5">
 			<include name="net/sf/jasperreports/engine/fill/BaseReportFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRBaseFiller.class"/>
 			<include name="net/sf/jasperreports/engine/fill/JRVerticalFiller.class"/>
@@ -128,8 +128,8 @@
 					<attribute name="Implementation-Vendor" value="TIBCO Software Inc."/>
 				</section>
 			</manifest>		
-			<fileset dir="./demo/fonts">
-				<exclude name="**/log4j.properties"/>
+			<fileset dir="./ext/fonts">
+				<exclude name="**/log4j*.*"/>
 				<exclude name="**/readme.txt"/>
 				<exclude name="**/pom.xml"/>
 			</fileset>
@@ -192,7 +192,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="scm-tag" value="jr-6-4-31"/>
+	<property name="scm-tag" value="jr-6-8-0"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
@@ -317,7 +317,7 @@
 			<classpath>
 				<path refid="test-compile"/>
 				<pathelement location="./build/test-classes"/>
-				<pathelement location="./demo/fonts"/>
+				<pathelement location="./ext/fonts"/>
 			</classpath>
 			<classfileset dir="./build/test-classes" includes="**/*Test.class" />
 		</testng>

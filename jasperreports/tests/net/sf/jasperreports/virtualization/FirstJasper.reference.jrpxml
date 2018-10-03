@@ -23913,7 +23913,7 @@ AElFTkSuQmCC
 		</text>
 		<text textAlignment="Right" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188" valueClass="java.lang.Integer">
 			<reportElement uuid="29cda6d5-00f1-497f-8eb7-51f5720cdf08" style="Sans_Bold" mode="Opaque" x="65" y="771" width="25" height="11" forecolor="#FFFFFF" backcolor="#333333" origin="10" srcId="39" printId="19"/>
-			<textContent><![CDATA[28]]></textContent>
+			<textContent><![CDATA[0]]></textContent>
 		</text>
 		<text textAlignment="Right" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
 			<reportElement uuid="51f8cf12-703a-4775-90af-7caa51ef22ae" style="Sans_Bold" mode="Opaque" x="90" y="771" width="140" height="11" forecolor="#FFFFFF" backcolor="#333333" origin="10" srcId="40" printId="19"/>
@@ -23921,7 +23921,7 @@ AElFTkSuQmCC
 		</text>
 		<text textAlignment="Right" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188" valueClass="java.lang.Double" pattern="#0.00">
 			<reportElement uuid="32fc4b85-5f9e-4a3c-b33c-bde091d2fc21" style="Sans_Bold" mode="Opaque" x="230" y="771" width="60" height="11" forecolor="#FFFFFF" backcolor="#333333" origin="10" srcId="41" printId="19"/>
-			<textContent><![CDATA[1122.78]]></textContent>
+			<textContent><![CDATA[null]]></textContent>
 		</text>
 		<text textAlignment="Center" textHeight="9.3125" lineSpacingFactor="1.1640625" leadingOffset="-1.8867188">
 			<reportElement uuid="1c83e42f-e2fd-4a6e-87a9-22f6f11b9e09" style="Sans_Bold" mode="Opaque" x="305" y="75" width="40" height="11" forecolor="#FFFFFF" backcolor="#333333" origin="8" srcId="27" printId="20"/>

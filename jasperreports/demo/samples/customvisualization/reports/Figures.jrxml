@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.2.0.qualifier using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Figures" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31c5bd3e-7f1a-4ab1-b4e4-a617f592984c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<title>
+		<band height="772" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="2d962a92-b208-4990-aa19-1a3fbf64c8d6"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Custom Visualization Component - Figures]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="80" width="555" height="60" uuid="fbb36477-0a3a-4763-98ce-94237b08671e"/>
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<cvc:itemProperty name="script" value="figures/figures.min.js"/>
+					<cvc:itemProperty name="module" value="figures"/>
+					<cvc:itemProperty name="css" value="figures/figures.css"/>
+					<cvc:itemProperty name="itemsValue" value="2.0"/>
+					<cvc:itemProperty name="itemsCount" value="10.0"/>
+					<cvc:itemProperty name="figure" value="Male"/>
+					<cvc:itemProperty name="customPath"/>
+					<cvc:itemProperty name="showBackground" value="true"/>
+				</cvc:customvisualization>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="60" width="555" height="20" uuid="2bbb6238-c82f-4ed8-b6df-6dfddcf1036e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Showing 2 figures out of 10 selected. Background figures are shown in gray.]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="0" y="200" width="553" height="192" uuid="2c57b531-90f4-47e1-bee0-ab1d33b5d704"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+					<topPen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<componentElement>
+					<reportElement x="0" y="0" width="553" height="192" uuid="74263625-4f6f-4dc5-b632-2f4ebbbeb26c"/>
+					<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+						<cvc:itemProperty name="script" value="figures/figures.min.js"/>
+						<cvc:itemProperty name="module" value="figures"/>
+						<cvc:itemProperty name="css" value="figures/figures.css"/>
+						<cvc:itemProperty name="itemsCount" value="30"/>
+						<cvc:itemProperty name="itemsValue" value="30"/>
+						<cvc:itemProperty name="figureColor" value="#BA2F2D"/>
+						<cvc:itemProperty name="phantomColor" value="#4258C7"/>
+						<cvc:itemProperty name="figureOpacity" value="0.5"/>
+						<cvc:itemProperty name="phantomOpacity" value="0.5"/>
+						<cvc:itemProperty name="columns" value="20"/>
+						<cvc:itemProperty name="vAlign" value="middle"/>
+						<cvc:cvData>
+							<cvc:item>
+								<cvc:itemProperty name="newname" value="value">
+									<valueExpression><![CDATA["Value"]]></valueExpression>
+								</cvc:itemProperty>
+							</cvc:item>
+						</cvc:cvData>
+					</cvc:customvisualization>
+				</componentElement>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="180" width="554" height="20" uuid="a3766664-1e1d-446e-b155-30c994b3f359"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[30 figures out of 30 selected. Vertical alignment set to "middle". Columns set to 20. ]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="500" width="259" height="129" uuid="3ceefe60-a7e6-49cf-95a0-1107b8264896"/>
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<cvc:itemProperty name="script" value="figures/figures.min.js"/>
+					<cvc:itemProperty name="module" value="figures"/>
+					<cvc:itemProperty name="css" value="figures/figures.css"/>
+					<cvc:itemProperty name="itemsCount" value="1.0"/>
+					<cvc:itemProperty name="itemsValue">
+						<valueExpression><![CDATA[0.6]]></valueExpression>
+					</cvc:itemProperty>
+					<cvc:itemProperty name="figureColor" value="#BA2F2D"/>
+					<cvc:itemProperty name="phantomColor" value="#4258C7"/>
+					<cvc:itemProperty name="figureOpacity" value="0.5"/>
+					<cvc:itemProperty name="phantomOpacity" value="0.5"/>
+					<cvc:itemProperty name="columns" value="1"/>
+					<cvc:itemProperty name="vAlign" value="middle"/>
+					<cvc:itemProperty name="hAlign" value="center"/>
+					<cvc:itemProperty name="figure" value="Female"/>
+					<cvc:itemProperty name="bgColor" value="#FF00BF"/>
+					<cvc:cvData>
+						<cvc:item>
+							<cvc:itemProperty name="newname" value="value">
+								<valueExpression><![CDATA["Value"]]></valueExpression>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="470" width="258" height="20" uuid="01288581-0195-44d4-a58c-6ee67ab053ce"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Single figure filled at 60% (value 0.6).]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="280" y="500" width="273" height="129" uuid="ad93b2b7-a4e1-42c0-844b-9e43beb325c0"/>
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<cvc:itemProperty name="script" value="figures/figures.min.js"/>
+					<cvc:itemProperty name="module" value="figures"/>
+					<cvc:itemProperty name="css" value="figures/figures.css"/>
+					<cvc:itemProperty name="itemsCount" value="2.0"/>
+					<cvc:itemProperty name="itemsValue">
+						<valueExpression><![CDATA[1]]></valueExpression>
+					</cvc:itemProperty>
+					<cvc:itemProperty name="figureColor" value="#BA2F2D"/>
+					<cvc:itemProperty name="phantomColor" value="#4258C7"/>
+					<cvc:itemProperty name="figureOpacity" value="0.5"/>
+					<cvc:itemProperty name="phantomOpacity" value="0.5"/>
+					<cvc:itemProperty name="columns"/>
+					<cvc:itemProperty name="vAlign" value="middle"/>
+					<cvc:itemProperty name="hAlign" value="center"/>
+					<cvc:itemProperty name="figure" value="Custom"/>
+					<cvc:itemProperty name="bgColor" value="#616161"/>
+					<cvc:itemProperty name="customPath" value="M181.04,183.304c0,0 27.115,-23.934 17.724,-41.546c-6.696,-12.558 -13.902,-26.228 -14.898,-40.693c-2.143,-31.149 35.782,-43.671 60.103,-31.215c2.381,1.22 8.312,5.483 8.974,6.502c1.02,1.571 2.471,2.922 2.883,7.121c1.928,26.369 14.938,34.03 8.655,35.81c-4.953,1.404 -4.025,1.93 -5.436,13.629c-0.782,6.483 0.515,13.316 -3.185,13.702c-8.819,0.92 -24.235,-1.523 -21.132,12.616c2.447,11.149 5.526,17.87 11.795,29.522c4.519,8.402 -50.094,-5.056 -65.483,-5.448Zm43.854,-31.963l0,-9.609l-9.609,0l0,9.609l9.609,0Zm-0.984,-16.922c0.062,-3.375 0.297,-5.812 0.703,-7.312c0.406,-1.5 1.031,-2.828 1.875,-3.985c0.844,-1.156 2.64,-2.953 5.39,-5.39c4.094,-3.625 6.844,-6.703 8.25,-9.235c1.407,-2.531 2.11,-5.297 2.11,-8.297c0,-5.187 -2,-9.609 -6,-13.265c-4,-3.656 -9.36,-5.485 -16.078,-5.485c-6.344,0 -11.446,1.704 -15.305,5.11c-3.859,3.406 -6.18,8.312 -6.961,14.719l8.672,1.031c0.75,-4.781 2.328,-8.297 4.734,-10.547c2.407,-2.25 5.407,-3.375 9,-3.375c3.719,0 6.86,1.242 9.422,3.727c2.563,2.484 3.844,5.367 3.844,8.648c0,1.812 -0.438,3.484 -1.313,5.016c-0.875,1.531 -2.773,3.586 -5.695,6.164c-2.922,2.578 -4.945,4.539 -6.07,5.882c-1.531,1.844 -2.641,3.672 -3.328,5.485c-0.938,2.406 -1.407,5.265 -1.407,8.578c0,0.562 0.016,1.406 0.047,2.531l8.11,0Z"/>
+					<cvc:cvData>
+						<cvc:item>
+							<cvc:itemProperty name="newname" value="value">
+								<valueExpression><![CDATA["Value"]]></valueExpression>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
+			</componentElement>
+			<staticText>
+				<reportElement x="280" y="470" width="272" height="20" uuid="169befe0-22d3-4c4b-a910-97a5b286e0a3"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Custom figure (value 1, figures 2)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="162" width="555" height="1" uuid="304fd50c-b05b-4b05-be6b-809eab357b1f"/>
+			</line>
+			<line>
+				<reportElement x="0" y="452" width="555" height="1" uuid="e1cec339-0683-4052-a960-1c1a524af234"/>
+			</line>
+			<line>
+				<reportElement x="268" y="470" width="1" height="159" uuid="21a0a113-7eec-4fc4-8822-66e491ccd293"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band/>
+	</detail>
+</jasperReport>

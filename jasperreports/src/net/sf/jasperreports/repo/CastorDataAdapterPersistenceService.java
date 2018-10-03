@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -45,9 +45,15 @@ public class CastorDataAdapterPersistenceService extends CastorObjectPersistence
 	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
+		return load(null, uri, repositoryService);
+	}
+	
+	@Override
+	public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
+	{
 		DataAdapterResource dataAdapterResource = null;
 		
-		CastorResource resource = (CastorResource)super.load(uri, repositoryService);
+		CastorResource resource = (CastorResource)super.load(context, uri, repositoryService);
 		
 		if (resource != null)
 		{

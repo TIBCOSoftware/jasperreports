@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -36,14 +36,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.charts.ChartContext;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartDataset;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JasperReportsContext;
-
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.category.IntervalCategoryDataset;
@@ -71,6 +63,14 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.date.DateUtilities;
+
+import net.sf.jasperreports.charts.ChartContext;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -297,7 +297,7 @@ public class ConvertChartContext implements ChartContext
 		{
 			TimeSeriesCollection dataset = new TimeSeriesCollection();
 			
-			TimeSeries series = new TimeSeries("First", "Year", "Count", Year.class);
+			TimeSeries series = new TimeSeries("First", "Year", "Count");
 
 			series.add(new Year(1976), Integer.valueOf(0));
 			series.add(new Year(1977), Integer.valueOf(1));

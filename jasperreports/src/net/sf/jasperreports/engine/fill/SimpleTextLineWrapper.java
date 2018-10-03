@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,8 +53,8 @@ import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
-import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.engine.util.Pair;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -784,15 +784,6 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	public float maxFontsize(int start, int end)
 	{
 		return fontKey.size;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #maxFontsize(int, int)}.
-	 */
-	@Override
-	public int maxFontSize(int start, int end)
-	{
-		return (int)maxFontsize(start, end);
 	}
 
 	@Override

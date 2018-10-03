@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,18 +23,18 @@
  */
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRChartCustomizer;
-
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.renderer.category.BarRenderer;
+
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartCustomizer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class BarChartCustomizer implements JRChartCustomizer
 {
-
+	@Override
 	public void customize(JFreeChart chart, JRChart jasperChart)
 	{
 		BarRenderer renderer = (BarRenderer) chart.getCategoryPlot().getRenderer();

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -56,33 +56,6 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 		
 	}
 	
-	/**
-	 * Creates a print frame element.
-	 * 
-	 * @param templateFrame the template frame that the element will use
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintFrame(JRTemplateFrame, int)}
-	 */
-	public JRTemplatePrintFrame(JRTemplateFrame templateFrame)
-	{
-		super(templateFrame);
-		
-		elements = new ArrayList<JRPrintElement>();
-	}
-
-	/**
-	 * Creates a print frame element.
-	 * 
-	 * @param templateFrame the template frame that the element will use
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplatePrintFrame(JRTemplateFrame, PrintElementOriginator)}
-	 */
-	public JRTemplatePrintFrame(JRTemplateFrame templateFrame, int sourceElementId)
-	{
-		super(templateFrame, sourceElementId);
-		
-		elements = new ArrayList<JRPrintElement>();
-	}
-
 	/**
 	 * Creates a print frame element.
 	 * 

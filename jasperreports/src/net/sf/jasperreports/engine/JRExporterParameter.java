@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -218,13 +218,6 @@ public class JRExporterParameter
 	 * @deprecated Replaced by {@link JasperReportsContext}.
 	 */
 	public static final JRExporterParameter URL_HANDLER_FACTORY = new JRExporterParameter("URL Handler Factory");
-
-	
-	/**
-	 * The {@link net.sf.jasperreports.engine.util.FileResolver FileResolver} instance to be used while exporting the report.
-	 * @deprecated Replaced by {@link JasperReportsContext}.
-	 */
-	public static final JRExporterParameter FILE_RESOLVER = new JRExporterParameter("File REsolver");
 
 	
 	/**

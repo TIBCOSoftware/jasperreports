@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -812,11 +812,7 @@ define(["jquery.ui", "jive"], function($, jive) {
             });
 
             metadata.filterTypeOperator && it.jc.filterType.val(metadata.filterTypeOperator);
-            if (filtertype === 'text') {
-                it.jc.filterStart.val(jive.decodeHTML(metadata.fieldValueStart));
-            } else {
-                it.jc.filterStart.val(metadata.fieldValueStart);
-            }
+            it.jc.filterStart.val(metadata.fieldValueStart);
 
             var filterOff = metadata.filterTypeOperator == null ? true : false;
             $('input[name="clearFilter"][value="'+filterOff+'"]').prop("checked",true);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.List;
 
+import org.apache.commons.javaflow.api.continuable;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRStyle;
 
@@ -34,6 +36,8 @@ import net.sf.jasperreports.engine.JRStyle;
 public interface BandReportFillerParent extends FillerParent
 {
 
+	String getReportName();
+	
 	void registerSubfiller(JRBaseFiller filler);
 
 	void unregisterSubfiller(JRBaseFiller filler);
@@ -44,6 +48,9 @@ public interface BandReportFillerParent extends FillerParent
 
 	boolean isPageBreakInhibited();
 
+	boolean isSplitTypePreventInhibited(boolean isTolLevelCall);
+
+	@continuable
 	void addPage(FillerPageAddedEvent pageAdded) throws JRException;
 
 	String getReportLocation();

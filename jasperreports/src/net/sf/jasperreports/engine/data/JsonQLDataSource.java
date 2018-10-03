@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -48,6 +48,8 @@ import net.sf.jasperreports.engine.util.JsonUtil;
 import net.sf.jasperreports.engine.util.json.DefaultJsonQLExecuter;
 import net.sf.jasperreports.engine.util.json.JsonQLExecuter;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -98,7 +100,11 @@ public class JsonQLDataSource extends JRAbstractTextDataSource implements JsonDa
     }
 
     public JsonQLDataSource(JasperReportsContext jasperReportsContext, String jsonSource, String selectExpression) throws JRException {
-        this(JsonUtil.parseJson(jasperReportsContext, jsonSource), selectExpression);
+        this(SimpleRepositoryContext.of(jasperReportsContext), jsonSource, selectExpression);
+    }
+
+    public JsonQLDataSource(RepositoryContext repositoryContext, String jsonSource, String selectExpression) throws JRException {
+        this(JsonUtil.parseJson(repositoryContext, jsonSource), selectExpression);
     }
 
     protected JsonQLDataSource(JsonNode jacksonJsonTree, String selectExpression) throws JRException {

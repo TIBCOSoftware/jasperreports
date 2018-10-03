@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,11 +41,13 @@ public final class TextInputElementHandlerBundle implements GenericElementHandle
 		return INSTANCE;
 	}
 	
+	@Override
 	public String getNamespace()
 	{
 		return NAMESPACE;
 	}
 	
+	@Override
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{

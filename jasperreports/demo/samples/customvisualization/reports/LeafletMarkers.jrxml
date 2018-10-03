@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.2.0.qualifier using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LeafletMarkers" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e0c7e98-fcdc-4afb-aa4f-f948e035dfb2">
+	<property name="net.sf.jasperreports.data.adapter" value="/data/JsonDataAdapter.xml"/>
+	<field name="store_name" class="java.lang.String"/>
+	<field name="lat" class="java.lang.String"/>
+	<field name="long" class="java.lang.String"/>
+	<title>
+		<band height="555" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="20" uuid="03e462f8-46fc-4d3a-99de-1b3a497af5f4"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Custom Visualization Component - Leaflet Markers]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="80" width="802" height="475" uuid="ba29f458-9e56-4017-b65d-8de18ac7470e">
+					<property name="cv.keepTemporaryFiles" value="true"/>
+				</reportElement>
+				<cvc:customvisualization xmlns:cvc="http://www.jaspersoft.com/cvcomponent" xsi:schemaLocation="http://www.jaspersoft.com/cvcomponent http://www.jaspersoft.com/cvcomponent/component.xsd" evaluationTime="Report">
+					<cvc:itemProperty name="module" value="leafletmarkers"/>
+					<cvc:itemProperty name="css" value="leafletmarkers/leaflet.css"/>
+					<cvc:itemProperty name="script" value="leafletmarkers/leafletmarkers.min.js"/>
+					<cvc:itemProperty name="renderAsPng" value="true"/>
+					<cvc:itemProperty name="render-timeout" value="15000"/>
+					<cvc:itemProperty name="render-zoom-factor" value="1"/>
+					<cvc:itemProperty name="lat" value="39.8282"/>
+					<cvc:itemProperty name="lon" value="-98.5795"/>
+					<cvc:itemProperty name="zoom" value="4"/>
+					<cvc:cvData>
+						<dataset/>
+						<cvc:item>
+							<cvc:itemProperty name="lon">
+								<valueExpression><![CDATA[$F{long}]]></valueExpression>
+							</cvc:itemProperty>
+							<cvc:itemProperty name="label" value="0">
+								<valueExpression><![CDATA[$F{store_name}]]></valueExpression>
+							</cvc:itemProperty>
+							<cvc:itemProperty name="lat" value="0">
+								<valueExpression><![CDATA[$F{lat}]]></valueExpression>
+							</cvc:itemProperty>
+						</cvc:item>
+					</cvc:cvData>
+				</cvc:customvisualization>
+			</componentElement>
+		</band>
+	</title>
+</jasperReport>

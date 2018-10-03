@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -176,6 +176,17 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	@Override
+	public boolean isReprintHeaderOnEachColumn()
+	{
+		return parent.isReprintHeaderOnEachColumn();
+	}
+		
+	@Override
+	public void setReprintHeaderOnEachColumn(boolean isReprint)
+	{
+	}
+		
+	@Override
 	public int getMinHeightToStartNewPage()
 	{
 		return parent.getMinHeightToStartNewPage();
@@ -266,7 +277,7 @@ public class JRFillGroup implements JRGroup
 	}
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public boolean isTopLevelChange()
 	{

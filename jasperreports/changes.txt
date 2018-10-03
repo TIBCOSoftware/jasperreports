@@ -2,8 +2,75 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.4.31 (2018-04-27)
+JasperReports 6.8.0 (2018-0x-xx)
 ---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.7.0 (2018-0x-xx)
+---------------------------------------------
+
+- deprecated BeanShell (BSH) report compiled has been removed from the library.
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.6.0 (2018-05-29)
+---------------------------------------------
+
+- upgrade to Java 8; starting with this release, the binary distribution of the JR library
+is compiled for the Java 8 platform and is no longer guaranteed to be compatible with Java 7;
+
+- deprecated file resolver built-in parameters have been removed, while the FileResolver interface
+and its related APIs have been now deprecated themselves and prepared for future removal.
+
+- enhanced repository service API to support relative paths when referencing resources; 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.5.1 (2018-01-09)
+---------------------------------------------
+
+- configuration property added to exclude UUIDs attributes from the JRXML report source format
+produced by the JRXmlWriter class.
+
+- added new group level attribute to control the reprinting of group headers on each column,
+in vertically filled multi-column reports. 
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.5.0 (2017-12-14)
+---------------------------------------------
+
+- support for configuration properties with the net.sf.jasperreports.export.xls.pattern.{arbitrary_pattern}
+format to allow more flexible and reusable mapping between Java and Excel cell format patterns 
+for the XLS/XLSX exporters;
+
+- solved various band evaluation issues related to page/column level totals 
+displayed in page/column footers when page/column breaks are introduced by 
+stretching bands which are prevented from splitting;
+
+- inhibit the creation of new page/column when the current page/column is already 
+new and thus avoid creating empty pages/columns in various cases where features 
+for controlling page/column breaks were involved;
+
+- added more test reports to document the changes in the way band evaluation and 
+page/column breaks work;
 
 - minor bug fixes and improvements;
 
@@ -27,7 +94,7 @@ instead of the usual Java language string concatenation syntax;
 of all available JasperReports configurations and for enhanced custom properties 
 helper tools in Jaspersoft Studio;
 
-- added new isPreventOrphanFooter flag added to report and dataset group definitions, 
+- added new preventOrphanFooter flag in report and dataset group definitions, 
 to avoid rendering group footers without any accompanying record at the top of new pages;
 
 - added new minDetailsToStartFromTop attribute in report and dataset group definitions, 

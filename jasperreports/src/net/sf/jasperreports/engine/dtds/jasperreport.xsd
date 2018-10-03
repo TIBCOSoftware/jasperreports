@@ -1634,6 +1634,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="isReprintHeaderOnEachColumn" use="optional" default="false">
+ 	<annotation>
+  	 <documentation>Flag that signals if the group header should be reprinted at the beginning of each column, in vertically filled reports only.</documentation>
+ 	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true">
+	  	<annotation>
+	   	 <documentation>Group header section is reprinted always at the beginning of a new column.</documentation>
+	  	</annotation>
+	  </enumeration> 
+      <enumeration value="false">
+	  	<annotation>
+	   	 <documentation>Group header section is not reprinted at the beginning of a new column.</documentation>
+	  	</annotation>
+	  </enumeration> 
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="minHeightToStartNewPage" type="NMTOKEN" use="optional" default="0">
  	<annotation>
   	 <documentation>Minimum amount of vertically space needed at the bottom of the column in order to place the group header on the current column.</documentation>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,6 +27,7 @@ import java.util.List;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.DatasetRunHolder;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -38,7 +39,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface TableComponent extends Component, JRCloneable, JRVisitable
+public interface TableComponent extends Component, JRCloneable, JRVisitable, DatasetRunHolder
 {
 	/**
 	 * Property that specifies a default value for the <code>whenNoDataType</code> attribute of table components.
@@ -57,6 +58,7 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable
 	 */
 	public static final String PROPERTY_WHEN_NO_DATA_TYPE = CONFIG_PROPERTY_WHEN_NO_DATA_TYPE;
 
+	@Override
 	JRDatasetRun getDatasetRun();
 
 	List<BaseColumn> getColumns();

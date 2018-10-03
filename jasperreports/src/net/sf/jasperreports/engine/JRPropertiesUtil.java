@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -450,6 +450,25 @@ public final class JRPropertiesUtil
 			value = getProperty(key);
 		}
 		
+		return value;
+	}
+
+	/**
+	 * Returns the value of a property, looking first in the supplied properties holder
+	 * and then in the system properties, using a default value if the property is not found.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @param defaultValue the value to return if no property is found
+	 * @return the property value
+	 */
+	public String getProperty(JRPropertiesHolder propertiesHolder, String key, String defaultValue)
+	{
+		String value = getProperty(propertiesHolder, key);
+		if (value == null)
+		{
+			value = defaultValue;
+		}
 		return value;
 	}
 

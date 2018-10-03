@@ -105,7 +105,7 @@
 	
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
-		<echo message=" xChart Sample"/>
+		<echo message=" XChart Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />

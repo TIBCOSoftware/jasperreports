@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="SplitTypePreventReport.45" pageWidth="595" pageHeight="842" topMargin="20" leftMargin="20" bottomMargin="20" rightMargin="20" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="1"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="2"/>
+	<origin band="title"/>
+	<origin band="detail"/>
+	<origin band="summary"/>
+	<origin report="table" band="detail"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<page>
+		<text textHeight="11.640625" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab" x="20" y="20" width="555" height="700" origin="0" srcId="1" printId="1"/>
+			<box>
+				<pen lineWidth="1.0"/>
+			</box>
+			<textContent><![CDATA[Title]]></textContent>
+		</text>
+		<frame>
+			<reportElement uuid="925687dc-60db-4517-938e-81db7f2a95b1" x="20" y="720" width="80" height="102" origin="2" srcId="2" printId="2">
+				<property name="net.sf.jasperreports.export.headertoolbar.tableUUID" value="925687dc-60db-4517-938e-81db7f2a95b1"/>
+			</reportElement>
+			<text textHeight="93.125" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+				<reportElement uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab" x="0" y="0" width="80" height="102" origin="3" srcId="4" printId="1"/>
+				<textContent><![CDATA[Multi line text in table detail cell
+more
+more
+more
+more
+more
+]]></textContent>
+			</text>
+		</frame>
+	</page>
+	<page>
+		<frame>
+			<reportElement uuid="925687dc-60db-4517-938e-81db7f2a95b1" x="20" y="20" width="80" height="34" origin="2" srcId="2" printId="4">
+				<property name="net.sf.jasperreports.export.headertoolbar.tableUUID" value="925687dc-60db-4517-938e-81db7f2a95b1"/>
+			</reportElement>
+			<text textHeight="34.921875" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+				<reportElement uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab" x="0" y="0" width="80" height="34" origin="3" srcId="4" printId="2"/>
+				<textContent><![CDATA[more
+more
+more.]]></textContent>
+			</text>
+		</frame>
+	</page>
+</jasperPrint>

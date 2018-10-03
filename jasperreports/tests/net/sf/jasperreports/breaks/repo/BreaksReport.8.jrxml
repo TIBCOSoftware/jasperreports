@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.4.qualifier using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BreaksReport.8" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<noData>
+		<band height="50">
+			<break type="Column">
+				<reportElement x="0" y="10" width="100" height="1" uuid="9dbae581-b65f-4bcf-a68b-a331d59d5e1e"/>
+			</break>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="0" y="20" width="515" height="30" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["No Data"]]></textFieldExpression>
+			</textField>
+		</band>
+	</noData>
+</jasperReport>

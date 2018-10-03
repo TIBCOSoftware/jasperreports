@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,7 +27,6 @@ import java.net.URLStreamHandlerFactory;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 
 /**
@@ -39,7 +38,6 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
 public final class JRResourcesFillUtil
 {
 	
-	@SuppressWarnings("deprecation")
 	public static ResourcesFillContext setResourcesFillContext(Map<String,Object> parameterValues)
 	{
 		ResourcesFillContext context = new ResourcesFillContext();
@@ -52,49 +50,28 @@ public final class JRResourcesFillUtil
 			context.setClassLoader(classLoader);
 		}
 		
-		URLStreamHandlerFactory urlHandlerFactory = (URLStreamHandlerFactory) 
-				parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY);
-		if (urlHandlerFactory != null)
-		{
-			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
-			context.setUrlHandlerFactory(urlHandlerFactory);
-		}
-		
-		FileResolver fileResolver = (FileResolver) parameterValues.get(
-				JRParameter.REPORT_FILE_RESOLVER);
-		if (fileResolver != null)
-		{
-			JRResourcesUtil.setThreadFileResolver(fileResolver);
-			context.setFileResolver(fileResolver);
-		}
-		
 		return context;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void revertResourcesFillContext(ResourcesFillContext context)
 	{
 		if (context.getClassLoader() != null)
 		{
 			JRResourcesUtil.resetClassLoader();
 		}
-		
-		if (context.getUrlHandlerFactory() != null)
-		{
-			JRResourcesUtil.resetThreadURLHandlerFactory();
-		}
-		
-		if (context.getFileResolver() != null)
-		{
-			JRResourcesUtil.resetThreadFileResolver();
-		}
 	}
 	
 	public static class ResourcesFillContext
 	{
 		protected ClassLoader classLoader;
+		/**
+		 * @deprecated To be removed.
+		 */
 		protected URLStreamHandlerFactory urlHandlerFactory;
-		protected FileResolver fileResolver;
+		/**
+		 * @deprecated To be removed.
+		 */
+		protected net.sf.jasperreports.engine.util.FileResolver fileResolver;
 		
 		public ClassLoader getClassLoader()
 		{
@@ -106,22 +83,34 @@ public final class JRResourcesFillUtil
 			this.classLoader = classLoader;
 		}
 		
+		/**
+		 * @deprecated To be removed.
+		 */
 		public URLStreamHandlerFactory getUrlHandlerFactory()
 		{
 			return urlHandlerFactory;
 		}
 		
+		/**
+		 * @deprecated To be removed.
+		 */
 		public void setUrlHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
 		{
 			this.urlHandlerFactory = urlHandlerFactory;
 		}
 		
-		public FileResolver getFileResolver()
+		/**
+		 * @deprecated To be removed.
+		 */
+		public net.sf.jasperreports.engine.util.FileResolver getFileResolver()
 		{
 			return fileResolver;
 		}
 		
-		public void setFileResolver(FileResolver fileResolver)
+		/**
+		 * @deprecated To be removed.
+		 */
+		public void setFileResolver(net.sf.jasperreports.engine.util.FileResolver fileResolver)
 		{
 			this.fileResolver = fileResolver;
 		}

@@ -23,7 +23,6 @@ How to use JavaScript to write report expressions.
       </author>
     </documentedBy>
   	<otherSample ref="antcompile"/>
-  	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="java1.5"/>
     <content>

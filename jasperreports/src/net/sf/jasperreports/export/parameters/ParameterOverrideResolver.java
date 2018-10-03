@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.export.parameters;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -218,6 +219,29 @@ public class ParameterOverrideResolver implements ParameterResolver
 		}
 	}
 
+	@Override
+	public Map<String, String> getMapParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String  propertyPrefix)
+	{
+		Map<String, String> values = null; 
+		if (parameters.containsKey(parameter))
+		{
+			values = (Map<String, String>)parameters.get(parameter);
+		}
+		else
+		{
+			List<PropertySuffix> properties = JRPropertiesUtil.getProperties(jasperPrint.getPropertiesMap(), propertyPrefix);
+			if (properties != null && !properties.isEmpty())
+			{
+				values = new HashMap<String, String>();
+				for(PropertySuffix property : properties)
+				{
+					values.put(property.getSuffix(), property.getValue());
+				}
+			}
+		}
+		return values;
+	}
+	
 	/**
 	 *
 	 */

@@ -2,7 +2,7 @@
  * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2005 Works, Inc. All rights reserved.
  * http://www.works.com
- * Copyright (C) 2005 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2005 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,14 +41,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRVirtualizable;
-import net.sf.jasperreports.engine.JRVirtualizer;
-import net.sf.jasperreports.engine.util.VirtualizationSerializer;
-
 import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRVirtualizable;
+import net.sf.jasperreports.engine.JRVirtualizer;
+import net.sf.jasperreports.engine.util.LocalVirtualizationSerializer;
+import net.sf.jasperreports.engine.util.VirtualizationSerializer;
 
 
 /**
@@ -224,11 +225,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
-	protected final VirtualizationSerializer serializer = new VirtualizationSerializer();
+	protected final VirtualizationSerializer serializer;
 	
-	private final Cache pagedIn;
+	protected final Cache pagedIn;
 
-	private final ReferenceMap pagedOut;
+	protected final ReferenceMap pagedOut;
 
 	protected volatile WeakReference<JRVirtualizable> lastObjectRef;
 	protected ReferenceMap lastObjectMap;
@@ -243,6 +244,13 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	 */
 	protected JRAbstractLRUVirtualizer(int maxSize)
 	{
+		this(new LocalVirtualizationSerializer(), maxSize);
+	}
+
+	protected JRAbstractLRUVirtualizer(VirtualizationSerializer serializer, int maxSize)
+	{
+		this.serializer = serializer;
+		
 		this.pagedIn = new Cache(maxSize);
 		this.pagedOut = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.WEAK);
 		this.lastObjectRef = null;

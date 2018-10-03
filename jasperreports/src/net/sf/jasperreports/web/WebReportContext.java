@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,6 +25,7 @@ package net.sf.jasperreports.web;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,11 +45,6 @@ public class WebReportContext implements ReportContext
 	private static final String SESSION_ATTRIBUTE_REPORT_CONTEXT_ID_PREFIX = "net.sf.jasperreports.web.report.context_";
 	public static final String REQUEST_PARAMETER_REPORT_CONTEXT_ID = "jr_ctxid";
 
-	/**
-	 * @deprecated Replaced by {@link #REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR}.
-	 */
-	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT = "net.sf.jasperreports.web.jasper_print";
-	
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR = "net.sf.jasperreports.web.jasper_print.accessor";
 	//public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
 	
@@ -116,16 +112,13 @@ public class WebReportContext implements ReportContext
 	private WebReportContext()
 	{
 		parameterValues = new HashMap<String, Object>();
+		id = UUID.randomUUID().toString();
 //		parameterValues.put(JRParameter.REPORT_CONTEXT, this);
 	}
 
 	@Override
 	public String getId()
 	{
-		if (id == null)
-		{
-			id = String.valueOf(System.currentTimeMillis());//FIXMEJIVE make stronger?
-		}
 		return id;
 	}
 

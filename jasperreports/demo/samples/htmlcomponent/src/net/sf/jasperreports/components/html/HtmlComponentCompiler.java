@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -34,17 +34,20 @@ import net.sf.jasperreports.engine.design.JRVerifier;
  */
 public class HtmlComponentCompiler implements ComponentCompiler {
 
+	@Override
 	public void collectExpressions(Component component, JRExpressionCollector collector) {
 		HtmlComponent htmlComponent = (HtmlComponent) component;
 		collector.addExpression(htmlComponent.getHtmlContentExpression());
 	}
 	
+	@Override
 	public Component toCompiledComponent(Component component,
 			JRBaseObjectFactory baseFactory) {
 		HtmlComponent htmlComponent = (HtmlComponent) component;
 		return new HtmlComponent(htmlComponent, baseFactory);
 	}
 
+	@Override
 	public void verify(Component component, JRVerifier verifier) {
 		// TODO
 	}

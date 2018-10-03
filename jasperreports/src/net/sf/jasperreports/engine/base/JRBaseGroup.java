@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -68,6 +68,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_PAGE = "isReprintHeaderOnEachPage";
 	
+	public static final String PROPERTY_REPRINT_HEADER_ON_EACH_COLUMN = "isReprintHeaderOnEachColumn";
+	
 	public static final String PROPERTY_START_NEW_COLUMN = "isStartNewColumn";
 	
 	public static final String PROPERTY_START_NEW_PAGE = "isStartNewPage";
@@ -80,6 +82,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected boolean isStartNewPage;
 	protected boolean isResetPageNumber;
 	protected boolean isReprintHeaderOnEachPage;
+	protected boolean isReprintHeaderOnEachColumn;
 	protected int minHeightToStartNewPage;
 	protected int minDetailsToStartFromTop;
 	protected FooterPositionEnum footerPositionValue = FooterPositionEnum.NORMAL;
@@ -115,6 +118,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		isStartNewPage = group.isStartNewPage();
 		isResetPageNumber = group.isResetPageNumber();
 		isReprintHeaderOnEachPage = group.isReprintHeaderOnEachPage();
+		isReprintHeaderOnEachColumn = group.isReprintHeaderOnEachColumn();
 		minHeightToStartNewPage = group.getMinHeightToStartNewPage();
 		minDetailsToStartFromTop = group.getMinDetailsToStartFromTop();
 		footerPositionValue = group.getFooterPositionValue();
@@ -189,6 +193,20 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		boolean old = this.isReprintHeaderOnEachPage;
 		this.isReprintHeaderOnEachPage = isReprint;
 		getEventSupport().firePropertyChange(PROPERTY_REPRINT_HEADER_ON_EACH_PAGE, old, this.isReprintHeaderOnEachPage);
+	}
+		
+	@Override
+	public boolean isReprintHeaderOnEachColumn()
+	{
+		return this.isReprintHeaderOnEachColumn;
+	}
+		
+	@Override
+	public void setReprintHeaderOnEachColumn(boolean isReprint)
+	{
+		boolean old = this.isReprintHeaderOnEachColumn;
+		this.isReprintHeaderOnEachColumn = isReprint;
+		getEventSupport().firePropertyChange(PROPERTY_REPRINT_HEADER_ON_EACH_COLUMN, old, this.isReprintHeaderOnEachColumn);
 	}
 		
 	@Override

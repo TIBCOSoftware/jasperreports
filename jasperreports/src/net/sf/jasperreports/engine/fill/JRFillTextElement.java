@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -98,6 +97,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private int textEnd;
 	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
+	private String oldRawText;
 	private String rawText;
 	private JRStyledText styledText;
 	private JRStyledText processedStyledText;
@@ -341,33 +341,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getLineSpacingValue()
-	{
-		return getParagraph().getLineSpacing();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getOwnLineSpacingValue()
-	{
-		return getParagraph().getOwnLineSpacing();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	@Override
-	public void setLineSpacing(LineSpacingEnum lineSpacing)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
 	@Override
 	public String getMarkup()
 	{
@@ -580,6 +553,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected void setRawText(String rawText)
 	{
+		this.oldRawText = this.rawText;
 		this.rawText = rawText;
 		styledText = null;
 		processedStyledText = null;
@@ -602,6 +576,12 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	@Override
 	public void rewind()
 	{
+		@SuppressWarnings("deprecation")
+		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
+		if (!isLegacyBandEvaluationEnabled)
+		{
+			this.rawText = this.oldRawText;
+		}
 		resetTextChunk();
 	}
 
@@ -646,7 +626,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public String getText()
+	public String getTextString()
 	{
 		JRStyledText tmpStyledText = getStyledText();
 

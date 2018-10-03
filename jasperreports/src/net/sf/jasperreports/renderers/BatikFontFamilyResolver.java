@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -33,6 +33,7 @@ import org.apache.batik.bridge.FontFamilyResolver;
 import org.apache.batik.gvt.font.GVTFontFamily;
 
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.HtmlFontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 
@@ -89,7 +90,18 @@ public class BatikFontFamilyResolver implements FontFamilyResolver
 		
 		if (gvtFontFamily == null)
 		{
-			FontInfo fontInfo = fontUtil.getFontInfoIgnoreCase(familyName, null);//FIXMEBATIK locale
+			FontInfo fontInfo = fontUtil.getFontInfo(familyName, true, null);//FIXMEBATIK locale
+			
+			if (fontInfo == null)
+			{
+				// svg font-family could have locale suffix because it is needed in svg measured by phantomjs;
+				int localeSeparatorPos = familyName.lastIndexOf(HtmlFontFamily.LOCALE_SEPARATOR);
+				if (localeSeparatorPos > 0)
+				{
+					String family = familyName.substring(0, localeSeparatorPos);
+					fontInfo = fontUtil.getFontInfo(family, true, null);//FIXMEBATIK locale
+				}
+			}
 			
 			if (fontInfo != null)
 			{

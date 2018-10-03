@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.AbstractXlsDataSource;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * Excel query executer implementation.
@@ -65,9 +66,19 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parametersMap
+		)
+	{
+		this(SimpleQueryExecutionContext.of(jasperReportsContext),
+				dataset, parametersMap);
+	}
+	
+	protected ExcelQueryExecuter(
+		QueryExecutionContext context, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parametersMap
 		) 
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		super(context, dataset, parametersMap);
 	}
 
 	protected ExcelQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap) 
@@ -172,8 +183,8 @@ public class ExcelQueryExecuter extends AbstractXlsQueryExecuter
 					}
 					if (xlsSource != null) 
 					{
-						constrParamTypes = new Class<?>[]{JasperReportsContext.class, String.class};
-						constrParamValues = new Object[]{getJasperReportsContext(), xlsSource};
+						constrParamTypes = new Class<?>[]{RepositoryContext.class, String.class};
+						constrParamValues = new Object[]{getRepositoryContext(), xlsSource};
 					}
 					else 
 					{

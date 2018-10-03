@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-ofc</artifactId>
-	<version>6.4.3</version>
+	<version>6.8.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Open Flash Chart Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -16,9 +16,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:https://github.com/Jaspersoft/jasperreports.git</connection>
-		<tag>jr-6-4-3</tag>
-		<url>https://github.com/Jaspersoft/jasperreports</url>
+		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
+		<tag>jr-6-8-0</tag>
+		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -47,7 +47,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Built-By>Jaspersoft</Built-By>
+							<Built-By>TIBCO Software Inc.</Built-By>
 						</manifestEntries>
 						<manifestSections>
 							<manifestSection>
@@ -55,10 +55,10 @@
 								<manifestEntries>
 									<Specification-Title>JasperReports Open Flash Chart Components</Specification-Title>
 									<Specification-Version>${pom.version}</Specification-Version>
-									<Specification-Vendor>Jaspersoft</Specification-Vendor>
+									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.components.ofc</Implementation-Title>
 									<Implementation-Version>${pom.version}</Implementation-Version>
-									<Implementation-Vendor>Jaspersoft</Implementation-Vendor>
+									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>
 						</manifestSections>
@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.4.3</version>
+			<version>6.8.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

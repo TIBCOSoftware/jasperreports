@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="TableWithSubreportReturn" pageWidth="595" pageHeight="842" topMargin="30" leftMargin="20" bottomMargin="30" rightMargin="20" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<origin band="title"/>
+	<origin band="detail"/>
+	<origin report="innerTable" band="detail"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<page>
+		<frame>
+			<reportElement uuid="d434be2d-9a77-46f0-bc12-4b751856d0e2" x="20" y="30" width="555" height="30" origin="0" srcId="1" printId="1"/>
+			<frame>
+				<reportElement uuid="585ecf76-b7bf-4d93-a822-1fbdf94f0ec8" x="0" y="0" width="555" height="30" srcId="2" printId="2">
+					<property name="net.sf.jasperreports.export.headertoolbar.tableUUID" value="585ecf76-b7bf-4d93-a822-1fbdf94f0ec8"/>
+				</reportElement>
+				<text textHeight="11.640625" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+					<reportElement uuid="8a7e73a1-4f7f-4621-940c-e1e7c814f6bd" x="0" y="0" width="555" height="30" origin="2" srcId="5" printId="1"/>
+					<textContent><![CDATA[inner table foo]]></textContent>
+				</text>
+			</frame>
+		</frame>
+		<text textHeight="11.640625" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="82bb0958-8c38-498c-805d-a7d2e37f62e5" x="20" y="80" width="555" height="30" origin="0" srcId="3" printId="1"/>
+			<textContent><![CDATA[main foo]]></textContent>
+		</text>
+	</page>
+</jasperPrint>

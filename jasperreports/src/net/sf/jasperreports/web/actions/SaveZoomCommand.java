@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.web.actions;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.type.ZoomTypeEnum;
 import net.sf.jasperreports.web.commands.Command;
@@ -32,6 +33,8 @@ import net.sf.jasperreports.web.commands.Command;
  */
 public class SaveZoomCommand implements Command {
 
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	public static final String PROPERTY_VIEWER_ZOOM = "net.sf.jasperreports.viewer.zoom";
 
 	private String zoomValue;

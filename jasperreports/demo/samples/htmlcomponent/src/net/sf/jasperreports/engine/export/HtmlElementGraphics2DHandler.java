@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,17 +37,19 @@ import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
  */
 public class HtmlElementGraphics2DHandler implements GenericElementGraphics2DHandler {
 
+	@Override
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}
 
+	@Override
 	public void exportElement(JRGraphics2DExporterContext exporterContext, JRGenericPrintElement element, Graphics2D grx, Offset offset) {
 		HtmlPrintElement htmlPrintElement;
 		try {
 			htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
 			
 			JRGraphics2DExporter exporter = (JRGraphics2DExporter)exporterContext.getExporterRef();
-			ImageDrawer imageDrawer = exporter.getFrameDrawer().getDrawVisitor().getImageDrawer();
+			ImageDrawer imageDrawer = exporter.getDrawVisitor().getImageDrawer();
 			
 			imageDrawer.draw(
 					grx,

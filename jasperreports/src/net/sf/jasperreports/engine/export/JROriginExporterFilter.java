@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -137,7 +137,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_2_0_3
 			)
-	private static final String KEEP_FIRST_PREFIX = "keep.first.";
+	public static final String KEEP_FIRST_PREFIX = "keep.first.";
 	private static final String BAND_PREFIX = "band.";
 	private static final String GROUP_PREFIX = "group.";
 	private static final String REPORT_PREFIX = "report.";

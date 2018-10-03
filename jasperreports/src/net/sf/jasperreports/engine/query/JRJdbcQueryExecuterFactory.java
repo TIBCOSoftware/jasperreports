@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -111,6 +111,18 @@ public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory imp
 			valueType = Integer.class
 			)
 	public static final String PROPERTY_JDBC_MAX_FIELD_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.max.field.size";
+
+	/**
+	 * Property specifying the statement query timeout value (in seconds).
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_DATA_SOURCE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
+			scopeQualifications = {QUERY_EXECUTER_NAME},
+			sinceVersion = PropertyConstants.VERSION_6_8_0,
+			valueType = Integer.class
+	)
+	public static final String PROPERTY_JDBC_QUERY_TIMEOUT = JRPropertiesUtil.PROPERTY_PREFIX + "jdbc.query.timeout";
 
 	/**
 	 * Flag property specifying if data will be stored in a cached rowset.

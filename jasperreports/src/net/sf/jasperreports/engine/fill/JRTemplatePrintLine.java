@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -50,29 +50,6 @@ public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implement
 		
 	}
 	
-	/**
-	 * Creates a print line element.
-	 * 
-	 * @param line the template line that the element will use
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintLine(JRTemplateLine, int)}
-	 */
-	public JRTemplatePrintLine(JRTemplateLine line)
-	{
-		super(line);
-	}
-
-	/**
-	 * Creates a print line element.
-	 * 
-	 * @param line the template line that the element will use
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplatePrintLine(JRTemplateLine, PrintElementOriginator)}
-	 */
-	public JRTemplatePrintLine(JRTemplateLine line, int sourceElementId)
-	{
-		super(line, sourceElementId);
-	}
-
 	/**
 	 * Creates a print line element.
 	 * 

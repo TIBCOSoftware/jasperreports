@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -100,7 +100,18 @@ public final class JRFiller
 		Connection conn
 		) throws JRException
 	{
-		ReportFiller filler = createReportFiller(jasperReportsContext, jasperReport);
+		return fill(jasperReportsContext, SimpleJasperReportSource.from(jasperReport),
+				parameters, conn);
+	}
+
+	public static JasperPrint fill(
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource,
+		Map<String,Object> parameters,
+		Connection conn
+		) throws JRException
+	{
+		ReportFiller filler = createReportFiller(jasperReportsContext, reportSource);
 		
 		JasperPrint jasperPrint = null;
 		
@@ -131,7 +142,18 @@ public final class JRFiller
 		JRDataSource dataSource
 		) throws JRException
 	{
-		ReportFiller filler = createReportFiller(jasperReportsContext, jasperReport);
+		return fill(jasperReportsContext, SimpleJasperReportSource.from(jasperReport),
+				parameters, dataSource);
+	}
+	
+	public static JasperPrint fill(
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource,
+		Map<String,Object> parameters,
+		JRDataSource dataSource
+		) throws JRException
+	{
+		ReportFiller filler = createReportFiller(jasperReportsContext, reportSource);
 		
 		JasperPrint jasperPrint = null;
 		
@@ -175,7 +197,17 @@ public final class JRFiller
 		Map<String,Object> parameters
 		) throws JRException
 	{
-		ReportFiller filler = createReportFiller(jasperReportsContext, jasperReport);
+		return fill(jasperReportsContext, SimpleJasperReportSource.from(jasperReport),
+				parameters);
+	}
+	
+	public static JasperPrint fill(
+			JasperReportsContext jasperReportsContext,
+			JasperReportSource reportSource, 
+			Map<String,Object> parameters
+			) throws JRException
+	{
+		ReportFiller filler = createReportFiller(jasperReportsContext, reportSource);
 
 		try
 		{
@@ -200,23 +232,23 @@ public final class JRFiller
 	//FIXMEBOOK deprecate?
 	public static JRBaseFiller createFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport) throws JRException
 	{
-		return createBandReportFiller(jasperReportsContext, jasperReport);
+		return createBandReportFiller(jasperReportsContext, SimpleJasperReportSource.from(jasperReport));
 	}
 
-	protected static JRBaseFiller createBandReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport) throws JRException
+	protected static JRBaseFiller createBandReportFiller(JasperReportsContext jasperReportsContext, JasperReportSource reportSource) throws JRException
 	{
 		JRBaseFiller filler = null;
 
-		switch (jasperReport.getPrintOrderValue())
+		switch (reportSource.getReport().getPrintOrderValue())
 		{
 			case HORIZONTAL :
 			{
-				filler = new JRHorizontalFiller(jasperReportsContext, jasperReport);
+				filler = new JRHorizontalFiller(jasperReportsContext, reportSource, null);
 				break;
 			}
 			case VERTICAL :
 			{
-				filler = new JRVerticalFiller(jasperReportsContext, jasperReport);
+				filler = new JRVerticalFiller(jasperReportsContext, reportSource, null);
 				break;
 			}
 		}
@@ -225,24 +257,30 @@ public final class JRFiller
 	
 	public static ReportFiller createReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport) throws JRException
 	{
+		return createReportFiller(jasperReportsContext, SimpleJasperReportSource.from(jasperReport));
+	}
+	
+	public static ReportFiller createReportFiller(JasperReportsContext jasperReportsContext, 
+			JasperReportSource reportSource) throws JRException
+	{
 		ReportFiller filler;
-		SectionTypeEnum sectionType = jasperReport.getSectionType();
+		SectionTypeEnum sectionType = reportSource.getReport().getSectionType();
 		sectionType = sectionType == null ? SectionTypeEnum.BAND : sectionType;
 		switch (sectionType)
 		{
 		case BAND:
-			filler = createBandReportFiller(jasperReportsContext, jasperReport);
+			filler = createBandReportFiller(jasperReportsContext, reportSource);
 			break;
 		case PART:
 		{
-			filler = new PartReportFiller(jasperReportsContext, jasperReport);
+			filler = new PartReportFiller(jasperReportsContext, reportSource, null);
 			break;
 		}
 		default:
 			throw 
 				new JRRuntimeException(
 					EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_SECTION_TYPE,  
-					new Object[]{jasperReport.getSectionType()} 
+					new Object[]{reportSource.getReport().getSectionType()} 
 					);
 		}
 		return filler;

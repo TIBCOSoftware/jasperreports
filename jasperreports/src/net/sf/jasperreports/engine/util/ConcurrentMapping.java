@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,6 +31,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -40,7 +41,7 @@ public class ConcurrentMapping<K, V>
 
 	public static interface Mapper<K, V>
 	{
-		V compute(K key);
+		V compute(K key, JasperReportsContext jasperReportsContext);
 	}
 	
 	private static class Entry<V>
@@ -154,7 +155,7 @@ public class ConcurrentMapping<K, V>
 		this.entries = new ConcurrentHashMap<K, Entry<V>>();
 	}
 	
-	public V get(K key)
+	public V get(K key, JasperReportsContext jasperReportsContext)
 	{
 		Entry<V> existingEntry = entries.get(key);
 		Entry<V> newEntry = null;
@@ -165,21 +166,21 @@ public class ConcurrentMapping<K, V>
 			existingEntry = entries.putIfAbsent(key, newEntry);
 			if (existingEntry == null)
 			{
-				result = getNew(newEntry, key);
+				result = getNew(newEntry, key, jasperReportsContext);
 			}
 			else
 			{
-				result = getExisting(existingEntry, key);
+				result = getExisting(existingEntry, key, jasperReportsContext);
 			}
 		}
 		else
 		{
-			result = getExisting(existingEntry, key);
+			result = getExisting(existingEntry, key, jasperReportsContext);
 		}
 		return result;
 	}
 	
-	private V getExisting(Entry<V> entry, K key)
+	private V getExisting(Entry<V> entry, K key, JasperReportsContext jasperReportsContext)
 	{
 		V result;
 		Entry.Result<V> entryResult = entry.result;
@@ -203,7 +204,7 @@ public class ConcurrentMapping<K, V>
 				{
 					//compute again
 					entry.result = Entry.pendingResult();
-					result = getNew(entry, key);
+					result = getNew(entry, key, jasperReportsContext);
 				}
 				else
 				{
@@ -218,8 +219,8 @@ public class ConcurrentMapping<K, V>
 		}
 		return result;
 	}
-	
-	private V getNew(Entry<V> entry, K key)
+
+	private V getNew(Entry<V> entry, K key, JasperReportsContext jasperReportsContext)
 	{
 		entry.lock();
 		try
@@ -228,7 +229,7 @@ public class ConcurrentMapping<K, V>
 			boolean success = false;
 			try
 			{
-				value = mapper.compute(key);
+				value = mapper.compute(key, jasperReportsContext);
 				success = true;
 				return value;
 			}

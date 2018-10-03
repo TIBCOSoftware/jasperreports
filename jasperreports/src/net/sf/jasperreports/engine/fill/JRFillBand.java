@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -45,6 +45,8 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 
@@ -79,7 +81,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	protected JROrigin origin;
 	
 	private SplitTypeEnum splitType;
-	private int breakHeight;
+	private Integer breakHeight;
 
 	private FillReturnValues returnValues;
 	private FillReturnValues.SourceContext returnValuesContext = new FillReturnValues.SourceContext() 
@@ -104,6 +106,12 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		public void check(CommonReturnValue returnValue) throws JRException 
 		{
 			//FIXMERETURN check something
+		}
+
+		@Override
+		public JRFillVariable getToVariable(String name)
+		{
+			return filler.getVariable(name);
 		}
 	};
 
@@ -142,29 +150,6 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 				);
 		registerReturnValues(returnValues);
 		
-		splitType = (parent == null ? null : parent.getSplitTypeValue());
-		if (splitType == null)
-		{
-			splitType = 
-				SplitTypeEnum.getByName(
-					filler.getPropertiesUtil().getProperty(filler.getMainDataset(), JRBand.PROPERTY_SPLIT_TYPE)
-					);
-		}
-		
-		breakHeight = getHeight();
-		if (
-			SplitTypeEnum.IMMEDIATE == getSplitTypeValue()
-			&& elements != null && elements.length > 0
-			)
-		{
-			for(int i = 0; i < elements.length; i++)
-			{
-				JRElement element = elements[i];
-				int bottom = element.getY() + element.getHeight();
-				breakHeight = bottom < breakHeight ? bottom : breakHeight;
-			}
-		}
-
 		initElements();
 
 		initConditionalStyles();
@@ -260,12 +245,44 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	public int getBreakHeight()
 	{
+		// needs to be lazy calculated because it depends on splitType, which is itself lazy loaded
+		if (breakHeight == null)
+		{
+			breakHeight = getHeight();
+			if (
+				SplitTypeEnum.IMMEDIATE == getSplitTypeValue()
+				&& elements != null && elements.length > 0
+				)
+			{
+				for(int i = 0; i < elements.length; i++)
+				{
+					JRElement element = elements[i];
+					int bottom = element.getY() + element.getHeight();
+					breakHeight = bottom < breakHeight ? bottom : breakHeight;
+				}
+			}
+		}
+
 		return breakHeight;
 	}
 
 	@Override
 	public SplitTypeEnum getSplitTypeValue()
 	{
+		// needs to be lazy loaded because in JRFillBand constructor above, the filler.getMainDataset() is not yet set, 
+		// when the band is a group band
+		if (splitType == null)
+		{
+			splitType = (parent == null ? null : parent.getSplitTypeValue());
+			if (splitType == null)
+			{
+				splitType = 
+					SplitTypeEnum.getByName(
+						filler.getPropertiesUtil().getProperty(filler.getMainDataset(), JRBand.PROPERTY_SPLIT_TYPE)
+						);
+			}
+		}
+		
 		return splitType;
 	}
 
@@ -319,9 +336,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	protected boolean isToPrint()
 	{
 		return
-			(isPrintWhenExpressionNull() ||
-			 (!isPrintWhenExpressionNull() &&
-			  isPrintWhenTrue()));
+			this != filler.missingFillBand
+			&& (isPrintWhenExpressionNull() 
+			|| (!isPrintWhenExpressionNull() && isPrintWhenTrue()));
 	}
 
 
@@ -357,13 +374,38 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 *
 	 */
 	protected JRPrintBand refill(
+		byte evaluation,
 		int availableHeight
 		) throws JRException
 	{
 		rewind();
 		restoreSavedVariables();
 
-		return fill(availableHeight);
+		JRPrintBand printBand = null;
+		
+		@SuppressWarnings("deprecation")
+		boolean isLegacyBandEvaluationEnabled = filler.getFillContext().isLegacyBandEvaluationEnabled(); 
+		if (isLegacyBandEvaluationEnabled)
+		{
+			printBand = fill(availableHeight);
+		}
+		else
+		{
+			evaluatePrintWhenExpression(evaluation);
+			
+			if (isToPrint())
+			{
+				evaluate(evaluation);
+				
+				printBand = fill(availableHeight);
+			}
+			else
+			{
+				printBand = new JRPrintBand();
+			}
+		}
+		
+		return printBand;
 	}
 
 
@@ -543,6 +585,16 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 					&& getPrintWhenExpression() == null);
 	}
 
+	protected boolean isColumnBand()
+	{
+		BandTypeEnum bandType = origin.getBandTypeValue();
+		
+		return
+			bandType == BandTypeEnum.GROUP_HEADER
+			|| bandType == BandTypeEnum.GROUP_FOOTER
+			|| bandType == BandTypeEnum.DETAIL;
+	}
+
 	protected boolean isPageBreakInhibited()
 	{
 		boolean isPageBreakInhibited = filler.isFirstPageBand && !atLeastOneElementIsToPrint;
@@ -553,6 +605,42 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		}
 		
 		return isPageBreakInhibited;
+	}
+	
+	protected boolean isSplitTypePreventInhibited()
+	{
+		return isSplitTypePreventInhibited(true);
+	}
+	
+	@Override
+	public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+	{
+		boolean isSplitTypePreventInhibited = false;
+		
+		if (
+			((filler.printOrder == PrintOrderEnum.VERTICAL && filler.isFirstColumnBand)
+			|| (filler.printOrder == PrintOrderEnum.HORIZONTAL && filler.isFirstPageBand))
+			&& (isTopLevelCall || !atLeastOneElementIsToPrint)
+			)
+		{
+			if (isColumnBand() && filler.columnIndex < filler.columnCount - 1)
+			{
+				isSplitTypePreventInhibited = true;
+			}
+			else
+			{
+				if (filler.isSubreport())
+				{
+					isSplitTypePreventInhibited = filler.bandReportParent.isSplitTypePreventInhibited(false);
+				}
+				else
+				{
+					isSplitTypePreventInhibited = true;
+				}
+			}
+		}
+		
+		return isSplitTypePreventInhibited;
 	}
 	
 	@Override

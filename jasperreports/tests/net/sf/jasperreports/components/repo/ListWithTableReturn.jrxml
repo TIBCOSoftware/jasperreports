@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TableWithSubreportReturn" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="de651b3f-4371-4897-8192-325fc1ab57a0">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<subDataset name="ListData" uuid="7491a27c-7257-454b-bab8-e7e22f221cdb">
+		<variable name="ReturnedVariable" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="InnerTableData" uuid="aa900bb8-c86d-40d5-aac7-85db4a31b36c">
+		<variable name="InnerVariable" class="java.lang.String">
+			<variableExpression><![CDATA["foo"]]></variableExpression>
+		</variable>
+	</subDataset>
+	<variable name="MainVariable" class="java.lang.String"/>
+	<title>
+		<band height="100">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="50" uuid="d434be2d-9a77-46f0-bc12-4b751856d0e2">
+					<property name="net.sf.jasperreports.components.table.name" value="table"/>
+				</reportElement>
+				<c:list xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="ListData" uuid="5fc156b6-f0d4-48bb-8db9-b5a362933a2d">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+						<returnValue fromVariable="ReturnedVariable" toVariable="MainVariable"/>
+					</datasetRun>
+					<c:listContents height="30">
+						<componentElement>
+							<reportElement x="0" y="0" width="555" height="30" uuid="585ecf76-b7bf-4d93-a822-1fbdf94f0ec8">
+								<property name="net.sf.jasperreports.components.table.name" value="innerTable"/>
+							</reportElement>
+							<c:table>
+								<datasetRun subDataset="InnerTableData" uuid="95b0c351-f6e8-4734-bbcf-be91647178bb">
+									<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+									<returnValue fromVariable="InnerVariable" toVariable="ReturnedVariable"/>
+								</datasetRun>
+								<c:column width="555" uuid="bc5b0bd2-f5cb-4d10-ae21-25f2287d4c4f">
+									<c:detailCell height="30">
+										<textField>
+											<reportElement x="0" y="0" width="555" height="30" uuid="8a7e73a1-4f7f-4621-940c-e1e7c814f6bd"/>
+											<textFieldExpression><![CDATA["inner table " + $V{InnerVariable}]]></textFieldExpression>
+										</textField>
+									</c:detailCell>
+								</c:column>
+							</c:table>
+						</componentElement>
+					</c:listContents>
+				</c:list>
+			</componentElement>
+			<textField evaluationTime="Band">
+				<reportElement x="0" y="50" width="555" height="30" uuid="82bb0958-8c38-498c-805d-a7d2e37f62e5"/>
+				<textFieldExpression><![CDATA["main " + $V{MainVariable}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

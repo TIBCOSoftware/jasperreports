@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.export.parameters;
 
-
+import java.util.Map;
 
 /**
  * @deprecated To be removed.
@@ -65,4 +65,9 @@ public interface ParameterResolver
 	 * 
 	 */
 	public Character getCharacterParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property);
+	
+	/**
+	 * 
+	 */
+	public Map<String,String> getMapParameter(net.sf.jasperreports.engine.JRExporterParameter parameter, String property);
 }

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -40,7 +40,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.JsonOperatorEnum;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -162,7 +164,11 @@ public class JsonUtil {
 	}
 	
 	public static JsonNode parseJson(JasperReportsContext jasperReportsContext, String location) throws JRException {
-		RepositoryUtil repository = RepositoryUtil.getInstance(jasperReportsContext);
+		return parseJson(SimpleRepositoryContext.of(jasperReportsContext), location);
+	}
+	
+	public static JsonNode parseJson(RepositoryContext repositoryContext, String location) throws JRException {
+		RepositoryUtil repository = RepositoryUtil.getInstance(repositoryContext);
 		InputStream stream = repository.getInputStreamFromLocation(location);
 		try {
 			return parseJson(stream);

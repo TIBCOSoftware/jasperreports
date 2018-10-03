@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.4.qualifier using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BreaksReport.39" printOrder="Horizontal" columnCount="3" pageWidth="595" pageHeight="842" columnWidth="170" columnSpacing="1" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="030574cb-2d4b-4281-8294-0f87619f0d7f">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.100.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+	<group name="dummy" isReprintHeaderOnEachPage="true">
+		<groupHeader>
+			<band height="25">
+				<textField>
+					<reportElement x="0" y="00" width="170" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+					<textFieldExpression><![CDATA["Group Header"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="25">
+			<printWhenExpression>$V{REPORT_COUNT} != 85</printWhenExpression>
+			<textField>
+				<reportElement x="0" y="0" width="170" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+				<textFieldExpression><![CDATA["Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="45">
+			<printWhenExpression>$V{REPORT_COUNT} == 85</printWhenExpression>
+			<break type="Column">
+				<reportElement x="0" y="10" width="100" height="1" uuid="9dbae581-b65f-4bcf-a68b-a331d59d5e1e"/>
+			</break>
+			<textField>
+				<reportElement x="0" y="20" width="170" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
+				<textFieldExpression><![CDATA["Detail " + $V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

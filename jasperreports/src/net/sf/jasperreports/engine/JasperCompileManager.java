@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -69,8 +69,8 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * implementation has been configured for the specific report language. If such a property
  * is found, its value is used as compiler implementation class name and the facade
  * instantiates a compiler object and delegates the report compilation to it. By default,
- * JasperReports includes configuration properties that map the Groovy, JavaScript and
- * BeanShell report compilers to the <code>groovy</code>, <code>javascript</code> and <code>bsh</code> 
+ * JasperReports includes configuration properties that map the Groovy and JavaScript 
+ * report compilers to the <code>groovy</code> and <code>javascript</code> 
  * report languages, respectively.
  * </p><p>
  * If the report uses Java as language and no specific compiler has been set for this

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,6 +37,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +46,12 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 
+import org.apache.commons.collections.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.mapping.Mapping;
@@ -76,6 +79,8 @@ public class CastorUtil
 	 */
 	private static final String CASTOR_READ_XML_CONTEXT_KEY = "net.sf.jasperreports.castor.read.xml.context";
 	private static final String CASTOR_WRITE_XML_CONTEXT_KEY = "net.sf.jasperreports.castor.write.xml.context";
+	
+	private static final Object CONTEXT_KEY_NULL = new Object();
 	
 	private JasperReportsContext jasperReportsContext;
 	private VersionComparator versionComparator;
@@ -121,12 +126,30 @@ public class CastorUtil
 	 */
 	private XMLContext getXmlContext(String contextCacheKey, String version)
 	{
-		XMLContext xmlContext = (XMLContext)jasperReportsContext.getOwnValue(contextCacheKey);
+		ClassLoader castorClassLoader = Mapping.class.getClassLoader();
+		ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
+		
+		Object cacheKey;
+		ClassLoader contextClassLoader;
+		if (threadClassLoader == null || threadClassLoader.equals(castorClassLoader))
+		{
+			cacheKey = CONTEXT_KEY_NULL;
+			contextClassLoader = castorClassLoader;
+		}
+		else
+		{
+			cacheKey = threadClassLoader;
+			contextClassLoader = new CompositeClassloader(castorClassLoader, threadClassLoader);
+		}
+		
+		Map<Object, XMLContext> xmlContextCache = getXmlContextCache(contextCacheKey);
+		XMLContext xmlContext = xmlContextCache.get(cacheKey);
 		if (xmlContext == null)
 		{
 			xmlContext = new XMLContext();
+			xmlContext.setClassLoader(contextClassLoader);
 
-			Mapping mapping  = xmlContext.createMapping();
+			Mapping mapping = new Mapping(contextClassLoader);
 			
 			List<CastorMapping> castorMappings = getMappings(version);
 			for (CastorMapping castorMapping : castorMappings)
@@ -147,9 +170,24 @@ public class CastorUtil
 						e);
 			}
 			
-			jasperReportsContext.setValue(contextCacheKey, xmlContext);
+			xmlContextCache.put(cacheKey, xmlContext);
 		}
 		return xmlContext;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected Map<Object, XMLContext> getXmlContextCache(String contextCacheKey)
+	{
+		Map<Object, XMLContext> xmlContextCache = 
+				(Map<Object, XMLContext>) jasperReportsContext.getOwnValue(contextCacheKey);
+		if (xmlContextCache == null)
+		{
+			//TODO lucianc prevent double cache creation?
+			xmlContextCache = Collections.synchronizedMap(
+					new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT));//using soft values is safer
+			jasperReportsContext.setValue(contextCacheKey, xmlContextCache);
+		}
+		return xmlContextCache;
 	}
 
 

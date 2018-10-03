@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.util.JRQueryChunkHandler;
 import net.sf.jasperreports.engine.util.JRQueryParser;
+import net.sf.jasperreports.repo.RepositoryContext;
 
 /**
  * Base abstract query executer.
@@ -197,7 +198,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected final Map<String,JRClauseFunction> clauseFunctions = new HashMap<String,JRClauseFunction>();
 	
-	private final JasperReportsContext jasperReportsContext;
+	private final QueryExecutionContext context;
 	private final JRPropertiesUtil propertiesUtil;
 	protected final JRDataset dataset;
 	private final Map<String,? extends JRValueParameter> parametersMap;
@@ -220,8 +221,17 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		Map<String, ? extends JRValueParameter> parametersMap
 		)
 	{
-		this.jasperReportsContext = jasperReportsContext;
-		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this(SimpleQueryExecutionContext.of(jasperReportsContext), dataset, parametersMap);
+	}
+	
+	protected JRAbstractQueryExecuter(
+		QueryExecutionContext context, 
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parametersMap
+		)
+	{
+		this.context = context;
+		this.propertiesUtil = JRPropertiesUtil.getInstance(context.getJasperReportsContext());
 		this.dataset = dataset;
 		this.parametersMap = parametersMap;
 		
@@ -234,7 +244,17 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected JasperReportsContext getJasperReportsContext()
 	{
-		return jasperReportsContext;
+		return context.getJasperReportsContext();
+	}
+
+	protected QueryExecutionContext getQueryExecutionContext()
+	{
+		return context;
+	}
+
+	protected RepositoryContext getRepositoryContext()
+	{
+		return context.getRepositoryContext();
 	}
 
 	/**
@@ -298,7 +318,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		//FIXME should we also use the current query language?
 		String queryLanguage = getCanonicalQueryLanguage();
 		// look for extensions
-		List<QueryClauseFunctionBundle> functionBundles = jasperReportsContext.getExtensions(
+		List<QueryClauseFunctionBundle> functionBundles = getJasperReportsContext().getExtensions(
 				QueryClauseFunctionBundle.class);
 		for (QueryClauseFunctionBundle functionBundle : functionBundles)
 		{
@@ -587,7 +607,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			@Override
 			public JasperReportsContext getJasperReportsContext()
 			{
-				return jasperReportsContext;
+				return JRAbstractQueryExecuter.this.getJasperReportsContext();
 			}
 
 			@Override
