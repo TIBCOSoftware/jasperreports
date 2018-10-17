@@ -24,6 +24,8 @@
 package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +35,9 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -40,9 +45,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.MessageUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -123,6 +125,15 @@ public class DefaultWebResourceHandler extends AbstractWebResourceHandler
 	 */
 	protected boolean checkResourceName(JasperReportsContext jasperReportsContext, String resourceName) 
 	{
+		try
+		{
+			resourceName = new URI(resourceName).normalize().getPath();
+		}
+		catch (URISyntaxException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
 		boolean matched = false;
 
 		List<PropertySuffix> patternProps = JRPropertiesUtil.getInstance(jasperReportsContext).getProperties(PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX);//FIXMESORT cache this
