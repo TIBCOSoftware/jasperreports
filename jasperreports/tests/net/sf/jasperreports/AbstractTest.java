@@ -34,7 +34,9 @@ import java.net.URL;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -83,14 +85,14 @@ public abstract class AbstractTest
 
 	protected Object[][] runReportArgs(String folderName, String fileNamePrefix, String exportFileNamePrefix, int maxFileNumber)
 	{
-		Object[][] args = new Object[maxFileNumber][];
+		List<Object[]> args = new ArrayList<>(maxFileNumber);
 		for (int i = 1; i <= maxFileNumber; i++)
 		{
 			String jrxmlFileName = folderName + "/" + fileNamePrefix + "." + i + ".jrxml";
 			String referenceFileNamePrefix = folderName + "/" + exportFileNamePrefix + "." + i + ".reference";
-			args[i - 1] = new Object[] {jrxmlFileName, referenceFileNamePrefix};
+			args.add(new Object[] {jrxmlFileName, referenceFileNamePrefix});
 		}
-		return args;
+		return args.toArray(new Object[args.size()][]);
 	}
 
 	protected void runReport(String jrxmlFileName, String referenceFileNamePrefix) 
