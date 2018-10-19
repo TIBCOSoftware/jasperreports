@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.4.22 (2018-10-xx)
+JasperReports 6.4.22 (2018-10-19)
 ---------------------------------------------
 
 - minor bug fixes and improvements;
