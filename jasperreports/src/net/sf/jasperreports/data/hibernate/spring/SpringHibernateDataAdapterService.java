@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
- * @author Veaceslov Chicu (schicu@users.sourceforge.net)
+ * @author Veaceslav Chicu (schicu@users.sourceforge.net)
  */
 public class SpringHibernateDataAdapterService extends
 		AbstractDataAdapterService {
