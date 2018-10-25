@@ -229,8 +229,6 @@ public abstract class AbstractTest
 		try
 		{
 			DigestOutputStream out = new DigestOutputStream(output, digest);
-			//PrintStream ps = new PrintStream(out);
-			//t.printStackTrace(ps);
 			osw = new OutputStreamWriter(out, "UTF-8");
 			osw.write(String.valueOf(t.getMessage()));
 		}
