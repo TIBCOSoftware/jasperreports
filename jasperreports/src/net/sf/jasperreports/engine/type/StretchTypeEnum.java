@@ -125,7 +125,7 @@ public enum StretchTypeEnum implements JREnum
 			category = PropertyConstants.CATEGORY_FILL,
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			scopes = {PropertyScope.CONTEXT},
-			sinceVersion = PropertyConstants.VERSION_5_1_2,
+			sinceVersion = PropertyConstants.VERSION_6_2_2,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED = 
