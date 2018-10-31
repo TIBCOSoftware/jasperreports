@@ -11,10 +11,22 @@ JasperReports 6.8.0 (2018-0x-xx)
 
 
 
-JasperReports 6.7.0 (2018-0x-xx)
+JasperReports 6.7.0 (2018-08-08)
 ---------------------------------------------
 
-- deprecated BeanShell (BSH) report compiled has been removed from the library.
+- repository context concept added to the repository access API in order to support use 
+of relative paths within the repository to reference reporting resources such as subreports, 
+images, style templates, resource bundles and other;
+
+- the optional artifacts such as the chart themes, chart customizers, functions and fonts, 
+which were previously built out of samples, have been moved to the new /ext folder inside the 
+project source tree;
+
+- the custom visualization component extension, which was previously available as a separate project, 
+has been added to the /ext folder as an optional artifact and can be tested using the sample 
+inside the /demo/samples/customvisualization folder;
+
+- deprecated BeanShell (BSH) report compiler has been removed from the library;
 
 - minor bug fixes and improvements;
 
@@ -29,7 +41,7 @@ JasperReports 6.6.0 (2018-05-29)
 is compiled for the Java 8 platform and is no longer guaranteed to be compatible with Java 7;
 
 - deprecated file resolver built-in parameters have been removed, while the FileResolver interface
-and its related APIs have been now deprecated themselves and prepared for future removal.
+and its related APIs have been now deprecated themselves and prepared for future removal;
 
 - enhanced repository service API to support relative paths when referencing resources; 
 
