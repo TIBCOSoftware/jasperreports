@@ -188,6 +188,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 			new JRTemplateGenericElement(
 				fillContext.getElementOrigin(),
 				fillContext.getDefaultStyleProvider(),
+				fillContext.getComponentElement(),
 				CVPrintElement.CV_ELEMENT_TYPE
 				);
 		template = deduplicate(template);
@@ -214,6 +215,7 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 			}
 			
 			// We also want to transfer to the component all the properties starting with CV_PREFIX
+			//FIXME transfer standard print properties?
 			for (String ownPropName : element.getPropertiesMap().getOwnPropertyNames())
 			{
 				if (ownPropName.startsWith(CVConstants.CV_PREFIX ))
