@@ -28,6 +28,7 @@
 		<dependency org="com.ibm.icu" name="icu4j" rev="57.1"/>
 		<dependency org="javax.persistence" name="persistence-api" rev="1.0"/>
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
+		<dependency org="javax.xml.soap" name="javax.xml.soap-api" rev="1.4.0"/>
 		<dependency org="jaxen" name="jaxen" rev="1.1.1"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.8.2" conf="test->*"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.8.2" conf="test->*"/>
