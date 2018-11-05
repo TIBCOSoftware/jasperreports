@@ -42,9 +42,10 @@
 
 	<target name="javac" description="Compiles the Java source files used in the report designs." depends="prepare-compile-classpath">
 		<mkdir dir="./build/classes"/> 
-		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="true"
+		<javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false"
 				encoding="ISO-8859-1" includeantruntime="false">
 			<compilerarg value="-Xlint:-unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 			<classpath refid="sample-classpath"/>
 		</javac>

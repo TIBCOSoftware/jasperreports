@@ -15,12 +15,12 @@
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="compile"/> 
 		<ivy:cachepath pathid="annotations-lib" log="download-only" conf="annotations"/>
 		<pathconvert property="annotations-paths" refid="annotations-lib"/>
-		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8"
+		<javac destdir="./build/classes" debug="true" optimize="false" target="1.8" source="1.8"
 				encoding="ISO-8859-1" includeantruntime="false" excludes="**/package-info.java">
 			<classpath refid="project-classpath"/>
 			<src path="./src"/>
 			<compilerarg value="-Xlint:-unchecked"/>
-			<compilerarg value="-Xlint:-deprecation"/>
+			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 			<compilerarg value="-processorpath"/>
 			<compilerarg value="${annotations-paths}"/>
@@ -152,6 +152,9 @@
 		<condition property="javadoc-arg" value="-Xdoclint:none" else="">
 			<or>
 				<matches pattern="1.8.*" string="${java.version}"/>
+				<matches pattern="9.*" string="${java.version}"/>
+				<matches pattern="10.*" string="${java.version}"/>
+				<matches pattern="11.*" string="${java.version}"/>
 			</or>
 		</condition>
 		<tstamp>
@@ -165,6 +168,7 @@
 				use="true"
 				windowtitle="JasperReports ${version} API"
 				maxmemory="1024m"
+				failonerror="true"
 				encoding="ISO-8859-1">
 			<doctitle>
 <![CDATA[
@@ -292,12 +296,12 @@
 		</path>
 		
 		<mkdir dir="./build/test-classes"/>
-		<javac destdir="./build/test-classes" debug="true" optimize="false" deprecation="true" target="1.8" source="1.8" 
+		<javac destdir="./build/test-classes" debug="true" optimize="false" target="1.8" source="1.8" 
 				encoding="ISO-8859-1" includeantruntime="false">
 			<classpath refid="test-compile"/>
 			<src path="./tests"/>
 			<compilerarg value="-Xlint:-unchecked"/>
-			<compilerarg value="-Xlint:-deprecation"/>
+			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/test-classes">
