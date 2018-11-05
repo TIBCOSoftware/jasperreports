@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
 
@@ -52,7 +51,7 @@ public class WrappingDataToGraphics2DRenderer extends AbstractRenderToImageAware
 
 	private JasperReportsContext jasperReportsContext;
 	private byte[] data;
-	private RenderableTypeEnum renderableType;
+	private net.sf.jasperreports.engine.type.RenderableTypeEnum renderableType;
 	private Graphics2DRenderable grxRenderer; 
 	private DimensionRenderable dimensionRenderer; 
 
@@ -105,7 +104,7 @@ public class WrappingDataToGraphics2DRenderer extends AbstractRenderToImageAware
 		grxRenderer.render(jasperReportsContext, grx, rectangle);
 	}
 
-	public RenderableTypeEnum getRenderableType()
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getRenderableType()
 	{
 		try
 		{
@@ -114,7 +113,7 @@ public class WrappingDataToGraphics2DRenderer extends AbstractRenderToImageAware
 		catch (JRException e)
 		{
 			//ignore
-			return RenderableTypeEnum.IMAGE; // arbitrary default; should not get here in normal cases
+			return net.sf.jasperreports.engine.type.RenderableTypeEnum.IMAGE; // arbitrary default; should not get here in normal cases
 		}
 		
 		return renderableType;
@@ -134,12 +133,12 @@ public class WrappingDataToGraphics2DRenderer extends AbstractRenderToImageAware
 			if (isSvgData)
 			{
 				grxRenderer = new WrappingSvgDataToGraphics2DRenderer(dataRenderer);
-				renderableType = RenderableTypeEnum.SVG;
+				renderableType = net.sf.jasperreports.engine.type.RenderableTypeEnum.SVG;
 			}
 			else
 			{
 				grxRenderer = new WrappingImageDataToGraphics2DRenderer(dataRenderer);
-				renderableType = RenderableTypeEnum.IMAGE;
+				renderableType = net.sf.jasperreports.engine.type.RenderableTypeEnum.IMAGE;
 			}
 			this.dimensionRenderer = (DimensionRenderable)grxRenderer;
 		}

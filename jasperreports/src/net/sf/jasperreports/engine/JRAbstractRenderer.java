@@ -28,7 +28,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.renderers.AbstractRenderer;
 
 
@@ -68,9 +67,9 @@ public abstract class JRAbstractRenderer implements Renderable
 
 	
 	@Override
-	public RenderableTypeEnum getTypeValue()
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
 	{
-		return RenderableTypeEnum.getByValue(getType());
+		return net.sf.jasperreports.engine.type.RenderableTypeEnum.getByValue(getType());
 	}
 
 

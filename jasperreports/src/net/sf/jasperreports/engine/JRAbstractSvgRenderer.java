@@ -31,7 +31,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.renderers.AbstractRenderToImageDataRenderer;
 
@@ -72,9 +71,9 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 
 
 	@Override
-	public RenderableTypeEnum getTypeValue()
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
 	{
-		return RenderableTypeEnum.SVG;
+		return net.sf.jasperreports.engine.type.RenderableTypeEnum.SVG;
 	}
 
 

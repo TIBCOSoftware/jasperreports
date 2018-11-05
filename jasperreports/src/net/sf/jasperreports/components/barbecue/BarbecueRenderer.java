@@ -29,7 +29,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -44,7 +43,7 @@ import net.sourceforge.barbecue.output.OutputException;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @deprecated Replaced by {@link BarbecueRendererImpl}.
  */
-public class BarbecueRenderer extends JRAbstractSvgRenderer implements Graphics2DRenderable, DimensionRenderable
+public class BarbecueRenderer extends net.sf.jasperreports.engine.JRAbstractSvgRenderer implements Graphics2DRenderable, DimensionRenderable
 {
 
 	private static final long serialVersionUID = 1L;

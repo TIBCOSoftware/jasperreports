@@ -37,7 +37,6 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.renderers.DataRenderable;
@@ -199,9 +198,9 @@ public class JRImageRenderer extends JRAbstractRenderer implements DataRenderabl
 	
 
 	@Override
-	public RenderableTypeEnum getTypeValue()
+	public net.sf.jasperreports.engine.type.RenderableTypeEnum getTypeValue()
 	{
-		return RenderableTypeEnum.IMAGE;
+		return net.sf.jasperreports.engine.type.RenderableTypeEnum.IMAGE;
 	}
 	
 	

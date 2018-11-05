@@ -36,7 +36,6 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.ui.Drawable;
 
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -49,7 +48,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @deprecated Replaced by {@link JCommonDrawableRendererImpl}.
  */
-public class JCommonDrawableRenderer extends JRAbstractSvgRenderer implements Graphics2DRenderable
+public class JCommonDrawableRenderer extends net.sf.jasperreports.engine.JRAbstractSvgRenderer implements Graphics2DRenderable
 {
 
 	/**

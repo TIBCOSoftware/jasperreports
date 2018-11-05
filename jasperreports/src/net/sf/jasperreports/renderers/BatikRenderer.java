@@ -50,8 +50,6 @@ import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGPreserveAspectRatio;
 
-import net.sf.jasperreports.engine.ImageMapRenderable;
-import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
@@ -67,7 +65,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @deprecated Replaced by {@link ResourceRenderer} and {@link DataRenderable}.
  */
-public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable, DataRenderable, RenderToImageAwareRenderable
+public class BatikRenderer extends net.sf.jasperreports.engine.JRAbstractSvgRenderer implements net.sf.jasperreports.engine.ImageMapRenderable, DataRenderable, RenderToImageAwareRenderable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

@@ -36,7 +36,6 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 
 
 /**
@@ -52,12 +51,12 @@ public interface JRRenderable extends Serializable
 
 
 	/**
-	 * @deprecated Replaced by {@link RenderableTypeEnum#IMAGE}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.type.RenderableTypeEnum#IMAGE}.
 	 */
 	public static final byte TYPE_IMAGE = 0;
 
 	/**
-	 * @deprecated Replaced by {@link RenderableTypeEnum#SVG}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.type.RenderableTypeEnum#SVG}.
 	 */
 	public static final byte TYPE_SVG = 1;
 
