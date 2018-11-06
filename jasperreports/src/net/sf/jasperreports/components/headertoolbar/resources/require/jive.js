@@ -122,10 +122,15 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                             jive.interactive[jive.selected.ie.config.type].onDragStart(ev,ui);
                         },
                         drag: function(ev,ui){
-                            jive.interactive[jive.selected.ie.config.type].onDebouncedDrag(ev,ui);
+                            jive.interactive[jive.selected.ie.config.type].debouncedDrag.apply(ev,ui);
                         },
                         stop:function(ev,ui) {
-                            jive.interactive[jive.selected.ie.config.type].onDragStop(ev,ui);
+                            var iElem = jive.interactive[jive.selected.ie.config.type],
+                                dd = iElem.debouncedDrag;
+                            if(dd.isRunning()) {
+                                dd.cancelAndExecute(ev, ui);
+                            }
+                            iElem.onDragStop(ev,ui);
                             jive.hide();
                         }
                     });
@@ -137,7 +142,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                         isFirstTimeSelection = true;
                     }
                     this.jo.css({
-                        width: dim.w * (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1),
+                        width: dim.w,
                         height: dim.h
                     }).draggable('option','helper', function(event) {
                         return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
@@ -1492,33 +1497,6 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                     realHeight: colData.height
                 };
 
-                /*******************/
-                /*
-                    Fix for bug #36767 - overlay is not shown correctly for table columns after sorting;
-                    When zooming, it is necessary to recalculate the overlay width
-                 */
-                var headerCols = $('table.jrPage .jrcolHeader[data-coluuid=' + jo.data('coluuid') + ']'),
-                    firstCol = headerCols.eq(0),
-                    widthSoFar,
-                    realWidth,
-                    firstLeft = firstCol.offset().left;
-
-                widthSoFar = realWidth = firstCol.outerWidth();
-                headerCols.each(function(i, v) {
-                    var it = $(v);
-                    if (it.offset().left < firstLeft) { //should not happen but let's be safe
-                        realWidth += firstLeft - it.offset().left;
-                        firstLeft = it.offset().left;
-                    }
-                    if (it.offset().left + it.outerWidth() > firstLeft + realWidth) {
-                        realWidth = it.offset().left + it.outerWidth() - firstLeft;
-                        widthSoFar += it.outerWidth()
-                    }
-                });
-
-                jive.selected.realWidth = widthSoFar;
-                /*******************/
-
                 jive.selected.dim = jive.interactive[jive.selected.ie.config.type].getElementSize();
 
                 this.showVisualElements(jive.selected.dim);
@@ -1537,21 +1515,31 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
             jive.ui.marker.show(dim);
             jive.ui.foobar.show(dim);
         },
-        debounce: function(fn, millis, now) {
+        withDebounce: function(fn, context, millis, now) {
             var timeout = null;
 
-            return function() {
-                var thisContext = this,
-                    args = arguments;
+            return {
+                apply: function() {
+                    var args = arguments;
 
-                if (now) {
-                    fn.apply(thisContext, args);
-                } else {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(function() {
-                        timeout = null;
-                        fn.apply(thisContext, args);
-                    }, millis);
+                    if (now) {
+                        fn.apply(context, args);
+                    } else {
+                        clearTimeout(timeout);
+                        timeout = setTimeout(function() {
+                            timeout = null;
+                            fn.apply(context, args);
+                        }, millis);
+                    }
+                },
+                isRunning: function() {
+                    return timeout != null;
+                },
+                cancelAndExecute: function() {
+                    if (timeout != null) {
+                        clearTimeout(timeout);
+                        fn.apply(context, arguments);
+                    }
                 }
             };
         }
