@@ -26,11 +26,10 @@
 	<target name="javac" description="Compiles the java source files of the web application." depends="prepare-compile-classpath">
 		<mkdir dir="./build/webapp/WEB-INF/classes"/> 
 		<javac srcdir="./src/" destdir="./build/webapp/WEB-INF/classes/" debug="true" optimize="false" target="1.8" source="1.8"
-				encoding="ISO-8859-1" includeantruntime="false">
+				encoding="UTF-8" includeantruntime="false">
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
-			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/webapp/WEB-INF/classes">
 			<fileset dir="./src">
