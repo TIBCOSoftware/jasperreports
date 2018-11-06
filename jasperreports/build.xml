@@ -16,12 +16,11 @@
 		<ivy:cachepath pathid="annotations-lib" log="download-only" conf="annotations"/>
 		<pathconvert property="annotations-paths" refid="annotations-lib"/>
 		<javac destdir="./build/classes" debug="true" optimize="false" target="1.8" source="1.8"
-				encoding="ISO-8859-1" includeantruntime="false" excludes="**/package-info.java">
+				encoding="UTF-8" includeantruntime="false" excludes="**/package-info.java">
 			<classpath refid="project-classpath"/>
 			<src path="./src"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
-			<compilerarg value="-Xlint:-options"/>
 			<compilerarg value="-processorpath"/>
 			<compilerarg value="${annotations-paths}"/>
 			<compilerarg value="-AmetadataMessagesName=metadata_messages"/>
@@ -169,7 +168,7 @@
 				windowtitle="JasperReports ${version} API"
 				maxmemory="1024m"
 				failonerror="true"
-				encoding="ISO-8859-1">
+				encoding="UTF-8">
 			<doctitle>
 <![CDATA[
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -297,12 +296,11 @@
 		
 		<mkdir dir="./build/test-classes"/>
 		<javac destdir="./build/test-classes" debug="true" optimize="false" target="1.8" source="1.8" 
-				encoding="ISO-8859-1" includeantruntime="false">
+				encoding="UTF-8" includeantruntime="false">
 			<classpath refid="test-compile"/>
 			<src path="./tests"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
-			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/test-classes">
 			<fileset dir="./tests">

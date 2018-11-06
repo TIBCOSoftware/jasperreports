@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-fonts</artifactId>
-	<version>6.5.1</version>
+	<version>6.8.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Font Extension</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>jr-6-5-1</tag>
+		<tag>jr-6-8-0</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<developers>
@@ -55,7 +55,16 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
 				<configuration>
 					<archive>
 						<manifestEntries>
@@ -66,10 +75,10 @@
 								<name>net/sf/jasperreports/fonts/</name>
 								<manifestEntries>
 									<Specification-Title>JasperReports Library Font Extension</Specification-Title>
-									<Specification-Version>${pom.version}</Specification-Version>
+									<Specification-Version>${project.version}</Specification-Version>
 									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.fonts</Implementation-Title>
-									<Implementation-Version>${pom.version}</Implementation-Version>
+									<Implementation-Version>${project.version}</Implementation-Version>
 									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>

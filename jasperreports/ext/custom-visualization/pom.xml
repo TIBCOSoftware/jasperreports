@@ -41,14 +41,26 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<compilerArgument>-Xlint:deprecation,-unchecked</compilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
 				<configuration>
 					<archive>
 						<manifestEntries>
@@ -59,10 +71,10 @@
 								<name>net/sf/jasperreports/customvisualization/</name>
 								<manifestEntries>
 									<Specification-Title>JasperReports Library Custom Visualization Component</Specification-Title>
-									<Specification-Version>${pom.version}</Specification-Version>
+									<Specification-Version>${project.version}</Specification-Version>
 									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.customvisualization</Implementation-Title>
-									<Implementation-Version>${pom.version}</Implementation-Version>
+									<Implementation-Version>${project.version}</Implementation-Version>
 									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>
