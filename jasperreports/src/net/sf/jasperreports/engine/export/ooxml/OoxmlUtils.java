@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.PrintPageFormat;
+import net.sf.jasperreports.engine.export.ooxml.type.DateTimeEnum;
 import net.sf.jasperreports.engine.export.ooxml.type.PaperSizeEnum;
 
 /**
@@ -50,6 +51,13 @@ public final class OoxmlUtils {
 			}
 		}
 		return PaperSizeEnum.UNDEFINED;
+	}
+	
+	public static String getPptxDateTime(String pattern) 
+	{
+		return DateTimeEnum.getByName(pattern) == null 
+				? DateTimeEnum.DATETIME.getPptxValue() 
+				: DateTimeEnum.getByName(pattern).getPptxValue();
 	}
 
 }

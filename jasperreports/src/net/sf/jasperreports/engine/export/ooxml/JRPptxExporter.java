@@ -40,6 +40,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -68,6 +70,7 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
+import net.sf.jasperreports.engine.export.ooxml.type.FieldTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -82,6 +85,7 @@ import net.sf.jasperreports.export.ExporterInputItem;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PptxExporterConfiguration;
 import net.sf.jasperreports.export.PptxReportConfiguration;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
@@ -127,6 +131,45 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 * @deprecated Replaced by {@link PptxReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
 	 */
 	public static final String PROPERTY_IGNORE_HYPERLINK = PptxReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
+	
+	/**
+	 * Property that specifies the field type associated with this element in the PPTX export. 
+	 * When this property is set, the element value will be automatically updated when the presentation is open.
+	 * <ul/>
+	 * <li>slidenum - the current slide number will be displayed in this field</li>
+	 * <li>datetime - the current date/time will be displayed in this field, according to some predefined patterns:
+	 * <ol>
+	 * <li>MM/dd/yyyy</li>
+	 * <li>EEEE, MMMM dd, yyyy</li>
+	 * <li>dd MMMM yyyy</li>
+	 * <li>MMMM dd, yyyy</li>
+	 * <li>dd-MMM-yy</li>
+	 * <li>MMMM yy</li>
+	 * <li>MMM-yy</li>
+	 * <li>MM/dd/yyyy hh:mm a</li>
+	 * <li>MM/dd/yyyy hh:mm:ss a</li>
+	 * <li>HH:mm</li>
+	 * <li>HH:mm:ss</li>
+	 * <li>hh:mm a</li>
+	 * <li>hh:mm:ss a</li>
+	 * </ol>
+	 * If none of the above patterns are set for the element, the date/time will be displayed using the default pattern of the PPTX viewer.
+	 * </li>
+	 * <ul/>
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.TEXT_ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0
+			
+			)
+	public static final String PROPERTY_FIELD_TYPE = PPTX_EXPORTER_PROPERTIES_PREFIX + "field.type";
+
+	public static final String FIELD_TYPE_SLIDENUM = "slidenum";
+	public static final String FIELD_TYPE_DATETIME = "datetime";
+	
+	
+	
 
 	/**
 	 *
@@ -995,7 +1038,20 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		if (textLength > 0)
 		{
-			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
+			FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getByName(JRPropertiesUtil.getOwnProperty(text, PROPERTY_FIELD_TYPE));
+			String uuid = null;
+			String fieldType = null;
+			if (fieldTypeEnum != null)
+			{
+				uuid = text.getUUID().toString().toUpperCase();
+				switch(fieldTypeEnum)
+				{
+					case SLIDENUM : fieldType = FIELD_TYPE_SLIDENUM; break;
+					case DATETIME : fieldType = OoxmlUtils.getPptxDateTime(text.getPattern()); break;
+					default:
+				}
+			}
+			exportStyledText(text.getStyle(), styledText, getTextLocale(text), fieldType, uuid);
 		}
 
 //		if (startedHyperlink)
@@ -1015,7 +1071,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, String fieldType, String uuid)
 	{
 		String text = styledText.getText();
 
@@ -1025,14 +1081,29 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			runHelper.export(
-				style, 
-				iterator.getAttributes(), 
-				text.substring(iterator.getIndex(), runLimit),
-				locale,
-				invalidCharReplacement
-				);
-
+			if(fieldType != null)
+			{
+				runHelper.export(
+					style, 
+					iterator.getAttributes(), 
+					text.substring(iterator.getIndex(), runLimit),
+					locale,
+					invalidCharReplacement,
+					fieldType,
+					uuid
+					);
+			}
+			else
+			{
+				runHelper.export(
+						style, 
+						iterator.getAttributes(), 
+						text.substring(iterator.getIndex(), runLimit),
+						locale,
+						invalidCharReplacement
+						);
+				
+			}
 			iterator.setIndex(runLimit);
 		}
 	}

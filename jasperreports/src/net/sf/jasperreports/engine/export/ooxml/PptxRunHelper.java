@@ -65,7 +65,13 @@ public class PptxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement)
+	public void export(
+			JRStyle style, 
+			Map<Attribute,Object> attributes, 
+			String text, 
+			Locale locale, 
+			String invalidCharReplacement
+			)
 	{
 		if (text != null)
 		{
@@ -86,6 +92,40 @@ public class PptxRunHelper extends BaseHelper
 					write(JRStringUtil.xmlEncode(token, invalidCharReplacement));//FIXMEODT try something nicer for replace
 					write("</a:t>\n");
 					write("      </a:r>\n");
+				}
+			}
+		}
+	}
+	
+	/**
+	 *
+	 */
+	public void export(
+			JRStyle style, 
+			Map<Attribute,Object> attributes, 
+			String text, 
+			Locale locale, 
+			String invalidCharReplacement,
+			String fieldType,
+			String uuid
+			)
+	{
+		if (text != null)
+		{
+			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
+			while(tkzer.hasMoreTokens())
+			{
+				String token = tkzer.nextToken();
+				if ("\n".equals(token))
+				{
+					write("<a:br/>");
+				}
+				else
+				{
+					write("      <a:fld id=\"{"+ uuid +"}\" type=\"" + fieldType + "\">\n");
+					exportProps("a:rPr", getAttributes(style), attributes, locale);
+					write("<a:t>#</a:t>\n");
+					write("      </a:fld>\n");
 				}
 			}
 		}
@@ -113,6 +153,11 @@ public class PptxRunHelper extends BaseHelper
 	private void exportProps(String tag, Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale)
 	{
 		write("       <" + tag + "\n");
+		
+		if("a:rPr".equals(tag))
+		{
+			write(" lang=\""+locale.getLanguage()+"\"\n");
+		}
 
 		Object value = attrs.get(TextAttribute.SIZE);
 		Object oldValue = parentAttrs.get(TextAttribute.SIZE);
