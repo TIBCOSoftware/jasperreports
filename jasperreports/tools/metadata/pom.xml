@@ -4,8 +4,8 @@
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-metadata</artifactId>
 	<packaging>jar</packaging>
-	<version>6.6.0</version>
-	<name>jasperreports-metadata</name>
+	<version>6.8.0-SNAPSHOT</version>
+	<name>JasperReports Library Metadata</name>
 	<url>http://jasperreports.sourceforge.net</url>
 	<licenses>
 		<license>
@@ -16,7 +16,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>jr-6-6-0</tag>
+		<tag>jr-6-8-0</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<build>
@@ -24,10 +24,45 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>
+					<compilerArgument>-Xlint:deprecation,-unchecked</compilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Built-By>TIBCO Software Inc.</Built-By>
+						</manifestEntries>
+						<manifestSections>
+							<manifestSection>
+								<name>net/sf/jasperreports/metadata/</name>
+								<manifestEntries>
+									<Specification-Title>JasperReports Library Metadata</Specification-Title>
+									<Specification-Version>${project.version}</Specification-Version>
+									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
+									<Implementation-Title>net.sf.jasperreports.metadata</Implementation-Title>
+									<Implementation-Version>${project.version}</Implementation-Version>
+									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
+								</manifestEntries>
+							</manifestSection>
+						</manifestSections>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
