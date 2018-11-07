@@ -4524,6 +4524,35 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pptx.field.type -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.field.type">
+    <description>
+Property that specifies the field type associated with this element in the PPTX export. 
+When this property is set, the element value will be automatically updated when the presentation is open.
+<ul/>
+<li><code>slidenum</code> - the current slide number will be displayed in this field</li>
+<li><code>datetime</code> - the current date/time will be displayed in this field, according to the following predefined patterns:
+<ul><li>MM/dd/yyyy</li>
+<li>EEEE, MMMM dd, yyyy</li>
+<li>dd MMMM yyyy</li>
+<li>MMMM dd, yyyy</li>
+<li>dd-MMM-yy</li>
+<li>MMMM yy</li>
+<li>MMM-yy</li>
+<li>MM/dd/yyyy hh:mm a</li>
+<li>MM/dd/yyyy hh:mm:ss a</li>
+<li>HH:mm</li>
+<li>HH:mm:ss</li>
+<li>hh:mm a</li>
+<li>hh:mm:ss a</li>
+</ul>
+If none of the above patterns are set for the element, the date/time will be displayed using the default pattern of the PPTX viewer.
+</li><ul/>
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.text.character.width -->
   
   <configProperty name="net.sf.jasperreports.export.text.character.width">

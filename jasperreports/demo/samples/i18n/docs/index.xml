@@ -7,6 +7,7 @@
   <description>Shows how a report could be rendered in different languages.</description>
 
   <mainFeature ref="i18n"/>
+  <mainFeature ref="pptxfields"/>
   
   <!-- i18n -->
   
@@ -178,6 +179,42 @@ It will generate all supported document types containing the sample report in th
 <br/>
 Then the report will open in the JasperReports internal viewer.
     </content>
+  </feature>
+  
+  <!-- pptxfields -->
+  
+  <feature name="pptxfields" title="Updating current date and slide numbers in PPTX export">
+    <description>
+Shows how to use PPTX fields to update some predefined values such as current date or slide number.
+    </description>
+    <since>6.8.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="jasper"/>
+    <content>
+<subtitle  name="pptx_field_example">PPTX field example</subtitle>
+<br/>
+<br/>
+The following example of a <code>datetime</code> PPTX field property can be found in the <code>i18n.jrxml</code> file:
+<pre><![CDATA[
+  <textField pattern="EEEE, MMMM dd, yyyy">
+    <reportElement positionType="Float" x="20" y="0" width="530" height="20" uuid="9e47d16e-496c-46ee-8e1f-7ad49e928d48">
+      <property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
+    </reportElement>
+    <textElement textAlignment="Right">
+      <font size="14"/>
+    </textElement>
+    <textFieldExpression>new Date()</textFieldExpression>
+  </textField>]]></pre>
+At export time this text element will be translated into a PPTX field that generates automatic current date.
+<br/>
+<br/>
+Another example of a <code>slidenum</code> PPTX field can be found in the <a href="../jasper/index.html">jasper</a> sample.
+ </content>
   </feature>
 
 </sample>

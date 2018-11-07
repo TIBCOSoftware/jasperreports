@@ -3,8 +3,10 @@
 	<parameter name="number" class="java.lang.Double"/>
 	<title>
 		<band height="552">
-			<textField>
-				<reportElement positionType="Float" x="20" y="0" width="530" height="20"/>
+			<textField pattern="EEEE, MMMM dd, yyyy">
+				<reportElement positionType="Float" x="20" y="0" width="530" height="20" uuid="9e47d16e-496c-46ee-8e1f-7ad49e928d48">
+					<property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
+				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
@@ -50,7 +52,9 @@
 				<textFieldExpression><![CDATA[msg($R{text.message}, $P{number})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="full,short" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="20" y="175" width="530" height="28" forecolor="#0000FF" uuid="0659a5e0-e391-400f-ac5c-5534289781ce"/>
+				<reportElement positionType="Float" x="20" y="175" width="530" height="28" forecolor="#0000FF" uuid="0659a5e0-e391-400f-ac5c-5534289781ce">
+					<property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
+				</reportElement>
 				<textElement>
 					<font size="18" isItalic="true" pdfFontName="Helvetica-Oblique"/>
 				</textElement>

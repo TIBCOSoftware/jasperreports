@@ -161,7 +161,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.TEXT_ELEMENT},
 			sinceVersion = PropertyConstants.VERSION_6_8_0
-			
 			)
 	public static final String PROPERTY_FIELD_TYPE = PPTX_EXPORTER_PROPERTIES_PREFIX + "field.type";
 

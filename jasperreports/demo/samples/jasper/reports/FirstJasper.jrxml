@@ -388,7 +388,9 @@
 					<textFieldExpression><![CDATA[$V{FreightSumPage}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="200" y="5" width="75" height="20" uuid="ef35b54f-9b68-4369-84d9-5d532b22b4da"/>
+					<reportElement x="200" y="5" width="75" height="20" uuid="ef35b54f-9b68-4369-84d9-5d532b22b4da">
+						<property name="net.sf.jasperreports.export.pptx.field.type" value="slidenum"/>
+					</reportElement>
 					<textElement textAlignment="Right">
 						<font size="14"/>
 					</textElement>

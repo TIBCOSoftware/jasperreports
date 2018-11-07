@@ -154,7 +154,7 @@ public class PptxRunHelper extends BaseHelper
 	{
 		write("       <" + tag + "\n");
 		
-		if("a:rPr".equals(tag))
+		if(locale != null && "a:rPr".equals(tag))
 		{
 			write(" lang=\""+locale.getLanguage()+"\"\n");
 		}
