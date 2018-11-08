@@ -217,7 +217,7 @@ Now let's take a look at the groups themselves:
         <textFieldExpression>
           <![CDATA[
             msg("{0,number,0.00}%", 
-            new Double(100d * $V{FreightSumFirstLetterGroup}.doubleValue() / $V{FreightSumReport}.doubleValue()))
+            100d * $V{FreightSumFirstLetterGroup} / $V{FreightSumReport})
           ]] >
         </textFieldExpression>
       </textField>
@@ -278,7 +278,7 @@ This is what the second group in the report does, the <code>CountryGroup</code>:
     <textField evaluationTime="Auto">
       <reportElement mode="Opaque" x="230" y="0" width="40" height="11" backcolor="#c0c0c0" style="Sans_Bold"/>
       <textElement textAlignment="Right"/>
-      <textFieldExpression><![CDATA[msg("{0,number,0.00}%", new Double(100d * $V{FreightSumCountryGroup}.doubleValue() / $V{FreightSumFirstLetterGroup}.doubleValue()))]] ></textFieldExpression>
+      <textFieldExpression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumCountryGroup} / $V{FreightSumFirstLetterGroup})]] ></textFieldExpression>
     </textField>
   </band>
   </groupFooter>
@@ -300,7 +300,7 @@ This is why the third group in the report is present. It is an empty dummy group
 a supplementary amount of vertical space between the resulting 5-records groups:
 <pre><![CDATA[
   <group name="BreakGroup">
-    <groupExpression><![CDATA[new Boolean($V{BreakGroup_COUNT}.intValue() > 5)]] ></groupExpression>
+    <groupExpression><![CDATA[$V{BreakGroup_COUNT} > 5]] ></groupExpression>
     <groupHeader>
     <band height="5">
     </band>
@@ -592,7 +592,7 @@ condition evaluates to <code>true</code>, the corresponding style is applied. In
 
   <style name="OrderIdStyle" style="Sans_Normal">
     <conditionalStyle>
-      <conditionExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]] ></conditionExpression>
+      <conditionExpression><![CDATA[$F{OrderID} % 10 == 0]] ></conditionExpression>
       <style forecolor="#ff0000" isBold="true"/>
     </conditionalStyle>
   </style>]]></pre>
@@ -616,15 +616,15 @@ Here is a more elaborate example:
 <pre><![CDATA[
 <style name="alternateStyle" fontName="Arial" forecolor="red">
   <conditionalStyle>
-    <conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]] ></conditionExpression>
     <style forecolor="blue"/>
   </conditionalStyle>
   <conditionalStyle>
-    <conditionExpression><![CDATA[new Boolean($F{AMOUNT}.intValue() > 10000)]] ></conditionExpression>
+    <conditionExpression><![CDATA[$F{AMOUNT} > 10000]] ></conditionExpression>
     <style isBold="true"/>
   </conditionalStyle>
   <conditionalStyle>
-    <conditionExpression><![CDATA[new Boolean($F{AMOUNT}.intValue() > 20000)]] ></conditionExpression>
+    <conditionExpression><![CDATA[$F{AMOUNT} > 20000]] ></conditionExpression>
     <style isBold="false" isItalic="true"/>
   </conditionalStyle>
 </style>]]></pre>

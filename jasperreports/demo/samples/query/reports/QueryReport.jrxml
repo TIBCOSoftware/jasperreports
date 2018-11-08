@@ -15,7 +15,7 @@
 	<field name="Street" class="java.lang.String"/>
 	<field name="City" class="java.lang.String"/>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(Integer.valueOf($V{CityNumber}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
+		<initialValueExpression><![CDATA[$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)]]></initialValueExpression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="60">
 		<groupExpression><![CDATA[$F{City}]]></groupExpression>
@@ -115,7 +115,7 @@
 	</detail>
 	<pageFooter>
 		<band height="40">
-			<printWhenExpression><![CDATA[$P{IS_IGNORE_PAGINATION}.booleanValue()?Boolean.FALSE:Boolean.TRUE]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!$P{IS_IGNORE_PAGINATION}]]></printWhenExpression>
 			<line>
 				<reportElement x="0" y="10" width="515" height="1" uuid="891eb778-e69d-4781-bb5c-5d99b46d8976"/>
 			</line>

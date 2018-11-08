@@ -133,7 +133,7 @@ public class ChartDataGenerator
 					Number value = dataset.getValue(seriesKey, category);
 					if (value == null)
 					{
-						value = new Integer(0);
+						value = 0;
 					}
 					
 					JSONObject valueObject = new JSONObject();

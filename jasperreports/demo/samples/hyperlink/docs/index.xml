@@ -227,7 +227,7 @@ The hyperlink created using the <code>&lt;hyperlinkAnchorExpression&gt;</code> t
 <textField hyperlinkType="LocalPage">
   <reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/>
   <textFieldExpression class="java.lang.String">"  >> Click here to go to the second page."</textFieldExpression>
-  <hyperlinkPageExpression>Integer.valueOf(2)</hyperlinkPageExpression>
+  <hyperlinkPageExpression>2</hyperlinkPageExpression>
 </textField>
 ]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkPageExpression&gt;</code> tag points to the second page of the current document.
@@ -262,7 +262,7 @@ The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code
   <reportElement x="5" y="125" width="350" height="15"/>
   <textFieldExpression class="java.lang.String">"  >> Click here to go to another PDF file (in fact, we use the same file)."</textFieldExpression>
   <hyperlinkReferenceExpression>"./HyperlinkReport.pdf"</hyperlinkReferenceExpression>
-  <hyperlinkPageExpression>Integer.valueOf(2)</hyperlinkPageExpression>
+  <hyperlinkPageExpression>2</hyperlinkPageExpression>
 </textField>
 ]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkPageExpression&gt;</code> tags points to the second page of the HyperlinkReport.pdf document, saved in the current directory.

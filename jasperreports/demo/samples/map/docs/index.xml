@@ -556,7 +556,7 @@ skipped due to the <code>&lt;filterExpression/&gt;</code> in the subdataset:
   <field name="latitude" class="java.lang.String"/>
   <field name="longitude" class="java.lang.String"/>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || $F{latitude}.length()==0) || $F{longitude}==null || $F{longitude}.length()==0)  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length()==0) || $F{longitude}==null || $F{longitude}.length()==0)]] >
   </filterExpression>
 </subDataset>]]></pre>
 The map component configuration is the following:
@@ -606,7 +606,7 @@ component configuration (and the subdataset):
   <field name="iconwidth" class="java.lang.Integer"/>
   <field name="iconheight" class="java.lang.Integer"/>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
   </filterExpression>
 </subDataset>
 ...
@@ -667,7 +667,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="color" class="java.lang.String"/>
   <field name="url" class="java.lang.String"/>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
   </filterExpression>
 </subDataset>
 <subDataset name="PathStyleDataset">
@@ -682,7 +682,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="fillcolor" class="java.lang.String"/>
   <field name="fillopacity" class="java.lang.Double"/>
   <field name="draggable" class="java.lang.Boolean"/>
-  <filterExpression><![CDATA[$F{name}==null || $F{name}.length() == 0 ? Boolean.FALSE : Boolean.TRUE]] ></filterExpression>
+  <filterExpression><![CDATA[$F{name} != null && $F{name}.length() != 0]] ></filterExpression>
 </subDataset>
 <subDataset name="PathLocationDataset">
   <property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
@@ -695,7 +695,7 @@ Two additional subdatasets were added in order to generate path styles and path 
   <field name="longitude" class="java.lang.String"/>
   <field name="ispolygon" class="java.lang.String"/>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
   </filterExpression>
 </subDataset>
 ...
@@ -803,7 +803,7 @@ property is a HTML fragment with escaped open and end tags.
   <field name="iconwidth" class="java.lang.Integer"/>
   <field name="iconheight" class="java.lang.Integer"/>
   <filterExpression>
-    <![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]] >
+    <![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]] >
   </filterExpression>
 </subDataset>
 ...

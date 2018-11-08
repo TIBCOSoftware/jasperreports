@@ -49,11 +49,11 @@ public class JFreeChartScriptlet extends JRDefaultScriptlet
 	public void afterReportInit() throws JRScriptletException
 	{
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		dataset.setValue("Java", new Double(43.2));
-		dataset.setValue("Visual Basic", new Double(10.0));
-		dataset.setValue("C/C++", new Double(17.5));
-		dataset.setValue("PHP", new Double(32.5));
-		dataset.setValue("Perl", new Double(1.0));
+		dataset.setValue("Java", 43.2d);
+		dataset.setValue("Visual Basic", 10.0d);
+		dataset.setValue("C/C++", 17.5d);
+		dataset.setValue("PHP", 32.5d);
+		dataset.setValue("Perl", 1.0d);
 
 		JFreeChart chart = 
 			ChartFactory.createPieChart3D(

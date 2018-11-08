@@ -127,7 +127,7 @@
 						<timeSeries>
 							<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
 							<timePeriodExpression><![CDATA[$F{OrderDate}]]></timePeriodExpression>
-							<valueExpression><![CDATA[new Double($F{Freight}.doubleValue() / 2d)]]></valueExpression>
+							<valueExpression><![CDATA[$F{Freight} / 2d]]></valueExpression>
 						</timeSeries>
 						<timeSeries>
 							<seriesExpression><![CDATA["Normal Freight"]]></seriesExpression>
@@ -137,7 +137,7 @@
 						<timeSeries>
 							<seriesExpression><![CDATA["Double Freight"]]></seriesExpression>
 							<timePeriodExpression><![CDATA[$F{OrderDate}]]></timePeriodExpression>
-							<valueExpression><![CDATA[new Double($F{Freight}.doubleValue() * 2d)]]></valueExpression>
+							<valueExpression><![CDATA[$F{Freight} * 2d]]></valueExpression>
 						</timeSeries>
 					</timeSeriesDataset>
 					<barPlot isShowTickLabels="true" isShowTickMarks="true">
@@ -182,7 +182,7 @@
 		</groupFooter>
 	</group>
 	<group name="MonthGroup">
-		<groupExpression><![CDATA[Integer.valueOf($F{OrderDate}.getMonth())]]></groupExpression>
+		<groupExpression><![CDATA[$F{OrderDate}.getMonth()]]></groupExpression>
 	</group>
 	<title>
 		<band height="50">

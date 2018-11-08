@@ -41,7 +41,7 @@
 	</style>
 	<style name="TableDetail" style="BaseStyle">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0 ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#EDF4B0"/>
 		</conditionalStyle>
 	</style>

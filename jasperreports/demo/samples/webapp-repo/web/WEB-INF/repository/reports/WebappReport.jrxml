@@ -14,7 +14,7 @@
 	<field name="City" class="java.lang.String"/>
 	<sortField name="City"/>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(Integer.valueOf($V{CityNumber}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
+		<initialValueExpression><![CDATA[$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)]]></initialValueExpression>
 	</variable>
 	<variable name="AllCities" class="java.lang.String" calculation="System"/>
 	<group name="CityGroup" minHeightToStartNewPage="60">

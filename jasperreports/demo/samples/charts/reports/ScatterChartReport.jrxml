@@ -124,7 +124,7 @@
 						<xySeries>
 							<seriesExpression><![CDATA["Double Freight"]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{OrderID}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{Freight}.doubleValue() * 2d)]]></yValueExpression>
+							<yValueExpression><![CDATA[$F{Freight} * 2d]]></yValueExpression>
 						</xySeries>
 						<xySeries>
 							<seriesExpression><![CDATA["Normal Freight"]]></seriesExpression>
@@ -138,7 +138,7 @@
 						<xySeries>
 							<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{OrderID}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{Freight}.doubleValue() / 2d)]]></yValueExpression>
+							<yValueExpression><![CDATA[$F{Freight} / 2d]]></yValueExpression>
 						</xySeries>
 					</xyDataset>
 					<scatterPlot>

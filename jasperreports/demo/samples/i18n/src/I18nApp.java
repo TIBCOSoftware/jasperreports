@@ -94,9 +94,9 @@ public class I18nApp extends AbstractSampleApp
 		Locale locale = chooseLocale();
 		if (locale != null)
 		{
-//					Object[] aw = new Object[] {new Double(1000000.45), "$", "Ferrari", new Integer(20),new Integer(88)};
+//					Object[] aw = new Object[] {1000000.45d, "$", "Ferrari", 20, 88};
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("number", new Double(1234567 + Math.random()));
+			parameters.put("number", 1234567 + Math.random());
 //					parameters.put("array", aw);
 			parameters.put(JRParameter.REPORT_LOCALE, locale);
 			JasperFillManager.fillReportToFile("build/reports/I18nReport.jasper", parameters, new JREmptyDataSource());
@@ -112,7 +112,7 @@ public class I18nApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("number", new Double(1234567 + Math.random()));
+		parameters.put("number", 1234567 + Math.random());
 		JasperFillManager.fillReportToFile("build/reports/I18nReport.jasper", parameters, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}

@@ -124,20 +124,20 @@
 						<xyzSeries>
 							<seriesExpression><![CDATA["Double Freight"]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{OrderID}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{Freight}.doubleValue() * 2d)]]></yValueExpression>
-							<zValueExpression><![CDATA[new Double(40.00)]]></zValueExpression>
+							<yValueExpression><![CDATA[$F{Freight} * 2d]]></yValueExpression>
+							<zValueExpression><![CDATA[40.00d]]></zValueExpression>
 						</xyzSeries>
 						<xyzSeries>
 							<seriesExpression><![CDATA["Normal Freight"]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{OrderID}]]></xValueExpression>
 							<yValueExpression><![CDATA[$F{Freight}]]></yValueExpression>
-							<zValueExpression><![CDATA[new Double(30.00)]]></zValueExpression>
+							<zValueExpression><![CDATA[30.00d]]></zValueExpression>
 						</xyzSeries>
 						<xyzSeries>
 							<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{OrderID}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{Freight}.doubleValue() / 2d)]]></yValueExpression>
-							<zValueExpression><![CDATA[new Double(20.00)]]></zValueExpression>
+							<yValueExpression><![CDATA[$F{Freight} / 2d]]></yValueExpression>
+							<zValueExpression><![CDATA[20.00d]]></zValueExpression>
 						</xyzSeries>
 					</xyzDataset>
 					<bubblePlot scaleType="RangeAxis">

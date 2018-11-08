@@ -13,13 +13,13 @@
 		<field name="iconurl" class="java.lang.String"/>
 		<field name="iconwidth" class="java.lang.Integer"/>
 		<field name="iconheight" class="java.lang.Integer"/>
-		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
 	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="zoom" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
 	</parameter>
 	<summary>
 		<band height="692">

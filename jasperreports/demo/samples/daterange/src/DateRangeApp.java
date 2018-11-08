@@ -89,7 +89,7 @@ public class DateRangeApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("MaxOrderID", new Integer(10500));
+		parameters.put("MaxOrderID", 10500);
 		JasperFillManager.fillReportToFile("build/reports/DateRangeReport.jasper", null, getDemoHsqldbConnection());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}

@@ -51,7 +51,7 @@
 			<groupExpression><![CDATA[$F{sales_stage}]]></groupExpression>
 		</group>
 		<group name="month">
-			<groupExpression><![CDATA[Integer.valueOf($F{date_closed}.getMonth())]]></groupExpression>
+			<groupExpression><![CDATA[$F{date_closed}.getMonth()]]></groupExpression>
 		</group>
 	</subDataset>
 	<subDataset name="timePeriodDataset" uuid="233d14b1-b17f-40bd-9885-eb7d3296f2f2">
@@ -62,10 +62,10 @@
 		<field name="close_month" class="java.lang.Integer"/>
 		<field name="sales_state" class="java.lang.String"/>
 		<variable name="startDate" class="java.util.Date">
-			<variableExpression><![CDATA[new Date($F{start_year}.intValue() - 1900, $F{start_month}.intValue(), 1)]]></variableExpression>
+			<variableExpression><![CDATA[new Date($F{start_year} - 1900, $F{start_month}, 1)]]></variableExpression>
 		</variable>
 		<variable name="closeDate" class="java.util.Date">
-			<variableExpression><![CDATA[new Date($F{close_year}.intValue() - 1900, $F{close_month}.intValue(), 1)]]></variableExpression>
+			<variableExpression><![CDATA[new Date($F{close_year} - 1900, $F{close_month}, 1)]]></variableExpression>
 		</variable>
 	</subDataset>
 	<subDataset name="meterDataset" uuid="0af8681f-08c0-490a-a9fd-736bbab0b273"/>
@@ -437,7 +437,7 @@
 						<xySeries>
 							<seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{probability}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{amount}.doubleValue() + $F{amount}.doubleValue() * Math.sin($V{REPORT_COUNT}.doubleValue() * Math.log(1 + $V{REPORT_COUNT}.doubleValue())))]]></yValueExpression>
+							<yValueExpression><![CDATA[$F{amount} + $F{amount} * Math.sin($V{REPORT_COUNT} * Math.log(1 + $V{REPORT_COUNT}))]]></yValueExpression>
 						</xySeries>
 					</xyDataset>
 					<linePlot isShowShapes="false">
@@ -632,7 +632,7 @@
 						<xySeries>
 							<seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{probability}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double(200000 + 200000 * Math.sin($V{REPORT_COUNT}.doubleValue() * Math.log(1 + $V{REPORT_COUNT}.doubleValue())))]]></yValueExpression>
+							<yValueExpression><![CDATA[200000 + 200000 * Math.sin($V{REPORT_COUNT} * Math.log(1 + $V{REPORT_COUNT}))]]></yValueExpression>
 						</xySeries>
 					</xyDataset>
 					<scatterPlot isShowLines="false">
@@ -670,8 +670,8 @@
 						<xyzSeries>
 							<seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{probability}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double(200000 + 200000 * Math.sin($V{REPORT_COUNT}.doubleValue() * Math.log(1 + $V{REPORT_COUNT}.doubleValue())))]]></yValueExpression>
-							<zValueExpression><![CDATA[new Double(25000 + 20000 * Math.sin($F{probability}.doubleValue() * Math.log(1 + $F{amount}.doubleValue())))]]></zValueExpression>
+							<yValueExpression><![CDATA[200000 + 200000 * Math.sin($V{REPORT_COUNT} * Math.log(1 + $V{REPORT_COUNT}))]]></yValueExpression>
+							<zValueExpression><![CDATA[25000 + 20000 * Math.sin($F{probability} * Math.log(1 + $F{amount}))]]></zValueExpression>
 						</xyzSeries>
 					</xyzDataset>
 					<bubblePlot scaleType="RangeAxis">
@@ -747,11 +747,11 @@
 						</dataset>
 						<seriesExpression><![CDATA[$F{sales_stage}]]></seriesExpression>
 						<dateExpression><![CDATA[$F{date_closed}]]></dateExpression>
-						<highExpression><![CDATA[new Double($V{monthAmount}.doubleValue() + $V{monthAmount}.doubleValue()*0.6)]]></highExpression>
-						<lowExpression><![CDATA[new Double($V{monthAmount}.doubleValue() - $V{monthAmount}.doubleValue()*0.6)]]></lowExpression>
-						<openExpression><![CDATA[new Double($V{monthAmount}.doubleValue() - $V{monthAmount}.doubleValue()*0.3)]]></openExpression>
-						<closeExpression><![CDATA[new Double($V{monthAmount}.doubleValue() + $V{monthAmount}.doubleValue()*0.4)]]></closeExpression>
-						<volumeExpression><![CDATA[new Double($V{monthAmount}.doubleValue() / 2)]]></volumeExpression>
+						<highExpression><![CDATA[$V{monthAmount} + $V{monthAmount} * 0.6d]]></highExpression>
+						<lowExpression><![CDATA[$V{monthAmount} - $V{monthAmount} * 0.6d]]></lowExpression>
+						<openExpression><![CDATA[$V{monthAmount} - $V{monthAmount} * 0.3d]]></openExpression>
+						<closeExpression><![CDATA[$V{monthAmount} + $V{monthAmount} * 0.4d]]></closeExpression>
+						<volumeExpression><![CDATA[$V{monthAmount} / 2d]]></volumeExpression>
 					</highLowDataset>
 					<highLowPlot>
 						<plot/>
@@ -784,31 +784,31 @@
 								<dataSourceExpression><![CDATA[new JREmptyDataSource()]]></dataSourceExpression>
 							</datasetRun>
 						</dataset>
-						<valueExpression><![CDATA[new Double(7500.0)]]></valueExpression>
+						<valueExpression><![CDATA[7500.0d]]></valueExpression>
 					</valueDataset>
 					<meterPlot units="Freight" tickInterval="1000.0" meterColor="#777777" needleColor="#000066" tickColor="#0000FF">
 						<plot/>
 						<valueDisplay/>
 						<dataRange>
-							<lowExpression><![CDATA[new Double(0.0)]]></lowExpression>
-							<highExpression><![CDATA[new Double(17500.0)]]></highExpression>
+							<lowExpression><![CDATA[0.0d]]></lowExpression>
+							<highExpression><![CDATA[17500.0d]]></highExpression>
 						</dataRange>
 						<meterInterval label="Small">
 							<dataRange>
-								<lowExpression><![CDATA[new Double(0.0)]]></lowExpression>
-								<highExpression><![CDATA[new Double(2000.0)]]></highExpression>
+								<lowExpression><![CDATA[0.0d]]></lowExpression>
+								<highExpression><![CDATA[2000.0d]]></highExpression>
 							</dataRange>
 						</meterInterval>
 						<meterInterval label="Med">
 							<dataRange>
-								<lowExpression><![CDATA[new Double(2000.0)]]></lowExpression>
-								<highExpression><![CDATA[new Double(12000.0)]]></highExpression>
+								<lowExpression><![CDATA[2000.0d]]></lowExpression>
+								<highExpression><![CDATA[12000.0d]]></highExpression>
 							</dataRange>
 						</meterInterval>
 						<meterInterval label="Large">
 							<dataRange>
-								<lowExpression><![CDATA[new Double(12000.0)]]></lowExpression>
-								<highExpression><![CDATA[new Double(17500.0)]]></highExpression>
+								<lowExpression><![CDATA[12000.0d]]></lowExpression>
+								<highExpression><![CDATA[17500.0d]]></highExpression>
 							</dataRange>
 						</meterInterval>
 					</meterPlot>

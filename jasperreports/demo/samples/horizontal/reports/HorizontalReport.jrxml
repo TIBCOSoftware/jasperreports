@@ -175,7 +175,7 @@
 			<textField evaluationTime="Report">
 				<reportElement x="235" y="55" width="100" height="40" uuid="bc1228b2-2513-4ed4-b1f5-af6561313ea2"/>
 				<textElement textAlignment="Justified"/>
-				<textFieldExpression><![CDATA["There are " + String.valueOf($V{REPORT_COUNT}) + " orders on this report, with a total freight of " + new DecimalFormat("0.00").format($V{FreightSumReport}.doubleValue())]]></textFieldExpression>
+				<textFieldExpression><![CDATA["There are " + String.valueOf($V{REPORT_COUNT}) + " orders on this report, with a total freight of " + new DecimalFormat("0.00").format($V{FreightSumReport})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -224,13 +224,13 @@
 				</staticText>
 				<textField>
 					<reportElement x="40" y="2" width="130" height="11" uuid="ce080d24-26ae-4994-90e5-9d74bf6bc7e9">
-						<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 != 0)]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$F{OrderID} % 10 != 0]]></printWhenExpression>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Sans_Bold" x="40" y="2" width="130" height="11" forecolor="#FF0000" uuid="c188af55-295e-46aa-bf9d-805df6e82a62">
-						<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$F{OrderID} % 10 == 0]]></printWhenExpression>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 				</textField>

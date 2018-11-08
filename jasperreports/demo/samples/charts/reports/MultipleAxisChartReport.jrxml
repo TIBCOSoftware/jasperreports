@@ -10,7 +10,7 @@
 	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="MaxOrderID" class="java.lang.Integer" isForPrompting="false">
-		<defaultValueExpression><![CDATA[Integer.valueOf(15000)]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[15000]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT * FROM Orders
@@ -50,7 +50,7 @@ ORDER BY ShipCountry, ShipCity]]>
 	</variable>
 	<variable name="FirstLetterGroupRowNumber" class="java.lang.Integer" resetType="Group" resetGroup="FirstLetterGroup" calculation="Count">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
-		<initialValueExpression><![CDATA[Integer.valueOf(0)]]></initialValueExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
 	<variable name="FreightSumCityGroup" class="java.lang.Double" resetType="Group" resetGroup="CityGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
@@ -159,7 +159,7 @@ ORDER BY ShipCountry, ShipCity]]>
 	</title>
 	<pageHeader>
 		<band height="410">
-			<printWhenExpression><![CDATA[new Boolean($V{FirstLetterGroupRowNumber}.intValue() == 0)]]></printWhenExpression>
+			<printWhenExpression><![CDATA[$V{FirstLetterGroupRowNumber} == 0]]></printWhenExpression>
 			<rectangle>
 				<reportElement key="rectangle" x="6" y="0" width="547" height="17" forecolor="#FFDDDD" backcolor="#FFDDDD" uuid="a5328caa-dca2-488a-8a83-6ac528d64069"/>
 			</rectangle>
@@ -223,7 +223,7 @@ ORDER BY ShipCountry, ShipCity]]>
 								<categorySeries>
 									<seriesExpression><![CDATA["Freight/Orders"]]></seriesExpression>
 									<categoryExpression><![CDATA[$F{ShipCity} + ", " +$F{ShipCountry}]]></categoryExpression>
-									<valueExpression><![CDATA[new Double($V{FreightSumCityGroup}.doubleValue() / $V{CityGroup_COUNT}.doubleValue())]]></valueExpression>
+									<valueExpression><![CDATA[$V{FreightSumCityGroup} / $V{CityGroup_COUNT}]]></valueExpression>
 									<labelExpression><![CDATA[$F{ShipCity}]]></labelExpression>
 								</categorySeries>
 							</categoryDataset>

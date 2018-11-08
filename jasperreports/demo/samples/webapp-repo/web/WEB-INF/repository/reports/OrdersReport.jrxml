@@ -35,7 +35,7 @@
 		</field>
 		<variable name="TotalFreight" class="java.lang.Float" calculation="Sum">
 			<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
-			<initialValueExpression><![CDATA[new Float(0)]]></initialValueExpression>
+			<initialValueExpression><![CDATA[0f]]></initialValueExpression>
 		</variable>
 	</subDataset>
 	<parameter name="XML_DATA_DOCUMENT" class="java.lang.Object"/>

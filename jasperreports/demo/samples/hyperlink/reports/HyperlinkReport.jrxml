@@ -34,7 +34,7 @@
 						<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["First Page"]]></propertyExpression>
 					</reportElement>
 					<textFieldExpression><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
-					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
+					<hyperlinkPageExpression><![CDATA[2]]></hyperlinkPageExpression>
 				</textField>
 				<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
 					<reportElement x="5" y="95" width="200" height="15" uuid="773ef7f6-735d-47f7-8b16-d8136c5da1d3"/>
@@ -147,7 +147,7 @@
 				<textField hyperlinkType="LocalPage">
 					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000" uuid="06bddced-f753-4135-a18b-9cc2caae3db3"/>
 					<textFieldExpression><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
-					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
+					<hyperlinkPageExpression><![CDATA[2]]></hyperlinkPageExpression>
 				</textField>
 				<textField hyperlinkType="Reference">
 					<reportElement x="5" y="95" width="300" height="15" uuid="8d6e4b25-61c5-4888-a2dd-66fc0d2d16ed"/>

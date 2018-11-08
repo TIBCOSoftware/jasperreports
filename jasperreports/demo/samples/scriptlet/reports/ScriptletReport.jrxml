@@ -5,7 +5,7 @@
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<style name="AlternateDetail">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean($V{CityGroup_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{CityGroup_COUNT} % 2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#C0C0C0"/>
 		</conditionalStyle>
 	</style>
@@ -19,7 +19,7 @@
 	<field name="Street" class="java.lang.String"/>
 	<field name="City" class="java.lang.String"/>
 	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(Integer.valueOf($V{CityNumber}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
+		<initialValueExpression><![CDATA[$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)]]></initialValueExpression>
 	</variable>
 	<variable name="AllCities" class="java.lang.String" calculation="System"/>
 	<group name="CityGroup" minHeightToStartNewPage="60">

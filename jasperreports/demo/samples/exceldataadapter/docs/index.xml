@@ -206,7 +206,7 @@ appropriate data adapter configuration. We also have to define the fields to be 
 <sortField name="city" order="Descending"/>
 <sortField name="name"/>
 ...
-<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]] ></filterExpression>]]></pre>
+<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state})]] ></filterExpression>]]></pre>
 We can notice that data can be sorted as well as filtered in such a dataset.
 <br/>
 Similar settings can be found in the <code>ExcelXlsxDataAdapterReport.jrxml</code> file.
@@ -230,7 +230,7 @@ file:
 <sortField name="city" order="Descending"/>
 <sortField name="name"/>
 ...
-<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]] ></filterExpression>]]></pre>
+<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state})]] ></filterExpression>]]></pre>
 Similar settings can be found in the <code>ExcelXlsxQeDataAdapterReport.jrxml</code> file.
 <br/>
 After having all the necessary stuff prepared as shown above, we can now fill the report. See the <code>fill()</code> method in the 

@@ -10,7 +10,7 @@
 	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="OrderIdStyle" style="Sans_Normal">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]]></conditionExpression>
+			<conditionExpression><![CDATA[$F{OrderID} % 10 == 0]]></conditionExpression>
 			<style forecolor="#FF0000" isBold="true"/>
 		</conditionalStyle>
 	</style>
@@ -58,7 +58,7 @@
 		<variableExpression><![CDATA[$F{ShipRegion}]]></variableExpression>
 	</variable>
 	<variable name="FirstLetterStartPageNumber" class="java.lang.Integer" resetType="Group" resetGroup="FirstLetterGroup" calculation="Sum">
-		<variableExpression><![CDATA[$V{FirstLetterGroup_COUNT}.intValue() <= 1 ? $V{PAGE_NUMBER} : new Integer(0)]]></variableExpression>
+		<variableExpression><![CDATA[$V{FirstLetterGroup_COUNT} <= 1 ? $V{PAGE_NUMBER} : 0]]></variableExpression>
 	</variable>
 	<group name="FirstLetterGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="200">
 		<groupExpression><![CDATA[$V{FirstLetter}]]></groupExpression>
@@ -79,12 +79,12 @@
 				<textField evaluationTime="Group" evaluationGroup="FirstLetterGroup">
 					<reportElement uuid="2051f495-99b7-4111-a8fa-3b98c17e4d2b" style="Sans_Bold" mode="Opaque" x="240" y="14" width="30" height="11" forecolor="#FF0000" backcolor="#FFDDDD"/>
 					<textElement/>
-					<textFieldExpression><![CDATA[new Integer($V{PAGE_NUMBER}.intValue() - $V{FirstLetterStartPageNumber}.intValue() + 1)]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="5f86d353-a97d-426b-a9ed-4994de228bdc" style="Sans_Bold" mode="Opaque" x="200" y="14" width="30" height="11" forecolor="#FF0000" backcolor="#FFDDDD"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$V{FirstLetterGroup_COUNT}.intValue() == 0 ? new Integer(1) : new Integer($V{PAGE_NUMBER}.intValue() - $V{FirstLetterStartPageNumber}.intValue() + 1)]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{FirstLetterGroup_COUNT} == 0 ? 1 : ($V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1)]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="5416fe8c-e120-412d-b94f-75f7065ed893" style="Sans_Bold" mode="Opaque" x="230" y="14" width="10" height="11" forecolor="#FF0000" backcolor="#FFDDDD"/>
@@ -121,7 +121,7 @@
 				<textField evaluationTime="Auto">
 					<reportElement uuid="36afb126-fc88-4102-9236-9fdebad558f1" style="Sans_Bold" x="230" y="1" width="40" height="11" forecolor="#FF0000"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[msg("{0,number,0.00}%", new Double(100d * $V{FreightSumFirstLetterGroup}.doubleValue() / $V{FreightSumReport}.doubleValue()))]]></textFieldExpression>
+					<textFieldExpression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumFirstLetterGroup} / $V{FreightSumReport})]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -176,13 +176,13 @@
 				<textField evaluationTime="Auto">
 					<reportElement uuid="c6b165ab-b741-4d33-9f20-befc893f6e7c" style="Sans_Bold" mode="Opaque" x="230" y="0" width="40" height="11" backcolor="#C0C0C0"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[msg("{0,number,0.00}%", new Double(100d * $V{FreightSumCountryGroup}.doubleValue() / $V{FreightSumFirstLetterGroup}.doubleValue()))]]></textFieldExpression>
+					<textFieldExpression><![CDATA[msg("{0,number,0.00}%", 100d * $V{FreightSumCountryGroup} / $V{FreightSumFirstLetterGroup})]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
 	</group>
 	<group name="BreakGroup">
-		<groupExpression><![CDATA[new Boolean($V{BreakGroup_COUNT}.intValue() > 5)]]></groupExpression>
+		<groupExpression><![CDATA[$V{BreakGroup_COUNT} > 5]]></groupExpression>
 		<groupHeader>
 			<band height="5"/>
 		</groupHeader>
@@ -268,7 +268,7 @@
 		<band height="13">
 			<rectangle>
 				<reportElement uuid="5aa54541-91d0-4b21-9a8e-1c29b5261636" x="0" y="4" width="1" height="1" forecolor="#FF0000" backcolor="#FF0000">
-					<printWhenExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{OrderID} % 10 == 0]]></printWhenExpression>
 				</reportElement>
 			</rectangle>
 			<textField>

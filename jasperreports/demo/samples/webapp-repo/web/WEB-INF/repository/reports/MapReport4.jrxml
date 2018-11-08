@@ -12,7 +12,7 @@
 		<field name="size" class="java.lang.String"/>
 		<field name="color" class="java.lang.String"/>
 		<field name="url" class="java.lang.String"/>
-		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
 	</subDataset>
 	<subDataset name="PathStyleDataset">
 		<property name="net.sf.jasperreports.data.adapter" value="/data/PathStyleDataAdapter.xml"/>
@@ -26,7 +26,7 @@
 		<field name="fillcolor" class="java.lang.String"/>
 		<field name="fillopacity" class="java.lang.Double"/>
 		<field name="draggable" class="java.lang.Boolean"/>
-		<filterExpression><![CDATA[$F{name}==null || $F{name}.length() == 0 ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[$F{name} != null && $F{name}.length() != 0]]></filterExpression>
 	</subDataset>
 	<subDataset name="PathLocationDataset" uuid="e275a292-ba61-41c5-9c5b-e4ca9ae49e77">
 		<property name="net.sf.jasperreports.data.adapter" value="/data/PathLocationDataAdapter.xml"/>
@@ -38,13 +38,13 @@
 		<field name="latitude" class="java.lang.String"/>
 		<field name="longitude" class="java.lang.String"/>
 		<field name="ispolygon" class="java.lang.String"/>
-		<filterExpression><![CDATA[$F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0  ? Boolean.FALSE : Boolean.TRUE]]></filterExpression>
+		<filterExpression><![CDATA[!($F{latitude}==null || $F{latitude}.length() == 0 || $F{longitude}==null || $F{longitude}.length() == 0)]]></filterExpression>
 	</subDataset>
 	<parameter name="reqZoom" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="zoom" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
 	</parameter>
 	<summary>
 		<band height="692">

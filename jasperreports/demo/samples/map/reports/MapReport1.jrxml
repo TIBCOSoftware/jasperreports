@@ -12,13 +12,13 @@
 		<defaultValueExpression><![CDATA[Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))]]></defaultValueExpression>
 	</parameter>
 	<parameter name="latitude" class="java.lang.Float">
-		<defaultValueExpression><![CDATA[$P{reqLatitude} == null ? Float.valueOf(44.435f) : $P{reqLatitude}]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqLatitude} == null ? 44.435f : $P{reqLatitude}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="longitude" class="java.lang.Float">
-		<defaultValueExpression><![CDATA[$P{reqLongitude} == null ? Float.valueOf(26.096f) : $P{reqLongitude}]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqLongitude} == null ? 26.096f : $P{reqLongitude}]]></defaultValueExpression>
 	</parameter>
 	<parameter name="zoom" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{reqZoom} == null ? 11 : $P{reqZoom}]]></defaultValueExpression>
 	</parameter>
 	<summary>
 		<band height="692">

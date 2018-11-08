@@ -123,11 +123,11 @@
 						<dataset resetType="Group" resetGroup="CountryGroup" incrementType="Group" incrementGroup="CountryGroup"/>
 						<seriesExpression><![CDATA["Freight"]]></seriesExpression>
 						<dateExpression><![CDATA[$V{DateHighestCountryGroup}]]></dateExpression>
-						<highExpression><![CDATA[new Double($V{FreightSumCountryGroup}.doubleValue() * 1.6d)]]></highExpression>
-						<lowExpression><![CDATA[new Double($V{FreightSumCountryGroup}.doubleValue() * 0.4d)]]></lowExpression>
-						<openExpression><![CDATA[new Double($V{FreightSumCountryGroup}.doubleValue() * 0.7)]]></openExpression>
-						<closeExpression><![CDATA[new Double($V{FreightSumCountryGroup}.doubleValue() * 1.4)]]></closeExpression>
-						<volumeExpression><![CDATA[new Double($V{FreightSumCountryGroup}.doubleValue() * 0.5)]]></volumeExpression>
+						<highExpression><![CDATA[$V{FreightSumCountryGroup} * 1.6d]]></highExpression>
+						<lowExpression><![CDATA[$V{FreightSumCountryGroup} * 0.4d]]></lowExpression>
+						<openExpression><![CDATA[$V{FreightSumCountryGroup} * 0.7d]]></openExpression>
+						<closeExpression><![CDATA[$V{FreightSumCountryGroup} * 1.4d]]></closeExpression>
+						<volumeExpression><![CDATA[$V{FreightSumCountryGroup} * 0.5d]]></volumeExpression>
 					</highLowDataset>
 					<candlestickPlot isShowVolume="true">
 						<plot/>

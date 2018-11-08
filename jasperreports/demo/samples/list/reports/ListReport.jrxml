@@ -6,7 +6,7 @@
 	<style name="Sans_Small" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="ListRow" mode="Opaque" backcolor="#FBF1DA">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[Boolean.valueOf($V{REPORT_COUNT}.intValue() %2 == 0)]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} %2 == 0]]></conditionExpression>
 			<style backcolor="#E9F4B2"/>
 		</conditionalStyle>
 	</style>

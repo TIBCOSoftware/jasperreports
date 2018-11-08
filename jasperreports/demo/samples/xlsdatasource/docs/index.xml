@@ -117,7 +117,7 @@ or <code>Trial</code> states will be taken into account:
 &#160;&#160;...
 <br/>
 <br/>
-&#160;&#160;&lt;filterExpression&gt;&lt;![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]]&gt;&lt;/filterExpression&gt;
+&#160;&#160;&lt;filterExpression&gt;&lt;![CDATA[$P{IncludedStates}.contains($F{state})]]&gt;&lt;/filterExpression&gt;
 </code>
 <br/>
 <br/>

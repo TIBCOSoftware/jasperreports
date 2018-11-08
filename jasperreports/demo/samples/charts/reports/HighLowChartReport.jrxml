@@ -123,11 +123,11 @@
 						<dataset resetType="Group" resetGroup="CountryGroup"/>
 						<seriesExpression><![CDATA[$F{ShipCountry}]]></seriesExpression>
 						<dateExpression><![CDATA[$F{OrderDate}]]></dateExpression>
-						<highExpression><![CDATA[new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.6)]]></highExpression>
-						<lowExpression><![CDATA[new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.6)]]></lowExpression>
-						<openExpression><![CDATA[new Double($F{Freight}.doubleValue() - $F{Freight}.doubleValue()*0.3)]]></openExpression>
-						<closeExpression><![CDATA[new Double($F{Freight}.doubleValue() + $F{Freight}.doubleValue()*0.4)]]></closeExpression>
-						<volumeExpression><![CDATA[new Double($F{Freight}.doubleValue() / 2)]]></volumeExpression>
+						<highExpression><![CDATA[$F{Freight} + $F{Freight} * 0.6d]]></highExpression>
+						<lowExpression><![CDATA[$F{Freight} - $F{Freight} * 0.6d]]></lowExpression>
+						<openExpression><![CDATA[$F{Freight} - $F{Freight} * 0.3d]]></openExpression>
+						<closeExpression><![CDATA[$F{Freight} + $F{Freight} * 0.4d]]></closeExpression>
+						<volumeExpression><![CDATA[$F{Freight} / 2]]></volumeExpression>
 					</highLowDataset>
 					<highLowPlot>
 						<plot/>

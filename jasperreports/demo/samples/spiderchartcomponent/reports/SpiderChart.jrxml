@@ -66,7 +66,7 @@
 						<labelFont>
 							<font size="6" isBold="true" isItalic="true"/>
 						</labelFont>
-						<c:maxValueExpression><![CDATA[Double.valueOf(10)]]></c:maxValueExpression>
+						<c:maxValueExpression><![CDATA[10d]]></c:maxValueExpression>
 					</c:spiderPlot>
 				</c:spiderChart>
 			</componentElement>

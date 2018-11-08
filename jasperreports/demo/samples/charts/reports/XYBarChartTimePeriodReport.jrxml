@@ -125,7 +125,7 @@
 							<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
 							<startDateExpression><![CDATA[$F{OrderDate}]]></startDateExpression>
 							<endDateExpression><![CDATA[$F{ShippedDate}]]></endDateExpression>
-							<valueExpression><![CDATA[new Double($F{Freight}.doubleValue() / 2d)]]></valueExpression>
+							<valueExpression><![CDATA[$F{Freight} / 2d]]></valueExpression>
 						</timePeriodSeries>
 						<timePeriodSeries>
 							<seriesExpression><![CDATA["Normal Freight"]]></seriesExpression>
@@ -137,7 +137,7 @@
 							<seriesExpression><![CDATA["Double Freight"]]></seriesExpression>
 							<startDateExpression><![CDATA[$F{OrderDate}]]></startDateExpression>
 							<endDateExpression><![CDATA[$F{ShippedDate}]]></endDateExpression>
-							<valueExpression><![CDATA[new Double($F{Freight}.doubleValue() * 2d)]]></valueExpression>
+							<valueExpression><![CDATA[$F{Freight} * 2d]]></valueExpression>
 						</timePeriodSeries>
 					</timePeriodDataset>
 					<barPlot isShowTickLabels="true" isShowTickMarks="true">

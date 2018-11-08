@@ -280,7 +280,7 @@ The conditional style required at point (2) is illustrated in the scriptlet samp
 <pre><![CDATA[
 <style name="AlternateDetail">
   <conditionalStyle>
-    <conditionExpression><![CDATA[new Boolean($V{CityGroup_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <conditionExpression><![CDATA[$V{CityGroup_COUNT} % 2 == 0]] ></conditionExpression>
     <style mode="Opaque" backcolor="#C0C0C0"/>
   </conditionalStyle>
 </style>]]></pre>

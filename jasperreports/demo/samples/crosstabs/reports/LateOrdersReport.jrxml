@@ -6,17 +6,17 @@
 	<style name="ColumnHeader" style="Sans_Bold" forecolor="#FFFFFF"/>
 	<style name="CellStyle" mode="Opaque">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{ROW_COUNT} % 2 == 0]]></conditionExpression>
 			<style backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
 	<style name="Detail">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0 ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#E0E0E0"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$V{DeliveryDelay} != null ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{DeliveryDelay} != null]]></conditionExpression>
 			<style>
 				<pen lineWidth="0.5" lineColor="#FF0000"/>
 			</style>
@@ -33,7 +33,7 @@
 	<field name="ShippedDate" class="java.sql.Timestamp"/>
 	<variable name="DeliveryDelay" class="java.lang.Integer">
 		<variableExpression><![CDATA[$F{ShippedDate}.after($F{RequiredDate}) ?
-					Integer.valueOf(1 + (int) (($F{ShippedDate}.getTime() - $F{RequiredDate}.getTime() - 1) / 3600000)) :
+					(1 + (int) (($F{ShippedDate}.getTime() - $F{RequiredDate}.getTime() - 1) / 3600000)) :
 					null]]></variableExpression>
 	</variable>
 	<title>
@@ -139,7 +139,7 @@
 				<reportElement x="0" y="40" width="555" height="60" uuid="8a029eb2-4d27-420d-bce4-54e0672e71c6"/>
 				<crosstabDataset>
 					<dataset>
-						<incrementWhenExpression><![CDATA[$V{DeliveryDelay} == null ? Boolean.FALSE : Boolean.TRUE]]></incrementWhenExpression>
+						<incrementWhenExpression><![CDATA[$V{DeliveryDelay} != null]]></incrementWhenExpression>
 					</dataset>
 				</crosstabDataset>
 				<rowGroup name="CountryRow" width="80" totalPosition="End">
@@ -175,7 +175,7 @@
 				</rowGroup>
 				<columnGroup name="FreightColumn" height="20" totalPosition="End">
 					<bucket class="java.lang.Integer">
-						<bucketExpression><![CDATA[Integer.valueOf($F{Freight}.intValue()/100)]]></bucketExpression>
+						<bucketExpression><![CDATA[$F{Freight}.intValue()/100]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>
@@ -185,7 +185,7 @@
 							<textField>
 								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20" uuid="5c3cbc80-217a-4f1a-99a0-0359c7b373e4"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($V{FreightColumn} * 100) + "-" + (($V{FreightColumn} + 1) * 100)]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabColumnHeader>

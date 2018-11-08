@@ -30,7 +30,7 @@
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
 	</variable>
-	<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]]></filterExpression>
+	<filterExpression><![CDATA[$P{IncludedStates}.contains($F{state})]]></filterExpression>
 	<group name="CityGroup" minHeightToStartNewPage="60">
 		<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		<groupHeader>

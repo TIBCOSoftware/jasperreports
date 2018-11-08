@@ -80,7 +80,7 @@
 					<timeSeries>
 						<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
 						<timePeriodExpression><![CDATA[$V{OrderMonth}]]></timePeriodExpression>
-						<valueExpression><![CDATA[new Double($V{FreightSum}.doubleValue() / 2d)]]></valueExpression>
+						<valueExpression><![CDATA[$V{FreightSum} / 2d]]></valueExpression>
 						<labelExpression><![CDATA[]]></labelExpression>
 					</timeSeries>
 				</timeSeriesDataset>

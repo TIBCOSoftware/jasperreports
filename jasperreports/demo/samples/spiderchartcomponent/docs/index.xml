@@ -219,7 +219,7 @@ Here is the piece of code used to configure the spider chart in the JRXML sample
       <labelFont>
         <font isBold="true" isItalic="true" size="6"/>
       </labelFont>
-      <c:maxValueExpression><![CDATA[Double.valueOf(10)]] ></c:maxValueExpression>
+      <c:maxValueExpression><![CDATA[10d]] ></c:maxValueExpression>
     </c:spiderPlot>
   </c:spiderChart>
 </componentElement>]]></pre>

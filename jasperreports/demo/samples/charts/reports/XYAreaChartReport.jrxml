@@ -7,7 +7,7 @@
 	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="MaxOrderID" class="java.lang.Integer"/>
 	<parameter name="ChartFreightThreshold" class="java.lang.Double">
-		<defaultValueExpression><![CDATA[new Double(20d)]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[20d]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]]>
@@ -123,12 +123,12 @@
 					</chart>
 					<xyDataset>
 						<dataset resetType="Group" resetGroup="CountryGroup">
-							<incrementWhenExpression><![CDATA[$F{Freight}.doubleValue() >= $P{ChartFreightThreshold}.doubleValue() ? Boolean.TRUE : Boolean.FALSE]]></incrementWhenExpression>
+							<incrementWhenExpression><![CDATA[$F{Freight} >= $P{ChartFreightThreshold}]]></incrementWhenExpression>
 						</dataset>
 						<xySeries>
 							<seriesExpression><![CDATA["Half Freight"]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{OrderID}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{Freight}.doubleValue() / 2d)]]></yValueExpression>
+							<yValueExpression><![CDATA[$F{Freight} / 2d]]></yValueExpression>
 						</xySeries>
 						<xySeries>
 							<seriesExpression><![CDATA["Normal Freight"]]></seriesExpression>
@@ -138,7 +138,7 @@
 						<xySeries>
 							<seriesExpression><![CDATA["Double Freight"]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{OrderID}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{Freight}.doubleValue() * 2d)]]></yValueExpression>
+							<yValueExpression><![CDATA[$F{Freight} * 2d]]></yValueExpression>
 						</xySeries>
 					</xyDataset>
 					<areaPlot>

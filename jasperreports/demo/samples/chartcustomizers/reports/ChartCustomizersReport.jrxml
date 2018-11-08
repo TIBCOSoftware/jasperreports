@@ -113,7 +113,7 @@
 						<xySeries>
 							<seriesExpression><![CDATA[$F{sales_state}]]></seriesExpression>
 							<xValueExpression><![CDATA[$F{probability}]]></xValueExpression>
-							<yValueExpression><![CDATA[new Double($F{amount}.doubleValue() + $F{amount}.doubleValue() * Math.sin($V{REPORT_COUNT}.doubleValue() * Math.log(1 + $V{REPORT_COUNT}.doubleValue())))]]></yValueExpression>
+							<yValueExpression><![CDATA[$F{amount} + $F{amount} * Math.sin($V{REPORT_COUNT} * Math.log(1 + $V{REPORT_COUNT}))]]></yValueExpression>
 						</xySeries>
 					</xyDataset>
 					<linePlot isShowShapes="false">

@@ -45,7 +45,7 @@ public class TextInputComponentFactory extends JRBaseFactory
 //		String isMultiLine = atts.getValue(JRXmlConstants.ATTRIBUTE_multiLine);
 //		if (isMultiLine != null && isMultiLine.length() > 0)
 //		{
-//			textInputComponent.setMultiLine(Boolean.valueOf(isMultiLine).booleanValue());
+//			textInputComponent.setMultiLine(Boolean.valueOf(isMultiLine));
 //		}
 
 		return textInputComponent;

@@ -266,7 +266,7 @@
 						<textField>
 							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12" uuid="d80bb123-0551-4c3a-aa01-b2408f07beb7"/>
 							<textElement textAlignment="Right"/>
-							<textFieldExpression><![CDATA[msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))]]></textFieldExpression>
+							<textFieldExpression><![CDATA[msg("({0,number,percent})", $V{FreightSum} / $V{FreightSum_ShipYear_ALL})]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -283,7 +283,7 @@
 						<textField>
 							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12" uuid="9de656c8-003b-4030-aa0d-3007a3a67a72"/>
 							<textElement textAlignment="Right"/>
-							<textFieldExpression><![CDATA[msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))]]></textFieldExpression>
+							<textFieldExpression><![CDATA[msg("({0,number,percent})", $V{FreightSum} / $V{FreightSum_ShipYear_ALL})]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -300,7 +300,7 @@
 						<textField>
 							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12" uuid="3e99be05-6903-49bf-ae14-4a164730b4b1"/>
 							<textElement textAlignment="Right"/>
-							<textFieldExpression><![CDATA[msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))]]></textFieldExpression>
+							<textFieldExpression><![CDATA[msg("({0,number,percent})", $V{FreightSum} / $V{FreightSum_ShipYear_ALL})]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>

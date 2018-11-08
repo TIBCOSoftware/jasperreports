@@ -83,25 +83,25 @@
 							<font size="12"/>
 						</valueDisplay>
 						<dataRange>
-							<lowExpression><![CDATA[new Double(0.0)]]></lowExpression>
-							<highExpression><![CDATA[new Double(17500.0)]]></highExpression>
+							<lowExpression><![CDATA[0.0d]]></lowExpression>
+							<highExpression><![CDATA[17500.0d]]></highExpression>
 						</dataRange>
 						<lowRange>
 							<dataRange>
-								<lowExpression><![CDATA[new Double(0.0)]]></lowExpression>
-								<highExpression><![CDATA[new Double(2000.0)]]></highExpression>
+								<lowExpression><![CDATA[0.0d]]></lowExpression>
+								<highExpression><![CDATA[2000.0d]]></highExpression>
 							</dataRange>
 						</lowRange>
 						<mediumRange>
 							<dataRange>
-								<lowExpression><![CDATA[new Double(2000.0)]]></lowExpression>
-								<highExpression><![CDATA[new Double(12000.0)]]></highExpression>
+								<lowExpression><![CDATA[2000.0d]]></lowExpression>
+								<highExpression><![CDATA[12000.0d]]></highExpression>
 							</dataRange>
 						</mediumRange>
 						<highRange>
 							<dataRange>
-								<lowExpression><![CDATA[new Double(12000.0)]]></lowExpression>
-								<highExpression><![CDATA[new Double(17500)]]></highExpression>
+								<lowExpression><![CDATA[12000.0d]]></lowExpression>
+								<highExpression><![CDATA[17500d]]></highExpression>
 							</dataRange>
 						</highRange>
 					</thermometerPlot>

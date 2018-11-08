@@ -115,7 +115,7 @@
 	</detail>
 	<pageFooter>
 		<band height="40">
-			<printWhenExpression><![CDATA[$P{IS_IGNORE_PAGINATION}.booleanValue()?Boolean.FALSE:Boolean.TRUE]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!$P{IS_IGNORE_PAGINATION}]]></printWhenExpression>
 			<line>
 				<reportElement x="0" y="10" width="515" height="1" uuid="7c3195dc-606d-4287-a159-acf9af1e1063"/>
 			</line>

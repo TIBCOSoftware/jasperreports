@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VirtualizerReport" pageWidth="595" pageHeight="842" columnWidth="270" columnSpacing="15" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="62072fa9-c37f-416e-8ffc-9ace4ab66ee0">
 	<variable name="Value" class="java.lang.Double">
-		<variableExpression><![CDATA[new Double(500 + 500 * Math.sin($V{REPORT_COUNT}.doubleValue() * Math.log(1 + $V{REPORT_COUNT}.doubleValue())))]]></variableExpression>
+		<variableExpression><![CDATA[500 + 500 * Math.sin($V{REPORT_COUNT} * Math.log(1 + $V{REPORT_COUNT}))]]></variableExpression>
 	</variable>
 	<title>
 		<band height="30">

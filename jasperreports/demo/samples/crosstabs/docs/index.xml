@@ -160,7 +160,7 @@ in a crosstab, using <a href="../jasper/index.html#conditionalstyles">conditiona
 <pre><![CDATA[
 <style name="RowStyle" isDefault="false" mode="Opaque">
   <conditionalStyle>
-    <conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <conditionExpression><![CDATA[$V{ROW_COUNT} % 2 == 0]] ></conditionExpression>
     <style backcolor="#E0E0E0"/>
   </conditionalStyle>
 </style>]]></pre>
@@ -168,7 +168,7 @@ or:
 <pre><![CDATA[
 <style name="ColumnStyle" isDefault="false" mode="Opaque">
   <conditionalStyle>
-    <conditionExpression><![CDATA[new Boolean($V{COLUMN_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <conditionExpression><![CDATA[$V{COLUMN_COUNT} % 2 == 0]] ></conditionExpression>
     <style backcolor="#E0E0E0"/>
   </conditionalStyle>
 </style>]]></pre>
@@ -514,8 +514,8 @@ For elements in detail cells the backcolor style feature was set using the follo
   <propertyExpression name="net.sf.jasperreports.style.backcolor">
     <![CDATA["#" + net.sf.jasperreports.engine.util.JRColorUtil.getColorHexa(new java.awt.Color(
 	  255, 
-	  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}.floatValue())), 
-	  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}.floatValue()))))]] >
+	  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL})), 
+	  255 - Math.min(255,(int)(255 * 20 * $V{OrderCount} / $V{OrderCount_CountryRow_FreightColumn_ALL}))))]] >
   </propertyExpression>
 </reportElement>]]></pre>
 After running the sample we'll see the red background of crosstab cells colored more or less intensely depending on the value of the 

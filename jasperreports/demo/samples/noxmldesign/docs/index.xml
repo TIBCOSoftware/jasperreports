@@ -224,7 +224,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     variable.setCalculation(CalculationEnum.SYSTEM);
     JRDesignExpression expression = new JRDesignExpression();
     expression.setValueClass(java.lang.Integer.class);
-    expression.setText("($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))");
+    expression.setText("$V{CityNumber} == null ? 1 : ($V{CityNumber} + 1)");
     variable.setInitialValueExpression(expression);
     jasperDesign.addVariable(variable);
 
