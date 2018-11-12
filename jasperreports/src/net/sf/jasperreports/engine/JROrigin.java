@@ -131,9 +131,9 @@ public class JROrigin implements JRCloneable, Serializable
 			hash = 31 * hash + (reportName == null ? 0 : reportName.hashCode());
 			hash = 31 * hash + (groupName == null ? 0 : groupName.hashCode());
 			hash = 31 * hash + bandTypeValue.hashCode();
-			hashCode = new Integer(hash);
+			hashCode = hash;
 		}
-		return hashCode.intValue();
+		return hashCode;
 	}
 
 

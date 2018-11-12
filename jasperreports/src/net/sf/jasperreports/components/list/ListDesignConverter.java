@@ -87,7 +87,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 			/*
 			Integer width = contents.getWidth();
 			int contentsWidth = width == null ? element.getWidth() 
-					: width.intValue();
+					: width;
 			
 			if (contents.getHeight() < element.getHeight() 
 					|| contentsWidth < element.getWidth())

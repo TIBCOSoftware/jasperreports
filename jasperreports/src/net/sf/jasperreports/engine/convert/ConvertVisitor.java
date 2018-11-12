@@ -217,15 +217,15 @@ public class ConvertVisitor implements JRVisitor
 			if (box == null)
 			{
 				JRPrintGraphicElement graphicElement = element instanceof JRPrintGraphicElement ? (JRPrintGraphicElement)element : null;
-				hasContour = (graphicElement == null) || graphicElement.getLinePen().getLineWidth().floatValue() <= 0f; 
+				hasContour = (graphicElement == null) || graphicElement.getLinePen().getLineWidth() <= 0f; 
 			}
 			else
 			{
 				hasContour = 
-					box.getTopPen().getLineWidth().floatValue() <= 0f 
-					&& box.getLeftPen().getLineWidth().floatValue() <= 0f 
-					&& box.getRightPen().getLineWidth().floatValue() <= 0f 
-					&& box.getBottomPen().getLineWidth().floatValue() <= 0f;
+					box.getTopPen().getLineWidth() <= 0f 
+					&& box.getLeftPen().getLineWidth() <= 0f 
+					&& box.getRightPen().getLineWidth() <= 0f 
+					&& box.getBottomPen().getLineWidth() <= 0f;
 			}
 			
 			if (hasContour)

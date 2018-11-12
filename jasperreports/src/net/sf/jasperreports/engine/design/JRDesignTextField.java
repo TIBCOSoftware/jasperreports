@@ -261,7 +261,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	@Override
 	public void setBlankWhenNull(boolean isBlank)
 	{
-		setBlankWhenNull(isBlank ? Boolean.TRUE : Boolean.FALSE);
+		setBlankWhenNull((Boolean)isBlank);
 	}
 
 	@Override

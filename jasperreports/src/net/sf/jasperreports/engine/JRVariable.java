@@ -153,7 +153,7 @@ import net.sf.jasperreports.engine.type.ResetTypeEnum;
  * <pre>
  *   &lt;variable name="QuantitySum" class="java.lang.Double" resetType="Page" calculation="Sum"&gt;
  *     &lt;variableExpression&gt;$F{Quantity}&lt;/variableExpression&gt;
- *     &lt;initialValueExpression&gt;new Double(0)&lt;/initialValueExpression&gt;
+ *     &lt;initialValueExpression&gt;0&lt;/initialValueExpression&gt;
  *   &lt;/variable&gt;</pre>
  * In this example, the page sum variable will be initialized with zero at the beginning of
  * each new page.

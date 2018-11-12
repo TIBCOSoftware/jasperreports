@@ -66,13 +66,13 @@ public class JRCrosstabFactory extends JRBaseFactory
 		String repeatColHeadersAttr = atts.getValue(ATTRIBUTE_isRepeatColumnHeaders);
 		if (repeatColHeadersAttr != null && repeatColHeadersAttr.length() > 0)
 		{
-			crosstab.setRepeatColumnHeaders(Boolean.valueOf(repeatColHeadersAttr).booleanValue());
+			crosstab.setRepeatColumnHeaders(Boolean.valueOf(repeatColHeadersAttr));
 		}
 		
 		String repeatRowHeadersAttr = atts.getValue(ATTRIBUTE_isRepeatRowHeaders);
 		if (repeatRowHeadersAttr != null && repeatColHeadersAttr.length() > 0)
 		{
-			crosstab.setRepeatRowHeaders(Boolean.valueOf(repeatRowHeadersAttr).booleanValue());
+			crosstab.setRepeatRowHeaders(Boolean.valueOf(repeatRowHeadersAttr));
 		}
 		
 		String runDirectionAttr = atts.getValue(JRXmlConstants.ATTRIBUTE_runDirection);

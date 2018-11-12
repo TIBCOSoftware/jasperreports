@@ -407,9 +407,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
 		{
-			showTickMarks = Boolean.valueOf(isShowTickMarks);
-			showTickLabels = Boolean.valueOf(isShowTickLabels);
-			showLabels = Boolean.valueOf(isShowLabels);
+			showTickMarks = isShowTickMarks;
+			showTickLabels = isShowTickLabels;
+			showLabels = isShowLabels;
 		}
 	}
 

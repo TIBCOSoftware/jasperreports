@@ -718,7 +718,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			{
 				legendPositionValue = EdgeEnum.getByValue(legendPosition);
 				titlePositionValue = EdgeEnum.getByValue(titlePosition);
-				showLegend = Boolean.valueOf(isShowLegend);
+				showLegend = isShowLegend;
 			}
 			else
 			{

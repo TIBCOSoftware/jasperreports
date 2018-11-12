@@ -45,7 +45,7 @@ public class IconLabelComponentFactory extends JRBaseFactory
 //		String isMultiLine = atts.getValue(JRXmlConstants.ATTRIBUTE_multiLine);
 //		if (isMultiLine != null && isMultiLine.length() > 0)
 //		{
-//			iconLabelComponent.setMultiLine(Boolean.valueOf(isMultiLine).booleanValue());
+//			iconLabelComponent.setMultiLine(Boolean.valueOf(isMultiLine));
 //		}
 
 		return iconLabelComponent;

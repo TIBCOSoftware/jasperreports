@@ -31,6 +31,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jfree.data.general.Dataset;
+import org.jfree.data.general.DefaultPieDataset;
+
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.charts.util.PieLabelGenerator;
@@ -48,9 +51,6 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillChartDataset;
 import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
-import org.jfree.data.general.Dataset;
-import org.jfree.data.general.DefaultPieDataset;
 
 
 /**
@@ -267,12 +267,12 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		Double minValue = null;
 		if (getMinPercentage() != null && getMinPercentage().intValue() >= 0 && getMinPercentage().intValue() <= 100)//FIXMENOW why intValue?
 		{
-			minValue = new Double((getMinPercentage().doubleValue() * total) / 100);
+			minValue = (getMinPercentage() * total) / 100;
 		}
 		if (getMaxCount() != null && getMaxCount().intValue() >= 0 && getMaxCount().intValue() <= values.size())
 		{
 			Double minValue2 = sortedValues.get(sortedValues.size() - getMaxCount().intValue());
-			minValue = minValue != null && minValue.doubleValue() > minValue2.doubleValue() ? minValue : minValue2;  
+			minValue = minValue != null && minValue > minValue2 ? minValue : minValue2;  
 		}
 		
 		int otherCount = 0;
@@ -288,7 +288,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 			
 			if (
 				minValue == null
-				|| value.doubleValue() >= minValue.doubleValue() 
+				|| value.doubleValue() >= minValue 
 				)
 			{
 				dataset.setValue(key, value);
@@ -308,7 +308,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		else if (otherCount > 1)
 		{
 			otherKey = otherKey == null ? "Other" : otherKey;
-			dataset.setValue(otherKey, new Double(otherTotal));
+			dataset.setValue(otherKey, otherTotal);
 			labels.put(otherKey, otherLabel);
 
 			if (!JRHyperlinkHelper.isEmpty(getOtherSectionHyperlink()))

@@ -148,7 +148,7 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 				for (Iterator<JRExpression> it = unit.getExpressions().iterator(); it.hasNext();)
 				{
 					JRExpression expr = it.next();
-					int id = unit.getCompileTask().getExpressionId(expr).intValue();
+					int id = unit.getCompileTask().getExpressionId(expr);
 					
 					ScriptExpressionVisitor defaultVisitor = defaultExpressionCreator();
 					JRExpressionUtil.visitChunks(expr, defaultVisitor);

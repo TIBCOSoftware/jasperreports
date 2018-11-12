@@ -1018,7 +1018,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 			{
 				legendPositionValue = EdgeEnum.getByValue(legendPosition);
 				titlePositionValue = EdgeEnum.getByValue(titlePosition);
-				showLegend = Boolean.valueOf(isShowLegend);
+				showLegend = isShowLegend;
 			}
 			else
 			{

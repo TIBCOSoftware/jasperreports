@@ -48,29 +48,29 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 			return null;
 		}
 		return 
-			new Integer(Align.BOTTOM).equals(value) 
+			value.equals(Align.BOTTOM) 
 			? "Align.BOTTOM"
-			: new Integer(Align.BOTTOM_LEFT).equals(value)
+			: value.equals(Align.BOTTOM_LEFT)
 			? "Align.BOTTOM_LEFT"
-			: new Integer(Align.BOTTOM_RIGHT).equals(value)
+			: value.equals(Align.BOTTOM_RIGHT)
 			? "Align.BOTTOM_RIGHT"
-			: new Integer(Align.CENTER).equals(value)
+			: value.equals(Align.CENTER)
 			? "Align.CENTER"
-			: new Integer(Align.FIT).equals(value)
+			: value.equals(Align.FIT)
 			? "Align.FIT"
-			: new Integer(Align.FIT_HORIZONTAL).equals(value)
+			: value.equals(Align.FIT_HORIZONTAL)
 			? "Align.FIT_HORIZONTAL"
-			: new Integer(Align.FIT_VERTICAL).equals(value)
+			: value.equals(Align.FIT_VERTICAL)
 			? "Align.FIT_VERTICAL"
-			: new Integer(Align.LEFT).equals(value)
+			: value.equals(Align.LEFT)
 			? "Align.LEFT"
-			: new Integer(Align.RIGHT).equals(value)
+			: value.equals(Align.RIGHT)
 			? "Align.RIGHT"
-			: new Integer(Align.TOP).equals(value)
+			: value.equals(Align.TOP)
 			? "Align.TOP"
-			: new Integer(Align.TOP_LEFT).equals(value)
+			: value.equals(Align.TOP_LEFT)
 			? "Align.TOP_LEFT"
-			: new Integer(Align.TOP_RIGHT).equals(value)
+			: value.equals(Align.TOP_RIGHT)
 			? "Align.TOP_RIGHT" : null;
 	}
 
@@ -83,29 +83,29 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 		}
 		return 
 			"Align.BOTTOM".equals(value) 
-			? new Integer(Align.BOTTOM) 
+			? Align.BOTTOM
 			: "Align.BOTTOM_LEFT".equals(value)
-			? new Integer(Align.BOTTOM_LEFT)
+			? Align.BOTTOM_LEFT
 			: "Align.BOTTOM_RIGHT".equals(value)
-			? new Integer(Align.BOTTOM_RIGHT)
+			? Align.BOTTOM_RIGHT
 			: "Align.CENTER".equals(value)
-			? new Integer(Align.CENTER)
+			? Align.CENTER
 			: "Align.FIT".equals(value)
-			? new Integer(Align.FIT)
+			? Align.FIT
 			: "Align.FIT_HORIZONTAL".equals(value)
-			? new Integer(Align.FIT_HORIZONTAL)
+			? Align.FIT_HORIZONTAL
 			: "Align.FIT_VERTICAL".equals(value)
-			? new Integer(Align.FIT_VERTICAL)
+			? Align.FIT_VERTICAL
 			: "Align.LEFT".equals(value)
-			? new Integer(Align.LEFT)
+			? Align.LEFT
 			: "Align.RIGHT".equals(value)
-			? new Integer(Align.RIGHT)
+			? Align.RIGHT
 			: "Align.TOP".equals(value)
-			? new Integer(Align.TOP)
+			? Align.TOP
 			: "Align.TOP_LEFT".equals(value)
-			? new Integer(Align.TOP_LEFT)
+			? Align.TOP_LEFT
 			: "Align.TOP_RIGHT".equals(value)
-			? new Integer(Align.TOP_RIGHT) : null;
+			? Align.TOP_RIGHT : null;
 	}
 	
 	@Override

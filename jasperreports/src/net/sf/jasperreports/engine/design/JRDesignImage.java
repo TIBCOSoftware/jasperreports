@@ -268,7 +268,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 			}
 			return true;
 		}
-		return isUsingCache.booleanValue();
+		return isUsingCache;
 	}
 
 	/**
@@ -364,7 +364,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{
-		setUsingCache(isUsingCache ? Boolean.TRUE : Boolean.FALSE);
+		setUsingCache((Boolean)isUsingCache);
 	}
 
 	@Override

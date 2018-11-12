@@ -52,8 +52,8 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
 public interface JRPen
 {
 
-	public static final Float LINE_WIDTH_0 = new Float(0f);
-	public static final Float LINE_WIDTH_1 = new Float(1f);
+	public static final Float LINE_WIDTH_0 = 0f;
+	public static final Float LINE_WIDTH_1 = 1f;
 
 
 	/**

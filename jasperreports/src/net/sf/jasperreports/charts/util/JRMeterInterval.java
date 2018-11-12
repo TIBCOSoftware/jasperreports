@@ -212,7 +212,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			alphaDouble = new Double(alpha);
+			alphaDouble = alpha;
 		}
 	}
 	

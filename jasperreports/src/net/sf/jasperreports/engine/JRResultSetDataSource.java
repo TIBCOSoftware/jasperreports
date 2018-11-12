@@ -193,7 +193,7 @@ public class JRResultSetDataSource implements JRDataSource
 			{
 				if (clazz.equals(java.lang.Boolean.class))
 				{
-					objValue = resultSet.getBoolean(columnIndex.intValue()) ? Boolean.TRUE : Boolean.FALSE;
+					objValue = resultSet.getBoolean(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -201,7 +201,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Byte.class))
 				{
-					objValue = new Byte(resultSet.getByte(columnIndex.intValue()));
+					objValue = resultSet.getByte(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -224,7 +224,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Double.class))
 				{
-					objValue = new Double(resultSet.getDouble(columnIndex.intValue()));
+					objValue = resultSet.getDouble(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -232,7 +232,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Float.class))
 				{
-					objValue = new Float(resultSet.getFloat(columnIndex.intValue()));
+					objValue = resultSet.getFloat(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -240,7 +240,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Integer.class))
 				{
-					objValue = Integer.valueOf(resultSet.getInt(columnIndex.intValue()));
+					objValue = resultSet.getInt(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -261,7 +261,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Long.class))
 				{
-					objValue = new Long(resultSet.getLong(columnIndex.intValue()));
+					objValue = resultSet.getLong(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -269,7 +269,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.Short.class))
 				{
-					objValue = new Short(resultSet.getShort(columnIndex.intValue()));
+					objValue = resultSet.getShort(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -277,7 +277,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.math.BigDecimal.class))
 				{
-					objValue = resultSet.getBigDecimal(columnIndex.intValue());
+					objValue = resultSet.getBigDecimal(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -285,11 +285,11 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.String.class))
 				{
-					int columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+					int columnType = resultSet.getMetaData().getColumnType(columnIndex);
 					switch (columnType)
 					{
 						case Types.CLOB:
-							Clob clob = resultSet.getClob(columnIndex.intValue());
+							Clob clob = resultSet.getClob(columnIndex);
 							if (resultSet.wasNull())
 							{
 								objValue = null;
@@ -301,7 +301,7 @@ public class JRResultSetDataSource implements JRDataSource
 							break;
 							
 						default:
-							objValue = resultSet.getString(columnIndex.intValue());
+							objValue = resultSet.getString(columnIndex);
 							if(resultSet.wasNull())
 							{
 								objValue = null;
@@ -311,7 +311,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(Clob.class))
 				{
-					objValue = resultSet.getClob(columnIndex.intValue());
+					objValue = resultSet.getClob(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -322,11 +322,11 @@ public class JRResultSetDataSource implements JRDataSource
 					Reader reader = null;
 					long size = -1;
 					
-					int columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+					int columnType = resultSet.getMetaData().getColumnType(columnIndex);
 					switch (columnType)
 					{
 						case Types.CLOB:
-							Clob clob = resultSet.getClob(columnIndex.intValue());
+							Clob clob = resultSet.getClob(columnIndex);
 							if (!resultSet.wasNull())
 							{
 								reader = clob.getCharacterStream();
@@ -335,7 +335,7 @@ public class JRResultSetDataSource implements JRDataSource
 							break;
 							
 						default:
-							reader = resultSet.getCharacterStream(columnIndex.intValue());
+							reader = resultSet.getCharacterStream(columnIndex);
 							if (resultSet.wasNull())
 							{
 								reader = null; 
@@ -353,7 +353,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(Blob.class))
 				{
-					objValue = resultSet.getBlob(columnIndex.intValue());
+					objValue = resultSet.getBlob(columnIndex);
 					if(resultSet.wasNull())
 					{
 						objValue = null;
@@ -374,7 +374,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else
 				{
-					objValue = resultSet.getObject(columnIndex.intValue());
+					objValue = resultSet.getObject(columnIndex);
 				}
 			}
 			catch (Exception e)
@@ -394,8 +394,8 @@ public class JRResultSetDataSource implements JRDataSource
 	protected Object readDate(Integer columnIndex, JRField field) throws SQLException
 	{
 		Calendar calendar = getFieldCalendar(field);
-		java.sql.Date objValue = calendar == null ? resultSet.getDate(columnIndex.intValue())
-				: resultSet.getDate(columnIndex.intValue(), calendar);
+		java.sql.Date objValue = calendar == null ? resultSet.getDate(columnIndex)
+				: resultSet.getDate(columnIndex, calendar);
 		if(resultSet.wasNull())
 		{
 			objValue = null;
@@ -413,8 +413,8 @@ public class JRResultSetDataSource implements JRDataSource
 	protected Object readTimestamp(Integer columnIndex, JRField field) throws SQLException
 	{
 		Calendar calendar = getFieldCalendar(field);
-		java.sql.Timestamp objValue = calendar == null ? resultSet.getTimestamp(columnIndex.intValue())
-				: resultSet.getTimestamp(columnIndex.intValue(), calendar);
+		java.sql.Timestamp objValue = calendar == null ? resultSet.getTimestamp(columnIndex)
+				: resultSet.getTimestamp(columnIndex, calendar);
 		if(resultSet.wasNull())
 		{
 			objValue = null;
@@ -432,8 +432,8 @@ public class JRResultSetDataSource implements JRDataSource
 	protected Object readTime(Integer columnIndex, JRField field) throws SQLException
 	{
 		Calendar calendar = getFieldCalendar(field);
-		java.sql.Time objValue = calendar == null ? resultSet.getTime(columnIndex.intValue())
-				: resultSet.getTime(columnIndex.intValue(), calendar);
+		java.sql.Time objValue = calendar == null ? resultSet.getTime(columnIndex)
+				: resultSet.getTime(columnIndex, calendar);
 		if(resultSet.wasNull())
 		{
 			objValue = null;
@@ -556,12 +556,12 @@ public class JRResultSetDataSource implements JRDataSource
 	{
 		Integer columnIndex = null;
 		ResultSetMetaData metadata = resultSet.getMetaData();
-		for(int i = 1; i <= metadata.getColumnCount(); i++)
+		for (int i = 1; i <= metadata.getColumnCount(); i++)
 		{
 			String columnName = metadata.getColumnName(i);
 			if (name.equalsIgnoreCase(columnName))
 			{
-				columnIndex = Integer.valueOf(i);
+				columnIndex = i;
 				break;
 			}
 		}
@@ -595,12 +595,12 @@ public class JRResultSetDataSource implements JRDataSource
 	{
 		Integer columnIndex = null;
 		ResultSetMetaData metadata = resultSet.getMetaData();
-		for(int i = 1; i <= metadata.getColumnCount(); i++)
+		for (int i = 1; i <= metadata.getColumnCount(); i++)
 		{
 			String columnLabel = metadata.getColumnLabel(i);
 			if (columnLabel != null && label.equalsIgnoreCase(columnLabel))
 			{
-				columnIndex = Integer.valueOf(i);
+				columnIndex = i;
 				break;
 			}
 		}
@@ -627,8 +627,8 @@ public class JRResultSetDataSource implements JRDataSource
 	{
 		Integer columnIndex = Integer.valueOf(index);
 		if (
-			columnIndex.intValue() <= 0
-			|| columnIndex.intValue() > resultSet.getMetaData().getColumnCount()
+			columnIndex <= 0
+			|| columnIndex > resultSet.getMetaData().getColumnCount()
 			)
 		{
 			throw 
@@ -696,11 +696,11 @@ public class JRResultSetDataSource implements JRDataSource
 		InputStream is = null;
 		long size = -1;
 		
-		int columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+		int columnType = resultSet.getMetaData().getColumnType(columnIndex);
 		switch (columnType)
 		{
 			case Types.BLOB:
-				Blob blob = resultSet.getBlob(columnIndex.intValue());
+				Blob blob = resultSet.getBlob(columnIndex);
 				if (!resultSet.wasNull())
 				{
 					is = blob.getBinaryStream();
@@ -709,7 +709,7 @@ public class JRResultSetDataSource implements JRDataSource
 				break;
 				
 			default:
-				is = resultSet.getBinaryStream(columnIndex.intValue());
+				is = resultSet.getBinaryStream(columnIndex);
 				if (resultSet.wasNull())
 				{
 					is = null; 

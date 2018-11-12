@@ -339,8 +339,8 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			showShapes = Boolean.valueOf(isShowShapes);
-			showLines = Boolean.valueOf(isShowLines);
+			showShapes = isShowShapes;
+			showLines = isShowLines;
 		}
 	}
 	

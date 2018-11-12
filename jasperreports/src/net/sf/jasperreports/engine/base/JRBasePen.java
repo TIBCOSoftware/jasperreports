@@ -125,7 +125,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	@Override
 	public void setLineWidth(float lineWidth)
 	{
-		setLineWidth(new Float(lineWidth));
+		setLineWidth((Float)lineWidth);
 	}
 
 	@Override

@@ -172,7 +172,7 @@ public class FillTable extends BaseFillComponent
 			}
 			else
 			{
-				toPrint = printWhenVal.booleanValue();
+				toPrint = printWhenVal;
 			}
 		}
 		return toPrint;

@@ -82,19 +82,19 @@ public class JRGroovyGenerator
 	static
 	{
 		fieldPrefixMap = new HashMap<Byte, String>();
-		fieldPrefixMap.put(new Byte(JRExpression.EVALUATION_OLD),       "Old");
-		fieldPrefixMap.put(new Byte(JRExpression.EVALUATION_ESTIMATED), "");
-		fieldPrefixMap.put(new Byte(JRExpression.EVALUATION_DEFAULT),   "");
+		fieldPrefixMap.put(JRExpression.EVALUATION_OLD,       "Old");
+		fieldPrefixMap.put(JRExpression.EVALUATION_ESTIMATED, "");
+		fieldPrefixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
 		
 		variablePrefixMap = new HashMap<Byte, String>();
-		variablePrefixMap.put(new Byte(JRExpression.EVALUATION_OLD),       "Old");
-		variablePrefixMap.put(new Byte(JRExpression.EVALUATION_ESTIMATED), "Estimated");
-		variablePrefixMap.put(new Byte(JRExpression.EVALUATION_DEFAULT),   "");
+		variablePrefixMap.put(JRExpression.EVALUATION_OLD,       "Old");
+		variablePrefixMap.put(JRExpression.EVALUATION_ESTIMATED, "Estimated");
+		variablePrefixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
 		
 		methodSuffixMap = new HashMap<Byte, String>();
-		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_OLD),       "Old");
-		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_ESTIMATED), "Estimated");
-		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_DEFAULT),   "");
+		methodSuffixMap.put(JRExpression.EVALUATION_OLD,       "Old");
+		methodSuffixMap.put(JRExpression.EVALUATION_ESTIMATED, "Estimated");
+		methodSuffixMap.put(JRExpression.EVALUATION_DEFAULT,   "");
 	}
 	
 	/**
@@ -471,7 +471,7 @@ public class JRGroovyGenerator
 			sb.append("     *\n");
 			sb.append("     */\n");
 			sb.append("    Object evaluate");
-			sb.append(methodSuffixMap.get(new Byte(evaluationType)));
+			sb.append(methodSuffixMap.get(evaluationType));
 			sb.append("(int id)\n");
 			sb.append("    {\n");
 			sb.append("        return null;\n");
@@ -547,7 +547,7 @@ public class JRGroovyGenerator
 		sb.append("     *\n");
 		sb.append("     */\n");
 		sb.append("    Object evaluate");
-		sb.append( methodSuffixMap.get(new Byte(evaluationType)));
+		sb.append( methodSuffixMap.get(evaluationType));
 		if (methodIndex > 0)
 		{
 			sb.append(methodIndex);
@@ -574,7 +574,7 @@ public class JRGroovyGenerator
 		sb.append(")\n");
 		sb.append("        {\n");
 		sb.append("            value = evaluate");
-		sb.append(methodSuffixMap.get(new Byte(evaluationType)));
+		sb.append(methodSuffixMap.get(evaluationType));
 		sb.append(methodIndex);
 		sb.append("(id);\n");
 		sb.append("        }\n");
@@ -654,7 +654,7 @@ public class JRGroovyGenerator
 						sb.append("field_");
 						sb.append(JRStringUtil.getJavaIdentifier(chunkText)); 
 						sb.append(".get");
-						sb.append(fieldPrefixMap.get(new Byte(evaluationType))); 
+						sb.append(fieldPrefixMap.get(evaluationType)); 
 						sb.append("Value())");
 	
 						break;
@@ -673,7 +673,7 @@ public class JRGroovyGenerator
 						sb.append("variable_"); 
 						sb.append(JRStringUtil.getJavaIdentifier(chunkText)); 
 						sb.append(".get");
-						sb.append(variablePrefixMap.get(new Byte(evaluationType))); 
+						sb.append(variablePrefixMap.get(evaluationType)); 
 						sb.append("Value())");
 	
 						break;

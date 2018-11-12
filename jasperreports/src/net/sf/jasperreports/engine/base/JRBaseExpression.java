@@ -104,7 +104,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 		}
 		else
 		{
-			id = expressionId.intValue();
+			id = expressionId;
 		}
 		
 		type = expression.getType();

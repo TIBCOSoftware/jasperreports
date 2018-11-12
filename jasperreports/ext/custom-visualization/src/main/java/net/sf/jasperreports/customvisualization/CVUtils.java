@@ -55,7 +55,7 @@ public class CVUtils
 				Object renderAsPngProperty = componentConfiguration.get("renderAsPng");
 				if (renderAsPngProperty != null)
 				{
-					return Boolean.valueOf(renderAsPngProperty.toString()).booleanValue();
+					return Boolean.valueOf(renderAsPngProperty.toString());
 				}
 			}
 		}
@@ -82,7 +82,7 @@ public class CVUtils
 				if (property != null)
 				{
 					try {
-						return Float.valueOf(property.toString()).floatValue();
+						return Float.valueOf(property.toString());
 					} catch (Exception ex)
 					{
 
@@ -105,7 +105,7 @@ public class CVUtils
 				if (property != null)
 				{
 					try {
-						return Long.valueOf(property.toString()).longValue();
+						return Long.valueOf(property.toString());
 					} catch (Exception ex)
 					{
 

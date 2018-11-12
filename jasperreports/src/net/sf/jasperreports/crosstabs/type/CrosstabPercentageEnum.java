@@ -62,7 +62,7 @@ public enum CrosstabPercentageEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -101,6 +101,6 @@ public enum CrosstabPercentageEnum implements JREnum
 	 */
 	public static CrosstabPercentageEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

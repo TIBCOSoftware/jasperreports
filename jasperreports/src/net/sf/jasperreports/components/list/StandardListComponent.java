@@ -189,7 +189,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	 */
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
-		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
+		setIgnoreWidth((Boolean)ignoreWidth);
 	}
 	
 	/*

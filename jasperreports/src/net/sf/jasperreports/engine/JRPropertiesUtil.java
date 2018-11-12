@@ -219,12 +219,12 @@ public final class JRPropertiesUtil
 	 */
 	public static boolean asBoolean(String value)
 	{
-		return Boolean.valueOf(value == null ? value : value.trim()).booleanValue();
+		return Boolean.valueOf(value == null ? value : value.trim());
 	}
 
 	public static boolean asBoolean(String value, boolean defaultValue)
 	{
-		return value == null ? defaultValue : Boolean.valueOf(value.trim()).booleanValue();
+		return value == null ? defaultValue : Boolean.valueOf(value.trim());
 	}
 
 	/**
@@ -945,7 +945,7 @@ public final class JRPropertiesUtil
 	public static Character asCharacter(String value)
 	{
 		return value == null || value.length() == 0 ? null 
-				: new Character(value.charAt(0));
+				: value.charAt(0);
 	}
 
 	public static String getOwnProperty(JRPropertiesHolder propertiesHolder, String key)

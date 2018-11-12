@@ -774,7 +774,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	@Override
 	public void setRadius(int radius)
 	{
-		setRadius(Integer.valueOf(radius));
+		setRadius((Integer)radius);
 	}
 
 	@Override
@@ -856,7 +856,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	@Override
 	public void setBold(boolean bold)
 	{
-		setBold(bold ? Boolean.TRUE : Boolean.FALSE);
+		setBold((Boolean)bold);
 	}
 
 	@Override
@@ -870,7 +870,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	@Override
 	public void setItalic(boolean italic)
 	{
-		setItalic(italic ? Boolean.TRUE : Boolean.FALSE);
+		setItalic((Boolean)italic);
 	}
 
 	@Override
@@ -884,7 +884,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	@Override
 	public void setPdfEmbedded(boolean pdfEmbedded)
 	{
-		setPdfEmbedded(pdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
+		setPdfEmbedded((Boolean)pdfEmbedded);
 	}
 
 	@Override
@@ -898,7 +898,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	@Override
 	public void setStrikeThrough(boolean strikeThrough)
 	{
-		setStrikeThrough(strikeThrough ? Boolean.TRUE : Boolean.FALSE);
+		setStrikeThrough((Boolean)strikeThrough);
 	}
 
 	@Override
@@ -920,7 +920,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	@Override
 	public void setBlankWhenNull(boolean isBlankWhenNull)
 	{
-		setBlankWhenNull(isBlankWhenNull ? Boolean.TRUE : Boolean.FALSE);
+		setBlankWhenNull((Boolean)isBlankWhenNull);
 	}
 
 	@Override
@@ -934,7 +934,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	@Override
 	public void setUnderline(boolean underline)
 	{
-		setUnderline(underline ? Boolean.TRUE : Boolean.FALSE);
+		setUnderline((Boolean)underline);
 	}
 
 	@Override
@@ -1125,7 +1125,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 		if (isStyledText != null)
 		{
-			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
+			markup = isStyledText ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
 			isStyledText = null;
 		}
 

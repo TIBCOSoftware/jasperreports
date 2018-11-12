@@ -237,7 +237,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	@Override
 	public void setPadding(int padding)
 	{
-		setPadding(Integer.valueOf(padding));
+		setPadding((Integer)padding);
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	@Override
 	public void setTopPadding(int topPadding)
 	{
-		setTopPadding(Integer.valueOf(topPadding));
+		setTopPadding((Integer)topPadding);
 	}
 
 	@Override
@@ -289,7 +289,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	@Override
 	public void setLeftPadding(int leftPadding)
 	{
-		setLeftPadding(Integer.valueOf(leftPadding));
+		setLeftPadding((Integer)leftPadding);
 	}
 
 	@Override
@@ -315,7 +315,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	@Override
 	public void setBottomPadding(int bottomPadding)
 	{
-		setBottomPadding(Integer.valueOf(bottomPadding));
+		setBottomPadding((Integer)bottomPadding);
 	}
 
 	@Override
@@ -341,7 +341,7 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 	@Override
 	public void setRightPadding(int rightPadding)
 	{
-		setRightPadding(Integer.valueOf(rightPadding));
+		setRightPadding((Integer)rightPadding);
 	}
 
 	@Override

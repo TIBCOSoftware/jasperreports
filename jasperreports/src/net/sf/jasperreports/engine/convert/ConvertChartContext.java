@@ -210,11 +210,11 @@ public class ConvertChartContext implements ChartContext
 		if (samplePieDataset == null)
 		{
 			DefaultPieDataset dataset = new DefaultPieDataset();
-			dataset.setValue("First", new Double(45));
-			dataset.setValue("Second", new Double(10));
-			dataset.setValue("Third", new Double(15));
-			dataset.setValue("Fourth", new Double(25));
-			dataset.setValue("Fifth", new Double(5));
+			dataset.setValue("First", 45d);
+			dataset.setValue("Second", 10d);
+			dataset.setValue("Third", 15d);
+			dataset.setValue("Fourth", 25d);
+			dataset.setValue("Fifth", 5d);
 			
 			samplePieDataset = dataset;
 		}
@@ -299,36 +299,36 @@ public class ConvertChartContext implements ChartContext
 			
 			TimeSeries series = new TimeSeries("First", "Year", "Count");
 
-			series.add(new Year(1976), Integer.valueOf(0));
-			series.add(new Year(1977), Integer.valueOf(1));
-			series.add(new Year(1978), Integer.valueOf(0));
-			series.add(new Year(1979), Integer.valueOf(2));
-			series.add(new Year(1980), Integer.valueOf(0));
-			series.add(new Year(1981), Integer.valueOf(1));
-			series.add(new Year(1982), Integer.valueOf(2));
-			series.add(new Year(1983), Integer.valueOf(5));
-			series.add(new Year(1984), Integer.valueOf(21));
-			series.add(new Year(1985), Integer.valueOf(18));
-			series.add(new Year(1986), Integer.valueOf(18));
-			series.add(new Year(1987), Integer.valueOf(25));
-			series.add(new Year(1988), Integer.valueOf(11));
-			series.add(new Year(1989), Integer.valueOf(16));
-			series.add(new Year(1990), Integer.valueOf(23));
-			series.add(new Year(1991), Integer.valueOf(14));
-			series.add(new Year(1992), Integer.valueOf(31));
-			series.add(new Year(1993), Integer.valueOf(38));
-			series.add(new Year(1994), Integer.valueOf(31));
-			series.add(new Year(1995), Integer.valueOf(56));
-			series.add(new Year(1996), Integer.valueOf(45));
-			series.add(new Year(1997), Integer.valueOf(74));
-			series.add(new Year(1998), Integer.valueOf(68));
-			series.add(new Year(1999), Integer.valueOf(98));
-			series.add(new Year(2000), Integer.valueOf(85));
-			series.add(new Year(2001), Integer.valueOf(66));
-			series.add(new Year(2002), Integer.valueOf(71));
-			series.add(new Year(2003), Integer.valueOf(65));
-			series.add(new Year(2004), Integer.valueOf(59));
-			series.add(new Year(2005), Integer.valueOf(60));
+			series.add(new Year(1976), 0);
+			series.add(new Year(1977), 1);
+			series.add(new Year(1978), 0);
+			series.add(new Year(1979), 2);
+			series.add(new Year(1980), 0);
+			series.add(new Year(1981), 1);
+			series.add(new Year(1982), 2);
+			series.add(new Year(1983), 5);
+			series.add(new Year(1984), 21);
+			series.add(new Year(1985), 18);
+			series.add(new Year(1986), 18);
+			series.add(new Year(1987), 25);
+			series.add(new Year(1988), 11);
+			series.add(new Year(1989), 16);
+			series.add(new Year(1990), 23);
+			series.add(new Year(1991), 14);
+			series.add(new Year(1992), 31);
+			series.add(new Year(1993), 38);
+			series.add(new Year(1994), 31);
+			series.add(new Year(1995), 56);
+			series.add(new Year(1996), 45);
+			series.add(new Year(1997), 74);
+			series.add(new Year(1998), 68);
+			series.add(new Year(1999), 98);
+			series.add(new Year(2000), 85);
+			series.add(new Year(2001), 66);
+			series.add(new Year(2002), 71);
+			series.add(new Year(2003), 65);
+			series.add(new Year(2004), 59);
+			series.add(new Year(2005), 60);
 			
 			dataset.addSeries(series);
 			

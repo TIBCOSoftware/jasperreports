@@ -47,7 +47,7 @@ public class JRCrosstabDatasetFactory extends JRBaseFactory
 		String sortedAttr = atts.getValue(ATTRIBUTE_isDataPreSorted);
 		if (sortedAttr != null && sortedAttr.length() > 0)
 		{
-			dataset.setDataPreSorted(Boolean.valueOf(sortedAttr).booleanValue());
+			dataset.setDataPreSorted(Boolean.valueOf(sortedAttr));
 		}
 		
 		return dataset;

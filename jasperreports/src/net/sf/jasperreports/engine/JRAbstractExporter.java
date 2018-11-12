@@ -526,7 +526,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			Integer offsetX = configuration.getOffsetX();
 			if (offsetX != null)
 			{
-				elementOffsetX = offsetX.intValue();
+				elementOffsetX = offsetX;
 			}
 			else
 			{
@@ -536,7 +536,7 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 			Integer offsetY = configuration.getOffsetY();
 			if (offsetY != null)
 			{
-				elementOffsetY = offsetY.intValue();
+				elementOffsetY = offsetY;
 			}
 			else
 			{
@@ -906,8 +906,8 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 		}
 		else
 		{
-			int topPadding = frame.getLineBox().getTopPadding().intValue();
-			int leftPadding = frame.getLineBox().getLeftPadding().intValue();
+			int topPadding = frame.getLineBox().getTopPadding();
+			int leftPadding = frame.getLineBox().getLeftPadding();
 
 			setElementOffsets(getOffsetX() + frame.getX() + leftPadding, getOffsetY() + frame.getY() + topPadding);
 		}

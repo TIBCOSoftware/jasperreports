@@ -25,9 +25,9 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.Comparator;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
-
 import org.apache.commons.collections.map.ReferenceMap;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * A comparator that assigns arbitrary ranks to objects and uses the ranks
@@ -90,11 +90,11 @@ public class ArbitraryRankComparator implements Comparator<Object>
 						(Object[])null);
 			}
 			
-			ranks.put(o, new Long(rank));
+			ranks.put(o, rank);
 		}
 		else
 		{
-			rank = existingRank.longValue();
+			rank = existingRank;
 		}
 		return rank;
 	}

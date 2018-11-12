@@ -60,10 +60,10 @@ public class HorizontalFillList extends BaseFillList
 		super(component, factory);
 		
 		ListContents listContents = component.getContents();
-		this.contentsWidth = listContents.getWidth().intValue();
+		this.contentsWidth = listContents.getWidth();
 		
 		Boolean listIgnoreWidth = component.getIgnoreWidth();
-		this.ignoreWidth = listIgnoreWidth != null && listIgnoreWidth.booleanValue();
+		this.ignoreWidth = listIgnoreWidth != null && listIgnoreWidth;
 		
 		JRFillObjectFactory datasetFactory = new JRFillObjectFactory(factory, 
 				createDatasetExpressionEvaluator());

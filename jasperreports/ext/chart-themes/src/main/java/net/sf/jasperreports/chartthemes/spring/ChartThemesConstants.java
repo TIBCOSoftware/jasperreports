@@ -42,9 +42,9 @@ public interface ChartThemesConstants
 	//general properties
 	public static final Paint TRANSPARENT_PAINT = new Color(0, 0, 0, 0);
 	
-	public static final Integer FONT_PLAIN_STYLE = new Integer(Font.PLAIN);
-	public static final Integer FONT_BOLD_STYLE = new Integer(Font.BOLD);
-	public static final Integer FONT_ITALIC_STYLE = new Integer(Font.ITALIC);
+	public static final Integer FONT_PLAIN_STYLE = Font.PLAIN;
+	public static final Integer FONT_BOLD_STYLE = Font.BOLD;
+	public static final Integer FONT_ITALIC_STYLE = Font.ITALIC;
 
 	public static final Paint GRAY_PAINT_134 = new Color(134,134,134);
 	public static final Paint GRAY_PAINT_196 = new Color(196,196,196);

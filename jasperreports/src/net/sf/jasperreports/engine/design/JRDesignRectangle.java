@@ -83,7 +83,7 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 	@Override
 	public void setRadius(int radius)
 	{
-		setRadius(Integer.valueOf(radius));
+		setRadius((Integer)radius);
 	}
 
 	@Override

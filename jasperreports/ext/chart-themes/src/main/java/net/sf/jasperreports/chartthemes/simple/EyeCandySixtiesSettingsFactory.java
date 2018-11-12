@@ -45,7 +45,7 @@ public class EyeCandySixtiesSettingsFactory extends SimpleSettingsFactory
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setAntiAlias(Boolean.TRUE);
 		chartSettings.setUnitType(UnitType.ABSOLUTE);
-		chartSettings.setPadding(new Double(12.34));
+		chartSettings.setPadding(12.34d);
 
 		TitleSettings titleSettings = settings.getTitleSettings();
 		titleSettings.setShowTitle(Boolean.TRUE);

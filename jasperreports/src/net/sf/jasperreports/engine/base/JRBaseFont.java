@@ -128,7 +128,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		Float sizeAttr = (Float)attributes.get(TextAttribute.SIZE);
 		if (sizeAttr != null)
 		{
-			setFontSize(sizeAttr.floatValue());
+			setFontSize(sizeAttr);
 		}
 		
 		Object underline = attributes.get(TextAttribute.UNDERLINE);
@@ -287,7 +287,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	@Override
 	public void setBold(boolean isBold)
 	{
-		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
+		setBold((Boolean)isBold);
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	@Override
 	public void setItalic(boolean isItalic)
 	{
-		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
+		setItalic((Boolean)isItalic);
 	}
 	
 	/**
@@ -348,7 +348,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	@Override
 	public void setUnderline(boolean isUnderline)
 	{
-		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
+		setUnderline((Boolean)isUnderline);
 	}
 	
 	/**
@@ -378,7 +378,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
-		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
+		setStrikeThrough((Boolean)isStrikeThrough);
 	}
 
 	/**
@@ -509,7 +509,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
-		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
+		setPdfEmbedded((Boolean)isPdfEmbedded);
 	}
 	
 	/**

@@ -311,7 +311,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	@Override
 	public void setBold(boolean isBold)
 	{
-		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
+		setBold((Boolean)isBold);
 	}
 
 	/**
@@ -342,7 +342,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	@Override
 	public void setItalic(boolean isItalic)
 	{
-		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
+		setItalic((Boolean)isItalic);
 	}
 
 	/**
@@ -372,7 +372,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	@Override
 	public void setUnderline(boolean isUnderline)
 	{
-		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
+		setUnderline((Boolean)isUnderline);
 	}
 
 	/**
@@ -402,7 +402,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
-		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
+		setStrikeThrough((Boolean)isStrikeThrough);
 	}
 
 	/**
@@ -533,7 +533,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
-		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
+		setPdfEmbedded((Boolean)isPdfEmbedded);
 	}
 
 	/**
@@ -627,7 +627,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		
 		if (isStyledText != null)
 		{
-			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
+			markup = isStyledText ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
 			isStyledText = null;
 		}
 

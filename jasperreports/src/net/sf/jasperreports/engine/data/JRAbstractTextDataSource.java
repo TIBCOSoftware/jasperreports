@@ -95,27 +95,27 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		Number value = null;
 		if (valueClass.equals(Byte.class))
 		{
-			value = new Byte(number.byteValue());
+			value = number.byteValue();
 		}
 		else if (valueClass.equals(Short.class))
 		{
-			value = new Short(number.shortValue());
+			value = number.shortValue();
 		}
 		else if (valueClass.equals(Integer.class))
 		{
-			value = Integer.valueOf(number.intValue());
+			value = number.intValue();
 		}
 		else if (valueClass.equals(Long.class))
 		{
-			value = new Long(number.longValue());
+			value = number.longValue();
 		}
 		else if (valueClass.equals(Float.class))
 		{
-			value = new Float(number.floatValue());
+			value = number.floatValue();
 		}
 		else if (valueClass.equals(Double.class))
 		{
-			value = new Double(number.doubleValue());
+			value = number.doubleValue();
 		}
 		else if (valueClass.equals(BigInteger.class))
 		{

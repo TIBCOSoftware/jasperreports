@@ -64,7 +64,7 @@ public class JRPropertyChangeSupport extends PropertyChangeSupport
 			return;
 		}
 		
-		firePropertyChange(propertyName, new Float(oldValue), new Float(newValue));
+		firePropertyChange(propertyName, (Float)oldValue, (Float)newValue);
 	}
 	
 	public void firePropertyChange(String propertyName, double oldValue, double newValue)
@@ -74,7 +74,7 @@ public class JRPropertyChangeSupport extends PropertyChangeSupport
 			return;
 		}
 		
-		firePropertyChange(propertyName, new Double(oldValue), new Double(newValue));
+		firePropertyChange(propertyName, (Double)oldValue, (Double)newValue);
 	}
 	
 	public void firePropertyRemove(String propertyName, String oldValue)

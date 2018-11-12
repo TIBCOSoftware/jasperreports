@@ -153,13 +153,13 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	@Override
 	public boolean isUsingCache()
 	{
-		return isUsingCache == null ? true : isUsingCache.booleanValue();
+		return isUsingCache == null ? true : isUsingCache;
 	}
 
 	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{
-		this.isUsingCache = (isUsingCache ? Boolean.TRUE : Boolean.FALSE);
+		this.isUsingCache = isUsingCache;
 	}
 
 	/**

@@ -131,7 +131,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 					(Object[])null);
 		}
 		
-		return getUnitName(report, crosstabId.intValue(), nameSuffix);
+		return getUnitName(report, crosstabId, nameSuffix);
 	}
 
 	protected static String getUnitName(JRReport report, int crosstabId, String nameSuffix)
@@ -223,7 +223,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			{
 				JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 				Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
-				reportCompileData.setCrosstabCompileData(crosstabId.intValue(), units[datasets.size() + it.nextIndex()].getCompileData());
+				reportCompileData.setCrosstabCompileData(crosstabId, units[datasets.size() + it.nextIndex()].getCompileData());
 			}
 
 			// creating the report

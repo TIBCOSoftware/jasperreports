@@ -176,8 +176,8 @@ public final class MathFunctions
 		@FunctionParameter("bottomRange"),
 		@FunctionParameter("topRange")})
 	public static Integer RANDBETWEEN(Integer bottomRange, Integer topRange){
-		int min=bottomRange.intValue();
-		int max=topRange.intValue();
+		int min=bottomRange;
+		int max=topRange;
 		return min + (int)(Math.random() * ((max - min) + 1));
 	}	
 	

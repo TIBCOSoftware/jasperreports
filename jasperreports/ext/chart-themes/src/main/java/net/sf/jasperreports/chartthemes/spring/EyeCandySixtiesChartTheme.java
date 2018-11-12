@@ -206,7 +206,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createPieChart();
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
 		JRPiePlot jrPiePlot = (JRPiePlot)getPlot();
-		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels().booleanValue();
+		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels();
 
 		if (isShowLabels && piePlot.getLabelGenerator() != null)
 		{
@@ -240,7 +240,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
 		JRPie3DPlot jrPiePlot = (JRPie3DPlot)getPlot();
-		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels().booleanValue();
+		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels();
 		if (isShowLabels && piePlot3D.getLabelGenerator() != null)
 		{
 			piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
@@ -423,7 +423,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer)xyPlot.getRenderer();
 		lineRenderer.setUseFillPaint(true);
 		JRScatterPlot scatterPlot = (JRScatterPlot) getPlot();
-		boolean isShowLines = scatterPlot.getShowLines() == null ? false : scatterPlot.getShowLines().booleanValue();
+		boolean isShowLines = scatterPlot.getShowLines() == null ? false : scatterPlot.getShowLines();
 		lineRenderer.setBaseLinesVisible(isShowLines);
 		XYDataset xyDataset = xyPlot.getDataset();
 		if (xyDataset != null)
@@ -582,13 +582,13 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 
 
 		chartPlot.setDialOutlinePaint(Color.BLACK);
-		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger().intValue();
+		int meterAngle = jrPlot.getMeterAngleInteger() == null ? 180 : jrPlot.getMeterAngleInteger();
 		// Set the size of the meter
 		chartPlot.setMeterAngle(meterAngle);
 
 		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
 		// implies I am changing the size of the tick, not the spacing between them.
-		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble().doubleValue();
+		double tickInterval = jrPlot.getTickIntervalDouble() == null ? 10.0 : jrPlot.getTickIntervalDouble();
 		chartPlot.setTickSize(tickInterval);
 		
 		JRFont tickLabelFont = jrPlot.getTickLabelFont();
@@ -708,7 +708,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 					: new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0);
 				
 				interval.setBackgroundColor(color);
-				interval.setAlpha(new Double(1.0));
+				interval.setAlpha(1.0d);
 				chartPlot.addInterval(convertInterval(interval));
 			}
 		}
@@ -719,7 +719,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 				evaluateTextExpression(getChart().getTitleExpression()),
 				null,
 				chartPlot,
-				getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+				getChart().getShowLegend() == null ? false : getChart().getShowLegend()
 				);
 
 		// Set all the generic options
@@ -747,7 +747,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 					evaluateTextExpression(getChart().getTitleExpression()),
 					null, 
 					chartPlot, 
-					getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+					getChart().getShowLegend() == null ? false : getChart().getShowLegend()
 					);
 
 		// Set the generic options
@@ -1053,7 +1053,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 			evaluateTextExpression(getChart().getTitleExpression()),
 			null,
 			dialPlot,
-			getChart().getShowLegend() == null ? false : getChart().getShowLegend().booleanValue()
+			getChart().getShowLegend() == null ? false : getChart().getShowLegend()
 			);
 
 		// Set all the generic options

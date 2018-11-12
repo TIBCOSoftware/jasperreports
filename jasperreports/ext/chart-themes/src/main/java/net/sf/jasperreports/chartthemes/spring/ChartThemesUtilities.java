@@ -44,12 +44,12 @@ public class ChartThemesUtilities
 		String sign = value < 0 ? "-" : "";
 		value = Math.abs(value);
 
-		if(scale < 0)
+		if (scale < 0)
 		{
 			value *= Math.pow(10.0, -scale);
 			newValue = (String.valueOf(value) + "0000").substring(0,4);
 		}
-		else if(scale > 2)
+		else if (scale > 2)
 		{
 			newValue =  (String.valueOf(value / Math.pow(10.0, scale - 2)) + "000").substring(0,3);
 		}
@@ -59,7 +59,7 @@ public class ChartThemesUtilities
 			if(newValue.length() > 4)
 				newValue = newValue.substring(0,4);
 		}
-		return Double.valueOf(sign + newValue).doubleValue();
+		return Double.valueOf(sign + newValue);
 	}
 
 	public static double getScaledValue(double value, int scale)
@@ -83,13 +83,13 @@ public class ChartThemesUtilities
 		
 		int style = Font.PLAIN;
 		if((font.isOwnBold() == null && defaultBoldStyle == Font.BOLD) ||
-		(font.isOwnBold() != null && font.isOwnBold().booleanValue()))
+		(font.isOwnBold() != null && font.isOwnBold()))
 		{
 				style = Font.BOLD;
 		}
 		
 		if((font.isOwnItalic() == null && defaultItalicStyle == Font.ITALIC) ||
-		(font.isOwnItalic() != null && font.isOwnItalic().booleanValue()))
+		(font.isOwnItalic() != null && font.isOwnItalic()))
 		{
 			if(style == Font.BOLD)
 				style |= Font.ITALIC;

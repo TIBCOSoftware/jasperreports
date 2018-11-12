@@ -398,9 +398,9 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_0)
 		{
-			xOffsetDouble = new Double(xOffset);
-			yOffsetDouble = new Double(yOffset);
-			showLabels = Boolean.valueOf(isShowLabels);
+			xOffsetDouble = xOffset;
+			yOffsetDouble = yOffset;
+			showLabels = isShowLabels;
 		}
 	}
 }

@@ -70,7 +70,7 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	@Override
 	public void setRadius(int radius)
 	{
-		this.radius = Integer.valueOf(radius);
+		this.radius = radius;
 	}
 
 	@Override

@@ -352,8 +352,8 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			showOpenTicks = Boolean.valueOf(isShowOpenTicks);
-			showCloseTicks = Boolean.valueOf(isShowCloseTicks);
+			showOpenTicks = isShowOpenTicks;
+			showCloseTicks = isShowCloseTicks;
 		}
 	}
 	

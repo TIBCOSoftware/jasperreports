@@ -71,7 +71,7 @@ public enum EdgeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -110,6 +110,6 @@ public enum EdgeEnum implements JREnum
 	 */
 	public static EdgeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

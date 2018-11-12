@@ -499,7 +499,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	@Override
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
-		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
+		setIgnoreWidth((Boolean)ignoreWidth);
 	}
 	
 	@Override

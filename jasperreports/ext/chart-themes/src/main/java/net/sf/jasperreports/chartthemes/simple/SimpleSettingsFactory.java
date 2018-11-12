@@ -126,8 +126,8 @@ public class SimpleSettingsFactory
 		ChartSettings chartSettings = settings.getChartSettings();
 		chartSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
 		chartSettings.setBackgroundImage(new FileImageProvider("net/sf/jasperreports/chartthemes/simple/jasperreports.png"));
-		chartSettings.setBackgroundImageAlignment(new Integer(Align.TOP_RIGHT));
-		chartSettings.setBackgroundImageAlpha(new Float(1f));
+		chartSettings.setBackgroundImageAlignment(Align.TOP_RIGHT);
+		chartSettings.setBackgroundImageAlpha(1f);
 		chartSettings.setBorderVisible(Boolean.TRUE);
 		chartSettings.setBorderPaint(new ColorProvider(Color.GREEN));
 		chartSettings.setBorderStroke(new BasicStroke(1f));
@@ -169,13 +169,13 @@ public class SimpleSettingsFactory
 		
 		PlotSettings plotSettings = settings.getPlotSettings();
 		plotSettings.setOrientation(PlotOrientation.VERTICAL);
-//		plotSettings.setForegroundAlpha(new Float(0.5f));
+//		plotSettings.setForegroundAlpha(0.5f);
 		plotSettings.setBackgroundPaint(new GradientPaintProvider(Color.green, Color.blue));
-//		plotSettings.setBackgroundAlpha(new Float(0.5f));
+//		plotSettings.setBackgroundAlpha(0.5f);
 		plotSettings.setBackgroundImage(new FileImageProvider("net/sf/jasperreports/chartthemes/simple/jasperreports.png"));
-		plotSettings.setBackgroundImageAlpha(new Float(0.5f));
-		plotSettings.setBackgroundImageAlignment(new Integer(Align.NORTH_WEST));
-		plotSettings.setLabelRotation(new Double(0));
+		plotSettings.setBackgroundImageAlpha(0.5f);
+		plotSettings.setBackgroundImageAlignment(Align.NORTH_WEST);
+		plotSettings.setLabelRotation(0d);
 		plotSettings.setPadding(new RectangleInsets(UnitType.ABSOLUTE, 1.1, 2.2, 3.3, 4.4));
 		plotSettings.setOutlineVisible(Boolean.TRUE);
 		plotSettings.setOutlinePaint(new ColorProvider(Color.red));
@@ -205,7 +205,7 @@ public class SimpleSettingsFactory
 		domainAxisSettings.setLineStroke(new BasicStroke(1f));
 		domainAxisSettings.setLineVisible(Boolean.TRUE);
 //		domainAxisSettings.setLabel("Domain Axis");
-		domainAxisSettings.setLabelAngle(new Double(0.0));
+		domainAxisSettings.setLabelAngle(0.0d);
 		domainAxisSettings.setLabelPaint(new ColorProvider(Color.magenta));
 		domainAxisSettings.getLabelFont().setBold(Boolean.TRUE);
 		domainAxisSettings.getLabelFont().setItalic(Boolean.TRUE);
@@ -220,12 +220,12 @@ public class SimpleSettingsFactory
 		domainAxisSettings.getTickLabelFont().setFontSize(10f);
 		domainAxisSettings.setTickLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 0.5, 0.5));
 		domainAxisSettings.setTickLabelsVisible(Boolean.TRUE);
-		domainAxisSettings.setTickMarksInsideLength(new Float(0.1f));
-		domainAxisSettings.setTickMarksOutsideLength(new Float(0.2f));
+		domainAxisSettings.setTickMarksInsideLength(0.1f);
+		domainAxisSettings.setTickMarksOutsideLength(0.2f);
 		domainAxisSettings.setTickMarksPaint(new ColorProvider(Color.ORANGE));
 		domainAxisSettings.setTickMarksStroke(new BasicStroke(1f));
 		domainAxisSettings.setTickMarksVisible(Boolean.TRUE);
-		domainAxisSettings.setTickCount(new Integer(5));
+		domainAxisSettings.setTickCount(5);
 
 		
 		AxisSettings rangeAxisSettings = settings.getRangeAxisSettings();
@@ -235,7 +235,7 @@ public class SimpleSettingsFactory
 		rangeAxisSettings.setLineStroke(new BasicStroke(1f));
 		rangeAxisSettings.setLineVisible(Boolean.TRUE);
 //		rangeAxisSettings.setLabel("Range Axis");
-		rangeAxisSettings.setLabelAngle(new Double(Math.PI/2.0));
+		rangeAxisSettings.setLabelAngle(Math.PI/2.0d);
 		rangeAxisSettings.setLabelPaint(new ColorProvider(Color.green));
 		rangeAxisSettings.getLabelFont().setBold(Boolean.TRUE);
 		rangeAxisSettings.getLabelFont().setItalic(Boolean.TRUE);
@@ -250,12 +250,12 @@ public class SimpleSettingsFactory
 		rangeAxisSettings.getTickLabelFont().setFontSize(10f);
 		rangeAxisSettings.setTickLabelInsets(new RectangleInsets(UnitType.ABSOLUTE, 0.5, 0.5, 0.5, 0.5));
 		rangeAxisSettings.setTickLabelsVisible(Boolean.TRUE);
-		rangeAxisSettings.setTickMarksInsideLength(new Float(0.2f));
-		rangeAxisSettings.setTickMarksOutsideLength(new Float(0.1f));
+		rangeAxisSettings.setTickMarksInsideLength(0.2f);
+		rangeAxisSettings.setTickMarksOutsideLength(0.1f);
 		rangeAxisSettings.setTickMarksPaint(new ColorProvider(Color.black));
 		rangeAxisSettings.setTickMarksStroke(new BasicStroke(1f));
 		rangeAxisSettings.setTickMarksVisible(Boolean.TRUE);
-		rangeAxisSettings.setTickCount(new Integer(6));
+		rangeAxisSettings.setTickCount(6);
 		
 		return settings;
 	}

@@ -62,9 +62,9 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 		
 		if (this.tableModel != null)
 		{
-			for(int i = 0; i < tableModel.getColumnCount(); i++)
+			for (int i = 0; i < tableModel.getColumnCount(); i++)
 			{
-				this.columnNames.put(tableModel.getColumnName(i), Integer.valueOf(i));
+				this.columnNames.put(tableModel.getColumnName(i), i);
 			}
 		}
 	}
@@ -93,7 +93,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 		
 		if (columnIndex != null)
 		{
-			return this.tableModel.getValueAt(index, columnIndex.intValue());
+			return this.tableModel.getValueAt(index, columnIndex);
 		}
 		else if (fieldName.startsWith("COLUMN_"))
 		{

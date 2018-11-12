@@ -41,11 +41,11 @@ public abstract class BaseBarcodeProvider implements BarcodeProvider
 		barcode.setDrawingText(barcodeInfo.isDrawText());
 		if (barcodeInfo.getBarWidth() != null)
 		{
-			barcode.setBarWidth(barcodeInfo.getBarWidth().intValue());
+			barcode.setBarWidth(barcodeInfo.getBarWidth());
 		}
 		if (barcodeInfo.getBarHeight() != null)
 		{
-			barcode.setBarHeight(barcodeInfo.getBarHeight().intValue());
+			barcode.setBarHeight(barcodeInfo.getBarHeight());
 		}
 		return barcode;
 	}

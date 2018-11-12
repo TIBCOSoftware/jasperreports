@@ -327,7 +327,7 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			showVolume = Boolean.valueOf(isShowVolume);
+			showVolume = isShowVolume;
 		}
 	}
 	

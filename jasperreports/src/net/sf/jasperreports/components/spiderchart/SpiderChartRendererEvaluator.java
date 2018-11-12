@@ -62,7 +62,7 @@ public class SpiderChartRendererEvaluator
 	public static final String FILL_DATASET = "fillDataset";
 	public static final String SAMPLE_DATASET = "sampleDataset";
 	
-	public static final Double SAMPLE_MAXVALUE = Double.valueOf(10d);
+	public static final Double SAMPLE_MAXVALUE = 10d;
 	
 	private static DefaultCategoryDataset sampleDataset;
 	

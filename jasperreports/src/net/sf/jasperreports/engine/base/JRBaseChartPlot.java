@@ -425,9 +425,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		in.defaultReadObject();
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			backgroundAlphaFloat = new Float(backgroundAlpha);
-			foregroundAlphaFloat = new Float(foregroundAlpha);
-			labelRotationDouble = new Double(labelRotation);
+			backgroundAlphaFloat = backgroundAlpha;
+			foregroundAlphaFloat = foregroundAlpha;
+			labelRotationDouble = labelRotation;
 		}
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_4_1_3)
 		{

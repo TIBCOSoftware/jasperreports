@@ -236,8 +236,8 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
-			depthFactorDouble = new Double(depthFactor);
-			circular = Boolean.valueOf(isCircular);
+			depthFactorDouble = depthFactor;
+			circular = isCircular;
 		}
 	}
 	

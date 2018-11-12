@@ -159,7 +159,7 @@ public interface JRExpression extends JRCloneable
 	/**
 	 * Dummy ID that is assigned to expression that are not used (and not collected).
 	 */
-	public static final Integer NOT_USED_ID = Integer.valueOf(-1);
+	public static final Integer NOT_USED_ID = -1;
 
 	/**
 	 * Returns the expression return value class.

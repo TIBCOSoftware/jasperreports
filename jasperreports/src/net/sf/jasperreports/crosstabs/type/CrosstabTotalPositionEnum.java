@@ -65,7 +65,7 @@ public enum CrosstabTotalPositionEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -104,6 +104,6 @@ public enum CrosstabTotalPositionEnum implements JREnum
 	 */
 	public static CrosstabTotalPositionEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

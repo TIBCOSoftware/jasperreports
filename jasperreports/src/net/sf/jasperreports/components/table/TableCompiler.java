@@ -310,10 +310,10 @@ public class TableCompiler implements ComponentCompiler
 			JRElement[] elements = cell.getElements();
 			if (elements != null && elements.length > 0)
 			{
-				int topPadding = cell.getLineBox().getTopPadding().intValue();
-				int leftPadding = cell.getLineBox().getLeftPadding().intValue();
-				int bottomPadding = cell.getLineBox().getBottomPadding().intValue();
-				int rightPadding = cell.getLineBox().getRightPadding().intValue();
+				int topPadding = cell.getLineBox().getTopPadding();
+				int leftPadding = cell.getLineBox().getLeftPadding();
+				int bottomPadding = cell.getLineBox().getBottomPadding();
+				int rightPadding = cell.getLineBox().getRightPadding();
 
 				int avlblWidth = width - leftPadding - rightPadding;
 				int avlblHeight = height - topPadding - bottomPadding;

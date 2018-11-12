@@ -223,7 +223,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_1_3)
 		{
 			boolean circularField = fields.get("isCircular", true);
-			circular = Boolean.valueOf(circularField);
+			circular = circularField;
 		}
 		else
 		{

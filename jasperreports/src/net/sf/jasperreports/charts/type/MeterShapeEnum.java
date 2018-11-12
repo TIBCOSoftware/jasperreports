@@ -74,7 +74,7 @@ public enum MeterShapeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -113,6 +113,6 @@ public enum MeterShapeEnum implements JREnum
 	 */
 	public static MeterShapeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

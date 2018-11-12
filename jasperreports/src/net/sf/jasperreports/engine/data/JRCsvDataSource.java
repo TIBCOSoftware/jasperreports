@@ -343,7 +343,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			try {
 				if (valueClass.equals(Boolean.class)) 
 				{
-					return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
+					return fieldValue.equalsIgnoreCase("true");
 				}
 				else if (Number.class.isAssignableFrom(valueClass))
 				{
@@ -855,7 +855,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		this.columnNames = new LinkedHashMap<String, Integer>();
 		for (int i = 0; i < columnNames.length; i++)
 		{
-			this.columnNames.put(columnNames[i], Integer.valueOf(i));
+			this.columnNames.put(columnNames[i], i);
 		}
 	}
 
