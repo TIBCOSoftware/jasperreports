@@ -490,17 +490,11 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 					EXCEPTION_MESSAGE_KEY_NODE_NOT_AVAILABLE,
 					(Object[])null);
 		}
-
-		try {
-			byte[] jsonNodeBytes = currentJsonNode.toString().getBytes("UTF-8");
-			JsonDataSource subDataSource = new JsonDataSource(new ByteArrayInputStream(jsonNodeBytes), selectExpression);
-			subDataSource.setTextAttributes(this);
-			return subDataSource;
-		} catch(UnsupportedEncodingException e) {
-			throw new JRRuntimeException(e);
-		}
+		
+        	JsonDataSource subDataSource = new CustomJsonDataSource(currentJsonNode, selectExpression);
+        	subDataSource.setTextAttributes(this);
+        	return subDataSource;
 	}
-
 
 	/**
 	 * @deprecated no longer required
