@@ -212,7 +212,6 @@ See this text field for guidance:
 In order to be used in a SQL clause, a report parameter of type <code>DateRange</code> is declared as follows:
 <pre><![CDATA[
 <parameter name="StartDate" class="net.sf.jasperreports.types.date.DateRange">
-  <parameterDescription><![CDATA[]] ></parameterDescription>
   <defaultValueExpression><![CDATA[DATERANGE("1996-09-01")]] ></defaultValueExpression>
 </parameter>]]></pre>
 It will be used in this parameterized query:
