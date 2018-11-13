@@ -63,13 +63,13 @@ are declared as follows:
 <code>
 &#160;&#160;&lt;parameter name="A" class="java.lang.Integer"&gt;
 <br/>
-&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[3]]&gt;&lt;/defaultValueExpression&gt;
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;3&lt;/defaultValueExpression&gt;
 <br/>
 &#160;&#160;&lt;/parameter&gt;
 <br/>
 &#160;&#160;&lt;parameter name="B" class="java.lang.Integer"&gt;
 <br/>
-&#160;&#160;&#160;&#160;&lt;defaultValueExpression>&lt;![CDATA[5]]&gt;&lt;/defaultValueExpression&gt;
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression>5&lt;/defaultValueExpression&gt;
 <br/>
 &#160;&#160;&lt;/parameter&gt;
 </code>

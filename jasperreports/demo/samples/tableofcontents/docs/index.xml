@@ -82,7 +82,7 @@ In the main report (<code>TableOfContentsReport.jrxml</code>) one can see the <c
   <property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
   ...
   <group name="dummy">
-    <groupExpression><![CDATA[1]] ></groupExpression>
+    <groupExpression>1</groupExpression>
     <groupHeader>
       <part evaluationTime="Report" uuid="1fadcc2f-31c1-49be-bd52-f8b69e38cd83">
         <property name="net.sf.jasperreports.bookmarks.data.source.parameter" value="REPORT_DATA_SOURCE"/>
