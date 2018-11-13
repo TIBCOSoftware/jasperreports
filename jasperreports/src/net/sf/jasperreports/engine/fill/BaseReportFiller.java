@@ -309,6 +309,7 @@ public abstract class BaseReportFiller implements ReportFiller
 
 	protected final void setParametersToContext(Map<String,Object> parameterValues)
 	{
+		@SuppressWarnings("deprecation")
 		JasperReportsContext localContext = 
 			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(jasperReportsContext, parameterValues);
 		if (localContext != jasperReportsContext)

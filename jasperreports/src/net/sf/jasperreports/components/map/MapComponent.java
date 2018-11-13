@@ -73,7 +73,9 @@ public interface MapComponent extends Component, JRCloneable
 			)
 	public static final String PROPERTY_SIGNATURE = PROPERTY_PREFIX + "signature";
 	
-	@Deprecated
+	/**
+	 * 	@deprecated Replaced by #PROPERTY_GOOGLE_VERSION.
+	 */
 	public static final String PROPERTY_VERSION = PROPERTY_PREFIX + "version";
 	
 	@Property(

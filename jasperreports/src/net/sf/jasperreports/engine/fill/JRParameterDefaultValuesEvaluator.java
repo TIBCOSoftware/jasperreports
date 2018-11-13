@@ -75,9 +75,10 @@ public final class JRParameterDefaultValuesEvaluator
 		JRDataset reportDataset = report.getMainDataset();
 		JRFillDataset fillDataset = factory.getDataset(reportDataset);
 		
-		fillDataset.setJasperReportsContext(
-			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(jasperReportsContext, initialParameters)
-			);
+		@SuppressWarnings("deprecation")
+		JasperReportsContext depContext = 
+			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(jasperReportsContext, initialParameters);
+		fillDataset.setJasperReportsContext(depContext);
 		
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();

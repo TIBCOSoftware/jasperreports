@@ -151,6 +151,7 @@ public class JRViewerController
 		renderersCache = null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void loadReport(String fileName, boolean isXmlReport) throws JRException
 	{
 		setReport(fileName, isXmlReport);

@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -145,14 +144,14 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		final IErrorHandlingPolicy policy = 
 			DefaultErrorHandlingPolicies.proceedWithAllProblems();
 
-		final Map<String,String> settings = getJdtSettings();
+		final CompilerOptions options = new CompilerOptions(getJdtSettings());
 
 		final IProblemFactory problemFactory = 
 			new DefaultProblemFactory(Locale.getDefault());
 
 		final CompilerRequestor requestor = getCompilerRequestor(units);
 
-		final Compiler compiler = new Compiler(env, policy, settings, requestor, problemFactory);
+		final Compiler compiler = new Compiler(env, policy, options, requestor, problemFactory);
 
 		do
 		{
