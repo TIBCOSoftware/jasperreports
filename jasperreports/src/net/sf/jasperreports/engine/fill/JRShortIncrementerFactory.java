@@ -36,7 +36,7 @@ public final class JRShortIncrementerFactory extends JRAbstractExtendedIncrement
 	/**
 	 *
 	 */
-	protected static final Short ZERO = new Short((short)0);
+	protected static final Short ZERO = 0;
 
 
 	/**
@@ -166,7 +166,7 @@ final class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 			return value;
 		}
 
-		return new Short((short)(value.shortValue() + 1));
+		return (short)(value.shortValue() + 1);
 	}
 
 	
@@ -186,7 +186,7 @@ final class JRShortCountIncrementer extends JRAbstractExtendedIncrementer
 			return value;
 		}
 
-		return new Short((short) (value.shortValue() + combineValue.shortValue()));
+		return (short) (value.shortValue() + combineValue.shortValue());
 	}
 
 	
@@ -238,7 +238,7 @@ final class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncremente
 			holder.init();
 		}
 
-		return new Short((short)holder.getCount());
+		return (short)holder.getCount();
 	}
 
 	@Override
@@ -247,7 +247,7 @@ final class JRShortDistinctCountIncrementer extends JRAbstractExtendedIncremente
 		DistinctCountHolder holder = 
 			(DistinctCountHolder)valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		
-		return new Short((short)holder.getCount());
+		return (short)holder.getCount();
 	}
 	
 	@Override
@@ -308,7 +308,7 @@ final class JRShortSumIncrementer extends JRAbstractExtendedIncrementer
 			value = JRShortIncrementerFactory.ZERO;
 		}
 
-		return new Short((short)(value.shortValue() + newValue.shortValue()));
+		return (short)(value.shortValue() + newValue.shortValue());
 	}
 
 	
@@ -362,7 +362,7 @@ final class JRShortAverageIncrementer extends JRAbstractExtendedIncrementer
 		}
 		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
-		return new Short((short)(sumValue.shortValue() / countValue.shortValue()));
+		return (short)(sumValue.shortValue() / countValue.shortValue());
 	}
 
 	
@@ -415,7 +415,7 @@ final class JRShortStandardDeviationIncrementer extends JRAbstractExtendedIncrem
 			return variable.getValue(); 
 		}
 		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_VARIANCE));
-		return new Short( (short)Math.sqrt(varianceValue.doubleValue()) );
+		return (short)Math.sqrt(varianceValue.doubleValue());
 	}
 
 	
@@ -479,12 +479,12 @@ final class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
 			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 			return
-				new Short((short)(
+				(short)(
 					(countValue.shortValue() - 1) * value.shortValue() / countValue.shortValue() +
 					( sumValue.shortValue() / countValue.shortValue() - newValue.shortValue() ) *
 					( sumValue.shortValue() / countValue.shortValue() - newValue.shortValue() ) /
 					(countValue.shortValue() - 1)
-					));
+					);
 		}
 	}
 
@@ -504,7 +504,7 @@ final class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
 		}
 		else if (value == null || calculable.isInitialized())
 		{
-			return new Short(((Number) calculableValue.getIncrementedValue()).shortValue());
+			return ((Number) calculableValue.getIncrementedValue()).shortValue();
 		}
 
 		float v1 = value.floatValue();
@@ -520,14 +520,14 @@ final class JRShortVarianceIncrementer extends JRAbstractExtendedIncrementer
 		
 		float c = c1 + c2;
 
-		return new Short(
-				(short) (
+		return
+			(short) (
 				c1 / c * v1 +
 				c2 / c * v2 +
 				c2 / c1 * s1 / c * s1 / c +
 				c1 / c2 * s2 / c * s2 / c -
 				2 * s1 / c * s2 /c
-				));
+				);
 	}
 
 	

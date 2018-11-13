@@ -90,7 +90,7 @@ public class GraphicStyle extends Style
 
 		forecolor = JRColorUtil.getColorHexa(element.getLinePen().getLineColor());
 
-		width = element.getLinePen().getLineWidth().doubleValue();
+		width = element.getLinePen().getLineWidth();
 		if (width < 0)
 		{
 			style = "none";

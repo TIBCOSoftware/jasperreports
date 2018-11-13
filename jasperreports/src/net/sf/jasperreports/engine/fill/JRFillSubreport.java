@@ -231,7 +231,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		{
 			return source instanceof String;
 		}
-		return isUsingCache.booleanValue();
+		return isUsingCache;
 	}
 		
 	@Override

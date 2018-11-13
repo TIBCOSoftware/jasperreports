@@ -624,7 +624,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
-		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
+		setStrikeThrough((Boolean)isStrikeThrough);
 	}
 
 	/**

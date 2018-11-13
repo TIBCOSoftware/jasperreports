@@ -64,13 +64,13 @@ public abstract class BorderStyle extends Style
 		if (box != null)
 		{
 			appendBorder(box.getTopPen(), TOP_BORDER);
-			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getTopPadding().intValue()));
+			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getTopPadding()));
 			appendBorder(box.getLeftPen(), LEFT_BORDER);
-			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getLeftPadding().intValue()));
+			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getLeftPadding()));
 			appendBorder(box.getBottomPen(), BOTTOM_BORDER);
-			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getBottomPadding().intValue()));
+			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getBottomPadding()));
 			appendBorder(box.getRightPen(), RIGHT_BORDER);
-			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getRightPadding().intValue()));
+			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.inchFloor4Dec(box.getRightPadding()));
 		}
 	}
 
@@ -136,7 +136,7 @@ public abstract class BorderStyle extends Style
 	 */
 	private void appendBorder(JRPen pen, int side)
 	{
-		double width = pen.getLineWidth().doubleValue();
+		double width = pen.getLineWidth();
 		String style = null;
 
 		if (width > 0f)

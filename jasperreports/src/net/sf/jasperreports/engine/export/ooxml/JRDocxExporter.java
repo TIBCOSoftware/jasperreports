@@ -606,10 +606,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				if (
 					box != null 
 					&& box.getBottomPadding() != null 
-					&& maxBottomPadding < box.getBottomPadding().intValue()
+					&& maxBottomPadding < box.getBottomPadding()
 					)
 				{
-					maxBottomPadding = box.getBottomPadding().intValue();
+					maxBottomPadding = box.getBottomPadding();
 				}
 				
 				allowRowResize = 
@@ -952,10 +952,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	 */
 	public void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException
 	{
-		int leftPadding = image.getLineBox().getLeftPadding().intValue();
-		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
-		int rightPadding = image.getLineBox().getRightPadding().intValue();
-		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
+		int leftPadding = image.getLineBox().getLeftPadding();
+		int topPadding = image.getLineBox().getTopPadding();//FIXMEDOCX maybe consider border thickness
+		int rightPadding = image.getLineBox().getRightPadding();
+		int bottomPadding = image.getLineBox().getBottomPadding();
 
 		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;

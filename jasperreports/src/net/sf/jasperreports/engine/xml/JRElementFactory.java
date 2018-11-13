@@ -74,7 +74,7 @@ public class JRElementFactory extends JRBaseFactory
 		String isPrintRepeatedValues = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintRepeatedValues);
 		if (isPrintRepeatedValues != null && isPrintRepeatedValues.length() > 0)
 		{
-			element.setPrintRepeatedValues(Boolean.valueOf(isPrintRepeatedValues).booleanValue());
+			element.setPrintRepeatedValues(Boolean.valueOf(isPrintRepeatedValues));
 		}
 		
 		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
@@ -110,19 +110,19 @@ public class JRElementFactory extends JRBaseFactory
 		String isRemoveLineWhenBlank = atts.getValue(JRXmlConstants.ATTRIBUTE_isRemoveLineWhenBlank);
 		if (isRemoveLineWhenBlank != null && isRemoveLineWhenBlank.length() > 0)
 		{
-			element.setRemoveLineWhenBlank(Boolean.valueOf(isRemoveLineWhenBlank).booleanValue());
+			element.setRemoveLineWhenBlank(Boolean.valueOf(isRemoveLineWhenBlank));
 		}
 
 		String isPrintInFirstWholeBand = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintInFirstWholeBand);
 		if (isPrintInFirstWholeBand != null && isPrintInFirstWholeBand.length() > 0)
 		{
-			element.setPrintInFirstWholeBand(Boolean.valueOf(isPrintInFirstWholeBand).booleanValue());
+			element.setPrintInFirstWholeBand(Boolean.valueOf(isPrintInFirstWholeBand));
 		}
 
 		String isPrintWhenDetailOverflows = atts.getValue(JRXmlConstants.ATTRIBUTE_isPrintWhenDetailOverflows);
 		if (isPrintWhenDetailOverflows != null && isPrintWhenDetailOverflows.length() > 0)
 		{
-			element.setPrintWhenDetailOverflows(Boolean.valueOf(isPrintWhenDetailOverflows).booleanValue());
+			element.setPrintWhenDetailOverflows(Boolean.valueOf(isPrintWhenDetailOverflows));
 		}
 
 		String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_printWhenGroupChanges);

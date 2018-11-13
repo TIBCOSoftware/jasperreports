@@ -153,7 +153,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	
 	public void addOrigin(JROrigin origin, boolean keepFirst)
 	{
-		originsToExclude.put(origin, keepFirst ? Boolean.TRUE : Boolean.FALSE);
+		originsToExclude.put(origin, keepFirst);
 	}
 	
 	public void removeOrigin(JROrigin origin)
@@ -196,7 +196,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 
 		return
 			!originMatched 
-			|| (keepFirst.booleanValue() 
+			|| (keepFirst 
 				&& isFirst(element));
 	}
 	

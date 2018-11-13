@@ -63,7 +63,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		String isDefault = atts.getValue(JRXmlConstants.ATTRIBUTE_isDefault);
 		if (isDefault != null && isDefault.length() > 0)
 		{
-			style.setDefault(Boolean.valueOf(isDefault).booleanValue());
+			style.setDefault(Boolean.valueOf(isDefault));
 		}
 
 		// get parent style

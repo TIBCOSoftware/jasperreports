@@ -64,11 +64,11 @@ public class XlsxSheetRelsHelper extends BaseHelper
 		Integer linkIndex = linkCache.get(href);
 		if (linkIndex == null)
 		{
-			linkIndex = Integer.valueOf(linkCache.size());
+			linkIndex = linkCache.size();
 			exportHyperlink(linkIndex, href);
 			linkCache.put(href, linkIndex);
 		}
-		return linkIndex.intValue();
+		return linkIndex;
 	}
 
 	/**

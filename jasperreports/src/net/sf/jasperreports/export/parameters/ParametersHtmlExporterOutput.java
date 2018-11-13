@@ -70,7 +70,7 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 
 		if (imageHandler == null)
 		{
-			if (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
+			if (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter)
 			{
 				File imagesDir = (File)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_DIR);
 				if (imagesDir == null)
@@ -122,7 +122,7 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 
 					if (
 						imageHandler == null
-						&& (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter.booleanValue())
+						&& (isOutputImagesToDirParameter == null || isOutputImagesToDirParameter)
 						)
 					{
 						File imagesDir = new File(destFile.getParent(), destFile.getName() + "_files");

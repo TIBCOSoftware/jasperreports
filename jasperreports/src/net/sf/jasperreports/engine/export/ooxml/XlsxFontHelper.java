@@ -83,11 +83,11 @@ public class XlsxFontHelper extends BaseHelper
 		Integer fontIndex = fontCache.get(xlsxFontInfo.getId());
 		if (fontIndex == null)
 		{
-			fontIndex = Integer.valueOf(fontCache.size());
+			fontIndex = fontCache.size();
 			export(xlsxFontInfo);
 			fontCache.put(xlsxFontInfo.getId(), fontIndex);
 		}
-		return fontIndex.intValue();
+		return fontIndex;
 	}
 
 	/**

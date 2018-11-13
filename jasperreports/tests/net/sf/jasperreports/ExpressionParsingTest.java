@@ -23,13 +23,13 @@
  */
 package net.sf.jasperreports;
 
-import net.sf.jasperreports.engine.JRExpressionChunk;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -63,7 +63,7 @@ public class ExpressionParsingTest
 				log.debug("chunk " + i + ", type " + chunks[i].getType() + ", text \"" + chunks[i].getText() + "\"");
 			}
 			
-			assert chunks[i].getType() == ((Byte) expectedChunks[2 * i]).byteValue();
+			assert chunks[i].getType() == (Byte) expectedChunks[2 * i];
 			assert chunks[i].getText().equals(expectedChunks[2 * i + 1]);
 		}
 	}

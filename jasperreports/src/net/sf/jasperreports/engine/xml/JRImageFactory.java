@@ -77,7 +77,7 @@ public class JRImageFactory extends JRBaseFactory
 		String isLazy = atts.getValue(JRXmlConstants.ATTRIBUTE_isLazy);
 		if (isLazy != null && isLazy.length() > 0)
 		{
-			image.setLazy(Boolean.valueOf(isLazy).booleanValue());
+			image.setLazy(Boolean.valueOf(isLazy));
 		}
 
 		OnErrorTypeEnum onErrorType = OnErrorTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_onErrorType));

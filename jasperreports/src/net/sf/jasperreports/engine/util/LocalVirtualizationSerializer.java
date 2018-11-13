@@ -87,11 +87,11 @@ public class LocalVirtualizationSerializer extends VirtualizationSerializer
 			Integer idx = classLoadersIndexes.get(classLoader);
 			if (idx == null)
 			{
-				idx = Integer.valueOf(classLoadersList.size());
+				idx = classLoadersList.size();
 				classLoadersIndexes.put(classLoader, idx);
 				classLoadersList.add(classLoader);
 			}
-			loaderIdx = idx.intValue();
+			loaderIdx = idx;
 		}
 		return loaderIdx;
 	}

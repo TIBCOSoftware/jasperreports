@@ -63,7 +63,7 @@ public class RtfServlet extends BaseHttpServlet
 		}
 		
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
-		if (isBuffered.booleanValue())
+		if (isBuffered)
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRRtfExporter exporter = new JRRtfExporter(DefaultJasperReportsContext.getInstance());

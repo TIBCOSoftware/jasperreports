@@ -37,7 +37,7 @@ public final class EnumUtil
 	{
 		if (values != null && value != null)
 		{
-			return getByValue(values, new Byte(value.byteValue()));
+			return getByValue(values, value.byteValue());
 		}
 		return null;
 	}

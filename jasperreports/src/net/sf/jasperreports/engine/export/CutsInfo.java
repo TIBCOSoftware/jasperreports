@@ -49,7 +49,7 @@ public class CutsInfo
 	public CutsInfo()
 	{
 		propertiesMap = new HashMap<String, Object>();
-		addCutOffset(Integer.valueOf(0));
+		addCutOffset(0);
 	}
 	
 	public CutsInfo(Integer lastCutOffset)

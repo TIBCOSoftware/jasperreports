@@ -762,8 +762,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					&& (getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT || getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 					)
 				{
-					int padding = getLineBox().getBottomPadding().intValue() 
-							+ getLineBox().getTopPadding().intValue();
+					int padding = getLineBox().getBottomPadding() 
+							+ getLineBox().getTopPadding();
 					boolean reprinted = isOverflow 
 						&& (this.isPrintWhenDetailOverflows() 
 								&& (this.isAlreadyPrinted() 
@@ -827,7 +827,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 								{
 									if (imageHeight != null)
 									{
-										setPrepareHeight(imageHeight.intValue() + padding);
+										setPrepareHeight(imageHeight + padding);
 									}
 								}
 								else
@@ -922,10 +922,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		if (reducedHeight <= availableHeight)
 		{
-			imageHeight = Integer.valueOf(reducedHeight);
+			imageHeight = reducedHeight;
 			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 			{
-				imageWidth = Integer.valueOf(reducedWidth);
+				imageWidth = reducedWidth;
 			}
 			fitted = true;
 		}
@@ -935,24 +935,24 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		}
 		else
 		{
-			imageHeight = Integer.valueOf(availableHeight);
+			imageHeight = availableHeight;
 			if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)
 			{
 				double hRatio = ((double) availableHeight) / realHeight;
-				imageWidth = Integer.valueOf((int) (hRatio * realWidth));
+				imageWidth = (int) (hRatio * realWidth);
 			}
 			fitted = true;
 		}
 
-		if (imageWidth != null && imageWidth.intValue() != getWidth())
+		if (imageWidth != null && imageWidth != getWidth())
 		{
 			switch (hAlign)
 			{
 			case RIGHT:
-				imageX = Integer.valueOf(getX() + getWidth() - imageWidth.intValue());
+				imageX = getX() + getWidth() - imageWidth;
 				break;
 			case CENTER:
-				imageX = Integer.valueOf(getX() + (getWidth() - imageWidth.intValue()) / 2);
+				imageX = getX() + (getWidth() - imageWidth) / 2;
 				break;
 			default:
 				break;
@@ -1017,11 +1017,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		if (imageX != null)
 		{
-			printImage.setX(imageX.intValue());
+			printImage.setX(imageX);
 		}
 		if (imageWidth != null)
 		{
-			printImage.setWidth(imageWidth.intValue());
+			printImage.setWidth(imageWidth);
 		}
 		
 		printImage.setRenderer(getRenderable());
@@ -1101,8 +1101,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 					if (imageSize != null)
 					{
 						int padding = 
-							printImage.getLineBox().getBottomPadding().intValue() 
-							+ printImage.getLineBox().getTopPadding().intValue();
+							printImage.getLineBox().getBottomPadding() 
+							+ printImage.getLineBox().getTopPadding();
 							
 						fitImage(
 							imageSize,

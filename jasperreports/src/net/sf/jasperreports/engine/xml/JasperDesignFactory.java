@@ -143,25 +143,25 @@ public class JasperDesignFactory extends JRBaseFactory
 		String isTitleNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isTitleNewPage);
 		if (isTitleNewPage != null && isTitleNewPage.length() > 0)
 		{
-			jasperDesign.setTitleNewPage(Boolean.valueOf(isTitleNewPage).booleanValue());
+			jasperDesign.setTitleNewPage(Boolean.valueOf(isTitleNewPage));
 		}
 
 		String isSummaryNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isSummaryNewPage);
 		if (isSummaryNewPage != null && isSummaryNewPage.length() > 0)
 		{
-			jasperDesign.setSummaryNewPage(Boolean.valueOf(isSummaryNewPage).booleanValue());
+			jasperDesign.setSummaryNewPage(Boolean.valueOf(isSummaryNewPage));
 		}
 
 		String isSummaryWithPageHeaderAndFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_isSummaryWithPageHeaderAndFooter);
 		if (isSummaryWithPageHeaderAndFooter != null && isSummaryWithPageHeaderAndFooter.length() > 0)
 		{
-			jasperDesign.setSummaryWithPageHeaderAndFooter(Boolean.valueOf(isSummaryWithPageHeaderAndFooter).booleanValue());
+			jasperDesign.setSummaryWithPageHeaderAndFooter(Boolean.valueOf(isSummaryWithPageHeaderAndFooter));
 		}
 
 		String isFloatColumnFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_isFloatColumnFooter);
 		if (isFloatColumnFooter != null && isFloatColumnFooter.length() > 0)
 		{
-			jasperDesign.setFloatColumnFooter(Boolean.valueOf(isFloatColumnFooter).booleanValue());
+			jasperDesign.setFloatColumnFooter(Boolean.valueOf(isFloatColumnFooter));
 		}
 
 		jasperDesign.setScriptletClass(atts.getValue(JRXmlConstants.ATTRIBUTE_scriptletClass));
@@ -177,7 +177,7 @@ public class JasperDesignFactory extends JRBaseFactory
 		String isIgnorePagination = atts.getValue(JRXmlConstants.ATTRIBUTE_isIgnorePagination);
 		if (isIgnorePagination != null && isIgnorePagination.length() > 0)
 		{
-			jasperDesign.setIgnorePagination(Boolean.valueOf(isIgnorePagination).booleanValue());
+			jasperDesign.setIgnorePagination(Boolean.valueOf(isIgnorePagination));
 		}
 		
 		String uuid = atts.getValue(JRXmlConstants.ATTRIBUTE_uuid);

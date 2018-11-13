@@ -78,7 +78,7 @@ public enum LineSpacingEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -117,6 +117,6 @@ public enum LineSpacingEnum implements JREnum
 	 */
 	public static LineSpacingEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

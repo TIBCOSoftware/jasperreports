@@ -103,7 +103,7 @@ public enum EvaluationTimeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -142,6 +142,6 @@ public enum EvaluationTimeEnum implements JREnum
 	 */
 	public static EvaluationTimeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

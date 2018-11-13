@@ -52,7 +52,7 @@ public class JRPrintImageSourceFactory extends JRBaseFactory
 		String isEmbedded = atts.getValue(JRXmlConstants.ATTRIBUTE_isEmbedded);
 		if (isEmbedded != null && isEmbedded.length() > 0)
 		{
-			imageSource.setEmbedded(Boolean.valueOf(isEmbedded).booleanValue());
+			imageSource.setEmbedded(Boolean.valueOf(isEmbedded));
 		}
 
 		return imageSource;

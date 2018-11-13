@@ -57,7 +57,7 @@ public enum BreakTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -96,6 +96,6 @@ public enum BreakTypeEnum implements JREnum
 	 */
 	public static BreakTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

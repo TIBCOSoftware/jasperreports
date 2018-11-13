@@ -85,7 +85,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 			String seriesNumber = atts.getValue(JRXmlConstants.ATTRIBUTE_seriesOrder);
 			if (seriesNumber != null && seriesNumber.length() > 0)
 			{
-				seriesIndex = Integer.valueOf(seriesNumber).intValue();
+				seriesIndex = Integer.valueOf(seriesNumber);
 			}
 			String colorName = atts.getValue(JRXmlConstants.ATTRIBUTE_color);
 			if (colorName != null && colorName.length() > 0)

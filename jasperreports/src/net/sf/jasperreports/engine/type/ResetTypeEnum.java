@@ -85,7 +85,7 @@ public enum ResetTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -124,6 +124,6 @@ public enum ResetTypeEnum implements JREnum
 	 */
 	public static ResetTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

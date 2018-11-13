@@ -96,7 +96,7 @@ public class JRPrintImageFactory extends JRBaseFactory
 		if (isLazy != null && isLazy.length() > 0)
 		{
 			//we use a resource renderer just to pass the value of isLazy flag to image source factory
-			image.setRenderer(ResourceRenderer.getInstance("", Boolean.valueOf(isLazy).booleanValue()));
+			image.setRenderer(ResourceRenderer.getInstance("", Boolean.valueOf(isLazy)));
 		}
 
 		return image;

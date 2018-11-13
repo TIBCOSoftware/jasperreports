@@ -48,37 +48,37 @@ public class FormatUtils {
 		
 		if (valueClass.equals(Byte.class)) 
 		{
-			return new Byte((numberFormat.parse(fieldValue)).byteValue());
+			return numberFormat.parse(fieldValue).byteValue();
 		}
 		else if (valueClass.equals(Integer.class)) 
 		{
-			return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
+			return numberFormat.parse(fieldValue).intValue();
 		}
 		else if (valueClass.equals(Long.class)) 
 		{
-			return new Long((numberFormat.parse(fieldValue)).longValue());
+			return numberFormat.parse(fieldValue).longValue();
 		}
 		else if (valueClass.equals(Short.class)) 
 		{
-			return new Short((numberFormat.parse(fieldValue)).shortValue());
+			return numberFormat.parse(fieldValue).shortValue();
 		}
 		else if (valueClass.equals(Double.class)) 
 		{
-			return new Double((numberFormat.parse(fieldValue)).doubleValue());
+			return numberFormat.parse(fieldValue).doubleValue();
 		}
 		else if (valueClass.equals(Float.class)) 
 		{
-			return new Float((numberFormat.parse(fieldValue)).floatValue());
+			return numberFormat.parse(fieldValue).floatValue();
 		}
 		else if (valueClass.equals(BigDecimal.class)) 
 		{
-			return new BigDecimal((numberFormat.parse(fieldValue)).toString());
+			return new BigDecimal(numberFormat.parse(fieldValue).toString());
 		}
 		else if (valueClass.equals(BigInteger.class)) 
 		{
 			return new BigInteger(String.valueOf(numberFormat.parse(fieldValue).longValue()));
 		}
-		else if(valueClass.equals(java.lang.Number.class)) 
+		else if (valueClass.equals(java.lang.Number.class)) 
 		{
 			return numberFormat.parse(fieldValue);
 		}

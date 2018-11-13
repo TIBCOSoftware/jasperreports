@@ -190,12 +190,12 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
 
 		Integer[] elementIndexes = imageIndex.getAddressArray();
-		Object element = page.getElements().get(elementIndexes[0].intValue());
+		Object element = page.getElements().get(elementIndexes[0]);
 
 		for (int i = 1; i < elementIndexes.length; ++i)
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
-			element = frame.getElements().get(elementIndexes[i].intValue());
+			element = frame.getElements().get(elementIndexes[i]);
 		}
 
 		return (JRPrintImage) element;

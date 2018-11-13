@@ -128,7 +128,7 @@ public enum CalculationEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	@Override
@@ -165,6 +165,6 @@ public enum CalculationEnum implements JREnum
 	 */
 	public static CalculationEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

@@ -106,11 +106,11 @@ public class JRStyledTextUtil
 				{
 					truncatedText = JRStyledTextParser.getInstance().write(
 							printText.getFullStyledText(allSelector), 
-							0, printText.getTextTruncateIndex().intValue());
+							0, printText.getTextTruncateIndex());
 				}
 				else
 				{
-					truncatedText = originalText.substring(0, printText.getTextTruncateIndex().intValue());
+					truncatedText = originalText.substring(0, printText.getTextTruncateIndex());
 				}
 			}
 			

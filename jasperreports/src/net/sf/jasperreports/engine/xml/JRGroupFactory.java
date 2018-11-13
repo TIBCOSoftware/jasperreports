@@ -45,31 +45,31 @@ public class JRGroupFactory extends JRBaseFactory
 		String isStartNewColumn = atts.getValue(JRXmlConstants.ATTRIBUTE_isStartNewColumn);
 		if (isStartNewColumn != null && isStartNewColumn.length() > 0)
 		{
-			group.setStartNewColumn(Boolean.valueOf(isStartNewColumn).booleanValue());
+			group.setStartNewColumn(Boolean.valueOf(isStartNewColumn));
 		}
 
 		String isStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isStartNewPage);
 		if (isStartNewPage != null && isStartNewPage.length() > 0)
 		{
-			group.setStartNewPage(Boolean.valueOf(isStartNewPage).booleanValue());
+			group.setStartNewPage(Boolean.valueOf(isStartNewPage));
 		}
 
 		String isResetPageNumber = atts.getValue(JRXmlConstants.ATTRIBUTE_isResetPageNumber);
 		if (isResetPageNumber != null && isResetPageNumber.length() > 0)
 		{
-			group.setResetPageNumber(Boolean.valueOf(isResetPageNumber).booleanValue());
+			group.setResetPageNumber(Boolean.valueOf(isResetPageNumber));
 		}
 
 		String isReprintHeaderOnEachPage = atts.getValue(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachPage);
 		if (isReprintHeaderOnEachPage != null && isReprintHeaderOnEachPage.length() > 0)
 		{
-			group.setReprintHeaderOnEachPage(Boolean.valueOf(isReprintHeaderOnEachPage).booleanValue());
+			group.setReprintHeaderOnEachPage(Boolean.valueOf(isReprintHeaderOnEachPage));
 		}
 
 		String isReprintHeaderOnEachColumn = atts.getValue(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachColumn);
 		if (isReprintHeaderOnEachColumn != null && isReprintHeaderOnEachColumn.length() > 0)
 		{
-			group.setReprintHeaderOnEachColumn(Boolean.valueOf(isReprintHeaderOnEachColumn).booleanValue());
+			group.setReprintHeaderOnEachColumn(Boolean.valueOf(isReprintHeaderOnEachColumn));
 		}
 
 		String minHeightToStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage);
@@ -93,13 +93,13 @@ public class JRGroupFactory extends JRBaseFactory
 		String keepTogether = atts.getValue(JRXmlConstants.ATTRIBUTE_keepTogether);
 		if (keepTogether != null && keepTogether.length() > 0)
 		{
-			group.setKeepTogether(Boolean.valueOf(keepTogether).booleanValue());
+			group.setKeepTogether(Boolean.valueOf(keepTogether));
 		}
 
 		String preventOrphanFooter = atts.getValue(JRXmlConstants.ATTRIBUTE_preventOrphanFooter);
 		if (preventOrphanFooter != null && preventOrphanFooter.length() > 0)
 		{
-			group.setPreventOrphanFooter(Boolean.valueOf(preventOrphanFooter).booleanValue());
+			group.setPreventOrphanFooter(Boolean.valueOf(preventOrphanFooter));
 		}
 
 		return group;

@@ -318,8 +318,8 @@ public class JRGridLayout
 				{
 					createCuts(
 						frame.getElements(),
-						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
-						element.getY() + elementOffsetY + frame.getLineBox().getTopPadding().intValue(),
+						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding(),
+						element.getY() + elementOffsetY + frame.getLineBox().getTopPadding(),
 						createXCuts
 						);
 				}
@@ -385,8 +385,8 @@ public class JRGridLayout
 						PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
 						setGridElements(
 							frameIndex, frame.getElements(),
-							x + frame.getLineBox().getLeftPadding().intValue(),
-							y + frame.getLineBox().getTopPadding().intValue(),
+							x + frame.getLineBox().getLeftPadding(),
+							y + frame.getLineBox().getTopPadding(),
 							row1, col1, row2, col2
 							);
 						
@@ -870,7 +870,7 @@ public class JRGridLayout
 					addXCuts(
 						nature,
 						frame.getElements(),
-						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
+						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding(),
 						xCuts
 						);
 				}

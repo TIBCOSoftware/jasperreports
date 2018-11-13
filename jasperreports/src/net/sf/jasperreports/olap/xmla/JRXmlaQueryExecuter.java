@@ -685,15 +685,14 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 				String valueType = valueElement.getAttribute("xsi:type");
 				if (valueType.equals("xsd:int"))
 				{
-					value = new Long(valueElement.getValue());
+					value = Long.valueOf(valueElement.getValue());
 				}
-				else if (valueType.equals("xsd:double"))
+				else if (
+					valueType.equals("xsd:double")
+					|| valueType.equals("xsd:decimal")
+					)
 				{
-					value = new Double(valueElement.getValue());
-				}
-				else if (valueType.equals("xsd:decimal"))
-				{
-					value = new Double(valueElement.getValue());
+					value = Double.valueOf(valueElement.getValue());
 				}
 				else
 				{

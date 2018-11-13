@@ -382,7 +382,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		{
 			attrMap.put(
 				TextAttribute.SIZE,
-				new Float(StyleConstants.getFontSize(attrSet))
+				StyleConstants.getFontSize(attrSet)
 				);
 		}
 					

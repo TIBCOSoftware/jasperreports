@@ -180,7 +180,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 			}
 			else
 			{
-				value = param.booleanValue();
+				value = param;
 			}
 		}
 		return value;
@@ -212,7 +212,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 			}
 			else
 			{
-				value = param.intValue();
+				value = param;
 			}
 		}
 		return value;
@@ -244,7 +244,7 @@ public class ParameterOverriddenResolver implements ParameterResolver
 			}
 			else
 			{
-				value = param.floatValue();
+				value = param;
 			}
 		}
 		return value;

@@ -424,7 +424,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	@Override
 	protected int getImageBorderCorrection(JRPen pen)
 	{
-		float lineWidth = pen.getLineWidth().floatValue();
+		float lineWidth = pen.getLineWidth();
 		
 		if (lineWidth > 0f)
 		{
@@ -457,13 +457,13 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 		}
 
 		// sheet name specified; assuming it is first occurrence
-		int crtIndex = Integer.valueOf(1);
+		int crtIndex = 1;
 		String txtIndex = "";
 
 		if(sheetNamesMap.containsKey(sheetName))
 		{
 			// sheet names must be unique; altering sheet name using number of occurrences
-			crtIndex = sheetNamesMap.get(sheetName).intValue() + 1;
+			crtIndex = sheetNamesMap.get(sheetName) + 1;
 			txtIndex = String.valueOf(crtIndex);
 		}
 

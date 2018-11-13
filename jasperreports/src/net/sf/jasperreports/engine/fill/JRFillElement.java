@@ -815,7 +815,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			}
 			else
 			{
-				isExprTrue = printWhenExpressionValue.booleanValue();
+				isExprTrue = printWhenExpressionValue;
 			}
 		}
 

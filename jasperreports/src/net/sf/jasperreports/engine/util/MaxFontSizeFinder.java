@@ -42,7 +42,7 @@ public abstract class MaxFontSizeFinder//FIXMETAB deprecate?
 			/**
 			 * 
 			 */
-			private final Float ZERO = new Float(0);
+			private final Float ZERO = 0f;
 			
 			@Override
 			public float findMaxFontSize(AttributedCharacterIterator line, float defaultFontSize)

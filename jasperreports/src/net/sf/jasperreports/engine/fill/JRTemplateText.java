@@ -457,7 +457,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	@Override
 	public void setBold(boolean isBold)
 	{
-		setBold(isBold ? Boolean.TRUE : Boolean.FALSE);
+		setBold((Boolean)isBold);
 	}
 
 	/**
@@ -486,7 +486,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	@Override
 	public void setItalic(boolean isItalic)
 	{
-		setItalic(isItalic ? Boolean.TRUE : Boolean.FALSE);
+		setItalic((Boolean)isItalic);
 	}
 
 	/**
@@ -514,7 +514,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	@Override
 	public void setUnderline(boolean isUnderline)
 	{
-		setUnderline(isUnderline ? Boolean.TRUE : Boolean.FALSE);
+		setUnderline((Boolean)isUnderline);
 	}
 
 	/**
@@ -542,7 +542,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
-		setStrikeThrough(isStrikeThrough ? Boolean.TRUE : Boolean.FALSE);
+		setStrikeThrough((Boolean)isStrikeThrough);
 	}
 
 	/**
@@ -665,7 +665,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
-		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
+		setPdfEmbedded((Boolean)isPdfEmbedded);
 	}
 
 	/**
@@ -879,7 +879,7 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 
 		if (isStyledText != null)
 		{
-			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
+			markup = isStyledText ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
 			isStyledText = null;
 		}
 

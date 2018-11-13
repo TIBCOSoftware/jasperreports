@@ -112,7 +112,7 @@ public enum BandTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -151,6 +151,6 @@ public enum BandTypeEnum implements JREnum
 	 */
 	public static BandTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

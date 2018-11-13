@@ -63,7 +63,7 @@ public enum OnErrorTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -102,6 +102,6 @@ public enum OnErrorTypeEnum implements JREnum
 	 */
 	public static OnErrorTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

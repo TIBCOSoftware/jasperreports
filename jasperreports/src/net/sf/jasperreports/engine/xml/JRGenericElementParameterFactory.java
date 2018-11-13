@@ -46,7 +46,7 @@ public class JRGenericElementParameterFactory extends JRBaseFactory
 		String skipWhenNullAttr = attrs.getValue(JRXmlConstants.ATTRIBUTE_skipWhenNull);
 		if (skipWhenNullAttr != null)
 		{
-			param.setSkipWhenEmpty(Boolean.valueOf(skipWhenNullAttr).booleanValue());
+			param.setSkipWhenEmpty(Boolean.valueOf(skipWhenNullAttr));
 		}
 		
 		return param;

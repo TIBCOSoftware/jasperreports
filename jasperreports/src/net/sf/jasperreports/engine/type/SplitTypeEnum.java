@@ -65,7 +65,7 @@ public enum SplitTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -104,6 +104,6 @@ public enum SplitTypeEnum implements JREnum
 	 */
 	public static SplitTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

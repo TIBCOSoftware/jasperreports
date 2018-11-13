@@ -68,7 +68,7 @@ public class CsvDataSourceTest
 		{
 			String column = entry.getKey();
 			Integer colIdx = entry.getValue();
-			assert colIdx.intValue() == index;
+			assert colIdx == index;
 			assert column.equals(resultColumns[index]);
 			++index;
 		}

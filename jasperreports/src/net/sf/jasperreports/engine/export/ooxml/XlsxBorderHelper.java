@@ -64,11 +64,11 @@ public class XlsxBorderHelper extends BaseHelper
 		Integer borderIndex = borderCache.get(borderInfo.getId());
 		if (borderIndex == null)
 		{
-			borderIndex = Integer.valueOf(borderCache.size());
+			borderIndex = borderCache.size();
 			export(borderInfo);
 			borderCache.put(borderInfo.getId(), borderIndex);
 		}
-		return borderIndex.intValue();
+		return borderIndex;
 	}
 
 	/**

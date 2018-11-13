@@ -1414,7 +1414,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 						{
 							Boolean filterExprResult = (Boolean) calculator.evaluate(
 									filterExpression, JRExpression.EVALUATION_ESTIMATED);
-							includeRow = filterExprResult != null && filterExprResult.booleanValue();
+							includeRow = filterExprResult != null && filterExprResult;
 						}
 
 						if (includeRow)
@@ -1547,7 +1547,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	protected boolean advanceDataSource(boolean limit) throws JRException
 	{
 		boolean hasNext;
-		if (limit && reportMaxCount != null && reportCount >= reportMaxCount.intValue())
+		if (limit && reportMaxCount != null && reportCount >= reportMaxCount)
 		{
 			hasNext = false;
 		}

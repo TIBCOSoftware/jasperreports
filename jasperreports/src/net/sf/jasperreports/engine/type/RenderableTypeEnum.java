@@ -60,7 +60,7 @@ public enum RenderableTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -99,6 +99,6 @@ public enum RenderableTypeEnum implements JREnum
 	 */
 	public static RenderableTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

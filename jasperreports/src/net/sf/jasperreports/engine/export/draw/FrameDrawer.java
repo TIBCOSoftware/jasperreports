@@ -276,8 +276,8 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	private void setFrameElementsOffset(JRPrintFrame frame, int offsetX, int offsetY)
 	{	
 		setElementOffsets(
-			offsetX + frame.getX() + frame.getLineBox().getLeftPadding().intValue(), 
-			offsetY + frame.getY() + frame.getLineBox().getTopPadding().intValue()
+			offsetX + frame.getX() + frame.getLineBox().getLeftPadding(), 
+			offsetY + frame.getY() + frame.getLineBox().getTopPadding()
 			);
 	}
 	

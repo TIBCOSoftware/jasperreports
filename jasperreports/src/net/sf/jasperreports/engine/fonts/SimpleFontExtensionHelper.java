@@ -296,7 +296,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		if (nodeAttrs.getNamedItem(ATTRIBUTE_visible) != null)
 		{
 			fontFamily.setVisible(
-				Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_visible).getNodeValue()).booleanValue()
+				Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_visible).getNodeValue())
 				);
 		}
 

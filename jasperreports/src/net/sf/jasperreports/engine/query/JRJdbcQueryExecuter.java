@@ -471,7 +471,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				Integer reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
 				if (reportMaxCount != null)
 				{
-					statement.setMaxRows(reportMaxCount.intValue());
+					statement.setMaxRows(reportMaxCount);
 				}
 				
 				if (isProcedureCall)
@@ -669,7 +669,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			else
 			{
-				statement.setBoolean(parameterIndex, ((Boolean)parameterValue).booleanValue());
+				statement.setBoolean(parameterIndex, (Boolean)parameterValue);
 			}
 		}
 		else if (java.lang.Byte.class.isAssignableFrom(parameterType))
@@ -680,7 +680,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			else
 			{
-				statement.setByte(parameterIndex, ((Byte)parameterValue).byteValue());
+				statement.setByte(parameterIndex, (Byte)parameterValue);
 			}
 		}
 		else if (java.lang.Double.class.isAssignableFrom(parameterType))
@@ -691,7 +691,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			else
 			{
-				statement.setDouble(parameterIndex, ((Double)parameterValue).doubleValue());
+				statement.setDouble(parameterIndex, (Double)parameterValue);
 			}
 		}
 		else if (java.lang.Float.class.isAssignableFrom(parameterType))
@@ -702,7 +702,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			else
 			{
-				statement.setFloat(parameterIndex, ((Float)parameterValue).floatValue());
+				statement.setFloat(parameterIndex, (Float)parameterValue);
 			}
 		}
 		else if (java.lang.Integer.class.isAssignableFrom(parameterType))
@@ -713,7 +713,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			else
 			{
-				statement.setInt(parameterIndex, ((Integer)parameterValue).intValue());
+				statement.setInt(parameterIndex, (Integer)parameterValue);
 			}
 		}
 		else if (java.lang.Long.class.isAssignableFrom(parameterType))
@@ -724,7 +724,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			else
 			{
-				statement.setLong(parameterIndex, ((Long)parameterValue).longValue());
+				statement.setLong(parameterIndex, (Long)parameterValue);
 			}
 		}
 		else if (java.lang.Short.class.isAssignableFrom(parameterType))
@@ -735,7 +735,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 			else
 			{
-				statement.setShort(parameterIndex, ((Short)parameterValue).shortValue());
+				statement.setShort(parameterIndex, (Short)parameterValue);
 			}
 		}
 		else if (java.math.BigDecimal.class.isAssignableFrom(parameterType))

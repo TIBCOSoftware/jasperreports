@@ -47,7 +47,7 @@ public final class JRBoxUtil
 		clone.setRightPadding(0);
 		
 		//FIXMEBORDER does not copy padding correctly, if we only test line width
-		if (!keepLeft || box.getLeftPen().getLineWidth().floatValue() <= 0f)
+		if (!keepLeft || box.getLeftPen().getLineWidth() <= 0f)
 		{
 			if (complementaryBox != null)
 			{
@@ -62,7 +62,7 @@ public final class JRBoxUtil
 			}
 		}
 		
-		if (!keepRight || box.getRightPen().getLineWidth().floatValue() <= 0f)
+		if (!keepRight || box.getRightPen().getLineWidth() <= 0f)
 		{
 			if (complementaryBox != null)
 			{
@@ -77,7 +77,7 @@ public final class JRBoxUtil
 			}
 		}
 		
-		if (!keepTop || box.getTopPen().getLineWidth().floatValue() <= 0f)
+		if (!keepTop || box.getTopPen().getLineWidth() <= 0f)
 		{
 			if (complementaryBox != null)
 			{
@@ -92,7 +92,7 @@ public final class JRBoxUtil
 			}
 		}
 		
-		if (!keepBottom || box.getBottomPen().getLineWidth().floatValue() <= 0f)
+		if (!keepBottom || box.getBottomPen().getLineWidth() <= 0f)
 		{
 			if (complementaryBox != null)
 			{

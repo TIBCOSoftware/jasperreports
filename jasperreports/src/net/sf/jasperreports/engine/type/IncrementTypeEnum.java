@@ -74,7 +74,7 @@ public enum IncrementTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	@Override
@@ -111,6 +111,6 @@ public enum IncrementTypeEnum implements JREnum
 	 */
 	public static IncrementTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

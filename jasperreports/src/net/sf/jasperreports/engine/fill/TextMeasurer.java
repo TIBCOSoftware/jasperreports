@@ -333,7 +333,7 @@ public class TextMeasurer implements JRTextMeasurer
 				}
 
 				int breakOffset = textOffset - lastOffset;
-				lineBreakOffsets.add(Integer.valueOf(breakOffset));
+				lineBreakOffsets.add(breakOffset);
 				lastOffset = textOffset;
 			}
 		}
@@ -361,7 +361,7 @@ public class TextMeasurer implements JRTextMeasurer
 			boolean overflow = false;
 			for (int i = 0; i < offsets.length; i++)
 			{
-				int offset = lineBreakOffsets.get(i).intValue();
+				int offset = lineBreakOffsets.get(i);
 				if (offset > Short.MAX_VALUE)
 				{
 					if (log.isWarnEnabled())
@@ -445,10 +445,10 @@ public class TextMeasurer implements JRTextMeasurer
 		width = textElement.getWidth();
 		height = textElement.getHeight();
 		
-		topPadding = textElement.getLineBox().getTopPadding().intValue();
-		leftPadding = textElement.getLineBox().getLeftPadding().intValue();
-		bottomPadding = textElement.getLineBox().getBottomPadding().intValue();
-		rightPadding = textElement.getLineBox().getRightPadding().intValue();
+		topPadding = textElement.getLineBox().getTopPadding();
+		leftPadding = textElement.getLineBox().getLeftPadding();
+		bottomPadding = textElement.getLineBox().getBottomPadding();
+		rightPadding = textElement.getLineBox().getRightPadding();
 		
 		jrParagraph = textElement.getParagraph();
 
@@ -586,19 +586,19 @@ public class TextMeasurer implements JRTextMeasurer
 	protected boolean hasParagraphIndents()
 	{
 		Integer firstLineIndent = jrParagraph.getFirstLineIndent();
-		if (firstLineIndent != null && firstLineIndent.intValue() > 0)
+		if (firstLineIndent != null && firstLineIndent > 0)
 		{
 			return true;
 		}
 		
 		Integer leftIndent = jrParagraph.getLeftIndent();
-		if (leftIndent != null && leftIndent.intValue() > 0)
+		if (leftIndent != null && leftIndent > 0)
 		{
 			return true;
 		}
 		
 		Integer rightIndent = jrParagraph.getRightIndent();
-		return rightIndent != null && rightIndent.intValue() > 0;
+		return rightIndent != null && rightIndent > 0;
 	}
 
 	/**
@@ -941,7 +941,7 @@ public class TextMeasurer implements JRTextMeasurer
 		if (measuredState.lines == 0) //FIXMEPARA
 		//if (measuredState.paragraphStartLine == measuredState.lines)
 		{
-			lineHeight += jrParagraph.getSpacingBefore().intValue();
+			lineHeight += jrParagraph.getSpacingBefore();
 		}
 		
 		float newTextHeight = measuredState.textHeight + lineHeight;
@@ -993,7 +993,7 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 //			else //FIXMEPARA
 //			{
-//				measuredState.textHeight += jrParagraph.getSpacingAfter().intValue();
+//				measuredState.textHeight += jrParagraph.getSpacingAfter();
 //			}
 		}
 		

@@ -74,7 +74,7 @@ public enum FooterPositionEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -113,6 +113,6 @@ public enum FooterPositionEnum implements JREnum
 	 */
 	public static FooterPositionEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

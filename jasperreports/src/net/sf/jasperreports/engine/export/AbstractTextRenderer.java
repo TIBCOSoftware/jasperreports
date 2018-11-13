@@ -164,10 +164,10 @@ public abstract class AbstractTextRenderer
 		y = text.getY() + offsetY;
 		width = text.getWidth();
 		height = text.getHeight();
-		topPadding = text.getLineBox().getTopPadding().intValue();
-		leftPadding = text.getLineBox().getLeftPadding().intValue();
-		bottomPadding = text.getLineBox().getBottomPadding().intValue();
-		rightPadding = text.getLineBox().getRightPadding().intValue();
+		topPadding = text.getLineBox().getTopPadding();
+		leftPadding = text.getLineBox().getLeftPadding();
+		bottomPadding = text.getLineBox().getBottomPadding();
+		rightPadding = text.getLineBox().getRightPadding();
 		
 		switch (text.getRotationValue())
 		{
@@ -518,7 +518,7 @@ public abstract class AbstractTextRenderer
 			if (lastParagraphStart == 0 && lines == 0)
 			//if (lines == 0) //FIXMEPARA
 			{
-				lineHeight +=  text.getParagraph().getSpacingBefore().intValue();
+				lineHeight +=  text.getParagraph().getSpacingBefore();
 			}
 
 			if (drawPosY + lineHeight <= text.getTextHeight())
@@ -575,7 +575,7 @@ public abstract class AbstractTextRenderer
 				
 //				if (lineMeasurer.getPosition() == paragraph.getEndIndex()) //FIXMEPARA
 //				{
-//					drawPosY += text.getParagraph().getSpacingAfter().intValue();
+//					drawPosY += text.getParagraph().getSpacingAfter();
 //				}
 			}
 			else
@@ -637,7 +637,7 @@ public abstract class AbstractTextRenderer
 				}
 				else
 				{
-					lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;
+					lineHeight = maxLeading + paragraph.getLineSpacingSize() * maxAscent;
 				}
 				break;
 			}
@@ -649,7 +649,7 @@ public abstract class AbstractTextRenderer
 				}
 				else
 				{
-					lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());
+					lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize());
 				}
 				break;
 			}
@@ -661,7 +661,7 @@ public abstract class AbstractTextRenderer
 				}
 				else
 				{
-					lineHeight = paragraph.getLineSpacingSize().floatValue();
+					lineHeight = paragraph.getLineSpacingSize();
 				}
 				break;
 			}
@@ -689,12 +689,12 @@ public abstract class AbstractTextRenderer
 			}
 			case AT_LEAST:
 			{
-				lineHeight = Math.max(lineSpacingFactor * maxFontSize, paragraph.getLineSpacingSize().floatValue());
+				lineHeight = Math.max(lineSpacingFactor * maxFontSize, paragraph.getLineSpacingSize());
 				break;
 			}
 			case FIXED:
 			{
-				lineHeight = paragraph.getLineSpacingSize().floatValue();
+				lineHeight = paragraph.getLineSpacingSize();
 				break;
 			}
 			default :

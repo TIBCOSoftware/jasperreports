@@ -155,10 +155,10 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 				value = object.nodeset().nextNode();
 				break;
 			case XObject.CLASS_BOOLEAN:
-				value = object.bool() ? Boolean.TRUE : Boolean.FALSE;
+				value = object.bool();
 				break;
 			case XObject.CLASS_NUMBER:
-				value = new Double(object.num());
+				value = object.num();
 				break;
 			default:
 				value = object.str();

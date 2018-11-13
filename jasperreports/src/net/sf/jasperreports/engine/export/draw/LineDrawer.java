@@ -67,7 +67,7 @@ public class LineDrawer extends ElementDrawer<JRPrintLine>
 		{
 			grx.setStroke(stroke);
 			
-			float lineWidth = line.getLinePen().getLineWidth().floatValue();
+			float lineWidth = line.getLinePen().getLineWidth();
 			
 			if (line.getWidth() == 1)
 			{

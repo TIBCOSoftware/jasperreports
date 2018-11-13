@@ -65,7 +65,7 @@ public enum VerticalAlignEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	@Override
@@ -101,7 +101,7 @@ public enum VerticalAlignEnum implements JREnum
 	 */
 	public static VerticalAlignEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 	
 	/**

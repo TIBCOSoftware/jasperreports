@@ -410,7 +410,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 				int page = viewerContext.getPageIndex() + 1;
 				if (hyperlink.getHyperlinkPage() != null)
 				{
-					page = hyperlink.getHyperlinkPage().intValue();
+					page = hyperlink.getHyperlinkPage();
 				}
 
 				if (page >= 1 && page <= viewerContext.getJasperPrint().getPages().size() && page != viewerContext.getPageIndex() + 1)
@@ -1004,8 +1004,8 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 				if (element instanceof JRPrintFrame)
 				{
 					JRPrintFrame frame = (JRPrintFrame) element;
-					int frameOffsetX = offsetX + frame.getX() + frame.getLineBox().getLeftPadding().intValue();
-					int frameOffsetY = offsetY + frame.getY() + frame.getLineBox().getTopPadding().intValue();
+					int frameOffsetX = offsetX + frame.getX() + frame.getLineBox().getLeftPadding();
+					int frameOffsetY = offsetY + frame.getY() + frame.getLineBox().getTopPadding();
 					createHyperlinks(frame.getElements(), frameOffsetX, frameOffsetY);
 				}
 			}

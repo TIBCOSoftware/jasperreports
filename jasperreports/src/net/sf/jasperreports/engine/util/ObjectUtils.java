@@ -71,7 +71,7 @@ public class ObjectUtils
 		 */
 		public void add(boolean value)
 		{
-			addToHash(Boolean.valueOf(value).hashCode());
+			addToHash(((Boolean)value).hashCode());
 		}
 		
 		/**

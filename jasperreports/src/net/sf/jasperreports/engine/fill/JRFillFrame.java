@@ -201,8 +201,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		// whether the current frame chunk is the first one.
 		boolean first = !isOverflow || !filling;
 		
-		int topPadding = getLineBox().getTopPadding().intValue();
-		int bottomPadding = getLineBox().getBottomPadding().intValue();		
+		int topPadding = getLineBox().getTopPadding();
+		int bottomPadding = getLineBox().getBottomPadding();		
 		
 		if (availableHeight < getRelativeY() + getHeight() - topPadding - bottomPadding)
 		{
@@ -272,8 +272,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	{
 		super.setStretchHeight(stretchHeight);
 		
-		int topPadding = getLineBox().getTopPadding().intValue();
-		int bottomPadding = getLineBox().getBottomPadding().intValue();		
+		int topPadding = getLineBox().getTopPadding();
+		int bottomPadding = getLineBox().getBottomPadding();		
 		frameContainer.setStretchHeight(stretchHeight + frameContainer.getFirstY() - topPadding - bottomPadding);
 	}
 	
@@ -291,8 +291,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 			frameContainer.moveBandBottomElements();
 			frameContainer.removeBlankElements();
 
-			int topPadding = getLineBox().getTopPadding().intValue();
-			int bottomPadding = getLineBox().getBottomPadding().intValue();
+			int topPadding = getLineBox().getTopPadding();
+			int bottomPadding = getLineBox().getBottomPadding();
 			super.setStretchHeight(frameContainer.getStretchHeight() - frameContainer.getFirstY() + topPadding + bottomPadding);
 		}
 	}
@@ -487,18 +487,18 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		@Override
 		protected int getContainerHeight()
 		{
-			return JRFillFrame.this.getHeight() - getLineBox().getTopPadding().intValue() - getLineBox().getBottomPadding().intValue(); 
+			return JRFillFrame.this.getHeight() - getLineBox().getTopPadding() - getLineBox().getBottomPadding(); 
 		}
 
 		@Override
 		protected int getActualContainerHeight()
 		{
-			int containerHeight = JRFillFrame.this.getHeight() - getLineBox().getTopPadding().intValue() - getLineBox().getBottomPadding().intValue(); 
+			int containerHeight = JRFillFrame.this.getHeight() - getLineBox().getTopPadding() - getLineBox().getBottomPadding(); 
 			
 			if (JRFillFrame.this.frameContainer.bottomElementInGroup != null)
 			{
 				if (
-					getLineBox().getTopPadding().intValue() 
+					getLineBox().getTopPadding() 
 					+ JRFillFrame.this.frameContainer.bottomElementInGroup.getY() 
 					+ JRFillFrame.this.frameContainer.bottomElementInGroup.getHeight() > JRFillFrame.this.getHeight()
 					)

@@ -1031,7 +1031,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					else
 					{
-						cell.setCellValue(textValue.getValue().booleanValue());
+						cell.setCellValue(textValue.getValue());
 					}
 					endCreateCell(cellStyle);
 				}
@@ -1446,7 +1446,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	 */
 	protected static BorderStyle getBorderStyle(JRPen pen)
 	{
-		float lineWidth = pen.getLineWidth().floatValue();
+		float lineWidth = pen.getLineWidth();
 
 		if (lineWidth > 0f)
 		{
@@ -1651,13 +1651,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			
 			topPadding =
-				Math.max(imageElement.getLineBox().getTopPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getTopPen()));
+				Math.max(imageElement.getLineBox().getTopPadding(), getImageBorderCorrection(imageElement.getLineBox().getTopPen()));
 			leftPadding =
-				Math.max(imageElement.getLineBox().getLeftPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getLeftPen()));
+				Math.max(imageElement.getLineBox().getLeftPadding(), getImageBorderCorrection(imageElement.getLineBox().getLeftPen()));
 			bottomPadding =
-				Math.max(imageElement.getLineBox().getBottomPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getBottomPen()));
+				Math.max(imageElement.getLineBox().getBottomPadding(), getImageBorderCorrection(imageElement.getLineBox().getBottomPen()));
 			rightPadding =
-				Math.max(imageElement.getLineBox().getRightPadding().intValue(), getImageBorderCorrection(imageElement.getLineBox().getRightPen()));
+				Math.max(imageElement.getLineBox().getRightPadding(), getImageBorderCorrection(imageElement.getLineBox().getRightPen()));
 
 			int tmpAvailableImageWidth = imageElement.getWidth() - leftPadding - rightPadding;
 			availableImageWidth = tmpAvailableImageWidth < 0 ? 0 : tmpAvailableImageWidth;

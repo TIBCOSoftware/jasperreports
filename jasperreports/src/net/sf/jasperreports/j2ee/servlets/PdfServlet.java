@@ -64,7 +64,7 @@ public class PdfServlet extends BaseHttpServlet
 		}
 		
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
-		if (isBuffered.booleanValue())
+		if (isBuffered)
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRPdfExporter exporter = new JRPdfExporter(DefaultJasperReportsContext.getInstance());

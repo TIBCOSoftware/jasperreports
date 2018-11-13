@@ -202,7 +202,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	public boolean isUsingCache()
 	{
-		return isUsingCache == null ? true : isUsingCache.booleanValue();
+		return isUsingCache == null ? true : isUsingCache;
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	 */
 	public void setUsingCache(boolean isUsingCache)
 	{
-		this.isUsingCache = (isUsingCache ? Boolean.TRUE : Boolean.FALSE);
+		this.isUsingCache = isUsingCache;
 	}
 
 	/**

@@ -77,7 +77,7 @@ public enum PenEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -116,6 +116,6 @@ public enum PenEnum implements JREnum
 	 */
 	public static PenEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

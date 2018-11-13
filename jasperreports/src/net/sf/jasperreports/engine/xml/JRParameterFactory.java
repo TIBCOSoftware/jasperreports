@@ -63,7 +63,7 @@ public class JRParameterFactory extends JRBaseFactory
 		String isForPrompting = atts.getValue(JRXmlConstants.ATTRIBUTE_isForPrompting);
 		if (isForPrompting != null && isForPrompting.length() > 0)
 		{
-			parameter.setForPrompting(Boolean.valueOf(isForPrompting).booleanValue());
+			parameter.setForPrompting(Boolean.valueOf(isForPrompting));
 		}
 
 		ParameterEvaluationTimeEnum evaluationTime = ParameterEvaluationTimeEnum.byName(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));

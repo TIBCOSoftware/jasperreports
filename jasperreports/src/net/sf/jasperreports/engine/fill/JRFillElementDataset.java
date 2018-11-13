@@ -186,7 +186,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		else
 		{
 			Boolean evaluated = (Boolean) calculator.evaluate(incrementWhenExpression);
-			increment = evaluated != null && evaluated.booleanValue();
+			increment = evaluated != null && evaluated;
 		}
 	}
 

@@ -64,7 +64,7 @@ public class DocxServlet extends BaseHttpServlet
 		}
 		
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
-		if (isBuffered.booleanValue())
+		if (isBuffered)
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JRDocxExporter exporter = new JRDocxExporter(DefaultJasperReportsContext.getInstance());

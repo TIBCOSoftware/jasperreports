@@ -69,7 +69,7 @@ public class CompositeExporterConfigurationFactory<C extends CommonExportConfigu
 			boolean isOverrideHints = 
 				parent.isOverrideHints() == null 
 				? propertiesUtil.getBooleanProperty(ExporterConfiguration.PROPERTY_EXPORT_CONFIGURATION_OVERRIDE_REPORT_HINTS)
-				: parent.isOverrideHints().booleanValue();
+				: parent.isOverrideHints();
 			return getConfiguration(parent, child, isOverrideHints);
 		}
 	}

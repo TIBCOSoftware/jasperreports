@@ -36,7 +36,7 @@ public final class JRByteIncrementerFactory extends JRAbstractExtendedIncremente
 	/**
 	 *
 	 */
-	protected static final Byte ZERO = new Byte((byte)0);
+	protected static final Byte ZERO = 0;
 
 
 	/**
@@ -166,7 +166,7 @@ final class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 			return value;
 		}
 
-		return new Byte((byte)(value.byteValue() + 1));
+		return (byte)(value.byteValue() + 1);
 	}
 
 	
@@ -186,7 +186,7 @@ final class JRByteCountIncrementer extends JRAbstractExtendedIncrementer
 			return value;
 		}
 
-		return new Byte((byte) (value.byteValue() + combineValue.byteValue()));
+		return (byte) (value.byteValue() + combineValue.byteValue());
 	}
 
 	
@@ -238,7 +238,7 @@ final class JRByteDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 			holder.init();
 		}
 
-		return new Byte((byte)holder.getCount());
+		return (byte)holder.getCount();
 	}
 
 	@Override
@@ -247,7 +247,7 @@ final class JRByteDistinctCountIncrementer extends JRAbstractExtendedIncrementer
 		DistinctCountHolder holder = 
 			(DistinctCountHolder)valueProvider.getValue(calculable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		
-		return new Byte((byte)holder.getCount());
+		return (byte)holder.getCount();
 	}
 	
 	@Override
@@ -308,7 +308,7 @@ final class JRByteSumIncrementer extends JRAbstractExtendedIncrementer
 			value = JRByteIncrementerFactory.ZERO;
 		}
 
-		return new Byte((byte)(value.byteValue() + newValue.byteValue()));
+		return (byte)(value.byteValue() + newValue.byteValue());
 	}
 
 	
@@ -362,7 +362,7 @@ final class JRByteAverageIncrementer extends JRAbstractExtendedIncrementer
 		}
 		Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 		Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
-		return new Byte((byte)(sumValue.byteValue() / countValue.byteValue()));
+		return (byte)(sumValue.byteValue() / countValue.byteValue());
 	}
 
 	
@@ -415,7 +415,7 @@ final class JRByteStandardDeviationIncrementer extends JRAbstractExtendedIncreme
 			return variable.getValue(); 
 		}
 		Number varianceValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_VARIANCE));
-		return new Byte( (byte)Math.sqrt(varianceValue.doubleValue()) );
+		return (byte)Math.sqrt(varianceValue.doubleValue());
 	}
 
 	
@@ -479,12 +479,12 @@ final class JRByteVarianceIncrementer extends JRAbstractExtendedIncrementer
 			Number countValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_COUNT));
 			Number sumValue = (Number)valueProvider.getValue(variable.getHelperVariable(JRCalculable.HELPER_SUM));
 			return
-				new Byte((byte)(
+				(byte)(
 					(countValue.byteValue() - 1) * value.byteValue() / countValue.byteValue() +
 					( sumValue.byteValue() / countValue.byteValue() - newValue.byteValue() ) *
 					( sumValue.byteValue() / countValue.byteValue() - newValue.byteValue() ) /
 					(countValue.byteValue() - 1)
-					));
+					);
 		}
 	}
 
@@ -504,7 +504,7 @@ final class JRByteVarianceIncrementer extends JRAbstractExtendedIncrementer
 		}
 		else if (value == null || calculable.isInitialized())
 		{
-			return new Byte(((Number) calculableValue.getIncrementedValue()).byteValue());
+			return ((Number) calculableValue.getIncrementedValue()).byteValue();
 		}
 
 		float v1 = value.floatValue();
@@ -520,13 +520,14 @@ final class JRByteVarianceIncrementer extends JRAbstractExtendedIncrementer
 		
 		float c = c1 + c2;
 
-		return new Byte((byte) (
+		return 
+			(byte) (
 				c1 / c * v1 +
 				c2 / c * v2 +
 				c2 / c1 * s1 / c * s1 / c +
 				c1 / c2 * s2 / c * s2 / c -
 				2 * s1 / c * s2 /c
-				));
+				);
 	}
 
 	

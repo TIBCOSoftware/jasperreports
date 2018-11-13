@@ -268,27 +268,27 @@ public class JRPrintServiceExporter extends JRAbstractExporter<PrintServiceRepor
 			Boolean pageDialog = configuration.isDisplayPageDialog();
 			if (pageDialog != null)
 			{
-				displayPageDialog = pageDialog.booleanValue();
+				displayPageDialog = pageDialog;
 			}
 	
 			Boolean pageDialogOnlyOnce = configuration.isDisplayPageDialogOnlyOnce();
 			if (displayPageDialog && pageDialogOnlyOnce != null)
 			{
 				// it can be (eventually) set to true only if displayPageDialog is true
-				displayPageDialogOnlyOnce = pageDialogOnlyOnce.booleanValue();
+				displayPageDialogOnlyOnce = pageDialogOnlyOnce;
 			}
 	
 			Boolean printDialog = configuration.isDisplayPrintDialog();
 			if (printDialog != null)
 			{
-				displayPrintDialog = printDialog.booleanValue();
+				displayPrintDialog = printDialog;
 			}
 	
 			Boolean printDialogOnlyOnce = configuration.isDisplayPrintDialogOnlyOnce();
 			if (displayPrintDialog && printDialogOnlyOnce != null)
 			{
 //				 it can be (eventually) set to true only if displayPrintDialog is true
-				displayPrintDialogOnlyOnce = printDialogOnlyOnce.booleanValue();
+				displayPrintDialogOnlyOnce = printDialogOnlyOnce;
 			}
 			PrinterJob printerJob = PrinterJob.getPrinterJob();
 			

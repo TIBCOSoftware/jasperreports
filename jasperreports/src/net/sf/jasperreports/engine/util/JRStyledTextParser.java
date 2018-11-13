@@ -503,7 +503,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					styleAttrs.put(
 						TextAttribute.WEIGHT,
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isBold).getNodeValue()).booleanValue()
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isBold).getNodeValue())
 						? TextAttribute.WEIGHT_BOLD : TextAttribute.WEIGHT_REGULAR
 						);
 				}
@@ -512,7 +512,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					styleAttrs.put(
 						TextAttribute.POSTURE,
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isItalic).getNodeValue()).booleanValue()
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isItalic).getNodeValue())
 						? TextAttribute.POSTURE_OBLIQUE : TextAttribute.POSTURE_REGULAR
 						);
 				}
@@ -521,7 +521,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					styleAttrs.put(
 						TextAttribute.UNDERLINE,
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isUnderline).getNodeValue()).booleanValue()
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isUnderline).getNodeValue())
 						? TextAttribute.UNDERLINE_ON : null
 						);
 				}
@@ -530,7 +530,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					styleAttrs.put(
 						TextAttribute.STRIKETHROUGH,
-						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isStrikeThrough).getNodeValue()).booleanValue()
+						Boolean.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_isStrikeThrough).getNodeValue())
 						? TextAttribute.STRIKETHROUGH_ON : null
 						);
 				}
@@ -539,7 +539,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					styleAttrs.put(
 						TextAttribute.SIZE,
-						new Float(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue())
+						Float.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue())
 						);
 				}
 
@@ -664,7 +664,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					styleAttrs.put(
 						TextAttribute.SIZE,
-						new Float(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue())
+						Float.valueOf(nodeAttrs.getNamedItem(ATTRIBUTE_size).getNodeValue())
 						);
 				}
 

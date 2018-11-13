@@ -91,7 +91,7 @@ public final class JRPenUtil
 	 */
 	public static Stroke getStroke(JRPen pen, int lineCap)
 	{
-		float lineWidth = pen.getLineWidth().floatValue();
+		float lineWidth = pen.getLineWidth();
 		
 		if (lineWidth > 0f)
 		{

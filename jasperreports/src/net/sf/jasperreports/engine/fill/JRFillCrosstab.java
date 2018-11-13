@@ -343,7 +343,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		// crosstab attribute overrides all 
 		if (crosstabIgnoreWidth != null)
 		{
-			return crosstabIgnoreWidth.booleanValue();
+			return crosstabIgnoreWidth;
 		}
 		
 		// report level property
@@ -380,7 +380,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			group.getFillHeader().setVerticalPositionType(groups[i].getPositionValue());
 
 			rowGroups[i] = group;
-			rowGroupsMap.put(group.getName(), Integer.valueOf(i));
+			rowGroupsMap.put(group.getName(), i);
 		}
 	}
 
@@ -393,7 +393,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		{
 			JRFillCrosstabColumnGroup group = factory.getCrosstabColumnGroup(groups[i]);
 			columnGroups[i] = group;
-			columnGroupsMap.put(group.getName(), Integer.valueOf(i));
+			columnGroupsMap.put(group.getName(), i);
 		}
 	}
 
@@ -1833,7 +1833,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			JRFillCellContents[][] columnHeaderRows = new JRFillCellContents[columnGroups.length][lastColumnIndex - startColumnIndex + 2];
 			
 			rowYs.clear();
-			rowYs.add(Integer.valueOf(0));
+			rowYs.add(0);
 			
 			if (printRowHeaders && headerCell != null)
 			{
@@ -1878,7 +1878,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				}
 
 				int rowStretchHeight = stretchColumnHeadersRow(columnHeaderRows[rowIdx]);
-				rowYs.add(Integer.valueOf(rowYs.get(rowIdx).intValue() + rowStretchHeight));
+				rowYs.add(rowYs.get(rowIdx) + rowStretchHeight);
 			}
 			
 			List<List<JRPrintElement>> headerRows;
@@ -1893,7 +1893,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				// reversing so that the overall header cell comes before the column crosstab header
 				Collections.reverse(headerRows);
 
-				yOffset += rowYs.get(columnGroups.length).intValue();
+				yOffset += rowYs.get(columnGroups.length);
 			}
 
 			resetVariables();
@@ -1910,7 +1910,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			else
 			{
-				rowCountVar.setValue(Integer.valueOf(rowCount[rowIdx]));
+				rowCountVar.setValue(rowCount[rowIdx]);
 			}
 			
 			if (colIdx == -1)
@@ -1919,7 +1919,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			else
 			{
-				colCountVar.setValue(Integer.valueOf(columnCount[colIdx]));
+				colCountVar.setValue(columnCount[colIdx]);
 			}
 		}
 
@@ -2134,7 +2134,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			
 			JRFillCellContents preparedContents = null;
 			
-			int rowY = rowYs.get(rowIdx).intValue();
+			int rowY = rowYs.get(rowIdx);
 			
 			if (availableHeight >=  rowY + height)
 			{
@@ -2333,7 +2333,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				return null;
 			}
 			
-			int rowY = rowYs.get(rowIdx).intValue();
+			int rowY = rowYs.get(rowIdx);
 			if (availableHeight <  rowY + height)
 			{
 				willOverflow = true;
@@ -2372,7 +2372,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		private int stretchColumnHeadersRow(JRFillCellContents[] headers)
 		{
-			int rowY = rowYs.get(rowIdx).intValue();
+			int rowY = rowYs.get(rowIdx);
 			
 			int rowStretchHeight = 0;
 			for (int j = 0; j < headers.length; j++)
@@ -2384,7 +2384,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					int startRowY = rowY;
 					if (contents.getVerticalSpan() > 1)
 					{
-						startRowY = rowYs.get(rowIdx - contents.getVerticalSpan() + 1).intValue();
+						startRowY = rowYs.get(rowIdx - contents.getVerticalSpan() + 1);
 					}
 					
 					int height = contents.getPrintHeight() - rowY + startRowY;
@@ -2405,7 +2405,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					int startRowY = rowY;
 					if (contents.getVerticalSpan() > 1)
 					{
-						startRowY = rowYs.get(rowIdx - contents.getVerticalSpan() + 1).intValue();
+						startRowY = rowYs.get(rowIdx - contents.getVerticalSpan() + 1);
 					}
 					
 					contents.stretchTo(rowStretchHeight + rowY - startRowY);
@@ -2460,7 +2460,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		protected int fillRows(int xOffset, int availableHeight) throws JRException
 		{
 			rowYs.clear();			
-			rowYs.add(Integer.valueOf(0));
+			rowYs.add(0);
 
 			for (rowIdx = 0; rowIdx < cellData.length - startRowIndex; ++rowIdx)
 			{
@@ -2475,7 +2475,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				
 				fillRow();
 				
-				rowYs.add(Integer.valueOf(rowYs.get(rowIdx).intValue() + preparedRowHeight));
+				rowYs.add(rowYs.get(rowIdx) + preparedRowHeight);
 			}
 			
 			if (rowIdx < cellData.length - startRowIndex)//overflow
@@ -2488,7 +2488,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				}
 			}
 			
-			yOffset += rowYs.get(rowIdx).intValue();
+			yOffset += rowYs.get(rowIdx);
 
 			return rowIdx + startRowIndex;
 		}
@@ -2527,7 +2527,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 		private void fillRow() throws JRException
 		{
-			int rowY = rowYs.get(rowIdx).intValue();
+			int rowY = rowYs.get(rowIdx);
 			
 			List<JRPrintElement> rowPrints = new ArrayList<JRPrintElement>(preparedRow.size());
 			for (Iterator<JRFillCellContents> it = preparedRow.iterator(); it.hasNext();)
@@ -2537,7 +2537,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				int spanHeight = 0;
 				if (cell.getVerticalSpan() > 1)
 				{
-					spanHeight = rowY - rowYs.get(rowIdx - cell.getVerticalSpan() + 1).intValue();
+					spanHeight = rowY - rowYs.get(rowIdx - cell.getVerticalSpan() + 1);
 				}
 				
 				cell.stretchTo(preparedRowHeight + spanHeight);
@@ -2625,7 +2625,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		private boolean prepareDataCell(CrosstabCell data, int column, int availableHeight, int xOffset) throws JRException
 		{
-			int rowY = rowYs.get(rowIdx).intValue();
+			int rowY = rowYs.get(rowIdx);
 			
 			JRFillCrosstabCell cell = crossCells[data.getRowTotalGroupIndex()][data.getColumnTotalGroupIndex()];
 			JRFillCellContents contents = cell == null ? null : cell.getFillContents();
@@ -2695,10 +2695,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			
 			int spanHeight = 0;
-			int headerY = rowYs.get(rowIdx - vSpan + 1).intValue();
+			int headerY = rowYs.get(rowIdx - vSpan + 1);
 			if (vSpan > 1)
 			{
-				spanHeight += rowYs.get(rowIdx).intValue() - headerY;
+				spanHeight += rowYs.get(rowIdx) - headerY;
 			}
 			int rowHeight = spanHeight + preparedRowHeight;
 			
@@ -2829,7 +2829,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 				if (!preparedRow.isEmpty())
 				{
-					int lastRowHeight = rowYs.get(rowIdx).intValue() - rowYs.get(rowIdx - 1).intValue();
+					int lastRowHeight = rowYs.get(rowIdx) - rowYs.get(rowIdx - 1);
 					
 					if (preparedRowHeight > lastRowHeight)//need to stretch already filled row by refilling
 					{
@@ -2848,14 +2848,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 		private void fillContinuingHeaders(int lastRowHeight) throws JRException
 		{
-			int nextToLastHeaderY = rowYs.get(rowIdx - 1).intValue();
+			int nextToLastHeaderY = rowYs.get(rowIdx - 1);
 			List<JRPrintElement> lastPrintRow = getLastPrintRow();
 			
 			for (int j = 0; j < preparedRow.size(); ++j)
 			{
 				JRFillCellContents contents = preparedRow.get(j);
 				
-				int headerY = rowYs.get(rowIdx - contents.getVerticalSpan()).intValue();
+				int headerY = rowYs.get(rowIdx - contents.getVerticalSpan());
 				
 				contents.stretchTo(nextToLastHeaderY - headerY + lastRowHeight);
 				lastPrintRow.add(contents.fill());
@@ -2871,7 +2871,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			prepareRow(xOffset, availableHeight);
 			fillRow();
 			
-			rowYs.add(Integer.valueOf(rowYs.get(rowIdx).intValue() + preparedRowHeight));
+			rowYs.add(rowYs.get(rowIdx) + preparedRowHeight);
 			++rowIdx;
 		}
 
@@ -2885,10 +2885,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				vSpan += spanHeadersStart[rowGroup] - startRowIndex;
 			}
 
-			int headerY = rowYs.get(rowIdx - vSpan).intValue();
-			int lastHeaderY = rowYs.get(rowIdx).intValue();
+			int headerY = rowYs.get(rowIdx - vSpan);
+			int lastHeaderY = rowYs.get(rowIdx);
 			int headerHeight = lastHeaderY - headerY;
-			int nextToLastHeaderY = rowYs.get(rowIdx - 1).intValue();
+			int nextToLastHeaderY = rowYs.get(rowIdx - 1);
 			int stretchHeight = nextToLastHeaderY - headerY;
 			
 			JRFillCrosstabRowGroup group = rowGroups[rowGroup];

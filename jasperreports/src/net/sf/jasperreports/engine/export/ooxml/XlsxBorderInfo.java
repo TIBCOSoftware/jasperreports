@@ -56,13 +56,13 @@ public class XlsxBorderInfo
 	public XlsxBorderInfo(JRLineBox box)
 	{
 		setBorder(box.getTopPen(), TOP_BORDER);
-		borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding().intValue()));
+		borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding()));
 		setBorder(box.getLeftPen(), LEFT_BORDER);
-		borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding().intValue()));
+		borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding()));
 		setBorder(box.getBottomPen(), BOTTOM_BORDER);
-		borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding().intValue()));
+		borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding()));
 		setBorder(box.getRightPen(), RIGHT_BORDER);
-		borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding().intValue()));
+		borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding()));
 	}
 	
 	/**
@@ -77,13 +77,13 @@ public class XlsxBorderInfo
 		else
 		{
 			setBorder(box.getTopPen(), TOP_BORDER);
-			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding().intValue()));
+			borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding()));
 			setBorder(box.getLeftPen(), LEFT_BORDER);
-			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding().intValue()));
+			borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding()));
 			setBorder(box.getBottomPen(), BOTTOM_BORDER);
-			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding().intValue()));
+			borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding()));
 			setBorder(box.getRightPen(), RIGHT_BORDER);
-			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding().intValue()));
+			borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding()));
 		}
 		this.direction = direction;
 	}
@@ -123,7 +123,7 @@ public class XlsxBorderInfo
 	 */
 	private void setBorder(JRPen pen, int side)
 	{
-		float width = pen.getLineWidth() == null ? 0 : pen.getLineWidth().floatValue();
+		float width = pen.getLineWidth() == null ? 0 : pen.getLineWidth();
 		String style = null;
 
 		if (width > 0f)

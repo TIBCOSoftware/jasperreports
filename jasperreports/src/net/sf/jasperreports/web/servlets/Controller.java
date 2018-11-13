@@ -124,7 +124,7 @@ public class Controller
 		reportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_ASYNC_REPORT, async);
 		
 		try {
-			runReport(reportContext, jasperReport, async.booleanValue());
+			runReport(reportContext, jasperReport, async);
 		} catch (JRException e) {
 			undoAction(reportContext, initialStackSize);
 			throw e;

@@ -315,7 +315,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 		{
 			lcIsEmbeddingImages = Boolean.TRUE;
 		}
-		isEmbeddingImages = lcIsEmbeddingImages.booleanValue();
+		isEmbeddingImages = lcIsEmbeddingImages;
 		
 		if (!isEmbeddingImages)
 		{

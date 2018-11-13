@@ -145,11 +145,11 @@ public class DatasetSortUtil
 		JRField[] fields = dataset.getFields();
 		if (fields != null)
 		{
-			for(int i = 0; i < fields.length; i++)
+			for (int i = 0; i < fields.length; i++)
 			{
 				JRField field = fields[i];
 				fieldsMap.put(field.getName(), field);
-				fieldIndexMap.put(field.getName(), Integer.valueOf(i));
+				fieldIndexMap.put(field.getName(), i);
 				sortInfo.addRecordField(field.getName());
 			}
 		}
@@ -158,7 +158,7 @@ public class DatasetSortUtil
 		JRVariable[] variables = dataset.getVariables();
 		if (variables != null)
 		{
-			for(int i = 0; i < variables.length; i++)
+			for (int i = 0; i < variables.length; i++)
 			{
 				variablesMap.put(variables[i].getName(), variables[i]);
 			}
@@ -167,7 +167,7 @@ public class DatasetSortUtil
 		JRSortField[] sortFields = getAllSortFields(dataset);
 		if (sortFields != null)
 		{
-			for(int i = 0; i < sortFields.length; i++)
+			for (int i = 0; i < sortFields.length; i++)
 			{
 				JRSortField sortField = sortFields[i];
 

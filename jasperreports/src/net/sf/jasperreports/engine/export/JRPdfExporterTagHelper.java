@@ -722,17 +722,17 @@ public class JRPdfExporterTagHelper
 		int colSpan = 0;
 		int rowSpan = 0;
 		try	{
-			colSpan = Integer.valueOf(element.getPropertiesMap().getProperty(PROPERTY_TAG_COLSPAN)).intValue();
+			colSpan = Integer.valueOf(element.getPropertiesMap().getProperty(PROPERTY_TAG_COLSPAN));
 		} catch (NumberFormatException e) {
 			try	{
-				colSpan = Integer.valueOf(element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_COLUMN_SPAN)).intValue();
+				colSpan = Integer.valueOf(element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_COLUMN_SPAN));
 			} catch (NumberFormatException ex) {}
 		}
 		try {
-			rowSpan = Integer.valueOf(element.getPropertiesMap().getProperty(PROPERTY_TAG_ROWSPAN)).intValue();
+			rowSpan = Integer.valueOf(element.getPropertiesMap().getProperty(PROPERTY_TAG_ROWSPAN));
 		} catch (NumberFormatException e) {
 			try {
-				rowSpan = Integer.valueOf(element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_ROW_SPAN)).intValue();
+				rowSpan = Integer.valueOf(element.getPropertiesMap().getProperty(JRCellContents.PROPERTY_ROW_SPAN));
 			} catch (NumberFormatException ex) {}
 		}
 		if (colSpan > 1 || rowSpan > 1)

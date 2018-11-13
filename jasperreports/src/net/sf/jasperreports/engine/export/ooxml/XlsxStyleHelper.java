@@ -120,11 +120,11 @@ public class XlsxStyleHelper extends BaseHelper
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
 		{
-			styleIndex = Integer.valueOf(styleCache.size() + 1);
+			styleIndex = styleCache.size() + 1;
 			exportCellStyle(gridCell, styleInfo, styleIndex, sheetInfo);
 			styleCache.put(styleInfo.getId(), styleIndex);
 		}
-		return styleIndex.intValue();
+		return styleIndex;
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class XlsxStyleHelper extends BaseHelper
 			cellXfsWriter.write(
 				"<xf numFmtId=\"" + styleInfo.formatIndex
 				+ "\" fontId=\"" + styleInfo.fontIndex
-				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
+				+ "\" fillId=\"" + (styleIndex + 1)
 				+ "\" borderId=\"" + styleInfo.borderIndex
 				+ "\" xfId=\"0\""
 				+ " applyAlignment=\"1\" applyProtection=\"1\" applyNumberFormat=\"1\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\">"

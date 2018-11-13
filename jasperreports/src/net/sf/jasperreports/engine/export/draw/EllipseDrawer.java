@@ -86,7 +86,7 @@ public class EllipseDrawer extends ElementDrawer<JRPrintEllipse>
 
 			if (ellipse.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
-				float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
+				float lineWidth = ellipse.getLinePen().getLineWidth();
 				
 				grx.translate(
 					ellipse.getX() + offsetX - lineWidth / 3, 

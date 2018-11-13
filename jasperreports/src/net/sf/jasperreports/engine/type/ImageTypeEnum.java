@@ -81,7 +81,7 @@ public enum ImageTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -136,6 +136,6 @@ public enum ImageTypeEnum implements JREnum
 	 */
 	public static ImageTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

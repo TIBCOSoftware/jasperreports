@@ -205,9 +205,9 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			return this;
 		}
 		
-		boolean copyLeft = left && lineBox.getLeftPen().getLineWidth().floatValue() <= 0f && lineBox.getRightPen().getLineWidth().floatValue() > 0f;
-		boolean copyRight = right && lineBox.getRightPen().getLineWidth().floatValue() <= 0f && lineBox.getLeftPen().getLineWidth().floatValue() > 0f;
-		boolean copyTop = top && lineBox.getTopPen().getLineWidth().floatValue() <= 0f && lineBox.getBottomPen().getLineWidth().floatValue() > 0f;
+		boolean copyLeft = left && lineBox.getLeftPen().getLineWidth() <= 0f && lineBox.getRightPen().getLineWidth() > 0f;
+		boolean copyRight = right && lineBox.getRightPen().getLineWidth() <= 0f && lineBox.getLeftPen().getLineWidth() > 0f;
+		boolean copyTop = top && lineBox.getTopPen().getLineWidth() <= 0f && lineBox.getBottomPen().getLineWidth() > 0f;
 		
 		if (!(copyLeft || copyRight || copyTop))
 		{
@@ -612,12 +612,12 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	protected int getTopPadding()
 	{
-		return lineBox == null ? 0 : lineBox.getTopPadding().intValue();
+		return lineBox == null ? 0 : lineBox.getTopPadding();
 	}
 	
 	protected int getBottomPadding()
 	{
-		return lineBox == null ? 0 : lineBox.getBottomPadding().intValue();
+		return lineBox == null ? 0 : lineBox.getBottomPadding();
 	}
 
 	public JRFillCloneable createClone()

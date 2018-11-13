@@ -1261,7 +1261,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 				}
 				else
 				{
-					condition = expressionValue.booleanValue();
+					condition = expressionValue;
 				}
 				
 				code.append(condition ? '1' : '0');

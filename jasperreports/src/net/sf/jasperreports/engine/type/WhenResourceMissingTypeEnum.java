@@ -67,7 +67,7 @@ public enum WhenResourceMissingTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -106,6 +106,6 @@ public enum WhenResourceMissingTypeEnum implements JREnum
 	 */
 	public static WhenResourceMissingTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

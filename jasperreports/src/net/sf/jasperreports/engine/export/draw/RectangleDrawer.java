@@ -100,7 +100,7 @@ public class RectangleDrawer extends ElementDrawer<JRPrintRectangle>
 
 			if (rectangle.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
-				float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
+				float lineWidth = rectangle.getLinePen().getLineWidth();
 				
 				if (rectangle.getRadius() > 0)
 				{

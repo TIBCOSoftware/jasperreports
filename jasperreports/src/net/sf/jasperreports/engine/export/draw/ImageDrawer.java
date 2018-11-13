@@ -126,13 +126,13 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		}
 
 		if (
-			printImage.getLineBox().getTopPen().getLineWidth().floatValue() <= 0f &&
-			printImage.getLineBox().getLeftPen().getLineWidth().floatValue() <= 0f &&
-			printImage.getLineBox().getBottomPen().getLineWidth().floatValue() <= 0f &&
-			printImage.getLineBox().getRightPen().getLineWidth().floatValue() <= 0f
+			printImage.getLineBox().getTopPen().getLineWidth() <= 0f &&
+			printImage.getLineBox().getLeftPen().getLineWidth() <= 0f &&
+			printImage.getLineBox().getBottomPen().getLineWidth() <= 0f &&
+			printImage.getLineBox().getRightPen().getLineWidth() <= 0f
 			)
 		{
-			if (printImage.getLinePen().getLineWidth().floatValue() != 0)
+			if (printImage.getLinePen().getLineWidth() != 0)
 			{
 				drawPen(
 					grx, 
@@ -172,10 +172,10 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
 
-			topPadding = printImage.getLineBox().getTopPadding().intValue();
-			leftPadding = printImage.getLineBox().getLeftPadding().intValue();
-			bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
-			rightPadding = printImage.getLineBox().getRightPadding().intValue();
+			topPadding = printImage.getLineBox().getTopPadding();
+			leftPadding = printImage.getLineBox().getLeftPadding();
+			bottomPadding = printImage.getLineBox().getBottomPadding();
+			rightPadding = printImage.getLineBox().getRightPadding();
 			
 			int tmpAvailableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 			availableImageWidth = tmpAvailableImageWidth < 0 ? 0 : tmpAvailableImageWidth;

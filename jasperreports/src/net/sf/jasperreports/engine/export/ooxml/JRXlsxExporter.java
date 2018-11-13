@@ -279,12 +279,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
 
 		Integer[] elementIndexes = imageIndex.getAddressArray();
-		Object element = page.getElements().get(elementIndexes[0].intValue());
+		Object element = page.getElements().get(elementIndexes[0]);
 
 		for (int i = 1; i < elementIndexes.length; ++i)
 		{
 			JRPrintFrame frame = (JRPrintFrame) element;
-			element = frame.getElements().get(elementIndexes[i].intValue());
+			element = frame.getElements().get(elementIndexes[i]);
 		}
 
 		if(element instanceof JRGenericPrintElement)
@@ -900,13 +900,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		) throws JRException 
 	{
 		int topPadding =
-			Math.max(image.getLineBox().getTopPadding().intValue(), getImageBorderCorrection(image.getLineBox().getTopPen()));
+			Math.max(image.getLineBox().getTopPadding(), getImageBorderCorrection(image.getLineBox().getTopPen()));
 		int leftPadding =
-			Math.max(image.getLineBox().getLeftPadding().intValue(), getImageBorderCorrection(image.getLineBox().getLeftPen()));
+			Math.max(image.getLineBox().getLeftPadding(), getImageBorderCorrection(image.getLineBox().getLeftPen()));
 		int bottomPadding =
-			Math.max(image.getLineBox().getBottomPadding().intValue(), getImageBorderCorrection(image.getLineBox().getBottomPen()));
+			Math.max(image.getLineBox().getBottomPadding(), getImageBorderCorrection(image.getLineBox().getBottomPen()));
 		int rightPadding =
-			Math.max(image.getLineBox().getRightPadding().intValue(), getImageBorderCorrection(image.getLineBox().getRightPen()));
+			Math.max(image.getLineBox().getRightPadding(), getImageBorderCorrection(image.getLineBox().getRightPen()));
 
 		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;

@@ -57,7 +57,7 @@ public class JRBandFactory extends JRBaseFactory
 				log.warn("The 'isSplitAllowed' attribute is deprecated. Use the 'splitType' attribute instead.");
 			}
 				
-			if (Boolean.valueOf(isSplitAllowed).booleanValue())
+			if (Boolean.valueOf(isSplitAllowed))
 			{
 				band.setSplitType(SplitTypeEnum.STRETCH);
 			}

@@ -776,7 +776,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			}
 			else
 			{
-				return booleanValue.booleanValue();
+				return booleanValue;
 			}
 		}
 		else
@@ -814,7 +814,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			}
 			else
 			{
-				return booleanValue.booleanValue();
+				return booleanValue;
 			}
 		}
 		else

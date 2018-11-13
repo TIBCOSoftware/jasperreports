@@ -2028,7 +2028,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	 */
 	protected int getImageBorderCorrection(JRPen pen)
 	{
-		float lineWidth = pen.getLineWidth().floatValue();
+		float lineWidth = pen.getLineWidth();
 		
 		if (lineWidth > 0f)
 		{
@@ -2074,14 +2074,14 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 		}
 
 		// sheet name specified; assuming it is first occurrence
-		int crtIndex = Integer.valueOf(1);
+		int crtIndex = 1;
 		String txtIndex = "";
 		String validSheetName = sheetName.length() < 32 ? sheetName : sheetName.substring(0, 31);
 		
 		if (sheetNamesMap.containsKey(validSheetName))
 		{
 			// sheet names must be unique; altering sheet name using number of occurrences
-			crtIndex = sheetNamesMap.get(validSheetName).intValue() + 1;
+			crtIndex = sheetNamesMap.get(validSheetName) + 1;
 			txtIndex = String.valueOf(crtIndex);
 		}
 

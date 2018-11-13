@@ -106,7 +106,7 @@ public class ParametersXmlExporterOutput extends ParametersWriterExporterOutput 
 					{
 						isEmbeddingImagesParameter = Boolean.TRUE;
 					}
-					isEmbeddingImages = isEmbeddingImagesParameter.booleanValue();
+					isEmbeddingImages = isEmbeddingImagesParameter;
 				}
 			}
 		}

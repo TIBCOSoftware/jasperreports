@@ -68,7 +68,7 @@ public abstract class AbstractParametersExporterOutput implements ExporterOutput
 		}
 		else
 		{
-			parametersOverrideHints = param.booleanValue();
+			parametersOverrideHints = param;
 		}
 		
 		if (parametersOverrideHints)

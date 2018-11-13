@@ -149,7 +149,7 @@ public enum StretchTypeEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -188,6 +188,6 @@ public enum StretchTypeEnum implements JREnum
 	 */
 	public static StretchTypeEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

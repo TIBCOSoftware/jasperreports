@@ -164,13 +164,13 @@ public class PptxRunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			float fontSize = ((Float)value).floatValue();
+			float fontSize = (Float)value;
 			fontSize = fontSize == 0 ? 0.5f : fontSize;// only the special EMPTY_CELL_STYLE would have font size zero
 			write(" sz=\"" + (int)(100 * fontSize) + "\"");
 		}
 		else //FIXMEPPTX deal with default values from a style, a theme or something
 		{
-			float fontSize = ((Float)oldValue).floatValue();
+			float fontSize = (Float)oldValue;
 			write(" sz=\"" + (int)(100 * fontSize) + "\"");
 		}
 		

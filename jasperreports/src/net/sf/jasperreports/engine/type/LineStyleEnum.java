@@ -67,7 +67,7 @@ public enum LineStyleEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -106,6 +106,6 @@ public enum LineStyleEnum implements JREnum
 	 */
 	public static LineStyleEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

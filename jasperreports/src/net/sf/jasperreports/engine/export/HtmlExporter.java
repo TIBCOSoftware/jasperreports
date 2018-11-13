@@ -682,7 +682,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			styleBuffer.append("white-space: nowrap; ");
 		}
 		
-		styleBuffer.append("text-indent: " + text.getParagraph().getFirstLineIndent().intValue() + "px; ");
+		styleBuffer.append("text-indent: " + text.getParagraph().getFirstLineIndent() + "px; ");
 
 		String rotationValue = null;
 		StringBuilder spanStyleBuffer = new StringBuilder();
@@ -2123,10 +2123,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			LineStyleEnum bps = box.getBottomPen().getLineStyleValue();
 			LineStyleEnum rps = box.getRightPen().getLineStyleValue();
 			
-			float tpw = box.getTopPen().getLineWidth().floatValue();
-			float lpw = box.getLeftPen().getLineWidth().floatValue();
-			float bpw = box.getBottomPen().getLineWidth().floatValue();
-			float rpw = box.getRightPen().getLineWidth().floatValue();
+			float tpw = box.getTopPen().getLineWidth();
+			float lpw = box.getLeftPen().getLineWidth();
+			float bpw = box.getBottomPen().getLineWidth();
+			float rpw = box.getRightPen().getLineWidth();
 			
 			if (0f < tpw && tpw < 1f) {
 				tpw = 1f;
@@ -2190,7 +2190,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	{
 		boolean addedToStyle = false;
 		
-		float borderWidth = pen.getLineWidth().floatValue();
+		float borderWidth = pen.getLineWidth();
 		if (0f < borderWidth && borderWidth < 1f)
 		{
 			borderWidth = 1f;
@@ -2298,7 +2298,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	{
 		boolean addedToStyle = false;
 		
-		if (padding.intValue() > 0)
+		if (padding > 0)
 		{
 			sb.append("padding");
 			if (side != null)
@@ -2307,7 +2307,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				sb.append(side);
 			}
 			sb.append(": ");
-			sb.append(toSizeUnit(padding.intValue()));
+			sb.append(toSizeUnit(padding));
 			sb.append("; ");
 
 			addedToStyle = true;
@@ -2565,7 +2565,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		Float zoomRatio = getCurrentItemConfiguration().getZoomRatio();
 		if (zoomRatio != null)
 		{
-			zoom = zoomRatio.floatValue();
+			zoom = zoomRatio;
 			if (zoom <= 0)
 			{
 				throw 
@@ -2785,7 +2785,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			case PROPORTIONAL:
 			{
 				if (lineSpacingSize != null) {
-					writer.write(" line-height: " + lineSpacingSize.floatValue() + ";");
+					writer.write(" line-height: " + lineSpacingSize + ";");
 				}
 				break;
 			}
@@ -2793,7 +2793,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			case FIXED:
 			{
 				if (lineSpacingSize != null) {
-					writer.write(" line-height: " + lineSpacingSize.floatValue() + "px;");
+					writer.write(" line-height: " + lineSpacingSize + "px;");
 				}
 				break;
 			}

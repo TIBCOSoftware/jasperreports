@@ -170,7 +170,7 @@ public class DocxRunHelper extends BaseHelper
 		
 		if (value != null && !value.equals(oldValue))
 		{
-			float fontSize = ((Float)value).floatValue();
+			float fontSize = (Float)value;
 			fontSize = fontSize == 0 ? 0.5f : fontSize;// only the special EMPTY_CELL_STYLE would have font size zero
 			write("        <w:sz w:val=\"" + (int)(2 * fontSize) + "\" />\n");
 		}

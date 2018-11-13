@@ -145,7 +145,7 @@ public class AsynchronousFillHandle extends BaseFillHandle
 			
 			if (priority != null)
 			{
-				fillThread.setPriority(priority.intValue());
+				fillThread.setPriority(priority);
 			}
 			
 			fillThread.start();
@@ -293,7 +293,7 @@ public class AsynchronousFillHandle extends BaseFillHandle
 	{
 		synchronized (lock)
 		{
-			this.priority = Integer.valueOf(priority);
+			this.priority = priority;
 			if (fillThread != null)
 			{
 				fillThread.setPriority(priority);

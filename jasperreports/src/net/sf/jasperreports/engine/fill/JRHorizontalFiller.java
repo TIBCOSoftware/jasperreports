@@ -2214,12 +2214,12 @@ public class JRHorizontalFiller extends JRBaseFiller
 		JRFillVariable pageNumberVar = calculator.getPageNumber();
 		if (isResetPageNumber)
 		{
-			pageNumberVar.setValue(Integer.valueOf(1));
+			pageNumberVar.setValue(1);
 		}
 		else
 		{
 			pageNumberVar.setValue(
-				Integer.valueOf(((Number)pageNumberVar.getValue()).intValue() + 1)
+				((Number)pageNumberVar.getValue()).intValue() + 1
 				);
 		}
 		pageNumberVar.setOldValue(pageNumberVar.getValue());
@@ -2243,7 +2243,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 	private void setColumnNumberVariable()
 	{
 		JRFillVariable columnNumberVar = calculator.getColumnNumber();
-		columnNumberVar.setValue(Integer.valueOf(columnIndex + 1));
+		columnNumberVar.setValue(columnIndex + 1);
 		columnNumberVar.setOldValue(columnNumberVar.getValue());
 	}
 

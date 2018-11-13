@@ -135,7 +135,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 	@Override
 	public void setRadius(int radius)
 	{
-		this.radius = Integer.valueOf(radius);
+		this.radius = radius;
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public enum HyperlinkTargetEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -131,6 +131,6 @@ public enum HyperlinkTargetEnum implements JREnum
 	 */
 	public static HyperlinkTargetEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

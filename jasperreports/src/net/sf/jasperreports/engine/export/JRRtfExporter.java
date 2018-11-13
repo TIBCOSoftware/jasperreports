@@ -489,7 +489,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		contentWriter.write(String.valueOf(getColorRGB(pen.getLineColor())));
 		contentWriter.write("}}");
 
-		float lineWidth = pen.getLineWidth().floatValue();
+		float lineWidth = pen.getLineWidth();
 		
 		if (lineWidth == 0f)
 		{
@@ -688,10 +688,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		startElement(text);
 
 		// padding for the text
-		int topPadding = text.getLineBox().getTopPadding().intValue();
-		int leftPadding = text.getLineBox().getLeftPadding().intValue();
-		int bottomPadding = text.getLineBox().getBottomPadding().intValue();
-		int rightPadding = text.getLineBox().getRightPadding().intValue();
+		int topPadding = text.getLineBox().getTopPadding();
+		int leftPadding = text.getLineBox().getLeftPadding();
+		int bottomPadding = text.getLineBox().getBottomPadding();
+		int rightPadding = text.getLineBox().getRightPadding();
 
 		String rotation = null;
 
@@ -807,11 +807,11 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		contentWriter.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		contentWriter.write("{\\shptxt{\\pard ");
 
-		contentWriter.write("\\fi" + LengthUtil.twip(text.getParagraph().getFirstLineIndent().intValue()) + " ");
-		contentWriter.write("\\li" + LengthUtil.twip(text.getParagraph().getLeftIndent().intValue()) + " ");
-		contentWriter.write("\\ri" + LengthUtil.twip(text.getParagraph().getRightIndent().intValue()) + " ");
-		contentWriter.write("\\sb" + LengthUtil.twip(text.getParagraph().getSpacingBefore().intValue()) + " ");
-		contentWriter.write("\\sa" + LengthUtil.twip(text.getParagraph().getSpacingAfter().intValue()) + " ");
+		contentWriter.write("\\fi" + LengthUtil.twip(text.getParagraph().getFirstLineIndent()) + " ");
+		contentWriter.write("\\li" + LengthUtil.twip(text.getParagraph().getLeftIndent()) + " ");
+		contentWriter.write("\\ri" + LengthUtil.twip(text.getParagraph().getRightIndent()) + " ");
+		contentWriter.write("\\sb" + LengthUtil.twip(text.getParagraph().getSpacingBefore()) + " ");
+		contentWriter.write("\\sa" + LengthUtil.twip(text.getParagraph().getSpacingAfter()) + " ");
 
 		TabStop[] tabStops = text.getParagraph().getTabStops();
 		if (tabStops != null && tabStops.length > 0)
@@ -887,19 +887,19 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		{
 			case AT_LEAST:
 			{
-				contentWriter.write("\\sl" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
+				contentWriter.write("\\sl" + LengthUtil.twip(text.getParagraph().getLineSpacingSize()));
 				contentWriter.write(" \\slmult0 ");
 				break;
 			}
 			case FIXED:
 			{
-				contentWriter.write("\\sl-" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
+				contentWriter.write("\\sl-" + LengthUtil.twip(text.getParagraph().getLineSpacingSize()));
 				contentWriter.write(" \\slmult0 ");
 				break;
 			}
 			case PROPORTIONAL:
 			{
-				contentWriter.write("\\sl" + (int)(text.getParagraph().getLineSpacingSize().floatValue() * LINE_SPACING_FACTOR));
+				contentWriter.write("\\sl" + (int)(text.getParagraph().getLineSpacingSize() * LINE_SPACING_FACTOR));
 				contentWriter.write(" \\slmult1 ");
 				break;
 			}
@@ -1051,10 +1051,10 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	 */
 	public void exportImage(JRPrintImage printImage) throws JRException, IOException
 	{
-		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
-		int topPadding = printImage.getLineBox().getTopPadding().intValue();
-		int rightPadding = printImage.getLineBox().getRightPadding().intValue();
-		int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
+		int leftPadding = printImage.getLineBox().getLeftPadding();
+		int topPadding = printImage.getLineBox().getTopPadding();
+		int rightPadding = printImage.getLineBox().getRightPadding();
+		int bottomPadding = printImage.getLineBox().getBottomPadding();
 
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -1289,13 +1289,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		int height = printImage.getHeight();
 
 		if (
-			printImage.getLineBox().getTopPen().getLineWidth().floatValue() <= 0f &&
-			printImage.getLineBox().getLeftPen().getLineWidth().floatValue() <= 0f &&
-			printImage.getLineBox().getBottomPen().getLineWidth().floatValue() <= 0f &&
-			printImage.getLineBox().getRightPen().getLineWidth().floatValue() <= 0f
+			printImage.getLineBox().getTopPen().getLineWidth() <= 0f &&
+			printImage.getLineBox().getLeftPen().getLineWidth() <= 0f &&
+			printImage.getLineBox().getBottomPen().getLineWidth() <= 0f &&
+			printImage.getLineBox().getRightPen().getLineWidth() <= 0f
 			)
 		{
-			if (printImage.getLinePen().getLineWidth().floatValue() > 0f)
+			if (printImage.getLinePen().getLineWidth() > 0f)
 			{
 				exportPen(printImage.getLinePen(), x, y, width, height);
 			}
@@ -1466,13 +1466,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		int height
 		) throws IOException
 	{
-		if (topPen.getLineWidth().floatValue() > 0f) 
+		if (topPen.getLineWidth() > 0f) 
 		{
 			exportBorder(
 				topPen, 
-				x - leftPen.getLineWidth().floatValue() / 2, 
+				x - leftPen.getLineWidth() / 2, 
 				y, 
-				width + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2, 
+				width + (leftPen.getLineWidth() + rightPen.getLineWidth()) / 2, 
 				0
 				);
 			//exportBorder(topPen, x, y + getAdjustment(topPen), width, 0);
@@ -1492,14 +1492,14 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		int height
 		) throws IOException
 	{
-		if (leftPen.getLineWidth().floatValue() > 0f) 
+		if (leftPen.getLineWidth() > 0f) 
 		{
 			exportBorder(
 				leftPen, 
 				x, 
-				y - topPen.getLineWidth().floatValue() / 2, 
+				y - topPen.getLineWidth() / 2, 
 				0, 
-				height + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2
+				height + (topPen.getLineWidth() + bottomPen.getLineWidth()) / 2
 				);
 			//exportBorder(leftPen, x + getAdjustment(leftPen), y, 0, height);
 		}
@@ -1518,13 +1518,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		int height
 		) throws IOException
 	{
-		if (bottomPen.getLineWidth().floatValue() > 0f) 
+		if (bottomPen.getLineWidth() > 0f) 
 		{
 			exportBorder(
 				bottomPen, 
-				x - leftPen.getLineWidth().floatValue() / 2, 
+				x - leftPen.getLineWidth() / 2, 
 				y + height, 
-				width + (leftPen.getLineWidth().floatValue() + rightPen.getLineWidth().floatValue()) / 2, 
+				width + (leftPen.getLineWidth() + rightPen.getLineWidth()) / 2, 
 				0
 				);
 			//exportBorder(bottomPen, x, y + height - getAdjustment(bottomPen), width, 0);
@@ -1544,14 +1544,14 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 		int height
 		) throws IOException
 	{
-		if (rightPen.getLineWidth().floatValue() > 0f) 
+		if (rightPen.getLineWidth() > 0f) 
 		{
 			exportBorder(
 				rightPen, 
 				x + width, 
-				y - topPen.getLineWidth().floatValue() / 2, 
+				y - topPen.getLineWidth() / 2, 
 				0, 
-				height + (topPen.getLineWidth().floatValue() + bottomPen.getLineWidth().floatValue()) / 2
+				height + (topPen.getLineWidth() + bottomPen.getLineWidth()) / 2
 				);
 			//exportBorder(rightPen, x + width - getAdjustment(rightPen), y, 0, height);
 		}

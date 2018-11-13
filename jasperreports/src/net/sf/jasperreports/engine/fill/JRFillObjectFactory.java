@@ -185,13 +185,13 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		public JRStyle getStyle(String name)
 		{
 			Integer idx = stylesIdx.get(name);
-			return idx == null ? null : styles.get(idx.intValue());
+			return idx == null ? null : styles.get(idx);
 		}
 		
 		public void addStyle(JRStyle style)
 		{
 			styles.add(style);
-			stylesIdx.put(style.getName(), Integer.valueOf(styles.size() - 1));
+			stylesIdx.put(style.getName(), styles.size() - 1);
 		}
 		
 		public void renamed(String oldName, String newName)

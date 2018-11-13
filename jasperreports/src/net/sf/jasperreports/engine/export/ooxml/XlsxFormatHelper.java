@@ -59,11 +59,11 @@ public class XlsxFormatHelper extends BaseHelper
 		Integer formatIndex = formatCache.get(formatInfo.getId());
 		if (formatIndex == null)
 		{
-			formatIndex = Integer.valueOf(formatCache.size());
+			formatIndex = formatCache.size();
 			export(formatInfo, formatIndex);
 			formatCache.put(formatInfo.getId(), formatIndex);
 		}
-		return formatIndex.intValue();
+		return formatIndex;
 	}
 
 	/**

@@ -56,7 +56,7 @@ public class JRFloatLocaleConverter extends DecimalLocaleConverter
 		{
 			throw new ConversionException("Supplied number is not of type Float: "+parsed);
 		}
-		return new Float(parsed.floatValue()); // unlike superclass it returns Float type
+		return parsed.floatValue(); // unlike superclass it returns Float type
 	}
 	
 }

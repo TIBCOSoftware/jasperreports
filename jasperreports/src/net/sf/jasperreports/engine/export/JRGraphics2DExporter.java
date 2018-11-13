@@ -394,7 +394,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		Float zoomRatio = getCurrentItemConfiguration().getZoomRatio();
 		if (zoomRatio != null)
 		{
-			zoom = zoomRatio.floatValue();
+			zoom = zoomRatio;
 			if (zoom <= 0)
 			{
 				throw 

@@ -63,7 +63,7 @@ public class OdtServlet extends BaseHttpServlet
 		}
 		
 		Boolean isBuffered = Boolean.valueOf(request.getParameter(BaseHttpServlet.BUFFERED_OUTPUT_REQUEST_PARAMETER));
-		if (isBuffered.booleanValue())
+		if (isBuffered)
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
 			JROdtExporter exporter = new JROdtExporter(DefaultJasperReportsContext.getInstance());

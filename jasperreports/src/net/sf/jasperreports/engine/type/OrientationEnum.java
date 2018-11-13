@@ -57,7 +57,7 @@ public enum OrientationEnum implements JREnum
 	@Override
 	public Byte getValueByte()
 	{
-		return new Byte(value);
+		return value;
 	}
 	
 	/**
@@ -96,6 +96,6 @@ public enum OrientationEnum implements JREnum
 	 */
 	public static OrientationEnum getByValue(byte value)
 	{
-		return getByValue(new Byte(value));
+		return getByValue((Byte)value);
 	}
 }

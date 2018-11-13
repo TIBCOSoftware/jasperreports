@@ -1113,10 +1113,10 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	public void exportImage(JRPrintImage image) throws JRException
 	{
-		int leftPadding = image.getLineBox().getLeftPadding().intValue();
-		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
-		int rightPadding = image.getLineBox().getRightPadding().intValue();
-		int bottomPadding = image.getLineBox().getBottomPadding().intValue();
+		int leftPadding = image.getLineBox().getLeftPadding();
+		int topPadding = image.getLineBox().getTopPadding();//FIXMEDOCX maybe consider border thickness
+		int rightPadding = image.getLineBox().getRightPadding();
+		int bottomPadding = image.getLineBox().getBottomPadding();
 
 		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -1746,7 +1746,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		setFrameElementsOffset(frame, false);
 
-		frameIndexStack.add(Integer.valueOf(elementIndex));
+		frameIndexStack.add(elementIndex);
 
 		exportElements(frame.getElements());
 
