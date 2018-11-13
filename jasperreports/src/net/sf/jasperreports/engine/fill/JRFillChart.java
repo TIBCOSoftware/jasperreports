@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -344,9 +345,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 			try 
 			{
 				Class<?> customizerClass = JRClassLoader.loadClassForName(customizerClassName);
-				customizer = (JRChartCustomizer) customizerClass.newInstance();
+				customizer = (JRChartCustomizer) customizerClass.getDeclaredConstructor().newInstance();
 			}
-			catch (Exception e) 
+			catch (ClassNotFoundException | InstantiationException | IllegalAccessException 
+				| NoSuchMethodException | InvocationTargetException e) 
 			{
 				throw 
 					new JRRuntimeException(

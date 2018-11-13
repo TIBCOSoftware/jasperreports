@@ -282,29 +282,18 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 				Constructor<? extends JRSaxParserFactory> constr = clazz.getConstructor(new Class[]{JasperReportsContext.class});
 				factory = constr.newInstance(jasperReportsContext);
 			}
-			catch (NoSuchMethodException e)
-			{
-				//ignore
-			}
-			catch (InvocationTargetException e)
+			catch (NoSuchMethodException | InvocationTargetException e)
 			{
 				//ignore
 			}
 			
 			if (factory == null)
 			{
-				factory = clazz.newInstance();
+				factory = clazz.getDeclaredConstructor().newInstance();
 			}
 		}
-		catch (ClassNotFoundException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (InstantiationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch (IllegalAccessException e)
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException 
+			| NoSuchMethodException | InvocationTargetException e)
 		{
 			throw new JRRuntimeException(e);
 		}

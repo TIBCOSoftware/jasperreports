@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,7 +65,7 @@ public final class ClassUtils
 						EXCEPTION_MESSAGE_KEY_CLASS_UNEXPECTED_TYPE,
 						new Object[]{className, expectedType.getName()});
 			}
-			return clazz.newInstance();
+			return clazz.getDeclaredConstructor().newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -74,15 +75,8 @@ public final class ClassUtils
 					new Object[]{className},
 					e);
 		}
-		catch (InstantiationException e)
-		{
-			throw 
-				new JRRuntimeException(
-					EXCEPTION_MESSAGE_KEY_CLASS_INSTANCE_ERROR,
-					new Object[]{className},
-					e);
-		}
-		catch (IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException 
+			| NoSuchMethodException | InvocationTargetException e)
 		{
 			throw 
 				new JRRuntimeException(

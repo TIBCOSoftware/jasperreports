@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.crosstabs.fill;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,18 +109,11 @@ public final class JRPercentageCalculatorFactory
 			{
 				try
 				{
-					calculator = (JRPercentageCalculator) percentageCalculatorClass.newInstance();
+					calculator = (JRPercentageCalculator) percentageCalculatorClass.getDeclaredConstructor().newInstance();
 					cachedCalculators.put(percentageCalculatorClass.getName(), calculator);
 				}
-				catch (InstantiationException e)
-				{
-					throw 
-						new JRRuntimeException(
-							EXCEPTION_MESSAGE_KEY_PERCENTAGE_CALCULATOR_INSTANCE_ERROR,
-							new Object[]{percentageCalculatorClass},
-							e);
-				}
-				catch (IllegalAccessException e)
+				catch (InstantiationException | IllegalAccessException 
+					| NoSuchMethodException | InvocationTargetException e)
 				{
 					throw 
 						new JRRuntimeException(
@@ -271,7 +266,7 @@ public final class JRPercentageCalculatorFactory
 			BigDecimal percentage;
 			if (totalVal != null && totalVal.doubleValue() != 0)
 			{
-				percentage = val.multiply(BigDecimal.valueOf(100L)).divide(totalVal, BigDecimal.ROUND_HALF_UP);
+				percentage = val.multiply(BigDecimal.valueOf(100L)).divide(totalVal, RoundingMode.HALF_UP);
 			}
 			else
 			{

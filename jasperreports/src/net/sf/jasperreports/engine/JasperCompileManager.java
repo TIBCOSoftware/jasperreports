@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -882,14 +883,15 @@ public final class JasperCompileManager
 			if (contextConstructor == null)
 			{
 				// assuming default constructor
-				compiler = (JRCompiler) clazz.newInstance();
+				compiler = (JRCompiler) clazz.getDeclaredConstructor().newInstance();
 			}
 			else
 			{
 				compiler = (JRCompiler) contextConstructor.newInstance(jasperReportsContext);
 			}
 		}
-		catch (Exception e)
+		catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+			| IllegalAccessException |  InstantiationException e)
 		{
 			throw new JRException(
 					EXCEPTION_MESSAGE_KEY_INSTANTIATE_REPORT_COMPILER_FAILURE,

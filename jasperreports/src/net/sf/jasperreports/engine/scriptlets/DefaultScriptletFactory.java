@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.scriptlets;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +107,7 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 		try
 		{
 			Class<?> scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
-			scriptlet = (JRAbstractScriptlet) scriptletClass.newInstance();
+			scriptlet = (JRAbstractScriptlet) scriptletClass.getDeclaredConstructor().newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -116,7 +117,8 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 					new Object[]{scriptletClassName}, 
 					e);
 		}
-		catch (Exception e)
+		catch (NoSuchMethodException | InvocationTargetException 
+			| IllegalAccessException | InstantiationException e)
 		{
 			throw 
 				new JRException(

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 
 import org.apache.commons.logging.Log;
@@ -52,9 +53,10 @@ public final class BigDecimalUtils
 		{
 			Class<?> handlerClass = Class.forName(
 					"net.sf.jasperreports.engine.util.Java15BigDecimalHandler");
-			handler = (BigDecimalHandler) handlerClass.newInstance();
+			handler = (BigDecimalHandler) handlerClass.getDeclaredConstructor().newInstance();
 		}
-		catch (Exception e)
+		catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+			| IllegalAccessException | InstantiationException e)
 		{
 			if (log.isDebugEnabled())
 			{

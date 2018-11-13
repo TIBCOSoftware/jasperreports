@@ -23,13 +23,35 @@
  */
 package net.sf.jasperreports.customvisualization.fill;
 
+import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.components.items.ItemData;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.customvisualization.CVComponent;
 import net.sf.jasperreports.customvisualization.CVConstants;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.Processor;
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillContextProvider;
@@ -44,17 +66,6 @@ import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.repo.ResourceInfo;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.io.File;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.net.URL;
-import java.util.*;
-import java.util.regex.Pattern;
-
-import static net.sf.jasperreports.web.util.AbstractWebResourceHandler.PROPERTIES_WEB_RESOURCE_PATTERN_PREFIX;
 
 public class CVFillComponent extends BaseFillComponent implements Serializable, FillContextProvider
 {
@@ -106,9 +117,9 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 			try
 			{
 				Class<?> myClass = JRClassLoader.loadClassForName(processingClass);
-				processor = (Processor) myClass.newInstance();
+				processor = (Processor) myClass.getDeclaredConstructor().newInstance();
 			}
-			catch (Exception e)
+			catch (ClassNotFoundException | InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException e)
 			{
 				throw new JRRuntimeException("Could not create processor instance.", e);
 			}

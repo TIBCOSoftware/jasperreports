@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.data.jdbc;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
@@ -145,11 +146,11 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));
 				
 				Class<?> clazz = JRClassLoader.loadClassForRealName(jdbcDataAdapter.getDriver());
-				Driver driver = (Driver) clazz.newInstance();
+				Driver driver = (Driver) clazz.getDeclaredConstructor().newInstance();
 				
 //				Driver driver = (Driver) (Class.forName(
 //						jdbcDataAdapter.getDriver(), true, getClassLoader()))
-//						.newInstance();
+//						.getDeclaredConstructor().newInstance();
 
 				
 				Properties	connectProps = new Properties();
@@ -181,11 +182,8 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 							new Object[] {jdbcDataAdapter.getUrl()});
 				}
 			}
-			catch (ClassNotFoundException ex){
-				throw new JRRuntimeException(ex);
-			} catch (InstantiationException e) {
-				throw new JRRuntimeException(e);
-			} catch (IllegalAccessException e) {
+			catch (ClassNotFoundException | InstantiationException | IllegalAccessException 
+				| NoSuchMethodException | InvocationTargetException e) {
 				throw new JRRuntimeException(e);
 			} finally {
 				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);

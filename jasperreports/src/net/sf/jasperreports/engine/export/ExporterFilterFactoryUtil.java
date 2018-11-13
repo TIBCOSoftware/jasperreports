@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.lang.reflect.InvocationTargetException;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -51,7 +53,7 @@ public final class ExporterFilterFactoryUtil
 		try
 		{
 			Class<?> clazz = JRClassLoader.loadClassForName(factoryClassName);
-			return (ExporterFilterFactory)clazz.newInstance();
+			return (ExporterFilterFactory)clazz.getDeclaredConstructor().newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -61,15 +63,8 @@ public final class ExporterFilterFactoryUtil
 					new Object[]{factoryClassName}, 
 					e);
 		}
-		catch (InstantiationException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_FACTORY_CLASS_INSTANCE_FAILURE,
-					new Object[]{factoryClassName}, 
-					e);
-		}
-		catch (IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException 
+			| NoSuchMethodException | InvocationTargetException e)
 		{
 			throw 
 				new JRException(

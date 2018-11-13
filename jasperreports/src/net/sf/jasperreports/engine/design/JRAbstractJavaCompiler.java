@@ -29,6 +29,7 @@
 package net.sf.jasperreports.engine.design;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.apache.commons.collections.map.ReferenceMap;
@@ -112,9 +113,9 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 				classFromBytesRef.set(clazz);
 			}
 		
-			evaluator = (JREvaluator) clazz.newInstance();
+			evaluator = (JREvaluator) clazz.getDeclaredConstructor().newInstance();
 		}
-		catch (Exception e)
+		catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e)
 		{
 			throw 
 			new JRException(

@@ -24,10 +24,21 @@
 package net.sf.jasperreports.ant;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.tools.ant.AntClassLoader;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Resource;
+import org.apache.tools.ant.types.resources.FileResource;
+import org.apache.tools.ant.util.RegexpPatternMapper;
+import org.apache.tools.ant.util.SourceFileScanner;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
@@ -39,15 +50,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.ReportCreator;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
-
-import org.apache.tools.ant.AntClassLoader;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.Resource;
-import org.apache.tools.ant.types.resources.FileResource;
-import org.apache.tools.ant.util.RegexpPatternMapper;
-import org.apache.tools.ant.util.SourceFileScanner;
 
 
 /**
@@ -407,13 +409,13 @@ public class JRAntApiWriteTask extends JRBaseAntTask
 					System.out.print("File : " + srcFileName + " ... ");
 
 					Class<?> reportCreatorClass = JRClassLoader.loadClassFromFile(null, new File(srcFileName));
-					ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
+					ReportCreator reportCreator = (ReportCreator)reportCreatorClass.getDeclaredConstructor().newInstance();
 					JasperDesign jasperDesign = reportCreator.create();
 					new JRXmlWriter(jasperReportsContext).write(jasperDesign, destFileName, "UTF-8");
 
 					System.out.println("OK.");
 				}
-				catch (Exception e)
+				catch (JRException | IOException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e)
 				{
 					System.out.println("FAILED.");
 					System.out.println("Error running API report design class : " + srcFileName);

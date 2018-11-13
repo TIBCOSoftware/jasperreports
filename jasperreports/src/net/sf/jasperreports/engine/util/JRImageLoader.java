@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.Image;
+import java.lang.reflect.InvocationTargetException;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -111,9 +112,10 @@ public final class JRImageLoader
 			try 
 			{
 				Class<?> clazz = JRClassLoader.loadClassForRealName(readerClassName);	
-				imageReader = (JRImageReader) clazz.newInstance();
+				imageReader = (JRImageReader) clazz.getDeclaredConstructor().newInstance();
 			}
-			catch (Exception e)
+			catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+				| IllegalAccessException | InstantiationException e)
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -130,9 +132,10 @@ public final class JRImageLoader
 			try 
 			{
 				Class<?> clazz = JRClassLoader.loadClassForRealName(encoderClassName);	
-				imageEncoder = (JRImageEncoder) clazz.newInstance();
+				imageEncoder = (JRImageEncoder) clazz.getDeclaredConstructor().newInstance();
 			}
-			catch (Exception e)
+			catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+				| IllegalAccessException | InstantiationException e)
 			{
 				throw new JRRuntimeException(e);
 			}

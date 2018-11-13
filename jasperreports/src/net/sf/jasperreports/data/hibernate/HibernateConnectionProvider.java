@@ -88,11 +88,11 @@ public class HibernateConnectionProvider implements ConnectionProvider {
                 // trying via forName() first to be as close to DriverManager's semantics
             	// NOTE for JSS: we use the context class loader because it will be able to locate the database drivers
             	// already loaded in our plug-ins or projects
-                driver = (Driver) Class.forName(driverClass, true, Thread.currentThread().getContextClassLoader()).newInstance();
+                driver = (Driver) Class.forName(driverClass, true, Thread.currentThread().getContextClassLoader()).getDeclaredConstructor().newInstance();
             }
             catch (Exception e) {
                 try {
-                    driver = (Driver) ReflectHelper.classForName(driverClass).newInstance();
+                    driver = (Driver) ReflectHelper.classForName(driverClass).getDeclaredConstructor().newInstance();
                 }
                 catch (Exception e1) {
                     log.error(e1.getMessage());

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.governors;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public final class GovernorFactory implements ScriptletFactory
 		try
 		{
 			Class<?> scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
-			scriptlet = (JRAbstractScriptlet) scriptletClass.newInstance();
+			scriptlet = (JRAbstractScriptlet) scriptletClass.getDeclaredConstructor().newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -102,7 +103,8 @@ public final class GovernorFactory implements ScriptletFactory
 					new Object[]{scriptletClassName}, 
 					e);
 		}
-		catch (Exception e)
+		catch (NoSuchMethodException | InvocationTargetException 
+			| IllegalAccessException | InstantiationException e)
 		{
 			throw 
 				new JRException(

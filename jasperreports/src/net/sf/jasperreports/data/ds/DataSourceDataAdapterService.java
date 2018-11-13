@@ -94,9 +94,9 @@ public class DataSourceDataAdapterService extends
 				Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getFactoryClass());
 				Object obj = null;
 				Method method = clazz.getMethod( dsDataAdapter.getMethodToCall(), new Class[0]);
-				if(!Modifier.isStatic(method.getModifiers()))
-					obj = clazz.newInstance();
-				if(JRDataSource.class.isAssignableFrom(method.getReturnType()))
+				if (!Modifier.isStatic(method.getModifiers()))
+					obj = clazz.getDeclaredConstructor().newInstance();
+				if (JRDataSource.class.isAssignableFrom(method.getReturnType()))
 				{
 					ds = (JRDataSource) method.invoke(obj,new Object[0]);
 				}
@@ -108,22 +108,9 @@ public class DataSourceDataAdapterService extends
 						new Object[]{dsDataAdapter.getMethodToCall(), dsDataAdapter.getFactoryClass()});
 				}
 			}
-			catch (ClassNotFoundException e)
+			catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+				| IllegalAccessException | InstantiationException e) 
 			{
-				throw new JRException(e);			
-			} 
-			catch (NoSuchMethodException e)
-			{
-				throw new JRException(e);			
-			} 
-			catch (InvocationTargetException e)
-			{
-				throw new JRException(e);			
-			} 
-			catch (IllegalAccessException e)
-			{
-				throw new JRException(e);			
-			} catch (InstantiationException e) {
 				throw new JRException(e);			
 			} 
 			finally

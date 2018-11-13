@@ -23,11 +23,12 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
-
 import org.apache.commons.collections.map.ReferenceMap;
+
+import net.sf.jasperreports.engine.JRException;
 
 
 /**
@@ -93,7 +94,7 @@ public class JRSingletonCache<T>
 						new Object[]{className, itf.getName()});
 			}
 
-			return clazz.newInstance();
+			return clazz.getDeclaredConstructor().newInstance();
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -103,15 +104,8 @@ public class JRSingletonCache<T>
 					new Object[]{className},
 					e);
 		}
-		catch (InstantiationException e)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_INSTANCE_ERROR,
-					new Object[]{className},
-					e);
-		}
-		catch (IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException 
+			| NoSuchMethodException | InvocationTargetException e)
 		{
 			throw 
 				new JRException(

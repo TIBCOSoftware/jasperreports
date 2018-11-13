@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * {@link BigDecimalHandler} implementation used on Java 1.4.
@@ -41,7 +42,7 @@ public class Java14BigDecimalHandler implements BigDecimalHandler
 	@Override
 	public BigDecimal divide(BigDecimal dividend, BigDecimal divisor)
 	{
-		return dividend.divide(divisor, BigDecimal.ROUND_HALF_UP);
+		return dividend.divide(divisor, RoundingMode.HALF_UP);
 	}
 
 }

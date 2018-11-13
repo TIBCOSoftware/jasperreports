@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import java.lang.reflect.InvocationTargetException;
+
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.components.charts.AbstractChartCustomizer;
@@ -142,10 +144,14 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		
 		customizerClass = chartSettings.getCustomizerClass();
 		if (customizerClass != null && customizerClass.length() > 0) {
-			try {
+			try 
+			{
 				Class<?> myClass = JRClassLoader.loadClassForName(customizerClass);
-				chartCustomizer = (ChartCustomizer) myClass.newInstance();
-			} catch (Exception e) {
+				chartCustomizer = (ChartCustomizer) myClass.getDeclaredConstructor().newInstance();
+			}
+			catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+				| IllegalAccessException | InstantiationException e) 
+			{
 				throw 
 					new JRRuntimeException(
 						EXCEPTION_MESSAGE_KEY_CUSTOMIZER_INSTANCE_ERROR,

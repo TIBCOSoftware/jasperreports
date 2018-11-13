@@ -86,7 +86,7 @@ public class HibernateDataAdapterService extends AbstractClasspathAwareDataAdapt
 					clazz = JRClassLoader.loadClassForRealName("org.hibernate.cfg.AnnotationConfiguration");
 				}
 				if (clazz != null) {
-					Object configure = clazz.newInstance();
+					Object configure = clazz.getDeclaredConstructor().newInstance();
 					if (configure != null) {
 						String xmlFileName = hbmDA.getXMLFileName();
 						if (xmlFileName != null && !xmlFileName.isEmpty()) {
@@ -122,21 +122,9 @@ public class HibernateDataAdapterService extends AbstractClasspathAwareDataAdapt
 										session);
 					}
 				}
-			} catch (IOException e) {
-				throw new JRException(e);
-			} catch (ClassNotFoundException e) {
-				throw new JRException(e);
-			} catch (InstantiationException e) {
-				throw new JRException(e);
-			} catch (IllegalAccessException e) {
-				throw new JRException(e);
-			} catch (IllegalArgumentException e) {
-				throw new JRException(e);
-			} catch (SecurityException e) {
-				throw new JRException(e);
-			} catch (InvocationTargetException e) {
-				throw new JRException(e);
-			} catch (NoSuchMethodException e) {
+			} catch (IOException | ClassNotFoundException | InstantiationException 
+				| IllegalAccessException | IllegalArgumentException | SecurityException 
+				| InvocationTargetException | NoSuchMethodException e) {
 				throw new JRException(e);
 			} finally {
 				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);

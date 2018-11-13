@@ -27,6 +27,7 @@ package net.sf.jasperreports.engine.design;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.commons.logging.Log;
@@ -81,7 +82,7 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 		try 
 		{
 			Class<?> clazz = JRClassLoader.loadClassForRealName("com.sun.tools.javac.Main");
-			Object compiler = clazz.newInstance();
+			Object compiler = clazz.getDeclaredConstructor().newInstance();
 			
 			try 
 			{
@@ -112,7 +113,8 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 				}
 			}
 		}
-		catch (Exception e)
+		catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+			| IllegalAccessException | InstantiationException e)
 		{
 			StringBuilder files = new StringBuilder();
 			for (int i = 0; i < sourceFiles.length; ++i)

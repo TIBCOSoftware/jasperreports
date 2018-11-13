@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -4260,11 +4261,12 @@ public class JRApiWriter
 		try
 		{
 			Class<?> reportCreatorClass = Class.forName(reportCreatorClassName);
-			ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
+			ReportCreator reportCreator = (ReportCreator)reportCreatorClass.getDeclaredConstructor().newInstance();
 			JasperDesign jasperDesign = reportCreator.create();
 			new JRXmlWriter(DefaultJasperReportsContext.getInstance()).write(jasperDesign, destFileName, "UTF-8");
 		}
-		catch (Exception e)
+		catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException 
+			| IllegalAccessException | InstantiationException | JRException e)
 		{
 			if (log.isErrorEnabled())
 			{

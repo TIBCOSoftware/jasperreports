@@ -23,11 +23,12 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
-
 import org.apache.commons.collections.map.ReferenceMap;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -55,13 +56,10 @@ public final class JRIncrementerFactoryCache
 		{
 			try
 			{
-				incrementerFactory = (JRIncrementerFactory)factoryClass.newInstance();
+				incrementerFactory = (JRIncrementerFactory)factoryClass.getDeclaredConstructor().newInstance();
 			}
-			catch (InstantiationException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-			catch (IllegalAccessException e)
+			catch (InstantiationException | IllegalAccessException 
+				| NoSuchMethodException | InvocationTargetException e)
 			{
 				throw new JRRuntimeException(e);
 			}

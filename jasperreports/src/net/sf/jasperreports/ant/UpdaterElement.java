@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.ant;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.apache.tools.ant.BuildException;
 
 import net.sf.jasperreports.engine.util.ReportUpdater;
@@ -53,17 +55,10 @@ public class UpdaterElement
 			try
 			{
 				Class<?> clazz = JRAntCompileTask.class.getClassLoader().loadClass(className);
-				updater = (ReportUpdater)clazz.newInstance();
+				updater = (ReportUpdater)clazz.getDeclaredConstructor().newInstance();
 			}
-			catch (ClassNotFoundException e)
-			{
-				throw new BuildException(e);
-			}
-			catch (IllegalAccessException e)
-			{
-				throw new BuildException(e);
-			}
-			catch (InstantiationException e)
+			catch (ClassNotFoundException | IllegalAccessException | InstantiationException 
+				| NoSuchMethodException | InvocationTargetException e)
 			{
 				throw new BuildException(e);
 			}

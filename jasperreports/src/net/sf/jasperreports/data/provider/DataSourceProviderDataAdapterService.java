@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.data.provider;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Map;
@@ -101,13 +102,12 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 					Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));
 
 					Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getProviderClass());
-					provider = (JRDataSourceProvider) clazz.newInstance();
+					provider = (JRDataSourceProvider) clazz.getDeclaredConstructor().newInstance();
 					// FIXME: I don't have a report, why I need a report??!
-				} catch (ClassNotFoundException e) {
-					throw new JRException(e);
-				} catch (IllegalAccessException e) {
-					throw new JRException(e);
-				} catch (InstantiationException e) {
+				}
+				catch (ClassNotFoundException | IllegalAccessException | InstantiationException 
+					| NoSuchMethodException | InvocationTargetException e) 
+				{
 					throw new JRException(e);
 				}
 				finally
