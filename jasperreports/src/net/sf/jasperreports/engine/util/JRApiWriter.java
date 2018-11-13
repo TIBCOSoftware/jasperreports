@@ -1824,7 +1824,7 @@ public class JRApiWriter
 		{
 			String datasetName = parentName + datasetNameSuffix;
 			write( "JRDesignPieDataset " + datasetName + " = new JRDesignPieDataset(" + parentName + ".getDataset());\n");
-			write( datasetName + ".setMaxCount(Integer.valueOf({0, number, #}));\n", dataset.getMaxCount());
+			write( datasetName + ".setMaxCount({0, number, #});\n", dataset.getMaxCount());
 			write( datasetName + ".setMinPercentage({0});\n", dataset.getMinPercentage());
 	
 			writeElementDataset( dataset, datasetName);
@@ -2864,7 +2864,7 @@ public class JRApiWriter
 				
 				write( "JRDesignMeterPlot " + plotName + " = (JRDesignMeterPlot)" + chartName + ".getPlot();\n");
 				write( plotName + ".setShape({0});\n", plot.getShapeValue());
-				write( plotName + ".setMeterAngle(Integer.valueOf({0, number, #}));\n", plot.getMeterAngleInteger());
+				write( plotName + ".setMeterAngle({0, number, #});\n", plot.getMeterAngleInteger());
 				
 				write( plotName + ".setUnits(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getUnits()));
 				write( plotName + ".setTickInterval({0});\n", plot.getTickIntervalDouble());
@@ -3908,11 +3908,11 @@ public class JRApiWriter
 	{
 		if (box != null)
 		{
-			write( boxHolder + ".setPadding(Integer.valueOf({0, number, #}));\n", box.getOwnPadding());
-			write( boxHolder + ".setTopPadding(Integer.valueOf({0, number, #}));\n", box.getOwnTopPadding());
-			write( boxHolder + ".setLeftPadding(Integer.valueOf({0, number, #}));\n", box.getOwnLeftPadding());
-			write( boxHolder + ".setBottomPadding(Integer.valueOf({0, number, #}));\n", box.getOwnBottomPadding());
-			write( boxHolder + ".setRightPadding(Integer.valueOf({0, number, #}));\n", box.getOwnRightPadding());
+			write( boxHolder + ".setPadding({0, number, #});\n", box.getOwnPadding());
+			write( boxHolder + ".setTopPadding({0, number, #});\n", box.getOwnTopPadding());
+			write( boxHolder + ".setLeftPadding({0, number, #});\n", box.getOwnLeftPadding());
+			write( boxHolder + ".setBottomPadding({0, number, #});\n", box.getOwnBottomPadding());
+			write( boxHolder + ".setRightPadding({0, number, #});\n", box.getOwnRightPadding());
 
 			writePen( box.getPen(), boxHolder + ".getPen()");
 			writePen( box.getTopPen(), boxHolder + ".getTopPen()");
@@ -3940,7 +3940,7 @@ public class JRApiWriter
 			write( paragraphName + ".setRightIndent({0});\n", paragraph.getOwnRightIndent());
 			write( paragraphName + ".setSpacingBefore({0});\n", paragraph.getOwnSpacingBefore());
 			write( paragraphName + ".setSpacingAfter({0});\n", paragraph.getOwnSpacingAfter());
-			write( paragraphName + ".setTabStopWidth(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStopWidth());//FIXMENOW is this pattern needed?
+			write( paragraphName + ".setTabStopWidth({0, number, #});\n", paragraph.getOwnTabStopWidth());//FIXMENOW is this pattern needed?
 
 			TabStop[] tabStops = paragraph.getTabStops();
 			if (tabStops != null && tabStops.length > 0)
@@ -4072,7 +4072,7 @@ public class JRApiWriter
 	 */
 	protected void write(String pattern, int value)
 	{
-		write(MessageFormat.format(pattern, new Object[]{Integer.valueOf(value)}));
+		write(MessageFormat.format(pattern, new Object[]{value}));
 	}
 
 	
@@ -4083,7 +4083,7 @@ public class JRApiWriter
 	{
 		if (value != defaultValue)
 		{
-			write(MessageFormat.format(pattern, new Object[]{Integer.valueOf(value)}));
+			write(MessageFormat.format(pattern, new Object[]{value}));
 		}
 	}
 
@@ -4106,7 +4106,7 @@ public class JRApiWriter
 		{
 			String strFloat = 
 				MessageFormat.format(
-					"new Float({0})", 
+					"{0}f", 
 					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replaceAll(",", "")}
 					);
 			write(MessageFormat.format(pattern, new Object[]{strFloat}));
@@ -4132,7 +4132,7 @@ public class JRApiWriter
 		{
 			String strDouble = 
 				MessageFormat.format(
-					"new Double({0})", 
+					"{0}d", 
 					new Object[]{NumberFormat.getInstance(Locale.ENGLISH).format(value).replaceAll(",", "")}
 					);
 			write(MessageFormat.format(pattern, new Object[]{strDouble}));
@@ -4147,7 +4147,7 @@ public class JRApiWriter
 	{
 		if (value != defaultValue)
 		{
-			write(MessageFormat.format(pattern, new Object[]{value ? Boolean.TRUE : Boolean.FALSE}));
+			write(MessageFormat.format(pattern, new Object[]{value}));
 		}
 	}
 
@@ -4159,7 +4159,7 @@ public class JRApiWriter
 	{
 		if (value != defaultValue)
 		{
-			write(MessageFormat.format(pattern, new Object[]{new Byte(value)}));
+			write(MessageFormat.format(pattern, new Object[]{value}));
 		}
 	}
 
@@ -4207,7 +4207,7 @@ public class JRApiWriter
 	{
 		return key == null 
 			? null 
-			: (key.booleanValue() ? "Boolean.TRUE" : "Boolean.FALSE");
+			: (key ? "Boolean.TRUE" : "Boolean.FALSE");
 	}
 	
 	/**

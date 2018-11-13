@@ -144,12 +144,12 @@ public final class JRPercentageCalculatorFactory
 			Byte totalVal = (Byte) total.getValue();
 			Byte val = (Byte) value.getValue();
 			byte percentage = 0;
-			if (totalVal != null && totalVal.byteValue() != 0)
+			if (totalVal != null && totalVal != 0)
 			{
-				percentage = (byte) (100 * val.byteValue() / totalVal.byteValue());
+				percentage = (byte) (100 * val / totalVal);
 			}
 
-			return new Byte(percentage);
+			return percentage;
 		}
 	}
 
@@ -165,12 +165,12 @@ public final class JRPercentageCalculatorFactory
 			Short totalVal = (Short) total.getValue();
 			Short val = (Short) value.getValue();
 			short percentage = 0;
-			if (totalVal != null && totalVal.shortValue() != 0)
+			if (totalVal != null && totalVal != 0)
 			{
-				percentage = (short) (100 * val.shortValue() / totalVal.shortValue());
+				percentage = (short) (100 * val / totalVal);
 			}
 
-			return new Short(percentage);
+			return percentage;
 		}
 	}
 
@@ -186,12 +186,12 @@ public final class JRPercentageCalculatorFactory
 			Integer totalVal = (Integer) total.getValue();
 			Integer val = (Integer) value.getValue();
 			int percentage = 0;
-			if (totalVal != null && totalVal.intValue() != 0)
+			if (totalVal != null && totalVal != 0)
 			{
-				percentage = 100 * val.intValue() / totalVal.intValue();
+				percentage = 100 * val / totalVal;
 			}
 
-			return Integer.valueOf(percentage);
+			return percentage;
 		}
 	}
 
@@ -207,12 +207,12 @@ public final class JRPercentageCalculatorFactory
 			Long totalVal = (Long) total.getValue();
 			Long val = (Long) value.getValue();
 			long percentage = 0L;
-			if (totalVal != null && totalVal.longValue() != 0)
+			if (totalVal != null && totalVal != 0)
 			{
-				percentage = 100L * val.longValue() / totalVal.longValue();
+				percentage = 100L * val / totalVal;
 			}
 
-			return new Long(percentage);
+			return percentage;
 		}
 	}
 
@@ -228,12 +228,12 @@ public final class JRPercentageCalculatorFactory
 			Float totalVal = (Float) total.getValue();
 			Float val = (Float) value.getValue();
 			float percentage = 0f;
-			if (totalVal != null && totalVal.floatValue() != 0)
+			if (totalVal != null && totalVal != 0)
 			{
-				percentage = 100f * val.floatValue() / totalVal.floatValue();
+				percentage = 100f * val / totalVal;
 			}
 
-			return new Float(percentage);
+			return percentage;
 		}
 	}
 
@@ -248,12 +248,12 @@ public final class JRPercentageCalculatorFactory
 			Double totalVal = (Double) total.getValue();
 			Double val = (Double) value.getValue();
 			double percentage = 0d;
-			if (totalVal != null && totalVal.doubleValue() != 0)
+			if (totalVal != null && totalVal != 0)
 			{
-				percentage = 100d * val.doubleValue() / totalVal.doubleValue();
+				percentage = 100d * val / totalVal;
 			}
 
-			return new Double(percentage);
+			return percentage;
 		}
 	}
 

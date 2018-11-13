@@ -87,7 +87,7 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 			{
 				Method compileMethod = clazz.getMethod("compile", new Class[] {String[].class, PrintWriter.class});
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				int result = ((Integer)compileMethod.invoke(compiler, new Object[] {source, new PrintWriter(baos)})).intValue();
+				int result = (Integer)compileMethod.invoke(compiler, new Object[] {source, new PrintWriter(baos)});
 				
 				if (result != MODERN_COMPILER_SUCCESS)
 				{
@@ -105,7 +105,7 @@ public class JRJdk13Compiler extends JRAbstractMultiClassCompiler
 			{
 				Method compileMethod = clazz.getMethod("compile", new Class[] {String[].class});
 
-				int result = ((Integer)compileMethod.invoke(compiler, new Object[] {source})).intValue();
+				int result = (Integer)compileMethod.invoke(compiler, new Object[] {source});
 				if (result != MODERN_COMPILER_SUCCESS)
 				{
 					errors = "See error messages above.";

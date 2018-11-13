@@ -100,7 +100,7 @@ parameters (however, the specific parameter syntax still has to be respected).
 The equivalent Java expression would be:
 <br/>
 <br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[Double.valueOf($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
 <br/>
 <br/>
 with a lot more complicated syntax.

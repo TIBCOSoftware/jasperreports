@@ -363,7 +363,7 @@ The Groovy scripting above uses a very simplified syntax. Equivalent Java expres
 The next expression in the report template uses Java to calculate their sum:
 <br/>
 <br/>
-<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[Double.valueOf($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
 <br/>
 <br/>
 Here, A and B being <code>Double</code>, their <code>doubleValue()</code> method is called in order to calculate the sum, 

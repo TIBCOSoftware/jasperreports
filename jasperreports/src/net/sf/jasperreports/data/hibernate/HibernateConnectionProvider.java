@@ -78,7 +78,7 @@ public class HibernateConnectionProvider implements ConnectionProvider {
 
         isolation = PropertiesHelper.getInteger(Environment.ISOLATION, props);
         if (isolation!=null)
-        log.info( "JDBC isolation level: " + Environment.isolationLevelToString( isolation.intValue() ) );
+        log.info( "JDBC isolation level: " + Environment.isolationLevelToString( isolation ) );
 
         if (driverClass==null) {
             log.warn("no JDBC Driver class was specified by property " + Environment.DRIVER);
@@ -134,7 +134,7 @@ public class HibernateConnectionProvider implements ConnectionProvider {
                     checkedOut++;
                 }
                 Connection pooled = pool.remove(last);
-                if (isolation!=null) pooled.setTransactionIsolation( isolation.intValue() );
+                if (isolation!=null) pooled.setTransactionIsolation( isolation );
                 if ( pooled.getAutoCommit()!=autocommit ) pooled.setAutoCommit(autocommit);
                 return pooled;
             }
@@ -142,7 +142,7 @@ public class HibernateConnectionProvider implements ConnectionProvider {
 
         log.debug("opening new JDBC connection");
         Connection conn = driver.connect(url, connectionProps);
-        if (isolation!=null) conn.setTransactionIsolation( isolation.intValue() );
+        if (isolation!=null) conn.setTransactionIsolation( isolation );
         if ( conn.getAutoCommit()!=autocommit ) conn.setAutoCommit(autocommit);
 
         if ( log.isDebugEnabled() ) {
