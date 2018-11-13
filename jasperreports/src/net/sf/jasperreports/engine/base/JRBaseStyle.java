@@ -429,42 +429,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return this.scaleImageValue;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalTextAlign()} and {@link #getHorizontalImageAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
-	{
-		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHorizontalTextAlign());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()} and {@link #getOwnHorizontalImageAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
-	{
-		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getOwnHorizontalTextAlign());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalTextAlign()} and {@link #getVerticalImageAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
-	{
-		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getVerticalTextAlign());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()} and {@link #getOwnVerticalImageAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
-	{
-		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getOwnVerticalTextAlign());
-	}
-
 	@Override
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
@@ -543,24 +507,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		Object old = this.rotationValue;
 		this.rotationValue = rotationValue;
 		getEventSupport().firePropertyChange(PROPERTY_ROTATION, old, this.rotationValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getLineSpacingValue()
-	{
-		return getParagraph().getLineSpacing();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	@Override
-	public LineSpacingEnum getOwnLineSpacingValue()
-	{
-		return getParagraph().getOwnLineSpacing();
 	}
 
 	@Override
@@ -658,25 +604,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	public Float getOwnFontsize()
 	{
 		return fontsize;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFontsize()}.
-	 */
-	@Override
-	public Integer getFontSize()
-	{
-		Float fontSize = getFontsize();
-		return fontSize == null ? null : fontSize.intValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFontsize()}.
-	 */
-	@Override
-	public Integer getOwnFontSize()
-	{
-		return fontsize == null ? null : fontsize.intValue();
 	}
 
 	@Override
@@ -791,26 +718,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		Object old = this.scaleImageValue;
 		this.scaleImageValue = scaleImageValue;
 		getEventSupport().firePropertyChange(PROPERTY_SCALE_IMAGE, old, this.scaleImageValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)} and {@link #setHorizontalImageAlign(HorizontalImageAlignEnum)}.
-	 */
-	@Override
-	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignmentValue)
-	{
-		setHorizontalTextAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalTextAlignEnum(horizontalAlignmentValue));
-		setHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(horizontalAlignmentValue));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)} and {@link #setVerticalImageAlign(VerticalImageAlignEnum)}.
-	 */
-	@Override
-	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignmentValue)
-	{
-		setVerticalTextAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalTextAlignEnum(verticalAlignmentValue));
-		setVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(verticalAlignmentValue));
 	}
 
 	@Override
@@ -945,15 +852,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_UNDERLINE, old, this.isUnderline);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	@Override
-	public void setLineSpacing(LineSpacingEnum lineSpacing)
-	{
-		getParagraph().setLineSpacing(lineSpacing);
-	}
-
 	@Override
 	public void setPattern(String pattern)
 	{
@@ -984,24 +882,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		Object old = this.fontsize;
 		this.fontsize = fontSize;
 		getEventSupport().firePropertyChange(PROPERTY_FONT_SIZE, old, this.fontsize);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Float)}.
-	 */
-	@Override
-	public void setFontSize(int fontSize)
-	{
-		setFontSize((float)fontSize);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Float)}.
-	 */
-	@Override
-	public void setFontSize(Integer fontSize)
-	{
-		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
 	@Override

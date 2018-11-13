@@ -35,7 +35,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface JRTextElement extends JRElement, JRAlignment, JRTextAlignment, JRFont, JRCommonText
+public interface JRTextElement extends JRElement, JRTextAlignment, JRFont, JRCommonText
 {
 
 	/**

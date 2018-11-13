@@ -235,60 +235,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		this.leadingOffset = leadingOffset;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalTextAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHorizontalAlignmentValue()
-	{
-		return ((JRTemplateText)this.template).getHorizontalAlignmentValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalTextAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getOwnHorizontalAlignmentValue()
-	{
-		return ((JRTemplateText)this.template).getOwnHorizontalAlignmentValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalTextAlign(HorizontalTextAlignEnum)}.
-	 */
-	@Override
-	public void setHorizontalAlignment(net.sf.jasperreports.engine.type.HorizontalAlignEnum horizontalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getVerticalTextAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getVerticalAlignmentValue()
-	{
-		return ((JRTemplateText)this.template).getVerticalAlignmentValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalTextAlign()}.
-	 */
-	@Override
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getOwnVerticalAlignmentValue()
-	{
-		return ((JRTemplateText)this.template).getOwnVerticalAlignmentValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalTextAlign(VerticalTextAlignEnum)}.
-	 */
-	@Override
-	public void setVerticalAlignment(net.sf.jasperreports.engine.type.VerticalAlignEnum verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
 	@Override
 	public HorizontalTextAlignEnum getHorizontalTextAlign()
 	{
@@ -654,43 +600,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	@Override
 	public void setFontSize(Float fontSize)
 	{
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFontsize()}.
-	 */
-	@Override
-	public int getFontSize()
-	{
-		return (int)getFontsize();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFontsize()}.
-	 */
-	@Override
-	public Integer getOwnFontSize()
-	{
-		Float fontSize = getOwnFontsize();
-		return fontSize == null ? null : fontSize.intValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Float)}.
-	 */
-	@Override
-	public void setFontSize(int fontSize)
-	{
-		setFontSize((float)fontSize);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Float)}.
-	 */
-	@Override
-	public void setFontSize(Integer fontSize)
-	{
-		setFontSize(fontSize == null ? null : fontSize.floatValue());
 	}
 
 	@Override

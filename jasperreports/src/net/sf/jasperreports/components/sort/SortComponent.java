@@ -189,34 +189,6 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHandlerVerticalImageAlign()}.
-	 */
-	public net.sf.jasperreports.engine.type.VerticalAlignEnum getHandlerVerticalAlign() {
-		return net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalAlignEnum(getHandlerVerticalImageAlign());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHandlerVerticalImageAlign(VerticalImageAlignEnum)}.
-	 */
-	public void setHandlerVerticalAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum handlerVerticalAlign) {
-		setHandlerVerticalImageAlign(net.sf.jasperreports.engine.type.VerticalAlignEnum.getVerticalImageAlignEnum(handlerVerticalAlign));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHandlerHorizontalImageAlign()}.
-	 */
-	public net.sf.jasperreports.engine.type.HorizontalAlignEnum getHandlerHorizontalAlign() {
-		return net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalAlignEnum(getHandlerHorizontalImageAlign());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHandlerHorizontalImageAlign(HorizontalImageAlignEnum)}.
-	 */
-	public void setHandlerHorizontalAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum handlerHorizontalAlign) {
-		setHandlerHorizontalImageAlign(net.sf.jasperreports.engine.type.HorizontalAlignEnum.getHorizontalImageAlignEnum(handlerHorizontalAlign));
-	}
-
-	/**
 	 * @return the handlerVerticalImageAlign
 	 */
 	public VerticalImageAlignEnum getHandlerVerticalImageAlign() {

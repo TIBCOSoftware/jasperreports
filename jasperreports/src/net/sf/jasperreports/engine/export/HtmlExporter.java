@@ -2232,7 +2232,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 
 			sb.append(": ");
-			sb.append(toSizeUnit((int)borderWidth));
+			sb.append(toSizeUnit(borderWidth));
 			
 			sb.append(" ");
 			sb.append(borderStyle);
@@ -2548,14 +2548,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 
 		return String.valueOf(number) + getCurrentItemConfiguration().getSizeUnit().getName();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #toSizeUnit(float)}.
-	 */
-	public String toSizeUnit(int size)
-	{
-		return toSizeUnit((float)size);
 	}
 
 	protected float toZoom(float size)//FIXMEEXPORT cache this

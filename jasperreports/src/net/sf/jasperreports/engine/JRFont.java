@@ -193,26 +193,6 @@ public interface JRFont extends JRStyleContainer
 	public void setFontSize(Float size);
 
 	/**
-	 * @deprecated Replaced by {@link #getFontsize()}.
-	 */
-	public int getFontSize();
-	
-	/**
-	 * @deprecated Replaced by {@link #getOwnFontsize()}.
-	 */
-	public Integer getOwnFontSize();
-	
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Float)}.
-	 */
-	public void setFontSize(int fontSize);
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Float)}.
-	 */
-	public void setFontSize(Integer fontSize);
-
-	/**
 	 *
 	 */
 	public String getPdfFontName();

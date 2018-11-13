@@ -63,8 +63,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
         HtmlExporter htmlExporter = (HtmlExporter)context.getExporterRef();
 
-        contextMap.put("elementX", htmlExporter.toSizeUnit((float)element.getX()));
-        contextMap.put("elementY", htmlExporter.toSizeUnit((float)element.getY()));
+        contextMap.put("elementX", htmlExporter.toSizeUnit(element.getX()));
+        contextMap.put("elementY", htmlExporter.toSizeUnit(element.getY()));
         contextMap.put("elementWidth", element.getWidth());
         contextMap.put("elementHeight", element.getHeight());
 
