@@ -88,7 +88,6 @@ The <api href="net/sf/jasperreports/engine/JRCommonRectangle.html">JRCommonRecta
 <ul>
 <li><code>public int getRadius();</code></li>
 <li><code>public Integer getOwnRadius();</code></li>
-<li><code>public void setRadius(int radius);</code></li>
 <li><code>public void setRadius(Integer radius);</code></li>
 </ul>
 In the .jrxml file a rectangle element is represented as follows:

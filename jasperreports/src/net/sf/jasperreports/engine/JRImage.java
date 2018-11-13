@@ -171,6 +171,7 @@ public interface JRImage extends JRGraphicElement, JREvaluation, JRAnchor, JRHyp
 	 * <p>
 	 * For image elements that have expressions returning <tt>java.lang.String</tt> objects as the image source, 
 	 * representing file names, URLs or classpath resources, the default value for this flag is true. 
+	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
 	 */
 	public void setUsingCache(boolean isUsingCache);
 

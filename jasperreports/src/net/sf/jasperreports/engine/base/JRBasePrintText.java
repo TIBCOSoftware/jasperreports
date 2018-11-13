@@ -523,6 +523,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return isBold;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setBold(Boolean)}.
+	 */
 	@Override
 	public void setBold(boolean isBold)
 	{
@@ -552,6 +555,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return isItalic;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
+	 */
 	@Override
 	public void setItalic(boolean isItalic)
 	{
@@ -580,6 +586,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return isUnderline;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
+	 */
 	@Override
 	public void setUnderline(boolean isUnderline)
 	{
@@ -608,6 +617,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return isStrikeThrough;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
+	 */
 	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
@@ -695,6 +707,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return isPdfEmbedded;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
+	 */
 	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{

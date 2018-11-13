@@ -179,18 +179,18 @@ public class IconLabelComponentUtil
 		labelTextField.setRotation(parentElement.getOwnRotationValue());//FIXMEICONLABEL how does it work?
 		labelTextField.setMarkup(parentElement.getMarkup());
 //		JRBoxUtil.copy(parentElement.getLineBox(), labelTextField.getLineBox());
-		labelTextField.getLineBox().setRightPadding(0);
-		labelTextField.getLineBox().getPen().setLineWidth(0);
-		labelTextField.getLineBox().getLeftPen().setLineWidth(0);
-		labelTextField.getLineBox().getRightPen().setLineWidth(0);
-		labelTextField.getLineBox().getTopPen().setLineWidth(0);
-		labelTextField.getLineBox().getBottomPen().setLineWidth(0);
-		labelTextField.getLineBox().setLeftPadding(0);
-		labelTextField.getLineBox().getPen().setLineWidth(0);
-		labelTextField.getLineBox().getLeftPen().setLineWidth(0);
-		labelTextField.getLineBox().getRightPen().setLineWidth(0);
-		labelTextField.getLineBox().getTopPen().setLineWidth(0);
-		labelTextField.getLineBox().getBottomPen().setLineWidth(0);
+		labelTextField.getLineBox().setRightPadding((Integer)0);
+		labelTextField.getLineBox().getPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getLeftPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getRightPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getTopPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getBottomPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().setLeftPadding((Integer)0);
+		labelTextField.getLineBox().getPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getLeftPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getRightPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getTopPen().setLineWidth((Float)0f);
+		labelTextField.getLineBox().getBottomPen().setLineWidth((Float)0f);
 
 		for(String propName : parentElement.getPropertiesMap().getPropertyNames())
 		{
@@ -248,25 +248,25 @@ public class IconLabelComponentUtil
 		iconTextField.setFontSize(parentElement.getOwnFontsize());
 		iconTextField.setForecolor(parentElement.getOwnForecolor());
 		iconTextField.setBackcolor(parentElement.getOwnBackcolor());
-		iconTextField.setBold(false);//parentElement.isOwnBold());
-		iconTextField.setItalic(false);//parentElement.isOwnItalic());
-		iconTextField.setUnderline(false);//parentElement.isOwnUnderline());
-		iconTextField.setStrikeThrough(false);//parentElement.isOwnStrikeThrough());
+		iconTextField.setBold(Boolean.FALSE);//parentElement.isOwnBold());
+		iconTextField.setItalic(Boolean.FALSE);//parentElement.isOwnItalic());
+		iconTextField.setUnderline(Boolean.FALSE);//parentElement.isOwnUnderline());
+		iconTextField.setStrikeThrough(Boolean.FALSE);//parentElement.isOwnStrikeThrough());
 		iconTextField.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
 		iconTextField.setVerticalTextAlign(parentElement.getOwnVerticalTextAlign());
 //		JRBoxUtil.copy(parentElement.getLineBox(), iconTextField.getLineBox());
-		iconTextField.getLineBox().setLeftPadding(0);
-		iconTextField.getLineBox().getPen().setLineWidth(0);
-		iconTextField.getLineBox().getLeftPen().setLineWidth(0);
-		iconTextField.getLineBox().getRightPen().setLineWidth(0);
-		iconTextField.getLineBox().getTopPen().setLineWidth(0);
-		iconTextField.getLineBox().getBottomPen().setLineWidth(0);
-		iconTextField.getLineBox().setRightPadding(0);
-		iconTextField.getLineBox().getPen().setLineWidth(0);
-		iconTextField.getLineBox().getLeftPen().setLineWidth(0);
-		iconTextField.getLineBox().getRightPen().setLineWidth(0);
-		iconTextField.getLineBox().getTopPen().setLineWidth(0);
-		iconTextField.getLineBox().getBottomPen().setLineWidth(0);
+		iconTextField.getLineBox().setLeftPadding((Integer)0);
+		iconTextField.getLineBox().getPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getLeftPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getRightPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getTopPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getBottomPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().setRightPadding((Integer)0);
+		iconTextField.getLineBox().getPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getLeftPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getRightPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getTopPen().setLineWidth((Float)0f);
+		iconTextField.getLineBox().getBottomPen().setLineWidth((Float)0f);
 		
 		iconLabelComponent.setIconTextField(iconTextField);
 		

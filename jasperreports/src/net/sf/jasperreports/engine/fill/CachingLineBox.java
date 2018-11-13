@@ -170,6 +170,9 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnPadding();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setPadding(Integer)}.
+	 */
 	@Override
 	public void setPadding(int padding)
 	{
@@ -194,6 +197,9 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnTopPadding();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setTopPadding(Integer)}.
+	 */
 	@Override
 	public void setTopPadding(int padding)
 	{
@@ -218,6 +224,9 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnLeftPadding();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setLeftPadding(Integer)}.
+	 */
 	@Override
 	public void setLeftPadding(int padding)
 	{
@@ -242,6 +251,9 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnBottomPadding();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setBottomPadding(Integer)}.
+	 */
 	@Override
 	public void setBottomPadding(int padding)
 	{
@@ -266,6 +278,9 @@ public class CachingLineBox implements JRLineBox
 		return base.getOwnRightPadding();
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setRightPadding(Integer)}.
+	 */
 	@Override
 	public void setRightPadding(int padding)
 	{

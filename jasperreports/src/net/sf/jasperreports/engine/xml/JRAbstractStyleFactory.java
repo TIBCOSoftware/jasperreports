@@ -25,6 +25,10 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
@@ -40,10 +44,6 @@ import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.Attributes;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -120,7 +120,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		String radius = atts.getValue(JRXmlConstants.ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)
 		{
-			style.setRadius(Integer.parseInt(radius));
+			style.setRadius(Integer.valueOf(radius));
 		}
 
 		// get image attributes
@@ -202,7 +202,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			{
 				log.warn("The 'padding' attribute is deprecated. Use the <box> tag instead.");
 			}
-			style.getLineBox().setPadding(Integer.parseInt(padding));
+			style.getLineBox().setPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
@@ -232,7 +232,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			{
 				log.warn("The 'topPadding' attribute is deprecated. Use the <box> tag instead.");
 			}	
-			style.getLineBox().setTopPadding(Integer.parseInt(padding));
+			style.getLineBox().setTopPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
@@ -262,7 +262,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			{
 				log.warn("The 'leftPadding' attribute is deprecated. Use the <box> tag instead.");
 			}
-			style.getLineBox().setLeftPadding(Integer.parseInt(padding));
+			style.getLineBox().setLeftPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
@@ -292,7 +292,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			{
 				log.warn("The 'bottomPadding' attribute is deprecated. Use the <box> tag instead.");
 			}	
-			style.getLineBox().setBottomPadding(Integer.parseInt(padding));
+			style.getLineBox().setBottomPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
@@ -322,7 +322,7 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			{
 				log.warn("The 'rightPadding' attribute is deprecated. Use the <box> tag instead.");
 			}
-			style.getLineBox().setRightPadding(Integer.parseInt(padding));
+			style.getLineBox().setRightPadding(Integer.valueOf(padding));
 		}
 
 

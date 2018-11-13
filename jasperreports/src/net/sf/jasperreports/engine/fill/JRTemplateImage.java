@@ -146,7 +146,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		
 		linePen = new JRBasePen(this);
 		
-		getLinePen().setLineWidth(0f);
+		getLinePen().setLineWidth((Float)0f);
 		setFill(FillEnum.SOLID);
 		
 		copyLineBox(chart.getLineBox());

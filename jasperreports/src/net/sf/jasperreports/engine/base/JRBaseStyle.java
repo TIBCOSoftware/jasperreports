@@ -698,6 +698,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_FILL, old, this.fillValue);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setRadius(Integer)}.
+	 */
 	@Override
 	public void setRadius(int radius)
 	{
@@ -760,6 +763,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_FONT_NAME, old, this.fontName);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setBold(Boolean)}.
+	 */
 	@Override
 	public void setBold(boolean bold)
 	{
@@ -774,6 +780,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_BOLD, old, this.isBold);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
+	 */
 	@Override
 	public void setItalic(boolean italic)
 	{
@@ -788,6 +797,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_ITALIC, old, this.isItalic);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
+	 */
 	@Override
 	public void setPdfEmbedded(boolean pdfEmbedded)
 	{
@@ -802,6 +814,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
+	 */
 	@Override
 	public void setStrikeThrough(boolean strikeThrough)
 	{
@@ -824,6 +839,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_MARKUP, old, this.markup);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setBlankWhenNull(Boolean)}.
+	 */
 	@Override
 	public void setBlankWhenNull(boolean isBlankWhenNull)
 	{
@@ -838,6 +856,9 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		getEventSupport().firePropertyChange(PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
+	 */
 	@Override
 	public void setUnderline(boolean underline)
 	{

@@ -229,6 +229,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getUsingCache();
 	}
 		
+	/**
+	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
+	 */
 	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{

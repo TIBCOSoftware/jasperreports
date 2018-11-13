@@ -461,7 +461,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setFill(FillEnum fill);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setRadius(Integer)}.
 	 */
 	public void setRadius(int radius);
 
@@ -503,7 +503,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setFontName(String fontName);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setBold(Boolean)}.
 	 */
 	public void setBold(boolean bold);
 
@@ -513,7 +513,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setBold(Boolean bold);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
 	 */
 	public void setItalic(boolean italic);
 
@@ -523,7 +523,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setItalic(Boolean italic);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
 	 */
 	public void setPdfEmbedded(boolean pdfEmbedded);
 
@@ -533,7 +533,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setPdfEmbedded(Boolean pdfEmbedded);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
 	 */
 	public void setStrikeThrough(boolean strikeThrough);
 
@@ -548,7 +548,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setMarkup(String markup);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
 	 */
 	public void setUnderline(boolean underline);
 
@@ -563,7 +563,7 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setPattern(String pattern);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #setBlankWhenNull(Boolean)}.
 	 */
 	public void setBlankWhenNull(boolean isBlankWhenNull);
 

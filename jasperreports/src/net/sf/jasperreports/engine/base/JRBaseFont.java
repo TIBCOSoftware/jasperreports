@@ -284,6 +284,9 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		return isBold;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #setBold(Boolean)}.
+	 */
 	@Override
 	public void setBold(boolean isBold)
 	{
@@ -315,6 +318,9 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		return isItalic;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
+	 */
 	@Override
 	public void setItalic(boolean isItalic)
 	{
@@ -345,6 +351,9 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		return isUnderline;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
+	 */
 	@Override
 	public void setUnderline(boolean isUnderline)
 	{
@@ -375,6 +384,9 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		return isStrikeThrough;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
+	 */
 	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
@@ -470,6 +482,9 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		return isPdfEmbedded;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
+	 */
 	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{

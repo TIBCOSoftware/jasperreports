@@ -254,6 +254,9 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		return isUsingCache;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
+	 */
 	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{

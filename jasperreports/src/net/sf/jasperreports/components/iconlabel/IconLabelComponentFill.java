@@ -580,11 +580,11 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 
 			int leftPadding = getLineBox().getLeftPadding() + (int)Math.floor(paddingDiff);
 			leftPadding = leftPadding < 0 ? 0 : leftPadding;
-			getLineBox().setLeftPadding(leftPadding);
+			getLineBox().setLeftPadding((Integer)leftPadding);
 			
 			int rightPadding = getLineBox().getRightPadding() + (int)Math.ceil(paddingDiff);
 			rightPadding = rightPadding < 0 ? 0 : rightPadding;
-			getLineBox().setRightPadding(rightPadding);
+			getLineBox().setRightPadding((Integer)rightPadding);
 		}
 
 		int availableWidth = 

@@ -236,7 +236,7 @@ public class ConvertVisitor implements JRVisitor
 				rectangle.setY(element.getY());
 				rectangle.setWidth(element.getWidth());
 				rectangle.setHeight(element.getHeight());
-				rectangle.getLinePen().setLineWidth(0.1f);
+				rectangle.getLinePen().setLineWidth((Float)0.1f);
 				rectangle.getLinePen().setLineStyle(LineStyleEnum.DASHED);
 				rectangle.getLinePen().setLineColor(ReportConverter.GRID_LINE_COLOR);
 				rectangle.setMode(ModeEnum.TRANSPARENT);

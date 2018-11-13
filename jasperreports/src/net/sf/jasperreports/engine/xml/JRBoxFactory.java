@@ -25,15 +25,15 @@ package net.sf.jasperreports.engine.xml;
 
 import java.awt.Color;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.type.PenEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRPenUtil;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.Attributes;
 
 
 /**
@@ -78,7 +78,7 @@ public class JRBoxFactory extends JRBaseFactory
 		String padding = atts.getValue(JRXmlConstants.ATTRIBUTE_padding);
 		if (padding != null && padding.length() > 0)
 		{
-			box.setPadding(Integer.parseInt(padding));
+			box.setPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_topBorder));
@@ -104,7 +104,7 @@ public class JRBoxFactory extends JRBaseFactory
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_topPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			box.setTopPadding(Integer.parseInt(padding));
+			box.setTopPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_leftBorder));
@@ -130,7 +130,7 @@ public class JRBoxFactory extends JRBaseFactory
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_leftPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			box.setLeftPadding(Integer.parseInt(padding));
+			box.setLeftPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_bottomBorder));
@@ -156,7 +156,7 @@ public class JRBoxFactory extends JRBaseFactory
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			box.setBottomPadding(Integer.parseInt(padding));
+			box.setBottomPadding(Integer.valueOf(padding));
 		}
 
 		border = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_rightBorder));
@@ -182,7 +182,7 @@ public class JRBoxFactory extends JRBaseFactory
 		padding = atts.getValue(JRXmlConstants.ATTRIBUTE_rightPadding);
 		if (padding != null && padding.length() > 0)
 		{
-			box.setRightPadding(Integer.parseInt(padding));
+			box.setRightPadding(Integer.valueOf(padding));
 		}
 	}
 	

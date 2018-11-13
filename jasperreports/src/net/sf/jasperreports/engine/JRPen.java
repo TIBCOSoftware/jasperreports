@@ -81,11 +81,14 @@ public interface JRPen
 	public Float getOwnLineWidth();
 
 	/**
-	 * Sets the line width.
-	 * @param lineWidth the line width
+	 * @deprecated Replaced by {@link #setLineWidth(Float)}.
 	 */
 	public void setLineWidth(float lineWidth);
 
+	/**
+	 * Sets the line width.
+	 * @param lineWidth the line width
+	 */
 	public void setLineWidth(Float lineWidth);
 
 	/**

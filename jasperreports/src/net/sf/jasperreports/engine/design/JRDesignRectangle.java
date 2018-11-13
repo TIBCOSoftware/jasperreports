@@ -80,6 +80,9 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 		return this.radius;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setRadius(Integer)}.
+	 */
 	@Override
 	public void setRadius(int radius)
 	{

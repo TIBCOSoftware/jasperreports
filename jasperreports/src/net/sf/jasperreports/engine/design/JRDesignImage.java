@@ -307,6 +307,9 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
+	 */
 	@Override
 	public void setUsingCache(boolean isUsingCache)
 	{

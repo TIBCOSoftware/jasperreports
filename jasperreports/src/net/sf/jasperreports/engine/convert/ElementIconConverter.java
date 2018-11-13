@@ -67,7 +67,7 @@ public class ElementIconConverter extends ElementConverter
 				reportConverter.getDefaultStyleProvider());
 		copyElement(reportConverter, element, printImage);
 		
-		printImage.getLineBox().setPadding(3);
+		printImage.getLineBox().setPadding((Integer)3);
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		
 		printImage.setRenderer(ResourceRenderer.getInstance(iconLocation, false));

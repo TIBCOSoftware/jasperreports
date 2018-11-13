@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintRectangle;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -45,7 +45,7 @@ public class JRPrintRectangleFactory extends JRBaseFactory
 		String radius = atts.getValue(JRXmlConstants.ATTRIBUTE_radius);
 		if (radius != null && radius.length() > 0)
 		{
-			rectangle.setRadius(Integer.parseInt(radius));
+			rectangle.setRadius(Integer.valueOf(radius));
 		}
 
 		return rectangle;

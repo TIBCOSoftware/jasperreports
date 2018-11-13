@@ -254,6 +254,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		return isBold;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setBold(Boolean)}.
+	 */
 	@Override
 	public void setBold(boolean isBold)
 	{
@@ -285,6 +288,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		return isItalic;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setItalic(Boolean)}.
+	 */
 	@Override
 	public void setItalic(boolean isItalic)
 	{
@@ -315,6 +321,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		return isUnderline;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setUnderline(Boolean)}.
+	 */
 	@Override
 	public void setUnderline(boolean isUnderline)
 	{
@@ -345,6 +354,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		return isStrikeThrough;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setStrikeThrough(Boolean)}.
+	 */
 	@Override
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
@@ -440,6 +452,9 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		return isPdfEmbedded;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setPdfEmbedded(Boolean)}.
+	 */
 	@Override
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{

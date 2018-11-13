@@ -483,9 +483,9 @@ public class ReportConverter
 		printFrame.setY(y);
 		printFrame.setWidth(width);
 		printFrame.setHeight(1);
-		printFrame.getLineBox().getPen().setLineWidth(0);
+		printFrame.getLineBox().getPen().setLineWidth((Float)0f);
 		printFrame.getLineBox().getPen().setLineStyle(LineStyleEnum.SOLID);
-		printFrame.getLineBox().getTopPen().setLineWidth(0.1f);
+		printFrame.getLineBox().getTopPen().setLineWidth((Float)0.1f);
 		printFrame.getLineBox().getTopPen().setLineStyle(LineStyleEnum.DASHED);
 		printFrame.getLineBox().getTopPen().setLineColor(GRID_LINE_COLOR);
 		pageElements.add(0, printFrame);
@@ -501,9 +501,9 @@ public class ReportConverter
 		printFrame.setY(y);
 		printFrame.setWidth(1);
 		printFrame.setHeight(height);
-		printFrame.getLineBox().getPen().setLineWidth(0);
+		printFrame.getLineBox().getPen().setLineWidth((Float)0f);
 		printFrame.getLineBox().getPen().setLineStyle(LineStyleEnum.SOLID);
-		printFrame.getLineBox().getLeftPen().setLineWidth(0.1f);
+		printFrame.getLineBox().getLeftPen().setLineWidth((Float)0.1f);
 		printFrame.getLineBox().getLeftPen().setLineStyle(LineStyleEnum.DASHED);
 		printFrame.getLineBox().getLeftPen().setLineColor(GRID_LINE_COLOR);
 		pageElements.add(0, printFrame);

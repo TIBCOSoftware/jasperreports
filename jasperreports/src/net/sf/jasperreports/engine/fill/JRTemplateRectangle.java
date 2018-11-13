@@ -115,7 +115,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 		
 		linePen = new JRBasePen(this);
 		
-		getLinePen().setLineWidth(0f);
+		getLinePen().setLineWidth((Float)0f);
 		setFill(FillEnum.SOLID);
 	}
 
@@ -132,6 +132,9 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 		return radius;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setRadius(Integer)}.
+	 */
 	@Override
 	public void setRadius(int radius)
 	{

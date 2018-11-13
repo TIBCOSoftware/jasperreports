@@ -81,10 +81,7 @@ public class DesignListContents extends JRDesignElementGroup implements
 	}
 
 	/**
-	 * Sets the width of the list contents.
-	 * 
-	 * @param width the list contents width
-	 * @see #getWidth()
+	 * @deprecated Replaced by {@link #setWidth(Integer)}.
 	 */
 	public void setWidth(int width)
 	{

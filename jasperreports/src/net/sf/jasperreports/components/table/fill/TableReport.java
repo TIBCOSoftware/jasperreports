@@ -1698,8 +1698,8 @@ public class TableReport implements JRReport
 		footerFrame.setY(0);
 		footerFrame.setWidth(computeTableWidth(fillColumns));
 		footerFrame.setHeight(pageFooter.getHeight());
-		footerFrame.getLineBox().setPadding(0);
-		footerFrame.getLineBox().getPen().setLineWidth(0f);
+		footerFrame.getLineBox().setPadding((Integer)0);
+		footerFrame.getLineBox().getPen().setLineWidth((Float)0f);
 		footerFrame.setRemoveLineWhenBlank(true);
 		
 		JRDesignExpression footerPrintWhen = builtinEvaluatorFactory.createExpression(new SummaryGroupFooterPrintWhenEvaluator());

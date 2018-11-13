@@ -122,6 +122,9 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		return lineWidth;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setLineWidth(Float)}.
+	 */
 	@Override
 	public void setLineWidth(float lineWidth)
 	{

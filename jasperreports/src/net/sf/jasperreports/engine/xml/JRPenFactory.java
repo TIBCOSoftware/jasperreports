@@ -53,7 +53,7 @@ public class JRPenFactory extends JRBaseFactory
 		String lineWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_lineWidth);
 		if (lineWidth != null && lineWidth.length() > 0)
 		{
-			pen.setLineWidth(Float.parseFloat(lineWidth));
+			pen.setLineWidth(Float.valueOf(lineWidth));
 		}
 
 		LineStyleEnum lineStyle = LineStyleEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_lineStyle));

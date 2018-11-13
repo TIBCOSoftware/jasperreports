@@ -1896,6 +1896,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				old, this.ignoreWidth);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setIgnoreWidth(Boolean)}.
+	 */
 	@Override
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{

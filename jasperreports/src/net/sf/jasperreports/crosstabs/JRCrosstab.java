@@ -338,10 +338,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	public void setIgnoreWidth(Boolean ignoreWidth);
 	
 	/**
-	 * Set the ignore width crosstab flag.
-	 * 
-	 * @param ignoreWidth
-	 * @see #setIgnoreWidth(Boolean)
+	 * @deprecated Replaced by {@link #setIgnoreWidth(Boolean)}.
 	 */
 	public void setIgnoreWidth(boolean ignoreWidth);
 	

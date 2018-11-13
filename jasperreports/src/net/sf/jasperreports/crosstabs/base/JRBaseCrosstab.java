@@ -496,6 +496,9 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 				old, this.ignoreWidth);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setIgnoreWidth(Boolean)}.
+	 */
 	@Override
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
