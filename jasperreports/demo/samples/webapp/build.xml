@@ -27,6 +27,7 @@
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/webapp/WEB-INF/classes">
 			<fileset dir="./src">

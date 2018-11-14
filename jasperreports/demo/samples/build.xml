@@ -66,6 +66,7 @@
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="${sample.dir}/build/classes">
 			<fileset dir="${sample.dir}/src">
@@ -303,6 +304,7 @@
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<taskdef name="jraw" classname="net.sf.jasperreports.ant.JRAntApiWriteTask"> 
 			<classpath refid="sample-classpath"/>

@@ -16,6 +16,7 @@
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/classes">
 			<fileset dir="../../../ext/chart-themes/src/main/resources">

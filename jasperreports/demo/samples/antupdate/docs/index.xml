@@ -142,6 +142,7 @@ Now let's update these report templates. There are some specific Ant targets dec
     encoding="UTF-8" includeantruntime="false">
     <compilerarg value="-Xlint:-unchecked"/>
     <compilerarg value="-Xlint:deprecation"/>
+    <compilerarg value="-Xlint:-options"/>
     <classpath refid="sample-classpath"/>
   </javac>
 </target> 

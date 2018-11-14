@@ -40,6 +40,7 @@
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 			<include name="*.java"/>
 		</javac>
 		<mkdir dir="./build/component"/> 
@@ -48,6 +49,7 @@
 			<classpath refid="sample-classpath"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/component">
 			<fileset dir="./src">

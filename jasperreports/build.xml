@@ -21,6 +21,7 @@
 			<src path="./src"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 			<compilerarg value="-processorpath"/>
 			<compilerarg value="${annotations-paths}"/>
 			<compilerarg value="-AmetadataMessagesName=metadata_messages"/>
@@ -301,6 +302,7 @@
 			<src path="./tests"/>
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 		<copy todir="./build/test-classes">
 			<fileset dir="./tests">

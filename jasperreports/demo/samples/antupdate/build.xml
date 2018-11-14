@@ -47,6 +47,7 @@
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
 			<classpath refid="sample-classpath"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target> 
 

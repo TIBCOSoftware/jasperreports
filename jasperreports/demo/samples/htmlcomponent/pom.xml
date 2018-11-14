@@ -56,7 +56,7 @@
 					<excludes>
 						<exclude>**/*App.java</exclude>
 					</excludes>
-					<compilerArgument>-Xlint:deprecation,-unchecked</compilerArgument>
+					<compilerArgument>-Xlint:deprecation,-unchecked,-options</compilerArgument>
 				</configuration>
 			</plugin>
 			<plugin>

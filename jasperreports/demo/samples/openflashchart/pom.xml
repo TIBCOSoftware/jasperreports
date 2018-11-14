@@ -41,7 +41,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>
-					<compilerArgument>-Xlint:deprecation,-unchecked</compilerArgument>
+					<compilerArgument>-Xlint:deprecation,-unchecked,-options</compilerArgument>
 				</configuration>
 			</plugin>
 			<plugin>

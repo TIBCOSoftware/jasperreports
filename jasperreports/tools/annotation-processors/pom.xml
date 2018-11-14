@@ -42,7 +42,7 @@
 					<encoding>UTF-8</encoding>
 					<compilerArgs>
 						<arg>-proc:none</arg>
-						<arg>-Xlint:deprecation,-unchecked</arg>
+						<arg>-Xlint:deprecation,-unchecked,-options</arg>
 					</compilerArgs>
 				</configuration>
 			</plugin>

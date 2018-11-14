@@ -10,6 +10,7 @@
 				encoding="UTF-8" includeantruntime="false">
 			<compilerarg value="-Xlint:-unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
 	</target> 
 
