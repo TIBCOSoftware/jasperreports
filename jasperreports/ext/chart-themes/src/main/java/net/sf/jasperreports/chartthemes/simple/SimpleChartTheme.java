@@ -454,7 +454,7 @@ public class SimpleChartTheme implements ChartTheme
 		
 		Boolean textAntiAlias = chartSettings.getTextAntiAlias();
 		if (textAntiAlias != null)
-			jfreeChart.setTextAntiAlias(textAntiAlias);
+			jfreeChart.setTextAntiAlias((boolean)textAntiAlias);
 		
 		RectangleInsets padding = chartSettings.getPadding();
 		if (padding != null)

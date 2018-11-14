@@ -282,7 +282,7 @@
 		<field name="fontName" type="java.lang.String" get-method="getOwnFontName" set-method="setFontName">
 			<bind-xml node="attribute"/>
 		</field>
-		<field name="fontSize" type="java.lang.Integer" get-method="getOwnFontSize" set-method="setFontSize">
+		<field name="fontSize" type="java.lang.Float" get-method="getOwnFontsize" set-method="setFontSize">
 			<bind-xml node="attribute"/>
 		</field>
 		<field name="bold" type="java.lang.Boolean" get-method="isOwnBold" set-method="setBold">
