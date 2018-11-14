@@ -86,7 +86,7 @@ public class AlterDesignApp extends AbstractSampleApp
 
 		JRStyle style = jasperReport.getStyles()[0];
 		style.setFontSize(16f);
-		style.setItalic(true);
+		style.setItalic(Boolean.TRUE);
 
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, (JRDataSource)null);
 		
