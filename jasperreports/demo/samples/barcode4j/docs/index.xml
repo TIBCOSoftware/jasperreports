@@ -182,7 +182,8 @@ and contains the following attributes:
 <ul>
 <li><code>evaluationTime</code> - the <code>evaluationTime</code> attribute of any JR report element</li>
 <li><code>evaluationGroup</code> - the <code>evaluationGroup</code> attribute of any JR report element</li>
-<li><code>orientation</code> - specifies the rotation (in degrees) of the generated barcode image. Allowed values are: 0, 90, 180, 270. 
+<li><code>orientation</code> - specifies the rotation of the generated barcode image in degrees (allowed values are: 0, 90, 180, 270), 
+or their text equivalents: <code>up</code>, <code>left</code>, <code>right</code>, <code>down</code>. 
 The default value is 0.</li>
 <li><code>moduleWidth</code> - specifies the narrow module width (in points). This will be converted in mm at runtime.</li>
 <li><code>textPosition</code> - specifies the text presence and its position relative to the bar. Allowed values are: 
