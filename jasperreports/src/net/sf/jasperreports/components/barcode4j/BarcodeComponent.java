@@ -50,23 +50,6 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	public static final String PROPERTY_PREFIX = 
 		JRPropertiesUtil.PROPERTY_PREFIX + "components.barcode4j.";
 
-	/**
-	 * @deprecated Replaced by {@link OrientationEnum#UP}.
-	 */
-	public static final int ORIENTATION_UP = 0;
-	/**
-	 * @deprecated Replaced by {@link OrientationEnum#LEFT}.
-	 */
-	public static final int ORIENTATION_LEFT = 90;
-	/**
-	 * @deprecated Replaced by {@link OrientationEnum#DOWN}.
-	 */
-	public static final int ORIENTATION_DOWN = 180;
-	/**
-	 * @deprecated Replaced by {@link OrientationEnum#RIGHT}.
-	 */
-	public static final int ORIENTATION_RIGHT = 270;
-	
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	public static final String PROPERTY_CODE_EXPRESSION = "codeExpression";

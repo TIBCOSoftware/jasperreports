@@ -124,11 +124,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
 	/**
-	 * @deprecated Replaced by {@link RtfReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = RtfReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
-
-	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
 	 */

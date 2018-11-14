@@ -128,11 +128,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected static final String PPTX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.";
 
 	/**
-	 * @deprecated Replaced by {@link PptxReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = PptxReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
-	
-	/**
 	 * Property that specifies the field type associated with this element in the PPTX export. 
 	 * When this property is set, the element value will be automatically updated when the presentation is open.
 	 * <ul/>

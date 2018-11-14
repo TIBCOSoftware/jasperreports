@@ -135,12 +135,6 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	protected static final String ODT_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt.";
 
 	
-	/**
-	 * @deprecated Replaced by {@link OdtReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = OdtReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
-	
-
 	protected class ExporterContext extends BaseExporterContext implements JROdtExporterContext
 	{
 		TableBuilder tableBuilder = null;

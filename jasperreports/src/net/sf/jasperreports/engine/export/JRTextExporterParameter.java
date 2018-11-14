@@ -55,21 +55,9 @@ public class JRTextExporterParameter extends net.sf.jasperreports.engine.JRExpor
 
 	
 	/**
-	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_CHARACTER_WIDTH}.
-	 */
-	public static final String PROPERTY_CHARACTER_WIDTH = TextReportConfiguration.PROPERTY_CHARACTER_WIDTH;
-
-
-	/**
 	 * @deprecated Replaced by {@link TextReportConfiguration#getCharHeight()}.
 	 */
 	public static final JRTextExporterParameter CHARACTER_HEIGHT = new JRTextExporterParameter("Character Height");
-
-
-	/**
-	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_CHARACTER_HEIGHT}.
-	 */
-	public static final String PROPERTY_CHARACTER_HEIGHT = TextReportConfiguration.PROPERTY_CHARACTER_HEIGHT;
 
 
 	/**
@@ -79,21 +67,9 @@ public class JRTextExporterParameter extends net.sf.jasperreports.engine.JRExpor
 
 
 	/**
-	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_PAGE_WIDTH}.
-	 */
-	public static final String PROPERTY_PAGE_WIDTH = TextReportConfiguration.PROPERTY_PAGE_WIDTH;
-
-
-	/**
 	 * @deprecated Replaced by {@link TextReportConfiguration#getPageHeightInChars()}.
 	 */
 	public static final JRTextExporterParameter PAGE_HEIGHT = new JRTextExporterParameter("Page Height");
-
-
-	/**
-	 * @deprecated Replaced by {@link TextReportConfiguration#PROPERTY_PAGE_HEIGHT}.
-	 */
-	public static final String PROPERTY_PAGE_HEIGHT = TextReportConfiguration.PROPERTY_PAGE_HEIGHT;
 
 
 	/**

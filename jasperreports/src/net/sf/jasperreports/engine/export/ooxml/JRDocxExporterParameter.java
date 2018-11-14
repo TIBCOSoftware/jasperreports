@@ -51,21 +51,9 @@ public class JRDocxExporterParameter extends net.sf.jasperreports.engine.JRExpor
 	
 
 	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_FRAMES_AS_NESTED_TABLES}.
-	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = DocxReportConfiguration.PROPERTY_FRAMES_AS_NESTED_TABLES;
-	
-
-	/**
 	 * @deprecated Replaced by {@link DocxReportConfiguration#isFlexibleRowHeight()}.
 	 */
 	public static final JRDocxExporterParameter FLEXIBLE_ROW_HEIGHT = new JRDocxExporterParameter("Flexible Row Height");
-	
-
-	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_FLEXIBLE_ROW_HEIGHT}.
-	 */
-	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = DocxReportConfiguration.PROPERTY_FLEXIBLE_ROW_HEIGHT;
 	
 
 }

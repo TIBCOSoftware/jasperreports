@@ -53,38 +53,8 @@ public class JRXlsAbstractMetadataExporterParameter extends JRXlsAbstractExporte
 	
 	
 	/**
-	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#PROPERTY_COLUMN_NAMES_PREFIX}.
-	 */
-	public static final String PROPERTY_COLUMN_NAMES_PREFIX = XlsMetadataReportConfiguration.PROPERTY_COLUMN_NAMES_PREFIX;
-	
-	
-	/**
 	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#isWriteHeader()}.
 	 */
 	public static final JRXlsAbstractMetadataExporterParameter WRITE_HEADER = new JRXlsAbstractMetadataExporterParameter("Write Header");
-	
-
-	/**
-	 * @deprecated Replaced by {@link XlsMetadataReportConfiguration#PROPERTY_WRITE_HEADER}.
-	 */
-	public static final String PROPERTY_WRITE_HEADER = XlsMetadataReportConfiguration.PROPERTY_WRITE_HEADER;
-
-	
-	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractMetadataExporter#PROPERTY_COLUMN_NAME}.
-	 */
-	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.column.name";
-	
-	
-	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractMetadataExporter#PROPERTY_REPEAT_VALUE}.
-	 */
-	public static final String PROPERTY_REPEAT_VALUE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.repeat.value";
-	
-	
-	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractMetadataExporter#PROPERTY_DATA}.
-	 */
-	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.data";
 	
 }

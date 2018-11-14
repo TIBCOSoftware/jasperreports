@@ -2232,14 +2232,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 	}
 	
-	/**
-	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
-	 */ 
-	@Override
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
-		setFreezePane(rowIndex, colIndex);
-	}
-
 	@Override
 	protected void setSheetName(String sheetName)
 	{

@@ -638,14 +638,6 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		// nothing to do here
 	}
 	
-	/**
-	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
-	 */ 
-	@Override
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
-		// nothing to do here
-	}
-
 	@Override
 	protected void setSheetName(String sheetName) {
 		// TODO Auto-generated method stub

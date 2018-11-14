@@ -142,11 +142,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 {
 	private static final float DEFAULT_ZOOM = 1f;
 
-	/**
-	 * @deprecated Replaced by {@link Graphics2DReportConfiguration#MINIMIZE_PRINTER_JOB_SIZE}.
-	 */
-	public static final String MINIMIZE_PRINTER_JOB_SIZE = Graphics2DReportConfiguration.MINIMIZE_PRINTER_JOB_SIZE;
-
 	private static final String GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.";
 
 	/**

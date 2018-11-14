@@ -148,11 +148,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
 
 	/**
-	 * @deprecated Replaced by {@link DocxReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = DocxReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
-
-	/**
 	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
 	 * @see JRPropertiesUtil
 	 */

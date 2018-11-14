@@ -51,38 +51,8 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	
 	
 	/**
-	 * @deprecated Replaced by {@link CsvMetadataReportConfiguration#PROPERTY_COLUMN_NAMES_PREFIX}.
-	 */
-	public static final String PROPERTY_COLUMN_NAMES_PREFIX = CsvMetadataReportConfiguration.PROPERTY_COLUMN_NAMES_PREFIX;
-	
-	
-	/**
 	 * @deprecated Replaced by {@link CsvMetadataReportConfiguration#isWriteHeader()}.
 	 */
 	public static final JRCsvMetadataExporterParameter WRITE_HEADER = new JRCsvMetadataExporterParameter("Write Header");
-	
-
-	/**
-	 * @deprecated Replaced by {@link CsvMetadataReportConfiguration#PROPERTY_WRITE_HEADER}.
-	 */
-	public static final String PROPERTY_WRITE_HEADER = CsvMetadataReportConfiguration.PROPERTY_WRITE_HEADER;
-
-	
-	/**
-	 * @deprecated Replaced by {@link JRCsvMetadataExporter#PROPERTY_COLUMN_NAME}.
-	 */
-	public static final String PROPERTY_COLUMN_NAME = JRCsvMetadataExporter.PROPERTY_COLUMN_NAME;
-	
-	
-	/**
-	 * @deprecated Replaced by {@link JRCsvMetadataExporter#PROPERTY_REPEAT_VALUE}.
-	 */
-	public static final String PROPERTY_REPEAT_VALUE = JRCsvMetadataExporter.PROPERTY_REPEAT_VALUE;
-	
-	
-	/**
-	 * @deprecated Replaced by {@link JRCsvMetadataExporter#PROPERTY_DATA}.
-	 */
-	public static final String PROPERTY_DATA = JRCsvMetadataExporter.PROPERTY_DATA;
 	
 }

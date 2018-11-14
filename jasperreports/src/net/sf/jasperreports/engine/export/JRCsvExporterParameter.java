@@ -55,21 +55,9 @@ public class JRCsvExporterParameter extends net.sf.jasperreports.engine.JRExport
 
 
 	/**
-	 * @deprecated Replaced by {@link CsvExporterConfiguration#PROPERTY_FIELD_DELIMITER}.
-	 */
-	public static final String PROPERTY_FIELD_DELIMITER = CsvExporterConfiguration.PROPERTY_FIELD_DELIMITER;
-
-
-	/**
 	 * @deprecated Replaced by {@link CsvExporterConfiguration#getRecordDelimiter()}.
 	 */
 	public static final JRCsvExporterParameter RECORD_DELIMITER = new JRCsvExporterParameter("Record Delimiter");
-	
-	
-	/**
-	 * @deprecated Replaced by {@link CsvExporterConfiguration#PROPERTY_RECORD_DELIMITER}.
-	 */
-	public static final String PROPERTY_RECORD_DELIMITER = CsvExporterConfiguration.PROPERTY_RECORD_DELIMITER;
 
 
 }

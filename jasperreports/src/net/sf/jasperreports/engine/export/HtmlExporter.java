@@ -152,11 +152,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	public static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
 
 	/**
-	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = HtmlReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
-
-	/**
 	 * Property that provides the value for the <code>class</code> CSS style property to be applied 
 	 * to elements in the table generated for the report. The value of this property 
 	 * will be used as the value for the <code>class</code> attribute of the <code>&lt;td&gt;</code> tag for the element when exported to HTML and/or 
@@ -178,11 +173,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			sinceVersion = PropertyConstants.VERSION_3_7_0
 			)
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
-
-	/**
-	 * @deprecated Replaced by {@link HtmlReportConfiguration#PROPERTY_BORDER_COLLAPSE}.
-	 */
-	public static final String PROPERTY_BORDER_COLLAPSE = HtmlReportConfiguration.PROPERTY_BORDER_COLLAPSE;
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 	
@@ -2569,14 +2559,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		}
 
 		return (zoom * size);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #toZoom(float)}.
-	 */
-	protected int toZoom(int size)
-	{
-		return (int)toZoom((float)size);
 	}
 
 	private void addSearchAttributes(JRStyledText styledText, JRPrintText textElement) {

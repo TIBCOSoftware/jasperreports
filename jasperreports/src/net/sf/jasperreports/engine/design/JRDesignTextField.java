@@ -272,13 +272,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_BLANK_WHEN_NULL, old, this.isBlankWhenNull);
 	}
 
-	/**@deprecated Repalced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-	}
-		
 	/**
 	 * Sets the link type as a built-in hyperlink type.
 	 * 
@@ -288,14 +281,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)
 	{
 		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
 	}
 		
 	/**

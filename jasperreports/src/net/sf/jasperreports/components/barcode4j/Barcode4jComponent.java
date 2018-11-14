@@ -26,8 +26,6 @@ package net.sf.jasperreports.components.barcode4j;
 import java.io.IOException;
 import java.io.ObjectInputStream.GetField;
 
-import org.krysalis.barcode4j.HumanReadablePlacement;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -61,34 +59,9 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 	{
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}.
-	 */
-	public int getOrientation()
-	{
-		return getOrientationValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(OrientationEnum)}.
-	 */
-	public void setOrientation(int orientation)
-	{
-		setOrientation(OrientationEnum.getByValue(orientation));
-	}
-
 	public OrientationEnum getOrientationValue()
 	{
 		return orientationValue == null ? OrientationEnum.UP : orientationValue;
-	}
-
-	/**
-	 * Used only for the sake of digester.
-	 * @deprecated Replaced by {@link #setOrientation(OrientationEnum)}.
-	 */
-	public void setOrientationValue(OrientationEnum orientationValue)
-	{
-		setOrientation(orientationValue);
 	}
 
 	public void setOrientation(OrientationEnum orientationValue)
@@ -125,34 +98,9 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 				old, this.moduleWidth);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getTextPositionValue()}.
-	 */
-	public String getTextPosition()
-	{
-		return getTextPositionValue() == null ? null : getTextPositionValue().getName();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTextPosition(TextPositionEnum)}.
-	 */
-	public void setTextPosition(String textPosition)
-	{
-		setTextPosition(TextPositionEnum.getByName(textPosition));
-	}
-
 	public TextPositionEnum getTextPositionValue()
 	{
 		return textPositionValue;
-	}
-
-	/**
-	 * Used only for the sake of digester.
-	 * @deprecated Replaced by {@link #setTextPosition(TextPositionEnum)}.
-	 */
-	public void setTextPositionValue(TextPositionEnum textPositionValue)
-	{
-		setTextPosition(textPositionValue);
 	}
 
 	public void setTextPosition(TextPositionEnum textPositionValue)
@@ -161,14 +109,6 @@ public abstract class Barcode4jComponent extends BarcodeComponent
 		this.textPositionValue = textPositionValue;
 		getEventSupport().firePropertyChange(PROPERTY_TEXT_POSITION, 
 				old, this.textPositionValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTextPosition(TextPositionEnum)}.
-	 */
-	public void setTextPosition(HumanReadablePlacement textPosition)
-	{
-		setTextPosition(textPosition == null ? null : textPosition.getName());
 	}
 
 	@Override

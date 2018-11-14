@@ -1739,14 +1739,6 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 	
-	/**
-	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
-	 */ 
-	@Override
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
-		setFreezePane(rowIndex, colIndex);
-	}
-
 	@Override
 	protected void setAutoFilter(String autoFilterRange) {
 		//TODO: recalculate autoFilterRange depending on exported columns

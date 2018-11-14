@@ -149,12 +149,6 @@ public abstract class ElementDecorator implements JRElement
 		return element.isRemoveLineWhenBlank();
 	}
 
-	@Deprecated
-	public void setPositionType(byte positionType)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	@Override
 	public void setPositionType(PositionTypeEnum positionType)
 	{
@@ -181,12 +175,6 @@ public abstract class ElementDecorator implements JRElement
 
 	@Override
 	public void setRemoveLineWhenBlank(boolean isRemoveLineWhenBlank)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Deprecated
-	public void setStretchType(byte stretchType)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -283,18 +271,6 @@ public abstract class ElementDecorator implements JRElement
 
 	@Override
 	public void setForecolor(Color forecolor)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Deprecated
-	public void setMode(byte mode)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Deprecated
-	public void setMode(Byte mode)
 	{
 		throw new UnsupportedOperationException();
 	}

@@ -135,10 +135,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected static final String ABSOLUTE = "absolute";
 
 	/**
-	 * @deprecated Replaced by {@link XlsxExporterConfiguration#PROPERTY_MACRO_TEMPLATE}.
-	 */
-	public static final String PROPERTY_MACRO_TEMPLATE = XlsxExporterConfiguration.PROPERTY_MACRO_TEMPLATE;
-	/**
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
@@ -1756,14 +1752,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		//nothing to do here
 	}
 
-	/**
-	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
-	 */ 
-	@Override
-	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge) {
-		// nothing to do here
-	}
-
 	@Override
 	protected void setSheetName(String sheetName)
 	{
@@ -1788,22 +1776,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) 
 	{
 		/* nothing to do here; it's done in setRowHeight */
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link XlsxExporterConfiguration#getMacroTemplate()}.
-	 */
-	public String getMacroTemplatePath() 
-	{
-		return macroTemplate;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link XlsxExporterConfiguration#getMacroTemplate()}.
-	 */
-	public void setMacroTemplate(String macroTemplate) 
-	{
-		this.macroTemplate = macroTemplate;
 	}
 	
 	protected void setScale(Integer scale)

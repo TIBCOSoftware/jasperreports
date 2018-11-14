@@ -1277,14 +1277,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkProducer(JRPrintHyperlink)}.
-	 */
-	protected JRHyperlinkProducer getCustomHandler(JRPrintHyperlink link)
-	{
-		return getHyperlinkProducer(link);
-	}
-
-	/**
 	 * 
 	 */
 	public abstract String getExporterKey();

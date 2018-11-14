@@ -51,18 +51,8 @@ public class JROpenDocumentExporterParameter extends net.sf.jasperreports.engine
 	public static final JROpenDocumentExporterParameter ODT_FLEXIBLE_ROW_HEIGHT = new JROpenDocumentExporterParameter("ODT Flexible Row Height");
 
 	/**
-	 * @deprecated Replaced by {@link OdtReportConfiguration#PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT}.
-	 */
-	public static final String PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT = OdtReportConfiguration.PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT;
-
-	/**
 	 * @deprecated Replaced by {@link OdsReportConfiguration#isFlexibleRowHeight()}.
 	 */
 	public static final JROpenDocumentExporterParameter ODS_FLEXIBLE_ROW_HEIGHT = new JROpenDocumentExporterParameter("ODS Flexible Row Height");
-
-	/**
-	 * @deprecated Replaced by {@link OdsReportConfiguration#PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT}.
-	 */
-	public static final String PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT = OdsReportConfiguration.PROPERTY_ODS_FLEXIBLE_ROW_HEIGHT;
 
 }

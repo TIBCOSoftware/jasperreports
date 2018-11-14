@@ -311,77 +311,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	public static final String PROPERTY_SHEET_NAME = XLS_EXPORTER_PROPERTIES_PREFIX + "sheet.name";
 
 	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_WRAP_TEXT}.
-	 */
-	public static final String PROPERTY_WRAP_TEXT = XlsReportConfiguration.PROPERTY_WRAP_TEXT;
-
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_FIT_WIDTH}.
-	 */
-	public static final String PROPERTY_FIT_WIDTH = XlsReportConfiguration.PROPERTY_FIT_WIDTH;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_FIT_HEIGHT}.
-	 */
-	public static final String PROPERTY_FIT_HEIGHT = XlsReportConfiguration.PROPERTY_FIT_HEIGHT;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_CELL_LOCKED}.
-	 */
-	public static final String PROPERTY_CELL_LOCKED = XlsReportConfiguration.PROPERTY_CELL_LOCKED;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_CELL_HIDDEN}.
-	 */
-	public static final String PROPERTY_CELL_HIDDEN = XlsReportConfiguration.PROPERTY_CELL_HIDDEN;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_HEADER_LEFT}.
-	 */
-	public static final String PROPERTY_SHEET_HEADER_LEFT = XlsReportConfiguration.PROPERTY_SHEET_HEADER_LEFT;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_HEADER_CENTER}.
-	 */
-	public static final String PROPERTY_SHEET_HEADER_CENTER = XlsReportConfiguration.PROPERTY_SHEET_HEADER_CENTER;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_HEADER_RIGHT}.
-	 */
-	public static final String PROPERTY_SHEET_HEADER_RIGHT = XlsReportConfiguration.PROPERTY_SHEET_HEADER_RIGHT;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_FOOTER_LEFT}.
-	 */
-	public static final String PROPERTY_SHEET_FOOTER_LEFT = XlsReportConfiguration.PROPERTY_SHEET_FOOTER_LEFT;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_FOOTER_CENTER}.
-	 */
-	public static final String PROPERTY_SHEET_FOOTER_CENTER = XlsReportConfiguration.PROPERTY_SHEET_FOOTER_CENTER;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_FOOTER_RIGHT}.
-	 */
-	public static final String PROPERTY_SHEET_FOOTER_RIGHT = XlsReportConfiguration.PROPERTY_SHEET_FOOTER_RIGHT;
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHEET_DIRECTION}.
-	 */
-	public static final String PROPERTY_SHEET_DIRECTION = XlsReportConfiguration.PROPERTY_SHEET_DIRECTION;
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_FREEZE_ROW}.
-	 */
-	public static final String PROPERTY_FREEZE_ROW = XlsReportConfiguration.PROPERTY_FREEZE_ROW;
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_FREEZE_COLUMN}.
-	 */
-	public static final String PROPERTY_FREEZE_COLUMN = XlsReportConfiguration.PROPERTY_FREEZE_COLUMN;
-	
-	/**
 	 * This property indicates the horizontal edge of the freeze pane, relative to the current cell. If set, it overrides the 
 	 * PROPERTY_FREEZE_ROW value.
 	 * Allowed values are:
@@ -514,11 +443,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	public static final String PROPERTY_COLUMN_WIDTH = XLS_EXPORTER_PROPERTIES_PREFIX + "column.width";
 
 	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_COLUMN_WIDTH_RATIO}.
-	 */
-	public static final String PROPERTY_COLUMN_WIDTH_RATIO = XlsReportConfiguration.PROPERTY_COLUMN_WIDTH_RATIO;
-	
-	/**
 	 * Property prefix used to indicate the current outline row level, and when necessary, the ending row of the current outline row 
 	 * group with the given level. The suffix 
 	 * of these properties is associated with the outline level, while the property value indicates if the current row group should 
@@ -546,55 +470,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			sinceVersion = PropertyConstants.VERSION_4_1_3
 			)
 	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = XLS_EXPORTER_PROPERTIES_PREFIX + "row.outline.level.";
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_USE_TIMEZONE}.
-	 */
-	public static final String PROPERTY_USE_TIMEZONE = XlsReportConfiguration.PROPERTY_USE_TIMEZONE;
-	
-	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#PROPERTY_WORKBOOK_TEMPLATE}.
-	 */
-	public static final String PROPERTY_WORKBOOK_TEMPLATE = XlsExporterConfiguration.PROPERTY_WORKBOOK_TEMPLATE;
-	
-	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS}.
-	 */
-	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = XlsExporterConfiguration.PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS;
-
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_IGNORE_ANCHORS}.
-	 */
-	public static final String PROPERTY_IGNORE_ANCHORS = XlsReportConfiguration.PROPERTY_IGNORE_ANCHORS;
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_PAGE_SCALE}.
-	 */
-	public static final String PROPERTY_PAGE_SCALE = XlsReportConfiguration.PROPERTY_PAGE_SCALE;
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_FIRST_PAGE_NUMBER}.
-	 */
-	public static final String PROPERTY_FIRST_PAGE_NUMBER = XlsReportConfiguration.PROPERTY_FIRST_PAGE_NUMBER;
-	
-
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_SHOW_GRIDLINES}.
-	 */
-	public static final String PROPERTY_SHOW_GRIDLINES = XlsReportConfiguration.PROPERTY_SHOW_GRIDLINES;
-	
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_IMAGE_ANCHOR_TYPE}.
-	 */
-	public static final String PROPERTY_IMAGE_ANCHOR_TYPE = XlsReportConfiguration.PROPERTY_IMAGE_ANCHOR_TYPE;
-
-	
-	/**
-	 * @deprecated Replaced by {@link XlsReportConfiguration#PROPERTY_IGNORE_HYPERLINK}.
-	 */
-	public static final String PROPERTY_IGNORE_HYPERLINK = XlsReportConfiguration.PROPERTY_IGNORE_HYPERLINK;
 	
 
 	/**
@@ -2401,38 +2276,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	}
 
 	
-	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#isKeepWorkbookTemplateSheets()}.
-	 */
-	public boolean isWorkbookTemplateKeepSheets() {
-		return keepTemplateSheets;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#isKeepWorkbookTemplateSheets()}.
-	 */
-	public void setWorkbookTemplateKeepSheets(boolean keepTemplateSheets) {
-		this.keepTemplateSheets = keepTemplateSheets;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#getWorkbookTemplate()}.
-	 */
-	public String getWorkbookTemplate() {
-		return workbookTemplate;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link XlsExporterConfiguration#getWorkbookTemplate()}.
-	 */
-	public void setWorkbookTemplate(String workbookTemplate) {
-		this.workbookTemplate = workbookTemplate;
-	}
-	
-	
 	protected ExporterNature getNature()
 	{
 		return nature;
@@ -2570,11 +2413,6 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 	protected abstract void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException;
 
 	protected abstract void setFreezePane(int rowIndex, int colIndex);
-	
-	/**
-	 * @deprecated to be removed; replaced by {@link #setFreezePane(int, int)}
-	 */ 
-	protected abstract void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge);
 	
 	protected abstract void setSheetName(String sheetName);//FIXMEXLS this is not needed anymore, or if it is, then how is xlsx working?
 	
