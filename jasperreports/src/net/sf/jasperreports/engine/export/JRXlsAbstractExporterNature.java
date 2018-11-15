@@ -413,7 +413,9 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	
 	private void setMargin(Integer marginValue, Cut cut, String marginName)
 	{
-		if(marginValue != null)
+		if(
+			marginValue != null && (!cut.hasProperty(marginName) || (Integer)cut.getProperty(marginName) < marginValue)
+			)
 		{
 			// a margin value cannot be negative
 			cut.setProperty(marginName, max(marginValue,0));
@@ -550,14 +552,16 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		
 		Integer printPageHeight = getPrintPageHeight(element);
 		// only positive  values are allowed
-		if(printPageHeight != null && printPageHeight > 0)
+		if(printPageHeight != null && printPageHeight > 0 
+			&& (!cut.hasProperty(PROPERTY_PRINT_PAGE_HEIGHT) || (Integer)cut.getProperty(PROPERTY_PRINT_PAGE_HEIGHT) < printPageHeight))
 		{
 			cut.setProperty(PROPERTY_PRINT_PAGE_HEIGHT, printPageHeight);
 		}
 		
 		Integer printPageWidth = getPrintPageWidth(element);
 		// only positive  values are allowed
-		if(printPageWidth != null && printPageWidth > 0)
+		if(printPageWidth != null && printPageWidth > 0 
+				&& (!cut.hasProperty(PROPERTY_PRINT_PAGE_WIDTH) || (Integer)cut.getProperty(PROPERTY_PRINT_PAGE_WIDTH) < printPageWidth))
 		{
 			cut.setProperty(PROPERTY_PRINT_PAGE_WIDTH, printPageWidth);
 		}

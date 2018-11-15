@@ -5500,7 +5500,7 @@ Its value is used as default for the related
 When this property is set globally or per report, all sheets in the generated document will come with the same page height. 
 If this page height should differ from a sheet to another, we can set the above property at element level, so that the page height in a 
 sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide the page height property, the 
-last element on the sheet will be considered.
+maximum value for the page height will be considered.
 <br/>
 Properties set at element level take priority over properties set globally or per report level. The property is not set by default.          
     </description>
@@ -5517,7 +5517,7 @@ Its value is used as default for the related
 When this property is set globally or per report, all sheets in the generated document will come with the same page width. 
 If this page width should differ from a sheet to another, we can set the above property at element level, so that the page width in a 
 sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide the page width property, the 
-last element on the sheet will be considered.
+maximum value for the page height will be considered.
 <br/>
 Properties set at element level take priority over properties set globally or per report level. The property is not set by default.          
     </description>
