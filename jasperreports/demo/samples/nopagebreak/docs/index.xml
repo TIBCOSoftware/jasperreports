@@ -67,7 +67,7 @@ possibility to navigate between pages.
 <br/>
 <br/>
 By default, <code>isIgnorePagination</code> is set to <code>false</code>. For various purposes this flag can be 
-overriden at report filling time using the optional built-in 
+overridden at report filling time using the optional built-in 
 <api href="net/sf/jasperreports/engine/JRParameter.html#IS_IGNORE_PAGINATION">IS_IGNORE_PAGINATION</api> parameter. 
 <br/>
 <br/>

@@ -4787,7 +4787,7 @@ with a float value representing the adjustment ratio. The property can be set:
 <li>at report level - then all the columns in the document will be adjusted with the same width ratio</li>
 <li>at element level - then all the columns in the current sheet will be adjusted with the same width ratio</li>
 </ul> 
-Global settings are overriden by report level settings and report level settings are overriden by element level settings. If 
+Global settings are overridden by report level settings and report level settings are overridden by element level settings. If 
 present, a <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH">PROPERTY_COLUMN_WIDTH</api> property will override the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_COLUMN_WIDTH_RATIO">PROPERTY_COLUMN_WIDTH_RATIO</api> value for that column only.
     </description>
@@ -4995,7 +4995,7 @@ Its value is used as default for the
 <br/>
 When the property is set at Element level, it can be used to set the first page number for the current sheet.
 <br/>
-Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
     </description>
   </configProperty>
   
@@ -5114,7 +5114,7 @@ Property that specifies the image anchor type. Possible values are:
 <li><code>MoveNoSize</code> - images move but don't size with cells</li>
 <li><code>NoMoveNoSize</code> - images don't move or size with cells</li>
 </ul>
-Global settings are overriden by report level settings; report level settings are overriden by element level settings.   
+Global settings are overridden by report level settings; report level settings are overridden by element level settings.   
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getImageAnchorType()">getImageAnchorType()</api> Excel export configuration setting.
@@ -5448,7 +5448,7 @@ Allowed values are positive integers from 10 to 400, representing percents of th
 <br/>
 When the property is set at Element level, it can be used to set the page scale per sheet
 <br/>
-Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 <br/>
 The property overrides the <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FIT_WIDTH">PROPERTY_FIT_WIDTH</api> and 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#PROPERTY_FIT_HEIGHT">PROPERTY_FIT_HEIGHT</api> values.
@@ -5993,7 +5993,7 @@ the last read value will be considered.
 <br/>
 Its value usually can be expressed as #-prefixed CSS color.
 <br/>
-Report-level settings are overriden by element-level settings for this property. 
+Report-level settings are overridden by element-level settings for this property. 
 If several elements in a sheet contain this property, the engine will consider the value of the 
 last exported element's property.
 <br/>
@@ -6012,7 +6012,7 @@ Its value is used as default for the
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isShowGridLines()">isShowGridLines()</api> Excel export configuration setting.
 <br/>
 If multiple elements in a sheet provide this property, the last read value will be considered.
-Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.    
+Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.    
 	</description>
   </configProperty>
   
@@ -6031,7 +6031,7 @@ in order to preserve the entire text content at export time.
 The value of this property is used as default for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#isShrinkToFit()">isShrinkToFit()</api> Excel export configuration setting.
 <br/>
-Settings at global level are overriden by report level settings; report level settings are overriden by element level settings.    
+Settings at global level are overridden by report level settings; report level settings are overridden by element level settings.    
 	</description>
   </configProperty>
   

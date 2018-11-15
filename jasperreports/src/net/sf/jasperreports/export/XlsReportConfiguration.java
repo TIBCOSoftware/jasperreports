@@ -481,7 +481,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the page scale per sheet</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 */
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
@@ -598,7 +598,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see JRPropertiesUtil
 	 */
@@ -747,7 +747,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see JRPropertiesUtil
 	 */
@@ -769,7 +769,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
@@ -796,7 +796,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_RIGHT_MARGIN
@@ -823,7 +823,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
@@ -850,7 +850,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
@@ -877,7 +877,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
@@ -902,7 +902,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
@@ -927,7 +927,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
@@ -954,7 +954,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	 * <li><code>Report</code></li>
 	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * Global settings are overridden by report level settings; report level settings are overridden by element (sheet) level settings.
 	 * 
 	 * @see #PROPERTY_PRINT_PAGE_TOP_MARGIN
 	 * @see #PROPERTY_PRINT_PAGE_LEFT_MARGIN
@@ -1543,7 +1543,7 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	
 	/**
 	 * This setting is used to set the tab color of the sheets. Global and  
-	 * report-level settings are overriden by element-level settings for this property.
+	 * report-level settings are overridden by element-level settings for this property.
 	 * If several elements in a sheet contain this property, the engine will consider the value of the 
 	 * last exported element's property.
 	 * <p/>
