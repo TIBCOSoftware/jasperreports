@@ -29,7 +29,7 @@ One could imagine situations which require the text information from a JasperRep
 In this case graphics, images, styles and pixel perfectness are not conserved. Text elements are converted into simple texts to be written 
 in documents with predefined page widths and heights, measured in characters.
 <br/>
-The <api href="net/sf/jasperreports/engine/export/JRTextExporter.html" target="_blank">JRTextExporter</api> implementation is intended to 
+The <api href="net/sf/jasperreports/engine/export/JRTextExporter.html">JRTextExporter</api> implementation is intended to 
 serve to this purpose. Users can specify the desired page width and height (in characters), then the engine will try to best 
 fit text elements into the corresponding text page. Taking into account that positions and sizes are measured in pixels in a JasperReports 
 template, and page dimensions in a text document are set in number of characters, some precautions must be taken when creating reports for 
@@ -53,23 +53,23 @@ generate enough space for the exported text.
 <br/>
 The following exporter configuration settings and properties are very helpful to accomplish such a task:
 <ul>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getCharWidth()" target="_blank">getCharWidth()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_CHARACTER_WIDTH" target="_blank">PROPERTY_CHARACTER_WIDTH</api>, representing the pixel/character horizontal ratio</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getCharHeight()" target="_blank">getCharHeight()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_CHARACTER_HEIGHT" target="_blank">PROPERTY_CHARACTER_HEIGHT</api>, representing the pixel/character vertical ratio</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageWidthInChars()" target="_blank">getPageWidthInChars()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_WIDTH" target="_blank">PROPERTY_PAGE_WIDTH</api>, representing the page width (in characters)</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageHeightInChars()" target="_blank">getPageHeightInChars()</api> or 
-<api href="net/sf/jasperreports/export/TextExporterConfiguration.html#PROPERTY_PAGE_HEIGHT" target="_blank">PROPERTY_PAGE_HEIGHT</api>, representing the page height (in characters)</li>
+<li><api href="net/sf/jasperreports/export/TextReportConfiguration.html#getCharWidth--">getCharWidth()</api> or 
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_CHARACTER_WIDTH">PROPERTY_CHARACTER_WIDTH</api>, representing the pixel/character horizontal ratio</li>
+<li><api href="net/sf/jasperreports/export/TextReportConfiguration.html#getCharHeight--">getCharHeight()</api> or 
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_CHARACTER_HEIGHT" >PROPERTY_CHARACTER_HEIGHT</api>, representing the pixel/character vertical ratio</li>
+<li><api href="net/sf/jasperreports/export/TextReportConfiguration.html#getPageWidthInChars--">getPageWidthInChars()</api> or 
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_PAGE_WIDTH">PROPERTY_PAGE_WIDTH</api>, representing the page width (in characters)</li>
+<li><api href="net/sf/jasperreports/export/TextReportConfiguration.html#getPageHeightInChars--">getPageHeightInChars()</api> or 
+<api href="net/sf/jasperreports/export/TextReportConfiguration.html#PROPERTY_PAGE_HEIGHT">PROPERTY_PAGE_HEIGHT</api>, representing the page height (in characters)</li>
 </ul>
 Other useful configuration settings are:
 <ul>
-<li><api href="net/sf/jasperreports/engine/JRExporterParameter.html#CHARACTER_ENCODING" target="_blank">CHARACTER_ENCODING</api> or 
-<api href="net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING" target="_blank">PROPERTY_CHARACTER_ENCODING</api>, representing the character encoding for the 
+<li><api href="net/sf/jasperreports/engine/JRExporterParameter.html#CHARACTER_ENCODING">CHARACTER_ENCODING</api> or 
+<api href="net/sf/jasperreports/engine/JRExporterParameter.html#PROPERTY_CHARACTER_ENCODING">PROPERTY_CHARACTER_ENCODING</api>, representing the character encoding for the 
 text document.</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getBetweenPagesText()" target="_blank">getBetweenPagesText()</api>, containing the text that will be inserted 
+<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getPageSeparator--">getPageSeparator()</api>, containing the text that will be inserted 
 between pages of the generated report, as page separator.</li>
-<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getLineSeparator()" target="_blank">getLineSeparator()</api>, parameter that stores the line separator sequence.</li>
+<li><api href="net/sf/jasperreports/export/TextExporterConfiguration.html#getLineSeparator--">getLineSeparator()</api>, parameter that stores the line separator sequence.</li>
 </ul>
 <subtitle name="sample">The Text Export Sample</subtitle>
 <br/>

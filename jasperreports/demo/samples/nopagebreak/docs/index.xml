@@ -102,7 +102,7 @@ If this property is <code>true</code>, then all empty rows in the generated HTML
 By default, the exporter preserves all the whitespace for pixel-perfect page layouts.</li> 
 <li>All document pages will be printed out in a sequence where page breaks appear as a custom HTML separator. One can replace the default blank space between pages with 
 a customized separator element (a horizontal line, for example). The HTML code fragment for the custom separator can be obtained using the 
-<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getBetweenPagesHtml()">getBetweenPagesHtml()</api> export configuration setting.</li>
+<api href="net/sf/jasperreports/export/HtmlExporterConfiguration.html#getBetweenPagesHtml--">getBetweenPagesHtml()</api> export configuration setting.</li>
 </ul>
 <b>Handling Page Breaks with XLS Exporters</b>
 <br/>
@@ -117,13 +117,13 @@ Like in HTML, there are multiple possibilities to handle sheet breaks when expor
 <li>The document will be printed as one page per sheet; each page will be printed out on a separate sheet in the workbook. This setting can be done using the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_ONE_PAGE_PER_SHEET">PROPERTY_ONE_PAGE_PER_SHEET</api> exporter 
 hint property (or the equivalent 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isOnePagePerSheet()">isOnePagePerSheet()</api> exporter configuration setting). If this 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isOnePagePerSheet--">isOnePagePerSheet()</api> exporter configuration setting). If this 
 property is <code>true</code> then one page per sheet will be printed out. By default this property is set to <code>false</code>.
 </li>
 <li>When <api href="net/sf/jasperreports/engine/export/XlsExporterConfiguration.html#PROPERTY_ONE_PAGE_PER_SHEET">PROPERTY_ONE_PAGE_PER_SHEET</api> is not set, 
 all document pages will be printed out into a single sheet. Page breaks appear as supplementary empty rows between pages. Like in HTML, the 
 <code>net.sf.jasperreports.export.xls.remove.emtpy.space.between.rows</code> hint property (or the associated 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isRemoveEmptySpaceBetweenRows()">isRemoveEmptySpaceBetweenRows()</api> exporter 
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#isRemoveEmptySpaceBetweenRows--">isRemoveEmptySpaceBetweenRows()</api> exporter 
 configuration setting) becomes very useful. 
 <br/>
 If this property is <code>true</code>, then all empty rows in the generated sheet will be collapsed, leading to a completely flow-oriented layout. 
@@ -135,7 +135,7 @@ The first 2 sheets contain 600 rows each, and the third contains the remaining 3
 maximum number of rows per sheet. This can be done using the 
 <api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#PROPERTY_MAXIMUM_ROWS_PER_SHEET">PROPERTY_MAXIMUM_ROWS_PER_SHEET</api> 
 (or the associated 
-<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMaxRowsPerSheet()">getMaxRowsPerSheet()</api> export configuration setting).</li>
+<api href="net/sf/jasperreports/export/XlsExporterConfiguration.html#getMaxRowsPerSheet--">getMaxRowsPerSheet()</api> export configuration setting).</li>
 </ul>
 <br/>
 <br/>

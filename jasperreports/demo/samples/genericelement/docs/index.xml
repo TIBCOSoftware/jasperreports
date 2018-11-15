@@ -137,12 +137,12 @@ report elements.
 Export element handlers provide the mechanism able to generate specific content associated with a given generic element type at 
 export time. Usually handlers that share the same type namespace are packed together in a handler bundle. Handler bundles are 
 deployed as JasperReports extensions, using the 
-<api href="net/sf/jasperreports/engine/export/GenericElementHandlerBundle.html" target="_blank">GenericElementHandlerBundle</api> 
+<api href="net/sf/jasperreports/engine/export/GenericElementHandlerBundle.html">GenericElementHandlerBundle</api> 
 as extension type.
 <br/>
 Generic element handlers are also specific to a report exporter. Currently only the HTML exporter features support for generic 
 elements. A generic element handler that has to be used for the HTML exporter would implement the 
-<api href="net/sf/jasperreports/engine/export/GenericElementHtmlHandler.html" target="_blank">GenericElementHtmlHandler</api> interface.
+<api href="net/sf/jasperreports/engine/export/GenericElementHtmlHandler.html">GenericElementHtmlHandler</api> interface.
 <br/>
 <br/>
 <subtitle name="sample">Generic Elements Sample</subtitle>

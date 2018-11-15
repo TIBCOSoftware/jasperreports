@@ -293,7 +293,7 @@ and where should they be placed within the JSON tree object. The <api href="net/
 is designed to handle such kind of metadata information and to generate consistent data structures. 
 <br/>
 Before starting its export work, the JSON metadata exporter looks for the presence of an existing JSON schema by calling the 
-<api href="net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#getJsonSchemaResource()">getJsonSchemaResource()</api> exporter configuration setting.
+<api href="net/sf/jasperreports/export/JsonMetadataReportConfiguration.html#getJsonSchemaResource--">getJsonSchemaResource()</api> exporter configuration setting.
 This can be configured either directly, using the APIs, or by reading the value from the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.json.schema">net.sf.jasperreports.export.json.schema</a> report 
 property. If present, this setting provides the path to a JSON schema file that will be used to generate the JSON structure at export time. Nodes in a given schema may provide:
