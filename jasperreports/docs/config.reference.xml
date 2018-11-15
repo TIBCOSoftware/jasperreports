@@ -480,6 +480,15 @@ Built-in parameter/property holding the <code>java.lang.String</code> value of t
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.jsonql.field.expression -->
+  
+  <configProperty name="net.sf.jasperreports.jsonql.field.expression">
+    <description>
+Property specifying the JSONQL expression for the dataset field.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.jdbc.cached.rowset -->
   
   <configProperty name="net.sf.jasperreports.jdbc.cached.rowset">
@@ -5477,6 +5486,40 @@ This property is by default not set (<code>null</code>).
   <configProperty name="net.sf.jasperreports.export.xls.pattern">
     <description>
 Property whose value is an Excel compatible pattern, to be used as replacement for the text field pattern when exporting to XLS formats.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.print.page.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.page.height">
+    <description>
+Custom property specifying the page height in print preview pane, measured in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageHeight--">getPrintPageHeight()</api> Excel export configuration setting.
+When this property is set globally or per report, all sheets in the generated document will come with the same page height. 
+If this page height should differ from a sheet to another, we can set the above property at element level, so that the page height in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide the page height property, the 
+last element on the sheet will be considered.
+<br/>
+Properties set at element level take priority over properties set globally or per report level. The property is not set by default.          
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.print.page.width -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.print.page.width">
+    <description>
+Custom property specifying the page width in print preview pane, measured in pixels. 
+Its value is used as default for the related 
+<api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getPrintPageWidth--">getPrintPageWidth()</api> Excel export configuration setting.
+When this property is set globally or per report, all sheets in the generated document will come with the same page width. 
+If this page width should differ from a sheet to another, we can set the above property at element level, so that the page width in a 
+sheet will be read from the element in the sheet that contains this property. When several elements in a sheet provide the page width property, the 
+last element on the sheet will be considered.
+<br/>
+Properties set at element level take priority over properties set globally or per report level. The property is not set by default.          
     </description>
   </configProperty>
   
