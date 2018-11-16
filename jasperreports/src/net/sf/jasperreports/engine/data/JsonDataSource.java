@@ -23,11 +23,9 @@
  */
 package net.sf.jasperreports.engine.data;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,7 +44,6 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JsonUtil;
@@ -491,14 +488,10 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JsonData
 					(Object[])null);
 		}
 
-		try {
-			byte[] jsonNodeBytes = currentJsonNode.toString().getBytes("UTF-8");
-			JsonDataSource subDataSource = new JsonDataSource(new ByteArrayInputStream(jsonNodeBytes), selectExpression);
-			subDataSource.setTextAttributes(this);
-			return subDataSource;
-		} catch(UnsupportedEncodingException e) {
-			throw new JRRuntimeException(e);
-		}
+		JsonDataSource subDataSource = new JsonDataSource(currentJsonNode, selectExpression);
+		subDataSource.setTextAttributes(this);
+
+		return subDataSource;
 	}
 
 
