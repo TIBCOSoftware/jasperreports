@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="6.8.0"/>
+	<property name="version" value="6.8.0-SNAPSHOT"/>
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>
@@ -53,10 +53,24 @@
 				<include name="**/LICENSE.txt"/>
 			</fileset>
 		</copy>
+
+		<exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+			<arg value="log" />
+			<arg value="-1" />
+			<arg value="--pretty=format:%H" />
+		</exec>
+		<condition property="repository.version" value="${git.revision}" else="unknown">
+			<and>
+				<isset property="git.revision"/>
+				<length string="${git.revision}" trim="yes" length="0" when="greater"/>
+			</and>
+		</condition>
 		<copy todir="./build/classes">
 			<filterchain>
-				<!-- here it is important that the jasper.version property does not actually exist in this ant build file -->
-				<replacestring from="${jasper.version}" to="${version}"/>				
+				<!-- here it is important that the project.version and buildNumber properties do not 
+				actually exist in this ant build file -->
+				<replacestring from="${project.version}" to="${version}"/>				
+				<replacestring from="${buildNumber}" to="${repository.version}"/>				
 			</filterchain>
 			<fileset dir="./src">
 				<include name="**/*.MF"/>

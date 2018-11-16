@@ -39,6 +39,23 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doCheck>true</doCheck>
+					<doUpdate>true</doUpdate>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
@@ -74,7 +91,7 @@
 									<Specification-Version>${project.version}</Specification-Version>
 									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.customizers</Implementation-Title>
-									<Implementation-Version>${project.version}</Implementation-Version>
+									<Implementation-Version>${project.version}-${buildNumber}</Implementation-Version>
 									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>
