@@ -50,6 +50,16 @@
 				<include name="**/*.svg"/>
 				<include name="**/*.svgz"/>
 				<include name="**/*.tmpl"/>
+				<include name="**/LICENSE.txt"/>
+			</fileset>
+		</copy>
+		<copy todir="./build/classes">
+			<filterchain>
+				<!-- here it is important that the jasper.version property does not actually exist in this ant build file -->
+				<replacestring from="${jasper.version}" to="${version}"/>				
+			</filterchain>
+			<fileset dir="./src">
+				<include name="**/*.MF"/>
 			</fileset>
 		</copy>
 	</target>
@@ -66,7 +76,7 @@
 
 	<target name="jar" depends="compile" description="Builds the JasperReports JAR file.">
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
+		<jar jarfile="./dist/jasperreports-${version}.jar" manifest="build/classes/META-INF/MANIFEST.MF">
 			<fileset dir="./build/classes"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>
@@ -105,7 +115,7 @@
 		</javaflow>
 
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
+		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar" manifest="build/classes/META-INF/MANIFEST.MF">
 			<fileset dir="./build/javaflow"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>

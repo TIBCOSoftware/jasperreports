@@ -22,6 +22,7 @@
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jasper.version>${project.version}</jasper.version>
 	</properties>
 	<developers>
 		<developer>
@@ -93,7 +94,16 @@
 					<include>**/*.svg</include>
 					<include>**/*.svgz</include>
 					<include>**/*.tmpl</include>
+					<include>**/LICENSE.txt</include>
 				</includes>
+			</resource>
+			<resource>
+				<directory>src/META-INF</directory>
+				<includes>
+					<include>**/*.MF</include>
+				</includes>
+				<targetPath>META-INF</targetPath>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
 		<testResources>
@@ -167,7 +177,7 @@
 				<version>3.1.0</version>
 				<configuration>
 					<archive>
-						<manifestFile>${basedir}/src/META-INF/MANIFEST.MF</manifestFile>
+						<manifestFile>${basedir}/target/classes/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>
