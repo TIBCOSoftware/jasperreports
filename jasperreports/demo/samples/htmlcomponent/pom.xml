@@ -20,6 +20,9 @@
 		<tag>jr-6-8-0</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<repositories>
 		<repository>
 			<id>jr-ce-releases</id>
@@ -69,19 +72,10 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<encoding>UTF-8</encoding>
 					<excludes>
 						<exclude>**/*App.java</exclude>
 					</excludes>
 					<compilerArgument>-Xlint:deprecation,-unchecked,-options</compilerArgument>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>

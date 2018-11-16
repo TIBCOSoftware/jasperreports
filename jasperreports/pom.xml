@@ -145,7 +145,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<encoding>UTF-8</encoding>
 					<showWarnings>true</showWarnings>
 					<fork>true</fork><!-- TODO lucianc is this ok? -->
 					<compilerArgs>
@@ -161,31 +160,6 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<id>copy_additional_resources</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>process-resources</phase>
-						<configuration>
-							<outputDirectory>${basedir}/target/classes</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}</directory>
-									<includes>
-										<include>license.txt</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
