@@ -129,6 +129,19 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	public static final String PPTX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.";
 
 	/**
+	 * Property that specifies if this element, when found on the first page of the document, should be exported into the slide master,
+	 * and then ignored on all pages/slides. 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.TEXT_ELEMENT},
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			sinceVersion = PropertyConstants.VERSION_6_8_0
+			)
+	public static final String PROPERTY_TO_SLIDE_MASTER = PPTX_EXPORTER_PROPERTIES_PREFIX + "to.slide.master";
+
+	/**
 	 * Property that specifies the field type associated with this element in the PPTX export. 
 	 * When this property is set, the element value will be automatically updated when the presentation is open.
 	 * <ul/>
@@ -395,6 +408,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //				);
 //		styleHelper.export(jasperPrintList);
 //		styleHelper.close();
+		
+		boolean hasSlideMasterElements = false;
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
@@ -424,12 +439,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					if (
 						reportIndex == 0
 						&& pageIndex == startPageIndex
-						&& configuration.isBackgroundAsSlideMaster()
 						)
 					{
 						createSlideMaster();
 						
-						exportPageBackground(page);
+						hasSlideMasterElements = exportPageToSlideMaster(page, configuration.isBackgroundAsSlideMaster());
 						
 						closeSlideMaster();
 					}
@@ -438,7 +452,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					
 					slideIndex++;
 
-					exportPage(page, configuration.isBackgroundAsSlideMaster());
+					exportPage(page, configuration.isBackgroundAsSlideMaster(), hasSlideMasterElements);
 
 					closeSlide();
 				}
@@ -480,32 +494,50 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportPageBackground(JRPrintPage page) throws JRException
+	protected boolean exportPageToSlideMaster(JRPrintPage page, boolean isBackgroundAsSlideMaster) throws JRException
 	{
 		frameIndexStack = new ArrayList<Integer>();
 
+		boolean hasSlideMasterElements = false;
+		
 		for (JRPrintElement element : page.getElements())
 		{
-			if (element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
+			if (
+				(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
+				|| getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false)
+				)
 			{
-				exportElement(element);
+				if (filter == null || filter.isToExport(element))
+				{
+					exportElement(element);
+
+					hasSlideMasterElements = true;
+				}
 			}
 		}
+		
+		return hasSlideMasterElements;
 	}
 
 
 	/**
 	 *
 	 */
-	protected void exportPage(JRPrintPage page, boolean ignoreBackground) throws JRException
+	protected void exportPage(JRPrintPage page, boolean isBackgroundAsSlideMaster, boolean hasToSlideMasterElements) throws JRException
 	{
 		frameIndexStack = new ArrayList<Integer>();
 
 		for (JRPrintElement element : page.getElements())
 		{
-			if (!ignoreBackground || element.getOrigin().getBandTypeValue() != BandTypeEnum.BACKGROUND)
+			if (
+				!(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() != BandTypeEnum.BACKGROUND)
+				&& !(hasToSlideMasterElements && getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false))
+				)
 			{
-				exportElement(element);
+				if (filter == null || filter.isToExport(element))
+				{
+					exportElement(element);
+				}
 			}
 		}
 		
@@ -600,7 +632,10 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			for (JRPrintElement element : elements)
 			{
-				exportElement(element);
+				if (filter == null || filter.isToExport(element))
+				{
+					exportElement(element);
+				}
 			}
 		}
 	}
@@ -611,36 +646,33 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	protected void exportElement(JRPrintElement element) throws JRException
 	{
-		if (filter == null || filter.isToExport(element))
+		if (element instanceof JRPrintLine)
 		{
-			if (element instanceof JRPrintLine)
-			{
-				exportLine((JRPrintLine)element);
-			}
-			else if (element instanceof JRPrintRectangle)
-			{
-				exportRectangle((JRPrintRectangle)element);
-			}
-			else if (element instanceof JRPrintEllipse)
-			{
-				exportEllipse((JRPrintEllipse)element);
-			}
-			else if (element instanceof JRPrintImage)
-			{
-				exportImage((JRPrintImage)element);
-			}
-			else if (element instanceof JRPrintText)
-			{
-				exportText((JRPrintText)element);
-			}
-			else if (element instanceof JRPrintFrame)
-			{
-				exportFrame((JRPrintFrame)element);
-			}
-			else if (element instanceof JRGenericPrintElement)
-			{
-				exportGenericElement((JRGenericPrintElement) element);
-			}
+			exportLine((JRPrintLine)element);
+		}
+		else if (element instanceof JRPrintRectangle)
+		{
+			exportRectangle((JRPrintRectangle)element);
+		}
+		else if (element instanceof JRPrintEllipse)
+		{
+			exportEllipse((JRPrintEllipse)element);
+		}
+		else if (element instanceof JRPrintImage)
+		{
+			exportImage((JRPrintImage)element);
+		}
+		else if (element instanceof JRPrintText)
+		{
+			exportText((JRPrintText)element);
+		}
+		else if (element instanceof JRPrintFrame)
+		{
+			exportFrame((JRPrintFrame)element);
+		}
+		else if (element instanceof JRGenericPrintElement)
+		{
+			exportGenericElement((JRGenericPrintElement) element);
 		}
 	}
 

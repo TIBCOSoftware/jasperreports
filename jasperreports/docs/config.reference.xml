@@ -4546,6 +4546,19 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pptx.to.slide.master -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.to.slide.master">
+    <description>
+Property that specifies whether the element, when found on the first page, should be exported as the contents of the slide master, 
+and then ignored for all pages/slides.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#isToSlideMaster--">isToSlideMaster()</api> PPTX export configuration setting.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pptx.field.type -->
   
   <configProperty name="net.sf.jasperreports.export.pptx.field.type">
