@@ -91,6 +91,23 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_METADATA_APPLICATION = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "metadata.application";
 
 	/**
+	 * Property that provides a default value for the {@link #isBackgroundAsSlideMaster()} export configuration flag.
+	 * <p>
+	 * Default value is <code>false</code>.
+	 * 
+	 * @see JRPropertiesUtil
+	 * @since 6.8.0
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_BACKGROUND_AS_SLIDE_MASTER = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "background.as.slide.master";
+
+	/**
 	 * The Title of the PPTX document.
 	 */
 	@ExporterProperty(PROPERTY_METADATA_TITLE)
@@ -119,4 +136,16 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_METADATA_APPLICATION)
 	public String getMetadataApplication();
+
+	/**
+	 * Flag that specifies whether the elements from the background section on the first page should be exported as the contents of the slide master,
+	 * and then ignoring the background section elements for all pages/slides.
+	 * 
+	 * @see #PROPERTY_BACKGROUND_AS_SLIDE_MASTER
+	 */
+	@ExporterProperty(
+		value=PROPERTY_BACKGROUND_AS_SLIDE_MASTER, 
+		booleanDefault=false
+		)
+	public Boolean isBackgroundAsSlideMaster();
 }

@@ -73,6 +73,7 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.ooxml.type.FieldTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -420,17 +421,30 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 					page = pages.get(pageIndex);
 
-					createSlide(null);//FIXMEPPTX
+					if (
+						reportIndex == 0
+						&& pageIndex == startPageIndex
+						&& configuration.isBackgroundAsSlideMaster()
+						)
+					{
+						createSlideMaster();
+						
+						exportPageBackground(page);
+						
+						closeSlideMaster();
+					}
+
+					createSlide();
 					
 					slideIndex++;
 
-					exportPage(page);
+					exportPage(page, configuration.isBackgroundAsSlideMaster());
+
+					closeSlide();
 				}
 			}
 		}
 		
-		closeSlide();
-
 		presentationHelper.exportFooter(jasperPrint);
 		presentationHelper.close();
 
@@ -466,11 +480,34 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportPage(JRPrintPage page) throws JRException
+	protected void exportPageBackground(JRPrintPage page) throws JRException
 	{
 		frameIndexStack = new ArrayList<Integer>();
 
-		exportElements(page.getElements());
+		for (JRPrintElement element : page.getElements())
+		{
+			if (element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
+			{
+				exportElement(element);
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportPage(JRPrintPage page, boolean ignoreBackground) throws JRException
+	{
+		frameIndexStack = new ArrayList<Integer>();
+
+		for (JRPrintElement element : page.getElements())
+		{
+			if (!ignoreBackground || element.getOrigin().getBandTypeValue() != BandTypeEnum.BACKGROUND)
+			{
+				exportElement(element);
+			}
+		}
 		
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
@@ -480,10 +517,27 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	}
 
 
-	protected void createSlide(String name)
+	protected void createSlideMaster()
 	{
-		closeSlide();
+		ExportZipEntry slideMasterRelsEntry = pptxZip.addSlideMasterRels();
+		Writer slideMasterRelsWriter = slideMasterRelsEntry.getWriter();
+		slideRelsHelper = new PptxSlideRelsHelper(jasperReportsContext, slideMasterRelsWriter);
 		
+		ExportZipEntry slideMasterEntry = pptxZip.addSlideMaster();
+		Writer slideMasterWriter = slideMasterEntry.getWriter();
+		slideHelper = new PptxSlideHelper(jasperReportsContext, slideMasterWriter, slideRelsHelper);
+
+//		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
+//		
+		runHelper = new PptxRunHelper(jasperReportsContext, slideMasterWriter, getExporterKey());
+		
+		slideHelper.exportHeader(true);
+		slideRelsHelper.exportHeader(true);
+	}
+
+
+	protected void createSlide()
+	{
 		presentationHelper.exportSlide(slideIndex + 1);
 		ctHelper.exportSlide(slideIndex + 1);
 		presentationRelsHelper.exportSlide(slideIndex + 1);
@@ -502,17 +556,31 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		
 		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, getExporterKey());
 		
-		slideHelper.exportHeader();
-		slideRelsHelper.exportHeader();
-		
+		slideHelper.exportHeader(false);
+		slideRelsHelper.exportHeader(false);
 	}
 
+
+	protected void closeSlideMaster()
+	{
+		if (slideHelper != null)
+		{
+			slideHelper.exportFooter(true);
+			
+			slideHelper.close();
+
+			slideRelsHelper.exportFooter();
+			
+			slideRelsHelper.close();
+		}
+	}
+	
 
 	protected void closeSlide()
 	{
 		if (slideHelper != null)
 		{
-			slideHelper.exportFooter();
+			slideHelper.exportFooter(false);
 			
 			slideHelper.close();
 
@@ -530,44 +598,48 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			JRPrintElement element;
-			for(int i = 0; i < elements.size(); i++)
+			for (JRPrintElement element : elements)
 			{
-				elementIndex = i;
-				
-				element = elements.get(i);
-				
-				if (filter == null || filter.isToExport(element))
-				{
-					if (element instanceof JRPrintLine)
-					{
-						exportLine((JRPrintLine)element);
-					}
-					else if (element instanceof JRPrintRectangle)
-					{
-						exportRectangle((JRPrintRectangle)element);
-					}
-					else if (element instanceof JRPrintEllipse)
-					{
-						exportEllipse((JRPrintEllipse)element);
-					}
-					else if (element instanceof JRPrintImage)
-					{
-						exportImage((JRPrintImage)element);
-					}
-					else if (element instanceof JRPrintText)
-					{
-						exportText((JRPrintText)element);
-					}
-					else if (element instanceof JRPrintFrame)
-					{
-						exportFrame((JRPrintFrame)element);
-					}
-					else if (element instanceof JRGenericPrintElement)
-					{
-						exportGenericElement((JRGenericPrintElement) element);
-					}
-				}
+				exportElement(element);
+			}
+		}
+	}
+	
+
+	/**
+	 *
+	 */
+	protected void exportElement(JRPrintElement element) throws JRException
+	{
+		if (filter == null || filter.isToExport(element))
+		{
+			if (element instanceof JRPrintLine)
+			{
+				exportLine((JRPrintLine)element);
+			}
+			else if (element instanceof JRPrintRectangle)
+			{
+				exportRectangle((JRPrintRectangle)element);
+			}
+			else if (element instanceof JRPrintEllipse)
+			{
+				exportEllipse((JRPrintEllipse)element);
+			}
+			else if (element instanceof JRPrintImage)
+			{
+				exportImage((JRPrintImage)element);
+			}
+			else if (element instanceof JRPrintText)
+			{
+				exportText((JRPrintText)element);
+			}
+			else if (element instanceof JRPrintFrame)
+			{
+				exportFrame((JRPrintFrame)element);
+			}
+			else if (element instanceof JRGenericPrintElement)
+			{
+				exportGenericElement((JRGenericPrintElement) element);
 			}
 		}
 	}

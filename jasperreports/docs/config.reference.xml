@@ -4533,6 +4533,19 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pptx.background.as.slide.master -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.background.as.slide.master">
+    <description>
+Property that specifies whether the elements from the background section on the first page should be exported as the contents of the slide master, 
+and then ignoring the background section elements for all pages/slides.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#isBackgroundAsSlideMaster--">isBackgroundAsSlideMaster()</api> PPTX export configuration setting.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pptx.field.type -->
   
   <configProperty name="net.sf.jasperreports.export.pptx.field.type">

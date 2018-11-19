@@ -34,6 +34,7 @@ public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataApplication;
+	private Boolean isBackgroundAsSlideMaster;
 	
 	@Override
 	public String getMetadataTitle()
@@ -103,5 +104,19 @@ public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration
 	public void setMetadataApplication(String metadataApplication)
 	{
 		this.metadataApplication = metadataApplication;
+	}
+	
+	@Override
+	public Boolean isBackgroundAsSlideMaster()
+	{
+		return isBackgroundAsSlideMaster;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setMetadataApplication(Boolean isBackgroundAsSlideMaster)
+	{
+		this.isBackgroundAsSlideMaster = isBackgroundAsSlideMaster;
 	}
 }

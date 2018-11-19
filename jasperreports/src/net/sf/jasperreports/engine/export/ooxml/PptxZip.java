@@ -71,8 +71,6 @@ public class PptxZip extends FileBufferedZip
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/_rels/xml.rels");
 		addEntry("ppt/slideLayouts/_rels/slideLayout1.xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/_rels/slideLayout1.xml.rels");
 		addEntry("ppt/slideLayouts/slideLayout1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/slideLayout1.xml");
-		addEntry("ppt/slideMasters/_rels/slideMaster1.xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideMasters/_rels/slideMaster1.xml.rels");
-		addEntry("ppt/slideMasters/slideMaster1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideMasters/slideMaster1.xml");
 		addEntry("ppt/theme/theme1.xml", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/theme/theme1.xml");
 	}
 	
@@ -127,6 +125,18 @@ public class PptxZip extends FileBufferedZip
 	/**
 	 * 
 	 */
+	public ExportZipEntry addSlideMaster()
+	{
+		ExportZipEntry slideMasterEntry = createEntry("ppt/slideMasters/slideMaster1.xml");
+
+		exportZipEntries.add(slideMasterEntry);
+
+		return slideMasterEntry;
+	}
+	
+	/**
+	 * 
+	 */
 	public ExportZipEntry addSlide(int index)
 	{
 		ExportZipEntry slideEntry = createEntry("ppt/slides/slide" + index + ".xml");
@@ -136,6 +146,17 @@ public class PptxZip extends FileBufferedZip
 		return slideEntry;
 	}
 	
+	/**
+	 * 
+	 */
+	public ExportZipEntry addSlideMasterRels()
+	{
+		ExportZipEntry slideMasterRelsEntry = createEntry("ppt/slideMasters/_rels/slideMaster1.xml.rels");
+
+		exportZipEntries.add(slideMasterRelsEntry);
+
+		return slideMasterRelsEntry;
+	}
 	/**
 	 * 
 	 */
