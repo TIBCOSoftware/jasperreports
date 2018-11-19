@@ -48,7 +48,7 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
-	public static final String PROPERTY_METADATA_TITLE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.metadata.title";
+	public static final String PROPERTY_METADATA_TITLE = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "metadata.title";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataAuthor()} export configuration setting.
@@ -58,7 +58,7 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
-	public static final String PROPERTY_METADATA_AUTHOR = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.metadata.author";
+	public static final String PROPERTY_METADATA_AUTHOR = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "metadata.author";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataSubject()} export configuration setting.
@@ -68,7 +68,7 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
-	public static final String PROPERTY_METADATA_SUBJECT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.metadata.subject";
+	public static final String PROPERTY_METADATA_SUBJECT = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "metadata.subject";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataKeywords()} export configuration setting.
@@ -78,7 +78,7 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
-	public static final String PROPERTY_METADATA_KEYWORDS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.metadata.keywords";
+	public static final String PROPERTY_METADATA_KEYWORDS = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "metadata.keywords";
 
 	/**
 	 * Property whose value is used as default for the {@link #getMetadataApplication()} export configuration setting.
@@ -88,7 +88,7 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
-	public static final String PROPERTY_METADATA_APPLICATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.pptx.metadata.application";
+	public static final String PROPERTY_METADATA_APPLICATION = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "metadata.application";
 
 	/**
 	 * The Title of the PPTX document.

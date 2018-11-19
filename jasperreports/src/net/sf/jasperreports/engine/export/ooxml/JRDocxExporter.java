@@ -145,7 +145,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	
 	public static final String EXCEPTION_MESSAGE_KEY_COLUMN_COUNT_OUT_OF_RANGE = "export.docx.column.count.out.of.range";
 	
-	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
+	public static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
 
 	/**
 	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
@@ -158,7 +158,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			sinceVersion = PropertyConstants.VERSION_3_7_6,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_HIDDEN_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.hidden.text";
+	public static final String PROPERTY_HIDDEN_TEXT = DOCX_EXPORTER_PROPERTIES_PREFIX + "hidden.text";
 
 	/**
 	 *

@@ -50,7 +50,7 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_5_1_2,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX +  "export.pptx." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 	
 	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK

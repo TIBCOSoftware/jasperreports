@@ -56,7 +56,7 @@ public interface OdtReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_5_0_4,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt.flexible.row.height";
+	public static final String PROPERTY_ODT_FLEXIBLE_ROW_HEIGHT = JROdtExporter.ODT_EXPORTER_PROPERTIES_PREFIX + "flexible.row.height";
 
 	/**
 	 * Property that provides a default for the {@link #isIgnoreHyperlink()} export configuration flag.
@@ -67,7 +67,7 @@ public interface OdtReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_5_1_2,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX + "export.odt." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = JROdtExporter.ODT_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * Indicates whether table rows in ODT documents can grow if more text is added into cells.

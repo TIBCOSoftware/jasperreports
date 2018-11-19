@@ -26,7 +26,6 @@ package net.sf.jasperreports.export;
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
 import net.sf.jasperreports.properties.PropertyConstants;
@@ -50,7 +49,7 @@ public interface RtfReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_5_1_2,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX +  "export.rtf." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = JRRtfExporter.RTF_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 	
 	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK

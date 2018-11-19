@@ -117,7 +117,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 {
 	private static final Log log = LogFactory.getLog(JRRtfExporter.class);
 	
-	private static final String RTF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.rtf.";
+	public static final String RTF_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.rtf.";
 	
 	public static final String EXCEPTION_MESSAGE_KEY_INVALID_TEXT_HEIGHT = "export.rtf.invalid.text.height";
 

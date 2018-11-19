@@ -57,7 +57,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_3_5_3,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "frames.as.nested.tables";
 
 	/**
 	 * This property serves as default value for the {@link #isFlexibleRowHeight} export configuration setting.
@@ -73,7 +73,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_3_6_1,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
+	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "flexible.row.height";
 	
 	/**
 	 * This property serves as default value for the {@link #isNewLineAsParagraph} export configuration setting.
@@ -89,7 +89,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_6_1_1,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_NEW_LINE_AS_PARAGRAPH = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.new.line.as.paragraph";
+	public static final String PROPERTY_NEW_LINE_AS_PARAGRAPH = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "new.line.as.paragraph";
 
 	/**
 	 * Property that provides a default value for the {@link #isIgnoreHyperlink()} export configuration flag.
@@ -100,7 +100,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 			sinceVersion = PropertyConstants.VERSION_5_1_2,
 			valueType = Boolean.class
 			)
-	public static final String PROPERTY_IGNORE_HYPERLINK = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx." + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
+	public static final String PROPERTY_IGNORE_HYPERLINK = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 
 	/**
 	 * Indicates whether {@link JRPrintFrame frames} are to be exported as nested tables.
