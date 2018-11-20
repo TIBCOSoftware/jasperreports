@@ -500,6 +500,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		boolean hasSlideMasterElements = false;
 		
+		elementIndex = 0;
+		
 		for (JRPrintElement element : page.getElements())
 		{
 			if (
@@ -514,6 +516,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					hasSlideMasterElements = true;
 				}
 			}
+
+			elementIndex++;
 		}
 		
 		return hasSlideMasterElements;
@@ -527,6 +531,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		frameIndexStack = new ArrayList<Integer>();
 
+		elementIndex = 0;
+		
 		for (JRPrintElement element : page.getElements())
 		{
 			if (
@@ -539,6 +545,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					exportElement(element);
 				}
 			}
+			
+			elementIndex++;
 		}
 		
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
