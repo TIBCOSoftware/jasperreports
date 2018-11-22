@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.type.NamedEnum;
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum FieldTypeEnum implements NamedEnum
+public enum PptxFieldTypeEnum implements NamedEnum
 {
 	/**
 	 *
@@ -46,7 +46,7 @@ public enum FieldTypeEnum implements NamedEnum
 	 */
 	private final transient String name;
 
-	private FieldTypeEnum(String name)
+	private PptxFieldTypeEnum(String name)
 	{
 		this.name = name;
 	}
@@ -60,7 +60,7 @@ public enum FieldTypeEnum implements NamedEnum
 	/**
 	 *
 	 */
-	public static FieldTypeEnum getByName(String name)
+	public static PptxFieldTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}

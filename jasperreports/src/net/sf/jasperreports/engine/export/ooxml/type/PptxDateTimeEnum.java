@@ -24,12 +24,12 @@
 package net.sf.jasperreports.engine.export.ooxml.type;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.NamedEnum;
+import net.sf.jasperreports.engine.type.NamedValueEnum;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
-public enum DateTimeEnum implements NamedEnum
+public enum PptxDateTimeEnum implements NamedValueEnum<String>
 {
 
 	/**
@@ -69,7 +69,7 @@ public enum DateTimeEnum implements NamedEnum
 	private final transient String name;
 	private final transient String pptxValue;
 
-	private DateTimeEnum(String name, String pptxValue)
+	private PptxDateTimeEnum(String name, String pptxValue)
 	{
 		this.name = name;
 		this.pptxValue = pptxValue;
@@ -81,7 +81,8 @@ public enum DateTimeEnum implements NamedEnum
 		return name;
 	}
 	
-	public String getPptxValue()
+	@Override
+	public String getValue()
 	{
 		return pptxValue;
 	}
@@ -89,7 +90,7 @@ public enum DateTimeEnum implements NamedEnum
 	/**
 	 *
 	 */
-	public static DateTimeEnum getByName(String name)
+	public static PptxDateTimeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
 	}

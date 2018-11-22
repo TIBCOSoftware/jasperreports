@@ -70,7 +70,7 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
-import net.sf.jasperreports.engine.export.ooxml.type.FieldTypeEnum;
+import net.sf.jasperreports.engine.export.ooxml.type.PptxFieldTypeEnum;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
@@ -1144,7 +1144,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		if (textLength > 0)
 		{
-			FieldTypeEnum fieldTypeEnum = FieldTypeEnum.getByName(JRPropertiesUtil.getOwnProperty(text, PROPERTY_FIELD_TYPE));
+			PptxFieldTypeEnum fieldTypeEnum = PptxFieldTypeEnum.getByName(JRPropertiesUtil.getOwnProperty(text, PROPERTY_FIELD_TYPE));
 			String uuid = null;
 			String fieldType = null;
 			if (fieldTypeEnum != null)
