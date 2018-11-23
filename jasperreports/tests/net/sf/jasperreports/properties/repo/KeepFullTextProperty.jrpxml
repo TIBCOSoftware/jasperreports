@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="KeepFullTextProperty" pageWidth="595" pageHeight="842" topMargin="30" leftMargin="20" bottomMargin="30" rightMargin="20" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="1"/>
+	<origin band="title"/>
+	<origin band="detail"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<page>
+		<text textHeight="11.640625" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="20ab6259-18d6-4408-ac20-bd44b292f64f" x="20" y="30" width="50" height="20" origin="0" srcId="1" printId="1"/>
+			<textContent truncateIndex="10"><![CDATA[this is a fairly long text]]></textContent>
+		</text>
+	</page>
+</jasperPrint>

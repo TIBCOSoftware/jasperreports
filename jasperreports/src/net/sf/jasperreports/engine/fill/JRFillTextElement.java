@@ -113,7 +113,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private FillStyleObjects fillStyleObjects;
 	private Map<JRStyle, FillStyleObjects> fillStyleObjectsMap;
 	
-	private boolean defaultKeepFullText;
+	private Boolean defaultKeepFullText;
 	private boolean dynamicKeepFullText;
 
 	/**
@@ -137,10 +137,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 				textElement, filler.getMainDataset()
 				);
 		
-		this.defaultKeepFullText = filler.getPropertiesUtil().getBooleanProperty( 
-				JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false,
-				// manually falling back to report properties as getParentProperties() is null for textElement
-				textElement, filler.getMainDataset());
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 		
 		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
@@ -1034,6 +1030,14 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 	protected boolean keepFullText()
 	{
+		if (defaultKeepFullText == null)
+		{
+			defaultKeepFullText = filler.getPropertiesUtil().getBooleanProperty( 
+					JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false,
+					// manually falling back to report properties as getParentProperties() is null for textElement
+					parent, filler.getMainDataset());//TODO
+		}
+		
 		boolean keepFullText = defaultKeepFullText;
 		if (dynamicKeepFullText)
 		{
