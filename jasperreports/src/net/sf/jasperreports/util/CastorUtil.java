@@ -51,7 +51,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.mapping.Mapping;
@@ -184,7 +184,7 @@ public class CastorUtil
 		{
 			//TODO lucianc prevent double cache creation?
 			xmlContextCache = Collections.synchronizedMap(
-					new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT));//using soft values is safer
+					new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT));//using soft values is safer
 			jasperReportsContext.setValue(contextCacheKey, xmlContextCache);
 		}
 		return xmlContextCache;

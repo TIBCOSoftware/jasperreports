@@ -32,7 +32,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -81,7 +81,9 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 
 
 	private static final Object CLASS_CACHE_NULL_KEY = new Object();
-	private static Map<Object,Map<String,Class<?>>> classCache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
+	private static Map<Object,Map<String,Class<?>>> classCache =
+			new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
+
 
 	
 	/**
@@ -154,7 +156,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 		Map<String,Class<?>> contextMap = classCache.get(key);
 		if (contextMap == null)
 		{
-			contextMap = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.SOFT);
+			contextMap = new ReferenceMap(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.SOFT);
 			classCache.put(key, contextMap);
 		}
 		contextMap.put(className, loadedClass);

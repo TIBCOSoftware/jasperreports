@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -55,10 +55,10 @@ public final class GenericElementHandlerEnviroment
 			GenericElementHandlerEnviroment.class);
 	public static final String EXCEPTION_MESSAGE_KEY_HANDLERS_NOT_FOUND_FOR_NAMESPACE = 
 			"export.common.handlers.not.found.for.namespace";
-	
-	private final ReferenceMap handlersCache = new ReferenceMap(
-			ReferenceMap.WEAK, ReferenceMap.HARD);
-	
+
+	private final ReferenceMap handlersCache =
+			new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
+
 	private JasperReportsContext jasperReportsContext;
 
 

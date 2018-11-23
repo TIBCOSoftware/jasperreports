@@ -26,7 +26,7 @@ package net.sf.jasperreports.engine.util;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -53,7 +53,7 @@ public class JRSingletonCache<T>
 	 */
 	public JRSingletonCache(Class<T> itf)
 	{
-		cache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
+		cache = new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
 		this.itf = itf;
 	}
 

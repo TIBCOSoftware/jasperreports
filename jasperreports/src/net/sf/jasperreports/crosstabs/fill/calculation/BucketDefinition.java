@@ -32,8 +32,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
 
-import org.apache.commons.collections.comparators.ComparableComparator;
-import org.apache.commons.collections.comparators.ReverseComparator;
+import org.apache.commons.collections4.comparators.ComparableComparator;
+import org.apache.commons.collections4.comparators.ReverseComparator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -123,7 +123,7 @@ public class BucketDefinition
 			if (Comparable.class.isAssignableFrom(valueClass))
 			{
 				// using natural order
-				this.bucketValueComparator = ComparableComparator.getInstance();
+				this.bucketValueComparator = ComparableComparator.INSTANCE;
 			}
 			else
 			{
@@ -164,7 +164,7 @@ public class BucketDefinition
 			{
 				if (comparator == null)
 				{
-					orderComparator = ComparableComparator.getInstance();
+					orderComparator = ComparableComparator.INSTANCE;
 				}
 				else
 				{

@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -69,8 +69,9 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	public static final String EXCEPTION_MESSAGE_KEY_TEMPLATE_NOT_FOUND_IN_CONTEXT = "fill.virtualizer.template.not.found.in.context";
 	
 	private static final Log log = LogFactory.getLog(JRVirtualizationContext.class);
-	
-	private static final ReferenceMap contexts = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
+
+	private static final ReferenceMap contexts =
+			new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.WEAK);
 
 	private transient JRVirtualizationContext parentContext;
 	private transient JRVirtualizer virtualizer;

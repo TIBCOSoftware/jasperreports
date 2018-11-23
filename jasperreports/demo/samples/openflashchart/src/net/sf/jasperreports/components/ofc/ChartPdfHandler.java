@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
 import net.sf.jasperreports.engine.export.JRPdfExporterContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfAnnotation;
@@ -56,9 +56,9 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 
 	public static final String PARAMETER_CHART_DATA = "ChartData";
 
-	private final ReferenceMap existingContexts = new ReferenceMap(ReferenceMap.WEAK, 
-			ReferenceMap.HARD);
-	
+	private final ReferenceMap existingContexts =
+		new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
+
 	public boolean toExport(JRGenericPrintElement element)
 	{
 		return true;

@@ -29,7 +29,7 @@ import java.util.Iterator;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -50,8 +50,9 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 		super(maxSize);
 
 		this.storeFactory = storeFactory;
-		
-		this.contextStores = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+
+		this.contextStores =
+				new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
 	}
 
 	protected VirtualizerStore store(JRVirtualizable o, boolean create)

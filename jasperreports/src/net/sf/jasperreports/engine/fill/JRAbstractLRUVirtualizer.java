@@ -41,7 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -252,11 +252,14 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		this.serializer = serializer;
 		
 		this.pagedIn = new Cache(maxSize);
-		this.pagedOut = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.WEAK);
+		this.pagedOut =
+				new ReferenceMap(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.WEAK);
 		this.lastObjectRef = null;
 
-		this.lastObjectMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
-		this.lastObjectSet = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+		this.lastObjectMap =
+				new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.WEAK);
+		this.lastObjectSet =
+				new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
 	}
 
 	protected synchronized final boolean isPagedOut(String id)

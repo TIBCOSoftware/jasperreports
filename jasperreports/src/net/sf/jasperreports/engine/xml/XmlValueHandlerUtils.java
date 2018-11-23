@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -60,7 +60,7 @@ public class XmlValueHandlerUtils
 	
 	private XmlValueHandlerUtils()
 	{
-		cache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+		cache = new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
 	}
 	
 	/**

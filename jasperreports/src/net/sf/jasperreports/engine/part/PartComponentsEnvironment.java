@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -55,8 +55,8 @@ public final class PartComponentsEnvironment
 	public static final String EXCEPTION_MESSAGE_KEY_PART_COMPONENTS_BUNDLE_NOT_REGISTERED = "engine.part.components.bundle.not.registered";
 	
 	private final ReferenceMap cache = new ReferenceMap(
-			ReferenceMap.WEAK, ReferenceMap.HARD);
-	
+			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
+
 	private JasperReportsContext jasperReportsContext;
 
 

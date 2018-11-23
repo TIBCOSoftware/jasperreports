@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -113,11 +113,11 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	public static final String PROPERTY_REGISTRY_PREFIX = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "extension.";
 
-	private final ReferenceMap registrySetCache = new ReferenceMap(
-			ReferenceMap.WEAK, ReferenceMap.HARD);
-	
-	private final ReferenceMap registryCache = 
-		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+	private final ReferenceMap registrySetCache =
+			new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
+
+	private final ReferenceMap registryCache =
+		new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
 
 	@Override
 	public <T> List<T> getExtensions(Class<T> extensionType)

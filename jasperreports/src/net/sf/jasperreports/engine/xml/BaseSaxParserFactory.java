@@ -32,7 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
@@ -221,7 +221,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			ReferenceMap cacheMap = grammarPoolCache.get();
 			if (cacheMap == null)
 			{
-				cacheMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
+				cacheMap = new ReferenceMap(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
 				grammarPoolCache.set(cacheMap);
 			}
 			

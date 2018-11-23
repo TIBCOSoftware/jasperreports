@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JasperReportsContextAware;
 import net.sf.jasperreports.functions.FunctionsUtil;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Script;
@@ -51,9 +51,10 @@ public class JavaScriptCompiledEvaluator extends JREvaluator implements JasperRe
 	private static final Log log = LogFactory.getLog(JavaScriptCompiledEvaluator.class);
 
 	protected static final String EXPRESSION_ID_VAR = "_jreid";
-	
-	private static final ReferenceMap scriptClassLoaders = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.SOFT);
-	
+
+	private static final ReferenceMap scriptClassLoaders =
+			new ReferenceMap(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.SOFT);
+
 	protected static JavaScriptClassLoader getScriptClassLoader(String unitName)
 	{
 		JavaScriptClassLoader loader;

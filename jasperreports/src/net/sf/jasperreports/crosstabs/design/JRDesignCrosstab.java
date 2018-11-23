@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.collections4.map.LinkedMap;
 
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
@@ -1943,7 +1943,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		// this will work as long as SequencedHashMap is part of commons collections
 		// we could also look at PSEUDO_SERIAL_VERSION_UID
-		if (variablesList instanceof org.apache.commons.collections.SequencedHashMap)
+		if (variablesList.getClass().getName().equals("org.apache.commons.collections.SequencedHashMap"))
 		{
 			// converting to the new type
 			variablesList = new LinkedMap(variablesList);
