@@ -72,6 +72,11 @@ public class Report
 	private String jrxml;
 	private String jrpxml;
 	
+	public Report(String basename)
+	{
+		this(basename + ".jrxml", basename + ".jrpxml");
+	}
+	
 	public Report(String jrxml, String jrpxml)
 	{
 		this.jrxml = jrxml;
