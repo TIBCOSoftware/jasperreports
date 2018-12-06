@@ -224,10 +224,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 	protected class ExporterContext extends BaseExporterContext implements JRPptxExporterContext
 	{
-		public ExporterContext()
-		{
-		}
-		
+		/**
+		 * @deprecated To be removed.
+		 */
 		@Override
 		public PptxSlideHelper getSlideHelper()
 		{
