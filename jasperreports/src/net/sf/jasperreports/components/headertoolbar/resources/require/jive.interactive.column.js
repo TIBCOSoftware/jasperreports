@@ -399,17 +399,16 @@ define(["jquery.ui", "jive"], function($, jive) {
             }
 
             // if the drag is beyond last column, set it at as the new column index
-            if (newColIndex === null && (pageX > colMoveData.right)) {
+            var lastColIndex = parseInt(this.currentColumnsMoveData[ln-1].index);
+            if (newColIndex === null && (pageX > colMoveData.right) || newColIndex > lastColIndex) {
                 jive.ui.marker.jo.css('left', colMoveData.right + 'px').show();
-                newColIndex = ln - 1;
+                newColIndex = lastColIndex;
             }
             this.colToMoveToIndex = newColIndex;
 
             // Try to auto scroll the container when trying to move at edges
+            hoverCol = colMoveData;
             if (pageX > this.prevPageX) {
-                refColIndex = refColIndex !== undefined ? refColIndex : ln - 1;
-                hoverCol = this.currentColumnsMoveData[refColIndex];
-
                 // Is the current column entirely visible?
                 if (this.reportViewport.width() + this.scrollContainer.scrollLeft() - 5 < hoverCol.right) {
                     if (!this.isScrollingRight) {
@@ -427,8 +426,6 @@ define(["jquery.ui", "jive"], function($, jive) {
                     }
                 }
             } else {
-                hoverCol = this.currentColumnsMoveData[refColIndex];
-
                 // Is the current column entirely visible?
                 if (hoverCol.left <= this.scrollContainer.scrollLeft()) {
                     if (!this.isScrollingLeft) {
