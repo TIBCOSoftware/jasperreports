@@ -8,12 +8,7 @@
 <xsl:param name="sf.net"/>
 <xsl:param name="version"/>
 
-<xsl:variable name="api.url">
- <xsl:choose>
-  <xsl:when test="$sf.net = 'true'">api/</xsl:when>
-  <xsl:otherwise>http://jasperreports.sourceforge.net/api/</xsl:otherwise>
- </xsl:choose>
-</xsl:variable>
+<xsl:variable name="api.url">api/</xsl:variable>
 
 <xsl:template match="/">
 <html>

@@ -3778,7 +3778,7 @@ to the table generated for the report. Possible values are:
 <li><code>inherit</code></li>
 </ul>
 Its value is used as default for the 
-<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#getBorderCollapse--">getBorderCollapse()</api> HTML export configuration setting.
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#getBorderCollapseValue--">getBorderCollapseValue()</api> HTML export configuration setting.
     </description>
   </configProperty>
   
