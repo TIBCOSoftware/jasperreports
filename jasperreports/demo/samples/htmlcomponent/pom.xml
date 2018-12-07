@@ -7,7 +7,6 @@
 	<packaging>jar</packaging>
 	<name>JasperReports HTML Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
-	<description>JasperReports Library HTML Component</description>
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License</name>
@@ -15,6 +14,10 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<organization>
+		<name>TIBCO Software Inc.</name>
+		<url>https://www.jaspersoft.com/</url>
+	</organization>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
 		<tag>jr-6-8-0</tag>
@@ -85,18 +88,18 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Built-By>TIBCO Software Inc.</Built-By>
+							<Built-By>${project.organization.name}</Built-By>
 						</manifestEntries>
 						<manifestSections>
 							<manifestSection>
 								<name>net/sf/jasperreports/components/html</name>
 								<manifestEntries>
-									<Specification-Title>JasperReports Library HTML Component</Specification-Title>
+									<Specification-Title>${project.name}</Specification-Title>
 									<Specification-Version>${project.version}</Specification-Version>
-									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
+									<Specification-Vendor>${project.organization.name}</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.components.html</Implementation-Title>
 									<Implementation-Version>${project.version}-${buildNumber}</Implementation-Version>
-									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
+									<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>
 						</manifestSections>

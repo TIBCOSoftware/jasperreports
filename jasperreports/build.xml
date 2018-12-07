@@ -1,8 +1,10 @@
-<project name="JasperReports" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="JasperReports Library" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<description>Helps build the JasperReports distribution files.</description>
 
+	<property name="organization" value="TIBCO Software Inc."/>
 	<property name="version" value="6.8.0-SNAPSHOT"/>
+	<property name="scm-tag" value="jr-6-8-0"/>
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>
@@ -67,10 +69,12 @@
 		</condition>
 		<copy todir="./build/classes">
 			<filterchain>
-				<!-- here it is important that the project.version and buildNumber properties do not 
+				<!-- here it is important that the "from" properties do not 
 				actually exist in this ant build file -->
-				<replacestring from="${project.version}" to="${version}"/>				
-				<replacestring from="${buildNumber}" to="${repository.version}"/>				
+				<replacestring from="${project.organization.name}" to="${organization}"/>
+				<replacestring from="${project.name}" to="${ant.project.name}"/>
+				<replacestring from="${project.version}" to="${version}"/>
+				<replacestring from="${buildNumber}" to="${repository.version}"/>
 			</filterchain>
 			<fileset dir="./src">
 				<include name="**/*.MF"/>
@@ -99,7 +103,7 @@
 		</jar>
 	</target>
 	
-	<target name="alljars" depends="jar, javaflow, fonts" description="Builds all JasperReports JAR files."/>
+	<target name="alljars" depends="jar, javaflow" description="Builds all JasperReports JAR files."/>
 
 	<target name="javaflow" depends="compile" description="Builds the JavaFlow instrumentated JAR file.">
 		<ivy:cachepath pathid="project-lib" log="download-only" conf="javaflow"/> 
@@ -138,28 +142,6 @@
 		</jar>
 	</target>
 
-	<target name="fonts" description="Builds the JAR containing the JasperReports default font extension.">
-		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-fonts-${version}.jar">
-			<manifest>
-				<attribute name="Built-By" value="TIBCO Software Inc."/>
-				<section name="net/sf/jasperreports/fonts/">
-					<attribute name="Specification-Title" value="JasperReports Font Extension"/>
-					<attribute name="Specification-Version" value="${version}"/>
-					<attribute name="Specification-Vendor" value="TIBCO Software Inc."/>
-					<attribute name="Implementation-Title" value="net.sf.jasperreports.fonts"/>
-					<attribute name="Implementation-Version" value="${version}"/> 
-					<attribute name="Implementation-Vendor" value="TIBCO Software Inc."/>
-				</section>
-			</manifest>		
-			<fileset dir="./ext/fonts">
-				<exclude name="**/log4j*.*"/>
-				<exclude name="**/readme.txt"/>
-				<exclude name="**/pom.xml"/>
-			</fileset>
-		</jar>
-	</target>
-	
 	<target name="clean" description="Deletes all build files.">
 		<delete dir="./build"/>
 		<delete dir="./dist"/>
@@ -218,9 +200,6 @@
 			</fileset>
 		</copy>
 	</target>
-
-	<property name="sf.net" value="false"/>
-	<property name="scm-tag" value="jr-6-8-0"/>
 
 	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 

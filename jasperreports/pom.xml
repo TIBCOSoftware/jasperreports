@@ -5,9 +5,8 @@
 	<artifactId>jasperreports</artifactId>
 	<version>6.8.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>JasperReports</name>
+	<name>JasperReports Library</name>
 	<url>http://jasperreports.sourceforge.net</url>
-	<description>JasperReports Library</description>
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License</name>
@@ -15,6 +14,10 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<organization>
+		<name>TIBCO Software Inc.</name>
+		<url>https://www.jaspersoft.com/</url>
+	</organization>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
 		<tag>jr-6-8-0</tag>
