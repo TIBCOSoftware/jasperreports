@@ -1614,11 +1614,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (coords != null && coords.length > 0)
 		{
 			StringBuilder coordsEnum = new StringBuilder(coords.length * 4);
-			coordsEnum.append(toZoom(coords[0]));
+			coordsEnum.append((int)toZoom(coords[0]));
 			for (int i = 1; i < coords.length; i++)
 			{
 				coordsEnum.append(',');
-				coordsEnum.append(toZoom(coords[i]));
+				coordsEnum.append((int)toZoom(coords[i]));
 			}
 			writer.write(" coords=\"" + coordsEnum + "\"");
 		}		
