@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.annotations.ExporterParameter;
 import net.sf.jasperreports.export.annotations.ExporterProperty;
+import net.sf.jasperreports.export.type.HtmlBorderCollapseEnum;
 import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
@@ -267,12 +268,18 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 	
 	
 	/**
+	 * @deprecated Replaced by {@link #getBorderCollapseValue()}.
+	 */
+	public String getBorderCollapse();
+	
+	
+	/**
 	 * Provides the value for the <code>border-collapse</code> CSS property to be applied
 	 * to the table generated for the report.
 	 * @see #PROPERTY_BORDER_COLLAPSE
 	 */
 	@ExporterProperty(PROPERTY_BORDER_COLLAPSE)
-	public String getBorderCollapse();
+	public HtmlBorderCollapseEnum getBorderCollapseValue();
 	
 	
 	/**
