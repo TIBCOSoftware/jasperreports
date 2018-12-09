@@ -30,6 +30,7 @@ package net.sf.jasperreports.export;
 public class SimplePptxReportConfiguration extends SimpleReportExportConfiguration implements PptxReportConfiguration
 {
 	private Boolean isIgnoreHyperlink;
+	private String hideSlideMasterPages;
 
 	
 	/**
@@ -51,5 +52,19 @@ public class SimplePptxReportConfiguration extends SimpleReportExportConfigurati
 	public void setIgnoreHyperlink(Boolean isIgnoreHyperlink)
 	{
 		this.isIgnoreHyperlink = isIgnoreHyperlink;
+	}
+	
+	@Override
+	public String getHideSlideMasterPages()
+	{
+		return hideSlideMasterPages;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setHideSlideMasterPages(String hideSlideMasterPages)
+	{
+		this.hideSlideMasterPages = hideSlideMasterPages;
 	}
 }

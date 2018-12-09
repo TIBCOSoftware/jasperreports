@@ -398,6 +398,20 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_KEYWORDS, keywords);
 		}
+		
+		Integer slideMasterReport = configuration.getSlideMasterReport();
+		if (slideMasterReport == null)
+		{
+			slideMasterReport = 1;
+		}
+		int slideMasterReportIndex = slideMasterReport - 1;
+		
+		Integer slideMasterPage = configuration.getSlideMasterPage();
+		if (slideMasterPage == null)
+		{
+			slideMasterPage = 1;
+		}
+		int slideMasterPageIndex = slideMasterPage - 1;
 
 //		DocxStyleHelper styleHelper = 
 //			new DocxStyleHelper(
@@ -408,10 +422,46 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		styleHelper.export(jasperPrintList);
 //		styleHelper.close();
 		
-		boolean hasSlideMasterElements = false;
-
 		List<ExporterInputItem> items = exporterInput.getItems();
 
+		boolean hasSlideMasterElements = false;
+
+		createSlideMaster();
+
+		if (
+			0 <= slideMasterReportIndex
+			&& slideMasterReportIndex < items.size()
+			)
+		{
+			if (Thread.interrupted())
+			{
+				throw new ExportInterruptedException();
+			}
+
+			ExporterInputItem item = items.get(slideMasterReportIndex);
+			
+			setCurrentExporterInputItem(item);
+			
+			List<JRPrintPage> pages = jasperPrint.getPages();
+			
+			if (pages != null && pages.size() > 0)
+			{
+				PageRange pageRange = getPageRange();
+				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
+				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
+				
+				if (
+					startPageIndex <= slideMasterPageIndex
+					&& slideMasterPageIndex <= endPageIndex
+					)
+				{
+					hasSlideMasterElements = exportPageToSlideMaster(pages.get(slideMasterPageIndex), configuration.isBackgroundAsSlideMaster());
+				}
+			}
+		}
+
+		closeSlideMaster();
+		
 		for (reportIndex = 0; reportIndex < items.size(); reportIndex++)
 		{
 			ExporterInputItem item = items.get(reportIndex);
@@ -424,8 +474,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				PageRange pageRange = getPageRange();
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
-
-				JRPrintPage page = null;
+				
+				net.sf.jasperreports.engine.util.PageRange[] hideSmPageRanges = null;
+				String hideSlideMasterPages = getCurrentItemConfiguration().getHideSlideMasterPages();
+				if (hideSlideMasterPages != null && hideSlideMasterPages.trim().length() > 0)
+				{
+					hideSmPageRanges = net.sf.jasperreports.engine.util.PageRange.parse(hideSlideMasterPages);
+				}
+				
 				for (pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
 					if (Thread.interrupted())
@@ -433,21 +489,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 						throw new ExportInterruptedException();
 					}
 
-					page = pages.get(pageIndex);
+					JRPrintPage page = pages.get(pageIndex);
 
-					if (
-						reportIndex == 0
-						&& pageIndex == startPageIndex
-						)
-					{
-						createSlideMaster();
-						
-						hasSlideMasterElements = exportPageToSlideMaster(page, configuration.isBackgroundAsSlideMaster());
-						
-						closeSlideMaster();
-					}
-
-					createSlide();
+					createSlide(net.sf.jasperreports.engine.util.PageRange.isPageInRanges(pageIndex + 1, hideSmPageRanges));
 					
 					slideIndex++;
 
@@ -570,12 +614,12 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		
 		runHelper = new PptxRunHelper(jasperReportsContext, slideMasterWriter, getExporterKey());
 		
-		slideHelper.exportHeader(true);
+		slideHelper.exportHeader(true, false);
 		slideRelsHelper.exportHeader(true);
 	}
 
 
-	protected void createSlide()
+	protected void createSlide(boolean hideSlideMaster)
 	{
 		presentationHelper.exportSlide(slideIndex + 1);
 		ctHelper.exportSlide(slideIndex + 1);
@@ -595,7 +639,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		
 		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, getExporterKey());
 		
-		slideHelper.exportHeader(false);
+		slideHelper.exportHeader(false, hideSlideMaster);
 		slideRelsHelper.exportHeader(false);
 	}
 

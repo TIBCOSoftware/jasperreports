@@ -4556,6 +4556,35 @@ and then ignored for all pages/slides.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pptx.slide.master.report -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.slide.master.report">
+    <description>
+Property that specifies from which report is the page providing slide master content coming from, in a multi-report batch export. The default is 1, meaning the first report.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.slide.master.page -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.slide.master.page">
+    <description>
+Property that specifies the page number from which the slide master content is coming from. The default is 1, meaning the first page.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.hide.slide.master.pages -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.hide.slide.master.pages">
+    <description>
+Property specifying the pages and/or page ranges for which the contents of the slide master should be hidden on.
+The value of the property should be a comma separated list of page numbers or page ranges. Page ranges are made of page numbers separated by a hyphen-minus character. 
+For example: 1, 3-5, 7 
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pptx.field.type -->
   
   <configProperty name="net.sf.jasperreports.export.pptx.field.type">

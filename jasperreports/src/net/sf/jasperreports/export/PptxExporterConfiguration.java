@@ -91,6 +91,40 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_METADATA_APPLICATION = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "metadata.application";
 
 	/**
+	 * Property that provides a default value for the {@link #getSlideMasterReport()} export configuration setting.
+	 * <p>
+	 * Default value is <code>1</code>.
+	 * 
+	 * @see JRPropertiesUtil
+	 * @since 6.8.0
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "1",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0,
+			valueType = Integer.class
+			)
+	public static final String PROPERTY_SLIDE_MASTER_REPORT = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "slide.master.report";
+
+	/**
+	 * Property that provides a default value for the {@link #getSlideMasterPage()} export configuration setting.
+	 * <p>
+	 * Default value is <code>1</code>.
+	 * 
+	 * @see JRPropertiesUtil
+	 * @since 6.8.0
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "1",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0,
+			valueType = Integer.class
+			)
+	public static final String PROPERTY_SLIDE_MASTER_PAGE = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "slide.master.page";
+
+	/**
 	 * Property that provides a default value for the {@link #isBackgroundAsSlideMaster()} export configuration flag.
 	 * <p>
 	 * Default value is <code>false</code>.
@@ -148,4 +182,26 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 		booleanDefault=false
 		)
 	public Boolean isBackgroundAsSlideMaster();
+
+	/**
+	 * Specifies the report (export input item) from which the content of the slide master should be extracted. The default value is 1 (first report).
+	 * 
+	 * @see #PROPERTY_SLIDE_MASTER_REPORT
+	 */
+	@ExporterProperty(
+		value=PROPERTY_SLIDE_MASTER_REPORT, 
+		intDefault=1
+		)
+	public Integer getSlideMasterReport();
+
+	/**
+	 * Specifies the page from which the content of the slide master should be extracted. The default value is 1 (first page).
+	 * 
+	 * @see #PROPERTY_SLIDE_MASTER_PAGE
+	 */
+	@ExporterProperty(
+		value=PROPERTY_SLIDE_MASTER_PAGE, 
+		intDefault=1
+		)
+	public Integer getSlideMasterPage();
 }

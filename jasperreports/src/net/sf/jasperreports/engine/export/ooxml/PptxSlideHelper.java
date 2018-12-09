@@ -54,10 +54,10 @@ public class PptxSlideHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader(boolean isSlideMaster)
+	public void exportHeader(boolean isSlideMaster, boolean hideSlideMaster)
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
-		write("<p:sld" + (isSlideMaster ? "Master" : "") + "\n");
+		write("<p:sld" + (isSlideMaster ? "Master" : "") + (hideSlideMaster ? " showMasterSp=\"0\"" : "") + "\n");
 		write("xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"\n"); 
 		write("xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n"); 
 		write("xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\">\n");

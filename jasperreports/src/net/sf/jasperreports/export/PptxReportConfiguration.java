@@ -53,6 +53,18 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_IGNORE_HYPERLINK = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + JRPrintHyperlink.PROPERTY_IGNORE_HYPERLINK_SUFFIX;
 	
 	/**
+	 * This property provides a default value for the {@link #getHideSlideMasterPages()} export configuration setting.
+	 * </p>
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0
+			)
+	public static final String PROPERTY_HIDE_SLIDE_MASTER_PAGES = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "hide.slide.master.pages";
+
+	/**
 	 * @see #PROPERTY_IGNORE_HYPERLINK
 	 */
 	@ExporterProperty(
@@ -60,4 +72,15 @@ public interface PptxReportConfiguration extends ReportExportConfiguration
 		booleanDefault=false
 		)
 	public Boolean isIgnoreHyperlink();
+	
+	/**
+	 * This properties specifies the report pages on which the background contents coming from the slide master should be hidden.
+	 * 
+	 * The value of the property should be a comma separated list of page numbers or page ranges. Page ranges are made of page numbers separated by a hyphen-minus character.
+	 * For example: 1, 3-5, 7
+	 * 
+	 * @see #PROPERTY_HIDE_SLIDE_MASTER_PAGES
+	 */
+	@ExporterProperty(PROPERTY_HIDE_SLIDE_MASTER_PAGES)
+	public String getHideSlideMasterPages();
 }
