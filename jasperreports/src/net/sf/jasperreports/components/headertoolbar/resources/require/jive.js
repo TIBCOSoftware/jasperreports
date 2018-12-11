@@ -749,7 +749,7 @@ define(function(require) {
                     var label = e.label || '',
                         colspan = e.colspan ? 'colspan="'+e.colspan+'"' : '',
                         rowspan = e.rowspan ? 'rowspan="'+e.rowspan+'"' : '',
-                        elemCount = form.find('*[id^=' + e.id + ']').size(),
+                        elemCount = form.find("*[id^='" + e.id + "']").length,
                         elemUid = e.id + (elemCount > 0 ? '_' + $.now() : ''),
                         tdClass = e.tdClass ? ' ' + e.tdClass : '',
                         textAlign = e.align ? 'text-align: ' + e.align + ';' : '',
@@ -832,7 +832,7 @@ define(function(require) {
                         label.length>0 && tb.push('<div class="' + wrapClass + '">'+label+':</div>');
                         tb.push('<div class="' + wrapClass + '"><div class="buttonbar">');
                         $.each(e.items,function(i,v){
-                            var vidCount = form.find('*[bname^=' + v.id + ']').size(),
+                            var vidCount = form.find("*[bname^='" + v.id + "']").length,
                                 vid = v.id + (vidCount > 0 ? '_' + $.now() : '');
                             tb.push('<div class="jive_inputbutton ' + (v.btnClass ? ' ' + v.btnClass : '') + (v.drop ? ' drop' : '') +'" bname="'+vid+'" value="'+v.value+'" type="'+v.type+'">');
                             if (v.type === 'color' || v.type === 'backcolor') {
