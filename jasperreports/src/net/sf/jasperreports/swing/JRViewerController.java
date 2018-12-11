@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,8 +41,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 import net.sf.jasperreports.renderers.RenderersCache;
 
@@ -58,7 +56,10 @@ public class JRViewerController
 	protected static final int TYPE_OBJECT = 3;
 	
 	private JasperReportsContext jasperReportsContext;
-	private LocalJasperReportsContext localJasperReportsContext;
+	/**
+	 * @deprecated To be removed.
+	 */
+	private net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext;
 	private ResourceBundle resourceBundle;
 	private Locale locale;
 	private final List<JRViewerListener> listeners = new ArrayList<JRViewerListener>();
@@ -158,11 +159,12 @@ public class JRViewerController
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
 
-		SimpleFileResolver fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
+		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver = 
+			new net.sf.jasperreports.engine.util.SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
 		fileResolver.setResolveAbsolutePath(true);
 		if (localJasperReportsContext == null)
 		{
-			localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+			localJasperReportsContext = new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
 			jasperReportsContext = localJasperReportsContext;
 		}
 		localJasperReportsContext.setFileResolver(fileResolver);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,40 +23,35 @@
  */
 package net.sf.jasperreports.search;
 
-import java.io.Reader;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
-import org.apache.lucene.util.Version;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
 public class LuceneSimpleAnalyzer extends Analyzer {
 
-	private Version matchVersion;
 	private boolean isCaseSensitive;
 	private boolean removeAccents;
 
-	public LuceneSimpleAnalyzer(Version matchVersion, boolean isCaseSensitive, boolean removeAccents) {
-		this.matchVersion = matchVersion;
+	public LuceneSimpleAnalyzer(boolean isCaseSensitive, boolean removeAccents) {
 		this.isCaseSensitive = isCaseSensitive;
 //		this.removeAccents = removeAccents;
 		this.removeAccents = true;
 	}
 
 	@Override
-	protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
-		Tokenizer source = new WhitespaceTokenizer(matchVersion, reader);
+	protected TokenStreamComponents createComponents(String fieldName) {
+		Tokenizer source = new WhitespaceTokenizer();
 		TokenStream result = source;
 
 		if (!isCaseSensitive) {
 			// lowercase tokens
-			result = new LowerCaseFilter(matchVersion, source);
+			result = new LowerCaseFilter(source);
 		}
 
 		if (removeAccents) {
@@ -65,7 +60,7 @@ public class LuceneSimpleAnalyzer extends Analyzer {
 		}
 
 		// exclude words with length < 3
-//		result = new LengthFilter(matchVersion, result, 3, Integer.MAX_VALUE);
+//		result = new LengthFilter(result, 3, Integer.MAX_VALUE);
 
 
 		return new TokenStreamComponents(source, result);

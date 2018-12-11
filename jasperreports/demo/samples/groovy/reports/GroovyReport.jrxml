@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GroovyReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="4b20bc0d-8ac4-4148-9fbd-7de745028f99">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GroovyReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" whenNoDataType="AllSectionsNoDetail" uuid="4b20bc0d-8ac4-4148-9fbd-7de745028f99">
 	<parameter name="A" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[3d]]></defaultValueExpression>
 	</parameter>
@@ -23,8 +23,8 @@
 				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["This sample uses Groovy Version 1.0 beta 10\n" + "http://groovy.codehaus.org/"]]></textFieldExpression>
-				<hyperlinkReferenceExpression><![CDATA["http://groovy.codehaus.org/"]]></hyperlinkReferenceExpression>
+				<textFieldExpression><![CDATA["This sample uses Apache Groovy\n" + "http://groovy-lang.org/"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://groovy-lang.org/"]]></hyperlinkReferenceExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="150" width="200" height="35" uuid="41c1ebe8-7ec9-4254-89b6-474f9fa0d9b0"/>

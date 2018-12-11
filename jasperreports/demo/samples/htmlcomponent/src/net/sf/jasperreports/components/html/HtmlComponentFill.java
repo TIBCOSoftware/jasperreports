@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -78,6 +78,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 		return htmlComponent.getEvaluationTime() == EvaluationTimeEnum.NOW;
 	}
 	
+	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
 		if (isEvaluateNow())
@@ -93,12 +94,14 @@ public class HtmlComponentFill extends BaseFillComponent {
 	}
 	
 	
+	@Override
 	public JRPrintElement fill()
 	{
 		printElement.setY(fillContext.getElementPrintY());
 		return printElement;
 	}
 
+	@Override
 	public FillPrepareResult prepare(int availableHeight)
 	{
 		FillPrepareResult result = null;
@@ -187,6 +190,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void evaluateDelayedElement(JRPrintElement element, byte evaluation) throws JRException
 	{
 		evaluateHtmlComponent(evaluation);

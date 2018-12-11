@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -71,6 +71,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	private Object value;
+	
+	private TimeZone ownTimeZone;
 
 	/**
 	 *
@@ -521,9 +523,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		) throws JRException
 	{
 		evaluateProperties(evaluation);
-		evaluateStyle(evaluation);
 		
 		value = evaluateExpression(getExpression(), evaluation);
+		determineOwnTimeZone();
+		
+		evaluateStyle(evaluation);
 		
 		String strValue = null;
 
@@ -542,7 +546,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
-			TimeZone ownTimeZone = determineOwnTimeZone();
 			Format format = getFormat(value, ownTimeZone);
 
 			evaluateTextFormat(format, value, ownTimeZone);
@@ -564,15 +567,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			}
 		}
 
-		String oldRawText = getRawText();
+		String crtRawText = getRawText();
 		String newRawText = processMarkupText(String.valueOf(strValue));
 
 		setRawText(newRawText);
 		resetTextChunk();
 
 		setValueRepeating(
-				(oldRawText == null && newRawText == null) ||
-				(oldRawText != null && oldRawText.equals(newRawText))
+			(crtRawText == null && newRawText == null) ||
+			(crtRawText != null && crtRawText.equals(newRawText))
 			);
 
 		anchorName = (String) evaluateExpression(getAnchorNameExpression(), evaluation);
@@ -584,10 +587,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(this, expressionEvaluator, evaluation);
 	}
 
-
-	protected TimeZone determineOwnTimeZone()
+	@Override
+	protected TimeZone getTimeZone()
 	{
-		TimeZone ownTimeZone = null;
+		return ownTimeZone == null ? super.getTimeZone() : ownTimeZone;
+	}
+
+	protected void determineOwnTimeZone()
+	{
+		ownTimeZone = null;
 		if (value instanceof java.util.Date)
 		{
 			// read the element's format timezone property
@@ -618,7 +626,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				ownTimeZone = getPatternTimeZone(PROPERTY_FORMAT_TIMEZONE);
 			}
 		}
-		return ownTimeZone;
 	}
 
 
@@ -673,7 +680,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				}
 
 				if (
-					getTextEnd() >= getText().length()
+					getTextEnd() >= getTextString().length()
 					|| !isStretchWithOverflow()
 					|| !getRotationValue().equals(RotationEnum.NONE)
 					)
@@ -745,7 +752,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 					// the available vertical space is sufficient
 
 					if (
-						getTextEnd() < getText().length() 
+						getTextEnd() < getTextString().length() 
 						|| getTextEnd() == 0
 						)
 					{
@@ -761,7 +768,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 							// display all its content
 
 							chopTextElement(availableHeight - getRelativeY() - getHeight());
-							if (getTextEnd() < getText().length())// - 1)
+							if (getTextEnd() < getTextString().length())// - 1)
 							{
 								// even after the current chop operation there is some text left
 								// that will overflow on the next page
@@ -803,7 +810,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			if (
 				isToPrint &&
 				isRemoveLineWhenBlank() &&	//FIXME if the line won't be removed due to other elements 
-				getText().substring(		// present on that line, the background does not appear
+				getTextString().substring(		// present on that line, the background does not appear
 					getTextStart(),
 					getTextEnd()
 					).trim().length() == 0

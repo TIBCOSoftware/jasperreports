@@ -2,7 +2,7 @@
 
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -825,45 +825,12 @@ tryAgain:
 		int _saveIndex;
 		
 		match('\\');
-		{
-		switch ( LA(1)) {
-		case 'n':
-		{
-			match('n');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\n");
-			}
-			break;
-		}
-		case 'r':
-		{
-			match('r');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\r");
-			}
-			break;
-		}
-		case 't':
-		{
-			match('t');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\t");
-			}
-			break;
-		}
-		case '"':
-		{
-			match('"');
-			if ( inputState.guessing==0 ) {
-				text.setLength(_begin); text.append("\"");
-			}
-			break;
-		}
-		default:
-		{
-			throw new NoViableAltForCharException((char)LA(1), getFilename(), getLine(), getColumn());
-		}
-		}
+		matchNot(EOF_CHAR);
+		if ( inputState.guessing==0 ) {
+			
+			String ruleText = new String(text.getBuffer(),_begin,text.length()-_begin);
+			text.setLength(_begin); text.append(ruleText);
+			
 		}
 		if ( _createToken && _token==null && _ttype!=Token.SKIP ) {
 			_token = makeToken(_ttype);

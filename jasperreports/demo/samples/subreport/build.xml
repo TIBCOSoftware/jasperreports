@@ -33,7 +33,7 @@
 			<arg value="fill"/>
 			<classpath>
 				<pathelement location="build/classes"/>
-				<pathelement location="../../fonts"/>
+				<pathelement location="../../../ext/fonts"/>
 				<path refid="project-lib"/>
 				<fileset dir="../../../dist">
 					<include name="**/jasperreports-javaflow-*.jar"/>

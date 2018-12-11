@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -75,8 +74,8 @@ public class JRFillContext
 	
 	private Map<Object,Renderable> loadedImageRenderers;
 	private RenderersCache renderersCache;
-	private Map<Object,JasperReport> loadedSubreports;
-	private Map<Object,JRTemplate> loadedTemplates;
+	private Map<Object,JasperReportSource> loadedSubreports;
+	private Map<Object,ReportTemplateSource> loadedTemplates;
 	private DeduplicableRegistry deduplicableRegistry;
 	private boolean usingVirtualizer;
 	private JRPrintPage printPage;
@@ -108,6 +107,11 @@ public class JRFillContext
 	 */
 	private final boolean legacyElementStretchEnabled;
 
+	/**
+	 * @deprecated To be removed.
+	 */
+	private final boolean legacyBandEvaluationEnabled;
+
 	
 	/**
 	 * Constructs a fill context.
@@ -120,8 +124,8 @@ public class JRFillContext
 		
 		loadedImageRenderers = new HashMap<Object,Renderable>();
 		renderersCache = new RenderersCache(jasperReportsContext);
-		loadedSubreports = new HashMap<Object,JasperReport>();
-		loadedTemplates = new HashMap<Object,JRTemplate>();
+		loadedSubreports = new HashMap<>();
+		loadedTemplates = new HashMap<>();
 		deduplicableRegistry = new DeduplicableRegistry();
 		
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
@@ -129,6 +133,11 @@ public class JRFillContext
 		legacyElementStretchEnabled = 
 			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
 				StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED
+				);
+		
+		legacyBandEvaluationEnabled = 
+			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
+				JRCalculator.PROPERTY_LEGACY_BAND_EVALUATION_ENABLED
 				);
 	}
 
@@ -203,7 +212,7 @@ public class JRFillContext
 	 * @param source the source of the subreport
 	 * @return whether the subreport has been cached
 	 * @see #getLoadedSubreport(Object)
-	 * @see #registerLoadedSubreport(Object, JasperReport)
+	 * @see #registerLoadedSubreport(Object, JasperReportSource)
 	 */
 	public boolean hasLoadedSubreport(Object source)
 	{
@@ -216,9 +225,9 @@ public class JRFillContext
 	 * 
 	 * @param source the source of the subreport
 	 * @return the cached subreport
-	 * @see #registerLoadedSubreport(Object, JasperReport)
+	 * @see #registerLoadedSubreport(Object, JasperReportSource)
 	 */
-	public JasperReport getLoadedSubreport(Object source)
+	public JasperReportSource getLoadedSubreport(Object source)
 	{
 		return loadedSubreports.get(source); 
 	}
@@ -233,7 +242,7 @@ public class JRFillContext
 	 * @param subreport the loaded subreport
 	 * @see #getLoadedSubreport(Object)
 	 */
-	public void registerLoadedSubreport(Object source, JasperReport subreport)
+	public void registerLoadedSubreport(Object source, JasperReportSource subreport)
 	{
 		loadedSubreports.put(source, subreport);
 	}
@@ -311,6 +320,15 @@ public class JRFillContext
 	public boolean isLegacyElementStretchEnabled()
 	{
 		return legacyElementStretchEnabled;
+	}
+	
+	
+	/**
+	 * @deprecated To be removed.
+	 */
+	public boolean isLegacyBandEvaluationEnabled()
+	{
+		return legacyBandEvaluationEnabled;
 	}
 	
 	
@@ -425,7 +443,7 @@ public class JRFillContext
 	 * @param source the source of the template
 	 * @return whether the template has been cached
 	 * @see #getLoadedTemplate(Object)
-	 * @see #registerLoadedTemplate(Object, JRTemplate)
+	 * @see #registerLoadedTemplate(Object, ReportTemplateSource)
 	 */
 	public boolean hasLoadedTemplate(Object source)
 	{
@@ -436,11 +454,11 @@ public class JRFillContext
 	/**
 	 * Gets a cached template.
 	 * 
-	 * @param source the source of the templage
-	 * @return the cached templage
-	 * @see #registerLoadedTemplate(Object, JRTemplate)
+	 * @param source the source of the template
+	 * @return the cached template
+	 * @see #registerLoadedTemplate(Object, ReportTemplateSource)
 	 */
-	public JRTemplate getLoadedTemplate(Object source)
+	public ReportTemplateSource getLoadedTemplate(Object source)
 	{
 		return loadedTemplates.get(source); 
 	}
@@ -452,12 +470,12 @@ public class JRFillContext
 	 * The template is cached for further use.
 	 * 
 	 * @param source the source that was used to load the template
-	 * @param template the loaded templage
+	 * @param templateSource the loaded template
 	 * @see #getLoadedTemplate(Object)
 	 */
-	public void registerLoadedTemplate(Object source, JRTemplate template)
+	public void registerLoadedTemplate(Object source, ReportTemplateSource templateSource)
 	{
-		loadedTemplates.put(source, template);
+		loadedTemplates.put(source, templateSource);
 	}
 	
 	/**

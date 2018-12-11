@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,13 +24,19 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class BaseColumnData {
+public class BaseColumnData implements Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private String tableUuid;
 	

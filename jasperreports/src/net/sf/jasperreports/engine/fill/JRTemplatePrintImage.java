@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -88,29 +88,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		
 	}
 	
-	/**
-	 * Creates a print image element.
-	 * 
-	 * @param image the template image that the element will use
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintImage(JRTemplateImage, int)}
-	 */
-	public JRTemplatePrintImage(JRTemplateImage image)
-	{
-		super(image);
-	}
-
-	/**
-	 * Creates a print image element.
-	 * 
-	 * @param image the template image that the element will use
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRTemplatePrintImage(JRTemplateImage, PrintElementOriginator)}
-	 */
-	public JRTemplatePrintImage(JRTemplateImage image, int sourceElementId)
-	{
-		super(image, sourceElementId);
-	}
-
 	/**
 	 * Creates a print image element.
 	 * 

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,21 +24,18 @@
 
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
-
-import net.sf.jasperreports.engine.JRDefaultScriptlet;
-import net.sf.jasperreports.engine.JRScriptletException;
 
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
-import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler;
-import org.knowm.xchart.style.Styler.LegendPosition;
 import org.knowm.xchart.style.XYStyler;
+
+import net.sf.jasperreports.engine.JRDefaultScriptlet;
+import net.sf.jasperreports.engine.JRScriptletException;
+
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
@@ -46,9 +43,7 @@ public class XChartScriptlet extends JRDefaultScriptlet
 {
 
 
-	/**
-	 *
-	 */
+	@Override
 	public void afterReportInit() throws JRScriptletException 
 	{
 		try 

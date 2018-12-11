@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,11 +30,21 @@ import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.fill.JRFiller;
+import net.sf.jasperreports.engine.fill.JasperReportSource;
+import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
+import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
+import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 
 /**
@@ -67,6 +77,37 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
  */
 public final class JasperFillManager
 {
+	
+	private static final Log log = LogFactory.getLog(JasperFillManager.class);
+	
+	/**
+	 * Property that determines whether resource paths in subreports, style templates and data adapters 
+	 * should be interpreted as relative to the master report location.
+	 * <br/>
+	 * Starting with version 6.6.0, relative paths in subreports, style templates and data adapters are
+	 * resolved as relative to the resource that contains them.
+	 * Prior to version 6.6.0, relative paths in subreports, style templates and data adapters were 
+	 * resolved as relative to the master report resource.
+	 * This property can be set to <code>true</code> to restore the pre 6.6.0 functionality.
+	 * <br/>
+	 * The default value of the property is <code>false</code>.
+	 * <br/>
+	 * 
+	 * @deprecated The property should only be set when upgrading from a version older than 6.6.0 with a repository
+	 * that relied on the fact that paths were relative to the master report.
+	 * The property might be removed at some point in the future.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_REPOSITORY,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_6_0,
+			valueType = Boolean.class
+			)
+	@Deprecated
+	public static final String PROPERTY_LEGACY_RELATIVE_PATH_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX
+			+ "legacy.relative.path.enabled";
+	
 	private final JasperReportsContext jasperReportsContext;
 
 
@@ -104,7 +145,7 @@ public final class JasperFillManager
 	 * having the same name as the report design as declared in the source file, 
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 */
@@ -121,9 +162,9 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile, jasperReport), 
+				params, connection);
 		
 		JRSaver.saveObject(jasperPrint, destFileName);
 		
@@ -138,7 +179,7 @@ public final class JasperFillManager
 	 * having the same name as the report design as declared in the source file, 
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
 	 */
@@ -154,9 +195,9 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile, jasperReport), 
+				params);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 
@@ -168,7 +209,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the file received as the first parameter
 	 * and places the result in the file specified by the second parameter.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName   file name to place the generated report into
 	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
@@ -182,11 +223,9 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile), 
+				params, connection);
 		
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
@@ -196,7 +235,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the file received as the first parameter
 	 * and places the result in the file specified by the second parameter.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName   file name to place the generated report into
 	 * @param params     report parameters map
 	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
@@ -209,11 +248,9 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile), 
+				params);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
@@ -266,7 +303,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the specified file and returns
 	 * the generated report object.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 * @return generated report object
@@ -279,11 +316,9 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		return JRFiller.fill(lcJrCtx, jasperReport, params, connection);
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile), 
+				params, connection);
 	}
 
 	
@@ -291,7 +326,28 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the specified file and returns
 	 * the generated report object.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param reportLocation the repository location of the compiled report
+	 * @param params     report parameters map
+	 * @param connection     JDBC connection object to use for executing the report internal SQL query
+	 * @return generated report object
+	 */
+	public JasperPrint fillFromRepo(
+		String reportLocation, 
+		Map<String,Object> params,
+		Connection connection
+		) throws JRException
+	{
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(reportLocation), 
+				params, connection);
+	}
+
+	
+	/**
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @return generated report object
 	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
@@ -303,11 +359,29 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-		
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile), 
+				params);
+	}
 
-		return JRFiller.fill(lcJrCtx, jasperReport, params);
+	
+	/**
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
+	 * @param reportLocation the repository location of the compiled report
+	 * @param params     report parameters map
+	 * @return generated report object
+	 * @see JRFiller#fill(JasperReportsContext, JasperReport, Map)
+	 */
+	public JasperPrint fillFromRepo(
+		String reportLocation, 
+		Map<String,Object> params
+		) throws JRException
+	{
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(reportLocation), 
+				params);
 	}
 
 	
@@ -482,7 +556,7 @@ public final class JasperFillManager
 	 * having the same name as the report design as declared in the source file, 
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param dataSource     data source object
 	 */
@@ -499,9 +573,9 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile, jasperReport), 
+				params, dataSource);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 		
@@ -513,7 +587,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the file received as the first parameter
 	 * and places the result in the file specified by the second parameter.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param destFileName   file name to place the generated report into
 	 * @param params     report parameters map
 	 * @param dataSource     data source object
@@ -527,11 +601,9 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
-
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		JasperPrint jasperPrint = JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+		JasperPrint jasperPrint = JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile), 
+				params, dataSource);
 
 		JRSaver.saveObject(jasperPrint, destFileName);
 	}
@@ -563,7 +635,7 @@ public final class JasperFillManager
 	 * Fills the compiled report design loaded from the specified file and returns
 	 * the generated report object.
 	 * 
-	 * @param sourceFileName source file containing the compile report design
+	 * @param sourceFileName source file containing the compiled report design
 	 * @param params     report parameters map
 	 * @param dataSource     data source object
 	 * @return generated report object
@@ -576,11 +648,30 @@ public final class JasperFillManager
 	{
 		File sourceFile = new File(sourceFileName);
 
-		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(sourceFile), 
+				params, dataSource);
+	}
 
-		JasperReportsContext lcJrCtx = getLocalJasperReportsContext(sourceFile);
-
-		return JRFiller.fill(lcJrCtx, jasperReport, params, dataSource);
+	
+	/**
+	 * Fills the compiled report design loaded from the specified file and returns
+	 * the generated report object.
+	 * 
+	 * @param reportLocation the repository location of the compiled report
+	 * @param params     report parameters map
+	 * @param dataSource     data source object
+	 * @return generated report object
+	 */
+	public JasperPrint fillFromRepo(
+		String reportLocation, 
+		Map<String,Object> params,
+		JRDataSource dataSource
+		) throws JRException
+	{
+		return JRFiller.fill(jasperReportsContext, 
+				getReportSource(reportLocation), 
+				params, dataSource);
 	}
 
 	
@@ -985,18 +1076,78 @@ public final class JasperFillManager
 
 
 	/**
-	 * 
+	 * @deprecated replaced by {@link JasperReportSource}
 	 */
+	@Deprecated
 	protected JasperReportsContext getLocalJasperReportsContext(File file)
 	{
-		SimpleFileResolver fileResolver =
-			new SimpleFileResolver(
+		net.sf.jasperreports.engine.util.SimpleFileResolver fileResolver =
+			new net.sf.jasperreports.engine.util.SimpleFileResolver(
 				Arrays.asList(new File[]{file.getParentFile(), new File(".")})
 				);
 		fileResolver.setResolveAbsolutePath(true);
 		
-		LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+		net.sf.jasperreports.engine.util.LocalJasperReportsContext localJasperReportsContext = 
+			new net.sf.jasperreports.engine.util.LocalJasperReportsContext(jasperReportsContext);
 		localJasperReportsContext.setFileResolver(fileResolver);
 		return localJasperReportsContext;
+	}
+	
+	protected static JasperReportSource getReportSource(JasperReportsContext jasperReportsContext, 
+			File reportFile) throws JRException
+	{
+		JasperFillManager manager = getInstance(jasperReportsContext);
+		return manager.getReportSource(reportFile);
+	}
+	
+	protected JasperReportSource getReportSource(File reportFile) throws JRException
+	{
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportFile);
+		return getReportSource(reportFile, jasperReport);
+	}
+
+	protected JasperReportSource getReportSource(File reportFile, JasperReport jasperReport)
+	{
+		//attempting resolve absolute paths as relative, that's what SimpleFileResolver(".") did
+		RepositoryResourceContext fallbackContext = SimpleRepositoryResourceContext.of(".");
+		SimpleRepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(
+				reportFile.getParent(), fallbackContext);
+		
+		boolean legacyRelativePath = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperReport, 
+				PROPERTY_LEGACY_RELATIVE_PATH_ENABLED, false);
+		if (legacyRelativePath)
+		{
+			//attempt to resolve paths as relative to the master report for backward compatibility
+			reportContext.setSelfAsDerivedFallback(true);
+		}
+		
+		return SimpleJasperReportSource.from(jasperReport, reportFile.getPath(), reportContext);
+	}
+	
+	protected JasperReportSource getReportSource(String location) throws JRException
+	{
+		RepositoryUtil repository = RepositoryUtil.getInstance(jasperReportsContext);
+		ResourceInfo resourceInfo = repository.getResourceInfo(location);
+		JasperReportSource source;
+		if (resourceInfo == null)
+		{
+			JasperReport report = repository.getReport(null, location);
+			source = SimpleJasperReportSource.from(report, location, null);
+		}
+		else
+		{
+			String reportLocation = resourceInfo.getRepositoryResourceLocation();
+			String contextLocation = resourceInfo.getRepositoryContextLocation();
+			if (log.isDebugEnabled())
+			{
+				log.debug("report location " + location + " resolved to " + reportLocation
+						+ ", context " + contextLocation);
+			}
+			
+			JasperReport report = repository.getReport(null, reportLocation);
+			source = SimpleJasperReportSource.from(report, reportLocation, 
+					SimpleRepositoryResourceContext.of(contextLocation));
+		}
+		return source;
 	}
 }

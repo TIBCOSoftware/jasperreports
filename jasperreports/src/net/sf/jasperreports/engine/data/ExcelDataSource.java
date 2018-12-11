@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,6 +32,8 @@ import java.io.InputStream;
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -118,9 +120,13 @@ public class ExcelDataSource extends AbstractPoiXlsDataSource
 	 */
 	public ExcelDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
 	{
-		this(jasperReportsContext, location, ExcelFormatEnum.AUTODETECT);
+		this(SimpleRepositoryContext.of(jasperReportsContext), location);
 	}
 	
+	public ExcelDataSource(RepositoryContext repositoryContext, String location) throws JRException, IOException
+	{
+		this(repositoryContext, location, ExcelFormatEnum.AUTODETECT);
+	}	
 	
 	/**
 	 * Creates a datasource instance that reads XLSX or XLS data from a given location.
@@ -131,7 +137,12 @@ public class ExcelDataSource extends AbstractPoiXlsDataSource
 	 */
 	public ExcelDataSource(JasperReportsContext jasperReportsContext, String location, ExcelFormatEnum format) throws JRException, IOException
 	{
-		super(jasperReportsContext, location);
+		this(SimpleRepositoryContext.of(jasperReportsContext), location, format);
+	}
+
+	public ExcelDataSource(RepositoryContext context, String location, ExcelFormatEnum format) throws JRException, IOException
+	{
+		super(context, location);
 		
 		this.format = format;
 	}

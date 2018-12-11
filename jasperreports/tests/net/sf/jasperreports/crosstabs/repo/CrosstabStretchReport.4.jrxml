@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.qualifier using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CrosstabStretchReport.4" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key" uuid="885d79b2-35fe-4141-b51c-e2445e098e6d">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.20.xml"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<summary>
+		<band height="60" splitType="Stretch">
+			<crosstab columnBreakOffset="40" ignoreWidth="false">
+				<reportElement mode="Opaque" x="0" y="0" width="550" height="45" backcolor="#C0C0C0" uuid="261e4a5e-10ff-4206-be94-2147125a3514"/>
+				<rowGroup name="RowGroupA" width="50">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA["A"]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#FFFF00" mode="Opaque">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<box padding="0"/>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="0" width="45" height="45" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="9a7e8651-3afe-4dec-8c3b-998247423da8"/>
+								<textFieldExpression><![CDATA["A"]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="45" width="45" height="45" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="d3eea91c-544a-46d4-8aea-77edb3cfae82">
+									<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+								</reportElement>
+								<textFieldExpression><![CDATA["A"]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="90" width="45" height="45" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="273143a7-e4b8-4dcb-8883-ad679eff204e"/>
+								<textFieldExpression><![CDATA["A"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="RowGroupB" width="50" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[(int)(($V{REPORT_COUNT} - 1) / 2)]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#FFC800" mode="Opaque">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<box padding="0"/>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="0" width="45" height="30" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="9a7e8651-3afe-4dec-8c3b-998247423da8"/>
+								<textFieldExpression><![CDATA["B"]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="30" width="45" height="30" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="77381ff1-8bde-457e-916a-ee0cdb5478c7">
+									<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+								</reportElement>
+								<textFieldExpression><![CDATA["B"]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="60" width="45" height="30" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="943357ae-bc41-4d88-9f6d-9eaf858867af"/>
+								<textFieldExpression><![CDATA["B"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#F78B0F" mode="Opaque">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="0" width="95" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="6ecf5467-c819-4ad1-b795-8cc5af03e3e0"/>
+								<textFieldExpression><![CDATA["TB:" + $V{MyMeasure}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="15" width="95" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="77ed738d-92e2-4f9c-8f4d-21f5405569de">
+									<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+								</reportElement>
+								<textFieldExpression><![CDATA["TB:" + $V{MyMeasure}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="30" width="95" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="db0f9cd9-cd65-4cc4-96d5-261118d4c74a"/>
+								<textFieldExpression><![CDATA["TB:" + $V{MyMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="RowGroupC" width="50" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[(int)($V{REPORT_COUNT})]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#EB7FE9" mode="Opaque">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<box padding="0"/>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="0" width="45" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="9a7e8651-3afe-4dec-8c3b-998247423da8"/>
+								<textFieldExpression><![CDATA["C"]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="15" width="45" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="750dc9dc-23dd-4fb7-9978-1f4fdc07ecc3">
+									<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+								</reportElement>
+								<textFieldExpression><![CDATA["C"]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="30" width="45" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="4bbcf423-ac56-44eb-ad0e-5b52816dd818"/>
+								<textFieldExpression><![CDATA["C"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#AE6BB0" mode="Opaque">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="0" width="45" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="69913f85-a9c2-42c8-bafa-76f4feb49416"/>
+								<textFieldExpression><![CDATA["TC:" + $V{MyMeasure}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="15" width="45" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="6b0ebd2a-f0da-48f4-9e17-b5ad60e8b4a4">
+									<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+								</reportElement>
+								<textFieldExpression><![CDATA["TC:" + $V{MyMeasure}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="false">
+								<reportElement mode="Opaque" x="5" y="30" width="45" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="547101ba-a47f-4cb3-afd0-a1d6d97cc063"/>
+								<textFieldExpression><![CDATA["TC:" + $V{MyMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="ColGroupX" height="0">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA["X"]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents/>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="MyMeasure" class="java.lang.Integer" calculation="Sum">
+					<measureExpression><![CDATA[1]]></measureExpression>
+				</measure>
+				<crosstabCell width="100" height="45">
+					<cellContents backcolor="#00FFFF" mode="Opaque">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+						<textField isBlankWhenNull="false">
+							<reportElement mode="Opaque" x="5" y="0" width="95" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="fb40edae-a98d-4277-a7be-f1ac2c5f2c6e"/>
+							<textFieldExpression><![CDATA[$V{MyMeasure}]]></textFieldExpression>
+						</textField>
+						<textField isBlankWhenNull="false">
+							<reportElement mode="Opaque" x="5" y="15" width="95" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="adcc8908-9438-4b6f-9e9f-b9ab02553990">
+								<printWhenExpression><![CDATA[Boolean.FALSE]]></printWhenExpression>
+							</reportElement>
+							<textFieldExpression><![CDATA[$V{MyMeasure}]]></textFieldExpression>
+						</textField>
+						<textField isBlankWhenNull="false">
+							<reportElement mode="Opaque" x="5" y="30" width="95" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#0000FF" uuid="37cfd0c2-36e7-4443-886c-5fab7b30f5f5"/>
+							<textFieldExpression><![CDATA[$V{MyMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="45" rowTotalGroup="RowGroupB">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell height="20" rowTotalGroup="RowGroupB" columnTotalGroup="ColGroupX">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell height="45" rowTotalGroup="RowGroupC">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell height="20" rowTotalGroup="RowGroupC" columnTotalGroup="ColGroupX">
+					<cellContents/>
+				</crosstabCell>
+			</crosstab>
+			<textField isBlankWhenNull="false">
+				<reportElement positionType="Float" mode="Opaque" x="0" y="45" width="95" height="15" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#808080" uuid="34a95b19-1a3b-43e9-a2a8-bcbb9f45e20e"/>
+				<textFieldExpression><![CDATA["END"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

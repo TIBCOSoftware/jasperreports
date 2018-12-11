@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InputStreamImage" pageWidth="500" pageHeight="150" whenNoDataType="AllSectionsNoDetail" columnWidth="100" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a7b6791c-02bb-4a13-a253-1573b66205da">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<field name="image" class="java.io.InputStream"/>
+	<detail>
+		<band height="55" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="160" height="25" uuid="0a5199ef-428c-4a3f-9862-c8632622f67a"/>
+				<textFieldExpression><![CDATA["record " + $V{REPORT_COUNT} + " on page " + $V{PAGE_NUMBER}
+					+ " aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement positionType="Float" x="0" y="30" width="60" height="25" uuid="339eb3d1-7b04-47c7-a380-054f4db2ba82"/>
+				<imageExpression><![CDATA[$F{image}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

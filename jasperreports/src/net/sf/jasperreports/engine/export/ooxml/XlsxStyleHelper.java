@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -97,14 +98,15 @@ public class XlsxStyleHelper extends BaseHelper
 		boolean  isShrinkToFit,
 		boolean isIgnoreTextFormatting,
 		RotationEnum rotation,
-		JRXlsAbstractExporter.SheetInfo sheetInfo
+		JRXlsAbstractExporter.SheetInfo sheetInfo,
+		LineDirectionEnum direction
 		)
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
 				formatHelper.getFormat(pattern) + 1,
 				fontHelper.getFont(gridCell, locale) + 1,
-				borderHelper.getBorder(gridCell, sheetInfo) + 1,
+				borderHelper.getBorder(gridCell, sheetInfo, direction) + 1,
 				gridCell,
 				isWrapText,
 				isHidden,
@@ -112,7 +114,8 @@ public class XlsxStyleHelper extends BaseHelper
 				isShrinkToFit,
 				isIgnoreTextFormatting, 
 				getRotation(rotation),
-				sheetInfo
+				sheetInfo,
+				direction
 				);
 		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
@@ -156,7 +159,7 @@ public class XlsxStyleHelper extends BaseHelper
 				+ "\" fontId=\"" + styleInfo.fontIndex
 				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
 				+ "\" borderId=\"" + styleInfo.borderIndex
-				+ "\" xfId=\"" + styleIndex + "\""
+				+ "\" xfId=\"0\""
 				+ " applyAlignment=\"1\" applyProtection=\"1\" applyNumberFormat=\"1\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\">"
 				+ "<alignment wrapText=\"" + (styleInfo.isWrapText && !styleInfo.isShrinkToFit) + "\""
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
@@ -201,7 +204,8 @@ public class XlsxStyleHelper extends BaseHelper
 		write("<border><left/><right/><top/><bottom/><diagonal/></border>\n");
 		bordersWriter.writeData(writer);
 		write("</borders>\n");
-		//write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" applyAlignment=\"1\" applyProtection=\"1\" applyNumberFormat=\"1\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\"/></cellStyleXfs>\n");
+		
+		write("<cellStyleXfs count=\"1\"><xf/></cellStyleXfs>\n");
 
 		write("<cellXfs>\n");// count=\"1\">\n");
 		write("<xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\" applyAlignment=\"1\" applyProtection=\"1\" applyNumberFormat=\"1\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\"/>\n");

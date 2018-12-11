@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -715,17 +715,16 @@ public abstract class AbstractTextRenderer
 		return LINE_BREAK_FONT_RENDER_CONTEXT;
 	}
 
-}
 
-
-/**
- * 
- */
-class TabSegment
-{
-	public TextLayout layout;
-	public AttributedString as;//FIXMETAB rename these
-	public String text;
-	public float leftX;
-	public float rightX;
+	/**
+	 * 
+	 */
+	public static class TabSegment
+	{
+		public TextLayout layout;
+		public AttributedString as;//FIXMETAB rename these
+		public String text;
+		public float leftX;
+		public float rightX;
+	}
 }

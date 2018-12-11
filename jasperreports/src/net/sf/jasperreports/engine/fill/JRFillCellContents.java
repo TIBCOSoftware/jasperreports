@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -162,12 +162,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		verticalPositionType = cellContents.verticalPositionType;
 	}
 	
-	@Override
-	public boolean isLegacyElementStretchEnabled() 
-	{
-		return true;
-	}
-
 	@Override
 	public Color getBackcolor()
 	{
@@ -802,6 +796,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		String originalClasses = printProperties.get(HtmlExporter.PROPERTY_HTML_CLASS);
 		String newClasses = originalClasses == null ? className : (originalClasses + " " + className);
 		setPrintProperty(HtmlExporter.PROPERTY_HTML_CLASS, newClasses);
+	}
+
+	@Override
+	public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+	{
+		//FIXME implement logic
+		return false;
 	}
 
 }

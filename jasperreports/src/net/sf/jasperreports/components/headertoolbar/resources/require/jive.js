@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -122,18 +122,24 @@ define(function(require) {
                 left: null,
                 setElement: function(selector){
                     this.jo = $(selector);
-                    this.jo.draggable();
                     this.jo.draggable({
                         cursorAt: { top: 40, left: -30 },
+                        containment: "parent",
+                        scroll: false,
                         start: function(ev,ui) {
                             jive.hide(['foobar','marker']);
                             jive.interactive[jive.selected.ie.config.type].onDragStart(ev,ui);
                         },
                         drag: function(ev,ui){
-                            jive.interactive[jive.selected.ie.config.type].onDrag(ev,ui);
+                            jive.interactive[jive.selected.ie.config.type].debouncedDrag.apply(ev,ui);
                         },
                         stop:function(ev,ui) {
-                            jive.interactive[jive.selected.ie.config.type].onDragStop(ev,ui);
+                            var iElem = jive.interactive[jive.selected.ie.config.type],
+                                dd = iElem.debouncedDrag;
+                            if(dd.isRunning()) {
+                                dd.cancelAndExecute(ev, ui);
+                            }
+                            iElem.onDragStop(ev,ui);
                             jive.hide();
                         }
                     });
@@ -144,13 +150,12 @@ define(function(require) {
                         this.setElement('#jive_overlay');
                         isFirstTimeSelection = true;
                     }
-                    this.jo.draggable();
                     this.jo.css({
-                        width: dim.w * (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1),
+                        width: dim.w,
                         height: dim.h
                     }).draggable('option','helper', function(event) {
-                            return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
-                        });
+                        return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
+                    });
                     this.jo.appendTo(jive.getReportContainer()).show();
                     this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
 
@@ -1501,33 +1506,6 @@ define(function(require) {
                     realHeight: colData.height
                 };
 
-                /*******************/
-                /*
-                    Fix for bug #36767 - overlay is not shown correctly for table columns after sorting;
-                    When zooming, it is necessary to recalculate the overlay width
-                 */
-                var headerCols = $('table.jrPage .jrcolHeader[data-coluuid=' + jo.data('coluuid') + ']'),
-                    firstCol = headerCols.eq(0),
-                    widthSoFar,
-                    realWidth,
-                    firstLeft = firstCol.offset().left;
-
-                widthSoFar = realWidth = firstCol.outerWidth();
-                headerCols.each(function(i, v) {
-                    var it = $(v);
-                    if (it.offset().left < firstLeft) { //should not happen but let's be safe
-                        realWidth += firstLeft - it.offset().left;
-                        firstLeft = it.offset().left;
-                    }
-                    if (it.offset().left + it.outerWidth() > firstLeft + realWidth) {
-                        realWidth = it.offset().left + it.outerWidth() - firstLeft;
-                        widthSoFar += it.outerWidth()
-                    }
-                });
-
-                jive.selected.realWidth = widthSoFar;
-                /*******************/
-
                 jive.selected.dim = jive.interactive[jive.selected.ie.config.type].getElementSize();
 
                 this.showVisualElements(jive.selected.dim);
@@ -1545,6 +1523,34 @@ define(function(require) {
             jive.ui.overlay.show(dim);
             jive.ui.marker.show(dim);
             jive.ui.foobar.show(dim);
+        },
+        withDebounce: function(fn, context, millis, now) {
+            var timeout = null;
+
+            return {
+                apply: function() {
+                    var args = arguments;
+
+                    if (now) {
+                        fn.apply(context, args);
+                    } else {
+                        clearTimeout(timeout);
+                        timeout = setTimeout(function() {
+                            timeout = null;
+                            fn.apply(context, args);
+                        }, millis);
+                    }
+                },
+                isRunning: function() {
+                    return timeout != null;
+                },
+                cancelAndExecute: function() {
+                    if (timeout != null) {
+                        clearTimeout(timeout);
+                        fn.apply(context, arguments);
+                    }
+                }
+            };
         }
     }
 

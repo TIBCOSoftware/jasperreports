@@ -12,7 +12,7 @@
 	
 	<path id="sample-classpath">
 		<pathelement location="./build/webapp/WEB-INF/classes/"/>
-		<pathelement location="../../fonts"/>
+		<pathelement location="../../../ext/fonts"/>
 		<path refid="project-classpath"/>
 	</path>
 

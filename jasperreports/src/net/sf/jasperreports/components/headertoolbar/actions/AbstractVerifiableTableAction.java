@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 import java.util.UUID;
 
 import net.sf.jasperreports.components.table.StandardTable;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
@@ -39,6 +40,9 @@ import net.sf.jasperreports.web.commands.CommandTarget;
  */
 public abstract class AbstractVerifiableTableAction extends AbstractAction 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	protected BaseColumnData columnData;
 	
 	protected StandardTable table;

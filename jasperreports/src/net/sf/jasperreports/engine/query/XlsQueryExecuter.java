@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -55,9 +55,19 @@ public class XlsQueryExecuter extends AbstractXlsQueryExecuter {
 		JasperReportsContext jasperReportsContext, 
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parametersMap
+		)
+	{
+		this(SimpleQueryExecutionContext.of(jasperReportsContext), 
+				dataset, parametersMap);
+	}
+	
+	protected XlsQueryExecuter(
+		QueryExecutionContext context, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parametersMap
 		) 
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		super(context, dataset, parametersMap);
 	}
 
 	@Override
@@ -78,7 +88,7 @@ public class XlsQueryExecuter extends AbstractXlsQueryExecuter {
 					} else {
 						String xlsSource = getStringParameterOrProperty(AbstractXlsQueryExecuterFactory.XLS_SOURCE);
 						if (xlsSource != null) {
-							datasource = new XlsDataSource(getJasperReportsContext(), xlsSource);
+							datasource = new XlsDataSource(getRepositoryContext(), xlsSource);
 						} else {
 							if (log.isWarnEnabled()){
 								log.warn("No XLS source was provided.");

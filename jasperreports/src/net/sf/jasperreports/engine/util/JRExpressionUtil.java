@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,6 +37,8 @@ import java.util.regex.Pattern;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRDesignExpressionChunk;
 
 
 /**
@@ -123,6 +125,45 @@ public final class JRExpressionUtil
 				}
 			}
 		}
+	}
+
+	/**
+	 *
+	 */
+	public static String convertSimpleTextExpression(JRExpression expression)
+	{
+		JRDesignExpression convertedExpression = null; 
+		
+		if (expression != null)
+		{
+			convertedExpression = new JRDesignExpression();
+			JRExpressionChunk[] chunks = expression.getChunks();
+			if (chunks != null) 
+			{
+				for (int i = 0; i < chunks.length; i++)
+				{
+					JRExpressionChunk chunk = chunks[i];
+					JRDesignExpressionChunk convertedChunk = new JRDesignExpressionChunk();
+					convertedChunk.setType(chunk.getType());
+					
+					if (chunk.getType() == JRExpressionChunk.TYPE_TEXT)
+					{
+						convertedChunk.setText(
+							(i == 0 ? "" : " + ") 
+							+ "\"" + JRStringUtil.escapeJavaStringLiteral(chunk.getText()) + "\""
+							+ (i == chunks.length - 1 ? "" : " + ") 
+							);
+					}
+					else
+					{
+						convertedChunk.setText(chunk.getText());
+					}
+					convertedExpression.addChunk(convertedChunk);
+				}
+			}
+		}
+		
+		return convertedExpression == null ? null : convertedExpression.getText();
 	}
 
 	private JRExpressionUtil()

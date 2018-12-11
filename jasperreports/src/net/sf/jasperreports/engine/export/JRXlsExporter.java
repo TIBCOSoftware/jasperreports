@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -101,6 +101,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter.SheetInfo.SheetPrintSettings;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -126,7 +127,6 @@ import net.sf.jasperreports.renderers.Graphics2DRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -150,6 +150,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static final String XLS_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xls";
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
+	private static short A2_PAPERSIZE = (short)66; 	/* A2_PAPERSIZE defined locally since it is not declared in HSSFPrintSetup */
 	
 	private static Map<HSSFColor, short[]> hssfColorsRgbs;
 	
@@ -282,7 +283,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			InputStream templateIs = null;
 			try 
 			{
-				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(lcWorkbookTemplate);
+				templateIs = getRepository().getInputStreamFromLocation(lcWorkbookTemplate);
 				if (templateIs == null)
 				{
 					throw 
@@ -385,7 +386,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		patriarch = sheet.createDrawingPatriarch();
 		HSSFPrintSetup printSetup = sheet.getPrintSetup();
 		printSetup.setLandscape(pageFormat.getOrientation() == OrientationEnum.LANDSCAPE);
-		short paperSize = getSuitablePaperSize();
+		short paperSize = getSuitablePaperSize(sheetInfo.printSettings);
 
 		if(paperSize != -1)
 		{
@@ -954,7 +955,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					}
 					else
 					{
-						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+						if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()) || isIgnoreTextFormatting(textElement))
 						{
 							setStringCellValue(textValue.getText());
 						}
@@ -1039,7 +1040,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		else
 		{
 			HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-			if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
+			if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()) || isIgnoreTextFormatting(textElement))
 			{
 				setStringCellValue(textStr);
 			}
@@ -1982,10 +1983,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	}
 
 
-	private final short getSuitablePaperSize()
+	private final short getSuitablePaperSize(SheetPrintSettings printSettings)
 	{
 
-		if (pageFormat == null)
+		if (printSettings == null)
 		{
 			return -1;
 		}
@@ -1993,26 +1994,34 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		long height = 0;
 		short ps = -1;
 
-		if ((pageFormat.getPageWidth() != 0) && (pageFormat.getPageHeight() != 0))
+		if ((printSettings.getPageWidth() != 0) && (printSettings.getPageHeight() != 0))
 		{
 
-			double dWidth = (pageFormat.getPageWidth() / 72.0);
-			double dHeight = (pageFormat.getPageHeight() / 72.0);
+			double dWidth = (printSettings.getPageWidth() / 72.0);
+			double dHeight = (printSettings.getPageHeight() / 72.0);
 
 			height = Math.round(dHeight * 25.4);
 			width = Math.round(dWidth * 25.4);
 
 			// Compare to ISO 216 A-Series (A3-A5). All other ISO 216 formats
 			// not supported by POI Api yet.
-			// A3 papersize also not supported by POI Api yet.
-			for (int i = 4; i < 6; i++)
+			for (int i = 2; i < 6; i++)
 			{
 				int w = calculateWidthForDinAN(i);
 				int h = calculateHeightForDinAN(i);
 
 				if (((w == width) && (h == height)) || ((h == width) && (w == height)))
 				{
-					if (i == 4)
+					if (i == 2)
+					{
+						// local A2_PAPERSIZE constant
+						ps = A2_PAPERSIZE;
+					}
+					if (i == 3)
+					{
+						ps = HSSFPrintSetup.A3_PAPERSIZE;
+					}
+					else if (i == 4)
 					{
 						ps = HSSFPrintSetup.A4_PAPERSIZE;
 					}
@@ -2027,7 +2036,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			//envelope sizes
 			if (ps == -1)
 			{
-				// ISO 269 sizes - "Envelope DL" (110 � 220 mm)
+				// ISO 269 sizes - "Envelope DL" (110 x 220 mm)
 				if (((width == 110) && (height == 220)) || ((width == 220) && (height == 110)))
 				{
 					ps = HSSFPrintSetup.ENVELOPE_DL_PAPERSIZE;
@@ -2037,22 +2046,22 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			// Compare to common North American Paper Sizes (ANSI X3.151-1987).
 			if (ps == -1)
 			{
-				// ANSI X3.151-1987 - "Letter" (216 � 279 mm)
+				// ANSI X3.151-1987 - "Letter" (216 x 279 mm)
 				if (((width == 216) && (height == 279)) || ((width == 279) && (height == 216)))
 				{
 					ps = HSSFPrintSetup.LETTER_PAPERSIZE;
 				}
-				// ANSI X3.151-1987 - "Legal" (216 � 356 mm)
+				// ANSI X3.151-1987 - "Legal" (216 x 356 mm)
 				if (((width == 216) && (height == 356)) || ((width == 356) && (height == 216)))
 				{
 					ps = HSSFPrintSetup.LEGAL_PAPERSIZE;
 				}
-				// ANSI X3.151-1987 - "Executive" (190 � 254 mm)
+				// ANSI X3.151-1987 - "Executive" (190 x 254 mm)
 				else if (((width == 190) && (height == 254)) || ((width == 254) && (height == 190)))
 				{
 					ps = HSSFPrintSetup.EXECUTIVE_PAPERSIZE;
 				}
-				// ANSI X3.151-1987 - "Ledger/Tabloid" (279 � 432 mm)
+				// ANSI X3.151-1987 - "Ledger/Tabloid" (279 x 432 mm)
 				// Not supported by POI Api yet.
 				
 			}

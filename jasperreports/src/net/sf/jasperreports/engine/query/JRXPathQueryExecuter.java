@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -69,7 +69,17 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 		Map<String,? extends JRValueParameter> parametersMap
 		)
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		this(SimpleQueryExecutionContext.of(jasperReportsContext),
+				dataset, parametersMap);
+	}
+	
+	public JRXPathQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parametersMap
+		)
+	{
+		super(context, dataset, parametersMap);
 				
 		parseQuery();
 	}
@@ -114,7 +124,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 					} else {
 						String xmlSource = getStringParameterOrProperty(JRXPathQueryExecuterFactory.XML_SOURCE);
 						if (xmlSource != null) {
-							datasource = new JRXmlDataSource(getJasperReportsContext(), xmlSource, xPath);
+							datasource = new JRXmlDataSource(getRepositoryContext(), xmlSource, xPath, false);
 						} else {
 							if (log.isWarnEnabled()){
 								log.warn("No XML source was provided.");

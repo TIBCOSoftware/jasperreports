@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -112,24 +112,6 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		return getStyleResolver().getMode(this, ModeEnum.TRANSPARENT);
 	}
 
-
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public boolean isUsingCache()
-	{
-		if (isUsingCache == null)
-		{
-			JRExpression subreportExpression = getExpression();
-			if (subreportExpression != null)
-			{
-				return String.class.getName().equals(subreportExpression.getValueClassName());
-			}
-			return true;
-		}
-		return isUsingCache.booleanValue();
-	}
 
 	@Override
 	public JRExpression getParametersMapExpression()
@@ -321,16 +303,6 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 			return true;
 		}
 		return false;
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getUsingCache()}.
-	 */
-	@Override
-	public Boolean isOwnUsingCache()
-	{
-		return isUsingCache;
 	}
 
 

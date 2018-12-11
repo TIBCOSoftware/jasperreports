@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.commons.javaflow.api.continuable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -56,7 +57,8 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
-import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -76,10 +78,14 @@ public abstract class BaseReportFiller implements ReportFiller
 
 	protected List<String> printTransferPropertyPrefixes;
 
+	protected JasperReportSource reportSource;
+	
 	/**
 	 * The report.
 	 */
 	protected JasperReport jasperReport;
+	
+	protected RepositoryContext repositoryContext;
 
 	protected JRCalculator calculator;
 
@@ -121,11 +127,19 @@ public abstract class BaseReportFiller implements ReportFiller
 	public BaseReportFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport, 
 			FillerParent parent) throws JRException
 	{
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport), parent);
+	}
+
+	public BaseReportFiller(JasperReportsContext jasperReportsContext, JasperReportSource reportSource, 
+			FillerParent parent) throws JRException
+	{
 		JRGraphEnvInitializer.initializeGraphEnv();
 		
 		setJasperReportsContext(jasperReportsContext);
 		
-		this.jasperReport = jasperReport;
+		this.reportSource = reportSource;
+		this.jasperReport = reportSource.getReport();
+		this.repositoryContext = SimpleRepositoryContext.of(jasperReportsContext, reportSource.getRepositoryReportContext());
 		jasperReportSet();
 		
 		this.parent = parent;
@@ -256,10 +270,20 @@ public abstract class BaseReportFiller implements ReportFiller
 	{
 		return jasperReportsContext;
 	}
+	
+	public RepositoryContext getRepositoryContext()
+	{
+		return repositoryContext;
+	}
 
 	public JRPropertiesUtil getPropertiesUtil()
 	{
 		return propertiesUtil;
+	}
+
+	public JasperReportSource getReportSource()
+	{
+		return reportSource;
 	}
 
 	/**
@@ -285,7 +309,8 @@ public abstract class BaseReportFiller implements ReportFiller
 
 	protected final void setParametersToContext(Map<String,Object> parameterValues)
 	{
-		JasperReportsContext localContext = LocalJasperReportsContext.getLocalContext(jasperReportsContext, parameterValues);
+		JasperReportsContext localContext = 
+			net.sf.jasperreports.engine.util.LocalJasperReportsContext.getLocalContext(jasperReportsContext, parameterValues);
 		if (localContext != jasperReportsContext)
 		{
 			setJasperReportsContext(localContext);
@@ -375,6 +400,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	}
 
 	@Override
+	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues, Connection conn) throws JRException
 	{
 		if (parameterValues == null)
@@ -393,6 +419,7 @@ public abstract class BaseReportFiller implements ReportFiller
 	}
 
 	@Override
+	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues, JRDataSource ds) throws JRException
 	{
 		if (parameterValues == null)

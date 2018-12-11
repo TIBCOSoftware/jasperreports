@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.4.qualifier using JasperReports Library version 6.4.4  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BandEvaluationReport.26" columnCount="2" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="256" columnSpacing="3" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="2efda9bb-2462-46fe-aaa7-2c8f970ffae5">
+	<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/SimpleCsvDataAdapter.12.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans Mono" fontSize="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<pen lineWidth="0.0"/>
+		<box>
+			<pen lineWidth="0.1"/>
+		</box>
+	</style>
+	<parameter name="TEST" class="net.sf.jasperreports.bands.splittypeprevent.SplitTypePreventTest"/>
+	<field name="simple" class="java.lang.String">
+		<property name="net.sf.jasperreports.csv.field.column.index" value="0"/>
+	</field>
+	<variable name="PageCount" class="java.lang.Integer" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="ColumnCount" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="GroupCount" class="java.lang.Integer" resetType="Group" resetGroup="dummy" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="PageNumber" class="java.lang.Integer" incrementType="Page" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="ColumnNumber" class="java.lang.Integer" resetType="Page" incrementType="Column" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="GroupNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="dummy" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="All" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA["PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}]]></variableExpression>
+	</variable>
+	<group name="dummy">
+		<groupExpression><![CDATA[$V{dummy_COUNT} > 5]]></groupExpression>
+		<groupHeader>
+			<band height="55" splitType="Prevent">
+				<textField>
+					<reportElement x="0" y="0" width="515" height="55" uuid="66924081-7270-4248-9a74-af1165fc6a62"/>
+					<textFieldExpression><![CDATA["Group Header\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="55" splitType="Prevent">
+				<textField>
+					<reportElement x="0" y="0" width="515" height="55" uuid="66924081-7270-4248-9a74-af1165fc6a62"/>
+					<textFieldExpression><![CDATA["Group Footer\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="55">
+			<textField>
+				<reportElement x="0" y="0" width="515" height="55" uuid="7d9f1ec7-5136-40b5-a341-5b68632328ac"/>
+				<textFieldExpression><![CDATA["Page Header\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="55">
+			<textField>
+				<reportElement x="0" y="0" width="255" height="55" uuid="e00cc028-794b-4457-a99b-5d85f848cc81"/>
+				<textFieldExpression><![CDATA["Column Header\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="55">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} != 8]]></printWhenExpression>
+			<textField>
+				<reportElement x="0" y="0" width="255" height="55" uuid="23e9cfa7-4be4-4bdc-8835-b228e212b690"/>
+				<textFieldExpression><![CDATA["Detail\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="155" y="0" width="100" height="15" uuid="deaf226c-cf74-4f72-abc9-7dddce05c9ac"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{simple}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="400" splitType="Prevent">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 8]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="255" height="400" uuid="5e4f773c-728d-428a-b5be-1dfbaf56eefc"/>
+				<textFieldExpression><![CDATA["Detail\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}
++ "\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="155" y="0" width="100" height="15" uuid="d709675f-9140-4603-be69-791e56ba9767"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{simple}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="55">
+			<textField>
+				<reportElement x="0" y="0" width="255" height="55" uuid="f35b7907-602b-4dad-b549-84e845974533"/>
+				<textFieldExpression><![CDATA["Column Footer\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="55">
+			<textField>
+				<reportElement x="0" y="0" width="515" height="55" uuid="aabf77e6-13d0-405e-8843-827dd28bbf07"/>
+				<textFieldExpression><![CDATA["Page Footer\n"
++ "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}
++ "\n" + "pc " +  $V{PageCount} + " cc " + $V{ColumnCount} + " gc " + $V{GroupCount} + " pn " +  $V{PageNumber} + " cn " + $V{ColumnNumber} + " gn " + $V{GroupNumber}
++ "\n" + $V{All}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

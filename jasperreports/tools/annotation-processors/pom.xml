@@ -4,9 +4,32 @@
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-annotation-processors</artifactId>
 	<packaging>jar</packaging>
-	<version>6.4.3</version>
+	<version>6.7.0-SNAPSHOT</version>
 	<name>jasperreports-annotation-processors</name>
 	<url>http://jasperreports.sourceforge.net</url>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://jasperreports.sourceforge.net/license.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
+		<tag>jr-6-7-0</tag>
+		<url>https://github.com/TIBCOSoftware/jasperreports</url>
+	</scm>
+	<repositories>
+		<repository>
+			<id>jr-ce-releases</id>
+			<name>JasperReports CE Releases</name>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
+		</repository>
+		<repository>
+			<id>jr-snapshots</id>
+			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots/</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -37,7 +60,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>6.4.3</version>
+			<version>6.6.0</version>
 		</dependency>
 	</dependencies>
 </project>

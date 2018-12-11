@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,10 +24,12 @@
 package net.sf.jasperreports.web.commands;
 
 
+import java.io.Serializable;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public interface Command {
+public interface Command extends Serializable {
 	
 	public void execute() throws CommandException;
 	

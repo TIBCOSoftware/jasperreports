@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -185,12 +185,6 @@ public class HeaderToolbarElementUtils
 	{
 		switch (FilterTypesEnum.getByName(filterData.getFilterType())) 
 		{
-			case TEXT :
-			{
-				// html encode the conditions for text based columns
-				filterData.setFieldValueStart(JRStringUtil.htmlEncode(filterData.getFieldValueStart()));
-				break;
-			}
 			case DATE :
 			case TIME :
 			{

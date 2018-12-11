@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTemplate;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
@@ -45,6 +44,8 @@ import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
+import net.sf.jasperreports.engine.fill.JasperReportSource;
+import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 
 /**
  * 
@@ -83,9 +84,11 @@ public class FillTableSubreport extends JRFillSubreport
 	}
 
 	@Override
-	protected JasperReport evaluateReport(byte evaluation) throws JRException
+	protected JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
-		return tableReport;
+		return SimpleJasperReportSource.from(tableReport,
+				filler.getReportSource().getReportLocation(),
+				filler.getRepositoryContext().getResourceContext());
 	}
 
 	@Override
@@ -225,5 +228,12 @@ public class FillTableSubreport extends JRFillSubreport
 	protected void registerReportStyles(List<JRStyle> styles)
 	{
 		filler.registerReportStyles(getUUID(), styles);
+	}
+	
+	@Override
+	protected String getReportName()
+	{
+		String tableName = tableReport.getBaseReport().getTableName();
+		return tableName == null ? super.getReportName() : tableName;
 	}
 }

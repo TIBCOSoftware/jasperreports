@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -35,9 +35,15 @@ public class SerializedReportPersistenceService extends SerializedObjectPersiste
 	@Override
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
+		return load(null, uri, repositoryService);
+	}
+	
+	@Override
+	public Resource load(RepositoryContext context, String uri, RepositoryService repositoryService)
+	{
 		ReportResource reportResource = null;
 		
-		SerializableResource resource = (SerializableResource)super.load(uri, repositoryService);
+		SerializableResource resource = (SerializableResource)super.load(context, uri, repositoryService);
 		
 		if (resource != null)
 		{
@@ -47,5 +53,4 @@ public class SerializedReportPersistenceService extends SerializedObjectPersiste
 		
 		return reportResource;
 	}
-	
 }

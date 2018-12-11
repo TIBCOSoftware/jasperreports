@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -718,10 +718,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 							: 0));
 						
 				pdfWriter.setEncryption(
-					configuration.is128BitKey(),
-					configuration.getUserPassword(),
-					configuration.getOwnerPassword(),
-					perms
+					PdfWriter.getISOBytes(configuration.getUserPassword()),
+					PdfWriter.getISOBytes(configuration.getOwnerPassword()),
+					perms,
+					configuration.is128BitKey() ? PdfWriter.STANDARD_ENCRYPTION_128 : PdfWriter.STANDARD_ENCRYPTION_40
 					);
 			}
 			
@@ -830,7 +830,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					pdfDictionary.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
 					pdfDictionary.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
 					pdfDictionary.put(PdfName.S, PdfName.GTS_PDFA1);
-					InputStream iccIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(iccProfilePath);
+					InputStream iccIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(iccProfilePath);//FIXME use getRepository?
 					PdfICCBased pdfICCBased = new PdfICCBased(ICC_Profile.getInstance(iccIs));
 					pdfICCBased.remove(PdfName.ALTERNATE);
 					pdfDictionary.put(PdfName.DESTOUTPUTPROFILE, pdfWriter.addToBody(pdfICCBased).getIndirectReference());
@@ -2330,7 +2330,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 			try
 			{
-				bytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(pdfFontName);
+				bytes = getRepository().getBytesFromLocation(pdfFontName);
 			}
 			catch(JRException e)
 			{
@@ -2383,6 +2383,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	public void exportText(JRPrintText text) throws DocumentException
 	{
 		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector, null);
+
 		if (styledText == null)
 		{
 			return;
@@ -2436,23 +2437,22 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				);
 			pdfContentByte.fill();
 		}
-
+		
+		if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
+		{
+			tagHelper.startText(styledText.getText(), text.getLinkType() != null);
+		}
+		else
+		{
+			tagHelper.startText(text.getLinkType() != null);
+		}
+		
+		/* rendering only non empty texts  */
 		if (styledText.length() > 0)
 		{
-			if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
-			{
-				tagHelper.startText(styledText.getText(), text.getLinkType() != null);
-			}
-			else
-			{
-				tagHelper.startText(text.getLinkType() != null);
-			}
-			
-			/*   */
 			textRenderer.render();
-
-			tagHelper.endText();
 		}
+		tagHelper.endText();
 
 		atrans = new AffineTransform();
 		atrans.rotate(-angle, textRenderer.getX(), pageFormat.getPageHeight() - textRenderer.getY());

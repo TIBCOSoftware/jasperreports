@@ -2,7 +2,7 @@
  * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2005 Works, Inc. All rights reserved.
  * http://www.works.com
- * Copyright (C) 2005 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2005 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -96,7 +96,7 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	public static final String PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "virtual.page.element.size";
 	
-	private VirtualizableElementList elements;
+	protected VirtualizableElementList elements;
 	
 	/**
 	 * Constructs a virtualizable page.
@@ -111,8 +111,21 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	
 	/**
 	 * Constructs a virtualizable page.
+	 * 
+	 * @param printObject
+	 * @param virtualizationContext
+	 * @deprecated replaced by {@link #JRVirtualPrintPage(JRVirtualizationContext)}
 	 */
+	@Deprecated
 	public JRVirtualPrintPage(JasperPrint printObject, JRVirtualizationContext virtualizationContext)
+	{
+		this(virtualizationContext);
+	}
+	
+	/**
+	 * Constructs a virtualizable page.
+	 */
+	public JRVirtualPrintPage(JRVirtualizationContext virtualizationContext)
 	{
 		super();
 		
@@ -122,6 +135,10 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 		{
 			log.debug("created list " + this.elements + " for page " + this);
 		}
+	}
+	
+	protected JRVirtualPrintPage()
+	{
 	}
 
 	@Override

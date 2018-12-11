@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -22,6 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 package net.sf.jasperreports.engine.fill;
+
+import org.apache.commons.javaflow.api.continuable;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -92,6 +94,7 @@ public interface JRSubreportRunner
 	 * 
 	 * @throws JRException
 	 */
+	@continuable
 	void suspend() throws JRException;	
 	
 	/**

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -46,27 +46,6 @@ public class JRRecordedValuesPrintImage extends JRTemplatePrintImage implements 
 	{
 	}
 	
-	/**
-	 * 
-	 * @param image
-	 * @deprecated provide a source Id via {@link #JRRecordedValuesPrintImage(JRTemplateImage, int)}
-	 */
-	public JRRecordedValuesPrintImage(JRTemplateImage image)
-	{
-		super(image);
-	}
-
-	/**
-	 * 
-	 * @param image
-	 * @param sourceElementId the Id of the source element
-	 * @deprecated replaced by {@link #JRRecordedValuesPrintImage(JRTemplateImage, PrintElementOriginator)}
-	 */
-	public JRRecordedValuesPrintImage(JRTemplateImage image, int sourceElementId)
-	{
-		super(image, sourceElementId);
-	}
-
 	/**
 	 * 
 	 * @param image

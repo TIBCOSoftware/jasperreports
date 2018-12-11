@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,6 +31,7 @@ import net.sf.jasperreports.components.headertoolbar.actions.ResizeColumnCommand
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.web.commands.Command;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
@@ -40,6 +41,8 @@ import net.sf.jasperreports.web.commands.CommandStack;
  */
 public class MoveColumnCommand implements Command 
 {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private StandardTable table;
 	private MoveColumnData moveColumnData;

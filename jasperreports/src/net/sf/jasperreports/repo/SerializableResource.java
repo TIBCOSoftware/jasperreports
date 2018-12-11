@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,12 +23,35 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class SerializableResource<T extends Serializable> extends ObjectResource<T>
+public class SerializableResource<T extends Serializable> extends ObjectResource<T> implements Serializable
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.defaultWriteObject();
+		
+		out.writeObject(name);
+		out.writeObject(value);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		this.name = (String) in.readObject();
+		this.value = (T) in.readObject();
+	}
+	
 }

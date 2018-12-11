@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,15 +28,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.function.Function;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.repo.ResourceBundleResource;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -46,28 +55,13 @@ import net.sf.jasperreports.repo.ResourceBundleResource;
  */
 public final class JRResourcesUtil
 {
+	
+	private static final Log log = LogFactory.getLog(JRResourcesUtil.class);
+	
 	/**
 	 * 
 	 */
 	private static final String PROPERTIES_FILE_EXTENSION = ".properties";
-
-	/** 
-	 * @deprecated To be removed.
-	 */
-	private static FileResolver globalFileResolver;
-	/** 
-	 * @deprecated To be removed.
-	 */
-	private static ThreadLocalStack localFileResolverStack = new ThreadLocalStack();
-
-	/** 
-	 * @deprecated To be removed.
-	 */
-	private static URLStreamHandlerFactory globalURLHandlerFactory;
-	/** 
-	 * @deprecated To be removed.
-	 */
-	private static ThreadLocalStack localURLHandlerFactoryStack = new ThreadLocalStack();
 
 	/** 
 	 *
@@ -86,7 +80,6 @@ public final class JRResourcesUtil
 	 * @param urlHandlerFactory an URL stream handler factory to use
 	 * @return an URL if the parsing is successful
 	 * @see #getURLHandler(String, URLStreamHandlerFactory)
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
 	 */
 	public static URL createURL(String spec, URLStreamHandlerFactory urlHandlerFactory)
 	{
@@ -117,7 +110,6 @@ public final class JRResourcesUtil
 	 * @param spec the <code>String</code> to parse as an URL
 	 * @param urlHandlerFact an URL stream handler factory
 	 * @return an URL stream handler if one was found for the protocol of the URL
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
 	 */
 	public static URLStreamHandler getURLHandler(String spec, URLStreamHandlerFactory urlHandlerFact)
 	{
@@ -181,104 +173,12 @@ public final class JRResourcesUtil
 
 	
 	/**
-	 * Returns a file resolver.
-	 * <p/>
-	 * The first not null value from the following is returned:
-	 * <ul>
-	 * 	<li>the value of the parameter</li>
-	 * 	<li>the thread local file resolver</li>
-	 * 	<li>the global file resolver</li>
-	 * </ul>
-	 * 
-	 * @param fileRes a file resolver that will be returned if not null
-	 * @return a file resolver
-	 * @see #setGlobalFileResolver(FileResolver)
-	 * @see #setThreadFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static FileResolver getFileResolver(FileResolver fileRes)
-	{
-		FileResolver fileResolver = fileRes;
-		if (fileResolver == null)
-		{
-			fileResolver = getThreadFileResolver();
-			if (fileResolver == null)
-			{
-				fileResolver = globalFileResolver;
-			}
-		}
-		return fileResolver;
-	}
-
-	
-	/**
-	 * Returns the global file resolver.
-	 * 
-	 * @return the global file resolver
-	 * @see #setGlobalFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static FileResolver getGlobalFileResolver()
-	{
-		return globalFileResolver;
-	}
-
-	
-	/**
-	 * Returns the thread local file resolver.
-	 * 
-	 * @return the thread local file resolver.
-	 * @see #setThreadFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static FileResolver getThreadFileResolver()
-	{
-		return (FileResolver) localFileResolverStack.top();
-	}
-
-	
-	/**
-	 * Sets the thread local file resolver.
-	 * 
-	 * @param fileResolver a file resolver.
-	 * @see #getFileResolver(FileResolver)
-	 * @see #resetThreadFileResolver()
-	 * @deprecated To be removed.
-	 */
-	public static void setThreadFileResolver(FileResolver fileResolver)
-	{
-		localFileResolverStack.push(fileResolver);
-	}
-	
-	
-	/**
-	 * Resets the the thread local file resolver to its previous value.
-	 * @deprecated To be removed.
-	 */
-	public static void resetThreadFileResolver()
-	{
-		localFileResolverStack.pop();
-	}
-
-	/**
-	 * Sets a global file resolver to be used for file resolution.
-	 * 
-	 * @param fileResolver the file resolver
-	 * @see #getFileResolver(FileResolver)
-	 * @deprecated To be removed.
-	 */
-	public static void setGlobalFileResolver(FileResolver fileResolver)
-	{
-		globalFileResolver = fileResolver;
-	}
-
-	
-	/**
 	 * Attempts to find a file using a file resolver.
 	 * 
 	 * @param location file name
 	 * @param fileRes a file resolver
 	 * @return the file, if found
+	 * @deprecated To be removed.
 	 */
 	public static File resolveFile(String location, FileResolver fileRes)
 	{
@@ -289,109 +189,98 @@ public final class JRResourcesUtil
 			return fileResolver.resolveFile(location);
 		}
 
-		File file = new File(location);
-		if (file.exists() && file.isFile())
+		return resolveFile(null, location);
+	}
+
+
+	public static File resolveFile(RepositoryContext context, String location)
+	{
+		return resolveFile(context, location, JRResourcesUtil::defaultLocateFile);
+	}
+
+	public static File resolveFile(RepositoryContext context, String location, Function<String, File> rootLocator)
+	{
+		File file = locateFile(context == null ? null : context.getResourceContext(), location, rootLocator);
+		if (file != null && file.isFile())
 		{
 			return file;
 		}
 		
 		return null;
 	}
-
-
-	/**
-	 * Returns an URL steam handler factory.
-	 * <p/>
-	 * The first not null value from the following is returned:
-	 * <ul>
-	 * 	<li>the value of the parameter</li>
-	 * 	<li>the thread local URL stream handler factory</li>
-	 * 	<li>the global URL stream handler factory</li>
-	 * </ul>
-	 * 
-	 * @param urlHandlerFact an URL steam handler factory that will be returned if not null
-	 * @return an URL steam handler factory
-	 * @see #setGlobalURLHandlerFactory(URLStreamHandlerFactory)
-	 * @see #setThreadURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static URLStreamHandlerFactory getURLHandlerFactory(URLStreamHandlerFactory urlHandlerFact)
+	
+	protected static File defaultLocateFile(String location)
 	{
-		URLStreamHandlerFactory urlHandlerFactory = urlHandlerFact;
-		if (urlHandlerFactory == null)
+		File file = new File(location);
+		if (file.exists())
 		{
-			urlHandlerFactory = getThreadURLStreamHandlerFactory();
-			if (urlHandlerFactory == null)
+			return file;
+		}
+		
+		return null;
+	}
+	
+	protected static File locateFile(RepositoryResourceContext resourceContext, String location, Function<String, File> rootLocator)
+	{
+		File file = rootLocator.apply(location);
+		if (file != null)
+		{
+			return file;
+		}
+		
+		if (resourceContext != null)
+		{
+			RepositoryResourceContext context = resourceContext;
+			while (context != null)
 			{
-				urlHandlerFactory = globalURLHandlerFactory;
+				File contextDir = locateContextDirectory(context, rootLocator);
+				if (contextDir != null)
+				{
+					file = new File(contextDir, location);
+					if (file.exists())
+					{
+						if (log.isDebugEnabled())
+						{
+							log.debug("resolved location " + location + " relative to the context " + contextDir);
+						}
+						
+						return file;
+					}
+				}
+				
+				context = context.getFallbackContext();
 			}
 		}
-		return urlHandlerFactory;
+		
+		return null;
 	}
 
-	
-	/**
-	 * Returns the global URL stream handler factory.
-	 * 
-	 * @return the global URL stream handler factory
-	 * @see #setGlobalURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static URLStreamHandlerFactory getGlobalURLStreamHandlerFactory()
+	protected static File locateContextDirectory(RepositoryResourceContext resourceContext, Function<String, File> rootLocator)
 	{
-		return globalURLHandlerFactory;
+		String contextLocation = resourceContext.getContextLocation();
+		if (contextLocation != null)
+		{
+			try
+			{
+				Paths.get(contextLocation);//valid patch check
+				File contextDir = rootLocator.apply(contextLocation);
+				if (contextDir != null && contextDir.isDirectory())
+				{
+					return contextDir;
+				}
+			}
+			catch (InvalidPathException e)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("location \"" + contextLocation + "\" is not a file path: " + e);
+				}
+			}
+		}
+		return null;
 	}
 
-	
-	/**
-	 * Returns the thread local URL stream handler factory.
-	 * 
-	 * @return the thread local URL stream handler factory.
-	 * @see #setThreadURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static URLStreamHandlerFactory getThreadURLStreamHandlerFactory()
-	{
-		return (URLStreamHandlerFactory) localURLHandlerFactoryStack.top();
-	}
 
-	
-	/**
-	 * Sets the thread local URL stream handler factory.
-	 * 
-	 * @param urlHandlerFactory an URL stream handler factory.
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
-	 * @see #resetThreadURLHandlerFactory()
-	 * @deprecated To be removed.
-	 */
-	public static void setThreadURLHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
-	{
-		localURLHandlerFactoryStack.push(urlHandlerFactory);
-	}
-	
-	
-	/**
-	 * Resets the the thread local URL stream handler factory to its previous value.
-	 * @deprecated To be removed.
-	 */
-	public static void resetThreadURLHandlerFactory()
-	{
-		localURLHandlerFactoryStack.pop();
-	}
-
-	/**
-	 * Sets a global URL stream handler facotry to be used for resource resolution.
-	 * 
-	 * @param urlHandlerFactory the URL stream handler factory
-	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
-	 * @deprecated To be removed.
-	 */
-	public static void setGlobalURLHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
-	{
-		globalURLHandlerFactory = urlHandlerFactory;
-	}
-
-	
 	/**
 	 * Returns a class loader.
 	 * <p/>
@@ -451,7 +340,6 @@ public final class JRResourcesUtil
 	 * 
 	 * @param classLoader a class loader
 	 * @see #getClassLoader(ClassLoader)
-	 * @see #resetThreadURLHandlerFactory()
 	 */
 	public static void setThreadClassLoader(ClassLoader classLoader)
 	{
@@ -599,6 +487,11 @@ public final class JRResourcesUtil
 	 */
 	public static ResourceBundle loadResourceBundle(JasperReportsContext jasperReportsContext, String baseName, Locale locale)
 	{
+		return loadResourceBundle(SimpleRepositoryContext.of(jasperReportsContext), baseName, locale);
+	}
+	
+	public static ResourceBundle loadResourceBundle(RepositoryContext repositoryContext, String baseName, Locale locale)
+	{
 		ResourceBundle resourceBundle = null;
 		MissingResourceException ex = null;
 		try
@@ -622,7 +515,7 @@ public final class JRResourcesUtil
 				try
 				{
 					resourceBundleResource = 
-							RepositoryUtil.getInstance(jasperReportsContext).getResourceFromLocation(
+							RepositoryUtil.getInstance(repositoryContext).getResourceFromLocation(
 								baseName + suffix + PROPERTIES_FILE_EXTENSION, 
 								ResourceBundleResource.class
 								);

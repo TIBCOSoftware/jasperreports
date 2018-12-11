@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -88,36 +88,28 @@ public class CustomTableModel extends AbstractTableModel
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getColumnCount()
 	{
 		return this.columnNames.length;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public String getColumnName(int columnIndex)
 	{
 		return this.columnNames[columnIndex];
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public int getRowCount()
 	{
 		return this.data.length;
 	}
 
 
-	/**
-	 *
-	 */
+	@Override
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
 		return this.data[rowIndex][columnIndex];

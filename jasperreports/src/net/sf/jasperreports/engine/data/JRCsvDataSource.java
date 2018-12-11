@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -58,7 +58,9 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -203,7 +205,12 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location));
+		this(SimpleRepositoryContext.of(jasperReportsContext), location);
+	}
+
+	public JRCsvDataSource(RepositoryContext context, String location) throws JRException
+	{
+		this(RepositoryUtil.getInstance(context).getInputStreamFromLocation(location));
 		
 		toClose = true;
 	}
@@ -217,7 +224,12 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(JasperReportsContext jasperReportsContext, String location, String charsetName) throws JRException, UnsupportedEncodingException
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location), charsetName);
+		this(SimpleRepositoryContext.of(jasperReportsContext), location, charsetName);
+	}
+
+	public JRCsvDataSource(RepositoryContext context, String location, String charsetName) throws JRException, UnsupportedEncodingException
+	{
+		this(RepositoryUtil.getInstance(context).getInputStreamFromLocation(location), charsetName);
 		
 		toClose = true;
 	}

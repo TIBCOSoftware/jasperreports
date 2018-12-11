@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,7 +27,7 @@ header
 {
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -591,12 +591,11 @@ protected EXP
     : ('e'|'E') ('+'|'-')? (DIGIT)+
     ;
 protected ESC
-    : '\\'(
-        'n' { $setText("\n"); }
-        | 'r' { $setText("\r"); }
-        | 't' { $setText("\t"); }
-        | '"' { $setText("\""); }
-        )
+    : '\\' .
+        {
+            String ruleText = $getText;
+            $setText(ruleText);
+        }
     ;
 protected ID_START_LETTER
     : 'a'..'z'

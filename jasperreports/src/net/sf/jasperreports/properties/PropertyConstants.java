@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -224,8 +224,16 @@ public interface PropertyConstants
 
 	String VERSION_6_3_1 = JRConstants.VERSION_6_3_1;
 	
-	String VERSION_6_4_0 = "6.4.0";
+	String VERSION_6_4_0 = JRConstants.VERSION_6_4_0;
 
 	String VERSION_6_4_3 = JRConstants.VERSION_6_4_3;
-	
+
+	String VERSION_6_5_0 = "6.5.0";
+
+	String VERSION_6_5_1 = JRConstants.VERSION_6_5_1;
+
+	String VERSION_6_6_0 = "6.6.0";
+
+	String VERSION_6_8_0 = "6.8.0";
+
 }

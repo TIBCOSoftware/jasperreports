@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -81,14 +80,7 @@ public class XlsFeaturesApp extends AbstractSampleApp
 		{
 			long start = System.currentTimeMillis();
 			File sourceFile = files[i];
-			if(sourceFile.getName().contains("ExcelNames"))
-			{
-				JasperFillManager.fillReportToFile(sourceFile.getPath(), null, new JREmptyDataSource(15));
-			}
-			else
-			{
-				JasperFillManager.fillReportToFile(sourceFile.getPath(), new HashMap<String, Object>(parameters));
-			}
+			JasperFillManager.fillReportToFile(sourceFile.getPath(), new HashMap<String, Object>(parameters));
 			System.err.println("Report : " + sourceFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -105,8 +105,9 @@ define(function(require){
                     };
                     if(markerProps['icon.url'] && markerProps['icon.url'].length > 0) it._configureImage('icon', markerProps, markerOptions);
                     else if (markerProps['icon'] && markerProps['icon'].length > 0) markerOptions['icon'] = markerProps['icon'];
-                    else if (markerProps['color'] && markerProps['color'].length > 0) markerOptions['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + ((markerProps['label'] && markerProps['label'].length > 0) ? markerProps['label'] : '%E2%80%A2')+ '%7C' + markerProps['color'];
-                    else if(markerProps['label'] && markerProps['label'].length > 0) markerOptions['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + markerProps['label'] + '%7CFE7569';
+                    else if (markerProps['color'] && markerProps['color'].length > 0) {
+                    		markerOptions['icon'] = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%7C' + markerProps['color'];
+                    	}
                     if(markerProps['shadow.url'] && markerProps['shadow.url'].length > 0) it._configureImage('shadow', markerProps, markerOptions);
                     else if(markerProps['shadow'] && markerProps['shadow'].length > 0) markerOptions['shadow'] = markerProps['shadow'];
                     for (j in markerProps) {
@@ -126,6 +127,7 @@ define(function(require){
             if(p) {
                 for(var k=0; k<p.length; k++){
                     var props = p[k],o={},l=[],isPoly = false;
+                    var poly;
                     for(prop in props){
                         if(prop === 'locations' && props[prop]){
                             var loc = props[prop];
@@ -142,10 +144,13 @@ define(function(require){
                     o['map']=map;
                     if(isPoly){
                         o['paths']=l;
-                        new google.maps.Polygon(o);
+                        poly = new google.maps.Polygon(o);
                     } else {
                         o['path']=l;
-                        new google.maps.Polyline(o);
+                        poly = new google.maps.Polyline(o);
+                    }
+                    if(o['path.hyperlink']){
+                    	gg.event.addListener(poly, 'click', function(){window.open(o['path.hyperlink'], o['path.hyperlink.target'])});
                     }
                 }
             }

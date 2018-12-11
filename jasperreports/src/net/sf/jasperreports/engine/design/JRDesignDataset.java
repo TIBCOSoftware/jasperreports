@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,7 +27,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,7 +69,6 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.CloneStore;
 import net.sf.jasperreports.engine.util.ContextClassLoaderObjectInputStream;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
@@ -179,7 +177,6 @@ public class JRDesignDataset extends JRBaseDataset
 	/**
 	 * An array containing the built-in parameters that can be found and used in any report dataset.
 	 */
-	@SuppressWarnings("deprecation")
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
 		JRParameter.REPORT_CONTEXT, ReportContext.class, 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
@@ -194,8 +191,6 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_TIME_ZONE, TimeZone.class, 
 		JRParameter.REPORT_FORMAT_FACTORY, FormatFactory.class, 
 		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
-		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class,
-		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class,
 		JRParameter.REPORT_TEMPLATES, Collection.class,
 		JRParameter.SORT_FIELDS, List.class,
 		JRParameter.FILTER, DatasetFilter.class

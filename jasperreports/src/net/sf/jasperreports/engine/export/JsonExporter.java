@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintBookmark;
 import net.sf.jasperreports.engine.PrintPart;
@@ -301,9 +302,6 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 		List<PrintBookmark> bookmarks = jasperPrint.getBookmarks();
 		if (bookmarks != null && bookmarks.size() > 0)
 		{
-			// exclude the methods marked with @JsonIgnore in PrintBookmarkMixin from PrintBookmark implementation
-			jacksonUtil.getObjectMapper().addMixInAnnotations(PrintBookmark.class, PrintBookmarkMixin.class);
-
 			if (gotFirstJsonFragment)
 			{
 				writer.write(",\n");
@@ -311,14 +309,24 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			{
 				gotFirstJsonFragment = true;
 			}
-			writer.write("\"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\": {");
-
-			writer.write("\"id\": \"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\",");
-			writer.write("\"type\": \"bookmarks\",");
-			writer.write("\"bookmarks\": " + jacksonUtil.getJsonString(bookmarks));
-
-			writer.write("}");
+			
+			writer.write("\"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\": ");
+			writeBookmarks(bookmarks, writer, jacksonUtil);
 		}
+	}
+
+	public static void writeBookmarks(List<PrintBookmark> bookmarks, Writer writer, JacksonUtil jacksonUtil) throws IOException
+	{
+		// exclude the methods marked with @JsonIgnore in PrintBookmarkMixin from PrintBookmark implementation
+		jacksonUtil.getObjectMapper().addMixInAnnotations(PrintBookmark.class, PrintBookmarkMixin.class);
+
+		writer.write("{");
+
+		writer.write("\"id\": \"bkmrk_" + (bookmarks.hashCode() & 0x7FFFFFFF) + "\",");
+		writer.write("\"type\": \"bookmarks\",");
+		writer.write("\"bookmarks\": " + jacksonUtil.getJsonString(bookmarks));
+
+		writer.write("}");
 	}
 
 	protected void exportParts() throws IOException
@@ -334,43 +342,51 @@ public class JsonExporter extends JRAbstractExporter<JsonReportConfiguration, Js
 			{
 				gotFirstJsonFragment = true;
 			}
-			writer.write("\"parts_" + (parts.hashCode() & 0x7FFFFFFF) + "\": {");
-
-			writer.write("\"id\": \"parts_" + (parts.hashCode() & 0x7FFFFFFF) + "\",");
-			writer.write("\"type\": \"reportparts\",");
-			writer.write("\"parts\": [");
-
-			if (!parts.startsAtZero())
-			{
-				writer.write("{\"idx\": 0, \"name\": \"");
-				writer.write(JsonStringEncoder.getInstance().quoteAsString(jasperPrint.getName()));
-				writer.write("\"}");
-				if (parts.partCount() > 1)
-				{
-					writer.write(",");
-				}
-			}
-
-			Iterator<Map.Entry<Integer, PrintPart>> it = parts.partsIterator();
-
-			while (it.hasNext())
-			{
-				Map.Entry<Integer, PrintPart> partsEntry = it.next();
-				int idx = partsEntry.getKey();
-				PrintPart part = partsEntry.getValue();
-				
-				writer.write("{\"idx\": " + idx + ", \"name\": \"");
-				writer.write(JsonStringEncoder.getInstance().quoteAsString(part.getName()));
-				writer.write("\"}");
-				if (it.hasNext())
-				{
-					writer.write(",");
-				}
-			}
-
-			writer.write("]");
-			writer.write("}");
+			
+			writer.write("\"parts_" + (parts.hashCode() & 0x7FFFFFFF) + "\": ");
+			writeParts(jasperPrint, writer);
 		}
+	}
+
+	public static void writeParts(JasperPrint jasperPrint, Writer writer) throws IOException
+	{
+		PrintParts parts = jasperPrint.getParts();
+		writer.write("{");
+
+		writer.write("\"id\": \"parts_" + (parts.hashCode() & 0x7FFFFFFF) + "\",");
+		writer.write("\"type\": \"reportparts\",");
+		writer.write("\"parts\": [");
+
+		if (!parts.startsAtZero())
+		{
+			writer.write("{\"idx\": 0, \"name\": \"");
+			writer.write(JsonStringEncoder.getInstance().quoteAsString(jasperPrint.getName()));
+			writer.write("\"}");
+			if (parts.partCount() > 1)
+			{
+				writer.write(",");
+			}
+		}
+
+		Iterator<Map.Entry<Integer, PrintPart>> it = parts.partsIterator();
+
+		while (it.hasNext())
+		{
+			Map.Entry<Integer, PrintPart> partsEntry = it.next();
+			int idx = partsEntry.getKey();
+			PrintPart part = partsEntry.getValue();
+			
+			writer.write("{\"idx\": " + idx + ", \"name\": \"");
+			writer.write(JsonStringEncoder.getInstance().quoteAsString(part.getName()));
+			writer.write("\"}");
+			if (it.hasNext())
+			{
+				writer.write(",");
+			}
+		}
+
+		writer.write("]");
+		writer.write("}");
 	}
 
 	protected void exportWebFonts() throws IOException

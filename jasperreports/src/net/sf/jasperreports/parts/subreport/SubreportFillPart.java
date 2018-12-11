@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,6 +25,9 @@ package net.sf.jasperreports.parts.subreport;
 
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -57,9 +60,12 @@ import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JRHorizontalFiller;
 import net.sf.jasperreports.engine.fill.JRVerticalFiller;
+import net.sf.jasperreports.engine.fill.JasperReportSource;
 import net.sf.jasperreports.engine.fill.PartReportFiller;
+import net.sf.jasperreports.engine.fill.SimpleJasperReportSource;
 import net.sf.jasperreports.engine.part.BasePartFillComponent;
 import net.sf.jasperreports.engine.part.FillingPrintPart;
 import net.sf.jasperreports.engine.part.PartPrintOutput;
@@ -67,6 +73,11 @@ import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.util.BookmarksFlatDataSource;
 import net.sf.jasperreports.parts.PartFillerParent;
 import net.sf.jasperreports.properties.PropertyConstants;
+import net.sf.jasperreports.repo.RepositoryContext;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.ResourceInfo;
+import net.sf.jasperreports.repo.SimpleRepositoryResourceContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -74,6 +85,8 @@ import net.sf.jasperreports.properties.PropertyConstants;
 public class SubreportFillPart extends BasePartFillComponent
 {
 
+	private static final Log log = LogFactory.getLog(SubreportFillPart.class);
+	
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_PRINT_ORDER = "parts.subreport.unknown.report.print.order";
 	public static final String EXCEPTION_MESSAGE_KEY_UNKNOWN_REPORT_SECTION_TYPE = "parts.subreport.unknown.report.section.type";
 	
@@ -93,7 +106,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	private FillReturnValues.SourceContext returnValuesSource;
 
 	private Object reportSource;
-	private JasperReport jasperReport;
+	private JasperReportSource jasperReportSource;
 	private Map<String, Object> parameterValues;
 	
 	private FillDatasetPosition datasetPosition;
@@ -115,7 +128,7 @@ public class SubreportFillPart extends BasePartFillComponent
 			}
 			
 			@Override
-			public JRVariable getToVariable(String name) {
+			public JRFillVariable getToVariable(String name) {
 				return fillContext.getFiller().getVariable(name);
 			}
 			
@@ -129,7 +142,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	@Override
 	public void evaluate(byte evaluation) throws JRException
 	{
-		jasperReport = evaluateReport(evaluation);
+		jasperReportSource = evaluateReportSource(evaluation);
 		
 		JRFillDataset parentDataset = expressionEvaluator.getFillDataset();
 		datasetPosition = new FillDatasetPosition(parentDataset.getFillPosition());
@@ -140,6 +153,7 @@ public class SubreportFillPart extends BasePartFillComponent
 		cacheIncluded = JRPropertiesUtil.asBoolean(cacheIncludedProp, true);// default to true
 		//FIXMEBOOK do not evaluate REPORT_DATA_SOURCE
 		
+		JasperReport jasperReport = getReport();
 		parameterValues = JRFillSubreport.getParameterValues(fillContext.getFiller(), expressionEvaluator, 
 				subreportPart.getParametersMapExpression(), subreportPart.getParameters(), 
 				evaluation, false, 
@@ -148,10 +162,43 @@ public class SubreportFillPart extends BasePartFillComponent
 		setBookmarksParameter();
 	}
 
-	private JasperReport evaluateReport(byte evaluation) throws JRException
+	private JasperReportSource evaluateReportSource(byte evaluation) throws JRException
 	{
 		reportSource = fillContext.evaluate(subreportPart.getExpression(), evaluation);
-		return JRFillSubreport.loadReport(reportSource, fillContext.getFiller());//FIXMEBOOK cache
+		String reportLocation = null;
+		
+		String contextLocation = null;
+		Object source = reportSource;
+		RepositoryContext currentRepositoryContext = fillContext.getFiller().getRepositoryContext();
+		if (reportSource instanceof String)
+		{
+			reportLocation = (String) reportSource;
+			RepositoryUtil repository = RepositoryUtil.getInstance(currentRepositoryContext);
+			ResourceInfo resourceInfo = repository.getResourceInfo(reportLocation);
+			if (resourceInfo != null)
+			{
+				source = reportLocation = resourceInfo.getRepositoryResourceLocation();
+				contextLocation = resourceInfo.getRepositoryContextLocation();
+				if (log.isDebugEnabled())
+				{
+					log.debug("part source " + source + " resolved to " + reportLocation
+							+ ", context " + contextLocation);
+				}				
+			}
+		}
+		
+		JasperReport jasperReport = JRFillSubreport.loadReport(source, fillContext.getFiller());//FIXMEBOOK cache
+		
+		RepositoryResourceContext currentContext = currentRepositoryContext.getResourceContext();
+		RepositoryResourceContext reportContext = SimpleRepositoryResourceContext.of(contextLocation,
+				currentContext == null ? null : currentContext.getDerivedContextFallback());
+		JasperReportSource reportSource = SimpleJasperReportSource.from(jasperReport, reportLocation, reportContext);
+		return reportSource;
+	}
+	
+	private JasperReport getReport()
+	{
+		return jasperReportSource == null ? null : jasperReportSource.getReport();
 	}
 
 	private void setBookmarksParameter()
@@ -192,7 +239,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	
 	protected BaseReportFiller createSubreportFiller(final PartPrintOutput output) throws JRException
 	{
-		SectionTypeEnum sectionType = jasperReport.getSectionType();
+		SectionTypeEnum sectionType = getReport().getSectionType();
 		sectionType = sectionType == null ? SectionTypeEnum.BAND : sectionType;
 		
 		BaseReportFiller filler;
@@ -218,13 +265,14 @@ public class SubreportFillPart extends BasePartFillComponent
 	{
 		BandReportFillerParent bandParent = new PartBandParent(output);
 		JRBaseFiller bandFiller;
+		JasperReport jasperReport = getReport();
 		switch (jasperReport.getPrintOrderValue())
 		{
 		case HORIZONTAL:
-			bandFiller = new JRHorizontalFiller(getJasperReportsContext(), jasperReport, bandParent);
+			bandFiller = new JRHorizontalFiller(getJasperReportsContext(), jasperReportSource, bandParent);
 			break;
 		case VERTICAL:
-			bandFiller = new JRVerticalFiller(getJasperReportsContext(), jasperReport, bandParent);
+			bandFiller = new JRVerticalFiller(getJasperReportsContext(), jasperReportSource, bandParent);
 			break;
 		default:
 			throw 
@@ -254,7 +302,7 @@ public class SubreportFillPart extends BasePartFillComponent
 	protected BaseReportFiller createPartSubfiller(PartPrintOutput output) throws JRException
 	{
 		PartParent partParent = new PartParent(output);
-		PartReportFiller partFiller = new PartReportFiller(getJasperReportsContext(), jasperReport, partParent);
+		PartReportFiller partFiller = new PartReportFiller(getJasperReportsContext(), jasperReportSource, partParent);
 		return partFiller;
 	}
 	
@@ -270,6 +318,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		protected PartBandParent(PartPrintOutput output)
 		{
 			this.output = output;
+		}
+
+		@Override
+		public String getReportName()
+		{
+			return getReport().getName();
 		}
 
 		@Override
@@ -322,6 +376,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
+		public boolean isSplitTypePreventInhibited(boolean isTopLevelCall)
+		{
+			return true;
+		}
+
+		@Override
 		public void addPage(FillerPageAddedEvent pageAdded) throws JRException
 		{
 			if (pageAdded.getPageIndex() == 0)
@@ -355,7 +415,7 @@ public class SubreportFillPart extends BasePartFillComponent
 		@Override
 		public String getReportLocation()
 		{
-			return reportSource instanceof String ? (String) reportSource : null;
+			return jasperReportSource == null ? null : jasperReportSource.getReportLocation();
 		}
 
 		@Override

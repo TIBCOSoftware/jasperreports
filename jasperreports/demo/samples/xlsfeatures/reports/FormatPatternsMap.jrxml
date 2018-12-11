@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.2.beta-v201706131457 using JasperReports Library version 6.4.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FormatPatternsMap" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55220e4e-fb21-4bc4-af90-07100d06b8f1">
+	<style name="defaultStyle" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
+	<title>
+		<band height="400" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="135" width="180" height="30" uuid="3a6a4a8d-92ca-46cc-b7a2-63901be56936"/>
+				<text><![CDATA[Current date:]]></text>
+			</staticText>
+			<textField pattern="EEE, MMM d, yyyy">
+				<reportElement x="180" y="135" width="300" height="30" uuid="60dd5839-6f84-4da8-a9a5-76c9f2370e1e"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="165" width="180" height="30" uuid="0c56070d-b9f0-4534-aa95-664dd0e7135d"/>
+				<text><![CDATA[Current time:]]></text>
+			</staticText>
+			<textField pattern="hh:mm a">
+				<reportElement x="180" y="165" width="300" height="30" uuid="60dd5839-6f84-4da8-a9a5-76c9f2370e1e">
+					<property name="net.sf.jasperreports.export.xls.pattern" value="hh:mm AM/PM"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="195" width="180" height="30" uuid="e402f88c-cb26-403b-8e19-49325fa180ec"/>
+				<text><![CDATA[Currency value:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00¤">
+				<reportElement x="180" y="195" width="300" height="30" uuid="e6f74411-edd0-4e48-b277-1cda87817fd0"/>
+				<textFieldExpression><![CDATA[1234.567]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="225" width="180" height="30" uuid="cce5267b-91af-4c52-827a-9f76a209cd06"/>
+				<text><![CDATA[Percent value:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="180" y="225" width="300" height="30" uuid="8ad57dcc-9a06-4c26-bfcb-444a96149105"/>
+				<textFieldExpression><![CDATA[0.25]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="50" width="480" height="50" uuid="48cd740f-a064-4ea7-bd33-db0a89e55f92"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Excel Format Patterns Map Sample]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

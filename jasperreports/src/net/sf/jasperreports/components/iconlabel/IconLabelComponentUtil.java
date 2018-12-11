@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -177,6 +177,7 @@ public class IconLabelComponentUtil
 		labelTextField.setHorizontalTextAlign(parentElement.getOwnHorizontalTextAlign());
 		labelTextField.setVerticalTextAlign(parentElement.getOwnVerticalTextAlign());
 		labelTextField.setRotation(parentElement.getOwnRotationValue());//FIXMEICONLABEL how does it work?
+		labelTextField.setMarkup(parentElement.getMarkup());
 //		JRBoxUtil.copy(parentElement.getLineBox(), labelTextField.getLineBox());
 		labelTextField.getLineBox().setRightPadding(0);
 		labelTextField.getLineBox().getPen().setLineWidth(0);
@@ -212,13 +213,11 @@ public class IconLabelComponentUtil
 		{
 			labelTextField.setStretchWithOverflow(textField.isStretchWithOverflow());
 			labelTextField.setBlankWhenNull(textField.isBlankWhenNull());
-			labelTextField.setMarkup(textField.getMarkup());
 			labelTextField.setPattern(textField.getPattern());
 			labelTextField.setPatternExpression(textField.getPatternExpression());
 			labelTextField.setBookmarkLevel(textField.getBookmarkLevel());
 			labelTextField.setAnchorNameExpression(textField.getAnchorNameExpression());
 			labelTextField.setEvaluationTime(textField.getEvaluationTimeValue());
-			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
 			labelTextField.setEvaluationGroup(textField.getEvaluationGroup());
 		}
 

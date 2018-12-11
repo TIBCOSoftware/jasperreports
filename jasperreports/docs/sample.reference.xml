@@ -8,7 +8,6 @@
       <feature name="webapp" sample="webapp" title="Deploying Reports in Web Applications" complete="false"/>
       <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
-      <feature name="fileresolver" sample="tableofcontents" title="File Resolver"/>
     </content>
   </category>
   
@@ -63,6 +62,7 @@
       <feature name="spiderchartcomponent" sample="spiderchartcomponent" title="Using the Built-in Spider Chart Component"/>
       <feature name="xchart" sample="xchart" title="Rendering Images Using Third Party APIs (XChart Library)"/>
       <feature name="xchartcomponent" sample="xchartcomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (XChart Library)"/>
+      <feature name="customvisualization" sample="customvisualization" title="Custom Visualization Components"/>
     </content>
   </category>
   
@@ -73,7 +73,6 @@
       <feature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="xmlwriter" sample="hyperlink" title="Generating the JRXML Source File for an In-Memory Report Report Template Object"/>
       <feature name="noxmldesign" sample="noxmldesign" title="Creating In-Memory JasperDesign Objects Using the API Directly (Without JRXML Report Templates)"/>
-      <feature name="beanshell" sample="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)"/>
       <feature name="groovy" sample="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)"/>
       <feature name="java1.5" sample="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)"/>
       <feature name="javascript" sample="javascript" title="Using the JavaScript Language for Report Expressions (JavaScript Report Compiler)"/>

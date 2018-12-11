@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -66,12 +66,24 @@ public abstract class BaseFillHandle implements FillHandle
 			Connection conn
 			) throws JRException
 	{
+		this(jasperReportsContext, SimpleJasperReportSource.from(jasperReport),
+				parameters, dataSource, conn);
+	}
+	
+	protected BaseFillHandle (
+			JasperReportsContext jasperReportsContext,
+			JasperReportSource reportSource,
+			Map<String,Object> parameters,
+			JRDataSource dataSource,
+			Connection conn
+			) throws JRException
+	{
 		this.jasperReportsContext = jasperReportsContext;
-		this.jasperReport = jasperReport;
+		this.jasperReport = reportSource.getReport();
 		this.parameters = parameters;
 		this.dataSource = dataSource;
 		this.conn = conn;
-		this.filler = JRFiller.createReportFiller(jasperReportsContext, jasperReport);
+		this.filler = JRFiller.createReportFiller(jasperReportsContext, reportSource);
 		this.listeners = new ArrayList<AsynchronousFilllListener>();
 		lock = this;
 	}

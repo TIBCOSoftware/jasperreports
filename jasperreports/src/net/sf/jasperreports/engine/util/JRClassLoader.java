@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.ProtectionDomain;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -35,6 +37,21 @@ import java.security.ProtectionDomain;
  */
 public class JRClassLoader extends ClassLoader
 {
+	
+	private static final Map<String, String> PRIMITIVE_COMPONENT_ENCODING;
+	static
+	{
+		PRIMITIVE_COMPONENT_ENCODING = new HashMap<>();
+		//taken from https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getName--
+		PRIMITIVE_COMPONENT_ENCODING.put(Boolean.TYPE.getName(), "Z");
+		PRIMITIVE_COMPONENT_ENCODING.put(Byte.TYPE.getName(), "B");
+		PRIMITIVE_COMPONENT_ENCODING.put(Character.TYPE.getName(), "C");
+		PRIMITIVE_COMPONENT_ENCODING.put(Double.TYPE.getName(), "D");
+		PRIMITIVE_COMPONENT_ENCODING.put(Float.TYPE.getName(), "F");
+		PRIMITIVE_COMPONENT_ENCODING.put(Integer.TYPE.getName(), "I");
+		PRIMITIVE_COMPONENT_ENCODING.put(Long.TYPE.getName(), "J");
+		PRIMITIVE_COMPONENT_ENCODING.put(Short.TYPE.getName(), "S");
+	}
 
 	private static ProtectionDomainFactory protectionDomainFactory;
 	
@@ -380,9 +397,19 @@ public class JRClassLoader extends ClassLoader
 				sb.append('[');
 			}
 			
-			sb.append('L');
-			sb.append(className.substring(0, classNameEnd));
-			sb.append(';');
+			String componentClass = className.substring(0, classNameEnd);
+			String primitiveEncoding = PRIMITIVE_COMPONENT_ENCODING.get(componentClass);
+			if (primitiveEncoding == null)
+			{
+				//non primitive component
+				sb.append('L');
+				sb.append(componentClass);
+				sb.append(';');
+			}
+			else
+			{
+				sb.append(primitiveEncoding);
+			}
 
 			return sb.toString();
 		}

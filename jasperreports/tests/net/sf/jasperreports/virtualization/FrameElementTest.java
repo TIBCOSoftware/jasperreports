@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,13 +26,14 @@ package net.sf.jasperreports.virtualization;
 import java.util.List;
 import java.util.UUID;
 
+import org.testng.annotations.Test;
+
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.fill.DefaultPrintElementOriginator;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintText;
 import net.sf.jasperreports.engine.fill.JRTemplateText;
-
-import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -55,7 +56,7 @@ public class FrameElementTest extends BaseElementsTests
 	protected JRTemplatePrintFrame frame()
 	{
 		JRTemplateFrame template = new JRTemplateFrame(null, null);
-		JRTemplatePrintFrame frame = new JRTemplatePrintFrame(template, 10);
+		JRTemplatePrintFrame frame = new JRTemplatePrintFrame(template, new DefaultPrintElementOriginator(10));
 		frame.setUUID(UUID.randomUUID());
 		frame.setX(10);
 		frame.setY(20);
@@ -71,7 +72,7 @@ public class FrameElementTest extends BaseElementsTests
 	protected JRTemplatePrintText textElement(String text)
 	{
 		JRTemplateText template = new JRTemplateText(null, null);
-		JRTemplatePrintText element = new JRTemplatePrintText(template, 10);
+		JRTemplatePrintText element = new JRTemplatePrintText(template, new DefaultPrintElementOriginator(10));
 		element.setUUID(UUID.randomUUID());
 		element.setX(10);
 		element.setY(20);

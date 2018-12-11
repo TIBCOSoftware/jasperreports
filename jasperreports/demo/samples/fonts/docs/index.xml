@@ -175,7 +175,7 @@ and locales.
 <b>Font Extensions Step By Step</b>
 <br/>
 <br/>
-Let's take a look into the <code>/demo/fonts</code> directory. It contains the DejaVu font extension available as default font for all 
+Let's take a look into the <code>/ext/fonts</code> directory. It contains the DejaVu font extension available as default font for all 
 samples shipped with the JasperReports project distribution package.
 <br/>
 As known from extensions support, any JasperReports extension provides a <code>jasperreports_extension.properties</code> file in its root 

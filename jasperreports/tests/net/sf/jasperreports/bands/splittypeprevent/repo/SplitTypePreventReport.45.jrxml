@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.2.0.qualifier using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SplitTypePreventReport.45" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2cfe8dc0-5f37-4121-8302-8a8f0f5875ff">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
+	<subDataset name="Empty Dataset1" uuid="3fc367ec-010a-4de2-b51c-c71e2664817b">
+		<property name="net.sf.jasperreports.data.adapter" value="net/sf/jasperreports/data/EmptyDataAdapter.1.xml"/>
+		<field name="description" class="java.lang.String"/>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="description" class="java.lang.String"/>
+	<title>
+		<band height="700" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="555" height="700" uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab"/>
+				<box>
+					<pen lineWidth="1"/>
+				</box>
+				<textFieldExpression><![CDATA["Title"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="30" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="80" height="30" uuid="925687dc-60db-4517-938e-81db7f2a95b1">
+					<property name="net.sf.jasperreports.components.table.name" value="table"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="Empty Dataset1" uuid="2a498229-6a44-4a2d-919f-180bd7aed50b"/>
+					<jr:column width="80" uuid="18a87b02-f4d5-4dd4-a113-927b3573337a">
+						<jr:detailCell height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="80" height="30" uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab"/>
+								<textFieldExpression><![CDATA["Multi line text in table detail cell\nmore\nmore\nmore\nmore\nmore\nmore\nmore\nmore."]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

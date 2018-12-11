@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.export;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.repo.RepositoryResourceContext;
 
 
 /**
@@ -36,6 +37,11 @@ public interface ExporterInputItem
 	 */
 	public JasperPrint getJasperPrint();
 
+	default public RepositoryResourceContext getRepositoryReportContext()
+	{
+		return null;
+	}
+	
 	/**
 	 * 
 	 */

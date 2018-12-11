@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,7 +24,7 @@
 
 /*
  * Contributors:
- * Joakim Sandstr�m - sanjoa@users.sourceforge.net
+ * Joakim Sandström - sanjoa@users.sourceforge.net
  */
 package net.sf.jasperreports.engine.export;
 
@@ -486,6 +486,7 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 						if (
 							isNewerVersionOrEqual(JRConstants.VERSION_6_4_0)
 							&& encodedValue.length() != value.length()
+							&& value.trim().equals(value)
 							)
 						{
 							xmlWriter.writeCDATA(value);

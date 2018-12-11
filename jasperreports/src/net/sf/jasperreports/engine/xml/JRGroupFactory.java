@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -64,6 +64,12 @@ public class JRGroupFactory extends JRBaseFactory
 		if (isReprintHeaderOnEachPage != null && isReprintHeaderOnEachPage.length() > 0)
 		{
 			group.setReprintHeaderOnEachPage(Boolean.valueOf(isReprintHeaderOnEachPage).booleanValue());
+		}
+
+		String isReprintHeaderOnEachColumn = atts.getValue(JRXmlConstants.ATTRIBUTE_isReprintHeaderOnEachColumn);
+		if (isReprintHeaderOnEachColumn != null && isReprintHeaderOnEachColumn.length() > 0)
+		{
+			group.setReprintHeaderOnEachColumn(Boolean.valueOf(isReprintHeaderOnEachColumn).booleanValue());
 		}
 
 		String minHeightToStartNewPage = atts.getValue(JRXmlConstants.ATTRIBUTE_minHeightToStartNewPage);

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,9 +30,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.helpers.DefaultHandler;
 
 
@@ -44,7 +48,14 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XmlDataSniffer
 {
+	
+	private static final Log log = LogFactory.getLog(XmlDataSniffer.class);
+	
 	private static final String SAX_EXCEPTION_MESSAGE_VALID_XML = "something unique";
+	
+	private static final String FEATURE_EXTERNAL_GENERAL_ENTITIES = "http://xml.org/sax/features/external-general-entities";
+	private static final String FEATURE_EXTERNAL_PARAMETER_ENTITIES = "http://xml.org/sax/features/external-parameter-entities";
+	private static final String FEATURE_LOAD_EXTERNAL_DTD = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
 
 	private static class ValidXmlSAXException extends SAXException
 	{
@@ -68,7 +79,19 @@ public class XmlDataSniffer
 	 */
 	public static boolean isXmlData(byte[] data)
 	{
+		XmlSniffResult sniffResult = sniffXml(data);
+		return sniffResult != null;
+	}
+	
+	public static XmlSniffResult sniffXml(byte[] data)
+	{
 		SAXParserFactory factory = SAXParserFactory.newInstance();
+		factory.setValidating(false);
+		factory.setNamespaceAware(false);
+		factory.setXIncludeAware(false);
+		setParserFeature(factory, FEATURE_EXTERNAL_GENERAL_ENTITIES, false);
+		setParserFeature(factory, FEATURE_EXTERNAL_PARAMETER_ENTITIES, false);
+		setParserFeature(factory, FEATURE_LOAD_EXTERNAL_DTD, false);
 		
 		SaxHandler handler = new SaxHandler();
 		
@@ -78,23 +101,42 @@ public class XmlDataSniffer
 		{
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(bais, handler);
-			return true;
+			return new XmlSniffResult(handler.rootElementName);
 		}
 		catch (ValidXmlSAXException e)
 		{
-			return true;
+			return new XmlSniffResult(handler.rootElementName);
 		}
 		catch (SAXException | ParserConfigurationException | IOException e)
 		{
-			return false;
+			return null;
+		}
+	}
+
+	protected static void setParserFeature(SAXParserFactory factory, String feature, boolean value)
+	{
+		try
+		{
+			factory.setFeature(feature, value);
+		}
+		catch (SAXNotRecognizedException | SAXNotSupportedException | ParserConfigurationException e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Failed to set parser feature " + feature + ", error " + e);
+			}
 		}
 	}
 	
 	private static class SaxHandler extends DefaultHandler
 	{
+		private String rootElementName;
+
 		@Override
 		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
 		{
+			this.rootElementName = (qName != null && !qName.isEmpty()) ? qName
+					: ((localName != null && !localName.isEmpty()) ? localName : null);
 			throw new ValidXmlSAXException();
 		}
 
@@ -103,6 +145,21 @@ public class XmlDataSniffer
 		{
 			//stop any attempt to load entities
 			throw new ValidXmlSAXException();
+		}
+	}
+	
+	public static class XmlSniffResult
+	{
+		private final String rootElementName;
+		
+		public XmlSniffResult(String rootElementName)
+		{
+			this.rootElementName = rootElementName;
+		}
+
+		public String getRootElementName()
+		{
+			return rootElementName;
 		}
 	}
 }

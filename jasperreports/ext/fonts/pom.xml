@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports-fonts</artifactId>
+	<version>6.5.1</version>
+	<packaging>jar</packaging>
+	<name>JasperReports Font Extension</name>
+	<url>http://jasperreports.sourceforge.net</url>
+	<description>JasperReports Library Font Extension</description>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://jasperreports.sourceforge.net/license.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
+		<tag>jr-6-5-1</tag>
+		<url>https://github.com/TIBCOSoftware/jasperreports</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>teodord</id>
+			<name>Teodor Danciu</name>
+			<email>teodord@users.sourceforge.net</email>
+			<url>http://sourceforge.net/users/teodord</url>
+			<organization>TIBCO Software Inc.</organization>
+			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+	</developers>
+	<build>
+		<sourceDirectory>./</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>./</directory>
+				<includes>
+					<include>**/jasperreports_extension.properties</include>
+					<include>**/fonts.xml</include>
+					<include>**/*.ttf</include>
+					<include>**/*.otf</include>
+					<include>**/*.eot</include>
+					<include>**/*.woff</include>
+					<include>**/*.svg</include>
+					<include>**/LICENSE</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Built-By>TIBCO Software Inc.</Built-By>
+						</manifestEntries>
+						<manifestSections>
+							<manifestSection>
+								<name>net/sf/jasperreports/fonts/</name>
+								<manifestEntries>
+									<Specification-Title>JasperReports Library Font Extension</Specification-Title>
+									<Specification-Version>${pom.version}</Specification-Version>
+									<Specification-Vendor>TIBCO Software Inc.</Specification-Vendor>
+									<Implementation-Title>net.sf.jasperreports.fonts</Implementation-Title>
+									<Implementation-Version>${pom.version}</Implementation-Version>
+									<Implementation-Vendor>TIBCO Software Inc.</Implementation-Vendor>
+								</manifestEntries>
+							</manifestSection>
+						</manifestSections>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

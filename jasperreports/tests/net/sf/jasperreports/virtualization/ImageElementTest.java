@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -33,11 +33,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.testng.annotations.Test;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fill.DefaultPrintElementOriginator;
 import net.sf.jasperreports.engine.fill.JREvaluationTime;
 import net.sf.jasperreports.engine.fill.JRRecordedValues;
 import net.sf.jasperreports.engine.fill.JRRecordedValuesPrintImage;
@@ -47,8 +50,6 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.renderers.AbstractRenderToImageDataRenderer;
 import net.sf.jasperreports.renderers.DataRenderable;
 import net.sf.jasperreports.renderers.SimpleDataRenderer;
-
-import org.testng.annotations.Test;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -181,7 +182,7 @@ public class ImageElementTest extends BaseElementsTests
 	public void recordedValues()
 	{
 		JRTemplateImage template = new JRTemplateImage(null, null);
-		JRRecordedValuesPrintImage image = new JRRecordedValuesPrintImage(template, 10);
+		JRRecordedValuesPrintImage image = new JRRecordedValuesPrintImage(template, new DefaultPrintElementOriginator(10));
 		setImageElement(image);
 		
 		Set<JREvaluationTime> evaluationTimes = new HashSet<JREvaluationTime>();
@@ -224,7 +225,7 @@ public class ImageElementTest extends BaseElementsTests
 	protected JRTemplatePrintImage imageElement()
 	{
 		JRTemplateImage template = new JRTemplateImage(null, null);
-		JRTemplatePrintImage image = new JRTemplatePrintImage(template, 10);
+		JRTemplatePrintImage image = new JRTemplatePrintImage(template, new DefaultPrintElementOriginator(10));
 		setImageElement(image);
 		return image;
 	}

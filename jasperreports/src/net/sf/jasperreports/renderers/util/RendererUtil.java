@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -51,7 +51,11 @@ import net.sf.jasperreports.renderers.RenderersCache;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 import net.sf.jasperreports.renderers.SimpleDataRenderer;
 import net.sf.jasperreports.renderers.WrappingRenderToImageDataRenderer;
+import net.sf.jasperreports.renderers.util.SvgDataSniffer.SvgInfo;
+import net.sf.jasperreports.renderers.util.XmlDataSniffer.XmlSniffResult;
+import net.sf.jasperreports.repo.RepositoryContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -69,19 +73,22 @@ public class RendererUtil
 
 	public static final String SVG_MIME_TYPE = "image/svg+xml";
 	public static final String SVG_FILE_EXTENSION = "svg";
+	
+	protected static final String SVG_ROOT_ELEMENT = "svg";
+	protected static final String SVG_ROOT_ELEMENT_QNAME_SUFFIX = ":" + SVG_ROOT_ELEMENT;
 
 	/**
 	 *
 	 */
-	private final JasperReportsContext jasperReportsContext;
+	private final RepositoryContext context;
 	private SvgDataSniffer svgDataSniffer;
 
 	/**
 	 *
 	 */
-	private RendererUtil(JasperReportsContext jasperReportsContext)
+	private RendererUtil(RepositoryContext context)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.context = context;
 	}
 
 
@@ -90,7 +97,12 @@ public class RendererUtil
 	 */
 	public static RendererUtil getInstance(JasperReportsContext jasperReportsContext)
 	{
-		return new RendererUtil(jasperReportsContext);
+		return getInstance(SimpleRepositoryContext.of(jasperReportsContext));
+	}
+
+	public static RendererUtil getInstance(RepositoryContext context)
+	{
+		return new RendererUtil(context);
 	}
 
 
@@ -99,16 +111,8 @@ public class RendererUtil
 	 */
 	public boolean isSvgData(byte[] data)
 	{
-		if (JRTypeSniffer.getImageTypeValue(data) == ImageTypeEnum.UNKNOWN)
-		{
-			//change the general XML sniffer to a test that specifically looks for an <svg> node?
-			if (XmlDataSniffer.isXmlData(data))
-			{
-				return getSvgDataSniffer().isSvgData(data);
-			}
-		}
-		
-		return false;
+		SvgInfo svgInfo = getSvgInfo(data);
+		return svgInfo != null;
 	}
 
 
@@ -119,13 +123,25 @@ public class RendererUtil
 	{
 		if (JRTypeSniffer.getImageTypeValue(data) == ImageTypeEnum.UNKNOWN)
 		{
-			if (XmlDataSniffer.isXmlData(data))
+			XmlSniffResult xmlSniff = XmlDataSniffer.sniffXml(data);
+			if (xmlSniff != null)
 			{
-				return getSvgDataSniffer().getSvgInfo(data);
+				String rootElement = xmlSniff.getRootElementName();
+				if (rootElement == null //the sniffer did not determine the root element, trying SVG to be sure
+						|| isSvgRootElement(rootElement))
+				{
+					return getSvgDataSniffer().getSvgInfo(data);
+				}
 			}
 		}
 		
 		return null;
+	}
+	
+	protected boolean isSvgRootElement(String rootElementName)
+	{
+		return rootElementName.equalsIgnoreCase(SVG_ROOT_ELEMENT)
+				|| rootElementName.toLowerCase().endsWith(SVG_ROOT_ELEMENT_QNAME_SUFFIX);
 	}
 
 
@@ -134,7 +150,7 @@ public class RendererUtil
 	 */
 	public boolean isSvgData(DataRenderable dataRenderable) throws JRException
 	{
-		return isSvgData(dataRenderable.getData(jasperReportsContext));
+		return isSvgData(dataRenderable.getData(context.getJasperReportsContext()));//TODO pass report context?
 	}
 
 
@@ -145,7 +161,7 @@ public class RendererUtil
 	{
 		if (svgDataSniffer == null)
 		{
-			svgDataSniffer = SvgDataSniffer.getInstance(jasperReportsContext);
+			svgDataSniffer = SvgDataSniffer.getInstance(context.getJasperReportsContext());
 		}
 		return svgDataSniffer;
 	}
@@ -160,7 +176,7 @@ public class RendererUtil
 
 		try
 		{
-			data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(resourceLocation);
+			data = RepositoryUtil.getInstance(context).getBytesFromLocation(resourceLocation);
 		}
 		catch (Exception e)
 		{
@@ -211,7 +227,7 @@ public class RendererUtil
 		byte[] data = null;
 		try
 		{
-			data = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType);
+			data = JRImageLoader.getInstance(context.getJasperReportsContext()).loadBytesFromAwtImage(image, imageType);
 		}
 		catch (Exception e)
 		{
@@ -226,6 +242,11 @@ public class RendererUtil
 	}
 
 
+	public Renderable getRenderable(byte[] data)
+	{
+		return SimpleDataRenderer.getInstance(data);
+	}
+	
 	/**
 	 *
 	 */

@@ -157,6 +157,9 @@
 							<c:itemProperty name="isPolygon">
 								<valueExpression><![CDATA[$F{ispolygon}]]></valueExpression>
 							</c:itemProperty>
+							<c:itemProperty name="path.hyperlink">
+								<valueExpression><![CDATA["http://www.google.com"]]></valueExpression>
+							</c:itemProperty>
 						</c:item>
 					</c:pathData>
 					<!--c:pathData>

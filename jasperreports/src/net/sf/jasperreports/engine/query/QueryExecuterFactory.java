@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -100,6 +100,14 @@ public interface QueryExecuterFactory extends JRQueryExecuterFactory
 		Map<String,? extends JRValueParameter> parameters
 		) throws JRException;
 
+	default public JRQueryExecuter createQueryExecuter(
+			QueryExecutionContext context, 
+			JRDataset dataset, 
+			Map<String,? extends JRValueParameter> parameters
+			) throws JRException
+	{
+		return createQueryExecuter(context.getJasperReportsContext(), dataset, parameters);
+	}
 	
 	/**
 	 * Decides whether the query executers created by this factory support a query parameter type.
