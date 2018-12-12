@@ -579,7 +579,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		for (JRPrintElement element : page.getElements())
 		{
 			if (
-				!(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() != BandTypeEnum.BACKGROUND)
+				!(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
 				&& !(hasToSlideMasterElements && getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false))
 				)
 			{
