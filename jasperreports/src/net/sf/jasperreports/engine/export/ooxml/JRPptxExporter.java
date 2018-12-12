@@ -1193,12 +1193,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			if (fieldTypeEnum != null)
 			{
 				uuid = text.getUUID().toString().toUpperCase();
-				switch(fieldTypeEnum)
-				{
-					case SLIDENUM : fieldType = FIELD_TYPE_SLIDENUM; break;
-					case DATETIME : fieldType = OoxmlUtils.getPptxDateTime(text.getPattern()); break;
-					default:
-				}
+				fieldType = fieldTypeEnum.getName();
 			}
 			exportStyledText(text.getStyle(), styledText, getTextLocale(text), fieldType, uuid);
 		}

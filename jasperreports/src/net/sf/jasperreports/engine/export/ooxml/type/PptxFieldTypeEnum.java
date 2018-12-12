@@ -39,7 +39,33 @@ public enum PptxFieldTypeEnum implements NamedEnum
 	/**
 	 *
 	 */
-	DATETIME("datetime");
+	DATETIME("datetime"),
+
+	DATETIME1("datetime1"),
+	
+	DATETIME2("datetime2"),
+	
+	DATETIME3("datetime3"),
+	
+	DATETIME4("datetime4"),
+	
+	DATETIME5("datetime5"),
+	
+	DATETIME6("datetime6"),
+	
+	DATETIME7("datetime7"),
+	
+	DATETIME8("datetime8"),
+	
+	DATETIME9("datetime9"),
+	
+	DATETIME10("datetime10"),
+	
+	DATETIME11("datetime11"),
+	
+	DATETIME12("datetime12"),
+	
+	DATETIME13("datetime13");
 
 	/**
 	 *
