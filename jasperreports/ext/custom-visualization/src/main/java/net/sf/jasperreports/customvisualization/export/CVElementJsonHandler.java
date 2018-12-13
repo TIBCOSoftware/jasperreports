@@ -25,6 +25,7 @@ package net.sf.jasperreports.customvisualization.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
+import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.customvisualization.Processor;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -104,7 +105,7 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 		configuration.put("module", element.getParameterValue(CVPrintElement.MODULE));
 
 		Map<String, Object> velocityContext = new HashMap<String, Object>();
-		velocityContext.put("elementId", "element" + element.hashCode());
+		velocityContext.put("elementId", CVUtils.getElementId(element));
 		velocityContext.put("configuration", configuration);
 
 		return VelocityUtil.processTemplate(CV_ELEMENT_JSON_TEMPLATE, velocityContext);
@@ -145,7 +146,7 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 				configuration.put("property." + prop, element.getPropertiesMap().getProperty(prop));
 			}
 
-			jsonConfiguration.put("id", "element" + element.hashCode());
+			jsonConfiguration.put("id", CVUtils.getElementId(element));
 
 			if (element.getParameterValue(CVPrintElement.SCRIPT_URI) != null)
 			{

@@ -41,6 +41,8 @@ public final class CVPrintElement
 	public static final JRGenericElementType CV_ELEMENT_TYPE =
 		new JRGenericElementType(CVConstants.NAMESPACE, CVConstants.COMPONENT_NAME);
 
+	public static final String PARAMETER_ELEMENT_ID = "elementId";
+	
 	public static final String CONFIGURATION = "configuration";
 	public static final String SCRIPT = "script";
 	public static final String SCRIPT_URI = "script_uri";

@@ -141,6 +141,7 @@ public class CVElementHtmlHandler extends CVElementAbstractGenericHandler implem
 			velocityContext.put("module", element.getParameterValue(CVPrintElement.MODULE));
 		}
 
+		velocityContext.put("elementId", CVUtils.getElementId(element));
 		velocityContext.put("configuration", configuration);
 
 		return VelocityUtil.processTemplate(COMPONENT_TEMPLATE, velocityContext);
