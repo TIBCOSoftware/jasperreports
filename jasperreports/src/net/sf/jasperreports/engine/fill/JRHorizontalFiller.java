@@ -502,7 +502,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					--reattempts;
 				}
 
-				boolean fits = columnHeader.getHeight() <= columnFooterOffsetY - offsetY;
+				boolean fits = columnHeader.getHeight() <= columnFooterOffsetY - columnHeaderOffsetY;
 				for (int i = 0; !fits && i < reattempts; ++i)
 				{
 					fillPageFooter(evaluation);
@@ -518,7 +518,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 					fillPageHeader(evaluation);
 
-					fits = columnHeader.getHeight() <= columnFooterOffsetY - offsetY;
+					fits = columnHeader.getHeight() <= columnFooterOffsetY - columnHeaderOffsetY;
 				}
 
 				if (!fits)
