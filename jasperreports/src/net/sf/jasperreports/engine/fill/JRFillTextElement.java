@@ -105,7 +105,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 	protected final JRLineBox initLineBox;
 	protected final JRParagraph initParagraph;
-	private final boolean consumeSpaceOnOverflow;
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
 
@@ -113,6 +112,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private FillStyleObjects fillStyleObjects;
 	private Map<JRStyle, FillStyleObjects> fillStyleObjectsMap;
 	
+	private Boolean defaultConsumeSpaceOnOverflow;
+	private boolean dynamicConsumeSpaceOnOverflow;
 	private Boolean defaultKeepFullText;
 	private boolean dynamicKeepFullText;
 
@@ -130,13 +131,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		initLineBox = textElement.getLineBox().clone(this);
 		initParagraph = textElement.getParagraph().clone(this);
 
-		// not supporting property expressions for this
-		this.consumeSpaceOnOverflow = filler.getPropertiesUtil().getBooleanProperty(
-				PROPERTY_CONSUME_SPACE_ON_OVERFLOW, true,
-				// manually falling back to report properties as getParentProperties() is null for textElement
-				textElement, filler.getMainDataset()
-				);
-		
+		this.dynamicConsumeSpaceOnOverflow = hasDynamicProperty(PROPERTY_CONSUME_SPACE_ON_OVERFLOW);
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
 		
 		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
@@ -149,10 +144,12 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		initLineBox = textElement.getLineBox().clone(this);
 		initParagraph = textElement.getParagraph().clone(this);
-		this.consumeSpaceOnOverflow = textElement.consumeSpaceOnOverflow;
-		
+
+		this.defaultConsumeSpaceOnOverflow = textElement.defaultConsumeSpaceOnOverflow;
+		this.dynamicConsumeSpaceOnOverflow = textElement.dynamicConsumeSpaceOnOverflow;
 		this.defaultKeepFullText = textElement.defaultKeepFullText;
 		this.dynamicKeepFullText = textElement.dynamicKeepFullText;
+
 		this.fillStyleObjectsMap = textElement.fillStyleObjectsMap;
 	}
 
@@ -622,7 +619,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			// the exact text height against the available height
 			int elementTextHeight = (int) getTextHeight() + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
 			boolean textEnded = measuredText.getTextOffset() >= tmpStyledText.getText().length();
-			if (textEnded || !canOverflow || !consumeSpaceOnOverflow)
+			if (textEnded || !canOverflow || !isConsumeSpaceOnOverflow())
 			{
 				setPrepareHeight(elementTextHeight);
 			}
@@ -651,6 +648,28 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setTextTruncateSuffix(measuredText.getTextSuffix());
 		setLineSpacingFactor(measuredText.getLineSpacingFactor());
 		setLeadingOffset(measuredText.getLeadingOffset());
+	}
+	
+	protected boolean isConsumeSpaceOnOverflow()
+	{
+		if (defaultConsumeSpaceOnOverflow == null)
+		{
+			defaultConsumeSpaceOnOverflow = filler.getPropertiesUtil().getBooleanProperty( 
+					PROPERTY_CONSUME_SPACE_ON_OVERFLOW, true,
+					// manually falling back to report properties as getParentProperties() is null for textElement
+					parent, filler.getMainDataset());//TODO
+		}
+		
+		boolean consumeSpaceOnOverflow = defaultConsumeSpaceOnOverflow;
+		if (dynamicConsumeSpaceOnOverflow)
+		{
+			String consumeSpaceOnOverflowProp = getDynamicProperties().getProperty(PROPERTY_CONSUME_SPACE_ON_OVERFLOW);
+			if (consumeSpaceOnOverflowProp != null)
+			{
+				consumeSpaceOnOverflow = JRPropertiesUtil.asBoolean(consumeSpaceOnOverflowProp);
+			}
+		}
+		return consumeSpaceOnOverflow;
 	}
 	
 //	public int getPrintElementHeight()

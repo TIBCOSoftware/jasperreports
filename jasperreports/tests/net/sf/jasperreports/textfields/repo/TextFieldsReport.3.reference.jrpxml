@@ -10,7 +10,7 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<page>
 		<text textHeight="149.0" lineSpacingFactor="1.1640625" leadingOffset="-15.09375">
-			<reportElement uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" x="40" y="592" width="515" height="200" backcolor="#00FFFF" origin="0" srcId="1" printId="1"/>
+			<reportElement uuid="20ce6e87-e50b-44a3-9e11-be52254d221c" mode="Opaque" x="40" y="592" width="515" height="149" backcolor="#00FFFF" origin="0" srcId="1" printId="1"/>
 			<font size="64"/>
 			<textContent><![CDATA[blah
 blah
