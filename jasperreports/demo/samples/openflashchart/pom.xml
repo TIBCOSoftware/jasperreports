@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-ofc</artifactId>
-	<version>6.8.0-SNAPSHOT</version>
+	<version>master-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Open Flash Chart Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -20,7 +20,7 @@
 	</organization>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>jr-6-8-0</tag>
+		<tag>master-SNAPSHOT</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -97,7 +97,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.8.0-SNAPSHOT</version>
+			<version>master-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

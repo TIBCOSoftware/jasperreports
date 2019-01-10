@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-fonts</artifactId>
-	<version>6.8.0-SNAPSHOT</version>
+	<version>master-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Font Extension</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -20,7 +20,7 @@
 	</organization>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>jr-6-8-0</tag>
+		<tag>master-SNAPSHOT</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -72,8 +72,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>true</doCheck>
-					<doUpdate>true</doUpdate>
+					<doCheck>false</doCheck>
+					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>
 			<plugin>
