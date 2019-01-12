@@ -45,6 +45,7 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.customvisualization.CVComponent;
 import net.sf.jasperreports.customvisualization.CVConstants;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
+import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.customvisualization.Processor;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
@@ -234,6 +235,13 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 					printElement.getPropertiesMap().setProperty(ownPropName, element.getPropertiesMap().getProperty(ownPropName));
 				}
 			}
+		}
+		
+		String elementId = CVUtils.generateElementId();
+		printElement.setParameterValue(CVPrintElement.PARAMETER_ELEMENT_ID, elementId);
+		if (log.isDebugEnabled())
+		{
+			log.debug("generating element " + elementId);
 		}
 
 		if (isEvaluateNow())

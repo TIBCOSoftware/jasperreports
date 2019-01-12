@@ -188,7 +188,7 @@ public class CVElementPhantomJSImageDataProvider extends CVElementAbstractImageD
 						if (!(isPhantomJSinDebugMode && keepTempFiles)) {
 							if (log.isDebugEnabled())
 							{
-								log.debug("Cleaning up resource after rendering of element " + element.hashCode() + ": "
+								log.debug("Cleaning up resource after rendering of element " + CVUtils.getElementId(element) + ": "
 										+ cleanableResource.getAbsolutePath());
 							}
 

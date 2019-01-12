@@ -134,7 +134,7 @@ public class CVElementImageProvider
 				{
 					if (log.isErrorEnabled())
 					{
-						log.error("Generating image for Custom Visualization element " + element.hashCode() + " failed.", e);
+						log.error("Generating image for Custom Visualization element " + CVUtils.getElementId(element) + " failed.", e);
 					}
 
 					cacheRenderer = RendererUtil.getInstance(jasperReportsContext).handleImageError(e,
