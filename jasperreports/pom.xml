@@ -210,43 +210,48 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.3</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.2</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
 			<version>2.1</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>3.3.2.GA</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.transaction</groupId>
 					<artifactId>jta</artifactId>
 				</exclusion>
 			</exclusions>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.7.js6</version>
  			<scope>compile</scope>
+			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
@@ -270,6 +275,7 @@
 			<artifactId>jcommon</artifactId>
 			<version>1.0.23</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>gnujaxp</groupId>
@@ -282,6 +288,7 @@
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.19</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>gnujaxp</groupId>
@@ -315,6 +322,7 @@
 			<artifactId>ecj</artifactId>
 			<version>4.4.2</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -378,10 +386,13 @@
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- we need this dependency here because it was removed from Java 11 -->
 		<dependency>
 			<groupId>javax.xml.soap</groupId>
 			<artifactId>javax.xml.soap-api</artifactId>
 			<version>1.4.0</version>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.soap</groupId>
@@ -411,7 +422,42 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-anim</artifactId>
+			<version>1.9</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-awt-util</artifactId>
+			<version>1.9</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-bridge</artifactId>
+			<version>1.9</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-dom</artifactId>
+			<version>1.9</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-gvt</artifactId>
+			<version>1.9</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-svg-dom</artifactId>
 			<version>1.9</version>
 			<scope>compile</scope>
 			<optional>true</optional>
@@ -456,6 +502,7 @@
 			<artifactId>castor-xml</artifactId>
 			<version>1.3.3</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -482,18 +529,28 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.9.8</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.8</version>
 			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.9.8</version>
 			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis-ext</artifactId>
+			<version>1.3.04</version>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -561,6 +618,13 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3.3</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
 			<version>3.2.1</version>
@@ -571,11 +635,20 @@
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
 			<version>57.1</version>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 			<version>2.4.2</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.5</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

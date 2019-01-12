@@ -72,8 +72,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>false</doCheck>
-					<doUpdate>false</doUpdate>
+					<doCheck>true</doCheck>
+					<doUpdate>true</doUpdate>
 				</configuration>
 			</plugin>
 			<plugin>
