@@ -832,6 +832,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, variable.getCalculationValue(), CalculationEnum.NOTHING);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, variable.getIncrementerFactoryClassName());
 
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_variableDescription, variable.getDescription());
+
 		writeExpression(JRXmlConstants.ELEMENT_variableExpression, variable.getExpression(), false);
 		writeExpression(JRXmlConstants.ELEMENT_initialValueExpression, variable.getInitialValueExpression(), false);
 

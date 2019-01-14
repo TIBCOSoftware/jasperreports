@@ -318,6 +318,7 @@ public final class JRXmlDigesterFactory
 		/*   */
 		digester.addFactoryCreate("*/variable", JRVariableFactory.class.getName());
 		digester.addSetNext("*/variable", "addVariable", JRDesignVariable.class.getName());
+		digester.addCallMethod("*/variable/variableDescription", "setDescription", 0);
 
 		/*   */
 		@SuppressWarnings("deprecation")

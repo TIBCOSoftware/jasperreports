@@ -1347,6 +1347,7 @@
   </annotation>  
   <complexType>
    <sequence>
+    <element ref="jr:variableDescription" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:variableExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:initialValueExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
@@ -1507,6 +1508,14 @@
   	 <documentation>The name of a class that implements the <code>net.sf.jasperreports.engine.fill.JRIncrementerFactory</code> interface to use when creating the incrementer instance for this variable. Incrementers are objects that implement the <code>net.sf.jasperreports.engine.fill.JRIncrementer</code> interface and handle the incremental calculation performed on the variable's current value with every iteration in the data source.</documentation>
  	</annotation>
    </attribute> 
+  </complexType>
+ </element>
+
+ <element name="variableDescription">
+  <annotation>
+   <documentation>Can be used to specify a short text description for the variable.</documentation>
+  </annotation>  
+  <complexType mixed="true">
   </complexType>
  </element>
 

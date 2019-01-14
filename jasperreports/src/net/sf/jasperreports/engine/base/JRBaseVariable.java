@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
@@ -44,7 +46,7 @@ import net.sf.jasperreports.engine.util.StoreCloneable;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<JRBaseVariable>
+public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<JRBaseVariable>, JRChangeEventsSupport
 {
 
 
@@ -52,11 +54,14 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_DESCRIPTION = "description";
 
 	/**
 	 *
 	 */
 	protected String name;
+	protected String description;
 	protected String valueClassName = java.lang.String.class.getName();
 	protected String valueClassRealName;
 	protected String incrementerFactoryClassName;
@@ -94,6 +99,7 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 		factory.put(variable, this);
 		
 		name = variable.getName();
+		description = variable.getDescription();
 		valueClassName = variable.getValueClassName();
 		incrementerFactoryClassName = variable.getIncrementerFactoryClassName();
 		resetTypeValue = variable.getResetTypeValue();
@@ -115,6 +121,20 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 		return this.name;
 	}
 		
+	@Override
+	public String getDescription()
+	{
+		return this.description;
+	}
+		
+	@Override
+	public void setDescription(String description)
+	{
+		Object old = this.description;
+		this.description = description;
+		getEventSupport().firePropertyChange(PROPERTY_DESCRIPTION, old, this.description);
+	}
+	
 	@Override
 	public Class<?> getValueClass()
 	{
@@ -261,6 +281,7 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.initialValueExpression = JRCloneUtils.nullSafeClone(initialValueExpression);
+		clone.eventSupport = null;
 		
 		return clone;
 	}
@@ -275,7 +296,24 @@ public class JRBaseVariable implements JRVariable, Serializable, StoreCloneable<
 		clone.incrementGroup = cloneStore.clone(incrementGroup);
 		return clone;
 	}
+
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	@Override
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
 		
+		return eventSupport;
+	}
+
 	/*
 	 * These fields are only for serialization backward compatibility.
 	 */

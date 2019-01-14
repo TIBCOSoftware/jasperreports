@@ -741,6 +741,7 @@ public class JRApiWriter
 			
 			write( "JRDesignVariable " + variableName + " = new JRDesignVariable();\n");
 			write( variableName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(variable.getName()));
+			write( variableName + ".setDescription(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(variable.getDescription()));
 			write( variableName + ".setValueClassName(\"{0}\");\n", variable.getValueClassName());
 			write( variableName + ".setResetType({0});\n", variable.getResetTypeValue(), ResetTypeEnum.REPORT);
 			write( variableName + ".setResetGroup({0});\n", resetGroupName);

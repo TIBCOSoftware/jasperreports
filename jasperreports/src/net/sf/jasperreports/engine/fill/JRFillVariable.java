@@ -109,7 +109,18 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	{
 		return parent.getName();
 	}
+
+	@Override
+	public String getDescription()
+	{
+		return parent.getDescription();
+	}
 		
+	@Override
+	public void setDescription(String description)
+	{
+	}
+	
 	@Override
 	public Class<?> getValueClass()
 	{
