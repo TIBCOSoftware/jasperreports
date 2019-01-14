@@ -29,18 +29,19 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.util.xml.JRXmlDocumentProducer;
-import net.sf.jasperreports.engine.util.xml.XalanNsAwareXPathExecuter;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.util.xml.JRXmlDocumentProducer;
+import net.sf.jasperreports.engine.util.xml.XalanNsAwareXPathExecuter;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class XalanXmlDataSource extends AbstractXmlDataSource {
+public class XalanXmlDataSource extends AbstractXmlDataSource<XalanXmlDataSource> 
+{
 
 	// the xml document
 	private Document document;
@@ -277,7 +278,7 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 	}
 
 	@Override
-	public AbstractXmlDataSource subDataSource(String selectExpr)
+	public XalanXmlDataSource subDataSource(String selectExpr)
 			throws JRException {
 		Document doc = subDocument();
 		XalanXmlDataSource subDataSource = new XalanXmlDataSource(doc, selectExpr);
@@ -291,7 +292,7 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 	}
 
 	@Override
-	public AbstractXmlDataSource dataSource(String selectExpr)
+	public XalanXmlDataSource dataSource(String selectExpr)
 			throws JRException {
 		XalanXmlDataSource subDataSource = new XalanXmlDataSource(document, selectExpr);
 		subDataSource.setTextAttributes(this);
