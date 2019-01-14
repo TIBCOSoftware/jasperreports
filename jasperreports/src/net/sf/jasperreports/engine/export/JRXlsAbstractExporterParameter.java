@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 

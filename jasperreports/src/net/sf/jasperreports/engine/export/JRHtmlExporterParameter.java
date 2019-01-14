@@ -27,7 +27,6 @@ import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlExporterOutput;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
-import net.sf.jasperreports.export.type.HtmlSizeUnitEnum;
 
 
 /**

@@ -24,12 +24,8 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.export.PdfExporterConfiguration;
 import net.sf.jasperreports.export.PdfReportConfiguration;
-import net.sf.jasperreports.export.type.PdfPrintScalingEnum;
-import net.sf.jasperreports.export.type.PdfVersionEnum;
-import net.sf.jasperreports.export.type.PdfaConformanceEnum;
 
 
 /**
