@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -248,7 +248,7 @@ public class ReportConverter
 	protected void setStyles(JRReport report)
 	{
 		//styleFactory = new StyleFactory();
-		stylesMap = new LinkedMap();
+		stylesMap = new LinkedMap<String, JRStyle>();
 		
 		loadReportStyles(report);
 		

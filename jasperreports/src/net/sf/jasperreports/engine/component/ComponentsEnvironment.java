@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -53,8 +53,10 @@ public final class ComponentsEnvironment
 	private static final Log log = LogFactory.getLog(ComponentsEnvironment.class);
 	public static final String EXCEPTION_MESSAGE_KEY_BUNDLE_NOT_REGISTERED = "components.bundle.not.registered";
 	
-	private final ReferenceMap cache = new ReferenceMap(
-			ReferenceMap.WEAK, ReferenceMap.HARD);
+	private final ReferenceMap<Object, Map<String, ComponentsBundle>> cache = 
+		new ReferenceMap<Object, Map<String, ComponentsBundle>>(
+			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
+			);
 	
 	private JasperReportsContext jasperReportsContext;
 
@@ -93,7 +95,7 @@ public final class ComponentsEnvironment
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (cache)
 		{
-			Map<String, ComponentsBundle> components = (Map<String, ComponentsBundle>) cache.get(cacheKey);
+			Map<String, ComponentsBundle> components = cache.get(cacheKey);
 			if (components == null)
 			{
 				components = findBundles();

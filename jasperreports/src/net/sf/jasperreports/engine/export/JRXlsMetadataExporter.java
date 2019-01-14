@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.common.usermodel.HyperlinkType;
@@ -158,7 +158,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	public static String CURRENT_ROW_HEIGHT = "CURRENT_ROW_HEIGHT";
 	
-	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap();
+	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap<Color,HSSFColor>();
 
 	protected final DateFormat isoDateFormat = JRDataUtils.getIsoDateFormat();
 	

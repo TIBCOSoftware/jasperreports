@@ -29,14 +29,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A class that provides access to {@link PartComponentsBundle component bundles}.
@@ -54,8 +54,10 @@ public final class PartComponentsEnvironment
 	private static final Log log = LogFactory.getLog(PartComponentsEnvironment.class);
 	public static final String EXCEPTION_MESSAGE_KEY_PART_COMPONENTS_BUNDLE_NOT_REGISTERED = "engine.part.components.bundle.not.registered";
 	
-	private final ReferenceMap cache = new ReferenceMap(
-			ReferenceMap.WEAK, ReferenceMap.HARD);
+	private final ReferenceMap<Object, Map<String, PartComponentsBundle>> cache = 
+		new ReferenceMap<Object, Map<String, PartComponentsBundle>>(
+			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
+			);
 	
 	private JasperReportsContext jasperReportsContext;
 
@@ -94,7 +96,7 @@ public final class PartComponentsEnvironment
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (cache)
 		{
-			Map<String, PartComponentsBundle> components = (Map<String, PartComponentsBundle>) cache.get(cacheKey);
+			Map<String, PartComponentsBundle> components = cache.get(cacheKey);
 			if (components == null)
 			{
 				components = findBundles();

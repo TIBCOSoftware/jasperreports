@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.collections4.map.LinkedMap;
 
 import net.sf.jasperreports.crosstabs.CrosstabColumnCell;
 import net.sf.jasperreports.crosstabs.CrosstabDeepVisitor;
@@ -196,7 +196,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		addBuiltinParameters();
 		
-		variablesList = new LinkedMap();
+		variablesList = new LinkedMap<String, JRVariable>();
 		addBuiltinVariables();
 		
 		dataset = new JRDesignCrosstabDataset();
@@ -1787,7 +1787,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (variablesList != null)
 		{
-			clone.variablesList = new LinkedMap(variablesList.size());
+			clone.variablesList = new LinkedMap<String, JRVariable>(variablesList.size());
 			for(Iterator<?> it = variablesList.values().iterator(); it.hasNext();)
 			{
 				JRVariable variable = (JRVariable) it.next();
@@ -1943,10 +1943,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		// this will work as long as SequencedHashMap is part of commons collections
 		// we could also look at PSEUDO_SERIAL_VERSION_UID
-		if (variablesList instanceof org.apache.commons.collections.SequencedHashMap)
+		if (variablesList.getClass().getName().equals("org.apache.commons.collections.SequencedHashMap"))
 		{
 			// converting to the new type
-			variablesList = new LinkedMap(variablesList);
+			variablesList = new LinkedMap<String, JRVariable>(variablesList);
 		}
 	}
 

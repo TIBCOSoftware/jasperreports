@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
@@ -120,7 +120,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		this.originProvider = factory.getParentOriginProvider();
 		setElementOriginProvider(this.originProvider);
 		
-		transformedContentsCache = new ReferenceMap();
+		transformedContentsCache = new ReferenceMap<StretchedContents,JRFillCellContents>();
 		boxContentsCache = new HashMap<BoxContents,JRFillCellContents>();
 		clonePool = new JRClonePool(this, true, true);
 	}
@@ -155,7 +155,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		this.originProvider = cellContents.originProvider;
 		
-		transformedContentsCache = new ReferenceMap();
+		transformedContentsCache = new ReferenceMap<StretchedContents,JRFillCellContents>();
 		boxContentsCache = new HashMap<BoxContents,JRFillCellContents>();
 		clonePool = new JRClonePool(this, true, true);
 		
@@ -265,7 +265,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 					);
 		}
 		
-		Object key = new StretchedContents(newWidth, newHeight, xPosition, yPosition);
+		StretchedContents key = new StretchedContents(newWidth, newHeight, xPosition, yPosition);
 		
 		JRFillCellContents transformedCell = transformedContentsCache.get(key);
 		if (transformedCell == null)
@@ -273,7 +273,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			transformedCell = (JRFillCellContents) createClone();
 			transformedCell.transform(newWidth, newHeight, xPosition, yPosition);
 			
-			transformedContentsCache.put((StretchedContents)key, transformedCell);
+			transformedContentsCache.put(key, transformedCell);
 		}
 		
 		return transformedCell;

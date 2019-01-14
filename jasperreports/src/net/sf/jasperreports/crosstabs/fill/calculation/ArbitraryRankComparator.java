@@ -25,7 +25,7 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.Comparator;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -41,7 +41,10 @@ public class ArbitraryRankComparator implements Comparator<Object>
 	public static final String EXCEPTION_MESSAGE_KEY_RANK_COMPARATOR_OVERFLOW = "crosstabs.calculation.rank.comparator.overflow";
 
 	// using a weak ref map to store ranks per objects
-	private final ReferenceMap ranks = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+	private final ReferenceMap<Object, Long> ranks = 
+		new ReferenceMap<Object, Long>(
+			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
+			);
 	private long rankCounter = Long.MIN_VALUE;
 	
 	@Override
@@ -75,7 +78,7 @@ public class ArbitraryRankComparator implements Comparator<Object>
 	protected synchronized long rank(Object o)
 	{
 		long rank;
-		Long existingRank = (Long) ranks.get(o);
+		Long existingRank = ranks.get(o);
 		if (existingRank == null)
 		{
 			rank = rankCounter;

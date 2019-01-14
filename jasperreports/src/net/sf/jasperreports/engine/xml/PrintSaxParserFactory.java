@@ -26,16 +26,16 @@ package net.sf.jasperreports.engine.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.properties.PropertyConstants;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * The default XML export SAX parser factory.
@@ -74,7 +74,7 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 			)
 	public static final String EXPORT_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.validation";
 	
-	private final static ThreadLocal<ReferenceMap> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap>();
+	private final static ThreadLocal<ReferenceMap<Object, Object>> GRAMMAR_POOL_CACHE = new ThreadLocal<ReferenceMap<Object, Object>>();
 	
 	/**
 	 * @deprecated Replaced by {@link #PrintSaxParserFactory(JasperReportsContext)}.
@@ -132,7 +132,7 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 	}
 
 	@Override
-	protected ThreadLocal<ReferenceMap> getGrammarPoolCache()
+	protected ThreadLocal<ReferenceMap<Object, Object>> getGrammarPoolCache()
 	{
 		return GRAMMAR_POOL_CACHE;
 	}

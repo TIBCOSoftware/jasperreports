@@ -26,7 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -42,7 +42,9 @@ public final class JRIncrementerFactoryCache
 	 *
 	 */
 	private static Map<Class<?>,JRIncrementerFactory> factoriesMap = 
-		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+		new ReferenceMap<Class<?>,JRIncrementerFactory>(
+			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
+			);
 
 
 	/**

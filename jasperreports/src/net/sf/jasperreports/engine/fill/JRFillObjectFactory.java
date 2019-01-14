@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.map.LinkedMap;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -1555,7 +1555,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		Set<JRStyle> requestedStyles = collectRequestedStyles(styles);
 		
 		//collect used styles
-		Map<JRStyle,Object> usedStylesMap = new LinkedMap();
+		Map<JRStyle,Object> usedStylesMap = new LinkedMap<JRStyle,Object>();
 		Map<String,JRStyle> allStylesMap = new HashMap<String,JRStyle>();
 		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();)
 		{

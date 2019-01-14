@@ -25,17 +25,17 @@ package net.sf.jasperreports.crosstabs.fill.calculation;
 
 import java.util.Comparator;
 
+import org.apache.commons.collections4.comparators.ComparableComparator;
+import org.apache.commons.collections4.comparators.ReverseComparator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketValueOrderDecorator.OrderPosition;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.analytics.dataset.BucketOrder;
-
-import org.apache.commons.collections.comparators.ComparableComparator;
-import org.apache.commons.collections.comparators.ReverseComparator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Bucket definition.
@@ -123,7 +123,7 @@ public class BucketDefinition
 			if (Comparable.class.isAssignableFrom(valueClass))
 			{
 				// using natural order
-				this.bucketValueComparator = ComparableComparator.getInstance();
+				this.bucketValueComparator = ComparableComparator.INSTANCE;
 			}
 			else
 			{
@@ -152,11 +152,11 @@ public class BucketDefinition
 			{
 				if (comparator == null)
 				{
-					orderComparator = new ReverseComparator();
+					orderComparator = new ReverseComparator<Object>();
 				}
 				else
 				{
-					orderComparator = new ReverseComparator(comparator);
+					orderComparator = new ReverseComparator<Object>(comparator);
 				}
 				break;
 			}
@@ -164,7 +164,7 @@ public class BucketDefinition
 			{
 				if (comparator == null)
 				{
-					orderComparator = ComparableComparator.getInstance();
+					orderComparator = ComparableComparator.INSTANCE;
 				}
 				else
 				{

@@ -32,7 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
@@ -208,7 +208,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		}
 	}
 	
-	protected abstract ThreadLocal<ReferenceMap> getGrammarPoolCache();
+	protected abstract ThreadLocal<ReferenceMap<Object, Object>> getGrammarPoolCache();
 	
 	protected void setGrammarPoolProperty(SAXParser parser, String poolClassName)
 	{
@@ -217,11 +217,11 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 			Object cacheKey = getGrammarPoolCacheKey();
 			
 			// we're using thread local caches to avoid thread safety problems
-			ThreadLocal<ReferenceMap> grammarPoolCache = getGrammarPoolCache();
-			ReferenceMap cacheMap = grammarPoolCache.get();
+			ThreadLocal<ReferenceMap<Object, Object>> grammarPoolCache = getGrammarPoolCache();
+			ReferenceMap<Object, Object> cacheMap = grammarPoolCache.get();
 			if (cacheMap == null)
 			{
-				cacheMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
+				cacheMap = new ReferenceMap<Object, Object>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT);
 				grammarPoolCache.set(cacheMap);
 			}
 			

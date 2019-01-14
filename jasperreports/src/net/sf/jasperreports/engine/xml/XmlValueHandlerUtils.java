@@ -26,13 +26,13 @@ package net.sf.jasperreports.engine.xml;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.collections4.map.ReferenceMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
-
-import org.apache.commons.collections.map.ReferenceMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Class the provides access to {@link XmlValueHandler XML value handlers}.
@@ -56,11 +56,14 @@ public class XmlValueHandlerUtils
 		return INSTANCE;
 	}
 	
-	private final ReferenceMap cache;
+	private final ReferenceMap<Object, List<XmlValueHandler>> cache;
 	
 	private XmlValueHandlerUtils()
 	{
-		cache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+		cache = 
+			new ReferenceMap<Object, List<XmlValueHandler>>(
+				ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD
+				);
 	}
 	
 	/**
@@ -73,8 +76,7 @@ public class XmlValueHandlerUtils
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (cache)
 		{
-			@SuppressWarnings("unchecked")
-			List<XmlValueHandler> handlers = (List<XmlValueHandler>) cache.get(cacheKey);
+			List<XmlValueHandler> handlers = cache.get(cacheKey);
 			if (handlers == null)
 			{
 				ExtensionsRegistry extensionsRegistry = ExtensionsEnvironment.getExtensionsRegistry();

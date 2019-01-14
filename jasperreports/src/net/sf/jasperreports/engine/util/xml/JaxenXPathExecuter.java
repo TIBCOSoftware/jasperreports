@@ -27,14 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
-
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import net.sf.jasperreports.engine.JRException;
 
 
 /**
@@ -48,7 +48,7 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 	public static final String EXCEPTION_MESSAGE_KEY_XPATH_COMPILATION_FAILURE = "util.xml.jaxen.xpath.compilation.failure";
 	public static final String EXCEPTION_MESSAGE_KEY_XPATH_SELECTION_FAILURE = "util.xml.jaxen.xpath.selection.failure";
 	
-	private final Map<String,XPath> cachedXPaths = new ReferenceMap();//soft cache
+	private final Map<String,XPath> cachedXPaths = new ReferenceMap<String,XPath>();//soft cache
 	
 	public JaxenXPathExecuter()
 	{

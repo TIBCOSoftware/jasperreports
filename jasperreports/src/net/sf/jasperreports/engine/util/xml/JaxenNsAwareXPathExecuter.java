@@ -28,15 +28,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
-
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.jaxen.JaxenException;
 import org.jaxen.NamespaceContext;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import net.sf.jasperreports.engine.JRException;
 
 
 /**
@@ -46,7 +46,7 @@ import org.w3c.dom.NodeList;
  */
 public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 {
-	private final Map<String,XPath> cachedXPaths = new ReferenceMap();//soft cache
+	private final Map<String,XPath> cachedXPaths = new ReferenceMap<String,XPath>();//soft cache
 	
 	private Map<String, String> xmlNamespaceMap;
 	

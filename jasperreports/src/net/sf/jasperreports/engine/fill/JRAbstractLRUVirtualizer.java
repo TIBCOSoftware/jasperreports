@@ -41,7 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -229,11 +229,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	
 	protected final Cache pagedIn;
 
-	protected final ReferenceMap pagedOut;
+	protected final ReferenceMap<String, Object> pagedOut;
 
 	protected volatile WeakReference<JRVirtualizable> lastObjectRef;
-	protected ReferenceMap lastObjectMap;
-	protected ReferenceMap lastObjectSet;
+	protected ReferenceMap<JRVirtualizationContext, Object> lastObjectMap;
+	protected ReferenceMap<Object, Boolean> lastObjectSet;
 
 	private boolean readOnly;
 
@@ -252,11 +252,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		this.serializer = serializer;
 		
 		this.pagedIn = new Cache(maxSize);
-		this.pagedOut = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.WEAK);
+		this.pagedOut = new ReferenceMap<String, Object>(ReferenceMap.ReferenceStrength.HARD, ReferenceMap.ReferenceStrength.WEAK);
 		this.lastObjectRef = null;
 
-		this.lastObjectMap = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
-		this.lastObjectSet = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+		this.lastObjectMap = new ReferenceMap<JRVirtualizationContext, Object>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.WEAK);
+		this.lastObjectSet = new ReferenceMap<Object, Boolean>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.HARD);
 	}
 
 	protected synchronized final boolean isPagedOut(String id)

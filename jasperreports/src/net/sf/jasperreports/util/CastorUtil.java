@@ -42,16 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.CompositeClassloader;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.VersionComparator;
-import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
-
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.mapping.Mapping;
@@ -63,6 +54,15 @@ import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.XMLContext;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.VersionComparator;
+import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 
 
 /**
@@ -184,7 +184,7 @@ public class CastorUtil
 		{
 			//TODO lucianc prevent double cache creation?
 			xmlContextCache = Collections.synchronizedMap(
-					new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT));//using soft values is safer
+					new ReferenceMap<Object, XMLContext>(ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT));//using soft values is safer
 			jasperReportsContext.setValue(contextCacheKey, xmlContextCache);
 		}
 		return xmlContextCache;
