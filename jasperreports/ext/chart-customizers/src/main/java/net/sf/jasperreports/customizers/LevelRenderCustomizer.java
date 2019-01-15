@@ -77,7 +77,7 @@ public class LevelRenderCustomizer extends JRAbstractChartCustomizer
 				{
 					for (int i = 0; i < itemsCounter.getCount(); i++)
 					{
-						plot.setRenderer(seriesIndex, levelRenderer);
+						plot.setRenderer(i, levelRenderer);
 					}
 				}
 				else
