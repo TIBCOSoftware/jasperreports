@@ -22,7 +22,14 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define(["jquery.ui", "jive"], function($, jive) {
+define(function(require) {
+    var $ = require("jquery"),
+        jive = require("jive");
+
+    require("jquery-ui/position");
+    require("jquery-ui/widgets/draggable");
+    require("jquery-ui/widgets/timepicker");
+
     var EventManager = null;
 
     var DURATION_PATTERN = "[h]:mm:ss";
@@ -164,8 +171,8 @@ define(["jquery.ui", "jive"], function($, jive) {
 
                 cols = parentContainer.find('td.jrcolHeader[data-coluuid=' + colUuid + ']');
                 firstCol = cols.eq(0);
-                if (cols.size() > 0) {
-                    lastCol = cols.eq(cols.size()-1);
+                if (cols.length > 0) {
+                    lastCol = cols.eq(cols.length - 1);
                 } else {
                     lastCol = firstCol;
                 }
@@ -1751,7 +1758,7 @@ define(["jquery.ui", "jive"], function($, jive) {
                 table = row.closest('table'),
                 rows = table.find('tr');
 
-            if (next.size() > 0 && rows.index(row) < (rows.size() - 2)) {
+            if (next.length > 0 && rows.index(row) < (rows.length - 2)) {
                 row.insertAfter(next);
                 table.trigger('rowchange');
             }

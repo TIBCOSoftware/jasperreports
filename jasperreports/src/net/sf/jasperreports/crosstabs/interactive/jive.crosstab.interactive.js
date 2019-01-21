@@ -22,7 +22,15 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define(["jquery.ui", "text!jive.crosstab.templates.tmpl", "text!jive.crosstab.templates.styles.css", "text!jive.i18n.tmpl"], function($, templates, templateCss, jivei18nText) {
+define(function(require) {
+
+    var $ = require("jquery"),
+        templates = require("text!jive.crosstab.templates.tmpl"),
+        templateCss = require("text!jive.crosstab.templates.styles.css"),
+        jivei18nText = require("text!jive.i18n.tmpl");
+
+    require("jquery-ui/position");
+
 	var jivei18n = JSON.parse(jivei18nText),
         i18nfn = function (key) {
 		if (jivei18n.hasOwnProperty(key)) {

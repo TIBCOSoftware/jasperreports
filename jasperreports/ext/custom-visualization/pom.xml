@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-custom-visualization</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>story-JRS-17323-update-jquery-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Custom Visualization Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>story-JRS-17323-update-jquery-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
