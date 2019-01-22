@@ -61,7 +61,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
         this.expression = expression;
         this.isCalledFromFilter = isCalledFromFilter;
 
-        if (!expression.isWildcard() && !expression.isComplex()) {
+        if (!expression.isWildcard() && expression.isComplex()) {
             this.fieldNamePattern = Pattern.compile(expression.getObjectKey());
         }
     }
