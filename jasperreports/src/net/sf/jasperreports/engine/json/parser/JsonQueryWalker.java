@@ -280,7 +280,7 @@ public JsonQueryWalker() {
 				_t = __t87;
 				_t = _t.getNextSibling();
 				
-				memberExpr = new ObjectKeyExpression(dir, s.getText());
+				memberExpr = new ObjectKeyExpression(dir, s.getText(), true);
 				
 				break;
 			}

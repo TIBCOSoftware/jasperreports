@@ -249,7 +249,7 @@ pathNaviExpr returns [MemberExpression memberExpr = null]
         }
     | #(COMPLEX_KEY (dir=direction)? s:STRING)
         {
-            memberExpr = new ObjectKeyExpression(dir, s.getText());
+            memberExpr = new ObjectKeyExpression(dir, s.getText(), true);
         }
     |   {
             memberExpr = new ObjectConstructionExpression();

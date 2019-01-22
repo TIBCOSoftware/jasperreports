@@ -61,7 +61,7 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
         this.expression = expression;
         this.isCalledFromFilter = isCalledFromFilter;
 
-        if (!expression.isWildcard()) {
+        if (!expression.isWildcard() && !expression.isComplex()) {
             this.fieldNamePattern = Pattern.compile(expression.getObjectKey());
         }
     }
@@ -235,21 +235,35 @@ public class ObjectKeyExpressionEvaluator extends AbstractMemberExpressionEvalua
         ObjectNode dataNode = (ObjectNode) jrJsonNode.getDataNode();
         ArrayNode container = getEvaluationContext().getObjectMapper().createArrayNode();
 
-        Iterator<String> fieldNamesIterator = dataNode.fieldNames();
-        while (fieldNamesIterator.hasNext()) {
-            String fieldName = fieldNamesIterator.next();
-            Matcher fieldNameMatcher = fieldNamePattern.matcher(fieldName);
+        // A complex expression allows an object key to treated as a REGEX
+        if (expression.isComplex()) {
+            Iterator<String> fieldNamesIterator = dataNode.fieldNames();
+            while (fieldNamesIterator.hasNext()) {
+                String fieldName = fieldNamesIterator.next();
+                Matcher fieldNameMatcher = fieldNamePattern.matcher(fieldName);
 
-            if (fieldNameMatcher.matches()) {
-                JsonNode deeperNode = dataNode.path(fieldName);
+                if (fieldNameMatcher.matches()) {
+                    JsonNode deeperNode = dataNode.path(fieldName);
 
-                // if the deeper node is object/value => filter and add it
-                if (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray()) {
+                    // if the deeper node is object/value => filter and add it
+                    if (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray()) {
 
-                    JRJsonNode child = jrJsonNode.createChild(deeperNode);
-                    if (applyFilter(child)) {
-                        container.add(deeperNode);
+                        JRJsonNode child = jrJsonNode.createChild(deeperNode);
+                        if (applyFilter(child)) {
+                            container.add(deeperNode);
+                        }
                     }
+                }
+            }
+        } else {
+            JsonNode deeperNode = dataNode.path(expression.getObjectKey());
+
+            // if the deeper node is object/value => filter and add it
+            if (deeperNode.isObject() || deeperNode.isValueNode() || deeperNode.isArray()) {
+
+                JRJsonNode child = jrJsonNode.createChild(deeperNode);
+                if (applyFilter(child)) {
+                    container.add(deeperNode);
                 }
             }
         }

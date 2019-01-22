@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.json.expression.member.evaluation.MemberExpre
 public class ObjectKeyExpression extends AbstractMemberExpression {
     private String objectKey;
     private boolean isWildcard;
+    private boolean isComplex;
 
 
     public ObjectKeyExpression(DIRECTION direction) {
@@ -42,12 +43,24 @@ public class ObjectKeyExpression extends AbstractMemberExpression {
     public ObjectKeyExpression(DIRECTION direction, String objectKey) {
         this.objectKey = objectKey;
         this.isWildcard = false;
+        this.isComplex = false;
+        setDirection(direction);
+    }
+
+    public ObjectKeyExpression(DIRECTION direction, String objectKey, boolean isComplex) {
+        this.objectKey = objectKey;
+        this.isWildcard = false;
+        this.isComplex = isComplex;
         setDirection(direction);
     }
 
 
     public boolean isWildcard() {
         return isWildcard;
+    }
+
+    public boolean isComplex() {
+        return isComplex;
     }
 
     public String getObjectKey() {
