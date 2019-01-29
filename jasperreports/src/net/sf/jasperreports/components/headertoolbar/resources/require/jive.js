@@ -22,7 +22,16 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 'text!jive.i18n.tmpl'], function($, templates, css, jivei18nText) {
+define(function(require) {
+
+    var $ = require("jquery"),
+        templates = require("text!jive.templates.tmpl"),
+        css = require("csslink!jive.vm.css"),
+        jivei18nText = require("text!jive.i18n.tmpl");
+
+    require("jquery-ui/position");
+    require("jquery-ui/widgets/draggable");
+
     var clickEventName = 'click';
 
     if(/Android|iPhone|iPad/i.test(navigator.userAgent) ) {
@@ -113,18 +122,24 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                 left: null,
                 setElement: function(selector){
                     this.jo = $(selector);
-                    this.jo.draggable();
                     this.jo.draggable({
                         cursorAt: { top: 40, left: -30 },
+                        containment: "parent",
+                        scroll: false,
                         start: function(ev,ui) {
                             jive.hide(['foobar','marker']);
                             jive.interactive[jive.selected.ie.config.type].onDragStart(ev,ui);
                         },
                         drag: function(ev,ui){
-                            jive.interactive[jive.selected.ie.config.type].onDrag(ev,ui);
+                            jive.interactive[jive.selected.ie.config.type].debouncedDrag.apply(ev,ui);
                         },
                         stop:function(ev,ui) {
-                            jive.interactive[jive.selected.ie.config.type].onDragStop(ev,ui);
+                            var iElem = jive.interactive[jive.selected.ie.config.type],
+                                dd = iElem.debouncedDrag;
+                            if(dd.isRunning()) {
+                                dd.cancelAndExecute(ev, ui);
+                            }
+                            iElem.onDragStop(ev,ui);
                             jive.hide();
                         }
                     });
@@ -135,13 +150,12 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                         this.setElement('#jive_overlay');
                         isFirstTimeSelection = true;
                     }
-                    this.jo.draggable();
                     this.jo.css({
-                        width: dim.w * (jive.reportInstance.zoom ? jive.reportInstance.zoom.level : 1),
+                        width: dim.w,
                         height: dim.h
                     }).draggable('option','helper', function(event) {
-                            return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
-                        });
+                        return $('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
+                    });
                     this.jo.appendTo(jive.getReportContainer()).show();
                     this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
 
@@ -368,7 +382,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                         jo = $(this);
                         jo.parent().next().find('input, select').toggle();
                     });
-                    $('#dialogOk, #dialogCancel').bind(clickEventName,function(e){
+                    $('#dialogOk, #dialogCancel').on(clickEventName, function(e) {
                         if(this.className.indexOf('disabled') < 0){
                             if(this.id == 'dialogCancel'){
                                 jive.active = false;
@@ -740,7 +754,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                     var label = e.label || '',
                         colspan = e.colspan ? 'colspan="'+e.colspan+'"' : '',
                         rowspan = e.rowspan ? 'rowspan="'+e.rowspan+'"' : '',
-                        elemCount = form.find('*[id^=' + e.id + ']').size(),
+                        elemCount = form.find("*[id^='" + e.id + "']").length,
                         elemUid = e.id + (elemCount > 0 ? '_' + $.now() : ''),
                         tdClass = e.tdClass ? ' ' + e.tdClass : '',
                         textAlign = e.align ? 'text-align: ' + e.align + ';' : '',
@@ -823,7 +837,7 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                         label.length>0 && tb.push('<div class="' + wrapClass + '">'+label+':</div>');
                         tb.push('<div class="' + wrapClass + '"><div class="buttonbar">');
                         $.each(e.items,function(i,v){
-                            var vidCount = form.find('*[bname^=' + v.id + ']').size(),
+                            var vidCount = form.find("*[bname^='" + v.id + "']").length,
                                 vid = v.id + (vidCount > 0 ? '_' + $.now() : '');
                             tb.push('<div class="jive_inputbutton ' + (v.btnClass ? ' ' + v.btnClass : '') + (v.drop ? ' drop' : '') +'" bname="'+vid+'" value="'+v.value+'" type="'+v.type+'">');
                             if (v.type === 'color' || v.type === 'backcolor') {
@@ -1492,33 +1506,6 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
                     realHeight: colData.height
                 };
 
-                /*******************/
-                /*
-                    Fix for bug #36767 - overlay is not shown correctly for table columns after sorting;
-                    When zooming, it is necessary to recalculate the overlay width
-                 */
-                var headerCols = $('table.jrPage .jrcolHeader[data-coluuid=' + jo.data('coluuid') + ']'),
-                    firstCol = headerCols.eq(0),
-                    widthSoFar,
-                    realWidth,
-                    firstLeft = firstCol.offset().left;
-
-                widthSoFar = realWidth = firstCol.outerWidth();
-                headerCols.each(function(i, v) {
-                    var it = $(v);
-                    if (it.offset().left < firstLeft) { //should not happen but let's be safe
-                        realWidth += firstLeft - it.offset().left;
-                        firstLeft = it.offset().left;
-                    }
-                    if (it.offset().left + it.outerWidth() > firstLeft + realWidth) {
-                        realWidth = it.offset().left + it.outerWidth() - firstLeft;
-                        widthSoFar += it.outerWidth()
-                    }
-                });
-
-                jive.selected.realWidth = widthSoFar;
-                /*******************/
-
                 jive.selected.dim = jive.interactive[jive.selected.ie.config.type].getElementSize();
 
                 this.showVisualElements(jive.selected.dim);
@@ -1536,6 +1523,34 @@ define(['jquery.timepicker', 'text!jive.templates.tmpl', 'csslink!jive.vm.css', 
             jive.ui.overlay.show(dim);
             jive.ui.marker.show(dim);
             jive.ui.foobar.show(dim);
+        },
+        withDebounce: function(fn, context, millis, now) {
+            var timeout = null;
+
+            return {
+                apply: function() {
+                    var args = arguments;
+
+                    if (now) {
+                        fn.apply(context, args);
+                    } else {
+                        clearTimeout(timeout);
+                        timeout = setTimeout(function() {
+                            timeout = null;
+                            fn.apply(context, args);
+                        }, millis);
+                    }
+                },
+                isRunning: function() {
+                    return timeout != null;
+                },
+                cancelAndExecute: function() {
+                    if (timeout != null) {
+                        clearTimeout(timeout);
+                        fn.apply(context, arguments);
+                    }
+                }
+            };
         }
     }
 

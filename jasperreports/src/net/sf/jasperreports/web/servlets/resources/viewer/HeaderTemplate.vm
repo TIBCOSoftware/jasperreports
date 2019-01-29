@@ -8,7 +8,9 @@
 	</style>
    	<script src='${contextPath}/scripts/require/require.js'></script>
    	<script src='${contextPath}/servlets/requirejsconfig'></script>
-   	<link type='text/css' rel='stylesheet' href='${contextPath}/scripts/jquery/themes/base/jquery.ui.all.css'></link>
+   	<script src='${contextPath}/scripts/require.config.js'></script>
+   	<link type='text/css' rel='stylesheet' href='${contextPath}/scripts/jquery/themes/base/jquery-ui.css'></link>
+   	<link type='text/css' rel='stylesheet' href='${contextPath}/scripts/jquery/themes/base/jquery-ui-timepicker-addon.css'></link>
    	<link type='text/css' rel='stylesheet' href='${jasperreports_global_css}'></link>
 </head>
 <body text="#000000" link="#000000" alink="#000000" vlink="#000000" bgcolor="#999999">

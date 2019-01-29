@@ -22,7 +22,13 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 
-define(["jquery.ui", "text!jive.sort.vm.css", "text!jive.filterDialog.tmpl"], function($, css, filterDialogTemplate) {
+define(function(require) {
+
+    var $ = require("jquery"),
+        css = require("text!jive.sort.vm.css"),
+        filterDialogTemplate = require("text!jive.filterDialog.tmpl");
+
+    require("jquery-ui/widgets/draggable");
 
     var InteractiveSort = {
         initialized: false,
@@ -45,7 +51,7 @@ define(["jquery.ui", "text!jive.sort.vm.css", "text!jive.filterDialog.tmpl"], fu
                 });
 
                 // disable browser contextual menu when right-clicking
-                $(document).bind("contextmenu", function() {
+                $(document).on("contextmenu", function() {
                     return false;
                 });
 
@@ -65,7 +71,7 @@ define(["jquery.ui", "text!jive.sort.vm.css", "text!jive.filterDialog.tmpl"], fu
 
             // iPad events
             if ('createTouch' in document) {
-                $('document').bind("touchmove",function(evt){
+                $('document').on("touchmove", function(evt){
                     it.touchStartOn = undefined;
                 });
                 sortlinks.on('click', function(evt){
