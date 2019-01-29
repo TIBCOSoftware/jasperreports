@@ -2293,7 +2293,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		protected static final int BOTTOM = 2;
 		protected static final int RIGHT = 3;
 
-		protected BorderStyle[] borderStyle = new BorderStyle[4];
+		protected BorderStyle[] borderStyle = new BorderStyle[] {BorderStyle.NONE, BorderStyle.NONE, BorderStyle.NONE, BorderStyle.NONE};
 		protected short[] borderColour = new short[4];
 		private int hash;
 
