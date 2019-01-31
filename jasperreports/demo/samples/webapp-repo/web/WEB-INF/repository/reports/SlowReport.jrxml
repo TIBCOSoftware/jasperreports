@@ -7,7 +7,7 @@
 	whenNoDataType="AllSectionsNoDetail">
 	<property name="net.sf.jasperreports.measure.simple.text.exact"
 		value="always" />
-	<property name="net.sf.jasperreports.data.adapter" value="/data/EmptyDataAdapter.5000.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="/data/EmptyDataAdapter.1500.xml"/>
 	<variable name="groupIndex" class="java.lang.Integer"
 		resetType="None">
 		<variableExpression>$V{group_COUNT}</variableExpression>
