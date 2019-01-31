@@ -130,7 +130,7 @@
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-xml</artifactId>
-			<version>1.3.3</version>
+			<version>1.4.1</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 			<exclusions>
