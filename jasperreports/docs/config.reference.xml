@@ -3525,14 +3525,19 @@ Property that contains the character or sequence of characters used to delimit t
     <description>
 Property containing the character to enclose a field value on a record. 
 <br/>
-If a sequence of characters is set for this property, only the leading one will be taken into account. White spaces are not considered.
+If a sequence of characters is set for this property, only the leading one will be taken into account. 
+Regular white spaces are trimmed and will not be considered. Non-breaking spaces (such as <code>&amp;#xa0;</code> or <code>&amp;#xfeff;</code>) will be taken into account.
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/CsvExporterConfiguration.html#getFieldEnclosure--">getFieldEnclosure()</api> CSV export configuration setting.
 <br/>
-This property set in the JRXML report does not support expressions, so we have to ensure that 
-character values representing XML entity references are XML-escaped, accordingly.
-For instance, use &amp;quot; instead of &quot;, &amp;apos; instead of &apos;, etc.
+When this property is set in the JRXML report, we have to ensure that characters representing XML entity references are XML-escaped, accordingly.
+For instance, use <code>&amp;#x22;</code> instead of <code>"</code>, <code>&amp;#x27;</code> instead of <code>'</code>, etc:
+<br/>
+<br/>
+<code>&lt;property name=&quot;net.sf.jasperreports.export.csv.field.enclosure&quot; value=&quot;&amp;#x22;&quot;/&gt;</code> 
+<br/>or<br/>
+<code>&lt;property name=&quot;net.sf.jasperreports.export.csv.field.enclosure&quot; value=&quot;&amp;#x27;&quot;/&gt;</code>
     </description>
   </configProperty>
   
