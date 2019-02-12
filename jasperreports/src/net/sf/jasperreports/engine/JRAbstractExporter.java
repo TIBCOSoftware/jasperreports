@@ -68,7 +68,6 @@ import net.sf.jasperreports.export.ExporterOutput;
 import net.sf.jasperreports.export.PropertiesDefaultsConfigurationFactory;
 import net.sf.jasperreports.export.PropertiesNoDefaultsConfigurationFactory;
 import net.sf.jasperreports.export.ReportExportConfiguration;
-import net.sf.jasperreports.export.SimpleExporterInputItem;
 import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 import net.sf.jasperreports.repo.RepositoryResourceContext;
@@ -707,15 +706,6 @@ public abstract class JRAbstractExporter<RC extends ReportExportConfiguration, C
 	}
 	
 	
-	/**
-	 * @deprecated Replaced by {@link #setCurrentExporterInputItem(ExporterInputItem)}.
-	 */
-	protected void setJasperPrint(JasperPrint jasperPrint)
-	{
-		setCurrentExporterInputItem(new SimpleExporterInputItem(jasperPrint));
-	}
-	
-
 	/**
 	 *
 	 */
