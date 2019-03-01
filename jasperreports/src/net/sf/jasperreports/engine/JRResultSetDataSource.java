@@ -372,6 +372,10 @@ public class JRResultSetDataSource implements JRDataSource
 						objValue = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(bytes);
 					}					
 				}
+				else if (clazz.equals(byte[].class))
+				{
+					objValue = readBytes(columnIndex);
+				}
 				else
 				{
 					objValue = resultSet.getObject(columnIndex);
