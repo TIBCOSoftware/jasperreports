@@ -27,7 +27,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 /**
  * The implementation of the Random data adapter
  * 
- * @author Veaceslav Chicu
+ * @author Veaceslav Chicu (schicu@users.sourceforge.net)
  *
  */
 public class RandomDataAdapterImpl extends AbstractDataAdapter implements RandomDataAdapter {

@@ -23,5 +23,6 @@
  */
 /**
  * Contains classes for empty data adapters.
+ * @author Veaceslav Chicu (schicu@users.sourceforge.net)
  */
 package net.sf.jasperreports.data.random;

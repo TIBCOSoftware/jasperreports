@@ -28,7 +28,7 @@ import net.sf.jasperreports.data.DataAdapter;
 /**
  * The interface of the random data adapter
  * 
- * @author Veaceslav Chicu
+ * @author Veaceslav Chicu (schicu@users.sourceforge.net)
  *
  */
 public interface RandomDataAdapter extends DataAdapter {

@@ -33,6 +33,10 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
+/**
+ * @author Veaceslav Chicu (schicu@users.sourceforge.net)
+ *
+ */
 public class RandomDataSource implements JRRewindableDataSource {
 
 	private final int count;

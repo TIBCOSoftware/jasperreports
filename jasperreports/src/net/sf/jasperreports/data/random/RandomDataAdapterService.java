@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.ParameterContributorContext;
 /**
  * The service uses the data adapter to populate the DataSource
  * 
- * @author Veaceslav Chicu
+ * @author Veaceslav Chicu (schicu@users.sourceforge.net)
  *
  */
 public class RandomDataAdapterService extends AbstractDataAdapterService {
