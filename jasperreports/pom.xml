@@ -6,6 +6,7 @@
 	<version>master-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
+	<description>Free Java Reporting Library</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<licenses>
 		<license>
