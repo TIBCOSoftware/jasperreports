@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
- * @author Veaceslav Chicu (schicu@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  *
  */
 public class RandomDataSource implements JRRewindableDataSource {
