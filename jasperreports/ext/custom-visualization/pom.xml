@@ -7,6 +7,10 @@
 	<packaging>jar</packaging>
 	<name>JasperReports Custom Visualization Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
+	<organization>
+		<name>TIBCO Software Inc.</name>
+		<url>https://www.jaspersoft.com/</url>
+	</organization>
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License</name>
@@ -14,10 +18,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	<organization>
-		<name>TIBCO Software Inc.</name>
-		<url>https://www.jaspersoft.com/</url>
-	</organization>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
 		<tag>master-SNAPSHOT</tag>
@@ -26,6 +26,22 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>master-SNAPSHOT</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+	</dependencies>
 	<repositories>
 		<repository>
 			<id>jaspersoft-third-party</id>
@@ -93,20 +109,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>master-SNAPSHOT</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-	</dependencies>
 </project>
