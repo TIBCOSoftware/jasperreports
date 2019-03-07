@@ -19,8 +19,8 @@
 		<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.8.2" conf="test->*"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.8.2" conf="test->*"/>
 		<dependency org="org.apache.logging.log4j" name="log4j-jcl" rev="2.8.2" conf="test->*"/>
-		<dependency org="org.apache.poi" name="poi-ooxml" rev="3.15" conf="test->*"/>
-		<dependency org="org.apache.poi" name="poi" rev="3.15" conf="test->*"/>
+		<dependency org="org.apache.poi" name="poi-ooxml" rev="4.0.1" conf="test->*"/>
+		<dependency org="org.apache.poi" name="poi" rev="4.0.1" conf="test->*"/>
 		<dependency org="org.apache.velocity" name="velocity" rev="1.7" conf="test->*"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1" conf="test->*"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1" conf="test->*"/>

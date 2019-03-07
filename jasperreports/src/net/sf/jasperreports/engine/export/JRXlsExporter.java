@@ -185,8 +185,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	/**
 	 *
 	 */
-	protected short whiteIndex = (new HSSFColor.WHITE()).getIndex();
-	protected short blackIndex = (new HSSFColor.BLACK()).getIndex();
+	protected short whiteIndex = HSSFColor.HSSFColorPredefined.WHITE.getIndex();
+	protected short blackIndex = HSSFColor.HSSFColorPredefined.BLACK.getIndex();
 	protected short customColorIndex = MIN_COLOR_INDEX;
 
 	protected FillPatternType backgroundMode = FillPatternType.SOLID_FOREGROUND;
@@ -332,7 +332,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			}
 		}
 		emptyCellStyle = workbook.createCellStyle();
-		emptyCellStyle.setFillForegroundColor((new HSSFColor.WHITE()).getIndex());
+		emptyCellStyle.setFillForegroundColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
 		emptyCellStyle.setFillPattern(backgroundMode);
 		dataFormat = workbook.createDataFormat();
 		createHelper = workbook.getCreationHelper();
