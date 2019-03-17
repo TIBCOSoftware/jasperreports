@@ -44,6 +44,7 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	private Boolean isEmbedImage;
 	private Boolean isEmbeddedSvgUseFonts;
 	private Boolean isConvertSvgToImage;
+	private Boolean isUseBackgroundImageToAlign;
 
 	
 	/**
@@ -236,5 +237,19 @@ public class SimpleHtmlReportConfiguration extends SimpleReportExportConfigurati
 	public void setConvertSvgToImage(Boolean isConvertSvgToImage)
 	{
 		this.isConvertSvgToImage = isConvertSvgToImage;
+	}
+	
+	@Override
+	public Boolean isUseBackgroundImageToAlign()
+	{
+		return isUseBackgroundImageToAlign;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setUseBackgroundImageToAlign(Boolean isUseBackgroundImageToAlign)
+	{
+		this.isUseBackgroundImageToAlign = isUseBackgroundImageToAlign;
 	}
 }

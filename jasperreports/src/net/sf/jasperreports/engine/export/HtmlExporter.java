@@ -934,16 +934,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		if (renderer != null)
 		{
-			boolean startedDiv = false;
-			if (
-				scaleImage == ScaleImageEnum.CLIP
-				|| (isLazy 
+			boolean useBackgroundLazyImage = 
+				isLazy 
 				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
-					|| (image.getHorizontalImageAlign() != HorizontalImageAlignEnum.LEFT || image.getVerticalImageAlign() != VerticalImageAlignEnum.TOP)))
-				)
+					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP))
+				&& isUseBackgroundImageToAlign(image);
+					
+			boolean useDiv = (scaleImage == ScaleImageEnum.CLIP || useBackgroundLazyImage);
+			if (useDiv)
 			{
 				writer.write("<div style=\"width: 100%; height: 100%; position: relative; overflow: hidden;\">\n");
-				startedDiv = true;
 			}
 			
 			boolean hasAreaHyperlinks = 
@@ -989,11 +989,6 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				}
 			}
 
-			boolean useBackgroundLazyImage = 
-				isLazy 
-				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
-					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP));
-				
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image,
@@ -1287,7 +1282,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				endHyperlink();
 			}
 			
-			if (startedDiv)
+			if (useDiv)
 			{
 				writer.write("</div>");
 			}

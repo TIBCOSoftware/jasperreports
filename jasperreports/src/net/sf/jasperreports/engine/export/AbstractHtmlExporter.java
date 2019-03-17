@@ -427,6 +427,25 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		return getCurrentItemConfiguration().isConvertSvgToImage();
 	}
 
+
+	/**
+	 * 
+	 */
+	protected boolean isUseBackgroundImageToAlign(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN)
+			&& !isOverrideHints()
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN, getCurrentItemConfiguration().isUseBackgroundImageToAlign());
+		}
+		return getCurrentItemConfiguration().isUseBackgroundImageToAlign();
+	}
+
 	@Override
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
