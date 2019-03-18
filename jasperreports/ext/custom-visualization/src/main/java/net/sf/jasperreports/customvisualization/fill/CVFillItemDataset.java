@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FillItemDataset.java 6002 2013-03-20 08:15:32Z teodord $
  */
 public class CVFillItemDataset extends net.sf.jasperreports.components.items.fill.FillItemDataset
 {
