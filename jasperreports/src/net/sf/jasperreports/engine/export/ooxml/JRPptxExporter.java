@@ -677,24 +677,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportElements(List<JRPrintElement> elements) throws JRException
-	{
-		if (elements != null && elements.size() > 0)
-		{
-			for (JRPrintElement element : elements)
-			{
-				if (filter == null || filter.isToExport(element))
-				{
-					exportElement(element);
-				}
-			}
-		}
-	}
-	
-
-	/**
-	 *
-	 */
 	protected void exportElement(JRPrintElement element) throws JRException
 	{
 		if (element instanceof JRPrintLine)
@@ -1893,7 +1875,21 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		frameIndexStack.add(elementIndex);
 
-		exportElements(frame.getElements());
+		List<JRPrintElement> elements = frame.getElements();
+		if (elements != null && elements.size() > 0)
+		{
+			elementIndex = 0;
+			
+			for (JRPrintElement element : elements)
+			{
+				if (filter == null || filter.isToExport(element))
+				{
+					exportElement(element);
+				}
+
+				elementIndex++;
+			}
+		}
 
 		frameIndexStack.remove(frameIndexStack.size() - 1);
 		
