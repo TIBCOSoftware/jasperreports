@@ -40,7 +40,7 @@ import org.jfree.chart.JFreeChart;
  * should extend {@link net.sf.jasperreports.engine.JRAbstractChartCustomizer AbstractChartCustomizer}
  * to gain access to such values.
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface ChartCustomizer {
 

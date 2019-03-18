@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ColumnStyle extends Style
 {

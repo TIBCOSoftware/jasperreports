@@ -30,7 +30,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum PdfPermissionsEnum implements NamedEnum
 {

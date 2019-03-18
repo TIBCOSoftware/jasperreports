@@ -30,7 +30,7 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 {

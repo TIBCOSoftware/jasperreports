@@ -28,7 +28,7 @@ import org.jfree.ui.Align;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 {

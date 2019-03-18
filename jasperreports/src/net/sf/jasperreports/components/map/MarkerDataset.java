@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRDatasetRun;
 
 /**
  * @deprecated Replaced by {@link ItemData}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface MarkerDataset extends JRCloneable{
 

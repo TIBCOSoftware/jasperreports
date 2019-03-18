@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @deprecated Replaced by {@link FillItem}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class FillMarker implements net.sf.jasperreports.components.map.Marker
 {

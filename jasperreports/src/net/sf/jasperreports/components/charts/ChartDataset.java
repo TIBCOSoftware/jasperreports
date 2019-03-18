@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface ChartDataset extends JRElementDataset, Serializable
 {

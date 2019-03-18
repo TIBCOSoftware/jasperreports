@@ -49,7 +49,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * in each row (these indices start with 0). To avoid this situation, users can either specify a collection of column 
  * names or set a flag to read the column names from the first row of the XLSX or XLS file.
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class AbstractXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {

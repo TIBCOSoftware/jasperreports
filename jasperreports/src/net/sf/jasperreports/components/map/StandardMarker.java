@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @deprecated Replaced by {@link StandardItem}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class StandardMarker implements Marker, JRChangeEventsSupport, Serializable
 {

@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporterNature;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JROdsExporterNature extends JRXlsAbstractExporterNature
 {

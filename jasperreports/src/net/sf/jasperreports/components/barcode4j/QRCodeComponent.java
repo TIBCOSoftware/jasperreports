@@ -32,7 +32,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * Contains the main settings for the QRCode component
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class QRCodeComponent extends BarcodeComponent
 {

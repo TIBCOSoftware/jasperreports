@@ -34,7 +34,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 /**
  * Query executer factory for Excel file type.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class AbstractXlsQueryExecuterFactory extends AbstractQueryExecuterFactory implements Designated 
 {

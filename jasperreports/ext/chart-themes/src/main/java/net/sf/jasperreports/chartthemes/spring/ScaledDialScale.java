@@ -39,7 +39,7 @@ import org.jfree.ui.TextAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ScaledDialScale extends StandardDialScale
 {

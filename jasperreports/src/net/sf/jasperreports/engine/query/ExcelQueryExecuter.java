@@ -46,7 +46,7 @@ import net.sf.jasperreports.repo.RepositoryContext;
 /**
  * Excel query executer implementation.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ExcelQueryExecuter extends AbstractXlsQueryExecuter 
 {

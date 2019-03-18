@@ -26,7 +26,7 @@ package net.sf.jasperreports.data.xlsx;
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
 
 /**
- * @author sanda zaharia(shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface XlsxDataAdapter extends XlsDataAdapter 
 {

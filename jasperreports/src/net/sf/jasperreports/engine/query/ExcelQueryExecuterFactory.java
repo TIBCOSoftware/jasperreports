@@ -40,7 +40,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * The factory creates {@link net.sf.jasperreports.engine.query.ExcelQueryExecuter ExcelQueryExecuter}
  * query executers.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ExcelQueryExecuterFactory extends AbstractXlsQueryExecuterFactory 
 {

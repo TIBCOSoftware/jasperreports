@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.util.ReportUpdater;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class StyleUpdater implements ReportUpdater 
 {

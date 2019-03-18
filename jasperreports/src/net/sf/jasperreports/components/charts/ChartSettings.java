@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 {

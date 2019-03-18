@@ -46,7 +46,7 @@ import org.jfree.io.SerialUtilities;
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ScaledDialPointer extends Pointer
 {

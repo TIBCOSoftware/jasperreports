@@ -131,7 +131,7 @@ import net.sf.jasperreports.renderers.ResourceRenderer;
  * </ul>
  * 
  * @see net.sf.jasperreports.export.DocxReportConfiguration
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, DocxExporterConfiguration, OutputStreamExporterOutput, JRDocxExporterContext>
 {

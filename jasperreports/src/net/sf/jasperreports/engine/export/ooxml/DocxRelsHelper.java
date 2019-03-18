@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class DocxRelsHelper extends BaseHelper
 {

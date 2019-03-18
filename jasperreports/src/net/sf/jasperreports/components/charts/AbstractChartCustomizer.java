@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.fill.JRFillElementDataset;
  * Abstract implementation of {@link net.sf.jasperreports.components.charts.ChartCustomizer ChartCustomizer} that provides
  * access to parameter, variable and field values.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class AbstractChartCustomizer implements ChartCustomizer
 {

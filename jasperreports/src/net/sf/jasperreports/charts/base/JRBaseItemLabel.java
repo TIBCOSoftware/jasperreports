@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * An immutable representation of the formatting options for showing the
  * item labels in a category plot.
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JRBaseItemLabel implements JRItemLabel, Serializable
 {

@@ -28,7 +28,7 @@ import net.sf.jasperreports.components.charts.ChartDataset;
 
 /**
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface SpiderDataset extends ChartDataset
 {

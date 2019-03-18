@@ -48,7 +48,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
  * The container stretch is forced upon an element by all types of growth that the container itself suffers, 
  * including forced container stretch imposed onto the container by its own parent container.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum StretchTypeEnum implements JREnum
 {

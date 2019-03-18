@@ -48,7 +48,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class CustomVisualizationApp extends AbstractSampleApp
 {

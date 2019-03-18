@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * An object that specifies how an item label should be displayed.  Used with
  * category plots such as a bar or pie plot.
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEventsSupport
 {

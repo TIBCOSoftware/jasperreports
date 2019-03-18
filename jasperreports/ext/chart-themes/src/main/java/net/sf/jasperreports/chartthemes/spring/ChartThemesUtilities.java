@@ -29,7 +29,7 @@ import java.math.BigDecimal;
 import net.sf.jasperreports.engine.JRFont;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ChartThemesUtilities
 {

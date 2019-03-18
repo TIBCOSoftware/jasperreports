@@ -30,7 +30,7 @@ import net.sf.jasperreports.components.charts.AbstractChartCustomizer;
 import net.sf.jasperreports.components.charts.ChartComponent;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class SpiderChartCustomizer extends AbstractChartCustomizer
 {

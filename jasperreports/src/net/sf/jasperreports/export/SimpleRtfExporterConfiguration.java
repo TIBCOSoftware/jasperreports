@@ -25,7 +25,7 @@ package net.sf.jasperreports.export;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class SimpleRtfExporterConfiguration extends SimpleExporterConfiguration implements RtfExporterConfiguration
 {

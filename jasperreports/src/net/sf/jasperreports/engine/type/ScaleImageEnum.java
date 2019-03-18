@@ -28,7 +28,7 @@ import net.sf.jasperreports.renderers.DimensionRenderable;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum ScaleImageEnum implements JREnum
 {

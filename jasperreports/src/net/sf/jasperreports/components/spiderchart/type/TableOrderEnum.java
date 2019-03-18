@@ -30,7 +30,7 @@ import org.jfree.util.TableOrder;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum TableOrderEnum implements NamedEnum
 {

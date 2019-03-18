@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @deprecated Replaced by {@link StandardItemData}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class StandardMarkerDataset implements Serializable, MarkerDataset, JRChangeEventsSupport
 {//FIXMEMAP implement clone?

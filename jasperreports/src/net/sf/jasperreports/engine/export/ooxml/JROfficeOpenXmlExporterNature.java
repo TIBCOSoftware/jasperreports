@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.export.AbstractExporterNature;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNature
 {

@@ -42,7 +42,7 @@ package net.sf.jasperreports.engine.query;
  * </ul> 
  * </p>
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JRSqlBetweenClause extends SQLBetweenBaseClause
 {

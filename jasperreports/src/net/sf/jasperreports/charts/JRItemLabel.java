@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRFont;
  * Contains the formatting option for the textual 
  * representation of item labels in a category plot
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface JRItemLabel extends JRCloneable
 {

@@ -30,7 +30,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @deprecated Replaced by {@link ItemXmlFactory}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class MarkerXmlFactory extends JRBaseFactory
 {

@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * </ul>
  * </p>
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 {

@@ -44,7 +44,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * in each row (these indices start with 0). To avoid this situation, users can either specify a collection of column 
  * names or set a flag to read the column names from the first row of the XLSX file.
  *
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JRXlsxDataSource extends AbstractPoiXlsDataSource
 {

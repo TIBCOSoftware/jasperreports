@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * The factory creates {@link net.sf.jasperreports.engine.query.JRXlsxQueryExecuter JRXlsxQueryExecuter}
  * query executers.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JRXlsxQueryExecuterFactory extends AbstractXlsQueryExecuterFactory 
 {

@@ -66,7 +66,7 @@ import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReportConfiguration, C extends XlsMetadataExporterConfiguration, E extends JRExporterContext> 
 	extends JRXlsAbstractExporter<RC, C, E>

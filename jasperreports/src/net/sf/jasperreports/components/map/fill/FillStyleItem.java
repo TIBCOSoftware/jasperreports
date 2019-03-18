@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class FillStyleItem extends FillItem
 {

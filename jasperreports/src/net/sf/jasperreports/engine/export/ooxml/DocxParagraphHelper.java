@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class DocxParagraphHelper extends BaseHelper
 {

@@ -51,7 +51,7 @@ import net.sf.jasperreports.renderers.Renderable;
 /**
  * Spider Chart design evaluator.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class SpiderChartRendererEvaluator
 {

@@ -54,7 +54,7 @@ import net.sf.jasperreports.renderers.Renderable;
 
 /**
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class FillSpiderChart extends BaseFillComponent implements JRFillCloneable
 {

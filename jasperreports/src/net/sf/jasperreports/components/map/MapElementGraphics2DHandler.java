@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.export.draw.ImageDrawer;
 import net.sf.jasperreports.engine.export.draw.Offset;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class MapElementGraphics2DHandler implements GenericElementGraphics2DHandler
 {

@@ -30,7 +30,7 @@ import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum PlotOrientationEnum implements NamedEnum
 {
