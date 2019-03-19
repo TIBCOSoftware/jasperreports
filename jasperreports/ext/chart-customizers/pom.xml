@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-chart-customizers</artifactId>
-	<version>master-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Customizers</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -20,7 +20,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>master-SNAPSHOT</tag>
+		<tag>develop-SNAPSHOT</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>master-SNAPSHOT</version>
+			<version>develop-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
