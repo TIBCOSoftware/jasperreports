@@ -101,7 +101,7 @@ public class ElementsBlockList implements ElementStore, Serializable
 
 	public ElementsBlock[] getBlocks()
 	{
-		return blocks;
+		return Arrays.copyOf(blocks, blockCount);
 	}
 
 	@Override
