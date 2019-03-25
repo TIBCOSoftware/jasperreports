@@ -2,7 +2,30 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.8.0 (2018-0x-xx)
+JasperReports 6.8.0 (2018-03-25)
+---------------------------------------------
+
+- support for Java 9 up to Java 11;
+
+- build number added to the manifest file inside the main library JAR and the other optional JAR files;
+
+- various dependencies upgrades including Apache Commons Collections 4.2, Castor 1.4.1, POI 4.0.1, 
+Spring 5.1.4, jQuery 3.3.1 and RequireJS 2.3.6;
+
+- new random value data adapter and data source for easy report testing;
+
+- description property added to dataset variables;
+
+- added support for generating a slide master in the PPTX documents with the possibility to include 
+PPTX built-in fields for current slide number and current date/time;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.7.1 (2019-03-06)
 ---------------------------------------------
 
 - minor bug fixes and improvements;
