@@ -6,6 +6,7 @@
 	<version>master-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Open Flash Chart Component</name>
+	<description>JasperReports Open Flash Chart Component</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<organization>
 		<name>TIBCO Software Inc.</name>

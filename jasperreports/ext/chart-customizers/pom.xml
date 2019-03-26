@@ -6,6 +6,7 @@
 	<version>master-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Chart Customizers</name>
+	<description>JasperReports Chart Customizers</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<organization>
 		<name>TIBCO Software Inc.</name>
