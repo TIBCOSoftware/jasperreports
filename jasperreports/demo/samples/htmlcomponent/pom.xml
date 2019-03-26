@@ -19,6 +19,21 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<developers>
+		<developer>
+			<id>teodord</id>
+			<name>Teodor Danciu</name>
+			<email>teodord@users.sourceforge.net</email>
+			<url>http://sourceforge.net/users/teodord</url>
+			<organization>TIBCO Software Inc.</organization>
+			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
 		<tag>master-SNAPSHOT</tag>
