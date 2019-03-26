@@ -6,6 +6,7 @@
 	<version>6.8.0</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Metadata</name>
+	<description>JasperReports Metadata</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<organization>
 		<name>TIBCO Software Inc.</name>
