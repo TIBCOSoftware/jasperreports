@@ -161,6 +161,7 @@
 				<matches pattern="9.*" string="${java.version}"/>
 				<matches pattern="10.*" string="${java.version}"/>
 				<matches pattern="11.*" string="${java.version}"/>
+				<matches pattern="12.*" string="${java.version}"/>
 			</or>
 		</condition>
 		<tstamp>
