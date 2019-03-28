@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-metadata</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>bug-JRL-1174-phantomjs-args-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Metadata</name>
 	<description>JasperReports Metadata</description>
