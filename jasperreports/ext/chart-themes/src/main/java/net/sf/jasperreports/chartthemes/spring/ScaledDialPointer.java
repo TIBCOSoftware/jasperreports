@@ -90,8 +90,6 @@ public class ScaledDialPointer extends Pointer
 
 	/**
 	 * Creates a new instance.
-	 *
-	 * @param datasetIndex  the dataset index.
 	 */
 	public ScaledDialPointer(int scale, double widthRadius)
 	{
@@ -116,8 +114,6 @@ public class ScaledDialPointer extends Pointer
 	 * Returns the fill paint.
 	 *
 	 * @return The paint (never <code>null</code>).
-	 *
-	 * @see #setGradientFillPaint(Paint)
 	 *
 	 * @since 1.0.8
 	 */

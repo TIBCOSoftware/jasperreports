@@ -6,6 +6,7 @@
 	<version>develop-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Annotation Processors</name>
+	<description>JasperReports Annotation Processors</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<organization>
 		<name>TIBCO Software Inc.</name>
@@ -18,6 +19,34 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<developers>
+		<developer>
+			<id>teodord</id>
+			<name>Teodor Danciu</name>
+			<email>teodord@users.sourceforge.net</email>
+			<url>http://sourceforge.net/users/teodord</url>
+			<organization>TIBCO Software Inc.</organization>
+			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+		<developer>
+			<id>lucianc</id>
+			<name>Lucian Chirita</name>
+			<email>lucianc@users.sourceforge.net</email>
+			<url>http://sourceforge.net/users/lucianc</url>
+			<organization>TIBCO Software Inc.</organization>
+			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
 		<tag>develop-SNAPSHOT</tag>

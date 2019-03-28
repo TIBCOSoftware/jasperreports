@@ -6,6 +6,7 @@
 	<version>develop-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Font Extension</name>
+	<description>JasperReports Font Extension</description>
 	<url>http://jasperreports.sourceforge.net</url>
 	<organization>
 		<name>TIBCO Software Inc.</name>
