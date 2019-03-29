@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-fonts</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Font Extension</name>
 	<description>JasperReports Font Extension</description>

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-annotation-processors</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Annotation Processors</name>
 	<description>JasperReports Annotation Processors</description>
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<repositories>
