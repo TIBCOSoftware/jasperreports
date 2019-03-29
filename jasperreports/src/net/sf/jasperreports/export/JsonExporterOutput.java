@@ -35,4 +35,9 @@ public interface JsonExporterOutput extends WriterExporterOutput
 	 * 
 	 */
 	public HtmlResourceHandler getFontHandler(); 
+
+	/**
+	 * 
+	 */
+	public HtmlResourceHandler getResourceHandler(); 
 }
