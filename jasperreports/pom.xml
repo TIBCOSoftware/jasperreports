@@ -268,15 +268,9 @@
 		<dependency>
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
-			<version>1.1.1</version>
+			<version>1.1.6</version>
 			<scope>compile</scope>
 			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>xerces</groupId>
-					<artifactId>xercesImpl</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
@@ -590,8 +584,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>true</doCheck>
-					<doUpdate>true</doUpdate>
+					<doCheck>false</doCheck>
+					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>
 			<plugin>

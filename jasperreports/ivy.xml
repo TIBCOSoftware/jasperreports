@@ -30,7 +30,7 @@
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
 		<!-- we need this dependency here because it was removed from Java 11 -->
 		<dependency org="javax.xml.soap" name="javax.xml.soap-api" rev="1.4.0"/>
-		<dependency org="jaxen" name="jaxen" rev="1.1.1"/>
+		<dependency org="jaxen" name="jaxen" rev="1.1.6"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
 		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.7.0" conf="annotations->*"/>
