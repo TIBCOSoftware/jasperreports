@@ -26,11 +26,6 @@
 			<name>JasperReports CE Releases</name>
 			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-releases</url>
 		</repository>
-		<repository>
-			<id>jr-ce-snapshots</id>
-			<name>JasperReports CE Snapshots</name>
-			<url>http://jaspersoft.jfrog.io/jaspersoft/jr-ce-snapshots</url>
-		</repository>
 	</repositories>
 	<build>
 		<plugins>
