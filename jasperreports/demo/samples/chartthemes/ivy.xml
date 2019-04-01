@@ -3,10 +3,10 @@
 		<extends organisation="net.sf.jasperreports" module="jasperreports" revision="*" location="../../../ivy.xml"/>
 	</info>
 	<dependencies>
-		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.2" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.3" conf="test->*"/>
 	</dependencies>
 </ivy-module>

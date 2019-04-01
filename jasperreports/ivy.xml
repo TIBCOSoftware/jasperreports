@@ -60,17 +60,17 @@
 		<dependency org="org.apache.poi" name="poi-ooxml" rev="4.0.1"/>
 		<dependency org="org.apache.poi" name="poi" rev="4.0.1"/>
 		<dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.11"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1"/>
 		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.5"/>
