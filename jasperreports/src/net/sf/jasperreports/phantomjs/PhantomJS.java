@@ -42,14 +42,14 @@ public class PhantomJS
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.executable.path";
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_PHANTOMJS_TEMPDIR_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.tempdir.path";
@@ -57,7 +57,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "10000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Integer.class
 			)
@@ -67,7 +67,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "8",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -77,7 +77,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "120000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -87,7 +87,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "300000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -97,7 +97,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "40000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -107,7 +107,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "1000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -117,7 +117,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "1200000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -127,7 +127,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "60000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -149,7 +149,7 @@ public class PhantomJS
 	@Property(
 			name = "net.sf.jasperreports.phantomjs.options.{arbitrary_suffix}",
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_9_0
 			)
 	public static final String PROPERTY_OPTIONS_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.options.";
