@@ -136,6 +136,24 @@ public class PhantomJS
 	
 	public static final String MAIN_SCRIPT_RESOURCE = "net/sf/jasperreports/phantomjs/process.js";
 	
+	/**
+	 * Property prefix used in order to identify a set of properties that store command options  
+	 * for the PhantomJS start command. For instance:
+	 * <p/>
+	 * net.sf.jasperreports.phantomjs.options.1=--load-images=true
+	 * <p/>
+	 * These properties are by default not set.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			name = "net.sf.jasperreports.phantomjs.options.{arbitrary_suffix}",
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_9_0
+			)
+	public static final String PROPERTY_OPTIONS_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.options.";
+	
 	public static boolean isEnabled()
 	{
 		String phantomjsExecutablePath = DefaultJasperReportsContext.getInstance().getProperty(
