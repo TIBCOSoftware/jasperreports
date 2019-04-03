@@ -73,7 +73,7 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.11"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1"/>
-		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.5"/>
+		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.16"/>
 		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.4.2"/>
 		<dependency org="org.hibernate" name="hibernate-core" rev="3.3.2.GA"/>
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
