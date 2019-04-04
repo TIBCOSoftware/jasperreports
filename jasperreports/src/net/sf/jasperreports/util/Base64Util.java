@@ -23,12 +23,11 @@
  */
 package net.sf.jasperreports.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.apache.commons.codec.binary.Base64InputStream;
-
+import java.util.Base64;
 /**
  * Utility class to decode Base64 encoded input stream to output stream 
  * or to Base64 encode input stream to output stream
@@ -48,9 +47,10 @@ public class Base64Util
 	 */
 	public static void decode(InputStream in, OutputStream out) throws IOException
 	{
-		Base64InputStream base64is = new Base64InputStream(in);
-
-		copy(base64is, out);
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		copy(in, buffer);
+		out.write(Base64.getDecoder().decode(buffer.toByteArray()));
+		out.flush();
 	}
 	
 	/**
@@ -61,9 +61,10 @@ public class Base64Util
 	 */
 	public static void encode(InputStream in, OutputStream out) throws IOException
 	{
-		Base64InputStream base64is = new Base64InputStream(in, true, DEFAULT_LINE_LENGTH, DEFAULT_LINE_SEPARATOR);
-
-		copy(base64is, out);
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		copy(in, buffer);
+		out.write(Base64.getEncoder().encode(buffer.toByteArray()));
+		out.flush();		
 	}
 	
 	/**
