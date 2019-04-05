@@ -3913,6 +3913,19 @@ line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.b
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.html.use.background.image.to.align -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.use.background.image.to.align">
+    <description>
+Property that indicates whether the images should be rendered using CSS background images, to achieve certain image alignment requirements, especially in the case of lazy images,
+for which the real dimensions are not known at report fill time.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isUseBackgroundImageToAlign--">isUseBackgroundImageToAlign()</api> HTML export configuration setting.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.json.boolean.{path} -->
   
   <configProperty name="net.sf.jasperreports.export.json.boolean.{path}">
