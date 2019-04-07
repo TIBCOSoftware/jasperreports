@@ -518,6 +518,17 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	}
 
 	@Override
+	protected void exportEllipse(	// TODO need to fix to display ellipse on ods export
+		JRPrintGraphicElement rectangle,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		tableBuilder.exportRectangle(rectangle, gridCell);
+	}
+
+	@Override
 	protected void exportLine(
 		JRPrintLine line, 
 		JRExporterGridCell gridCell,

@@ -64,7 +64,9 @@ import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFShape;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFSimpleShape;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -111,6 +113,7 @@ import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -151,7 +154,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	private static short A2_PAPERSIZE = (short)66; 	/* A2_PAPERSIZE defined locally since it is not declared in HSSFPrintSetup */
-	
+	private static short EMU = 12700;	/* convert emu to pixel */
+
 	private static Map<HSSFColor, short[]> hssfColorsRgbs;
 	
 	static
@@ -831,6 +835,40 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		cell.setCellStyle(cellStyle);
 	}
 
+	@Override
+	protected void exportEllipse(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
+		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
+		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_OVAL);
+		JRPen pen = element.getLinePen();
+
+		shape.setLineWidth(EMU * Math.round(pen.getLineWidth()));
+		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+		}
+		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+		}
+		else
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+		}
+
+		Color penColor = pen.getLineColor();
+		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
+
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		{
+			Color bgcolor = gridCell.getCellBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setNoFill(false);
+		} else {
+			shape.setNoFill(true);
+		}
+	}
 
 	@Override
 	public void exportText(JRPrintText textElement, JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException

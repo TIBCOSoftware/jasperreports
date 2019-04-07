@@ -780,6 +780,42 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		}
 	}
 
+	@Override
+	protected void exportEllipse(JRPrintGraphicElement element) throws JRException {	// TODO need to fix to show ellipse on xls metadata
+		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
+		
+		if (currentColumnName != null && currentColumnName.length() > 0) {
+			boolean repeatValue = getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractMetadataExporter.PROPERTY_REPEAT_VALUE, false);
+			
+			setColumnName(currentColumnName);
+			adjustColumnWidth(currentColumnName, element.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(element));
+			adjustRowHeight(element.getHeight(), ((JRXlsExporterNature)nature).getRowAutoFit(element));
+			
+			short forecolor = getWorkbookColor(element.getLinePen().getLineColor()).getIndex();
+
+			FillPatternType mode = backgroundMode;
+			short backcolor = whiteIndex;
+			if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && element.getBackcolor() != null) {
+				mode = FillPatternType.SOLID_FOREGROUND;
+				backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
+			}
+
+			HSSFCellStyle cellStyle =
+				getLoadedCellStyle(
+					mode,
+					backcolor,
+					HorizontalAlignment.LEFT,
+					VerticalAlignment.TOP,
+					(short)0,
+					getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
+					new BoxStyle(element),
+					isCellLocked(element),
+					isCellHidden(element),
+					isShrinkToFit(element)
+					);
+			addBlankElement(cellStyle, repeatValue, currentColumnName);
+		}
+	}
 
 	@Override
 	protected void exportText(final JRPrintText textElement) throws JRException {
@@ -1630,7 +1666,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			} else if (element instanceof JRPrintRectangle) {
 				exportRectangle((JRPrintRectangle)element);
 			} else if (element instanceof JRPrintEllipse) {
-				exportRectangle((JRPrintEllipse)element);
+				exportEllipse((JRPrintEllipse)element);
 			} else if (element instanceof JRPrintImage) {
 				exportImage((JRPrintImage) element);
 			} else if (element instanceof JRPrintText) {

@@ -1403,6 +1403,25 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		cellHelper.exportFooter();
 	}
 
+	@Override
+	protected void exportEllipse(	// TODO only a copy of exportRectangle. Need to fix to show ellipse in xlsx
+		JRPrintGraphicElement ellipse,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(ellipse.getLinePen().getLineColor());
+		pen.setLineStyle(ellipse.getLinePen().getLineStyleValue());
+		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportFooter();
+	}
 
 	@Override
 	public void exportText(
