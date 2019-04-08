@@ -742,61 +742,47 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	@Override
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		short forecolor = getWorkbookColor(line.getLinePen().getLineColor()).getIndex();
-
-		int side = BoxStyle.TOP;
-		float ratio = line.getWidth() / line.getHeight();
-		if (ratio > 1)
+		int row1 = rowIndex;
+		int row2 = rowIndex;
+		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				side = BoxStyle.TOP;
-			}
-			else
-			{
-				side = BoxStyle.BOTTOM;
-			}
+			row2 += gridCell.getRowSpan();
 		}
 		else
 		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				side = BoxStyle.LEFT;
-			}
-			else
-			{
-				side = BoxStyle.RIGHT;
-			}
+			row1 += gridCell.getRowSpan();
 		}
-		BoxStyle boxStyle = new BoxStyle(side, line.getLinePen());
+		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  row1, (short) (colIndex + gridCell.getColSpan()), row2);
+		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
+		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_LINE );
+		JRPen pen = line.getLinePen();
 
-		FillPatternType mode = backgroundMode;
-		short backcolor = whiteIndex;
+		shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+		}
+		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+		}
+		else
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+		}
+
+		Color penColor = pen.getLineColor();
+		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
+
 		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
 		{
-			mode = FillPatternType.SOLID_FOREGROUND;
-			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
+			Color bgcolor = gridCell.getCellBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setNoFill(true);
+		} else {
+			shape.setNoFill(true);
 		}
-
-		HSSFCellStyle cellStyle =
-			getLoadedCellStyle(
-				mode,
-				backcolor,
-				HorizontalAlignment.LEFT,
-				VerticalAlignment.TOP,
-				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-				boxStyle,
-				false,
-				isCellLocked(line),
-				isCellHidden(line),
-				isShrinkToFit(line)
-				);
-
-		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
-
-		cell = row.createCell(colIndex);
-		cell.setCellStyle(cellStyle);
+		createMergeRegion(gridCell, colIndex, rowIndex);
 	}
 
 
@@ -867,6 +853,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		} else {
 			shape.setNoFill(true);
 		}
+		createMergeRegion(gridCell, colIndex, rowIndex);
 	}
 
 	@Override
@@ -1178,6 +1165,34 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 						spanCell = spanRow.createCell((colIndex + j));
 					}
 					spanCell.setCellStyle(cellStyle);
+				}
+			}
+		}
+	}
+
+	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
+		int rowSpan = isCollapseRowSpan ? 1 : gridCell.getRowSpan();
+		if (gridCell.getColSpan() > 1 || rowSpan > 1)
+		{
+			sheet.addMergedRegion(new CellRangeAddress(rowIndex, (rowIndex + rowSpan - 1), 
+					colIndex, (colIndex + gridCell.getColSpan() - 1)));
+
+			for(int i = 0; i < rowSpan; i++)
+			{
+				HSSFRow spanRow = sheet.getRow(rowIndex + i);
+				if (spanRow == null)
+				{
+					spanRow = sheet.createRow(rowIndex + i);
+				}
+				for(int j = 0; j < gridCell.getColSpan(); j++)
+				{
+					HSSFCell spanCell = spanRow.getCell((colIndex + j));
+					if (spanCell == null)
+					{
+						spanCell = spanRow.createCell((colIndex + j));
+					}
 				}
 			}
 		}
