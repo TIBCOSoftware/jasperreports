@@ -154,7 +154,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	private static short A2_PAPERSIZE = (short)66; 	/* A2_PAPERSIZE defined locally since it is not declared in HSSFPrintSetup */
-	private static short EMU = 12700;	/* convert emu to pixel */
 
 	private static Map<HSSFColor, short[]> hssfColorsRgbs;
 	
@@ -843,7 +842,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_OVAL);
 		JRPen pen = element.getLinePen();
 
-		shape.setLineWidth(EMU * Math.round(pen.getLineWidth()));
+		shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
 		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
 		{
 			shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
