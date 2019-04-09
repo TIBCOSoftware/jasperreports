@@ -30,7 +30,7 @@
 		<dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
 		<!-- we need this dependency here because it was removed from Java 11 -->
 		<dependency org="javax.xml.soap" name="javax.xml.soap-api" rev="1.4.0"/>
-		<dependency org="jaxen" name="jaxen" rev="1.1.1"/>
+		<dependency org="jaxen" name="jaxen" rev="1.1.6"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
 		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.7.0" conf="annotations->*"/>
@@ -60,20 +60,20 @@
 		<dependency org="org.apache.poi" name="poi-ooxml" rev="4.0.1"/>
 		<dependency org="org.apache.poi" name="poi" rev="4.0.1"/>
 		<dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.9"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.9"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-bridge" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-constants" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-dom" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-gvt" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.11"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1"/>
-		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.5"/>
+		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.16"/>
 		<dependency org="org.eclipse.jdt.core.compiler" name="ecj" rev="4.4.2"/>
 		<dependency org="org.hibernate" name="hibernate-core" rev="3.3.2.GA"/>
 		<dependency org="org.jfree" name="jcommon" rev="1.0.23"/>
