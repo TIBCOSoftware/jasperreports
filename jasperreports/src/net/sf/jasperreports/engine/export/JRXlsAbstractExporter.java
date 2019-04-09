@@ -2406,7 +2406,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected abstract void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportEllipse(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
+	protected abstract void exportEllipse(JRPrintEllipse element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
 	protected abstract void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 

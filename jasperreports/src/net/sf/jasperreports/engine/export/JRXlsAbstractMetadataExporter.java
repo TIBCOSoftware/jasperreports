@@ -552,7 +552,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 	}
 
 	@Override
-	protected void exportEllipse(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
+	protected void exportEllipse(JRPrintEllipse element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
 	{
 	}
 
@@ -624,7 +624,7 @@ public abstract class JRXlsAbstractMetadataExporter<RC extends XlsMetadataReport
 
 	protected abstract void exportRectangle(JRPrintGraphicElement element) throws JRException;
 
-	protected abstract void exportEllipse(JRPrintGraphicElement element) throws JRException;
+	protected abstract void exportEllipse(JRPrintEllipse element) throws JRException;
 
 	protected abstract void exportLine(JRPrintLine line) throws JRException;
 

@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
+import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
@@ -1405,7 +1406,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	@Override
 	protected void exportEllipse(	// TODO only a copy of exportRectangle. Need to fix to show ellipse in xlsx
-		JRPrintGraphicElement ellipse,
+		JRPrintEllipse ellipse,
 		JRExporterGridCell gridCell, 
 		int colIndex, 
 		int rowIndex

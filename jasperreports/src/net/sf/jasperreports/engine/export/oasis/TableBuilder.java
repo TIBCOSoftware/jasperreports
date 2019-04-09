@@ -72,6 +72,8 @@ public class TableBuilder
 	protected String tableName;
 	private final JasperPrint jasperPrint;
 	private int pageFormatIndex;
+	private StringBuffer shapeWriter;
+	private StringBuffer columnWriter;
 	private final WriterHelper bodyWriter;
 	private final WriterHelper styleWriter;
 	private final StyleCache styleCache;
@@ -87,6 +89,8 @@ public class TableBuilder
 		DocumentBuilder documentBuilder,
 		JasperPrint jasperPrint,
 		String name, 
+		StringBuffer shapeWriter,
+		StringBuffer columnWriter,
 		WriterHelper bodyWriter,
 		WriterHelper styleWriter,
 		StyleCache styleCache,
@@ -101,6 +105,8 @@ public class TableBuilder
 		isFrame = true;
 		isPageBreak = false;
 		
+		this.shapeWriter = shapeWriter;
+		this.columnWriter = columnWriter;
 		this.bodyWriter = bodyWriter;
 		this.styleWriter = styleWriter;
 		this.styleCache = styleCache;
@@ -111,6 +117,21 @@ public class TableBuilder
 		this.tabColor = tabColor;
 	}
 	
+	protected TableBuilder(
+			DocumentBuilder documentBuilder,
+			JasperPrint jasperPrint,
+			String name, 
+			WriterHelper bodyWriter,
+			WriterHelper styleWriter,
+			StyleCache styleCache,
+			Map<Integer, String> rowStyles,
+			Map<Integer, String> columnStyles,
+			Color tabColor
+			) 
+		{
+			this(documentBuilder, jasperPrint, name, null, null, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles, null);
+		}
+
 	protected TableBuilder(
 			DocumentBuilder documentBuilder,
 			JasperPrint jasperPrint,
@@ -132,6 +153,8 @@ public class TableBuilder
 		JasperPrint jasperPrint,
 		int pageFormatIndex,
 		int pageIndex,
+		StringBuffer shapeWriter,
+		StringBuffer columnWriter,
 		WriterHelper bodyWriter,
 		WriterHelper styleWriter,
 		StyleCache styleCache,
@@ -147,6 +170,8 @@ public class TableBuilder
 		isPageBreak = (pageFormatIndex != 0 || pageIndex != 0);
 		
 		this.pageFormatIndex = pageFormatIndex;
+		this.shapeWriter = shapeWriter;
+		this.columnWriter = columnWriter;
 		this.bodyWriter = bodyWriter;
 		this.styleWriter = styleWriter;
 		this.styleCache = styleCache;
@@ -157,6 +182,21 @@ public class TableBuilder
 		this.tabColor = tabColor;
 	}
 
+	protected TableBuilder(
+		DocumentBuilder documentBuilder,
+		JasperPrint jasperPrint,
+		int pageFormatIndex,
+		int pageIndex,
+		WriterHelper bodyWriter,
+		WriterHelper styleWriter,
+		StyleCache styleCache,
+		Map<Integer, String> rowStyles,
+		Map<Integer, String> columnStyles,
+		Color tabColor
+		) 
+	{
+		this(documentBuilder, jasperPrint, pageFormatIndex, pageIndex, null, null, bodyWriter, styleWriter, styleCache, rowStyles, columnStyles, tabColor);
+	}
 
 	protected TableBuilder(
 			DocumentBuilder documentBuilder,
@@ -202,6 +242,12 @@ public class TableBuilder
 	
 	public void buildTableFooter() 
 	{
+		if (shapeWriter != null) {
+			bodyWriter.write(shapeWriter.toString());
+		}
+		if (columnWriter != null) {
+			bodyWriter.write(columnWriter.toString());
+		}
 		bodyWriter.write("</table:table>\n");
 	}
 	
@@ -216,14 +262,24 @@ public class TableBuilder
 
 	public void buildRowHeader(int rowHeight) 
 	{
-		bodyWriter.write("<table:table-row");
-		bodyWriter.write(" table:style-name=\"" + rowStyles.get(rowHeight) + "\"");
-		bodyWriter.write(">\n");
+		if (columnWriter != null) {
+			columnWriter.append("<table:table-row");
+			columnWriter.append(" table:style-name=\"" + rowStyles.get(rowHeight) + "\"");
+			columnWriter.append(">\n");
+		} else {
+			bodyWriter.write("<table:table-row");
+			bodyWriter.write(" table:style-name=\"" + rowStyles.get(rowHeight) + "\"");
+			bodyWriter.write(">\n");
+		}
 	}
 	
 	public void buildRowFooter() 
 	{
-		bodyWriter.write("</table:table-row>\n");
+		if (columnWriter != null) {
+			columnWriter.append("</table:table-row>\n");
+		} else {
+			bodyWriter.write("</table:table-row>\n");
+		}
 	}
 	
 	public void buildRow(int rowIndex, int rowHeight) 
@@ -246,39 +302,72 @@ public class TableBuilder
 
 	public void buildColumnHeader(int colWidth) 
 	{
-		bodyWriter.write("<table:table-column");		
-		bodyWriter.write(" table:style-name=\"" + columnStyles.get(colWidth) + "\"");
-		bodyWriter.write(">\n");
+		if (columnWriter != null) {
+			columnWriter.append("<table:table-column");		
+			columnWriter.append(" table:style-name=\"" + columnStyles.get(colWidth) + "\"");
+			columnWriter.append(">\n");
+		} else {
+			bodyWriter.write("<table:table-column");		
+			bodyWriter.write(" table:style-name=\"" + columnStyles.get(colWidth) + "\"");
+			bodyWriter.write(">\n");
+		}
 	}
 
 	public void buildColumnFooter() 
 	{
-		bodyWriter.write("</table:table-column>\n");		
+		if (columnWriter != null) {
+			columnWriter.append("</table:table-column>\n");
+		} else {
+			bodyWriter.write("</table:table-column>\n");
+		}	
 	}
 
 	public void buildCellHeader(String cellStyleName, int colSpan, int rowSpan) 
 	{
-		//FIXMEODT officevalue bodyWriter.write("<table:table-cell office:value-type=\"string\"");
-		bodyWriter.write("<table:table-cell");
-		if (cellStyleName != null)
-		{
-			bodyWriter.write(" table:style-name=\"" + cellStyleName + "\"");
+		if (columnWriter != null) {
+			//FIXMEODT officevalue bodyWriter.write("<table:table-cell office:value-type=\"string\"");
+			columnWriter.append("<table:table-cell");
+			if (cellStyleName != null)
+			{
+				columnWriter.append(" table:style-name=\"" + cellStyleName + "\"");
+			}
+			if (colSpan > 1)
+			{
+				columnWriter.append(" table:number-columns-spanned=\"" + colSpan + "\"");
+			}
+			if (rowSpan > 1)
+			{
+				columnWriter.append(" table:number-rows-spanned=\"" + rowSpan + "\"");
+			}
+			
+			columnWriter.append(">\n");
+		} else {
+			//FIXMEODT officevalue bodyWriter.write("<table:table-cell office:value-type=\"string\"");
+			bodyWriter.write("<table:table-cell");
+			if (cellStyleName != null)
+			{
+				bodyWriter.write(" table:style-name=\"" + cellStyleName + "\"");
+			}
+			if (colSpan > 1)
+			{
+				bodyWriter.write(" table:number-columns-spanned=\"" + colSpan + "\"");
+			}
+			if (rowSpan > 1)
+			{
+				bodyWriter.write(" table:number-rows-spanned=\"" + rowSpan + "\"");
+			}
+			
+			bodyWriter.write(">\n");
 		}
-		if (colSpan > 1)
-		{
-			bodyWriter.write(" table:number-columns-spanned=\"" + colSpan + "\"");
-		}
-		if (rowSpan > 1)
-		{
-			bodyWriter.write(" table:number-rows-spanned=\"" + rowSpan + "\"");
-		}
-		
-		bodyWriter.write(">\n");
 	}
 
 	public void buildCellFooter()
 	{
-		bodyWriter.write("</table:table-cell>\n");
+		if (columnWriter != null) {
+			columnWriter.append("</table:table-cell>\n");
+		} else {
+			bodyWriter.write("</table:table-cell>\n");
+		}
 	}
 	
 
@@ -287,14 +376,26 @@ public class TableBuilder
 	 */
 	public void exportRectangle(JRPrintGraphicElement rectangle, JRExporterGridCell gridCell)
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = box.getPen();
-		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
-		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
+		if (shapeWriter != null) {
+			documentBuilder.insertPageAnchor(this);
+			shapeWriter.append(
+				"<table:shapes><draw:rect text:anchor-type=\"paragraph\" "
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(rectangle) + "\" "
+				+ "svg:width=\"" + LengthUtil.inchFloor4Dec(rectangle.getWidth()) + "in\" "
+				+ "svg:height=\"" + LengthUtil.inchFloor4Dec(rectangle.getHeight()) + "in\" "
+				+ "svg:x=\"" + LengthUtil.inchFloor4Dec(rectangle.getX()) + "in\" "
+				+ "svg:y=\"" + LengthUtil.inchFloor4Dec(rectangle.getY()) + "in\">"
+				+ "<text:p/></draw:rect></table:shapes>"
+				);
+		} else {
+			JRLineBox box = new JRBaseLineBox(null);
+			JRPen pen = box.getPen();
+			pen.setLineColor(rectangle.getLinePen().getLineColor());
+			pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+			pen.setLineWidth(rectangle.getLinePen().getLineWidth());
 
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-
+			gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		}
 		buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 		buildCellFooter();
 	}
@@ -347,17 +448,30 @@ public class TableBuilder
 	public void exportEllipse(JRPrintEllipse ellipse, JRExporterGridCell gridCell)
 	{
 		buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-		bodyWriter.write("<text:p>");
-		documentBuilder.insertPageAnchor(this);
-		bodyWriter.write(
-			"<draw:ellipse text:anchor-type=\"paragraph\" "
-			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
-			+ "svg:width=\"" + LengthUtil.inchFloor4Dec(ellipse.getWidth()) + "in\" "
-			+ "svg:height=\"" + LengthUtil.inchFloor4Dec(ellipse.getHeight()) + "in\" "
-			+ "svg:x=\"0in\" "
-			+ "svg:y=\"0in\">"
-			+ "<text:p/></draw:ellipse></text:p>"
-			);
+		if (shapeWriter != null) {
+			documentBuilder.insertPageAnchor(this);
+			shapeWriter.append(
+				"<table:shapes><draw:ellipse text:anchor-type=\"paragraph\" "
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
+				+ "svg:width=\"" + LengthUtil.inchFloor4Dec(ellipse.getWidth()) + "in\" "
+				+ "svg:height=\"" + LengthUtil.inchFloor4Dec(ellipse.getHeight()) + "in\" "
+				+ "svg:x=\"" + LengthUtil.inchFloor4Dec(ellipse.getX()) + "in\" "
+				+ "svg:y=\"" + LengthUtil.inchFloor4Dec(ellipse.getY()) + "in\">"
+				+ "<text:p/></draw:ellipse></table:shapes>"
+				);
+		} else {
+			bodyWriter.write("<text:p>");
+			documentBuilder.insertPageAnchor(this);
+			bodyWriter.write(
+				"<draw:ellipse text:anchor-type=\"paragraph\" "
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
+				+ "svg:width=\"" + LengthUtil.inchFloor4Dec(ellipse.getWidth()) + "in\" "
+				+ "svg:height=\"" + LengthUtil.inchFloor4Dec(ellipse.getHeight()) + "in\" "
+				+ "svg:x=\"0in\" "
+				+ "svg:y=\"0in\">"
+				+ "<text:p/></draw:ellipse></text:p>"
+				);
+		}
 		buildCellFooter();
 	}
 
@@ -368,20 +482,33 @@ public class TableBuilder
 	public void exportText(JRPrintText text, JRExporterGridCell gridCell, boolean shrinkToFit, boolean wrapText, boolean isIgnoreTextFormatting)
 	{
 		buildCellHeader((isIgnoreTextFormatting ? null : styleCache.getCellStyle(gridCell, shrinkToFit, wrapText)), gridCell.getColSpan(), gridCell.getRowSpan());
-		
-		bodyWriter.write("<text:p text:style-name=\"");
-		bodyWriter.write(styleCache.getParagraphStyle(text, isIgnoreTextFormatting));
-		bodyWriter.write("\">");
-		documentBuilder.insertPageAnchor(this);
-		if (text.getAnchorName() != null)
-		{
-			exportAnchor(JRStringUtil.xmlEncode(text.getAnchorName()));
+		if (columnWriter != null) {
+			columnWriter.append("<text:p text:style-name=\"");
+			columnWriter.append(styleCache.getParagraphStyle(text, isIgnoreTextFormatting));
+			columnWriter.append("\">");
+			documentBuilder.insertPageAnchor(this);
+			if (text.getAnchorName() != null)
+			{
+				exportAnchor(JRStringUtil.xmlEncode(text.getAnchorName()));
+			}
+
+			exportTextContents(text);
+
+			columnWriter.append("</text:p>\n");
+		} else {
+			bodyWriter.write("<text:p text:style-name=\"");
+			bodyWriter.write(styleCache.getParagraphStyle(text, isIgnoreTextFormatting));
+			bodyWriter.write("\">");
+			documentBuilder.insertPageAnchor(this);
+			if (text.getAnchorName() != null)
+			{
+				exportAnchor(JRStringUtil.xmlEncode(text.getAnchorName()));
+			}
+
+			exportTextContents(text);
+
+			bodyWriter.write("</text:p>\n");
 		}
-
-		exportTextContents(text);
-
-		bodyWriter.write("</text:p>\n");
-
 		buildCellFooter();
 	}
 
@@ -482,13 +609,23 @@ public class TableBuilder
 	 */
 	protected void startTextSpan(Map<AttributedCharacterIterator.Attribute, Object> attributes, String text, Locale locale, boolean isIgnoreTextFormatting)
 	{
-		bodyWriter.write("<text:span");
-		if(attributes != null)
-		{
-			String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale, isIgnoreTextFormatting);
-			bodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
+		if (columnWriter != null) {
+			columnWriter.append("<text:span");
+			if(attributes != null)
+			{
+				String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale, isIgnoreTextFormatting);
+				columnWriter.append(" text:style-name=\"" + textSpanStyleName + "\"");
+			}
+			columnWriter.append(">");
+		} else {
+			bodyWriter.write("<text:span");
+			if(attributes != null)
+			{
+				String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale, isIgnoreTextFormatting);
+				bodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
+			}
+			bodyWriter.write(">");
 		}
-		bodyWriter.write(">");
 	}
 
 	
@@ -497,7 +634,11 @@ public class TableBuilder
 	 */
 	protected void endTextSpan()
 	{
-		bodyWriter.write("</text:span>");
+		if (columnWriter != null) {
+			columnWriter.append("</text:span>");
+		} else {
+			bodyWriter.write("</text:span>");
+		}
 	}
 
 	
@@ -508,7 +649,11 @@ public class TableBuilder
 	{
 		if (text != null)
 		{
-			bodyWriter.write(Utility.replaceNewLineWithLineBreak(JRStringUtil.xmlEncode(text, documentBuilder.getInvalidCharReplacement())));//FIXMEODT try something nicer for replace
+			if (columnWriter != null) {
+				columnWriter.append(Utility.replaceNewLineWithLineBreak(JRStringUtil.xmlEncode(text, documentBuilder.getInvalidCharReplacement())));//FIXMEODT try something nicer for replace
+			} else {
+				bodyWriter.write(Utility.replaceNewLineWithLineBreak(JRStringUtil.xmlEncode(text, documentBuilder.getInvalidCharReplacement())));//FIXMEODT try something nicer for replace
+			}
 		}
 	}
 
@@ -518,9 +663,15 @@ public class TableBuilder
 	 */
 	protected void exportAnchor(String anchorName)
 	{
-		bodyWriter.write("<text:bookmark text:name=\"");
-		bodyWriter.write(anchorName);
-		bodyWriter.write("\"/>");
+		if (columnWriter != null) {
+			columnWriter.append("<text:bookmark text:name=\"");
+			columnWriter.append(anchorName);
+			columnWriter.append("\"/>");
+		} else {
+			bodyWriter.write("<text:bookmark text:name=\"");
+			bodyWriter.write(anchorName);
+			bodyWriter.write("\"/>");
+		}
 	}
 
 	
@@ -575,40 +726,77 @@ public class TableBuilder
 	 */
 	protected void writeHyperlink(JRPrintHyperlink link, String href, boolean isText)
 	{
-		if(isText)
-		{
-			bodyWriter.write("<text:a xlink:href=\"");
-		}
-		else
-		{
-			bodyWriter.write("<draw:a xlink:type=\"simple\" xlink:href=\"");
-		}
-		bodyWriter.write(JRStringUtil.xmlEncode(href));
-		bodyWriter.write("\"");
-
-
-		String target = getHyperlinkTarget(link);//FIXMETARGET
-		if (target != null)
-		{
-			bodyWriter.write(" office:target-frame-name=\"");
-			bodyWriter.write(target);
-			bodyWriter.write("\"");
-			if(target.equals("_blank"))
+		if (columnWriter != null) {
+			if(isText)
 			{
-				bodyWriter.write(" xlink:show=\"new\"");
+				columnWriter.append("<text:a xlink:href=\"");
 			}
-		}
-/*
- * tooltips are unavailable for the moment
- *
-		if (link.getHyperlinkTooltip() != null)
-		{
-			bodyWriter.write(" xlink:title=\"");
-			bodyWriter.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
+			else
+			{
+				columnWriter.append("<draw:a xlink:type=\"simple\" xlink:href=\"");
+			}
+			columnWriter.append(JRStringUtil.xmlEncode(href));
+			columnWriter.append("\"");
+
+
+			String target = getHyperlinkTarget(link);//FIXMETARGET
+			if (target != null)
+			{
+				columnWriter.append(" office:target-frame-name=\"");
+				columnWriter.append(target);
+				columnWriter.append("\"");
+				if(target.equals("_blank"))
+				{
+					columnWriter.append(" xlink:show=\"new\"");
+				}
+			}
+	/*
+	 * tooltips are unavailable for the moment
+	 *
+			if (link.getHyperlinkTooltip() != null)
+			{
+				columnWriter.append(" xlink:title=\"");
+				columnWriter.append(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
+				columnWriter.append("\"");
+			}
+	*/
+			columnWriter.append(">");
+		} else {
+			if(isText)
+			{
+				bodyWriter.write("<text:a xlink:href=\"");
+			}
+			else
+			{
+				bodyWriter.write("<draw:a xlink:type=\"simple\" xlink:href=\"");
+			}
+			bodyWriter.write(JRStringUtil.xmlEncode(href));
 			bodyWriter.write("\"");
+
+
+			String target = getHyperlinkTarget(link);//FIXMETARGET
+			if (target != null)
+			{
+				bodyWriter.write(" office:target-frame-name=\"");
+				bodyWriter.write(target);
+				bodyWriter.write("\"");
+				if(target.equals("_blank"))
+				{
+					bodyWriter.write(" xlink:show=\"new\"");
+				}
+			}
+	/*
+	 * tooltips are unavailable for the moment
+	 *
+			if (link.getHyperlinkTooltip() != null)
+			{
+				bodyWriter.write(" xlink:title=\"");
+				bodyWriter.write(JRStringUtil.xmlEncode(link.getHyperlinkTooltip()));
+				bodyWriter.write("\"");
+			}
+	*/
+			bodyWriter.write(">");
 		}
-*/
-		bodyWriter.write(">");
 	}
 
 
@@ -617,13 +805,24 @@ public class TableBuilder
 	 */
 	protected void endHyperlink(boolean isText)
 	{
-		if(isText)
-		{
-			bodyWriter.write("</text:a>");
-		}
-		else
-		{
-			bodyWriter.write("</draw:a>");
+		if (columnWriter != null) {
+			if(isText)
+			{
+				columnWriter.append("</text:a>");
+			}
+			else
+			{
+				columnWriter.append("</draw:a>");
+			}
+		} else {
+			if(isText)
+			{
+				bodyWriter.write("</text:a>");
+			}
+			else
+			{
+				bodyWriter.write("</draw:a>");
+			}
 		}
 	}
 

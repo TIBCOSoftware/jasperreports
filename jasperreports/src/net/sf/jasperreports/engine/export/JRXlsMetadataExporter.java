@@ -781,7 +781,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 	@Override
-	protected void exportEllipse(JRPrintGraphicElement element) throws JRException {	// TODO need to fix to show ellipse on xls metadata
+	protected void exportEllipse(JRPrintEllipse element) throws JRException {	// TODO need to fix to show ellipse on xls metadata
 		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) {

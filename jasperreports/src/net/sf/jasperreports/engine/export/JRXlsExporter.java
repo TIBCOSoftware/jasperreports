@@ -93,6 +93,7 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
@@ -821,7 +822,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	}
 
 	@Override
-	protected void exportEllipse(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	protected void exportEllipse(JRPrintEllipse element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
 		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
 		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
