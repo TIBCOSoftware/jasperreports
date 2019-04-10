@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
@@ -1326,6 +1327,106 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		}
 	}
 
+	private void drawShape(
+		JRPrintGraphicElement shape,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException
+	{
+		String shapeType = "rect";
+		String flip = "";
+		
+		if (shape instanceof JRPrintEllipse)
+		{
+			shapeType = "ellipse";
+
+		}
+		else if (shape instanceof JRPrintLine)
+		{
+			shapeType = "line";
+			if (((JRPrintLine)shape).getDirectionValue() != LineDirectionEnum.TOP_DOWN)
+			{
+				flip = " flipV=\"1\"";
+			}
+		}
+		else
+		{
+			shapeType = "rect";
+		}
+		Boolean tIgnoreCellBackground = sheetInfo.ignoreCellBackground;
+		sheetInfo.ignoreCellBackground = Boolean.TRUE;	// TODO currently used to force background of shape cell to be white
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		sheetInfo.ignoreCellBackground = tIgnoreCellBackground;
+
+		String bgColor = "";
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		{
+			bgColor = "<a:srgbClr val=\"" + Integer.toHexString(gridCell.getCellBackcolor().getRGB()).substring(2) + "\"/>";
+		}
+		JRPen pen = shape.getLinePen();
+		Color penColor = pen.getLineColor();
+		String penStyle = "";
+		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
+		{
+			penStyle = "<a:custDash><a:ds d=\"800000\" sp=\"800000\"/></a:custDash>";
+		}
+		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
+		{
+			penStyle = "<a:custDash><a:ds d=\"100000\" sp=\"100000\"/></a:custDash>";
+		}
+
+		drawingHelper.write(
+			"<xdr:twoCellAnchor editAs=\"absolute\">"
+				+ "<xdr:from>"
+					+ "<xdr:col>" + colIndex + "</xdr:col>"
+					+ "<xdr:colOff>0</xdr:colOff>"
+					+ "<xdr:row>" + rowIndex + "</xdr:row>"
+					+ "<xdr:rowOff>0</xdr:rowOff>"
+				+ "</xdr:from>"
+				+ "<xdr:to>"
+					+ "<xdr:col>" + (colIndex + gridCell.getColSpan()) + "</xdr:col>"
+					+ "<xdr:colOff>0</xdr:colOff>"
+					+ "<xdr:row>" + (rowIndex + gridCell.getRowSpan()) + "</xdr:row>"
+					+ "<xdr:rowOff>0</xdr:rowOff>"
+				+ "</xdr:to>"
+				+ "<xdr:sp>"
+					+ "<xdr:nvSpPr>"
+						+ "<xdr:cNvPr id=\"0\" name=\"CustomShape 1\"></xdr:cNvPr>"
+						+ "<xdr:cNvSpPr/>"
+					+ "</xdr:nvSpPr>"
+					+ "<xdr:spPr>"
+						+ "<a:xfrm" + flip + ">"
+						    + "<a:off x=\"0\" y=\"0\"/>"
+						    + "<a:ext cx=\"0\" cy=\"0\"/>"
+						+ "</a:xfrm>"
+						+ "<a:prstGeom prst=\"" + shapeType + "\">"
+						    + "<a:avLst></a:avLst>"
+						+ "</a:prstGeom>"
+						+ "<a:solidFill>"
+							+ bgColor
+						+ "</a:solidFill>"
+						+ "<a:ln w=\"" + LengthUtil.emu(Math.round(pen.getLineWidth())) + "\">"
+						    + "<a:solidFill>"
+						        + "<a:srgbClr val=\"" + Integer.toHexString(penColor.getRGB()).substring(2) + "\"/>"
+						    + "</a:solidFill>"
+							+ penStyle
+						+ "</a:ln>"
+					+ "</xdr:spPr>"
+					+ "<xdr:style>"
+						+ "<a:lnRef idx=\"0\"/>"
+						+ "<a:fillRef idx=\"0\"/>"
+						+ "<a:effectRef idx=\"0\"/>"
+						+ "<a:fontRef idx=\"minor\"/>"
+					+ "</xdr:style>"
+				+ "</xdr:sp>"
+				+ "<xdr:clientData/>"
+			+ "</xdr:twoCellAnchor>"
+			);
+
+		cellHelper.exportFooter();
+	}
 
 	@Override
 	protected void exportLine(
@@ -1335,51 +1436,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = null;
-		LineDirectionEnum direction = null;
-		float ratio = line.getWidth() / line.getHeight();
-		if (ratio > 1)
-		{
-			if(line.getHeight() > 1)
-			{
-				direction = line.getDirectionValue();
-				pen = box.getPen();
-			}
-			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getTopPen();
-			}
-			else
-			{
-				pen = box.getBottomPen();
-			}
-		}
-		else
-		{
-			if(line.getWidth() > 1)
-			{
-				direction = line.getDirectionValue();
-				pen = box.getPen();
-			}
-			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getLeftPen();
-			}
-			else
-			{
-				pen = box.getRightPen();
-			}
-		}
-		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
-		pen.setLineWidth(line.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
-		cellHelper.exportFooter();
+		drawShape(line, gridCell, colIndex, rowIndex);
 	}
 
 
@@ -1391,37 +1448,18 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = box.getPen();
-		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
-		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
-		cellHelper.exportFooter();
+		drawShape(rectangle, gridCell, colIndex, rowIndex);
 	}
 
 	@Override
-	protected void exportEllipse(	// TODO only a copy of exportRectangle. Need to fix to show ellipse in xlsx
+	protected void exportEllipse(
 		JRPrintEllipse ellipse,
 		JRExporterGridCell gridCell, 
 		int colIndex, 
 		int rowIndex
 		) throws JRException 
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = box.getPen();
-		pen.setLineColor(ellipse.getLinePen().getLineColor());
-		pen.setLineStyle(ellipse.getLinePen().getLineStyleValue());
-		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
-		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
-		cellHelper.exportFooter();
+		drawShape(ellipse, gridCell, colIndex, rowIndex);
 	}
 
 	@Override
