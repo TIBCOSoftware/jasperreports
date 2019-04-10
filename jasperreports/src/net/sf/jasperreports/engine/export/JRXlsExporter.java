@@ -790,35 +790,37 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	@Override
 	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		short forecolor = getWorkbookColor(element.getLinePen().getLineColor()).getIndex();
+		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
+		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
+		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_RECTANGLE );
+		JRPen pen = element.getLinePen();
 
-		FillPatternType mode = backgroundMode;
-		short backcolor = whiteIndex;
-		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
 		{
-			mode = FillPatternType.SOLID_FOREGROUND;
-			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
+			shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+		}
+		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+		}
+		else
+		{
+			shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
 		}
 
-		HSSFCellStyle cellStyle =
-			getLoadedCellStyle(
-				mode,
-				backcolor,
-				HorizontalAlignment.LEFT,
-				VerticalAlignment.TOP,
-				(short)0,
-				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-				gridCell,
-				isWrapText(element),
-				isCellLocked(element),
-				isCellHidden(element),
-				isShrinkToFit(element)
-				);
+		Color penColor = pen.getLineColor();
+		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
 
-		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
-
-		cell = row.createCell(colIndex);
-		cell.setCellStyle(cellStyle);
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		{
+			Color bgcolor = gridCell.getCellBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setNoFill(false);
+		} else {
+			shape.setNoFill(true);
+		}
+		createMergeRegion(gridCell, colIndex, rowIndex);
 	}
 
 	@Override
