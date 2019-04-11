@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -1337,6 +1338,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	{
 		String shapeType = "rect";
 		String flip = "";
+		String radius = "<a:avLst></a:avLst>";
 		
 		if (shape instanceof JRPrintEllipse)
 		{
@@ -1349,6 +1351,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			if (((JRPrintLine)shape).getDirectionValue() != LineDirectionEnum.TOP_DOWN)
 			{
 				flip = " flipV=\"1\"";
+			}
+		}
+		else if (shape instanceof JRPrintRectangle)
+		{
+			shapeType = (((JRPrintRectangle)shape).getRadius() == 0) ? "rect" : "roundRect";
+			if (((JRPrintRectangle)shape).getRadius() > 0)
+			{
+				// a rounded rectangle radius cannot exceed 1/2 of its lower side;
+				int size = Math.min(50000, (((JRPrintRectangle)shape).getRadius() * 100000)/Math.min(shape.getHeight(), shape.getWidth()));
+				radius = "<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst>";
 			}
 		}
 		else
@@ -1408,7 +1420,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				+ "</xdr:to>"
 				+ "<xdr:sp>"
 					+ "<xdr:nvSpPr>"
-						+ "<xdr:cNvPr id=\"0\" name=\"CustomShape 1\"></xdr:cNvPr>"
+						+ "<xdr:cNvPr id=\"" + toOOXMLId(shape) + "\" name=\"CustomShape 1\"></xdr:cNvPr>"
 						+ "<xdr:cNvSpPr/>"
 					+ "</xdr:nvSpPr>"
 					+ "<xdr:spPr>"
@@ -1417,7 +1429,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						    + "<a:ext cx=\"0\" cy=\"0\"/>"
 						+ "</a:xfrm>"
 						+ "<a:prstGeom prst=\"" + shapeType + "\">"
-						    + "<a:avLst></a:avLst>"
+						    + radius
 						+ "</a:prstGeom>"
 						+ "<a:solidFill>"
 							+ bgColor
@@ -1457,7 +1469,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	@Override
 	protected void exportRectangle(
-		JRPrintGraphicElement rectangle,
+		JRPrintRectangle rectangle,
 		JRExporterGridCell gridCell, 
 		int colIndex, 
 		int rowIndex
@@ -1879,5 +1891,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		return null;
 	}
 	
+	protected String toOOXMLId(JRPrintElement element)
+	{
+		// using hashCode() for now, though in theory there is a risk of collisions
+		// we could use something based on getSourceElementId() and getPrintElementId()
+		// or even a counter since we do not have any references to Ids
+		int hashCode = element.hashCode();
+		// OOXML object ids are xsd:unsignedInt 
+		return Long.toString(hashCode & 0xFFFFFFFFL); 
+	}
 }
 

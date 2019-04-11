@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -516,7 +517,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	
 	@Override
 	protected void exportRectangle(
-		JRPrintGraphicElement rectangle,
+		JRPrintRectangle rectangle,
 		JRExporterGridCell gridCell, 
 		int colIndex, 
 		int rowIndex

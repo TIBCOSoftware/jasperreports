@@ -744,7 +744,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 	}
 
 	@Override
-	protected void exportRectangle(JRPrintGraphicElement element) throws JRException {
+	protected void exportRectangle(JRPrintRectangle element) throws JRException {
 		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporter.PROPERTY_COLUMN_NAME);
 		
 		if (currentColumnName != null && currentColumnName.length() > 0) {

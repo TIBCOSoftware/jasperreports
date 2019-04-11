@@ -99,6 +99,7 @@ import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -800,7 +801,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 
 	@Override
-	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	protected void exportRectangle(JRPrintRectangle element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
 		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
 		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
