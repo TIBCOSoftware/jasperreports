@@ -758,29 +758,41 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_LINE );
 		JRPen pen = line.getLinePen();
 
-		shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
-		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
+		if (pen.getLineWidth() > 0)
 		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
-		}
-		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
-		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
-		}
-		else
-		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+			shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+					break;
+				}
+				case DOTTED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+					break;
+				}
+			}
 		}
 
 		Color penColor = pen.getLineColor();
 		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
 
-		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		if (line.getModeValue() == ModeEnum.OPAQUE && line.getBackcolor() != null)
 		{
-			Color bgcolor = gridCell.getCellBackcolor();
-			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setFillColor(line.getBackcolor().getRGB());
 			shape.setNoFill(true);
-		} else {
+		}
+		else
+		{
 			shape.setNoFill(true);
 		}
 		createMergeRegion(gridCell, colIndex, rowIndex);
@@ -795,29 +807,41 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_RECTANGLE );
 		JRPen pen = element.getLinePen();
 
-		shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
-		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
+		if (pen.getLineWidth() > 0)
 		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
-		}
-		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
-		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
-		}
-		else
-		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+			shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+					break;
+				}
+				case DOTTED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+					break;
+				}
+			}
 		}
 
 		Color penColor = pen.getLineColor();
 		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
 
-		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		if (element.getModeValue() == ModeEnum.OPAQUE && element.getBackcolor() != null)
 		{
-			Color bgcolor = gridCell.getCellBackcolor();
-			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setFillColor(element.getBackcolor().getRGB());
 			shape.setNoFill(false);
-		} else {
+		}
+		else
+		{
 			shape.setNoFill(true);
 		}
 		createMergeRegion(gridCell, colIndex, rowIndex);
@@ -831,29 +855,41 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_OVAL);
 		JRPen pen = element.getLinePen();
 
-		shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
-		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
+		if (pen.getLineWidth() > 0)
 		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
-		}
-		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
-		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
-		}
-		else
-		{
-			shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+			shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+					break;
+				}
+				case DOTTED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+					break;
+				}
+			}
 		}
 
 		Color penColor = pen.getLineColor();
 		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
 
-		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		if (element.getModeValue() == ModeEnum.OPAQUE && element.getBackcolor() != null)
 		{
-			Color bgcolor = gridCell.getCellBackcolor();
-			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setFillColor(element.getBackcolor().getRGB());
 			shape.setNoFill(false);
-		} else {
+		}
+		else
+		{
 			shape.setNoFill(true);
 		}
 		createMergeRegion(gridCell, colIndex, rowIndex);

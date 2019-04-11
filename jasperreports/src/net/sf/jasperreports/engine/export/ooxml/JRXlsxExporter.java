@@ -93,6 +93,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -1361,20 +1362,34 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		sheetInfo.ignoreCellBackground = tIgnoreCellBackground;
 
 		String bgColor = "";
-		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		if (shape.getModeValue() == ModeEnum.OPAQUE && shape.getBackcolor() != null)
 		{
-			bgColor = "<a:srgbClr val=\"" + Integer.toHexString(gridCell.getCellBackcolor().getRGB()).substring(2) + "\"/>";
+			bgColor = "<a:srgbClr val=\"" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\"/>";
 		}
 		JRPen pen = shape.getLinePen();
 		Color penColor = pen.getLineColor();
 		String penStyle = "";
-		if (pen.getLineStyleValue() == LineStyleEnum.DASHED)
+		if (pen.getLineWidth() > 0)
 		{
-			penStyle = "<a:custDash><a:ds d=\"800000\" sp=\"800000\"/></a:custDash>";
-		}
-		else if (pen.getLineStyleValue() == LineStyleEnum.DOTTED)
-		{
-			penStyle = "<a:custDash><a:ds d=\"100000\" sp=\"100000\"/></a:custDash>";
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					penStyle = "<a:custDash><a:ds d=\"800000\" sp=\"800000\"/></a:custDash>";
+					break;
+				}
+				case DOTTED :
+				{
+					penStyle = "<a:custDash><a:ds d=\"100000\" sp=\"100000\"/></a:custDash>";
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					break;
+				}
+			}
 		}
 
 		drawingHelper.write(
@@ -1407,9 +1422,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						+ "<a:solidFill>"
 							+ bgColor
 						+ "</a:solidFill>"
-						+ "<a:ln w=\"" + LengthUtil.emu(Math.round(pen.getLineWidth())) + "\">"
+						+ "<a:ln w=\"" + LengthUtil.emu(Math.max(Math.round(pen.getLineWidth()), 0)) + "\">"
 						    + "<a:solidFill>"
-						        + "<a:srgbClr val=\"" + Integer.toHexString(penColor.getRGB()).substring(2) + "\"/>"
+						        + "<a:srgbClr val=\"" + JRColorUtil.getColorHexa(penColor) + "\"/>"
 						    + "</a:solidFill>"
 							+ penStyle
 						+ "</a:ln>"
