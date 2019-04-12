@@ -6725,6 +6725,21 @@ Property specifying the maximum number of processes in the PhantomJS pool. Defau
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.phantomjs.options.{arbitrary_suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.options.{arbitrary_suffix}">
+    <description>
+Property prefix used to identify a set of properties that store command options for the PhantomJS start command. For instance:
+<br/>
+<ul>
+<li><code>net.sf.jasperreports.phantomjs.options.1=--load-images=true</code></li>
+<li><code>net.sf.jasperreports.phantomjs.options.2=--output-encoding=utf8</code></li>
+</ul>
+These properties are by default not set.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.phantomjs.pool.borrow.timeout -->
   
   <configProperty name="net.sf.jasperreports.phantomjs.pool.borrow.timeout">
