@@ -150,7 +150,7 @@ public class PhantomJS
 			name = "net.sf.jasperreports.phantomjs.options.{arbitrary_suffix}",
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = PropertyConstants.VERSION_6_9_0
+			sinceVersion = PropertyConstants.VERSION_6_8_1
 			)
 	public static final String PROPERTY_OPTIONS_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.options.";
 	
