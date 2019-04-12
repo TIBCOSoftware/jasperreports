@@ -789,7 +789,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		if (line.getModeValue() == ModeEnum.OPAQUE && line.getBackcolor() != null)
 		{
-			shape.setFillColor(line.getBackcolor().getRGB());
+			Color bgcolor = line.getBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
 			shape.setNoFill(true);
 		}
 		else
@@ -838,7 +839,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		if (element.getModeValue() == ModeEnum.OPAQUE && element.getBackcolor() != null)
 		{
-			shape.setFillColor(element.getBackcolor().getRGB());
+			Color bgcolor = element.getBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());	
 			shape.setNoFill(false);
 		}
 		else
@@ -886,7 +888,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 
 		if (element.getModeValue() == ModeEnum.OPAQUE && element.getBackcolor() != null)
 		{
-			shape.setFillColor(element.getBackcolor().getRGB());
+			Color bgcolor = element.getBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
 			shape.setNoFill(false);
 		}
 		else
