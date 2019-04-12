@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -374,19 +375,40 @@ public class TableBuilder
 	/**
 	 *
 	 */
-	public void exportRectangle(JRPrintGraphicElement rectangle, JRExporterGridCell gridCell)
+	public void exportRectangle(JRPrintRectangle rectangle, JRExporterGridCell gridCell)
 	{
 		if (shapeWriter != null) {
 			documentBuilder.insertPageAnchor(this);
-			shapeWriter.append(
-				"<table:shapes><draw:rect text:anchor-type=\"paragraph\" "
-				+ "draw:style-name=\"" + styleCache.getGraphicStyle(rectangle) + "\" "
-				+ "svg:width=\"" + LengthUtil.inchFloor4Dec(rectangle.getWidth()) + "in\" "
-				+ "svg:height=\"" + LengthUtil.inchFloor4Dec(rectangle.getHeight()) + "in\" "
-				+ "svg:x=\"" + LengthUtil.inchFloor4Dec(rectangle.getX()) + "in\" "
-				+ "svg:y=\"" + LengthUtil.inchFloor4Dec(rectangle.getY()) + "in\">"
-				+ "<text:p/></draw:rect></table:shapes>"
-				);
+			if (rectangle.getRadius() > 0)
+			{
+				int size = Math.min(50000, ((rectangle).getRadius() * 100000)/Math.min(rectangle.getHeight(), rectangle.getWidth()));
+				shapeWriter.append(
+					"<table:shapes>"
+					+ "<draw:custom-shape "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(rectangle) + "\" "
+					+ "svg:width=\"" + LengthUtil.inchFloor4Dec(rectangle.getWidth()) + "in\" "
+					+ "svg:height=\"" + LengthUtil.inchFloor4Dec(rectangle.getHeight()) + "in\" "
+					+ "svg:x=\"" + LengthUtil.inchFloor4Dec(rectangle.getX()) + "in\" "
+					+ "svg:y=\"" + LengthUtil.inchFloor4Dec(rectangle.getY()) + "in\">"
+					+ "<text:p/>"
+					+ "<draw:enhanced-geometry draw:type=\"round-rectangle\" draw:corner-radius=\"" + size + "\"/>"
+					+ "</draw:custom-shape>"
+					+ "</table:shapes>"
+					);
+			}
+			else
+			{
+				shapeWriter.append(
+					"<table:shapes><draw:rect text:anchor-type=\"paragraph\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(rectangle) + "\" "
+					+ "svg:width=\"" + LengthUtil.inchFloor4Dec(rectangle.getWidth()) + "in\" "
+					+ "svg:height=\"" + LengthUtil.inchFloor4Dec(rectangle.getHeight()) + "in\" "
+					+ "svg:x=\"" + LengthUtil.inchFloor4Dec(rectangle.getX()) + "in\" "	// hozawa 20190409
+					+ "svg:y=\"" + LengthUtil.inchFloor4Dec(rectangle.getY()) + "in\">"	// hozawa 20190409
+					+ "<text:p/></draw:rect></table:shapes>"	// hozawa 20190409
+					//+ "<text:p/></draw:ellipse></table:shapes></text:p>"	// hozawa 20190409
+					);
+			}
 		} else {
 			JRLineBox box = new JRBaseLineBox(null);
 			JRPen pen = box.getPen();
