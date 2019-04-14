@@ -545,70 +545,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int rowIndex
 		) throws JRException 
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = null;
-		float ratio = line.getWidth() / line.getHeight();
-		if (ratio > 1)
-		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getTopPen();
-			}
-			else
-			{
-				pen = box.getBottomPen();
-			}
-		}
-		else
-		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getLeftPen();
-			}
-			else
-			{
-				pen = box.getRightPen();
-			}
-		}
-		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
-		pen.setLineWidth(line.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
-
-//		double x1, y1, x2, y2;
-//
-//		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
-//		{
-//			x1 = Utility.translatePixelsToInches(0);
-//			y1 = Utility.translatePixelsToInches(0);
-//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-//			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
-//		}
-//		else
-//		{
-//			x1 = Utility.translatePixelsToInches(0);
-//			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
-//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-//			y2 = Utility.translatePixelsToInches(0);
-//		}
-
-		tempBodyWriter.write("<text:p>");
-//FIXMEODS		insertPageAnchor();
-//		tempBodyWriter.write(
-//				"<draw:line text:anchor-type=\"paragraph\" "
-//				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
-//				+ "svg:x1=\"" + x1 + "in\" "
-//				+ "svg:y1=\"" + y1 + "in\" "
-//				+ "svg:x2=\"" + x2 + "in\" "
-//				+ "svg:y2=\"" + y2 + "in\">"
-//				//+ "</draw:line>"
-//				+ "<text:p/></draw:line>"
-//				);
-		tempBodyWriter.write("</text:p>");
-		tableBuilder.buildCellFooter();
+		tableBuilder.exportLine(line, gridCell);
 	}
 
 	@Override

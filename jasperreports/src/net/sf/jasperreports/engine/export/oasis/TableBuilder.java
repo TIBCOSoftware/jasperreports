@@ -428,39 +428,64 @@ public class TableBuilder
 	 */
 	public void exportLine(JRPrintLine line, JRExporterGridCell gridCell)
 	{
-		buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-
 		double x1, y1, x2, y2;
 
-		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-		{
-			x1 = 0;
-			y1 = 0;
-			x2 = line.getWidth() - 1;
-			y2 = line.getHeight() - 1;
-		}
-		else
-		{
-			x1 = 0;
-			y1 = line.getHeight() - 1;
-			x2 = line.getWidth() - 1;
-			y2 = 0;
-		}
+		if (shapeWriter != null) {
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				x1 = line.getX();
+				x2 = x1 + line.getWidth() - 1;
+				y1 = line.getY()+1;
+				y2 = y1 + line.getHeight() - 1;
+			}
+			else
+			{
+				x1 = line.getX();
+				x2 = x1 + line.getWidth() - 1;
+				y2 = line.getY()+1;
+				y1 = y2 + line.getHeight() - 1;
+			}
+			documentBuilder.insertPageAnchor(this);
+			shapeWriter.append(
+					"<table:shapes><draw:line text:anchor-type=\"paragraph\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
+					+ "svg:x1=\"" + LengthUtil.inchFloor4Dec(x1) + "in\" "
+					+ "svg:y1=\"" + LengthUtil.inchFloor4Dec(y1) + "in\" "
+					+ "svg:x2=\"" + LengthUtil.inchFloor4Dec(x2) + "in\" "
+					+ "svg:y2=\"" + LengthUtil.inchFloor4Dec(y2) + "in\">"
+					+ "<text:p/></draw:line></table:shapes>"
+					);
+		} else {
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				x1 = 0;
+				y1 = 0;
+				x2 = line.getWidth() - 1;
+				y2 = line.getHeight() - 1;
+			}
+			else
+			{
+				x1 = 0;
+				y1 = line.getHeight() - 1;
+				x2 = line.getWidth() - 1;
+				y2 = 0;
+			}
+			buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
 
-		bodyWriter.write("<text:p>");
-		documentBuilder.insertPageAnchor(this);
-		bodyWriter.write(
-				"<draw:line text:anchor-type=\"paragraph\" "
-				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
-				+ "svg:x1=\"" + LengthUtil.inchFloor4Dec(x1) + "in\" "
-				+ "svg:y1=\"" + LengthUtil.inchFloor4Dec(y1) + "in\" "
-				+ "svg:x2=\"" + LengthUtil.inchFloor4Dec(x2) + "in\" "
-				+ "svg:y2=\"" + LengthUtil.inchFloor4Dec(y2) + "in\">"
-				//+ "</draw:line>"
-				+ "<text:p/></draw:line>"
-				+ "</text:p>"
-				);
-		buildCellFooter();
+			bodyWriter.write("<text:p>");
+			documentBuilder.insertPageAnchor(this);
+			bodyWriter.write(
+					"<draw:line text:anchor-type=\"paragraph\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
+					+ "svg:x1=\"" + LengthUtil.inchFloor4Dec(x1) + "in\" "
+					+ "svg:y1=\"" + LengthUtil.inchFloor4Dec(y1) + "in\" "
+					+ "svg:x2=\"" + LengthUtil.inchFloor4Dec(x2) + "in\" "
+					+ "svg:y2=\"" + LengthUtil.inchFloor4Dec(y2) + "in\">"
+					+ "<text:p/></draw:line>"
+					+ "</text:p>"
+					);
+			buildCellFooter();
+		}
 	}
 
 	
