@@ -797,7 +797,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		{
 			shape.setNoFill(true);
 		}
-		createMergeRegion(gridCell, colIndex, rowIndex);
 	}
 
 
@@ -847,7 +846,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		{
 			shape.setNoFill(true);
 		}
-		createMergeRegion(gridCell, colIndex, rowIndex);
 	}
 
 	@Override
@@ -896,7 +894,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		{
 			shape.setNoFill(true);
 		}
-		createMergeRegion(gridCell, colIndex, rowIndex);
 	}
 
 	@Override

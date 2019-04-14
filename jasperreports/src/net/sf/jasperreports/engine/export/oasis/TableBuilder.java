@@ -377,6 +377,7 @@ public class TableBuilder
 	 */
 	public void exportRectangle(JRPrintRectangle rectangle, JRExporterGridCell gridCell)
 	{
+		buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
 		if (shapeWriter != null) {
 			documentBuilder.insertPageAnchor(this);
 			if (rectangle.getRadius() > 0)
@@ -403,22 +404,25 @@ public class TableBuilder
 					+ "draw:style-name=\"" + styleCache.getGraphicStyle(rectangle) + "\" "
 					+ "svg:width=\"" + LengthUtil.inchFloor4Dec(rectangle.getWidth()) + "in\" "
 					+ "svg:height=\"" + LengthUtil.inchFloor4Dec(rectangle.getHeight()) + "in\" "
-					+ "svg:x=\"" + LengthUtil.inchFloor4Dec(rectangle.getX()) + "in\" "	// hozawa 20190409
-					+ "svg:y=\"" + LengthUtil.inchFloor4Dec(rectangle.getY()) + "in\">"	// hozawa 20190409
-					+ "<text:p/></draw:rect></table:shapes>"	// hozawa 20190409
-					//+ "<text:p/></draw:ellipse></table:shapes></text:p>"	// hozawa 20190409
+					+ "svg:x=\"" + LengthUtil.inchFloor4Dec(rectangle.getX()) + "in\" "
+					+ "svg:y=\"" + LengthUtil.inchFloor4Dec(rectangle.getY()) + "in\">"
+					+ "<text:p/></draw:rect></table:shapes>"
 					);
 			}
 		} else {
-			JRLineBox box = new JRBaseLineBox(null);
-			JRPen pen = box.getPen();
-			pen.setLineColor(rectangle.getLinePen().getLineColor());
-			pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
-			pen.setLineWidth(rectangle.getLinePen().getLineWidth());
-
-			gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+			bodyWriter.write("<text:p>");
+			documentBuilder.insertPageAnchor(this);
+			bodyWriter.write(
+				"<draw:rect text:anchor-type=\"page\" "
+				+ "draw:style-name=\"" + styleCache.getGraphicStyle(rectangle) + "\" "
+				+ "svg:width=\"" + LengthUtil.inchFloor4Dec(rectangle.getWidth()) + "in\" "
+				+ "svg:height=\"" + LengthUtil.inchFloor4Dec(rectangle.getHeight()) + "in\" "
+				+ "svg:x=\"" + LengthUtil.inchFloor4Dec(rectangle.getX()) + "in\" "
+				+ "svg:y=\"" + LengthUtil.inchFloor4Dec(rectangle.getY()) + "in\">"
+				+ "<text:p/></draw:rect></text:p>"
+			);
 		}
-		buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
+
 		buildCellFooter();
 	}
 
@@ -428,38 +432,64 @@ public class TableBuilder
 	 */
 	public void exportLine(JRPrintLine line, JRExporterGridCell gridCell)
 	{
-		buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
-
 		double x1, y1, x2, y2;
 
-		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-		{
-			x1 = 0;
-			y1 = 0;
-			x2 = line.getWidth() - 1;
-			y2 = line.getHeight() - 1;
-		}
-		else
-		{
-			x1 = 0;
-			y1 = line.getHeight() - 1;
-			x2 = line.getWidth() - 1;
-			y2 = 0;
-		}
+		buildCellHeader(null, gridCell.getColSpan(), gridCell.getRowSpan());
+		if (shapeWriter != null) {
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				x1 = line.getX();
+				x2 = x1 + line.getWidth() - 1;
+				y1 = line.getY()+1;
+				y2 = y1 + line.getHeight() - 1;
+			}
+			else
+			{
+				x1 = line.getX();
+				x2 = x1 + line.getWidth() - 1;
+				y2 = line.getY()+1;
+				y1 = y2 + line.getHeight() - 1;
+			}
+			//documentBuilder.insertPageAnchor(this);
+			//bodyWriter.write("<text:p>");
+			shapeWriter.append(
+					"<table:shapes><draw:line text:anchor-type=\"paragraph\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
+					+ "svg:x1=\"" + LengthUtil.inchFloor4Dec(x1) + "in\" "
+					+ "svg:y1=\"" + LengthUtil.inchFloor4Dec(y1) + "in\" "
+					+ "svg:x2=\"" + LengthUtil.inchFloor4Dec(x2) + "in\" "
+					+ "svg:y2=\"" + LengthUtil.inchFloor4Dec(y2) + "in\">"
+					+ "<text:p/></draw:line></table:shapes>"
+					);
+		} else {
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				x1 = 0;
+				y1 = 0;
+				x2 = line.getWidth() - 1;
+				y2 = line.getHeight() - 1;
+			}
+			else
+			{
+				x1 = 0;
+				y1 = line.getHeight() - 1;
+				x2 = line.getWidth() - 1;
+				y2 = 0;
+			}
 
-		bodyWriter.write("<text:p>");
-		documentBuilder.insertPageAnchor(this);
-		bodyWriter.write(
-				"<draw:line text:anchor-type=\"paragraph\" "
-				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
-				+ "svg:x1=\"" + LengthUtil.inchFloor4Dec(x1) + "in\" "
-				+ "svg:y1=\"" + LengthUtil.inchFloor4Dec(y1) + "in\" "
-				+ "svg:x2=\"" + LengthUtil.inchFloor4Dec(x2) + "in\" "
-				+ "svg:y2=\"" + LengthUtil.inchFloor4Dec(y2) + "in\">"
-				//+ "</draw:line>"
-				+ "<text:p/></draw:line>"
-				+ "</text:p>"
-				);
+			bodyWriter.write("<text:p>");
+			documentBuilder.insertPageAnchor(this);
+			bodyWriter.write(
+					"<draw:line text:anchor-type=\"paragraph\" "
+					+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
+					+ "svg:x1=\"" + LengthUtil.inchFloor4Dec(x1) + "in\" "
+					+ "svg:y1=\"" + LengthUtil.inchFloor4Dec(y1) + "in\" "
+					+ "svg:x2=\"" + LengthUtil.inchFloor4Dec(x2) + "in\" "
+					+ "svg:y2=\"" + LengthUtil.inchFloor4Dec(y2) + "in\">"
+					+ "<text:p/></draw:line>"
+					+ "</text:p>"
+					);
+		}
 		buildCellFooter();
 	}
 

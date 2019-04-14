@@ -377,25 +377,22 @@ public class JRGridLayout
 				int col2 = xCuts.indexOfCutOffset(x + element.getWidth());
 				int row2 = yCuts.indexOfCutOffset(y + element.getHeight());
 
-				if (!isOverlap(row1, col1, row2, col2))
+				JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
+				if (frame != null && nature.isDeep(frame))
 				{
-					JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
-					if (frame != null && nature.isDeep(frame))
-					{
-						PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
-						setGridElements(
-							frameIndex, frame.getElements(),
-							x + frame.getLineBox().getLeftPadding(),
-							y + frame.getLineBox().getTopPadding(),
-							row1, col1, row2, col2
-							);
-						
-						setFrameCellsStyle(frame, row1, col1, row2, col2);
-					}
-					else
-					{
-						setGridElement(element, parentIndex, elementIndex, row1, col1, row2, col2);
-					}
+					PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
+					setGridElements(
+						frameIndex, frame.getElements(),
+						x + frame.getLineBox().getLeftPadding(),
+						y + frame.getLineBox().getTopPadding(),
+						row1, col1, row2, col2
+						);
+					
+					setFrameCellsStyle(frame, row1, col1, row2, col2);
+				}
+				else
+				{
+					setGridElement(element, parentIndex, elementIndex, row1, col1, row2, col2);
 				}
 			}
 		}
@@ -528,7 +525,10 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					grid.set(row, col, occupiedGridCell);
+					if (grid.get(row, col).getType() != 3)
+					{
+						grid.set(row, col, occupiedGridCell);
+					}
 				}
 				yCuts.addUsage(row, Cut.USAGE_SPANNED);
 			}
