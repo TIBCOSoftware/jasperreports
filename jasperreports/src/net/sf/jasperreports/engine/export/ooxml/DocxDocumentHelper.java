@@ -63,6 +63,11 @@ public class DocxDocumentHelper extends BaseHelper
 		write(" xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"\n");
 		write(" xmlns:v=\"urn:schemas-microsoft-com:vml\"\n");
 		write(" xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\"\n");
+		write(" xmlns:wps=\"http://schemas.microsoft.com/office/word/2010/wordprocessingShape\"\n");
+		write(" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\"\n");
+		write(" xmlns:wp14=\"http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing\"\n");
+		write(" xmlns:w14=\"http://schemas.microsoft.com/office/word/2010/wordml\"\n");
+		write(" mc:Ignorable=\"w14 wp14\"\n");
 		write(" xmlns:w10=\"urn:schemas-microsoft-com:office:word\"\n");
 		write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"\n");
 		write(" xmlns:wne=\"http://schemas.microsoft.com/office/word/2006/wordml\"\n");
