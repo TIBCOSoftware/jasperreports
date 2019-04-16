@@ -1065,7 +1065,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				pageFormat.getPageHeight(),
 				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
 				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
-				xCuts
+				xCuts,
+				ExportCompatibility.getCompatibility(getCurrentConfiguration().getCompatibility())
 				);
 
 		Grid grid = layout.getGrid();

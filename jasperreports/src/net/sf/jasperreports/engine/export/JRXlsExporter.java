@@ -158,6 +158,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	private static short A2_PAPERSIZE = (short)66; 	/* A2_PAPERSIZE defined locally since it is not declared in HSSFPrintSetup */
 
 	private static Map<HSSFColor, short[]> hssfColorsRgbs;
+	private static ExportCompatibility compatibility;
 	
 	static
 	{
@@ -381,6 +382,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		{
 			summaryInformation.setKeywords(keywords);
 		}
+		compatibility = ExportCompatibility.getCompatibility(configuration.getCompatibility());
 	}
 
 
@@ -744,6 +746,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	@Override
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				exportLine2007(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportLineDefault(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportLine2007(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
 		int row1 = rowIndex;
 		int row2 = rowIndex;
 		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
@@ -799,9 +818,84 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 	}
 
+	private void exportLineDefault(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		short forecolor = getWorkbookColor(line.getLinePen().getLineColor()).getIndex();
+
+		int side = BoxStyle.TOP;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
+		{
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				side = BoxStyle.TOP;
+			}
+			else
+			{
+				side = BoxStyle.BOTTOM;
+			}
+		}
+		else
+		{
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				side = BoxStyle.LEFT;
+			}
+			else
+			{
+				side = BoxStyle.RIGHT;
+			}
+		}
+		BoxStyle boxStyle = new BoxStyle(side, line.getLinePen());
+
+		FillPatternType mode = backgroundMode;
+		short backcolor = whiteIndex;
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		{
+			mode = FillPatternType.SOLID_FOREGROUND;
+			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
+		}
+
+		HSSFCellStyle cellStyle =
+			getLoadedCellStyle(
+				mode,
+				backcolor,
+				HorizontalAlignment.LEFT,
+				VerticalAlignment.TOP,
+				(short)0,
+				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
+				boxStyle,
+				false,
+				isCellLocked(line),
+				isCellHidden(line),
+				isShrinkToFit(line)
+				);
+
+		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
+
+		cell = row.createCell(colIndex);
+		cell.setCellStyle(cellStyle);
+	}
 
 	@Override
 	protected void exportRectangle(JRPrintRectangle element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		switch (compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				exportRectangle2007(element, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)element, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportRectangle2007(JRPrintRectangle element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
 		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
 		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
@@ -848,8 +942,58 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 	}
 
+	private void exportRectangleDefault(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		short forecolor = getWorkbookColor(element.getLinePen().getLineColor()).getIndex();
+
+		FillPatternType mode = backgroundMode;
+		short backcolor = whiteIndex;
+		if (!Boolean.TRUE.equals(sheetInfo.ignoreCellBackground) && gridCell.getCellBackcolor() != null)
+		{
+			mode = FillPatternType.SOLID_FOREGROUND;
+			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
+		}
+
+		HSSFCellStyle cellStyle =
+			getLoadedCellStyle(
+				mode,
+				backcolor,
+				HorizontalAlignment.LEFT,
+				VerticalAlignment.TOP,
+				(short)0,
+				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
+				gridCell,
+				isWrapText(element),
+				isCellLocked(element),
+				isCellHidden(element),
+				isShrinkToFit(element)
+				);
+
+		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
+
+		cell = row.createCell(colIndex);
+		cell.setCellStyle(cellStyle);
+	}
+
 	@Override
 	protected void exportEllipse(JRPrintEllipse element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				exportEllipse2007(element, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)element, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportEllipse2007(JRPrintEllipse element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
 		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
 		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);

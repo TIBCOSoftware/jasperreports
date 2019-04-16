@@ -69,6 +69,7 @@ public class JRGridLayout
 	private int height;
 	private int offsetX;
 	private int offsetY;
+	private ExportCompatibility compatibility;
 
 	private CutsInfo xCuts;
 	private CutsInfo yCuts;
@@ -107,8 +108,50 @@ public class JRGridLayout
 			height,
 			offsetX,
 			offsetY,
-			null //xCuts
+			null, //xCuts
+			ExportCompatibility.NONE	// compatibility
 			);
+	}
+
+	/**
+	 * Constructor.
+	 *
+	 * @param elements the elements that should arranged in a grid
+	 * @param width the width available for the grid
+	 * @param height the height available for the grid
+	 * @param offsetX horizontal element position offset
+	 * @param offsetY vertical element position offset
+	 * @param xCuts An optional list of pre-calculated X cuts.
+	 * @param compatibility export compatiblity version 
+	 */
+	public JRGridLayout(
+		ExporterNature nature,
+		List<JRPrintElement> elements,
+		int width,
+		int height,
+		int offsetX,
+		int offsetY,
+		CutsInfo xCuts,
+		ExportCompatibility compatibility
+		)
+	{
+		this.nature = nature;
+		this.elementList = elements;
+		
+		// TODO lucianc cache these across report pages?
+		this.cellSizes = new HashMap<GridCellSize, GridCellSize>();
+		this.cellStyles = new HashMap<GridCellStyle, GridCellStyle>();
+		this.emptyCells = new HashMap<Pair<GridCellSize,GridCellStyle>, EmptyGridCell>();
+		
+		this.height = height;
+		this.width = width;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.xCuts = xCuts;
+		this.compatibility = compatibility;
+		boxesCache = new HashMap<BoxKey,JRLineBox>();
+
+		layoutGrid(null, elements);
 	}
 
 	/**
@@ -377,22 +420,25 @@ public class JRGridLayout
 				int col2 = xCuts.indexOfCutOffset(x + element.getWidth());
 				int row2 = yCuts.indexOfCutOffset(y + element.getHeight());
 
-				JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
-				if (frame != null && nature.isDeep(frame))
+				if (ExportCompatibility.NONE != compatibility || !isOverlap(row1, col1, row2, col2))
 				{
-					PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
-					setGridElements(
-						frameIndex, frame.getElements(),
-						x + frame.getLineBox().getLeftPadding(),
-						y + frame.getLineBox().getTopPadding(),
-						row1, col1, row2, col2
-						);
-					
-					setFrameCellsStyle(frame, row1, col1, row2, col2);
-				}
-				else
-				{
-					setGridElement(element, parentIndex, elementIndex, row1, col1, row2, col2);
+					JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
+					if (frame != null && nature.isDeep(frame))
+					{
+						PrintElementIndex frameIndex = new PrintElementIndex(parentIndex, elementIndex);
+						setGridElements(
+							frameIndex, frame.getElements(),
+							x + frame.getLineBox().getLeftPadding(),
+							y + frame.getLineBox().getTopPadding(),
+							row1, col1, row2, col2
+							);
+						
+						setFrameCellsStyle(frame, row1, col1, row2, col2);
+					}
+					else
+					{
+						setGridElement(element, parentIndex, elementIndex, row1, col1, row2, col2);
+					}
 				}
 			}
 		}
@@ -525,7 +571,7 @@ public class JRGridLayout
 			{
 				for (int col = col1; col < col2; col++)
 				{
-					if (grid.get(row, col).getType() != 3)
+					if (ExportCompatibility.NONE == compatibility || grid.get(row, col).getType() != 3)
 					{
 						grid.set(row, col, occupiedGridCell);
 					}
