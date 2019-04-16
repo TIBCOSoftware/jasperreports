@@ -1373,10 +1373,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		sheetInfo.ignoreCellBackground = tIgnoreCellBackground;
 
-		String bgColor = "";
+		String shapeFill = "<a:noFill/>";
 		if (shape.getModeValue() == ModeEnum.OPAQUE && shape.getBackcolor() != null)
 		{
-			bgColor = "<a:srgbClr val=\"" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\"/>";
+			shapeFill = "<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\"/></a:solidFill>";
 		}
 		JRPen pen = shape.getLinePen();
 		Color penColor = pen.getLineColor();
@@ -1431,9 +1431,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 						+ "<a:prstGeom prst=\"" + shapeType + "\">"
 						    + radius
 						+ "</a:prstGeom>"
-						+ "<a:solidFill>"
-							+ bgColor
-						+ "</a:solidFill>"
+							+ shapeFill
 						+ "<a:ln w=\"" + LengthUtil.emu(Math.max(Math.round(pen.getLineWidth()), 0)) + "\">"
 						    + "<a:solidFill>"
 						        + "<a:srgbClr val=\"" + JRColorUtil.getColorHexa(penColor) + "\"/>"

@@ -633,26 +633,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			for(int col = 0; col < rowSize; col++)
 			{
 				JRExporterGridCell gridCell = gridRow.get(col);
-				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
-				{
-					if (emptyCellColSpan > 0)
-					{
-						//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
-						emptyCellColSpan = 0;
-						//emptyCellWidth = 0;
-					}
 
-					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
-					ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-					tableHelper.exportOccupiedCells(elementGridCell, startPage, bookmarkIndex, pageAnchor);
-					if (startPage)
-					{
-						// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
-						bookmarkIndex++;
-					}
-					col += elementGridCell.getColSpan() - 1;
-				}
-				else if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL || gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL) 
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -755,10 +737,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			shapeType = "rect";
 		}
 
-		String bgColor = "";
+		String shapeFill = "<a:noFill/>";
 		if (shape.getModeValue() == ModeEnum.OPAQUE && shape.getBackcolor() != null)
 		{
-			bgColor = "<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\"/></a:solidFill>";
+			shapeFill = "<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\"/></a:solidFill>";
 		}
 
 		JRPen pen = shape.getLinePen();
@@ -809,18 +791,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								+ "<mc:Choice Requires=\"wps\">"
 									+ "<w:drawing>"
 										+ "<wp:anchor behindDoc=\"0\" distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\" relativeHeight=\"2\">"
-										+ "<wp:simplePos x=\"0\" y=\"0\"/>"
-						 + "<wp:positionH relativeFrom=\"page\">"
-						+ "<wp:posOffset>" + LengthUtil.emu(shape.getX()) + "</wp:posOffset>"
-										+ "</wp:positionH>"
-										+ "<wp:positionV relativeFrom=\"page\">"
-											+ "<wp:posOffset>" + LengthUtil.emu(shape.getY()) + "</wp:posOffset>"
-										+ "</wp:positionV>"
-						+ "<wp:extent cx=\"" + LengthUtil.emu(shape.getWidth()) + "\" cy=\"" + LengthUtil.emu(shape.getHeight()) + "\"/>"
+										+ "<wp:extent cx=\"" + LengthUtil.emu(shape.getWidth()) + "\" cy=\"" + LengthUtil.emu(shape.getHeight()) + "\"/>"
 										+ "<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>"
 										+ "<wp:wrapNone/>"
-										+ "<wp:docPr id=\"1\" name=\"shape1\"/>"
-										+ "<a:graphic xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\">"
+										+ "<wp:docPr id=\"" + toOOXMLId(shape) + "\" name=\"shape1\"/>"
+										+ "<a:graphic>"
 											+ "<a:graphicData uri=\"http://schemas.microsoft.com/office/word/2010/wordprocessingShape\">"
 												+ "<wps:wsp>"
 												    + "<wps:cNvSpPr/>"
@@ -832,18 +807,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
                                 						+ "<a:prstGeom prst=\"" + shapeType + "\">"
 															+ radius
 												        + "</a:prstGeom>"
-														+ bgColor
+														+ shapeFill
 														+ "<a:ln w=\"" + LengthUtil.emu(Math.max(Math.round(pen.getLineWidth()), 0)) + "\">"
 														+ fgColor
 														+ penStyle
 												        + "</a:ln>"
 												    + "</wps:spPr>"
-												    + "<wps:style>"
-												        + "<a:lnRef idx=\"0\"/>"
-												        + "<a:fillRef idx=\"0\"/>"
-												        + "<a:effectRef idx=\"0\"/>"
-												        + "<a:fontRef idx=\"minor\"/>"
-												    + "</wps:style>"
 												    + "<wps:bodyPr/>"
 												+ "</wps:wsp>"
 											+ "</a:graphicData>"
@@ -853,7 +822,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							+ "</mc:Choice>"
 							+ "<mc:Fallback>"
 						+ "<w:pict>"
-							+ "<v:oval id=\"shape_0\" ID=\"shape1\" fillcolor=\"#729fcf\" stroked=\"t\" style=\"position:absolute;margin-left:4.7pt;margin-top:6.35pt;width:93.7pt;height:42.7pt\">"
+							+ "<v:oval id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\" fillcolor=\"#729fcf\" stroked=\"t\" style=\"position:absolute;margin-left:4.7pt;margin-top:6.35pt;width:93.7pt;height:42.7pt\">"
 								+ "<w10:wrap type=\"none\"/>"
 								+ "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
 								+ "<v:stroke color=\"#3465a4\" joinstyle=\"round\" endcap=\"flat\"/>"
@@ -1785,5 +1754,14 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		return DOCX_EXPORTER_PROPERTIES_PREFIX;
 	}
 	
+	protected String toOOXMLId(JRPrintElement element)
+	{
+		// using hashCode() for now, though in theory there is a risk of collisions
+		// we could use something based on getSourceElementId() and getPrintElementId()
+		// or even a counter since we do not have any references to Ids
+		int hashCode = element.hashCode();
+		// OOXML object ids are xsd:unsignedInt 
+		return Long.toString(hashCode & 0xFFFFFFFFL); 
+	}
 }
 
