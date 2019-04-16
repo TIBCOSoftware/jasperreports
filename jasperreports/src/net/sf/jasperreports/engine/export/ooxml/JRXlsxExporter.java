@@ -69,6 +69,7 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.ExportCompatibility;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -193,6 +194,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	protected Map<String, Integer> sheetMapping;
 
+	private static ExportCompatibility compatibility;
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
@@ -1461,9 +1463,74 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		drawShape(line, gridCell, colIndex, rowIndex);
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportLineDefault(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
 	}
 
+	private void exportLineDefault(
+		JRPrintLine line, 
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = null;
+		LineDirectionEnum direction = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
+		{
+			if(line.getHeight() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getTopPen();
+			}
+			else
+			{
+				pen = box.getBottomPen();
+			}
+		}
+		else
+		{
+			if(line.getWidth() > 1)
+			{
+				direction = line.getDirectionValue();
+				pen = box.getPen();
+			}
+			else if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getLeftPen();
+			}
+			else
+			{
+				pen = box.getRightPen();
+			}
+		}
+		pen.setLineColor(line.getLinePen().getLineColor());
+		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineWidth(line.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo, direction);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportFooter();
+	}
 
 	@Override
 	protected void exportRectangle(
@@ -1473,7 +1540,39 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		drawShape(rectangle, gridCell, colIndex, rowIndex);
+		switch (compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(rectangle, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)rectangle, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportRectangleDefault(
+		JRPrintGraphicElement rectangle,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(rectangle.getLinePen().getLineColor());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		cellHelper.exportFooter();
 	}
 
 	@Override
@@ -1484,7 +1583,19 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		int rowIndex
 		) throws JRException 
 	{
-		drawShape(ellipse, gridCell, colIndex, rowIndex);
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(ellipse, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)ellipse, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}	
 	}
 
 	@Override
@@ -1765,6 +1876,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			
 			firstPageNotSet = true;
 			firstSheetName = null;
+			compatibility = ExportCompatibility.getCompatibility(configuration.getCompatibility());
 		}
 		catch (IOException e)
 		{
