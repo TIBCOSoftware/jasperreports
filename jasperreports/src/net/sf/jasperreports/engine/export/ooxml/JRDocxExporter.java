@@ -70,6 +70,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.ExportCompatibility;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.Grid;
 import net.sf.jasperreports.engine.export.GridRow;
@@ -212,6 +213,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	
 	boolean emptyPageState;
 	
+	private static ExportCompatibility compatibility;
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
 	{
@@ -399,6 +401,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		{
 			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_KEYWORDS, keywords);
 		}
+		compatibility = ExportCompatibility.getCompatibility(configuration.getCompatibility());
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
@@ -515,7 +518,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				pageFormat.getPageHeight(),
 				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
 				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
-				null //address
+				null, //address
+				ExportCompatibility.getCompatibility(getCurrentConfiguration().getCompatibility())
 				);
 
 		exportGrid(pageGridLayout, null);
@@ -634,7 +638,27 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			{
 				JRExporterGridCell gridCell = gridRow.get(col);
 
-				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL || gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL) 
+				if (ExportCompatibility.NONE == compatibility && gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL) 
+				{
+					if (emptyCellColSpan > 0)
+					{
+						//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
+						emptyCellColSpan = 0;
+						//emptyCellWidth = 0;
+					}
+
+					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
+					ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
+					tableHelper.exportOccupiedCells(elementGridCell, startPage, bookmarkIndex, pageAnchor);
+					if (startPage)
+					{
+						// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
+						bookmarkIndex++;
+					}
+					col += elementGridCell.getColSpan() - 1;
+				}
+				else if ((ExportCompatibility.NONE == compatibility && gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL) || 
+(ExportCompatibility.NONE != compatibility && (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL || gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)))
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -791,6 +815,12 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								+ "<mc:Choice Requires=\"wps\">"
 									+ "<w:drawing>"
 										+ "<wp:anchor behindDoc=\"0\" distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\" relativeHeight=\"2\">"
+										+ "<wp:positionH relativeFrom=\"page\">"
+											+ "<wp:posOffset>" + LengthUtil.emu(shape.getX()) + "</wp:posOffset>"
+										+ "</wp:positionH>"
+										+ "<wp:positionV relativeFrom=\"page\">"
+											+ "<wp:posOffset>" + LengthUtil.emu(shape.getY()) + "</wp:posOffset>"
+										+ "</wp:positionV>"
 										+ "<wp:extent cx=\"" + LengthUtil.emu(shape.getWidth()) + "\" cy=\"" + LengthUtil.emu(shape.getHeight()) + "\"/>"
 										+ "<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>"
 										+ "<wp:wrapNone/>"
@@ -842,27 +872,143 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	 */
 	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws JRException
 	{
-		drawShape(line, gridCell);
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(line, gridCell);
+				break;
+			}
+			default:
+			{
+				exportLineDefault(tableHelper, line, gridCell);
+				break;
+			}
+		}
 	}
 
+	private void exportLineDefault(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell)
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = null;
+		float ratio = line.getWidth() / line.getHeight();
+		if (ratio > 1)
+		{
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getTopPen();
+			}
+			else
+			{
+				pen = box.getBottomPen();
+			}
+		}
+		else
+		{
+			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+			{
+				pen = box.getLeftPen();
+			}
+			else
+			{
+				pen = box.getRightPen();
+			}
+		}
+		pen.setLineColor(line.getLinePen().getLineColor());
+		pen.setLineStyle(line.getLinePen().getLineStyleValue());
+		pen.setLineWidth(line.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		
+		tableHelper.getCellHelper().exportHeader(line, gridCell);
+		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
+		if (startPage)
+		{
+			// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
+			bookmarkIndex++;
+		}
+		tableHelper.getCellHelper().exportFooter();
+	}
 
 	/**
 	 *
 	 */
 	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws JRException
 	{
-		drawShape(rectangle, gridCell);
+		switch (compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(rectangle, gridCell);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault(tableHelper, rectangle, gridCell);
+				break;
+			}
+		}
 	}
 
+	private void exportRectangleDefault(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell)
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(rectangle.getLinePen().getLineColor());
+		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
+		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		
+		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
+		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
+		if (startPage)
+		{
+			// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
+			bookmarkIndex++;
+		}
+		tableHelper.getCellHelper().exportFooter();
+	}
 
 	/**
 	 *
 	 */
 	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws JRException
 	{
-		drawShape(ellipse, gridCell);
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(ellipse, gridCell);
+				break;
+			}
+			default:
+			{
+				exportEllipseDefault(tableHelper, ellipse, gridCell);
+				break;
+			}
+		}
 	}
 
+	private void exportEllipseDefault(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell)
+	{
+		JRLineBox box = new JRBaseLineBox(null);
+		JRPen pen = box.getPen();
+		pen.setLineColor(ellipse.getLinePen().getLineColor());
+		pen.setLineStyle(ellipse.getLinePen().getLineStyleValue());
+		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
+
+		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
+		
+		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
+		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
+		if (startPage)
+		{
+			// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
+			bookmarkIndex++;
+		}
+		tableHelper.getCellHelper().exportFooter();
+	}
 
 	/**
 	 *

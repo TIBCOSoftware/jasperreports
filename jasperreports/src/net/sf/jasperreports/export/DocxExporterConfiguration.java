@@ -90,6 +90,16 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_METADATA_APPLICATION = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "metadata.application";
 
 	/**
+	 * Property whose value is used to determine export compatibilty version.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0
+			)
+	public static final String PROPERTY_COMPATIBILITY = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "compatibility";
+
+	/**
 	 * The Title of the DOCX document.
 	 */
 	@ExporterProperty(PROPERTY_METADATA_TITLE)
@@ -118,4 +128,7 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_METADATA_APPLICATION)
 	public String getMetadataApplication();
+
+	@ExporterProperty(PROPERTY_COMPATIBILITY)
+	public String getCompatibility();
 }
