@@ -729,38 +729,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 	private void drawShape(JRPrintGraphicElement shape, JRExporterGridCell gridCell) throws JRException
 	{
-		String shapeType = "rect";
-		String flip = "";
-		String radius = "<a:avLst></a:avLst>";
-
-		if (shape instanceof JRPrintEllipse)
-		{
-			shapeType = "ellipse";
-
-		}
-		else if (shape instanceof JRPrintLine)
-		{
-			shapeType = "line";
-			if (((JRPrintLine)shape).getDirectionValue() != LineDirectionEnum.TOP_DOWN)
-			{
-				flip = " flipV=\"1\"";
-			}
-		}
-		else if (shape instanceof JRPrintRectangle)
-		{
-			shapeType = (((JRPrintRectangle)shape).getRadius() == 0) ? "rect" : "roundRect";
-			if (((JRPrintRectangle)shape).getRadius() > 0)
-			{
-				// a rounded rectangle radius cannot exceed 1/2 of its lower side;
-				int size = Math.min(50000, (((JRPrintRectangle)shape).getRadius() * 100000)/Math.min(shape.getHeight(), shape.getWidth()));
-				radius = "<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst>";
-			}
-		}
-		else
-		{
-			shapeType = "rect";
-		}
-
 		String shapeFill = "<a:noFill/>";
 		if (shape.getModeValue() == ModeEnum.OPAQUE && shape.getBackcolor() != null)
 		{
@@ -793,6 +761,69 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			}
 		}
 
+		String shapeType = "rect";
+		String flip = "";
+		String radius = "<a:avLst></a:avLst>";
+		String fallback;
+
+		if (shape instanceof JRPrintEllipse)
+		{
+			shapeType = "ellipse";
+			fallback = 
+				"<v:oval id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:oval>";
+		}
+		else if (shape instanceof JRPrintLine)
+		{
+			shapeType = "line";
+			if (((JRPrintLine)shape).getDirectionValue() != LineDirectionEnum.TOP_DOWN)
+			{
+				flip = " flipV=\"1\"";
+			}
+			fallback = 
+				"<v:line id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:line>";
+		}
+		else if (shape instanceof JRPrintRectangle)
+		{
+			shapeType = (((JRPrintRectangle)shape).getRadius() == 0) ? "rect" : "roundRect";
+			if (((JRPrintRectangle)shape).getRadius() > 0)
+			{
+				// a rounded rectangle radius cannot exceed 1/2 of its lower side;
+				int size = Math.min(50000, (((JRPrintRectangle)shape).getRadius() * 100000)/Math.min(shape.getHeight(), shape.getWidth()));
+				radius = "<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst>";
+			}
+			fallback = 
+				"<v:rect id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:rect>";
+		}
+		else
+		{
+			shapeType = "rect";
+			fallback = 
+				"<v:rect id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:rect>";
+		}
 
 		try
 		{
@@ -852,11 +883,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							+ "</mc:Choice>"
 							+ "<mc:Fallback>"
 						+ "<w:pict>"
-							+ "<v:oval id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\" fillcolor=\"#729fcf\" stroked=\"t\" style=\"position:absolute;margin-left:4.7pt;margin-top:6.35pt;width:93.7pt;height:42.7pt\">"
-								+ "<w10:wrap type=\"none\"/>"
-								+ "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
-								+ "<v:stroke color=\"#3465a4\" joinstyle=\"round\" endcap=\"flat\"/>"
-							+ "</v:oval>"
+							+ fallback
 						+ "</w:pict>"
 					+ "</mc:Fallback>"
 				+ "</mc:AlternateContent>"
