@@ -104,19 +104,15 @@ public class JRVerticalFiller extends JRBaseFiller
 	@continuable
 	protected synchronized void fillReport() throws JRException
 	{
-		String strRowsToFill = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(jasperReport,
-						JRFiller.PROPERTY_ROWS_TO_FILL);
 		int rowsToFill = 0;
-		if (strRowsToFill != null)
+		try
 		{
-			try
-			{
-				rowsToFill = Integer.parseInt(strRowsToFill);
-			}
-			catch (NumberFormatException e)
-			{
-			}
+			rowsToFill = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(jasperReport, JRFiller.PROPERTY_ROWS_TO_FILL, 0);
 		}
+			catch (NumberFormatException e)
+		{
+		}
+
 		setLastPageFooter(false);
 
 		if (next())
@@ -129,9 +125,9 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 			if (rowsToFill > 0)
 			{
-				int cur_row = (Integer)getVariable("PAGE_COUNT").getValue();
+				int curRow = (Integer)getVariable("PAGE_COUNT").getValue();
 				fillingEmptyRows = true;
-				for (int row = 0; row < (rowsToFill - cur_row); row++)
+				for (int row = 0; row < (rowsToFill - curRow); row++)
 				{
 					fillReportContent();
 				}
