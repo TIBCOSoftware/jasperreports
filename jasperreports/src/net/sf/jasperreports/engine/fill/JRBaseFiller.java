@@ -261,6 +261,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	
 	protected int usedPageHeight = 0;
 
+	protected boolean fillingEmptyRows = false;
+
 	/**
 	 *
 	 */
@@ -1314,6 +1316,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				element.setX(element.getX() + offsetX);
 				element.setY(element.getY() + offsetY);
 				elements.add(element);
+				if (fillingEmptyRows) {
+					((JRTemplatePrintText)element).setText("");
+				}
 			}
 			Collections.sort(elements, new JRYXComparator());//FIXME make singleton comparator; same for older comparator
 			for (JRPrintElement element : elements)
@@ -1331,6 +1336,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				element.setY(element.getY() + offsetY);
 				printPage.addElement(element);
 				recordUsedWidth(element);
+				if (fillingEmptyRows) {
+					((JRTemplatePrintText)element).setText("");
+				}
 			}
 		}
 	}
