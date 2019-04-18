@@ -107,10 +107,14 @@ public class JRVerticalFiller extends JRBaseFiller
 		String strRowsToFill = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(jasperReport,
 						JRFiller.PROPERTY_ROWS_TO_FILL);
 		int rowsToFill = 0;
-		if (strRowsToFill != null) {
-			try {
+		if (strRowsToFill != null)
+		{
+			try
+			{
 				rowsToFill = Integer.parseInt(strRowsToFill);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e)
+			{
 			}
 		}
 		setLastPageFooter(false);
@@ -123,7 +127,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			{
 				fillReportContent();
 			}
-			if (rowsToFill > 0) {
+			if (rowsToFill > 0)
+			{
 				int cur_row = (Integer)getVariable("PAGE_COUNT").getValue();
 				fillingEmptyRows = true;
 				for (int row = 0; row < (rowsToFill - cur_row); row++)

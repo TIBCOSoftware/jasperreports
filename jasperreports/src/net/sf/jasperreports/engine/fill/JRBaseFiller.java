@@ -1316,7 +1316,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				element.setX(element.getX() + offsetX);
 				element.setY(element.getY() + offsetY);
 				elements.add(element);
-				if (fillingEmptyRows) {
+				if (fillingEmptyRows)
+				{
 					((JRTemplatePrintText)element).setText("");
 				}
 			}
@@ -1336,7 +1337,8 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				element.setY(element.getY() + offsetY);
 				printPage.addElement(element);
 				recordUsedWidth(element);
-				if (fillingEmptyRows) {
+				if (fillingEmptyRows)
+				{
 					((JRTemplatePrintText)element).setText("");
 				}
 			}
