@@ -99,20 +99,17 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 	}
 
-
 	@Override
 	@continuable
 	protected synchronized void fillReport() throws JRException
 	{
-		int rowsToFill = 0;
-		try
-		{
-			rowsToFill = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(jasperReport, JRFiller.PROPERTY_ROWS_TO_FILL, 0);
-		}
-			catch (NumberFormatException e)
-		{
-		}
+		fillReport(0);
+	}
 
+	@Override
+	@continuable
+	protected synchronized void fillReport(int rowsToFill) throws JRException
+	{
 		setLastPageFooter(false);
 
 		if (next())

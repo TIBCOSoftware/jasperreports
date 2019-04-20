@@ -545,10 +545,16 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	 */
 	protected abstract void setPageHeight(int pageHeight);
 
-
 	@Override
 	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues) throws JRException
+	{
+		return fill(parameterValues, 0);
+	}
+
+	@Override
+	@continuable
+	public JasperPrint fill(Map<String,Object> parameterValues, int rowsToFill) throws JRException
 	{
 		if (parameterValues == null)
 		{
@@ -614,7 +620,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 			mainDataset.start();
 
 			/*   */
-			fillReport();
+			fillReport(rowsToFill);
 			
 			mainDataset.evaluateProperties(PropertyEvaluationTimeEnum.REPORT);
 			
@@ -979,6 +985,9 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	@continuable
 	protected abstract void fillReport() throws JRException;
 
+	@continuable
+	protected abstract void fillReport(int rowsToFill) throws JRException;
+
 	@Override
 	protected void ignorePaginationSet(Map<String, Object> parameterValues)
 	{
@@ -1318,7 +1327,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				elements.add(element);
 				if (fillingEmptyRows)
 				{
-					((JRTemplatePrintText)element).setText("");
+					setRowCellToEmpty(element);
 				}
 			}
 			Collections.sort(elements, new JRYXComparator());//FIXME make singleton comparator; same for older comparator
@@ -1339,12 +1348,19 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 				recordUsedWidth(element);
 				if (fillingEmptyRows)
 				{
-					((JRTemplatePrintText)element).setText("");
+					setRowCellToEmpty(element);
 				}
 			}
 		}
 	}
 	
+	private void setRowCellToEmpty(JRPrintElement element) {
+		if (element instanceof JRTemplatePrintText)
+		{
+			((JRTemplatePrintText)element).setText("");
+		}
+	}
+
 	protected void recordUsedWidth(JRPrintElement element)
 	{
 		recordUsedPageWidth(element.getX() + element.getWidth() + rightMargin);

@@ -423,6 +423,13 @@ public abstract class BaseReportFiller implements ReportFiller
 	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues, JRDataSource ds) throws JRException
 	{
+		return fill(parameterValues, ds, 0);
+	}
+
+	@Override
+	@continuable
+	public JasperPrint fill(Map<String,Object> parameterValues, JRDataSource ds, int rowsToFill) throws JRException
+	{
 		if (parameterValues == null)
 		{
 			parameterValues = new HashMap<String,Object>();
@@ -430,7 +437,7 @@ public abstract class BaseReportFiller implements ReportFiller
 
 		setDatasourceParameterValue(parameterValues, ds);
 
-		return fill(parameterValues);
+		return fill(parameterValues, rowsToFill);
 	}
 
 	protected void setDatasourceParameterValue(Map<String,Object> parameterValues, JRDataSource ds)

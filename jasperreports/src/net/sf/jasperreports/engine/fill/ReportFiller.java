@@ -45,7 +45,13 @@ public interface ReportFiller
 	JasperPrint fill(Map<String, Object> parameters, JRDataSource dataSource) throws JRException;
 
 	@continuable
+	JasperPrint fill(Map<String, Object> parameters, JRDataSource dataSource, int rowsToFill) throws JRException;
+
+	@continuable
 	JasperPrint fill(Map<String, Object> parameters) throws JRException;
+
+	@continuable
+	JasperPrint fill(Map<String, Object> parameters, int rowsToFill) throws JRException;
 
 	void addFillListener(FillListener listener);
 

@@ -157,15 +157,34 @@ public final class JRFiller
 		JRDataSource dataSource
 		) throws JRException
 	{
+		int rowsToFill = 0;
+		try
+		{
+			rowsToFill = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(jasperReport, JRFiller.PROPERTY_ROWS_TO_FILL, 0);
+		}
+		catch (NumberFormatException e) {
+		}
 		return fill(jasperReportsContext, SimpleJasperReportSource.from(jasperReport),
-				parameters, dataSource);
+				parameters, dataSource, rowsToFill);
 	}
 	
-	public static JasperPrint fill(
+	public static JasperPrint fill(	// hozawa 20190420
 		JasperReportsContext jasperReportsContext,
 		JasperReportSource reportSource,
 		Map<String,Object> parameters,
 		JRDataSource dataSource
+		) throws JRException
+	{
+		return fill(jasperReportsContext, reportSource,
+				parameters, dataSource, 0);
+	}
+
+	public static JasperPrint fill(
+		JasperReportsContext jasperReportsContext,
+		JasperReportSource reportSource,
+		Map<String,Object> parameters,
+		JRDataSource dataSource,
+		int rowsToFill
 		) throws JRException
 	{
 		ReportFiller filler = createReportFiller(jasperReportsContext, reportSource);
@@ -174,7 +193,7 @@ public final class JRFiller
 		
 		try
 		{
-			jasperPrint = filler.fill(parameters, dataSource);
+			jasperPrint = filler.fill(parameters, dataSource, rowsToFill);
 		}
 		catch(JRFillInterruptedException e)
 		{
