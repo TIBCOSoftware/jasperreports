@@ -344,6 +344,14 @@ public class TableReport implements JRReport
 			)
 	public static final String PROPERTY_TABLE_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.name";
 
+	@Property(
+			category = PropertyConstants.CATEGORY_TABLE,
+			scopes = {PropertyScope.COMPONENT},
+			scopeQualifications = {METADATA_KEY_QUALIFICATION},
+			sinceVersion = PropertyConstants.VERSION_6_8_0
+			)
+	public static final String PROPERTY_ROWS_TO_FILL = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.rows.to.fill";
+
 
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
@@ -373,6 +381,7 @@ public class TableReport implements JRReport
 	
 	private final JRPropertiesUtil propertiesUtil;
 	private String tableName;
+	private String rowsToFill;
 	private boolean isInteractiveTable;
 	private boolean hasFloatingHeader;
 	private boolean isGeneratePdfTags;
@@ -397,6 +406,8 @@ public class TableReport implements JRReport
 		
 		this.tableName = JRPropertiesUtil.getOwnProperty(fillContext.getComponentElement(), PROPERTY_TABLE_NAME);
 		
+		this.rowsToFill = JRPropertiesUtil.getOwnProperty(fillContext.getComponentElement(), PROPERTY_ROWS_TO_FILL);
+
 		this.propertiesUtil = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
 		
 		// begin: table interactivity

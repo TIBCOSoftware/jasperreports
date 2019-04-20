@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
+import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
@@ -1358,6 +1359,14 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 		if (element instanceof JRTemplatePrintText)
 		{
 			((JRTemplatePrintText)element).setText("");
+		}
+		else if (element instanceof JRTemplatePrintFrame)
+		{
+			List<JRPrintElement> list = ((JRTemplatePrintFrame)element).getElements();
+			for (JRPrintElement item : list)
+			{
+				setRowCellToEmpty(item);
+			}
 		}
 	}
 

@@ -168,7 +168,7 @@ public final class JRFiller
 				parameters, dataSource, rowsToFill);
 	}
 	
-	public static JasperPrint fill(	// hozawa 20190420
+	public static JasperPrint fill(
 		JasperReportsContext jasperReportsContext,
 		JasperReportSource reportSource,
 		Map<String,Object> parameters,
