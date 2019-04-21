@@ -129,6 +129,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					fillReportContent();
 				}
 			}
+			fillingEmptyRows = false;
 
 			fillReportEnd();
 		}

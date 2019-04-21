@@ -404,6 +404,13 @@ public abstract class BaseReportFiller implements ReportFiller
 	@continuable
 	public JasperPrint fill(Map<String,Object> parameterValues, Connection conn) throws JRException
 	{
+		return fill(parameterValues, conn, 0);
+	}
+
+	@Override
+	@continuable
+	public JasperPrint fill(Map<String,Object> parameterValues, Connection conn, int rowsToFill) throws JRException
+	{
 		if (parameterValues == null)
 		{
 			parameterValues = new HashMap<String,Object>();
@@ -411,7 +418,7 @@ public abstract class BaseReportFiller implements ReportFiller
 
 		setConnectionParameterValue(parameterValues, conn);
 
-		return fill(parameterValues);
+		return fill(parameterValues, rowsToFill);
 	}
 
 	protected void setConnectionParameterValue(Map<String,Object> parameterValues, Connection conn)

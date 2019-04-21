@@ -42,6 +42,9 @@ public interface ReportFiller
 	JasperPrint fill(Map<String, Object> parameters, Connection connection) throws JRException;
 
 	@continuable
+	JasperPrint fill(Map<String, Object> parameters, Connection connection, int rowsToFill) throws JRException;
+
+	@continuable
 	JasperPrint fill(Map<String, Object> parameters, JRDataSource dataSource) throws JRException;
 
 	@continuable

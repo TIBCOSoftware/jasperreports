@@ -194,14 +194,17 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				PROPERTY_SUBREPORT_GENERATE_RECTANGLE, subreport, filler.getMainDataset());
 		this.dynamicGenerateRectangle = hasDynamicProperty(PROPERTY_SUBREPORT_GENERATE_RECTANGLE);
 
-		String strRowsToFill = ((TableSubreport)subreport).getPropertiesMap().getProperty(TableReport.PROPERTY_ROWS_TO_FILL);
-		if (strRowsToFill != null) {
-			try
-			{
-				rowsToFill = Integer.parseInt(strRowsToFill);
-			}
-			catch(NumberFormatException e)
-			{
+		if (subreport instanceof TableSubreport)
+		{
+			String strRowsToFill = ((TableSubreport)subreport).getPropertiesMap().getProperty(TableReport.PROPERTY_ROWS_TO_FILL);
+			if (strRowsToFill != null) {
+				try
+				{
+					rowsToFill = Integer.parseInt(strRowsToFill);
+				}
+				catch(NumberFormatException e)
+				{
+				}
 			}
 		}
 	}
@@ -826,7 +829,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		if (getConnectionExpression() != null)
 		{
-			subreportFiller.fill(parameterValues, connection);
+			subreportFiller.fill(parameterValues, connection, rowsToFill);
 		}
 		else if (getDataSourceExpression() != null)
 		{
