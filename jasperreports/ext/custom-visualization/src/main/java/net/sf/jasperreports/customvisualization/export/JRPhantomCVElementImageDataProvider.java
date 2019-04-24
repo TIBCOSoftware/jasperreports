@@ -45,7 +45,7 @@ public class JRPhantomCVElementImageDataProvider extends CVElementAbstractImageD
 	private final String[] scriptResourceLocations = new String[] {
 			"net/sf/jasperreports/customvisualization/scripts/customvisualization-phantom.js",
 			"net/sf/jasperreports/customvisualization/resources/require/require.js",
-			"net/sf/jasperreports/customvisualization/resources/require/cv-component.js"
+			"net/sf/jasperreports/customvisualization/resources/require/cv-component_static.js"
 	};
 
 	public boolean isEnabled() {
