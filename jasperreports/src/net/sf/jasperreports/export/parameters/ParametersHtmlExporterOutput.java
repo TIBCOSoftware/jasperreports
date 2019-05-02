@@ -167,4 +167,9 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 	{
 		return resourceHandler;
 	}
+
+	public void setResourceHandler(HtmlResourceHandler resourceHandler) 
+	{
+		this.resourceHandler = resourceHandler;
+	}
 }
