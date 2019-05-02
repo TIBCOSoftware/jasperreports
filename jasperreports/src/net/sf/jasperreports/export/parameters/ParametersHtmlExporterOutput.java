@@ -94,6 +94,8 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 			}
 		}
 
+		resourceHandler = (HtmlResourceHandler)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.RESOURCE_HANDLER);
+
 		StringBuffer sb = (StringBuffer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb == null)
 		{
@@ -166,10 +168,5 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 	public HtmlResourceHandler getResourceHandler() 
 	{
 		return resourceHandler;
-	}
-
-	public void setResourceHandler(HtmlResourceHandler resourceHandler) 
-	{
-		this.resourceHandler = resourceHandler;
 	}
 }

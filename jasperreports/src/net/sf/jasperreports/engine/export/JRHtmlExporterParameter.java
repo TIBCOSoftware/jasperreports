@@ -149,4 +149,10 @@ public class JRHtmlExporterParameter extends net.sf.jasperreports.engine.JRExpor
 	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isFlushOutput()}.
 	 */
 	public static final JRHtmlExporterParameter FLUSH_OUTPUT = new JRHtmlExporterParameter("Flush Output");
+	
+
+	/**
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getResourceHandler()}.
+	 */
+	public static final JRHtmlExporterParameter RESOURCE_HANDLER = new JRHtmlExporterParameter("Resource Handler");
 }
