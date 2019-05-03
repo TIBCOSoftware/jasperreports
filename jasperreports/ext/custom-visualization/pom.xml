@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-custom-visualization</artifactId>
-	<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
+	<version>6.8.1-1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Custom Visualization Component</name>
 	<description>JasperReports Custom Visualization Component</description>
@@ -36,7 +36,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>develop-SNAPSHOT</tag>
+		<tag>jr-6-8-1</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
+			<version>6.8.1-1-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -85,7 +85,7 @@
 				</executions>
 				<configuration>
 					<doCheck>true</doCheck>
-					<doUpdate>true</doUpdate>
+					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>
 			<plugin>

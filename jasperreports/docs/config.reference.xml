@@ -3913,6 +3913,19 @@ line breaks at fill time via the <a href="#net.sf.jasperreports.text.save.line.b
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.html.use.background.image.to.align -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.use.background.image.to.align">
+    <description>
+Property that indicates whether the images should be rendered using CSS background images, to achieve certain image alignment requirements, especially in the case of lazy images,
+for which the real dimensions are not known at report fill time.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/HtmlReportConfiguration.html#isUseBackgroundImageToAlign--">isUseBackgroundImageToAlign()</api> HTML export configuration setting.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.json.boolean.{path} -->
   
   <configProperty name="net.sf.jasperreports.export.json.boolean.{path}">
@@ -6708,6 +6721,21 @@ Property specifying the PhantomJS process idle timeout (in milliseconds). Defaul
   <configProperty name="net.sf.jasperreports.phantomjs.max.process.count">
     <description>
 Property specifying the maximum number of processes in the PhantomJS pool. Default value is 8.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.phantomjs.options.{arbitrary_suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.phantomjs.options.{arbitrary_suffix}">
+    <description>
+Property prefix used to identify a set of properties that store command options for the PhantomJS start command. For instance:
+<br/>
+<ul>
+<li><code>net.sf.jasperreports.phantomjs.options.1=--load-images=true</code></li>
+<li><code>net.sf.jasperreports.phantomjs.options.2=--output-encoding=utf8</code></li>
+</ul>
+These properties are by default not set.
     </description>
   </configProperty>
   

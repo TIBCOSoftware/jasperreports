@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
+	<version>6.8.1-1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -49,7 +49,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>develop-SNAPSHOT</tag>
+		<tag>jr-6-8-1</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -185,7 +185,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>2.4.5</version>
+			<version>2.4.16</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -268,62 +268,56 @@
 		<dependency>
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
-			<version>1.1.1</version>
+			<version>1.1.6</version>
 			<scope>compile</scope>
 			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>xerces</groupId>
-					<artifactId>xercesImpl</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-anim</artifactId>
-			<version>1.9</version>
+			<version>1.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-awt-util</artifactId>
-			<version>1.9</version>
+			<version>1.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-bridge</artifactId>
-			<version>1.9</version>
+			<version>1.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-dom</artifactId>
-			<version>1.9</version>
+			<version>1.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-gvt</artifactId>
-			<version>1.9</version>
+			<version>1.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-svg-dom</artifactId>
-			<version>1.9</version>
+			<version>1.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-svggen</artifactId>
-			<version>1.9</version>
+			<version>1.11</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -430,7 +424,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
+			<version>6.8.1-1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -506,7 +500,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
+			<version>6.8.1-1-SNAPSHOT</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -612,7 +606,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
+							<version>6.8.1-1-SNAPSHOT</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

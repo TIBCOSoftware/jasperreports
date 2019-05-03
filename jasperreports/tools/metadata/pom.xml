@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-metadata</artifactId>
-	<version>bug-JRS-19474-export-handler-SNAPSHOT</version>
+	<version>6.8.1-1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Metadata</name>
 	<description>JasperReports Metadata</description>
@@ -49,7 +49,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>bug-JRS-19474-export-handler-SNAPSHOT</tag>
+		<tag>jr-6-8-1</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -85,7 +85,7 @@
 				</executions>
 				<configuration>
 					<doCheck>true</doCheck>
-					<doUpdate>true</doUpdate>
+					<doUpdate>false</doUpdate>
 				</configuration>
 			</plugin>
 			<plugin>
