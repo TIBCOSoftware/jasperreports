@@ -21,23 +21,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
+ /*global requirejs */
 define('cv-component',["require"], function(require){
     var cvComponent = function(config) {
         this.config = config;
-        this.parent = null;
-        this.loader = null;
         this._init();
     };
 
     cvComponent.prototype = {
         // internal API
         _init: function() {
-            var it = this;
+            var self = this,
+                modules = [],
+                loaderConfig = { paths: {}};
 
             // Cleanup the DIV...
             // This is due to a bug in the interactive viewer which
-            // inovkes the component twice.
-            var element = document.getElementById(it.config.id);
+            // invokes the component twice.
+            var element = document.getElementById(self.config.id);
             if (element)
             {
                 var currentSvgTags = element.getElementsByTagName("svg");
@@ -46,8 +47,19 @@ define('cv-component',["require"], function(require){
                 };
             }
 
-            require([it.config.renderer], function(renderer) {
-                    renderer(it.config.instanceData);
+            // prepare the require config for the script and css files
+            loaderConfig.paths[self.config.renderer] = self.config.instanceData.script_uri + "?noext";
+            modules.push(self.config.renderer);
+
+            if (self.config.instanceData.css_uri) {
+                loaderConfig.paths[self.config.id + "_css"] = self.config.instanceData.css_uri + "?noext";
+                modules.push("csslink!" + self.config.id + "_css");
+            }
+
+            requirejs.config(loaderConfig);
+
+            require(modules, function(renderer) {
+                renderer(self.config.instanceData);
             });
 
         }

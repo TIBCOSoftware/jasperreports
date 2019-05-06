@@ -192,40 +192,39 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 		return FillPrepareResult.PRINT_NO_STRETCH;
 	}
 
-	@Override
-	public JRPrintElement fill()
+	protected JRTemplateGenericPrintElement createGenericPrintElement()
 	{
 		JRComponentElement element = fillContext.getComponentElement();
-		JRTemplateGenericElement template = 
-			new JRTemplateGenericElement(
-				fillContext.getElementOrigin(),
-				fillContext.getDefaultStyleProvider(),
-				fillContext.getComponentElement(),
-				CVPrintElement.CV_ELEMENT_TYPE
+		JRTemplateGenericElement template =
+				new JRTemplateGenericElement(
+						fillContext.getElementOrigin(),
+						fillContext.getDefaultStyleProvider(),
+						fillContext.getComponentElement(),
+						CVPrintElement.CV_ELEMENT_TYPE
 				);
 		template = deduplicate(template);
 
-		JRTemplateGenericPrintElement printElement = 
-			new JRTemplateGenericPrintElement(
-				template,
-				printElementOriginator
+		JRTemplateGenericPrintElement printElement =
+				new JRTemplateGenericPrintElement(
+						template,
+						printElementOriginator
 				);
 		printElement.setUUID(element.getUUID());
 		printElement.setX(element.getX());
 		printElement.setY(fillContext.getElementPrintY());
 		printElement.setWidth(element.getWidth());
 		printElement.setHeight(element.getHeight());
-				
+
 		if (element.hasProperties() )
 		{
 			if (
-				element.getPropertiesMap().getProperty("cv.keepTemporaryFiles") != null
-				&& element.getPropertiesMap().getProperty("cv.keepTemporaryFiles").equals("true")
-				)
+					element.getPropertiesMap().getProperty("cv.keepTemporaryFiles") != null
+							&& element.getPropertiesMap().getProperty("cv.keepTemporaryFiles").equals("true")
+			)
 			{
 				printElement.getPropertiesMap().setProperty("cv.keepTemporaryFiles", "true");
 			}
-			
+
 			// We also want to transfer to the component all the properties starting with CV_PREFIX
 			//FIXME transfer standard print properties?
 			for (String ownPropName : element.getPropertiesMap().getOwnPropertyNames())
@@ -236,13 +235,21 @@ public class CVFillComponent extends BaseFillComponent implements Serializable, 
 				}
 			}
 		}
-		
+
 		String elementId = CVUtils.generateElementId();
 		printElement.setParameterValue(CVPrintElement.PARAMETER_ELEMENT_ID, elementId);
 		if (log.isDebugEnabled())
 		{
 			log.debug("generating element " + elementId);
 		}
+
+		return printElement;
+	}
+
+	@Override
+	public JRPrintElement fill()
+	{
+		JRTemplateGenericPrintElement printElement = createGenericPrintElement();
 
 		if (isEvaluateNow())
 		{

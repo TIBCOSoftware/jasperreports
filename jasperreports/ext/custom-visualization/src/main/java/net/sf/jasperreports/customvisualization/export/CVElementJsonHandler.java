@@ -23,7 +23,14 @@
  */
 package net.sf.jasperreports.customvisualization.export;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.customvisualization.Processor;
@@ -35,11 +42,6 @@ import net.sf.jasperreports.engine.export.JsonExporter;
 import net.sf.jasperreports.engine.export.JsonExporterContext;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.web.util.VelocityUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -89,7 +91,7 @@ public class CVElementJsonHandler extends CVElementAbstractGenericHandler implem
 			{
 				JsonExporter exporter = ((JsonExporter)context.getExporterRef());
 				HtmlResourceHandler htmlResourceHandler = exporter.getExporterOutput() != null ?
-						exporter.getExporterOutput().getFontHandler() : null;
+						exporter.getExporterOutput().getResourceHandler() : null;
 
 				Map<String, Object> jsonConfiguration = createConfigurationForJSON(configuration, htmlResourceHandler);
 				String instanceData = mapper.writeValueAsString(jsonConfiguration);

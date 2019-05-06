@@ -21,23 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.export;
+define('cv-component',["require"], function(require){
+    var cvComponent = function(config) {
+        this.config = config;
+        this._init();
+    };
 
-import net.sf.jasperreports.engine.export.HtmlResourceHandler;
+    cvComponent.prototype = {
+        // internal API
+        _init: function() {
+            var self = this;
 
+            // Cleanup the DIV...
+            // This is due to a bug in the interactive viewer which
+            // invokes the component twice.
+            var element = document.getElementById(self.config.id);
+            if (element)
+            {
+                var currentSvgTags = element.getElementsByTagName("svg");
+                if (currentSvgTags.length > 0) {
+                    element.removeChild(currentSvgTags[0]);
+                };
+            }
 
-/**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- */
-public interface JsonExporterOutput extends WriterExporterOutput
-{
-	/**
-	 * 
-	 */
-	public HtmlResourceHandler getFontHandler(); 
+            require([self.config.renderer], function(renderer) {
+                renderer(self.config.instanceData);
+            });
 
-	/**
-	 * 
-	 */
-	public HtmlResourceHandler getResourceHandler(); 
-}
+        }
+    }
+
+    return cvComponent;
+});
