@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-html-component</artifactId>
-	<version>6.8.1-SNAPSHOT</version>
+	<version>develop-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports HTML Component</name>
 	<description>JasperReports HTML Component</description>
@@ -36,7 +36,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>jr-6-8-1</tag>
+		<tag>develop-SNAPSHOT</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.8.1-SNAPSHOT</version>
+			<version>develop-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

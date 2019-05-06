@@ -3,8 +3,8 @@
 	<description>Helps build the JasperReports distribution files.</description>
 
 	<property name="organization" value="TIBCO Software Inc."/>
-	<property name="version" value="6.8.1-SNAPSHOT"/>
-	<property name="scm-tag" value="6.8.1-SNAPSHOT"/>
+	<property name="version" value="develop-SNAPSHOT"/>
+	<property name="scm-tag" value="develop-SNAPSHOT"/>
 
 	<path id="project-classpath">
 		<path refid="project-lib"/>

@@ -543,24 +543,28 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		boolean hasSlideMasterElements = false;
 		
-		elementIndex = 0;
-		
-		for (JRPrintElement element : page.getElements())
+		List<JRPrintElement> elements = page.getElements();
+		if (elements != null && elements.size() > 0)
 		{
-			if (
-				(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
-				|| getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false)
-				)
+			for (int i = 0; i < elements.size(); i++)
 			{
-				if (filter == null || filter.isToExport(element))
+				JRPrintElement element = elements.get(i);
+				
+				elementIndex = i;
+					
+				if (
+					(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
+					|| getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false)
+					)
 				{
-					exportElement(element);
-
-					hasSlideMasterElements = true;
+					if (filter == null || filter.isToExport(element))
+					{
+						exportElement(element);
+	
+						hasSlideMasterElements = true;
+					}
 				}
 			}
-
-			elementIndex++;
 		}
 		
 		return hasSlideMasterElements;
@@ -574,22 +578,26 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	{
 		frameIndexStack = new ArrayList<Integer>();
 
-		elementIndex = 0;
-		
-		for (JRPrintElement element : page.getElements())
+		List<JRPrintElement> elements = page.getElements();
+		if (elements != null && elements.size() > 0)
 		{
-			if (
-				!(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
-				&& !(hasToSlideMasterElements && getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false))
-				)
+			for (int i = 0; i < elements.size(); i++)
 			{
-				if (filter == null || filter.isToExport(element))
+				JRPrintElement element = elements.get(i);
+				
+				elementIndex = i;
+				
+				if (
+					!(isBackgroundAsSlideMaster && element.getOrigin().getBandTypeValue() == BandTypeEnum.BACKGROUND)
+					&& !(hasToSlideMasterElements && getPropertiesUtil().getBooleanProperty(element, PROPERTY_TO_SLIDE_MASTER, false))
+					)
 				{
-					exportElement(element);
+					if (filter == null || filter.isToExport(element))
+					{
+						exportElement(element);
+					}
 				}
 			}
-			
-			elementIndex++;
 		}
 		
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
@@ -1878,16 +1886,16 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		List<JRPrintElement> elements = frame.getElements();
 		if (elements != null && elements.size() > 0)
 		{
-			elementIndex = 0;
-			
-			for (JRPrintElement element : elements)
+			for (int i = 0; i < elements.size(); i++)
 			{
+				JRPrintElement element = elements.get(i);
+
+				elementIndex = i;
+				
 				if (filter == null || filter.isToExport(element))
 				{
 					exportElement(element);
 				}
-
-				elementIndex++;
 			}
 		}
 
