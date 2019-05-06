@@ -65,7 +65,12 @@ public class StoreFactoryVirtualizer extends JRAbstractLRUVirtualizer
 
 	protected VirtualizerStore store(JRVirtualizationContext context, boolean create)
 	{
-		VirtualizerStore store = contextStores.get(context);
+		VirtualizerStore store;
+		synchronized (contextStores)
+		{
+			store = contextStores.get(context);
+		}
+
 		if (store != null || !create)
 		{
 			if (log.isTraceEnabled())
