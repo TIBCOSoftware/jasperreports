@@ -228,7 +228,8 @@ public final class BarcodeProviders
 		protected Barcode createBaseBarcode(BarcodeInfo barcodeInfo)
 				throws BarcodeException
 		{
-			return BarcodeFactory.createEAN128(barcodeInfo.getCode());
+			return new UCCEAN128Barcode(UCCEAN128Barcode.EAN128_AI, 
+					barcodeInfo.getCode(), barcodeInfo.getRequiresChecksum());
 		}
 	}
 
