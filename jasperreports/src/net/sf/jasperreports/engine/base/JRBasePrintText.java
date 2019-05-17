@@ -119,6 +119,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected String formatFactoryClass;
 	protected String localeCode;
 	protected String timeZoneId;
+	protected boolean isInputText;
 	
 	/**
 	 *
@@ -872,6 +873,17 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		return getForecolor();
 	}
 
+	@Override
+	public boolean isInputText()
+	{
+		return this.isInputText;
+	}
+
+	@Override
+	public void setInputText(boolean isInputText)
+	{
+		this.isInputText = isInputText;
+	}
 
 	/*
 	 * These fields are only for serialization backward compatibility.

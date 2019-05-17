@@ -41,6 +41,7 @@ public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JR
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private JRRecordedValues recordedValues;
+	private boolean isInputText;
 
 	public JRRecordedValuesPrintText()
 	{
@@ -89,5 +90,17 @@ public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JR
 		super.readVirtualized(in);
 		
 		recordedValues = (JRRecordedValues) in.readJRObject();
+	}
+
+	@Override
+	public boolean isInputText()
+	{
+		return isInputText;
+	}
+
+	@Override
+	public void setInputText(boolean isInputText)
+	{
+		this.isInputText = isInputText;
 	}
 }

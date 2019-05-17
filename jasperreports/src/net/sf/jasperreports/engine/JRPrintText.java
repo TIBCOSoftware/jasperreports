@@ -298,4 +298,8 @@ public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnc
 	 */
 	public void setLineBreakOffsets(short[] lineBreakOffsets);
 
+	public boolean isInputText();
+
+	public void setInputText(boolean isInputText);
+
 }

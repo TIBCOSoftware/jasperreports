@@ -97,6 +97,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
+	private boolean isInputText;
 
 	/**
 	 * The bookmark level for the anchor associated with this field.
@@ -747,6 +748,18 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setHyperlinkTooltip(String hyperlinkTooltip)
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
+	}
+
+	@Override
+	public boolean isInputText()
+	{
+		return isInputText;
+	}
+
+	@Override
+	public void setInputText(boolean isInputText)
+	{
+		this.isInputText = isInputText;
 	}
 
 	/*

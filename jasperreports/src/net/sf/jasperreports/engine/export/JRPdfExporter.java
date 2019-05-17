@@ -371,6 +371,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	public static final String EXCEPTION_MESSAGE_KEY_DOCUMENT_ERROR = "export.pdf.document.error";
 	public static final String EXCEPTION_MESSAGE_KEY_FONT_LOADING_ERROR = "export.pdf.font.loading.error";
 	public static final String EXCEPTION_MESSAGE_KEY_REPORT_GENERATION_ERROR = "export.pdf.report.generation.error";
+	public static final String TEXT_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.";	// hozawa 20190517
 	
 	/**
 	 * Prefix of properties that specify font files for the PDF exporter.
@@ -393,6 +394,13 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)
 	public static final String PDF_FONT_DIRS_PREFIX = PDF_EXPORTER_PROPERTIES_PREFIX + "fontdir.";
+
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.TEXT_ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0
+			)
+	public static final String PROPERTY_TEXT_IS_FORM = TEXT_EXPORTER_PROPERTIES_PREFIX + "isInputForm";
 
 	/**
 	 * The exporter key, as used in
@@ -1106,7 +1114,15 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					}
 					else if (element instanceof JRPrintText)
 					{
-						exportTextInput((JRPrintText)element);
+						boolean isInputText = JRPropertiesUtil.asBoolean(JRPropertiesUtil.getOwnProperty((JRPrintText)element, PROPERTY_TEXT_IS_FORM));	// hozawa 20190517
+						if (isInputText)
+						{
+							exportTextInput((JRPrintText)element);
+						}
+						else
+						{
+							exportText((JRPrintText)element);
+						}
 					}
 					else if (element instanceof JRPrintFrame)
 					{
