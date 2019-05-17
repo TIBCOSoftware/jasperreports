@@ -74,12 +74,17 @@ import com.lowagie.text.SplitCharacter;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.FontMapper;
+import com.lowagie.text.pdf.GrayColor;
 import com.lowagie.text.pdf.PdfAction;
+import com.lowagie.text.pdf.PdfAnnotation;
+import com.lowagie.text.pdf.PdfAppearance;
 import com.lowagie.text.pdf.PdfArray;
 import com.lowagie.text.pdf.PdfBoolean;
+import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfOutline;
@@ -1101,7 +1106,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					}
 					else if (element instanceof JRPrintText)
 					{
-						exportText((JRPrintText)element);
+						exportTextInput((JRPrintText)element);
 					}
 					else if (element instanceof JRPrintFrame)
 					{
@@ -2371,6 +2376,131 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		return font;
 	}
 
+	public void exportTextInput(JRPrintText text) throws DocumentException
+	{
+		JRStyledText styledText = styledTextUtil.getProcessedStyledText(text, noBackcolorSelector, null);
+
+		if (styledText == null)
+		{
+			return;
+		}
+		
+		AbstractPdfTextRenderer textRenderer = getTextRenderer(text, styledText);
+		textRenderer.initialize(this, pdfContentByte, text, styledText, getOffsetX(), getOffsetY());
+
+		double angle = 0;
+
+		switch (text.getRotationValue())
+		{
+			case LEFT :
+			{
+				angle = Math.PI / 2;
+				break;
+			}
+			case RIGHT :
+			{
+				angle = - Math.PI / 2;
+				break;
+			}
+			case UPSIDE_DOWN :
+			{
+				angle = Math.PI;
+				break;
+			}
+			case NONE :
+			default :
+			{
+			}
+		}
+
+		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		fontUtil.getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
+		Font pdfFont = getFont(attributes, getLocale(), false);
+
+		BaseFont baseFont = pdfFont.getBaseFont();
+		float fontSize = text.getFontsize();
+
+		Color textColor = text.getForecolor();
+        PdfFormField field = PdfFormField.createTextField(pdfWriter, false, false, 0);
+        field.setWidget(
+			new Rectangle(
+				textRenderer.getX(),
+				pageFormat.getPageHeight() - textRenderer.getY(),
+				textRenderer.getX() + textRenderer.getWidth(),
+				pageFormat.getPageHeight() - textRenderer.getY() - textRenderer.getHeight()),
+			PdfAnnotation.HIGHLIGHT_INVERT);
+        field.setFlags(PdfAnnotation.FLAGS_PRINT);
+        field.setFieldName("ATextField");
+        field.setValueAsString(text.getFullText());
+        field.setDefaultValueAsString(text.getFullText());
+        field.setBorderStyle(new PdfBorderDictionary(2, PdfBorderDictionary.STYLE_SOLID));
+        field.setPage();
+
+		PdfAppearance tp = pdfContentByte.createAppearance(textRenderer.getWidth(), textRenderer.getHeight());
+        PdfAppearance da = (PdfAppearance)tp.getDuplicate();
+        da.setFontAndSize(baseFont, fontSize);
+        da.setColorFill(textColor);
+        field.setDefaultAppearanceString(da);
+ 
+		tp.beginVariableText();
+        tp.saveState();
+        tp.rectangle(2, 2, textRenderer.getX() + textRenderer.getWidth(), textRenderer.getHeight());
+        tp.clip();
+        tp.newPath();
+        tp.beginText();
+        tp.setFontAndSize(baseFont, fontSize);
+        tp.setColorFill(textColor);
+        tp.setTextMatrix(4, 5);
+        tp.showText(text.getFullText());
+        tp.endText();
+        tp.restoreState();
+        tp.endVariableText();
+        field.setAppearance(PdfAnnotation.APPEARANCE_NORMAL, tp);
+
+        pdfWriter.addAnnotation(field);
+
+		AffineTransform atrans = new AffineTransform();
+		atrans.rotate(angle, textRenderer.getX(), pageFormat.getPageHeight() - textRenderer.getY());
+		pdfContentByte.transform(atrans);
+
+		if (text.getModeValue() == ModeEnum.OPAQUE)
+		{
+			Color backcolor = text.getBackcolor();
+			pdfContentByte.setRGBColorFill(
+				backcolor.getRed(),
+				backcolor.getGreen(),
+				backcolor.getBlue()
+				);
+			pdfContentByte.rectangle(
+				textRenderer.getX(),
+				pageFormat.getPageHeight() - textRenderer.getY(),
+				textRenderer.getWidth(),
+				- textRenderer.getHeight()
+				);
+			pdfContentByte.fill();
+		}
+		
+		if (glyphRendererAddActualText && textRenderer instanceof PdfGlyphRenderer)
+		{
+			tagHelper.startText(styledText.getText(), text.getLinkType() != null);
+		}
+		else
+		{
+			tagHelper.startText(text.getLinkType() != null);
+		}
+	
+		tagHelper.endText();
+
+		atrans = new AffineTransform();
+		atrans.rotate(-angle, textRenderer.getX(), pageFormat.getPageHeight() - textRenderer.getY());
+		pdfContentByte.transform(atrans);
+
+		/*   */
+		exportBox(
+			text.getLineBox(),
+			text
+			);
+	}
 
 	/**
 	 *
