@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,41 +25,17 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.IOException;
 
-import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
-import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link OdsZip} and {@link OdtZip}.
  */
-public class FileBufferedOasisZip extends OasisZip
+public class OdtZip extends OasisZip
 {
-
 	/**
 	 * 
 	 */
-	public FileBufferedOasisZip() throws IOException
+	public OdtZip() throws IOException
 	{
-		super();
+		super(MIME_TYPE_ODT);
 	}
-	
-	/**
-	 * 
-	 */
-	public FileBufferedOasisZip(String mimeType) throws IOException
-	{
-		super(mimeType);
-	}
-	
-	@Override
-	public ExportZipEntry createEntry(String name)
-	{
-		ExportZipEntry entry = new FileBufferedZipEntry(name);
-		
-		addEntry(entry);
-		
-		return entry;
-	}
-	
 }

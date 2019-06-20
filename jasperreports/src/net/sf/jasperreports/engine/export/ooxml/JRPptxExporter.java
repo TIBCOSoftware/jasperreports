@@ -78,6 +78,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
@@ -194,6 +195,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 *
 	 */
 	protected PptxZip pptxZip;
+	protected PptxFontHelper fontHelper;
 	protected PptxPresentationHelper presentationHelper;
 	protected PptxPresentationRelsHelper presentationRelsHelper;
 	protected PptxContentTypesHelper ctHelper;
@@ -202,6 +204,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected PptxSlideHelper slideHelper;
 	protected PptxSlideRelsHelper slideRelsHelper;
 	protected Writer presentationWriter;
+	protected Writer presentationRelsWriter;
 
 	protected Map<String, String> rendererToImagePathMap;
 	protected RenderersCache renderersCache;
@@ -350,13 +353,27 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	protected void exportReportToStream(OutputStream os) throws JRException, IOException
 	{
 		pptxZip = new PptxZip();
+		PptxExporterConfiguration configuration = getCurrentConfiguration();
 
 		presentationWriter = pptxZip.getPresentationEntry().getWriter();
+		presentationRelsWriter = pptxZip.getRelsEntry().getWriter();
 		
-		presentationHelper = new PptxPresentationHelper(jasperReportsContext, presentationWriter);
-		presentationHelper.exportHeader();
+		boolean isEmbedFonts = Boolean.TRUE.equals(configuration.isEmbedFonts());
 		
-		presentationRelsHelper = new PptxPresentationRelsHelper(jasperReportsContext, pptxZip.getRelsEntry().getWriter());
+		FileBufferedWriter fontWriter = new FileBufferedWriter();
+		fontHelper = 
+			new PptxFontHelper(
+				jasperReportsContext, 
+				fontWriter, 
+				presentationRelsWriter,
+				pptxZip,
+				isEmbedFonts
+				);
+		
+		presentationHelper = new PptxPresentationHelper(jasperReportsContext, presentationWriter, fontWriter);
+		presentationHelper.exportHeader(isEmbedFonts);
+		
+		presentationRelsHelper = new PptxPresentationRelsHelper(jasperReportsContext, presentationRelsWriter);
 		presentationRelsHelper.exportHeader();
 		
 		ctHelper = new PptxContentTypesHelper(jasperReportsContext, pptxZip.getContentTypesEntry().getWriter());
@@ -367,8 +384,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		appHelper.exportHeader();
 		
-		PptxExporterConfiguration configuration = getCurrentConfiguration();
-
 		String application = configuration.getMetadataApplication();
 		if( application == null )
 		{
@@ -502,6 +517,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			}
 		}
 		
+		fontHelper.exportFonts();
+		fontWriter.close();
+		
 		presentationHelper.exportFooter(jasperPrint);
 		presentationHelper.close();
 
@@ -530,6 +548,8 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		pptxZip.zipEntries(os);
 
+		fontWriter.dispose();
+		
 		pptxZip.dispose();
 	}
 
@@ -620,7 +640,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
-		runHelper = new PptxRunHelper(jasperReportsContext, slideMasterWriter, getExporterKey());
+		runHelper = new PptxRunHelper(jasperReportsContext, slideMasterWriter, fontHelper);
 		
 		slideHelper.exportHeader(true, false);
 		slideRelsHelper.exportHeader(true);
@@ -645,7 +665,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
-		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, getExporterKey());
+		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, fontHelper);
 		
 		slideHelper.exportHeader(false, hideSlideMaster);
 		slideRelsHelper.exportHeader(false);
@@ -1230,14 +1250,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			else
 			{
 				runHelper.export(
-						style, 
-						iterator.getAttributes(), 
-						text.substring(iterator.getIndex(), runLimit),
-						locale,
-						invalidCharReplacement
-						);
+					style, 
+					iterator.getAttributes(), 
+					text.substring(iterator.getIndex(), runLimit),
+					locale,
+					invalidCharReplacement
+					);
 				
 			}
+			
 			iterator.setIndex(runLimit);
 		}
 	}
@@ -2101,6 +2122,13 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 //		}
 //	}
 	
+	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
+	{
+		return styledTextUtil.getProcessedStyledText(textElement, 
+				setBackcolor ? allSelector : noBackcolorSelector, getExporterKey());
+	}
+
 	@Override
 	public String getExporterKey()
 	{

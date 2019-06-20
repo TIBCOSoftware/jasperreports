@@ -51,15 +51,19 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private String exporterKey;
+	private final BaseFontHelper docxFontHelper;
 	
 	/**
 	 *
 	 */
-	public DocxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, String exporterKey)
+	public DocxRunHelper(
+		JasperReportsContext jasperReportsContext, 
+		Writer writer, 
+		BaseFontHelper docxFontHelper
+		)
 	{
 		super(jasperReportsContext, writer);
-		this.exporterKey = exporterKey;
+		this.docxFontHelper = docxFontHelper;
 	}
 
 
@@ -67,14 +71,15 @@ public class DocxRunHelper extends BaseHelper
 	 *
 	 */
 	public void export(
-			JRStyle style, 
-			Map<Attribute,Object> attributes, 
-			String text, 
-			Locale locale, 
-			boolean hiddenText, 
-			String invalidCharReplacement, 
-			Color backcolor, 
-			boolean isNewLineAsParagraph)
+		JRStyle style, 
+		Map<Attribute,Object> attributes, 
+		String text, 
+		Locale locale, 
+		boolean hiddenText, 
+		String invalidCharReplacement, 
+		Color backcolor, 
+		boolean isNewLineAsParagraph
+		)
 	{
 		if (text != null)
 		{
@@ -85,7 +90,7 @@ public class DocxRunHelper extends BaseHelper
 					attributes, 
 					locale, 
 					hiddenText, 
-					highlightText 
+					highlightText
 				);
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
@@ -132,22 +137,38 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale, boolean hiddenText, boolean highlightText)
+	public void exportProps(
+		Map<Attribute,Object> parentAttrs, 
+		Map<Attribute,Object> attrs, 
+		Locale locale, 
+		boolean hiddenText, 
+		boolean highlightText
+		)
 	{
 		write("       <w:rPr>\n");
 		
-		Object value = attrs.get(TextAttribute.FAMILY);
-		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
+//		Object valueFamily = attrs.get(TextAttribute.FAMILY);
+//		Object oldValueFamily = parentAttrs.get(TextAttribute.FAMILY);
 		
-		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
-		{
-			String fontFamilyAttr = (String)value;
-			String fontFamily = fontUtil.getExportFontFamily(fontFamilyAttr, locale, exporterKey);
+		Object valueWeight = attrs.get(TextAttribute.WEIGHT);
+		Object oldValueWeight = parentAttrs.get(TextAttribute.WEIGHT);
+		
+		Object valuePosture = attrs.get(TextAttribute.POSTURE);
+		Object oldValuePosture = parentAttrs.get(TextAttribute.POSTURE);
+		
+//		if (
+//			docxFontHelper.isEmbedFonts
+//			|| (valueFamily != null && !valueFamily.equals(oldValueFamily))
+//			|| (valueWeight != null && !valueWeight.equals(oldValueWeight))
+//			|| (valuePosture != null && !valuePosture.equals(oldValuePosture))
+//			)//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
+//		{
+			String fontFamily = docxFontHelper.resolveFontFamily(attrs, locale);
 			write("        <w:rFonts w:ascii=\"" + fontFamily + "\" w:hAnsi=\"" + fontFamily + "\" w:eastAsia=\"" + fontFamily + "\" w:cs=\"" + fontFamily + "\" />\n");
-		}
+//		}
 		
-		value = attrs.get(TextAttribute.FOREGROUND);
-		oldValue = parentAttrs.get(TextAttribute.FOREGROUND);
+		Object value = attrs.get(TextAttribute.FOREGROUND);
+		Object oldValue = parentAttrs.get(TextAttribute.FOREGROUND);
 		
 		if (value != null && !value.equals(oldValue))
 		{
@@ -175,20 +196,14 @@ public class DocxRunHelper extends BaseHelper
 			write("        <w:sz w:val=\"" + (int)(2 * fontSize) + "\" />\n");
 		}
 		
-		value = attrs.get(TextAttribute.WEIGHT);
-		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
-		
-		if (value != null && !value.equals(oldValue))
+		if (valueWeight != null && !valueWeight.equals(oldValueWeight))
 		{
-			write("        <w:b w:val=\"" + value.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
+			write("        <w:b w:val=\"" + valueWeight.equals(TextAttribute.WEIGHT_BOLD) + "\"/>\n");
 		}
 		
-		value = attrs.get(TextAttribute.POSTURE);
-		oldValue = parentAttrs.get(TextAttribute.POSTURE);
-		
-		if (value != null && !value.equals(oldValue))
+		if (valuePosture != null && !valuePosture.equals(oldValuePosture))
 		{
-			write("        <w:i w:val=\"" + value.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
+			write("        <w:i w:val=\"" + valuePosture.equals(TextAttribute.POSTURE_OBLIQUE) + "\"/>\n");
 		}
 		
 		
@@ -257,6 +272,5 @@ public class DocxRunHelper extends BaseHelper
 
 		return styledTextAttributes;
 	}
-
 }
 

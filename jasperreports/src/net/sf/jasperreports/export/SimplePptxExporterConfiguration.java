@@ -37,6 +37,7 @@ public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration
 	private Boolean isBackgroundAsSlideMaster;
 	private Integer slideMasterReport;
 	private Integer slideMasterPage;
+	private Boolean embedFonts;
 	
 	@Override
 	public String getMetadataTitle()
@@ -148,5 +149,19 @@ public class SimplePptxExporterConfiguration extends SimpleExporterConfiguration
 	public void setSlideMasterPage(Integer slideMasterPage)
 	{
 		this.slideMasterPage = slideMasterPage;
+	}
+
+	@Override
+	public Boolean isEmbedFonts()
+	{
+		return embedFonts;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEmbedFonts(Boolean embedFonts)
+	{
+		this.embedFonts = embedFonts;
 	}
 }

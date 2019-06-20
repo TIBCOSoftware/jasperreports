@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,42 +25,29 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.export.LengthUtil;
-
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Sanda Zaharia(shertage@users.sourceforge.net)
  */
-public class DocxSettingsHelper extends BaseHelper
+public class DocxFontTableRelsHelper extends BaseHelper
 {
-	
 	/**
 	 * 
 	 */
-	public DocxSettingsHelper(JasperReportsContext jasperReportsContext, Writer writer)
+	public DocxFontTableRelsHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
 		super(jasperReportsContext, writer);
 	}
 
-	/**
-	 * 
-	 */
-	public void export(JasperPrint jasperPrint, boolean isEmbedFonts)
+	public void exportHeader()
 	{
-		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
-		write("<w:settings\n");
-		write(" xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n"); 
-		if (isEmbedFonts)
-		{
-			write("  <w:embedTrueTypeFonts w:val=\"true\" />\n"); 
-		}
-		write("  <w:defaultTabStop w:val=\"" 
-			+ LengthUtil.twip(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()).getParagraph().getTabStopWidth()) 
-			+ "\"/>\n");
-		write("</w:settings>");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"); 
+		write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
 	}
 	
+	public void exportFooter()
+	{
+		write("</Relationships>\n");
+	}
 }
