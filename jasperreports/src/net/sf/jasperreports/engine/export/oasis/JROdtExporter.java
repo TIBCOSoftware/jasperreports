@@ -343,7 +343,7 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 	 */
 	protected void exportReportToOasisZip(OutputStream os) throws JRException, IOException
 	{
-		OasisZip oasisZip = new FileBufferedOasisZip(OasisZip.MIME_TYPE_ODT);
+		OasisZip oasisZip = new OdtZip();
 
 		ExportZipEntry tempBodyEntry = new FileBufferedZipEntry(null);
 		ExportZipEntry tempStyleEntry = new FileBufferedZipEntry(null);

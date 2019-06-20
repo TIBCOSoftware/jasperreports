@@ -3626,6 +3626,18 @@ If the property is <code>true</code>, any page in the document will be exported 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.docx.embed.fonts -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.embed.fonts">
+    <description>
+This property indicates whether the embeddable true type fonts used in the report should be embedded into the generated DOCX document. 
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/DocxReportConfiguration.html#isEmbedFonts--">isEmbedFonts()</api> DOCX export configuration setting.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.docx.frames.as.nested.tables -->
   
   <configProperty name="net.sf.jasperreports.export.docx.frames.as.nested.tables">
@@ -4547,6 +4559,21 @@ Property that contains the title information to use for the generated PPTX metad
 <br/>
 Its value is used as default for the 
 <api href="net/sf/jasperreports/export/PptxExporterConfiguration.html#getMetadataTitle--">getMetadataTitle()</api> PPTX export configuration setting.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pptx.embed.fonts -->
+  
+  <configProperty name="net.sf.jasperreports.export.pptx.embed.fonts">
+    <description>
+This property indicates whether the fonts used in the report should be embedded into the generated PPTX document. 
+<br/>
+<b>Note: </b>PowerPoint does not embed TTF content type. Only EOT (Embedded OpenType) fonts are considered for embedding. 
+Embeddable TTF fonts should be converted into EOT format first, then placed in the classpath using the font extension mechanism.
+<br/>
+Its value is used as default for the 
+<api href="net/sf/jasperreports/export/PptxReportConfiguration.html#isEmbedFonts--">isEmbedFonts()</api> PPTX export configuration setting.
     </description>
   </configProperty>
   

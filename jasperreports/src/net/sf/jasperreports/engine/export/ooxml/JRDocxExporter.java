@@ -207,6 +207,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	protected DocxRelsHelper relsHelper;
 	protected PropsAppHelper appHelper;
 	protected PropsCoreHelper coreHelper;
+	protected DocxFontHelper docxFontHelper;
+	protected DocxFontTableHelper docxFontTableHelper;
+	protected DocxFontTableRelsHelper docxFontTableRelsHelper;
 	
 	boolean emptyPageState;
 	
@@ -400,10 +403,20 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
+		boolean isEmbedFonts = Boolean.TRUE.equals(configuration.isEmbedFonts());
+		
+		docxFontHelper = 
+			new DocxFontHelper(
+				jasperReportsContext, 
+				docxZip,
+				isEmbedFonts
+				);
+
 		DocxStyleHelper styleHelper = 
 			new DocxStyleHelper(
 				this,
-				docxZip.getStylesEntry().getWriter()
+				docxZip.getStylesEntry().getWriter(),
+				docxFontHelper
 				);
 		styleHelper.export(exporterInput);
 		styleHelper.close();
@@ -413,10 +426,17 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				jasperReportsContext,
 				docxZip.getSettingsEntry().getWriter()
 				);
-		settingsHelper.export(jasperPrint);
+		settingsHelper.export(jasperPrint, isEmbedFonts);
 		settingsHelper.close();
 
-		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, getExporterKey());
+		docxFontTableHelper = new DocxFontTableHelper(jasperReportsContext, docxZip.getFontTableEntry().getWriter());
+		docxFontTableHelper.exportHeader();
+		
+		docxFontTableRelsHelper = new DocxFontTableRelsHelper(jasperReportsContext, docxZip.getFontTableRelsEntry().getWriter());
+		docxFontTableRelsHelper.exportHeader();
+		
+		
+		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, docxFontHelper);
 		
 		pageFormat = null;
 		PrintPageFormat oldPageFormat = null;
@@ -488,6 +508,14 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		coreHelper.exportFooter();
 		coreHelper.close();
+		
+		docxFontHelper.exportFonts();
+
+		docxFontTableHelper.exportFooter();
+		docxFontTableHelper.close();
+
+		docxFontTableRelsHelper.exportFooter();
+		docxFontTableRelsHelper.close();
 
 		docxZip.zipEntries(os);
 
@@ -931,7 +959,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				elementBackcolor,
 				isNewLineJustified
 				);
-			
+
 			if (localHyperlink)
 			{
 				endHyperlink(true);
@@ -1694,6 +1722,13 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	}
 
 	@Override
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
+	{
+		return styledTextUtil.getProcessedStyledText(textElement, 
+				setBackcolor ? allSelector : noBackcolorSelector, getExporterKey());
+	}
+
+	@Override
 	public String getExporterKey()
 	{
 		return DOCX_EXPORTER_KEY;
@@ -1704,6 +1739,5 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	{
 		return DOCX_EXPORTER_PROPERTIES_PREFIX;
 	}
-	
 }
 

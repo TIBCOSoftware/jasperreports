@@ -34,6 +34,7 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataApplication;
+	private Boolean embedFonts;
 	
 	@Override
 	public String getMetadataTitle()
@@ -103,5 +104,19 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	public void setMetadataApplication(String metadataApplication)
 	{
 		this.metadataApplication = metadataApplication;
+	}
+	
+	@Override
+	public Boolean isEmbedFonts()
+	{
+		return embedFonts;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setEmbedFonts(Boolean embedFonts)
+	{
+		this.embedFonts = embedFonts;
 	}
 }

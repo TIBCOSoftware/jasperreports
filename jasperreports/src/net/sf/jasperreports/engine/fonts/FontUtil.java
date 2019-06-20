@@ -400,7 +400,6 @@ public final class FontUtil
 		return name;
 	}
 
-
 	/**
 	 * Returns the font family names available through extensions, in alphabetical order.
 	 */

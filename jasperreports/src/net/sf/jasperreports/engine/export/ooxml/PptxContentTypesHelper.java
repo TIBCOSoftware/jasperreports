@@ -55,6 +55,9 @@ public class PptxContentTypesHelper extends BaseHelper
 		write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
 		write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
 		write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
+		write("  <Default Extension=\"ttf\" ContentType=\"application/x-font-ttf\"/>\n");
+		write("  <Default Extension=\"otf\" ContentType=\"application/x-font-ttf\"/>\n");
+		write("  <Default Extension=\"eot\" ContentType=\"application/x-fontdata\"/>\n");
 		write("  <Override PartName=\"/ppt/theme/theme1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.theme+xml\"/>\n");
 		write("  <Override PartName=\"/ppt/slideMasters/slideMaster1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml\"/>\n");
 		write("  <Override PartName=\"/ppt/slideLayouts/slideLayout1.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml\"/>\n");
