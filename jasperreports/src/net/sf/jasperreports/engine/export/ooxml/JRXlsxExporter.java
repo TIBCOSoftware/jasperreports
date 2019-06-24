@@ -51,12 +51,14 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
+import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -67,6 +69,7 @@ import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.ExportCompatibility;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.HyperlinkUtil;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
@@ -87,10 +90,12 @@ import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -189,6 +194,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 	protected Map<String, Integer> sheetMapping;
 
+	private static ExportCompatibility compatibility;
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
@@ -1325,9 +1331,154 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		}
 	}
 
+	private void drawShape(
+		JRPrintGraphicElement shape,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException
+	{
+		String shapeType = "rect";
+		String flip = "";
+		String radius = "<a:avLst></a:avLst>";
+		
+		if (shape instanceof JRPrintEllipse)
+		{
+			shapeType = "ellipse";
+
+		}
+		else if (shape instanceof JRPrintLine)
+		{
+			shapeType = "line";
+			if (((JRPrintLine)shape).getDirectionValue() != LineDirectionEnum.TOP_DOWN)
+			{
+				flip = " flipV=\"1\"";
+			}
+		}
+		else if (shape instanceof JRPrintRectangle)
+		{
+			shapeType = (((JRPrintRectangle)shape).getRadius() == 0) ? "rect" : "roundRect";
+			if (((JRPrintRectangle)shape).getRadius() > 0)
+			{
+				// a rounded rectangle radius cannot exceed 1/2 of its lower side;
+				int size = Math.min(50000, (((JRPrintRectangle)shape).getRadius() * 100000)/Math.min(shape.getHeight(), shape.getWidth()));
+				radius = "<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst>";
+			}
+		}
+		else
+		{
+			shapeType = "rect";
+		}
+		Boolean tIgnoreCellBackground = sheetInfo.ignoreCellBackground;
+		sheetInfo.ignoreCellBackground = Boolean.TRUE;	// TODO currently used to force background of shape cell to be white
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, maxColumnIndex, sheetInfo);
+		sheetHelper.exportMergedCells(rowIndex, colIndex, maxColumnIndex, gridCell.getRowSpan(), gridCell.getColSpan());
+		sheetInfo.ignoreCellBackground = tIgnoreCellBackground;
+
+		String shapeFill = "<a:noFill/>";
+		if (shape.getModeValue() == ModeEnum.OPAQUE && shape.getBackcolor() != null)
+		{
+			shapeFill = "<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\"/></a:solidFill>";
+		}
+		JRPen pen = shape.getLinePen();
+		Color penColor = pen.getLineColor();
+		String penStyle = "";
+		if (pen.getLineWidth() > 0)
+		{
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					penStyle = "<a:custDash><a:ds d=\"800000\" sp=\"800000\"/></a:custDash>";
+					break;
+				}
+				case DOTTED :
+				{
+					penStyle = "<a:custDash><a:ds d=\"100000\" sp=\"100000\"/></a:custDash>";
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					break;
+				}
+			}
+		}
+
+		drawingHelper.write(
+			"<xdr:twoCellAnchor editAs=\"absolute\">"
+				+ "<xdr:from>"
+					+ "<xdr:col>" + colIndex + "</xdr:col>"
+					+ "<xdr:colOff>0</xdr:colOff>"
+					+ "<xdr:row>" + rowIndex + "</xdr:row>"
+					+ "<xdr:rowOff>0</xdr:rowOff>"
+				+ "</xdr:from>"
+				+ "<xdr:to>"
+					+ "<xdr:col>" + (colIndex + gridCell.getColSpan()) + "</xdr:col>"
+					+ "<xdr:colOff>0</xdr:colOff>"
+					+ "<xdr:row>" + (rowIndex + gridCell.getRowSpan()) + "</xdr:row>"
+					+ "<xdr:rowOff>0</xdr:rowOff>"
+				+ "</xdr:to>"
+				+ "<xdr:sp>"
+					+ "<xdr:nvSpPr>"
+						+ "<xdr:cNvPr id=\"" + toOOXMLId(shape) + "\" name=\"CustomShape 1\"></xdr:cNvPr>"
+						+ "<xdr:cNvSpPr/>"
+					+ "</xdr:nvSpPr>"
+					+ "<xdr:spPr>"
+						+ "<a:xfrm" + flip + ">"
+						    + "<a:off x=\"0\" y=\"0\"/>"
+						    + "<a:ext cx=\"0\" cy=\"0\"/>"
+						+ "</a:xfrm>"
+						+ "<a:prstGeom prst=\"" + shapeType + "\">"
+						    + radius
+						+ "</a:prstGeom>"
+							+ shapeFill
+						+ "<a:ln w=\"" + LengthUtil.emu(Math.max(Math.round(pen.getLineWidth()), 0)) + "\">"
+						    + "<a:solidFill>"
+						        + "<a:srgbClr val=\"" + JRColorUtil.getColorHexa(penColor) + "\"/>"
+						    + "</a:solidFill>"
+							+ penStyle
+						+ "</a:ln>"
+					+ "</xdr:spPr>"
+					+ "<xdr:style>"
+						+ "<a:lnRef idx=\"0\"/>"
+						+ "<a:fillRef idx=\"0\"/>"
+						+ "<a:effectRef idx=\"0\"/>"
+						+ "<a:fontRef idx=\"minor\"/>"
+					+ "</xdr:style>"
+				+ "</xdr:sp>"
+				+ "<xdr:clientData/>"
+			+ "</xdr:twoCellAnchor>"
+			);
+
+		cellHelper.exportFooter();
+	}
 
 	@Override
 	protected void exportLine(
+		JRPrintLine line, 
+		JRExporterGridCell gridCell,
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportLineDefault(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportLineDefault(
 		JRPrintLine line, 
 		JRExporterGridCell gridCell,
 		int colIndex, 
@@ -1381,9 +1532,30 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		cellHelper.exportFooter();
 	}
 
-
 	@Override
 	protected void exportRectangle(
+		JRPrintRectangle rectangle,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		switch (compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(rectangle, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)rectangle, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportRectangleDefault(
 		JRPrintGraphicElement rectangle,
 		JRExporterGridCell gridCell, 
 		int colIndex, 
@@ -1403,6 +1575,28 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		cellHelper.exportFooter();
 	}
 
+	@Override
+	protected void exportEllipse(
+		JRPrintEllipse ellipse,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(ellipse, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)ellipse, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}	
+	}
 
 	@Override
 	public void exportText(
@@ -1682,6 +1876,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			
 			firstPageNotSet = true;
 			firstSheetName = null;
+			compatibility = ExportCompatibility.getCompatibility(configuration.getCompatibility());
 		}
 		catch (IOException e)
 		{
@@ -1806,5 +2001,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 		return null;
 	}
 	
+	protected String toOOXMLId(JRPrintElement element)
+	{
+		// using hashCode() for now, though in theory there is a risk of collisions
+		// we could use something based on getSourceElementId() and getPrintElementId()
+		// or even a counter since we do not have any references to Ids
+		int hashCode = element.hashCode();
+		// OOXML object ids are xsd:unsignedInt 
+		return Long.toString(hashCode & 0xFFFFFFFFL); 
+	}
 }
 

@@ -31,6 +31,7 @@ public abstract class AbstractXlsExporterConfiguration extends SimpleExporterCon
 {
 	private Boolean isCreateCustomPalette;
 	private String workbookTemplate;
+	private String compatibility;
 	private Boolean isKeepWorkbookTemplateSheets;
 	private String metadataTitle;
 	private String metadataAuthor;
@@ -78,7 +79,17 @@ public abstract class AbstractXlsExporterConfiguration extends SimpleExporterCon
 		this.workbookTemplate = workbookTemplate;
 	}
 
-	
+	@Override
+	public String getCompatibility()
+	{
+		return compatibility;
+	}
+
+	public void setCompatibility(String compatibility)
+	{
+		this.compatibility = compatibility;
+	}
+
 	@Override
 	public Boolean isKeepWorkbookTemplateSheets()
 	{

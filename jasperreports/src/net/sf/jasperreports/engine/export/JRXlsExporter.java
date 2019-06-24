@@ -64,7 +64,9 @@ import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFShape;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFSimpleShape;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -91,11 +93,13 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -111,6 +115,7 @@ import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.type.ImageAnchorTypeEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -151,8 +156,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	private static short A2_PAPERSIZE = (short)66; 	/* A2_PAPERSIZE defined locally since it is not declared in HSSFPrintSetup */
-	
+
 	private static Map<HSSFColor, short[]> hssfColorsRgbs;
+	private static ExportCompatibility compatibility;
 	
 	static
 	{
@@ -376,6 +382,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		{
 			summaryInformation.setKeywords(keywords);
 		}
+		compatibility = ExportCompatibility.getCompatibility(configuration.getCompatibility());
 	}
 
 
@@ -739,6 +746,80 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	@Override
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				exportLine2007(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportLineDefault(line, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportLine2007(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		int row1 = rowIndex;
+		int row2 = rowIndex;
+		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
+		{
+			row2 += gridCell.getRowSpan();
+		}
+		else
+		{
+			row1 += gridCell.getRowSpan();
+		}
+		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  row1, (short) (colIndex + gridCell.getColSpan()), row2);
+		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
+		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_LINE );
+		JRPen pen = line.getLinePen();
+
+		if (pen.getLineWidth() > 0)
+		{
+			shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+					break;
+				}
+				case DOTTED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+					break;
+				}
+			}
+		}
+
+		Color penColor = pen.getLineColor();
+		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
+
+		if (line.getModeValue() == ModeEnum.OPAQUE && line.getBackcolor() != null)
+		{
+			Color bgcolor = line.getBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setNoFill(true);
+		}
+		else
+		{
+			shape.setNoFill(true);
+		}
+	}
+
+	private void exportLineDefault(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
 		short forecolor = getWorkbookColor(line.getLinePen().getLineColor()).getIndex();
 
 		int side = BoxStyle.TOP;
@@ -796,9 +877,72 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		cell.setCellStyle(cellStyle);
 	}
 
-
 	@Override
-	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	protected void exportRectangle(JRPrintRectangle element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		switch (compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				exportRectangle2007(element, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)element, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportRectangle2007(JRPrintRectangle element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
+		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
+		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_RECTANGLE );
+		JRPen pen = element.getLinePen();
+
+		if (pen.getLineWidth() > 0)
+		{
+			shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+					break;
+				}
+				case DOTTED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+					break;
+				}
+			}
+		}
+
+		Color penColor = pen.getLineColor();
+		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
+
+		if (element.getModeValue() == ModeEnum.OPAQUE && element.getBackcolor() != null)
+		{
+			Color bgcolor = element.getBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());	
+			shape.setNoFill(false);
+		}
+		else
+		{
+			shape.setNoFill(true);
+		}
+	}
+
+	private void exportRectangleDefault(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
 		short forecolor = getWorkbookColor(element.getLinePen().getLineColor()).getIndex();
 
@@ -831,6 +975,70 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		cell.setCellStyle(cellStyle);
 	}
 
+	@Override
+	protected void exportEllipse(JRPrintEllipse element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				exportEllipse2007(element, gridCell, colIndex, rowIndex);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault((JRPrintGraphicElement)element, gridCell, colIndex, rowIndex);
+				break;
+			}
+		}
+	}
+
+	private void exportEllipse2007(JRPrintEllipse element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, (short)  colIndex,  rowIndex, (short) (colIndex + gridCell.getColSpan()), rowIndex + gridCell.getRowSpan());
+		HSSFSimpleShape shape = patriarch.createSimpleShape(anchor);
+		shape.setShapeType(HSSFSimpleShape.OBJECT_TYPE_OVAL);
+		JRPen pen = element.getLinePen();
+
+		if (pen.getLineWidth() > 0)
+		{
+			shape.setLineWidth(LengthUtil.emu(Math.round(pen.getLineWidth())));
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DASHGEL);
+					break;
+				}
+				case DOTTED :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_DOTSYS);
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					shape.setLineStyle(HSSFShape.LINESTYLE_SOLID);
+					break;
+				}
+			}
+		}
+
+		Color penColor = pen.getLineColor();
+		shape.setLineStyleColor(penColor.getRed(), penColor.getGreen(), penColor.getBlue());
+
+		if (element.getModeValue() == ModeEnum.OPAQUE && element.getBackcolor() != null)
+		{
+			Color bgcolor = element.getBackcolor();
+			shape.setFillColor(bgcolor.getRed(), bgcolor.getGreen(), bgcolor.getBlue());
+			shape.setNoFill(false);
+		}
+		else
+		{
+			shape.setNoFill(true);
+		}
+	}
 
 	@Override
 	public void exportText(JRPrintText textElement, JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
@@ -1141,6 +1349,34 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 						spanCell = spanRow.createCell((colIndex + j));
 					}
 					spanCell.setCellStyle(cellStyle);
+				}
+			}
+		}
+	}
+
+	protected void createMergeRegion(JRExporterGridCell gridCell, int colIndex, int rowIndex)
+	{
+		boolean isCollapseRowSpan = getCurrentItemConfiguration().isCollapseRowSpan();
+		int rowSpan = isCollapseRowSpan ? 1 : gridCell.getRowSpan();
+		if (gridCell.getColSpan() > 1 || rowSpan > 1)
+		{
+			sheet.addMergedRegion(new CellRangeAddress(rowIndex, (rowIndex + rowSpan - 1), 
+					colIndex, (colIndex + gridCell.getColSpan() - 1)));
+
+			for(int i = 0; i < rowSpan; i++)
+			{
+				HSSFRow spanRow = sheet.getRow(rowIndex + i);
+				if (spanRow == null)
+				{
+					spanRow = sheet.createRow(rowIndex + i);
+				}
+				for(int j = 0; j < gridCell.getColSpan(); j++)
+				{
+					HSSFCell spanCell = spanRow.getCell((colIndex + j));
+					if (spanCell == null)
+					{
+						spanCell = spanRow.createCell((colIndex + j));
+					}
 				}
 			}
 		}

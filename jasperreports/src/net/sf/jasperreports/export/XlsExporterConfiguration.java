@@ -147,6 +147,16 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_METADATA_APPLICATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.metadata.application";
 	
 	/**
+	 * Property whose value is used to determine export compatibilty version.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_3_0_0
+			)
+	public static final String PROPERTY_COMPATIBILITY = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.compatibility";
+
+	/**
 	 * Returns a boolean value specifying whether the standard color palette should be customized
 	 * so that the XLS result uses the original report colors.
 	 * <p/>
@@ -238,4 +248,10 @@ public interface XlsExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_METADATA_APPLICATION)
 	public String getMetadataApplication();
+
+	/**
+	 * Export compatibility version. Defaults to "NONE" implying export using cells without using shapes.
+	 */
+	@ExporterProperty(PROPERTY_COMPATIBILITY)
+	public String getCompatibility();
 }

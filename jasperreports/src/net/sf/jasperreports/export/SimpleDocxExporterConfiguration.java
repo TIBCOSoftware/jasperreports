@@ -34,6 +34,7 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	private String metadataSubject;
 	private String metadataKeywords;
 	private String metadataApplication;
+	private String compatibility;
 	
 	@Override
 	public String getMetadataTitle()
@@ -103,5 +104,16 @@ public class SimpleDocxExporterConfiguration extends SimpleExporterConfiguration
 	public void setMetadataApplication(String metadataApplication)
 	{
 		this.metadataApplication = metadataApplication;
+	}
+
+	@Override
+	public String getCompatibility()
+	{
+		return compatibility;
+	}
+
+	public void setCompatibility(String compatibility)
+	{
+		this.compatibility = compatibility;
 	}
 }

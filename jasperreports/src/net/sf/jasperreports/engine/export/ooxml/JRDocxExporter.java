@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -69,6 +70,7 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.ExportCompatibility;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.Grid;
 import net.sf.jasperreports.engine.export.GridRow;
@@ -86,6 +88,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -210,6 +213,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	
 	boolean emptyPageState;
 	
+	private static ExportCompatibility compatibility;
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
 	{
@@ -397,6 +401,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		{
 			coreHelper.exportProperty(PropsCoreHelper.PROPERTY_KEYWORDS, keywords);
 		}
+		compatibility = ExportCompatibility.getCompatibility(configuration.getCompatibility());
 
 		List<ExporterInputItem> items = exporterInput.getItems();
 
@@ -513,7 +518,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				pageFormat.getPageHeight(),
 				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
 				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
-				null //address
+				null, //address
+				ExportCompatibility.getCompatibility(getCurrentConfiguration().getCompatibility())
 				);
 
 		exportGrid(pageGridLayout, null);
@@ -631,7 +637,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			for(int col = 0; col < rowSize; col++)
 			{
 				JRExporterGridCell gridCell = gridRow.get(col);
-				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
+
+				if (ExportCompatibility.NONE == compatibility && gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL) 
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -650,7 +657,8 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					}
 					col += elementGridCell.getColSpan() - 1;
 				}
-				else if (gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)
+				else if ((ExportCompatibility.NONE == compatibility && gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL) || 
+(ExportCompatibility.NONE != compatibility && (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL || gridCell.getType() == JRExporterGridCell.TYPE_ELEMENT_CELL)))
 				{
 					if (emptyCellColSpan > 0)
 					{
@@ -719,11 +727,194 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		emptyPageState = false;
 	}
 
+	private void drawShape(JRPrintGraphicElement shape, JRExporterGridCell gridCell) throws JRException
+	{
+		String shapeFill = "<a:noFill/>";
+		if (shape.getModeValue() == ModeEnum.OPAQUE && shape.getBackcolor() != null)
+		{
+			shapeFill = "<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\"/></a:solidFill>";
+		}
+
+		JRPen pen = shape.getLinePen();
+		String fgColor = "<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>";
+		String penStyle = "";
+		if (pen.getLineWidth() > 0)
+		{
+			switch (pen.getLineStyleValue())
+			{
+				case DASHED :
+				{
+					penStyle = "<a:custDash><a:ds d=\"800000\" sp=\"800000\"/></a:custDash>";
+					break;
+				}
+				case DOTTED :
+				{
+					penStyle = "<a:custDash><a:ds d=\"100000\" sp=\"100000\"/></a:custDash>";
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					break;
+				}
+			}
+		}
+
+		String shapeType = "rect";
+		String flip = "";
+		String radius = "<a:avLst></a:avLst>";
+		String fallback;
+
+		if (shape instanceof JRPrintEllipse)
+		{
+			shapeType = "ellipse";
+			fallback = 
+				"<v:oval id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:oval>";
+		}
+		else if (shape instanceof JRPrintLine)
+		{
+			shapeType = "line";
+			if (((JRPrintLine)shape).getDirectionValue() != LineDirectionEnum.TOP_DOWN)
+			{
+				flip = " flipV=\"1\"";
+			}
+			fallback = 
+				"<v:line id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:line>";
+		}
+		else if (shape instanceof JRPrintRectangle)
+		{
+			shapeType = (((JRPrintRectangle)shape).getRadius() == 0) ? "rect" : "roundRect";
+			if (((JRPrintRectangle)shape).getRadius() > 0)
+			{
+				// a rounded rectangle radius cannot exceed 1/2 of its lower side;
+				int size = Math.min(50000, (((JRPrintRectangle)shape).getRadius() * 100000)/Math.min(shape.getHeight(), shape.getWidth()));
+				radius = "<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst>";
+			}
+			fallback = 
+				"<v:rect id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:rect>";
+		}
+		else
+		{
+			shapeType = "rect";
+			fallback = 
+				"<v:rect id=\"" + toOOXMLId(shape) + "\" ID=\"shape1\""
+				+ " fillcolor=\"#" + JRColorUtil.getColorHexa(shape.getBackcolor()) + "\" stroked=\"t\""
+				+ " style=\"position:absolute;margin-left:" + shape.getX() + "pt;margin-top:" + shape.getY() + "pt;width:" + shape.getWidth() + "pt;height:" + shape.getHeight() + "pt\">"
+						    + "<w10:wrap type=\"none\"/>"
+						    + "<v:fill o:detectmouseclick=\"t\" color2=\"#8d6030\"/>"
+						    + "<v:stroke color=\"#" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\" joinstyle=\"round\" endcap=\"flat\"/>"
+				+ "</v:rect>";
+		}
+
+		try
+		{
+			docWriter.write(
+				"<w:tc>"
+					+ "<w:tcPr>"
+						+ "<w:gridSpan w:val=\"" + gridCell.getColSpan() + "\" />"
+						+ "<w:tcBorders></w:tcBorders>"
+						+ "<w:shd w:fill=\"auto\" w:val=\"clear\"/>"
+						+ "<w:tcMar>"
+						   + "<w:top w:w=\"0\" w:type=\"dxa\" />"
+						   + "<w:left w:w=\"0\" w:type=\"dxa\" />"
+						   + "<w:bottom w:w=\"0\" w:type=\"dxa\" />"
+						   + "<w:right w:w=\"0\" w:type=\"dxa\" />"
+						+ "</w:tcMar>"
+					+ "</w:tcPr>"
+					+ "<w:p>"
+						+ "<w:r><w:rPr></w:rPr>"
+							+ "<mc:AlternateContent>"
+								+ "<mc:Choice Requires=\"wps\">"
+									+ "<w:drawing>"
+										+ "<wp:anchor behindDoc=\"0\" distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\" relativeHeight=\"2\">"
+										+ "<wp:positionH relativeFrom=\"page\">"
+											+ "<wp:posOffset>" + LengthUtil.emu(shape.getX()) + "</wp:posOffset>"
+										+ "</wp:positionH>"
+										+ "<wp:positionV relativeFrom=\"page\">"
+											+ "<wp:posOffset>" + LengthUtil.emu(shape.getY()) + "</wp:posOffset>"
+										+ "</wp:positionV>"
+										+ "<wp:extent cx=\"" + LengthUtil.emu(shape.getWidth()) + "\" cy=\"" + LengthUtil.emu(shape.getHeight()) + "\"/>"
+										+ "<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>"
+										+ "<wp:wrapNone/>"
+										+ "<wp:docPr id=\"" + toOOXMLId(shape) + "\" name=\"shape1\"/>"
+										+ "<a:graphic>"
+											+ "<a:graphicData uri=\"http://schemas.microsoft.com/office/word/2010/wordprocessingShape\">"
+												+ "<wps:wsp>"
+												    + "<wps:cNvSpPr/>"
+												    + "<wps:spPr>"
+												        + "<a:xfrm" + flip + ">"
+												            + "<a:off x=\"0\" y=\"0\"/>"
+															+ "<a:ext cx=\"" + LengthUtil.emu(shape.getWidth()) + "\" cy=\"" + LengthUtil.emu(shape.getHeight()) + "\"/>"
+                                						+ "</a:xfrm>"
+                                						+ "<a:prstGeom prst=\"" + shapeType + "\">"
+															+ radius
+												        + "</a:prstGeom>"
+														+ shapeFill
+														+ "<a:ln w=\"" + LengthUtil.emu(Math.max(Math.round(pen.getLineWidth()), 0)) + "\">"
+														+ fgColor
+														+ penStyle
+												        + "</a:ln>"
+												    + "</wps:spPr>"
+												    + "<wps:bodyPr/>"
+												+ "</wps:wsp>"
+											+ "</a:graphicData>"
+										+ "</a:graphic>"
+									+ "</wp:anchor>"
+								+ "</w:drawing>"
+							+ "</mc:Choice>"
+							+ "<mc:Fallback>"
+						+ "<w:pict>"
+							+ fallback
+						+ "</w:pict>"
+					+ "</mc:Fallback>"
+				+ "</mc:AlternateContent>"
+			+ "</w:r></w:p></w:tc>"
+		);
+		} catch (IOException e) {
+			throw new JRException(e);
+		}
+	}
 
 	/**
 	 *
 	 */
-	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell)
+	protected void exportLine(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell) throws JRException
+	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(line, gridCell);
+				break;
+			}
+			default:
+			{
+				exportLineDefault(tableHelper, line, gridCell);
+				break;
+			}
+		}
+	}
+
+	private void exportLineDefault(DocxTableHelper tableHelper, JRPrintLine line, JRExporterGridCell gridCell)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = null;
@@ -766,11 +957,27 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		tableHelper.getCellHelper().exportFooter();
 	}
 
-
 	/**
 	 *
 	 */
-	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell)
+	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell) throws JRException
+	{
+		switch (compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(rectangle, gridCell);
+				break;
+			}
+			default:
+			{
+				exportRectangleDefault(tableHelper, rectangle, gridCell);
+				break;
+			}
+		}
+	}
+
+	private void exportRectangleDefault(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -790,11 +997,27 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		tableHelper.getCellHelper().exportFooter();
 	}
 
-
 	/**
 	 *
 	 */
-	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell)
+	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell) throws JRException
+	{
+		switch(compatibility)
+		{
+			case MSOFFICE2007:
+			{
+				drawShape(ellipse, gridCell);
+				break;
+			}
+			default:
+			{
+				exportEllipseDefault(tableHelper, ellipse, gridCell);
+				break;
+			}
+		}
+	}
+
+	private void exportEllipseDefault(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell)
 	{
 		JRLineBox box = new JRBaseLineBox(null);
 		JRPen pen = box.getPen();
@@ -813,7 +1036,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		}
 		tableHelper.getCellHelper().exportFooter();
 	}
-
 
 	/**
 	 *
@@ -1705,5 +1927,14 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 		return DOCX_EXPORTER_PROPERTIES_PREFIX;
 	}
 	
+	protected String toOOXMLId(JRPrintElement element)
+	{
+		// using hashCode() for now, though in theory there is a risk of collisions
+		// we could use something based on getSourceElementId() and getPrintElementId()
+		// or even a counter since we do not have any references to Ids
+		int hashCode = element.hashCode();
+		// OOXML object ids are xsd:unsignedInt 
+		return Long.toString(hashCode & 0xFFFFFFFFL); 
+	}
 }
 

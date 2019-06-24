@@ -1065,7 +1065,8 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 				pageFormat.getPageHeight(),
 				configuration.getOffsetX() == null ? 0 : configuration.getOffsetX(), 
 				configuration.getOffsetY() == null ? 0 : configuration.getOffsetY(),
-				xCuts
+				xCuts,
+				ExportCompatibility.getCompatibility(getCurrentConfiguration().getCompatibility())
 				);
 
 		Grid grid = layout.getGrid();
@@ -1248,7 +1249,7 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 						}
 						else if (element instanceof JRPrintEllipse)
 						{
-							exportRectangle((JRPrintEllipse)element, gridCell, colIndex, rowIndex);
+							exportEllipse((JRPrintEllipse)element, gridCell, colIndex, rowIndex);
 						}
 						else if (element instanceof JRPrintImage)
 						{
@@ -2404,7 +2405,9 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 
 	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException;
 
-	protected abstract void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
+	protected abstract void exportRectangle(JRPrintRectangle element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
+
+	protected abstract void exportEllipse(JRPrintEllipse element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
 	protected abstract void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 

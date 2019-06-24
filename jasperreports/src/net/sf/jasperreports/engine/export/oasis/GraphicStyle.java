@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -152,7 +153,14 @@ public class GraphicStyle extends Style
 			case LEFT:
 			default:
 			{
-				hAlign = "left";
+				if (element instanceof JRPrintRectangle)
+				{
+					hAlign = "from-left";
+				}
+				else
+				{
+					hAlign = "left";
+				}
 				break;
 			}
 		}
@@ -172,10 +180,16 @@ public class GraphicStyle extends Style
 			case TOP:
 			default:
 			{
-				vAlign = "top";
+				if (element instanceof JRPrintRectangle)
+				{
+					vAlign="from-top";
+				}
+				else
+				{
+					vAlign = "top";
+				}
 				break;
 			}
-
 		}
 	}
 
@@ -212,7 +226,14 @@ public class GraphicStyle extends Style
 		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
 		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
 		styleWriter.write("   <style:graphic-properties");
-		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
+		if (backcolor == null)
+		{
+			styleWriter.write(" draw:fill=\"none\"");
+		}
+		else
+		{
+			styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
+		}
 		styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
 		styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
 		if(clip != null)

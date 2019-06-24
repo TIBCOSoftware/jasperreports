@@ -48,12 +48,14 @@ import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -119,6 +121,8 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	protected OasisZip oasisZip;
 	protected ExportZipEntry tempBodyEntry;
 	protected ExportZipEntry tempStyleEntry;
+	protected StringBuffer tempShapeWriter;	// to hold shape elements
+	protected StringBuffer tempColumnWriter;	// to hold table elements
 	protected WriterHelper tempBodyWriter;
 	protected WriterHelper tempStyleWriter;
 	protected WriterHelper stylesWriter;
@@ -145,6 +149,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 
 		tempBodyEntry = new FileBufferedZipEntry(null);
 		tempStyleEntry = new FileBufferedZipEntry(null);
+
+		tempShapeWriter = new StringBuffer();
+		tempColumnWriter = new StringBuffer();
 
 		tempBodyWriter = new WriterHelper(jasperReportsContext, tempBodyEntry.getWriter());
 		tempStyleWriter = new WriterHelper(jasperReportsContext, tempStyleEntry.getWriter());
@@ -194,7 +201,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 							documentBuilder, 
 							jasperPrint, 
 							pageFormatIndex, 
-							pageIndex, 
+							pageIndex,
+							tempShapeWriter,
+							tempColumnWriter,
 							tempBodyWriter, 
 							tempStyleWriter, 
 							styleCache, 
@@ -307,21 +316,21 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int rowIndex
 		) 
 	{
-		tempBodyWriter.write("<table:table-cell");
+		tempColumnWriter.append("<table:table-cell");
 		//tempBodyWriter.write(" office:value-type=\"string\"");
 		if (gridCell == null)
 		{
-			tempBodyWriter.write(" table:style-name=\"empty-cell\"");
+			tempColumnWriter.append(" table:style-name=\"empty-cell\"");
 		}
-		else
+/**		else
 		{
-			tempBodyWriter.write(" table:style-name=\"" + styleCache.getCellStyle(gridCell) + "\"");
+			tempColumnWriter.append(" table:style-name=\"" + styleCache.getCellStyle(gridCell) + "\"");
 		}
 //		if (emptyCellColSpan > 1)
 //		{
 //			tempBodyWriter.write(" table:number-columns-spanned=\"" + emptyCellColSpan + "\"");
-//		}
-		tempBodyWriter.write("/>\n");
+//		} **/
+		tempColumnWriter.append("/>\n");
 //
 //		exportOccupiedCells(emptyCellColSpan - 1);
 	}
@@ -508,13 +517,24 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	
 	@Override
 	protected void exportRectangle(
-		JRPrintGraphicElement rectangle,
+		JRPrintRectangle rectangle,
 		JRExporterGridCell gridCell, 
 		int colIndex, 
 		int rowIndex
 		) throws JRException 
 	{
 		tableBuilder.exportRectangle(rectangle, gridCell);
+	}
+
+	@Override
+	protected void exportEllipse(
+		JRPrintEllipse ellipse,
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex
+		) throws JRException 
+	{
+		tableBuilder.exportEllipse(ellipse, gridCell);
 	}
 
 	@Override
@@ -525,70 +545,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 		int rowIndex
 		) throws JRException 
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = null;
-		float ratio = line.getWidth() / line.getHeight();
-		if (ratio > 1)
-		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getTopPen();
-			}
-			else
-			{
-				pen = box.getBottomPen();
-			}
-		}
-		else
-		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getLeftPen();
-			}
-			else
-			{
-				pen = box.getRightPen();
-			}
-		}
-		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
-		pen.setLineWidth(line.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-
-		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
-
-//		double x1, y1, x2, y2;
-//
-//		if (line.getDirection() == JRLine.DIRECTION_TOP_DOWN)
-//		{
-//			x1 = Utility.translatePixelsToInches(0);
-//			y1 = Utility.translatePixelsToInches(0);
-//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-//			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
-//		}
-//		else
-//		{
-//			x1 = Utility.translatePixelsToInches(0);
-//			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
-//			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-//			y2 = Utility.translatePixelsToInches(0);
-//		}
-
-		tempBodyWriter.write("<text:p>");
-//FIXMEODS		insertPageAnchor();
-//		tempBodyWriter.write(
-//				"<draw:line text:anchor-type=\"paragraph\" "
-//				+ "draw:style-name=\"" + styleCache.getGraphicStyle(line) + "\" "
-//				+ "svg:x1=\"" + x1 + "in\" "
-//				+ "svg:y1=\"" + y1 + "in\" "
-//				+ "svg:x2=\"" + x2 + "in\" "
-//				+ "svg:y2=\"" + y2 + "in\">"
-//				//+ "</draw:line>"
-//				+ "<text:p/></draw:line>"
-//				);
-		tempBodyWriter.write("</text:p>");
-		tableBuilder.buildCellFooter();
+		tableBuilder.exportLine(line, gridCell);
 	}
 
 	@Override
@@ -746,7 +703,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				DocumentBuilder documentBuilder, 
 				JasperPrint jasperPrint,
 				int pageFormatIndex, 
-				int pageIndex, 
+				int pageIndex,
+				StringBuffer tempShapeWriter,
+				StringBuffer tempColumnWriter,
 				WriterHelper bodyWriter,
 				WriterHelper styleWriter, 
 				StyleCache styleCache, 
@@ -758,7 +717,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				documentBuilder, 
 				jasperPrint, 
 				pageFormatIndex, 
-				pageIndex, 
+				pageIndex,
+				tempShapeWriter,
+				tempColumnWriter,
 				bodyWriter, 
 				styleWriter, 
 				styleCache, 
@@ -771,7 +732,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				DocumentBuilder documentBuilder, 
 				JasperPrint jasperPrint,
 				int pageFormatIndex, 
-				int pageIndex, 
+				int pageIndex,
+				StringBuffer tempShapeWriter,
+				StringBuffer tempColumnWriter,
 				WriterHelper bodyWriter,
 				WriterHelper styleWriter, 
 				StyleCache styleCache, 
@@ -784,7 +747,9 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 				documentBuilder, 
 				jasperPrint, 
 				pageFormatIndex, 
-				pageIndex, 
+				pageIndex,
+				tempShapeWriter,
+				tempColumnWriter,
 				bodyWriter, 
 				styleWriter, 
 				styleCache, 
