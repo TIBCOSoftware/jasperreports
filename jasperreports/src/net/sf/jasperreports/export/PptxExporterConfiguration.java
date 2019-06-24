@@ -156,7 +156,7 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 			defaultValue = PropertyConstants.BOOLEAN_FALSE,
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
-			sinceVersion = PropertyConstants.VERSION_6_8_0,
+			sinceVersion = PropertyConstants.VERSION_6_9_0,
 			valueType = Boolean.class
 			)
 	public static final String PROPERTY_EMBED_FONTS = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "embed.fonts";
