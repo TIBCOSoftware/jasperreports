@@ -14,9 +14,9 @@
 		<dependency org="antlr" name="antlr" rev="2.7.5"/>
 		<dependency org="com.adobe.xmp" name="xmpcore" rev="5.1.3"/>
 		<dependency org="com.beust" name="jcommander" rev="1.27" conf="test->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.9.8" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.9.8" conf="compile,annotations->*"/>
-		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.9.8" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.9.9" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.9.9" conf="compile,annotations->*"/>
+		<dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.9.9" conf="compile,annotations->*"/>
 		<dependency org="com.google.zxing" name="core" rev="3.2.1"/>
 		<dependency org="com.lowagie" name="itext" rev="2.1.7.js7"/>
 		<dependency org="commons-beanutils" name="commons-beanutils" rev="1.9.3"/>
@@ -45,7 +45,7 @@
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.providers.asm5" rev="2.6.0" conf="javaflow->*"/>
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.spi" rev="2.6.0" conf="javaflow->*"/>
 		<dependency org="net.tascalate.javaflow" name="net.tascalate.javaflow.providers.asmx" rev="2.6.0" conf="javaflow->*"/>
-		<dependency org="org.apache.ant" name="ant" rev="1.7.1"/>
+		<dependency org="org.apache.ant" name="ant" rev="1.10.6"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.2"/>
 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.8.1" conf="test->*"/>
 		<dependency org="org.apache.commons" name="commons-pool2" rev="2.4.2"/>
