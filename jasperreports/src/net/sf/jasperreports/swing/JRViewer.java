@@ -62,7 +62,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 	 * Maximum size (in pixels) of a buffered image that would be used by {@link JRViewer JRViewer} to render a report page.
 	 * <p>
 	 * If rendering a report page would require an image larger than this threshold
-	 * (i.e. image width x image height > maximum size), the report page will be rendered directly on the viewer component.
+	 * (i.e. image width x image height &gt; maximum size), the report page will be rendered directly on the viewer component.
 	 * </p>
 	 * <p>
 	 * If this property is zero or negative, buffered images will never be user to render a report page.

@@ -1374,7 +1374,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	}
 
 
-	/**
+	/*
 	 *
 	 *
 	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas)
@@ -1448,6 +1448,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			writer.write("\"");
 		}
 	}
+	*/
 
 
 	/**

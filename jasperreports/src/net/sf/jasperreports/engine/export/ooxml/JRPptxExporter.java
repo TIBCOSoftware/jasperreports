@@ -1741,7 +1741,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	}
 
 
-	/**
+	/*
 	 *
 	 *
 	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas)
@@ -1815,6 +1815,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			writer.write("\"");
 		}
 	}
+	*/
 
 
 	/**

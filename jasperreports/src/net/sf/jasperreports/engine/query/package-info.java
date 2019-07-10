@@ -96,7 +96,7 @@
  * language and to provide information regarding the connection parameters required by the 
  * query executer to run the query. It has the following methods: 
  * <ul>
- * <li><code>public JRQueryExecuter createQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset, Map<String,? extends JRValueParameter> parameters)</code> - 
+ * <li><code>public JRQueryExecuter createQueryExecuter(JasperReportsContext jasperReportsContext, JRDataset dataset, Map&lt;String,? extends JRValueParameter&gt; parameters)</code> - 
  * This method creates a query executer. The dataset includes the query string and the fields that 
  * will be requested from the data source created by the query executer. The parameters map contains 
  * parameter types and runtime values to be used for query parameters. This method usually sends the 

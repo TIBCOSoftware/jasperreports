@@ -109,7 +109,7 @@ import net.sf.jasperreports.repo.SimpleRepositoryContext;
  * </ul>
  * </p>
  * <p>
- * Generally the full power of XPath expression is available. As an example, "/A/B[@id > 0"] will select all the
+ * Generally the full power of XPath expression is available. As an example, "/A/B[@id &gt; 0"] will select all the
  * nodes of type /A/B having the id greater than 0. 
  * You'll find a short XPath tutorial <a href="http://www.zvon.org/xxl/XPathTutorial/General/examples.html" target="_blank">here</a>.
  * 

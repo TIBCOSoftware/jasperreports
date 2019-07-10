@@ -111,7 +111,7 @@ public class HeaderLabelUtil
 	}
 
 
-	/**
+	/*
 	 * 
 	 *
 	private static JRTextField getProxy(final JRTextField textField, final SortOrderEnum sortOrder)
@@ -144,6 +144,7 @@ public class HeaderLabelUtil
 				}
 			);
 	}
+	*/
 
 
 	/**

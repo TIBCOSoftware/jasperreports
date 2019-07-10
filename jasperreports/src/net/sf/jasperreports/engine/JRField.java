@@ -64,7 +64,7 @@ package net.sf.jasperreports.engine;
  * from the data source:
  * <pre>
  *   &lt;field name="PersonName" class="java.lang.String"
- *     &lt;fieldDesciption>PERSON NAME&lt;/fieldDesciption&gt;
+ *     &lt;fieldDesciption&gt;PERSON NAME&lt;/fieldDesciption&gt;
  *   &lt;/field&gt;</pre>
  * The field description is less important than in previous versions of the library because
  * now even the field's name accepts dots, spaces, and other special characters.

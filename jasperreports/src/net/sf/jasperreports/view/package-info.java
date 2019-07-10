@@ -107,7 +107,7 @@
  * The value of this property represents the maximum size (in pixels) of a buffered image 
  * that would be used by the {@link net.sf.jasperreports.swing.JRViewer} component to render 
  * a report page (the first rendering technique). If rendering a report page requires an 
- * image larger than this threshold (that is, image width x image height > maximum size), 
+ * image larger than this threshold (that is, image width x image height &gt; maximum size), 
  * then the report page will be rendered directly on the viewer component. 
  * </p><p>
  * By default, this configuration property is set to 0, which means that only direct rendering 
