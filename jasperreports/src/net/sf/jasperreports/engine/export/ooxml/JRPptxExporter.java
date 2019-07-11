@@ -2148,8 +2148,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		// we could use something based on getSourceElementId() and getPrintElementId()
 		// or even a counter since we do not have any references to Ids
 		int hashCode = element.hashCode();
-		// OOXML object ids are xsd:unsignedInt 
-		return Long.toString(hashCode & 0xFFFFFFFFL); 
+		// OOXML object ids are xsd:unsignedInt in the spec, but in practice PowerPoint
+		// only accepts positive signed ints
+		return Integer.toString(hashCode & 0x7FFFFFFF);
 	}
 	
 	protected JRPen getPptxPen(JRLineBox box)
