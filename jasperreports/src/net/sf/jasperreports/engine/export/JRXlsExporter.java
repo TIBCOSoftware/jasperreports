@@ -69,6 +69,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.ClientAnchor;
@@ -680,7 +681,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	@Override
 	protected void addRowBreak(int rowIndex)
 	{
-		sheet.setRowBreak(rowIndex);
+		if(rowIndex >= 0 && rowIndex <= SpreadsheetVersion.EXCEL97.getLastRowIndex())
+		{
+			sheet.setRowBreak(rowIndex);
+		}
 	}
 
 //	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
