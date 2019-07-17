@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-custom-visualization</artifactId>
-	<version>6.7.2-SNAPSHOT</version>
+	<version>6.7.2</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Custom Visualization Component</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -79,7 +79,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>6.7.2-SNAPSHOT</version>
+			<version>6.7.2</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
