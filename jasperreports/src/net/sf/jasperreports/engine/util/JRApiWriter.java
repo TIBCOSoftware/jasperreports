@@ -202,11 +202,6 @@ public class JRApiWriter
 	private JasperReportsContext jasperReportsContext;
 
 	/**
-	 * @deprecated To be removed.
-	 */
-	private JRReport report;
-
-	/**
 	 *
 	 */
 	private Map<String, String> stylesMap = new HashMap<String, String>();
@@ -233,15 +228,6 @@ public class JRApiWriter
 	}
 
 	
-	/**
-	 * @deprecated To be removed.
-	 */
-	protected JRApiWriter(JRReport report)
-	{
-		this.report = report;
-	}
-
-
 	/**
 	 *
 	 */
