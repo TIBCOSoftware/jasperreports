@@ -185,6 +185,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter<CsvMetadataRepo
 			if (isFirstRow && configuration.isWriteHeader())
 			{
 				writeReportHeader();
+				isFirstRow = false;
 			}
 			writeCurrentRow(currentRow, repeatedValues);
 		}
