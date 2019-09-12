@@ -1117,13 +1117,13 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						{
 							case RIGHT :
 							{
-								cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
+								cropLeft = (int)(65536 * (float)(- availableImageWidth + normalWidth) / normalWidth);
 								cropRight = 0;
 								break;
 							}
 							case CENTER :
 							{
-								cropLeft = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth / 2;
+								cropLeft = (int)(65536 * (float)(- availableImageWidth + normalWidth) / normalWidth / 2);
 								cropRight = cropLeft;
 								break;
 							}
@@ -1131,7 +1131,7 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 							default :
 							{
 								cropLeft = 0;
-								cropRight = 65536 * (- availableImageWidth + normalWidth) / availableImageWidth;
+								cropRight = (int)(65536 * (float)(- availableImageWidth + normalWidth) / normalWidth);
 								break;
 							}
 						}
@@ -1140,19 +1140,19 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 							case TOP :
 							{
 								cropTop = 0;
-								cropBottom = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
+								cropBottom = (int)(65536 * (float)(- availableImageHeight + normalHeight) / normalHeight);
 								break;
 							}
 							case MIDDLE :
 							{
-								cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight / 2;
+								cropTop = (int)(65536 * (float)(- availableImageHeight + normalHeight) / normalHeight / 2);
 								cropBottom = cropTop;
 								break;
 							}
 							case BOTTOM :
 							default :
 							{
-								cropTop = 65536 * (- availableImageHeight + normalHeight) / normalHeight;
+								cropTop = (int)(65536 * (float)(- availableImageHeight + normalHeight) / normalHeight);
 								cropBottom = 0;
 								break;
 							}
