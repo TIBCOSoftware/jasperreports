@@ -838,6 +838,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	 */
 	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
+		exportRectangle(rectangle, rectangle.getLinePen(), rectangle.getRadius());
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportRectangle(JRPrintElement rectangle, JRPen pen, int radius)
+	{
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
 		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(rectangle) + "\" name=\"Rectangle\"/>\n");
@@ -850,11 +859,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		slideHelper.write("    <a:xfrm>\n");
 		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(rectangle.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(rectangle.getY() + getOffsetY()) + "\"/>\n");
 		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(rectangle.getWidth()) + "\" cy=\"" + LengthUtil.emu(rectangle.getHeight()) + "\"/>\n");
-		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"" + (rectangle.getRadius() == 0 ? "rect" : "roundRect") + "\">");
-		if(rectangle.getRadius() > 0)
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"" + (radius == 0 ? "rect" : "roundRect") + "\">");
+		if(radius > 0)
 		{
 			// a rounded rectangle radius cannot exceed 1/2 of its lower side;
-			int size = Math.min(50000, (rectangle.getRadius() * 100000)/Math.min(rectangle.getHeight(), rectangle.getWidth()));
+			int size = Math.min(50000, (radius * 100000)/Math.min(rectangle.getHeight(), rectangle.getWidth()));
 			slideHelper.write("<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst></a:prstGeom>\n");
 		}
 		else
@@ -866,7 +875,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
 		
-		exportPen(rectangle.getLinePen());
+		exportPen(pen);
 
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
@@ -1202,6 +1211,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		int topPadding = image.getLineBox().getTopPadding();//FIXMEDOCX maybe consider border thickness
 		int rightPadding = image.getLineBox().getRightPadding();
 		int bottomPadding = image.getLineBox().getBottomPadding();
+		
+		JRPen pen = getPptxPen(image.getLineBox());
+
+		boolean hasPadding = (leftPadding + topPadding + rightPadding + bottomPadding) > 0;
+		if (hasPadding)
+		{
+			exportRectangle(image, pen, 0);
+		}
 
 		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -1498,8 +1515,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
 				}
 				
-				exportPen(image.getLineBox());
-
+				if (!hasPadding)
+				{
+					exportPen(image.getLineBox());
+				}
+				
 				slideHelper.write("  </p:spPr>\n");
 				slideHelper.write("  </p:pic>\n");
 
