@@ -777,17 +777,37 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		if (line.getLinePen().getLineWidth() > 0)
+		
+		exportPen(line.getLinePen());
+
+		slideHelper.write("  </p:spPr>\n");
+		slideHelper.write("  <p:txBody>\n");
+		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
+		slideHelper.write("    <a:p>\n");
+		slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
+		slideHelper.write("    </a:p>\n");
+		slideHelper.write("  </p:txBody>\n");
+		slideHelper.write("</p:sp>\n");
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportPen(JRPen pen)
+	{
+		if (pen != null && pen.getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(line.getLinePen().getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(line.getLinePen().getLineStyleValue()))
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
+			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
 			{
 				slideHelper.write(" cmpd=\"dbl\"");
 			}
 			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
-			switch (line.getLinePen().getLineStyleValue())
+			switch (pen.getLineStyleValue())
 			{
 				case DASHED :
 				{
@@ -810,15 +830,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			slideHelper.write("\"/>\n");
 			slideHelper.write("  </a:ln>\n");
 		}
-		slideHelper.write("  </p:spPr>\n");
-		slideHelper.write("  <p:txBody>\n");
-		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
-		slideHelper.write("    <a:lstStyle/>\n");
-		slideHelper.write("    <a:p>\n");
-		slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
-		slideHelper.write("    </a:p>\n");
-		slideHelper.write("  </p:txBody>\n");
-		slideHelper.write("</p:sp>\n");
 	}
 
 
@@ -854,39 +865,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		if (rectangle.getLinePen().getLineWidth() > 0)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(rectangle.getLinePen().getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(rectangle.getLinePen().getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (rectangle.getLinePen().getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(rectangle.getLinePen());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
@@ -921,39 +902,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		if (ellipse.getLinePen().getLineWidth() > 0)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(ellipse.getLinePen().getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(ellipse.getLinePen().getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (ellipse.getLinePen().getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(ellipse.getLinePen());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
@@ -1073,40 +1024,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		JRPen pen = getPptxPen(text.getLineBox());
-		if (pen != null)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (pen.getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(text.getLineBox());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"" +
@@ -1221,6 +1141,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		slideHelper.write("</p:sp>\n");
 	}
 
+	
+	/**
+	 * 
+	 */
+	protected void exportPen(JRLineBox lineBox)
+	{
+		exportPen(getPptxPen(lineBox));
+	}
+	
 
 	/**
 	 *
@@ -1568,40 +1497,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				{
 					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
 				}
-				JRPen pen = getPptxPen(image.getLineBox());
-				if (pen != null)
-				{
-					slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
-					if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
-					{
-						slideHelper.write(" cmpd=\"dbl\"");
-					}
-					slideHelper.write(">\n");
-					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
-					slideHelper.write("<a:prstDash val=\"");
-					switch (pen.getLineStyleValue())
-					{
-						case DASHED :
-						{
-							slideHelper.write("dash");
-							break;
-						}
-						case DOTTED :
-						{
-							slideHelper.write("dot");
-							break;
-						}
-						case DOUBLE :
-						case SOLID :
-						default :
-						{
-							slideHelper.write("solid");
-							break;
-						}
-					}
-					slideHelper.write("\"/>\n");
-					slideHelper.write("  </a:ln>\n");
-				}
+				
+				exportPen(image.getLineBox());
+
 				slideHelper.write("  </p:spPr>\n");
 				slideHelper.write("  </p:pic>\n");
 
@@ -1857,40 +1755,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		JRPen pen = getPptxPen(frame.getLineBox());
-		if (pen != null)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (pen.getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(frame.getLineBox());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
