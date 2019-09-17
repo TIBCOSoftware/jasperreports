@@ -212,14 +212,18 @@ define(function(require) {
             this.visibleColumnsMoveData[tableUuid] = [];
             for (i = 0; i < tableCols.length; i++) {
                 c = tableCols[i];
-                lt = c.jo.offset().left + this.scrollContainer.scrollLeft();
+                absLeft = c.jo.offset().left + this.scrollContainer.scrollLeft(),
+                containerLeft = c.jo.position().left;
+
                 colData = this.getColumnByUuid(c.jo.data('coluuid'), tableUuid);
                 if (colData != null) {
                     colData.visible = true;	// enable column
                 }
                 this.visibleColumnsMoveData[tableUuid].push({
-                    left: lt,
-                    right: lt + c.width,
+                    left: absLeft,
+                    cLeft: containerLeft,
+                    right: absLeft + c.width,
+                    cRight: containerLeft + c.width,
                     width: c.width,
                     index: colData != null ? colData.index : null,
                     uuid: c.jo.data('coluuid')
@@ -382,7 +386,7 @@ define(function(require) {
                     refColMiddle = colMoveData.left + colMoveData.width / 2;
 
                     if (pageX <= refColMiddle) { // move left, relative to column middle
-                        jive.ui.marker.jo.css('left', colMoveData.left + 'px').show();
+                        jive.ui.marker.jo.css('left', colMoveData.cLeft + 'px').show();
 
                         if (isLeftToRight === true) {
                             if (refColIndex > 0) {
@@ -394,7 +398,7 @@ define(function(require) {
                             newColIndex = refColIndex;
                         }
                     } else { // move right, relative to column middle
-                        jive.ui.marker.jo.css('left', colMoveData.right + 'px').show();
+                        jive.ui.marker.jo.css('left', colMoveData.cRight + 'px').show();
                         if (isLeftToRight === true) {
                             newColIndex = refColIndex;
                         } else if (isLeftToRight === false){
@@ -408,7 +412,7 @@ define(function(require) {
             // if the drag is beyond last column, set it at as the new column index
             var lastColIndex = parseInt(this.currentColumnsMoveData[ln-1].index);
             if (newColIndex === null && (pageX > colMoveData.right) || newColIndex > lastColIndex) {
-                jive.ui.marker.jo.css('left', colMoveData.right + 'px').show();
+                jive.ui.marker.jo.css('left', colMoveData.cRight + 'px').show();
                 newColIndex = lastColIndex;
             }
             this.colToMoveToIndex = newColIndex;
@@ -434,7 +438,7 @@ define(function(require) {
                 }
             } else {
                 // Is the current column entirely visible?
-                if (hoverCol.left <= this.scrollContainer.scrollLeft()) {
+                if (hoverCol.cLeft <= this.scrollContainer.scrollLeft()) {
                     if (!this.isScrollingLeft) {
                         this.isScrollingLeft = true;
 
