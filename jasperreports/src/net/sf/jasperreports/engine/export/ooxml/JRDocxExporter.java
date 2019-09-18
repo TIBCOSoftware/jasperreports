@@ -86,6 +86,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -619,6 +620,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			//int emptyCellWidth = 0;
 
 			boolean allowRowResize = false;
+			int maxTopPadding = 0; //for some strange reason, the top margin applies to all cells in the row
 			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
 			GridRow gridRow = grid.getRow(row);
 			int rowSize = gridRow.size();
@@ -626,13 +628,25 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			{
 				JRExporterGridCell gridCell = gridRow.get(col);
 				JRLineBox box = gridCell.getBox();
-				if (
-					box != null 
-					&& box.getBottomPadding() != null 
-					&& maxBottomPadding < box.getBottomPadding()
-					)
+				if (box != null)
 				{
-					maxBottomPadding = box.getBottomPadding();
+					Integer topPadding = box.getTopPadding() + Math.round(box.getTopPen().getLineWidth());
+					if (
+						topPadding != null 
+						&& maxTopPadding < topPadding
+						)
+					{
+						maxTopPadding = topPadding;
+					}
+
+					Integer bottomPadding = box.getBottomPadding();
+					if (
+						bottomPadding != null 
+						&& maxBottomPadding < bottomPadding
+						)
+					{
+						maxBottomPadding = bottomPadding;
+					}
 				}
 				
 				allowRowResize = 
@@ -644,6 +658,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							)
 						);
 			}
+			tableHelper.setRowMaxTopPadding(maxTopPadding);
 
 			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
 			if (row == 0 && frameIndex == null)
@@ -976,7 +991,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	public void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException
 	{
 		int leftPadding = image.getLineBox().getLeftPadding();
-		int topPadding = image.getLineBox().getTopPadding();//FIXMEDOCX maybe consider border thickness
+		int topPadding = image.getLineBox().getTopPadding() + Math.round(image.getLineBox().getTopPen().getLineWidth()); // top border eats into cell space
 		int rightPadding = image.getLineBox().getRightPadding();
 		int bottomPadding = image.getLineBox().getBottomPadding();
 
@@ -1027,6 +1042,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			{
 				int width = availableImageWidth;
 				int height = availableImageHeight;
+				
+				float xoffset = 0;
+				float yoffset = 0;
 
 				double cropTop = 0;
 				double cropLeft = 0;
@@ -1053,70 +1071,53 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							normalHeight = dimension.getHeight();
 						}
 
-						if (normalWidth > availableImageWidth)
+						width = availableImageWidth;
+						height = availableImageHeight;
+
+						switch (image.getHorizontalImageAlign())
 						{
-							switch (image.getHorizontalImageAlign())
+							case RIGHT :
 							{
-								case RIGHT :
-								{
-									cropLeft = 65536 * (normalWidth - availableImageWidth) / normalWidth;
-									cropRight = 0;
-									break;
-								}
-								case CENTER :
-								{
-									cropLeft = 65536 * (- availableImageWidth + normalWidth) / normalWidth / 2;
-									cropRight = cropLeft;
-									break;
-								}
-								case LEFT :
-								default :
-								{
-									cropLeft = 0;
-									cropRight = 65536 * (normalWidth - availableImageWidth) / normalWidth;
-									break;
-								}
+								cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
+								cropRight = 0;
+								break;
 							}
-							width = availableImageWidth;
-							cropLeft = cropLeft / 0.75d;
-							cropRight = cropRight / 0.75d;
-						}
-						else
-						{
-							width = (int)normalWidth;
+							case CENTER :
+							{
+								cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
+								cropRight = cropLeft;
+								break;
+							}
+							case LEFT :
+							default :
+							{
+								cropLeft = 0;
+								cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
+								break;
+							}
 						}
 
-						if (normalHeight > availableImageHeight)
+						switch (image.getVerticalImageAlign())
 						{
-							switch (image.getVerticalImageAlign())
+							case TOP :
 							{
-								case TOP :
-								{
-									cropTop = 0;
-									cropBottom = 65536 * (normalHeight - availableImageHeight) / normalHeight;
-									break;
-								}
-								case MIDDLE :
-								{
-									cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight / 2;
-									cropBottom = cropTop;
-									break;
-								}
-								case BOTTOM :
-								default :
-								{
-									cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight;
-									cropBottom = 0;
-									break;
-								}
+								cropTop = 0;
+								cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
+								break;
 							}
-							height = availableImageHeight;
-							cropTop = cropTop / 0.75d;
-							cropBottom = cropBottom / 0.75d;
-						}
-						else
-						{
-							height = (int)normalHeight;
+							case MIDDLE :
+							{
+								cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
+								cropBottom = cropTop;
+								break;
+							}
+							case BOTTOM :
+							default :
+							{
+								cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
+								cropBottom = 0;
+								break;
+							}
 						}
 
 						break;
@@ -1147,6 +1148,9 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							height = availableImageHeight;
 							width = (int)(ratio * height);
 						}
+						
+						xoffset = ImageUtil.getXAlignFactor(image.getHorizontalImageAlign()) * (availableImageWidth - width);
+						yoffset = ImageUtil.getYAlignFactor(image.getVerticalImageAlign()) * (availableImageHeight - height);
 					}
 				}
 
@@ -1165,9 +1169,18 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				docHelper.write("<w:r>\n"); 
 				docHelper.write("<w:rPr/>\n"); 
 				docHelper.write("<w:drawing>\n");
-				docHelper.write("<wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\">\n");
+				docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" "
+					+ "relativeHeight=\"0\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">\n");
+				docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>\n");
+				docHelper.write("<wp:positionH relativeFrom=\"column\">\n");
+				docHelper.write("<wp:posOffset>" + LengthUtil.emu(xoffset) + "</wp:posOffset>\n");
+				docHelper.write("</wp:positionH>\n");
+				docHelper.write("<wp:positionV relativeFrom=\"paragraph\">\n");
+				docHelper.write("<wp:posOffset>" + LengthUtil.emu(yoffset + topPadding - tableHelper.getRowMaxTopPadding()) + "</wp:posOffset>\n");
+				docHelper.write("</wp:positionV>\n");
 				docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 				docHelper.write("<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>\n");
+				docHelper.write("<wp:wrapNone/>\n");
 
 				int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
 				String rId = IMAGE_LINK_PREFIX + getElementIndex(gridCell);
@@ -1184,32 +1197,20 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				docHelper.write("<pic:blipFill>\n");
 
 				docHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
-				docHelper.write("<a:srcRect");
-				if (cropLeft > 0)
-				{
-					docHelper.write(" l=\"" + (int)cropLeft + "\"");
-				}
-				if (cropTop > 0)
-				{
-					docHelper.write(" t=\"" + (int)cropTop + "\"");
-				}
-				if (cropRight > 0)
-				{
-					docHelper.write(" r=\"" + (int)cropRight + "\"");
-				}
-				if (cropBottom > 0)
-				{
-					docHelper.write(" b=\"" + (int)cropBottom + "\"");
-				}
-				docHelper.write("/>");
-				docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+				docHelper.write("<a:srcRect/>");
+				docHelper.write("<a:stretch><a:fillRect");
+				docHelper.write(" l=\"" + (int)(100000 * cropLeft) + "\"");
+				docHelper.write(" t=\"" + (int)(100000 * cropTop) + "\"");
+				docHelper.write(" r=\"" + (int)(100000 * cropRight) + "\"");
+				docHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
+				docHelper.write("/></a:stretch>\n");
 				docHelper.write("</pic:blipFill>\n");
 				docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>");
 				docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
 				docHelper.write("</pic:pic>\n");
 				docHelper.write("</a:graphicData>\n");
 				docHelper.write("</a:graphic>\n");
-				docHelper.write("</wp:inline>\n");
+				docHelper.write("</wp:anchor>\n");
 				docHelper.write("</w:drawing>\n");
 				docHelper.write("</w:r>"); 
 
