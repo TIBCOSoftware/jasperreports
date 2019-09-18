@@ -1135,22 +1135,47 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							normalHeight = dimension.getHeight();
 						}
 
-						double ratio = normalWidth / normalHeight;
-
-						if (ratio > availableImageWidth / (double)availableImageHeight)
+						double ratioX = availableImageWidth / normalWidth;
+						double ratioY = availableImageHeight / normalHeight;
+						ratioX = ratioX < ratioY ? ratioX : ratioY;
+						ratioY = ratioX;
+						
+						double imageWidth = (int)(normalWidth * ratioX);
+						double imageHeight = (int)(normalHeight * ratioY);
+						
+						switch (image.getHorizontalImageAlign())
 						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
-
-						}
-						else
-						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
+							case RIGHT :
+								cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
+								cropRight = 0;
+								break;
+							case CENTER :
+								cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+								cropRight = cropLeft;
+								break;
+							case LEFT :
+							default :
+								cropLeft = 0;
+								cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
+								break;
 						}
 						
-						xoffset = ImageUtil.getXAlignFactor(image.getHorizontalImageAlign()) * (availableImageWidth - width);
-						yoffset = ImageUtil.getYAlignFactor(image.getVerticalImageAlign()) * (availableImageHeight - height);
+						switch (image.getVerticalImageAlign())
+						{
+							case TOP :
+								cropTop = 0;
+								cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
+								break;
+							case MIDDLE :
+								cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+								cropBottom = cropTop;
+								break;
+							case BOTTOM :
+							default :
+								cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
+								cropBottom = 0;
+								break;
+						}
 					}
 				}
 
@@ -1173,10 +1198,10 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					+ "relativeHeight=\"0\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">\n");
 				docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>\n");
 				docHelper.write("<wp:positionH relativeFrom=\"column\">\n");
-				docHelper.write("<wp:posOffset>" + LengthUtil.emu(xoffset) + "</wp:posOffset>\n");
+				docHelper.write("<wp:posOffset>0</wp:posOffset>\n");
 				docHelper.write("</wp:positionH>\n");
 				docHelper.write("<wp:positionV relativeFrom=\"paragraph\">\n");
-				docHelper.write("<wp:posOffset>" + LengthUtil.emu(yoffset + topPadding - tableHelper.getRowMaxTopPadding()) + "</wp:posOffset>\n");
+				docHelper.write("<wp:posOffset>" + LengthUtil.emu(topPadding - tableHelper.getRowMaxTopPadding()) + "</wp:posOffset>\n");
 				docHelper.write("</wp:positionV>\n");
 				docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 				docHelper.write("<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>\n");
@@ -1205,8 +1230,13 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				docHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
 				docHelper.write("/></a:stretch>\n");
 				docHelper.write("</pic:blipFill>\n");
-				docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>");
-				docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
+				docHelper.write("<pic:spPr>\n");
+				docHelper.write("  <a:xfrm>\n");
+				docHelper.write("    <a:off x=\"" + LengthUtil.emu(xoffset) + "\" y=\"" + LengthUtil.emu(yoffset) + "\"/>\n");
+				docHelper.write("    <a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>");
+				docHelper.write("  </a:xfrm>\n");
+				docHelper.write("  <a:prstGeom prst=\"rect\"></a:prstGeom>\n");
+				docHelper.write("</pic:spPr>\n");
 				docHelper.write("</pic:pic>\n");
 				docHelper.write("</a:graphicData>\n");
 				docHelper.write("</a:graphic>\n");
