@@ -46,17 +46,22 @@ public class DocxStyleHelper extends BaseHelper
 	private final DocxParagraphHelper paragraphHelper;
 	private final DocxRunHelper runHelper;
 	
+	
 	/**
 	 * 
 	 */
-	public DocxStyleHelper(JRDocxExporter exporter, Writer writer)
+	public DocxStyleHelper(
+		JRDocxExporter exporter, 
+		Writer writer,
+		BaseFontHelper docxFontHelper
+		)
 	{
 		super(exporter.getJasperReportsContext(), writer);
 		
 		this.exporter = exporter;
 		
 		paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, false);
-		runHelper = new DocxRunHelper(jasperReportsContext, writer, exporter.getExporterKey());
+		runHelper = new DocxRunHelper(jasperReportsContext, writer, docxFontHelper);
 	}
 
 	/**

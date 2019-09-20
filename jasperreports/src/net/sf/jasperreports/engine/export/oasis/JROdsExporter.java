@@ -141,7 +141,7 @@ public class JROdsExporter extends JRXlsAbstractExporter<OdsReportConfiguration,
 	@Override
 	protected void openWorkbook(OutputStream os) throws JRException, IOException
 	{
-		oasisZip = new FileBufferedOasisZip(OasisZip.MIME_TYPE_ODS);
+		oasisZip = new OdsZip();
 
 		tempBodyEntry = new FileBufferedZipEntry(null);
 		tempStyleEntry = new FileBufferedZipEntry(null);

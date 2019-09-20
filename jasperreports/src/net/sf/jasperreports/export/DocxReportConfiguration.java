@@ -76,7 +76,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "flexible.row.height";
 	
 	/**
-	 * This property serves as default value for the {@link #isNewLineAsParagraph} export configuration setting.
+	 * This property serves as default value for the {@link #isNewLineAsParagraph()} export configuration setting.
 	 * <p>
 	 * The property itself defaults to <code>false</code>.
 	 * </p>

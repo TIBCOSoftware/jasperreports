@@ -1793,7 +1793,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRVariable variable = (JRVariable) it.next();
 				// check whether the variable was already cloned as part of a group or measure
 				JRVariable variableClone = clonedVariables.get(variable);
-				variableClone = JRCloneUtils.nullSafeClone(variable);
+				if (variableClone == null)
+				{
+					variableClone = JRCloneUtils.nullSafeClone(variable);
+				}
 				clone.variablesList.put(variableClone.getName(), variableClone);
 			}
 		}

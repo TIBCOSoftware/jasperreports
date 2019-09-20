@@ -287,7 +287,7 @@ public class JRPdfExporterTagHelper
 	protected Stack<PdfStructureElement> tagStack;
 	protected boolean isTagEmpty = true;
 	protected int crtCrosstabRowY = -1;
-	protected int crosstabFrameDepth;
+	protected boolean insideCrosstabCellFrame;
 	protected boolean isDataCellPrinted;
 
 	protected boolean isTagged;
@@ -385,7 +385,7 @@ public class JRPdfExporterTagHelper
 	protected void startPage()
 	{
 		crtCrosstabRowY = -1;
-		crosstabFrameDepth = 0;
+		insideCrosstabCellFrame = false;
 		isDataCellPrinted = false;
 		
 	}
@@ -411,102 +411,70 @@ public class JRPdfExporterTagHelper
 	{
 		if (isTagged)
 		{
-			if (element instanceof JRPrintFrame)
+			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
+			
+			boolean isCellContentsFrame =
+				frame != null
+				&& frame.getPropertiesMap().hasProperties()
+				&& frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE) != null;
+			
+			if (isCellContentsFrame)
 			{
-				JRPrintFrame frame = (JRPrintFrame) element;
-				
-				boolean isCellContentsFrame =
-					frame.getPropertiesMap().hasProperties()
-					&& frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE) != null;
-				
+				insideCrosstabCellFrame = true;
+
 				if (crtCrosstabRowY >= 0) //crosstab already started
 				{
-					//frame depth must be incremented for all frame, when inside a crosstab
-					crosstabFrameDepth++;
-
-					if (isCellContentsFrame)
+					if (JRCellContents.TYPE_DATA.equals(frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE)))
 					{
-						if (JRCellContents.TYPE_DATA.equals(frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE)))
-						{
-							isDataCellPrinted = true;
-						}
-
-						if (crtCrosstabRowY != frame.getY())
-						{
-							//this is the first cell on a new row
-
-							//end the current row
-							//pdfContentByte.endMarkedContentSequence();
-							tagStack.pop();
-							
-							if (
-								isDataCellPrinted
-								&& (JRCellContents.TYPE_CROSSTAB_HEADER.equals(frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE))
-									|| JRCellContents.TYPE_COLUMN_HEADER.equals(frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE)))
-								)
-							{
-								//end the table
-								//pdfContentByte.endMarkedContentSequence();
-								tagStack.pop();
-
-								//start table
-								createTableStartTag();
-								//start crosstab
-								isDataCellPrinted = false;
-							}
-
-							//start the new row
-							createTrStartTag();
-
-							//keep crosstab open, but mark new row position and frame depth
-							crtCrosstabRowY = frame.getY();
-						}
+						isDataCellPrinted = true;
 					}
-					else
+
+					if (crtCrosstabRowY != frame.getY())
 					{
-						if (crosstabFrameDepth == 1)
+						//this is the first cell on a new row
+
+						//end the current row
+						//pdfContentByte.endMarkedContentSequence();
+						tagStack.pop();
+						
+						if (
+							isDataCellPrinted
+							&& (JRCellContents.TYPE_CROSSTAB_HEADER.equals(frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE))
+								|| JRCellContents.TYPE_COLUMN_HEADER.equals(frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE)))
+							)
 						{
-							//normal frame outside crosstab
-							
-							//end the current row
-							//pdfContentByte.endMarkedContentSequence();
-							tagStack.pop();
-							
 							//end the table
 							//pdfContentByte.endMarkedContentSequence();
 							tagStack.pop();
-							
-							//end crosstab
-							crtCrosstabRowY = -1;
-							//make depth zero because it will not be decremented after frame export 
-							// due to crosstab being ended here
-							crosstabFrameDepth = 0;
+
+							//start table
+							createTableStartTag();
+							//start crosstab
+							isDataCellPrinted = false;
 						}
+
+						//start the new row
+						createTrStartTag();
+
+						//keep crosstab open, but mark new row position and frame depth
+						crtCrosstabRowY = frame.getY();
 					}
 				}
 				else
 				{
-					if (isCellContentsFrame)
-					{
-						//start table and firts row
-						createTableStartTag();
-						createTrStartTag();
-						//start crosstab
-						crtCrosstabRowY = frame.getY();
-						crosstabFrameDepth++;
-						isDataCellPrinted = false;
-					}
-//					else
-//					{
-//						//normal frame outside crosstab
-//					}
+					//start table and first row
+					createTableStartTag();
+					createTrStartTag();
+					//start crosstab
+					crtCrosstabRowY = frame.getY();
+					isDataCellPrinted = false;
 				}
 			}
 			else
 			{
 				if (crtCrosstabRowY >= 0) //crosstab already started
 				{
-					if (crosstabFrameDepth == 0)
+					if (!insideCrosstabCellFrame)
 					{
 						//normal element outside crosstab
 						
@@ -520,9 +488,12 @@ public class JRPdfExporterTagHelper
 						
 						//end crosstab
 						crtCrosstabRowY = -1;
-						crosstabFrameDepth = 0;
 					}
 				}
+//				else
+//				{
+//						//normal element outside crosstab
+//				}
 			}
 			
 			createStartTags(element);
@@ -533,12 +504,16 @@ public class JRPdfExporterTagHelper
 	{
 		if (isTagged)
 		{
-			if (element instanceof JRPrintFrame)
+			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
+			
+			boolean isCellContentsFrame =
+				frame != null
+				&& frame.getPropertiesMap().hasProperties()
+				&& frame.getPropertiesMap().getProperty(JRCellContents.PROPERTY_TYPE) != null;
+				
+			if (isCellContentsFrame)
 			{
-				if (crtCrosstabRowY >= 0) // crosstab started
-				{
-					crosstabFrameDepth--;
-				}
+				insideCrosstabCellFrame = false;
 			}
 			
 			createEndTags(element);
@@ -866,6 +841,23 @@ public class JRPdfExporterTagHelper
 				tagStack.pop();
 			}
 		}
+//		else
+//		{
+//			//check to see if this is the first element without tag properties after a table
+//			if (tagStack.size() > 2) // check to see if we are at least inside a table row (table/tr)
+//			{
+//				PdfStructureElement tag = tagStack.peek();
+//				if (
+//					PdfName.TABLEROW.equals(tag.get(PdfName.S))
+//					&& PdfName.TABLE.equals(tag.getParent().get(PdfName.S))
+//					)
+//				{
+//					// take out both row and table tags
+//					tagStack.pop();
+//					tagStack.pop();
+//				}
+//			}
+//		}
 	}
 
 

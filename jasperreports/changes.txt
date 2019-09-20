@@ -2,7 +2,29 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.8.0 (2018-03-25)
+JasperReports 6.9.0 (2019-06-24)
+---------------------------------------------
+
+- upgrade to Hibernate 5.4.1.Final;
+
+- new export configurations added for embedding fonts in DOCX and PPTX exports;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.8.1 (2019-05-10)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.8.0 (2019-03-25)
 ---------------------------------------------
 
 - support for Java 9 up to Java 11;

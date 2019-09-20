@@ -1,364 +1,80 @@
-<differences>	
+<differences>
 	<difference>
-		<className>net/sf/jasperreports/components/barcode4j/Barcode4jComponent</className>
-		<differenceType>7002</differenceType>
-		<method>*et*Orientation*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/barcode4j/Barcode4jComponent</className>
-		<differenceType>7002</differenceType>
-		<method>*et*TextPosition*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/barcode4j/BarcodeComponent</className>
-		<differenceType>6011</differenceType>
-		<field>ORIENTATION_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/iconlabel/IconLabelComponent*</className>
-		<differenceType>7002</differenceType>
-		<method>*et*HorizontalAlignment*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/iconlabel/IconLabelComponent*</className>
-		<differenceType>7002</differenceType>
-		<method>*et*VerticalAlignment*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/sort/SortComponent</className>
-		<differenceType>7002</differenceType>
-		<method>*et*HorizontalAlign*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/sort/SortComponent</className>
-		<differenceType>7002</differenceType>
-		<method>*et*VerticalAlign*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/iconlabel/IconLabelComponent*</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/engine/JRAlignment</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/ElementDecorator</className>
-		<differenceType>7002</differenceType>
-		<method>*et*Type*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/ElementDecorator</className>
-		<differenceType>7002</differenceType>
-		<method>*et*Mode*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRAbstractExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*et*CustomHandler*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRAbstractExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*et*JasperPrint*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRAlignment</className>
+		<className>net/sf/jasperreports/data/hibernate/HibernateConnectionProvider</className>
 		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/JRExporterParameter</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JR*Image*</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/engine/JRAlignment</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JR*Text*</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/engine/JRAlignment</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Image*</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/engine/JRAlignment</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Text*</className>
-		<differenceType>4001</differenceType>
-		<to>net/sf/jasperreports/engine/JRAlignment</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRFont</className>
+		<className>net/sf/jasperreports/engine/export/HtmlFont</className>
 		<differenceType>7002</differenceType>
-		<method>*et*Font*ize*(*)</method>
+		<method>*getInstance(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/base/JRBaseFont</className>
+		<className>net/sf/jasperreports/engine/export/HtmlFont</className>
 		<differenceType>7002</differenceType>
-		<method>*et*Font*ize*(*)</method>
+		<method>*getStyle(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/JRStyle</className>
+		<className>net/sf/jasperreports/engine/export/HtmlFontUtil</className>
 		<differenceType>7002</differenceType>
-		<method>*et*Font*ize*(*)</method>
+		<method>*handle*Font(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/JRStyle</className>
+		<className>net/sf/jasperreports/web/util/FontWebResourceHandler</className>
 		<differenceType>7002</differenceType>
-		<method>*et*HorizontalAlignment*(*)</method>
+		<method>*processFont(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/JRStyle</className>
-		<differenceType>7002</differenceType>
-		<method>*et*VerticalAlign*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRStyle</className>
-		<differenceType>7002</differenceType>
-		<method>*et*LineSpacing*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Style</className>
-		<differenceType>7002</differenceType>
-		<method>*et*Font*ize*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/base/JRBaseStyle</className>
-		<differenceType>7002</differenceType>
-		<method>*et*HorizontalAlignment*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/base/JRBaseStyle</className>
-		<differenceType>7002</differenceType>
-		<method>*et*VerticalAlign*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/base/JRBaseStyle</className>
-		<differenceType>7002</differenceType>
-		<method>*et*LineSpacing*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Image</className>
-		<differenceType>7002</differenceType>
-		<method>*et*HorizontalAlignment*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Image</className>
-		<differenceType>7002</differenceType>
-		<method>*et*VerticalAlign*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Text*</className>
-		<differenceType>7002</differenceType>
-		<method>*et*HorizontalAlignment*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Text*</className>
-		<differenceType>7002</differenceType>
-		<method>*et*VerticalAlign*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/*/JR*Text*</className>
-		<differenceType>7002</differenceType>
-		<method>*et*Font*ize*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporterParameter</className>
+		<className>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper</className>
 		<differenceType>6001</differenceType>
-		<field>PDF*</field>
+		<field>crosstabFrameDepth</field>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporterParameter</className>
-		<differenceType>6001</differenceType>
-		<field>PRINT_SCALING_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JR*Exporter*</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/oasis/JR*Exporter*</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JR*Exporter*</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/HtmlExporter</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRVariable</className>
+		<className>net/sf/jasperreports/export/DocxExporterConfiguration</className>
 		<differenceType>7012</differenceType>
-		<method>*et*Description*(*)</method>
+		<method>*isEmbedFonts(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/data/JaxenXmlDataSource</className>
-		<differenceType>7006</differenceType>
-		<method>*ataSource(java.lang.String)</method>
-		<to>net.sf.jasperreports.engine.data.JaxenXmlDataSource</to>
+		<className>net/sf/jasperreports/export/PptxExporterConfiguration</className>
+		<differenceType>7012</differenceType>
+		<method>*isEmbedFonts(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/data/XalanXmlDataSource</className>
-		<differenceType>7006</differenceType>
-		<method>*ataSource(java.lang.String)</method>
-		<to>net.sf.jasperreports.engine.data.XalanXmlDataSource</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/design/JRDesign*</className>
-		<differenceType>7002</differenceType>
-		<method>*et*HyperlinkT*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/HtmlExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*SizeUnit*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/HtmlExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*Zoom*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRHtmlExporterParameter</className>
-		<differenceType>6001</differenceType>
-		<field>SIZE_UNIT_*</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRGraphics2DExporter</className>
-		<differenceType>6011</differenceType>
-		<field>MINIMIZE_PRINTER_JOB_SIZE</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRXlsAbstractExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*WorkbookTemplate*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRXlsAbstractExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*WorkbookTemplate*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRXls*Exporter</className>
-		<differenceType>7002</differenceType>
-		<method>*FreezePane*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/*/JRXls*Exporter</className>
-		<differenceType>7002</differenceType>
-		<method>*FreezePane*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/oasis/JROdsExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*FreezePane*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JRPptxExporter</className>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxRunHelper</className>
 		<differenceType>7005</differenceType>
-		<method>*createSlide(java.lang.String)</method>
-		<to>*createSlide(boolean)</to>
+		<method>*DocxRunHelper*</method>
+		<to>*DocxRunHelper*</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JRPptxExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*exportElements*(*)</method>
+		<className>net/sf/jasperreports/engine/export/ooxml/PptxRunHelper</className>
+		<differenceType>7005</differenceType>
+		<method>*PptxRunHelper*</method>
+		<to>*PptxRunHelper*</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JRPptxExporter</className>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxSettingsHelper</className>
 		<differenceType>7004</differenceType>
-		<method>*exportPage*(*)</method>
+		<method>*export(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JRPptxExporter</className>
+		<className>net/sf/jasperreports/engine/export/ooxml/DocxStyleHelper</className>
 		<differenceType>7004</differenceType>
-		<method>*exportStyledText*(*)</method>
+		<method>*DocxStyleHelper(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JRPptxExporter$ExporterContext</className>
-		<differenceType>7009</differenceType>
-		<method>*JRPptxExporter$ExporterContext(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter</className>
-		<differenceType>7002</differenceType>
-		<method>*etMacroTemplate*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/PptxSlideHelper</className>
+		<className>net/sf/jasperreports/engine/export/ooxml/PptxPresentationHelper</className>
 		<differenceType>7004</differenceType>
-		<method>*exportFooter(*)</method>
+		<method>*PptxPresentationHelper(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/PptxSlideHelper</className>
+		<className>net/sf/jasperreports/engine/export/ooxml/PptxPresentationHelper</className>
 		<differenceType>7004</differenceType>
-		<method>*exportHeader(*)</method>
+		<method>*exportHeader()</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/PptxSlideRelsHelper</className>
-		<differenceType>7004</differenceType>
-		<method>*exportHeader(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRAbstractLRUVirtualizer</className>
+		<className>net/sf/jasperreports/engine/export/zip/AbstractZip</className>
 		<differenceType>6004</differenceType>
-		<field>lastObjectMap</field>
-		<from>org.apache.commons.collections.map.ReferenceMap</from>
-		<to>org.apache.commons.collections4.map.ReferenceMap</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRAbstractLRUVirtualizer</className>
-		<differenceType>6004</differenceType>
-		<field>lastObjectSet</field>
-		<from>org.apache.commons.collections.map.ReferenceMap</from>
-		<to>org.apache.commons.collections4.map.ReferenceMap</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRAbstractLRUVirtualizer</className>
-		<differenceType>6004</differenceType>
-		<field>pagedOut</field>
-		<from>org.apache.commons.collections.map.ReferenceMap</from>
-		<to>org.apache.commons.collections4.map.ReferenceMap</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/util/JRStyleResolver</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/util/JRXmlWriteHelper</className>
-		<differenceType>7002</differenceType>
-		<method>*addAttribute(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*getBorderCollapseValue(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/HtmlReportConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*isUseBackgroundImageToAlign(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/PptxExporterConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*getSlideMaster*(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/PptxExporterConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*isBackgroundAsSlideMaster(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/PptxReportConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*getHideSlideMasterPages(*)</method>
+		<field>exportZipEntries</field>
+		<from>java.util.List</from>
+		<to>java.util.Map</to>
 	</difference>
 </differences>

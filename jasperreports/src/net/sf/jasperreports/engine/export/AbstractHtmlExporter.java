@@ -227,7 +227,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		FontInfo fontInfo = (FontInfo) attributes.get(JRTextAttribute.FONT_INFO);
 		
 		String defaultFontFamily;
-		if (fontInfo == null)
+		if (fontInfo == null) // if export font mapping was found at the time of styled text processing, then no FONT_INFO is set, so we need to look for it again
 		{
 			//no resolved font, using the family
 			defaultFontFamily = fontFamilyAttr;
