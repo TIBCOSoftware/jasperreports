@@ -424,7 +424,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>develop-5-SNAPSHOT</version>
+			<version>develop-6-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
