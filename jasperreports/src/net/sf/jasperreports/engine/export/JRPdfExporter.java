@@ -1799,7 +1799,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			
 			Rectangle2D clip = null;
 
-			Dimension2D dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
+			Dimension2D dimension = 
+				renderer instanceof DimensionRenderable 
+				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
+				: null;
 			if (dimension != null)
 			{
 				normalWidth = dimension.getWidth();
