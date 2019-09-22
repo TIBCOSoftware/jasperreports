@@ -295,7 +295,7 @@ public class JasperApp extends AbstractSampleApp
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls.metadata.xls");
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.xls");
 
 		Map<String, String> dateFormats = new HashMap<String, String>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");

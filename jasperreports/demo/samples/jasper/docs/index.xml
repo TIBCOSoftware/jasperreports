@@ -544,7 +544,7 @@ these settings apply to the &lt;detail/&gt; section:
   </band>
 </detail>]]></pre>
 After running the <code>&gt;ant test view</code> command the data-centric document exported with the Excel 2003 metadata exporter will be available in the 
-<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.xls.metadata.xls</code>. Notice the differences between this one and the 
+<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.xls</code>. Notice the differences between this one and the 
 <code>FirstJasper.metadata.csv</code> CSV document.
     </content>
   </feature>

@@ -1369,10 +1369,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			Dimension2D dimension = 
-				renderer instanceof DimensionRenderable 
-				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext)
-				: null;
+			DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable((Renderable)renderer);
+			Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			if (dimension != null) {
 				normalWidth = (int) dimension.getWidth();
 				normalHeight = (int) dimension.getHeight();
@@ -1417,77 +1415,51 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				grx.dispose();
 			}
 
-			byte[] imageData = null;
-			int topOffset = 0;
-			int leftOffset = 0;
-			int bottomOffset = 0;
-			int rightOffset = 0;
-			
-//			topOffset = topPadding;
-//			leftOffset = leftPadding;
-//			bottomOffset = bottomPadding;
-//			rightOffset = rightPadding;
-
-			imageData = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG);
-			
-			return new InternalImageProcessorResult(imageData, topOffset, leftOffset, bottomOffset, rightOffset);
+			return 
+				new InternalImageProcessorResult(
+					JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG),
+					topPadding, 
+					leftPadding, 
+					bottomPadding, 
+					rightPadding
+					);
 		}
 		
 		private InternalImageProcessorResult processImageFillFrame(DataRenderable renderer) throws JRException
 		{
-			int topOffset = 0;
-			int leftOffset = 0;
-			int bottomOffset = 0;
-			int rightOffset = 0;
-			
-//			topOffset = topPadding;
-//			leftOffset = leftPadding;
-//			bottomOffset = bottomPadding;
-//			rightOffset = rightPadding;
-
 			return 
 				new InternalImageProcessorResult(
 					renderer.getData(jasperReportsContext), 
-					topOffset, 
-					leftOffset, 
-					bottomOffset, 
-					rightOffset
+					topPadding, 
+					leftPadding, 
+					bottomPadding, 
+					rightPadding
 					);
 		}
 		
 		private InternalImageProcessorResult processImageRetainShape(DataRenderable renderer) throws JRException
 		{
-			int normalWidth = availableImageWidth;
-			int normalHeight = availableImageHeight;
+			float normalWidth = availableImageWidth;
+			float normalHeight = availableImageHeight;
 
-			Dimension2D dimension = 
-				renderer instanceof DimensionRenderable 
-				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext)
-				: null;
+			DimensionRenderable dimensionRenderer = imageRenderersCache.getDimensionRenderable((Renderable)renderer);
+			Dimension2D dimension = dimensionRenderer == null ? null :  dimensionRenderer.getDimension(jasperReportsContext);
 			if (dimension != null) {
 				normalWidth = (int) dimension.getWidth();
 				normalHeight = (int) dimension.getHeight();
 			}
 
-			double ratio = (double) normalWidth / (double) normalHeight;
-
-			if (ratio > (double) availableImageWidth / (double) availableImageHeight) {
-				normalWidth = availableImageWidth;
-				normalHeight = (int) (availableImageWidth / ratio);
-			} else {
-				normalWidth = (int) (availableImageHeight * ratio);
-				normalHeight = availableImageHeight;
-			}
-
-			int topOffset = 0;
-			int leftOffset = 0;
-			int bottomOffset = 0;
-			int rightOffset = 0;
-			
-//			topOffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
-//			leftOffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
-//			bottomOffset = bottomPadding + (int) ((1f - yalignFactor) * (availableImageHeight - normalHeight));
-//			rightOffset = rightPadding + (int) ((1f - xalignFactor) * (availableImageWidth - normalWidth));
+			float ratioX = availableImageWidth / normalWidth;
+			float ratioY = availableImageHeight / normalHeight;
+			ratioX = ratioX < ratioY ? ratioX : ratioY;
+			ratioY = ratioX;
+			int imageWidth = (int)(normalWidth * ratioX);
+			int imageHeight = (int)(normalHeight * ratioY);
+	
+			int topOffset = topPadding + (int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - imageHeight));
+			int leftOffset = leftPadding + (int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - imageWidth));
+			int bottomOffset = bottomPadding + (int) ((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageHeight - imageHeight));
+			int rightOffset = rightPadding + (int) ((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageWidth - imageWidth));
 
 			return 
 				new InternalImageProcessorResult(
