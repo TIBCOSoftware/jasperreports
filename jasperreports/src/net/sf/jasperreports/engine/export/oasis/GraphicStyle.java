@@ -91,7 +91,7 @@ public class GraphicStyle extends Style
 		forecolor = JRColorUtil.getColorHexa(element.getLinePen().getLineColor());
 
 		width = element.getLinePen().getLineWidth();
-		if (width < 0)
+		if (width <= 0)
 		{
 			style = "none";
 		}
@@ -212,10 +212,13 @@ public class GraphicStyle extends Style
 		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
 		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
 		styleWriter.write("   <style:graphic-properties");
-		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
+		if (backcolor != null)
+		{
+			styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
+		}
 		styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
 		styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
-		if(clip != null)
+		if (clip != null)
 		{
 			styleWriter.write(clip);
 		}
