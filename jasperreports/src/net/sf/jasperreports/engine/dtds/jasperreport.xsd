@@ -2515,6 +2515,35 @@ This can be useful when, for instance, a border has to be drawn around the image
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="rotation" use="optional">
+    <annotation>
+     <documentation>Type of rotation for the image object.</documentation>
+    </annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None">
+		<annotation>
+		 <documentation>Image is not rotated.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Left">
+		<annotation>
+		 <documentation>Image is rotated 90 degrees counter clockwise.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Right">
+		<annotation>
+		 <documentation>Image is rotated 90 degrees clockwise.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="UpsideDown">
+		<annotation>
+		 <documentation>Image is rotated 180 degrees.</documentation>
+		</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="hAlign" use="optional">
 	<annotation>
 	 <documentation>Horizontal image alignment.</documentation>

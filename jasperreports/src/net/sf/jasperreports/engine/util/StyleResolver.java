@@ -1013,6 +1013,28 @@ public class StyleResolver
 	/**
 	 *
 	 */
+	public RotationEnum getRotation(JRCommonImage element)
+	{
+		RotationEnum ownRotation = element.getOwnRotation();
+		if (ownRotation != null)
+		{
+			return ownRotation;
+		}
+		JRStyle style = getBaseStyle(element);
+		if (style != null)
+		{
+			RotationEnum rotation = style.getRotationValue();
+			if (rotation != null)
+			{
+				return rotation;
+			}
+		}
+		return RotationEnum.NONE;
+	}
+
+	/**
+	 *
+	 */
 	public RotationEnum getRotationValue(JRStyle style)
 	{
 		RotationEnum ownRotation = style.getOwnRotationValue();

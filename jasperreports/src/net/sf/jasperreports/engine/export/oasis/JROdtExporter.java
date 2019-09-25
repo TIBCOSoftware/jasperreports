@@ -798,10 +798,15 @@ public class JROdtExporter extends JRAbstractExporter<OdtReportConfiguration, Od
 							) + "\" "
 					// x and y offset of the svg do not seem to have any effect and it works the same regardless of their value; 
 					// probably because the image is anchored to the paragraph
-					+ "svg:x=\"" + LengthUtil.inchFloor4Dec(leftPadding + imageProcessorResult.xoffset) + "in\" "
-					+ "svg:y=\"" + LengthUtil.inchFloor4Dec(topPadding + imageProcessorResult.yoffset) + "in\" "
+					+ "svg:x=\"0in\" "
+					+ "svg:y=\"0in\" "
+//					+ "svg:x=\"" + LengthUtil.inchFloor4Dec(leftPadding + imageProcessorResult.xoffset) + "in\" "
+//					+ "svg:y=\"" + LengthUtil.inchFloor4Dec(topPadding + imageProcessorResult.yoffset) + "in\" "
 					+ "svg:width=\"" + LengthUtil.inchFloor4Dec(imageProcessorResult.width) + "in\" "
-					+ "svg:height=\"" + LengthUtil.inchFloor4Dec(imageProcessorResult.height) + "in\">"
+					+ "svg:height=\"" + LengthUtil.inchFloor4Dec(imageProcessorResult.height) + "in\" "
+					+ "draw:transform=\"rotate (" + imageProcessorResult.angle + ") "
+					+ "translate (" + LengthUtil.inchFloor4Dec(leftPadding + imageProcessorResult.xoffset) 
+					+ "in," + LengthUtil.inchFloor4Dec(topPadding + imageProcessorResult.yoffset) + "in)\">"
 					);
 				tempBodyWriter.write("<draw:image ");
 				tempBodyWriter.write(" xlink:href=\"" + JRStringUtil.xmlEncode(imageProcessorResult.imagePath) + "\"");

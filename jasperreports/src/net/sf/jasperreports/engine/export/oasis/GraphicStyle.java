@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -122,9 +121,9 @@ public class GraphicStyle extends Style
 			JRPrintImage imageElement = (JRPrintImage)element;
 			horizontalAlignment = imageElement.getHorizontalImageAlign();
 			verticalAlignment = imageElement.getVerticalImageAlign();
-			if(imageElement.getScaleImageValue() == ScaleImageEnum.CLIP 
-					&& (cropTop > 0 || cropLeft > 0 || cropBottom > 0 || cropRight > 0))
-			{
+//			if(imageElement.getScaleImageValue() == ScaleImageEnum.CLIP 
+//					&& (cropTop > 0 || cropLeft > 0 || cropBottom > 0 || cropRight > 0))
+//			{
 				clip = " fo:clip=\"rect("
 					+ LengthUtil.inchFloor4Dec(cropTop * DPI_RATIO)
 					+ "in,"
@@ -134,7 +133,7 @@ public class GraphicStyle extends Style
 					+ "in,"
 					+ LengthUtil.inchFloor4Dec(cropLeft * DPI_RATIO) 
 					+ "in)\"";
-			}
+//			}
 		}
 
 		switch(horizontalAlignment)

@@ -90,6 +90,7 @@ public final class ImageConverter extends ElementConverter
 			);
 
 		printImage.setScaleImage(image.getOwnScaleImageValue());
+		printImage.setRotation(image.getOwnRotation());
 		
 		return printImage;
 	}

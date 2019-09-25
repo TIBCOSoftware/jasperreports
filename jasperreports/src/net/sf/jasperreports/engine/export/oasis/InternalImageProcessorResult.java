@@ -29,14 +29,15 @@ package net.sf.jasperreports.engine.export.oasis;
 public class InternalImageProcessorResult 
 {
 	protected final String imagePath;
-	protected int width;
-	protected int height;
-	protected int xoffset;
-	protected int yoffset;
-	protected double cropTop;
-	protected double cropLeft;
-	protected double cropBottom;
-	protected double cropRight;
+	protected final int width;
+	protected final int height;
+	protected final int xoffset;
+	protected final int yoffset;
+	protected final double cropTop;
+	protected final double cropLeft;
+	protected final double cropBottom;
+	protected final double cropRight;
+	protected final double angle;
 
 	protected InternalImageProcessorResult(
 		String imagePath, 
@@ -47,7 +48,8 @@ public class InternalImageProcessorResult
 		double cropTop,
 		double cropLeft,
 		double cropBottom,
-		double cropRight
+		double cropRight,
+		double angle
 		
 		)
 	{
@@ -60,6 +62,7 @@ public class InternalImageProcessorResult
 		this.cropLeft = cropLeft;
 		this.cropBottom = cropBottom;
 		this.cropRight = cropRight;
+		this.angle = angle;
 	}
 }
 

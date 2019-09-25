@@ -1276,6 +1276,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_image, getNamespace());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_10_0))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, image.getOwnRotation());
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalImageAlign());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalImageAlign());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUsingCache, image.getUsingCache());

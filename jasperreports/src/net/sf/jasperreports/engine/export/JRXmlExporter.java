@@ -839,6 +839,10 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_image);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_10_0))
+		{
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, image.getOwnRotation());
+		}
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalImageAlign());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalImageAlign());
 		

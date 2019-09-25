@@ -1155,9 +1155,26 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			adjustColumnWidth(currentColumnName, element.getWidth(), ((JRXlsExporterNature)nature).getColumnAutoFit(element));
 			adjustRowHeight(element.getHeight(), Boolean.TRUE.equals(((JRXlsExporterNature)nature).getRowAutoFit(element)));
 			
+			int topPadding =
+				Math.max(element.getLineBox().getTopPadding(), getImageBorderCorrection(element.getLineBox().getTopPen()));
+			int leftPadding =
+				Math.max(element.getLineBox().getLeftPadding(), getImageBorderCorrection(element.getLineBox().getLeftPen()));
+			int bottomPadding =
+				Math.max(element.getLineBox().getBottomPadding(), getImageBorderCorrection(element.getLineBox().getBottomPen()));
+			int rightPadding =
+				Math.max(element.getLineBox().getRightPadding(), getImageBorderCorrection(element.getLineBox().getRightPen()));
+
+			int tmpAvailableImageWidth = element.getWidth() - leftPadding - rightPadding;
+			int availableImageWidth = tmpAvailableImageWidth < 0 ? 0 : tmpAvailableImageWidth;
+
+			int tmpAvailableImageHeight = element.getHeight() - topPadding - bottomPadding;
+			int availableImageHeight = tmpAvailableImageHeight < 0 ? 0 : tmpAvailableImageHeight;
+
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
-					element 
+					element,
+					availableImageWidth,
+					availableImageHeight
 					);
 						
 			Renderable renderer = element.getRenderer();
@@ -1220,7 +1237,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					try {
 						HSSFClientAnchor anchor = 
 								new HSSFClientAnchor(
-									0, 
+									0, //paddings and offsets, although calculated, are deliberately ignored
 									0, 
 									0, 
 									0, 
@@ -1245,7 +1262,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 						//pngEncoder.setImage(bi);
 						//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 						int imgIndex = workbook.addPicture(imageProcessorResult.imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
-						patriarch.createPicture(anchor, imgIndex);
+						patriarch.createPicture(anchor, imgIndex).setRotationDegree(imageProcessorResult.angle);
 						
 						// set auto fill columns
 						if(repeatValue) {
@@ -1280,34 +1297,20 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 		private final JRPrintImage imageElement;
 		private final RenderersCache imageRenderersCache;
 
-		private final int topPadding;
-		private final int leftPadding;
-		private final int bottomPadding;
-		private final int rightPadding;
 		private final int availableImageWidth;
 		private final int availableImageHeight;
 		
 		protected InternalImageProcessor(
-			JRPrintImage imageElement
+			JRPrintImage imageElement,
+			int availableImageWidth,
+			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
 			
-			topPadding =
-				Math.max(imageElement.getLineBox().getTopPadding(), getImageBorderCorrection(imageElement.getLineBox().getTopPen()));
-			leftPadding =
-				Math.max(imageElement.getLineBox().getLeftPadding(), getImageBorderCorrection(imageElement.getLineBox().getLeftPen()));
-			bottomPadding =
-				Math.max(imageElement.getLineBox().getBottomPadding(), getImageBorderCorrection(imageElement.getLineBox().getBottomPen()));
-			rightPadding =
-				Math.max(imageElement.getLineBox().getRightPadding(), getImageBorderCorrection(imageElement.getLineBox().getRightPen()));
-
-			int tmpAvailableImageWidth = imageElement.getWidth() - leftPadding - rightPadding;
-			availableImageWidth = tmpAvailableImageWidth < 0 ? 0 : tmpAvailableImageWidth;
-
-			int tmpAvailableImageHeight = imageElement.getHeight() - topPadding - bottomPadding;
-			availableImageHeight = tmpAvailableImageHeight < 0 ? 0 : tmpAvailableImageHeight;
+			this.availableImageWidth = availableImageWidth;
+			this.availableImageHeight = availableImageHeight;
 		}
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
@@ -1376,13 +1379,72 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				normalHeight = (int) dimension.getHeight();
 			}
 
+			int minWidth = 0;
+			int minHeight = 0;
+			int topOffset = 0;
+			int leftOffset = 0;
+			int bottomOffset = 0;
+			int rightOffset = 0;
+			int translateX = 0;
+			int translateY = 0;
+			short angle = 0;
+			
+			switch (imageElement.getRotation())
+			{
+				case LEFT :
+					minWidth = Math.min(normalWidth, availableImageHeight);
+					minHeight = Math.min(normalHeight, availableImageWidth);
+					topOffset = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageHeight - normalWidth));
+					leftOffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageWidth - normalHeight));
+					bottomOffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageHeight - normalWidth));
+					rightOffset = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageWidth - normalHeight));
+					translateX = bottomOffset;
+					translateY = leftOffset;
+					angle = -90;
+					break;
+				case RIGHT :
+					minWidth = Math.min(normalWidth, availableImageHeight);
+					minHeight = Math.min(normalHeight, availableImageWidth);
+					topOffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageHeight - normalWidth));
+					leftOffset = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageWidth - normalHeight));
+					bottomOffset = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageHeight - normalWidth));
+					rightOffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageWidth - normalHeight));
+					translateX = topOffset;
+					translateY = rightOffset;
+					angle = 90;
+					break;
+				case UPSIDE_DOWN :
+					minWidth = Math.min(normalWidth, availableImageWidth);
+					minHeight = Math.min(normalHeight, availableImageHeight);
+					topOffset = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageHeight - normalHeight));
+					leftOffset = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageWidth - normalWidth));
+					bottomOffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - normalHeight));
+					rightOffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - normalWidth));
+					translateX = rightOffset;
+					translateY = bottomOffset;
+					angle = 180;
+					break;
+				case NONE :
+				default :
+					minWidth = Math.min(normalWidth, availableImageWidth);
+					minHeight = Math.min(normalHeight, availableImageHeight);
+					topOffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - normalHeight));
+					leftOffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - normalWidth));
+					bottomOffset = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageHeight - normalHeight));
+					rightOffset = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageWidth - normalWidth));
+					translateX = leftOffset;
+					translateY = topOffset;
+					angle = 0;
+					break;
+			}
+
 			int dpi = getPropertiesUtil().getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
 			double scale = dpi/72d;
 			
 			BufferedImage bi = 
 				new BufferedImage(
-					(int)(scale * availableImageWidth), 
-					(int)(scale * availableImageHeight), 
+					(int)(scale * minWidth), 
+					(int)(scale * minHeight), 
 					BufferedImage.TYPE_INT_ARGB
 					);
 			
@@ -1394,8 +1456,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					new Rectangle(
 						0,
 						0,
-						availableImageWidth,
-						availableImageHeight
+						minWidth,
+						minHeight
 						)
 					);
 
@@ -1403,8 +1465,8 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 					jasperReportsContext,
 					grx,
 					new Rectangle(
-						(int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - normalWidth)),
-						(int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - normalHeight)),
+						translateX > 0 ? 0 : translateX,
+						translateY > 0 ? 0 : translateY,
 						normalWidth,
 						normalHeight
 						)
@@ -1418,22 +1480,43 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			return 
 				new InternalImageProcessorResult(
 					JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG),
-					topPadding, 
-					leftPadding, 
-					bottomPadding, 
-					rightPadding
+					topOffset < 0 ? 0 : topOffset, 
+					leftOffset < 0 ? 0 : leftOffset, 
+					bottomOffset < 0 ? 0 : bottomOffset, 
+					rightOffset < 0 ? 0 : rightOffset,
+					angle
 					);
 		}
 		
 		private InternalImageProcessorResult processImageFillFrame(DataRenderable renderer) throws JRException
 		{
+			short angle = 0;
+			
+			switch (imageElement.getRotation())
+			{
+				case LEFT:
+					angle = -90;
+					break;
+				case RIGHT:
+					angle = 90;
+					break;
+				case UPSIDE_DOWN:
+					angle = 180;
+					break;
+				case NONE:
+				default:
+					angle = 0;
+					break;
+			}
+			
 			return 
 				new InternalImageProcessorResult(
 					renderer.getData(jasperReportsContext), 
-					topPadding, 
-					leftPadding, 
-					bottomPadding, 
-					rightPadding
+					0, 
+					0, 
+					0, 
+					0,
+					angle
 					);
 		}
 		
@@ -1449,25 +1532,84 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				normalHeight = (int) dimension.getHeight();
 			}
 
-			float ratioX = availableImageWidth / normalWidth;
-			float ratioY = availableImageHeight / normalHeight;
-			ratioX = ratioX < ratioY ? ratioX : ratioY;
-			ratioY = ratioX;
-			int imageWidth = (int)(normalWidth * ratioX);
-			int imageHeight = (int)(normalHeight * ratioY);
-	
-			int topOffset = topPadding + (int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - imageHeight));
-			int leftOffset = leftPadding + (int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - imageWidth));
-			int bottomOffset = bottomPadding + (int) ((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageHeight - imageHeight));
-			int rightOffset = rightPadding + (int) ((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageWidth - imageWidth));
+			float ratioX = 1f;
+			float ratioY = 1f;
 
+			int imageWidth = 0;
+			int imageHeight = 0;
+			
+			int topOffset = 0;
+			int leftOffset = 0;
+			int bottomOffset = 0;
+			int rightOffset = 0;
+
+			short angle = 0;
+	
+			switch (imageElement.getRotation())
+			{
+				case LEFT:
+					ratioX = availableImageWidth / normalHeight;
+					ratioY = availableImageHeight / normalWidth;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					imageWidth = (int)(normalHeight * ratioX);
+					imageHeight = (int)(normalWidth * ratioY);
+					topOffset = (int) ((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageHeight - imageHeight));
+					leftOffset = (int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageWidth - imageWidth));
+					bottomOffset = (int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageHeight - imageHeight));
+					rightOffset = (int) ((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageWidth - imageWidth));
+					angle = -90;
+					break;
+				case RIGHT:
+					ratioX = availableImageWidth / normalHeight;
+					ratioY = availableImageHeight / normalWidth;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					imageWidth = (int)(normalHeight * ratioX);
+					imageHeight = (int)(normalWidth * ratioY);
+					topOffset = (int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageHeight - imageHeight));
+					leftOffset = (int) ((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageWidth - imageWidth));
+					bottomOffset = (int) ((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageHeight - imageHeight));
+					rightOffset = (int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageWidth - imageWidth));
+					angle = 90;
+					break;
+				case UPSIDE_DOWN:
+					ratioX = availableImageWidth / normalWidth;
+					ratioY = availableImageHeight / normalHeight;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					imageWidth = (int)(normalWidth * ratioX);
+					imageHeight = (int)(normalHeight * ratioY);
+					topOffset = (int) ((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageHeight - imageHeight));
+					leftOffset = (int) ((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageWidth - imageWidth));
+					bottomOffset = (int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - imageHeight));
+					rightOffset = (int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - imageWidth));
+					angle = 180;
+					break;
+				case NONE:
+				default:
+					ratioX = availableImageWidth / normalWidth;
+					ratioY = availableImageHeight / normalHeight;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					imageWidth = (int)(normalWidth * ratioX);
+					imageHeight = (int)(normalHeight * ratioY);
+					topOffset = (int) (ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - imageHeight));
+					leftOffset = (int) (ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - imageWidth));
+					bottomOffset = (int) ((1f - ImageUtil.getYAlignFactor(imageElement)) * (availableImageHeight - imageHeight));
+					rightOffset = (int) ((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageWidth - imageWidth));
+					angle = 0;
+					break;
+			}
+			
 			return 
 				new InternalImageProcessorResult(
 					renderer.getData(jasperReportsContext), 
 					topOffset, 
 					leftOffset, 
 					bottomOffset, 
-					rightOffset
+					rightOffset,
+					angle
 					);
 		}
 	}
@@ -1479,13 +1621,15 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 //		private final int leftOffset;
 //		private final int bottomOffset;
 //		private final int rightOffset;
+		private final short angle;
 		
 		protected InternalImageProcessorResult(
 			byte[] imageData,
 			int topOffset,
 			int leftOffset,
 			int bottomOffset,
-			int rightOffset
+			int rightOffset,
+			short angle
 			)
 		{
 			this.imageData = imageData;
@@ -1493,6 +1637,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 //			this.leftOffset = leftOffset;
 //			this.bottomOffset = bottomOffset;
 //			this.rightOffset = rightOffset;
+			this.angle = angle;
 		}
 	}
 

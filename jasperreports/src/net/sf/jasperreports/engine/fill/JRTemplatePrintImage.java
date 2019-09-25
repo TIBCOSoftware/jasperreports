@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
@@ -143,6 +144,24 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 
 	@Override
 	public void setScaleImage(ScaleImageEnum scaleImage)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public RotationEnum getRotation()
+	{
+		return ((JRTemplateImage)this.template).getRotation();
+	}
+		
+	@Override
+	public RotationEnum getOwnRotation()
+	{
+		return ((JRTemplateImage)this.template).getOwnRotation();
+	}
+		
+	@Override
+	public void setRotation(RotationEnum rotation)
 	{
 		throw new UnsupportedOperationException();
 	}

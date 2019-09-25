@@ -48,8 +48,10 @@ import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.Pair;
 import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.renderers.DimensionRenderable;
@@ -165,6 +167,24 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 	@Override
 	public void setScaleImage(ScaleImageEnum scaleImage)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public RotationEnum getRotation()
+	{
+		return getStyleResolver().getRotation(this);
+	}
+		
+	@Override
+	public RotationEnum getOwnRotation()
+	{
+		return providerStyle == null || providerStyle.getOwnRotationValue() == null ? ((JRImage)this.parent).getOwnRotation() : providerStyle.getOwnRotationValue();
+	}
+
+	@Override
+	public void setRotation(RotationEnum rotation)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -768,7 +788,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 											imageSize, 
 											availableHeight - getRelativeY() - padding, 
 											imageOverflowAllowed, 
-											getHorizontalImageAlign()
+											getHorizontalImageAlign(),
+											getVerticalImageAlign()
 											);
 								}
 
@@ -849,7 +870,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		Dimension2D imageSize, 
 		int availableHeight, 
 		boolean overflowAllowed,
-		HorizontalImageAlignEnum hAlign
+		HorizontalImageAlignEnum hAlign,
+		VerticalImageAlignEnum vAlign
 		) throws JRException
 	{
 		imageHeight = null;
@@ -859,6 +881,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		int realHeight = (int) imageSize.getHeight();
 		int realWidth = (int) imageSize.getWidth();
 		boolean fitted;
+		
+		if (
+			getRotation() == RotationEnum.LEFT
+			|| getRotation() == RotationEnum.RIGHT
+			)
+		{
+			int t = realWidth;
+			realWidth = realHeight;
+			realHeight = t;
+		}
 		
 		int reducedHeight = realHeight;
 		int reducedWidth = realWidth;
@@ -895,15 +927,56 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 		if (imageWidth != null && imageWidth != getWidth())
 		{
-			switch (hAlign)
+			switch (getRotation())
 			{
+			case LEFT:
+				switch (vAlign)
+				{
+				case BOTTOM:
+				case MIDDLE:
+					imageX = getX() + (int)(ImageUtil.getYAlignFactor(this) * (getWidth() - imageWidth));
+					break;
+				case TOP:
+				default:
+					break;
+				}
+				break;
 			case RIGHT:
-				imageX = getX() + getWidth() - imageWidth;
+				switch (vAlign)
+				{
+				case TOP:
+				case MIDDLE:
+					imageX = getX() + (int)((1f - ImageUtil.getYAlignFactor(this)) * (getWidth() - imageWidth));
+					break;
+				case BOTTOM:
+				default:
+					break;
+				}
 				break;
-			case CENTER:
-				imageX = getX() + (getWidth() - imageWidth) / 2;
+			case UPSIDE_DOWN:
+				switch (hAlign)
+				{
+				case LEFT:
+				case CENTER:
+					imageX = getX() + getWidth() - imageWidth - (int)(ImageUtil.getXAlignFactor(this) * (getWidth() - imageWidth));
+					break;
+				case RIGHT:
+				default:
+					break;
+				}
 				break;
+			case NONE:
 			default:
+				switch (hAlign)
+				{
+				case RIGHT:
+				case CENTER:
+					imageX = getX() + (int)(ImageUtil.getXAlignFactor(this) * (getWidth() - imageWidth));
+					break;
+				case LEFT:
+				default:
+					break;
+				}
 				break;
 			}
 		}
@@ -1057,7 +1130,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							imageSize,
 							getHeight() - padding, 
 							false, 
-							printImage.getHorizontalImageAlign()
+							printImage.getHorizontalImageAlign(),
+							printImage.getVerticalImageAlign()
 							);
 					}
 				}
