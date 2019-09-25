@@ -1078,6 +1078,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignImage " + imageName + " = new JRDesignImage(jasperDesign);\n");
 			write( imageName + ".setScaleImage({0});\n", image.getOwnScaleImageValue());
+			write( imageName + ".setRotation({0});\n", image.getOwnRotation());
 			write( imageName + ".setHorizontalImageAlign({0});\n", image.getOwnHorizontalImageAlign());
 			write( imageName + ".setVerticalImageAlign({0});\n", image.getOwnVerticalImageAlign());
 			write( imageName + ".setUsingCache({0});\n", image.getUsingCache());

@@ -34,12 +34,14 @@ package net.sf.jasperreports.engine.export.draw;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
@@ -233,10 +235,58 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				normalWidth = (int)dimension.getWidth();
 				normalHeight = (int)dimension.getHeight();
 			}
-
-			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-
+			
+			if (
+				printImage.getRotation() == RotationEnum.LEFT
+				|| printImage.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				int t = normalWidth;
+				normalWidth = normalHeight;
+				normalHeight = t;
+			}
+			
+			int translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			int renderWidth = normalWidth;
+			int renderHeight = normalHeight;
+			double angle = 0;
+			
+			switch (printImage.getRotation())
+			{
+				case LEFT :
+				{
+					translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					renderWidth = normalHeight;
+					renderHeight = normalWidth;
+					angle = - Math.PI / 2;
+					break;
+				}
+				case RIGHT :
+				{
+					translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					renderWidth = normalHeight;
+					renderHeight = normalWidth;
+					angle = Math.PI / 2;
+					break;
+				}
+				case UPSIDE_DOWN :
+				{
+					translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					renderWidth = normalWidth;
+					renderHeight = normalHeight;
+					angle = Math.PI;
+					break;
+				}
+				case NONE :
+				default :
+				{
+				}
+			}
+			
 			Shape oldClipShape = grx.getClip();
 
 			grx.clip(
@@ -248,21 +298,31 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 					)
 				);
 			
+			
+			AffineTransform oldTransform = grx.getTransform();
+
+			grx.translate(
+				printImage.getX() + leftPadding + offsetX + translateX, 
+				printImage.getY() + topPadding + offsetY + translateY
+				);
+			grx.rotate(angle);
+
 			try
 			{
 				renderer.render(
 					getJasperReportsContext(),
 					grx, 
 					new Rectangle(
-						printImage.getX() + leftPadding + offsetX + xoffset, 
-						printImage.getY() + topPadding + offsetY + yoffset, 
-						normalWidth, 
-						normalHeight
+						0, 
+						0, 
+						renderWidth, 
+						renderHeight
 						) 
 					);
 			}
 			finally
 			{
+				grx.setTransform(oldTransform);
 				grx.setClip(oldClipShape);
 			}
 		}
@@ -276,16 +336,72 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			Graphics2DRenderable renderer
 			) throws JRException
 		{
-			renderer.render(
-				getJasperReportsContext(),
-				grx,
-				new Rectangle(
-					printImage.getX() + leftPadding + offsetX, 
-					printImage.getY() + topPadding + offsetY, 
-					availableImageWidth, 
-					availableImageHeight
-					)
+			int translateX = 0;
+			int translateY = 0;
+			int renderWidth = availableImageWidth;
+			int renderHeight = availableImageHeight;
+			double angle = 0;
+			
+			switch (printImage.getRotation())
+			{
+				case LEFT :
+				{
+					translateX = 0;
+					translateY = availableImageHeight;
+					renderWidth = availableImageHeight;
+					renderHeight = availableImageWidth;
+					angle = - Math.PI / 2;
+					break;
+				}
+				case RIGHT :
+				{
+					translateX = availableImageWidth;
+					translateY = 0;
+					renderWidth = availableImageHeight;
+					renderHeight = availableImageWidth;
+					angle = Math.PI / 2;
+					break;
+				}
+				case UPSIDE_DOWN :
+				{
+					translateX = availableImageWidth;
+					translateY = availableImageHeight;
+					renderWidth = availableImageWidth;
+					renderHeight = availableImageHeight;
+					angle = Math.PI;
+					break;
+				}
+				case NONE :
+				default :
+				{
+				}
+			}
+			
+			AffineTransform oldTransform = grx.getTransform();
+
+			grx.translate(
+				printImage.getX() + leftPadding + offsetX + translateX, 
+				printImage.getY() + topPadding + offsetY + translateY
 				);
+			grx.rotate(angle);
+			
+			try
+			{
+				renderer.render(
+					getJasperReportsContext(),
+					grx,
+					new Rectangle(
+						0, 
+						0, 
+						renderWidth,
+						renderHeight 
+						) 
+					);
+			}
+			finally
+			{
+				grx.setTransform(oldTransform);
+			}
 		}
 		
 		
@@ -309,7 +425,17 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				normalWidth = (int)dimension.getWidth();
 				normalHeight = (int)dimension.getHeight();
 			}
-	
+
+			if (
+				printImage.getRotation() == RotationEnum.LEFT
+				|| printImage.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				int t = normalWidth;
+				normalWidth = normalHeight;
+				normalHeight = t;
+			}
+			
 			double ratio = (double)normalWidth / (double)normalHeight;
 			
 			if( ratio > (double)availableImageWidth / (double)availableImageHeight )
@@ -323,19 +449,72 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				normalHeight = availableImageHeight; 
 			}
 
-			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			int translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			int renderWidth = normalWidth;
+			int renderHeight = normalHeight;
+			double angle = 0;
+			
+			switch (printImage.getRotation())
+			{
+				case LEFT :
+				{
+					translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					renderWidth = normalHeight;
+					renderHeight = normalWidth;
+					angle = - Math.PI / 2;
+					break;
+				}
+				case RIGHT :
+				{
+					translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					renderWidth = normalHeight;
+					renderHeight = normalWidth;
+					angle = Math.PI / 2;
+					break;
+				}
+				case UPSIDE_DOWN :
+				{
+					translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					renderWidth = normalWidth;
+					renderHeight = normalHeight;
+					angle = Math.PI;
+					break;
+				}
+				case NONE :
+				default :
+				{
+				}
+			}
+			
+			AffineTransform oldTransform = grx.getTransform();
 
-			renderer.render(
-				getJasperReportsContext(),
-				grx,
-				new Rectangle(
-					printImage.getX() + leftPadding + offsetX + xoffset, 
-					printImage.getY() + topPadding + offsetY + yoffset, 
-					normalWidth, 
-					normalHeight
-					) 
+			grx.translate(
+				printImage.getX() + leftPadding + offsetX + translateX, 
+				printImage.getY() + topPadding + offsetY + translateY
 				);
+			grx.rotate(angle);
+			
+			try
+			{
+				renderer.render(
+					getJasperReportsContext(),
+					grx,
+					new Rectangle(
+						0, 
+						0, 
+						renderWidth,
+						renderHeight 
+						) 
+					);
+			}
+			finally
+			{
+				grx.setTransform(oldTransform);
+			}
 		}
 	}
 }

@@ -50,6 +50,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -86,6 +87,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	 *
 	 */
 	protected ScaleImageEnum scaleImageValue;
+	protected RotationEnum rotation;
 	protected HorizontalImageAlignEnum horizontalImageAlign;
 	protected VerticalImageAlignEnum verticalImageAlign;
 	protected Boolean isUsingCache;
@@ -158,6 +160,26 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		Object old = this.scaleImageValue;
 		this.scaleImageValue = scaleImageValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_SCALE_IMAGE, old, this.scaleImageValue);
+	}
+
+	@Override
+	public RotationEnum getRotation()
+	{
+		return getStyleResolver().getRotation(this);
+	}
+
+	@Override
+	public RotationEnum getOwnRotation()
+	{
+		return this.rotation;
+	}
+
+	@Override
+	public void setRotation(RotationEnum rotation)
+	{
+		Object old = this.rotation;
+		this.rotation = rotation;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_ROTATION, old, this.rotation);
 	}
 
 	@Override

@@ -152,7 +152,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	 */
 	public void setType(ExpressionTypeEnum type)
 	{
-		this.type = type;
+		this.type = type; //FIXMENOW why not raise change event?
 	}
 
 	@Override

@@ -1228,7 +1228,7 @@ See also <a href="./sample.reference/crosstabs/index.html#dynamic_style_features
   
   <configProperty name="net.sf.jasperreports.style.rotation">
     <description>
-Property used to configure dynamic text rotation for report elements. It is declared in the 
+Property used to configure dynamic text or image rotation for report elements. It is declared in the 
 <api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
 (which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface). 
 <br/>

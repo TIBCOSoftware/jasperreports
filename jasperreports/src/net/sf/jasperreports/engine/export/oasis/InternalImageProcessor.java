@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.RenderersCache;
@@ -83,8 +84,8 @@ public class InternalImageProcessor
 
 		// check dimension first, to avoid caching renderers that might not be used eventually, due to their dimension errors 
 
-		int width = availableImageWidth;
-		int height = availableImageHeight;
+		int imageWidth = availableImageWidth;
+		int imageHeight = availableImageHeight;
 
 		int xoffset = 0;
 		int yoffset = 0;
@@ -93,16 +94,46 @@ public class InternalImageProcessor
 		double cropLeft = 0;
 		double cropBottom = 0;
 		double cropRight = 0;
-
+		
+		double angle = 0;
 
 		switch (imageElement.getScaleImageValue())
 		{
 			case FILL_FRAME :
 			{
-				width = availableImageWidth;
-				height = availableImageHeight;
-//				xoffset = 0;
-//				yoffset = 0;
+				switch (imageElement.getRotation())
+				{
+					case LEFT:
+						imageWidth = availableImageHeight;
+						imageHeight = availableImageWidth;
+						xoffset = 0;
+						yoffset = availableImageHeight;
+						angle = Math.PI / 2;
+						break;
+					case RIGHT:
+						imageWidth = availableImageHeight;
+						imageHeight = availableImageWidth;
+						xoffset = availableImageWidth;
+						yoffset = 0;
+						angle = - Math.PI / 2;
+						break;
+					case UPSIDE_DOWN:
+						imageWidth = availableImageWidth;
+						imageHeight = availableImageHeight;
+						xoffset = availableImageWidth;
+						yoffset = availableImageHeight;
+						angle = Math.PI;
+						break;
+					case NONE:
+					default:
+						imageWidth = availableImageWidth;
+						imageHeight = availableImageHeight;
+						xoffset = 0;
+						yoffset = 0;
+						angle = 0;
+						break;
+				}
+				
 				break;
 			}
 			case CLIP :
@@ -118,71 +149,183 @@ public class InternalImageProcessor
 					normalHeight = dimension.getHeight();
 				}
 
-				if (normalWidth > availableImageWidth)
+				switch (imageElement.getRotation())
 				{
-					switch (imageElement.getHorizontalImageAlign())
-					{
-						case RIGHT :
+					case LEFT:
+						imageWidth = availableImageHeight;
+						imageHeight = availableImageWidth;
+						switch (imageElement.getHorizontalImageAlign())
 						{
-							cropLeft = normalWidth - availableImageWidth;
-							cropRight = 0;
-							break;
+							case RIGHT :
+								cropLeft = normalWidth - availableImageHeight;
+								cropRight = 0;
+								yoffset = imageWidth;
+								break;
+							case CENTER :
+								cropLeft = (normalWidth - availableImageHeight) / 2;
+								cropRight = cropLeft;
+								yoffset = availableImageHeight - (availableImageHeight - imageWidth) / 2;
+								break;
+							case LEFT :
+							default :
+								cropLeft = 0;
+								cropRight = normalWidth - availableImageHeight;
+								yoffset = availableImageHeight;
+								break;
 						}
-						case CENTER :
+						switch (imageElement.getVerticalImageAlign())
 						{
-							cropLeft = (normalWidth - availableImageWidth) / 2;
-							cropRight = cropLeft;
-							break;
+							case TOP :
+								cropTop = 0;
+								cropBottom = normalHeight - availableImageWidth;
+								xoffset = 0;
+								break;
+							case MIDDLE :
+								cropTop = (normalHeight - availableImageWidth) / 2;
+								cropBottom = cropTop;
+								xoffset = (availableImageWidth - imageHeight) / 2;
+								break;
+							case BOTTOM :
+							default :
+								cropTop = normalHeight - availableImageWidth;
+								cropBottom = 0;
+								xoffset = availableImageWidth - imageHeight;
+								break;
 						}
-						case LEFT :
-						default :
+						angle = Math.PI / 2;
+						break;
+					case RIGHT:
+						imageWidth = availableImageHeight;
+						imageHeight = availableImageWidth;
+						switch (imageElement.getHorizontalImageAlign())
 						{
-							cropLeft = 0;
-							cropRight = normalWidth - availableImageWidth;
-							break;
+							case RIGHT :
+								cropLeft = normalWidth - availableImageHeight;
+								cropRight = 0;
+								yoffset = availableImageHeight - imageWidth;
+								break;
+							case CENTER :
+								cropLeft = (normalWidth - availableImageHeight) / 2;
+								cropRight = cropLeft;
+								yoffset = (availableImageHeight - imageWidth) / 2;
+								break;
+							case LEFT :
+							default :
+								cropLeft = 0;
+								cropRight = normalWidth - availableImageHeight;
+								yoffset = 0;
+								break;
 						}
-					}
-					width = (int)normalWidth - (int)cropLeft - (int)cropRight;
+						switch (imageElement.getVerticalImageAlign())
+						{
+							case TOP :
+								cropTop = 0;
+								cropBottom = normalHeight - availableImageWidth;
+								xoffset = availableImageWidth;
+								break;
+							case MIDDLE :
+								cropTop = (normalHeight - availableImageWidth) / 2;
+								cropBottom = cropTop;
+								xoffset = availableImageWidth - (availableImageWidth - imageHeight) / 2;
+								break;
+							case BOTTOM :
+							default :
+								cropTop = normalHeight - availableImageWidth;
+								cropBottom = 0;
+								xoffset = imageHeight;
+								break;
+						}
+						angle = - Math.PI / 2;
+						break;
+					case UPSIDE_DOWN:
+						imageWidth = (int)Math.min(normalWidth, availableImageWidth);
+						imageHeight = (int)Math.min(normalHeight, availableImageHeight);
+						switch (imageElement.getHorizontalImageAlign())
+						{
+							case RIGHT :
+								cropLeft = normalWidth - availableImageWidth;
+								cropRight = 0;
+								xoffset = imageWidth;
+								break;
+							case CENTER :
+								cropLeft = (normalWidth - availableImageWidth) / 2;
+								cropRight = cropLeft;
+								xoffset = availableImageWidth - (availableImageWidth - imageWidth) / 2;
+								break;
+							case LEFT :
+							default :
+								cropLeft = 0;
+								cropRight = normalWidth - availableImageWidth;
+								xoffset = availableImageWidth;
+								break;
+						}
+						switch (imageElement.getVerticalImageAlign())
+						{
+							case TOP :
+								cropTop = 0;
+								cropBottom = normalHeight - availableImageHeight;
+								yoffset = availableImageHeight;
+								break;
+							case MIDDLE :
+								cropTop = (normalHeight - availableImageHeight) / 2;
+								cropBottom = cropTop;
+								yoffset = availableImageHeight - (availableImageHeight - imageHeight) / 2;
+								break;
+							case BOTTOM :
+							default :
+								cropTop = normalHeight - availableImageHeight;
+								cropBottom = 0;
+								yoffset = imageHeight;
+								break;
+						}
+						angle = Math.PI;
+						break;
+					case NONE:
+					default:
+						imageWidth = availableImageWidth;
+						imageHeight = availableImageHeight;
+						switch (imageElement.getHorizontalImageAlign())
+						{
+							case RIGHT :
+								cropLeft = normalWidth - availableImageWidth;
+								cropRight = 0;
+								xoffset = availableImageWidth - imageWidth;
+								break;
+							case CENTER :
+								cropLeft = (normalWidth - availableImageWidth) / 2;
+								cropRight = cropLeft;
+								xoffset = (availableImageWidth - imageWidth) / 2;
+								break;
+							case LEFT :
+							default :
+								cropLeft = 0;
+								cropRight = normalWidth - availableImageWidth;
+								xoffset = 0;
+								break;
+						}
+						switch (imageElement.getVerticalImageAlign())
+						{
+							case TOP :
+								cropTop = 0;
+								cropBottom = normalHeight - availableImageHeight;
+								yoffset = 0;
+								break;
+							case MIDDLE :
+								cropTop = (normalHeight - availableImageHeight) / 2;
+								cropBottom = cropTop;
+								yoffset = (availableImageHeight - imageHeight) / 2;
+								break;
+							case BOTTOM :
+							default :
+								cropTop = normalHeight - availableImageHeight;
+								cropBottom = 0;
+								yoffset = availableImageHeight - imageHeight;
+								break;
+						}
+						angle = 0;
+						break;
 				}
-				else
-				{
-					width = (int)normalWidth;
-				}
-
-				if (normalHeight > availableImageHeight)
-				{
-					switch (imageElement.getVerticalImageAlign())
-					{
-						case TOP :
-						{
-							cropTop = 0;
-							cropBottom = normalHeight - availableImageHeight;
-							break;
-						}
-						case MIDDLE :
-						{
-							cropTop = (normalHeight - availableImageHeight) / 2;
-							cropBottom = cropTop;
-							break;
-						}
-						case BOTTOM :
-						default :
-						{
-							cropTop = normalHeight - availableImageHeight;
-							cropBottom = 0;
-							break;
-						}
-					}
-					height = (int)normalHeight - (int)cropTop - (int)cropBottom;
-				}
-				else
-				{
-					height = (int)normalHeight;
-				}
-				
-//				xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * ((int)normalWidth - availableImageWidth));
-//				yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * ((int)normalHeight - availableImageHeight));
-
+								
 				break;
 			}
 			case RETAIN_SHAPE :
@@ -202,22 +345,73 @@ public class InternalImageProcessor
 					}
 				}
 
-				double ratio = normalWidth / normalHeight;
+				double ratioX = 1f;
+				double ratioY = 1f;
 
-				if( ratio > availableImageWidth / (double)availableImageHeight )
+				switch (imageElement.getRotation())
 				{
-					width = availableImageWidth;
-					height = (int)(width/ratio);
-
+					case LEFT:
+						imageWidth = availableImageHeight;
+						imageHeight = availableImageWidth;
+						ratioX = availableImageWidth / normalHeight;
+						ratioY = availableImageHeight / normalWidth;
+						ratioX = ratioX < ratioY ? ratioX : ratioY;
+						ratioY = ratioX;
+						xoffset = 0;
+						yoffset = availableImageHeight;
+						cropLeft = (int)(ImageUtil.getXAlignFactor(imageElement) * (normalWidth - availableImageHeight / ratioX));
+						cropRight = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (normalWidth - availableImageHeight / ratioX));
+						cropTop = (int)(ImageUtil.getYAlignFactor(imageElement) * (normalHeight - availableImageWidth / ratioY));
+						cropBottom = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (normalHeight - availableImageWidth / ratioY));
+						angle = Math.PI / 2;
+						break;
+					case RIGHT:
+						imageWidth = availableImageHeight;
+						imageHeight = availableImageWidth;
+						ratioX = availableImageWidth / normalHeight;
+						ratioY = availableImageHeight / normalWidth;
+						ratioX = ratioX < ratioY ? ratioX : ratioY;
+						ratioY = ratioX;
+						xoffset = availableImageWidth;
+						yoffset = 0;
+						cropLeft = (int)(ImageUtil.getXAlignFactor(imageElement) * (normalWidth - availableImageHeight / ratioX));
+						cropRight = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (normalWidth - availableImageHeight / ratioX));
+						cropTop = (int)(ImageUtil.getYAlignFactor(imageElement) * (normalHeight - availableImageWidth / ratioY));
+						cropBottom = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (normalHeight - availableImageWidth / ratioY));
+						angle = - Math.PI / 2;
+						break;
+					case UPSIDE_DOWN:
+						imageWidth = availableImageWidth;
+						imageHeight = availableImageHeight;
+						ratioX = availableImageWidth / normalWidth;
+						ratioY = availableImageHeight / normalHeight;
+						ratioX = ratioX < ratioY ? ratioX : ratioY;
+						ratioY = ratioX;
+						xoffset = availableImageWidth;
+						yoffset = availableImageHeight;
+						cropLeft = (int)(ImageUtil.getXAlignFactor(imageElement) * (normalWidth - availableImageWidth / ratioX));
+						cropRight = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (normalWidth - availableImageWidth / ratioX));
+						cropTop = (int)(ImageUtil.getYAlignFactor(imageElement) * (normalHeight - availableImageHeight / ratioY));
+						cropBottom = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (normalHeight - availableImageHeight / ratioY));
+						angle = Math.PI;
+						break;
+					case NONE:
+					default:
+						imageWidth = availableImageWidth;
+						imageHeight = availableImageHeight;
+						ratioX = availableImageWidth / normalWidth;
+						ratioY = availableImageHeight / normalHeight;
+						ratioX = ratioX < ratioY ? ratioX : ratioY;
+						ratioY = ratioX;
+						xoffset = 0;
+						yoffset = 0;
+						cropLeft = (int)(ImageUtil.getXAlignFactor(imageElement) * (normalWidth - availableImageWidth / ratioX));
+						cropRight = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (normalWidth - availableImageWidth / ratioX));
+						cropTop = (int)(ImageUtil.getYAlignFactor(imageElement) * (normalHeight - availableImageHeight / ratioY));
+						cropBottom = (int)((1f - ImageUtil.getYAlignFactor(imageElement)) * (normalHeight - availableImageHeight / ratioY));
+						angle = 0;
+						break;
 				}
-				else
-				{
-					height = availableImageHeight;
-					width = (int)(ratio * height);
-				}
-
-//				xoffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageWidth - width));
-//				yoffset = (int)(ImageUtil.getYAlignFactor(imageElement) * (availableImageHeight - height));
 			}
 		}
 
@@ -235,14 +429,15 @@ public class InternalImageProcessor
 		return 
 			new InternalImageProcessorResult(
 				imagePath, 
-				width,
-				height,
+				imageWidth,
+				imageHeight,
 				xoffset,
 				yoffset,
 				cropTop,
 				cropLeft,
 				cropBottom,
-				cropRight
+				cropRight,
+				angle
 				);
 	}
 }

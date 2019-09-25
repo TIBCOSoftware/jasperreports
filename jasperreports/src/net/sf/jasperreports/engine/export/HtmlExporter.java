@@ -883,6 +883,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 		
+		RotationEnum rotation = image.getRotation();
+		
 		Renderable renderer = image.getRenderer();
 
 		boolean isLazy = RendererUtil.isLazy(renderer);
@@ -890,6 +892,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (
 			isLazy
 			|| (scaleImage == ScaleImageEnum.CLIP && availableImageHeight > 0)
+			|| rotation != RotationEnum.NONE
 			)
 		{
 			// some browsers need td height so that height: 100% works on the div used for clipped images.
@@ -934,13 +937,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		if (renderer != null)
 		{
-			boolean useBackgroundLazyImage = 
-				isLazy 
-				&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
-					|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP))
+			boolean useBackgroundImage = 
+				((isLazy 
+					&& ((scaleImage == ScaleImageEnum.RETAIN_SHAPE || scaleImage == ScaleImageEnum.REAL_HEIGHT || scaleImage == ScaleImageEnum.REAL_SIZE) 
+							|| !(image.getHorizontalImageAlign() == HorizontalImageAlignEnum.LEFT && image.getVerticalImageAlign() == VerticalImageAlignEnum.TOP)))
+				|| rotation != RotationEnum.NONE)
 				&& isUseBackgroundImageToAlign(image);
 					
-			boolean useDiv = (scaleImage == ScaleImageEnum.CLIP || useBackgroundLazyImage);
+			boolean useDiv = (scaleImage == ScaleImageEnum.CLIP || useBackgroundImage);
 			if (useDiv)
 			{
 				writer.write("<div style=\"width: 100%; height: 100%; position: relative; overflow: hidden;\">\n");
@@ -993,7 +997,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				new InternalImageProcessor(
 					image,
 					isLazy,
-					!useBackgroundLazyImage && scaleImage != ScaleImageEnum.FILL_FRAME && !isLazy,
+					!useBackgroundImage && scaleImage != ScaleImageEnum.FILL_FRAME && !isLazy,
 					cell,
 					availableImageWidth,
 					availableImageHeight
@@ -1016,8 +1020,60 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			
 			if (imageProcessorResult != null)
 			{
-				if (useBackgroundLazyImage)
+				if (useBackgroundImage)
 				{
+					int width = availableImageWidth;
+					int height = availableImageHeight;
+					int translateX = 0;
+					int translateY = 0;
+					int angle = 0;
+					String backgroundSize = null;
+					
+					switch (rotation)
+					{
+						case LEFT:
+							width = availableImageHeight;
+							height = availableImageWidth;
+							translateX = (availableImageWidth - availableImageHeight) / 2;
+							translateY = - translateX;
+							angle = -90;
+							break;
+						case RIGHT:
+							width = availableImageHeight;
+							height = availableImageWidth;
+							translateX = (availableImageWidth - availableImageHeight) / 2;
+							translateY = - translateX;
+							angle = 90;
+							break;
+						case UPSIDE_DOWN:
+							angle = 180;
+							break;
+						case NONE:
+						default:
+							break;
+					}
+
+					switch (scaleImage)
+					{
+						case FILL_FRAME :
+						{
+							backgroundSize = "100% 100%";
+							break;
+						}
+						case CLIP :
+						{
+							backgroundSize = "auto";
+							break;
+						}
+						case RETAIN_SHAPE :
+						default :
+						{
+							backgroundSize = "contain";
+						}
+					}
+					
+					writer.write("<div style=\"width: " + width + "px; height: " + height + "px; position: absolute; overflow: hidden; "
+						+ "left: " + translateX + "px;top: " + translateY + "px; transform: rotate(" + angle + "deg);\">");
 					writer.write("<div style=\"width: 100%; height: 100%; background-image: url('");
 					String imagePath = imageProcessorResult.imageSource;
 					if (imagePath != null)
@@ -1028,28 +1084,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 						"'); background-repeat: no-repeat; background-position: " 
 						+ horizontalAlignment + " " 
 						+ (image.getVerticalImageAlign() == VerticalImageAlignEnum.MIDDLE ? "center" : verticalAlignment) 
-						+ ";background-size: "
-						);
-				
-					switch (scaleImage)
-					{
-						case FILL_FRAME :
-						{
-							writer.write("100% 100%");
-							break;
-						}
-						case CLIP :
-						{
-							writer.write("auto");
-							break;
-						}
-						case RETAIN_SHAPE :
-						default :
-						{
-							writer.write("contain");
-						}
-					}
-					writer.write(";\"></div>");
+						+ ";background-size: " + backgroundSize + ";\"></div>");
+					writer.write("</div>");
 				}
 				else if (imageProcessorResult.isEmbededSvgData)
 				{

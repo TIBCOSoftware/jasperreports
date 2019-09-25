@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.ObjectUtils;
@@ -68,6 +69,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 	 *
 	 */
 	private ScaleImageEnum scaleImageValue;
+	private RotationEnum rotation;
 	private Boolean isUsingCache = Boolean.TRUE;
 	private HorizontalImageAlignEnum horizontalImageAlign;
 	private VerticalImageAlignEnum verticalImageAlign;
@@ -127,7 +129,8 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		
 		lineBox = image.getLineBox().clone(this);
 
-		setScaleImage(image.getScaleImageValue());
+		setScaleImage(image.getScaleImageValue());//FIXME NOW should these be Own getters like in text templates?
+		setRotation(image.getOwnRotation());
 		setUsingCache(image.getUsingCache());
 		setHorizontalImageAlign(image.getHorizontalImageAlign());
 		setVerticalImageAlign(image.getVerticalImageAlign());
@@ -194,6 +197,24 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 	public void setScaleImage(ScaleImageEnum scaleImageValue)
 	{
 		this.scaleImageValue = scaleImageValue;
+	}
+
+	@Override
+	public RotationEnum getRotation()
+	{
+		return getStyleResolver().getRotation(this);
+	}
+
+	@Override
+	public RotationEnum getOwnRotation()
+	{
+		return this.rotation;
+	}
+
+	@Override
+	public void setRotation(RotationEnum rotation)
+	{
+		this.rotation = rotation;
 	}
 
 	/**
