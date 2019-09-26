@@ -2,6 +2,20 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.10.0 (2019-09-26)
+---------------------------------------------
+
+- support for image rotation;
+
+- various dependencies upgrades including Apache Ant 1.10.6, Jackson 2.9.9, 
+Bouncy Castle 1.62 and jQuery 3.4.1;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.9.0 (2019-06-24)
 ---------------------------------------------
 

@@ -1,80 +1,42 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/data/hibernate/HibernateConnectionProvider</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/HtmlFont</className>
-		<differenceType>7002</differenceType>
-		<method>*getInstance(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/HtmlFont</className>
-		<differenceType>7002</differenceType>
-		<method>*getStyle(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/HtmlFontUtil</className>
-		<differenceType>7002</differenceType>
-		<method>*handle*Font(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/web/util/FontWebResourceHandler</className>
-		<differenceType>7002</differenceType>
-		<method>*processFont(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper</className>
-		<differenceType>6001</differenceType>
-		<field>crosstabFrameDepth</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/export/DocxExporterConfiguration</className>
+		<className>net/sf/jasperreports/engine/JRCommonImage</className>
 		<differenceType>7012</differenceType>
-		<method>*isEmbedFonts(*)</method>
+		<method>*Rotation(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/export/PptxExporterConfiguration</className>
-		<differenceType>7012</differenceType>
-		<method>*isEmbedFonts(*)</method>
+		<className>net/sf/jasperreports/engine/util/JRApiWriter</className>
+		<differenceType>7002</differenceType>
+		<method>*JRApiWriter(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/DocxRunHelper</className>
-		<differenceType>7005</differenceType>
-		<method>*DocxRunHelper*</method>
-		<to>*DocxRunHelper*</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/PptxRunHelper</className>
-		<differenceType>7005</differenceType>
-		<method>*PptxRunHelper*</method>
-		<to>*PptxRunHelper*</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/DocxSettingsHelper</className>
+		<className>net/sf/jasperreports/engine/export/oasis/InternalImageProcessorResult</className>
 		<differenceType>7004</differenceType>
-		<method>*export(*)</method>
+		<method>*InternalImageProcessorResult(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/DocxStyleHelper</className>
+		<className>net/sf/jasperreports/engine/fill/JRFillImage</className>
 		<differenceType>7004</differenceType>
-		<method>*DocxStyleHelper(*)</method>
+		<method>*fitImage(*)</method>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/PptxPresentationHelper</className>
-		<differenceType>7004</differenceType>
-		<method>*PptxPresentationHelper(*)</method>
+		<className>net/sf/jasperreports/engine/export/oasis/InternalImageProcessorResult</className>
+		<differenceType>6006</differenceType>
+		<field>crop*</field>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/ooxml/PptxPresentationHelper</className>
-		<differenceType>7004</differenceType>
-		<method>*exportHeader()</method>
+		<className>net/sf/jasperreports/engine/export/oasis/InternalImageProcessorResult</className>
+		<differenceType>6006</differenceType>
+		<field>*offset</field>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/engine/export/zip/AbstractZip</className>
-		<differenceType>6004</differenceType>
-		<field>exportZipEntries</field>
-		<from>java.util.List</from>
-		<to>java.util.Map</to>
+		<className>net/sf/jasperreports/engine/export/oasis/InternalImageProcessorResult</className>
+		<differenceType>6006</differenceType>
+		<field>width</field>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/export/oasis/InternalImageProcessorResult</className>
+		<differenceType>6006</differenceType>
+		<field>height</field>
 	</difference>
 </differences>
