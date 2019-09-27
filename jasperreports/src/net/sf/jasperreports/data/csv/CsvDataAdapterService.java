@@ -140,8 +140,16 @@ public class CsvDataAdapterService extends AbstractDataAdapterService implements
 					parameters.put(JRCsvQueryExecuterFactory.CSV_NUMBER_FORMAT, df);
 				}
 				
-				parameters.put( JRCsvQueryExecuterFactory.CSV_FIELD_DELIMITER, csvDataAdapter.getFieldDelimiter());
-				parameters.put( JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER, csvDataAdapter.getRecordDelimiter());
+				String fieldDelimiter = csvDataAdapter.getFieldDelimiter();
+				if (fieldDelimiter != null && !fieldDelimiter.isEmpty()) {
+					parameters.put( JRCsvQueryExecuterFactory.CSV_FIELD_DELIMITER, fieldDelimiter);
+				}
+				
+				String recordDelimiter = csvDataAdapter.getRecordDelimiter();
+				if (recordDelimiter != null && !recordDelimiter.isEmpty()) {
+					parameters.put( JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER, recordDelimiter);
+				}
+				
 				parameters.put( JRCsvQueryExecuterFactory.CSV_USE_FIRST_ROW_AS_HEADER, csvDataAdapter.isUseFirstRowAsHeader());
 
 				if (!csvDataAdapter.isUseFirstRowAsHeader())
