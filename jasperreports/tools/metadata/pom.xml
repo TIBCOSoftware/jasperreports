@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports-metadata</artifactId>
-	<version>master-SNAPSHOT</version>
+	<version>6.10.0</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Metadata</name>
 	<description>JasperReports Metadata</description>
@@ -49,7 +49,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>master-SNAPSHOT</tag>
+		<tag>jr-6-10-0</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
