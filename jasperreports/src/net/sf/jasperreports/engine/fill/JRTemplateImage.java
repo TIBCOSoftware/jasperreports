@@ -502,6 +502,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
 		addGraphicHash(hash);
 		hash.add(scaleImageValue);
+		hash.add(rotation);
 		hash.add(isUsingCache);
 		hash.add(horizontalImageAlign);
 		hash.add(verticalImageAlign);
@@ -529,6 +530,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRImage
 		JRTemplateImage template = (JRTemplateImage) object;
 		return graphicIdentical(template)
 				&& ObjectUtils.equals(scaleImageValue, template.scaleImageValue)
+				&& ObjectUtils.equals(rotation, template.rotation)
 				&& ObjectUtils.equals(isUsingCache, template.isUsingCache)
 				&& ObjectUtils.equals(horizontalImageAlign, template.horizontalImageAlign)
 				&& ObjectUtils.equals(verticalImageAlign, template.verticalImageAlign)
