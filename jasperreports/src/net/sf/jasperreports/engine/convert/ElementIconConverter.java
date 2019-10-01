@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.renderers.ResourceRenderer;
 
@@ -69,6 +70,7 @@ public class ElementIconConverter extends ElementConverter
 		
 		printImage.getLineBox().setPadding((Integer)3);
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
+		printImage.setRotation(RotationEnum.NONE);
 		
 		printImage.setRenderer(ResourceRenderer.getInstance(iconLocation, false));
 		
