@@ -189,7 +189,7 @@ public class PhantomJS
 	{
 		INSTANTIATED = true;
 		this.jasperReportsContext = DefaultJasperReportsContext.getInstance();
-		this.scriptManager = new ScriptManager(jasperReportsContext);
+		this.scriptManager = new ScriptManager(jasperReportsContext, PROPERTY_PHANTOMJS_TEMPDIR_PATH);
 		this.processDirector = new ProcessDirector(jasperReportsContext, this.scriptManager);
 	}
 	
