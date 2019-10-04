@@ -2376,6 +2376,56 @@ public abstract class JRXlsAbstractExporter<RC extends XlsReportConfiguration, C
 			}
 		}
 	}
+	
+	protected String toExcelName(String name)
+	{
+		if (name.isEmpty())
+		{
+			//this is actually invalid, but let's leave it to POI to throw an exception
+			return name;
+		}
+		
+		char[] chars = name.toCharArray();
+		StringBuilder escaped = null;
+		
+		//TODO? always prepend "_" to avoid invalid names like R/C/A1
+		//valid character taken from the HSSFName.validateName method
+		if (!Character.isLetter(chars[0]) && chars[0] != '_' && chars[0] != '\\')
+		{
+			escaped = new StringBuilder(chars.length * 4 / 3);
+			escaped.append('_');
+			escaped.append(Integer.toHexString(chars[0]));
+		}
+		
+		for (int i = 1; i < chars.length; ++i)
+		{
+			if (Character.isLetterOrDigit(chars[i]) || chars[i] == '_' || chars[i] == '\\' || chars[i] == '.')
+			{
+				if (escaped != null)
+				{
+					escaped.append(chars[i]);
+				}
+			}
+			else
+			{
+				if (escaped == null)
+				{
+					escaped = new StringBuilder(chars.length * 4 / 3);
+					escaped.append(chars, 0, i);
+				}
+				
+				escaped.append(Integer.toHexString(chars[i]));
+			}
+		}
+		
+		String excelName = escaped == null ? name : escaped.toString();
+		if (excelName.length() > 255)
+		{
+			excelName = excelName.substring(0, 255);
+		}
+		//TODO? check for uniqueness
+		return excelName;
+	}
 
 	
 	//abstract methods

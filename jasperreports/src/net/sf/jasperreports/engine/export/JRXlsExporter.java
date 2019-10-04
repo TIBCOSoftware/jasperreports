@@ -118,7 +118,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
@@ -1061,7 +1060,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			if(anchorName != null)
 			{
 				HSSFName aName = workbook.createName();
-				aName.setNameName(JRStringUtil.getJavaIdentifier(anchorName));
+				aName.setNameName(toExcelName(anchorName));
 				aName.setSheetIndex(workbook.getSheetIndex(sheet));
 				CellReference cRef = new CellReference(rowIndex, colIndex, true, true);
 				aName.setRefersToFormula(cRef.formatAsString());

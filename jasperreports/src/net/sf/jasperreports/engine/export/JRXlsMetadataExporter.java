@@ -127,7 +127,6 @@ import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsMetadataExporterConfiguration;
@@ -961,7 +960,7 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 				String anchorName = textElement.getAnchorName();
 				if(anchorName != null) {
 					HSSFName aName = workbook.createName();
-					aName.setNameName(JRStringUtil.getJavaIdentifier(anchorName));
+					aName.setNameName(toExcelName(anchorName));
 					aName.setSheetIndex(workbook.getSheetIndex(sheet));
 					CellReference cRef = new CellReference(rowIndex, columnNamesMap.get(currentColumnName), true, true);
 					aName.setRefersToFormula(cRef.formatAsString());
