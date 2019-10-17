@@ -1889,172 +1889,208 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			int xoffset = 0;
 			int yoffset = 0;
-
 			int translateX = 0;
 			int translateY = 0;
-
-			double normalWidth = availableImageWidth;
-			double normalHeight = availableImageHeight;
-
-			double templateWidth = availableImageWidth;
-			double templateHeight = availableImageHeight;
-
-			double displayWidth = availableImageWidth;
-			double displayHeight = availableImageHeight;
-
+			double templateWidth = 0;
+			double templateHeight = 0;
+			double renderWidth = 0;
+			double renderHeight = 0;
 			double ratioX = 1f;
 			double ratioY = 1f;
-			
 			double angle = 0;
 
-			Dimension2D dimension = 
-				renderer instanceof DimensionRenderable 
-				? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
-				: null;
-			if (dimension != null)
+			switch (printImage.getScaleImageValue())
 			{
-				normalWidth = dimension.getWidth();
-				normalHeight = dimension.getHeight();
-				templateWidth = normalWidth;
-				templateHeight = normalHeight;
-				displayWidth = normalWidth;
-				displayHeight = normalHeight;
-				
-				switch (printImage.getScaleImageValue())
+				case CLIP:
 				{
-					case CLIP:
+					Dimension2D dimension = 
+						renderer instanceof DimensionRenderable 
+						? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
+						: null;
+					if (dimension != null)
 					{
-						templateWidth = availableImageWidth;
-						templateHeight = availableImageHeight;
+						renderWidth = dimension.getWidth();
+						renderHeight = dimension.getHeight();
+					}
+						
+					templateWidth = availableImageWidth;
+					templateHeight = availableImageHeight;
 
-						switch (printImage.getRotation())
-						{
-							case LEFT:
-								translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalHeight));
-								translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalWidth));
-								angle = - Math.PI / 2;
-								break;
-							case RIGHT:
-								translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalHeight));
-								translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalWidth));
-								angle = Math.PI / 2;
-								break;
-							case UPSIDE_DOWN:
-								translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-								translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-								angle = Math.PI;
-								break;
-							case NONE:
-							default:
-								translateX = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-								translateY = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-								angle = 0;
-								break;
-						}
-						break;
-					}
-					case FILL_FRAME:
+					switch (printImage.getRotation())
 					{
-						ratioX = availableImageWidth / normalWidth;
-						ratioY = availableImageHeight / normalHeight;
-						xoffset = 0;
-						yoffset = 0;
+						case LEFT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+							translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
+							angle = - Math.PI / 2;
+							break;
+						case RIGHT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+							translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
+							angle = Math.PI / 2;
+							break;
+						case UPSIDE_DOWN:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+							translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
+							angle = Math.PI;
+							break;
+						case NONE:
+						default:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							translateX = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+							translateY = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
+							angle = 0;
+							break;
+					}
+					break;
+				}
+				case FILL_FRAME:
+				{
+					templateWidth = availableImageWidth;
+					templateHeight = availableImageHeight;
 
-						switch (printImage.getRotation())
-						{
-							case LEFT:
-								displayWidth = normalHeight;
-								displayHeight = normalWidth;
-								translateX = 0;
-								translateY = (int)normalHeight;
-								angle = - Math.PI / 2;
-								break;
-							case RIGHT:
-								displayWidth = normalHeight;
-								displayHeight = normalWidth;
-								translateX = (int)normalWidth;
-								translateY = 0;
-								angle = Math.PI / 2;
-								break;
-							case UPSIDE_DOWN:
-								displayWidth = normalWidth;
-								displayHeight = normalHeight;
-								translateX = (int)normalWidth;
-								translateY = (int)normalHeight;
-								angle = Math.PI;
-								break;
-							case NONE:
-							default:
-								displayWidth = normalWidth;
-								displayHeight = normalHeight;
-								translateX = 0;
-								translateY = 0;
-								angle = 0;
-								break;
-						}
-						break;
-					}
-					case RETAIN_SHAPE:
-					default:
+					switch (printImage.getRotation())
 					{
-						switch (printImage.getRotation())
-						{
-							case LEFT:
-								ratioX = availableImageWidth / normalHeight;
-								ratioY = availableImageHeight / normalWidth;
-								ratioX = ratioX < ratioY ? ratioX : ratioY;
-								ratioY = ratioX;
-								templateWidth = normalHeight;
-								templateHeight = normalWidth;
-								translateX = 0;
-								translateY = (int)normalWidth;
-								xoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalHeight * ratioX));
-								yoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalWidth * ratioY));
-								angle = - Math.PI / 2;
-								break;
-							case RIGHT:
-								ratioX = availableImageWidth / normalHeight;
-								ratioY = availableImageHeight / normalWidth;
-								ratioX = ratioX < ratioY ? ratioX : ratioY;
-								ratioY = ratioX;
-								templateWidth = normalHeight;
-								templateHeight = normalWidth;
-								translateX = (int)normalHeight;
-								translateY = 0;
-								xoffset = (int) ((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - normalHeight * ratioX));
-								yoffset = (int) ((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - normalWidth * ratioY));
-								angle = Math.PI / 2;
-								break;
-							case UPSIDE_DOWN:
-								ratioX = availableImageWidth / normalWidth;
-								ratioY = availableImageHeight / normalHeight;
-								ratioX = ratioX < ratioY ? ratioX : ratioY;
-								ratioY = ratioX;
-								templateWidth = normalWidth;
-								templateHeight = normalHeight;
-								translateX = (int)normalWidth;
-								translateY = (int)normalHeight;
-								xoffset = (int) ((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - normalWidth * ratioX));
-								yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight * ratioY));
-								angle = Math.PI;
-								break;
-							case NONE:
-							default:
-								ratioX = availableImageWidth / normalWidth;
-								ratioY = availableImageHeight / normalHeight;
-								ratioX = ratioX < ratioY ? ratioX : ratioY;
-								ratioY = ratioX;
-								templateWidth = normalWidth;
-								templateHeight = normalHeight;
-								translateX = 0;
-								translateY = 0;
-								xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth * ratioX));
-								yoffset = (int) ((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - normalHeight * ratioY));
-								angle = 0;
-								break;
-						}
-						break;
+						case LEFT:
+							renderWidth = availableImageHeight;
+							renderHeight = availableImageWidth;
+							translateX = 0;
+							translateY = availableImageHeight;
+							angle = - Math.PI / 2;
+							break;
+						case RIGHT:
+							renderWidth = availableImageHeight;
+							renderHeight = availableImageWidth;
+							translateX = availableImageWidth;
+							translateY = 0;
+							angle = Math.PI / 2;
+							break;
+						case UPSIDE_DOWN:
+							renderWidth = availableImageWidth;
+							renderHeight = availableImageHeight;
+							translateX = availableImageWidth;
+							translateY = availableImageHeight;
+							angle = Math.PI;
+							break;
+						case NONE:
+						default:
+							renderWidth = availableImageWidth;
+							renderHeight = availableImageHeight;
+							translateX = 0;
+							translateY = 0;
+							angle = 0;
+							break;
 					}
+					break;
+				}
+				case RETAIN_SHAPE:
+				default:
+				{
+					Dimension2D dimension = 
+						renderer instanceof DimensionRenderable 
+						? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
+						: null;
+					if (dimension != null)
+					{
+						renderWidth = dimension.getWidth();
+						renderHeight = dimension.getHeight();
+					}
+						
+					switch (printImage.getRotation())
+					{
+						case LEFT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							ratioX = availableImageWidth / renderHeight;
+							ratioY = availableImageHeight / renderWidth;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderHeight;
+							templateHeight = renderWidth;
+							translateX = 0;
+							translateY = (int)renderWidth;
+							xoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight * ratioX));
+							yoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth * ratioY));
+							angle = - Math.PI / 2;
+							break;
+						case RIGHT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							ratioX = availableImageWidth / renderHeight;
+							ratioY = availableImageHeight / renderWidth;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderHeight;
+							templateHeight = renderWidth;
+							translateX = (int)renderHeight;
+							translateY = 0;
+							xoffset = (int) ((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - renderHeight * ratioX));
+							yoffset = (int) ((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - renderWidth * ratioY));
+							angle = Math.PI / 2;
+							break;
+						case UPSIDE_DOWN:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							ratioX = availableImageWidth / renderWidth;
+							ratioY = availableImageHeight / renderHeight;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderWidth;
+							templateHeight = renderHeight;
+							translateX = (int)renderWidth;
+							translateY = (int)renderHeight;
+							xoffset = (int) ((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - renderWidth * ratioX));
+							yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight * ratioY));
+							angle = Math.PI;
+							break;
+						case NONE:
+						default:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							ratioX = availableImageWidth / renderWidth;
+							ratioY = availableImageHeight / renderHeight;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderWidth;
+							templateHeight = renderHeight;
+							translateX = 0;
+							translateY = 0;
+							xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth * ratioX));
+							yoffset = (int) ((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - renderHeight * ratioY));
+							angle = 0;
+							break;
+					}
+					break;
 				}
 			}
 
@@ -2079,10 +2115,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				if (printImage.getModeValue() == ModeEnum.OPAQUE)
 				{
 					g.setColor(printImage.getBackcolor());
-					g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
+					g.fillRect(0, 0, (int)renderWidth, (int)renderHeight);
 				}
 
-				renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, displayWidth, displayHeight));
+				renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, renderWidth, renderHeight));
 			}
 			finally
 			{

@@ -917,7 +917,10 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 						DataRenderable dataRenderer = 
 							getRendererUtil().getDataRenderable(
 								renderer,
-								new Dimension(image.getWidth(), image.getHeight()),
+								new Dimension(
+									Math.max(image.getWidth() - image.getLineBox().getLeftPadding() - image.getLineBox().getRightPadding(), 0), 
+									Math.max(image.getHeight() - image.getLineBox().getTopPadding() - image.getLineBox().getBottomPadding(), 0)
+									),
 								ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 								);
 							
@@ -948,7 +951,10 @@ public class JRXmlExporter extends JRAbstractExporter<ReportExportConfiguration,
 							DataRenderable dataRenderer = 
 								getRendererUtil().getDataRenderable(
 									renderer,
-									new Dimension(image.getWidth(), image.getHeight()),
+									new Dimension(
+										Math.max(image.getWidth() - image.getLineBox().getLeftPadding() - image.getLineBox().getRightPadding(), 0), 
+										Math.max(image.getHeight() - image.getLineBox().getTopPadding() - image.getLineBox().getBottomPadding(), 0)
+										),
 									ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 									);
 

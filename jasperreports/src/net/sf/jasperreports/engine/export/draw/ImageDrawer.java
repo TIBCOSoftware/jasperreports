@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.ImageUtil;
 import net.sf.jasperreports.renderers.DimensionRenderable;
 import net.sf.jasperreports.renderers.Graphics2DRenderable;
@@ -223,67 +222,72 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			Graphics2DRenderable renderer
 			) throws JRException
 		{
-			int normalWidth = availableImageWidth;
-			int normalHeight = availableImageHeight;
-
+			int translateX = 0;
+			int translateY = 0;
+			int renderWidth = 0;
+			int renderHeight = 0;
+			double angle = 0;
+			
 			Dimension2D dimension = 
 				renderer instanceof DimensionRenderable 
 				? ((DimensionRenderable)renderer).getDimension(getJasperReportsContext())
 				: null;
+			
 			if (dimension != null)
 			{
-				normalWidth = (int)dimension.getWidth();
-				normalHeight = (int)dimension.getHeight();
+				renderWidth = (int)dimension.getWidth();
+				renderHeight = (int)dimension.getHeight();
 			}
-			
-			if (
-				printImage.getRotation() == RotationEnum.LEFT
-				|| printImage.getRotation() == RotationEnum.RIGHT
-				)
-			{
-				int t = normalWidth;
-				normalWidth = normalHeight;
-				normalHeight = t;
-			}
-			
-			int translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-			int renderWidth = normalWidth;
-			int renderHeight = normalHeight;
-			double angle = 0;
-			
+
 			switch (printImage.getRotation())
 			{
 				case LEFT :
 				{
-					translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
-					renderWidth = normalHeight;
-					renderHeight = normalWidth;
+					if (dimension == null)
+					{
+						renderWidth = availableImageHeight;
+						renderHeight = availableImageWidth;
+					}
+					translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+					translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
 					angle = - Math.PI / 2;
 					break;
 				}
 				case RIGHT :
 				{
-					translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
-					renderWidth = normalHeight;
-					renderHeight = normalWidth;
+					if (dimension == null)
+					{
+						renderWidth = availableImageHeight;
+						renderHeight = availableImageWidth;
+					}
+					translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+					translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
 					angle = Math.PI / 2;
 					break;
 				}
 				case UPSIDE_DOWN :
 				{
-					translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-					renderWidth = normalWidth;
-					renderHeight = normalHeight;
+					if (dimension == null)
+					{
+						renderWidth = availableImageWidth;
+						renderHeight = availableImageHeight;
+					}
+					translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+					translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
 					angle = Math.PI;
 					break;
 				}
 				case NONE :
 				default :
 				{
+					if (dimension == null)
+					{
+						renderWidth = availableImageWidth;
+						renderHeight = availableImageHeight;
+					}
+					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
+					angle = 0;
 				}
 			}
 			
@@ -413,9 +417,18 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			Graphics2DRenderable renderer
 			) throws JRException
 		{
-			int normalWidth = availableImageWidth;
-			int normalHeight = availableImageHeight;
+			float normalWidth = 0;
+			float normalHeight = 0;
 
+			float ratioX = 1f;
+			float ratioY = 1f;
+			
+			int translateX = 0;
+			int translateY = 0;
+			float renderWidth = 0;
+			float renderHeight = 0;
+			double angle = 0;
+			
 			Dimension2D dimension = 
 				renderer instanceof DimensionRenderable 
 				? ((DimensionRenderable)renderer).getDimension(getJasperReportsContext())
@@ -426,67 +439,79 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				normalHeight = (int)dimension.getHeight();
 			}
 
-			if (
-				printImage.getRotation() == RotationEnum.LEFT
-				|| printImage.getRotation() == RotationEnum.RIGHT
-				)
-			{
-				int t = normalWidth;
-				normalWidth = normalHeight;
-				normalHeight = t;
-			}
-			
-			double ratio = (double)normalWidth / (double)normalHeight;
-			
-			if( ratio > (double)availableImageWidth / (double)availableImageHeight )
-			{
-				normalWidth = availableImageWidth; 
-				normalHeight = (int)(availableImageWidth / ratio); 
-			}
-			else
-			{
-				normalWidth = (int)(availableImageHeight * ratio); 
-				normalHeight = availableImageHeight; 
-			}
-
-			int translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-			int renderWidth = normalWidth;
-			int renderHeight = normalHeight;
-			double angle = 0;
-			
 			switch (printImage.getRotation())
 			{
 				case LEFT :
 				{
-					translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
-					renderWidth = normalHeight;
-					renderHeight = normalWidth;
+					if (dimension == null)
+					{
+						normalWidth = availableImageHeight;
+						normalHeight = availableImageWidth;
+					}
+					ratioX = availableImageWidth / normalHeight;
+					ratioY = availableImageHeight / normalWidth;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					renderWidth = normalWidth * ratioX;
+					renderHeight = normalHeight * ratioY;
+					translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+					translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
 					angle = - Math.PI / 2;
 					break;
 				}
 				case RIGHT :
 				{
-					translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalHeight));
-					renderWidth = normalHeight;
-					renderHeight = normalWidth;
+					if (dimension == null)
+					{
+						normalWidth = availableImageHeight;
+						normalHeight = availableImageWidth;
+					}
+					ratioX = availableImageWidth / normalHeight;
+					ratioY = availableImageHeight / normalWidth;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					renderWidth = normalWidth * ratioX;
+					renderHeight = normalHeight * ratioY;
+					translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+					translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
 					angle = Math.PI / 2;
 					break;
 				}
 				case UPSIDE_DOWN :
 				{
-					translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-					translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-					renderWidth = normalWidth;
-					renderHeight = normalHeight;
+					if (dimension == null)
+					{
+						normalWidth = availableImageWidth;
+						normalHeight = availableImageHeight;
+					}
+					ratioX = availableImageWidth / normalWidth;
+					ratioY = availableImageHeight / normalHeight;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					renderWidth = normalWidth * ratioX;
+					renderHeight = normalHeight * ratioY;
+					translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+					translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
 					angle = Math.PI;
 					break;
 				}
 				case NONE :
 				default :
 				{
+					if (dimension == null)
+					{
+						normalWidth = availableImageWidth;
+						normalHeight = availableImageHeight;
+					}
+					ratioX = availableImageWidth / normalWidth;
+					ratioY = availableImageHeight / normalHeight;
+					ratioX = ratioX < ratioY ? ratioX : ratioY;
+					ratioY = ratioX;
+					renderWidth = normalWidth * ratioX;
+					renderHeight = normalHeight * ratioY;
+					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
+					angle = 0;
 				}
 			}
 			
@@ -506,8 +531,8 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 					new Rectangle(
 						0, 
 						0, 
-						renderWidth,
-						renderHeight 
+						(int)renderWidth,
+						(int)renderHeight 
 						) 
 					);
 			}

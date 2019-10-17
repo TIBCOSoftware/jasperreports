@@ -1336,7 +1336,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	private class InternalImageProcessor
 	{
-		private final JRPrintElement imageElement;
+		private final JRPrintImage imageElement;
 		private final RenderersCache imageRenderersCache;
 		private final boolean isLazy; 
 		private final boolean embedImage; 
@@ -1401,15 +1401,29 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				{
 					if (embedImage)
 					{
-						DataRenderable dataRenderer = null; 
+						Dimension dim =	null;
+						
+						if (
+							imageElement.getRotation() == RotationEnum.LEFT
+							|| imageElement.getRotation() == RotationEnum.RIGHT
+							)
+						{
+							dim =	new Dimension(availableImageHeight, availableImageWidth);
+						}
+						else
+						{
+							dim =	new Dimension(availableImageWidth, availableImageHeight);
+						}
 
+						DataRenderable dataRenderer = null;
+						
 						if (isConvertSvgToImage(imageElement))
 						{
 							dataRenderer = 
 								getRendererUtil().getImageDataRenderable(
 									imageRenderersCache,
 									renderer,
-									new Dimension(availableImageWidth, availableImageHeight),
+									dim,
 									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 									);
 						}
@@ -1418,7 +1432,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							dataRenderer = 
 								getRendererUtil().getDataRenderable(
 									renderer,
-									new Dimension(availableImageWidth, availableImageHeight),
+									dim,
 									ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 									);
 						}
@@ -1482,6 +1496,20 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 							: getImageHandler();
 						if (imageHandler != null)
 						{
+							Dimension dim =	null;
+							
+							if (
+								imageElement.getRotation() == RotationEnum.LEFT
+								|| imageElement.getRotation() == RotationEnum.RIGHT
+								)
+							{
+								dim =	new Dimension(availableImageHeight, availableImageWidth);
+							}
+							else
+							{
+								dim =	new Dimension(availableImageWidth, availableImageHeight);
+							}
+
 							DataRenderable dataRenderer = null;
 							
 							if (isConvertSvgToImage(imageElement))
@@ -1490,7 +1518,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 									getRendererUtil().getImageDataRenderable(
 										imageRenderersCache,
 										renderer,
-										new Dimension(availableImageWidth, availableImageHeight),
+										dim,
 										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 										);
 							}
@@ -1499,7 +1527,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 								dataRenderer = 
 									getRendererUtil().getDataRenderable(
 										renderer,
-										new Dimension(availableImageWidth, availableImageHeight),
+										dim,
 										ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 										);
 							}

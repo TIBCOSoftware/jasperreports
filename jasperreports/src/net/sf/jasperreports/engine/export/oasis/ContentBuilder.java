@@ -177,6 +177,9 @@ public class ContentBuilder
 		writer.write(" </office:font-face-decls>\n");
 		
 		writer.write(" <office:automatic-styles>\n");
+		writer.write(" <style:style style:name=\"G_ImgFrm\" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
+		writer.write("  <style:graphic-properties style:vertical-pos=\"top\" style:vertical-rel=\"baseline\" style:horizontal-pos=\"left\" style:horizontal-rel=\"paragraph\" />\n");
+		writer.write(" </style:style>\n");
 		
 		writer.flush();
 		styleEntry.writeData(contentEntry.getOutputStream());
