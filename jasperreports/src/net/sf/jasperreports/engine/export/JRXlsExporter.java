@@ -114,6 +114,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.ImageUtil;
@@ -1693,12 +1694,24 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				}
 				case FILL_FRAME:
 				{
+					Dimension dimension = null;
+					if (
+						imageElement.getRotation() == RotationEnum.LEFT
+						|| imageElement.getRotation() == RotationEnum.RIGHT
+						)
+					{
+						dimension = new Dimension(availableImageHeight, availableImageWidth);
+					}
+					else
+					{
+						dimension = new Dimension(availableImageWidth, availableImageHeight);
+					}
 					imageProcessorResult = 
 						processImageFillFrame(
 							getRendererUtil().getImageDataRenderable(
 								imageRenderersCache,
 								renderer,
-								new Dimension(availableImageWidth, availableImageHeight),
+								dimension,
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								)
 							);
@@ -1708,12 +1721,24 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				case RETAIN_SHAPE:
 				default:
 				{
+					Dimension dimension = null;
+					if (
+						imageElement.getRotation() == RotationEnum.LEFT
+						|| imageElement.getRotation() == RotationEnum.RIGHT
+						)
+					{
+						dimension = new Dimension(availableImageHeight, availableImageWidth);
+					}
+					else
+					{
+						dimension = new Dimension(availableImageWidth, availableImageHeight);
+					}
 					imageProcessorResult = 
 						processImageRetainShape(
 							getRendererUtil().getImageDataRenderable(
 								imageRenderersCache,
 								renderer,
-								new Dimension(availableImageWidth, availableImageHeight),
+								dimension,
 								ModeEnum.OPAQUE == imageElement.getModeValue() ? imageElement.getBackcolor() : null
 								)
 							);
@@ -1751,6 +1776,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 			switch (imageElement.getRotation())
 			{
 				case LEFT :
+					if (dimension == null)
+					{
+						normalWidth = availableImageHeight;
+						normalHeight = availableImageWidth;
+					}
 					minWidth = Math.min(normalWidth, availableImageHeight);
 					minHeight = Math.min(normalHeight, availableImageWidth);
 					topOffset = (int)((1f - ImageUtil.getXAlignFactor(imageElement)) * (availableImageHeight - normalWidth));
@@ -1762,6 +1792,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 					angle = -90;
 					break;
 				case RIGHT :
+					if (dimension == null)
+					{
+						normalWidth = availableImageHeight;
+						normalHeight = availableImageWidth;
+					}
 					minWidth = Math.min(normalWidth, availableImageHeight);
 					minHeight = Math.min(normalHeight, availableImageWidth);
 					topOffset = (int)(ImageUtil.getXAlignFactor(imageElement) * (availableImageHeight - normalWidth));

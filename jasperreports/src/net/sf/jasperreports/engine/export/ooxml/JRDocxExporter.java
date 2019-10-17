@@ -85,6 +85,7 @@ import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -1016,7 +1017,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image, 
-					image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME, 
 					gridCell,
 					availableImageWidth,
 					availableImageHeight
@@ -1104,6 +1104,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						switch (image.getRotation())
 						{
 							case LEFT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
@@ -1143,6 +1148,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								angle = -90;
 								break;
 							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
@@ -1278,6 +1288,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						switch (image.getRotation())
 						{
 							case LEFT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								ratioX = availableImageWidth / normalHeight;
@@ -1323,6 +1338,11 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 								angle = -90;
 								break;
 							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								ratioX = availableImageWidth / normalHeight;
@@ -1575,18 +1595,28 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
-			boolean needDimension, 
 			JRExporterGridCell cell,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
-			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = needDimension;
 			this.cell = cell;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
+			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
+			if (
+				imageElement.getRotation() == RotationEnum.LEFT
+				|| imageElement.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				this.availableImageWidth = availableImageHeight;
+				this.availableImageHeight = availableImageWidth;
+			}
+			else
+			{
+				this.availableImageWidth = availableImageWidth;
+				this.availableImageHeight = availableImageHeight;
+			}
 		}
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
