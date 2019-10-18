@@ -62,6 +62,8 @@ import net.sf.jasperreports.components.table.DesignCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardColumnGroup;
 import net.sf.jasperreports.components.table.StandardGroupCell;
+import net.sf.jasperreports.components.table.StandardGroupRow;
+import net.sf.jasperreports.components.table.StandardRow;
 import net.sf.jasperreports.components.table.StandardTableFactory;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRElementDataset;
@@ -440,6 +442,14 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		addTableGroupCellRules(digester, columnGroupPattern + "/groupFooter", "addGroupFooter");
 		addTableCellRules(digester, columnGroupPattern + "/columnHeader", "setColumnHeader");
 		addTableCellRules(digester, columnGroupPattern + "/columnFooter", "setColumnFooter");
+
+		addTableRowRules(digester, tablePattern + "/tableHeader", "setTableHeader");
+		addTableRowRules(digester, tablePattern + "/tableFooter", "setTableFooter");
+		addTableGroupRowRules(digester, tablePattern + "/groupHeader", "addGroupHeader");
+		addTableGroupRowRules(digester, tablePattern + "/groupFooter", "addGroupFooter");
+		addTableRowRules(digester, tablePattern + "/columnHeader", "setColumnHeader");
+		addTableRowRules(digester, tablePattern + "/columnFooter", "setColumnFooter");
+		addTableRowRules(digester, tablePattern + "/detail", "setDetail");
 	}
 	
 	protected void addTableCellRules(Digester digester, String pattern, 
@@ -462,6 +472,26 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addObjectCreate(pattern, StandardGroupCell.class);
 		digester.addSetProperties(pattern);
 		addTableCellRules(digester, pattern + "/cell", "setCell");
+		digester.addSetNext(pattern, setNextMethod);
+	}
+
+	protected void addTableRowRules(Digester digester, String pattern, 
+			String setNextMethod)
+	{
+		digester.addObjectCreate(pattern, StandardRow.class);
+		digester.addSetProperties(pattern);
+		digester.addSetNext(pattern, setNextMethod);
+		addExpressionRules(digester, pattern + "/printWhenExpression", 
+				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				true);
+	}
+	
+	protected void addTableGroupRowRules(Digester digester, String pattern, 
+			String setNextMethod)
+	{
+		digester.addObjectCreate(pattern, StandardGroupRow.class);
+		digester.addSetProperties(pattern);
+		addTableRowRules(digester, pattern + "/row", "setRow");
 		digester.addSetNext(pattern, setNextMethod);
 	}
 

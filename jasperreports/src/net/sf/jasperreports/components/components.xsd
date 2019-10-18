@@ -683,6 +683,13 @@
 							<element ref="c:columnGroup"/>
 							<element ref="c:column"/>
 						</choice>
+						<element name="tableHeader" type="c:TableRow" minOccurs="0"/>
+						<element name="columnHeader" type="c:TableRow" minOccurs="0"/>
+						<element name="groupHeader" type="c:TableGroupRow" minOccurs="0" maxOccurs="unbounded"/>
+						<element name="detail" type="c:TableRow" minOccurs="0"/>
+						<element name="groupFooter" type="c:TableGroupRow" minOccurs="0" maxOccurs="unbounded"/>
+						<element name="columnFooter" type="c:TableRow" minOccurs="0"/>
+						<element name="tableFooter" type="c:TableRow" minOccurs="0"/>
 					</sequence>
 					<attribute name="whenNoDataType" use="optional">
 						<annotation>
@@ -754,6 +761,19 @@
 			</complexContent>
 		</complexType>
 	</element>
+	
+	<complexType name="TableGroupRow">
+		<sequence>
+			<element name="row" type="c:TableRow"/>
+		</sequence>
+		<attribute name="groupName" use="required" type="string"/>
+	</complexType>
+	
+	<complexType name="TableRow">
+		<sequence>
+			<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
 	
 	<complexType name="TableGroupCell">
 		<sequence>

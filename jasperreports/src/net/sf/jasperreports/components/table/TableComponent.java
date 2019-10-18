@@ -65,4 +65,21 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	
 	WhenNoDataTypeTableEnum getWhenNoDataType();
 	
+	Row getTableHeader();
+	
+	Row getTableFooter();
+	
+	List<GroupRow> getGroupHeaders();
+	
+	Row getGroupHeader(String groupName);
+	
+	List<GroupRow> getGroupFooters();
+	
+	Row getGroupFooter(String groupName);
+	
+	Row getColumnHeader();
+	
+	Row getColumnFooter();
+	
+	Row getDetail();
 }
