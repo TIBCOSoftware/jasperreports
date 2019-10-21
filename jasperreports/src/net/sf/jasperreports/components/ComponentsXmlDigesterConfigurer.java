@@ -492,6 +492,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addSetNext(pattern, setNextMethod);
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void addTableRowRules(Digester digester, String pattern, 
 			String setNextMethod)
 	{
