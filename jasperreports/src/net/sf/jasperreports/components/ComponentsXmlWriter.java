@@ -43,6 +43,7 @@ import net.sf.jasperreports.components.sort.SortComponent;
 import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
+import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -530,11 +531,30 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			writeGroupRows(componentElement, table.getGroupFooters(), "groupFooter", reportWriter);
 			writeTableRow(componentElement, table.getColumnFooter(), "columnFooter", reportWriter);
 			writeTableRow(componentElement, table.getTableFooter(), "tableFooter", reportWriter);
+			
+			writeTableBaseCell(componentElement, table.getNoData(), "noData", reportWriter);
 		}
 
 		writer.closeElement();
 	}
 	
+	protected void writeTableBaseCell(JRComponentElement componentElement, BaseCell cell, String name, 
+			JRXmlWriter reportWriter) throws IOException
+	{
+		if (cell != null)
+		{
+			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+			writer.startElement(name);
+			reportWriter.writeStyleReferenceAttr(cell);
+			writer.addAttribute("height", cell.getHeight());
+			
+			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
+			reportWriter.writeChildElements(cell);
+			
+			writer.closeElement();//cell
+		}
+	}
+
 	protected void writeGroupCells(JRComponentElement componentElement, List<GroupCell> cells, String name, 
 			JRXmlWriter reportWriter) throws IOException
 	{

@@ -70,6 +70,8 @@ public class TableCompiler implements ComponentCompiler
 		rowCollector.collectRow(table.getColumnHeader());
 		rowCollector.collectRow(table.getColumnFooter());
 		rowCollector.collectRow(table.getDetail());
+		
+		columnCollector.collectCell(table.getNoData());
 	}
 
 	@Override

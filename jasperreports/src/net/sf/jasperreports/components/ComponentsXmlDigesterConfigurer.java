@@ -58,6 +58,7 @@ import net.sf.jasperreports.components.list.StandardListComponent;
 import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
+import net.sf.jasperreports.components.table.DesignBaseCell;
 import net.sf.jasperreports.components.table.DesignCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardColumnGroup;
@@ -450,6 +451,22 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		addTableRowRules(digester, tablePattern + "/columnHeader", "setColumnHeader");
 		addTableRowRules(digester, tablePattern + "/columnFooter", "setColumnFooter");
 		addTableRowRules(digester, tablePattern + "/detail", "setDetail");
+		
+		addTableBaseCellRules(digester, tablePattern + "/noData", "setNoData");
+	}
+	
+	protected void addTableBaseCellRules(Digester digester, String pattern, 
+			String setNextMethod)
+	{
+		digester.addObjectCreate(pattern, DesignBaseCell.class);
+		digester.addSetNext(pattern, setNextMethod);
+		// rule to set the context dataset name
+		digester.addRule(pattern, new DatasetRunReportContextRule<>(TableComponent.class));
+		
+		digester.addSetProperties(pattern,
+				new String[]{JRXmlConstants.ATTRIBUTE_style}, 
+				new String[0]);
+		digester.addRule(pattern, new StyleContainerRule());
 	}
 	
 	protected void addTableCellRules(Digester digester, String pattern, 

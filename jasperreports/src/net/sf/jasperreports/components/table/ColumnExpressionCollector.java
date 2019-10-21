@@ -99,7 +99,7 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 		}
 	}
 	
-	protected void collectCell(Cell cell)
+	protected void collectCell(BaseCell cell)
 	{
 		if (cell == null)
 		{

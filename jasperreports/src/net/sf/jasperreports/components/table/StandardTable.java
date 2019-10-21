@@ -60,6 +60,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	public static final String PROPERTY_GROUP_HEADERS = "groupHeaders";
 	public static final String PROPERTY_GROUP_FOOTERS = "groupFooters";
 	public static final String PROPERTY_DETAIL = "detail";
+	public static final String PROPERTY_NO_DATA = "noData";
 	
 	private JRDatasetRun datasetRun;
 	private List<BaseColumn> columns;
@@ -73,6 +74,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	private Row columnHeader;
 	private Row columnFooter;
 	private Row detail;
+	private BaseCell noData;
 	
 	public StandardTable()
 	{
@@ -99,6 +101,8 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		this.columnHeader = rowFactory.createRow(table.getColumnHeader());
 		this.columnFooter = rowFactory.createRow(table.getColumnFooter());
 		this.detail = rowFactory.createRow(table.getDetail());
+		
+		this.noData = rowFactory.createBaseCell(table.getNoData());
 	}
 	
 	@Override
@@ -393,6 +397,20 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	}
 	
 	@Override
+	public BaseCell getNoData()
+	{
+		return noData;
+	}
+
+	public void setNoData(BaseCell noData)
+	{
+		Object old = this.noData;
+		this.noData = noData;
+		getEventSupport().firePropertyChange(PROPERTY_NO_DATA, 
+				old, this.noData);
+	}
+	
+	@Override
 	public Object clone()
 	{
 		StandardTable clone = null;
@@ -414,6 +432,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		clone.columnHeader = JRCloneUtils.nullSafeClone(columnHeader);
 		clone.columnFooter = JRCloneUtils.nullSafeClone(columnFooter);
 		clone.detail = JRCloneUtils.nullSafeClone(detail);
+		clone.noData = JRCloneUtils.nullSafeClone(noData);
 		clone.eventSupport = null;
 		return clone;
 	}

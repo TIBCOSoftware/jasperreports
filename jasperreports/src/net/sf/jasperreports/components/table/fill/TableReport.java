@@ -43,6 +43,7 @@ import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
+import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -367,6 +368,7 @@ public class TableReport implements JRReport
 	private final JRDesignBand columnHeader;
 	private final JRDesignBand pageFooter;
 	private final JRDesignBand lastPageFooter;
+	private final JRDesignBand noData;
 	
 	private final List<TableIndexProperties> tableIndexProperties;
 	private final Map<Integer, JRPropertiesMap> headerHtmlBaseProperties;
@@ -453,6 +455,8 @@ public class TableReport implements JRReport
 			// use the regular page footer
 			this.lastPageFooter = null;
 		}
+		
+		this.noData = createNoData(table.getNoData());
 	}
 	
 	public String getTableName()
@@ -1332,6 +1336,33 @@ public class TableReport implements JRReport
 		return pageFooter;
 	}
 	
+	protected JRDesignBand createNoData(BaseCell cell)
+	{
+		JRDesignBand noData = new JRDesignBand();
+		noData.setSplitType(SplitTypeEnum.PREVENT);
+		//noData.setPrintWhenExpression(table.getColumnFooter() == null ? null : table.getColumnFooter().getPrintWhenExpression());
+		
+		noData.addElement(
+			createCell(
+				null, 
+				cell, 
+				fillContext.getComponentElement().getWidth(), 
+				fillContext.getComponentElement().getWidth(), 
+				0, 
+				0, 
+				null, 
+				null, 
+				false
+				)
+			);
+		
+//		if (noData.getHeight() == 0)
+//		{
+//			noData = null;
+//		}
+		return noData;
+	}
+	
 	protected class TitleCreator extends ReportBandCreator
 	{
 		public TitleCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
@@ -1549,7 +1580,7 @@ public class TableReport implements JRReport
 
 		setPdfTags(bandInfo, false);
 		
-		if (footer.getHeight() == 0)
+		if (footer.getHeight() == 0)//FIXMENOW why zero height cells are not generating any content? could be expanding frames...
 		{
 			footer = null;
 		}
@@ -1744,7 +1775,7 @@ public class TableReport implements JRReport
 		mainDataset.addFirstGroup(summaryGroup);
 	}
 
-	protected JRElement createCell(JRElementGroup parentGroup, Cell cell, 
+	protected JRElement createCell(JRElementGroup parentGroup, BaseCell cell, 
 			int originalWidth, int width, 
 			int x, int y, Integer columnHashCode, UUID uuid, 
 			boolean forceFrame)
@@ -1830,7 +1861,7 @@ public class TableReport implements JRReport
 		return frame;
 	}
 	
-	protected JRElement createCellElement(JRElementGroup elementGroup, Cell cell, 
+	protected JRElement createCellElement(JRElementGroup elementGroup, BaseCell cell, 
 			int originalWidth, int width, 
 			int x, int y, Integer columnHashCode)
 	{
@@ -2045,7 +2076,7 @@ public class TableReport implements JRReport
 	@Override
 	public JRBand getNoData()
 	{
-		return null;
+		return noData;
 	}
 
 	@Override
@@ -2215,6 +2246,10 @@ public class TableReport implements JRReport
 			case ALL_SECTIONS_NO_DETAIL :
 			{
 				return WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL;
+			}
+			case NO_DATA_CELL :
+			{
+				return WhenNoDataTypeEnum.NO_DATA_SECTION;
 			}
 			case BLANK :
 			default :

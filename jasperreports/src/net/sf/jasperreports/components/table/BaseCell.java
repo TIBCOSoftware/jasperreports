@@ -23,51 +23,17 @@
  */
 package net.sf.jasperreports.components.table;
 
-import net.sf.jasperreports.engine.type.EnumUtil;
-import net.sf.jasperreports.engine.type.NamedEnum;
-
+import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRElementGroup;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * 
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public enum WhenNoDataTypeTableEnum implements NamedEnum
+public interface BaseCell extends JRElementGroup, JRBoxContainer
 {
-	/**
-	 * Specifies that in case of empty datasources, the table output will be blank.
-	 */
-	BLANK("Blank"),
 
-	/**
-	 * Specifies that in case of empty datasources, the table output will be blank.
-	 */
-	NO_DATA_CELL("NoDataCell"),
-
-	/**
-	 * Specifies that in case of empty datasources, all table sections except the detail will displayed.
-	 */
-	ALL_SECTIONS_NO_DETAIL("AllSectionsNoDetail");
-
-	/**
-	 *
-	 */
-	private final transient String name;
-
-	private WhenNoDataTypeTableEnum(String name)
-	{
-		this.name = name;
-	}
+	Integer getHeight();
 	
-	@Override
-	public String getName()
-	{
-		return name;
-	}
-	
-	/**
-	 *
-	 */
-	public static WhenNoDataTypeTableEnum getByName(String name)
-	{
-		return EnumUtil.getEnumByName(values(), name);
-	}
 }

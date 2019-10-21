@@ -82,4 +82,6 @@ public interface TableComponent extends Component, JRCloneable, JRVisitable, Dat
 	Row getColumnFooter();
 	
 	Row getDetail();
+	
+	BaseCell getNoData();
 }

@@ -42,6 +42,20 @@ public class RowFactory
 		this.factory = factory;
 	}
 
+	public BaseCell createBaseCell(BaseCell cell)
+	{
+		BaseCell newCell;
+		if (cell == null)
+		{
+			newCell = null;
+		}
+		else
+		{
+			newCell = new CompiledBaseCell(cell, factory);
+		}
+		return newCell;
+	}
+	
 	public Row createRow(Row row)
 	{
 		Row newRow;

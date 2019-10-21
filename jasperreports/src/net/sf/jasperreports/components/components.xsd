@@ -690,6 +690,7 @@
 						<element name="groupFooter" type="c:TableGroupRow" minOccurs="0" maxOccurs="unbounded"/>
 						<element name="columnFooter" type="c:TableRow" minOccurs="0"/>
 						<element name="tableFooter" type="c:TableRow" minOccurs="0"/>
+						<element name="noData" type="c:TableBaseCell" minOccurs="0"/>
 					</sequence>
 					<attribute name="whenNoDataType" use="optional">
 						<annotation>
@@ -700,6 +701,11 @@
 							<enumeration value="Blank">
 							<annotation>
 								<documentation>The table output will be blank.</documentation>
+							</annotation>
+							</enumeration>
+							<enumeration value="NoDataCell">
+							<annotation>
+								<documentation>The table output consists of only the noData cell.</documentation>
 							</annotation>
 							</enumeration>
 							<enumeration value="AllSectionsNoDetail">
@@ -782,9 +788,8 @@
 		<attribute name="groupName" use="required" type="string"/>
 	</complexType>
 	
-	<complexType name="TableCell">
+	<group name="TableBaseCellGroup">
 		<sequence>
-			<element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
 			<element ref="jr:box" minOccurs="0" maxOccurs="1"/>
 			<choice minOccurs="0" maxOccurs="unbounded">
 				<element ref="jr:break" />
@@ -823,9 +828,33 @@
 				<element ref="jr:genericElement" />
 			</choice>
 		</sequence>
+	</group>
+	
+	<complexType name="TableBaseCellAttr">
 		<attribute name="style" use="optional" type="string"/>
 		<attribute name="height" use="required" type="unsignedInt"/>
-		<attribute name="rowSpan" use="optional" type="unsignedInt"/>
+	</complexType>
+	
+	<complexType name="TableBaseCell">
+		<complexContent>
+			<extension base="c:TableBaseCellAttr">
+				<sequence>
+					<group ref="c:TableBaseCellGroup"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="TableCell">
+		<complexContent>
+			<extension base="c:TableBaseCellAttr">
+				<sequence>
+					<element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+					<group ref="c:TableBaseCellGroup"/>
+				</sequence>
+				<attribute name="rowSpan" use="optional" type="unsignedInt"/>
+			</extension>
+		</complexContent>
 	</complexType>
 	
 	<element name="spiderChart" substitutionGroup="jr:component">
