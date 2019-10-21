@@ -1338,28 +1338,34 @@ public class TableReport implements JRReport
 	
 	protected JRDesignBand createNoData(BaseCell cell)
 	{
-		JRDesignBand noData = new JRDesignBand();
-		noData.setSplitType(SplitTypeEnum.PREVENT);
-		//noData.setPrintWhenExpression(table.getColumnFooter() == null ? null : table.getColumnFooter().getPrintWhenExpression());
+		JRDesignBand noData = null;
 		
-		noData.addElement(
-			createCell(
-				null, 
-				cell, 
-				fillContext.getComponentElement().getWidth(), 
-				fillContext.getComponentElement().getWidth(), 
-				0, 
-				0, 
-				null, 
-				null, 
-				false
-				)
-			);
+		if (cell != null)
+		{
+			noData = new JRDesignBand();
+			noData.setSplitType(SplitTypeEnum.PREVENT);
+			//noData.setPrintWhenExpression(table.getColumnFooter() == null ? null : table.getColumnFooter().getPrintWhenExpression());
+			
+			noData.addElement(
+				createCell(
+					null, 
+					cell, 
+					fillContext.getComponentElement().getWidth(), 
+					fillContext.getComponentElement().getWidth(), 
+					0, 
+					0, 
+					null, 
+					null, 
+					false
+					)
+				);
+			
+//			if (noData.getHeight() == 0)
+//			{
+//				noData = null;
+//			}
+		}
 		
-//		if (noData.getHeight() == 0)
-//		{
-//			noData = null;
-//		}
 		return noData;
 	}
 	
