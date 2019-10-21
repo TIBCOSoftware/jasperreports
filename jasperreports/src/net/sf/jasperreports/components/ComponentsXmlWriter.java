@@ -548,6 +548,7 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			reportWriter.writeStyleReferenceAttr(cell);
 			writer.addAttribute("height", cell.getHeight());
 			
+			reportWriter.writeProperties(cell);
 			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			reportWriter.writeChildElements(cell);
 			

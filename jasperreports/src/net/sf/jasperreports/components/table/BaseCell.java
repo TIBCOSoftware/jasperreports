@@ -25,13 +25,14 @@ package net.sf.jasperreports.components.table;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 
 /**
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface BaseCell extends JRElementGroup, JRBoxContainer
+public interface BaseCell extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
 {
 
 	Integer getHeight();

@@ -23,14 +23,12 @@
  */
 package net.sf.jasperreports.components.table;
 
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-
 /**
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface Cell extends BaseCell, JRPropertiesHolder
+public interface Cell extends BaseCell
 {
 
 	Integer getRowSpan();

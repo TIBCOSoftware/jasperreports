@@ -24,8 +24,6 @@
 package net.sf.jasperreports.components.table;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.JRPropertiesMap;
 
 /**
  * 
@@ -40,8 +38,6 @@ public class DesignCell extends DesignBaseCell implements Cell
 	public static final String PROPERTY_ROW_SPAN = "rowSpan";
 	
 	private Integer rowSpan;
-	
-	private JRPropertiesMap propertiesMap;
 
 	public DesignCell()
 	{
@@ -62,32 +58,9 @@ public class DesignCell extends DesignBaseCell implements Cell
 	}
 
 	@Override
-	public boolean hasProperties()
-	{
-		return propertiesMap != null && propertiesMap.hasProperties();
-	}
-
-	@Override
-	public JRPropertiesMap getPropertiesMap()
-	{
-		if (propertiesMap == null)
-		{
-			propertiesMap = new JRPropertiesMap();
-		}
-		return propertiesMap;
-	}
-
-	@Override
-	public JRPropertiesHolder getParentProperties()
-	{
-		return null;
-	}
-	
-	@Override
 	public Object clone() 
 	{
 		DesignCell clone = (DesignCell) super.clone();
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
 	}
 

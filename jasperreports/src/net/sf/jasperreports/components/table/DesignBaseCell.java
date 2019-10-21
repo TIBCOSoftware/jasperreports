@@ -28,6 +28,8 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.design.DesignStyleContainer;
@@ -54,6 +56,8 @@ public class DesignBaseCell extends JRDesignElementGroup implements BaseCell, De
 	private JRLineBox box;
 	private Integer height;
 	
+	private JRPropertiesMap propertiesMap;
+
 	public DesignBaseCell()
 	{
 		this.box = new JRBaseLineBox(this);
@@ -132,9 +136,32 @@ public class DesignBaseCell extends JRDesignElementGroup implements BaseCell, De
 	}
 
 	@Override
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	@Override
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	@Override
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
+	}
+	
+	@Override
 	public Object clone() 
 	{
 		DesignBaseCell clone = (DesignBaseCell) super.clone();
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
 	}
 

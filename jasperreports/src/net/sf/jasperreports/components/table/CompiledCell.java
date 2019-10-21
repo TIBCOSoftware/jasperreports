@@ -24,8 +24,6 @@
 package net.sf.jasperreports.components.table;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -40,8 +38,6 @@ public class CompiledCell extends CompiledBaseCell implements Cell
 
 	private Integer rowSpan;
 	
-	private JRPropertiesMap propertiesMap;
-	
 	public CompiledCell()
 	{
 		super();
@@ -52,8 +48,6 @@ public class CompiledCell extends CompiledBaseCell implements Cell
 		super(cell, factory);
 		
 		this.rowSpan = cell.getRowSpan();
-		
-		this.propertiesMap = JRPropertiesMap.getPropertiesClone(cell);
 	}
 
 	@Override
@@ -63,32 +57,9 @@ public class CompiledCell extends CompiledBaseCell implements Cell
 	}
 
 	@Override
-	public boolean hasProperties()
-	{
-		return propertiesMap != null && propertiesMap.hasProperties();
-	}
-
-	@Override
-	public JRPropertiesMap getPropertiesMap()
-	{
-		if (propertiesMap == null)
-		{
-			propertiesMap = new JRPropertiesMap();
-		}
-		return propertiesMap;
-	}
-
-	@Override
-	public JRPropertiesHolder getParentProperties()
-	{
-		return null;
-	}
-	
-	@Override
 	public Object clone() 
 	{
 		CompiledCell clone = (CompiledCell) super.clone();
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
 	}
 

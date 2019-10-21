@@ -788,8 +788,9 @@
 		<attribute name="groupName" use="required" type="string"/>
 	</complexType>
 	
-	<group name="TableBaseCellGroup">
+	<complexType name="TableBaseCell">
 		<sequence>
+			<element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
 			<element ref="jr:box" minOccurs="0" maxOccurs="1"/>
 			<choice minOccurs="0" maxOccurs="unbounded">
 				<element ref="jr:break" />
@@ -828,30 +829,13 @@
 				<element ref="jr:genericElement" />
 			</choice>
 		</sequence>
-	</group>
-	
-	<complexType name="TableBaseCellAttr">
 		<attribute name="style" use="optional" type="string"/>
 		<attribute name="height" use="required" type="unsignedInt"/>
 	</complexType>
 	
-	<complexType name="TableBaseCell">
-		<complexContent>
-			<extension base="c:TableBaseCellAttr">
-				<sequence>
-					<group ref="c:TableBaseCellGroup"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
 	<complexType name="TableCell">
 		<complexContent>
-			<extension base="c:TableBaseCellAttr">
-				<sequence>
-					<element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
-					<group ref="c:TableBaseCellGroup"/>
-				</sequence>
+			<extension base="c:TableBaseCell">
 				<attribute name="rowSpan" use="optional" type="unsignedInt"/>
 			</extension>
 		</complexContent>
