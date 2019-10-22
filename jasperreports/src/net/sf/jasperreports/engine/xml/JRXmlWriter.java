@@ -181,6 +181,7 @@ import net.sf.jasperreports.engine.part.PartEvaluationTime;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
@@ -1623,9 +1624,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			boolean skipIfEmpty) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_dataset, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), defaultResetType);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getDatasetResetType(), defaultResetType);
 
-		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+		if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 		{
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resetGroup, dataset.getResetGroup().getName());
 		}

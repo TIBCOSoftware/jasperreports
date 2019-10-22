@@ -1392,6 +1392,11 @@
 	   	 <documentation>Variable is initialized when the group specified by the <code>resetGroup</code> attribute changes.</documentation>
 	  	</annotation>
 	  </enumeration> 
+      <enumeration value="Master">
+	  	<annotation>
+	   	 <documentation>Used internally for certain built-in variables.</documentation>
+	  	</annotation>
+	  </enumeration> 
      </restriction>
     </simpleType>
    </attribute>

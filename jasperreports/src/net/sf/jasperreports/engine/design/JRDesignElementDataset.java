@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.base.JRBaseElementDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -60,6 +61,8 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 	public static final String PROPERTY_RESET_GROUP = "resetGroup";
 	
 	public static final String PROPERTY_RESET_TYPE = "resetType";
+	
+	public static final String PROPERTY_DATASET_RESET_TYPE = "datasetResetType";
 
 	
 	public JRDesignElementDataset()
@@ -88,11 +91,24 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 	/**
 	 *
 	 */
+	public void setResetType(DatasetResetTypeEnum datasetResetTypeValue)
+	{
+		Object old = this.datasetResetType;
+		this.datasetResetType = datasetResetTypeValue;
+		getEventSupport().firePropertyChange(PROPERTY_DATASET_RESET_TYPE, old, this.datasetResetType);
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setResetType(DatasetResetTypeEnum)}.
+	 */
 	public void setResetType(ResetTypeEnum resetTypeValue)
 	{
-		Object old = this.resetTypeValue;
-		this.resetTypeValue = resetTypeValue;
-		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, this.resetTypeValue);
+		Object old = datasetResetType == null ? null : ResetTypeEnum.getByValue(datasetResetType.getValueByte());
+		
+		DatasetResetTypeEnum dsResetType = resetTypeValue == null ? null : DatasetResetTypeEnum.getByValue(resetTypeValue.getValueByte());
+		setResetType(dsResetType);
+
+		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, resetTypeValue);
 	}
 		
 	/**

@@ -165,6 +165,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -1464,9 +1465,9 @@ public class JRApiWriter
 	{
 		if(dataset != null)
 		{
-			write( datasetName + ".setResetType({0});\n", dataset.getResetTypeValue(), ResetTypeEnum.REPORT);
+			write( datasetName + ".setResetType({0});\n", dataset.getDatasetResetType(), DatasetResetTypeEnum.REPORT);
 	
-			if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+			if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 			{
 				String resetGroupName = getGroupName(  dataset.getResetGroup());
 				write( datasetName + ".setResetGroup(" + resetGroupName + ");\n");
