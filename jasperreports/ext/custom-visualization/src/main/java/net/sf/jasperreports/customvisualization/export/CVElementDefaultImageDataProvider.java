@@ -42,9 +42,17 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 
 	private CVElementImageDataProvider cvElementPhantomJSImageProvider = new CVElementPhantomJSImageDataProvider();
 	private JRPhantomCVElementImageDataProvider jrPhantomCVElementImageDataProvider = new JRPhantomCVElementImageDataProvider();
+	private ChromeCVElementImageDataProvider chromeCVElementImageDataProvider = new ChromeCVElementImageDataProvider();
 
 	@Override
 	public byte[] getImageData(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws Exception {
+		if (chromeCVElementImageDataProvider.isEnabled(jasperReportsContext)) {
+			if (log.isDebugEnabled()) {
+				log.debug("using JR chrome");
+			}
+			return chromeCVElementImageDataProvider.getImageData(jasperReportsContext, element);
+		}
+		
 		if (jrPhantomCVElementImageDataProvider.isEnabled()) {
 			if (log.isDebugEnabled()) {
 				log.debug("Using JR PhantomJS to produce custom visualization image data!");
