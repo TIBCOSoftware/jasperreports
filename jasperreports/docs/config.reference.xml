@@ -3362,6 +3362,30 @@ This flag can be controlled at hyperlink declaration level by using the hyperlin
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.default.exclude -->
+  
+  <configProperty name="net.sf.jasperreports.export.default.exclude">
+    <description>
+Element level property that acts as default for <code>net.sf.jasperreports.export.{format}.exclude</code> properties.
+Setting this property to <code>true</code> will exclude the element from all export formats except the ones for which
+<code>net.sf.jasperreports.export.{format}.exclude</code> is explicitly set to <code>false</code>.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.{format}.exclude -->
+  
+  <configProperty name="net.sf.jasperreports.export.{format}.exclude">
+    <description>
+Element level property to exclude elements when exporting to a specific format.
+Possible values for the <code>{format}</code> token are 
+<code>pdf</code>, <code>html</code>, <code>xls</code>, <code>xlsx</code>, <code>rtf</code>, <code>odt</code>, <code>ods</code>, <code>csv</code> 
+and <code>txt</code>.
+The element will be excluded from a specific export format if the property is set to <code>true</code> at element level.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.{format}.exclude.key.{suffix} -->
   
   <configProperty name="net.sf.jasperreports.export.{format}.exclude.key.{suffix}">
