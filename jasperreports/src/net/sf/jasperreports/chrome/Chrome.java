@@ -73,7 +73,7 @@ public class Chrome
 			Class.forName("com.github.kklisura.cdt.launch.ChromeLauncher");
 			return true;
 		}
-		catch (ClassNotFoundException e)
+		catch (ClassNotFoundException | NoClassDefFoundError e)
 		{
 			return false;
 		}
