@@ -52,30 +52,38 @@ public class Chrome
 	public static final String PROPERTY_ARGUMENT_PREFIX = PROPERTY_PREFIX + "argument.";
 	
 	public static final String PROPERTY_TEMPDIR_PATH = PROPERTY_PREFIX + "tempdir.path";
-	
-	private final static boolean FOUND_CDT_CLASS;
 
 	private static Path DETECTED_CHROME_PATH;
 	
-	static
-	{
-		FOUND_CDT_CLASS = foundCDTClass();
-		if (log.isDebugEnabled())
+	private static class CDTClassCheck
+	{		
+		private final static boolean FOUND_CDT_CLASS;
+				
+		static
 		{
-			log.debug("found CDT class " + FOUND_CDT_CLASS);
+			FOUND_CDT_CLASS = foundCDTClass();
+			if (log.isDebugEnabled())
+			{
+				log.debug("found CDT class " + FOUND_CDT_CLASS);
+			}
 		}
-	}
-	
-	private static boolean foundCDTClass()
-	{
-		try
+		
+		private static boolean foundCDTClass()
 		{
-			Class.forName("com.github.kklisura.cdt.launch.ChromeLauncher");
-			return true;
-		}
-		catch (ClassNotFoundException | NoClassDefFoundError e)
-		{
-			return false;
+			try
+			{
+				Class.forName("com.github.kklisura.cdt.launch.ChromeLauncher");
+				return true;
+			}
+			catch (ClassNotFoundException | NoClassDefFoundError e)
+			{
+				log.warn("Failed to load CDT class: " + e);
+				if (log.isDebugEnabled())
+				{
+					log.debug("error loading CDT class", e);
+				}
+				return false;
+			}
 		}
 	}
 	
@@ -83,10 +91,10 @@ public class Chrome
 	{
 		JRPropertiesUtil properties = JRPropertiesUtil.getInstance(jasperReportsContext);
 		
-		boolean enabled = FOUND_CDT_CLASS;
+		boolean enabled = properties.getBooleanProperty(PROPERTY_ENABLED, false);
 		if (enabled)
 		{
-			enabled = properties.getBooleanProperty(PROPERTY_ENABLED, false);
+			enabled = CDTClassCheck.FOUND_CDT_CLASS;
 		}
 		
 		ScriptManager scriptManager = null;
