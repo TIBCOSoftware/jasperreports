@@ -28,9 +28,13 @@ function renderResult(returnSVG) {
 		interval = window.setInterval(function() {
 			var rendered = cvComponentRendered();
 			if (rendered) {
-				clearInterval(interval);
-				var result = returnSVG ? cvComponentSVG() : cvComponentDimensions();
-				resolve(result);
+				try {
+					clearInterval(interval);
+					var result = returnSVG ? cvComponentSVG() : cvComponentDimensions();
+					resolve(result);
+				} catch (err) {
+					reject(err);
+				}
 			}
 		}, 50);
 	});
