@@ -24,13 +24,28 @@
 package net.sf.jasperreports.chrome;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.github.kklisura.cdt.launch.ChromeArguments;
 import com.github.kklisura.cdt.launch.ChromeLauncher;
+import com.github.kklisura.cdt.protocol.commands.Page;
+import com.github.kklisura.cdt.protocol.commands.Runtime;
+import com.github.kklisura.cdt.protocol.events.log.EntryAdded;
+import com.github.kklisura.cdt.protocol.events.runtime.ConsoleAPICalled;
+import com.github.kklisura.cdt.protocol.events.runtime.ExceptionThrown;
+import com.github.kklisura.cdt.protocol.types.log.LogEntry;
+import com.github.kklisura.cdt.protocol.types.runtime.ExceptionDetails;
+import com.github.kklisura.cdt.protocol.types.runtime.RemoteObject;
+import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
+import com.github.kklisura.cdt.services.types.ChromeTab;
+
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -71,7 +86,6 @@ public class Service
 	public Service(LaunchConfiguration configuration)
 	{
 		this.configuration = configuration;
-		// TODO Auto-generated constructor stub
 	}
 
 	public void start()
@@ -80,10 +94,136 @@ public class Service
 		ChromeArguments args = ChromeArguments.defaults(configuration.isHeadless()).build();
 		chromeService = launcher.launch(configuration.getExecutablePath(), args);
 	}
-	
-	public ChromeService getChromeService()
+
+	public <T> T evaluateInPage(String pageURL, ChromePageEvaluation<T> evaluation)
 	{
-		return chromeService;
+		ChromeTab tab = null;
+		try
+		{
+			tab = chromeService.createTab();
+			ChromeDevToolsService devToolsService = chromeService.createDevToolsService(tab);
+			
+			com.github.kklisura.cdt.protocol.commands.Log pageLog = devToolsService.getLog();
+			pageLog.onEntryAdded(this::pageLogEvent);
+			pageLog.enable();
+			
+			Runtime runtime = devToolsService.getRuntime();
+			runtime.onConsoleAPICalled(this::consoleEvent);
+			runtime.onExceptionThrown(this::pageExceptionEvent);
+			runtime.enable();
+
+			CompletableFuture<T> resultFuture = new CompletableFuture<>();
+			ChromePage chromePage = new ChromePage(devToolsService);
+			
+			Page page = devToolsService.getPage();
+			page.onLoadEventFired(event -> 
+			{
+				try
+				{
+					T evaluationResult = evaluation.runInPage(chromePage);
+					resultFuture.complete(evaluationResult);
+				}
+				catch (Exception e)
+				{
+					resultFuture.completeExceptionally(e);
+				}
+			});
+
+			page.enable();
+			page.navigate(pageURL);
+			
+			T promiseResult = resultFuture.get();//TODO timeout
+			return promiseResult;
+		}
+		catch (InterruptedException | ExecutionException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (tab != null)
+			{
+				chromeService.closeTab(tab);
+			}
+		}		
+	}
+
+	protected void pageLogEvent(EntryAdded event)
+	{
+		LogEntry entry = event.getEntry();
+		switch (entry.getLevel())
+		{
+		case ERROR:
+			log.error("Page error: " + entry.getText());
+			break;
+		case WARNING:
+			log.warn("Page warning: " + entry.getText());
+			break;
+		case INFO:
+			log.info("Page info: " + entry.getText());
+			break;
+		default:
+			if (log.isDebugEnabled())
+			{
+				log.info("Page message: " + entry.getText());
+			}
+			break;
+		}
+	}
+
+	protected void consoleEvent(ConsoleAPICalled event)
+	{
+		if (log.isDebugEnabled())
+		{
+			StringBuilder eventString = new StringBuilder();
+			eventString.append("Page console ");
+			eventString.append(event.getType());
+			eventString.append(": ");
+			List<RemoteObject> args = event.getArgs();
+			if (args != null)
+			{
+				for (RemoteObject argObject : args)
+				{
+					eventString.append(argObject.getValue() == null 
+							? argObject.getUnserializableValue()
+							: argObject.getValue());
+					eventString.append(", ");
+				}
+			}
+			
+			log.debug(eventString.substring(0, eventString.length() - 2));
+		}
+	}
+
+	protected void pageExceptionEvent(ExceptionThrown event)
+	{
+		if (log.isWarnEnabled())
+		{
+			ExceptionDetails exceptionDetails = event.getExceptionDetails();
+			log.warn("Script exception: " + exceptionDetails.getText());
+			
+			if (log.isDebugEnabled())
+			{
+				//TODO stacktrace?
+				RemoteObject exception = exceptionDetails.getException();
+				String exceptionString = null;
+				if (exception != null)
+				{
+					if (exception.getDescription() != null)
+					{
+						exceptionString = exception.getDescription();
+					}
+					else if (exception.getValue() != null)
+					{
+						exceptionString = exception.getValue().toString();
+					}
+				}
+				if (exceptionString != null)
+				{
+					log.debug("Exception description: " + exceptionString);
+				}
+			}
+		}
 	}
 	
 }
