@@ -78,6 +78,14 @@ public class Base64Util
 		base64out.close();
 	}
 	
+	public static String encode(byte[] data) throws IOException
+	{
+		ByteArrayInputStream input = new ByteArrayInputStream(data);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		encode(input, out);
+		return new String(out.toByteArray(), StandardCharsets.US_ASCII);
+	}
+	
 	/**
 	 * @param in the input stream to be read
 	 * @param out the output stream to write
