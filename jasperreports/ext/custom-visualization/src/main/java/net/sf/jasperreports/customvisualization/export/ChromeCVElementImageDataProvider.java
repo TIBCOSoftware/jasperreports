@@ -44,6 +44,8 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.phantomjs.ScriptManager;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.util.Base64Util;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -88,10 +90,21 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 				(String)element.getParameterValue(CVPrintElement.SCRIPT_URI),
 				jasperReportsContext));
 
+		boolean renderAsPng = CVUtils.isRenderAsPng(element);
+
 		String cssUriParameter = (String)element.getParameterValue(CVPrintElement.CSS_URI);
 		String cssUri = null;
 		if (cssUriParameter != null) {
-			cssUri= scriptManager.getScriptFilename(cssUriParameter, jasperReportsContext);
+			if (renderAsPng) {
+				cssUri = scriptManager.getScriptFilename(cssUriParameter, jasperReportsContext);
+			} else {
+				//embedding the CSS as data: URL in the HTML because Chrome doesn't allow 
+				//accessing document.styleSheets.cssRules for file system CSS resources
+				byte[] cssBytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(cssUriParameter);
+				//TODO lucian cache
+				String cssBase64 = Base64Util.encode(cssBytes);
+				cssUri = "data:text/css;base64," + cssBase64;
+			}
 		}
 
 		String htmlPage = getHtmlPage(
@@ -109,8 +122,6 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 				if (log.isDebugEnabled()) {
 					log.debug("wrote CV render HTML page to " + htmlTempFile);
 				}
-
-				boolean renderAsPng = CVUtils.isRenderAsPng(element);
 				
 				Service service = chrome.getService();
 				byte[] data = service.evaluateInPage(htmlTempFile.toURI().toString(), page -> {
