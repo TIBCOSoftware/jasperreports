@@ -83,9 +83,9 @@ define('leafletmarkers', ['leaflet', 'icon'], function (L) {
         map.setView([instanceData.lat, instanceData.lon], instanceData.zoom);
 
         // If tiles are not loaded in less than 10 seconds, still declare the report to be completed...
-        setTimeout(10000, function () {
+        setTimeout(function () {
             loadedCompleted();
-        });
+        }, 10000);
 
         // Add markers from the data series, if it is there
         if (typeof instanceData.series != 'undefined' && instanceData.series[0].length > 0) {
