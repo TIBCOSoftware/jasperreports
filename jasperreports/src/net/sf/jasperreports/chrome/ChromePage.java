@@ -60,13 +60,22 @@ public class ChromePage
 	{
 		Runtime runtime = devToolsService.getRuntime();
 		Evaluate evaluate = runtime.evaluate(promiseScript);
+		checkException(evaluate.getExceptionDetails());
 		RemoteObject evaluateResult = evaluate.getResult();
 		
 		AwaitPromise promise = runtime.awaitPromise(evaluateResult.getObjectId(), true, false);
-		if (promise.getExceptionDetails() != null) 
+		checkException(promise.getExceptionDetails());
+		
+		RemoteObject pResult = promise.getResult();
+		@SuppressWarnings("unchecked")
+		T result = (T) pResult.getValue();
+		return result;
+	}
+	
+	protected void checkException(ExceptionDetails exceptionDetails)
+	{
+		if (exceptionDetails != null)
 		{
-			ExceptionDetails exceptionDetails = promise.getExceptionDetails();
-			
 			String exceptionString = null;
 			RemoteObject exception = exceptionDetails.getException();
 			if (exception != null)
@@ -85,11 +94,6 @@ public class ChromePage
 			
 			throw new JRRuntimeException("Script failed: " + exceptionDetails.getText());
 		}
-		
-		RemoteObject pResult = promise.getResult();
-		@SuppressWarnings("unchecked")
-		T result = (T) pResult.getValue();
-		return result;
 	}
 	
 	public byte[] captureScreenshot(int width, int height, double zoomFactor)
