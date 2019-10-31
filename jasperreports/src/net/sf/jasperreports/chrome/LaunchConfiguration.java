@@ -79,4 +79,10 @@ public class LaunchConfiguration
 		return headless;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return "executable: " + executablePath + ", headless: " + headless;
+	}
+	
 }
