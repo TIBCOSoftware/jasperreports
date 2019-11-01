@@ -25,11 +25,16 @@ package net.sf.jasperreports.chrome;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.phantomjs.ScriptManager;
 
@@ -122,7 +127,20 @@ public class Chrome
 				scriptManager = ScriptManagerRepository.instance().getService(jasperReportsContext);
 				
 				boolean headless = properties.getBooleanProperty(PROPERTY_HEADLESS, true);
-				LaunchConfiguration configuration = new LaunchConfiguration(executablePath, headless);
+				
+				List<PropertySuffix> argProperties = properties.getAllProperties((JRPropertiesMap) null, 
+						PROPERTY_ARGUMENT_PREFIX);
+				Map<String, String> args = new LinkedHashMap<>();
+				for (PropertySuffix propertySuffix : argProperties)
+				{
+					String value = propertySuffix.getValue();
+					if (value != null && !value.isEmpty())
+					{
+						args.put(propertySuffix.getSuffix(), value);
+					}
+				}
+				
+				LaunchConfiguration configuration = new LaunchConfiguration(executablePath, headless, args);
 				service = ServiceRepository.isntance().getService(configuration);
 			}
 		}

@@ -91,7 +91,7 @@ public class Service
 	public void start()
 	{
 		launcher = new ChromeLauncher();
-		ChromeArguments args = ChromeArguments.defaults(configuration.isHeadless()).build();
+		ChromeArguments args = ChromeArgumentsBuilder.instance().toArguments(configuration);
 		
 		log.info("Launching Chrome with configuration " + configuration);
 		chromeService = launcher.launch(configuration.getExecutablePath(), args);
