@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.chrome;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,28 +49,24 @@ public class ChromeInstanceRepository
 	}
 	
 	private final Map<LaunchConfiguration, ChromeInstance> instances;
+	private final ScheduledExecutorService timeoutExecutor;
 	
 	protected ChromeInstanceRepository()
 	{
 		this.instances = new HashMap<>();
+		this.timeoutExecutor = Executors.newScheduledThreadPool(1, runnable ->
+		{
+			Thread thread = new Thread(runnable);
+			thread.setName("Chrome timeout");
+			thread.setDaemon(true);
+			return thread;
+		});
 	}
 	
 	public ChromeInstanceHandle getChromeInstanceHandle(LaunchConfiguration configuration)
 	{
 		ChromeInstance chromeInstance = instance(configuration);
-		
-		return new ChromeInstanceHandle()
-		{
-			@Override
-			public <T> T runWithChromeInstance(Function<ChromeInstance, T> execution)
-			{
-				if (log.isDebugEnabled())
-				{
-					log.debug("using chrome instance " + chromeInstance.getId());
-				}
-				return execution.apply(chromeInstance);
-			}
-		};
+		return chromeInstance;
 	}
 
 	protected ChromeInstance instance(LaunchConfiguration configuration)
@@ -78,7 +77,8 @@ public class ChromeInstanceRepository
 			if (instance == null)
 			{
 				instance = new ChromeInstance(configuration);
-				instance.start();
+				instance.start();//TODO do this without holding the lock
+				scheduleTimeoutChecks(configuration, instance);
 				
 				instances.put(configuration, instance);
 			}
@@ -86,4 +86,162 @@ public class ChromeInstanceRepository
 		}
 	}
 	
+	protected void scheduleTimeoutChecks(LaunchConfiguration configuration, ChromeInstance chromeInstance)
+	{
+		long idleTimeout = configuration.getIdleTimeout();
+		if (idleTimeout > 0)
+		{
+			scheduleIdleTimeoutCheck(configuration, chromeInstance, idleTimeout, idleTimeout);
+		}
+		
+		long liveTimeout = configuration.getLiveTimeout();
+		if (liveTimeout > 0)
+		{
+			scheduleLiveTimeoutCheck(configuration, chromeInstance, liveTimeout);
+		}
+	}
+
+	protected void scheduleIdleTimeoutCheck(LaunchConfiguration configuration, ChromeInstance chromeInstance, 
+			long idleTimeout, long delay)
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("schedule chrome instance " + chromeInstance.getId() + " idle timeout check after " + delay);
+		}
+		
+		WeakReference<ChromeInstance> instanceReference = new WeakReference<ChromeInstance>(chromeInstance);
+		timeoutExecutor.schedule(() ->
+		{
+			checkIdle(configuration, instanceReference, idleTimeout);
+		}, delay, TimeUnit.MILLISECONDS);
+	}
+
+	protected void checkIdle(LaunchConfiguration configuration, WeakReference<ChromeInstance> instanceReference,
+			long idleTimeout)
+	{
+		ChromeInstance instance = instanceReference.get();
+		if (instance == null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("cleared chrome instance reference on idle check");
+			}
+			return;
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("checking idle timeout for chrome instance " + instance.getId());
+		}
+		
+		boolean toClose;
+		synchronized (instances)
+		{
+			long now = System.currentTimeMillis();
+			ChromeInstanceState state = instance.getState();
+			if (state.isClosed())
+			{
+				log.debug("chrome instance " + instance.getId() + " already closed");
+				toClose = false;
+			}
+			else
+			{
+				toClose = state.getUseCount() == 0 && state.getUseTimestamp() + idleTimeout <= now;
+				if (toClose)
+				{
+					removeCachedInstance(configuration, instance);
+				}
+				else
+				{
+					//reschedule check at lastUsed + idleTimeout
+					scheduleIdleTimeoutCheck(configuration, instance, idleTimeout, 
+							state.getUseCount() == 0 ? (state.getUseTimestamp() + idleTimeout - now) : idleTimeout);
+				}
+			}
+		}
+		
+		if (toClose)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("chrome instance " + instance.getId() + " exceeded idle timeout");
+			}
+			
+			instance.close();
+		}
+	}
+
+	protected void scheduleLiveTimeoutCheck(LaunchConfiguration configuration, ChromeInstance chromeInstance, 
+			long liveTimeout)
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("schedule chrome instance " + chromeInstance.getId() + " timeout after " + liveTimeout);
+		}
+		
+		WeakReference<ChromeInstance> instanceReference = new WeakReference<ChromeInstance>(chromeInstance);
+		timeoutExecutor.schedule(() ->
+		{
+			closeInstance(configuration, instanceReference);
+		}, liveTimeout, TimeUnit.MILLISECONDS);
+	}
+
+	protected void closeInstance(LaunchConfiguration configuration, WeakReference<ChromeInstance> instanceReference)
+	{
+		ChromeInstance instance = instanceReference.get();
+		if (instance == null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("cleared chrome instance reference on close");
+			}
+			return;
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("live timeout for chrome instance " + instance.getId());
+		}
+		
+		boolean toClose;
+		synchronized (instances)
+		{
+			ChromeInstanceState state = instance.getState();
+			toClose = !state.isClosed();
+			if (toClose)
+			{
+				removeCachedInstance(configuration, instance);
+			}
+			else
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("chrome instance " + instance.getId() + " already closed");
+				}
+			}
+		}
+
+		if (toClose)
+		{
+			instance.close();
+		}
+	}
+
+	protected void removeCachedInstance(LaunchConfiguration configuration, ChromeInstance chromeInstance)
+	{		
+		ChromeInstance cachedInstance = instances.get(configuration);
+		if (cachedInstance == chromeInstance)//this should always be the case
+		{
+			instances.remove(configuration);
+		}
+		else
+		{
+			//should not happen
+			if (log.isDebugEnabled())
+			{
+				log.debug("found different cached chrome instance " 
+						+ (cachedInstance == null ? "null" : cachedInstance.getId()));
+			}
+		}
+	}
 }

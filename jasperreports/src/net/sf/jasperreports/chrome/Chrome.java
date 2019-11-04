@@ -59,6 +59,10 @@ public class Chrome
 	public static final String PROPERTY_ARGUMENT_PREFIX = PROPERTY_PREFIX + "argument.";
 	
 	public static final String PROPERTY_TEMPDIR_PATH = PROPERTY_PREFIX + "tempdir.path";
+	
+	public static final String PROPERTY_IDLE_TIMEOUT = PROPERTY_PREFIX + "idle.timeout";
+	
+	public static final String PROPERTY_LIVE_TIMEOUT = PROPERTY_PREFIX + "live.timeout";
 
 	private static Path DETECTED_CHROME_PATH;
 	
@@ -169,7 +173,11 @@ public class Chrome
 					}
 				}
 				
-				LaunchConfiguration configuration = new LaunchConfiguration(executablePath, headless, args);
+				long idleTimeout = properties.getLongProperty(PROPERTY_IDLE_TIMEOUT, 0);
+				long liveTimeout = properties.getLongProperty(PROPERTY_LIVE_TIMEOUT, 0);
+				
+				LaunchConfiguration configuration = new LaunchConfiguration(executablePath, headless, args,
+						idleTimeout, liveTimeout);
 				ChromeServiceHandle chromeServiceHandle = new ChromeServiceHandle(configuration);
 				service = new BrowserService(jasperReportsContext, chromeServiceHandle);
 			}

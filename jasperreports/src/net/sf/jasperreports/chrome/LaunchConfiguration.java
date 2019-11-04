@@ -37,12 +37,17 @@ public class LaunchConfiguration
 	private final Path executablePath;
 	private final boolean headless;
 	private Map<String, String> arguments;
+	private long idleTimeout;
+	private long liveTimeout;
 	
-	public LaunchConfiguration(Path executablePath, boolean headless, Map<String, String> arguments)
+	public LaunchConfiguration(Path executablePath, boolean headless, Map<String, String> arguments,
+			long idleTimeout, long liveTimeout)
 	{
 		this.executablePath = executablePath;
 		this.headless = headless;
 		this.arguments = arguments;
+		this.idleTimeout = idleTimeout;
+		this.liveTimeout = liveTimeout;
 	}
 
 	@Override
@@ -51,6 +56,8 @@ public class LaunchConfiguration
 		int result = 31 + (headless ? 1231 : 1237);
 		result = 31 * result + ((executablePath == null) ? 0 : executablePath.hashCode());
 		result = 31 * result + ((arguments == null) ? 0 : arguments.hashCode());
+		result = 31 * result + Long.hashCode(idleTimeout);
+		result = 31 * result + Long.hashCode(liveTimeout);
 		return result;
 	}
 
@@ -70,7 +77,9 @@ public class LaunchConfiguration
 		LaunchConfiguration other = (LaunchConfiguration) obj;
 		return executablePath == other.executablePath
 				&& ObjectUtils.equals(executablePath, other.executablePath)
-				&& ObjectUtils.equals(arguments, other.arguments);
+				&& ObjectUtils.equals(arguments, other.arguments)
+				&& idleTimeout == other.idleTimeout
+				&& liveTimeout == other.liveTimeout;
 	}
 
 	public Path getExecutablePath()
@@ -87,12 +96,24 @@ public class LaunchConfiguration
 	{
 		return arguments;
 	}
+
+	public long getIdleTimeout()
+	{
+		return idleTimeout;
+	}
+
+	public long getLiveTimeout()
+	{
+		return liveTimeout;
+	}
 	
 	@Override
 	public String toString()
 	{
 		return "executable: " + executablePath + ", headless: " + headless
-				+ ", arguments: " + arguments;
+				+ ", arguments: " + arguments
+				+ ", idle timeout: " + idleTimeout
+				+ ", live timeout: " + liveTimeout;
 	}
 	
 }

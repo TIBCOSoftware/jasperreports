@@ -23,16 +23,61 @@
  */
 package net.sf.jasperreports.chrome;
 
-import java.util.function.Function;
-
-import com.github.kklisura.cdt.services.ChromeService;
-
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ChromeInstanceHandle
+public class ChromeInstanceState
 {
 
-	<T> T runWithChromeInstance(Function<ChromeService, T> execution);
+	public static ChromeInstanceState create()
+	{
+		return new ChromeInstanceState(0, System.currentTimeMillis(), false);
+	}
+	
+	private final long useCount;
+	private final long useTimestamp;
+	private final boolean closed;
+	
+	public ChromeInstanceState(long useCount, long useTimestamp, boolean closed)
+	{
+		this.useCount = useCount;
+		this.useTimestamp = useTimestamp;
+		this.closed = closed;
+	}
+
+	public long getUseCount()
+	{
+		return useCount;
+	}
+
+	public long getUseTimestamp()
+	{
+		return useTimestamp;
+	}
+
+	public boolean isClosed()
+	{
+		return closed;
+	}
+
+	public ChromeInstanceState incrementUse()
+	{
+		return new ChromeInstanceState(useCount + 1, System.currentTimeMillis(), closed);
+	}
+
+	public ChromeInstanceState decrementUse()
+	{
+		return new ChromeInstanceState(useCount - 1, System.currentTimeMillis(), closed);
+	}
+
+	public ChromeInstanceState close()
+	{
+		return new ChromeInstanceState(useCount, useTimestamp, true);
+	}
+	
+	public boolean shouldClose()
+	{
+		return useCount == 0 && closed;
+	}
 
 }

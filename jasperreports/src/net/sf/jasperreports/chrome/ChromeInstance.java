@@ -24,6 +24,7 @@
 package net.sf.jasperreports.chrome;
 
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Function;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +36,7 @@ import com.github.kklisura.cdt.services.ChromeService;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ChromeInstance
+public class ChromeInstance implements ChromeInstanceHandle
 {
 	
 	private static final Log log = LogFactory.getLog(ChromeInstance.class);
@@ -47,11 +48,15 @@ public class ChromeInstance
 	
 	private ChromeLauncher launcher;
 	private ChromeService chromeService;
+	
+	private volatile ChromeInstanceState state;
 
 	public ChromeInstance(LaunchConfiguration configuration)
 	{
 		this.id = ID_SEQ.incrementAndGet();
 		this.configuration = configuration;
+		
+		this.state = ChromeInstanceState.create();
 	}
 
 	public long getId()
@@ -68,9 +73,71 @@ public class ChromeInstance
 		chromeService = launcher.launch(configuration.getExecutablePath(), args);
 	}
 
-	public ChromeService getChromeService()
+	@Override
+	public <T> T runWithChromeInstance(Function<ChromeService, T> execution)
 	{
-		return chromeService;
+		if (log.isDebugEnabled())
+		{
+			log.debug("using chrome instance " + id);
+		}
+		
+		startUse();
+		try
+		{
+			return execution.apply(chromeService);
+		}
+		finally
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("ending use of chrome instance " + id);
+			}
+			
+			endUse();
+		}
+	}
+	
+	protected synchronized void startUse()
+	{
+		state = state.incrementUse();
+	}
+	
+	protected synchronized void endUse()
+	{
+		state = state.decrementUse();
+		
+		if (state.shouldClose())
+		{
+			doClose();
+		}
 	}
 
+	public synchronized ChromeInstanceState getState()
+	{
+		return state;
+	}
+	
+	public synchronized void close()
+	{
+		if (!state.isClosed())
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("closing " + id);
+			}
+			
+			state = state.close();
+			if (state.shouldClose())
+			{
+				doClose();
+			}
+			//else will be closed by endUse			
+		}
+	}
+	
+	protected void doClose()
+	{
+		log.info("Shutting down Chrome instance " + id);
+		launcher.close();
+	}
 }

@@ -29,7 +29,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
-import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
 
 /**
@@ -51,10 +50,8 @@ public class ChromeServiceHandle
 	{
 		ChromeInstanceRepository instanceRepository = ChromeInstanceRepository.instance();
 		ChromeInstanceHandle instanceHandle = instanceRepository.getChromeInstanceHandle(launchConfiguration);
-		return instanceHandle.runWithChromeInstance(chromeInstance ->
+		return instanceHandle.runWithChromeInstance(chromeService ->
 		{
-			ChromeService chromeService = chromeInstance.getChromeService();
-			
 			ChromeTab tab = null;
 			try
 			{
