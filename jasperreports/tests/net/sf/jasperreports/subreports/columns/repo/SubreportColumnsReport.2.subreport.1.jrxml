@@ -19,7 +19,7 @@ $P{REPORT_DATA_SOURCE} instanceof net.sf.jasperreports.engine.fill.SortedDataSou
 	</group>
 	<detail>
 		<band height="30" splitType="Prevent">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Transparent" x="0" y="0" width="80" height="30" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -30,7 +30,7 @@ $P{REPORT_DATA_SOURCE} instanceof net.sf.jasperreports.engine.fill.SortedDataSou
 	</detail>
 	<columnFooter>
 		<band height="30" splitType="Prevent">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="0" y="0" width="80" height="30" backcolor="#5BB5F5" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
 				<box>
 					<pen lineWidth="1.0"/>

@@ -402,20 +402,20 @@ In ProductReport.jrxml:
           <textElement textAlignment="Right"/>
           <textFieldExpression><![CDATA[$F{Id}]] ></textFieldExpression>
         </textField>
-        <textField isStretchWithOverflow="true">
+        <textField textAdjust="StretchHeight">
           <reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="f53978bd-fc13-4359-b82d-2142640c6696">
             <property name="net.sf.jasperreports.export.json.path" value="products.Name"/>
           </reportElement>
           <textFieldExpression><![CDATA[$F{Name}]] ></textFieldExpression>
         </textField>
-        <textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0">
+        <textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0">
           <reportElement positionType="Float" x="105" y="2" width="20" height="10" uuid="aec3706b-5a2e-455a-aec0-245ada2a8830">
             <property name="net.sf.jasperreports.export.json.path" value="products.Quantity"/>
           </reportElement>
           <textElement textAlignment="Right"/>
           <textFieldExpression><![CDATA[$V{QuantityProductSum}]] ></textFieldExpression>
         </textField>
-        <textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0.00">
+        <textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="ProductGroup" pattern="#0.00">
           <reportElement positionType="Float" x="130" y="2" width="30" height="10" uuid="38a1047a-67fe-4c37-ac55-1252bcb7f9db">
             <property name="net.sf.jasperreports.export.json.path" value="products.Price"/>
           </reportElement>
@@ -441,13 +441,13 @@ In AddressReport.jrxml:
         <textElement textAlignment="Right"/>
         <textFieldExpression><![CDATA[$F{Id}]] ></textFieldExpression>
       </textField>
-      <textField isStretchWithOverflow="true">
+      <textField textAdjust="StretchHeight">
         <reportElement positionType="Float" x="20" y="2" width="80" height="10" uuid="1c766997-5272-480b-935f-cf519342a2a1">
           <property name="net.sf.jasperreports.export.json.path" value="customers.Name"/>
         </reportElement>
         <textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]] ></textFieldExpression>
       </textField>
-      <textField isStretchWithOverflow="true">
+      <textField textAdjust="StretchHeight">
         <reportElement positionType="Float" x="105" y="2" width="70" height="10" uuid="919d119f-31d8-4631-b19c-555f21ef3e5e">
           <property name="net.sf.jasperreports.export.json.path" value="customers.Street"/>
         </reportElement>

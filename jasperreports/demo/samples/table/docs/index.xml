@@ -253,7 +253,7 @@ group with 2 columns sharing a common header, but owning also individual column 
       <box leftPadding="10">
         <bottomPen lineWidth="0.5" />
       </box>
-      <textField isStretchWithOverflow="true">
+      <textField textAdjust="StretchHeight">
         <reportElement x="0" y="0" width="90" height="15">
         </reportElement>
         <textFieldExpression><![CDATA[$V{Column1}]] ></textFieldExpression>

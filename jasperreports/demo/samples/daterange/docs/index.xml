@@ -199,7 +199,7 @@ Following is a text field that contains a <code>DATERANGE()</code> function to r
 In the next report section are shown some examples of how to use the <code>DATERANGE()</code> function to generate single (fixed) date range objects. 
 See this text field for guidance: 
 <pre><![CDATA[
-<textField isStretchWithOverflow="true" pattern="EEE, MMM d, yyyy  HH:mm:ss z">
+<textField textAdjust="StretchHeight" pattern="EEE, MMM d, yyyy  HH:mm:ss z">
   <reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="375" y="380" width="180" height="20" backcolor="#EEEEEE" uuid="4e307c90-3897-4ae3-a909-f66017abec41">
     <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
     <property name="com.jaspersoft.studio.unit.y" value="pixel"/>

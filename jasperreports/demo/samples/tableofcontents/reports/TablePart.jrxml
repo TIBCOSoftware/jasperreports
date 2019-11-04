@@ -34,7 +34,7 @@
 	<group name="SummaryDummyGroup">
 		<groupFooter>
 			<band height="60">
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Sans_Italic" x="175" y="20" width="165" height="15" uuid="7490a565-68a0-4e68-a404-ba1ff86995f0"/>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA["There were " + 
@@ -122,11 +122,11 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="55" y="5" width="200" height="15" uuid="ebe211dc-902e-4f32-a3f8-2a3611bc9940"/>
 				<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="260" y="5" width="255" height="15" uuid="adf42c82-cc91-4e66-a1a1-db62a0161bd6"/>
 				<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>

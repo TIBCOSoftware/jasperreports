@@ -138,11 +138,11 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="55" y="5" width="200" height="15" uuid="162a1369-80f1-4a94-9e0b-910a37df995a"/>
 				<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="260" y="5" width="255" height="15" uuid="7d815d02-8ea8-4cc0-9614-12d0450cc121"/>
 				<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>
@@ -156,7 +156,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Sans_Italic" x="175" y="20" width="165" height="15" uuid="83cf22b0-44d2-4b4f-ad03-116966b71836"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["There were " + 

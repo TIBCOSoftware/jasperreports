@@ -194,7 +194,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="159" y="0" width="157" height="15" uuid="f84a17a3-dd55-4044-81b1-46aee61801e2">
 					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$F{id}.equals(44) ? "Start" : null]]></propertyExpression>
 				</reportElement>
@@ -205,7 +205,7 @@
 				</box>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="316" y="0" width="199" height="15" uuid="53fe7b81-f998-46e1-912e-66383284e4a2">
 					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]]></propertyExpression>
 					<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]]></propertyExpression>

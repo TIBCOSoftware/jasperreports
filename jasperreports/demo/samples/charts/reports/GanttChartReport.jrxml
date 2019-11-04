@@ -120,7 +120,7 @@
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="210" y="1" width="72" height="11" uuid="251c2148-23de-433f-aabe-feaa72a67548"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Subtask}]]></textFieldExpression>

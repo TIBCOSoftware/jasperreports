@@ -13,7 +13,7 @@
 	</group>
 	<title>
 		<band height="741">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="25" backcolor="#00FFFF" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
 				<textFieldExpression><![CDATA["This report shows that, historically, unlike frames, bands do not preserve their remaining white space on the next page/column during white space overflows." + "\nblah\nblah\nblah."]]></textFieldExpression>
 			</textField>

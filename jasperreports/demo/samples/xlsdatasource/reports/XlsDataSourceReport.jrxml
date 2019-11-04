@@ -98,7 +98,7 @@
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="50" y="0" width="200" height="15" uuid="0b950260-dee8-450e-9767-504d88ce289b"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
@@ -106,7 +106,7 @@
 				</box>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="250" y="0" width="265" height="15" uuid="883b220c-70b0-42b0-9e71-0ce7ed55bcda"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>

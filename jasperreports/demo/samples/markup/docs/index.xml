@@ -86,7 +86,7 @@ The first one is formatted using the <code>markup="styled"</code> value:
 The second paragraph is read from the <code>rtf.txt</code> file in the /reports folder and stored in the <code>$P{RtfText}</code> parameter. 
 Its content gets decoded using the RTF markup processor:
 <pre><![CDATA[
-	<textField isStretchWithOverflow="true">
+	<textField textAdjust="StretchHeight">
 		<reportElement mode="Opaque" x="0" y="150" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
 		<textElement markup="rtf">
 			<font size="16"/>
@@ -97,7 +97,7 @@ Its content gets decoded using the RTF markup processor:
 The third paragraph is read from the <code>html.txt</code> file in the /reports folder and stored in the <code>$P{HtmlText}</code> parameter. 
 Its content gets decoded using the HTML markup processor:
 <pre><![CDATA[
-	<textField isStretchWithOverflow="true">
+	<textField textAdjust="StretchHeight">
 		<reportElement mode="Opaque" x="0" y="300" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
 		<textElement markup="html">
 			<font size="16"/>

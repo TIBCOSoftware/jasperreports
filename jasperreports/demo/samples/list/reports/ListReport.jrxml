@@ -72,11 +72,11 @@
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Sans_Small" positionType="Float" x="20" y="2" width="110" height="10" uuid="2cf85417-758d-4c99-b552-64eca8a5dfef"/>
 								<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Sans_Small" positionType="Float" x="135" y="2" width="105" height="10" uuid="d1e4232f-52d4-40ee-9e9f-2e65682d9cd4"/>
 								<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 							</textField>

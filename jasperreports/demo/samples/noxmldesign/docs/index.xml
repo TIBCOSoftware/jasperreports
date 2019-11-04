@@ -392,7 +392,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setExpression(expression);
     band.addElement(textField);
     textField = new JRDesignTextField();
-    textField.setStretchWithOverflow(true);
+    textField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
     textField.setX(55);
     textField.setY(4);
     textField.setWidth(200);
@@ -405,7 +405,7 @@ object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <c
     textField.setExpression(expression);
     band.addElement(textField);
     textField = new JRDesignTextField();
-    textField.setStretchWithOverflow(true);
+    textField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
     textField.setX(260);
     textField.setY(4);
     textField.setWidth(255);
