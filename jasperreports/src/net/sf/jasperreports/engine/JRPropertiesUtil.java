@@ -703,6 +703,22 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
+	 * Returns the value of a property as a float, looking first in several properties holders
+	 * and then in the system properties.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @param propertiesHolders the properties holders
+	 * @return the property value
+	 */
+	public float getFloatProperty(String key, float defaultValue, JRPropertiesHolder ... propertiesHolders)
+	{
+		String value = getProperty(key, propertiesHolders);
+		
+		return value == null || value.trim().length() == 0 ? defaultValue : asFloat(value);
+	}
+
+	/**
 	 * Returns the value of a property as a float, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 

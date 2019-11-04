@@ -251,6 +251,13 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 
 
 	@Override
+	protected boolean scaleFontToFit()
+	{
+		return false;
+	}
+
+
+	@Override
 	public String getText()
 	{
 		return ((JRStaticText) parent).getText();
