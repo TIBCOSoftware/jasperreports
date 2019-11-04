@@ -753,6 +753,19 @@ public final class JRPropertiesUtil
 	{
 		return asLong(getProperty(key));
 	}
+	
+	/**
+	 * Returns a property as a long value.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the property value as a long
+	 */
+	public long getLongProperty(String key, long defaultValue)
+	{
+		String property = getProperty(key);
+		return property == null || property.trim().isEmpty() ? defaultValue : asLong(property);
+	}
 
 	/**
 	 * Returns the value of a property as a long, looking first in the supplied properties map
