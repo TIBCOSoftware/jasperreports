@@ -103,7 +103,7 @@ public class Chrome
 		}
 		
 		ScriptManager scriptManager = null;
-		Service service = null;
+		BrowserService service = null;
 		
 		if (enabled)
 		{
@@ -153,7 +153,7 @@ public class Chrome
 		Path path = DETECTED_CHROME_PATH;
 		if (path == null)
 		{
-			DETECTED_CHROME_PATH = path = Service.findChromeExecutable();
+			DETECTED_CHROME_PATH = path = BrowserService.findChromeExecutable();
 		}
 		return path;
 	}
@@ -163,9 +163,9 @@ public class Chrome
 	//TODO move out of phantom package
 	private final ScriptManager scriptManager;
 	
-	private final Service service;
+	private final BrowserService service;
 	
-	protected Chrome(boolean enabled, ScriptManager scriptManager, Service service)
+	protected Chrome(boolean enabled, ScriptManager scriptManager, BrowserService service)
 	{
 		this.enabled = enabled;
 		this.scriptManager = scriptManager;
@@ -182,7 +182,7 @@ public class Chrome
 		return scriptManager;
 	}
 	
-	public Service getService()
+	public BrowserService getService()
 	{
 		return service;
 	}

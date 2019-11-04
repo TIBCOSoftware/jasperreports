@@ -39,21 +39,21 @@ public class ServiceRepository
 		return INSTANCE;
 	}
 	
-	private final Map<LaunchConfiguration, Service> services;
+	private final Map<LaunchConfiguration, BrowserService> services;
 	
 	protected ServiceRepository()
 	{
 		this.services = new HashMap<>();
 	}
 	
-	public Service getService(LaunchConfiguration configuration)
+	public BrowserService getService(LaunchConfiguration configuration)
 	{
 		synchronized (services)
 		{
-			Service service = services.get(configuration);
+			BrowserService service = services.get(configuration);
 			if (service == null)
 			{
-				service = new Service(configuration);
+				service = new BrowserService(configuration);
 				service.start();
 				
 				services.put(configuration, service);

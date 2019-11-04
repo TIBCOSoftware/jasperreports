@@ -50,10 +50,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class Service
+public class BrowserService
 {
 
-	private static final Log log = LogFactory.getLog(Service.class);
+	private static final Log log = LogFactory.getLog(BrowserService.class);
 
 	public static final Path findChromeExecutable()
 	{
@@ -83,7 +83,7 @@ public class Service
 	private ChromeLauncher launcher;
 	private ChromeService chromeService;
 	
-	public Service(LaunchConfiguration configuration)
+	public BrowserService(LaunchConfiguration configuration)
 	{
 		this.configuration = configuration;
 	}

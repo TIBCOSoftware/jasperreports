@@ -37,7 +37,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.chrome.Chrome;
-import net.sf.jasperreports.chrome.Service;
+import net.sf.jasperreports.chrome.BrowserService;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -123,7 +123,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 					log.debug("wrote CV render HTML page to " + htmlTempFile);
 				}
 				
-				Service service = chrome.getService();
+				BrowserService service = chrome.getService();
 				byte[] data = service.evaluateInPage(htmlTempFile.toURI().toString(), page -> {
 					Object resultValue = page.evaluatePromise("renderResult(" + (!renderAsPng) + ")");
 					if (log.isTraceEnabled()) {
