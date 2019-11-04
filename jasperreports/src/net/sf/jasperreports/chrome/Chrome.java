@@ -32,6 +32,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.github.kklisura.cdt.launch.ChromeLauncher;
+
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
@@ -46,7 +48,7 @@ public class Chrome
 
 	private static final Log log = LogFactory.getLog(Chrome.class);
 	
-	private static final String PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "chrome.";
+	protected static final String PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "chrome.";
 	
 	public static final String PROPERTY_ENABLED = PROPERTY_PREFIX + "enabled";
 	
@@ -91,6 +93,33 @@ public class Chrome
 			}
 		}
 	}
+	
+	private static class ChromeEnvironment
+	{
+		public static final Path findChromeExecutable()
+		{
+			try
+			{
+				@SuppressWarnings("resource")
+				ChromeLauncher launcher = new ChromeLauncher();
+				Path chromeBinaryPath = launcher.getChromeBinaryPath();
+				if (log.isDebugEnabled())
+				{
+					log.debug("chrome binary found at " + chromeBinaryPath);
+				}
+				return chromeBinaryPath;
+			}
+			catch (RuntimeException e)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("chrome binary not found", e);
+				}
+				return null;
+			}
+		}		
+	}
+	
 	
 	public static Chrome instance(JasperReportsContext jasperReportsContext)
 	{
@@ -141,7 +170,8 @@ public class Chrome
 				}
 				
 				LaunchConfiguration configuration = new LaunchConfiguration(executablePath, headless, args);
-				service = ServiceRepository.isntance().getService(configuration);
+				ChromeServiceHandle chromeServiceHandle = new ChromeServiceHandle(configuration);
+				service = new BrowserService(jasperReportsContext, chromeServiceHandle);
 			}
 		}
 		
@@ -153,7 +183,7 @@ public class Chrome
 		Path path = DETECTED_CHROME_PATH;
 		if (path == null)
 		{
-			DETECTED_CHROME_PATH = path = BrowserService.findChromeExecutable();
+			DETECTED_CHROME_PATH = path = ChromeEnvironment.findChromeExecutable();
 		}
 		return path;
 	}

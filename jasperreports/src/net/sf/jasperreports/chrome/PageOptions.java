@@ -23,42 +23,26 @@
  */
 package net.sf.jasperreports.chrome;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class ServiceRepository
+public class PageOptions
 {
 
-	private static final ServiceRepository INSTANCE = new ServiceRepository();
+	private Long timeout;
 	
-	public static ServiceRepository isntance()
+	public PageOptions()
 	{
-		return INSTANCE;
+	}
+
+	public Long getTimeout()
+	{
+		return timeout;
+	}
+
+	public void setTimeout(Long timeout)
+	{
+		this.timeout = timeout;
 	}
 	
-	private final Map<LaunchConfiguration, BrowserService> services;
-	
-	protected ServiceRepository()
-	{
-		this.services = new HashMap<>();
-	}
-	
-	public BrowserService getService(LaunchConfiguration configuration)
-	{
-		synchronized (services)
-		{
-			BrowserService service = services.get(configuration);
-			if (service == null)
-			{
-				service = new BrowserService(configuration);
-				service.start();
-				
-				services.put(configuration, service);
-			}
-			return service;
-		}
-	}
 }
