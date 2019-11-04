@@ -105,8 +105,7 @@ public class JRDesignElementDataset extends JRBaseElementDataset implements JRCh
 	{
 		Object old = datasetResetType == null ? null : ResetTypeEnum.getByValue(datasetResetType.getValueByte());
 		
-		DatasetResetTypeEnum dsResetType = resetTypeValue == null ? null : DatasetResetTypeEnum.getByValue(resetTypeValue.getValueByte());
-		setResetType(dsResetType);
+		setResetType(resetTypeValue == null ? null : DatasetResetTypeEnum.getByValue(resetTypeValue.getValueByte()));
 
 		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, resetTypeValue);
 	}

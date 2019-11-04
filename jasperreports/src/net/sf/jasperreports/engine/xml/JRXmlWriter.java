@@ -200,6 +200,7 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
@@ -1389,7 +1390,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeTextField(JRTextField textField) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_textField, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.isStretchWithOverflow(), false);
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_11_0))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAdjust, textField.getTextAdjust(), TextAdjustEnum.CUT_TEXT);
+		}
+		else
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT, false);
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (textField.getEvaluationGroup() != null)

@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 
 /**
@@ -156,7 +157,7 @@ public class IconLabelComponentUtil
 //		iconLabelComponent.getLineBox().setBottomPadding(0);
 		
 		JRDesignTextField labelTextField = new JRDesignTextField(textElement.getDefaultStyleProvider());
-		labelTextField.setStretchWithOverflow(true);
+		labelTextField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
 		labelTextField.setX(0);
 		labelTextField.setY(0);
 		labelTextField.setWidth(1);
@@ -211,7 +212,7 @@ public class IconLabelComponentUtil
 		JRTextField textField = parentElement instanceof JRTextField ? (JRTextField)parentElement : null;
 		if (textField != null)
 		{
-			labelTextField.setStretchWithOverflow(textField.isStretchWithOverflow());
+			labelTextField.setTextAdjust(textField.getTextAdjust());
 			labelTextField.setBlankWhenNull(textField.isBlankWhenNull());
 			labelTextField.setPattern(textField.getPattern());
 			labelTextField.setPatternExpression(textField.getPatternExpression());
@@ -236,7 +237,7 @@ public class IconLabelComponentUtil
 		iconLabelComponent.setLabelTextField(labelTextField);
 		
 		JRDesignTextField iconTextField = new JRDesignTextField(textElement.getDefaultStyleProvider());
-		iconTextField.setStretchWithOverflow(true);
+		iconTextField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
 		iconTextField.setX(0);
 		iconTextField.setY(0);
 		iconTextField.setWidth(1);

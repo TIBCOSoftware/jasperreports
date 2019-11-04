@@ -2091,6 +2091,16 @@ Property used to force the expanding text fields to occupy all remaining space a
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.scale.font.step.limit -->
+  
+  <configProperty name="net.sf.jasperreports.scale.font.step.limit">
+    <description>
+Property used to specify the minimum amount when scaling down font size to adjust the content in text elements. 
+This works in conjunction with the <code>textAdjust</code> property of text elements which needs to be set to <code>ScaleFont</code> value.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.default.first.line.indent -->
   
   <configProperty name="net.sf.jasperreports.default.first.line.indent">
