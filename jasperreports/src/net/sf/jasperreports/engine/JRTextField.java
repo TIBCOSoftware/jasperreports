@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.properties.PropertyConstants;
 
 //import java.text.Format;
@@ -267,13 +268,27 @@ public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHy
 	/**
 	 * Specifies whether the text field will stretch vertically if its text does not fit in one line.
 	 * @return true if the text field will stretch vertically, false otherwise
+	 * @deprecated Replaced by {@link #getTextAdjust()}.
 	 */
 	public boolean isStretchWithOverflow();
 
 	/**
 	 * Set to true if the text field should stretch vertically if its text does not fit in one line.
+	 * @deprecated Replaced by {@link #setTextAdjust(TextAdjustEnum)}.
 	 */
 	public void setStretchWithOverflow(boolean isStretchWithOverflow);
+		
+	/**
+	 * Gets the text adjust type.
+	 * @return a value representing one of the text adjust constants in {@link TextAdjustEnum}
+	 */
+	public TextAdjustEnum getTextAdjust();
+
+	/**
+	 * Sets the text adjust type.
+	 * @param textAdjust a value representing one of the text adjust type constants in {@link TextAdjustEnum}
+	 */
+	public void setTextAdjust(TextAdjustEnum textAdjust);
 		
 	/**
 	 * Gets the pattern used for this text field. The pattern will be used in a <tt>SimpleDateFormat</tt> for dates

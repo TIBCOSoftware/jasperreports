@@ -79,7 +79,7 @@
 						<box>
 							<pen lineWidth="1.0"/>
 						</box>
-						<textField isStretchWithOverflow="true" pattern="#0">
+						<textField textAdjust="StretchHeight" pattern="#0">
 							<reportElement x="0" y="0" width="40" height="16" uuid="e256b054-5bed-4834-a6ec-260b20ee28ae"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font size="15"/>

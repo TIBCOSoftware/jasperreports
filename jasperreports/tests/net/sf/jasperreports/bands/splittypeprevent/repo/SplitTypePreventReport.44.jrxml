@@ -6,7 +6,7 @@
 	<group name="dummy" isReprintHeaderOnEachColumn="true">
 		<groupHeader>
 			<band height="30" splitType="Prevent">
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Transparent" x="0" y="0" width="515" height="30" uuid="496fdc4a-0496-4280-ae7f-121e7fe529a6"/>
 					<box>
 						<pen lineWidth="1.0"/>
@@ -20,7 +20,7 @@
 		<groupExpression>$V{REPORT_COUNT} > 69</groupExpression>
 		<groupFooter>
 			<band height="30">
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Transparent" x="0" y="0" width="515" height="30" uuid="496fdc4a-0496-4280-ae7f-121e7fe529a6"/>
 					<box>
 						<pen lineWidth="1.0"/>
@@ -32,7 +32,7 @@
 	</group>
 	<detail>
 		<band height="30">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Transparent" x="0" y="0" width="170" height="30" uuid="91bd5fa4-27a3-427e-b0e8-020b35480b36"/>
 				<box>
 					<pen lineWidth="1.0"/>

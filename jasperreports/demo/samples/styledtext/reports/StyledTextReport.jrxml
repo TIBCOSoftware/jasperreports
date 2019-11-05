@@ -71,7 +71,7 @@ A bulleted list:
 				</textElement>
 				<text><![CDATA[ampersand &amp; less &lt; greater &gt; quote &quot; apostrophe &apos;]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="0" y="650" width="555" height="20" forecolor="#0000FF" backcolor="#FFFF00" uuid="b8ba67e1-bd5f-4dde-874b-b50078c1aded"/>
 				<textElement textAlignment="Center" markup="styled"/>
 				<textFieldExpression><![CDATA["<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n"]]></textFieldExpression>

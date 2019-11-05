@@ -40,7 +40,7 @@
 		<groupHeader>
 			<band height="25">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="0" y="0" width="515" height="25" forecolor="#FFFFFF" backcolor="#009900" uuid="080f6cd4-258a-479b-b22e-602f23d7e4ca">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -54,7 +54,7 @@
 		<groupFooter>
 			<band height="25">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="0" y="0" width="515" height="25" backcolor="#00FFCC" uuid="de2f8712-c6f2-4e31-a8d9-a676d35e7451">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -116,7 +116,7 @@
 	<detail>
 		<band height="25">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Transparent" x="0" y="0" width="360" height="25" uuid="aeb122d5-6786-4818-a190-452f0aae8c27">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

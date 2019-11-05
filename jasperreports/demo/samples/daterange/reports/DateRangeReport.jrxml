@@ -539,7 +539,7 @@
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[DATERANGE("2017-05-01+3").getStart()]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="">
+			<textField textAdjust="StretchHeight" pattern="">
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="195" y="380" width="180" height="20" backcolor="#EEEEEE" uuid="ca84eecd-d1f6-4e9e-852d-fac232e95099">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -548,7 +548,7 @@
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["\"2017-05-01 14:25:48\""]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="EEE, MMM d, yyyy  HH:mm:ss z">
+			<textField textAdjust="StretchHeight" pattern="EEE, MMM d, yyyy  HH:mm:ss z">
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="375" y="380" width="180" height="20" backcolor="#EEEEEE" uuid="4e307c90-3897-4ae3-a909-f66017abec41">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

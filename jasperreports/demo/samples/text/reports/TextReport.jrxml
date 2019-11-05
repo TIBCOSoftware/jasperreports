@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TextReport" pageWidth="798" pageHeight="1000" whenNoDataType="AllSectionsNoDetail" columnWidth="714" leftMargin="42" rightMargin="42" topMargin="70" bottomMargin="70" uuid="f120a079-4f45-450c-8e21-7ac5a96f3c9a">
-	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="net.sf.jasperreports.export.text.character.width" value="7.238"/>
 	<property name="net.sf.jasperreports.export.text.character.height" value="13.948"/>
 	<import value="net.sf.jasperreports.engine.*"/>
@@ -88,12 +87,12 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="false">
 				<reportElement key="textField" positionType="Float" x="80" y="0" width="280" height="14" uuid="3bbdc1e6-aeb4-49a0-90a2-b28949511ff4"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="false">
 				<reportElement key="textField" positionType="Float" x="368" y="0" width="348" height="14" uuid="1231a5ca-2d35-4d7d-be19-0a8e64841197"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
@@ -119,7 +118,7 @@
 	</pageFooter>
 	<summary>
 		<band height="28">
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="false">
 				<reportElement key="textField" x="290" y="0" width="180" height="14" uuid="00864054-bf0c-4513-99c2-d617610e4dab"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["There were " + String.valueOf($V{REPORT_COUNT}) + " address records on this report."]]></textFieldExpression>

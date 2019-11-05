@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -643,7 +644,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setExpression(new JRDesignExpression("$F{Id}"));
 		band.addElement(textField);
 		textField = new JRDesignTextField();
-		textField.setStretchWithOverflow(true);
+		textField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
 		textField.setX(55);
 		textField.setY(4);
 		textField.setWidth(200);
@@ -653,7 +654,7 @@ public class NoXmlDesignApp extends AbstractSampleApp
 		textField.setExpression(new JRDesignExpression("$F{FirstName} + \" \" + $F{LastName}"));
 		band.addElement(textField);
 		textField = new JRDesignTextField();
-		textField.setStretchWithOverflow(true);
+		textField.setTextAdjust(TextAdjustEnum.STRETCH_HEIGHT);
 		textField.setX(260);
 		textField.setY(4);
 		textField.setWidth(255);

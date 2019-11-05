@@ -51,6 +51,7 @@ import net.sf.jasperreports.engine.fill.JRFillTextField;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.StyleResolver;
@@ -686,7 +687,7 @@ public class IconLabelComponentFill extends BaseFillComponent implements Stretch
 			middlePadding = (int)(iconTextField.getFontsize() / 2);
 //			labelTextField.setWidth(availableWidth);
 			int iconAvailableHeight =
-				(labelTextField.isStretchWithOverflow()
+				(labelTextField.getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT
 				? textAvailableHeight - labelTextField.getStretchHeight() 
 				: iconLabelComponent.getContext().getComponentElement().getHeight() - labelTextField.getStretchHeight())
 				 - middlePadding;

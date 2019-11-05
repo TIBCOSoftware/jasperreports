@@ -239,7 +239,7 @@ provide this property, will be considered only the property of the last exported
 In our sample there is an element-level property set for the <code>address</code> textfield where <code>id</code> 
 is 44:
 <pre><![CDATA[
-  <textField isStretchWithOverflow="true">
+  <textField textAdjust="StretchHeight">
     <reportElement positionType="Float" x="316" y="0" width="199" height="15" uuid="53fe7b81-f998-46e1-912e-66383284e4a2">
       ...					
       <propertyExpression name="net.sf.jasperreports.export.xls.sheet.tab.color">

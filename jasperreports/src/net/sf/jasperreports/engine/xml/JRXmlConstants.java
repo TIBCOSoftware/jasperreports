@@ -770,6 +770,7 @@ public final class JRXmlConstants
 	public static final String ELEMENT_textField = "textField";
 
 	public static final String ATTRIBUTE_isStretchWithOverflow = "isStretchWithOverflow";
+	public static final String ATTRIBUTE_textAdjust = "textAdjust";
 
 	/**
 	 * JRVariableFactory  associated constants
