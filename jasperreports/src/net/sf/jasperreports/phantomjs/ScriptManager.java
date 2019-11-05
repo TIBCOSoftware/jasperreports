@@ -55,9 +55,9 @@ public class ScriptManager
 
 	private JasperReportsContext jasperReportsContext;
 	
-	public ScriptManager(JasperReportsContext jasperReportsContext, String tempDirProperty)
+	public ScriptManager(JasperReportsContext jasperReportsContext)
 	{
-		String tempPath = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(tempDirProperty);
+		String tempPath = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(PhantomJS.PROPERTY_PHANTOMJS_TEMPDIR_PATH);
 		if (tempPath == null)
 		{
 			tempPath = System.getProperty("java.io.tmpdir");
@@ -66,11 +66,11 @@ public class ScriptManager
 		this.tempFolder = new File(tempPath);
 		if (this.tempFolder.exists() && this.tempFolder.isDirectory())
 		{
-			log.info("Scripts temp folder is " + tempPath);
+			log.info("PhantomJS temp folder is " + tempPath);
 		}
 		else
 		{
-			log.error("The scripts temp folder " + tempPath + " does not exist.");
+			log.error("The PhantomJS temp folder " + tempPath + " does not exist.");
 		}
 		
 		this.scriptFiles = new ConcurrentMapping<>(new ConcurrentMapping.Mapper<String, File>()
