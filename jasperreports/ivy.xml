@@ -48,6 +48,7 @@
 		<dependency org="org.apache.ant" name="ant" rev="1.10.6"/>
 		<dependency org="org.apache.commons" name="commons-collections4" rev="4.2"/>
 		<dependency org="org.apache.commons" name="commons-lang3" rev="3.8.1" conf="test->*"/>
+		<dependency org="org.apache.commons" name="commons-math3" rev="3.6.1" conf="test->*"/>
 		<dependency org="org.apache.commons" name="commons-pool2" rev="2.4.2"/>
 		<dependency org="org.apache.httpcomponents" name="httpclient" rev="4.3.6"/>
 		<dependency org="org.apache.httpcomponents" name="httpcore" rev="4.3.3"/>
@@ -57,8 +58,8 @@
 		<dependency org="org.apache.lucene" name="lucene-analyzers-common" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-core" rev="7.3.0"/>
 		<dependency org="org.apache.lucene" name="lucene-queryparser" rev="7.3.0"/>
-		<dependency org="org.apache.poi" name="poi-ooxml" rev="4.0.1"/>
-		<dependency org="org.apache.poi" name="poi" rev="4.0.1"/>
+		<dependency org="org.apache.poi" name="poi-ooxml" rev="4.1.1"/>
+		<dependency org="org.apache.poi" name="poi" rev="4.1.1"/>
 		<dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-anim" rev="1.11"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-awt-util" rev="1.11"/>
