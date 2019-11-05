@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.phantomjs.ScriptManager;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -135,7 +134,6 @@ public class Chrome
 			enabled = CDTClassCheck.FOUND_CDT_CLASS;
 		}
 		
-		ScriptManager scriptManager = null;
 		BrowserService service = null;
 		
 		if (enabled)
@@ -157,8 +155,6 @@ public class Chrome
 			}
 			else
 			{
-				scriptManager = ScriptManagerRepository.instance().getService(jasperReportsContext);
-				
 				boolean headless = properties.getBooleanProperty(PROPERTY_HEADLESS, true);
 				
 				List<PropertySuffix> argProperties = properties.getAllProperties((JRPropertiesMap) null, 
@@ -183,7 +179,7 @@ public class Chrome
 			}
 		}
 		
-		return new Chrome(enabled, scriptManager, service);
+		return new Chrome(enabled, service);
 	}
 	
 	private static Path detectedChromeExecutable()
@@ -198,26 +194,17 @@ public class Chrome
 	
 	private final boolean enabled;
 	
-	//TODO move out of phantom package
-	private final ScriptManager scriptManager;
-	
 	private final BrowserService service;
 	
-	protected Chrome(boolean enabled, ScriptManager scriptManager, BrowserService service)
+	protected Chrome(boolean enabled, BrowserService service)
 	{
 		this.enabled = enabled;
-		this.scriptManager = scriptManager;
 		this.service = service;
 	}
 	
 	public boolean isEnabled()
 	{
 		return enabled;
-	}
-	
-	public ScriptManager getScriptManager()
-	{
-		return scriptManager;
 	}
 	
 	public BrowserService getService()

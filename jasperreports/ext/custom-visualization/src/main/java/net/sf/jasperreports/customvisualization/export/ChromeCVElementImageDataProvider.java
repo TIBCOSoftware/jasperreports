@@ -36,15 +36,15 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.chrome.BrowserService;
 import net.sf.jasperreports.chrome.Chrome;
 import net.sf.jasperreports.chrome.PageOptions;
-import net.sf.jasperreports.chrome.BrowserService;
+import net.sf.jasperreports.chrome.ResourceManager;
 import net.sf.jasperreports.customvisualization.CVPrintElement;
 import net.sf.jasperreports.customvisualization.CVUtils;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.phantomjs.ScriptManager;
 import net.sf.jasperreports.repo.RepositoryUtil;
 import net.sf.jasperreports.util.Base64Util;
 
@@ -75,11 +75,11 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 		}
 
 		Chrome chrome = Chrome.instance(jasperReportsContext);
-		ScriptManager scriptManager = chrome.getScriptManager();
+		ResourceManager resourceManager = ResourceManager.instance();
 		List<String> scriptFilenames = new ArrayList<>();
 
 		for (String scriptLocation: scriptResourceLocations) {
-			scriptFilenames.add(scriptManager.getScriptFilename(scriptLocation, jasperReportsContext));
+			scriptFilenames.add(resourceManager.getResourceFilename(scriptLocation, jasperReportsContext));
 		}
 
 		if (log.isDebugEnabled()) {
@@ -87,7 +87,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 			log.debug("Configured css URI: " + element.getParameterValue(CVPrintElement.CSS_URI));
 		}
 
-		scriptFilenames.add(scriptManager.getScriptFilename(
+		scriptFilenames.add(resourceManager.getResourceFilename(
 				(String)element.getParameterValue(CVPrintElement.SCRIPT_URI),
 				jasperReportsContext));
 
@@ -97,7 +97,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 		String cssUri = null;
 		if (cssUriParameter != null) {
 			if (renderAsPng) {
-				cssUri = scriptManager.getScriptFilename(cssUriParameter, jasperReportsContext);
+				cssUri = resourceManager.getResourceFilename(cssUriParameter, jasperReportsContext);
 			} else {
 				//embedding the CSS as data: URL in the HTML because Chrome doesn't allow 
 				//accessing document.styleSheets.cssRules for file system CSS resources
@@ -114,7 +114,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 				scriptFilenames,
 				cssUri);
 
-		File htmlTempFile = File.createTempFile("cv_", ".html", scriptManager.getTempFolder());
+		File htmlTempFile = File.createTempFile("cv_", ".html", resourceManager.getTempFolder(jasperReportsContext));
 		try {
 			try (InputStream is = new ByteArrayInputStream(htmlPage.getBytes());
 					 OutputStream os = new FileOutputStream(htmlTempFile) ) {
