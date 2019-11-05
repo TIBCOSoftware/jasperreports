@@ -5,7 +5,7 @@
 	<group name="dummy">
 		<groupHeader>
 			<band height="742">
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="0" y="0" width="515" height="25" backcolor="#00FFFF" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
 					<textFieldExpression><![CDATA["This report shows that \"the column bands\" such as the detail and group headers and footers, do not trigger a page/column break when they overflow with white space. And if they don't, then there should be no extra blank space after this." + "\nblah\nblah\nblah."]]></textFieldExpression>
 				</textField>

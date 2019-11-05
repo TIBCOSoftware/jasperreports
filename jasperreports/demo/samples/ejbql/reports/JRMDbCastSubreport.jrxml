@@ -31,11 +31,11 @@
 	</columnHeader>
 	<detail>
 		<band height="14">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="0" y="2" width="120" height="10" uuid="dc3fd9b3-30e2-443b-b4d3-1ccffb2db230"/>
 				<textFieldExpression><![CDATA[$F{actor.name}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="125" y="2" width="120" height="10" uuid="b51294d5-a0bd-4deb-9ff6-ebe17e86b076"/>
 				<textFieldExpression><![CDATA[$F{character}]]></textFieldExpression>
 			</textField>

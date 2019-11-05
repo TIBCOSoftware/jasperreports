@@ -7,7 +7,7 @@
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="742" backcolor="#FFFF00" uuid="5b650a5c-451f-45e0-9153-80e66a661248"/>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="0" y="0" width="515" height="25" backcolor="#00FFFF" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
 					<textFieldExpression><![CDATA["This report shows that when frames overflow (even with white space), they will be rendered on the next page at their design height, not the remaining white space height." + "\nblah\nblah\nblah."]]></textFieldExpression>
 				</textField>

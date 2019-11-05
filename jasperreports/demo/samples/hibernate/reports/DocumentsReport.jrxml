@@ -41,7 +41,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#.00">
+			<textField textAdjust="StretchHeight" pattern="#.00">
 				<reportElement positionType="Float" x="85" y="0" width="100" height="13" uuid="20947926-3f89-4cb4-890a-09e53495ceb9"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>

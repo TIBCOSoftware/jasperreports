@@ -23,16 +23,7 @@
  */
 package net.sf.jasperreports.components.table;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.base.JRBaseElementGroup;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -40,75 +31,23 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class CompiledCell extends JRBaseElementGroup implements Cell
+public class CompiledCell extends CompiledBaseCell implements Cell
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private JRDefaultStyleProvider defaultStyleProvider;
-	protected JRStyle style;
-	protected String styleNameReference;
-	private JRLineBox box;
 	private Integer rowSpan;
-	private Integer height;
-	
-	private JRPropertiesMap propertiesMap;
 	
 	public CompiledCell()
 	{
 		super();
-		
-		box = new JRBaseLineBox(this);
 	}
 
 	public CompiledCell(Cell cell, JRBaseObjectFactory factory)
 	{
 		super(cell, factory);
 		
-		this.defaultStyleProvider = factory.getDefaultStyleProvider();
-		this.style = factory.getStyle(cell.getStyle());
-		this.styleNameReference = cell.getStyleNameReference();
-		this.box = cell.getLineBox().clone(this);
 		this.rowSpan = cell.getRowSpan();
-		this.height = cell.getHeight();
-		
-		this.propertiesMap = JRPropertiesMap.getPropertiesClone(cell);
-	}
-
-	@Override
-	public Integer getHeight()
-	{
-		return height;
-	}
-
-	@Override
-	public Color getDefaultLineColor()
-	{
-		return Color.BLACK;
-	}
-
-	@Override
-	public JRLineBox getLineBox()
-	{
-		return box;
-	}
-
-	@Override
-	public JRDefaultStyleProvider getDefaultStyleProvider()
-	{
-		return defaultStyleProvider;
-	}
-
-	@Override
-	public JRStyle getStyle()
-	{
-		return style;
-	}
-
-	@Override
-	public String getStyleNameReference()
-	{
-		return styleNameReference;
 	}
 
 	@Override
@@ -118,32 +57,9 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 	}
 
 	@Override
-	public boolean hasProperties()
-	{
-		return propertiesMap != null && propertiesMap.hasProperties();
-	}
-
-	@Override
-	public JRPropertiesMap getPropertiesMap()
-	{
-		if (propertiesMap == null)
-		{
-			propertiesMap = new JRPropertiesMap();
-		}
-		return propertiesMap;
-	}
-
-	@Override
-	public JRPropertiesHolder getParentProperties()
-	{
-		return null;
-	}
-	
-	@Override
 	public Object clone() 
 	{
 		CompiledCell clone = (CompiledCell) super.clone();
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
 	}
 

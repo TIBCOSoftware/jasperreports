@@ -23,35 +23,35 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_LOCALE}.getDisplayName($P{REPORT_LOCALE})]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="20" y="100" width="530" height="20" uuid="b335f49d-4592-49d1-b24b-045de94e7ae3"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{text.paragraph1}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="20" y="125" width="530" height="20" uuid="96820d9b-4eec-439f-b4b6-aad1b4f6a2c3"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{text.paragraph2}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="20" y="150" width="530" height="20" uuid="92ed017e-89bd-4306-a531-eabca1d57f83"/>
 				<textElement textAlignment="Justified">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{text.paragraph3}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="20" y="210" width="530" height="20" forecolor="#FF0000" uuid="5d80dc10-e9b0-49ee-b760-19527151067b"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[msg($R{text.message}, $P{number})]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="full,short" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="full,short" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="20" y="175" width="530" height="28" forecolor="#0000FF" uuid="0659a5e0-e391-400f-ac5c-5534289781ce">
 					<property name="net.sf.jasperreports.export.pptx.field.type" value="datetime"/>
 				</reportElement>
@@ -60,7 +60,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="20" y="235" width="530" height="15" uuid="4e74aed5-73d8-46b8-ad28-40b52b0b09a8"/>
 				<textElement textAlignment="Right">
 					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique"/>

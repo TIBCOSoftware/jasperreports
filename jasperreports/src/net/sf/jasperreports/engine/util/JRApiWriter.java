@@ -165,6 +165,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -180,6 +181,7 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.export.WriterExporterOutput;
@@ -1246,7 +1248,7 @@ public class JRApiWriter
 		{
 			write( "JRDesignTextField " + textFieldName + " = new JRDesignTextField(jasperDesign);\n");
 			write( textFieldName + ".setBold({0});\n", textField.isOwnBold());
-			write( textFieldName + ".setStretchWithOverflow({0});\n", textField.isStretchWithOverflow(), false);
+			write( textFieldName + ".setTextAdjust({0});\n", textField.getTextAdjust(), TextAdjustEnum.CUT_TEXT);
 			write( textFieldName + ".setEvaluationTime({0});\n", textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 			write( textFieldName + ".setEvaluationGroup({0});\n", getGroupName(textField.getEvaluationGroup()));
 
@@ -1464,9 +1466,9 @@ public class JRApiWriter
 	{
 		if(dataset != null)
 		{
-			write( datasetName + ".setResetType({0});\n", dataset.getResetTypeValue(), ResetTypeEnum.REPORT);
+			write( datasetName + ".setResetType({0});\n", dataset.getDatasetResetType(), DatasetResetTypeEnum.REPORT);
 	
-			if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+			if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 			{
 				String resetGroupName = getGroupName(  dataset.getResetGroup());
 				write( datasetName + ".setResetGroup(" + resetGroupName + ");\n");

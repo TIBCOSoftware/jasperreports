@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -1068,7 +1069,6 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					printImage, 
-					printImage.getScaleImageValue() != ScaleImageEnum.FILL_FRAME,
 					availableImageWidth,
 					availableImageHeight
 					);
@@ -1117,6 +1117,11 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						switch (printImage.getRotation())
 						{
 							case LEFT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								switch (printImage.getHorizontalImageAlign())
 								{
 									case RIGHT :
@@ -1152,6 +1157,11 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 								angle = -90;
 								break;
 							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								switch (printImage.getHorizontalImageAlign())
 								{
 									case RIGHT :
@@ -1305,6 +1315,11 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 						switch (printImage.getRotation())
 						{
 							case LEFT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								ratioX = availableImageWidth / normalHeight;
 								ratioY = availableImageHeight / normalWidth;
 								ratioX = ratioX < ratioY ? ratioX : ratioY;
@@ -1312,10 +1327,15 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 								imageWidth = (int)(normalHeight * ratioX);
 								imageHeight = (int)(normalWidth * ratioY);
 								xoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - imageWidth));
-								yoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - imageHeight));
+								yoffset = (int) ((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - imageHeight));
 								angle = -90;
 								break;
 							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								ratioX = availableImageWidth / normalHeight;
 								ratioY = availableImageHeight / normalWidth;
 								ratioX = ratioX < ratioY ? ratioX : ratioY;
@@ -1465,16 +1485,26 @@ public class JRRtfExporter extends JRAbstractExporter<RtfReportConfiguration, Rt
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
-			boolean needDimension,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = needDimension;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
+			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME;
+			if (
+				imageElement.getRotation() == RotationEnum.LEFT
+				|| imageElement.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				this.availableImageWidth = availableImageHeight;
+				this.availableImageHeight = availableImageWidth;
+			}
+			else
+			{
+				this.availableImageWidth = availableImageWidth;
+				this.availableImageHeight = availableImageHeight;
+			}
 		}
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException

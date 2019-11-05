@@ -181,6 +181,7 @@ import net.sf.jasperreports.engine.part.PartEvaluationTime;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
@@ -199,6 +200,7 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
@@ -1388,7 +1390,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeTextField(JRTextField textField) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_textField, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.isStretchWithOverflow(), false);
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_11_0))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAdjust, textField.getTextAdjust(), TextAdjustEnum.CUT_TEXT);
+		}
+		else
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT, false);
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (textField.getEvaluationGroup() != null)
@@ -1623,9 +1632,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			boolean skipIfEmpty) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_dataset, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), defaultResetType);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getDatasetResetType(), defaultResetType);
 
-		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+		if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 		{
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resetGroup, dataset.getResetGroup().getName());
 		}

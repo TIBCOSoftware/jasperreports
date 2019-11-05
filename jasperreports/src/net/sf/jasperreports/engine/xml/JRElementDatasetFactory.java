@@ -25,13 +25,13 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Set;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
-import net.sf.jasperreports.engine.type.ResetTypeEnum;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -61,12 +61,12 @@ public class JRElementDatasetFactory extends JRBaseFactory
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
 		Set<JRElementDataset> groupBoundDatasets = xmlLoader.getGroupBoundDatasets();
 		
-		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
+		DatasetResetTypeEnum resetType = DatasetResetTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)
 		{
 			dataset.setResetType(resetType);
 		}
-		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+		if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 		{
 			groupBoundDatasets.add(dataset);
 

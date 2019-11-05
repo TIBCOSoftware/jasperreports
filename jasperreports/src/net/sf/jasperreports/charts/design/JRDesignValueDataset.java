@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRVerifier;
-import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
@@ -73,7 +73,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 			// than None doesn't make sense
 			// setting None as default reset type so that it doesn't need to be
 			// explicitly set in order for the dataset to work as expected
-			this.resetTypeValue = ResetTypeEnum.NONE;
+			this.datasetResetType = DatasetResetTypeEnum.NONE;
 		}
 	}
 

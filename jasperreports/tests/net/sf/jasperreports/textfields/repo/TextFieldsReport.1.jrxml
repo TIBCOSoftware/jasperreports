@@ -6,7 +6,7 @@
 		<groupHeader>
 			<band height="80">
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="0" y="0" width="515" height="80" backcolor="#00FFFF" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
 					<textElement>
 						<font size="64"/>

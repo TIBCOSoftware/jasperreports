@@ -188,7 +188,7 @@
 	<summary>
 		<band height="120" splitType="Prevent">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Transparent" x="0" y="0" width="515" height="120" uuid="0f1bbacf-e1b5-4d67-98f5-602e866f3679">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

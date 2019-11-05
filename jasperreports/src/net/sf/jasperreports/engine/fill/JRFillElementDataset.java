@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -105,10 +106,19 @@ public abstract class JRFillElementDataset implements JRElementDataset
 		}
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getDatasetResetType()}.
+	 */
 	@Override
 	public ResetTypeEnum getResetTypeValue()
 	{
 		return parent.getResetTypeValue();
+	}
+		
+	@Override
+	public DatasetResetTypeEnum getDatasetResetType()
+	{
+		return parent.getDatasetResetType();
 	}
 		
 	@Override

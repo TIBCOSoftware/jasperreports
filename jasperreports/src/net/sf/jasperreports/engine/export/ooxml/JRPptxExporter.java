@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -1237,7 +1238,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image, 
-					image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME,
 					availableImageWidth,
 					availableImageHeight
 					);
@@ -1321,6 +1321,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 						switch (image.getRotation())
 						{
 							case LEFT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
@@ -1360,6 +1365,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								angle = -90;
 								break;
 							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								xoffset = (availableImageWidth - availableImageHeight) / 2;
@@ -1494,6 +1504,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 						switch (image.getRotation())
 						{
 							case LEFT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								ratioX = availableImageWidth / normalHeight;
@@ -1539,6 +1554,11 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 								angle = -90;
 								break;
 							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
 								renderWidth = availableImageHeight;
 								renderHeight = availableImageWidth;
 								ratioX = availableImageWidth / normalHeight;
@@ -1751,16 +1771,26 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
-			boolean needDimension,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = needDimension;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
+			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME;
+			if (
+				imageElement.getRotation() == RotationEnum.LEFT
+				|| imageElement.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				this.availableImageWidth = availableImageHeight;
+				this.availableImageHeight = availableImageWidth;
+			}
+			else
+			{
+				this.availableImageWidth = availableImageWidth;
+				this.availableImageHeight = availableImageHeight;
+			}
 		}
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException

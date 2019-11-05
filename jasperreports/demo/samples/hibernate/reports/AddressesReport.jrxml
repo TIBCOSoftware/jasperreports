@@ -39,11 +39,11 @@
 			<band height="25">
 				<frame>
 					<reportElement mode="Opaque" x="0" y="0" width="375" height="21" backcolor="#E0E0E0" uuid="a143642b-fbed-4962-bfbf-c9d9ecc24879"/>
-					<textField isStretchWithOverflow="true">
+					<textField textAdjust="StretchHeight">
 						<reportElement x="5" y="3" width="160" height="15" uuid="fdadafcd-6622-4d05-89f8-31eeb46e68f9"/>
 						<textFieldExpression><![CDATA[$F{firstName} + " " + $F{lastName} + " (ID: " + $F{id} + ")"]]></textFieldExpression>
 					</textField>
-					<textField isStretchWithOverflow="true">
+					<textField textAdjust="StretchHeight">
 						<reportElement x="210" y="3" width="160" height="15" uuid="8e21ca6a-7eb9-4deb-8b36-9df9db27314c"/>
 						<textElement textAlignment="Right"/>
 						<textFieldExpression><![CDATA[$F{street} + "," + $F{city}]]></textFieldExpression>
@@ -68,7 +68,7 @@
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{AddressGroup_COUNT}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#.00">
+				<textField textAdjust="StretchHeight" pattern="#.00">
 					<reportElement style="Sans_Normal_Small" x="255" y="2" width="100" height="15" uuid="026b8161-7824-41f8-a86f-38d8c1321003"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{addressTotal}]]></textFieldExpression>
@@ -106,7 +106,7 @@
 				<reportElement style="Sans_Normal_Small" isPrintRepeatedValues="false" x="180" y="0" width="70" height="12" isPrintInFirstWholeBand="true" printWhenGroupChanges="AddressGroup" uuid="c5e1138c-175d-44cf-81ea-aa736ce885f2"/>
 				<text><![CDATA[Document Total]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="#.00">
+			<textField textAdjust="StretchHeight" pattern="#.00">
 				<reportElement style="Sans_Normal_Small" x="255" y="0" width="100" height="12" uuid="cf13a747-c535-4a39-b13b-3ba60926e317"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{documentTotal}]]></textFieldExpression>

@@ -101,7 +101,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
-							<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd">
+							<textField textAdjust="StretchHeight" pattern="yyyy, MMM dd">
 								<reportElement positionType="Float" x="0" y="2" width="67" height="10" uuid="0717de69-3b48-44f9-a3b2-c6ad286b41f4"/>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
@@ -117,7 +117,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
-							<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" pattern="yyyy, MMM dd" isBlankWhenNull="true">
 								<reportElement positionType="Float" x="0" y="2" width="67" height="10" uuid="4cda031d-45e8-42a0-85f6-14ad94419f77"/>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$F{ShippedDate}]]></textFieldExpression>
@@ -140,7 +140,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
-							<textField isStretchWithOverflow="true" pattern="#,##0.00">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00">
 								<reportElement positionType="Float" x="0" y="2" width="52" height="10" uuid="4a1f849f-252f-4921-9f2d-aa09d3d45155"/>
 								<textElement textAlignment="Right"/>
 								<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
@@ -155,7 +155,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement positionType="Float" x="0" y="2" width="100" height="10" uuid="efbfff7a-1b82-494e-af57-d8169de6ba06"/>
 								<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
 							</textField>
@@ -169,7 +169,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="14">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement positionType="Float" x="0" y="2" width="145" height="10" uuid="fbb70953-0504-4c47-b29c-c7ddf12c7e4f"/>
 								<textFieldExpression><![CDATA[$F{ShipAddress} + "\n" + $F{ShipCity} + ", " + $F{ShipCountry}]]></textFieldExpression>
 							</textField>

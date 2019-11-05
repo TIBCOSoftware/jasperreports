@@ -38,6 +38,11 @@ public enum WhenNoDataTypeTableEnum implements NamedEnum
 	BLANK("Blank"),
 
 	/**
+	 * Specifies that in case of empty datasources, the table output will be blank.
+	 */
+	NO_DATA_CELL("NoDataCell"),
+
+	/**
 	 * Specifies that in case of empty datasources, all table sections except the detail will displayed.
 	 */
 	ALL_SECTIONS_NO_DETAIL("AllSectionsNoDetail");

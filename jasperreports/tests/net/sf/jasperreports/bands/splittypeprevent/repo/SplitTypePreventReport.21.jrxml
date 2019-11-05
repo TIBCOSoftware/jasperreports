@@ -5,7 +5,7 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<title>
 		<band height="30" splitType="Prevent">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Transparent" x="0" y="0" width="515" height="30" uuid="20ce6e87-e50b-44a3-9e11-be52254d221c"/>
 				<box>
 					<pen lineWidth="1.0"/>

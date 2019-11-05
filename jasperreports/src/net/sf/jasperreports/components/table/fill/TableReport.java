@@ -43,6 +43,7 @@ import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
+import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -367,6 +368,7 @@ public class TableReport implements JRReport
 	private final JRDesignBand columnHeader;
 	private final JRDesignBand pageFooter;
 	private final JRDesignBand lastPageFooter;
+	private final JRDesignBand noData;
 	
 	private final List<TableIndexProperties> tableIndexProperties;
 	private final Map<Integer, JRPropertiesMap> headerHtmlBaseProperties;
@@ -453,6 +455,8 @@ public class TableReport implements JRReport
 			// use the regular page footer
 			this.lastPageFooter = null;
 		}
+		
+		this.noData = createNoData(table.getNoData());
 	}
 	
 	public String getTableName()
@@ -817,6 +821,7 @@ public class TableReport implements JRReport
 	{
 		final JRDesignBand detailBand = new JRDesignBand();
 		detailBand.setSplitType(SplitTypeEnum.PREVENT);
+		detailBand.setPrintWhenExpression(table.getDetail() == null ? null : table.getDetail().getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(detailBand, BandTypeEnum.DETAIL.getName());
 		int xOffset = 0;
@@ -1256,7 +1261,8 @@ public class TableReport implements JRReport
 	{
 		JRDesignBand columnHeader = new JRDesignBand();
 		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
-		
+		columnHeader.setPrintWhenExpression(table.getColumnHeader() == null ? null : table.getColumnHeader().getPrintWhenExpression());
+
 		ReportBandInfo bandInfo = new ReportBandInfo(columnHeader, BandTypeEnum.COLUMN_HEADER.getName());
 		int xOffset = 0;
 		for (FillColumn subcolumn : fillColumns)
@@ -1309,6 +1315,7 @@ public class TableReport implements JRReport
 	{
 		JRDesignBand pageFooter = new JRDesignBand();
 		pageFooter.setSplitType(SplitTypeEnum.PREVENT);
+		pageFooter.setPrintWhenExpression(table.getColumnFooter() == null ? null : table.getColumnFooter().getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(pageFooter, BandTypeEnum.PAGE_FOOTER.getName());
 		int xOffset = 0;
@@ -1327,6 +1334,39 @@ public class TableReport implements JRReport
 			pageFooter = null;
 		}
 		return pageFooter;
+	}
+	
+	protected JRDesignBand createNoData(BaseCell cell)
+	{
+		JRDesignBand noData = null;
+		
+		if (cell != null)
+		{
+			noData = new JRDesignBand();
+			noData.setSplitType(SplitTypeEnum.PREVENT);
+			//noData.setPrintWhenExpression(table.getColumnFooter() == null ? null : table.getColumnFooter().getPrintWhenExpression());
+			
+			noData.addElement(
+				createCell(
+					null, 
+					cell, 
+					fillContext.getComponentElement().getWidth(), 
+					fillContext.getComponentElement().getWidth(), 
+					0, 
+					0, 
+					null, 
+					null, 
+					false
+					)
+				);
+			
+//			if (noData.getHeight() == 0)
+//			{
+//				noData = null;
+//			}
+		}
+		
+		return noData;
 	}
 	
 	protected class TitleCreator extends ReportBandCreator
@@ -1361,6 +1401,7 @@ public class TableReport implements JRReport
 	{
 		JRDesignBand title = new JRDesignBand();
 		title.setSplitType(SplitTypeEnum.PREVENT);
+		title.setPrintWhenExpression(table.getTableHeader() == null ? null : table.getTableHeader().getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(title, BandTypeEnum.TITLE.getName());
 		int xOffset = 0;
@@ -1413,6 +1454,7 @@ public class TableReport implements JRReport
 	{
 		JRDesignBand summary = new JRDesignBand();
 		summary.setSplitType(SplitTypeEnum.PREVENT);
+		summary.setPrintWhenExpression(table.getTableFooter() == null ? null : table.getTableFooter().getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(summary, BandTypeEnum.SUMMARY.getName());
 		int xOffset = 0;
@@ -1471,6 +1513,7 @@ public class TableReport implements JRReport
 	{
 		JRDesignBand header = new JRDesignBand();
 		header.setSplitType(SplitTypeEnum.PREVENT);
+		header.setPrintWhenExpression(table.getGroupHeader(groupName) == null ? null : table.getGroupHeader(groupName).getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(header, BandTypeEnum.GROUP_HEADER + "-" + groupName);
 		int xOffset = 0;
@@ -1529,6 +1572,7 @@ public class TableReport implements JRReport
 	{
 		JRDesignBand footer = new JRDesignBand();
 		footer.setSplitType(SplitTypeEnum.PREVENT);
+		footer.setPrintWhenExpression(table.getGroupFooter(groupName) == null ? null : table.getGroupFooter(groupName).getPrintWhenExpression());
 		
 		ReportBandInfo bandInfo = new ReportBandInfo(footer, BandTypeEnum.GROUP_FOOTER + "-" + groupName);
 		int xOffset = 0;
@@ -1542,7 +1586,7 @@ public class TableReport implements JRReport
 
 		setPdfTags(bandInfo, false);
 		
-		if (footer.getHeight() == 0)
+		if (footer.getHeight() == 0)//FIXMENOW why zero height cells are not generating any content? could be expanding frames...
 		{
 			footer = null;
 		}
@@ -1737,7 +1781,7 @@ public class TableReport implements JRReport
 		mainDataset.addFirstGroup(summaryGroup);
 	}
 
-	protected JRElement createCell(JRElementGroup parentGroup, Cell cell, 
+	protected JRElement createCell(JRElementGroup parentGroup, BaseCell cell, 
 			int originalWidth, int width, 
 			int x, int y, Integer columnHashCode, UUID uuid, 
 			boolean forceFrame)
@@ -1823,7 +1867,7 @@ public class TableReport implements JRReport
 		return frame;
 	}
 	
-	protected JRElement createCellElement(JRElementGroup elementGroup, Cell cell, 
+	protected JRElement createCellElement(JRElementGroup elementGroup, BaseCell cell, 
 			int originalWidth, int width, 
 			int x, int y, Integer columnHashCode)
 	{
@@ -2038,7 +2082,7 @@ public class TableReport implements JRReport
 	@Override
 	public JRBand getNoData()
 	{
-		return null;
+		return noData;
 	}
 
 	@Override
@@ -2208,6 +2252,10 @@ public class TableReport implements JRReport
 			case ALL_SECTIONS_NO_DETAIL :
 			{
 				return WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL;
+			}
+			case NO_DATA_CELL :
+			{
+				return WhenNoDataTypeEnum.NO_DATA_SECTION;
 			}
 			case BLANK :
 			default :

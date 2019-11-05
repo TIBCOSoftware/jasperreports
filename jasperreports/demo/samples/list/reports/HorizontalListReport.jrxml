@@ -72,11 +72,11 @@
 								<reportElement style="Sans_SmallBold" x="0" y="2" width="100" height="12" uuid="740300c0-184f-499d-a651-06c95fef90f8"/>
 								<textFieldExpression><![CDATA["#" + $V{REPORT_COUNT} + " - " + $F{Id}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Sans_Small" positionType="Float" x="10" y="14" width="110" height="12" uuid="0d94253a-1fec-4390-b671-8462daca989b"/>
 								<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 							</textField>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Sans_Small" positionType="Float" x="10" y="26" width="110" height="12" uuid="e0023244-af6c-43e5-9425-689b0f897b17"/>
 								<textFieldExpression><![CDATA[$F{Street} + ", " + $F{City}]]></textFieldExpression>
 							</textField>
