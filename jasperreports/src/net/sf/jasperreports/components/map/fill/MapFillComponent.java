@@ -67,7 +67,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 public class MapFillComponent extends BaseFillComponent implements FillContextProvider
 {
 	public static final String PLACE_URL_PREFIX = "https://maps.googleapis.com/maps/api/geocode/xml?address=";
-	public static final String PLACE_URL_SUFFIX = "&sensor=false&output=xml&oe=utf8";
+	public static final String PLACE_URL_SUFFIX = "&output=xml&oe=utf8";
 	public static final String DEFAULT_ENCODING = "UTF-8";
 	public static final String STATUS_NODE = "/GeocodeResponse/status";
 	public static final String LATITUDE_NODE = "/GeocodeResponse/result/geometry/location/lat";
@@ -95,6 +95,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	private String key;
 	private String googleVersion;
 	private String version;
+	private String reqParams;
 
 	private List<FillItemData> markerDataList;
 	private List<FillItemData> pathStyleList;
@@ -213,6 +214,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				if(currentItemList != null && !currentItemList.isEmpty()){
 					for(Map<String,Object> currentItem : currentItemList){
 						if(currentItem != null){
+							currentItem.put("reqParams", getReqParams());
 							markers.add(currentItem);
 						}
 					}
@@ -383,26 +385,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		printElement.setParameterValue(MapComponent.ITEM_PROPERTY_latitude, latitude);
 		printElement.setParameterValue(MapComponent.ITEM_PROPERTY_longitude, longitude);
 		printElement.setParameterValue(MapComponent.PARAMETER_ZOOM, zoom);
-		String reqParams = "";
-		if(language != null && language.trim().length() > 0)
-		{
-			reqParams += "&language=" + language;
-		}
-		if(clientId != null && clientId.trim().length() > 0) {
-			reqParams += "&client=" + clientId;
-			if(signature != null) {
-				reqParams += "&signature=" + signature;
-			}
-		} else if(key != null && key.trim().length() > 0) {
-			reqParams += "&key=" + key;
-		}
-		
-		if(googleVersion != null && googleVersion.trim().length() > 0) {
-			reqParams += "&v=" + googleVersion;
-		} else if(version != null && version.trim().length() > 0 && (version.indexOf('.') < 0 || version.indexOf(".exp") > -1)) {
-			// avoiding name collision of the version property
-			reqParams += "&v=" + version;
-		}
+		String reqParams = getReqParams();
 		if(reqParams.length() > 0) {
 			printElement.setParameterValue(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
 		}
@@ -432,11 +415,47 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		}
 	}
 	
+	private String getReqParams()
+	{
+		return reqParams != null ? reqParams : getRequiredParams();
+	}
+	
+	private String getRequiredParams()
+	{
+		if(reqParams == null)
+		{
+			String rParams = "";
+			if(language != null && language.trim().length() > 0)
+			{
+				rParams += "&language=" + language;
+			}
+			if(clientId != null && clientId.trim().length() > 0) {
+				rParams += "&client=" + clientId;
+				if(signature != null) {
+					rParams += "&signature=" + signature;
+				}
+			} else if(key != null && key.trim().length() > 0) {
+				rParams += "&key=" + key;
+			}
+			
+			if(googleVersion != null && googleVersion.trim().length() > 0) {
+				rParams += "&v=" + googleVersion;
+			} else if(version != null && version.trim().length() > 0 && (version.indexOf('.') < 0 || version.indexOf(".exp") > -1)) {
+				// avoiding name collision of the version property
+				rParams += "&v=" + version;
+			}
+			reqParams = rParams.startsWith("&") ? rParams.substring(1) : rParams;
+		}
+		return reqParams;
+	}
+	
 	private Float[] getCoords(String address) throws JRException {
 		Float[] coords = null;
 		if(address != null) {
 			try {
-				String urlStr = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + PLACE_URL_SUFFIX;
+				String reqParams = getReqParams();
+				reqParams = reqParams.length() > 0 ? "&" + reqParams : reqParams;
+				String urlStr = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + reqParams + PLACE_URL_SUFFIX;
 				URL url = new URL(urlStr);
 				byte[] response = JRLoader.loadBytes(url);
 				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));
