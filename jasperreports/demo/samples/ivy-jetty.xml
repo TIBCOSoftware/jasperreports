@@ -15,7 +15,7 @@
 		<dependency org="javax.annotation" name="javax.annotation-api" rev="1.2"/>
 		<dependency org="org.eclipse.jetty.orbit" name="javax.security.auth.message" rev="1.0.0.v201108011116"/>
 		<dependency org="javax.transaction" name="javax.transaction-api" rev="1.2"/>
-		<dependency org="javax.websocket" name="javax.websocket-api" rev="1.0"/>
+		<dependency org="javax.websocket" name="javax.websocket-api" rev="1.1"/>
 		<dependency org="org.eclipse.jetty" name="jetty-alpn-server" rev="9.4.6.v20170531"/>
 		<dependency org="org.eclipse.jetty" name="jetty-annotations" rev="9.4.6.v20170531"/>
 		<dependency org="org.eclipse.jetty" name="jetty-ant" rev="9.4.6.v20170531"/>
