@@ -67,6 +67,11 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	{
 		this.parent = parent;
 	}
+	
+	public JasperReportsContext getParent()
+	{
+		return parent;
+	}
 
 	@Override
 	public Object getValue(String key)
