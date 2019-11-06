@@ -69,6 +69,7 @@ public class ResourceManager
 		this.contextMappings = new ReferenceIdentityMap<>(ReferenceStrength.WEAK, ReferenceStrength.HARD);
 	}
 	
+	//TODO use java.nio?
 	public File getTempFolder(JasperReportsContext jasperReportsContext)
 	{
 		ContextMappings mappings = contextMappings(jasperReportsContext);
@@ -91,7 +92,7 @@ public class ResourceManager
 		return mappings;
 	}
 
-	public String getResourceFilename(String resourceLocation, JasperReportsContext jasperReportsContext)
+	public String getResourceLocation(String resourceLocation, JasperReportsContext jasperReportsContext)
 	{
 		File resourceMapping = resourceMapping(resourceLocation, jasperReportsContext);
 		if (resourceMapping == null)
@@ -99,7 +100,7 @@ public class ResourceManager
 			throw new JRRuntimeException(RepositoryUtil.EXCEPTION_MESSAGE_KEY_INPUT_STREAM_NOT_FOUND,
 				new Object[]{resourceLocation});
 		}
-		return resourceMapping.getName();
+		return resourceMapping.toURI().toString();
 	}
 
 	public String copyDataResource(String resourceName, JasperReportsContext jasperReportsContext,
@@ -107,10 +108,10 @@ public class ResourceManager
 	{
 		ContextMappings mappings = contextMappings(jasperReportsContext);
 		File resourceFile = mappings.dataResourceMapping(resourceName, data, jasperReportsContext);
-		return resourceFile.getName();
+		return resourceFile.toURI().toString();
 	}
 
-	public String getDataResourceFilename(String resourceName, JasperReportsContext jasperReportsContext)
+	public String getDataResourceLocation(String resourceName, JasperReportsContext jasperReportsContext)
 	{
 		ContextMappings mappings = contextMappings(jasperReportsContext);
 		File resourceFile = mappings.dataResourceMapping(resourceName, jasperReportsContext);
@@ -119,7 +120,7 @@ public class ResourceManager
 			throw new JRRuntimeException(RepositoryUtil.EXCEPTION_MESSAGE_KEY_INPUT_STREAM_NOT_FOUND,
 					new Object[]{resourceName});
 		}
-		return resourceFile.getName();
+		return resourceFile.toURI().toString();
 	}
 	
 	protected File resourceMapping(String resourceLocation, JasperReportsContext jasperReportsContext)
