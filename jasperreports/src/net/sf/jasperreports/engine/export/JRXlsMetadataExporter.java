@@ -2600,7 +2600,10 @@ public class JRXlsMetadataExporter extends JRXlsAbstractMetadataExporter<XlsMeta
 			Hyperlink link
 			) 
 		{
-			this.cellType = cellType;
+			if(!CellType.FORMULA.equals(cellType))
+			{
+				this.cellType = cellType;
+			}
 			this.cellStyle = cellStyle;
 			this.cellValue = cellValue;
 			this.formula = formula;

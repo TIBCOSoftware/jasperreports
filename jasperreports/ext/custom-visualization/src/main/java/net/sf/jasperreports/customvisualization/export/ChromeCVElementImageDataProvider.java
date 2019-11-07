@@ -79,7 +79,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 		List<String> scriptFilenames = new ArrayList<>();
 
 		for (String scriptLocation: scriptResourceLocations) {
-			scriptFilenames.add(resourceManager.getResourceFilename(scriptLocation, jasperReportsContext));
+			scriptFilenames.add(resourceManager.getResourceLocation(scriptLocation, jasperReportsContext));
 		}
 
 		if (log.isDebugEnabled()) {
@@ -87,7 +87,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 			log.debug("Configured css URI: " + element.getParameterValue(CVPrintElement.CSS_URI));
 		}
 
-		scriptFilenames.add(resourceManager.getResourceFilename(
+		scriptFilenames.add(resourceManager.getResourceLocation(
 				(String)element.getParameterValue(CVPrintElement.SCRIPT_URI),
 				jasperReportsContext));
 
@@ -97,7 +97,7 @@ public class ChromeCVElementImageDataProvider extends CVElementAbstractImageData
 		String cssUri = null;
 		if (cssUriParameter != null) {
 			if (renderAsPng) {
-				cssUri = resourceManager.getResourceFilename(cssUriParameter, jasperReportsContext);
+				cssUri = resourceManager.getResourceLocation(cssUriParameter, jasperReportsContext);
 			} else {
 				//embedding the CSS as data: URL in the HTML because Chrome doesn't allow 
 				//accessing document.styleSheets.cssRules for file system CSS resources
