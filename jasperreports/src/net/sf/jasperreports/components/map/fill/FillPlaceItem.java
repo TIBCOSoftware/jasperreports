@@ -39,11 +39,13 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.fill.FillItem;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -53,15 +55,18 @@ public class FillPlaceItem extends FillItem
 	public static final String PROPERTY_COLOR = "color";
 	public static final String EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES = "components.map.missing.coordinates";
 
+	private FillContextProvider fillContextProvider;
 	/**
 	 *
 	 */
 	public FillPlaceItem(
 		Item item, 
-		JRFillObjectFactory factory
+		JRFillObjectFactory factory,
+		FillContextProvider fillContextProvider
 		)
 	{
 		super(item, factory);
+		this.fillContextProvider = fillContextProvider;
 	}
 
 	@Override
@@ -141,10 +146,16 @@ public class FillPlaceItem extends FillItem
 	}
 	
 	private Float[] getCoords(String address) throws JRException {
+		String reqParams = ((MapFillComponent)fillContextProvider).getReqParams();
 		Float[] coords = null;
 		if(address != null) {
 			try {
-				String urlStr = MapFillComponent.PLACE_URL_PREFIX + URLEncoder.encode(address, MapFillComponent.DEFAULT_ENCODING) + MapFillComponent.PLACE_URL_SUFFIX;
+				
+				String urlStr = MapFillComponent.PLACE_URL_PREFIX 
+						+ URLEncoder.encode(address, MapFillComponent.DEFAULT_ENCODING) 
+						+ MapFillComponent.PLACE_URL_SUFFIX
+						+ (reqParams != null && reqParams.trim().length() > 0 ? "&" + reqParams : "");
+
 				URL url = new URL(urlStr);
 				byte[] response = JRLoader.loadBytes(url);
 				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));

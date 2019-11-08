@@ -115,6 +115,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	{
 		this.mapComponent = map;
 		this.factory = factory;
+		this.reqParams = getReqParams();
 		
 		if(mapComponent.getMarkerDataList() != null){
 			markerDataList = new ArrayList<FillItemData>();
@@ -174,6 +175,8 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		Number lg = (Number)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
 		longitude = lg == null ? null : lg.floatValue();
 
+		reqParams = getReqParams();
+		
 		if(latitude == null || longitude == null) {
 			center = (String)fillContext.evaluate(mapComponent.getAddressExpression(), evaluation);
 			Float[] coords = getCoords(center);
@@ -214,7 +217,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				if(currentItemList != null && !currentItemList.isEmpty()){
 					for(Map<String,Object> currentItem : currentItemList){
 						if(currentItem != null){
-							currentItem.put("reqParams", getReqParams());
 							markers.add(currentItem);
 						}
 					}
@@ -386,7 +388,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		printElement.setParameterValue(MapComponent.ITEM_PROPERTY_longitude, longitude);
 		printElement.setParameterValue(MapComponent.PARAMETER_ZOOM, zoom);
 		String reqParams = getReqParams();
-		if(reqParams.length() > 0) {
+		if(reqParams != null && reqParams.trim().length() > 0) {
 			printElement.setParameterValue(MapComponent.PARAMETER_REQ_PARAMS, reqParams);
 		}
 		if(mapType != null)
@@ -415,7 +417,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		}
 	}
 	
-	private String getReqParams()
+	public String getReqParams()
 	{
 		return reqParams != null ? reqParams : getRequiredParams();
 	}
@@ -444,7 +446,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 				// avoiding name collision of the version property
 				rParams += "&v=" + version;
 			}
-			reqParams = rParams.startsWith("&") ? rParams.substring(1) : rParams;
+			reqParams = rParams.length() == 0 ? null : rParams.substring(1);
 		}
 		return reqParams;
 	}
@@ -454,7 +456,7 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 		if(address != null) {
 			try {
 				String reqParams = getReqParams();
-				reqParams = reqParams.length() > 0 ? "&" + reqParams : reqParams;
+				reqParams = reqParams != null && reqParams.trim().length() > 0 ? "&" + reqParams : reqParams;
 				String urlStr = PLACE_URL_PREFIX + URLEncoder.encode(address, DEFAULT_ENCODING) + reqParams + PLACE_URL_SUFFIX;
 				URL url = new URL(urlStr);
 				byte[] response = JRLoader.loadBytes(url);
