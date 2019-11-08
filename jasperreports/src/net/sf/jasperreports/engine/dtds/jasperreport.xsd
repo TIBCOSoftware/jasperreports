@@ -3577,7 +3577,7 @@ This can be useful when, for instance, a border has to be drawn around the image
    </sequence>
    <attribute name="isStretchWithOverflow" use="optional">
     <annotation>
-     <documentation><i>Deprecated</i>. Replaced by attribute <code>textAdjust</code>.
+     <documentation><i>Deprecated</i>. Replaced by attribute <a href="#textField_textAdjust">textAdjust</a>.
      <p/>
      Instructs the report engine to allow the text field to stretch downwards in order to display all its text when it doesn't fit in the defined text field height.</documentation>
     </annotation>
@@ -3616,8 +3616,8 @@ This can be useful when, for instance, a border has to be drawn around the image
 		<annotation>
 		 <documentation>The font size of the text is scaled down so that the entire content fits the text field element size.
 		 <p/>
-		 Font size is scaled down using decreasing font size increments/decrements, until the best fit is found. The minimum font size increment/decrement amount
-		 is configured using the <a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/JRFillTextElement.html#PROPERTY_SCALE_FONT_STEP_LIMIT">net.sf.jasperreports.scale.font.step.limit</a>
+		 Font size is scaled down using decreasing font size increments/decrements, until the best fit is found. The minimum font size increment/decrement amount 
+		 is configured using the <a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/fill/JRFillTextElement.html#PROPERTY_SCALE_FONT_STEP_LIMIT">net.sf.jasperreports.scale.font.step.limit</a> 
 		 property, which also serves as minimum acceptable font size.
 		 </documentation>
 		</annotation>
@@ -6469,8 +6469,8 @@ exporters such as the HTML or XLS ones, but will not be visible in export
 formats that observe the page width, such as the PDF exporter.
 </p>
 <p>
-The default value of this flag is given by the
-<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH">net.sf.jasperreports.crosstab.ignore.width</a>
+The default value of this flag is given by the 
+<a href="http://jasperreports.sourceforge.net/api/net/sf/jasperreports/crosstabs/JRCrosstab.html#PROPERTY_IGNORE_WIDTH">net.sf.jasperreports.crosstab.ignore.width</a> 
 property.
 </p>
    	 </documentation>
