@@ -23,7 +23,16 @@
  */
 package net.sf.jasperreports.components.table;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
+import java.io.ObjectInputStream.GetField;
+
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDefaultStyleProvider;
+import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -63,4 +72,38 @@ public class CompiledCell extends CompiledBaseCell implements Cell
 		return clone;
 	}
 
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		GetField fields = in.readFields();
+		rowSpan = (Integer) fields.get("rowSpan", null);
+		
+		//CompiledBaseCell fields were originally (until 6.11) in this class
+		//read the values from the stream object if present and set them in the parent
+		ObjectStreamClass streamClass = fields.getObjectStreamClass();
+		if (streamClass.getField("defaultStyleProvider") != null)
+		{
+			defaultStyleProvider = (JRDefaultStyleProvider) fields.get("defaultStyleProvider", null);
+		}
+		if (streamClass.getField("style") != null)
+		{
+			style = (JRStyle) fields.get("style", null);
+		}
+		if (streamClass.getField("styleNameReference") != null)
+		{
+			styleNameReference = (String) fields.get("styleNameReference", null);
+		}
+		if (streamClass.getField("box") != null)
+		{
+			box = (JRLineBox) fields.get("box", null);
+		}
+		if (streamClass.getField("height") != null)
+		{
+			height = (Integer) fields.get("height", null);
+		}
+		if (streamClass.getField("propertiesMap") != null)
+		{
+			propertiesMap = (JRPropertiesMap) fields.get("propertiesMap", null);
+		}
+	}
+	
 }
