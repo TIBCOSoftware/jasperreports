@@ -51,6 +51,8 @@ public class ResourceManager
 {
 	private static final Log log = LogFactory.getLog(ResourceManager.class);
 	
+	public static final String PROPERTY_TEMPDIR_PATH = Chrome.PROPERTY_PREFIX + "tempdir.path";
+	
 	private static final String TEMP_FILE_PREFIX = "jr_res_";
 	private static final int COPY_BUFFER_SIZE = 0x4000;
 	
@@ -224,7 +226,7 @@ public class ResourceManager
 		
 		public ContextMappings(JasperReportsContext jasperReportsContext)
 		{
-			String tempPath = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(Chrome.PROPERTY_TEMPDIR_PATH);
+			String tempPath = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(PROPERTY_TEMPDIR_PATH);
 			if (tempPath == null)
 			{
 				tempPath = System.getProperty("java.io.tmpdir");

@@ -57,8 +57,6 @@ public class Chrome
 	
 	public static final String PROPERTY_ARGUMENT_PREFIX = PROPERTY_PREFIX + "argument.";
 	
-	public static final String PROPERTY_TEMPDIR_PATH = PROPERTY_PREFIX + "tempdir.path";
-	
 	public static final String PROPERTY_IDLE_TIMEOUT = PROPERTY_PREFIX + "idle.timeout";
 	
 	public static final String PROPERTY_LIVE_TIMEOUT = PROPERTY_PREFIX + "live.timeout";
