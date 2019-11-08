@@ -50,13 +50,13 @@ public class DesignBaseCell extends JRDesignElementGroup implements BaseCell, De
 	public static final String PROPERTY_STYLE_NAME_REFERENCE = "styleNameReference";
 	public static final String PROPERTY_HEIGHT = "height";
 	
-	private JRDefaultStyleProvider defaultStyleProvider;
-	private JRStyle style;
-	private String styleNameReference;
-	private JRLineBox box;
-	private Integer height;
+	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected JRStyle style;
+	protected String styleNameReference;
+	protected JRLineBox box;
+	protected Integer height;
 	
-	private JRPropertiesMap propertiesMap;
+	protected JRPropertiesMap propertiesMap;
 
 	public DesignBaseCell()
 	{
