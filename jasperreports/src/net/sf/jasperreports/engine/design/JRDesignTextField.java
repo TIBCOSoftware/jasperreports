@@ -250,7 +250,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		boolean old = this.textAdjust == TextAdjustEnum.STRETCH_HEIGHT;
 		
-		setTextAdjust(isStretchWithOverflow ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT);
+		setTextAdjust(isStretch ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT);
 		
 		getEventSupport().firePropertyChange(JRBaseTextField.PROPERTY_STRETCH_WITH_OVERFLOW, old, isStretch);
 	}
