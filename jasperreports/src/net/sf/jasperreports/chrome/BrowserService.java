@@ -41,9 +41,12 @@ import com.github.kklisura.cdt.protocol.types.log.LogEntry;
 import com.github.kklisura.cdt.protocol.types.runtime.ExceptionDetails;
 import com.github.kklisura.cdt.protocol.types.runtime.RemoteObject;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -53,6 +56,13 @@ public class BrowserService
 
 	private static final Log log = LogFactory.getLog(BrowserService.class);
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0,
+			valueType = Long.class,
+			defaultValue = "60000"
+			)
 	public static final String PROPERTY_PAGE_TIMEOUT = Chrome.PROPERTY_PREFIX + "page.timeout";
 	
 	private JRPropertiesUtil propertiesUtil;
