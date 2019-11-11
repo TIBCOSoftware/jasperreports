@@ -36,12 +36,15 @@ import org.apache.commons.collections4.map.ReferenceIdentityMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.util.ConcurrentMapping;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
@@ -50,7 +53,13 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 public class ResourceManager
 {
 	private static final Log log = LogFactory.getLog(ResourceManager.class);
-	
+		
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0,
+			defaultValue = "System.getProperty(\"java.io.tmpdir\")"
+			)
 	public static final String PROPERTY_TEMPDIR_PATH = Chrome.PROPERTY_PREFIX + "tempdir.path";
 	
 	private static final String TEMP_FILE_PREFIX = "jr_res_";
