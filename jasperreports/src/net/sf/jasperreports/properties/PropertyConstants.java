@@ -64,6 +64,8 @@ public interface PropertyConstants
 	
 	String CATEGORY_PHANTOM_JS = PREFIX_CATEGORY + "phantomjs";
 	
+	String CATEGORY_CHROME = PREFIX_CATEGORY + "chrome";
+	
 	String CATEGORY_DATA_CACHE = PREFIX_CATEGORY + "data.cache";
 	
 	String CATEGORY_WEB_UTIL = PREFIX_CATEGORY + "web.util";

@@ -34,9 +34,12 @@ import org.apache.commons.logging.LogFactory;
 
 import com.github.kklisura.cdt.launch.ChromeLauncher;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
+import net.sf.jasperreports.properties.PropertyConstants;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
@@ -49,18 +52,55 @@ public class Chrome
 	
 	protected static final String PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "chrome.";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0,
+			valueType = Boolean.class,
+			defaultValue = "false"
+			)
 	public static final String PROPERTY_ENABLED = PROPERTY_PREFIX + "enabled";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+					scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0
+			)
 	public static final String PROPERTY_EXECUTABLE_PATH = PROPERTY_PREFIX + "executable.path";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0,
+			valueType = Boolean.class,
+			defaultValue = "true"
+			)
 	public static final String PROPERTY_HEADLESS = PROPERTY_PREFIX + "headless";
-	
+		
+	@Property(
+			name = "net.sf.jasperreports.chrome.argument.{name}",
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0
+			)
 	public static final String PROPERTY_ARGUMENT_PREFIX = PROPERTY_PREFIX + "argument.";
 	
-	public static final String PROPERTY_TEMPDIR_PATH = PROPERTY_PREFIX + "tempdir.path";
-	
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0,
+			valueType = Long.class,
+			defaultValue = "900000"
+			)
 	public static final String PROPERTY_IDLE_TIMEOUT = PROPERTY_PREFIX + "idle.timeout";
-	
+		
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0,
+			valueType = Long.class,
+			defaultValue = "7200000"
+			)
 	public static final String PROPERTY_LIVE_TIMEOUT = PROPERTY_PREFIX + "live.timeout";
 
 	private static Path DETECTED_CHROME_PATH;
