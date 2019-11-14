@@ -419,11 +419,6 @@ public class MapFillComponent extends BaseFillComponent implements FillContextPr
 	
 	public String getReqParams()
 	{
-		return reqParams != null ? reqParams : getRequiredParams();
-	}
-	
-	private String getRequiredParams()
-	{
 		if(reqParams == null)
 		{
 			String rParams = "";
