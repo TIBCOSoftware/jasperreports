@@ -7,7 +7,7 @@ formats including HTML, PDF, Excel, OpenOffice, MS Word and other.
 <br/>
 <br/>
 
-**Jaspersoft® Studio** - *Open source report designer for the JasperReports Library*
+**Jaspersoft® Studio** - *open source report designer for the JasperReports Library*
 
 The report templates for the *JasperReports Library* are XML files which can be edited using a powerful,
 open source, Eclipse-based report designer called [Jaspersoft Studio](https://community.jaspersoft.com/project/jaspersoft-studio).
