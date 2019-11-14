@@ -80,8 +80,10 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	{
 		columns = new ArrayList<BaseColumn>();
 
-		groupHeaders = new ArrayList<GroupRow>();
-		groupFooters = new ArrayList<GroupRow>();
+		// these fields are a later addition so they can be null through deserialization;
+		// no point in instantiating them here
+		//groupHeaders = new ArrayList<GroupRow>();
+		//groupFooters = new ArrayList<GroupRow>();
 	}
 
 	public StandardTable(TableComponent table, JRBaseObjectFactory factory)
@@ -215,12 +217,15 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	protected int findGroupRowIndex(List<GroupRow> groupRows, String groupName)
 	{
 		int idx = -1;
-		for (ListIterator<GroupRow> it = groupRows.listIterator(); it.hasNext();)
+		if (groupRows != null)
 		{
-			GroupRow groupRow = it.next();
-			if (groupName.equals(groupRow.getGroupName()))
+			for (ListIterator<GroupRow> it = groupRows.listIterator(); it.hasNext();)
 			{
-				idx = it.previousIndex();
+				GroupRow groupRow = it.next();
+				if (groupName.equals(groupRow.getGroupName()))
+				{
+					idx = it.previousIndex();
+				}
 			}
 		}
 		return idx;
@@ -258,6 +263,10 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 
 	public void addGroupHeader(GroupRow groupRow)
 	{
+		if (groupHeaders == null)
+		{
+			groupHeaders = new ArrayList<GroupRow>();
+		}
 		groupHeaders.add(groupRow);
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUP_HEADERS, 
 				groupRow, groupHeaders.size() - 1);
@@ -265,6 +274,10 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 
 	public void addGroupFooter(GroupRow groupRow)
 	{
+		if (groupFooters == null)
+		{
+			groupFooters = new ArrayList<GroupRow>();
+		}
 		groupFooters.add(groupRow);
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUP_FOOTERS, 
 				groupRow, groupFooters.size() - 1);
@@ -272,6 +285,11 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 
 	public boolean removeGroupFooter(GroupRow groupRow)
 	{
+		if (groupFooters == null)
+		{
+			return false;
+		}
+		
 		int idx = groupFooters.indexOf(groupRow);
 		if (idx >= 0)
 		{
@@ -284,6 +302,11 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 
 	public boolean removeGroupHeader(GroupRow groupRow)
 	{
+		if (groupHeaders == null)
+		{
+			return false;
+		}
+		
 		int idx = groupHeaders.indexOf(groupRow);
 		if (idx >= 0)
 		{

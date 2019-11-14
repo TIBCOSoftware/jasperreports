@@ -45,13 +45,13 @@ public class CompiledBaseCell extends JRBaseElementGroup implements BaseCell
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private JRDefaultStyleProvider defaultStyleProvider;
+	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle style;
 	protected String styleNameReference;
-	private JRLineBox box;
-	private Integer height;
+	protected JRLineBox box;
+	protected Integer height;
 	
-	private JRPropertiesMap propertiesMap;
+	protected JRPropertiesMap propertiesMap;
 	
 	public CompiledBaseCell()
 	{

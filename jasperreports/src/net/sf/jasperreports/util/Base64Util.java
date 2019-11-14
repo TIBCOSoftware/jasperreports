@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 /**
  * Utility class to decode Base64 encoded input stream to output stream 
@@ -51,6 +54,14 @@ public class Base64Util
 		copy(base64in, out);
 	}
 	
+	public static byte[] decode(String data) throws IOException
+	{
+		ByteArrayInputStream input = new ByteArrayInputStream(data.getBytes(StandardCharsets.US_ASCII));
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		decode(input, out);
+		return out.toByteArray();
+	}
+	
 	/**
 	 * Encode an input stream and write processed data to an output stream
 	 * @param in the input stream to be encoded
@@ -65,6 +76,14 @@ public class Base64Util
 		
 		// need to close this here so that it adds base64 padding ('=' characters) at the end of the stream
 		base64out.close();
+	}
+	
+	public static String encode(byte[] data) throws IOException
+	{
+		ByteArrayInputStream input = new ByteArrayInputStream(data);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		encode(input, out);
+		return new String(out.toByteArray(), StandardCharsets.US_ASCII);
 	}
 	
 	/**
