@@ -105,4 +105,45 @@
 		<differenceType>7013</differenceType>
 		<method>*scaleFontToFit()</method>
 	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/items/fill/FillItem</className>
+		<differenceType>7004</differenceType>
+		<method>*FillItem(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/items/fill/FillItemData</className>
+		<differenceType>7004</differenceType>
+		<method>*getFillItem(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/fill/FillPlaceItemData</className>
+		<differenceType>7004</differenceType>
+		<method>*getFillItem(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/fill/FillStyleItem</className>
+		<differenceType>7004</differenceType>
+		<method>*FillStyleItem(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/fill/FillStyleItemData</className>
+		<differenceType>7004</differenceType>
+		<method>*getFillItem(*)</method>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/fill/FillContextProvider</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/fill/FillItem</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/fill/FillItemDataset</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/components/map/fill/FillMarker</className>
+		<differenceType>8001</differenceType>
+	</difference>
 </differences>

@@ -30,6 +30,7 @@ import java.util.Map;
 import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -45,11 +46,13 @@ public abstract class FillItem implements Item
 	 */
 	protected Item item;
 	protected Map<String, Object> evaluatedProperties;
+	protected FillContextProvider fillContextProvider;
 	
 	/**
 	 *
 	 */
 	public FillItem(
+		FillContextProvider	fillContextProvider,
 		Item item, 
 		JRFillObjectFactory factory
 		)
@@ -57,6 +60,7 @@ public abstract class FillItem implements Item
 		factory.put(item, this);
 
 		this.item = item;
+		this.fillContextProvider = fillContextProvider;
 	}
 	
 	
