@@ -55,18 +55,16 @@ public class FillPlaceItem extends FillItem
 	public static final String PROPERTY_COLOR = "color";
 	public static final String EXCEPTION_MESSAGE_KEY_MISSING_COORDINATES = "components.map.missing.coordinates";
 
-	private FillContextProvider fillContextProvider;
 	/**
 	 *
 	 */
 	public FillPlaceItem(
+		FillContextProvider fillContextProvider,
 		Item item, 
-		JRFillObjectFactory factory,
-		FillContextProvider fillContextProvider
+		JRFillObjectFactory factory
 		)
 	{
-		super(item, factory);
-		this.fillContextProvider = fillContextProvider;
+		super(fillContextProvider, item, factory);
 	}
 
 	@Override
