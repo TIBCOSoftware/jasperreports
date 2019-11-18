@@ -29,6 +29,7 @@ import net.sf.jasperreports.components.items.Item;
 import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.fill.FillItem;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
@@ -41,9 +42,9 @@ public class CVFillItem extends FillItem
 	/**
 	 *
 	 */
-	public CVFillItem(Item item, JRFillObjectFactory factory)
+	public CVFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory)
 	{
-		super(item, factory);
+		super(fillContextProvider, item, factory);
 	}
 
 	@Override
