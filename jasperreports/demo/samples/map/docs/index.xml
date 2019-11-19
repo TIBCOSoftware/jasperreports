@@ -26,8 +26,28 @@ How to render maps using the built-in map component.
 <br/>
 <br/>
 The map component in JasperReports exposes some of the main characteristics necessary to generate the most common Google maps, but feature upgrades 
-for this component are planned for future development. The current <code>map</code> component description is found 
-in the <a href="../../components.schema.reference.html">components.xsd</a> schema:
+for this component are planned for future development. 
+<br/>
+<br/>
+<b>Important notes:</b>
+<ol><li>
+<b>The JR built-in <code>map</code> component is based on the public 
+<a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a> licensed 
+under the <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 License</a>. Prior to 
+start using this component, please consult both <a href="https://developers.google.com/maps/terms">Google terms of service</a> 
+and <a href="https://developers.google.com/readme/policies">Google site policies</a> pages. 
+<br/>
+Ensure the map component in your application is used in accordance with these terms and conditions.</b><br/> <br/></li>
+<li><b>In order to get accurate results with Google maps, you need to set the <code>net.sf.jasperreports.components.map.key</code> 
+property with an appropriate Google API key value. <br/>The Google API key must be enabled for Google Javascript API, Google Maps Static API 
+and Google Geocoding API. More information about API keys can be found at 
+<a href='https://developers.google.com/maps/gmp-get-started'>https://developers.google.com/maps/gmp-get-started</a>.<br/>The 
+<code>net.sf.jasperreports.components.map.key</code> property can be set either in the report itself or per report context.</b></li>
+</ol>
+<br/>
+
+
+The current <code>map</code> component description is found in the <a href="../../components.schema.reference.html">components.xsd</a> schema:
 <pre><![CDATA[
 <element name="map" substitutionGroup="jr:component">
   <complexType>
@@ -143,18 +163,6 @@ in the <a href="../../components.schema.reference.html">components.xsd</a> schem
     </sequence>
   </complexType>
 </element>]]></pre>
-<b>Important note:
-<br/>
-<br/>
-The JR built-in <code>map</code> component is based on the public 
-<a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a> licensed 
-under the <a href="http://creativecommons.org/licenses/by/3.0">Creative Commons Attribution 3.0 License</a>. Prior to 
-start using this component, please consult both <a href="https://developers.google.com/maps/terms">Google terms of service</a> 
-and <a href="https://developers.google.com/readme/policies">Google site policies</a> pages. 
-<br/>
-Ensure the map component in your application is used in accordance with these terms and conditions.</b>
-<br/>
-<br/>
 <b>Map Attributes</b>
 <br/>    
 <br/> 
