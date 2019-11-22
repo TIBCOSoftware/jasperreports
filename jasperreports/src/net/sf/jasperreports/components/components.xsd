@@ -272,6 +272,10 @@
 							</restriction>
 						</simpleType>
 					</attribute>
+					<attribute name="minSymbolWidth" use="optional" type="integer"/>
+					<attribute name="maxSymbolWidth" use="optional" type="integer"/>
+					<attribute name="minSymbolHeight" use="optional" type="integer"/>
+					<attribute name="maxSymbolHeight" use="optional" type="integer"/>
 				</extension>
 			</complexContent>
 		</complexType>

@@ -164,7 +164,15 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 		{
 			startBarcode(dataMatrix);
 			writeBaseAttributes(dataMatrix);
-			xmlWriteHelper.addAttribute("shape", dataMatrix.getShape());
+			xmlWriteHelper.addAttribute(DataMatrixComponent.PROPERTY_SHAPE, dataMatrix.getShape());
+			if(isNewerVersionOrEqual(version, JRConstants.VERSION_6_11_0))
+			{
+				xmlWriteHelper.addAttribute(DataMatrixComponent.PROPERTY_MIN_SYMBOL_WIDTH, dataMatrix.getMinSymbolWidth());
+				xmlWriteHelper.addAttribute(DataMatrixComponent.PROPERTY_MAX_SYMBOL_WIDTH, dataMatrix.getMaxSymbolWidth());
+				xmlWriteHelper.addAttribute(DataMatrixComponent.PROPERTY_MIN_SYMBOL_HEIGHT, dataMatrix.getMinSymbolHeight());
+				xmlWriteHelper.addAttribute(DataMatrixComponent.PROPERTY_MAX_SYMBOL_HEIGHT, dataMatrix.getMaxSymbolHeight());
+			}
+			
 			writeBaseContents(dataMatrix);
 			endBarcode();
 		}
