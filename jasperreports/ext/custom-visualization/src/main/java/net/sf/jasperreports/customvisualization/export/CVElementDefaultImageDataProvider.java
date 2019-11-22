@@ -69,6 +69,6 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 			return cvElementPhantomJSImageProvider.getImageData(jasperReportsContext, element);
 		}
 
-		throw new JRRuntimeException("No PhantomJS executable configured!");
+		throw new JRRuntimeException("Chrome and/or PhantomJS not properly configured for server side rendering");
 	}
 }
