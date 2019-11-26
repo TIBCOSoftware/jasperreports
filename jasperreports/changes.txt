@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.11.0 (2019-1x-xx)
+JasperReports 6.11.0 (2019-11-26)
 ---------------------------------------------
 
 - support for noData cell added in the table component to allow displaying custom content when 
