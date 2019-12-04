@@ -154,10 +154,7 @@ public class Chrome
 			}
 			catch (RuntimeException e)
 			{
-				if (log.isDebugEnabled())
-				{
-					log.debug("chrome binary not found", e);
-				}
+				log.warn("Chrome binary not autodetected: " + e.getMessage());
 				return null;
 			}
 		}		
