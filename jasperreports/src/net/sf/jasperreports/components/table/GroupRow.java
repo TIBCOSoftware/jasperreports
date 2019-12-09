@@ -21,45 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export.oasis;
+package net.sf.jasperreports.components.table;
+
+import net.sf.jasperreports.engine.JRCloneable;
 
 /**
- * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * 
+ * 
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class InternalImageProcessorResult 
+public interface GroupRow extends JRCloneable
 {
-	protected final String imagePath;
-	protected int width;
-	protected int height;
-	protected int xoffset;
-	protected int yoffset;
-	protected double cropTop;
-	protected double cropLeft;
-	protected double cropBottom;
-	protected double cropRight;
 
-	protected InternalImageProcessorResult(
-		String imagePath, 
-		int width,
-		int height,
-		int xoffset,
-		int yoffset,
-		double cropTop,
-		double cropLeft,
-		double cropBottom,
-		double cropRight
-		
-		)
-	{
-		this.imagePath = imagePath;
-		this.width = width;
-		this.height = height;
-		this.xoffset = xoffset;
-		this.yoffset = yoffset;
-		this.cropTop = cropTop;
-		this.cropLeft = cropLeft;
-		this.cropBottom = cropBottom;
-		this.cropRight = cropRight;
-	}
+	String getGroupName();
+	
+	Row getRow();
+	
 }
-

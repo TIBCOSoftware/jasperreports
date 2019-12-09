@@ -8,7 +8,7 @@
 			<componentElement>
 				<reportElement mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#FF0000" backcolor="#FFFF00" uuid="8e4f7817-3186-4821-a2c2-bcb20ae8f60c"/>
 				<c:textInput xmlns:c="http://jasperreports.sourceforge.net/forms" xsi:schemaLocation="http://jasperreports.sourceforge.net/forms http://jasperreports.sourceforge.net/xsd/forms.xsd" multiLine="false">
-					<textField isStretchWithOverflow="true" hyperlinkType="Reference">
+					<textField textAdjust="StretchHeight" hyperlinkType="Reference">
 						<reportElement mode="Opaque" x="0" y="0" width="200" height="25" forecolor="#00FFFF" backcolor="#00FF00" uuid="004b34c5-0749-4c2a-958c-100bb059da6d"/>
 						<textElement textAlignment="Center">
 							<font size="48"/>
@@ -21,7 +21,7 @@
 			<componentElement>
 				<reportElement positionType="Float" mode="Opaque" x="0" y="25" width="200" height="20" forecolor="#FF0000" backcolor="#FFFF00" uuid="69caeac9-7596-4255-ad71-6c049c707f32"/>
 				<c:textInput xmlns:c="http://jasperreports.sourceforge.net/forms" xsi:schemaLocation="http://jasperreports.sourceforge.net/forms http://jasperreports.sourceforge.net/xsd/forms.xsd" multiLine="true">
-					<textField isStretchWithOverflow="true" hyperlinkType="Reference">
+					<textField textAdjust="StretchHeight" hyperlinkType="Reference">
 						<reportElement mode="Opaque" x="0" y="0" width="200" height="25" forecolor="#00FFFF" backcolor="#00FF00" uuid="272e79d9-206c-47b7-a15d-73b0dd57a21c"/>
 						<textElement textAlignment="Center">
 							<font size="48"/>

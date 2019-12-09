@@ -2,6 +2,42 @@
 JasperReports Library Change Log
 =============================================
 
+JasperReports 6.11.0 (2019-1x-xx)
+---------------------------------------------
+
+- support for noData cell added in the table component to allow displaying custom content when 
+there are no detail rows in the table data source;
+
+- support for printWhenExpression added to table component sections to allow suppressing entire 
+rows in the table and not only individual cells;
+
+- isStretchWithOverflow boolean property of text fields has been deprecated and replaced by the 
+new textAdjust property which adds a third option to scale down the font size in order for the 
+text content to fit the design size of the text field element;
+
+- implemented server side rendering of Javascript visualizations using the headless Google Chrome 
+browser, to replace the now deprecated PhantomJS and SlimerJS based feature;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.10.0 (2019-09-26)
+---------------------------------------------
+
+- support for image rotation;
+
+- various dependencies upgrades including Apache Ant 1.10.6, Jackson 2.9.9, 
+Bouncy Castle 1.62 and jQuery 3.4.1;
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 6.9.0 (2019-06-24)
 ---------------------------------------------
 

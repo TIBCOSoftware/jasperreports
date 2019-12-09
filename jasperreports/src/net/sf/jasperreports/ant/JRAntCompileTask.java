@@ -35,11 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.design.JRCompiler;
-import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
-
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -48,6 +43,11 @@ import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.resources.FileResource;
 import org.apache.tools.ant.util.RegexpPatternMapper;
 import org.apache.tools.ant.util.SourceFileScanner;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.design.JRCompiler;
+import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
 
 
 /**
@@ -83,7 +83,7 @@ public class JRAntCompileTask extends JRBaseAntTask
 	private Path src;
 	private File destdir;
 	private File tempdir;
-	private boolean keepjava;
+	private Boolean keepjava;
 	private String compiler;
 	private Path classpath;
 	private boolean xmlvalidation = true;
@@ -160,7 +160,7 @@ public class JRAntCompileTask extends JRBaseAntTask
 	 * 
 	 * @param keepjava flag for preventing the deletion of generated Java source files
 	 */
-	public void setKeepjava(boolean keepjava)
+	public void setKeepjava(Boolean keepjava)
 	{
 		this.keepjava = keepjava;
 	}
@@ -225,7 +225,10 @@ public class JRAntCompileTask extends JRBaseAntTask
 			jasperReportsContext.setProperty(JRCompiler.COMPILER_TEMP_DIR, String.valueOf(tempdir));
 		}
 
-		jasperReportsContext.setProperty(JRCompiler.COMPILER_KEEP_JAVA_FILE, String.valueOf(keepjava));
+		if (keepjava != null)
+		{
+			jasperReportsContext.setProperty(JRCompiler.COMPILER_KEEP_JAVA_FILE, String.valueOf(keepjava));
+		}
 
 		setCompilerClass(compiler);
 

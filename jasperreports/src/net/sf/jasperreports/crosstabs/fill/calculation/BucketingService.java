@@ -97,7 +97,7 @@ public abstract class BucketingService
 	protected final MeasureValue[] zeroMeasureValues;
 	protected final MeasureValue[] zeroUserMeasureValues;
 
-	private final int bucketMeasureLimit;
+	protected final int bucketMeasureLimit;
 	private int runningBucketMeasureCount;
 	
 	/**

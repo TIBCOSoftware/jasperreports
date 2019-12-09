@@ -88,7 +88,10 @@
 	font-weight: bold;
 }
 
-
+.code {
+  	font-family: Courier New, Courier, serif;
+	font-size: 13px;
+}
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -333,7 +336,7 @@ ga('send', 'pageview');
 
 
 <xsl:template match="code">
-  <xsl:element name="code"><xsl:apply-templates/></xsl:element>
+  <span class="code"><xsl:value-of select="."/></span>
 </xsl:template>
 
 

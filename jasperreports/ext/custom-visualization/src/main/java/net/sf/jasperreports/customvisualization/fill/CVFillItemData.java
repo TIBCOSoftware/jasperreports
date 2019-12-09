@@ -45,9 +45,9 @@ public class CVFillItemData extends net.sf.jasperreports.components.items.fill.F
 	}
 
 	@Override
-	public FillItem getFillItem(Item item, JRFillObjectFactory factory)
+	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory)
 	{
-		return new CVFillItem(item, factory);
+		return new CVFillItem(fillContextProvider, item, factory);
 	}
 
 	// /**

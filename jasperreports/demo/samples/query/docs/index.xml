@@ -7,6 +7,7 @@
   <description>Shows how the report query can be build dynamically using report parameters.</description>
 
   <mainFeature ref="query"/>
+  <secondaryFeature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
   
   <!-- query -->
   
@@ -471,31 +472,6 @@ report user (example: A user may provide a start and end date for which they wan
 	2010-03-11 13:25:23,302 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #2 (ExcludedCities[1] of type java.lang.String): Boston
      ]]>
 	</pre>
-    <b>Creating Watermarks with the Background Band</b>
-    <br/>
-    When working with JasperReport templates it is best to avoid overlap of elements otherwise you get unexpected results in many of our exporters. <br/>
-    An exception to this rule in the Background band. Content of the pages in the filled report will be overlaid on top of elements placed in the <br/>
-    Background band (this will be the case of each page in the generated report).<br/>
-    This is why the band is a full page size in the design and contains an image the same height. The result is to have this image <br/>
-    displayed on each page of the generated report.<br/>
-    TIP: As is the example it is better to have more 'faded' images or text as to not distract the viewer from the main content of the report.<br/>
-    Here we can see how the band can be configured to have an image occur in a specific position on each of the rendered pages of the report:
-    <pre>
-    <![CDATA[
-    <background>
-		<band height="742">
-			<image scaleImage="Clip" hAlign="Left" vAlign="Bottom">
-				<reportElement x="0" y="0" width="150" height="742"/>
-				<imageExpression class="java.lang.String"><![CDATA["jr.watermark.gif" ] ]></imageExpression>
-			</image>
-		</band>
-	</background>
-	  ]]>
-	</pre>
-    <b>Further Resources:</b>
-    <br/>
-    JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
-    iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
     </content>
   </feature>
 

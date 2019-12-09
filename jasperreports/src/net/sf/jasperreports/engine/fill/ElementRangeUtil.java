@@ -59,7 +59,7 @@ public final class ElementRangeUtil
 		}
 	}
 	
-	/**
+	/*
 	 *
 	 *
 	public static ElementRange expand(ElementRange elementRange, ElementRange newElementRange)
@@ -93,6 +93,7 @@ public final class ElementRangeUtil
 		
 		return elementRange;
 	}
+	*/
 	
 	/**
 	 *

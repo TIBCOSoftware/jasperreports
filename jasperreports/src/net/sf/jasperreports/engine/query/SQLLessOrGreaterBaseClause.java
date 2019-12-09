@@ -64,10 +64,10 @@ public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 	 * <p>
 	 * The method constructs one of the following clauses:
 	 * <ul>
-	 * <li><code>column < ?</code> if the clause ID is <code>LESS</code></li>
-	 * <li><code>column <= ?</code> if the clause ID is <code>LESS]</code></li>
-	 * <li><code>column >= ?</code> if the clause ID is <code>GREATER</code></li>
-	 * <li><code>column > ?</code> if the clause ID is <code>[GREATER</code></li>
+	 * <li><code>column &lt; ?</code> if the clause ID is <code>LESS</code></li>
+	 * <li><code>column &lt;= ?</code> if the clause ID is <code>LESS]</code></li>
+	 * <li><code>column &gt;= ?</code> if the clause ID is <code>GREATER</code></li>
+	 * <li><code>column &gt; ?</code> if the clause ID is <code>[GREATER</code></li>
 	 * </ul> 
 	 * If the value to compare to is null, the method generates a SQL clause that
 	 * will always evaluate to true (e.g. <code>0 = 0</code>).

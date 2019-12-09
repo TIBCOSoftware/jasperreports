@@ -23,120 +23,35 @@
  */
 package net.sf.jasperreports.components.table;
 
-import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
+import java.io.ObjectInputStream.GetField;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
-import net.sf.jasperreports.engine.design.DesignStyleContainer;
-import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 
 /**
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyleContainer
+public class DesignCell extends DesignBaseCell implements Cell
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public static final String PROPERTY_DEFAULT_STYLE_PROVIDER = "defaultStyleProvider";
-	public static final String PROPERTY_STYLE = "style";
-	public static final String PROPERTY_STYLE_NAME_REFERENCE = "styleNameReference";
 	public static final String PROPERTY_ROW_SPAN = "rowSpan";
-	public static final String PROPERTY_HEIGHT = "height";
 	
-	private JRDefaultStyleProvider defaultStyleProvider;
-	private JRStyle style;
-	private String styleNameReference;
-	private JRLineBox box;
 	private Integer rowSpan;
-	private Integer height;
-	
-	private JRPropertiesMap propertiesMap;
 
 	public DesignCell()
 	{
-		this.box = new JRBaseLineBox(this);
 	}
 	
-	@Override
-	public Integer getHeight()
-	{
-		return height;
-	}
-
-	@Override
-	public Color getDefaultLineColor()
-	{
-		return Color.BLACK;
-	}
-
-	@Override
-	public JRLineBox getLineBox()
-	{
-		return box;
-	}
-
-	@Override
-	public JRDefaultStyleProvider getDefaultStyleProvider()
-	{
-		return defaultStyleProvider;
-	}
-
-	@Override
-	public JRStyle getStyle()
-	{
-		return style;
-	}
-
-	@Override
-	public String getStyleNameReference()
-	{
-		return styleNameReference;
-	}
-
-	@Override
-	public void setDefaultStyleProvider(
-			JRDefaultStyleProvider defaultStyleProvider)
-	{
-		Object old = this.defaultStyleProvider;
-		this.defaultStyleProvider = defaultStyleProvider;
-		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_STYLE_PROVIDER, 
-				old, this.defaultStyleProvider);
-	}
-
-	@Override
-	public void setStyle(JRStyle style)
-	{
-		Object old = this.style;
-		this.style = style;
-		getEventSupport().firePropertyChange(PROPERTY_STYLE, 
-				old, this.style);
-	}
-
-	@Override
-	public void setStyleNameReference(String styleName)
-	{
-		Object old = this.styleNameReference;
-		this.styleNameReference = styleName;
-		getEventSupport().firePropertyChange(PROPERTY_STYLE_NAME_REFERENCE, 
-				old, this.styleNameReference);
-	}
-
-	public void setHeight(Integer height)
-	{
-		Object old = this.height;
-		this.height = height;
-		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, 
-				old, this.height);
-	}
-
 	@Override
 	public Integer getRowSpan()
 	{
@@ -152,33 +67,44 @@ public class DesignCell extends JRDesignElementGroup implements Cell, DesignStyl
 	}
 
 	@Override
-	public boolean hasProperties()
-	{
-		return propertiesMap != null && propertiesMap.hasProperties();
-	}
-
-	@Override
-	public JRPropertiesMap getPropertiesMap()
-	{
-		if (propertiesMap == null)
-		{
-			propertiesMap = new JRPropertiesMap();
-		}
-		return propertiesMap;
-	}
-
-	@Override
-	public JRPropertiesHolder getParentProperties()
-	{
-		return null;
-	}
-	
-	@Override
 	public Object clone() 
 	{
 		DesignCell clone = (DesignCell) super.clone();
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
+	}
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		GetField fields = in.readFields();
+		rowSpan = (Integer) fields.get("rowSpan", null);
+		
+		//DesignBaseCell fields were originally (until 6.11) in this class
+		//read the values from the stream object if present and set them in the parent
+		ObjectStreamClass streamClass = fields.getObjectStreamClass();
+		if (streamClass.getField("defaultStyleProvider") != null)
+		{
+			defaultStyleProvider = (JRDefaultStyleProvider) fields.get("defaultStyleProvider", null);
+		}
+		if (streamClass.getField("style") != null)
+		{
+			style = (JRStyle) fields.get("style", null);
+		}
+		if (streamClass.getField("styleNameReference") != null)
+		{
+			styleNameReference = (String) fields.get("styleNameReference", null);
+		}
+		if (streamClass.getField("box") != null)
+		{
+			box = (JRLineBox) fields.get("box", null);
+		}
+		if (streamClass.getField("height") != null)
+		{
+			height = (Integer) fields.get("height", null);
+		}
+		if (streamClass.getField("propertiesMap") != null)
+		{
+			propertiesMap = (JRPropertiesMap) fields.get("propertiesMap", null);
+		}
 	}
 
 }

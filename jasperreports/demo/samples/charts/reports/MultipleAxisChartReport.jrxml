@@ -310,7 +310,7 @@ ORDER BY ShipCountry, ShipCity]]>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="false">
 				<reportElement key="textField" positionType="Float" x="40" y="0" width="110" height="11" uuid="616a0892-de91-41f8-bd71-7bd81b0eb7c0"/>
 				<textFieldExpression><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]]></textFieldExpression>
 			</textField>

@@ -55,16 +55,16 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd">
+			<textField textAdjust="StretchHeight" pattern="yyyy, MMM dd">
 				<reportElement positionType="Float" x="54" y="2" width="87" height="10" uuid="a112ba7b-c321-467c-91ec-ffb513c23338"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="146" y="2" width="108" height="10" uuid="6a61edb3-239e-4791-a046-a6459343ac07"/>
 				<textFieldExpression><![CDATA[$F{ShipCity}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+			<textField textAdjust="StretchHeight" pattern="¤ #,##0.00">
 				<reportElement positionType="Float" x="259" y="2" width="92" height="10" uuid="61a8a117-6a43-46a7-9b96-10c5beb578ab"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>

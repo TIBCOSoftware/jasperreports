@@ -24,7 +24,7 @@
 		</band>
 		<band height="25" splitType="Prevent">
 			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 29]]></printWhenExpression>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="0" width="170" height="25" uuid="79233e16-81a6-4907-b940-c59cad5cdcd2"/>
 				<textFieldExpression><![CDATA["Detail\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nm\no\nr\ne\nmore."]]></textFieldExpression>
 			</textField>

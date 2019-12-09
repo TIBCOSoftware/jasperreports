@@ -30,22 +30,22 @@ package net.sf.jasperreports.engine.type;
 public enum RotationEnum implements JREnum
 {
 	/**
-	 * Constant useful for displaying the text without rotating it
+	 * Constant useful for displaying the text or image without rotating it.
 	 */
 	NONE((byte)0, "None"),
 
 	/**
-	 * Constant useful for rotating the text 90 degrees counter clockwise.
+	 * Constant useful for rotating the text or image 90 degrees counter clockwise.
 	 */
 	LEFT((byte)1, "Left"),
 	
 	/**
-	 * Constant useful for rotating the text 90 degrees clockwise.
+	 * Constant useful for rotating the text or image 90 degrees clockwise.
 	 */
 	RIGHT((byte)2, "Right"),
 	
 	/**
-	 * Constant useful for rotating the text 180 degrees.
+	 * Constant useful for rotating the text or image 180 degrees.
 	 */
 	UPSIDE_DOWN((byte)3, "UpsideDown");
 	

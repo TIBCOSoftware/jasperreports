@@ -66,7 +66,7 @@ public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 	 * <code>column IS NULL</code> clause, depending on the parameter's value.
 	 * </p>
 	 * <p>
-	 * The NOTEQUAL function constructs either a <code>column <> ?</code> or an 
+	 * The NOTEQUAL function constructs either a <code>column &lt;&gt; ?</code> or an 
 	 * <code>column IS NOT NULL</code> clause, depending on the parameter's value.
 	 * </p>
 	 */

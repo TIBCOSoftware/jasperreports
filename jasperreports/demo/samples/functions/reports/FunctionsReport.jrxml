@@ -521,7 +521,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="20">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="20" uuid="fbb2c888-6c4a-4332-bf5c-fa4cf2c86f10">
 									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 								</reportElement>
@@ -541,7 +541,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="20">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="220" height="20" uuid="6549ca62-64f9-4e3e-b2aa-840976dca027"/>
 								<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 							</textField>
@@ -555,7 +555,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="20">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="TableDetail" stretchType="RelativeToBandHeight" x="0" y="0" width="110" height="20" uuid="04851384-ca8b-489b-9002-015308574f3b"/>
 								<textFieldExpression><![CDATA[$F{returnType}.getName()]]></textFieldExpression>
 							</textField>
@@ -611,7 +611,7 @@
 									<jr:column width="100" uuid="8ab5b1bb-7101-45c8-b81b-29111ddf25ab">
 										<property name="local_mesure_unitwidth" value="pixel"/>
 										<jr:detailCell height="20">
-											<textField isStretchWithOverflow="true">
+											<textField textAdjust="StretchHeight">
 												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="20" uuid="0de3f34f-364c-4119-b40e-e99c340024a2">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -626,7 +626,7 @@
 									<jr:column width="200" uuid="9ea1ab31-d4e3-45ea-bf8a-db8aadea8a00">
 										<property name="local_mesure_unitwidth" value="pixel"/>
 										<jr:detailCell height="20">
-											<textField isStretchWithOverflow="true">
+											<textField textAdjust="StretchHeight">
 												<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="200" height="20" uuid="51ca8965-a61f-4148-82e0-a5da7efc158d">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -638,7 +638,7 @@
 									<jr:column width="80" uuid="d8bb3e16-e8d1-4b6d-b0c1-6158e99e9959">
 										<property name="local_mesure_unitwidth" value="pixel"/>
 										<jr:detailCell height="20">
-											<textField isStretchWithOverflow="true">
+											<textField textAdjust="StretchHeight">
 												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="20" uuid="02159a17-4380-483d-a7ad-317e13bf5b98">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -650,7 +650,7 @@
 									<jr:column width="42" uuid="910627ec-0bd7-4ee1-b6fa-8d1cf1cca955">
 										<property name="local_mesure_unitheight" value="pixel"/>
 										<jr:detailCell height="20">
-											<textField isStretchWithOverflow="true">
+											<textField textAdjust="StretchHeight">
 												<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="42" height="20" uuid="40690340-8dac-4372-885f-08649c29a803">
 													<property name="local_mesure_unitwidth" value="pixel"/>
 													<property name="com.jaspersoft.studio.unit.width" value="px"/>

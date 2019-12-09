@@ -23,16 +23,16 @@
  */
 package net.sf.jasperreports.components.table;
 
-import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
+import java.io.ObjectInputStream.GetField;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.base.JRBaseElementGroup;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -40,75 +40,23 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class CompiledCell extends JRBaseElementGroup implements Cell
+public class CompiledCell extends CompiledBaseCell implements Cell
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private JRDefaultStyleProvider defaultStyleProvider;
-	protected JRStyle style;
-	protected String styleNameReference;
-	private JRLineBox box;
 	private Integer rowSpan;
-	private Integer height;
-	
-	private JRPropertiesMap propertiesMap;
 	
 	public CompiledCell()
 	{
 		super();
-		
-		box = new JRBaseLineBox(this);
 	}
 
 	public CompiledCell(Cell cell, JRBaseObjectFactory factory)
 	{
 		super(cell, factory);
 		
-		this.defaultStyleProvider = factory.getDefaultStyleProvider();
-		this.style = factory.getStyle(cell.getStyle());
-		this.styleNameReference = cell.getStyleNameReference();
-		this.box = cell.getLineBox().clone(this);
 		this.rowSpan = cell.getRowSpan();
-		this.height = cell.getHeight();
-		
-		this.propertiesMap = JRPropertiesMap.getPropertiesClone(cell);
-	}
-
-	@Override
-	public Integer getHeight()
-	{
-		return height;
-	}
-
-	@Override
-	public Color getDefaultLineColor()
-	{
-		return Color.BLACK;
-	}
-
-	@Override
-	public JRLineBox getLineBox()
-	{
-		return box;
-	}
-
-	@Override
-	public JRDefaultStyleProvider getDefaultStyleProvider()
-	{
-		return defaultStyleProvider;
-	}
-
-	@Override
-	public JRStyle getStyle()
-	{
-		return style;
-	}
-
-	@Override
-	public String getStyleNameReference()
-	{
-		return styleNameReference;
 	}
 
 	@Override
@@ -118,33 +66,44 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 	}
 
 	@Override
-	public boolean hasProperties()
-	{
-		return propertiesMap != null && propertiesMap.hasProperties();
-	}
-
-	@Override
-	public JRPropertiesMap getPropertiesMap()
-	{
-		if (propertiesMap == null)
-		{
-			propertiesMap = new JRPropertiesMap();
-		}
-		return propertiesMap;
-	}
-
-	@Override
-	public JRPropertiesHolder getParentProperties()
-	{
-		return null;
-	}
-	
-	@Override
 	public Object clone() 
 	{
 		CompiledCell clone = (CompiledCell) super.clone();
-		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
 	}
 
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		GetField fields = in.readFields();
+		rowSpan = (Integer) fields.get("rowSpan", null);
+		
+		//CompiledBaseCell fields were originally (until 6.11) in this class
+		//read the values from the stream object if present and set them in the parent
+		ObjectStreamClass streamClass = fields.getObjectStreamClass();
+		if (streamClass.getField("defaultStyleProvider") != null)
+		{
+			defaultStyleProvider = (JRDefaultStyleProvider) fields.get("defaultStyleProvider", null);
+		}
+		if (streamClass.getField("style") != null)
+		{
+			style = (JRStyle) fields.get("style", null);
+		}
+		if (streamClass.getField("styleNameReference") != null)
+		{
+			styleNameReference = (String) fields.get("styleNameReference", null);
+		}
+		if (streamClass.getField("box") != null)
+		{
+			box = (JRLineBox) fields.get("box", null);
+		}
+		if (streamClass.getField("height") != null)
+		{
+			height = (Integer) fields.get("height", null);
+		}
+		if (streamClass.getField("propertiesMap") != null)
+		{
+			propertiesMap = (JRPropertiesMap) fields.get("propertiesMap", null);
+		}
+	}
+	
 }

@@ -124,7 +124,7 @@ For a given paragraph one can apply various settings for line spacing, as attrib
 </ul>
 Example:
 <pre><![CDATA[
-<textField isStretchWithOverflow="true">
+<textField textAdjust="StretchHeight">
   <reportElement .../>
   <textElement ...>
     <paragraph lineSpacing="Fixed" lineSpacingSize="20.0" spacingBefore="6" spacingAfter="12">

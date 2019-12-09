@@ -54,7 +54,7 @@
 			</band>
 			<band height="400" splitType="Prevent">
 				<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 4]]></printWhenExpression>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement x="0" y="0" width="255" height="400" uuid="5e4f773c-728d-428a-b5be-1dfbaf56eefc"/>
 					<textFieldExpression><![CDATA["Group Header\n"
 + "PC " +  $V{PAGE_COUNT} + " CC " + $V{COLUMN_COUNT} + " GC " + $V{dummy_COUNT} + " PN " + $V{PAGE_NUMBER} + " CN " + $V{COLUMN_NUMBER} + " RC " + $V{REPORT_COUNT} + " " + $F{simple}

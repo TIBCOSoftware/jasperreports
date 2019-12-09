@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -777,39 +778,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		if (line.getLinePen().getLineWidth() > 0)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(line.getLinePen().getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(line.getLinePen().getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (line.getLinePen().getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(line.getLinePen());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
@@ -825,46 +796,19 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportRectangle(JRPrintRectangle rectangle)
+	protected void exportPen(JRPen pen)
 	{
-		slideHelper.write("<p:sp>\n");
-		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(rectangle) + "\" name=\"Rectangle\"/>\n");
-		slideHelper.write("    <p:cNvSpPr>\n");
-		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
-		slideHelper.write("    </p:cNvSpPr>\n");
-		slideHelper.write("    <p:nvPr/>\n");
-		slideHelper.write("  </p:nvSpPr>\n");
-		slideHelper.write("  <p:spPr>\n");
-		slideHelper.write("    <a:xfrm>\n");
-		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(rectangle.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(rectangle.getY() + getOffsetY()) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(rectangle.getWidth()) + "\" cy=\"" + LengthUtil.emu(rectangle.getHeight()) + "\"/>\n");
-		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"" + (rectangle.getRadius() == 0 ? "rect" : "roundRect") + "\">");
-		if(rectangle.getRadius() > 0)
+		if (pen != null && pen.getLineWidth() > 0)
 		{
-			// a rounded rectangle radius cannot exceed 1/2 of its lower side;
-			int size = Math.min(50000, (rectangle.getRadius() * 100000)/Math.min(rectangle.getHeight(), rectangle.getWidth()));
-			slideHelper.write("<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst></a:prstGeom>\n");
-		}
-		else
-		{
-			slideHelper.write("<a:avLst/></a:prstGeom>\n");
-		}
-		if (rectangle.getModeValue() == ModeEnum.OPAQUE && rectangle.getBackcolor() != null)
-		{
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getBackcolor()) + "\"/></a:solidFill>\n");
-		}
-		if (rectangle.getLinePen().getLineWidth() > 0)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(rectangle.getLinePen().getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(rectangle.getLinePen().getLineStyleValue()))
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
+			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
 			{
 				slideHelper.write(" cmpd=\"dbl\"");
 			}
 			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
-			switch (rectangle.getLinePen().getLineStyleValue())
+			switch (pen.getLineStyleValue())
 			{
 				case DASHED :
 				{
@@ -887,6 +831,53 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			slideHelper.write("\"/>\n");
 			slideHelper.write("  </a:ln>\n");
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportRectangle(JRPrintRectangle rectangle)
+	{
+		exportRectangle(rectangle, rectangle.getLinePen(), rectangle.getRadius());
+	}
+
+
+	/**
+	 *
+	 */
+	protected void exportRectangle(JRPrintElement rectangle, JRPen pen, int radius)
+	{
+		slideHelper.write("<p:sp>\n");
+		slideHelper.write("  <p:nvSpPr>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + toOOXMLId(rectangle) + "\" name=\"Rectangle\"/>\n");
+		slideHelper.write("    <p:cNvSpPr>\n");
+		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+		slideHelper.write("    </p:cNvSpPr>\n");
+		slideHelper.write("    <p:nvPr/>\n");
+		slideHelper.write("  </p:nvSpPr>\n");
+		slideHelper.write("  <p:spPr>\n");
+		slideHelper.write("    <a:xfrm>\n");
+		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(rectangle.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(rectangle.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(rectangle.getWidth()) + "\" cy=\"" + LengthUtil.emu(rectangle.getHeight()) + "\"/>\n");
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"" + (radius == 0 ? "rect" : "roundRect") + "\">");
+		if(radius > 0)
+		{
+			// a rounded rectangle radius cannot exceed 1/2 of its lower side;
+			int size = Math.min(50000, (radius * 100000)/Math.min(rectangle.getHeight(), rectangle.getWidth()));
+			slideHelper.write("<a:avLst><a:gd name=\"adj\" fmla=\"val "+ size +"\"/></a:avLst></a:prstGeom>\n");
+		}
+		else
+		{
+			slideHelper.write("<a:avLst/></a:prstGeom>\n");
+		}
+		if (rectangle.getModeValue() == ModeEnum.OPAQUE && rectangle.getBackcolor() != null)
+		{
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getBackcolor()) + "\"/></a:solidFill>\n");
+		}
+		
+		exportPen(pen);
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
@@ -921,39 +912,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		if (ellipse.getLinePen().getLineWidth() > 0)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(ellipse.getLinePen().getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(ellipse.getLinePen().getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (ellipse.getLinePen().getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(ellipse.getLinePen());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
@@ -1073,40 +1034,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		JRPen pen = getPptxPen(text.getLineBox());
-		if (pen != null)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (pen.getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(text.getLineBox());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"" +
@@ -1221,6 +1151,15 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		slideHelper.write("</p:sp>\n");
 	}
 
+	
+	/**
+	 * 
+	 */
+	protected void exportPen(JRLineBox lineBox)
+	{
+		exportPen(getPptxPen(lineBox));
+	}
+	
 
 	/**
 	 *
@@ -1273,6 +1212,14 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		int topPadding = image.getLineBox().getTopPadding();//FIXMEDOCX maybe consider border thickness
 		int rightPadding = image.getLineBox().getRightPadding();
 		int bottomPadding = image.getLineBox().getBottomPadding();
+		
+		JRPen pen = getPptxPen(image.getLineBox());
+
+		boolean hasPadding = (leftPadding + topPadding + rightPadding + bottomPadding) > 0;
+		if (hasPadding)
+		{
+			exportRectangle(image, pen, 0);
+		}
 
 		int availableImageWidth = image.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = availableImageWidth < 0 ? 0 : availableImageWidth;
@@ -1291,7 +1238,6 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image, 
-					image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME,
 					availableImageWidth,
 					availableImageHeight
 					);
@@ -1313,24 +1259,51 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			
 			if (imageProcessorResult != null)//FIXMEPPTX render background for null images, like other exporters do 
 			{
-				int width = availableImageWidth;
-				int height = availableImageHeight;
-
+				int renderWidth = availableImageWidth;
+				int renderHeight = availableImageHeight;
+				
+				int xoffset = 0;
+				int yoffset = 0;
+				
 				double cropTop = 0;
 				double cropLeft = 0;
 				double cropBottom = 0;
 				double cropRight = 0;
 				
+				int angle = 0;
+
 				switch (image.getScaleImageValue())
 				{
 					case FILL_FRAME :
 					{
-						width = availableImageWidth;
-						height = availableImageHeight;
-//						cropTop = 100000 * topPadding / availableImageHeight;
-//						cropLeft = 100000 * leftPadding / availableImageWidth;
-//						cropBottom = 100000 * bottomPadding / availableImageHeight;
-//						cropRight = 100000 * rightPadding / availableImageWidth;
+						switch (image.getRotation())
+						{
+							case LEFT:
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								angle = -90;
+								break;
+							case RIGHT:
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								angle = 0;
+								break;
+						}
 	 					break;
 					}
 					case CLIP :
@@ -1345,76 +1318,168 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 							normalHeight = dimension.getHeight();
 						}
 
-//						if (normalWidth > availableImageWidth)
-//						{
-							switch (image.getHorizontalImageAlign())
-							{
-								case RIGHT :
+						switch (image.getRotation())
+						{
+							case LEFT:
+								if (dimension == null)
 								{
-									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-									cropRight = 0;
-//									cropRight = 100000 * rightPadding / availableImageWidth;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case CENTER :
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
 								{
-									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth / 2;
-									cropRight = cropLeft;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
+										break;
 								}
-								case LEFT :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-//									cropLeft = 100000 * leftPadding / availableImageWidth;
-									cropLeft = 0;
-									cropRight = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
-//							width = availableImageWidth;
-////							cropLeft = cropLeft / 0.75d;
-////							cropRight = cropRight / 0.75d;
-//						}
-//						else
-//						{
-//							width = (int)normalWidth;
-//						}
-
-//						if (normalHeight > availableImageHeight)
-//						{
-							switch (image.getVerticalImageAlign())
-							{
-								case TOP :
+								angle = -90;
+								break;
+							case RIGHT:
+								if (dimension == null)
 								{
-//									cropTop = 100000 * topPadding / availableImageHeight;
-									cropTop = 0;
-									cropBottom = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case MIDDLE :
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight / 2;
-									cropBottom = cropTop;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
+										break;
 								}
-								case BOTTOM :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-									cropBottom = 0;
-//									cropBottom = 100000 * bottomPadding / availableImageHeight;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
-//							height = availableImageHeight;
-//							cropTop = cropTop / 0.75d;
-//							cropBottom = cropBottom / 0.75d;
-//						}
-//						else
-//						{
-//							height = (int)normalHeight;
-//						}
-
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 0;
+								break;
+						}
 						break;
 					}
 					case RETAIN_SHAPE :
@@ -1430,67 +1495,205 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 							normalHeight = dimension.getHeight();
 						}
 
-						double ratio = normalWidth / normalHeight;
+						double ratioX = 1d;
+						double ratioY = 1d;
 
-						if( ratio > availableImageWidth / (double)availableImageHeight )
+						double imageWidth = availableImageWidth;
+						double imageHeight = availableImageHeight;
+
+						switch (image.getRotation())
 						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
-
-							switch (image.getVerticalImageAlign())
-							{
-								case TOP :
+							case LEFT:
+								if (dimension == null)
 								{
-									cropTop = 0;
-									cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case MIDDLE :
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								ratioX = availableImageWidth / normalHeight;
+								ratioY = availableImageHeight / normalWidth;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalHeight * ratioX);
+								imageHeight = (int)(normalWidth * ratioY);
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
-									cropBottom = cropTop;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
 								}
-								case BOTTOM :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
-									cropBottom = 0;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
-						}
-						else
-						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
-
-							switch (image.getHorizontalImageAlign())
-							{
-								case RIGHT :
+								angle = -90;
+								break;
+							case RIGHT:
+								if (dimension == null)
 								{
-									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
-									cropRight = 0;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case CENTER :
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								ratioX = availableImageWidth / normalHeight;
+								ratioY = availableImageHeight / normalWidth;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalHeight * ratioX);
+								imageHeight = (int)(normalWidth * ratioY);
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
 								{
-									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
-									cropRight = cropLeft;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
 								}
-								case LEFT :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropLeft = 0;
-									cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								ratioX = availableImageWidth / normalWidth;
+								ratioY = availableImageHeight / normalHeight;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalWidth * ratioX);
+								imageHeight = (int)(normalHeight * ratioY);
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								ratioX = availableImageWidth / normalWidth;
+								ratioY = availableImageHeight / normalHeight;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalWidth * ratioX);
+								imageHeight = (int)(normalHeight * ratioY);
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 0;
+								break;
 						}
 					}
 				}
-
+				
 //				insertPageAnchor();
 //				if (image.getAnchorName() != null)
 //				{
@@ -1522,86 +1725,29 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 				slideHelper.write("  </p:nvPicPr>\n");
 				slideHelper.write("<p:blipFill>\n");
 				slideHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
-				slideHelper.write("<a:srcRect");
-////				if (cropLeft > 0)
-////				{
-//					slideHelper.write(" l=\"" + (int)(100000 * leftPadding / image.getWidth()) + "\"");
-////				}
-////				if (cropTop > 0)
-////				{
-//					slideHelper.write(" t=\"" + (int)cropTop + "\"");
-////				}
-////				if (cropRight > 0)
-////				{
-//					slideHelper.write(" r=\"" + (int)cropRight + "\"");
-////				}
-////				if (cropBottom > 0)
-////				{
-//					slideHelper.write(" b=\"" + (int)cropBottom + "\"");
-////				}
-				slideHelper.write("/>");
+				slideHelper.write("<a:srcRect/>");
 				slideHelper.write("<a:stretch><a:fillRect");
-//				if (cropLeft > 0)
-//				{
-					slideHelper.write(" l=\"" + (int)cropLeft + "\"");
-//				}
-//				if (cropTop > 0)
-//				{
-					slideHelper.write(" t=\"" + (int)cropTop + "\"");
-//				}
-//				if (cropRight > 0)
-//				{
-					slideHelper.write(" r=\"" + (int)cropRight + "\"");
-//				}
-//				if (cropBottom > 0)
-//				{
-					slideHelper.write(" b=\"" + (int)cropBottom + "\"");
-//				}
+				slideHelper.write(" l=\"" + (int)(100000 * cropLeft) + "\"");
+				slideHelper.write(" t=\"" + (int)(100000 * cropTop) + "\"");
+				slideHelper.write(" r=\"" + (int)(100000 * cropRight) + "\"");
+				slideHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
 				slideHelper.write("/></a:stretch>\n");
 				slideHelper.write("</p:blipFill>\n");
 				slideHelper.write("  <p:spPr>\n");
-				slideHelper.write("    <a:xfrm>\n");
-				slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX() + leftPadding) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY() + topPadding) + "\"/>\n");
-				slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(availableImageWidth) + "\" cy=\"" + LengthUtil.emu(availableImageHeight) + "\"/>\n");
+				slideHelper.write("    <a:xfrm rot=\"" + (60000 * angle) + "\">\n");
+				slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX() + leftPadding + xoffset) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY() + topPadding + yoffset) + "\"/>\n");
+				slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>\n");
 				slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
 				if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
 				{
 					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
 				}
-				JRPen pen = getPptxPen(image.getLineBox());
-				if (pen != null)
+				
+				if (!hasPadding)
 				{
-					slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
-					if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
-					{
-						slideHelper.write(" cmpd=\"dbl\"");
-					}
-					slideHelper.write(">\n");
-					slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
-					slideHelper.write("<a:prstDash val=\"");
-					switch (pen.getLineStyleValue())
-					{
-						case DASHED :
-						{
-							slideHelper.write("dash");
-							break;
-						}
-						case DOTTED :
-						{
-							slideHelper.write("dot");
-							break;
-						}
-						case DOUBLE :
-						case SOLID :
-						default :
-						{
-							slideHelper.write("solid");
-							break;
-						}
-					}
-					slideHelper.write("\"/>\n");
-					slideHelper.write("  </a:ln>\n");
+					exportPen(image.getLineBox());
 				}
+				
 				slideHelper.write("  </p:spPr>\n");
 				slideHelper.write("  </p:pic>\n");
 
@@ -1625,16 +1771,26 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
-			boolean needDimension,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
 			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = needDimension;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
+			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME;
+			if (
+				imageElement.getRotation() == RotationEnum.LEFT
+				|| imageElement.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				this.availableImageWidth = availableImageHeight;
+				this.availableImageHeight = availableImageWidth;
+			}
+			else
+			{
+				this.availableImageWidth = availableImageWidth;
+				this.availableImageHeight = availableImageHeight;
+			}
 		}
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
@@ -1741,7 +1897,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 	}
 
 
-	/**
+	/*
 	 *
 	 *
 	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas)
@@ -1815,6 +1971,7 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 			writer.write("\"");
 		}
 	}
+	*/
 
 
 	/**
@@ -1856,40 +2013,9 @@ public class JRPptxExporter extends JRAbstractExporter<PptxReportConfiguration, 
 		{
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getBackcolor()) + "\"/></a:solidFill>\n");
 		}
-		JRPen pen = getPptxPen(frame.getLineBox());
-		if (pen != null)
-		{
-			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(pen.getLineWidth()) + "\"");
-			if(LineStyleEnum.DOUBLE.equals(pen.getLineStyleValue()))
-			{
-				slideHelper.write(" cmpd=\"dbl\"");
-			}
-			slideHelper.write(">\n");
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(pen.getLineColor()) + "\"/></a:solidFill>\n");
-			slideHelper.write("<a:prstDash val=\"");
-			switch (pen.getLineStyleValue())
-			{
-				case DASHED :
-				{
-					slideHelper.write("dash");
-					break;
-				}
-				case DOTTED :
-				{
-					slideHelper.write("dot");
-					break;
-				}
-				case DOUBLE :
-				case SOLID :
-				default :
-				{
-					slideHelper.write("solid");
-					break;
-				}
-			}
-			slideHelper.write("\"/>\n");
-			slideHelper.write("  </a:ln>\n");
-		}
+		
+		exportPen(frame.getLineBox());
+
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");

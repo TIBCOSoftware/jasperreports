@@ -67,7 +67,7 @@ public class FunctionsUtil
 		return bundles;
 	}
 	
-	/**
+	/*
 	 * 
 	 *
 	public Class<?> getClass4Function(String functionName)
@@ -91,6 +91,7 @@ public class FunctionsUtil
 		
 		return null;
 	}
+	*/
 
 	/**
 	 * 

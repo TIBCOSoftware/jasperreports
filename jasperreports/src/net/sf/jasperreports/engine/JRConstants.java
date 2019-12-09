@@ -59,7 +59,9 @@ public interface JRConstants
 	
 	public static final int PSEUDO_SERIAL_VERSION_UID_6_0_2 = 60002;
 	
-	public static final int PSEUDO_SERIAL_VERSION_UID = PSEUDO_SERIAL_VERSION_UID_6_0_2;
+	public static final int PSEUDO_SERIAL_VERSION_UID_6_11_0 = 61100;
+	
+	public static final int PSEUDO_SERIAL_VERSION_UID = PSEUDO_SERIAL_VERSION_UID_6_11_0;
 	
 	public static final String VERSION_3_1_0 = "3.1.0";
 	
@@ -132,4 +134,8 @@ public interface JRConstants
 	public static final String VERSION_6_4_3 = "6.4.3";
 
 	public static final String VERSION_6_5_1 = "6.5.1";
+
+	public static final String VERSION_6_10_0 = "6.10.0";
+
+	public static final String VERSION_6_11_0 = "6.11.0";
 }

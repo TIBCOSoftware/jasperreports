@@ -28,7 +28,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
@@ -91,7 +90,7 @@ public class GraphicStyle extends Style
 		forecolor = JRColorUtil.getColorHexa(element.getLinePen().getLineColor());
 
 		width = element.getLinePen().getLineWidth();
-		if (width < 0)
+		if (width <= 0)
 		{
 			style = "none";
 		}
@@ -114,68 +113,17 @@ public class GraphicStyle extends Style
 			}
 		}
 
-		HorizontalImageAlignEnum horizontalAlignment = HorizontalImageAlignEnum.LEFT;
-		VerticalImageAlignEnum verticalAlignment = VerticalImageAlignEnum.TOP;
-
-		if(element instanceof JRPrintImage)
+		if (element instanceof JRPrintImage)
 		{
-			JRPrintImage imageElement = (JRPrintImage)element;
-			horizontalAlignment = imageElement.getHorizontalImageAlign();
-			verticalAlignment = imageElement.getVerticalImageAlign();
-			if(imageElement.getScaleImageValue() == ScaleImageEnum.CLIP 
-					&& (cropTop > 0 || cropLeft > 0 || cropBottom > 0 || cropRight > 0))
-			{
-				clip = " fo:clip=\"rect("
-					+ LengthUtil.inchFloor4Dec(cropTop * DPI_RATIO)
-					+ "in,"
-					+ LengthUtil.inchFloor4Dec(cropRight * DPI_RATIO) 
-					+ "in,"
-					+ LengthUtil.inchFloor4Dec(cropBottom * DPI_RATIO) 
-					+ "in,"
-					+ LengthUtil.inchFloor4Dec(cropLeft * DPI_RATIO) 
-					+ "in)\"";
-			}
-		}
-
-		switch(horizontalAlignment)
-		{
-			case RIGHT:
-			{
-				hAlign = "right";
-				break;
-			}
-			case CENTER:
-			{
-				hAlign = "center";
-				break;
-			}
-			case LEFT:
-			default:
-			{
-				hAlign = "left";
-				break;
-			}
-		}
-
-		switch(verticalAlignment)
-		{
-			case BOTTOM:
-			{
-				vAlign = "bottom";
-				break;
-			}
-			case MIDDLE:
-			{
-				vAlign = "middle";
-				break;
-			}
-			case TOP:
-			default:
-			{
-				vAlign = "top";
-				break;
-			}
-
+			clip = " fo:clip=\"rect("
+				+ LengthUtil.inchFloor4Dec(cropTop * DPI_RATIO)
+				+ "in,"
+				+ LengthUtil.inchFloor4Dec(cropRight * DPI_RATIO) 
+				+ "in,"
+				+ LengthUtil.inchFloor4Dec(cropBottom * DPI_RATIO) 
+				+ "in,"
+				+ LengthUtil.inchFloor4Dec(cropLeft * DPI_RATIO) 
+				+ "in)\"";
 		}
 	}
 
@@ -212,10 +160,13 @@ public class GraphicStyle extends Style
 		styleWriter.write(" <style:style style:name=\"" + lineStyleName + "\"");
 		styleWriter.write(" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
 		styleWriter.write("   <style:graphic-properties");
-		styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
-		styleWriter.write(" style:horizontal-pos=\""+hAlign+ "\" style:horizontal-rel=\"paragraph\"");
-		styleWriter.write(" style:vertical-pos=\""+vAlign+ "\" style:vertical-rel=\"paragraph\"");
-		if(clip != null)
+		if (backcolor != null)
+		{
+			styleWriter.write(" draw:fill-color=\"#" + backcolor + "\"");
+		}
+		styleWriter.write(" style:horizontal-pos=\"from-left\" style:horizontal-rel=\"frame\"");
+		styleWriter.write(" style:vertical-pos=\"from-top\" style:vertical-rel=\"frame\"");
+		if (clip != null)
 		{
 			styleWriter.write(clip);
 		}

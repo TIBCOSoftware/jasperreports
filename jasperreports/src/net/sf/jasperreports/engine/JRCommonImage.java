@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 
@@ -135,5 +136,24 @@ public interface JRCommonImage extends JRCommonGraphicElement, JRBoxContainer
 	 * @param scaleImageEnum a value representing one of the scale type constants in {@link ScaleImageEnum}
 	 */
 	public void setScaleImage(ScaleImageEnum scaleImageEnum);
+
+	/**
+	 * Gets the image rotation.
+	 * @return a value representing one of the image rotation constants in {@link RotationEnum}
+	 */
+	public RotationEnum getRotation();
+	
+	/**
+	 * Gets the image own rotation.
+	 * @return a value representing one of the image rotation constants in {@link RotationEnum}
+	 */
+	public RotationEnum getOwnRotation();
+	
+	/**
+	 * Sets the image rotation.
+	 * @param rotationEnum a value representing one of the image rotation constants in {@link RotationEnum}
+	 */
+	public void setRotation(RotationEnum rotationEnum);
+	
 
 }

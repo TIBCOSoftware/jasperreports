@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.renderers.Renderable;
@@ -93,6 +94,7 @@ public final class ChartConverter extends ElementConverter
 		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
 		printImage.setRenderer(getRenderer(reportConverter, chart));
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
+		printImage.setRotation(RotationEnum.NONE);
 		
 		return printImage;
 	}

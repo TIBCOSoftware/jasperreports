@@ -59,7 +59,7 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 
 	/**
 	 * The formatting mask to use when writing the value.  Must a pattern
-	 * that is accepted by a code>java.text.DecimalFormat</code> object.
+	 * that is accepted by a <code>java.text.DecimalFormat</code> object.
 	 */
 	protected String mask;
 

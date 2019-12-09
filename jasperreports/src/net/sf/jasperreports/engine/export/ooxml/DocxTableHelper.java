@@ -46,6 +46,7 @@ public class DocxTableHelper extends BaseHelper
 	private DocxParagraphHelper paragraphHelper;
 	private PrintPageFormat pageFormat;
 	private JRPrintElementIndex frameIndex;
+	private int rowMaxTopPadding;
 
 	/**
 	 * 
@@ -194,5 +195,14 @@ public class DocxTableHelper extends BaseHelper
 
 		cellHelper.exportFooter();
 	}
-
+	
+	public int getRowMaxTopPadding()
+	{
+		return rowMaxTopPadding;
+	}
+	
+	public void setRowMaxTopPadding(int rowMaxTopPadding)
+	{
+		this.rowMaxTopPadding = rowMaxTopPadding;
+	}
 }

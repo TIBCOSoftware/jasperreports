@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.crosstabs.fill.BucketOrderer;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketValueOrderDecorator.OrderPosition;
@@ -44,6 +47,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class CrosstabBucketingService extends BucketingService implements BucketingData
 {
+	
+	private static final Log log = LogFactory.getLog(CrosstabBucketingService.class);
+	
 	public static final String EXCEPTION_MESSAGE_KEY_DATA_NOT_PROCESSED = "crosstabs.calculation.data.not.processed";
 	
 	protected HeaderCell[][] colHeaders;
@@ -98,6 +104,16 @@ public class CrosstabBucketingService extends BucketingService implements Bucket
 		int colBuckets = collectedHeaders[BucketingService.DIMENSION_COLUMN].span;
 
 		int bucketMeasureCount = rowBuckets * colBuckets * origMeasureCount;
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("crosstab has " + rowBuckets + " row buckets, " 
+					+ colBuckets + " column buckets and " 
+					+ origMeasureCount + " measures");
+			log.debug("bucket measure count is " + bucketMeasureCount 
+					+ ", limit " + bucketMeasureLimit);
+		}
+		
 		checkBucketMeasureCount(bucketMeasureCount);
 		
 		colHeaders = createHeaders(BucketingService.DIMENSION_COLUMN, collectedHeaders, columnTotalsMap);

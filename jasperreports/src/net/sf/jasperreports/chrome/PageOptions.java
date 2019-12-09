@@ -21,20 +21,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map.fill;
-
-import net.sf.jasperreports.components.items.fill.FillItemData;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
+package net.sf.jasperreports.chrome;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.components.items.fill.FillItemDataset}.
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public class FillItemDataset extends net.sf.jasperreports.components.items.fill.FillItemDataset
+public class PageOptions
 {
-	public FillItemDataset(FillItemData itemData, JRFillObjectFactory factory)
+
+	private Long timeout;
+	
+	public PageOptions()
 	{
-		super(itemData, factory);
 	}
+
+	public Long getTimeout()
+	{
+		return timeout;
+	}
+
+	public void setTimeout(Long timeout)
+	{
+		this.timeout = timeout;
+	}
+	
 }

@@ -157,7 +157,7 @@
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
-								<textField isStretchWithOverflow="true">
+								<textField textAdjust="StretchHeight">
 									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="15" uuid="b39be6e2-bc83-4207-a463-e6cd9a584652"/>
 									<box leftPadding="5" rightPadding="5">
 										<leftPen lineWidth="0.5"/>
@@ -175,7 +175,7 @@
 								</textField>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
-								<textField isStretchWithOverflow="true">
+								<textField textAdjust="StretchHeight">
 									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="50310975-9b64-4afd-a631-7d45beac8572"/>
 									<box leftPadding="5" rightPadding="5">
 										<leftPen lineWidth="0.5"/>
@@ -193,7 +193,7 @@
 								</textField>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
-								<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
+								<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
 									<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15" uuid="c8fd15a4-f27e-4577-b6f9-e63c63a09914"/>
 									<box leftPadding="5" rightPadding="5">
 										<leftPen lineWidth="0.5"/>
@@ -219,7 +219,7 @@
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
-									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
+									<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="0b64f21c-8d7d-4b26-993b-cea2835a09bb"/>
 										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
@@ -239,7 +239,7 @@
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
-									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
+									<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="377c48ee-8f78-42ea-be92-f3ed0fbc9001"/>
 										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
@@ -288,7 +288,7 @@
 									</staticText>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
-									<textField isStretchWithOverflow="true">
+									<textField textAdjust="StretchHeight">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="15" uuid="07a32f93-8920-40a9-b65a-12e90bb89db7"/>
 										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
@@ -306,7 +306,7 @@
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
-									<textField isStretchWithOverflow="true">
+									<textField textAdjust="StretchHeight">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="15" uuid="33a77554-9b6c-464c-9b2f-89ecae432313"/>
 										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
@@ -324,7 +324,7 @@
 									</textField>
 								</jr:columnHeader>
 								<jr:detailCell height="15">
-									<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
+									<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
 										<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="15" uuid="3c15b20b-6db7-4f82-8a26-8afe1a6ead6e"/>
 										<box leftPadding="5" rightPadding="5">
 											<leftPen lineWidth="0.5"/>
@@ -350,7 +350,7 @@
 										</textField>
 									</jr:columnHeader>
 									<jr:detailCell height="15">
-										<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
+										<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
 											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="a57f1fb0-e2f1-4f57-8d62-ba71cdadf38a"/>
 											<box leftPadding="5" rightPadding="5">
 												<leftPen lineWidth="0.5"/>
@@ -370,7 +370,7 @@
 										</textField>
 									</jr:columnHeader>
 									<jr:detailCell height="15">
-										<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd">
+										<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd">
 											<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="45" height="15" uuid="7d72eedd-0839-4ddb-b0b8-240546a300ce"/>
 											<box leftPadding="5" rightPadding="5">
 												<leftPen lineWidth="0.5"/>

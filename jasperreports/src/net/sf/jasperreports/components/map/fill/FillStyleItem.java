@@ -30,6 +30,7 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.fill.FillItem;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.type.ColorEnum;
@@ -47,11 +48,12 @@ public class FillStyleItem extends FillItem
 	 *
 	 */
 	public FillStyleItem(
+		FillContextProvider fillContextProvider,
 		Item item, 
 		JRFillObjectFactory factory
 		)
 	{
-		super(item, factory);
+		super(fillContextProvider, item, factory);
 	}
 
 	@Override

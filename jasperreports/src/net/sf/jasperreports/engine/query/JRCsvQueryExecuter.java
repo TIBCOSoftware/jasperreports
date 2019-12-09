@@ -209,7 +209,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 			}
 			
 			String recordDelimiter = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER);
-			if (recordDelimiter != null) {
+			if (recordDelimiter != null && recordDelimiter.length() > 0) {
 				datasource.setRecordDelimiter(recordDelimiter);
 			}
 			

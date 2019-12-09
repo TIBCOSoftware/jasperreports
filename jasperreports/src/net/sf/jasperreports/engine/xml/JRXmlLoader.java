@@ -65,6 +65,7 @@ import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -513,7 +514,7 @@ public class JRXmlLoader
 				dataset.setIncrementGroup(null);
 			}
 
-			if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+			if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 			{
 				String groupName = null;
 				JRGroup group = dataset.getResetGroup();

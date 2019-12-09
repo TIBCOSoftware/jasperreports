@@ -15,14 +15,14 @@
 					</box>
 					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
 				</image>
-				<image hAlign="Center" isUsingCache="false">
+				<image hAlign="Center" vAlign="Middle" isUsingCache="false">
 					<reportElement x="200" y="0" width="150" height="40" uuid="399ad0a8-08fe-4eb2-8750-c67fc8d9145a"/>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
 					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
 				</image>
-				<image hAlign="Right" isUsingCache="false">
+				<image hAlign="Right" vAlign="Bottom" isUsingCache="false">
 					<reportElement mode="Opaque" x="400" y="0" width="150" height="40" backcolor="#FFFF00" uuid="858e3729-6b20-4761-bfef-ed371e8efad9"/>
 					<box padding="5">
 						<pen lineWidth="0.5"/>
@@ -189,7 +189,7 @@
 					<reportElement style="imageBox" x="0" y="0" width="150" height="40" uuid="40493f25-28ad-48fe-a160-81698da882ba"/>
 					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
 				</image>
-				<image scaleImage="RealSize">
+				<image scaleImage="RealSize" vAlign="Top">
 					<reportElement style="imageBox" x="200" y="0" width="150" height="40" uuid="95982a1f-3111-455b-b4db-7c62186d6e3a"/>
 					<imageExpression><![CDATA["dukesign.jpg"]]></imageExpression>
 				</image>

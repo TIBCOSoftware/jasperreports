@@ -47,7 +47,7 @@ public class FillPlaceItemData extends FillItemData
 	}
 	
 	@Override
-	public FillItem getFillItem(Item item, JRFillObjectFactory factory){
-		return new FillPlaceItem(item, factory);
-	}
+	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory){
+		return new FillPlaceItem(fillContextProvider, item, factory);
+	}	
 }

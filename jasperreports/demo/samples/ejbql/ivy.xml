@@ -11,6 +11,6 @@
 		<dependency org="com.fasterxml" name="classmate" rev="1.3.4" conf="test->*"/>
 		<dependency org="net.bytebuddy" name="byte-buddy" rev="1.9.5" conf="test->*"/>
 		<dependency org="org.jboss.logging" name="jboss-logging" rev="3.3.2.Final" conf="test->*"/>
-		<dependency org="org.javassist" name="javassist" rev="3.20.0-GA" conf="test->*"/>
+		<dependency org="org.javassist" name="javassist" rev="3.24.1-GA" conf="test->*"/>
 	</dependencies>
 </ivy-module>

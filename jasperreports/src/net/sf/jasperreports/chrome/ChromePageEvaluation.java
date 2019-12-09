@@ -21,14 +21,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map.fill;
-
-
+package net.sf.jasperreports.chrome;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.engine.component.FillContextProvider}.
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface FillContextProvider extends net.sf.jasperreports.engine.component.FillContextProvider
+public interface ChromePageEvaluation<T>
 {
+
+	T runInPage(ChromePage page);
+	
 }

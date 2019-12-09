@@ -88,7 +88,7 @@ package net.sf.jasperreports.engine;
  * report definition:
  * <pre>
  * &lt;jasperReport ...&gt;
- *   &lt;template>"report_styles.jrtx"&lt;/template&gt;
+ *   &lt;template&gt;"report_styles.jrtx"&lt;/template&gt;
  *   &lt;!-- parameters can be used in style template expressions --&gt;
  *   &lt;template&gt;$P{BaseTemplateLocation} + "report_styles.jrtx"&lt;/template&gt;
  *   &lt;template class="java.net.URL"&gt;$P{StyleTemplateURL}&lt;/template&gt;

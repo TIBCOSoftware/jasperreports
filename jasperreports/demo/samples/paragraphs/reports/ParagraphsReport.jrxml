@@ -41,7 +41,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="5" width="255" height="40" backcolor="#FFFF88" uuid="fb563d1a-92c8-4617-b1f7-c73147ffa468"/>
 				<textFieldExpression><![CDATA["Text field element using default tab stop width of 40 pixels. The following names are tab stop aligned to the left, while the overall text alignment is also left:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
 			</textField>
@@ -81,7 +81,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="300" y="5" width="255" height="40" backcolor="#FFFF88" uuid="636a8e23-8bb2-47b0-b45f-2369b6a0bd91"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Text field element using default tab stop width of 40 pixels. The following names are tab stop aligned to the left, while the overall text alignment is right:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
@@ -128,7 +128,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="55" width="255" height="40" backcolor="#88FFFF" uuid="c45cef47-f45e-4dc5-8fbf-ffd2a529728f"/>
 				<textElement textAlignment="Left">
 					<paragraph lineSpacing="Proportional" lineSpacingSize="2.0">
@@ -179,7 +179,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="300" y="55" width="255" height="40" backcolor="#88FFFF" uuid="c3eee17b-f653-41e3-94cb-e4bedeb5e6ec"/>
 				<textElement textAlignment="Right">
 					<paragraph lineSpacing="Fixed" lineSpacingSize="20.0">
@@ -224,7 +224,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="105" width="255" height="40" backcolor="#88FF88" uuid="0158c9b8-7f86-4a5b-a5c1-a6d271356fd7"/>
 				<textElement>
 					<paragraph>
@@ -273,7 +273,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="300" y="105" width="255" height="40" backcolor="#88FF88" uuid="c0262207-39f6-431c-b75b-da9cd52f2235"/>
 				<textElement textAlignment="Right">
 					<paragraph>
@@ -304,7 +304,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="155" width="150" height="40" backcolor="#FF88FF" uuid="4fb99ad9-8068-4413-bf69-def69f62d831"/>
 				<textFieldExpression><![CDATA["A\n\tB\t\tB2\tB3 thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
 			</textField>
@@ -326,7 +326,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="405" y="155" width="150" height="40" backcolor="#FF88FF" uuid="c5d8d6cb-cfbe-419e-8660-628e2c24241b"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["A\n\tB\t\tB2\tB3 thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
@@ -349,7 +349,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="0" y="205" width="150" height="40" backcolor="#FF88FF" uuid="67a8b72e-1578-4b1f-9729-2da88e5174fc"/>
 				<textFieldExpression><![CDATA["A\n\tB\t\tB2\tB3_thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
 			</textField>
@@ -371,7 +371,7 @@
 					<pen lineWidth="0.0"/>
 				</graphicElement>
 			</rectangle>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" mode="Opaque" x="405" y="205" width="150" height="40" backcolor="#FF88FF" uuid="c6ff3b05-c388-4083-9cf4-e1e3a5b798a4"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["A\n\tB\t\tB2\tB3_thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>

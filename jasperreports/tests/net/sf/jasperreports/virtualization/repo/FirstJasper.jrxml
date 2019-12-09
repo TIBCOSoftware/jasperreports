@@ -279,7 +279,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement uuid="c0997027-e1d3-4d9b-99c4-10dad87d5b42" positionType="Float" x="40" y="0" width="110" height="11">
 					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipCity"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="ShipCity"/>

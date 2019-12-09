@@ -9,5 +9,17 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.11" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.11" conf="test->*"/>
 		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.3" conf="test->*"/>
+		
+		<!-- dependencies of the CDT client -->
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.1" conf="test->*"/>
+		<dependency org="org.slf4j" name="slf4j-nop" rev="1.7.26" conf="test->*"/>
+		<dependency org="javax.websocket" name="javax.websocket-api" rev="1.1" conf="test->*"/>
+		<dependency org="org.glassfish.tyrus" name="tyrus-container-grizzly-client" rev="1.13.1" conf="test->*"/>
+		<dependency org="org.glassfish.tyrus" name="tyrus-client" rev="1.13.1" conf="test->*"/>
+		<dependency org="org.glassfish.tyrus" name="tyrus-spi" rev="1.13.1" conf="test->*"/>
+		<dependency org="org.glassfish.tyrus" name="tyrus-core" rev="1.13.1" conf="test->*"/>
+		<dependency org="org.glassfish.grizzly" name="grizzly-framework" rev="2.3.25" conf="test->*"/>
+		<dependency org="org.glassfish.grizzly" name="grizzly-http" rev="2.3.25" conf="test->*"/>
+		<dependency org="org.javassist" name="javassist" rev="3.24.1-GA" conf="test->*"/>
 	</dependencies>
 </ivy-module>

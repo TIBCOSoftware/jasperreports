@@ -23,10 +23,16 @@
  */
 package net.sf.jasperreports.web.actions;
 
+import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class SearchData {
+public class SearchData implements Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private String searchString;
 	private boolean caseSensitive;

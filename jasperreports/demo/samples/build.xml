@@ -83,7 +83,8 @@
 		<jrc 
 			destdir="${sample.dir}/build/reports"
 			tempdir="${sample.dir}/build/reports"
-			keepjava="false">
+			>
+			<!-- keepjava="true" -->
 			<src>
 				<fileset dir="${sample.dir}/reports">
 					<include name="**/*.jrxml"/>

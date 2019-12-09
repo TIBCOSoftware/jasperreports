@@ -85,6 +85,7 @@ import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -619,6 +620,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			//int emptyCellWidth = 0;
 
 			boolean allowRowResize = false;
+			int maxTopPadding = 0; //for some strange reason, the top margin applies to all cells in the row
 			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
 			GridRow gridRow = grid.getRow(row);
 			int rowSize = gridRow.size();
@@ -626,13 +628,25 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			{
 				JRExporterGridCell gridCell = gridRow.get(col);
 				JRLineBox box = gridCell.getBox();
-				if (
-					box != null 
-					&& box.getBottomPadding() != null 
-					&& maxBottomPadding < box.getBottomPadding()
-					)
+				if (box != null)
 				{
-					maxBottomPadding = box.getBottomPadding();
+					Integer topPadding = box.getTopPadding() + Math.round(box.getTopPen().getLineWidth());
+					if (
+						topPadding != null 
+						&& maxTopPadding < topPadding
+						)
+					{
+						maxTopPadding = topPadding;
+					}
+
+					Integer bottomPadding = box.getBottomPadding();
+					if (
+						bottomPadding != null 
+						&& maxBottomPadding < bottomPadding
+						)
+					{
+						maxBottomPadding = bottomPadding;
+					}
 				}
 				
 				allowRowResize = 
@@ -644,6 +658,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							)
 						);
 			}
+			tableHelper.setRowMaxTopPadding(maxTopPadding);
 
 			int rowHeight = gridLayout.getRowHeight(row) - maxBottomPadding;
 			if (row == 0 && frameIndex == null)
@@ -976,7 +991,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	public void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException
 	{
 		int leftPadding = image.getLineBox().getLeftPadding();
-		int topPadding = image.getLineBox().getTopPadding();//FIXMEDOCX maybe consider border thickness
+		int topPadding = image.getLineBox().getTopPadding() + Math.round(image.getLineBox().getTopPen().getLineWidth()); // top border eats into cell space
 		int rightPadding = image.getLineBox().getRightPadding();
 		int bottomPadding = image.getLineBox().getBottomPadding();
 
@@ -1002,7 +1017,6 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image, 
-					image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME, 
 					gridCell,
 					availableImageWidth,
 					availableImageHeight
@@ -1025,20 +1039,51 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			
 			if (imageProcessorResult != null)
 			{
-				int width = availableImageWidth;
-				int height = availableImageHeight;
+				int renderWidth = availableImageWidth;
+				int renderHeight = availableImageHeight;
+				
+				float xoffset = 0;
+				float yoffset = 0;
 
 				double cropTop = 0;
 				double cropLeft = 0;
 				double cropBottom = 0;
 				double cropRight = 0;
 				
+				int angle = 0;
+				
 				switch (image.getScaleImageValue())
 				{
 					case FILL_FRAME :
 					{
-						width = availableImageWidth;
-						height = availableImageHeight;
+						switch (image.getRotation())
+						{
+							case LEFT:
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								angle = -90;
+								break;
+							case RIGHT:
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								angle = 0;
+								break;
+						}
 						break;
 					}
 					case CLIP :
@@ -1053,70 +1098,170 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							normalHeight = dimension.getHeight();
 						}
 
-						if (normalWidth > availableImageWidth)
-						{
-							switch (image.getHorizontalImageAlign())
-							{
-								case RIGHT :
-								{
-									cropLeft = 65536 * (normalWidth - availableImageWidth) / normalWidth;
-									cropRight = 0;
-									break;
-								}
-								case CENTER :
-								{
-									cropLeft = 65536 * (- availableImageWidth + normalWidth) / normalWidth / 2;
-									cropRight = cropLeft;
-									break;
-								}
-								case LEFT :
-								default :
-								{
-									cropLeft = 0;
-									cropRight = 65536 * (normalWidth - availableImageWidth) / normalWidth;
-									break;
-								}
-							}
-							width = availableImageWidth;
-							cropLeft = cropLeft / 0.75d;
-							cropRight = cropRight / 0.75d;
-						}
-						else
-						{
-							width = (int)normalWidth;
-						}
+						renderWidth = availableImageWidth;
+						renderHeight = availableImageHeight;
 
-						if (normalHeight > availableImageHeight)
+						switch (image.getRotation())
 						{
-							switch (image.getVerticalImageAlign())
-							{
-								case TOP :
+							case LEFT:
+								if (dimension == null)
 								{
-									cropTop = 0;
-									cropBottom = 65536 * (normalHeight - availableImageHeight) / normalHeight;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case MIDDLE :
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
 								{
-									cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight / 2;
-									cropBottom = cropTop;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
+										break;
 								}
-								case BOTTOM :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight;
-									cropBottom = 0;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
-							height = availableImageHeight;
-							cropTop = cropTop / 0.75d;
-							cropBottom = cropBottom / 0.75d;
-						}
-						else
-						{
-							height = (int)normalHeight;
+								angle = -90;
+								break;
+							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
+										cropBottom = 0;
+										break;
+								}
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 0;
+								break;
 						}
 
 						break;
@@ -1134,18 +1279,201 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 							normalHeight = dimension.getHeight();
 						}
 
-						double ratio = normalWidth / normalHeight;
+						double ratioX = 1d;
+						double ratioY = 1d;
 
-						if (ratio > availableImageWidth / (double)availableImageHeight)
-						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
+						double imageWidth = availableImageWidth;
+						double imageHeight = availableImageHeight;
 
-						}
-						else
+						switch (image.getRotation())
 						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
+							case LEFT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								ratioX = availableImageWidth / normalHeight;
+								ratioY = availableImageHeight / normalWidth;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalHeight * ratioX);
+								imageHeight = (int)(normalWidth * ratioY);
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropBottom = 0;
+										break;
+								}
+								angle = -90;
+								break;
+							case RIGHT:
+								if (dimension == null)
+								{
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
+								}
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+								ratioX = availableImageWidth / normalHeight;
+								ratioY = availableImageHeight / normalWidth;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalHeight * ratioX);
+								imageHeight = (int)(normalWidth * ratioY);
+								xoffset = (availableImageWidth - availableImageHeight) / 2;
+								yoffset = - (availableImageWidth - availableImageHeight) / 2;
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropBottom = 0;
+										break;
+								}
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								ratioX = availableImageWidth / normalWidth;
+								ratioY = availableImageHeight / normalHeight;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalWidth * ratioX);
+								imageHeight = (int)(normalHeight * ratioY);
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+								ratioX = availableImageWidth / normalWidth;
+								ratioY = availableImageHeight / normalHeight;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalWidth * ratioX);
+								imageHeight = (int)(normalHeight * ratioY);
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 0;
+								break;
 						}
 					}
 				}
@@ -1165,9 +1493,18 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				docHelper.write("<w:r>\n"); 
 				docHelper.write("<w:rPr/>\n"); 
 				docHelper.write("<w:drawing>\n");
-				docHelper.write("<wp:inline distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\">\n");
-				docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
+				docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" "
+					+ "relativeHeight=\"0\" behindDoc=\"0\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">\n");
+				docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>\n");
+				docHelper.write("<wp:positionH relativeFrom=\"column\">\n");
+				docHelper.write("<wp:posOffset>" + LengthUtil.emu(xoffset) + "</wp:posOffset>\n");
+				docHelper.write("</wp:positionH>\n");
+				docHelper.write("<wp:positionV relativeFrom=\"paragraph\">\n");
+				docHelper.write("<wp:posOffset>" + LengthUtil.emu(yoffset + topPadding - tableHelper.getRowMaxTopPadding()) + "</wp:posOffset>\n");
+				docHelper.write("</wp:positionV>\n");
+				docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>\n");
 				docHelper.write("<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/>\n");
+				docHelper.write("<wp:wrapNone/>\n");
 
 				int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
 				String rId = IMAGE_LINK_PREFIX + getElementIndex(gridCell);
@@ -1184,32 +1521,25 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				docHelper.write("<pic:blipFill>\n");
 
 				docHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
-				docHelper.write("<a:srcRect");
-				if (cropLeft > 0)
-				{
-					docHelper.write(" l=\"" + (int)cropLeft + "\"");
-				}
-				if (cropTop > 0)
-				{
-					docHelper.write(" t=\"" + (int)cropTop + "\"");
-				}
-				if (cropRight > 0)
-				{
-					docHelper.write(" r=\"" + (int)cropRight + "\"");
-				}
-				if (cropBottom > 0)
-				{
-					docHelper.write(" b=\"" + (int)cropBottom + "\"");
-				}
-				docHelper.write("/>");
-				docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+				docHelper.write("<a:srcRect/>");
+				docHelper.write("<a:stretch><a:fillRect");
+				docHelper.write(" l=\"" + (int)(100000 * cropLeft) + "\"");
+				docHelper.write(" t=\"" + (int)(100000 * cropTop) + "\"");
+				docHelper.write(" r=\"" + (int)(100000 * cropRight) + "\"");
+				docHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
+				docHelper.write("/></a:stretch>\n");
 				docHelper.write("</pic:blipFill>\n");
-				docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>");
-				docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
+				docHelper.write("<pic:spPr>\n");
+				docHelper.write("  <a:xfrm rot=\"" + (60000 * angle) + "\">\n");
+				docHelper.write("    <a:off x=\"0\" y=\"0\"/>\n");
+				docHelper.write("    <a:ext cx=\"" + LengthUtil.emu(renderWidth) + "\" cy=\"" + LengthUtil.emu(renderHeight) + "\"/>");
+				docHelper.write("  </a:xfrm>\n");
+				docHelper.write("  <a:prstGeom prst=\"rect\"></a:prstGeom>\n");
+				docHelper.write("</pic:spPr>\n");
 				docHelper.write("</pic:pic>\n");
 				docHelper.write("</a:graphicData>\n");
 				docHelper.write("</a:graphic>\n");
-				docHelper.write("</wp:inline>\n");
+				docHelper.write("</wp:anchor>\n");
 				docHelper.write("</w:drawing>\n");
 				docHelper.write("</w:r>"); 
 
@@ -1265,18 +1595,28 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
-			boolean needDimension, 
 			JRExporterGridCell cell,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
-			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = needDimension;
 			this.cell = cell;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
+			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
+			if (
+				imageElement.getRotation() == RotationEnum.LEFT
+				|| imageElement.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				this.availableImageWidth = availableImageHeight;
+				this.availableImageHeight = availableImageWidth;
+			}
+			else
+			{
+				this.availableImageWidth = availableImageWidth;
+				this.availableImageHeight = availableImageHeight;
+			}
 		}
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException
@@ -1374,7 +1714,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	}
 
 
-	/**
+	/*
 	 *
 	 *
 	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas)
@@ -1448,6 +1788,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 			writer.write("\"");
 		}
 	}
+	*/
 
 
 	/**

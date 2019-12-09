@@ -21,26 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map.fill;
+package net.sf.jasperreports.components.table;
 
-import net.sf.jasperreports.components.items.Item;
-import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-
+import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @deprecated Replaced by {@link net.sf.jasperreports.components.items.fill.FillItem}.
+ * 
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public abstract class FillItem extends net.sf.jasperreports.components.items.fill.FillItem
+public interface BaseCell extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
 {
-	/**
-	 *
-	 */
-	public FillItem(
-		Item item, 
-		JRFillObjectFactory factory
-		)
-	{
-		super(item, factory);
-	}
+
+	Integer getHeight();
+	
 }

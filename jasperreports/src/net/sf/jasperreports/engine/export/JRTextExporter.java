@@ -332,17 +332,22 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 				int startPageIndex = (pageRange == null || pageRange.getStartPageIndex() == null) ? 0 : pageRange.getStartPageIndex();
 				int endPageIndex = (pageRange == null || pageRange.getEndPageIndex() == null) ? (pages.size() - 1) : pageRange.getEndPageIndex();
 
-				for(int i = startPageIndex; i <= endPageIndex; i++)
+				for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 				{
 					if (Thread.interrupted())
 					{
 						throw new ExportInterruptedException();
 					}
 
-					JRPrintPage page = pages.get(i);
+					JRPrintPage page = pages.get(pageIndex);
 
 					/*   */
 					exportPage(page);
+
+					if (reportIndex < items.size() - 1 || pageIndex < endPageIndex)
+					{
+						writer.write(pageSeparator);
+					}
 				}
 			}
 		}
@@ -384,8 +389,6 @@ public class JRTextExporter extends JRAbstractExporter<TextReportConfiguration, 
 			writer.write(pageData[i], 0, lineLength);
 			writer.write(lineSeparator);
 		}
-
-		writer.write(pageSeparator);
 
 		JRExportProgressMonitor progressMonitor = getCurrentItemConfiguration().getProgressMonitor();
 		if (progressMonitor != null)
