@@ -107,11 +107,16 @@ public abstract class UniformPrintElementVisitor<T> implements
 			List<JRPrintElement> elements = frame.getElements();
 			if (elements != null)
 			{
-				for (JRPrintElement element : elements)
-				{
-					element.accept(this, arg);
-				}
+				visitFrameElements(elements, arg);
 			}
+		}
+	}
+
+	protected void visitFrameElements(List<JRPrintElement> elements, T arg)
+	{
+		for (JRPrintElement element : elements)
+		{
+			element.accept(this, arg);
 		}
 	}
 

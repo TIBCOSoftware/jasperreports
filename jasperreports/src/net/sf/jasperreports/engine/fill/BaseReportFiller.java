@@ -577,6 +577,11 @@ public abstract class BaseReportFiller implements ReportFiller
 		return fillContext;
 	}
 
+	public JRVirtualizationContext getVirtualizationContext()
+	{
+		return virtualizationContext;
+	}
+
 	public JRFillDataset getMainDataset()
 	{
 		return mainDataset;

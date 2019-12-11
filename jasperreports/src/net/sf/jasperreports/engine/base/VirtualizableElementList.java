@@ -173,6 +173,11 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	{
 		return virtualizationContext;
 	}
+
+	public void updatePage(JRVirtualPrintPage page)
+	{
+		store.updatePage(page);
+	}
 	
 	//FIXME implement faster bulk methods such as addAll
 }

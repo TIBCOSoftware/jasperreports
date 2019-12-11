@@ -62,6 +62,18 @@ public class ElementsBlockList implements ElementStore, Serializable
 		size = block.size();
 	}
 
+	@Override
+	public void updatePage(JRVirtualPrintPage page)
+	{
+		for (ElementsBlock block : blocks)
+		{
+			if (block != null)
+			{
+				block.updatePage(page);
+			}
+		}
+	}
+
 	public void addBlock(ElementsBlock block)
 	{
 		incrementBlocks();

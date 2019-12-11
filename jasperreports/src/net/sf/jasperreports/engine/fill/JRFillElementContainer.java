@@ -1090,11 +1090,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup implemen
 	protected void addSubElements(JRPrintElementContainer printContainer, JRFillElement element, 
 			Collection<? extends JRPrintElement> printElements)
 	{
-		if (printContainer instanceof JRPrintBand)
+		if (printContainer instanceof OffsetElementsContainer)
 		{
 			// adding the subelements as whole lists to bands so that we don't need
 			// another virtualized list at print band level
-			((JRPrintBand) printContainer).addOffsetElements(printElements, 
+			((OffsetElementsContainer) printContainer).addOffsetElements(printElements, 
 					element.getX(), element.getRelativeY());
 		}
 		else
