@@ -690,4 +690,9 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			}
 		}
 	}
+
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
 }
