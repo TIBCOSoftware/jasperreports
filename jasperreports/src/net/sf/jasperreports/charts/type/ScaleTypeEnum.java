@@ -23,10 +23,10 @@
  */
 package net.sf.jasperreports.charts.type;
 
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedValueEnum;
-
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 
 /**
@@ -37,17 +37,17 @@ public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 	/**
 	 *
 	 */
-	ON_BOTH_AXES((byte)XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
+	ON_BOTH_AXES(XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
 
 	/**
 	 *
 	 */
-	ON_DOMAIN_AXIS((byte)XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
+	ON_DOMAIN_AXIS(XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
 
 	/**
 	 *
 	 */
-	ON_RANGE_AXIS((byte)XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
+	ON_RANGE_AXIS(XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
 
 
 	/**
