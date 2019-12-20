@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>develop-13-SNAPSHOT</version>
+	<version>develop-14-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -424,7 +424,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>develop-7-SNAPSHOT</version>
+			<version>develop-8-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
