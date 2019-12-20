@@ -21,46 +21,64 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.forms.textinput;
+package net.sf.jasperreports.engine.export.type;
 
-import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.component.ComponentDesignConverter;
-import net.sf.jasperreports.engine.convert.ElementIconConverter;
-import net.sf.jasperreports.engine.convert.ReportConverter;
-import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.type.EnumUtil;
+import net.sf.jasperreports.engine.type.NamedEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class TextInputComponentDesignConverter extends ElementIconConverter implements ComponentDesignConverter
+public enum PdfFieldTypeEnum implements NamedEnum
 {
+	/**
+	 * Constant useful for specifying the text input field type in PDF form.
+	 */
+	TEXT("Text"),
 
 	/**
-	 *
+	 * Constant useful for specifying the combobox input field type in PDF form.
 	 */
-	private final static TextInputComponentDesignConverter INSTANCE = new TextInputComponentDesignConverter();
+	COMBO("Combo"),
+
+	/**
+	 * Constant useful for specifying the list input field type in PDF form.
+	 */
+	LIST("List"),
+	
+	/**
+	 * Constant useful for specifying the checkbox input field type in PDF form.
+	 */
+	CHECK("Check"),
+	
+	/**
+	 * Constant useful for specifying the radio group option input field type in PDF form.
+	 */
+	RADIO("Radio");
+	
 	
 	/**
 	 *
 	 */
-	private TextInputComponentDesignConverter()
-	{
-		super(JRImageLoader.SUBREPORT_IMAGE_RESOURCE);//FIXMEINPUT
-	}
+	private final transient String name;
 
+	private PdfFieldTypeEnum(String name)
+	{
+		this.name = name;
+	}
+	
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+	
 	/**
 	 *
 	 */
-	public static TextInputComponentDesignConverter getInstance()
+	public static PdfFieldTypeEnum getByName(String name)
 	{
-		return INSTANCE;
-	}
-
-	@Override
-	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
-	{
-		return convert(reportConverter, (JRElement)element);
+		return EnumUtil.getEnumByName(values(), name);
 	}
 }

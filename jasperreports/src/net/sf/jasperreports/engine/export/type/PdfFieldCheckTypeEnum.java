@@ -21,42 +21,57 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.charts.type;
+package net.sf.jasperreports.engine.export.type;
 
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+import com.lowagie.text.pdf.RadioCheckField;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedValueEnum;
 
 
 /**
- * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ScaleTypeEnum implements NamedValueEnum<Integer>
+public enum PdfFieldCheckTypeEnum implements NamedValueEnum<Integer>
 {
 	/**
-	 *
+	 * Constant useful for specifying the checkbox type for the check input field in PDF form.
 	 */
-	ON_BOTH_AXES(XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
+	CHECK(RadioCheckField.TYPE_CHECK, "Check"),
 
 	/**
-	 *
+	 * Constant useful for specifying the circle type for the check input field in PDF form.
 	 */
-	ON_DOMAIN_AXIS(XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
+	CIRCLE(RadioCheckField.TYPE_CIRCLE, "Circle"),
 
 	/**
-	 *
+	 * Constant useful for specifying the cross type for the check input field in PDF form.
 	 */
-	ON_RANGE_AXIS(XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
+	CROSS(RadioCheckField.TYPE_CROSS, "Cross"),
 
+	/**
+	 * Constant useful for specifying the diamond type for the check input field in PDF form.
+	 */
+	DIAMOND(RadioCheckField.TYPE_DIAMOND, "Diamond"),
 
+	/**
+	 * Constant useful for specifying the square type for the check input field in PDF form.
+	 */
+	SQUARE(RadioCheckField.TYPE_SQUARE, "Square"),
+
+	/**
+	 * Constant useful for specifying the star type for the check input field in PDF form.
+	 */
+	STAR(RadioCheckField.TYPE_STAR, "Star");
+	
+	
 	/**
 	 *
 	 */
 	private final transient int value;
 	private final transient String name;
 
-	private ScaleTypeEnum(int value, String name)
+	private PdfFieldCheckTypeEnum(int value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -77,16 +92,8 @@ public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 	/**
 	 *
 	 */
-	public static ScaleTypeEnum getByName(String name)
+	public static PdfFieldCheckTypeEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ScaleTypeEnum getByValue(Integer value)
-	{
-		return EnumUtil.getByValue(values(), value);
 	}
 }
