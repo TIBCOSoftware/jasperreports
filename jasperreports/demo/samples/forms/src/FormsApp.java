@@ -89,7 +89,7 @@ public class FormsApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/FormsReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/FormsReport.jasper", null);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
