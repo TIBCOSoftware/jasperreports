@@ -4208,6 +4208,125 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.field.border.style -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.border.style">
+    <description>
+Property that specifies the PDF-compatible border style for input fields. Possible values are:
+<ul>
+<li><code>Solid</code> - specifies a solid border</li>
+<li><code>Dashed</code> - specifies a dashed border</li>
+<li><code>Beveled</code> - specifies a beveled border</li>
+<li><code>Inset</code> - specifies an inset border</li>
+<li><code>Underline</code> - specifies an underline border</li>
+</ul>
+When this property is not set, the engine looks at the JasperReports element border settings. If the pen style is 
+'<code>Solid</code>' or '<code>Dashed</code>', these styles will be applied, otherwise the '<code>Solid</code>' style will be considered by default.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.check.type -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.check.type">
+    <description>
+Property applicable to check input fields in a PDF form that specifies the check type decoration. Possible values are:
+<ul>
+<li><code>Check</code> - specifies a checkbox type decoration</li>
+<li><code>Circle</code> - specifies a circle tipe decoration</li>
+<li><code>Cross</code> - specifies a cross type decoration</li>
+<li><code>Diamond</code> - specifies a diamond type decoration</li>
+<li><code>Square</code> - specifies a square type decoration</li>
+<li><code>Star</code> - specifies a star type decoration</li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.checked -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.checked">
+    <description>
+Flag property applicable for check input fields that specifies if the input field is checked.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.choice.separators -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.choice.separators">
+    <description>
+Specifies the character used as choices separator in the choices list. 
+See <a href="#net.sf.jasperreports.export.pdf.field.choices">net.sf.jasperreports.export.pdf.field.choices</a> property.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.choices -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.choices">
+    <description>
+Specifies the list of choices for an input field such as list, combobox or radio group. Choices in the list are delimited by a separator character provided 
+by the <a href="#net.sf.jasperreports.export.pdf.field.choice.separators">net.sf.jasperreports.export.pdf.field.choice.separators</a> property. 
+If no <code>net.sf.jasperreports.export.pdf.field.choice.separators</code> property is set, the default choices separator is "|".<br/>
+Example: <code>'One'|'Two'|'Three'</code>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.combo.edit -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.combo.edit">
+    <description>
+Flag property applicable for combobox input fields that specifies if the combobox field is editable. By default the combobox is not editable.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.name -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.name">
+    <description>
+Property that specifies the field name, which serves as unique identifier within the PDF document. 
+If not specified, the field name is generated using the report element UUID.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.read.only -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.read.only">
+    <description>
+Flag property that specifies if the input field is read-only. As a known limitation, this property is not applicable for radio group fields.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.text.multiline -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.text.multiline">
+    <description>
+Flag property applicable for input text fields that specifies if the input text is also multiline.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.type -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.type">
+    <description>
+Property that specifies the input field type in PDF forms. Possible values are:
+<ul>
+<li><code>Text</code> - specifies a text input field</li>
+<li><code>Combo</code> - specifies a combobox input field</li>
+<li><code>List</code> - specifies a list input field</li>
+<li><code>Check</code> - specifies a checkbox input field</li>
+<li><code>Radio</code> - specifies a radio group option input field</li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.font.{arbitrary_name} -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.font.{arbitrary_name}">

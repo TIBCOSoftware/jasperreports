@@ -407,7 +407,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = PdfFieldTypeEnum.class
 			)
 	public static final String PDF_FIELD_TYPE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.type";
 	
@@ -417,7 +418,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE
 			)
 	public static final String PDF_FIELD_TEXT_MULTILINE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.text.multiline";
 	
@@ -427,7 +430,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = PdfFieldCheckTypeEnum.class
 			)
 	public static final String PDF_FIELD_CHECK_TYPE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.check.type";
 	
@@ -447,7 +451,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = Boolean.class
 			)
 	public static final String PDF_FIELD_CHECKED = PDF_EXPORTER_PROPERTIES_PREFIX + "field.checked";
 	
@@ -457,7 +462,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = Boolean.class
 			)
 	public static final String PDF_FIELD_READ_ONLY = PDF_EXPORTER_PROPERTIES_PREFIX + "field.read.only";
 	
@@ -467,7 +473,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = PdfFieldBorderStyleEnum.class
 			)
 	public static final String PDF_FIELD_BORDER_STYLE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.border.style";
 	
@@ -498,7 +505,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	@Property(
 			category = PropertyConstants.CATEGORY_EXPORT,
 			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = Boolean.class,
+			defaultValue = PropertyConstants.BOOLEAN_FALSE
 			)
 	public static final String PDF_FIELD_COMBO_EDIT = PDF_EXPORTER_PROPERTIES_PREFIX + "field.combo.edit";
 	
