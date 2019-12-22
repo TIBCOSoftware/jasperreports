@@ -7,11 +7,10 @@
 		a {text-decoration: none}
 	</style>
    	<script src='${contextPath}/scripts/require/require.js'></script>
-   	<script src='${contextPath}/servlets/requirejsconfig'></script>
    	<script src='${contextPath}/scripts/require.config.js'></script>
    	<link type='text/css' rel='stylesheet' href='${contextPath}/scripts/jquery/themes/base/jquery-ui.css'></link>
    	<link type='text/css' rel='stylesheet' href='${contextPath}/scripts/jquery/themes/base/jquery-ui-timepicker-addon.css'></link>
-   	<link type='text/css' rel='stylesheet' href='${jasperreports_global_css}'></link>
+   	<link type='text/css' rel='stylesheet' href='${contextPath}/jasperreports-global.css'></link>
 </head>
 <body text="#000000" link="#000000" alink="#000000" vlink="#000000" bgcolor="#999999">
 <div class='mainReportDiv body' style='width: 100%; height: 100%; overflow: visible;'>
@@ -21,13 +20,10 @@
     <div id="toolbar" class='toolbarDiv' style='display: table-cell;'>
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td><img class='pageFirst disabledViewerButton' src="${resourcesPath}net/sf/jasperreports/web/servlets/resources/viewer/first.GIF" border="0"></td>
-            <td><img class='pagePrevious disabledViewerButton' src="${resourcesPath}net/sf/jasperreports/web/servlets/resources/viewer/previous.GIF" border="0"></td>
-            <td><img class='pageNext disabledViewerButton' src="${resourcesPath}net/sf/jasperreports/web/servlets/resources/viewer/next.GIF" border="0"></td>
-            <td><img class='pageLast disabledViewerButton' src="${resourcesPath}net/sf/jasperreports/web/servlets/resources/viewer/last.GIF" border="0"></td>
-            <td>&nbsp;&nbsp;&nbsp;</td>
-            <td><img class='undo disabledViewerButton' src="${resourcesPath}net/sf/jasperreports/web/servlets/resources/viewer/undo.GIF" border="0"></td>
-            <td><img class='redo disabledViewerButton' src="${resourcesPath}net/sf/jasperreports/web/servlets/resources/viewer/redo.GIF" border="0"></td>
+            <td><img class='pageFirst disabledViewerButton' src="${contextPath}/images/first.GIF" border="0"></td>
+            <td><img class='pagePrevious disabledViewerButton' src="${contextPath}/images/previous.GIF" border="0"></td>
+            <td><img class='pageNext disabledViewerButton' src="${contextPath}/images/next.GIF" border="0"></td>
+            <td><img class='pageLast disabledViewerButton' src="${contextPath}/images/last.GIF" border="0"></td>
             <td width="100%">&nbsp;</td>
           </tr>
         </table>

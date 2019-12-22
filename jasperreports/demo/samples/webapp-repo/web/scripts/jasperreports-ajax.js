@@ -21,10 +21,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Contains listener implementations.
- * <br/>
- * <h3>Related Documentation</h3>
- * <a href="http://community.jaspersoft.com/wiki/jasperreports-library-tutorial">JasperReports Tutorial</a>
- */
-package net.sf.jasperreports.web.listeners;
+
+define(["jquery"], function($) {
+	return {
+		load: function(url, params) {
+			return $.ajax(url, params);
+		}
+    };
+});

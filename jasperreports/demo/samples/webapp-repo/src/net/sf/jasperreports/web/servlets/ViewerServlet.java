@@ -178,13 +178,8 @@ public class ViewerServlet extends AbstractServlet
 	protected String getHeader(HttpServletRequest request, WebReportContext webReportContext)
 	{
 		Map<String, Object> contextMap = new HashMap<String, Object>();
-		WebUtil webUtil = WebUtil.getInstance(getJasperReportsContext());
-		String webResourcesBasePath = webUtil.getResourcesBasePath();
-
 		contextMap.put("contextPath", request.getContextPath());
-		contextMap.put("resourcesPath", request.getContextPath() + webResourcesBasePath);
-		contextMap.put("jasperreports_global_css", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, WebUtil.RESOURCE_JR_GLOBAL_CSS));
-		
+
 		return VelocityUtil.processTemplate(getHeaderTemplate(), contextMap);
 	}
 	

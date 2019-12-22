@@ -21,41 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.web.util;
 
-import javax.servlet.http.HttpServletRequest;
-
-import net.sf.jasperreports.engine.JasperReportsContext;
-
-
-/**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- */
-public class ReportInteractionHyperlinkProducer extends ReportExecutionHyperlinkProducer
-{
-	public static final String HYPERLINK_TYPE_REPORT_INTERACTION = "ReportInteraction";
-	
-	/**
-	 *
-	 */
-	protected ReportInteractionHyperlinkProducer(JasperReportsContext jasperReportsContext, HttpServletRequest request)
-	{
-		super(jasperReportsContext, request);
-	}
-
-	/**
-	 *
-	 */
-	public static ReportInteractionHyperlinkProducer getInstance(JasperReportsContext jasperReportsContext, HttpServletRequest request)
-	{
-		return new ReportInteractionHyperlinkProducer(jasperReportsContext, request);
-	}
-
-
-	@Override
-	public String getPath() 
-	{
-		return WebUtil.getInstance(jasperReportsContext).getReportInteractionPath();
-	}
-
-}
+define(function() {
+    return {
+        applicationContextPath: null,
+        reportcontexturl: "/servlets/reportcontext",
+        reportoutputurl: "/servlets/reportoutput",
+        reportpagestatusurl: "/servlets/reportpagestatus"
+    };
+});
