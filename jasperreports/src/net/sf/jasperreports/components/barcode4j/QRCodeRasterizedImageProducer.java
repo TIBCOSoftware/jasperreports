@@ -82,7 +82,7 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		{
 			hints.put(EncodeHintType.QR_VERSION, qrVersion);
 		}
-		System.out.println("********** Raster qrVersion = "+qrVersion);
+
 		int resolution = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(
 				componentElement, BarcodeRasterizedImageProducer.PROPERTY_RESOLUTION, 300);
 		try

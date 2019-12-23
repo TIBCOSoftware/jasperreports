@@ -92,7 +92,7 @@ public class QRCodeSVGImageProducer implements QRCodeImageProducer
 		{
 			hints.put(EncodeHintType.QR_VERSION, qrVersion);
 		}
-		System.out.println("********** SVG qrVersion = "+qrVersion);
+
 		ByteMatrix matrix = null;
 		SVGCanvasProvider provider = null;
 		try
