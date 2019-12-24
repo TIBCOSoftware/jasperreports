@@ -4256,7 +4256,7 @@ Flag property applicable for check input fields that specifies if the input fiel
   
   <configProperty name="net.sf.jasperreports.export.pdf.field.choice.separators">
     <description>
-Specifies the character used as choices separator in the choices list. 
+Specifies the set of characters used as choices separator in the choices list. 
 See <a href="#net.sf.jasperreports.export.pdf.field.choices">net.sf.jasperreports.export.pdf.field.choices</a> property.
     </description>
   </configProperty>

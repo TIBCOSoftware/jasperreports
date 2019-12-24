@@ -102,9 +102,9 @@ content of the input field is the text content of the JasperReports text element
 <br/>
 List and combobox input fields can be populated by setting the following property:
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.choices">net.sf.jasperreports.export.pdf.field.choices</a>. 
-Its value contains list items separated by a special character provided by the 
+Its value contains list items separated by a special character or set of characters provided by the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.choice.separators">net.sf.jasperreports.export.pdf.field.choice.separators</a> property. 
-If not set, the default separator character is '|'.
+If not set, the default separator is '|'.
 <br/>
 <br/>
 <b>Example:</b>
