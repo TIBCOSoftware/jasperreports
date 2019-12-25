@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -204,19 +204,19 @@ public abstract class DocumentBuilder
 		Dimension dimension, 
 		Color backcolor, 
 		JRExporterGridCell gridCell,
-		boolean isLazy,
+//		boolean isLazy,
 		RenderersCache imageRenderersCache
 		) throws JRException
 	{
 		String imagePath = null;
 		
-		if (isLazy)
-		{
-			// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
-			imagePath = RendererUtil.getResourceLocation(renderer);
-		}
-		else
-		{
+//		if (isLazy)  // honouring lazy images in ods/odt is unlike any other export except html and xml
+//		{
+//			// we do not cache imagePath for lazy images because the short location string is already cached inside the render itself
+//			imagePath = RendererUtil.getResourceLocation(renderer);
+//		}
+//		else
+//		{
 			// by the time we get here, the resource renderer has already been loaded from cache
 			
 			if (
@@ -254,7 +254,7 @@ public abstract class DocumentBuilder
 					rendererToImagePathMap.put(renderer.getId(), imagePath);
 				}
 			}
-		}
+//		}
 
 		return imagePath;
 	}

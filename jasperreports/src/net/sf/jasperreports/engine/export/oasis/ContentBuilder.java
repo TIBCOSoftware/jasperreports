@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -177,6 +177,9 @@ public class ContentBuilder
 		writer.write(" </office:font-face-decls>\n");
 		
 		writer.write(" <office:automatic-styles>\n");
+		writer.write(" <style:style style:name=\"G_ImgFrm\" style:family=\"graphic\" style:parent-style-name=\"Graphics\">\n");
+		writer.write("  <style:graphic-properties style:vertical-pos=\"top\" style:vertical-rel=\"baseline\" style:horizontal-pos=\"left\" style:horizontal-rel=\"paragraph\" />\n");
+		writer.write(" </style:style>\n");
 		
 		writer.flush();
 		styleEntry.writeData(contentEntry.getOutputStream());

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -703,6 +703,22 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
+	 * Returns the value of a property as a float, looking first in several properties holders
+	 * and then in the system properties.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value used if the property is not found
+	 * @param propertiesHolders the properties holders
+	 * @return the property value
+	 */
+	public float getFloatProperty(String key, float defaultValue, JRPropertiesHolder ... propertiesHolders)
+	{
+		String value = getProperty(key, propertiesHolders);
+		
+		return value == null || value.trim().length() == 0 ? defaultValue : asFloat(value);
+	}
+
+	/**
 	 * Returns the value of a property as a float, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 
@@ -752,6 +768,19 @@ public final class JRPropertiesUtil
 	public long getLongProperty(String key)
 	{
 		return asLong(getProperty(key));
+	}
+	
+	/**
+	 * Returns a property as a long value.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the property value as a long
+	 */
+	public long getLongProperty(String key, long defaultValue)
+	{
+		String property = getProperty(key);
+		return property == null || property.trim().isEmpty() ? defaultValue : asLong(property);
 	}
 
 	/**

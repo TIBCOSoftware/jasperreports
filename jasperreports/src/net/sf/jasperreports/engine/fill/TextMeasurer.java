@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -203,7 +203,7 @@ public class TextMeasurer implements JRTextMeasurer
 	private DynamicPropertiesHolder dynamicPropertiesHolder;
 	
 	private SimpleTextLineWrapper simpleLineWrapper;
-	private ComplexTextLineWrapper complextLineWrapper;
+	private ComplexTextLineWrapper complexLineWrapper;
 	
 	protected int width;
 	private int height;
@@ -428,8 +428,8 @@ public class TextMeasurer implements JRTextMeasurer
 		simpleLineWrapper = new SimpleTextLineWrapper();
 		simpleLineWrapper.init(measureContext);
 		
-		complextLineWrapper = new ComplexTextLineWrapper();
-		complextLineWrapper.init(measureContext);
+		complexLineWrapper = new ComplexTextLineWrapper();
+		complexLineWrapper.init(measureContext);
 	}
 
 	/**
@@ -542,7 +542,7 @@ public class TextMeasurer implements JRTextMeasurer
 		// check if the simple wrapper would handle the text
 		if (!lineWrapper.start(styledText))
 		{
-			lineWrapper = complextLineWrapper;
+			lineWrapper = complexLineWrapper;
 			lineWrapper.start(styledText);
 		}
 		

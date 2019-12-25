@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -181,6 +181,7 @@ import net.sf.jasperreports.engine.part.PartEvaluationTime;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ExpressionTypeEnum;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
@@ -199,6 +200,7 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
@@ -1276,6 +1278,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_image, getNamespace());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_10_0))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, image.getOwnRotation());
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, image.getOwnHorizontalImageAlign());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, image.getOwnVerticalImageAlign());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUsingCache, image.getUsingCache());
@@ -1384,7 +1390,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeTextField(JRTextField textField) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_textField, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.isStretchWithOverflow(), false);
+		if(isNewerVersionOrEqual(JRConstants.VERSION_6_11_0))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAdjust, textField.getTextAdjust(), TextAdjustEnum.CUT_TEXT);
+		}
+		else
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow, textField.getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT, false);
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 
 		if (textField.getEvaluationGroup() != null)
@@ -1619,9 +1632,9 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			boolean skipIfEmpty) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_dataset, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), defaultResetType);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getDatasetResetType(), defaultResetType);
 
-		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+		if (dataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 		{
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_resetGroup, dataset.getResetGroup().getName());
 		}
@@ -3497,7 +3510,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	public void writeFrame(JRFrame frame) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_frame, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_borderSplitType, frame.getBorderSplitType());
+		if (isNewerVersionOrEqual(JRConstants.VERSION_6_0_0))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_borderSplitType, frame.getBorderSplitType());
+		}
 
 		writeReportElement(frame);
 		writeBox(frame.getLineBox());

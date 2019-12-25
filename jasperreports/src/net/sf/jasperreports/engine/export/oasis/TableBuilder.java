@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -81,6 +81,7 @@ public class TableBuilder
 	private Map<Integer, String> rowStyles;
 	private Map<Integer, String> columnStyles;
 	private Color tabColor;
+	private boolean rowTagOpen;
 	
 
 	protected TableBuilder(
@@ -219,11 +220,16 @@ public class TableBuilder
 		bodyWriter.write("<table:table-row");
 		bodyWriter.write(" table:style-name=\"" + rowStyles.get(rowHeight) + "\"");
 		bodyWriter.write(">\n");
+		rowTagOpen = true;
 	}
 	
 	public void buildRowFooter() 
 	{
-		bodyWriter.write("</table:table-row>\n");
+		if(rowTagOpen)
+		{
+			bodyWriter.write("</table:table-row>\n");
+			rowTagOpen = false;
+		}
 	}
 	
 	public void buildRow(int rowIndex, int rowHeight) 

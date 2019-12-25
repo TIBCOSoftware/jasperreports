@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -53,7 +53,7 @@ public class CVElementHtmlHandler extends CVElementAbstractGenericHandler implem
 
 	private final String[] scriptResourceLocations = new String[] {
 			"net/sf/jasperreports/customvisualization/resources/require/require.js",
-			"net/sf/jasperreports/customvisualization/resources/require/cv-component.js"
+			"net/sf/jasperreports/customvisualization/resources/require/cv-component_static.js"
 	};
 
 

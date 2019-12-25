@@ -47,7 +47,7 @@
 	</title>
 	<detail>
 		<band height="25">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Transparent" x="0" y="0" width="360" height="25" uuid="aeb122d5-6786-4818-a190-452f0aae8c27"/>
 				<box>
 					<pen lineWidth="1.0"/>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -88,7 +88,7 @@ package net.sf.jasperreports.engine;
  * report definition:
  * <pre>
  * &lt;jasperReport ...&gt;
- *   &lt;template>"report_styles.jrtx"&lt;/template&gt;
+ *   &lt;template&gt;"report_styles.jrtx"&lt;/template&gt;
  *   &lt;!-- parameters can be used in style template expressions --&gt;
  *   &lt;template&gt;$P{BaseTemplateLocation} + "report_styles.jrtx"&lt;/template&gt;
  *   &lt;template class="java.net.URL"&gt;$P{StyleTemplateURL}&lt;/template&gt;

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.base.JRBaseTextField;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
@@ -79,7 +80,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
-	protected boolean isStretchWithOverflow;
+	protected TextAdjustEnum textAdjust = TextAdjustEnum.CUT_TEXT;
 	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String pattern;
 	protected Boolean isBlankWhenNull;
@@ -128,10 +129,19 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 		
 
+	/**
+	 * @deprecated Replaced by {@link #getTextAdjust()}.
+	 */
 	@Override
 	public boolean isStretchWithOverflow()
 	{
-		return this.isStretchWithOverflow;
+		return getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT;
+	}
+
+	@Override
+	public TextAdjustEnum getTextAdjust()
+	{
+		return this.textAdjust;
 	}
 		
 	@Override
@@ -232,14 +242,27 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		return this.hyperlinkPageExpression;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #setTextAdjust(TextAdjustEnum)}.
+	 */
 	@Override
 	public void setStretchWithOverflow(boolean isStretch)
 	{
-		boolean old = this.isStretchWithOverflow;
-		this.isStretchWithOverflow = isStretch;
-		getEventSupport().firePropertyChange(JRBaseTextField.PROPERTY_STRETCH_WITH_OVERFLOW, old, this.isStretchWithOverflow);
-	}
+		boolean old = this.textAdjust == TextAdjustEnum.STRETCH_HEIGHT;
 		
+		setTextAdjust(isStretch ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT);
+		
+		getEventSupport().firePropertyChange(JRBaseTextField.PROPERTY_STRETCH_WITH_OVERFLOW, old, isStretch);
+	}
+	
+	@Override
+	public void setTextAdjust(TextAdjustEnum textAdjust)
+	{
+		TextAdjustEnum old = this.textAdjust;
+		this.textAdjust = textAdjust;
+		getEventSupport().firePropertyChange(JRBaseTextField.PROPERTY_TEXT_ADJUST, old, this.textAdjust);
+	}
+	
 	/**
 	 *
 	 */
@@ -586,6 +609,10 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 * @deprecated
 	 */
 	private byte evaluationTime;
+	/**
+	 * @deprecated
+	 */
+	private boolean isStretchWithOverflow;
 
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -605,6 +632,11 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			evaluationTimeValue = EvaluationTimeEnum.getByValue(evaluationTime);
+		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0)
+		{
+			textAdjust = isStretchWithOverflow ? TextAdjustEnum.CUT_TEXT : TextAdjustEnum.STRETCH_HEIGHT;
 		}
 	}
 

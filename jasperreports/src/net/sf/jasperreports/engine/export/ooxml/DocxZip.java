@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class DocxZip extends FileBufferedZip
 {
@@ -44,6 +44,8 @@ public class DocxZip extends FileBufferedZip
 	private ExportZipEntry relsEntry;
 	private ExportZipEntry appEntry;
 	private ExportZipEntry coreEntry;
+	private ExportZipEntry fontTableEntry;
+	private ExportZipEntry fontTableRelsEntry;
 	
 	/**
 	 * 
@@ -51,22 +53,20 @@ public class DocxZip extends FileBufferedZip
 	public DocxZip() throws IOException
 	{
 		documentEntry = createEntry("word/document.xml");
-		addEntry(documentEntry);
 		
 		stylesEntry = createEntry("word/styles.xml");
-		addEntry(stylesEntry);
 		
 		settingsEntry = createEntry("word/settings.xml");
-		addEntry(settingsEntry);
+		
+		fontTableEntry = createEntry("word/fontTable.xml");
+		
+		fontTableRelsEntry = createEntry("word/_rels/fontTable.xml.rels");
 		
 		relsEntry = createEntry("word/_rels/document.xml.rels");
-		addEntry(relsEntry);
 		
 		appEntry = createEntry("docProps/app.xml");
-		addEntry(appEntry);
 
 		coreEntry = createEntry("docProps/core.xml");
-		addEntry(coreEntry);
 
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/docx/_rels/xml.rels");
 		addEntry("[Content_Types].xml", "net/sf/jasperreports/engine/export/ooxml/docx/Content_Types.xml");
@@ -118,5 +118,21 @@ public class DocxZip extends FileBufferedZip
 	public ExportZipEntry getCoreEntry()
 	{
 		return coreEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getFontTableEntry()
+	{
+		return fontTableEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getFontTableRelsEntry()
+	{
+		return fontTableRelsEntry;
 	}
 }

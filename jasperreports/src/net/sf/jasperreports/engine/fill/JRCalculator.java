@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
@@ -577,24 +578,24 @@ public class JRCalculator implements JRFillExpressionEvaluator
 			{
 				toInitialize = 
 					(
-					elementDataset.getResetTypeValue() == ResetTypeEnum.PAGE || 
-					elementDataset.getResetTypeValue() == ResetTypeEnum.COLUMN
+					elementDataset.getDatasetResetType() == DatasetResetTypeEnum.PAGE || 
+					elementDataset.getDatasetResetType() == DatasetResetTypeEnum.COLUMN
 					);
 				break;
 			}
 			case COLUMN :
 			{
-				toInitialize = (elementDataset.getResetTypeValue() == ResetTypeEnum.COLUMN);
+				toInitialize = (elementDataset.getDatasetResetType() == DatasetResetTypeEnum.COLUMN);
 				break;
 			}
 			case GROUP :
 			{
-				if (elementDataset.getResetTypeValue() == ResetTypeEnum.GROUP)
+				if (elementDataset.getDatasetResetType() == DatasetResetTypeEnum.GROUP)
 				{
 					JRFillGroup group = (JRFillGroup)elementDataset.getResetGroup();
 					toInitialize = group.hasChanged();
 				}
-				else if (elementDataset.getResetTypeValue() == ResetTypeEnum.NONE)
+				else if (elementDataset.getDatasetResetType() == DatasetResetTypeEnum.NONE)
 				{
 					// None reset type for datasets means resetting at each record
 					toInitialize = true;

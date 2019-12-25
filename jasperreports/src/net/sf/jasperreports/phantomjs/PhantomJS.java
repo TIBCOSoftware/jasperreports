@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -42,14 +42,14 @@ public class PhantomJS
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_PHANTOMJS_EXECUTABLE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.executable.path";
 	
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_3_1
 			)
 	public static final String PROPERTY_PHANTOMJS_TEMPDIR_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.tempdir.path";
@@ -57,7 +57,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "10000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_3_1,
 			valueType = Integer.class
 			)
@@ -67,7 +67,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "8",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -77,7 +77,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "120000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -87,7 +87,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "300000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -97,7 +97,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "40000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -107,7 +107,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "1000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -117,7 +117,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "1200000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -127,7 +127,7 @@ public class PhantomJS
 	@Property(
 			category = PropertyConstants.CATEGORY_PHANTOM_JS,
 			defaultValue = "60000",
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.GLOBAL},
 			sinceVersion = PropertyConstants.VERSION_6_4_0,
 			valueType = Integer.class
 			)
@@ -135,6 +135,24 @@ public class PhantomJS
 	public static final int DEFAULT_PHANTOMJS_REQUEST_TIMEOUT = 60000;//timeout after 1 minute
 	
 	public static final String MAIN_SCRIPT_RESOURCE = "net/sf/jasperreports/phantomjs/process.js";
+	
+	/**
+	 * Property prefix used in order to identify a set of properties that store command options  
+	 * for the PhantomJS start command. For instance:
+	 * <p/>
+	 * net.sf.jasperreports.phantomjs.options.1=--load-images=true
+	 * <p/>
+	 * These properties are by default not set.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			name = "net.sf.jasperreports.phantomjs.options.{arbitrary_suffix}",
+			category = PropertyConstants.CATEGORY_PHANTOM_JS,
+			scopes = {PropertyScope.GLOBAL},
+			sinceVersion = PropertyConstants.VERSION_6_8_1
+			)
+	public static final String PROPERTY_OPTIONS_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "phantomjs.options.";
 	
 	public static boolean isEnabled()
 	{

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -142,6 +142,26 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_BACKGROUND_AS_SLIDE_MASTER = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "background.as.slide.master";
 
 	/**
+	 * Property that indicates if the fonts used in the report should be embedded into the generated PPTX document. 
+	 * <p/>
+	 * <b>Note: </b>PowerPoint does not embed TTF content type. Only EOT (Embedded OpenType) fonts are considered for embedding. 
+	 * Embeddable TTF fonts should be converted into EOT format first, then placed in the classpath using the font extension mechanism.
+	 * <p/>
+	 * This property serves as default value for the {@link #isEmbedFonts()} export configuration setting.
+	 * <p/>
+	 * @see JRPropertiesUtil
+	 */
+	@Property(
+			name = "net.sf.jasperreports.export.pptx.embed.fonts",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_9_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_EMBED_FONTS = JRPptxExporter.PPTX_EXPORTER_PROPERTIES_PREFIX + "embed.fonts";
+	
+	/**
 	 * The Title of the PPTX document.
 	 */
 	@ExporterProperty(PROPERTY_METADATA_TITLE)
@@ -204,4 +224,14 @@ public interface PptxExporterConfiguration extends ExporterConfiguration
 		intDefault=1
 		)
 	public Integer getSlideMasterPage();
+	
+	/**
+	 * Indicates whether the true type fonts used in the report should be embedded into the generated PPTX document. 
+	 * @see #PROPERTY_EMBED_FONTS
+	 */
+	@ExporterProperty(
+			value=PROPERTY_EMBED_FONTS,
+			booleanDefault=false
+			)
+	public Boolean isEmbedFonts();
 }

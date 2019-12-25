@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,13 +23,18 @@
  */
 package net.sf.jasperreports.search;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class HitTermInfo implements JRCloneable {
+public class HitTermInfo implements JRCloneable, Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private int position;
 	private int start;

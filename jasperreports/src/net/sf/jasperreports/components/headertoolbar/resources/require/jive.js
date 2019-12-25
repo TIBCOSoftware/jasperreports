@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -245,10 +245,10 @@ define(function(require) {
 
                     this.jo.css({position: 'absolute'});
                     this.jo.offset({top: top, left: jive.selected.jo.offset().left});
-                    this.topCalculated = false;
+
                     if (jive.isFloatingHeader) {
-                        jive.setToolbarPositionWhenFloating(true, jive.isDashboard);
-                    } else  if (containerTop >= top) {
+                        jive.setToolbarPositionWhenFloating(true);
+                    } else if (containerTop >= top) {
                         this.jo.offset({top: jive.selected.jo.offset().top});
                     }
                 },
@@ -1075,7 +1075,11 @@ define(function(require) {
                 }
                 it.ui.marker.jo && it.ui.marker.jo.appendTo('#jive_components').hide();
                 it.ui.overlay.jo && it.ui.overlay.jo.appendTo('#jive_components').hide();
-                it.ui.foobar.jo && it.ui.foobar.jo.appendTo('#jive_components').hide();
+                if (it.ui.foobar.jo) {
+                    it.ui.foobar.jo.appendTo('#jive_components').hide();
+                    // must reset the floating header, if any, when moving foobar as it causes the floating header to slide upwards
+                    it.scrollData && it.scrollHeader(it.isDashboard, true);
+                }
                 $('.pmenu').hide();
                 it.ui.colorpicker.jo && it.ui.colorpicker.jo.hide();
             } else {
@@ -1139,7 +1143,7 @@ define(function(require) {
                         tbl.append(clone);
                     });
                     tbl.css({
-                        position: 'fixed',
+                        position: 'relative',
                         width: Math.max.apply(Math, cloneWidth),
                         'empty-cells': tblJrPage.css('empty-cells'),
                         'border-collapse': tblJrPage.css('border-collapse'),
@@ -1153,38 +1157,18 @@ define(function(require) {
 
             return tbl;
         },
-        setToolbarPositionWhenFloating: function(isJiveActive, isDashboard) {
-            var it = this, top, firstHeader, toolbarTop, firstHeaderTop;
+        setToolbarPositionWhenFloating: function(isJiveActive, top) {
+            if (isJiveActive) {
+                var toolbarTop = top || this.getHeaderTable().offset().top;
 
-            if (isJiveActive) { // handle the toolbar position
-                firstHeader = $('td.first_jrcolHeader');
-                top = isDashboard ? 0 : $('div#reportViewFrame .body').offset().top,
-                    toolbarTop = it.ui.foobar.jo.offset().top,
-                    firstHeaderTop = firstHeader.offset().top;
+                this.ui.foobar.jo.css({
+                    position: 'relative'
+                });
 
-                if (!it.ui.foobar.topCalculated) {
-                    if (toolbarTop < 0) {
-                        if (firstHeaderTop < 0 && toolbarTop > firstHeaderTop) {
-                            top += Math.abs(toolbarTop - firstHeaderTop);
-                        }
-                    } else if (firstHeaderTop < 0) {
-                        top += Math.abs(firstHeaderTop) + toolbarTop;
-                    } else if (toolbarTop > firstHeaderTop) {
-                        top += toolbarTop - firstHeaderTop;
-                    }
-
-                    it.ui.foobar.jo.css({
-                        position: 'fixed',
-                        top: top,
-                        left: it.selected.jo.offset().left - $(window).scrollLeft()
-                    });
-
-                    it.ui.foobar.topCalculated = true;
-                } else {
-                    it.ui.foobar.jo.css({
-                        left: it.selected.jo.offset().left - $(window).scrollLeft()
-                    });
-                }
+                this.ui.foobar.jo.offset({
+                    top: toolbarTop,
+                    left: this.selected.jo.offset().left - $(window).scrollLeft()
+                });
             }
         },
         applyScaleTransform: function($container, zoom, origin) {
@@ -1213,7 +1197,6 @@ define(function(require) {
         scrollHeader: function(isDashboard, forceScroll) {
             var it = this,
                 $win = $(window),
-//                scrollContainer = it.isIPad ? $win : $('div#reportViewFrame .body'),
                 scrollContainer = $('div#reportViewFrame .body'),
                 scrolledTop = false,
                 scrolledLeft = false;
@@ -1248,43 +1231,37 @@ define(function(require) {
                 return;
             }
 
-            var floatableTbl = it.getHeaderTable(),
+            var floatingTbl = it.getHeaderTable(),
                 tbl = firstHeader.closest('table'),
                 containerTop = isDashboard ? $win.scrollTop() : $('div#reportViewFrame .body').offset().top,
                 headerTop = firstHeader.closest('tr').offset().top,
                 reportContainerTop = $('#reportContainer').offset().top,
                 lastTableCel = $('td.first_jrcolHeader:first').closest('table').find('td.jrcel:last'),
-                diff = lastTableCel.length ? lastTableCel.offset().top - floatableTbl.outerHeight() - containerTop: -1, // if last cell is not visible, hide the floating header
+                diff = lastTableCel.length ? lastTableCel.offset().top - floatingTbl.outerHeight() - containerTop: -1, // if last cell is not visible, hide the floating header
                 scrollTop = it.cachedScroll || 0,
-                zoom = jive.reportInstance.zoom;
+                zoom = jive.reportInstance.zoom,
+                floatingTableTop;
 
             it.isIPad && !it.cachedHeaderTop && (it.cachedHeaderTop = headerTop);
             if (!isDashboard && it.isIPad) {
                 scrollTop += it.cachedHeaderTop - headerTop;
             }
 
+            floatingTableTop = isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop);
+
             if (!it.scrollData.bMoved && headerTop-containerTop < 0 && diff > 0) {
-                floatableTbl.show();
+                floatingTbl.show();
 
                 if (zoom) {
-                    it.applyScaleTransform(floatableTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
-                    // do this twice for proper positioning
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
-                } else {
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
+                    it.applyScaleTransform(floatingTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
                 }
 
-                it.setToolbarPositionWhenFloating(it.active, isDashboard);
+                floatingTbl.offset({
+                    top: floatingTableTop,
+                    left: tbl.offset().left
+                });
+
+                it.setToolbarPositionWhenFloating(it.active, floatingTableTop);
 
                 it.scrollData.bMoved = it.isFloatingHeader = true;
                 if (!isDashboard) {
@@ -1293,26 +1270,33 @@ define(function(require) {
                     }
                 }
             } else if (it.scrollData.bMoved && headerTop-containerTop < 0 && diff > 0) {
-                floatableTbl.show();
+                floatingTbl.show();
+
                 if (zoom) {
-                    it.applyScaleTransform(floatableTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
-                } else if (scrolledLeft) {
-                    floatableTbl.offset({
-                        top: isDashboard ? (it.isIPad ? scrollTop : 0) : (it.isIPad ? scrollTop : containerTop),
-                        left: tbl.offset().left
-                    });
+                    it.applyScaleTransform(floatingTbl, zoom.level, zoom.overflow ? '0 0' : '50% 0');
                 }
 
-                it.setToolbarPositionWhenFloating(it.active, isDashboard);
+                floatingTbl.offset({
+                    top: floatingTableTop,
+                    left: tbl.offset().left
+                });
+
+                it.setToolbarPositionWhenFloating(it.active, floatingTableTop);
             } else if (it.scrollData.bMoved) {
-                floatableTbl.hide();
-                it.scrollData.bMoved = it.isFloatingHeader = false;
-                it.cachedScroll = 0;
-                it.active && it.ui.foobar.setToolbarPosition();
+                if (it.isFloatingHeader) {
+                    floatingTbl.hide();
+                    it.isFloatingHeader = false;
+                    it.cachedScroll = 0;
+                }
+
+                if (it.active && headerTop - containerTop - it.ui.foobar.jo.outerHeight() < 0 && diff > 0) {
+                    it.setToolbarPositionWhenFloating(true, containerTop);
+                } else if (it.active) {
+                    it.setToolbarPositionWhenFloating(true, it.selected.jo.offset().top - it.ui.foobar.jo.outerHeight());
+                    it.scrollData.bMoved = false;
+                } else {
+                    it.scrollData.bMoved = false;
+                }
             }
 
             it.isIPad && (it.cachedHeaderTop = headerTop);
@@ -1345,6 +1329,14 @@ define(function(require) {
 
                 // reposition jive visual elements
                 it.active && !it.ui.dialog.isVisible && it.showVisualElements(jive.selected.dim);
+            });
+
+            $('body').on('layout_update', function(event, options) {
+                if (options != null && ('panel-maximize' === options.type || 'panel-minimize' === options.type)) {
+                    if (jive.interactive.column) {
+                        jive.interactive.column.init(it.reportInstance);
+                    }
+                }
             });
         },
         init: function(report) {

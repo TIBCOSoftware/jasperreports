@@ -262,7 +262,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{OrderID}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="40" y="0" width="110" height="11" uuid="9701332b-f225-4476-b3d6-a329e32f77ea"/>
 				<textFieldExpression><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]]></textFieldExpression>
 			</textField>

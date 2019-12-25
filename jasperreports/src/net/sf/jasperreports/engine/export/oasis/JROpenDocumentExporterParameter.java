@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -32,7 +32,7 @@ import net.sf.jasperreports.export.OdtReportConfiguration;
 /**
  * Contains parameters useful for export in Open Document format.
  * @deprecated Replaced by {@link OdtExporterConfiguration} and {@link OdsExporterConfiguration}.
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class JROpenDocumentExporterParameter extends net.sf.jasperreports.engine.JRExporterParameter
 {

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 
 
 /**
@@ -36,6 +39,7 @@ import org.xml.sax.Attributes;
  */
 public class JRTextFieldFactory extends JRBaseFactory
 {
+	private static final Log log = LogFactory.getLog(JRTextFieldFactory.class);
 
 	/**
 	 *
@@ -57,7 +61,17 @@ public class JRTextFieldFactory extends JRBaseFactory
 		String isStretchWithOverflow = atts.getValue(JRXmlConstants.ATTRIBUTE_isStretchWithOverflow);
 		if (isStretchWithOverflow != null && isStretchWithOverflow.length() > 0)
 		{
-			textField.setStretchWithOverflow(Boolean.valueOf(isStretchWithOverflow));
+			if (log.isWarnEnabled())
+			{
+				log.warn("The 'isStretchWithOverflow' attribute is deprecated. Use the 'textAdjust' attribute instead.");
+			}
+				
+			textField.setTextAdjust(Boolean.valueOf(isStretchWithOverflow) ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT);
+		}
+		TextAdjustEnum textAdjust = TextAdjustEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_textAdjust));
+		if (textAdjust != null)
+		{
+			textField.setTextAdjust(textAdjust);
 		}
 
 		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));

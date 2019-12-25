@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -227,7 +227,7 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 		FontInfo fontInfo = (FontInfo) attributes.get(JRTextAttribute.FONT_INFO);
 		
 		String defaultFontFamily;
-		if (fontInfo == null)
+		if (fontInfo == null) // if export font mapping was found at the time of styled text processing, then no FONT_INFO is set, so we need to look for it again
 		{
 			//no resolved font, using the family
 			defaultFontFamily = fontFamilyAttr;
@@ -425,6 +425,25 @@ public abstract class AbstractHtmlExporter<RC extends HtmlReportConfiguration, C
 			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_CONVERT_SVG_TO_IMAGE, getCurrentItemConfiguration().isConvertSvgToImage());
 		}
 		return getCurrentItemConfiguration().isConvertSvgToImage();
+	}
+
+
+	/**
+	 * 
+	 */
+	protected boolean isUseBackgroundImageToAlign(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(HtmlReportConfiguration.PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN)
+			&& !isOverrideHints()
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, HtmlReportConfiguration.PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN, getCurrentItemConfiguration().isUseBackgroundImageToAlign());
+		}
+		return getCurrentItemConfiguration().isUseBackgroundImageToAlign();
 	}
 
 	@Override

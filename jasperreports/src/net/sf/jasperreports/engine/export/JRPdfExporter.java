@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -47,6 +47,7 @@ import java.lang.Character.UnicodeBlock;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,6 +61,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.ibm.icu.util.StringTokenizer;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -71,6 +73,7 @@ import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.SplitCharacter;
+import com.lowagie.text.pdf.BaseField;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.FontMapper;
@@ -80,18 +83,23 @@ import com.lowagie.text.pdf.PdfBoolean;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfFormField;
 import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.RadioCheckField;
+import com.lowagie.text.pdf.TextField;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
+import net.sf.jasperreports.engine.JRBoxContainer;
+import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRGenericElementType;
@@ -114,7 +122,11 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintPageFormat;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.export.type.PdfFieldBorderStyleEnum;
+import net.sf.jasperreports.engine.export.type.PdfFieldCheckTypeEnum;
+import net.sf.jasperreports.engine.export.type.PdfFieldTypeEnum;
 import net.sf.jasperreports.engine.fonts.AwtFontAttribute;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
@@ -388,7 +400,108 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			sinceVersion = PropertyConstants.VERSION_1_0_0
 			)
 	public static final String PDF_FONT_DIRS_PREFIX = PDF_EXPORTER_PROPERTIES_PREFIX + "fontdir.";
-
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_TYPE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.type";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_TEXT_MULTILINE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.text.multiline";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_CHECK_TYPE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.check.type";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_NAME = PDF_EXPORTER_PROPERTIES_PREFIX + "field.name";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_CHECKED = PDF_EXPORTER_PROPERTIES_PREFIX + "field.checked";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_READ_ONLY = PDF_EXPORTER_PROPERTIES_PREFIX + "field.read.only";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_BORDER_STYLE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.border.style";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = "|",
+			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_CHOICE_SEPARATORS = PDF_EXPORTER_PROPERTIES_PREFIX + "field.choice.separators";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_CHOICES = PDF_EXPORTER_PROPERTIES_PREFIX + "field.choices";
+	
+	/**
+	 * 
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0
+			)
+	public static final String PDF_FIELD_COMBO_EDIT = PDF_EXPORTER_PROPERTIES_PREFIX + "field.combo.edit";
+	
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getElementHandler(JRGenericElementType, String)}.
@@ -452,6 +565,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private PdfVersionEnum minimalVersion;
 	private Map<FontKey, Boolean> glyphRendererFonts;
 	
+	private Map<String, RadioCheckField> radioFieldFactories;
+	private Map<String, PdfFormField> radioGroups;
+
 	/**
 	 * @see #JRPdfExporter(JasperReportsContext)
 	 */
@@ -1061,6 +1177,16 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		
 		Collection<JRPrintElement> elements = page.getElements();
 		exportElements(elements);
+
+		if (radioGroups != null)
+		{
+			for (PdfFormField radioGroup : radioGroups.values())
+			{
+				pdfWriter.addAnnotation(radioGroup);
+			}
+			radioGroups = null;
+			radioFieldFactories = null; // radio groups that overflow unto next page don't seem to work; reset everything as it does not make sense to keep them
+		}
 		
 		tagHelper.endPage();
 
@@ -1083,7 +1209,17 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				{
 					tagHelper.startElement(element);
 
-					if (element instanceof JRPrintLine)
+					String strFieldType = element.getPropertiesMap().getProperty(PDF_FIELD_TYPE);
+					PdfFieldTypeEnum fieldType = PdfFieldTypeEnum.getByName(strFieldType);
+					if (fieldType == PdfFieldTypeEnum.CHECK)
+					{
+						exportFieldCheck(element);
+					}
+					else if (fieldType == PdfFieldTypeEnum.RADIO)
+					{
+						exportFieldRadio(element);
+					}
+					else if (element instanceof JRPrintLine)
 					{
 						exportLine((JRPrintLine)element);
 					}
@@ -1101,7 +1237,18 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					}
 					else if (element instanceof JRPrintText)
 					{
-						exportText((JRPrintText)element);
+						if (
+							fieldType == PdfFieldTypeEnum.TEXT
+							|| fieldType == PdfFieldTypeEnum.COMBO
+							|| fieldType == PdfFieldTypeEnum.LIST
+							)
+						{
+							exportFieldText((JRPrintText)element, fieldType);
+						}
+						else
+						{
+							exportText((JRPrintText)element);
+						}
 					}
 					else if (element instanceof JRPrintFrame)
 					{
@@ -1503,10 +1650,10 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				colText.setSimpleColumn(
 					new Phrase(imageProcessorResult.chunk),
 					lowerX,
-					upperY - imageProcessorResult.scaledHeight,
-					lowerX + imageProcessorResult.scaledWidth,
 					upperY,
-					imageProcessorResult.scaledHeight,
+					lowerX + imageProcessorResult.scaledWidth,
+					upperY - imageProcessorResult.scaledHeight,
+					0,
 					Element.ALIGN_LEFT
 					);
 
@@ -1650,11 +1797,54 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				normalHeight = (int)dimension.getHeight();
 			}
 
-			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-
 			int minWidth = Math.min(normalWidth, availableImageWidth);
 			int minHeight = Math.min(normalHeight, availableImageHeight);
+			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+			int translateX = xoffset;
+			int translateY = yoffset;
+			int angle = 0;
+			
+			switch (printImage.getRotation())
+			{
+				case LEFT :
+				{
+					minWidth = Math.min(normalWidth, availableImageHeight);
+					minHeight = Math.min(normalHeight, availableImageWidth);
+					xoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalHeight));
+					yoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - normalWidth));
+					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalWidth));
+					translateY = xoffset;
+					angle = 90;
+					break;
+				}
+				case RIGHT :
+				{
+					minWidth = Math.min(normalWidth, availableImageHeight);
+					minHeight = Math.min(normalHeight, availableImageWidth);
+					xoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - normalHeight));
+					yoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - normalWidth));
+					translateX = yoffset;
+					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - normalHeight));
+					angle = -90;
+					break;
+				}
+				case UPSIDE_DOWN :
+				{
+					minWidth = Math.min(normalWidth, availableImageWidth);
+					minHeight = Math.min(normalHeight, availableImageHeight);
+					xoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - normalWidth));
+					yoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - normalHeight));
+					translateX = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
+					translateY = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
+					angle = 180;
+					break;
+				}
+				case NONE :
+				default :
+				{
+				}
+			}
 
 			BufferedImage bi =
 				new BufferedImage(minWidth, minHeight, BufferedImage.TYPE_INT_ARGB);
@@ -1671,8 +1861,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					jasperReportsContext,
 					g,
 					new java.awt.Rectangle(
-						(xoffset > 0 ? 0 : xoffset),
-						(yoffset > 0 ? 0 : yoffset),
+						translateX > 0 ? 0 : translateX,
+						translateY > 0 ? 0 : translateY,
 						normalWidth,
 						normalHeight
 						)
@@ -1683,21 +1873,20 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				g.dispose();
 			}
 
-			xoffset = (xoffset < 0 ? 0 : xoffset);
-			yoffset = (yoffset < 0 ? 0 : yoffset);
-
 			//awtImage = bi.getSubimage(0, 0, minWidth, minHeight);
 
 			//image = com.lowagie.text.Image.getInstance(awtImage, printImage.getBackcolor());
 			Image image = Image.getInstance(bi, null);
 			
+			image.setRotationDegrees(angle);
+
 			return 
 				new InternalImageProcessorResult(
 					new Chunk(image, 0, 0), 
 					image.getScaledWidth(), 
 					image.getScaledHeight(),
-					xoffset,
-					yoffset
+					xoffset < 0 ? 0 : xoffset,
+					yoffset < 0 ? 0 : yoffset
 					);
 		}
 
@@ -1727,7 +1916,32 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				}
 			}
 
-			image.scaleAbsolute(availableImageWidth, availableImageHeight);
+			switch (printImage.getRotation())
+			{
+				case LEFT :
+				{
+					image.scaleAbsolute(availableImageHeight, availableImageWidth);
+					image.setRotationDegrees(90);
+					break;
+				}
+				case RIGHT :
+				{
+					image.scaleAbsolute(availableImageHeight, availableImageWidth);
+					image.setRotationDegrees(-90);
+					break;
+				}
+				case UPSIDE_DOWN :
+				{
+					image.scaleAbsolute(availableImageWidth, availableImageHeight);
+					image.setRotationDegrees(180);
+					break;
+				}
+				case NONE :
+				default :
+				{
+					image.scaleAbsolute(availableImageWidth, availableImageHeight);
+				}
+			}
 			
 			return 
 				new InternalImageProcessorResult(
@@ -1765,11 +1979,46 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				}
 			}
 
-			image.scaleToFit(availableImageWidth, availableImageHeight);
+			int xoffset = 0;
+			int yoffset = 0;
 
-			int xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
-			int yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
-
+			image.setRotationDegrees(0); // reset in case the image is from cache
+			
+			switch (printImage.getRotation())
+			{
+				case LEFT :
+				{
+					image.scaleToFit(availableImageHeight, availableImageWidth);
+					image.setRotationDegrees(90);
+					xoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - image.getPlainHeight()));
+					yoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - image.getPlainWidth()));
+					break;
+				}
+				case RIGHT :
+				{
+					image.scaleToFit(availableImageHeight, availableImageWidth);
+					image.setRotationDegrees(-90);
+					xoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - image.getPlainHeight()));
+					yoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - image.getPlainWidth()));
+					break;
+				}
+				case UPSIDE_DOWN :
+				{
+					image.scaleToFit(availableImageWidth, availableImageHeight);
+					image.setRotationDegrees(180);
+					xoffset = (int)((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - image.getPlainWidth()));
+					yoffset = (int)((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - image.getPlainHeight()));
+					break;
+				}
+				case NONE :
+				default :
+				{
+					image.scaleToFit(availableImageWidth, availableImageHeight);
+					xoffset = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - image.getPlainWidth()));
+					yoffset = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - image.getPlainHeight()));
+				}
+			}
+			
 			xoffset = (xoffset < 0 ? 0 : xoffset);
 			yoffset = (yoffset < 0 ? 0 : yoffset);
 			
@@ -1787,87 +2036,236 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			int xoffset = 0;
 			int yoffset = 0;
-
-			double normalWidth = availableImageWidth;
-			double normalHeight = availableImageHeight;
-
-			double displayWidth = availableImageWidth;
-			double displayHeight = availableImageHeight;
-
+			int translateX = 0;
+			int translateY = 0;
+			double templateWidth = 0;
+			double templateHeight = 0;
+			double renderWidth = 0;
+			double renderHeight = 0;
 			double ratioX = 1f;
 			double ratioY = 1f;
-			
-			Rectangle2D clip = null;
+			double angle = 0;
 
-			Dimension2D dimension = renderer instanceof DimensionRenderable ? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) : null;
-			if (dimension != null)
+			switch (printImage.getScaleImageValue())
 			{
-				normalWidth = dimension.getWidth();
-				normalHeight = dimension.getHeight();
-				displayWidth = normalWidth;
-				displayHeight = normalHeight;
-				
-				switch (printImage.getScaleImageValue())
+				case CLIP:
 				{
-					case CLIP:
+					Dimension2D dimension = 
+						renderer instanceof DimensionRenderable 
+						? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
+						: null;
+					if (dimension != null)
 					{
-						xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-						yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-						clip =
-							new Rectangle2D.Double(
-								- xoffset,
-								- yoffset,
-								availableImageWidth,
-								availableImageHeight
-								);
-						break;
+						renderWidth = dimension.getWidth();
+						renderHeight = dimension.getHeight();
 					}
-					case FILL_FRAME:
+						
+					templateWidth = availableImageWidth;
+					templateHeight = availableImageHeight;
+
+					switch (printImage.getRotation())
 					{
-						ratioX = availableImageWidth / normalWidth;
-						ratioY = availableImageHeight / normalHeight;
-						normalWidth *= ratioX;
-						normalHeight *= ratioY;
-						xoffset = 0;
-						yoffset = 0;
-						break;
+						case LEFT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							translateX = (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+							translateY = availableImageHeight - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
+							angle = - Math.PI / 2;
+							break;
+						case RIGHT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							translateX = availableImageWidth - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight));
+							translateY = (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth));
+							angle = Math.PI / 2;
+							break;
+						case UPSIDE_DOWN:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							translateX = availableImageWidth - (int)(ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+							translateY = availableImageHeight - (int)(ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
+							angle = Math.PI;
+							break;
+						case NONE:
+						default:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							translateX = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth));
+							translateY = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight));
+							angle = 0;
+							break;
 					}
-					case RETAIN_SHAPE:
-					default:
+					break;
+				}
+				case FILL_FRAME:
+				{
+					templateWidth = availableImageWidth;
+					templateHeight = availableImageHeight;
+
+					switch (printImage.getRotation())
 					{
-						ratioX = availableImageWidth / normalWidth;
-						ratioY = availableImageHeight / normalHeight;
-						ratioX = ratioX < ratioY ? ratioX : ratioY;
-						ratioY = ratioX;
-						normalWidth *= ratioX;
-						normalHeight *= ratioY;
-						xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - normalWidth));
-						yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - normalHeight));
-						break;
+						case LEFT:
+							renderWidth = availableImageHeight;
+							renderHeight = availableImageWidth;
+							translateX = 0;
+							translateY = availableImageHeight;
+							angle = - Math.PI / 2;
+							break;
+						case RIGHT:
+							renderWidth = availableImageHeight;
+							renderHeight = availableImageWidth;
+							translateX = availableImageWidth;
+							translateY = 0;
+							angle = Math.PI / 2;
+							break;
+						case UPSIDE_DOWN:
+							renderWidth = availableImageWidth;
+							renderHeight = availableImageHeight;
+							translateX = availableImageWidth;
+							translateY = availableImageHeight;
+							angle = Math.PI;
+							break;
+						case NONE:
+						default:
+							renderWidth = availableImageWidth;
+							renderHeight = availableImageHeight;
+							translateX = 0;
+							translateY = 0;
+							angle = 0;
+							break;
 					}
+					break;
+				}
+				case RETAIN_SHAPE:
+				default:
+				{
+					Dimension2D dimension = 
+						renderer instanceof DimensionRenderable 
+						? ((DimensionRenderable)renderer).getDimension(jasperReportsContext) 
+						: null;
+					if (dimension != null)
+					{
+						renderWidth = dimension.getWidth();
+						renderHeight = dimension.getHeight();
+					}
+						
+					switch (printImage.getRotation())
+					{
+						case LEFT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							ratioX = availableImageWidth / renderHeight;
+							ratioY = availableImageHeight / renderWidth;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderHeight;
+							templateHeight = renderWidth;
+							translateX = 0;
+							translateY = (int)renderWidth;
+							xoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageWidth - renderHeight * ratioX));
+							yoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageHeight - renderWidth * ratioY));
+							angle = - Math.PI / 2;
+							break;
+						case RIGHT:
+							if (dimension == null)
+							{
+								renderWidth = availableImageHeight;
+								renderHeight = availableImageWidth;
+							}
+							ratioX = availableImageWidth / renderHeight;
+							ratioY = availableImageHeight / renderWidth;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderHeight;
+							templateHeight = renderWidth;
+							translateX = (int)renderHeight;
+							translateY = 0;
+							xoffset = (int) ((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageWidth - renderHeight * ratioX));
+							yoffset = (int) ((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageHeight - renderWidth * ratioY));
+							angle = Math.PI / 2;
+							break;
+						case UPSIDE_DOWN:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							ratioX = availableImageWidth / renderWidth;
+							ratioY = availableImageHeight / renderHeight;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderWidth;
+							templateHeight = renderHeight;
+							translateX = (int)renderWidth;
+							translateY = (int)renderHeight;
+							xoffset = (int) ((1f - ImageUtil.getXAlignFactor(printImage)) * (availableImageWidth - renderWidth * ratioX));
+							yoffset = (int) (ImageUtil.getYAlignFactor(printImage) * (availableImageHeight - renderHeight * ratioY));
+							angle = Math.PI;
+							break;
+						case NONE:
+						default:
+							if (dimension == null)
+							{
+								renderWidth = availableImageWidth;
+								renderHeight = availableImageHeight;
+							}
+							ratioX = availableImageWidth / renderWidth;
+							ratioY = availableImageHeight / renderHeight;
+							ratioX = ratioX < ratioY ? ratioX : ratioY;
+							ratioY = ratioX;
+							templateWidth = renderWidth;
+							templateHeight = renderHeight;
+							translateX = 0;
+							translateY = 0;
+							xoffset = (int) (ImageUtil.getXAlignFactor(printImage) * (availableImageWidth - renderWidth * ratioX));
+							yoffset = (int) ((1f - ImageUtil.getYAlignFactor(printImage)) * (availableImageHeight - renderHeight * ratioY));
+							angle = 0;
+							break;
+					}
+					break;
 				}
 			}
 
-			PdfTemplate template = pdfContentByte.createTemplate((float)displayWidth, (float)displayHeight);
+			PdfTemplate template = pdfContentByte.createTemplate((float)templateWidth, (float)templateHeight);
 
 			Graphics2D g = getCurrentItemConfiguration().isForceSvgShapes()
-				? template.createGraphicsShapes((float)displayWidth, (float)displayHeight)
-				: template.createGraphics(availableImageWidth, availableImageHeight, new LocalFontMapper());
+				? template.createGraphicsShapes((float)templateWidth, (float)templateHeight)
+				: template.createGraphics((float)templateWidth, (float)templateHeight, new LocalFontMapper());
 
 			try
 			{
-				if (clip != null)
+				g.translate(
+					translateX, 
+					translateY
+					);
+
+				if (angle != 0)
 				{
-					g.setClip(clip);
+					g.rotate(angle);
 				}
 				
 				if (printImage.getModeValue() == ModeEnum.OPAQUE)
 				{
 					g.setColor(printImage.getBackcolor());
-					g.fillRect(0, 0, (int)displayWidth, (int)displayHeight);
+					g.fillRect(0, 0, (int)renderWidth, (int)renderHeight);
 				}
 
-				renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, displayWidth, displayHeight));
+				renderer.render(jasperReportsContext, g, new Rectangle2D.Double(0, 0, renderWidth, renderHeight));
 			}
 			finally
 			{
@@ -1878,12 +2276,11 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			pdfContentByte.addTemplate(
 				template,
 				(float)ratioX, 0f, 0f, (float)ratioY,
-				printImage.getX() 
-					+ leftPadding + getOffsetX() + xoffset,
-				pageFormat.getPageHeight()
-					- printImage.getY() - topPadding - getOffsetY()
-					- (int)normalHeight
-					- yoffset
+				printImage.getX() + leftPadding + getOffsetX()
+					+ xoffset,
+				pageFormat.getPageHeight() - printImage.getY() - topPadding - getOffsetY()
+					- availableImageHeight
+					+ yoffset
 				);
 			pdfContentByte.restoreState();
 
@@ -1895,8 +2292,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					new Chunk(image, 0, 0),
 					availableImageWidth,
 					availableImageHeight,
-					xoffset,
-					yoffset
+					0,
+					0
 					);
 			
 			pdfWriter.releaseTemplate(template);
@@ -2458,6 +2855,354 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			text.getLineBox(),
 			text
 			);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportFieldText(JRPrintText text, PdfFieldTypeEnum fieldType) throws DocumentException
+	{
+		Rectangle rectangle = new Rectangle(
+			text.getX() + exporterContext.getOffsetX(),
+			jasperPrint.getPageHeight() - text.getY() - exporterContext.getOffsetY(),
+			text.getX() + exporterContext.getOffsetX() + text.getWidth(),
+			jasperPrint.getPageHeight() - text.getY() - exporterContext.getOffsetY() - text.getHeight()
+			);
+		
+		String fieldName = text.getPropertiesMap().getProperty(PDF_FIELD_NAME);
+		fieldName = fieldName == null ? "FIELD_" + text.getUUID() : fieldName;
+		
+		TextField pdfTextField = new TextField(pdfWriter, rectangle, fieldName);
+		if (ModeEnum.OPAQUE == text.getModeValue())
+		{
+			pdfTextField.setBackgroundColor(text.getBackcolor());
+		}
+		pdfTextField.setTextColor(text.getForecolor());
+		pdfTextField.setText(text.getFullText());
+//		pdfTextField.setDefaultText("default:" + text.getFullText());
+		
+		switch (text.getHorizontalTextAlign())
+		{
+			case RIGHT :
+				pdfTextField.setAlignment(Element.ALIGN_RIGHT);
+				break;
+			case CENTER :
+				pdfTextField.setAlignment(Element.ALIGN_CENTER);
+				break;
+			case JUSTIFIED :
+				pdfTextField.setAlignment(Element.ALIGN_JUSTIFIED);
+				break;
+			case LEFT :
+			default :
+				pdfTextField.setAlignment(Element.ALIGN_LEFT);
+		}
+		
+		JRPen pen = getFieldPen(text);
+		if (pen != null)
+		{
+			float borderWidth = Math.round(pen.getLineWidth());
+			borderWidth = borderWidth > BaseField.BORDER_WIDTH_THICK ? BaseField.BORDER_WIDTH_THICK : borderWidth;
+			if (borderWidth > 0)
+			{
+				pdfTextField.setBorderColor(pen.getLineColor());
+				pdfTextField.setBorderWidth(borderWidth);
+				String strBorderStyle = propertiesUtil.getProperty(PDF_FIELD_BORDER_STYLE, text, jasperPrint);
+				PdfFieldBorderStyleEnum borderStyle = PdfFieldBorderStyleEnum.getByName(strBorderStyle);
+				if (borderStyle == null)
+				{
+					borderStyle = pen.getLineStyleValue() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
+				}
+				pdfTextField.setBorderStyle(borderStyle.getValue());
+			}
+		}
+		
+		if (
+			fieldType == PdfFieldTypeEnum.COMBO
+			|| fieldType == PdfFieldTypeEnum.LIST
+			)
+		{
+			//pdfTextField.setChoiceExports(new String[]{"one", "two", "three"});
+			String choices = text.getPropertiesMap().getProperty(PDF_FIELD_CHOICES);
+			if (choices != null && choices.trim().length() > 0)
+			{
+				String choiceSeparators = propertiesUtil.getProperty(PDF_FIELD_CHOICE_SEPARATORS, text, jasperPrint);
+				StringTokenizer tkzer = new StringTokenizer(choices, choiceSeparators);
+				List<String> choicesList = new ArrayList<String>();
+				while (tkzer.hasMoreTokens())
+				{
+					choicesList.add(tkzer.nextToken());
+				}
+				pdfTextField.setChoices(choicesList.toArray(new String[choicesList.size()]));
+			}
+			if (
+				fieldType == PdfFieldTypeEnum.COMBO
+				&& propertiesUtil.getBooleanProperty(PDF_FIELD_COMBO_EDIT, false, text, jasperPrint)
+				)
+			{
+				pdfTextField.setOptions(pdfTextField.getOptions() | TextField.EDIT);
+			}
+//			pdfTextField.setChoiceSelection(0);
+		}
+
+		String readOnly = text.getPropertiesMap().getProperty(PDF_FIELD_READ_ONLY);
+		if (readOnly != null)
+		{
+			if (Boolean.valueOf(readOnly))
+			{
+				pdfTextField.setOptions(pdfTextField.getOptions() | TextField.READ_ONLY);
+			}
+		}
+		
+//		pdfTextField.setExtraMargin(0, 0);
+		
+		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		fontUtil.getAttributesWithoutAwtFont(attributes, text);
+		Font pdfFont = getFont(attributes, getLocale(), false);
+
+		pdfTextField.setFont(pdfFont.getBaseFont());
+		pdfTextField.setFontSize(text.getFontsize());
+//		pdfTextField.setExtensionFont(pdfFont.getBaseFont());
+		
+		boolean isMultiLine = JRPropertiesUtil.asBoolean(text.getPropertiesMap().getProperty(PDF_FIELD_TEXT_MULTILINE), false);
+		if (isMultiLine)
+		{
+			pdfTextField.setOptions(TextField.MULTILINE);
+		}
+		
+//		text.setRotation(90);
+		pdfTextField.setVisibility(TextField.VISIBLE);
+		
+		PdfFormField field = null;
+
+		try
+		{
+			field = 
+				fieldType == PdfFieldTypeEnum.COMBO 
+				? pdfTextField.getComboField() 
+				: (fieldType == PdfFieldTypeEnum.LIST 
+					? pdfTextField.getListField()
+					: pdfTextField.getTextField());
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
+		pdfWriter.addAnnotation(field);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportFieldCheck(JRPrintElement element) throws DocumentException
+	{
+		Rectangle rectangle = new Rectangle(
+			element.getX() + exporterContext.getOffsetX(),
+			jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY(),
+			element.getX() + exporterContext.getOffsetX() + element.getWidth(),
+			jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY() - element.getHeight()
+			);
+		
+		String fieldName = element.getPropertiesMap().getProperty(PDF_FIELD_NAME);
+		fieldName = fieldName == null ? "FIELD_" + element.getUUID() : fieldName;
+		
+		RadioCheckField checkField = new RadioCheckField(pdfWriter, rectangle, fieldName, "checked");
+		
+		PdfFieldCheckTypeEnum checkType = PdfFieldCheckTypeEnum.getByName(element.getPropertiesMap().getProperty(PDF_FIELD_CHECK_TYPE));
+		if (checkType != null)
+		{
+			checkField.setCheckType(checkType.getValue());
+		}
+
+		if (ModeEnum.OPAQUE == element.getModeValue())
+		{
+			checkField.setBackgroundColor(element.getBackcolor());
+		}
+		checkField.setTextColor(element.getForecolor());
+
+		JRPen pen = getFieldPen(element);
+		if (pen != null)
+		{
+			float borderWidth = Math.round(pen.getLineWidth());
+			borderWidth = borderWidth > BaseField.BORDER_WIDTH_THICK ? BaseField.BORDER_WIDTH_THICK : borderWidth;
+			if (borderWidth > 0)
+			{
+				checkField.setBorderColor(pen.getLineColor());
+				checkField.setBorderWidth(borderWidth);
+				String strBorderStyle = propertiesUtil.getProperty(PDF_FIELD_BORDER_STYLE, element, jasperPrint);
+				PdfFieldBorderStyleEnum borderStyle = PdfFieldBorderStyleEnum.getByName(strBorderStyle);
+				if (borderStyle == null)
+				{
+					borderStyle = pen.getLineStyleValue() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
+				}
+				checkField.setBorderStyle(borderStyle.getValue());
+			}
+		}
+		
+		String checked = element.getPropertiesMap().getProperty(PDF_FIELD_CHECKED);
+		if (checked != null)
+		{
+			checkField.setChecked(Boolean.valueOf(checked));
+		}
+
+		String readOnly = element.getPropertiesMap().getProperty(PDF_FIELD_READ_ONLY);
+		if (readOnly != null)
+		{
+			if (Boolean.valueOf(readOnly))
+			{
+				checkField.setOptions(checkField.getOptions() | TextField.READ_ONLY);
+			}
+		}
+		
+		PdfFormField ck = null;
+
+		try
+		{
+			ck = checkField.getCheckField();
+		}
+		catch (Exception e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
+		pdfWriter.addAnnotation(ck);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportFieldRadio(JRPrintElement element) throws DocumentException
+	{
+		Rectangle rectangle = new Rectangle(
+			element.getX() + exporterContext.getOffsetX(),
+			jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY(),
+			element.getX() + exporterContext.getOffsetX() + element.getWidth(),
+			jasperPrint.getPageHeight() - element.getY() - exporterContext.getOffsetY() - element.getHeight()
+			);
+		
+		String fieldName = element.getPropertiesMap().getProperty(PDF_FIELD_NAME);
+		fieldName = fieldName == null ? "FIELD_" + element.getUUID() : fieldName;
+		
+		RadioCheckField radioField = radioFieldFactories == null ? null : radioFieldFactories.get(fieldName);
+		if (radioField == null)
+		{
+			radioField = new RadioCheckField(pdfWriter, rectangle, fieldName, "FIELD_" + element.getUUID());
+			if (radioFieldFactories == null)
+			{
+				radioFieldFactories = new HashMap<String, RadioCheckField>();
+			}
+			radioFieldFactories.put(fieldName, radioField);
+		}
+
+		PdfFormField radioGroup = radioGroups == null ? null : radioGroups.get(fieldName);
+		if (radioGroup == null)
+		{
+			if (radioGroups == null)
+			{
+				radioGroups = new HashMap<String, PdfFormField>();
+			}
+			radioGroup = radioField.getRadioGroup(true, false);
+			radioGroups.put(fieldName, radioGroup);
+		}
+
+		PdfFieldCheckTypeEnum checkType = PdfFieldCheckTypeEnum.getByName(element.getPropertiesMap().getProperty(PDF_FIELD_CHECK_TYPE));
+		if (checkType != null)
+		{
+			radioField.setCheckType(checkType.getValue());
+		}
+
+		radioField.setBox(rectangle);
+
+		if (ModeEnum.OPAQUE == element.getModeValue())
+		{
+			radioField.setBackgroundColor(element.getBackcolor());
+		}
+		radioField.setTextColor(element.getForecolor());
+
+		JRPen pen = getFieldPen(element);
+		if (pen != null)
+		{
+			float borderWidth = Math.round(pen.getLineWidth());
+			borderWidth = borderWidth > BaseField.BORDER_WIDTH_THICK ? BaseField.BORDER_WIDTH_THICK : borderWidth;
+			if (borderWidth > 0)
+			{
+				radioField.setBorderColor(pen.getLineColor());
+				radioField.setBorderWidth(borderWidth);
+				String strBorderStyle = propertiesUtil.getProperty(PDF_FIELD_BORDER_STYLE, element, jasperPrint);
+				PdfFieldBorderStyleEnum borderStyle = PdfFieldBorderStyleEnum.getByName(strBorderStyle);
+				if (borderStyle == null)
+				{
+					borderStyle = pen.getLineStyleValue() == LineStyleEnum.DASHED ? PdfFieldBorderStyleEnum.DASHED : PdfFieldBorderStyleEnum.SOLID;
+				}
+				radioField.setBorderStyle(borderStyle.getValue());
+			}
+		}
+		
+		radioField.setOnValue("FIELD_" + element.getUUID());
+
+		String checked = element.getPropertiesMap().getProperty(PDF_FIELD_CHECKED);
+		radioField.setChecked(Boolean.valueOf(checked)); // need to set to false if previous button was checked
+
+		String readOnly = element.getPropertiesMap().getProperty(PDF_FIELD_READ_ONLY);
+		if (readOnly != null)
+		{
+			if (Boolean.valueOf(readOnly))
+			{
+				//does not seem to work for radio groups; keeping it just in case
+				radioField.setOptions(radioField.getOptions() | TextField.READ_ONLY);
+			}
+		}
+		
+		try
+		{
+			radioGroup.addKid(radioField.getRadioField());
+		}
+		catch (Exception e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+	
+	protected JRPen getFieldPen(JRPrintElement element)
+	{
+		JRPen pen = null;
+
+		JRLineBox box = element instanceof JRBoxContainer ? ((JRBoxContainer)element).getLineBox() : null;
+		
+		if (box == null)
+		{
+			pen = element instanceof JRCommonGraphicElement ? ((JRCommonGraphicElement)element).getLinePen() : null;
+		}
+		else
+		{
+			Float lineWidth = box.getPen().getLineWidth();
+			if (lineWidth == 0)
+			{
+				// PDF fields do not support side borders
+				// in case side borders are defined for the report element, ensure that all 4 are declared and all of them come with the same settings
+				if(
+					((JRBasePen)box.getTopPen()).isIdentical(box.getLeftPen())
+					&& ((JRBasePen)box.getTopPen()).isIdentical(box.getBottomPen())
+					&& ((JRBasePen)box.getTopPen()).isIdentical(box.getRightPen())
+					&& box.getTopPen().getLineWidth() > 0
+					)
+				{
+					pen = new JRBasePen(box);
+					pen.setLineWidth(box.getTopPen().getLineWidth());
+					pen.setLineColor(box.getTopPen().getLineColor());
+					pen.setLineStyle(box.getTopPen().getLineStyleValue());
+				}
+			}
+			else
+			{
+				pen = new JRBasePen(box);
+				pen.setLineWidth(lineWidth);
+				pen.setLineColor(box.getPen().getLineColor());
+				pen.setLineStyle(box.getPen().getLineStyleValue());
+			}
+		}
+
+		return pen;
 	}
 	
 	protected AbstractPdfTextRenderer getTextRenderer(JRPrintText text, JRStyledText styledText)

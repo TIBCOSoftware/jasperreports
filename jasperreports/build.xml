@@ -148,19 +148,20 @@
 		<delete dir="./target"/>
 	</target>
 
-	<target name="javadoc" depends="compile" description="Compiles the library API documentation.">
+	<target name="javadoc" description="Compiles the library API documentation.">
 		<mkdir dir="./dist/docs/api"/> 
 		<delete dir="./dist/docs/api/net"/>
 		<delete>
 			<fileset dir="./dist/docs/api" includes="**/*.*" />
 		</delete>
-		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/> 
+		<ivy:cachepath pathid="project-lib" log="download-only" conf="docs"/>
 		<condition property="javadoc-arg" value="-Xdoclint:none" else="">
 			<or>
 				<matches pattern="1.8.*" string="${java.version}"/>
 				<matches pattern="9.*" string="${java.version}"/>
 				<matches pattern="10.*" string="${java.version}"/>
 				<matches pattern="11.*" string="${java.version}"/>
+				<matches pattern="12.*" string="${java.version}"/>
 			</or>
 		</condition>
 		<tstamp>

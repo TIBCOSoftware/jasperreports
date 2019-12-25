@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine.export;
 /**
  * A context that represents information about an Graphics2D export process.
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  * @see JRGraphics2DExporter
  */
 public interface JRGraphics2DExporterContext extends JRExporterContext

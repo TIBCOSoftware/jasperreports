@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,27 +25,27 @@ package net.sf.jasperreports.engine.type;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum RotationEnum implements JREnum
 {
 	/**
-	 * Constant useful for displaying the text without rotating it
+	 * Constant useful for displaying the text or image without rotating it.
 	 */
 	NONE((byte)0, "None"),
 
 	/**
-	 * Constant useful for rotating the text 90 degrees counter clockwise.
+	 * Constant useful for rotating the text or image 90 degrees counter clockwise.
 	 */
 	LEFT((byte)1, "Left"),
 	
 	/**
-	 * Constant useful for rotating the text 90 degrees clockwise.
+	 * Constant useful for rotating the text or image 90 degrees clockwise.
 	 */
 	RIGHT((byte)2, "Right"),
 	
 	/**
-	 * Constant useful for rotating the text 180 degrees.
+	 * Constant useful for rotating the text or image 180 degrees.
 	 */
 	UPSIDE_DOWN((byte)3, "UpsideDown");
 	

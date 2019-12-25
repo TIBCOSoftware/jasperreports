@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -51,7 +52,7 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected ResetTypeEnum resetTypeValue = ResetTypeEnum.REPORT;
+	protected DatasetResetTypeEnum datasetResetType = DatasetResetTypeEnum.REPORT;
 	protected IncrementTypeEnum incrementTypeValue = IncrementTypeEnum.NONE;
 	protected JRGroup resetGroup;
 	protected JRGroup incrementGroup;
@@ -71,7 +72,7 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	protected JRBaseElementDataset(JRElementDataset dataset)
 	{
 		if (dataset != null) {
-			resetTypeValue = dataset.getResetTypeValue();
+			datasetResetType = dataset.getDatasetResetType();
 			incrementTypeValue = dataset.getIncrementTypeValue();
 			resetGroup = dataset.getResetGroup();
 			incrementGroup = dataset.getIncrementGroup();
@@ -88,7 +89,7 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	{
 		factory.put(dataset, this);
 
-		resetTypeValue = dataset.getResetTypeValue();
+		datasetResetType = dataset.getDatasetResetType();
 		incrementTypeValue = dataset.getIncrementTypeValue();
 		resetGroup = factory.getGroup(dataset.getResetGroup());
 		incrementGroup = factory.getGroup(dataset.getIncrementGroup());
@@ -99,9 +100,18 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 
 	
 	@Override
+	public DatasetResetTypeEnum getDatasetResetType()
+	{
+		return this.datasetResetType;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getDatasetResetType()}.
+	 */
+	@Override
 	public ResetTypeEnum getResetTypeValue()
 	{
-		return this.resetTypeValue;
+		return ResetTypeEnum.getByValue(datasetResetType.getValueByte());
 	}
 		
 	@Override
@@ -147,7 +157,11 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private ResetTypeEnum resetTypeValue;
 	/**
 	 * @deprecated
 	 */
@@ -168,6 +182,10 @@ public class JRBaseElementDataset implements JRElementDataset, Serializable
 			incrementTypeValue = IncrementTypeEnum.getByValue(incrementType);
 		}
 		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0)
+		{
+			datasetResetType = resetTypeValue == null ? null : DatasetResetTypeEnum.getByValue(resetTypeValue.getValueByte());
+		}
 	}
 
 	

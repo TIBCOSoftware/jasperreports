@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -46,7 +46,7 @@ import org.jfree.io.SerialUtilities;
 import net.sf.jasperreports.engine.JRConstants;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class ScaledDialPointer extends Pointer
 {
@@ -90,8 +90,6 @@ public class ScaledDialPointer extends Pointer
 
 	/**
 	 * Creates a new instance.
-	 *
-	 * @param datasetIndex  the dataset index.
 	 */
 	public ScaledDialPointer(int scale, double widthRadius)
 	{
@@ -116,8 +114,6 @@ public class ScaledDialPointer extends Pointer
 	 * Returns the fill paint.
 	 *
 	 * @return The paint (never <code>null</code>).
-	 *
-	 * @see #setGradientFillPaint(Paint)
 	 *
 	 * @since 1.0.8
 	 */

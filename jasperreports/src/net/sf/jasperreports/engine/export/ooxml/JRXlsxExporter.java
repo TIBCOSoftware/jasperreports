@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
@@ -334,7 +335,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 	}
 
 
-	/**
+	/*
 	 *
 	 *
 	protected void writeImageMap(String imageMapName, JRPrintHyperlink mainHyperlink, List imageMapAreas) throws IOException
@@ -408,6 +409,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			writer.write("\"");
 		}
 	}
+	*/
 
 
 	/**
@@ -923,7 +925,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			InternalImageProcessor imageProcessor = 
 				new InternalImageProcessor(
 					image, 
-					image.getScaleImageValue() != ScaleImageEnum.FILL_FRAME, 
 					gridCell,
 					availableImageWidth,
 					availableImageHeight
@@ -946,20 +947,33 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 			
 			if (imageProcessorResult != null)
 			{
-				int width = availableImageWidth;
-				int height = availableImageHeight;
-
 				double cropTop = 0;
 				double cropLeft = 0;
 				double cropBottom = 0;
 				double cropRight = 0;
 				
+				int angle = 0;
+
 				switch (image.getScaleImageValue())
 				{
 					case FILL_FRAME :
 					{
-						width = availableImageWidth;
-						height = availableImageHeight;
+						switch (image.getRotation())
+						{
+							case LEFT:
+								angle = -90;
+								break;
+							case RIGHT:
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								angle = 0;
+								break;
+						}
 	 					break;
 					}
 					case CLIP :
@@ -974,65 +988,160 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							normalHeight = dimension.getHeight();
 						}
 
-//						if (normalWidth > availableImageWidth)
-//						{
-							switch (image.getHorizontalImageAlign())
-							{
-								case RIGHT :
+						switch (image.getRotation())
+						{
+							case LEFT:
+								if (dimension == null)
 								{
-									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-									cropRight = 0;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case CENTER :
+								switch (image.getHorizontalImageAlign())
 								{
-									cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth / 2;
-									cropRight = cropLeft;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
+										break;
 								}
-								case LEFT :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropLeft = 0;
-									cropRight = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
-//						}
-//						else
-//						{
-//							width = (int)normalWidth;
-//						}
-
-//						if (normalHeight > availableImageHeight)
-//						{
-							switch (image.getVerticalImageAlign())
-							{
-								case TOP :
+								angle = -90;
+								break;
+							case RIGHT:
+								if (dimension == null)
 								{
-									cropTop = 0;
-									cropBottom = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case MIDDLE :
+								switch (image.getHorizontalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight / 2;
-									cropBottom = cropTop;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - normalWidth) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - normalWidth) / availableImageHeight;
+										break;
 								}
-								case BOTTOM :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
-									cropBottom = 0;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - normalHeight) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - normalHeight) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
-//						}
-//						else
-//						{
-//							height = (int)normalHeight;
-//						}
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - normalWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - normalWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - normalHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - normalHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 0;
+								break;
+						}
 
 						break;
 					}
@@ -1049,63 +1158,189 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 							normalHeight = dimension.getHeight();
 						}
 
-						double ratio = normalWidth / normalHeight;
+						double ratioX = 1d;
+						double ratioY = 1d;
 
-						if( ratio > availableImageWidth / (double)availableImageHeight )
+						double imageWidth = availableImageWidth;
+						double imageHeight = availableImageHeight;
+
+						switch (image.getRotation())
 						{
-							width = availableImageWidth;
-							height = (int)(width/ratio);
-
-							switch (image.getVerticalImageAlign())
-							{
-								case TOP :
+							case LEFT:
+								if (dimension == null)
 								{
-									cropTop = 0;
-									cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case MIDDLE :
+								ratioX = availableImageWidth / normalHeight;
+								ratioY = availableImageHeight / normalWidth;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalHeight * ratioX);
+								imageHeight = (int)(normalWidth * ratioY);
+								switch (image.getHorizontalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
-									cropBottom = cropTop;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
 								}
-								case BOTTOM :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
-									cropBottom = 0;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
-						}
-						else
-						{
-							height = availableImageHeight;
-							width = (int)(ratio * height);
-
-							switch (image.getHorizontalImageAlign())
-							{
-								case RIGHT :
+								angle = -90;
+								break;
+							case RIGHT:
+								if (dimension == null)
 								{
-									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
-									cropRight = 0;
-									break;
+									normalWidth = availableImageHeight;
+									normalHeight = availableImageWidth;
 								}
-								case CENTER :
+								ratioX = availableImageWidth / normalHeight;
+								ratioY = availableImageHeight / normalWidth;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalHeight * ratioX);
+								imageHeight = (int)(normalWidth * ratioY);
+								switch (image.getHorizontalImageAlign())
 								{
-									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
-									cropRight = cropLeft;
-									break;
+									case RIGHT :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
 								}
-								case LEFT :
-								default :
+								switch (image.getVerticalImageAlign())
 								{
-									cropLeft = 0;
-									cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
-									break;
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropBottom = 0;
+										break;
 								}
-							}
+								angle = 90;
+								break;
+							case UPSIDE_DOWN:
+								ratioX = availableImageWidth / normalWidth;
+								ratioY = availableImageHeight / normalHeight;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalWidth * ratioX);
+								imageHeight = (int)(normalHeight * ratioY);
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 180;
+								break;
+							case NONE:
+							default:
+								ratioX = availableImageWidth / normalWidth;
+								ratioY = availableImageHeight / normalHeight;
+								ratioX = ratioX < ratioY ? ratioX : ratioY;
+								ratioY = ratioX;
+								imageWidth = (int)(normalWidth * ratioX);
+								imageHeight = (int)(normalHeight * ratioY);
+								switch (image.getHorizontalImageAlign())
+								{
+									case RIGHT :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth;
+										cropRight = 0;
+										break;
+									case CENTER :
+										cropLeft = (availableImageWidth - imageWidth) / availableImageWidth / 2;
+										cropRight = cropLeft;
+										break;
+									case LEFT :
+									default :
+										cropLeft = 0;
+										cropRight = (availableImageWidth - imageWidth) / availableImageWidth;
+										break;
+								}
+								switch (image.getVerticalImageAlign())
+								{
+									case TOP :
+										cropTop = 0;
+										cropBottom = (availableImageHeight - imageHeight) / availableImageHeight;
+										break;
+									case MIDDLE :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight / 2;
+										cropBottom = cropTop;
+										break;
+									case BOTTOM :
+									default :
+										cropTop = (availableImageHeight - imageHeight) / availableImageHeight;
+										cropBottom = 0;
+										break;
+								}
+								angle = 0;
+								break;
 						}
 					}
 				}
@@ -1172,29 +1407,20 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 				drawingHelper.write("</xdr:cNvPr><xdr:cNvPicPr/></xdr:nvPicPr>\n");
 				drawingHelper.write("<xdr:blipFill>\n");
 				drawingHelper.write("<a:blip r:embed=\"" + imageProcessorResult.imagePath + "\"/>");
-				drawingHelper.write("<a:srcRect");
-////				if (cropLeft > 0)
-//					drawingHelper.write(" l=\"" + (int)cropLeft + "\"");
-////				if (cropTop > 0)
-//					drawingHelper.write(" t=\"" + (int)cropTop + "\"");
-////				if (cropRight > 0)
-//					drawingHelper.write(" r=\"" + (int)cropRight + "\"");
-////				if (cropBottom > 0)
-//					drawingHelper.write(" b=\"" + (int)cropBottom + "\"");
-				drawingHelper.write("/>");
+				drawingHelper.write("<a:srcRect/>");
 				drawingHelper.write("<a:stretch><a:fillRect");
-//				if (cropLeft > 0)
-					drawingHelper.write(" l=\"" + (int)cropLeft + "\"");
-//				if (cropTop > 0)
-					drawingHelper.write(" t=\"" + (int)cropTop + "\"");
-//				if (cropRight > 0)
-					drawingHelper.write(" r=\"" + (int)cropRight + "\"");
-//				if (cropBottom > 0)
-					drawingHelper.write(" b=\"" + (int)cropBottom + "\"");
+				drawingHelper.write(" l=\"" + (int)(100000 * cropLeft) + "\"");
+				drawingHelper.write(" t=\"" + (int)(100000 * cropTop) + "\"");
+				drawingHelper.write(" r=\"" + (int)(100000 * cropRight) + "\"");
+				drawingHelper.write(" b=\"" + (int)(100000 * cropBottom) + "\"");
 				drawingHelper.write("/></a:stretch>\n");
 				drawingHelper.write("</xdr:blipFill>\n");
-				drawingHelper.write("<xdr:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(0) + "\" cy=\"" + LengthUtil.emu(0) + "\"/>");
-				drawingHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom>\n");
+				drawingHelper.write("<xdr:spPr>\n");
+				drawingHelper.write("  <a:xfrm rot=\"" + (60000 * angle) + "\">\n");
+				drawingHelper.write("    <a:off x=\"0\" y=\"0\"/>\n");
+				drawingHelper.write("    <a:ext cx=\"" + LengthUtil.emu(0) + "\" cy=\"" + LengthUtil.emu(0) + "\"/>");
+				drawingHelper.write("  </a:xfrm>\n");
+				drawingHelper.write("<a:prstGeom prst=\"rect\"></a:prstGeom>\n");
 //				if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
 //				{
 //					drawingHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
@@ -1228,18 +1454,28 @@ public class JRXlsxExporter extends JRXlsAbstractExporter<XlsxReportConfiguratio
 
 		protected InternalImageProcessor(
 			JRPrintImage imageElement,
-			boolean needDimension, 
 			JRExporterGridCell cell,
 			int availableImageWidth,
 			int availableImageHeight
 			)
 		{
 			this.imageElement = imageElement;
-			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
-			this.needDimension = needDimension;
 			this.cell = cell;
-			this.availableImageWidth = availableImageWidth;
-			this.availableImageHeight = availableImageHeight;
+			this.imageRenderersCache = imageElement.isUsingCache() ? renderersCache : new RenderersCache(getJasperReportsContext());
+			this.needDimension = imageElement.getScaleImageValue() != ScaleImageEnum.FILL_FRAME; 
+			if (
+				imageElement.getRotation() == RotationEnum.LEFT
+				|| imageElement.getRotation() == RotationEnum.RIGHT
+				)
+			{
+				this.availableImageWidth = availableImageHeight;
+				this.availableImageHeight = availableImageWidth;
+			}
+			else
+			{
+				this.availableImageWidth = availableImageWidth;
+				this.availableImageHeight = availableImageHeight;
+			}
 		}
 		
 		private InternalImageProcessorResult process(Renderable renderer) throws JRException

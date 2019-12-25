@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,31 +23,31 @@
  */
 package net.sf.jasperreports.charts.type;
 
+import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedValueEnum;
 
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
-
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 {
 	/**
 	 *
 	 */
-	ON_BOTH_AXES((byte)XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
+	ON_BOTH_AXES(XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
 
 	/**
 	 *
 	 */
-	ON_DOMAIN_AXIS((byte)XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
+	ON_DOMAIN_AXIS(XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
 
 	/**
 	 *
 	 */
-	ON_RANGE_AXIS((byte)XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
+	ON_RANGE_AXIS(XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
 
 
 	/**

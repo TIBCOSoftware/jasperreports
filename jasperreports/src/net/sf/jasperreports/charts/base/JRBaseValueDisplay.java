@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -59,7 +59,7 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 
 	/**
 	 * The formatting mask to use when writing the value.  Must a pattern
-	 * that is accepted by a code>java.text.DecimalFormat</code> object.
+	 * that is accepted by a <code>java.text.DecimalFormat</code> object.
 	 */
 	protected String mask;
 

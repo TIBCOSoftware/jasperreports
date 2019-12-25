@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -154,7 +154,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class GenericChartTheme implements ChartTheme
 {
@@ -432,7 +432,6 @@ public class GenericChartTheme implements ChartTheme
 	 * @param verticalTickLabels flag to draw tick labels at 90 degrees
 	 * @param lineColor color to use when drawing the axis line and any tick marks
 	 * @param isRangeAxis used to distinguish between range and domain axis type
-	 * @param timeUnit time unit used to create a DateAxis
 	 */
 	protected void configureAxis(
 			Axis axis,
@@ -773,8 +772,6 @@ public class GenericChartTheme implements ChartTheme
 
 	/**
 	 *
-	 * @param evaluation
-	 * @throws net.sf.jasperreports.engine.JRException
 	 */
 	protected JFreeChart createCandlestickChart() throws JRException
 	{
@@ -818,8 +815,6 @@ public class GenericChartTheme implements ChartTheme
 
 	/**
 	 *
-	 * @param evaluation
-	 * @throws JRException
 	 */
 	protected JFreeChart createHighLowChart() throws JRException
 	{
@@ -1669,7 +1664,6 @@ public class GenericChartTheme implements ChartTheme
 	 * Converts a JasperReport data range into one understood by JFreeChart.
 	 *
 	 * @param dataRange the JasperReport version of the range
-	 * @param evaluation current expression evaluation phase
 	 * @return the JFreeChart version of the range
 	 * @throws JRException thrown when the low value of the range is greater than the
 	 * 						high value
@@ -1689,7 +1683,6 @@ public class GenericChartTheme implements ChartTheme
 	 * Converts a JasperReports meter interval to one that JFreeChart understands.
 	 *
 	 * @param interval the JasperReports definition of an interval
-	 * @param evaluation current evaluation time
 	 * @return the JFreeChart version of the same interval
 	 * @throws JRException thrown when the interval contains an invalid range
 	 */
@@ -1712,10 +1705,7 @@ public class GenericChartTheme implements ChartTheme
 
 	/**
 	 * Build and configure a meter chart.
-	 *
-	 * @param evaluation current expression evaluation phase
-	 * @throws JRException
-	*/
+	 */
 	protected JFreeChart createMeterChart() throws JRException 
 	{
 		// Start by creating the plot that will hold the meter
@@ -1834,9 +1824,6 @@ public class GenericChartTheme implements ChartTheme
 	 * Build and run a thermometer chart.  JFreeChart thermometer charts have some
 	 * limitations.  They always have a maximum of three ranges, and the colors of those
 	 * ranges seems to be fixed.
-	 *
-	 * @param evaluation current expression evaluation phase
-	 * @throws JRException
 	 */
 	protected JFreeChart createThermometerChart() throws JRException 
 	{

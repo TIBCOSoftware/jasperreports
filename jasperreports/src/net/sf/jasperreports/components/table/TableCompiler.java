@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -61,6 +61,17 @@ public class TableCompiler implements ComponentCompiler
 		ColumnExpressionCollector columnCollector = new ColumnExpressionCollector(
 				collector, datasetCollector);
 		columnCollector.collectColumns(table.getColumns());
+		
+		RowExpressionCollector rowCollector = new RowExpressionCollector(datasetCollector);
+		rowCollector.collectRow(table.getTableHeader());
+		rowCollector.collectRow(table.getTableFooter());
+		rowCollector.collectGroupRows(table.getGroupHeaders());
+		rowCollector.collectGroupRows(table.getGroupFooters());
+		rowCollector.collectRow(table.getColumnHeader());
+		rowCollector.collectRow(table.getColumnFooter());
+		rowCollector.collectRow(table.getDetail());
+		
+		columnCollector.collectCell(table.getNoData());
 	}
 
 	@Override

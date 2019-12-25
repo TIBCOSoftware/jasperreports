@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,6 +24,7 @@
 package net.sf.jasperreports.phantomjs;
 
 import java.net.Inet4Address;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,6 +32,7 @@ import org.apache.commons.pool2.SwallowedExceptionListener;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -45,6 +47,7 @@ public class ProcessDirector
 	private int processStartTimeout;
 	private int idlePingInterval;
 	private int requestTimeout;
+	private List<PropertySuffix> options;
 	private ScriptManager scriptManager;
 	private Inet4Address listenAddress;
 	private GenericObjectPool<PhantomJSProcess> processPool;
@@ -72,6 +75,8 @@ public class ProcessDirector
 				log.error("Unable to determine an IPv4 loopback address");
 			}
 		}
+		
+		this.options = properties.getProperties(PhantomJS.PROPERTY_OPTIONS_PREFIX);
 		
 		processPool = createProcessPool(properties);
 	}
@@ -144,7 +149,12 @@ public class ProcessDirector
 	{
 		return listenAddress;
 	}
-	
+
+	public List<PropertySuffix> getOptions()
+	{
+		return options;
+	}
+
 	public String runRequest(String data)
 	{
 		PhantomJSProcess process = null;

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -196,6 +196,19 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 
 	
 	/**
+	 * Property that provides a default for the {@link #isUseBackgroundImageToAlign()} export configuration flag.
+	 */
+	@Property(
+			category = PropertyConstants.CATEGORY_EXPORT,
+			defaultValue = PropertyConstants.BOOLEAN_TRUE,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.IMAGE_ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_8_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN = HtmlExporter.HTML_EXPORTER_PROPERTIES_PREFIX + "use.background.image.to.align";
+
+	
+	/**
 	 * Returns a boolean value specifying whether the blank lines, that sometimes appear between rows, should be deleted. Sometimes page
 	 * break occurs before the entire page is filled with data (i.e. having a group with the <i>isStartNewPage</i> attribute set to true).
 	 * All the remaining empty space could be removed by setting this parameter to true.
@@ -361,4 +374,14 @@ public interface HtmlReportConfiguration extends ReportExportConfiguration
 		booleanDefault=false
 		)
 	public Boolean isConvertSvgToImage();
+	
+	
+	/**
+	 * @see #PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN
+	 */
+	@ExporterProperty(
+		value=PROPERTY_USE_BACKGROUND_IMAGE_TO_ALIGN, 
+		booleanDefault=true
+		)
+	public Boolean isUseBackgroundImageToAlign();
 }

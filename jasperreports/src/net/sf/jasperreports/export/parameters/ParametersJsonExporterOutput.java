@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -46,6 +46,7 @@ public class ParametersJsonExporterOutput extends ParametersWriterExporterOutput
 	 * 
 	 */
 	private HtmlResourceHandler fontHandler;
+	private HtmlResourceHandler resourceHandler;
 	
 	/**
 	 * 
@@ -88,10 +89,12 @@ public class ParametersJsonExporterOutput extends ParametersWriterExporterOutput
 						}
 					}
 
-					if (fontHandler == null)
+					if (fontHandler == null || resourceHandler == null)
 					{
 						File resourcesDir = new File(destFile.getParent(), destFile.getName() + "_files");
-						fontHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
+						FileHtmlResourceHandler defaultHandler = new FileHtmlResourceHandler(resourcesDir, resourcesDir.getName() + "/{0}");
+						fontHandler = fontHandler == null ? defaultHandler : fontHandler;
+						resourceHandler = resourceHandler == null ? defaultHandler : resourceHandler;
 					}
 				}
 			}
@@ -102,5 +105,11 @@ public class ParametersJsonExporterOutput extends ParametersWriterExporterOutput
 	public HtmlResourceHandler getFontHandler() 
 	{
 		return fontHandler;
+	}
+
+	@Override
+	public HtmlResourceHandler getResourceHandler() 
+	{
+		return resourceHandler;
 	}
 }

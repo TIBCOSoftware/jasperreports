@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,20 +23,14 @@
  */
 package net.sf.jasperreports.components.table;
 
-import net.sf.jasperreports.engine.JRBoxContainer;
-import net.sf.jasperreports.engine.JRElementGroup;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-
 /**
  * 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface Cell extends JRElementGroup, JRBoxContainer, JRPropertiesHolder
+public interface Cell extends BaseCell
 {
 
-	Integer getHeight();
-	
 	Integer getRowSpan();
 	
 }

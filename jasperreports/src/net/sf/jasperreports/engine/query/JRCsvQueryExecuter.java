@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -209,7 +209,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter
 			}
 			
 			String recordDelimiter = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER);
-			if (recordDelimiter != null) {
+			if (recordDelimiter != null && recordDelimiter.length() > 0) {
 				datasource.setRecordDelimiter(recordDelimiter);
 			}
 			

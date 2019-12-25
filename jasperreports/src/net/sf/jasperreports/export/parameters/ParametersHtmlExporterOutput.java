@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -93,6 +93,8 @@ public class ParametersHtmlExporterOutput extends ParametersWriterExporterOutput
 				imageHandler = new WebHtmlResourceHandler(imagesUri + "{0}");
 			}
 		}
+
+		resourceHandler = (HtmlResourceHandler)parameters.get(net.sf.jasperreports.engine.export.JRHtmlExporterParameter.RESOURCE_HANDLER);
 
 		StringBuffer sb = (StringBuffer)parameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STRING_BUFFER);
 		if (sb == null)

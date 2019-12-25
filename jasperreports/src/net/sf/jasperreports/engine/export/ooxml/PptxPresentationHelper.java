@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -28,6 +28,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.LengthUtil;
+import net.sf.jasperreports.engine.util.FileBufferedWriter;
 
 
 /**
@@ -35,24 +36,31 @@ import net.sf.jasperreports.engine.export.LengthUtil;
  */
 public class PptxPresentationHelper extends BaseHelper
 {
+	private FileBufferedWriter fontsWriter;
+	
 	/**
 	 * 
 	 */
-	public PptxPresentationHelper(JasperReportsContext jasperReportsContext, Writer writer)
+	public PptxPresentationHelper(JasperReportsContext jasperReportsContext, Writer writer, FileBufferedWriter fontsWriter)
 	{
 		super(jasperReportsContext, writer);
+		this.fontsWriter = fontsWriter;
 	}
 
 	/**
 	 *
 	 */
-	public void exportHeader()
+	public void exportHeader(boolean isEmbedFonts)
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
 		write("<p:presentation\n");
+		if (isEmbedFonts)
+		{
+			write(" embedTrueTypeFonts=\"1\"\n"); 
+		}
 		write(" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"\n"); 
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"\n"); 
-		write(" xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\" saveSubsetFonts=\"1\">\n");
+		write(" xmlns:p=\"http://schemas.openxmlformats.org/presentationml/2006/main\">\n");
 		write("<p:sldMasterIdLst><p:sldMasterId id=\"2147483648\" r:id=\"rIdSm\"/></p:sldMasterIdLst>\n");
 		write("<p:sldIdLst>\n");
 	}
@@ -75,6 +83,9 @@ public class PptxPresentationHelper extends BaseHelper
 		write("</p:sldIdLst>\n");
 		write("<p:sldSz cx=\"" + LengthUtil.emu(jasperPrint.getPageWidth()) + "\" cy=\"" + LengthUtil.emu(jasperPrint.getPageHeight()) + "\" type=\"custom\"/>\n");//FIXMEPART pptx does not work in batch mode
 		write("<p:notesSz cx=\"6858000\" cy=\"9144000\"/>\n");
+		write("<p:embeddedFontLst>\n");
+		fontsWriter.writeData(writer);
+		write("</p:embeddedFontLst>\n");
 		write("</p:presentation>\n");
 	}
 }

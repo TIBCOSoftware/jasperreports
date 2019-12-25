@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -64,7 +64,7 @@ package net.sf.jasperreports.engine;
  * from the data source:
  * <pre>
  *   &lt;field name="PersonName" class="java.lang.String"
- *     &lt;fieldDesciption>PERSON NAME&lt;/fieldDesciption&gt;
+ *     &lt;fieldDesciption&gt;PERSON NAME&lt;/fieldDesciption&gt;
  *   &lt;/field&gt;</pre>
  * The field description is less important than in previous versions of the library because
  * now even the field's name accepts dots, spaces, and other special characters.

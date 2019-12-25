@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,12 +23,13 @@
  */
 package net.sf.jasperreports.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.apache.commons.codec.binary.Base64InputStream;
-
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 /**
  * Utility class to decode Base64 encoded input stream to output stream 
  * or to Base64 encode input stream to output stream
@@ -48,9 +49,17 @@ public class Base64Util
 	 */
 	public static void decode(InputStream in, OutputStream out) throws IOException
 	{
-		Base64InputStream base64is = new Base64InputStream(in);
+		InputStream base64in = Base64.getMimeDecoder().wrap(in);
 
-		copy(base64is, out);
+		copy(base64in, out);
+	}
+	
+	public static byte[] decode(String data) throws IOException
+	{
+		ByteArrayInputStream input = new ByteArrayInputStream(data.getBytes(StandardCharsets.US_ASCII));
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		decode(input, out);
+		return out.toByteArray();
 	}
 	
 	/**
@@ -61,9 +70,20 @@ public class Base64Util
 	 */
 	public static void encode(InputStream in, OutputStream out) throws IOException
 	{
-		Base64InputStream base64is = new Base64InputStream(in, true, DEFAULT_LINE_LENGTH, DEFAULT_LINE_SEPARATOR);
-
-		copy(base64is, out);
+		OutputStream base64out = Base64.getMimeEncoder(DEFAULT_LINE_LENGTH, DEFAULT_LINE_SEPARATOR).wrap(out);
+	
+		copy(in, base64out);
+		
+		// need to close this here so that it adds base64 padding ('=' characters) at the end of the stream
+		base64out.close();
+	}
+	
+	public static String encode(byte[] data) throws IOException
+	{
+		ByteArrayInputStream input = new ByteArrayInputStream(data);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		encode(input, out);
+		return new String(out.toByteArray(), StandardCharsets.US_ASCII);
 	}
 	
 	/**

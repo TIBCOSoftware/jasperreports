@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -51,22 +51,16 @@ public class PptxZip extends FileBufferedZip
 	public PptxZip() throws IOException
 	{
 		presentationEntry = createEntry("ppt/presentation.xml");
-		addEntry(presentationEntry);
 		
 //		stylesEntry = createEntry("xl/styles.xml");
-//		addEntry(stylesEntry);
 		
 		relsEntry = createEntry("ppt/_rels/presentation.xml.rels");
-		addEntry(relsEntry);
 
 		contentTypesEntry = createEntry("[Content_Types].xml");
-		addEntry(contentTypesEntry);
 		
 		appEntry = createEntry("docProps/app.xml");
-		addEntry(appEntry);
 
 		coreEntry = createEntry("docProps/core.xml");
-		addEntry(coreEntry);
 
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/_rels/xml.rels");
 		addEntry("ppt/slideLayouts/_rels/slideLayout1.xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slideLayouts/_rels/slideLayout1.xml.rels");
@@ -127,11 +121,7 @@ public class PptxZip extends FileBufferedZip
 	 */
 	public ExportZipEntry addSlideMaster()
 	{
-		ExportZipEntry slideMasterEntry = createEntry("ppt/slideMasters/slideMaster1.xml");
-
-		exportZipEntries.add(slideMasterEntry);
-
-		return slideMasterEntry;
+		return createEntry("ppt/slideMasters/slideMaster1.xml");
 	}
 	
 	/**
@@ -139,11 +129,7 @@ public class PptxZip extends FileBufferedZip
 	 */
 	public ExportZipEntry addSlide(int index)
 	{
-		ExportZipEntry slideEntry = createEntry("ppt/slides/slide" + index + ".xml");
-
-		exportZipEntries.add(slideEntry);
-
-		return slideEntry;
+		return createEntry("ppt/slides/slide" + index + ".xml");
 	}
 	
 	/**
@@ -151,22 +137,14 @@ public class PptxZip extends FileBufferedZip
 	 */
 	public ExportZipEntry addSlideMasterRels()
 	{
-		ExportZipEntry slideMasterRelsEntry = createEntry("ppt/slideMasters/_rels/slideMaster1.xml.rels");
-
-		exportZipEntries.add(slideMasterRelsEntry);
-
-		return slideMasterRelsEntry;
+		return createEntry("ppt/slideMasters/_rels/slideMaster1.xml.rels");
 	}
 	/**
 	 * 
 	 */
 	public ExportZipEntry addSlideRels(int index)
 	{
-		ExportZipEntry slideRelsEntry = createEntry("ppt/slides/_rels/slide" + index + ".xml.rels");
-
-		exportZipEntries.add(slideRelsEntry);
-
-		return slideRelsEntry;
+		return createEntry("ppt/slides/_rels/slide" + index + ".xml.rels");
 	}
 	
 }

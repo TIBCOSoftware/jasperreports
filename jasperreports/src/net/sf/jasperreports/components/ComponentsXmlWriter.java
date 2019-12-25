@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -43,12 +43,15 @@ import net.sf.jasperreports.components.sort.SortComponent;
 import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
+import net.sf.jasperreports.components.table.BaseCell;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.GroupCell;
+import net.sf.jasperreports.components.table.GroupRow;
+import net.sf.jasperreports.components.table.Row;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
@@ -519,9 +522,40 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			column.visitColumn(columnWriter);
 		}
 		
+		if (isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_6_11_0))
+		{
+			writeTableRow(componentElement, table.getTableHeader(), "tableHeader", reportWriter);
+			writeTableRow(componentElement, table.getColumnHeader(), "columnHeader", reportWriter);
+			writeGroupRows(componentElement, table.getGroupHeaders(), "groupHeader", reportWriter);
+			writeTableRow(componentElement, table.getDetail(), "detail", reportWriter);
+			writeGroupRows(componentElement, table.getGroupFooters(), "groupFooter", reportWriter);
+			writeTableRow(componentElement, table.getColumnFooter(), "columnFooter", reportWriter);
+			writeTableRow(componentElement, table.getTableFooter(), "tableFooter", reportWriter);
+			
+			writeTableBaseCell(componentElement, table.getNoData(), "noData", reportWriter);
+		}
+
 		writer.closeElement();
 	}
 	
+	protected void writeTableBaseCell(JRComponentElement componentElement, BaseCell cell, String name, 
+			JRXmlWriter reportWriter) throws IOException
+	{
+		if (cell != null)
+		{
+			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+			writer.startElement(name);
+			reportWriter.writeStyleReferenceAttr(cell);
+			writer.addAttribute("height", cell.getHeight());
+			
+			reportWriter.writeProperties(cell);
+			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
+			reportWriter.writeChildElements(cell);
+			
+			writer.closeElement();//cell
+		}
+	}
+
 	protected void writeGroupCells(JRComponentElement componentElement, List<GroupCell> cells, String name, 
 			JRXmlWriter reportWriter) throws IOException
 	{
@@ -555,6 +589,41 @@ public class ComponentsXmlWriter extends AbstractComponentXmlWriter
 			}
 			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			reportWriter.writeChildElements(cell);
+			
+			writer.closeElement();//cell
+		}
+	}
+
+	protected void writeGroupRows(JRComponentElement componentElement, List<GroupRow> rows, String name, 
+			JRXmlWriter reportWriter) throws IOException
+	{
+		if (rows != null)
+		{
+			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+			for (GroupRow groupRow : rows)
+			{
+				writer.startElement(name);
+				writer.addAttribute("groupName", groupRow.getGroupName());
+				writeTableRow(componentElement, groupRow.getRow(), "row", reportWriter);
+				writer.closeElement();
+			}
+		}
+	}
+	
+	protected void writeTableRow(JRComponentElement componentElement, Row row, String name, 
+			JRXmlWriter reportWriter) throws IOException
+	{
+		if (row != null)
+		{
+			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+			writer.startElement(name);
+			
+			writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
+				JRXmlWriter.JASPERREPORTS_NAMESPACE, 
+				row.getPrintWhenExpression(),
+				false, 
+				componentElement,
+				reportWriter);
 			
 			writer.closeElement();//cell
 		}

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine.type;
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public enum JsonOperatorEnum implements NamedEnum 
+public enum JsonOperatorEnum implements NamedValueEnum<String> 
 {
 	LT("<", "Lower than"),
 	LE("<=", "Lower or equal"),
@@ -45,9 +45,7 @@ public enum JsonOperatorEnum implements NamedEnum
 		this.name = name;
 	}
 
-	/**
-	 *
-	 */
+	@Override
 	public final String getValue() {
 		return value;
 	}

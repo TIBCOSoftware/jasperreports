@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -49,6 +49,7 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	public static final JRTextAttribute PDF_FONT_NAME = new JRTextAttribute("PDF_FONT_NAME");
 	public static final JRTextAttribute PDF_ENCODING = new JRTextAttribute("PDF_ENCODING");
 	public static final JRTextAttribute IS_PDF_EMBEDDED = new JRTextAttribute("IS_PDF_EMBEDDED");
+	public static final JRTextAttribute FONT_SIZE = new JRTextAttribute("FONT_SIZE");
 	
 	/**
 	 *

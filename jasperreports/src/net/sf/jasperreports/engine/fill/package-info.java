@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -80,7 +80,7 @@
  * in pixels. They can be lines, rectangles, ellipses, images, or text, with various style 
  * settings corresponding to their type. 
  * </p>
- * <h3Filling Order</h3>
+ * <h3>Filling Order</h3>
  * JasperReports templates allow the detail section to be smaller than the specified page 
  * width so that the output can be structured into multiple columns, like a newspaper. 
  * <p>

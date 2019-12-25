@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -109,7 +109,7 @@ public final class JRFillHyperlinkHelper
 		}
 		
 		Boolean hyperlinkWhen = (Boolean) expressionEvaluator.evaluate(hyperlink.getHyperlinkWhenExpression(), evaluationType);
-		if (hyperlink.getHyperlinkWhenExpression() != null && Boolean.TRUE.equals(hyperlinkWhen))
+		if (hyperlink.getHyperlinkWhenExpression() != null && !Boolean.TRUE.equals(hyperlinkWhen))
 		{
 			return null;
 		}

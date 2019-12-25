@@ -2,7 +2,88 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.8.0 (2018-0x-xx)
+JasperReports 6.11.0 (2019-1x-xx)
+---------------------------------------------
+
+- support for noData cell added in the table component to allow displaying custom content when 
+there are no detail rows in the table data source;
+
+- support for printWhenExpression added to table component sections to allow suppressing entire 
+rows in the table and not only individual cells;
+
+- isStretchWithOverflow boolean property of text fields has been deprecated and replaced by the 
+new textAdjust property which adds a third option to scale down the font size in order for the 
+text content to fit the design size of the text field element;
+
+- implemented server side rendering of Javascript visualizations using the headless Google Chrome 
+browser, to replace the now deprecated PhantomJS and SlimerJS based feature;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.10.0 (2019-09-26)
+---------------------------------------------
+
+- support for image rotation;
+
+- various dependencies upgrades including Apache Ant 1.10.6, Jackson 2.9.9, 
+Bouncy Castle 1.62 and jQuery 3.4.1;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.9.0 (2019-06-24)
+---------------------------------------------
+
+- upgrade to Hibernate 5.4.1.Final;
+
+- new export configurations added for embedding fonts in DOCX and PPTX exports;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.8.1 (2019-05-10)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.8.0 (2019-03-25)
+---------------------------------------------
+
+- support for Java 9 up to Java 11;
+
+- build number added to the manifest file inside the main library JAR and the other optional JAR files;
+
+- various dependencies upgrades including Apache Commons Collections 4.2, Castor 1.4.1, POI 4.0.1, 
+Spring 5.1.4, jQuery 3.3.1 and RequireJS 2.3.6;
+
+- new random value data adapter and data source for easy report testing;
+
+- description property added to dataset variables;
+
+- added support for generating a slide master in the PPTX documents with the possibility to include 
+PPTX built-in fields for current slide number and current date/time;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.7.1 (2019-03-06)
 ---------------------------------------------
 
 - minor bug fixes and improvements;

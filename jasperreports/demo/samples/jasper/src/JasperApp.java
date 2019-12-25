@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -295,7 +295,7 @@ public class JasperApp extends AbstractSampleApp
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xls.metadata.xls");
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.xls");
 
 		Map<String, String> dateFormats = new HashMap<String, String>();
 		dateFormats.put("EEE, MMM d, yyyy", "ddd, mmm d, yyyy");

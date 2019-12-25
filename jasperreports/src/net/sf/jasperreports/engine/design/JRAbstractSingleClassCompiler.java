@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -54,10 +54,14 @@ public abstract class JRAbstractSingleClassCompiler extends JRAbstractClassCompi
 		StringBuilder errors = new StringBuilder();
 		for (int i = 0; i < sourceFiles.length; ++i)
 		{
-			errors.append(compileClass(sourceFiles[i], classpath));
+			String classErrors = compileClass(sourceFiles[i], classpath);
+			if (classErrors != null)
+			{
+				errors.append(classErrors);
+			}
 		}
 		
-		return errors.toString();
+		return errors.length() > 0 ? errors.toString() : null;
 	}
 	
 }

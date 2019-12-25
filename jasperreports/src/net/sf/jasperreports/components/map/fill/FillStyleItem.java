@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,13 +30,14 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.fill.FillItem;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class FillStyleItem extends FillItem
 {
@@ -47,11 +48,12 @@ public class FillStyleItem extends FillItem
 	 *
 	 */
 	public FillStyleItem(
+		FillContextProvider fillContextProvider,
 		Item item, 
 		JRFillObjectFactory factory
 		)
 	{
-		super(item, factory);
+		super(fillContextProvider, item, factory);
 	}
 
 	@Override

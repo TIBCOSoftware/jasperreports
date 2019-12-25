@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class FillPlaceItemData extends FillItemData
 {
@@ -47,7 +47,7 @@ public class FillPlaceItemData extends FillItemData
 	}
 	
 	@Override
-	public FillItem getFillItem(Item item, JRFillObjectFactory factory){
-		return new FillPlaceItem(item, factory);
-	}
+	public FillItem getFillItem(FillContextProvider fillContextProvider, Item item, JRFillObjectFactory factory){
+		return new FillPlaceItem(fillContextProvider, item, factory);
+	}	
 }

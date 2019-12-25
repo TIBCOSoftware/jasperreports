@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -22,6 +22,8 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 package net.sf.jasperreports.components.barcode4j;
+
+import java.awt.Dimension;
 
 import org.krysalis.barcode4j.BaselineAlignment;
 import org.krysalis.barcode4j.ChecksumMode;
@@ -232,6 +234,49 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 		{
 			dataMatrixBean.setShape(SymbolShapeHint.byName(dataMatrix.getShape()));
 		}
+		
+		Dimension minSymbolDimension = null; 
+		if(dataMatrix.getMinSymbolWidth() != null)
+		{
+			if(dataMatrix.getMinSymbolHeight() != null)
+			{
+				minSymbolDimension = new Dimension(dataMatrix.getMinSymbolWidth(), dataMatrix.getMinSymbolHeight());
+			}
+			else
+			{
+				minSymbolDimension = new Dimension(dataMatrix.getMinSymbolWidth(), dataMatrix.getMinSymbolWidth());
+			}
+		}
+		else if(dataMatrix.getMinSymbolHeight() != null)
+		{
+			minSymbolDimension = new Dimension(dataMatrix.getMinSymbolHeight(), dataMatrix.getMinSymbolHeight());
+		}
+		if(minSymbolDimension != null)
+		{
+			dataMatrixBean.setMinSize(minSymbolDimension);
+		}	
+		
+		Dimension maxSymbolDimension = null; 
+		if(dataMatrix.getMaxSymbolWidth() != null)
+		{
+			if(dataMatrix.getMaxSymbolHeight() != null)
+			{
+				maxSymbolDimension = new Dimension(dataMatrix.getMaxSymbolWidth(), dataMatrix.getMaxSymbolHeight());
+			}
+			else
+			{
+				maxSymbolDimension = new Dimension(dataMatrix.getMaxSymbolWidth(), dataMatrix.getMaxSymbolWidth());
+			}
+		}
+		else if(dataMatrix.getMaxSymbolHeight() != null)
+		{
+			maxSymbolDimension = new Dimension(dataMatrix.getMaxSymbolHeight(), dataMatrix.getMaxSymbolHeight());
+		}
+		if(maxSymbolDimension != null)
+		{
+			dataMatrixBean.setMaxSize(maxSymbolDimension);
+		}	
+		
 		evaluateBarcodeRenderable(dataMatrix);
 	}
 

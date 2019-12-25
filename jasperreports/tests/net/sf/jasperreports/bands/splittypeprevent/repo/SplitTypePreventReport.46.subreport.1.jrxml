@@ -3,7 +3,7 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10"/>
 	<detail>
 		<band height="20" splitType="Prevent">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="0" width="555" height="20" uuid="c475c968-5a05-4331-8147-5fc24a48070b"/>
 				<textElement>
 					<font size="24"/>

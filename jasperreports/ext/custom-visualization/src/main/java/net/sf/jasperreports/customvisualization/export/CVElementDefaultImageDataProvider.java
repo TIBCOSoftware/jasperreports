@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -42,9 +42,17 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 
 	private CVElementImageDataProvider cvElementPhantomJSImageProvider = new CVElementPhantomJSImageDataProvider();
 	private JRPhantomCVElementImageDataProvider jrPhantomCVElementImageDataProvider = new JRPhantomCVElementImageDataProvider();
+	private ChromeCVElementImageDataProvider chromeCVElementImageDataProvider = new ChromeCVElementImageDataProvider();
 
 	@Override
 	public byte[] getImageData(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws Exception {
+		if (chromeCVElementImageDataProvider.isEnabled(jasperReportsContext)) {
+			if (log.isDebugEnabled()) {
+				log.debug("using JR chrome");
+			}
+			return chromeCVElementImageDataProvider.getImageData(jasperReportsContext, element);
+		}
+		
 		if (jrPhantomCVElementImageDataProvider.isEnabled()) {
 			if (log.isDebugEnabled()) {
 				log.debug("Using JR PhantomJS to produce custom visualization image data!");
@@ -61,6 +69,6 @@ public class CVElementDefaultImageDataProvider implements CVElementImageDataProv
 			return cvElementPhantomJSImageProvider.getImageData(jasperReportsContext, element);
 		}
 
-		throw new JRRuntimeException("No PhantomJS executable configured!");
+		throw new JRRuntimeException("Chrome and/or PhantomJS not properly configured for server side rendering");
 	}
 }

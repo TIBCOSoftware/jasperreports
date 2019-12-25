@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -99,4 +99,9 @@ public class CVConstants
 	public static final boolean CV_PNG_USE_JR_TO_RENDER_DEFAULT_VALUE = true;
 
 	public static final String PROPERTY_ON_ERROR_TYPE = "onErrorType";
+
+	/**
+	 * Boolean property to produce images instead of generic elements
+	 */
+	public static final String PROPERTY_GENERATE_IMAGE = CV_PREFIX + "generate.image";
 }

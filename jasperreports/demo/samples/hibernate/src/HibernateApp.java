@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
@@ -55,7 +54,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -96,7 +94,8 @@ public class HibernateApp extends AbstractSampleApp
 	 */
 	public void fill() throws JRException
 	{
-		Session session = createSession();
+		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 
 		Map<String, Object> params = getParameters(session);
@@ -115,7 +114,7 @@ public class HibernateApp extends AbstractSampleApp
 		}
 		
 		transaction.rollback();
-		session.close();
+		sessionFactory.close();
 	}
 	
 	
@@ -436,13 +435,6 @@ public class HibernateApp extends AbstractSampleApp
 		parameters.put("CityFilter", cityFilter);
 		parameters.put("OrderClause", "city");
 		return parameters;
-	}
-
-	private static Session createSession()
-	{
-		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-		
-		return sessionFactory.openSession();
 	}
 
 }

@@ -4,7 +4,7 @@
 	<field name="image" class="java.io.InputStream"/>
 	<detail>
 		<band height="55" splitType="Prevent">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="0" width="160" height="25" uuid="0a5199ef-428c-4a3f-9862-c8632622f67a"/>
 				<textFieldExpression><![CDATA["record " + $V{REPORT_COUNT} + " on page " + $V{PAGE_NUMBER}
 					+ " aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd aabbccdd"]]></textFieldExpression>

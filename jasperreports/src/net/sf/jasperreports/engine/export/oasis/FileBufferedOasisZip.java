@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @deprecated Replaced by {@link OdsZip} and {@link OdtZip}.
  */
 public class FileBufferedOasisZip extends OasisZip
 {
@@ -54,7 +55,11 @@ public class FileBufferedOasisZip extends OasisZip
 	@Override
 	public ExportZipEntry createEntry(String name)
 	{
-		return new FileBufferedZipEntry(name);
+		ExportZipEntry entry = new FileBufferedZipEntry(name);
+		
+		addEntry(entry);
+		
+		return entry;
 	}
 	
 }

@@ -613,6 +613,16 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="rotation" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="None"/>
+      <enumeration value="Left"/>
+      <enumeration value="Right"/>
+      <enumeration value="UpsideDown"/>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="hAlign" use="optional">
     <simpleType>
      <restriction base="string">

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.annotations.properties.Property;
@@ -41,6 +42,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -50,6 +52,8 @@ import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledText.Run;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 import net.sf.jasperreports.engine.util.MarkupProcessor;
 import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
@@ -75,6 +79,16 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			)
 	public static final String PROPERTY_CONSUME_SPACE_ON_OVERFLOW = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "consume.space.on.overflow";
+
+	@Property(
+			category = PropertyConstants.CATEGORY_FILL,
+			defaultValue = "0.5",
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+			sinceVersion = PropertyConstants.VERSION_6_11_0,
+			valueType = Float.class
+			)
+	public static final String PROPERTY_SCALE_FONT_STEP_LIMIT = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "scale.font.step.limit";
 
 	/**
 	 *
@@ -116,6 +130,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private boolean dynamicConsumeSpaceOnOverflow;
 	private Boolean defaultKeepFullText;
 	private boolean dynamicKeepFullText;
+	private Float defaultScaleFontStepLimit;
+	private boolean dynamicScaleFontStepLimit;
 
 	/**
 	 *
@@ -133,6 +149,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		this.dynamicConsumeSpaceOnOverflow = hasDynamicProperty(PROPERTY_CONSUME_SPACE_ON_OVERFLOW);
 		this.dynamicKeepFullText = hasDynamicProperty(JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT);
+		this.dynamicScaleFontStepLimit = hasDynamicProperty(PROPERTY_SCALE_FONT_STEP_LIMIT);
 		
 		this.fillStyleObjectsMap = new HashMap<JRStyle, JRFillTextElement.FillStyleObjects>();
 	}
@@ -149,6 +166,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		this.dynamicConsumeSpaceOnOverflow = textElement.dynamicConsumeSpaceOnOverflow;
 		this.defaultKeepFullText = textElement.defaultKeepFullText;
 		this.dynamicKeepFullText = textElement.dynamicKeepFullText;
+		this.defaultScaleFontStepLimit = textElement.defaultScaleFontStepLimit;
+		this.dynamicScaleFontStepLimit = textElement.dynamicScaleFontStepLimit;
 
 		this.fillStyleObjectsMap = textElement.fillStyleObjectsMap;
 	}
@@ -594,7 +613,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			return;
 		}
 
-		if (getTextEnd() == tmpStyledText.getText().length())
+		int fullTextLength = tmpStyledText.getText().length();
+		if (getTextEnd() == fullTextLength)
 		{
 			return;
 		}
@@ -608,6 +628,96 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			canOverflow
 			);
 		
+		if (
+			scaleFontToFit()
+			&& measuredText.getTextOffset() < fullTextLength
+			)
+		{
+			// work with a clone of processed styled text so that we don't
+			// damage the cached global style attributes that are going to be reused
+			// by subsequent print text elements issued from this fill element
+			JRStyledText tmpProcessedText = processedText.cloneText();
+			
+			JRMeasuredText tmpMeasuredText = measuredText;
+			JRMeasuredText lastGoodMeasuredText = measuredText;
+			JRMeasuredText lastBadMeasuredText = measuredText;
+
+			float factor = 1f;
+			float lastGoodFactor = 1f;
+			float lastBadFactor = 1f;
+			float delta = 1f;
+			int deltaSign = -1;
+			int oldDeltaSign = -1;
+			float oldFontSizeMaxDiff = 0;
+			float scaleFontStepLimit = scaleFontStepLimit();
+
+			boolean keepMeasuring = true;
+
+			while (keepMeasuring)
+			{
+				delta = 0.5f * delta;
+				
+				if (tmpMeasuredText.getTextOffset() < fullTextLength)
+				{
+					lastBadMeasuredText = tmpMeasuredText;
+					lastBadFactor = factor;
+
+					deltaSign = -1;
+					factor = factor - delta;
+				}
+				else
+				{
+					lastGoodMeasuredText = tmpMeasuredText;
+					lastGoodFactor = factor;
+
+					deltaSign = 1;
+					factor = factor + delta;
+				}
+
+				float newFontSizeMaxDiff = alterFontSizes(tmpProcessedText, factor, scaleFontStepLimit);
+				keepMeasuring = 
+					newFontSizeMaxDiff != 0
+					&& (newFontSizeMaxDiff != scaleFontStepLimit || deltaSign * newFontSizeMaxDiff != - oldDeltaSign * oldFontSizeMaxDiff);
+				if (keepMeasuring)
+				{
+					tmpMeasuredText = textMeasurer.measure(
+						tmpProcessedText,
+						getTextEnd(),
+						availableStretchHeight,
+						canOverflow
+						);
+				}
+				
+				oldDeltaSign = deltaSign;
+				oldFontSizeMaxDiff = newFontSizeMaxDiff;
+			}
+
+			if (lastGoodFactor == 1f)
+			{
+				lastGoodFactor = lastBadFactor; // fit as much text as we can, if cannot fit all
+				measuredText = lastBadMeasuredText;
+			}
+			else
+			{
+				measuredText = lastGoodMeasuredText;
+			}
+			
+			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
+			{
+				// scale font sizes in styled text according to calculated factor, but on a clone of the styled text;
+				// not doing it on existing styled text instance as it would damage the global style text attributes used
+				// by the last run, which are cached and reused for print text elements issued from this fill element
+				styledText = styledText.cloneText();
+				alterFontSizes(styledText, lastGoodFactor, scaleFontStepLimit);
+			}
+
+			if (providerStyle == null)
+			{
+				providerStyle = new JRBaseStyle();
+			}
+			providerStyle.setFontSize(scaleFontSize(getFontsize(), lastGoodFactor, scaleFontStepLimit));
+		}
+		
 		isLeftToRight = measuredText.isLeftToRight();
 		setTextWidth(measuredText.getTextWidth());
 		setTextHeight(measuredText.getTextHeight());
@@ -618,8 +728,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			//FIXME truncating to int here seems wrong as the text measurer compares 
 			// the exact text height against the available height
 			int elementTextHeight = (int) getTextHeight() + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
-			boolean textEnded = measuredText.getTextOffset() >= tmpStyledText.getText().length();
-			if (textEnded || !canOverflow || !isConsumeSpaceOnOverflow())
+			if (
+				measuredText.getTextOffset() >= fullTextLength //text ended 
+				|| !canOverflow 
+				|| !isConsumeSpaceOnOverflow()
+				)
 			{
 				setPrepareHeight(elementTextHeight);
 			}
@@ -650,6 +763,52 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setLeadingOffset(measuredText.getLeadingOffset());
 	}
 	
+	private static float scaleFontSize(float fontSize, float factor, float scaleFontStepLimit)
+	{
+		float newFontSize = (int)(100 * (Math.round(factor * fontSize / scaleFontStepLimit) * scaleFontStepLimit)) / 100f; // we round to step limit and round to 2 decimals
+		newFontSize = newFontSize < scaleFontStepLimit ? scaleFontStepLimit : newFontSize;
+		return newFontSize;
+	}
+	
+	private static float alterFontSizes(JRStyledText styledText, float factor, float scaleFontStepLimit)
+	{
+		float fontSizeMaxDiff = 0;
+		if (styledText != null && styledText.length() != 0)
+		{
+			fontSizeMaxDiff = alterFontSize(styledText.getGlobalAttributes(), factor, scaleFontStepLimit, fontSizeMaxDiff);
+			
+			List<Run> runs = styledText.getRuns();
+			for (Run run : runs)
+			{
+				fontSizeMaxDiff = alterFontSize(run.attributes, factor, scaleFontStepLimit, fontSizeMaxDiff);
+			}
+			styledText.append(""); // just to reset internal caches
+		}
+		return fontSizeMaxDiff;
+	}
+
+	private static float alterFontSize(Map<Attribute, Object> attributes, float factor, float scaleFontStepLimit, float fontSizeMaxDiff)
+	{
+		Float originalFontSize = (Float)attributes.get(JRTextAttribute.FONT_SIZE);
+		if (originalFontSize == null)
+		{
+			originalFontSize = (Float)attributes.get(TextAttribute.SIZE);
+			if (originalFontSize != null)
+			{
+				//keep the original font size, if present
+				attributes.put(JRTextAttribute.FONT_SIZE, originalFontSize);
+			}
+		}
+		if (originalFontSize != null)
+		{
+			Float newFontSize = scaleFontSize(originalFontSize, factor, scaleFontStepLimit);
+			Float oldFontSize = (Float)attributes.get(TextAttribute.SIZE);
+			fontSizeMaxDiff = Math.max(Math.abs(newFontSize - oldFontSize), fontSizeMaxDiff);
+			attributes.put(TextAttribute.SIZE, newFontSize);
+		}
+		return fontSizeMaxDiff;
+	}
+
 	protected boolean isConsumeSpaceOnOverflow()
 	{
 		if (defaultConsumeSpaceOnOverflow == null)
@@ -678,6 +837,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 //	}
 	
 	protected abstract boolean canOverflow();
+
+	protected abstract boolean scaleFontToFit();
 
 
 	@Override
@@ -1068,6 +1229,29 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			}
 		}
 		return keepFullText;
+	}
+	
+	protected float scaleFontStepLimit()
+	{
+		if (defaultScaleFontStepLimit == null)
+		{
+			defaultScaleFontStepLimit = filler.getPropertiesUtil().getFloatProperty(
+					PROPERTY_SCALE_FONT_STEP_LIMIT, 0.5f,
+					// manually falling back to report properties as getParentProperties() is null for textElement
+					parent, filler.getMainDataset());//TODO
+		}
+		
+		float scaleFontStepLimit = defaultScaleFontStepLimit;
+		if (dynamicScaleFontStepLimit)
+		{
+			String scaleFontStepLimitProp = getDynamicProperties().getProperty(
+					PROPERTY_SCALE_FONT_STEP_LIMIT);
+			if (scaleFontStepLimitProp != null)
+			{
+				scaleFontStepLimit = JRPropertiesUtil.asFloat(scaleFontStepLimitProp);
+			}
+		}
+		return scaleFontStepLimit;
 	}
 	
 	protected void setPrintText(JRPrintText printText, String text)

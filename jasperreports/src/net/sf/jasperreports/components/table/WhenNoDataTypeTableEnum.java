@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -36,6 +36,11 @@ public enum WhenNoDataTypeTableEnum implements NamedEnum
 	 * Specifies that in case of empty datasources, the table output will be blank.
 	 */
 	BLANK("Blank"),
+
+	/**
+	 * Specifies that in case of empty datasources, the table output will be blank.
+	 */
+	NO_DATA_CELL("NoDataCell"),
 
 	/**
 	 * Specifies that in case of empty datasources, all table sections except the detail will displayed.

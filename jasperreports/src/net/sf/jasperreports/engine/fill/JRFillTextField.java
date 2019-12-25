@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.Pair;
 
@@ -128,14 +129,31 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #getTextAdjust()}.
+	 */
 	@Override
 	public boolean isStretchWithOverflow()
 	{
-		return ((JRTextField)parent).isStretchWithOverflow();
+		return getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #setTextAdjust(TextAdjustEnum)}.
+	 */
+	@Override
+	public void setStretchWithOverflow(boolean isStretchWithOverflow)
+	{
 	}
 
 	@Override
-	public void setStretchWithOverflow(boolean isStretchWithOverflow)
+	public TextAdjustEnum getTextAdjust()
+	{
+		return ((JRTextField)parent).getTextAdjust();
+	}
+
+	@Override
+	public void setTextAdjust(TextAdjustEnum textAdjust)
 	{
 	}
 
@@ -1088,10 +1106,18 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	@Override
 	protected boolean canOverflow()
 	{
-		return isStretchWithOverflow()
-				&& getRotationValue().equals(RotationEnum.NONE)
-				&& isEvaluateNow()
-				&& filler.isBandOverFlowAllowed();
+		return 
+			getTextAdjust() == TextAdjustEnum.STRETCH_HEIGHT
+			&& getRotationValue() == RotationEnum.NONE
+			&& isEvaluateNow()
+			&& filler.isBandOverFlowAllowed();
+	}
+
+
+	@Override
+	protected boolean scaleFontToFit()
+	{
+		return getTextAdjust() == TextAdjustEnum.SCALE_FONT;
 	}
 	
 }

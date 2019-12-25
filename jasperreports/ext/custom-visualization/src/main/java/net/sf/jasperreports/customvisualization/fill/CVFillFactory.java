@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,6 +27,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.customvisualization.CVComponent;
 import net.sf.jasperreports.customvisualization.CVConstants;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentFillFactory;
 import net.sf.jasperreports.engine.component.FillComponent;
@@ -40,7 +41,15 @@ public class CVFillFactory implements ComponentFillFactory, Serializable
 	@Override
 	public FillComponent toFillComponent(Component component, JRFillObjectFactory factory)
 	{
-		return new CVFillComponent((CVComponent) component, factory);
+		JRPropertiesUtil properties = JRPropertiesUtil.getInstance(factory.getFiller().getJasperReportsContext());
+		boolean generateImage = properties.getBooleanProperty(CVConstants.PROPERTY_GENERATE_IMAGE);
+
+		CVComponent cvComponent = (CVComponent) component;
+		FillComponent fillComponent = generateImage ?
+				new CVFillImage(cvComponent, factory) :
+				new CVFillComponent(cvComponent, factory);
+
+		return fillComponent;
 	}
 
 	@Override

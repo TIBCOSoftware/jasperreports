@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -80,6 +80,15 @@ public class CVElementImageProvider
 		JasperReportsContext jasperReportsContext, 
 		JRGenericPrintElement element) throws JRException
 	{
+		JRPrintImage printImage = createPrintImage(element);
+		Renderable renderable = createRenderable(element, jasperReportsContext);
+		printImage.setRenderer(renderable);
+
+		return printImage;
+	}
+
+	public JRPrintImage createPrintImage(JRGenericPrintElement element)
+	{
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 
 		printImage.setUUID(element.getUUID());
@@ -98,15 +107,22 @@ public class CVElementImageProvider
 
 		//printImage.setOnErrorType(OnErrorTypeEnum.BLANK);
 
+		return printImage;
+	}
+
+	public Renderable createRenderable(
+			JRGenericPrintElement element,
+			JasperReportsContext jasperReportsContext) throws JRException
+	{
 		Renderable cacheRenderer = null;
-		
+
 		if (element.getParameterValue(CVPrintElement.CONFIGURATION) != null)
 		{
 			JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-		
+
 			boolean renderAsPng = CVUtils.isRenderAsPng(element);
 			String cacheKey = !renderAsPng ? CVPrintElement.PARAMETER_SVG_CACHE_RENDERER : CVPrintElement.PARAMETER_PNG_CACHE_RENDERER;
-			
+
 			cacheRenderer = (Renderable) element.getParameterValue(cacheKey);
 			if (cacheRenderer == null)
 			{
@@ -128,7 +144,7 @@ public class CVElementImageProvider
 						renderer.setAntiAlias(propUtil.getBooleanProperty(element, CVConstants.CV_PNG_ANTIALIAS, CVConstants.CV_PNG_ANTIALIAS_DEFAULT_VALUE));
 						cacheRenderer = renderer;
 					}
-    					
+
 				}
 				catch (Exception e)
 				{
@@ -139,18 +155,16 @@ public class CVElementImageProvider
 
 					cacheRenderer = RendererUtil.getInstance(jasperReportsContext).handleImageError(e,
 							element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE) == null
-								? CVPrintElement.DEFAULT_ON_ERROR_TYPE
-								: OnErrorTypeEnum.getByName((String) element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE))
-							);
+									? CVPrintElement.DEFAULT_ON_ERROR_TYPE
+									: OnErrorTypeEnum.getByName((String) element.getParameterValue(CVPrintElement.PARAMETER_ON_ERROR_TYPE))
+					);
 				}
 
 				element.setParameterValue(cacheKey, cacheRenderer);
 			}
 		}
 
-		printImage.setRenderer(cacheRenderer);
-
-		return printImage;
+		return cacheRenderer;
 	}
 
 }

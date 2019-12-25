@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -131,6 +131,7 @@ import net.sf.jasperreports.engine.part.PartComponentsEnvironment;
 import net.sf.jasperreports.engine.part.PartEvaluationTime;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.PartEvaluationTimeType;
@@ -2185,8 +2186,8 @@ public class JRVerifier
 				addBrokenRule("Chart datasets with dataset run cannont have Column or Page increment type.", dataset);
 			}
 
-			ResetTypeEnum resetType = dataset.getResetTypeValue();
-			if (resetType == ResetTypeEnum.PAGE || resetType == ResetTypeEnum.COLUMN)
+			DatasetResetTypeEnum resetType = dataset.getDatasetResetType();
+			if (resetType == DatasetResetTypeEnum.PAGE || resetType == DatasetResetTypeEnum.COLUMN)
 			{
 				addBrokenRule("Chart datasets with dataset run cannont have Column or Page reset type.", dataset);
 			}

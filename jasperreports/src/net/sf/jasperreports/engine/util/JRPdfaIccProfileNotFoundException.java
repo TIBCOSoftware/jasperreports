@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -52,9 +52,9 @@ import net.sf.jasperreports.export.PdfExporterConfiguration;
  * 			<li><a href="http://www.adobe.com/support/downloads/iccprofiles/iccprofiles_win.html">http://www.adobe.com/support/downloads/iccprofiles/iccprofiles_win.html</a></li>
  *		</ul> 
  * </li>
- * <li>Ifra profiles for newspaper publishing:
+ * <li>ICC profiles for standardised newspaper printing:
  * 		<ul>
- *			<li><a href="http://www.ifra.com/website/website.nsf/html/CONT_CONS_DL?OpenDocument&CTDL&xxx&">http://www.ifra.com/website/website.nsf/html/CONT_CONS_DL?OpenDocument&CTDL&xxx&</a></li>
+ *			<li><a href="https://www.wan-ifra.org/reports/1997/07/01/icc-profiles-for-standardised-newspaper-printing">https://www.wan-ifra.org/reports/1997/07/01/icc-profiles-for-standardised-newspaper-printing</a></li>
  * 		</ul> 		
  * </li>
  * </ul>

@@ -60,7 +60,7 @@
 	</pageHeader>
 	<detail>
 		<band height="32" splitType="Stretch">
-			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+			<textField textAdjust="StretchHeight" hyperlinkType="LocalAnchor">
 				<reportElement style="Sans_Bold" positionType="Float" x="50" y="0" width="100" height="15" isRemoveLineWhenBlank="true" uuid="db8b68c6-4430-4199-8967-3ab5c077cb56">
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -80,7 +80,7 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[___________________________________________________]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor" evaluationTime="Auto">
+			<textField textAdjust="StretchHeight" hyperlinkType="LocalAnchor" evaluationTime="Auto">
 				<reportElement style="Sans_Bold" positionType="Float" x="475" y="0" width="30" height="15" isRemoveLineWhenBlank="true" uuid="012b7361-f06b-4539-b299-5a3f0bcbb7b5">
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -90,7 +90,7 @@
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
+			<textField textAdjust="StretchHeight" hyperlinkType="LocalAnchor">
 				<reportElement positionType="Float" x="75" y="16" width="100" height="15" isRemoveLineWhenBlank="true" uuid="effe6dfe-dbc8-4451-bf44-a96565a20564">
 					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
 				</reportElement>
@@ -105,7 +105,7 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor" evaluationTime="Auto">
+			<textField textAdjust="StretchHeight" hyperlinkType="LocalAnchor" evaluationTime="Auto">
 				<reportElement positionType="Float" x="435" y="16" width="30" height="15" isRemoveLineWhenBlank="true" uuid="3c835858-cc27-41b1-b820-94b8d9ec0acf">
 					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
 				</reportElement>

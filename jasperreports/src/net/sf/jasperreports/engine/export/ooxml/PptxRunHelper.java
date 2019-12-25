@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -49,16 +49,19 @@ public class PptxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private String exporterKey;
-
-
+	private final BaseFontHelper pptxFontHelper;
+	
 	/**
 	 *
 	 */
-	public PptxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, String exporterKey)
+	public PptxRunHelper(
+		JasperReportsContext jasperReportsContext, 
+		Writer writer,
+		BaseFontHelper pptxFontHelper
+		)
 	{
 		super(jasperReportsContext, writer);
-		this.exporterKey = exporterKey;
+		this.pptxFontHelper = pptxFontHelper;
 	}
 
 
@@ -66,12 +69,12 @@ public class PptxRunHelper extends BaseHelper
 	 *
 	 */
 	public void export(
-			JRStyle style, 
-			Map<Attribute,Object> attributes, 
-			String text, 
-			Locale locale, 
-			String invalidCharReplacement
-			)
+		JRStyle style, 
+		Map<Attribute,Object> attributes, 
+		String text, 
+		Locale locale, 
+		String invalidCharReplacement
+		)
 	{
 		if (text != null)
 		{
@@ -101,14 +104,14 @@ public class PptxRunHelper extends BaseHelper
 	 *
 	 */
 	public void export(
-			JRStyle style, 
-			Map<Attribute,Object> attributes, 
-			String text, 
-			Locale locale, 
-			String invalidCharReplacement,
-			String fieldType,
-			String uuid
-			)
+		JRStyle style, 
+		Map<Attribute,Object> attributes, 
+		String text, 
+		Locale locale, 
+		String invalidCharReplacement,
+		String fieldType,
+		String uuid
+		)
 	{
 		if (text != null)
 		{
@@ -150,7 +153,12 @@ public class PptxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportProps(String tag, Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale)
+	private void exportProps(
+		String tag, 
+		Map<Attribute,Object> parentAttrs,  
+		Map<Attribute,Object> attrs, 
+		Locale locale
+		)
 	{
 		write("       <" + tag + "\n");
 		
@@ -174,20 +182,20 @@ public class PptxRunHelper extends BaseHelper
 			write(" sz=\"" + (int)(100 * fontSize) + "\"");
 		}
 		
-		value = attrs.get(TextAttribute.WEIGHT);
-		oldValue = parentAttrs.get(TextAttribute.WEIGHT);
+		Object valueWeight = attrs.get(TextAttribute.WEIGHT);
+		Object oldValueWeight = parentAttrs.get(TextAttribute.WEIGHT);
 
-		if (value != null && !value.equals(oldValue))
+		if (valueWeight != null && !valueWeight.equals(oldValueWeight))
 		{
-			write(" b=\"" + (value.equals(TextAttribute.WEIGHT_BOLD) ? 1 : 0) + "\"");
+			write(" b=\"" + (valueWeight.equals(TextAttribute.WEIGHT_BOLD) ? 1 : 0) + "\"");
 		}
 
-		value = attrs.get(TextAttribute.POSTURE);
-		oldValue = parentAttrs.get(TextAttribute.POSTURE);
+		Object valuePosture = attrs.get(TextAttribute.POSTURE);
+		Object oldValuePosture = parentAttrs.get(TextAttribute.POSTURE);
 
-		if (value != null && !value.equals(oldValue))
+		if (valuePosture != null && !valuePosture.equals(oldValuePosture))
 		{
-			write(" i=\"" + (value.equals(TextAttribute.POSTURE_OBLIQUE) ? 1 : 0) + "\"");
+			write(" i=\"" + (valuePosture.equals(TextAttribute.POSTURE_OBLIQUE) ? 1 : 0) + "\"");
 		}
 
 
@@ -244,17 +252,21 @@ public class PptxRunHelper extends BaseHelper
 //			write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa((Color)value) + "\"/></a:solidFill>\n");
 //		}
 
-		value = attrs.get(TextAttribute.FAMILY);
-		oldValue = parentAttrs.get(TextAttribute.FAMILY);
+//		Object valueFamily = attrs.get(TextAttribute.FAMILY);
+//		Object oldValueFamily = parentAttrs.get(TextAttribute.FAMILY);
 		
-		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
-		{
-			String fontFamilyAttr = (String)value;
-			String fontFamily = fontUtil.getExportFontFamily(fontFamilyAttr, locale, exporterKey);
-			write("        <a:latin typeface=\"" + fontFamily + "\"/>\n");
-			write("        <a:ea typeface=\"" + fontFamily + "\"/>\n");
-			write("        <a:cs typeface=\"" + fontFamily + "\"/>\n");
-		}
+//		if (
+//			pptxFontHelper.isEmbedFonts
+//			|| (valueFamily != null && !valueFamily.equals(oldValueFamily))
+//			|| (valueWeight != null && !valueWeight.equals(oldValueWeight))
+//			|| (valuePosture != null && !valuePosture.equals(oldValuePosture))
+//			)
+//		{
+			String fontName = pptxFontHelper.resolveFontFamily(attrs, locale);
+			write("        <a:latin typeface=\"" + fontName + "\"/>\n");
+			write("        <a:ea typeface=\"" + fontName + "\"/>\n");
+			write("        <a:cs typeface=\"" + fontName + "\"/>\n");
+//		}
 		
 		write("</" + tag + ">\n");
 	}

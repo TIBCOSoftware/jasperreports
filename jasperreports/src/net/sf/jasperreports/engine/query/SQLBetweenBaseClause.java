@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * </ul> 
  * </p>
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class SQLBetweenBaseClause implements JRClauseFunction
 {
@@ -74,20 +74,20 @@ public abstract class SQLBetweenBaseClause implements JRClauseFunction
 	 * <p>
 	 * The method constructs one of the following clauses:
 	 * <ul>
-	 * <li><code>(column > ? AND column < ?)</code> if the clause ID is <code>BETWEEN</code></li>
-	 * <li><code>(column >= ? AND column < ?)</code> if the clause ID is <code>[BETWEEN</code></li>
-	 * <li><code>(column > ? AND column <= ?)</code> if the clause ID is <code>BETWEEN]</code></li>
-	 * <li><code>(column >= ? AND column <= ?)</code> if the clause ID is <code>[BETWEEN]</code></li>
+	 * <li><code>(column &gt; ? AND column &lt; ?)</code> if the clause ID is <code>BETWEEN</code></li>
+	 * <li><code>(column &gt;= ? AND column &lt; ?)</code> if the clause ID is <code>[BETWEEN</code></li>
+	 * <li><code>(column &gt; ? AND column &lt;= ?)</code> if the clause ID is <code>BETWEEN]</code></li>
+	 * <li><code>(column &gt;= ? AND column &lt;= ?)</code> if the clause ID is <code>[BETWEEN]</code></li>
 	 * </ul> 
 	 * If the left member value is null, one of the following clauses will be generated:
 	 * <ul>
-	 * <li><code>column < ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN</code></li>
-	 * <li><code>column <= ?</code> if the clause ID is <code>BETWEEN]</code> or <code>[BETWEEN]</code></li>
+	 * <li><code>column &lt; ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN</code></li>
+	 * <li><code>column &lt;= ?</code> if the clause ID is <code>BETWEEN]</code> or <code>[BETWEEN]</code></li>
 	 * </ul> 
 	 * If the right member value is null, one of the following clauses will be generated:
 	 * <ul>
-	 * <li><code>column > ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN]</code></li>
-	 * <li><code>column >= ?</code> if the clause ID is <code>[BETWEEN</code> or <code>[BETWEEN]</code></li>
+	 * <li><code>column &gt; ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN]</code></li>
+	 * <li><code>column &gt;= ?</code> if the clause ID is <code>[BETWEEN</code> or <code>[BETWEEN]</code></li>
 	 * </ul> 
 	 * If the both left and right member values are null, the method generates a SQL clause that 
 	 * will always evaluate to true (e.g. <code>0 = 0</code>).

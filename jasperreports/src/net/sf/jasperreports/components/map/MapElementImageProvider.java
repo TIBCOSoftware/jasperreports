@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,7 +41,7 @@ import net.sf.jasperreports.renderers.Renderable;
 import net.sf.jasperreports.renderers.util.RendererUtil;
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public class MapElementImageProvider
 {
@@ -165,7 +165,7 @@ public class MapElementImageProvider
 			+ (mapType == null ? "" : "&maptype=" + mapType)
 			+ (mapFormat == null ? "" : "&format=" + mapFormat)
 			+ (mapScale == null ? "" : "&scale=" + mapScale);
-		String params = "&sensor=false" + (reqParams == null ? "" : reqParams);
+		String params = (reqParams == null || reqParams.trim().length() == 0 ? "" : "&" + reqParams);
 
 		//a static map url is limited to 2048 characters
 		imageLocation += imageLocation.length() + markers.length() + currentPaths.length() + params.length() < MAX_URL_LENGTH 

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,8 +25,8 @@ package net.sf.jasperreports.engine.export.zip;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -40,7 +40,7 @@ public abstract class AbstractZip
 	/**
 	 * 
 	 */
-	protected List<ExportZipEntry> exportZipEntries = new ArrayList<ExportZipEntry>();
+	protected Map<String, ExportZipEntry> exportZipEntries = new HashMap<String, ExportZipEntry>();
 
 	/**
 	 *
@@ -52,7 +52,8 @@ public abstract class AbstractZip
 	 */
 	public void addEntry(ExportZipEntry entry)
 	{
-		exportZipEntries.add(entry);
+		// if several entries with the same name are added, the last one will be considered 
+		exportZipEntries.put(entry.getName(), entry);
 	}
 	
 	/**
@@ -63,9 +64,9 @@ public abstract class AbstractZip
 		ZipOutputStream zipos = new ZipOutputStream(os);
 		zipos.setMethod(ZipOutputStream.DEFLATED);
 		
-		for (int i = 0; i < exportZipEntries.size(); i++) 
+		for (String name : exportZipEntries.keySet()) 
 		{
-			ExportZipEntry exportZipEntry = exportZipEntries.get(i);
+			ExportZipEntry exportZipEntry = exportZipEntries.get(name);
 			ZipEntry zipEntry = new ZipEntry(exportZipEntry.getName());
 			zipos.putNextEntry(zipEntry);
 			exportZipEntry.writeData(zipos);
@@ -80,9 +81,9 @@ public abstract class AbstractZip
 	 */
 	public void dispose()
 	{
-		for (int i = 0; i < exportZipEntries.size(); i++) 
+		for (String name : exportZipEntries.keySet()) 
 		{
-			ExportZipEntry exportZipEntry = exportZipEntries.get(i);
+			ExportZipEntry exportZipEntry = exportZipEntries.get(name);
 			exportZipEntry.dispose();
 		}
 	}

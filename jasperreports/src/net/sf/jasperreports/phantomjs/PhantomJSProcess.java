@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -27,12 +27,15 @@ import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
@@ -91,29 +94,49 @@ public class PhantomJSProcess
 		String mainScriptTempName = director.getScriptManager().getScriptFilename(PhantomJS.MAIN_SCRIPT_RESOURCE);
 		String listenAddress = listenURI.getHost() + ":" + listenURI.getPort();
 		int idleTimeout = director.getProcessIdleTimeout();
+		
+		List<String> command = new ArrayList<String>();
+		command.add(director.getPhantomjsExecutablePath());
+		String options = "";
+		if(director.getOptions() != null)
+		{
+			for(PropertySuffix suffix : director.getOptions())
+			{
+				String option = suffix.getValue();
+				if(option != null && !option.trim().isEmpty())
+				{	
+					command.add(option.trim());
+					options += option.trim() + " ";
+				}
+			}
+		}
+		
+		command.add(mainScriptTempName);
+		command.add("-listenAddress");
+		command.add(listenAddress);
+		command.add("-confirmMessage");
+		command.add(PHANTOMJS_CONFIRMATION_MESSAGE);
+		command.add("-idleTimeout");
+		command.add(Integer.toString(idleTimeout));
 
 		log.info("PhantomJS process " + id + " starting on port " + listenURI.getPort());
 		if (log.isDebugEnabled())
 		{
 			log.debug(id + " starting phantomjs process with command: "
-					+ director.getPhantomjsExecutablePath() + " \"" + mainScriptTempName + "\""
+					+ director.getPhantomjsExecutablePath() + options + " \"" + mainScriptTempName + "\""
 					+ " -listenAddress \"" + listenAddress + "\""
 					+ " -confirmMessage \"" + PHANTOMJS_CONFIRMATION_MESSAGE + "\""
 					+ " -idleTimeout " + idleTimeout + "");
 		}
 
-		ProcessBuilder pb = new ProcessBuilder(director.getPhantomjsExecutablePath(), mainScriptTempName,
-				"-listenAddress", listenAddress,
-				"-confirmMessage", PHANTOMJS_CONFIRMATION_MESSAGE,
-				"-idleTimeout", Integer.toString(idleTimeout)
-				);
+		ProcessBuilder pb = new ProcessBuilder(command);
 		pb.redirectErrorStream(false);
 		pb.directory(director.getScriptManager().getTempFolder());
 
 		try
 		{
 			process = pb.start();
-
+			
 			ProcessOutputReader outputReader = new ProcessOutputReader(this);
 			outputReader.start();
 			boolean started = outputReader.waitConfirmation(director.getProcessStartTimeout());

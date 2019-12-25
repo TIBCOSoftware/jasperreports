@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -48,33 +48,34 @@ public interface Processor
 	 * 
 	 * Input: a Map with the component, the item properties and the series.
 	 * 
-	 * <table>
+	 * <table summary="Properties">
 	 * <tr><th>key</th><th>Type</th><th>Description</th></tr>
 	 * <tr>
 	 *	  <td>Processor.CONF_PRINT_ELEMENT</td>
 	 *	  <td>net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement</td>
 	 *	  <td>The print element produced by the fill process</td>
-	 * <tr>
+	 * </tr>
 	 * <tr>
 	 *	  <td>Processor.CONF_SERIES</td>
 	 *	  <td>Collection</td>
 	 *	  <td>a collection of series, which are List of Maps.</td>
-	 * <tr>
+	 * </tr>
 	 * <tr>
 	 *	  <td>Processor.CONF_WIDTH</td>
 	 *	  <td>Integer</td>
 	 *	  <td>the element width</td>
-	 * <tr>
+	 * </tr>
 	 * <tr>
 	 *	  <td>Processor.CONF_HEIGHT</td>
 	 *	  <td>Integer</td>
 	 *	  <td>the element height</td>
-	 * <tr>
+	 * </tr>
 	 * <tr>
 	 *	  <td>Processor.CONF_KEY</td>
 	 *	  <td>String</td>
 	 *	  <td>the element key/id to be used in the HTML</td>
-	 * <tr>
+	 * </tr>
+	 * </table>
 	 * 
 	 * 
 	 * Series are represented as lists of Maps. The Map is the record, and contain the

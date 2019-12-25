@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -46,17 +46,22 @@ public class DocxStyleHelper extends BaseHelper
 	private final DocxParagraphHelper paragraphHelper;
 	private final DocxRunHelper runHelper;
 	
+	
 	/**
 	 * 
 	 */
-	public DocxStyleHelper(JRDocxExporter exporter, Writer writer)
+	public DocxStyleHelper(
+		JRDocxExporter exporter, 
+		Writer writer,
+		BaseFontHelper docxFontHelper
+		)
 	{
 		super(exporter.getJasperReportsContext(), writer);
 		
 		this.exporter = exporter;
 		
 		paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, false);
-		runHelper = new DocxRunHelper(jasperReportsContext, writer, exporter.getExporterKey());
+		runHelper = new DocxRunHelper(jasperReportsContext, writer, docxFontHelper);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -76,7 +76,7 @@ public interface DocxReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "flexible.row.height";
 	
 	/**
-	 * This property serves as default value for the {@link #isNewLineAsParagraph} export configuration setting.
+	 * This property serves as default value for the {@link #isNewLineAsParagraph()} export configuration setting.
 	 * <p>
 	 * The property itself defaults to <code>false</code>.
 	 * </p>

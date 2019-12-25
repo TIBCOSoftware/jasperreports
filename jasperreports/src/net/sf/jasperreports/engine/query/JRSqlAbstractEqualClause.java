@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * </ul>
  * </p>
  * 
- * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 {
@@ -66,7 +66,7 @@ public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 	 * <code>column IS NULL</code> clause, depending on the parameter's value.
 	 * </p>
 	 * <p>
-	 * The NOTEQUAL function constructs either a <code>column <> ?</code> or an 
+	 * The NOTEQUAL function constructs either a <code>column &lt;&gt; ?</code> or an 
 	 * <code>column IS NOT NULL</code> clause, depending on the parameter's value.
 	 * </p>
 	 */

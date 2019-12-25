@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,15 +23,20 @@
  */
 package net.sf.jasperreports.search;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  */
-public class LuceneSpansInfo implements SpansInfo{
+public class LuceneSpansInfo implements SpansInfo, Serializable {
+	
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private Map<String, List<HitTermInfo>> hitTermsInfo;
 	private Map<String, Integer> hitTermsPerPage;

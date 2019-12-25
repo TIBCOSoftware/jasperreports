@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -63,6 +63,8 @@ public interface PropertyConstants
 	String CATEGORY_OTHER = PREFIX_CATEGORY + "other";
 	
 	String CATEGORY_PHANTOM_JS = PREFIX_CATEGORY + "phantomjs";
+	
+	String CATEGORY_CHROME = PREFIX_CATEGORY + "chrome";
 	
 	String CATEGORY_DATA_CACHE = PREFIX_CATEGORY + "data.cache";
 	
@@ -235,5 +237,13 @@ public interface PropertyConstants
 	String VERSION_6_6_0 = "6.6.0";
 
 	String VERSION_6_8_0 = "6.8.0";
+	
+	String VERSION_6_8_1 = "6.8.1";
+
+	String VERSION_6_9_0 = "6.9.0";
+
+	String VERSION_6_11_0 = JRConstants.VERSION_6_11_0;
+
+	String VERSION_6_12_0 = "6.12.0";
 
 }

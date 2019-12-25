@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -119,8 +119,24 @@ public abstract class AbstractTest
 				String exportDigest = xmlExportDigest(print);
 				log.debug("Plain report got " + exportDigest);
 				
+				boolean digestMatch = false;
+
 				String referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".jrpxml");
-				assert exportDigest.equals(referenceExportDigest);
+				if (exportDigest.equals(referenceExportDigest))
+				{
+					digestMatch = true;
+				}
+				else
+				{
+					//fallback to account for JDK differences
+					referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".2.jrpxml");
+					if (referenceExportDigest != null)
+					{
+						digestMatch = exportDigest.equals(referenceExportDigest);
+					}
+				}
+				
+				assert digestMatch;
 			}
 		}
 		catch (Throwable t)

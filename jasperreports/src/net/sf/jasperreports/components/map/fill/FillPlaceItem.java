@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -39,11 +39,13 @@ import net.sf.jasperreports.components.items.ItemProperty;
 import net.sf.jasperreports.components.items.fill.FillItem;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.component.FillContextProvider;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -57,11 +59,12 @@ public class FillPlaceItem extends FillItem
 	 *
 	 */
 	public FillPlaceItem(
+		FillContextProvider fillContextProvider,
 		Item item, 
 		JRFillObjectFactory factory
 		)
 	{
-		super(item, factory);
+		super(fillContextProvider, item, factory);
 	}
 
 	@Override
@@ -141,10 +144,16 @@ public class FillPlaceItem extends FillItem
 	}
 	
 	private Float[] getCoords(String address) throws JRException {
+		String reqParams = ((MapFillComponent)fillContextProvider).getReqParams();
 		Float[] coords = null;
 		if(address != null) {
 			try {
-				String urlStr = MapFillComponent.PLACE_URL_PREFIX + URLEncoder.encode(address, MapFillComponent.DEFAULT_ENCODING) + MapFillComponent.PLACE_URL_SUFFIX;
+				
+				String urlStr = MapFillComponent.PLACE_URL_PREFIX 
+						+ URLEncoder.encode(address, MapFillComponent.DEFAULT_ENCODING) 
+						+ MapFillComponent.PLACE_URL_SUFFIX
+						+ (reqParams != null && reqParams.trim().length() > 0 ? "&" + reqParams : "");
+
 				URL url = new URL(urlStr);
 				byte[] response = JRLoader.loadBytes(url);
 				Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(response));

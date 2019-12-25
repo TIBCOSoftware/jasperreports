@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.DatasetResetTypeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -37,10 +38,15 @@ public interface JRElementDataset extends JRCloneable, DatasetRunHolder
 {
 
 	/**
-	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
-	 * @return one of the reset constants in {@link ResetTypeEnum}
+	 * @deprecated Replaced by {@link #getDatasetResetType()}.
 	 */
 	public ResetTypeEnum getResetTypeValue();
+
+	/**
+	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
+	 * @return one of the reset constants in {@link DatasetResetTypeEnum}
+	 */
+	public DatasetResetTypeEnum getDatasetResetType();
 
 	/**
 	 * Gets the selected reset group in case of reset type group.

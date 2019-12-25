@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -149,4 +149,10 @@ public class JRHtmlExporterParameter extends net.sf.jasperreports.engine.JRExpor
 	 * @deprecated Replaced by {@link HtmlExporterConfiguration#isFlushOutput()}.
 	 */
 	public static final JRHtmlExporterParameter FLUSH_OUTPUT = new JRHtmlExporterParameter("Flush Output");
+	
+
+	/**
+	 * @deprecated Replaced by {@link HtmlExporterOutput#getResourceHandler()}.
+	 */
+	public static final JRHtmlExporterParameter RESOURCE_HANDLER = new JRHtmlExporterParameter("Resource Handler");
 }

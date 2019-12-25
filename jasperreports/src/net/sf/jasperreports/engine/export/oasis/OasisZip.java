@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,16 +25,15 @@ package net.sf.jasperreports.engine.export.oasis;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 
-import net.sf.jasperreports.engine.export.zip.AbstractZip;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
+import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public abstract class OasisZip extends AbstractZip
+public abstract class OasisZip extends FileBufferedZip
 {
 	
 	/**
@@ -51,7 +50,7 @@ public abstract class OasisZip extends AbstractZip
 	private ExportZipEntry stylesEntry;
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public OasisZip() throws IOException
 	{
@@ -63,16 +62,12 @@ public abstract class OasisZip extends AbstractZip
 	 */
 	public OasisZip(String mimeType) throws IOException
 	{
-		exportZipEntries = new ArrayList<ExportZipEntry>();
-
 		contentEntry = createEntry("content.xml");
-		exportZipEntries.add(contentEntry);
 		
 		createMetaEntry();
 		createSettingsEntry();
 
 		stylesEntry = createEntry("styles.xml");
-		exportZipEntries.add(stylesEntry);
 		
 		createMimeEntry(mimeType);
 
@@ -107,7 +102,6 @@ public abstract class OasisZip extends AbstractZip
 			mimeWriter = mimeEntry.getWriter();
 			mimeWriter.write("application/vnd.oasis.opendocument." + mimetype);
 			mimeWriter.flush();
-			exportZipEntries.add(mimeEntry);
 		}
 		finally
 		{
@@ -148,7 +142,6 @@ public abstract class OasisZip extends AbstractZip
 			manifestWriter.write("  <manifest:file-entry manifest:media-type=\"text/xml\" manifest:full-path=\"settings.xml\"/>\n");
 			manifestWriter.write("</manifest:manifest>\n");
 			manifestWriter.flush();
-			exportZipEntries.add(manifestEntry);
 		}
 		finally
 		{
@@ -182,7 +175,6 @@ public abstract class OasisZip extends AbstractZip
 			metaWriter.write(ContentBuilder.VERSION);
 			metaWriter.write("\"/>");
 			metaWriter.flush();
-			exportZipEntries.add(metaEntry);
 		}
 		finally
 		{
@@ -216,7 +208,6 @@ public abstract class OasisZip extends AbstractZip
 			settingsWriter.write("xmlns:config=\"urn:oasis:names:tc:opendocument:xmlns:config:1.0\" \n");
 			settingsWriter.write("xmlns:ooo=\"http://openoffice.org/2004/office\"/>\n");
 			settingsWriter.flush();
-			exportZipEntries.add(settingsEntry);
 		}
 		finally
 		{

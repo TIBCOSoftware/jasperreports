@@ -12,7 +12,7 @@
 	<field name="description" class="java.lang.String"/>
 	<title>
 		<band height="700" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="555" height="700" uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab"/>
 				<box>
 					<pen lineWidth="1"/>
@@ -31,7 +31,7 @@
 					<datasetRun subDataset="Empty Dataset1" uuid="2a498229-6a44-4a2d-919f-180bd7aed50b"/>
 					<jr:column width="80" uuid="18a87b02-f4d5-4dd4-a113-927b3573337a">
 						<jr:detailCell height="30">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="80" height="30" uuid="7fd223b5-561e-4f6f-8b08-595bdeb1abab"/>
 								<textFieldExpression><![CDATA["Multi line text in table detail cell\nmore\nmore\nmore\nmore\nmore\nmore\nmore\nmore."]]></textFieldExpression>
 							</textField>

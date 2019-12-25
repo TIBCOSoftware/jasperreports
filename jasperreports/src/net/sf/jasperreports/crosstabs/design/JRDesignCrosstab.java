@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -1793,7 +1793,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRVariable variable = (JRVariable) it.next();
 				// check whether the variable was already cloned as part of a group or measure
 				JRVariable variableClone = clonedVariables.get(variable);
-				variableClone = JRCloneUtils.nullSafeClone(variable);
+				if (variableClone == null)
+				{
+					variableClone = JRCloneUtils.nullSafeClone(variable);
+				}
 				clone.variablesList.put(variableClone.getName(), variableClone);
 			}
 		}

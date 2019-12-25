@@ -4,11 +4,11 @@
 	</info>
 	<dependencies>
 		<dependency org="org.hsqldb" name="hsqldb" rev="2.4.0" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.9" conf="test->*"/>
-		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.0" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="xmlgraphics-commons" rev="2.3" conf="test->*"/>
 		<dependency org="xalan" name="serializer" rev="2.7.2" conf="test->*"/>
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->*"/>
 	</dependencies>

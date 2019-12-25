@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -97,7 +97,7 @@ public abstract class BucketingService
 	protected final MeasureValue[] zeroMeasureValues;
 	protected final MeasureValue[] zeroUserMeasureValues;
 
-	private final int bucketMeasureLimit;
+	protected final int bucketMeasureLimit;
 	private int runningBucketMeasureCount;
 	
 	/**

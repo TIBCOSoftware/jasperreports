@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -54,6 +54,7 @@ define(["jasperreports-loader", "jasperreports-status-checker",
             REDO_PERFORMED: "redo",
             PAGE_MODIFIED: "pageModified",
             REPORT_HTML_READY: "reportHtmlReady",
+            COMPONENTS_LOADED: "componentsLoaded",
             COMPONENTS_REGISTERED: "componentsRegistered",
             REPORT_FINISHED: "reportFinished"
         };
@@ -96,6 +97,9 @@ define(["jasperreports-loader", "jasperreports-status-checker",
                         return it.loader.getComponentsForPage(it.currentpage);
                     }
                 }).then(function(componentsObject) {
+                    it.loadedComponents = componentsObject;
+                    it.eventManager.triggerEvent(it.events.COMPONENTS_LOADED);
+                    
                     it.components = {};
                     return it.componentRegistrar.registerComponents(componentsObject, it, it.components);
                 }).then(function() {

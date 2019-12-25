@@ -66,7 +66,7 @@
 				</textField>
 			</band>
 			<band height="40">
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement mode="Opaque" x="10" y="0" width="505" height="40" backcolor="#00FFCC" uuid="496f2fdc-ff16-48de-a61a-969915a18280">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>

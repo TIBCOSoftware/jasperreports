@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.fill.TextFormat;
-import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
@@ -151,20 +150,6 @@ public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnc
 	public void setLeadingOffset(float leadingOffset);
 
 	/**
-	 * Gets the text own rotation.
-	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
-	 */
-	@Override
-	public RotationEnum getOwnRotationValue();
-	
-	/**
-	 * Sets the text rotation.
-	 * @param rotationEnum a value representing one of the text rotation constants in {@link RotationEnum}
-	 */
-	@Override
-	public void setRotation(RotationEnum rotationEnum);
-	
-	/**
 	 * Gets the text run direction.
 	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
 	 */
@@ -185,12 +170,6 @@ public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnc
 	 *
 	 */
 	public void setTextHeight(float textHeight);
-		
-	@Override
-	public String getOwnMarkup();
-		
-	@Override
-	public void setMarkup(String markup);
 		
 	/**
 	 * Returns the type of the value which was used to generate this text.

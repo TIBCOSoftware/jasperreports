@@ -143,9 +143,11 @@ After text fields are measured and stretched, all other elements in
 the same section are resized or repositioned, according to their own stretching attributes.
 <br/>
 To decide whether a text field content gets truncated at runtime or no, one can use the 
-<code>isStretchWithOverflow</code> attribute in the <code>&lt;textField/&gt;</code> element. 
-If <code>true</code>, then the text field height will be automatically increased until the 
-whole text content can be displayed. The default value is <code>false</code>.
+<code>textAdjust</code> attribute in the <code>&lt;textField/&gt;</code> element. 
+If <code>StretchHeight</code> value is set, then the text field height will be automatically increased until the 
+whole text content can be displayed.
+The font size can be decreased so that the text fits using the <code>ScaleFont</code> value. 
+The default value is <code>CutText</code>.
 <br/>
 <br/>
 <b>Notes:</b>
@@ -187,7 +189,7 @@ CSV, XML, Excel.</li>
 <br/>
 <br/>
 This sample provides some examples of element stretching and text truncations. One can see various combinations between 
-different elements stretching attributes (<code>positionType</code>, <code>stretchType</code>, <code>isStretchWithOverflow</code>):
+different elements stretching attributes (<code>positionType</code>, <code>stretchType</code>, <code>textAdjust</code>):
 <pre><![CDATA[
   <elementGroup>
   <line>
@@ -195,7 +197,7 @@ different elements stretching attributes (<code>positionType</code>, <code>stret
       width="1" height="16" isPrintWhenDetailOverflows="true"/>
     <graphicElement/>
   </line>
-  <textField isStretchWithOverflow="true">
+  <textField textAdjust="StretchHeight">
     <reportElement x="10" y="5" width="100" height="16" isRemoveLineWhenBlank="true"/>
     <textElement textAlignment="Justified">
       <font size="12"/>

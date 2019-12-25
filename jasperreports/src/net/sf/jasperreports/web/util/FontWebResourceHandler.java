@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -31,7 +31,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.HtmlFont;
@@ -83,24 +82,6 @@ public class FontWebResourceHandler implements WebResourceHandler
 		return false;
 	}
 
-
-	/**
-	 * @deprecated Replaced by {@link #processFont(JasperReportsContext, String, HtmlFontFamily)}.
-	 */
-	protected byte[] processFont(String basePath, HtmlFont htmlFont)
-	{
-		return processFont(DefaultJasperReportsContext.getInstance(), basePath, htmlFont);
-	}
-	
-
-	/**
-	 * @deprecated Replaced by {@link #processFont(JasperReportsContext, String, HtmlFontFamily)}.
-	 */
-	protected byte[] processFont(JasperReportsContext jasperReportsContext, String basePath, HtmlFont htmlFont)
-	{
-		return processFont(jasperReportsContext, basePath, htmlFont.getFamily());
-	}
-	
 
 	/**
 	 * 
@@ -195,54 +176,4 @@ public class FontWebResourceHandler implements WebResourceHandler
 		{
 		}
 	}
-}
-
-/**
- * @deprecated Replaced by {@link #FontWebResourceHandler.FontFamilyHtmlResourceHandler}.
- */
-class FontHtmlResourceHandler implements HtmlResourceHandler
-{
-	private String basePath;
-	private HtmlFont htmlFont;
-	private Map<String, String> fontFaceIds;
-	private byte[] fontCss;
-	
-	protected FontHtmlResourceHandler(String basePath, HtmlFont htmlFont)
-	{
-		this.basePath = basePath;
-		this.htmlFont = htmlFont;
-		fontFaceIds = new HashMap<String, String>();
-		fontFaceIds.put(htmlFont.getId() + ".ttf", htmlFont.getTtf());
-		fontFaceIds.put(htmlFont.getId() + ".eot", htmlFont.getEot());
-		fontFaceIds.put(htmlFont.getId() + ".woff", htmlFont.getWoff());
-		fontFaceIds.put(htmlFont.getId() + ".svg", htmlFont.getSvg());
-	}
-
-	@Override
-	public String getResourcePath(String id) 
-	{
-		if (fontFaceIds.containsKey(id))
-		{
-			return basePath + fontFaceIds.get(id);
-		}
-		return basePath + id;
-	}
-
-	@Override
-	public void handleResource(String id, byte[] data) 
-	{
-		if (id.equals(htmlFont.getId()))
-		{
-			fontCss = data;
-		}
-	}
-
-	/**
-	 * 
-	 */
-	protected byte[] getFontCss() 
-	{
-		return fontCss;
-	}
-	
 }

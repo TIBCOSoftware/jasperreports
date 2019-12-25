@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,14 +23,9 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.awt.Font;
 import java.util.Locale;
 
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fonts.FontFace;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 
 /**
@@ -53,23 +48,6 @@ public class HtmlFont
 	
 	private String id;
 	private String shortId;
-	
-	/**
-	 * @deprecated Replaced by {@link #HtmlFont(HtmlFontFamily, Locale, FontFace, boolean, boolean)}.
-	 */
-	private HtmlFont(Locale locale, FontFace fontFace, int style)
-	{
-		this.locale = locale;
-		this.fontName = fontFace.getName();
-		this.ttf = fontFace.getTtf();
-		this.eot = fontFace.getEot();
-		this.svg = fontFace.getSvg();
-		this.woff = fontFace.getWoff();
-		this.isBold = (style & Font.BOLD) > 0;
-		this.isItalic = (style & Font.ITALIC) > 0;
-		
-		createIds();
-	}
 	
 	/**
 	 * 
@@ -96,95 +74,6 @@ public class HtmlFont
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getInstance(HtmlFontFamily, Locale, FontFace, boolean, boolean)}.
-	 */
-	public static HtmlFont getInstance(Locale locale, FontInfo fontInfo, boolean isBold, boolean isItalic)
-	{
-		HtmlFont htmlFont = null;
-		
-		if (fontInfo != null)
-		{
-			FontFamily family = fontInfo.getFontFamily();
-			FontFace fontFace = fontInfo.getFontFace();
-			if (fontFace != null)
-			{
-				htmlFont = HtmlFont.getInstance(locale, fontFace, fontInfo.getStyle());
-			}
-			
-			if (htmlFont == null && isBold && isItalic)
-			{
-				fontFace = family.getBoldItalicFace();
-				if (fontFace != null)
-				{
-					htmlFont = HtmlFont.getInstance(locale, fontFace, Font.BOLD | Font.ITALIC);
-				}
-			}
-			
-			if (htmlFont == null && isBold)
-			{
-				fontFace = family.getBoldFace();
-				if (fontFace != null)
-				{
-					htmlFont = HtmlFont.getInstance(locale, fontFace, Font.BOLD);
-				}
-			}
-
-			if (htmlFont == null && isItalic)
-			{
-				fontFace = family.getItalicFace();
-				if (fontFace != null)
-				{
-					htmlFont = HtmlFont.getInstance(locale, fontFace, Font.ITALIC);
-				}
-			}
-
-			if (htmlFont == null)
-			{
-				fontFace = family.getNormalFace();
-				if (fontFace != null)
-				{
-					htmlFont = HtmlFont.getInstance(locale, fontFace, Font.PLAIN);
-				}
-			}
-		}
-		
-		return htmlFont;
-	}
-	
-	/**
-	 * 
-	 */
-	public static HtmlFont getInstance(JasperReportsContext jasperReportsContext, String htmlFontId)
-	{
-		int localeSeparatorPos = htmlFontId.lastIndexOf(LOCALE_SEPARATOR);
-		String faceName = htmlFontId.substring(0, localeSeparatorPos);
-		boolean isBold = false;
-		boolean isItalic = false;
-		if (faceName.endsWith("-Italic"))
-		{
-			faceName = faceName.substring(0, faceName.length() - "-Italic".length());
-			isItalic = true;
-		}
-		if (faceName.endsWith("-Bold"))
-		{
-			faceName = faceName.substring(0, faceName.length() - "-Bold".length());
-			isBold = true;
-		}
-		if (faceName.endsWith("-BoldItalic"))
-		{
-			faceName = faceName.substring(0, faceName.length() - "-BoldItalic".length());
-			isItalic = true;
-			isBold = true;
-		}
-		String localeCode = htmlFontId.substring(localeSeparatorPos + LOCALE_SEPARATOR.length());
-		Locale locale = JRDataUtils.getLocale(localeCode);
-		
-		FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(faceName, locale);
-
-		return getInstance(locale, fontInfo, isBold, isItalic);
-	}
-	
-	/**
 	 * 
 	 */
 	public static HtmlFont getInstance(HtmlFontFamily family, Locale locale, FontFace fontFace, boolean isBold, boolean isItalic)
@@ -199,26 +88,6 @@ public class HtmlFont
 			)
 		{
 			htmlFont = new HtmlFont(family, locale, fontFace, isBold, isItalic);
-		}
-
-		return htmlFont;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getInstance(HtmlFontFamily, Locale, FontFace, boolean, boolean)}.
-	 */
-	public static HtmlFont getInstance(Locale locale, FontFace fontFace, int style)
-	{
-		HtmlFont htmlFont = null;
-
-		if (
-			fontFace.getTtf() != null
-			|| fontFace.getEot() != null
-			|| fontFace.getSvg() != null
-			|| fontFace.getWoff() != null
-			)
-		{
-			htmlFont = new HtmlFont(locale, fontFace, style);
 		}
 
 		return htmlFont;
@@ -311,14 +180,6 @@ public class HtmlFont
 	public String getWoff()
 	{
 		return woff;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #isBold()} and {@link #isItalic()}.
-	 */
-	public int getStyle()
-	{
-		return (isBold ? Font.BOLD : Font.PLAIN) | (isItalic ? Font.ITALIC : Font.PLAIN);
 	}
 	
 	public boolean isBold()

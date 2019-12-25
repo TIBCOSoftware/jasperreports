@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -96,8 +96,8 @@ public class CVUtils
 	}
         
         
-	public static long getTimeout(JRGenericPrintElement element) {
-
+	public static Long getOwnTimeout(JRGenericPrintElement element) {
+		Long timeout = null;
 		if (element.hasParameter(CVPrintElement.CONFIGURATION))
 		{
 			Map<String, Object> componentConfiguration = (Map<String, Object>) element.getParameterValue(CVPrintElement.CONFIGURATION);
@@ -107,7 +107,7 @@ public class CVUtils
 				if (property != null)
 				{
 					try {
-						return Long.valueOf(property.toString());
+						timeout = Long.valueOf(property.toString());
 					} catch (Exception ex)
 					{
 
@@ -115,7 +115,12 @@ public class CVUtils
 				}
 			}
 		}
-		return 3000;
+		return timeout;
+	}
+
+	public static long getTimeout(JRGenericPrintElement element) {
+		Long timeout = getOwnTimeout(element);
+		return timeout == null ? 3000 : timeout;
 	}
 
 	public static void byteStreamCopy(InputStream is, OutputStream os) throws IOException {

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -26,7 +26,7 @@ package net.sf.jasperreports.data.xlsx;
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
 
 /**
- * @author sanda zaharia(shertage@users.sourceforge.net)
+ * @author Sanda Zaharia (shertage@users.sourceforge.net)
  */
 public interface XlsxDataAdapter extends XlsDataAdapter 
 {

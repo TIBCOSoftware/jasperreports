@@ -100,11 +100,11 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="55" y="4" width="200" height="15" uuid="b40c4545-77bb-4e3d-933f-dd99e6e412c5"/>
 				<textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement positionType="Float" x="260" y="4" width="255" height="15" uuid="c16dbc25-0b76-4008-bf63-32753ecac356"/>
 				<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 			</textField>
@@ -133,7 +133,7 @@
 	</pageFooter>
 	<summary>
 		<band height="60">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Sans_Italic" x="175" y="20" width="165" height="15" uuid="9cb07480-2b6d-4bfa-8dd3-cc35bb61b475"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["There were " + 

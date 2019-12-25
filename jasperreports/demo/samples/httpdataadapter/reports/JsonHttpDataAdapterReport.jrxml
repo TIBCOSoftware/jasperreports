@@ -95,7 +95,7 @@
 										</reportElement>
 										<imageExpression><![CDATA["http://localhost:8080/image.jsp?name=" + $F{image}]]></imageExpression>
 									</image>
-									<textField isStretchWithOverflow="true">
+									<textField textAdjust="StretchHeight">
 										<reportElement x="55" y="0" width="114" height="12" uuid="01569877-14f7-446d-b7bc-822f76698abe"/>
 										<textElement>
 											<font isBold="true"/>

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export;
 
 import java.io.UnsupportedEncodingException;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -57,39 +56,6 @@ public class HtmlFontUtil
 	public static HtmlFontUtil getInstance(JasperReportsContext jasperReportsContext)
 	{
 		return new HtmlFontUtil(jasperReportsContext);
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #handleHtmlFont(HtmlResourceHandler, HtmlFont)}.
-	 */
-	public static void handleFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
-	{
-		getInstance(DefaultJasperReportsContext.getInstance()).handleHtmlFont(resourceHandler, htmlFont);
-	}
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #handleHtmlFont(HtmlResourceHandler, HtmlResourceHandler, HtmlResourceHandler, HtmlFontFamily, boolean, boolean)}.
-	 */
-	public void handleHtmlFont(HtmlResourceHandler resourceHandler, HtmlFont htmlFont)
-	{
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("@charset \"UTF-8\";\n");
-		sb.append(getHtmlFont(resourceHandler, resourceHandler, htmlFont, true, true));
-		
-		if (resourceHandler != null)
-		{
-			try
-			{
-				resourceHandler.handleResource(htmlFont.getId(), sb.toString().getBytes("UTF-8"));
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-		}
 	}
 	
 	

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -90,6 +90,20 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	public static final String PROPERTY_METADATA_APPLICATION = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "metadata.application";
 
 	/**
+	 * Property that indicates whether the true type fonts used in the report should be embedded into the generated DOCX document. 
+	 * This property serves as default value for the {@link #isEmbedFonts()} export configuration setting.
+	 */
+	@Property(
+			name = "net.sf.jasperreports.export.docx.embed.fonts",
+			defaultValue = PropertyConstants.BOOLEAN_FALSE,
+			category = PropertyConstants.CATEGORY_EXPORT,
+			scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT},
+			sinceVersion = PropertyConstants.VERSION_6_9_0,
+			valueType = Boolean.class
+			)
+	public static final String PROPERTY_EMBED_FONTS = JRDocxExporter.DOCX_EXPORTER_PROPERTIES_PREFIX + "embed.fonts";
+	
+	/**
 	 * The Title of the DOCX document.
 	 */
 	@ExporterProperty(PROPERTY_METADATA_TITLE)
@@ -118,4 +132,14 @@ public interface DocxExporterConfiguration extends ExporterConfiguration
 	 */
 	@ExporterProperty(PROPERTY_METADATA_APPLICATION)
 	public String getMetadataApplication();
+	
+	/**
+	 * Indicates whether the true type fonts used in the report should be embedded into the generated DOCX document. 
+	 * @see #PROPERTY_EMBED_FONTS
+	 */
+	@ExporterProperty(
+			value=PROPERTY_EMBED_FONTS,
+			booleanDefault=false
+			)
+	public Boolean isEmbedFonts();	
 }

@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -43,6 +43,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -76,6 +77,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	 *
 	 */
 	protected ScaleImageEnum scaleImageValue;
+	protected RotationEnum rotation;
 	protected HorizontalImageAlignEnum horizontalImageAlign;
 	protected VerticalImageAlignEnum verticalImageAlign;
 	protected Boolean isUsingCache;
@@ -131,6 +133,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		super(image, factory);
 		
 		scaleImageValue = image.getOwnScaleImageValue();
+		rotation = image.getOwnRotation();
 		horizontalImageAlign = image.getOwnHorizontalImageAlign();
 		verticalImageAlign = image.getOwnVerticalImageAlign();
 		isUsingCache = image.getUsingCache();
@@ -181,6 +184,25 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_SCALE_IMAGE, old, this.scaleImageValue);
 	}
 
+	@Override
+	public RotationEnum getRotation()
+	{
+		return getStyleResolver().getRotation(this);
+	}
+
+	@Override
+	public RotationEnum getOwnRotation()
+	{
+		return this.rotation;
+	}
+
+	@Override
+	public void setRotation(RotationEnum rotation)
+	{
+		Object old = this.rotation;
+		this.rotation = rotation;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_ROTATION, old, this.rotation);
+	}
 
 	@Override
 	public HorizontalImageAlignEnum getHorizontalImageAlign()

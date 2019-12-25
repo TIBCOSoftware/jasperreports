@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -23,16 +23,17 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import org.xml.sax.Attributes;
+
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
-
-import org.xml.sax.Attributes;
 
 
 /**
@@ -54,6 +55,12 @@ public class JRImageFactory extends JRBaseFactory
 		if (scaleImage != null)
 		{
 			image.setScaleImage(scaleImage);
+		}
+
+		RotationEnum rotation = RotationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));
+		if (rotation != null)
+		{
+			image.setRotation(rotation);
 		}
 
 		HorizontalImageAlignEnum horizontalImageAlign = HorizontalImageAlignEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_hAlign));

@@ -93,11 +93,11 @@
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement positionType="Float" x="55" y="0" width="205" height="15" uuid="ded05c08-97ce-41cc-b435-61d3a37d152d"/>
 					<textFieldExpression><![CDATA[" " + $F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement positionType="Float" x="260" y="0" width="255" height="15" uuid="aa97c863-28ec-4bbc-b5c2-6ca60f10a498"/>
 					<textFieldExpression><![CDATA[$F{Street}]]></textFieldExpression>
 				</textField>
@@ -122,7 +122,7 @@
 	</pageFooter>
 	<summary>
 		<band height="45">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Sans_Italic" x="0" y="10" width="515" height="15" uuid="c4955368-bb7f-4498-8ec8-6b249c2e898c"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["There were " + 
@@ -130,7 +130,7 @@
 					" address records on this report from the following cities : \n" +
 					$V{AllCities} + "."]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Sans_Bold" positionType="Float" x="0" y="30" width="515" height="15" forecolor="#993300" uuid="58e6af9f-ebb7-43b6-a51c-b75e2663e694"/>
 				<textElement textAlignment="Center">
 					<font size="10"/>

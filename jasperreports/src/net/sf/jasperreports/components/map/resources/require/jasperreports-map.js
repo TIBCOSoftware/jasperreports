@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -44,7 +44,7 @@ define(function(require){
 
             // try to load the Gogle Maps API once, otherwise conflicts will happen
             if (typeof google === 'undefined' || (typeof google !== 'undefined' && typeof google.maps === 'undefined')) {
-                require(["async!//maps.google.com/maps/api/js?sensor=false" + reqParams + "!callback"], function() {
+                require(["async!//maps.google.com/maps/api/js?" + reqParams + "!callback"], function() {
                     it._showMap(it.config.id, instData.latitude, instData.longitude, instData.zoom, instData.mapType, instData.markerList, instData.pathsList);
                 });
             } else {

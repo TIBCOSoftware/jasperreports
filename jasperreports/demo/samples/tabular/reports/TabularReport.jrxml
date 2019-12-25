@@ -133,7 +133,7 @@
 				<reportElement x="0" y="0" width="555" height="15" uuid="069970d2-09de-4d2d-b6c5-84ea52e6fd90">
 					<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
 				</reportElement>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="100" height="15" uuid="8aecb1e3-2ca2-4efd-997b-68af11558793">
 						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
 					</reportElement>

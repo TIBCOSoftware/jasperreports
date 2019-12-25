@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2018 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalImageAlignEnum;
 import net.sf.jasperreports.renderers.Renderable;
@@ -64,6 +65,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	protected Renderable renderable;
 	protected ScaleImageEnum scaleImageValue;
+	protected RotationEnum rotation;
 	protected Boolean isUsingCache = Boolean.TRUE;
 	protected HorizontalImageAlignEnum horizontalImageAlign;
 	protected VerticalImageAlignEnum verticalImageAlign;
@@ -148,6 +150,24 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	public void setScaleImage(ScaleImageEnum scaleImageValue)
 	{
 		this.scaleImageValue = scaleImageValue;
+	}
+
+	@Override
+	public RotationEnum getRotation()
+	{
+		return getStyleResolver().getRotation(this);
+	}
+		
+	@Override
+	public RotationEnum getOwnRotation()
+	{
+		return rotation;
+	}
+
+	@Override
+	public void setRotation(RotationEnum rotation)
+	{
+		this.rotation = rotation;
 	}
 
 	@Override
