@@ -4311,6 +4311,17 @@ Flag property applicable for input text fields that specifies if the input text 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.field.value -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.value">
+    <description>
+Property that specifies the initial text content for the text field or the initial selected value in 
+list or combobox field, depending on the PDF form field type of the element. When this property is missing,
+the actual text content of the text element is used.
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.field.type -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.field.type">

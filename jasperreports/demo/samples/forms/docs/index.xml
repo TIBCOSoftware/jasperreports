@@ -86,8 +86,9 @@ flag for that element.
 <br/>
 <br/>
 Textboxes are text input fields. They can be either single line or multi line textboxes. To specify which kind of textbox is considered, we can set the following flag property per report element: 
-<a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.text.multiline">net.sf.jasperreports.export.pdf.field.text.multiline</a>. The 
-content of the input field is the text content of the JasperReports text element.
+<a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.text.multiline">net.sf.jasperreports.export.pdf.field.text.multiline</a>. 
+The initial text content of the input field is provided by the <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.value">net.sf.jasperreports.export.pdf.field.value</a> custom property
+and in case that one is missing, then the actual text content of the JasperReports text element is used instead.
 <br/>
 <br/>
 <b>Example:</b>
@@ -96,6 +97,7 @@ content of the input field is the text content of the JasperReports text element
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Text"/>
   <property name="net.sf.jasperreports.export.pdf.field.text.multiline" value="true"/>
   <property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+  <propertyExpression name="net.sf.jasperreports.export.pdf.field.value">"This\nis a multi\nline text inside a single line text field."</propertyExpression>
 </reportElement>]]></pre>
 <subtitle name="textbox">List and Combobox Input Fields</subtitle>
 <br/>
@@ -116,11 +118,13 @@ If not set, the default separator is '|'.
 </reportElement>]]></pre>
 In case we need the textbox in the combobox field to be editable, we can set the 
 <a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.combo.edit">net.sf.jasperreports.export.pdf.field.combo.edit</a> property per 
-combobox element:
+combobox element, while the a preselected value can be set using the 
+<a href="../../config.reference.html#net.sf.jasperreports.export.pdf.field.value">net.sf.jasperreports.export.pdf.field.value</a> property:
 <pre><![CDATA[
 <reportElement positionType="Float" mode="Opaque" x="250" y="0" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00">
   <property name="net.sf.jasperreports.export.pdf.field.type" value="Combo"/>
   <property name="net.sf.jasperreports.export.pdf.field.choices" value="One|Two|Three|Four|Five"/>
+  <property name="net.sf.jasperreports.export.pdf.field.value" value="Four"/>
   <property name="net.sf.jasperreports.export.pdf.field.combo.edit" value="true"/>
 </reportElement>]]></pre>
 <subtitle name="checkboxes">Checkbox Input Field</subtitle>

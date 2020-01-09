@@ -383,132 +383,142 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	 * Prefix of properties that specify font files for the PDF exporter.
 	 */
 	@Property(
-			name = "net.sf.jasperreports.export.pdf.font.{arbitrary_name}",
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = PropertyConstants.VERSION_1_0_0
-			)
+		name = "net.sf.jasperreports.export.pdf.font.{arbitrary_name}",
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.GLOBAL},
+		sinceVersion = PropertyConstants.VERSION_1_0_0
+		)
 	public static final String PDF_FONT_FILES_PREFIX = PDF_EXPORTER_PROPERTIES_PREFIX + "font.";
 	
 	/**
 	 * Prefix of properties that specify font directories for the PDF exporter.
 	 */
 	@Property(
-			name = "net.sf.jasperreports.export.pdf.fontdir.{arbitrary_name}",
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.GLOBAL},
-			sinceVersion = PropertyConstants.VERSION_1_0_0
-			)
+		name = "net.sf.jasperreports.export.pdf.fontdir.{arbitrary_name}",
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.GLOBAL},
+		sinceVersion = PropertyConstants.VERSION_1_0_0
+		)
 	public static final String PDF_FONT_DIRS_PREFIX = PDF_EXPORTER_PROPERTIES_PREFIX + "fontdir.";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0,
-			valueType = PdfFieldTypeEnum.class
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0,
+		valueType = PdfFieldTypeEnum.class
+		)
 	public static final String PDF_FIELD_TYPE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.type";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0,
-			valueType = Boolean.class,
-			defaultValue = PropertyConstants.BOOLEAN_FALSE
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0,
+		valueType = Boolean.class,
+		defaultValue = PropertyConstants.BOOLEAN_FALSE
+		)
 	public static final String PDF_FIELD_TEXT_MULTILINE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.text.multiline";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0,
-			valueType = PdfFieldCheckTypeEnum.class
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0
+		)
+	public static final String PDF_FIELD_VALUE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.value";
+	
+	/**
+	 * 
+	 */
+	@Property(
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0,
+		valueType = PdfFieldCheckTypeEnum.class
+		)
 	public static final String PDF_FIELD_CHECK_TYPE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.check.type";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0
+		)
 	public static final String PDF_FIELD_NAME = PDF_EXPORTER_PROPERTIES_PREFIX + "field.name";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0,
-			valueType = Boolean.class
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0,
+		valueType = Boolean.class
+		)
 	public static final String PDF_FIELD_CHECKED = PDF_EXPORTER_PROPERTIES_PREFIX + "field.checked";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0,
-			valueType = Boolean.class
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0,
+		valueType = Boolean.class
+		)
 	public static final String PDF_FIELD_READ_ONLY = PDF_EXPORTER_PROPERTIES_PREFIX + "field.read.only";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0,
-			valueType = PdfFieldBorderStyleEnum.class
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0,
+		valueType = PdfFieldBorderStyleEnum.class
+		)
 	public static final String PDF_FIELD_BORDER_STYLE = PDF_EXPORTER_PROPERTIES_PREFIX + "field.border.style";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			defaultValue = "|",
-			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		defaultValue = "|",
+		scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0
+		)
 	public static final String PDF_FIELD_CHOICE_SEPARATORS = PDF_EXPORTER_PROPERTIES_PREFIX + "field.choice.separators";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0
+		)
 	public static final String PDF_FIELD_CHOICES = PDF_EXPORTER_PROPERTIES_PREFIX + "field.choices";
 	
 	/**
 	 * 
 	 */
 	@Property(
-			category = PropertyConstants.CATEGORY_EXPORT,
-			scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
-			sinceVersion = PropertyConstants.VERSION_6_12_0,
-			valueType = Boolean.class,
-			defaultValue = PropertyConstants.BOOLEAN_FALSE
-			)
+		category = PropertyConstants.CATEGORY_EXPORT,
+		scopes = {PropertyScope.GLOBAL, PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0,
+		valueType = Boolean.class,
+		defaultValue = PropertyConstants.BOOLEAN_FALSE
+		)
 	public static final String PDF_FIELD_COMBO_EDIT = PDF_EXPORTER_PROPERTIES_PREFIX + "field.combo.edit";
 	
 	/**
@@ -2887,8 +2897,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			pdfTextField.setBackgroundColor(text.getBackcolor());
 		}
 		pdfTextField.setTextColor(text.getForecolor());
-		pdfTextField.setText(text.getFullText());
-//		pdfTextField.setDefaultText("default:" + text.getFullText());
 		
 		switch (text.getHorizontalTextAlign())
 		{
@@ -2925,23 +2933,35 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			}
 		}
 		
+		String value = null;
+		if (text.getPropertiesMap().containsProperty(PDF_FIELD_VALUE))
+		{
+			value = text.getPropertiesMap().getProperty(PDF_FIELD_VALUE);
+		}
+		else
+		{
+			value = text.getFullText();
+		}
+		
 		if (
 			fieldType == PdfFieldTypeEnum.COMBO
 			|| fieldType == PdfFieldTypeEnum.LIST
 			)
 		{
 			//pdfTextField.setChoiceExports(new String[]{"one", "two", "three"});
-			String choices = text.getPropertiesMap().getProperty(PDF_FIELD_CHOICES);
-			if (choices != null && choices.trim().length() > 0)
+			String[] choices = null;
+			String strChoices = text.getPropertiesMap().getProperty(PDF_FIELD_CHOICES);
+			if (strChoices != null && strChoices.trim().length() > 0)
 			{
 				String choiceSeparators = propertiesUtil.getProperty(PDF_FIELD_CHOICE_SEPARATORS, text, jasperPrint);
-				StringTokenizer tkzer = new StringTokenizer(choices, choiceSeparators);
+				StringTokenizer tkzer = new StringTokenizer(strChoices, choiceSeparators);
 				List<String> choicesList = new ArrayList<String>();
 				while (tkzer.hasMoreTokens())
 				{
 					choicesList.add(tkzer.nextToken());
 				}
-				pdfTextField.setChoices(choicesList.toArray(new String[choicesList.size()]));
+				choices = choicesList.toArray(new String[choicesList.size()]);
+				pdfTextField.setChoices(choices);
 			}
 			if (
 				fieldType == PdfFieldTypeEnum.COMBO
@@ -2950,7 +2970,28 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			{
 				pdfTextField.setOptions(pdfTextField.getOptions() | TextField.EDIT);
 			}
-//			pdfTextField.setChoiceSelection(0);
+			
+			if (value != null && choices != null)
+			{
+				int i = 0;
+				for (String choice : choices)
+				{
+					if (value.equals(choice))
+					{
+						pdfTextField.setChoiceSelection(i);
+						break;
+					}
+					i++;
+				}
+			}
+		}
+		else
+		{
+			if (value != null)
+			{
+				pdfTextField.setText(value);
+			}
+//			pdfTextField.setDefaultText("default:" + text.getFullText());
 		}
 
 		String readOnly = text.getPropertiesMap().getProperty(PDF_FIELD_READ_ONLY);
