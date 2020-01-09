@@ -218,6 +218,14 @@ public class PropertyProcessor extends AbstractProcessor
 		{
 			propertyScopes.add(contextIndex, PropertyScope.GLOBAL);
 		}
+		
+		//automatically adding Report if Dataset is present
+		int datasetIndex = propertyScopes.indexOf(PropertyScope.DATASET);
+		if (datasetIndex >= 0 && !propertyScopes.contains(PropertyScope.REPORT))
+		{
+			propertyScopes.add(datasetIndex, PropertyScope.REPORT);
+		}
+		
 		property.setScopes(propertyScopes);
 		
 		@SuppressWarnings("unchecked")
