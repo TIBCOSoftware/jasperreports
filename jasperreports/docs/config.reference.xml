@@ -4266,7 +4266,7 @@ See <a href="#net.sf.jasperreports.export.pdf.field.choices">net.sf.jasperreport
   
   <configProperty name="net.sf.jasperreports.export.pdf.field.choices">
     <description>
-Specifies the list of choices for an input field such as list, combobox or radio group. Choices in the list are delimited by a separator character provided 
+Specifies the list of choices for an input field such as list or combobox. Choices in the list are delimited by a set of separator characters provided 
 by the <a href="#net.sf.jasperreports.export.pdf.field.choice.separators">net.sf.jasperreports.export.pdf.field.choice.separators</a> property. 
 If no <code>net.sf.jasperreports.export.pdf.field.choice.separators</code> property is set, the default choices separator is "|".<br/>
 Example: <code>'One'|'Two'|'Three'</code>
@@ -4287,7 +4287,7 @@ Flag property applicable for combobox input fields that specifies if the combobo
   
   <configProperty name="net.sf.jasperreports.export.pdf.field.name">
     <description>
-Property that specifies the field name, which serves as unique identifier within the PDF document. 
+Property that specifies the field name, which serves as unique identifier within the PDF form. 
 If not specified, the field name is generated using the report element UUID.
     </description>
   </configProperty>
