@@ -21,42 +21,52 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.charts.type;
+package net.sf.jasperreports.engine.export.type;
 
-import org.jfree.chart.renderer.xy.XYBubbleRenderer;
+import com.lowagie.text.pdf.PdfBorderDictionary;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.NamedValueEnum;
 
 
 /**
- * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public enum ScaleTypeEnum implements NamedValueEnum<Integer>
+public enum PdfFieldBorderStyleEnum implements NamedValueEnum<Integer>
 {
 	/**
-	 *
+	 * Constant useful for specifying the solid border for the input field in PDF form.
 	 */
-	ON_BOTH_AXES(XYBubbleRenderer.SCALE_ON_BOTH_AXES, "BothAxes"),
+	SOLID(PdfBorderDictionary.STYLE_SOLID, "Solid"),
 
 	/**
-	 *
+	 * Constant useful for specifying the dashed border for the input field in PDF form.
 	 */
-	ON_DOMAIN_AXIS(XYBubbleRenderer.SCALE_ON_DOMAIN_AXIS, "DomainAxis"),
+	DASHED(PdfBorderDictionary.STYLE_DASHED, "Dashed"),
 
 	/**
-	 *
+	 * Constant useful for specifying the beveled border for the input field in PDF form.
 	 */
-	ON_RANGE_AXIS(XYBubbleRenderer.SCALE_ON_RANGE_AXIS, "RangeAxis");
+	BEVELED(PdfBorderDictionary.STYLE_BEVELED, "Beveled"),
 
+	/**
+	 * Constant useful for specifying the inset border for the input field in PDF form.
+	 */
+	INSET(PdfBorderDictionary.STYLE_INSET, "Inset"),
 
+	/**
+	 * Constant useful for specifying the underline border for the input field in PDF form.
+	 */
+	UNDERLINE(PdfBorderDictionary.STYLE_UNDERLINE, "Underline");
+	
+	
 	/**
 	 *
 	 */
 	private final transient int value;
 	private final transient String name;
 
-	private ScaleTypeEnum(int value, String name)
+	private PdfFieldBorderStyleEnum(int value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -77,16 +87,8 @@ public enum ScaleTypeEnum implements NamedValueEnum<Integer>
 	/**
 	 *
 	 */
-	public static ScaleTypeEnum getByName(String name)
+	public static PdfFieldBorderStyleEnum getByName(String name)
 	{
 		return EnumUtil.getEnumByName(values(), name);
-	}
-	
-	/**
-	 * @deprecated Used only by deprecated serialized fields.
-	 */
-	public static ScaleTypeEnum getByValue(Integer value)
-	{
-		return EnumUtil.getByValue(values(), value);
 	}
 }
