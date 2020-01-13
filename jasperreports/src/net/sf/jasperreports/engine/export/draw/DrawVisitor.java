@@ -92,14 +92,6 @@ public class DrawVisitor extends UniformElementVisitor
 		drawVisitor.setGraphics2D(grx);
 	}
 
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setTextRenderer(JRReport report)
-	{
-		drawVisitor.setTextRenderer(report);
-	}
-
 	@Override
 	public void visitBreak(JRBreak breakElement)
 	{

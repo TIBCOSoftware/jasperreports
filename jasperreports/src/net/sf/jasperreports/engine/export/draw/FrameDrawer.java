@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
@@ -77,39 +76,6 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	private final PrintDrawVisitor drawVisitor;
 
 	private JRGraphics2DExporterContext exporterContext;
-	
-	/**
-	 * @deprecated Replaced by {@link #FrameDrawer(JasperReportsContext, ExporterFilter, PrintDrawVisitor)}.
-	 */
-	public FrameDrawer(
-		JasperReportsContext jasperReportsContext,
-		ExporterFilter filter,
-		AwtTextRenderer textRenderer
-		)
-	{
-		super(jasperReportsContext);
-
-		this.filter = filter;
-		
-		drawVisitor = new PrintDrawVisitor(jasperReportsContext);
-		drawVisitor.setTextDrawer(new TextDrawer(jasperReportsContext, textRenderer));
-		drawVisitor.setFrameDrawer(this);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #FrameDrawer(JRGraphics2DExporterContext, ExporterFilter, PrintDrawVisitor)}.
-	 */
-	public FrameDrawer(
-		JRGraphics2DExporterContext exporterContext, 
-		ExporterFilter filter,
-		AwtTextRenderer textRenderer
-		)
-	{
-		this(exporterContext.getJasperReportsContext(), filter, textRenderer);
-
-		this.exporterContext = exporterContext;
-	}
-		
 	
 	/**
 	 *
