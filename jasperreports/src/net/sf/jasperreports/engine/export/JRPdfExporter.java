@@ -3016,7 +3016,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		boolean isMultiLine = JRPropertiesUtil.asBoolean(text.getPropertiesMap().getProperty(PDF_FIELD_TEXT_MULTILINE), false);
 		if (isMultiLine)
 		{
-			pdfTextField.setOptions(TextField.MULTILINE);
+			pdfTextField.setOptions(pdfTextField.getOptions() | TextField.MULTILINE);
 		}
 		
 //		text.setRotation(90);
@@ -3144,17 +3144,6 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			radioFieldFactories.put(fieldName, radioField);
 		}
 
-		PdfFormField radioGroup = radioGroups == null ? null : radioGroups.get(fieldName);
-		if (radioGroup == null)
-		{
-			if (radioGroups == null)
-			{
-				radioGroups = new HashMap<String, PdfFormField>();
-			}
-			radioGroup = radioField.getRadioGroup(true, false);
-			radioGroups.put(fieldName, radioGroup);
-		}
-
 		PdfFieldCheckTypeEnum checkType = PdfFieldCheckTypeEnum.getByName(element.getPropertiesMap().getProperty(PDF_FIELD_CHECK_TYPE));
 		if (checkType != null)
 		{
@@ -3193,16 +3182,27 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		String checked = element.getPropertiesMap().getProperty(PDF_FIELD_CHECKED);
 		radioField.setChecked(Boolean.valueOf(checked)); // need to set to false if previous button was checked
 
+		// setting the read-only option has to occur before the getRadioGroup() call
 		String readOnly = element.getPropertiesMap().getProperty(PDF_FIELD_READ_ONLY);
 		if (readOnly != null)
 		{
 			if (Boolean.valueOf(readOnly))
 			{
-				//does not seem to work for radio groups; keeping it just in case
 				radioField.setOptions(radioField.getOptions() | TextField.READ_ONLY);
 			}
 		}
 		
+		PdfFormField radioGroup = radioGroups == null ? null : radioGroups.get(fieldName);
+		if (radioGroup == null)
+		{
+			if (radioGroups == null)
+			{
+				radioGroups = new HashMap<String, PdfFormField>();
+			}
+			radioGroup = radioField.getRadioGroup(true, false);
+			radioGroups.put(fieldName, radioGroup);
+		}
+
 		try
 		{
 			radioGroup.addKid(radioField.getRadioField());
