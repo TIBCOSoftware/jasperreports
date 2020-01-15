@@ -29,13 +29,13 @@ import java.security.NoSuchAlgorithmException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import net.sf.jasperreports.AbstractTest;
+import net.sf.jasperreports.AbstractXmlTest;
 import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class StartNewPageTest extends AbstractTest
+public class StartNewPageTest extends AbstractXmlTest
 {
 	@Test(dataProvider = "testArgs")
 	public void testReport(String jrxmlFileName, String referenceFileNamePrefix) 
