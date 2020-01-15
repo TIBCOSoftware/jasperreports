@@ -2889,7 +2889,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			);
 		
 		String fieldName = text.getPropertiesMap().getProperty(PDF_FIELD_NAME);
-		fieldName = fieldName == null ? "FIELD_" + text.getUUID() : fieldName;
+		fieldName = fieldName == null || fieldName.trim().length() == 0 ? "FIELD_" + text.getUUID() : fieldName;
 		
 		TextField pdfTextField = new TextField(pdfWriter, rectangle, fieldName);
 		if (ModeEnum.OPAQUE == text.getModeValue())
@@ -3054,7 +3054,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			);
 		
 		String fieldName = element.getPropertiesMap().getProperty(PDF_FIELD_NAME);
-		fieldName = fieldName == null ? "FIELD_" + element.getUUID() : fieldName;
+		fieldName = fieldName == null || fieldName.trim().length() == 0 ? "FIELD_" + element.getUUID() : fieldName;
 		
 		RadioCheckField checkField = new RadioCheckField(pdfWriter, rectangle, fieldName, "checked");
 		
@@ -3131,7 +3131,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			);
 		
 		String fieldName = element.getPropertiesMap().getProperty(PDF_FIELD_NAME);
-		fieldName = fieldName == null ? "FIELD_" + element.getUUID() : fieldName;
+		fieldName = fieldName == null || fieldName.trim().length() == 0 ? "FIELD_" + element.getUUID() : fieldName;
 		
 		RadioCheckField radioField = radioFieldFactories == null ? null : radioFieldFactories.get(fieldName);
 		if (radioField == null)
