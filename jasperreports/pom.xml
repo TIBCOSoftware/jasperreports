@@ -561,6 +561,7 @@
 				<includes>
 					<include>**/*.jrxml</include>
 					<include>**/*.jrpxml</include>
+					<include>**/*.svg</include>
 					<include>**/*.xml</include>
 					<include>**/*.csv</include>
 					<include>**/*.png</include>
