@@ -320,7 +320,10 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		printFrame.setY(getRelativeY());
 		printFrame.setWidth(getWidth());
 		
-		frameContainer.fillElements(printFrame);
+		VirtualizableFrame virtualizableFrame = new VirtualizableFrame(printFrame, 
+				filler.getVirtualizationContext(), filler.getCurrentPage());
+		frameContainer.fillElements(virtualizableFrame);
+		virtualizableFrame.fill();
 		
 		printFrame.setHeight(getStretchHeight());
 		transferProperties(printFrame);

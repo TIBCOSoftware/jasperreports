@@ -21,28 +21,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.base;
+package net.sf.jasperreports.engine.fill;
+
+import java.util.Collection;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-public interface ElementStore extends VirtualizablePageElements
+public class OffsetElements
 {
-	int size();
-
-	JRPrintElement get(int index);
-
-	boolean add(JRPrintElement element);
-
-	boolean add(int index, JRPrintElement element);
-
-	JRPrintElement set(int index, JRPrintElement element);
-
-	JRPrintElement remove(int index);
 	
-	void dispose();
+	private final Collection<? extends JRPrintElement> elements;
+	private final int offsetX;
+	private final int offsetY;
+	
+	public OffsetElements(Collection<? extends JRPrintElement> elements,
+			int offsetX, int offsetY)
+	{
+		this.elements = elements;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+	}
 
-	void updatePage(JRVirtualPrintPage page);
+	public Collection<? extends JRPrintElement> getElements()
+	{
+		return elements;
+	}
+
+	public int getOffsetX()
+	{
+		return offsetX;
+	}
+
+	public int getOffsetY()
+	{
+		return offsetY;
+	}
+
 }

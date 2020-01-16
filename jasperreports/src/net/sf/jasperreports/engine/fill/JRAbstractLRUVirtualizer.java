@@ -347,7 +347,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		if (log.isDebugEnabled())
 		{
-			log.debug("registering " + o.getUID());
+			log.debug("registering " + o.getUID() + " with context " + o.getContext());
 		}
 		
 		synchronized (this)

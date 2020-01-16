@@ -533,7 +533,7 @@ public abstract class JRBaseFiller extends BaseReportFiller implements JRDefault
 	/**
 	 *
 	 */
-	protected JRPrintPage getCurrentPage()
+	public JRPrintPage getCurrentPage()
 	{
 		return printPage;
 	}
