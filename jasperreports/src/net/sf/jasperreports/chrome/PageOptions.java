@@ -31,6 +31,10 @@ public class PageOptions
 
 	private Long timeout;
 	
+	private Integer screenWidth;
+	
+	private Integer screenHeight;
+	
 	public PageOptions()
 	{
 	}
@@ -43,6 +47,26 @@ public class PageOptions
 	public void setTimeout(Long timeout)
 	{
 		this.timeout = timeout;
+	}
+
+	public Integer getScreenWidth()
+	{
+		return screenWidth;
+	}
+
+	public void setScreenWidth(Integer screenWidth)
+	{
+		this.screenWidth = screenWidth;
+	}
+
+	public Integer getScreenHeight()
+	{
+		return screenHeight;
+	}
+
+	public void setScreenHeight(Integer screenHeight)
+	{
+		this.screenHeight = screenHeight;
 	}
 	
 }

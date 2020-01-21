@@ -32,6 +32,7 @@ import java.util.concurrent.TimeoutException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.github.kklisura.cdt.protocol.commands.Emulation;
 import com.github.kklisura.cdt.protocol.commands.Page;
 import com.github.kklisura.cdt.protocol.commands.Runtime;
 import com.github.kklisura.cdt.protocol.events.log.EntryAdded;
@@ -40,6 +41,7 @@ import com.github.kklisura.cdt.protocol.events.runtime.ExceptionThrown;
 import com.github.kklisura.cdt.protocol.types.log.LogEntry;
 import com.github.kklisura.cdt.protocol.types.runtime.ExceptionDetails;
 import com.github.kklisura.cdt.protocol.types.runtime.RemoteObject;
+import com.github.kklisura.cdt.services.ChromeDevToolsService;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
@@ -93,6 +95,8 @@ public class BrowserService
 				runtime.onConsoleAPICalled(this::consoleEvent);
 				runtime.onExceptionThrown(this::pageExceptionEvent);
 				runtime.enable();
+				
+				setScreenDimensions(options, devToolsService);
 
 				CompletableFuture<T> resultFuture = new CompletableFuture<>();
 				ChromePage chromePage = new ChromePage(devToolsService);
@@ -135,6 +139,30 @@ public class BrowserService
 			log.debug("page evaluation done");
 		}
 		return result;
+	}
+
+	protected void setScreenDimensions(PageOptions options, ChromeDevToolsService devToolsService)
+	{
+		if (options != null && (options.getScreenWidth() != null || options.getScreenHeight() != null))
+		{
+			Emulation emulation = devToolsService.getEmulation();
+			if (emulation.canEmulate())
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("setting screen dimensions " + options.getScreenWidth() + ", " + options.getScreenHeight());
+				}
+				
+				emulation.setDeviceMetricsOverride(
+						options.getScreenWidth() != null && options.getScreenWidth() > 0 ? options.getScreenWidth() : 0, 
+						options.getScreenHeight() != null && options.getScreenHeight() > 0 ? options.getScreenHeight() : 0, 
+						0d, false);
+			}
+			else
+			{
+				log.warn("Chrome device emulation is not supported, cannot set page width and height");
+			}
+		}
 	}
 
 	protected Long pageTimeout(PageOptions options)
