@@ -31,6 +31,11 @@ import java.io.OutputStreamWriter;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.transcoder.ToSVGAbstractTranscoder;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.svg2svg.SVGTranscoder;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
@@ -49,6 +54,41 @@ public abstract class AbstractSvgTest extends AbstractTest
 	@Override
 	protected void export(JasperPrint print, OutputStream out) throws JRException, IOException
 	{
+		ToSVGAbstractTranscoder transcoder = new JasperPrintSvgTranscoder(print, out);
+		
+		transcoder.addTranscodingHint(SVGTranscoder.KEY_NEWLINE, SVGTranscoder.VALUE_NEWLINE_LF);
+		
+		try
+		{
+			transcoder.transcode(null, new TranscoderOutput(out));
+		}
+		catch (TranscoderException e)
+		{
+			throw new JRException(e);
+		}
+	}
+
+	@Override
+	protected String getExportFileExtension()
+	{
+		return "svg";
+	}
+}
+
+class JasperPrintSvgTranscoder extends ToSVGAbstractTranscoder
+{
+	private final JasperPrint jasperPrint;
+	private final  OutputStream out;
+	
+	protected JasperPrintSvgTranscoder(JasperPrint jasperPrint, OutputStream out)
+	{
+		this.jasperPrint = jasperPrint;
+		this.out = out;
+	}
+
+	@Override
+	public void transcode(TranscoderInput transcoderInput, TranscoderOutput transcoderOutput) throws TranscoderException
+	{
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		Document document = domImpl.createDocument(null, "svg", null);
 		SVGGraphics2D grx = 
@@ -57,28 +97,29 @@ public abstract class AbstractSvgTest extends AbstractTest
 				false // this is for textAsShapes, but does not seem to have effect in our case
 				);
 		
-		JRGraphics2DExporter exporter = new JRGraphics2DExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(print));
-		SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
-		Graphics2D g = (Graphics2D)grx.create();
-		output.setGraphics2D(g);
-		exporter.setExporterOutput(output);
-		
-		SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
-		configuration.setPageIndex(0);
-		exporter.setConfiguration(configuration);
+		try
+		{
+			JRGraphics2DExporter exporter = new JRGraphics2DExporter();
+			
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
+			Graphics2D g = (Graphics2D)grx.create();
+			output.setGraphics2D(g);
+			exporter.setExporterOutput(output);
+			
+			SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
+			configuration.setPageIndex(0);
+			exporter.setConfiguration(configuration);
 
-		exporter.exportReport();
+			exporter.exportReport();
 
-		grx.stream(new OutputStreamWriter(out), true);
-		
-		out.close();
-	}
-
-	@Override
-	protected String getExportFileExtension()
-	{
-		return "svg";
+			grx.stream(new OutputStreamWriter(out), true);
+			
+			out.close();
+		}
+		catch (JRException | IOException e)
+		{
+			throw new TranscoderException(e);
+		}
 	}
 }
