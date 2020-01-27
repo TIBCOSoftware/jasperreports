@@ -24,14 +24,20 @@
 package net.sf.jasperreports;
 
 import java.awt.Graphics2D;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.svg2svg.SVGTranscoder;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
@@ -72,11 +78,23 @@ public abstract class AbstractSvgTest extends AbstractTest
 
 		exporter.exportReport();
 
-		StringWriter writer = new StringWriter();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		// use OutputStreamWriter instead of StringWriter so that we have "encoding" attribute in <xml> header tag.
+		grx.stream(new OutputStreamWriter(baos, "UTF-8"), true);
 		
-		grx.stream(writer, true);
-		
-		new OutputStreamWriter(out).write(writer.toString().replace("\r\n", "\n")); // replace CRLF on Windows like this because SvgTranscoder attempt did not work
+		SVGTranscoder transcoder = new SVGTranscoder();
+		transcoder.addTranscodingHint(SVGTranscoder.KEY_NEWLINE, SVGTranscoder.VALUE_NEWLINE_LF);
+		try
+		{
+			transcoder.transcode(
+				new TranscoderInput(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray()), "UTF-8")), 
+				new TranscoderOutput(new OutputStreamWriter(out, "UTF-8"))
+				);
+		}
+		catch (TranscoderException e)
+		{
+			throw new JRException(e);
+		}
 		
 		out.close();
 	}
