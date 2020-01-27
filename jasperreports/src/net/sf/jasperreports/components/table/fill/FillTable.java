@@ -61,6 +61,7 @@ import net.sf.jasperreports.engine.fill.JRFillDatasetRun;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
+import net.sf.jasperreports.engine.fill.VirtualizableFrame;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -485,11 +486,12 @@ public class FillTable extends BaseFillComponent
 		Collection<JRPrintElement> elements = fillSubreport.getPrintElements();
 		if (elements != null)
 		{
-			for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
-			{
-				JRPrintElement element = it.next();
-				printFrame.addElement(element);
-			}
+			VirtualizableFrame virtualizableFrame = new VirtualizableFrame(printFrame, 
+					fillContext.getFiller().getVirtualizationContext(), 
+					fillContext.getFiller().getCurrentPage());
+			
+			virtualizableFrame.addOffsetElements(elements, 0, 0);
+			virtualizableFrame.fill();
 		}
 		
 		fillSubreport.subreportPageFilled();

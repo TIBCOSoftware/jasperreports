@@ -24,44 +24,24 @@
 package net.sf.jasperreports.engine.util;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.base.VirtualizableElementList;
 
 /**
- * Print element visitor that counts deep elements by recursively visiting
- * {@link JRPrintFrame} containers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  */
-//we need a mutable integer argument, using AtomicInteger
-public class DeepPrintElementCounter extends UniformPrintElementVisitor<AtomicInteger>
+public class VirtualizableElementCounter extends DeepPrintElementCounter
 {
 
-	private static final DeepPrintElementCounter INSTANCE = new DeepPrintElementCounter();
+	private static final VirtualizableElementCounter INSTANCE = new VirtualizableElementCounter();
 	
-	/**
-	 * Calculates the deep element count of an element.
-	 * 
-	 * @param element
-	 * @return the deep element count of the element
-	 */
 	public static int count(JRPrintElement element)
 	{
 		return count(element, INSTANCE);
-	}
-	
-	protected static int count(JRPrintElement element, UniformPrintElementVisitor<AtomicInteger> counter)
-	{
-		if (element == null)
-		{
-			return 0;
-		}
-		
-		AtomicInteger count = new AtomicInteger(0);
-		element.accept(counter, count);
-		return count.get();
 	}
 	
 	public static int count(Collection<? extends JRPrintElement> elements)
@@ -69,31 +49,18 @@ public class DeepPrintElementCounter extends UniformPrintElementVisitor<AtomicIn
 		return count(elements, INSTANCE);
 	}
 	
-	protected static int count(Collection<? extends JRPrintElement> elements, 
-			UniformPrintElementVisitor<AtomicInteger> counter)
+	protected VirtualizableElementCounter()
 	{
-		if (elements == null || elements.isEmpty())
-		{
-			return 0;
-		}
-		
-		AtomicInteger count = new AtomicInteger(0);
-		for (JRPrintElement element : elements)
-		{
-			element.accept(counter, count);
-		}
-		return count.get();
-	}
-	
-	protected DeepPrintElementCounter()
-	{
-		super(true);
+		super();
 	}
 
 	@Override
-	protected void visitElement(JRPrintElement element, AtomicInteger count)
+	protected void visitFrameElements(List<JRPrintElement> elements, AtomicInteger count)
 	{
-		count.incrementAndGet();		
+		if (!(elements instanceof VirtualizableElementList))
+		{
+			super.visitFrameElements(elements, count);
+		}
 	}
 	
 }

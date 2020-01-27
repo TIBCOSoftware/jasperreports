@@ -38,10 +38,11 @@ import org.apache.commons.logging.LogFactory;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVirtualizable;
+import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectOutputStream;
-import net.sf.jasperreports.engine.util.DeepPrintElementCounter;
+import net.sf.jasperreports.engine.util.VirtualizableElementCounter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -94,6 +95,15 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 		this.uid = uid;
 		this.size = size;
 		//no need to set deepElementCount
+	}
+
+	@Override
+	public void updatePage(JRVirtualPrintPage page)
+	{
+		this.page = page;
+		
+		JRVirtualizationContext newContext = page.getVirtualizationContext();
+		context.inheritListeners(newContext);
 	}
 
 	private void lockContext()
@@ -172,7 +182,7 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 		// check whether we passed the element count threshold.
 		// if the list is empty, allow at least one element to be added
 		// no matter the element count.
-		int elementCount = DeepPrintElementCounter.count(element);
+		int elementCount = VirtualizableElementCounter.count(element);
 		if (!force && !elements.isEmpty())
 		{
 			int pageSize = context.getPageElementSize();
@@ -200,6 +210,13 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 			boolean adding = preAdd(element, force);
 			if (adding)
 			{
+				if (element instanceof JRTemplatePrintFrame
+						&& ((JRTemplatePrintFrame) element).getElements() instanceof VirtualizableElementList)
+				{
+					VirtualizableElementList frameList = ((VirtualizableElementList) ((JRTemplatePrintFrame) element).getElements());
+					frameList.updatePage(page);
+				}
+				
 				elements.add(element);
 				++size;
 			}
@@ -251,8 +268,8 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 			ensureDataAndTouch();
 			
 			JRPrintElement oldElement = elements.get(index);
-			deepElementCount -= DeepPrintElementCounter.count(oldElement);
-			deepElementCount += DeepPrintElementCounter.count(element);
+			deepElementCount -= VirtualizableElementCounter.count(oldElement);
+			deepElementCount += VirtualizableElementCounter.count(element);
 			
 			return elements.set(index, element);
 		}
@@ -274,7 +291,7 @@ public class ElementsBlock implements JRVirtualizable<VirtualElementsData>, Elem
 			--size;
 			
 			// decrement the deep count
-			deepElementCount -= DeepPrintElementCounter.count(element);
+			deepElementCount -= VirtualizableElementCounter.count(element);
 
 			if (elements.isEmpty())
 			{

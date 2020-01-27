@@ -34,7 +34,9 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.PrintElementId;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.base.VirtualizableElementList;
 import net.sf.jasperreports.engine.virtualization.VirtualizationInput;
 import net.sf.jasperreports.engine.virtualization.VirtualizationOutput;
 
@@ -67,6 +69,11 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 		super(templateFrame, originator);
 		
 		elements = new ArrayList<JRPrintElement>();
+	}
+
+	protected void setElementsList(List<JRPrintElement> elements)
+	{
+		this.elements = elements;
 	}
 
 	@Override
@@ -109,11 +116,22 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	{
 		super.writeVirtualized(out);
 		
-		out.writeIntCompressed(elements.size());
-		for (JRPrintElement element : elements)
+		if (elements instanceof VirtualizableElementList)
 		{
-			// TODO lucianc we only need this when VirtualElementsData has evaluations 
-			out.writeJRObject(element, true, false);
+			VirtualizableElementList virtualizableList = ((VirtualizableElementList) elements);
+			JRVirtualizationContext virtualizationContext = virtualizableList.getVirtualizationContext();
+			//should be already cached by VirtualizableFrame, but it doesn't hurt setting it again
+			virtualizationContext.cacheVirtualizableList(PrintElementId.forElement(this), virtualizableList);
+			out.writeIntCompressed(-1);
+		}
+		else
+		{
+			out.writeIntCompressed(elements.size());
+			for (JRPrintElement element : elements)
+			{
+				// TODO lucianc we only need this when VirtualElementsData has evaluations 
+				out.writeJRObject(element, true, false);
+			}
 		}
 	}
 
@@ -123,11 +141,18 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 		super.readVirtualized(in);
 		
 		int size = in.readIntCompressed();
-		elements = new ArrayList<JRPrintElement>(size);
-		for (int i = 0; i < size; i++)
+		if (size < 0)
 		{
-			JRPrintElement element = (JRPrintElement) in.readJRObject();
-			elements.add(element);
+			elements = in.getVirtualizationContext().getVirtualizableList(PrintElementId.forElement(this));
+		}
+		else
+		{
+			elements = new ArrayList<JRPrintElement>(size);
+			for (int i = 0; i < size; i++)
+			{
+				JRPrintElement element = (JRPrintElement) in.readJRObject();
+				elements.add(element);
+			}
 		}
 	}
 }

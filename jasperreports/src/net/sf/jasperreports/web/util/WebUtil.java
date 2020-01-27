@@ -102,8 +102,6 @@ public final class WebUtil
 			)
 	public static final String PROPERTY_EMBED_COMPONENT_METADATA = JRPropertiesUtil.PROPERTY_PREFIX + "web.embed.component.metadata.in.html.output";
 
-	public static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
-	
 	public static final String EXCEPTION_MESSAGE_KEY_CONFIG_PROPERTY_NOT_SET = "web.util.config.property.not.set";
 
 	private JasperReportsContext jasperReportsContext;

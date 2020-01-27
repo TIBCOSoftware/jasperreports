@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
+import net.sf.jasperreports.engine.base.VirtualizableElementList;
 import net.sf.jasperreports.engine.base.VirtualizablePageElements;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.LinkedMap;
@@ -644,6 +645,15 @@ public class DelayedFillActions implements VirtualizationListener<VirtualElement
 									log.debug(id + " collecting evaluation " + evaluationTime + " of element " + element);
 								}
 								collector.collect(element, action.element, evaluationTime);
+							}
+						}
+
+						@Override
+						protected void visitFrameElements(List<JRPrintElement> elements, Void arg)
+						{
+							if (!(elements instanceof VirtualizableElementList))
+							{
+								super.visitFrameElements(elements, arg);
 							}
 						}
 					};
