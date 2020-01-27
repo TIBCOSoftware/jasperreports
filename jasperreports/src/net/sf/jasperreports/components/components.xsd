@@ -451,6 +451,7 @@
 						</restriction>
 					</simpleType>
 					</attribute>
+					<attribute name="qrVersion" use="optional" type="unsignedInt"/>
 				</extension>
 			</complexContent>
 		</complexType>

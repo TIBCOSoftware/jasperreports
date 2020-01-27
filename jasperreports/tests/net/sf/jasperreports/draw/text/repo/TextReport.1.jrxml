@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.6.0.qualifier using JasperReports Library version master-SNAPSHOT-485bcf05d549585e98f9614b3d607254d73c6c29  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TextReport.1" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="02560bcc-b1b2-464f-90a0-1e56616b66e1">
+	<parameter name="MyText" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<style backcolor=\"cyan\">There     are     five     blank     characters     between     each     word     in     this     paragraph     to     show     how     they     impact     text     alignment.</style>"]]></defaultValueExpression>
+	</parameter>
+	<group name="DummyGroup">
+		<groupHeader>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="5" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="eda0c1d8-c80f-4b92-b49f-24135dd8819a">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="10"/>
+					<textElement textAlignment="Left" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="153" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="bff4764c-a4b5-485f-bf9b-eb5b884f6bc9">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="10"/>
+					<textElement textAlignment="Right" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="301" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="1f30fea9-3fe9-4b66-8901-90cf28e014fd">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="10"/>
+					<textElement textAlignment="Center" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="450" y="0" width="100" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="f1333208-fbc6-4387-b7a5-a975d07e3404">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box topPadding="10"/>
+					<textElement textAlignment="Justified" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="550">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="0" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="932b53c2-1c76-4fe6-ada0-e7062b64618e">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Left" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="148" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="09a26a79-25d2-4654-94f4-4423067698b8">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Right" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="296" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="daee4b3d-f44b-4cb6-952f-dc2b24dac601">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Center" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="445" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="9479f13c-9634-44cd-b9da-a7d042f5fb5c">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Justified" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="0" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="7aaae350-fbe8-4dcc-bf9e-276344b8c630">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Left" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="148" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="57463a9c-3a05-42bc-8a98-202f4d931a63">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Right" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="296" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="18788a85-d94d-41ef-a5ba-b34dbb758083">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Center" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement mode="Opaque" x="445" y="0" width="110" height="30" forecolor="#FF0000" backcolor="#FFFF00" uuid="e5807bc7-e82c-452e-b8f5-4990a0e3062e">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Justified" markup="styled">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

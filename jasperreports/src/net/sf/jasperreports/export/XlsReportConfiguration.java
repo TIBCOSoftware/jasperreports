@@ -381,15 +381,15 @@ public interface XlsReportConfiguration extends ReportExportConfiguration
 	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.password";
 
 	/**
-	 * Property prefix used in order to identify a set of properties holding sheet names, very useful when 
-	 * indicating sheet names in the jrxml template is required. These properties' values are collected in an 
-	 * ordered list, therefore it is important the order they are written in. If set, these values are considered 
+	 * Prefix used to identify properties holding sheet names. Such properties are useful when 
+	 * defining sheet names in the JRXML template is required. The property values are collected in an 
+	 * ordered list, therefore the order in which the properties appear in the report is important. 
+	 * If set, the values are used 
 	 * as defaults for the {@link #getSheetNames()} export configuration setting.
 	 * <p/>
-	 * A property starting with this prefix can hold one or many sheet names. In order to be well parsed, 
-	 * sheet names contained in such a property's value should be separated by a slash character ("/")
+	 * A property starting with this prefix can hold one or several sheet names, separated by a slash character ("/").
 	 * <p/>
-	 * These properties are by default not set.
+	 * By default no sheet name properties are set.
 	 * 
 	 * @see JRPropertiesUtil
 	 */

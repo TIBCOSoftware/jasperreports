@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FormsReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FormsReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" whenNoDataType="AllSectionsNoDetail">
 	<group name="Dummy">
 		<groupHeader>
 			<band height="50">
@@ -7,11 +7,12 @@
 					<reportElement mode="Opaque" x="0" y="0" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF">
 						<property name="net.sf.jasperreports.export.pdf.field.type" value="Text"/>
 						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+						<propertyExpression name="net.sf.jasperreports.export.pdf.field.value">"This\nis a multi\nline text inside a single line text field."</propertyExpression>
 					</reportElement>
 					<textElement textAlignment="Center">
 						<font fontName="DejaVu Sans Mono" size="24"/>
 					</textElement>
-					<textFieldExpression><![CDATA["This\nis a multi\nline text inside a single line text field."]]></textFieldExpression>
+					<textFieldExpression><![CDATA["This text value is replaced in PDF by the field value property."]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement positionType="Float" mode="Opaque" x="250" y="0" width="200" height="45" forecolor="#FFFF00" backcolor="#0000FF">
@@ -30,6 +31,7 @@
 					<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="200" height="25" forecolor="#0000FF" backcolor="#FFFF00">
 						<property name="net.sf.jasperreports.export.pdf.field.type" value="Combo"/>
 						<property name="net.sf.jasperreports.export.pdf.field.choices" value="One|Two|Three|Four|Five"/>
+						<property name="net.sf.jasperreports.export.pdf.field.value" value="Four"/>
 					</reportElement>
 					<textElement textAlignment="Center">
 						<font fontName="DejaVu Serif" isBold="true" size="24"/>
@@ -54,6 +56,7 @@
 						<property name="net.sf.jasperreports.export.pdf.field.type" value="List"/>
 						<property name="net.sf.jasperreports.export.pdf.field.choice.separators" value=","/>
 						<property name="net.sf.jasperreports.export.pdf.field.choices" value="Un,Deux,Trois,Quatre,Cinq"/>
+						<property name="net.sf.jasperreports.export.pdf.field.value" value="Quatre"/>
 					</reportElement>
 					<box>
 						<pen lineStyle="Dashed" lineWidth="2" lineColor="red"/>

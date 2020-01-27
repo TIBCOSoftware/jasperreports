@@ -12,5 +12,7 @@
 		<dependency org="net.bytebuddy" name="byte-buddy" rev="1.9.5" conf="test->*"/>
 		<dependency org="org.jboss.logging" name="jboss-logging" rev="3.3.2.Final" conf="test->*"/>
 		<dependency org="org.javassist" name="javassist" rev="3.24.1-GA" conf="test->*"/>
+		<!-- JAXB API got removed from Java 11 -->
+		<dependency org="jakarta.xml.bind" name="jakarta.xml.bind-api" rev="2.3.2" conf="test->*"/>
 	</dependencies>
 </ivy-module>

@@ -36,8 +36,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementVisitor;
@@ -46,8 +44,6 @@ import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
-import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.export.Graphics2DReportConfiguration;
 import net.sf.jasperreports.renderers.RenderersCache;
 
 
@@ -69,18 +65,6 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private TextDrawer textDrawer;
 	private FrameDrawer frameDrawer;
 
-	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean)}.
-	 */
-	public PrintDrawVisitor(JasperReportsContext jasperReportsContext)
-	{
-		this.jasperReportsContext = jasperReportsContext;
-		this.lineDrawer = new LineDrawer(jasperReportsContext);
-		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
-		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
-		this.imageDrawer = new ImageDrawer(jasperReportsContext, new RenderersCache(jasperReportsContext));
-	}
-	
 	public PrintDrawVisitor(
 		JasperReportsContext jasperReportsContext,
 		RenderersCache renderersCache,
@@ -129,33 +113,9 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		frameDrawer = new FrameDrawer(exporterContext, null, this);
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean)}.
-	 */
-	public void setTextRenderer(JRReport report)
-	{
-		AwtTextRenderer textRenderer = 
-			new AwtTextRenderer(
-				jasperReportsContext,
-				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, Graphics2DReportConfiguration.MINIMIZE_PRINTER_JOB_SIZE, true),
-				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
-				);
-		
-		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);
-		frameDrawer = new FrameDrawer(jasperReportsContext, null, textRenderer);
-	}
-
 	public void setTextDrawer(TextDrawer textDrawer)
 	{
 		this.textDrawer = textDrawer;
-	}
-
-	/**
-	 * @deprecated To be removed.
-	 */
-	public void setFrameDrawer(FrameDrawer frameDrawer)
-	{
-		this.frameDrawer = frameDrawer;
 	}
 
 	public void setClip(boolean isClip)

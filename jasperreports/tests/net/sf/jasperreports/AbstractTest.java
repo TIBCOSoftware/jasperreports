@@ -53,13 +53,9 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRXmlExporter;
-import net.sf.jasperreports.engine.export.XmlResourceHandler;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleXmlExporterOutput;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -116,12 +112,12 @@ public abstract class AbstractTest
 				
 				assert !print.getPages().isEmpty();
 				
-				String exportDigest = xmlExportDigest(print);
+				String exportDigest = getExportDigest(print);
 				log.debug("Plain report got " + exportDigest);
 				
 				boolean digestMatch = false;
 
-				String referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".jrpxml");
+				String referenceExportDigest = getFileDigest(referenceFileNamePrefix + "." + getExportFileExtension());
 				if (exportDigest.equals(referenceExportDigest))
 				{
 					digestMatch = true;
@@ -129,7 +125,7 @@ public abstract class AbstractTest
 				else
 				{
 					//fallback to account for JDK differences
-					referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".2.jrpxml");
+					referenceExportDigest = getFileDigest(referenceFileNamePrefix + ".2." + getExportFileExtension());
 					if (referenceExportDigest != null)
 					{
 						digestMatch = exportDigest.equals(referenceExportDigest);
@@ -139,9 +135,12 @@ public abstract class AbstractTest
 				assert digestMatch;
 			}
 		}
+		catch (AssertionError e)
+		{
+			throw e;
+		}
 		catch (Throwable t)
 		{
-			String errorDigest = errExportDigest(t);
 			String referenceErrorDigest = getFileDigest(referenceFileNamePrefix + ".err");
 			if (referenceErrorDigest == null)
 			{
@@ -149,7 +148,9 @@ public abstract class AbstractTest
 				//we don't have a reference error, it's an unexpected exception
 				throw t;
 			}
-			
+
+			String errorDigest = errExportDigest(t);
+
 			assert errorDigest.equals(referenceErrorDigest);
 		}
 	}
@@ -214,10 +215,10 @@ public abstract class AbstractTest
 		return digest;
 	}
 	
-	protected String xmlExportDigest(JasperPrint print) 
+	protected String getExportDigest(JasperPrint print) 
 			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
 	{
-		File outputFile = createXmlOutputFile();
+		File outputFile = createTmpOutputFile(getExportFileExtension());
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
@@ -225,7 +226,7 @@ public abstract class AbstractTest
 		try
 		{
 			DigestOutputStream out = new DigestOutputStream(output, digest);
-			xmlExport(print, out);
+			export(print, out);
 		}
 		finally
 		{
@@ -238,7 +239,7 @@ public abstract class AbstractTest
 	protected String errExportDigest(Throwable t) 
 			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
 	{
-		File outputFile = createXmlOutputFile();
+		File outputFile = createTmpOutputFile("err");
 		log.debug("Error stack trace at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
@@ -272,51 +273,24 @@ public abstract class AbstractTest
 		return digestString.toString();
 	}
 	
-	protected File createXmlOutputFile() throws IOException
+	protected File createTmpOutputFile(String fileExtension) throws IOException
 	{
-		String outputDirPath = System.getProperty("xmlOutputDir");
+		String outputDirPath = System.getProperty("outputDir");
 		File outputFile;
 		if (outputDirPath == null)
 		{
-			outputFile = File.createTempFile("jr_tests_", ".jrpxml");
+			outputFile = File.createTempFile("jr_tests_", "." + fileExtension);
 		}
 		else
 		{
 			File outputDir = new File(outputDirPath);
-			outputFile = File.createTempFile("jr_tests_", ".jrpxml", outputDir);
+			outputFile = File.createTempFile("jr_tests_", "." + fileExtension, outputDir);
 		}
 		
 		return outputFile;
 	}
 
-	protected void xmlExport(JasperPrint print, OutputStream out) throws JRException, IOException
-	{
-		JRXmlExporter exporter = new JRXmlExporter();
-		
-		exporter.setExporterInput(new SimpleExporterInput(print));
-		SimpleXmlExporterOutput output = new SimpleXmlExporterOutput(out);
-		String imagesNoEmbed = print.getProperty("net.sf.jasperreports.export.xml.images.no.embed");
-		if (Boolean.valueOf(imagesNoEmbed))
-		{
-			output.setEmbeddingImages(false);
-			output.setImageHandler(new XmlResourceHandler() {
+	protected abstract void export(JasperPrint print, OutputStream out) throws JRException, IOException;
 
-				@Override
-				public void handleResource(String id, byte[] data) {
-				}
-				
-				@Override
-				public String getResourceSource(String id) {
-					return id;
-				}
-			});
-		}
-		else
-		{
-			output.setEmbeddingImages(true);
-		}
-		exporter.setExporterOutput(output);
-		exporter.exportReport();
-		out.close();
-	}
+	protected abstract String getExportFileExtension();
 }

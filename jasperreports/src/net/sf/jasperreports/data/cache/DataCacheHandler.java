@@ -42,7 +42,7 @@ public interface DataCacheHandler
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_CACHE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = PropertyConstants.VERSION_4_6_0,
 			valueType = Boolean.class
 			)
@@ -51,7 +51,7 @@ public interface DataCacheHandler
 	@Property(
 			category = PropertyConstants.CATEGORY_DATA_CACHE,
 			defaultValue = PropertyConstants.BOOLEAN_TRUE,
-			scopes = {PropertyScope.CONTEXT},
+			scopes = {PropertyScope.CONTEXT, PropertyScope.DATASET},
 			sinceVersion = PropertyConstants.VERSION_4_6_0,
 			valueType = Boolean.class
 			)

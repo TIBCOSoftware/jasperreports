@@ -85,12 +85,40 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	{
 		TabSegment segment = segments.get(segmentIndex);
 		
-		segment.layout.draw(
-			grx,
-			x + drawPosX,// + leftPadding,
-			//y + topPadding + verticalAlignOffset + text.getLeadingOffset() + drawPosY
-			y + topPadding + verticalAlignOffset + drawPosY
-			);
+// this commented code is here to show that we could have clipped each segment individually,
+// but decided against this technique because it was producing too much clipping, for little benefit;
+// the rendering would have been closer to PDF one, where trailing spaces are not rendered, 
+// but more unlike the HTML, where trailing spaces are rendered and even participate to horizontal alignment;
+// the solution that was implemented is a compromise in the sense that it renders trailing spaces, 
+// but does not consider them for text alignment
+//
+//		Shape oldClip = grx.getClip();
+//		
+//		int clipX = Math.round(x + drawPosX);
+//		int clipY = Math.round(y + topPadding + verticalAlignOffset + drawPosY - lineHeight);
+//		int clipWidth = Math.round(x + drawPosX + segment.layout.getVisibleAdvance()) - clipX;
+//		int clipHeight = Math.round(2 * lineHeight);
+//		
+//		grx.clipRect(
+//			clipX, 
+//			clipY, 
+//			clipWidth, 
+//			clipHeight
+//			);
+//		
+//		try
+//		{
+			segment.layout.draw(
+				grx,
+				x + drawPosX,// + leftPadding,
+				//y + topPadding + verticalAlignOffset + text.getLeadingOffset() + drawPosY
+				y + topPadding + verticalAlignOffset + drawPosY
+				);
+//		}
+//		finally
+//		{
+//			grx.setClip(oldClip);
+//		}
 	}
 
 	

@@ -312,11 +312,13 @@
 			<fileset dir="./tests">
 				<include name="**/*.jrxml"/>
 				<include name="**/*.jrpxml"/>
+				<include name="**/*.svg"/>
 				<include name="**/*.xml"/>
 				<include name="**/*.csv"/>
 				<include name="**/*.png"/>
 				<include name="**/*.jpg"/>
 				<include name="**/*.json"/>
+				<include name="**/*.err"/>
 			</fileset>
 		</copy>
 		

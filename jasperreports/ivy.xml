@@ -34,7 +34,7 @@
 		<dependency org="jaxen" name="jaxen" rev="1.1.6"/>
 		<dependency org="mondrian" name="mondrian" rev="3.1.1.12687"/>
 		<dependency org="net.sf.barcode4j" name="barcode4j" rev="2.1"/>
-		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="6.7.0" conf="annotations->*"/>
+		<dependency org="net.sf.jasperreports" name="jasperreports-annotation-processors" rev="master-SNAPSHOT" conf="annotations->*"/>
 		<dependency org="net.sf.jasperreports" name="jasperreports-metadata" rev="6.6.0" conf="compile,annotations->*"/>
 		<dependency org="net.sourceforge.barbecue" name="barbecue" rev="1.5-beta1"/>
 		<dependency org="net.tascalate" name="net.tascalate.asmx" rev="7.0.1" conf="javaflow->*"/>
@@ -73,6 +73,11 @@
 		<dependency org="org.apache.xmlgraphics" name="batik-svg-dom" rev="1.11"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-svggen" rev="1.11"/>
 		<dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.11"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-xml" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-ext" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-parser" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-script" rev="1.11" conf="test->*"/>
+		<dependency org="org.apache.xmlgraphics" name="batik-transcoder" rev="1.11" conf="test->*"/>
 		<dependency org="org.codehaus.castor" name="castor-core" rev="1.4.1"/>
 		<dependency org="org.codehaus.castor" name="castor-xml" rev="1.4.1"/>
 		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.16"/>

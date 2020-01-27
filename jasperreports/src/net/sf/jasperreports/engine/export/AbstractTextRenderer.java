@@ -137,6 +137,42 @@ public abstract class AbstractTextRenderer
 	/**
 	 *
 	 */
+	public int getTopPadding()
+	{
+		return topPadding;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		return leftPadding;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		return bottomPadding;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		return rightPadding;
+	}
+	
+	
+	/**
+	 *
+	 */
 	public JRStyledText getStyledText()
 	{
 		return styledText;
@@ -354,7 +390,10 @@ public abstract class AbstractTextRenderer
 			while (!lineComplete)
 			{
 				// the current segment limit is either the next tab character or the paragraph end 
-				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1);
+				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1); // this +1 here means
+				// that each segment would contain its terminal tab character, except the last segment which ends where the paragraph ends;
+				// the tab character at the end of the segment, although it is not actually rendered, it still causes the layout.getAdvance() to equal layout.getVisibleAdvance()
+				// meaning that any white spaces before the tab are not considered trailing spaces, so they contribute to segment width and thus impact segment text alignment
 				
 				float startX = (lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0) + leftPadding;
 				endX = width - text.getParagraph().getRightIndent() - rightPadding;
@@ -422,17 +461,26 @@ public abstract class AbstractTextRenderer
 					crtSegment.as = tmpText;
 					crtSegment.text = lastParagraphText.substring(startIndex, startIndex + layout.getCharacterCount());
 
-					float leftX = ParagraphUtil.getLeftX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
+					// using layout.getVisibleAdvance() here means trailing white space characters at the end of the line do not contribute to line width,
+					// which is important when aligning the line of text, to match how text alignment works in PDF, DOCX and other formats;
+					// unlike entire lines of text which might end up with white space characters and are thus considered trailing spaces, 
+					// segments separated by tab character contain the tab character as last character and any white space character preceding the tab are not 
+					// considered trailing spaces; they contribute to the segment width and impact segment alignment because layout.getAvance() equals layout.getVisibleAdvance()
+					// in their case
+					
+					float advance = layout.getVisibleAdvance();
+					//float advance = layout.getAdvance();
+					float leftX = ParagraphUtil.getLeftX(nextTabStop, advance); // nextTabStop can be null here; and that's OK
 					if (rightX > leftX)
 					{
 						crtSegment.leftX = rightX;
-						crtSegment.rightX = rightX + layout.getAdvance();
+						crtSegment.rightX = rightX + advance;
 					}
 					else
 					{
 						crtSegment.leftX = leftX;
 						// we need this special tab stop based utility call because adding the advance to leftX causes rounding issues
-						crtSegment.rightX = ParagraphUtil.getRightX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
+						crtSegment.rightX = ParagraphUtil.getRightX(nextTabStop, advance); // nextTabStop can be null here; and that's OK
 					}
 
 					segments.add(crtSegment);

@@ -572,6 +572,7 @@ public abstract class AbstractBarcodeEvaluator implements BarcodeVisitor
 
 		qrCodeBean.setMargin(qrCode.getMargin());
 		qrCodeBean.setErrorCorrectionLevel(qrCode.getErrorCorrectionLevel());
+		qrCodeBean.setQrVersion(qrCode.getQrVersion());
 		evaluateBarcodeRenderable(qrCodeBean);
 	}
 

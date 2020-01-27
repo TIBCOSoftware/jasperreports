@@ -33,6 +33,7 @@ public class QRCodeBean
 {
 	private Integer margin;
 	private ErrorCorrectionLevelEnum errorCorrectionLevel;
+	private Integer qrVersion;
   
 	public QRCodeBean() {
 	}
@@ -51,6 +52,14 @@ public class QRCodeBean
 
 	public void setErrorCorrectionLevel(ErrorCorrectionLevelEnum errorCorrectionLevel) {
 		this.errorCorrectionLevel = errorCorrectionLevel;
+	}
+
+	public Integer getQrVersion() {
+		return qrVersion;
+	}
+
+	public void setQrVersion(Integer qrVersion) {
+		this.qrVersion = qrVersion;
 	}
 }
 
