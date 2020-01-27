@@ -135,9 +135,12 @@ public abstract class AbstractTest
 				assert digestMatch;
 			}
 		}
+		catch (AssertionError e)
+		{
+			throw e;
+		}
 		catch (Throwable t)
 		{
-			String errorDigest = errExportDigest(t);
 			String referenceErrorDigest = getFileDigest(referenceFileNamePrefix + ".err");
 			if (referenceErrorDigest == null)
 			{
@@ -145,7 +148,9 @@ public abstract class AbstractTest
 				//we don't have a reference error, it's an unexpected exception
 				throw t;
 			}
-			
+
+			String errorDigest = errExportDigest(t);
+
 			assert errorDigest.equals(referenceErrorDigest);
 		}
 	}
@@ -213,7 +218,7 @@ public abstract class AbstractTest
 	protected String getExportDigest(JasperPrint print) 
 			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
 	{
-		File outputFile = createTmpOutputFile();
+		File outputFile = createTmpOutputFile(getExportFileExtension());
 		log.debug("XML export output at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
@@ -234,7 +239,7 @@ public abstract class AbstractTest
 	protected String errExportDigest(Throwable t) 
 			throws NoSuchAlgorithmException, FileNotFoundException, JRException, IOException
 	{
-		File outputFile = createTmpOutputFile();
+		File outputFile = createTmpOutputFile("err");
 		log.debug("Error stack trace at " + outputFile.getAbsolutePath());
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
@@ -268,18 +273,18 @@ public abstract class AbstractTest
 		return digestString.toString();
 	}
 	
-	protected File createTmpOutputFile() throws IOException
+	protected File createTmpOutputFile(String fileExtension) throws IOException
 	{
 		String outputDirPath = System.getProperty("outputDir");
 		File outputFile;
 		if (outputDirPath == null)
 		{
-			outputFile = File.createTempFile("jr_tests_", "." + getExportFileExtension());
+			outputFile = File.createTempFile("jr_tests_", "." + fileExtension);
 		}
 		else
 		{
 			File outputDir = new File(outputDirPath);
-			outputFile = File.createTempFile("jr_tests_", "." + getExportFileExtension(), outputDir);
+			outputFile = File.createTempFile("jr_tests_", "." + fileExtension, outputDir);
 		}
 		
 		return outputFile;
