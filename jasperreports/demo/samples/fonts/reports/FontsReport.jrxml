@@ -1,138 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FontsReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="8c1609b4-a52a-445f-acc9-69218b035b22">
-	<property name="net.sf.jasperreports.export.docx.embed.fonts" value="true"/>
-	<property name="net.sf.jasperreports.export.pptx.embed.fonts" value="true"/>
-	<title>
-		<band height="782">
-			<staticText>
-				<reportElement x="0" y="50" width="150" height="40" uuid="67cc85d2-1691-441c-8ed6-b65c59f98fbc"/>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="50" width="390" height="40" uuid="e0d254ad-1e47-4792-b380-f7afc5e4faa5"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="50" width="150" height="40"/><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="100" width="150" height="40" uuid="3c5505db-55e9-4aca-ad3a-ae92898ba1bb"/>
-				<textElement>
-					<font size="12"/>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FontsReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1951f7e6-f9e5-481d-94a6-ddc3db1e1d41">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="TXT" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Phasellus\tarcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. Fusce enim lacus, aliquam eu tincidunt eget, imperdiet sed urna. Quisque vitae placerat lectus. Sed elementum lorem et est ullamcorper sollicitudin. Duis felis enim, hendrerit congue tellus vel, tincidunt ultricies risus. Quisque blandit, velit nec maximus mollis, ipsum erat faucibus nisl, nec elementum lectus mi id dolor. Praesent suscipit eros ut elit scelerisque ornare. Suspendisse rhoncus consequat diam, non aliquet dolor iaculis vitae. Aliquam egestas laoreet quam, ac tincidunt diam efficitur ac. Proin lorem massa, consequat sed pellentesque in, vulputate at tellus. Integer quis ornare risus. Praesent suscipit, nisi vestibulum mollis vestibulum, sapien diam lacinia risus, sed finibus metus velit non quam. Duis sed imperdiet nunc. Nam tempor eget enim sed finibus. Aenean erat dolor, luctus ac ullamcorper non, porta a urna. Duis pulvinar suscipit nunc ut ultricies. Duis eros nunc, cursus ut iaculis pretium, sodales nec est. Donec facilisis tristique leo, at accumsan libero fringilla sed. Maecenas pulvinar ultricies turpis eu vehicula. Nam placerat quam mauris, sed ullamcorper nisi molestie nec. Donec eu hendrerit neque. Cras sit amet ligula elit. Sed non lobortis velit. Cras venenatis feugiat lobortis. Curabitur non lacus in urna bibendum cursus. Vestibulum imperdiet ante turpis, vel interdum tellus egestas quis. Aenean nec augue placerat, rutrum metus ac, laoreet augue. Phasellus non hendrerit sapien. Sed urna dolor, pulvinar in orci at, blandit consectetur quam. Pellentesque pharetra metus a aliquam varius. Sed ornare justo ac felis vehicula faucibus. Phasellus consectetur sem vitae dictum accumsan. Cras tristique lorem libero, vehicula dignissim metus ornare varius. Etiam dignissim posuere libero, sed vestibulum risus. Nunc hendrerit, turpis vel vulputate consequat, risus turpis consectetur mi, sed vulputate odio dui eget purus. Phasellus sed viverra ante. Donec sed tempor nisl, eget facilisis sapien. Suspendisse vel accumsan magna. Vestibulum aliquam eros vel facilisis ultrices. Nullam sagittis pulvinar risus sit amet maximus. Curabitur velit lectus, aliquet sit amet lacus eu, accumsan bibendum felis. Etiam augue nunc, fermentum a iaculis eu, vehicula sed diam. Praesent at elementum dolor. Morbi congue ut justo ac imperdiet. Nulla lacinia sapien sed dolor egestas, nec pellentesque turpis efficitur. Sed viverra convallis est, mollis fermentum tortor posuere quis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. Fusce enim lacus, aliquam eu tincidunt eget, imperdiet sed urna. Quisque vitae placerat lectus. Sed elementum lorem et est ullamcorper sollicitudin. Duis felis enim, hendrerit congue tellus vel, tincidunt ultricies risus. Quisque blandit, velit nec maximus mollis, ipsum erat faucibus nisl, nec elementum lectus mi id dolor. Praesent suscipit eros ut elit scelerisque ornare. Suspendisse rhoncus consequat diam, non aliquet dolor iaculis vitae. Aliquam egestas laoreet quam, ac tincidunt diam efficitur ac. Proin lorem massa, consequat sed pellentesque in, vulputate at tellus. Integer quis ornare risus. Praesent suscipit, nisi vestibulum mollis vestibulum, sapien diam lacinia risus, sed finibus metus velit non quam. Duis sed imperdiet nunc. Nam tempor eget enim sed finibus. Aenean erat dolor, luctus ac ullamcorper non, porta a urna. Duis pulvinar suscipit nunc ut ultricies. Duis eros nunc, cursus ut iaculis pretium, sodales nec est. Donec facilisis tristique leo, at accumsan libero fringilla sed. Maecenas pulvinar ultricies turpis eu vehicula. Nam placerat quam mauris, sed ullamcorper nisi molestie nec. Donec eu hendrerit neque. Cras sit amet ligula elit. Sed non lobortis velit. Cras venenatis feugiat lobortis. Curabitur non lacus in urna bibendum cursus. Vestibulum imperdiet ante turpis, vel interdum tellus egestas quis. Aenean nec augue placerat, rutrum metus ac, laoreet augue. Phasellus non hendrerit sapien. Sed urna dolor, pulvinar in orci at, blandit consectetur quam. Pellentesque pharetra metus a aliquam varius. Sed ornare justo ac felis vehicula faucibus. Phasellus consectetur sem vitae dictum accumsan. Cras tristique lorem libero, vehicula dignissim metus ornare varius. Etiam dignissim posuere libero, sed vestibulum risus. Nunc hendrerit, turpis vel vulputate consequat, risus turpis consectetur mi, sed vulputate odio dui eget purus. Phasellus sed viverra ante. Donec sed tempor nisl, eget facilisis sapien. Suspendisse vel accumsan magna. Vestibulum aliquam eros vel facilisis ultrices. Nullam sagittis pulvinar risus sit amet maximus. Curabitur velit lectus, aliquet sit amet lacus eu, accumsan bibendum felis. Etiam augue nunc, fermentum a iaculis eu, vehicula sed diam. Praesent at elementum dolor. Morbi congue ut justo ac imperdiet. Nulla lacinia sapien sed dolor egestas, nec pellentesque turpis efficitur. Sed viverra convallis est, mollis fermentum tortor posuere quis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros.Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. "
+		+ "Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. Fusce enim lacus, aliquam eu tincidunt eget, imperdiet sed urna. Quisque vitae placerat lectus. Sed elementum lorem et est ullamcorper sollicitudin. Duis felis enim, hendrerit congue tellus vel, tincidunt ultricies risus. Quisque blandit, velit nec maximus mollis, ipsum erat faucibus nisl, nec elementum lectus mi id dolor. Praesent suscipit eros ut elit scelerisque ornare. Suspendisse rhoncus consequat diam, non aliquet dolor iaculis vitae. Aliquam egestas laoreet quam, ac tincidunt diam efficitur ac. Proin lorem massa, consequat sed pellentesque in, vulputate at tellus. Integer quis ornare risus. Praesent suscipit, nisi vestibulum mollis vestibulum, sapien diam lacinia risus, sed finibus metus velit non quam. Duis sed imperdiet nunc. Nam tempor eget enim sed finibus. Aenean erat dolor, luctus ac ullamcorper non, porta a urna. Duis pulvinar suscipit nunc ut ultricies. Duis eros nunc, cursus ut iaculis pretium, sodales nec est. Donec facilisis tristique leo, at accumsan libero fringilla sed. Maecenas pulvinar ultricies turpis eu vehicula. Nam placerat quam mauris, sed ullamcorper nisi molestie nec. Donec eu hendrerit neque. Cras sit amet ligula elit. Sed non lobortis velit. Cras venenatis feugiat lobortis. Curabitur non lacus in urna bibendum cursus. Vestibulum imperdiet ante turpis, vel interdum tellus egestas quis. Aenean nec augue placerat, rutrum metus ac, laoreet augue. Phasellus non hendrerit sapien. Sed urna dolor, pulvinar in orci at, blandit consectetur quam. Pellentesque pharetra metus a aliquam varius. Sed ornare justo ac felis vehicula faucibus. Phasellus consectetur sem vitae dictum accumsan. Cras tristique lorem libero, vehicula dignissim metus ornare varius. Etiam dignissim posuere libero, sed vestibulum risus. Nunc hendrerit, turpis vel vulputate consequat, risus turpis consectetur mi, sed vulputate odio dui eget purus. Phasellus sed viverra ante. Donec sed tempor nisl, eget facilisis sapien. Suspendisse vel accumsan magna. Vestibulum aliquam eros vel facilisis ultrices. Nullam sagittis pulvinar risus sit amet maximus. Curabitur velit lectus, aliquet sit amet lacus eu, accumsan bibendum felis. Etiam augue nunc, fermentum a iaculis eu, vehicula sed diam. Praesent at elementum dolor. Morbi congue ut justo ac imperdiet. Nulla lacinia sapien sed dolor egestas, nec pellentesque turpis efficitur. Sed viverra convallis est, mollis fermentum tortor posuere quis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. Fusce enim lacus, aliquam eu tincidunt eget, imperdiet sed urna. Quisque vitae placerat lectus. Sed elementum lorem et est ullamcorper sollicitudin. Duis felis enim, hendrerit congue tellus vel, tincidunt ultricies risus. Quisque blandit, velit nec maximus mollis, ipsum erat faucibus nisl, nec elementum lectus mi id dolor. Praesent suscipit eros ut elit scelerisque ornare. Suspendisse rhoncus consequat diam, non aliquet dolor iaculis vitae. Aliquam egestas laoreet quam, ac tincidunt diam efficitur ac. Proin lorem massa, consequat sed pellentesque in, vulputate at tellus. Integer quis ornare risus. Praesent suscipit, nisi vestibulum mollis vestibulum, sapien diam lacinia risus, sed finibus metus velit non quam. Duis sed imperdiet nunc. Nam tempor eget enim sed finibus. Aenean erat dolor, luctus ac ullamcorper non, porta a urna. Duis pulvinar suscipit nunc ut ultricies. Duis eros nunc, cursus ut iaculis pretium, sodales nec est. Donec facilisis tristique leo, at accumsan libero fringilla sed. Maecenas pulvinar ultricies turpis eu vehicula. Nam placerat quam mauris, sed ullamcorper nisi molestie nec. Donec eu hendrerit neque. Cras sit amet ligula elit. Sed non lobortis velit. Cras venenatis feugiat lobortis. Curabitur non lacus in urna bibendum cursus. Vestibulum imperdiet ante turpis, vel interdum tellus egestas quis. Aenean nec augue placerat, rutrum metus ac, laoreet augue. Phasellus non hendrerit sapien. Sed urna dolor, pulvinar in orci at, blandit consectetur quam. Pellentesque pharetra metus a aliquam varius. Sed ornare justo ac felis vehicula faucibus. Phasellus consectetur sem vitae dictum accumsan. Cras tristique lorem libero, vehicula dignissim metus ornare varius. Etiam dignissim posuere libero, sed vestibulum risus. Nunc hendrerit, turpis vel vulputate consequat, risus turpis consectetur mi, sed vulputate odio dui eget purus. Phasellus sed viverra ante. Donec sed tempor nisl, eget facilisis sapien. Suspendisse vel accumsan magna. Vestibulum aliquam eros vel facilisis ultrices. Nullam sagittis pulvinar risus sit amet maximus. Curabitur velit lectus, aliquet sit amet lacus eu, accumsan bibendum felis. Etiam augue nunc, fermentum a iaculis eu, vehicula sed diam. Praesent at elementum dolor. Morbi congue ut justo ac imperdiet. Nulla lacinia sapien sed dolor egestas, nec pellentesque turpis efficitur. Sed viverra convallis est, mollis fermentum tortor posuere quis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros.Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. "]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<group name="dummy" preventOrphanFooter="true">
+	<groupExpression>$V{REPORT_COUNT}</groupExpression>
+	<groupFooter>
+	<band height="10">
+			<line>
+				<reportElement x="0" y="0" width="100" height="1" uuid="75dfa02f-5e1d-4b9f-bbd8-dc38ef38046a" forecolor="green"/>
+			</line>
+	</band>
+	</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="550" height="20" uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="100" width="390" height="40" uuid="7d953de8-7629-4138-a296-dfe463cba691"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="100" width="150" height="40"/><textElement><font size="14"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="150" width="150" height="40" uuid="2a2117f5-ea77-409f-a44c-9fd0551f8862"/>
-				<textElement>
-					<font fontName="Lobster Two" size="12"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="150" width="390" height="40" uuid="39ce42dd-d5fa-43dd-a0de-de90b9e4b977"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="150" width="150" height="40"/><textElement><font fontName="Lobster Two" size="12"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="200" width="150" height="40" uuid="3828a320-c835-4eed-98d2-e6cb0324817b"/>
-				<textElement>
-					<font fontName="Lobster Two" size="12" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="200" width="390" height="40" uuid="441f2d58-78bf-413b-bc9b-dd7d1713c1a6"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="200" width="150" height="40"/><textElement><font fontName="Lobster Two" size="12" isBold="true" isItalic="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="250" width="150" height="40" uuid="f96f1263-2d31-4eef-951e-2e39ada33878"/>
-				<textElement>
-					<font fontName="DejaVu Serif" size="12" isBold="false"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="250" width="390" height="40" uuid="08fb0715-b6ff-4ea3-ab20-0d4db2be8d77"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="250" width="150" height="40"/><textElement><font fontName="DejaVu Serif" size="12" isBold="false"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="300" width="150" height="40" uuid="2fda67e5-3953-44a0-9f88-f0d3dc6d8910"/>
-				<textElement>
-					<font fontName="DejaVu Serif" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="300" width="390" height="40" uuid="69138007-8118-4689-831a-840627dcd7b6"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="300" width="150" height="40"/><textElement><font fontName="DejaVu Serif" size="12" isBold="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="350" width="150" height="40" uuid="447870d2-5f05-4764-ad5e-4d3cdf11084b"/>
-				<textElement>
-					<font fontName="Monospaced" size="12" isItalic="true" isUnderline="true" pdfFontName="Courier-Oblique"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="350" width="390" height="40" uuid="38702e0b-0a84-4a47-896f-361c02ea944e"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="350" width="150" height="40"/><textElement><font fontName="Monospaced" size="12" isItalic="true" isUnderline="true" pdfFontName="Courier-Oblique"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="400" width="150" height="40" uuid="9fcbe261-51f6-43b1-8752-11ffc10cc328"/>
-				<textElement>
-					<font fontName="Monospaced" size="12" isBold="true" isStrikeThrough="true" pdfFontName="Courier-Bold"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="400" width="390" height="40" uuid="dbdf1aa0-5a2e-4c19-a84c-cce0438e7896"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="400" width="150" height="40"/><textElement><font fontName="Monospaced" size="12" isBold="true" isStrikeThrough="true" pdfFontName="Courier-Bold"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="450" width="150" height="40" forecolor="#FF0000" uuid="348534b1-c588-4b7a-83b0-957a5332a13a"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="450" width="390" height="40" uuid="b9386ce9-aa44-4594-8559-3dcbb279a5f3"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="450" width="150" height="40" forecolor="red"/><textElement><font size="14"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="500" width="150" height="40" forecolor="#00FF00" backcolor="#FFFF00" uuid="ba8b385e-a4e5-4059-9555-d416774e87c4"/>
-				<textElement>
-					<font fontName="Serif" size="12" isBold="true" pdfFontName="Times-Bold"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="500" width="390" height="40" uuid="72ad7c1c-35c8-40ec-b1b8-78527db92baa"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="500" width="150" height="40" forecolor="green" backcolor="#FFFF00" mode="Opaque"/><textElement><font fontName="Serif" size="12" isBold="true" pdfFontName="Times-Bold"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="550" width="150" height="90" forecolor="#0000FF" backcolor="#FFDD99" uuid="dbce8c34-546e-4351-893a-c1905e5a068e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="12" isBold="false" isItalic="true" pdfFontName="Sans.Slanted" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="550" width="390" height="90" uuid="44f1dc5e-d435-4475-8274-48eb7bc9fead"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="550" width="150" height="90" forecolor="blue" backcolor="#FFDD99" mode="Opaque"/><textElement textAlignment="Center" verticalAlignment="Middle"><font fontName="SansSerif" size="12" isBold="false" pdfFontName="Sans.Slanted" isPdfEmbedded="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="650" width="150" height="90" forecolor="#FF0000" backcolor="#99DDFF" uuid="e5c5b52a-7beb-4381-bd5b-83d8bc848ba3"/>
-				<textElement textAlignment="Right" verticalAlignment="Bottom">
-					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="DejaVu Sans Bold" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[The quick brown fox jumps over the lazy dog.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="160" y="650" width="390" height="90" uuid="31894e18-5a34-4419-a66c-c0148dd8bc60"/>
-				<text><![CDATA[<staticText><reportElement x="0" y="650" width="150" height="90" forecolor="red" backcolor="#99DDFF" mode="Opaque"/><textElement textAlignment="Right" verticalAlignment="Bottom"><font fontName="SansSerif" size="12" isBold="true" pdfFontName="DejaVu Sans Bold" isPdfEmbedded="true"/></textElement><text>The quick brown fox jumps over the lazy dog.</text></staticText>]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{TXT}]]></textFieldExpression>
+			</textField>
 		</band>
-	</title>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="550" height="20" uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1"/>
+				<textFieldExpression><![CDATA["SOME TEXT HERE"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="221" y="67" width="109" height="1" uuid="75dfa02f-5e1d-4b9f-bbd8-dc38ef380462"/>
+			</line>
+		</band>
+	</detail>
 </jasperReport>

@@ -48,11 +48,27 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 
 	
 	/**
+	 * @deprecated Replaced by {@link #AbstractPdfTextRenderer(JasperReportsContext, boolean, boolean)}.
+	 */
+	public AbstractPdfTextRenderer(
+		JasperReportsContext jasperReportsContext, 
+		boolean ignoreMissingFont
+		)
+	{
+		this(jasperReportsContext, ignoreMissingFont, false);
+	}
+	
+	
+	/**
 	 * 
 	 */
-	public AbstractPdfTextRenderer(JasperReportsContext jasperReportsContext, boolean ignoreMissingFont)
+	public AbstractPdfTextRenderer(
+		JasperReportsContext jasperReportsContext, 
+		boolean ignoreMissingFont,
+		boolean defaultJustifyLastLine
+		)
 	{
-		super(jasperReportsContext, false, ignoreMissingFont);
+		super(jasperReportsContext, false, ignoreMissingFont, defaultJustifyLastLine);
 	}
 	
 	
@@ -62,7 +78,8 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	public void initialize(
 		JRPdfExporter pdfExporter, 
 		PdfContentByte pdfContentByte,
-		JRPrintText text, JRStyledText styledText, 
+		JRPrintText text, 
+		JRStyledText styledText, 
 		int offsetX,
 		int offsetY
 		)
@@ -79,7 +96,7 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 		{
 			case JUSTIFIED :
 			{
-				horizontalAlignment = Element.ALIGN_JUSTIFIED_ALL;
+				horizontalAlignment = Element.ALIGN_JUSTIFIED;
 				leftOffsetFactor = 0f;
 				rightOffsetFactor = 0f;
 				break;

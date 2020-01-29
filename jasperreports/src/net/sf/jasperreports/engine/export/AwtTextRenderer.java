@@ -48,7 +48,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #AwtTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
 	 */
 	public AwtTextRenderer(
 		JasperReportsContext jasperReportsContext,
@@ -56,7 +56,31 @@ public class AwtTextRenderer extends AbstractTextRenderer
 		boolean ignoreMissingFont
 		)
 	{
-		super(jasperReportsContext, isMinimizePrinterJobSize, ignoreMissingFont);
+		this(
+			jasperReportsContext, 
+			isMinimizePrinterJobSize, 
+			ignoreMissingFont,
+			false
+			);
+	}
+	
+
+	/**
+	 * 
+	 */
+	public AwtTextRenderer(
+		JasperReportsContext jasperReportsContext,
+		boolean isMinimizePrinterJobSize,
+		boolean ignoreMissingFont,
+		boolean defaultJustifyLastLine
+		)
+	{
+		super(
+			jasperReportsContext, 
+			isMinimizePrinterJobSize, 
+			ignoreMissingFont,
+			defaultJustifyLastLine
+			);
 		
 		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
 		styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
