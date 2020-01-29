@@ -579,6 +579,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private int crtEvenPageOffsetY;
 	
 	private boolean awtIgnoreMissingFont;
+	private boolean defaultJustifyLastLine;
+
 	private Set<UnicodeBlock> glyphRendererBlocks;
 	private boolean glyphRendererAddActualText;
 	private PdfVersionEnum minimalVersion;
@@ -730,6 +732,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			splitCharacter = new BreakIteratorSplitCharacter();
 		}
+		
+		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
 		
 		crtOddPageOffsetX = configuration.getOddPageOffsetX();
 		crtOddPageOffsetY = configuration.getOddPageOffsetY();
@@ -3258,20 +3262,38 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	protected AbstractPdfTextRenderer getTextRenderer(JRPrintText text, JRStyledText styledText)
 	{
 		AbstractPdfTextRenderer textRenderer;
-		if (toUseGlyphRenderer(text)
-				&& PdfGlyphRenderer.supported()
-				&& canUseGlyphRendering(text, styledText))
+		if (
+			toUseGlyphRenderer(text)
+			&& PdfGlyphRenderer.supported()
+			&& canUseGlyphRendering(text, styledText)
+			)
 		{
-			textRenderer = new PdfGlyphRenderer(jasperReportsContext, awtIgnoreMissingFont,
-					glyphRendererAddActualText && !tagHelper.isTagged);
+			textRenderer = 
+				new PdfGlyphRenderer(
+					jasperReportsContext, 
+					awtIgnoreMissingFont,
+					glyphRendererAddActualText && !tagHelper.isTagged,
+					defaultJustifyLastLine
+					);
 		}
 		else if (text.getLeadingOffset() == 0)
 		{
-			textRenderer = new PdfTextRenderer(jasperReportsContext, awtIgnoreMissingFont);
+			// leading offset is non-zero only for multiline texts that have at least one tab character or some paragraph indent (first, left or right)
+			textRenderer = 
+				new PdfTextRenderer(
+					jasperReportsContext, 
+					awtIgnoreMissingFont, 
+					defaultJustifyLastLine
+					);//FIXMENOW make some reusable instances here and below
 		}
 		else
 		{
-			textRenderer = new SimplePdfTextRenderer(jasperReportsContext, awtIgnoreMissingFont);//FIXMETAB optimize this
+			textRenderer = 
+				new SimplePdfTextRenderer(
+					jasperReportsContext, 
+					awtIgnoreMissingFont, 
+					defaultJustifyLastLine
+					);//FIXMETAB optimize this
 		}
 		
 		return textRenderer;

@@ -23,10 +23,13 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.annotations.properties.Property;
+import net.sf.jasperreports.annotations.properties.PropertyScope;
 import net.sf.jasperreports.engine.fill.TextFormat;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+import net.sf.jasperreports.properties.PropertyConstants;
 
 
 /**
@@ -34,6 +37,17 @@ import net.sf.jasperreports.engine.util.JRStyledTextUtil;
  */
 public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnchor, JRPrintHyperlink, JRFont, JRCommonText, TextFormat
 {
+	/**
+	 * Specifies if the last line in a paragraph should be justified.
+	 */
+	@Property(
+		valueType = Boolean.class,
+		defaultValue = PropertyConstants.BOOLEAN_FALSE,
+		scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0
+		)
+	public static final String PROPERTY_AWT_JUSTIFY_LAST_LINE = JRPropertiesUtil.PROPERTY_PREFIX + "awt.justify.last.line";
+	
 
 	/**
 	 * Zero-length line break offset array used for {@link #getLineBreakOffsets()}

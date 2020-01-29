@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -73,7 +74,8 @@ public class DrawVisitor extends UniformElementVisitor
 				jasperReportsContext,
 				new RenderersCache(jasperReportsContext),
 				propUtil.getBooleanProperty(report, Graphics2DReportConfiguration.MINIMIZE_PRINTER_JOB_SIZE, true),
-				propUtil.getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				propUtil.getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false),
+				propUtil.getBooleanProperty(report, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false)
 				);
 		
 		setGraphics2D(grx);

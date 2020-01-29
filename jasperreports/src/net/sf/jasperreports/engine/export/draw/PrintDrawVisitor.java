@@ -65,11 +65,31 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private TextDrawer textDrawer;
 	private FrameDrawer frameDrawer;
 
+	/**
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean, boolean)}.
+	 */
 	public PrintDrawVisitor(
 		JasperReportsContext jasperReportsContext,
 		RenderersCache renderersCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont
+		)
+	{
+		this(
+			jasperReportsContext,
+			renderersCache,
+			minimizePrinterJobSize,
+			ignoreMissingFont,
+			false
+			);
+	}
+	
+	public PrintDrawVisitor(
+		JasperReportsContext jasperReportsContext,
+		RenderersCache renderersCache,
+		boolean minimizePrinterJobSize,
+		boolean ignoreMissingFont,
+		boolean defaultJustifyLastLine
 		)
 	{
 		this.jasperReportsContext = jasperReportsContext;
@@ -82,18 +102,39 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 			new AwtTextRenderer(
 				jasperReportsContext,
 				minimizePrinterJobSize,
-				ignoreMissingFont
+				ignoreMissingFont,
+				defaultJustifyLastLine
 				);
 		
 		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);
 		frameDrawer = new FrameDrawer(jasperReportsContext, null, this);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JRGraphics2DExporterContext, RenderersCache, boolean, boolean, boolean)}.
+	 */
 	public PrintDrawVisitor(
 		JRGraphics2DExporterContext exporterContext, 
 		RenderersCache renderersCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont
+		)
+	{
+		this(
+			exporterContext, 
+			renderersCache,
+			minimizePrinterJobSize,
+			ignoreMissingFont,
+			false
+			);
+	}
+	
+	public PrintDrawVisitor(
+		JRGraphics2DExporterContext exporterContext, 
+		RenderersCache renderersCache,
+		boolean minimizePrinterJobSize,
+		boolean ignoreMissingFont,
+		boolean defaulJustifyLastLine
 		)
 	{
 		this.jasperReportsContext = exporterContext.getJasperReportsContext();
@@ -106,7 +147,8 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 			new AwtTextRenderer(
 				jasperReportsContext,
 				minimizePrinterJobSize,
-				ignoreMissingFont
+				ignoreMissingFont,
+				defaulJustifyLastLine
 				);
 		
 		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);

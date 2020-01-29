@@ -44,6 +44,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SortedSet;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -93,6 +94,7 @@ import net.sf.jasperreports.engine.export.tabulator.TableCell;
 import net.sf.jasperreports.engine.export.tabulator.TablePosition;
 import net.sf.jasperreports.engine.export.tabulator.Tabulator;
 import net.sf.jasperreports.engine.type.HorizontalImageAlignEnum;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -193,6 +195,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	private List<HyperlinkData> hyperlinksData = new ArrayList<HyperlinkData>();
 	
+	private boolean defaultJustifyLastLine;
+
 	public HtmlExporter()
 	{
 		this(DefaultJasperReportsContext.getInstance());
@@ -309,6 +313,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		// this is the filter used to create the table, taking in consideration unhandled generic elements
 		tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, filter);
+		
+		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
 	}
 	
 
@@ -2654,29 +2660,134 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 	
 	protected void exportStyledText(JRPrintText printText, JRStyledText styledText, String tooltip, boolean hyperlinkStarted) throws IOException
 	{
+		String allText = styledText.getText();
+
+		addSearchAttributes(styledText, printText);
+
+		AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
+		
+		int tokenPosition = 0;
+		int prevParagraphStart = 0;
+		String prevParagraphText = null;
+		boolean singleParagraph = true;
+
+		boolean justifyLastLine = false;
+		if (HorizontalTextAlignEnum.JUSTIFIED == printText.getHorizontalTextAlign())
+		{
+			justifyLastLine = defaultJustifyLastLine;
+			if (printText.getPropertiesMap().containsProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE))
+			{
+				justifyLastLine = propertiesUtil.getBooleanProperty(printText, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, defaultJustifyLastLine);
+			}
+		}
+
+		if (allText.indexOf('\n') > 0)
+		{
+			singleParagraph = false;
+			
+			StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
+
+			// text is split into paragraphs, using the newline character as delimiter
+			while(tkzer.hasMoreTokens()) 
+			{
+				String token = tkzer.nextToken();
+
+				if ("\n".equals(token))
+				{
+					exportParagraph(printText, allParagraphs, prevParagraphStart, prevParagraphText, false, 
+						!tkzer.hasMoreTokens(), justifyLastLine, tooltip, hyperlinkStarted);
+
+					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
+					prevParagraphText = null;
+				}
+				else
+				{
+					prevParagraphStart = tokenPosition;
+					prevParagraphText = token;
+				}
+
+				tokenPosition += token.length();
+			}
+		}
+		else
+		{
+			prevParagraphText = allText;
+		}
+		
+		if (prevParagraphStart < allText.length())
+		{
+			exportParagraph(printText, allParagraphs, prevParagraphStart, prevParagraphText, singleParagraph, 
+				true, justifyLastLine, tooltip, hyperlinkStarted);
+		}
+	}
+	
+	protected void exportParagraph(
+		JRPrintText printText, 
+		AttributedCharacterIterator allParagraphs,
+		int paragraphStart,
+		String paragraphText, 
+		boolean singleParagraph,
+		boolean isLastParagraph,
+		boolean justifyLastLine,
+		String tooltip, 
+		boolean hyperlinkStarted
+		) throws IOException
+	{
 		Locale locale = getTextLocale(printText);
 		LineSpacingEnum lineSpacing = printText.getParagraph().getLineSpacing();
 		Float lineSpacingSize = printText.getParagraph().getLineSpacingSize();
 		float lineSpacingFactor = printText.getLineSpacingFactor();
 		Color backcolor = printText.getBackcolor();
 		
-		String text = styledText.getText();
+		AttributedCharacterIterator paragraph = null;
+		
+		if (paragraphText == null)
+		{
+			paragraphText = "\n";
+			paragraph = 
+				new AttributedString(
+					paragraphText,
+					new AttributedString(
+						allParagraphs, 
+						paragraphStart, 
+						paragraphStart + paragraphText.length()
+						).getIterator().getAttributes()
+					).getIterator();
+		}
+		else
+		{
+			paragraph = 
+				new AttributedString(
+					allParagraphs, 
+					paragraphStart, 
+					paragraphStart + paragraphText.length()
+					).getIterator();
+		}
 
+		if (
+			!singleParagraph
+			|| (isLastParagraph && justifyLastLine)
+			)
+		{
+			writer.write("<div");
+			if (isLastParagraph && justifyLastLine)
+			{
+				writer.write(" style=\"text-align-last: justify;\"");
+			}
+			writer.write("/>");
+		}
+		
 		int runLimit = 0;
-
-		addSearchAttributes(styledText, printText);
-
-		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
 
 		boolean first = true;
 		boolean startedSpan = false;
 
 		boolean highlightStarted = false;
 
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while(runLimit < paragraphText.length() && (runLimit = paragraph.getRunLimit()) <= paragraphText.length())
 		{
 			//if there are several text runs, write the tooltip into a parent <span>
-			if (first && runLimit < styledText.length() && tooltip != null)
+			if (first && runLimit < paragraphText.length() && tooltip != null)
 			{
 				startedSpan = true;
 				writer.write("<span title=\"");
@@ -2687,7 +2798,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 			first = false;
 
-			Map<Attribute,Object> attributes = iterator.getAttributes();
+			Map<Attribute,Object> attributes = paragraph.getAttributes();
 			Color highlightColor = (Color) attributes.get(JRTextAttribute.SEARCH_HIGHLIGHT);
 			if (highlightColor != null && !highlightStarted) {
 				highlightStarted = true;
@@ -2699,7 +2810,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 			exportStyledTextRun(
 				attributes,
-				text.substring(iterator.getIndex(), runLimit),
+				paragraphText.substring(paragraph.getIndex(), runLimit),
 				tooltip,
 				locale,
 				lineSpacing,
@@ -2709,7 +2820,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				hyperlinkStarted
 			);
 
-			iterator.setIndex(runLimit);
+			paragraph.setIndex(runLimit);
 		}
 
 		if (highlightStarted) {
@@ -2719,6 +2830,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (startedSpan)
 		{
 			writer.write("</span>");
+		}
+		
+		if (
+			!singleParagraph
+			|| (isLastParagraph && justifyLastLine)
+			)
+		{
+			writer.write("</div>");
 		}
 	}
 	

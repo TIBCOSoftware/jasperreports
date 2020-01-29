@@ -6348,6 +6348,13 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.awt.justify.last.line -->
+  
+  <configProperty name="net.sf.jasperreports.awt.justify.last.line">
+    <description>Property used to force the justified alignment for the last line in a paragraph.</description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.awt.superscript.fix.enabled -->
   
   <configProperty name="net.sf.jasperreports.awt.superscript.fix.enabled">
