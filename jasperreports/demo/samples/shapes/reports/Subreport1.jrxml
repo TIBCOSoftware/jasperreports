@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.6.0.qualifier using JasperReports Library version master-SNAPSHOT-38dc7a28819e488ddedfde1fdbb15bb6653e52bd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Subreport1" pageWidth="450" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="450" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="4a4bb8bc-9449-4feb-823d-41add3071ff5">
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<summary>
+		<band height="130">
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" mode="Opaque" x="15" y="0" width="100" height="20" isRemoveLineWhenBlank="true" backcolor="#FA640C" uuid="c172506a-1d2a-4a03-9f09-3541d5c70e31">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["1\n2\n3\n4\n5\n6\n7\n8\n9\n10."]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="115" y="0" width="325" height="20" isRemoveLineWhenBlank="true" forecolor="#2E41F0" uuid="6bff5d9e-937e-4731-a737-798eb2cff87f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["SUBREPORT"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
