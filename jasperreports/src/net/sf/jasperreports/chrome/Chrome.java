@@ -177,13 +177,13 @@ public class Chrome
 		{
 			String executable = properties.getProperty(PROPERTY_EXECUTABLE_PATH);
 			Path executablePath;
-			if (executable == null)
+			if (executable == null || executable.trim().isEmpty())
 			{
 				executablePath = detectedChromeExecutable();
 			}
 			else
 			{
-				executablePath = Paths.get(executable);
+				executablePath = Paths.get(executable.trim());
 			}
 			
 			if (executablePath == null)
