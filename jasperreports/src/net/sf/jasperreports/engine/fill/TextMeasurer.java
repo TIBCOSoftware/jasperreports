@@ -547,8 +547,8 @@ public class TextMeasurer implements JRTextMeasurer
 		}
 		
 		int tokenPosition = remainingTextStart;
-		int lastParagraphStart = remainingTextStart;
-		String lastParagraphText = null;
+		int prevParagraphStart = remainingTextStart;
+		String prevParagraphText = null;
 
 		String remainingText = styledText.getText().substring(remainingTextStart);
 		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
@@ -561,23 +561,23 @@ public class TextMeasurer implements JRTextMeasurer
 
 			if ("\n".equals(token))
 			{
-				rendered = renderParagraph(lineWrapper, lastParagraphStart, lastParagraphText);
+				rendered = renderParagraph(lineWrapper, prevParagraphStart, prevParagraphText);
 
-				lastParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-				lastParagraphText = null;
+				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
+				prevParagraphText = null;
 			}
 			else
 			{
-				lastParagraphStart = tokenPosition;
-				lastParagraphText = token;
+				prevParagraphStart = tokenPosition;
+				prevParagraphText = token;
 			}
 
 			tokenPosition += token.length();
 		}
 
-		if (rendered && lastParagraphStart < remainingTextStart + remainingText.length())
+		if (rendered && prevParagraphStart < remainingTextStart + remainingText.length())
 		{
-			renderParagraph(lineWrapper, lastParagraphStart, lastParagraphText);
+			renderParagraph(lineWrapper, prevParagraphStart, prevParagraphText);
 		}
 		
 		return measuredState;
@@ -606,29 +606,31 @@ public class TextMeasurer implements JRTextMeasurer
 	 */
 	protected boolean renderParagraph(
 		TextLineWrapper lineWrapper,
-		int lastParagraphStart,
-		String lastParagraphText
+		int paragraphStart,
+		String paragraphText
 		)
 	{
-		if (lastParagraphText == null)
+		if (paragraphText == null)
 		{
-			lineWrapper.startEmptyParagraph(lastParagraphStart);
+			lineWrapper.startEmptyParagraph(paragraphStart);
 		}
 		else
 		{
-			lineWrapper.startParagraph(lastParagraphStart, 
-					lastParagraphStart + lastParagraphText.length(),
-					false);
+			lineWrapper.startParagraph(
+				paragraphStart, 
+				paragraphStart + paragraphText.length(),
+				false
+				);
 		}
 
-		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
+		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(paragraphText);
 		
 		int[] currentTabHolder = new int[]{0};
 		TabStop[] nextTabStopHolder = new TabStop[]{null};
 		boolean[] requireNextWordHolder = new boolean[]{false};
 		
 		measuredState.paragraphStartLine = measuredState.lines;
-		measuredState.textOffset = lastParagraphStart;
+		measuredState.textOffset = paragraphStart;
 		
 		boolean rendered = true;
 		boolean renderedLine = false;
@@ -645,7 +647,7 @@ public class TextMeasurer implements JRTextMeasurer
 		if (!rendered && prevMeasuredState != null && !canOverflow)
 		{
 			//handle last rendered row
-			processLastTruncatedRow(lineWrapper, lastParagraphText, lastParagraphStart, renderedLine);
+			processLastTruncatedRow(lineWrapper, paragraphText, paragraphStart, renderedLine);
 		}
 		
 		return rendered;
