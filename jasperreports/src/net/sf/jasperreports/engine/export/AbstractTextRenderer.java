@@ -311,6 +311,7 @@ public abstract class AbstractTextRenderer
 		drawPosX = 0;
 	
 		isMaxHeightReached = false;
+		isLastParagraph = false;
 		
 		//maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(text.getMarkup()));
 	}
@@ -337,9 +338,9 @@ public abstract class AbstractTextRenderer
 
 			if ("\n".equals(token))
 			{
-				isLastParagraph = !tkzer.hasMoreTokens();
 				renderParagraph(allParagraphs, prevParagraphStart, prevParagraphText);
 
+				isLastParagraph = !tkzer.hasMoreTokens();
 				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
 				prevParagraphText = null;
 			}
