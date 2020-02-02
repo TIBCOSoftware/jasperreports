@@ -72,12 +72,17 @@ public abstract class AbstractSvgTest extends AbstractTest
 		output.setGraphics2D(g);
 		exporter.setExporterOutput(output);
 		
-		SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
-		configuration.setPageIndex(0);
-		exporter.setConfiguration(configuration);
+		for (int pageIndex = 0; pageIndex < print.getPages().size(); pageIndex++)
+		{
+			g.translate(0,  pageIndex * print.getPageHeight());
+			
+			SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
+			configuration.setPageIndex(pageIndex);
+			exporter.setConfiguration(configuration);
 
-		exporter.exportReport();
-
+			exporter.exportReport();
+		}
+		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		// use OutputStreamWriter instead of StringWriter so that we have "encoding" attribute in <xml> header tag.
 		grx.stream(new OutputStreamWriter(baos, "UTF-8"), true);
