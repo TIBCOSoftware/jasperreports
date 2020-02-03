@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRPrintText;
  * Text measuring information as produced by a {@link JRTextMeasurer text measurer}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @see JRTextMeasurer#measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)
+ * @see JRTextMeasurer#measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean, boolean)
  */
 public interface JRMeasuredText
 {
@@ -75,6 +75,13 @@ public interface JRMeasuredText
 	 * @return whether the text was determined to be left to right
 	 */
 	boolean isLeftToRight();
+
+	/**
+	 * Returns whether the text was during a paragraph or the last paragraph was complete.
+	 * 
+	 * @return whether the last paragraph was cut
+	 */
+	boolean isParagraphCut();
 
 	/**
 	 * Returns the suffix that was appended to the text

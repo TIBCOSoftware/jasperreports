@@ -48,14 +48,14 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 
 	
 	/**
-	 * @deprecated Replaced by {@link #AbstractPdfTextRenderer(JasperReportsContext, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #AbstractPdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
 	 */
 	public AbstractPdfTextRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont
 		)
 	{
-		this(jasperReportsContext, ignoreMissingFont, false);
+		this(jasperReportsContext, ignoreMissingFont, true, false);
 	}
 	
 	
@@ -65,10 +65,17 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 	public AbstractPdfTextRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont,
+		boolean defaultIndentFirstLine,
 		boolean defaultJustifyLastLine
 		)
 	{
-		super(jasperReportsContext, false, ignoreMissingFont, defaultJustifyLastLine);
+		super(
+			jasperReportsContext, 
+			false, 
+			ignoreMissingFont, 
+			defaultIndentFirstLine, 
+			defaultJustifyLastLine
+			);
 	}
 	
 	

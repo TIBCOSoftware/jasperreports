@@ -195,6 +195,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	private List<HyperlinkData> hyperlinksData = new ArrayList<HyperlinkData>();
 	
+	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
 
 	public HtmlExporter()
@@ -314,6 +315,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		// this is the filter used to create the table, taking in consideration unhandled generic elements
 		tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, filter);
 		
+		defaultIndentFirstLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, true);
 		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
 	}
 	
@@ -2671,6 +2673,16 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		String prevParagraphText = null;
 		boolean singleParagraph = true;
 
+		boolean indentFirstLine = true;
+		if (printText.getParagraph().getFirstLineIndent() != 0)
+		{
+			indentFirstLine = defaultIndentFirstLine;
+			if (printText.getPropertiesMap().containsProperty(JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE))
+			{
+				indentFirstLine = propertiesUtil.getBooleanProperty(printText, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, defaultIndentFirstLine);
+			}
+		}
+
 		boolean justifyLastLine = false;
 		if (HorizontalTextAlignEnum.JUSTIFIED == printText.getHorizontalTextAlign())
 		{
@@ -2681,6 +2693,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 
+		boolean isFirstParagraph = true;
+		boolean isLastParagraph = false;
+		
 		if (allText.indexOf('\n') > 0)
 		{
 			singleParagraph = false;
@@ -2694,9 +2709,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 				if ("\n".equals(token))
 				{
-					exportParagraph(printText, allParagraphs, prevParagraphStart, prevParagraphText, false, 
-						!tkzer.hasMoreTokens(), justifyLastLine, tooltip, hyperlinkStarted);
-
+					exportParagraph(
+						printText, allParagraphs, prevParagraphStart, prevParagraphText, false, 
+						isFirstParagraph, indentFirstLine,
+						isLastParagraph, justifyLastLine, 
+						tooltip, hyperlinkStarted
+						);
+					
+					isFirstParagraph = false;
+					isLastParagraph = !tkzer.hasMoreTokens();
 					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
 					prevParagraphText = null;
 				}
@@ -2716,8 +2737,12 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		
 		if (prevParagraphStart < allText.length())
 		{
-			exportParagraph(printText, allParagraphs, prevParagraphStart, prevParagraphText, singleParagraph, 
-				true, justifyLastLine, tooltip, hyperlinkStarted);
+			exportParagraph(
+				printText, allParagraphs, prevParagraphStart, prevParagraphText, singleParagraph,
+				isFirstParagraph, indentFirstLine,
+				true, justifyLastLine, 
+				tooltip, hyperlinkStarted
+				);
 		}
 	}
 	
@@ -2727,6 +2752,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		int paragraphStart,
 		String paragraphText, 
 		boolean singleParagraph,
+		boolean isFirstParagraph,
+		boolean indentFirstLine,
 		boolean isLastParagraph,
 		boolean justifyLastLine,
 		String tooltip, 
@@ -2766,13 +2793,26 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 		if (
 			!singleParagraph
+			|| (isFirstParagraph && !indentFirstLine)
 			|| (isLastParagraph && justifyLastLine)
 			)
 		{
 			writer.write("<div");
-			if (isLastParagraph && justifyLastLine)
+			if (
+				(isFirstParagraph && !indentFirstLine)
+				|| (isLastParagraph && justifyLastLine)
+				)
 			{
-				writer.write(" style=\"text-align-last: justify;\"");
+				writer.write(" style=\"");
+				if (isFirstParagraph && !indentFirstLine)
+				{
+					writer.write("text-indent: 0px;");
+				}
+				if (isLastParagraph && justifyLastLine)
+				{
+					writer.write("text-align-last: justify;");
+				}
+				writer.write("\"");
 			}
 			writer.write("/>");
 		}

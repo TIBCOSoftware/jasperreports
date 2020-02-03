@@ -251,6 +251,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		
 		Boolean isMinimizePrinterJobSize = configuration.isMinimizePrinterJobSize();
 		Boolean isIgnoreMissingFont = configuration.isIgnoreMissingFont();
+		boolean defaultIndentFirstLine = 
+			propertiesUtil.getBooleanProperty(
+				jasperPrint, 
+				JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, 
+				true
+				);
 		boolean defaultJustifyLastLine = 
 			propertiesUtil.getBooleanProperty(
 				jasperPrint, 
@@ -264,6 +270,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 				getRenderersCache(),
 				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
 				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont,
+				defaultIndentFirstLine,
 				defaultJustifyLastLine
 				);
 		

@@ -48,7 +48,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #AwtTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #AwtTextRenderer(JasperReportsContext, boolean, boolean, boolean, boolean)}.
 	 */
 	public AwtTextRenderer(
 		JasperReportsContext jasperReportsContext,
@@ -60,6 +60,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 			jasperReportsContext, 
 			isMinimizePrinterJobSize, 
 			ignoreMissingFont,
+			true,
 			false
 			);
 	}
@@ -72,6 +73,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 		JasperReportsContext jasperReportsContext,
 		boolean isMinimizePrinterJobSize,
 		boolean ignoreMissingFont,
+		boolean defaultIndentFirstLine,
 		boolean defaultJustifyLastLine
 		)
 	{
@@ -79,6 +81,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 			jasperReportsContext, 
 			isMinimizePrinterJobSize, 
 			ignoreMissingFont,
+			defaultIndentFirstLine,
 			defaultJustifyLastLine
 			);
 		

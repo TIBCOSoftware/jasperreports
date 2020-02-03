@@ -240,6 +240,7 @@ public class TextMeasurer implements JRTextMeasurer
 		protected float textHeight;
 		protected float firstLineLeading;
 		protected boolean isLeftToRight = true;
+		protected boolean isParagraphCut;
 		protected String textSuffix;
 		protected boolean isMeasured = true;
 		
@@ -295,6 +296,12 @@ public class TextMeasurer implements JRTextMeasurer
 			return 0;
 		}
 
+		@Override
+		public boolean isParagraphCut()
+		{
+			return isParagraphCut;
+		}
+		
 		@Override
 		public String getTextSuffix()
 		{
@@ -532,6 +539,7 @@ public class TextMeasurer implements JRTextMeasurer
 		JRStyledText styledText,
 		int remainingTextStart,
 		int availableStretchHeight,
+		boolean indentFirstLine,
 		boolean canOverflow
 		)
 	{
@@ -997,6 +1005,8 @@ public class TextMeasurer implements JRTextMeasurer
 //			{
 //				measuredState.textHeight += jrParagraph.getSpacingAfter();
 //			}
+			
+			measuredState.isParagraphCut = lineWrapper.paragraphPosition() < lineWrapper.paragraphEnd();
 		}
 		
 		return fits;

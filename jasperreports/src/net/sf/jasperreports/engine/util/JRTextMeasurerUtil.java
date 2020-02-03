@@ -214,6 +214,7 @@ public final class JRTextMeasurerUtil
 				processedStyledText, 
 				0,
 				0,
+				true,
 				false
 				);
 		printText.setTextHeight(measuredText.getTextHeight() < printText.getHeight() ? measuredText.getTextHeight() : printText.getHeight());
