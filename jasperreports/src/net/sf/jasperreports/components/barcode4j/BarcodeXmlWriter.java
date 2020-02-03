@@ -410,6 +410,10 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 			xmlWriteHelper.addAttribute(QRCodeComponent.PROPERTY_ERROR_CORRECTION_LEVEL, 
 					qrCode.getErrorCorrectionLevel(), 
 					ErrorCorrectionLevelEnum.L);
+			if(isNewerVersionOrEqual(version, JRConstants.VERSION_6_12_0))
+			{
+				xmlWriteHelper.addAttribute("qrVersion", qrCode.getQrVersion());
+			}
 			writeBaseContents(qrCode);
 			endBarcode();
 		}

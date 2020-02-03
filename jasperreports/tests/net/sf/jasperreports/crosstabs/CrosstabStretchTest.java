@@ -29,7 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import net.sf.jasperreports.AbstractTest;
+import net.sf.jasperreports.AbstractXmlTest;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class CrosstabStretchTest extends AbstractTest
+public class CrosstabStretchTest extends AbstractXmlTest
 {
 	@Test(dataProvider = "testArgsLegacy")
 	public void testReportLegacy(String jrxmlFileName, String referenceFileNamePrefix) 

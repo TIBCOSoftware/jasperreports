@@ -4208,6 +4208,136 @@ Its value is used as default for the
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.pdf.field.border.style -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.border.style">
+    <description>
+Property that specifies the PDF-compatible border style for input fields. Possible values are:
+<ul>
+<li><code>Solid</code> - specifies a solid border</li>
+<li><code>Dashed</code> - specifies a dashed border</li>
+<li><code>Beveled</code> - specifies a beveled border</li>
+<li><code>Inset</code> - specifies an inset border</li>
+<li><code>Underline</code> - specifies an underline border</li>
+</ul>
+When this property is not set, the engine looks at the JasperReports element border settings. If the pen style is 
+'<code>Solid</code>' or '<code>Dashed</code>', these styles will be applied, otherwise the '<code>Solid</code>' style will be considered by default.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.check.type -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.check.type">
+    <description>
+Property applicable to check input fields in a PDF form that specifies the check type decoration. Possible values are:
+<ul>
+<li><code>Check</code> - specifies a checkbox type decoration</li>
+<li><code>Circle</code> - specifies a circle tipe decoration</li>
+<li><code>Cross</code> - specifies a cross type decoration</li>
+<li><code>Diamond</code> - specifies a diamond type decoration</li>
+<li><code>Square</code> - specifies a square type decoration</li>
+<li><code>Star</code> - specifies a star type decoration</li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.checked -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.checked">
+    <description>
+Flag property applicable for check input fields that specifies if the input field is checked.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.choice.separators -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.choice.separators">
+    <description>
+Specifies the set of characters used as choices separator in the choices list. 
+See <a href="#net.sf.jasperreports.export.pdf.field.choices">net.sf.jasperreports.export.pdf.field.choices</a> property.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.choices -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.choices">
+    <description>
+Specifies the list of choices for an input field such as list or combobox. Choices in the list are delimited by a set of separator characters provided 
+by the <a href="#net.sf.jasperreports.export.pdf.field.choice.separators">net.sf.jasperreports.export.pdf.field.choice.separators</a> property. 
+If no <code>net.sf.jasperreports.export.pdf.field.choice.separators</code> property is set, the default choices separator is "|".<br/>
+Example: <code>'One'|'Two'|'Three'</code>
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.combo.edit -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.combo.edit">
+    <description>
+Flag property applicable for combobox input fields that specifies if the combobox field is editable. By default the combobox is not editable.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.name -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.name">
+    <description>
+Property that specifies the field name, which serves as unique identifier within the PDF form. 
+If not specified, the field name is generated using the report element UUID.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.read.only -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.read.only">
+    <description>
+Flag property that specifies if the input field is read-only. As a known limitation, this property is not applicable for radio group fields.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.text.multiline -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.text.multiline">
+    <description>
+Flag property applicable for input text fields that specifies if the input text is also multiline.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.value -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.value">
+    <description>
+Property that specifies the initial text content for the text field or the initial selected value in 
+list or combobox field, depending on the PDF form field type of the element. When this property is missing,
+the actual text content of the text element is used.
+    </description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.field.type -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.field.type">
+    <description>
+Property that specifies the input field type in PDF forms. Possible values are:
+<ul>
+<li><code>Text</code> - specifies a text input field</li>
+<li><code>Combo</code> - specifies a combobox input field</li>
+<li><code>List</code> - specifies a list input field</li>
+<li><code>Check</code> - specifies a checkbox input field</li>
+<li><code>Radio</code> - specifies a radio group option input field</li>
+</ul>
+    </description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.pdf.font.{arbitrary_name} -->
   
   <configProperty name="net.sf.jasperreports.export.pdf.font.{arbitrary_name}">
@@ -6059,102 +6189,57 @@ If several elements in the sheet contain this property, the engine will consider
   
   <configProperty name="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}">
     <description>
-A set of report custom properties (exporter hints) added in order to hold user defined sheet names. This is very useful when 
-indicating sheet names in the jrxml template is required.
+Report properties (exporter hints) that configure sheet names to be used when exporting to Excel.
+The properties are useful when defining sheet names in the JRXML template is required.
 <br/>
-Sheet names in these properties are used as default for the 
+Sheet names set via these properties are used as defaults for the 
 <api href="net/sf/jasperreports/export/XlsReportConfiguration.html#getSheetNames--">getSheetNames()</api> Excel export configuration setting.
 <br/>
-These properties should start with the 
-<code>net.sf.jasperreports.export.xls.sheet.names.</code> prefix, and should end with an 
-arbitrary suffix. Any of them can hold one or many sheet names, 
-separated by the slash ("/") separator. Values are collected in the same 
-order as they are enumerated in the jrxml template, so one have to be careful with that 
-order when editing a jrxml. The ending suffix is not important, but the order 
-is very.
+The properties should start with the 
+<code>net.sf.jasperreports.export.xls.sheet.names.</code> prefix, followed by an 
+arbitrary suffix. Each property can hold a single sheet name or several names 
+separated by the slash ("/") character. Values are collected in the  
+order in which the properties appear in the JRXML template, so one has to be careful with the 
+order when editing a JRXML. The property suffixes are not important, but the order of the properties matters.
 <br/>
 For instance, if a given report has 3 resulting sheets, there are multiple 
-possibilities to define the sheet names within the jrxml template:
-<br/>
-<br/>
+possibilities to define the sheet names as "First sheet", "Second sheet" and "Third sheet" within the JRXML template:
 <ol>
-<li> To have a single property for each sheet name:
+<li> Having one property for each sheet name:
 <br/>
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.names.sheet1" value="First sheet" /&gt;
+</code>
 <br/>
-<code>
-&lt;property name="net.sf.jasperreports.export.xls.sheet.names.sheet1"
-value="First sheet" /&gt;
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.names.second.sheet.name" value="Second sheet" /&gt;</code>
 <br/>
-&lt;property name="net.sf.jasperreports.export.xls.sheet.names.second.sheet.name"
-value="Second sheet" /&gt;
-<br/>
-&lt;property name="net.sf.jasperreports.export.xls.sheet.names.3" value="Third
-sheet" /&gt;</code>
-<br/>
-<br/>
-Then, the 3 resulting sheets will be named as follows:
-<br/>
-<br/>
-First sheet
-<br/>
-Second sheet
-<br/>
-Third sheet
-<br/>
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.names.3" value="Third sheet" /&gt;</code>
 <br/>
 </li>
 <li>
-To have a single property containing all sheet names, separated by the "/" 
-separator:
-<br/>
+Having a single property containing all sheet names, separated by "/":
 <br/>
 <code>
 &lt;property name="net.sf.jasperreports.export.xls.sheet.names.all" value="First
 sheet/Second sheet/Third sheet" /&gt;</code>
 <br/>
-<br/>
-Then, the 3 resulting sheets will be named as follows:
-<br/>
-<br/>
-First sheet
-<br/>
-Second sheet
-<br/>
-Third sheet
-<br/>
-The order is very important, as shown above.
-<br/>
-<br/>
 </li>
 <li>
-To have any combination of 1) and 2):
-<br/>
+Using a combination of 1) and 2):
 <br/>
 <code>
 &lt;property name="net.sf.jasperreports.export.xls.sheet.names.first" value="First
-sheet" /&gt;
+sheet" /&gt;</code>
 <br/>
-&lt;property name="net.sf.jasperreports.export.xls.sheet.names.others"
+<code>&lt;property name="net.sf.jasperreports.export.xls.sheet.names.others"
 value="Second sheet/Third sheet" /&gt;</code>
-<br/>
-<br/>
-Then, the 3 resulting sheets will be named as follows:
-<br/>
-<br/>
-First sheet
-<br/>
-Second sheet
-<br/>
-Third sheet
 </li>
 </ol>
-<br/>
-Finally, if the user sets less sheet names (let's say x) than the 
-number of sheets, the exporter will use the custom user sheet names for the 
+If the user defines fewer sheet names (let's say x names) than the 
+number of sheets produced when exporting the report, the exporter will use the custom user sheet names for the 
 first x sheets in the document, and the remaining sheets will be named by 
 default as "Page y", where y is the current page number.
 <br/>
-These properties are by default not set.
+By default no sheet name properties are set.
     </description>
   </configProperty>
   
@@ -6260,6 +6345,13 @@ The value of this property is used as default for the
     <description>When set to <code>false</code>, it forces the engine to check if the font used as value for the <code>fontName</code> attribute inside 
 the report template is available either through the JasperReports font extension mechanism or as a JVM accesible font, 
 and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.html">JRFontNotFoundException</api> exception, if this font is not available.</description>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.awt.justify.last.line -->
+  
+  <configProperty name="net.sf.jasperreports.awt.justify.last.line">
+    <description>Property used to force the justified alignment for the last line in a paragraph.</description>
   </configProperty>
   
   

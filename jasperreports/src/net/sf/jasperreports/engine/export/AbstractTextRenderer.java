@@ -34,6 +34,7 @@ import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
@@ -50,6 +51,7 @@ public abstract class AbstractTextRenderer
 	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
 
 	protected final JasperReportsContext jasperReportsContext;
+	protected final JRPropertiesUtil propUtil;
 	protected JRPrintText text;
 	protected JRStyledText styledText;
 	protected String allText;
@@ -68,8 +70,10 @@ public abstract class AbstractTextRenderer
 	protected float drawPosX;
 	protected float lineHeight;
 	protected boolean isMaxHeightReached;
+	protected boolean isLastParagraph;
 	protected List<TabSegment> segments;
 	protected int segmentIndex;
+	protected boolean justifyLastLine;
 	
 	/**
 	 * 
@@ -79,12 +83,13 @@ public abstract class AbstractTextRenderer
 	/**
 	 * 
 	 */
-	private boolean isMinimizePrinterJobSize = true;
-	private boolean ignoreMissingFont;
+	private final boolean isMinimizePrinterJobSize;
+	private final boolean ignoreMissingFont;
+	private final boolean defaultJustifyLastLine;
 
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #AbstractTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
 	 */
 	public AbstractTextRenderer(
 		JasperReportsContext jasperReportsContext,
@@ -92,9 +97,30 @@ public abstract class AbstractTextRenderer
 		boolean ignoreMissingFont
 		)
 	{
+		this(
+			jasperReportsContext,
+			isMinimizePrinterJobSize,
+			ignoreMissingFont,
+			false
+			);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public AbstractTextRenderer(
+		JasperReportsContext jasperReportsContext,
+		boolean isMinimizePrinterJobSize,
+		boolean ignoreMissingFont,
+		boolean defaultJustifyLastLine
+		)
+	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
+		this.defaultJustifyLastLine = defaultJustifyLastLine;
 	}
 	
 	
@@ -131,6 +157,42 @@ public abstract class AbstractTextRenderer
 	public int getHeight()
 	{
 		return height;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public int getTopPadding()
+	{
+		return topPadding;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public int getLeftPadding()
+	{
+		return leftPadding;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public int getBottomPadding()
+	{
+		return bottomPadding;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public int getRightPadding()
+	{
+		return rightPadding;
 	}
 	
 	
@@ -235,6 +297,12 @@ public abstract class AbstractTextRenderer
 				verticalAlignOffset = 0f;
 			}
 		}
+		
+		justifyLastLine = defaultJustifyLastLine;
+		if (text.getPropertiesMap().containsProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE))
+		{
+			justifyLastLine = propUtil.getBooleanProperty(text, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, defaultJustifyLastLine);
+		}
 
 //		formatWidth = width - leftPadding - rightPadding;
 //		formatWidth = formatWidth < 0 ? 0 : formatWidth;
@@ -257,8 +325,8 @@ public abstract class AbstractTextRenderer
 			styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator();
 
 		int tokenPosition = 0;
-		int lastParagraphStart = 0;
-		String lastParagraphText = null;
+		int prevParagraphStart = 0;
+		String prevParagraphText = null;
 
 		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 
@@ -269,23 +337,25 @@ public abstract class AbstractTextRenderer
 
 			if ("\n".equals(token))
 			{
-				renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
+				isLastParagraph = !tkzer.hasMoreTokens();
+				renderParagraph(allParagraphs, prevParagraphStart, prevParagraphText);
 
-				lastParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
-				lastParagraphText = null;
+				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
+				prevParagraphText = null;
 			}
 			else
 			{
-				lastParagraphStart = tokenPosition;
-				lastParagraphText = token;
+				prevParagraphStart = tokenPosition;
+				prevParagraphText = token;
 			}
 
 			tokenPosition += token.length();
 		}
 
-		if (!isMaxHeightReached && lastParagraphStart < allText.length())
+		if (!isMaxHeightReached && prevParagraphStart < allText.length())
 		{
-			renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
+			isLastParagraph = true;
+			renderParagraph(allParagraphs, prevParagraphStart, prevParagraphText);
 		}
 	}
 
@@ -293,24 +363,24 @@ public abstract class AbstractTextRenderer
 	/**
 	 * 
 	 */
-	private void renderParagraph(
+	protected void renderParagraph(
 		AttributedCharacterIterator allParagraphs,
-		int lastParagraphStart,
-		String lastParagraphText
+		int paragraphStart,
+		String paragraphText
 		)
 	{
 		AttributedCharacterIterator paragraph = null;
 		
-		if (lastParagraphText == null)
+		if (paragraphText == null)
 		{
-			lastParagraphText = " ";
+			paragraphText = " ";
 			paragraph = 
 				new AttributedString(
-					lastParagraphText,
+					paragraphText,
 					new AttributedString(
 						allParagraphs, 
-						lastParagraphStart, 
-						lastParagraphStart + lastParagraphText.length()
+						paragraphStart, 
+						paragraphStart + paragraphText.length()
 						).getIterator().getAttributes()
 					).getIterator();
 		}
@@ -319,12 +389,12 @@ public abstract class AbstractTextRenderer
 			paragraph = 
 				new AttributedString(
 					allParagraphs, 
-					lastParagraphStart, 
-					lastParagraphStart + lastParagraphText.length()
+					paragraphStart, 
+					paragraphStart + paragraphText.length()
 					).getIterator();
 		}
 
-		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
+		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(paragraphText);
 		
 		int currentTab = 0;
 		int lines = 0;
@@ -354,7 +424,10 @@ public abstract class AbstractTextRenderer
 			while (!lineComplete)
 			{
 				// the current segment limit is either the next tab character or the paragraph end 
-				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1);
+				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1); // this +1 here means
+				// that each segment would contain its terminal tab character, except the last segment which ends where the paragraph ends;
+				// the tab character at the end of the segment, although it is not actually rendered, it still causes the layout.getAdvance() to equal layout.getVisibleAdvance()
+				// meaning that any white spaces before the tab are not considered trailing spaces, so they contribute to segment width and thus impact segment text alignment
 				
 				float startX = (lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0) + leftPadding;
 				endX = width - text.getParagraph().getRightIndent() - rightPadding;
@@ -406,7 +479,7 @@ public abstract class AbstractTextRenderer
 		
 					if (
 						text.getHorizontalTextAlign() == HorizontalTextAlignEnum.JUSTIFIED
-						&& lineMeasurer.getPosition() < paragraph.getEndIndex()
+						&& (lineMeasurer.getPosition() < paragraph.getEndIndex() || (isLastParagraph && justifyLastLine))
 						)
 					{
 						layout = layout.getJustifiedLayout(availableWidth);
@@ -420,19 +493,29 @@ public abstract class AbstractTextRenderer
 					crtSegment = new TabSegment();
 					crtSegment.layout = layout;
 					crtSegment.as = tmpText;
-					crtSegment.text = lastParagraphText.substring(startIndex, startIndex + layout.getCharacterCount());
+					crtSegment.text = paragraphText.substring(startIndex, startIndex + layout.getCharacterCount());
+					crtSegment.isLastLine = lineMeasurer.getPosition() == paragraph.getEndIndex();
 
-					float leftX = ParagraphUtil.getLeftX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
+					// using layout.getVisibleAdvance() here means trailing white space characters at the end of the line do not contribute to line width,
+					// which is important when aligning the line of text, to match how text alignment works in PDF, DOCX and other formats;
+					// unlike entire lines of text which might end up with white space characters and are thus considered trailing spaces, 
+					// segments separated by tab character contain the tab character as last character and any white space character preceding the tab are not 
+					// considered trailing spaces; they contribute to the segment width and impact segment alignment because layout.getAvance() equals layout.getVisibleAdvance()
+					// in their case
+					
+					float advance = layout.getVisibleAdvance();
+					//float advance = layout.getAdvance();
+					float leftX = ParagraphUtil.getLeftX(nextTabStop, advance); // nextTabStop can be null here; and that's OK
 					if (rightX > leftX)
 					{
 						crtSegment.leftX = rightX;
-						crtSegment.rightX = rightX + layout.getAdvance();
+						crtSegment.rightX = rightX + advance;
 					}
 					else
 					{
 						crtSegment.leftX = leftX;
 						// we need this special tab stop based utility call because adding the advance to leftX causes rounding issues
-						crtSegment.rightX = ParagraphUtil.getRightX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
+						crtSegment.rightX = ParagraphUtil.getRightX(nextTabStop, advance); // nextTabStop can be null here; and that's OK
 					}
 
 					segments.add(crtSegment);
@@ -513,9 +596,9 @@ public abstract class AbstractTextRenderer
 				oldSegment = crtSegment;
 			}
 
-			lineHeight = getLineHeight(lastParagraphStart == 0 && lines == 0, text.getParagraph(), maxLeading, maxAscent);// + maxDescent;
+			lineHeight = getLineHeight(paragraphStart == 0 && lines == 0, text.getParagraph(), maxLeading, maxAscent);// + maxDescent;
 			
-			if (lastParagraphStart == 0 && lines == 0)
+			if (paragraphStart == 0 && lines == 0)
 			//if (lines == 0) //FIXMEPARA
 			{
 				lineHeight +=  text.getParagraph().getSpacingBefore();
@@ -726,5 +809,6 @@ public abstract class AbstractTextRenderer
 		public String text;
 		public float leftX;
 		public float rightX;
+		public boolean isLastLine;
 	}
 }

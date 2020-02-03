@@ -32,6 +32,8 @@
 package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -102,6 +104,8 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 			}
 		}
 		
+		Shape oldClip = grx.getClip();
+
 		grx.rotate(angle, textRenderer.getX(), textRenderer.getY());
 
 		if (text.getModeValue() == ModeEnum.OPAQUE)
@@ -118,17 +122,32 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 //			*/
 //		}
 
-		String allText = textRenderer.getPlainText();
-		if (allText.length() > 0)
-		{
-			grx.setColor(text.getForecolor());
+		grx.clip(
+			new Rectangle(
+				textRenderer.getX() + textRenderer.getLeftPadding(),
+				textRenderer.getY() + textRenderer.getTopPadding(), 
+				textRenderer.getWidth() - textRenderer.getLeftPadding() - textRenderer.getRightPadding(), 
+				textRenderer.getHeight() - textRenderer.getTopPadding() - textRenderer.getBottomPadding()
+				)
+			);
 
-			/*   */
-			textRenderer.render();
+		try
+		{
+			String allText = textRenderer.getPlainText();
+			if (allText.length() > 0)
+			{
+				grx.setColor(text.getForecolor());
+
+				/*   */
+				textRenderer.render();
+			}
+		}
+		finally
+		{
+			grx.rotate(-angle, textRenderer.getX(), textRenderer.getY());
+			grx.setClip(oldClip);
 		}
 		
-		grx.rotate(-angle, textRenderer.getX(), textRenderer.getY());
-
 		/*   */
 		drawBox(grx, text.getLineBox(), text, offsetX, offsetY);
 	}

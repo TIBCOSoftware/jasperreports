@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>develop-17-SNAPSHOT</version>
+	<version>develop-20-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -322,6 +322,12 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-transcoder</artifactId>
+			<version>1.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>5.1.4.RELEASE</version>
@@ -424,7 +430,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>develop-7-SNAPSHOT</version>
+			<version>develop-10-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -561,6 +567,7 @@
 				<includes>
 					<include>**/*.jrxml</include>
 					<include>**/*.jrpxml</include>
+					<include>**/*.svg</include>
 					<include>**/*.xml</include>
 					<include>**/*.csv</include>
 					<include>**/*.png</include>

@@ -190,61 +190,18 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	}
 
 	/**
-	 * Constructs a message using a pattern with one parameter.
+	 * Constructs a message using a pattern with any number of parameters.
 	 * 
 	 * @param pattern the message pattern
-	 * @param arg0 the message parameter
+	 * @param args the message parameters
 	 * @return the constructed message
 	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
-	public String msg(String pattern, Object arg0)
-	{
-		return getMessageFormat(pattern).format(new Object[] { arg0 }, new StringBuffer(), null).toString();
-	}
-
-	/**
-	 * Constructs a message using a pattern with two parameters.
-	 * 
-	 * @param pattern the message pattern
-	 * @param arg0 the first message parameter
-	 * @param arg1 the second message parameter
-	 * @return the constructed message
-	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
-	 */
-	public String msg(String pattern, Object arg0, Object arg1)
-	{
-		return getMessageFormat(pattern).format(new Object[] { arg0, arg1 }, new StringBuffer(), null).toString();
-	}
-
-	
-	/**
-	 * Constructs a message using a pattern with three parameters.
-	 * 
-	 * @param pattern the message pattern
-	 * @param arg0 the first message parameter
-	 * @param arg1 the second message parameter
-	 * @param arg2 the third parameter
-	 * @return the constructed message
-	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
-	 */
-	public String msg(String pattern, Object arg0, Object arg1, Object arg2)
-	{
-		return getMessageFormat(pattern).format(new Object[] { arg0, arg1, arg2 }, new StringBuffer(), null).toString();
-	}
-
-	/**
-	 * Constructs a message using a pattern with an Object array parameter.
-	 * 
-	 * @param pattern the message pattern
-	 * @param args the parameter Object array
-	 * @return the constructed message
-	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
-	 */
-	public String msg(String pattern, Object[] args)
+	public String msg(String pattern, Object... args)
 	{
 		return getMessageFormat(pattern).format(args, new StringBuffer(), null).toString();
 	}
-	
+
 	/**
 	 * Returns a string for a given key from the resource bundle associated with the evaluator.
 	 * 

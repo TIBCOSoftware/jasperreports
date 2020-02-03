@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -250,13 +251,20 @@ public class JRGraphics2DExporter extends JRAbstractExporter<Graphics2DReportCon
 		
 		Boolean isMinimizePrinterJobSize = configuration.isMinimizePrinterJobSize();
 		Boolean isIgnoreMissingFont = configuration.isIgnoreMissingFont();
+		boolean defaultJustifyLastLine = 
+			propertiesUtil.getBooleanProperty(
+				jasperPrint, 
+				JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, 
+				false
+				);
 		
 		drawVisitor = 
 			new PrintDrawVisitor(
 				exporterContext,
 				getRenderersCache(),
 				isMinimizePrinterJobSize == null ? Boolean.TRUE : isMinimizePrinterJobSize,
-				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont
+				isIgnoreMissingFont == null ? Boolean.FALSE : isIgnoreMissingFont,
+				defaultJustifyLastLine
 				);
 		
 		whitePageBackground = configuration.isWhitePageBackground();

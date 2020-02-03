@@ -69,10 +69,6 @@ public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducer
 			{
 				return ReportExecutionHyperlinkProducer.getInstance(jasperReportsContext, request);
 			}
-			if (ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION.equals(linkType))
-			{
-				return ReportInteractionHyperlinkProducer.getInstance(jasperReportsContext, request);
-			}
 		}
 		return null;
 	}

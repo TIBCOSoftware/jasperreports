@@ -75,7 +75,6 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
@@ -96,7 +95,6 @@ import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.util.JacksonUtil;
-import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 import org.apache.commons.logging.Log;
@@ -414,13 +412,6 @@ public class HeaderToolbarElementJsonHandler implements GenericElementJsonHandle
 		}
 
 		return formatPatterns;
-	}
-
-	private String getActionBaseUrl(JsonExporterContext context) {
-		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-		hyperlink.setLinkType(ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION);
-//		return context.getHyperlinkURL(hyperlink);
-		return "FIXME HeaderToolbarElementJsonHandler.getActionBaseUrl";
 	}
 
 	private String getCurrentSortField(

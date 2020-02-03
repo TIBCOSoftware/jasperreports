@@ -76,6 +76,12 @@ public class QRCodeRasterizedImageProducer implements QRCodeImageProducer
 		
 		int margin = qrCodeBean.getMargin() == null ? QRCodeSVGImageProducer.DEFAULT_MARGIN : qrCodeBean.getMargin();
 		hints.put(EncodeHintType.MARGIN, margin);
+		
+		Integer qrVersion = qrCodeBean.getQrVersion();
+		if(qrVersion != null)
+		{
+			hints.put(EncodeHintType.QR_VERSION, qrVersion);
+		}
 
 		int resolution = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(
 				componentElement, BarcodeRasterizedImageProducer.PROPERTY_RESOLUTION, 300);
