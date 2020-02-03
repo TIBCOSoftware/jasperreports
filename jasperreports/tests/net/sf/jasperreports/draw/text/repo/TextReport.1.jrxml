@@ -137,6 +137,51 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{MyTextNewLine}]]></textFieldExpression>
 				</textField>
+				<textField textAdjust="CutText">
+					<reportElement positionType="Float" mode="Opaque" x="480" y="35" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" uuid="d479f13c-9634-44cd-b9da-a7d042f5fb5c">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Justified" markup="styled">
+						<font fontName="DejaVu Sans"/>
+						<paragraph firstLineIndent="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyText}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="CutText">
+					<reportElement positionType="Float" mode="Opaque" x="610" y="35" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" uuid="c479f13c-9634-44cd-b9da-a7d042f5fb5c">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Justified" markup="styled">
+						<font fontName="DejaVu Sans"/>
+						<paragraph firstLineIndent="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{MyTextNewLine}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" mode="Opaque" x="480" y="90" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" uuid="d479f13c-9634-44cd-b9da-a7d042f5fb5c">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Justified" markup="styled">
+						<font fontName="DejaVu Sans"/>
+						<paragraph firstLineIndent="10"/>
+					</textElement>
+					<text><![CDATA[<style backcolor="cyan">There     are     five     blank     characters     between     each     word     in     this     paragraph     to     show     how     they     impact     text     alignment.</style>]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" mode="Opaque" x="610" y="90" width="120" height="50" forecolor="#FF0000" backcolor="#FFFF00" uuid="c479f13c-9634-44cd-b9da-a7d042f5fb5c">
+						<property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					</reportElement>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Justified" markup="styled">
+						<font fontName="DejaVu Sans"/>
+						<paragraph firstLineIndent="10"/>
+					</textElement>
+					<text><![CDATA[<style backcolor="cyan">There     are     five     blank     characters     between     each     word     in     this.
+Paragraph     to     show     how     they     impact     text     alignment.</style>]]></text>
+				</staticText>
 			</band>
 			<band height="40">
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
