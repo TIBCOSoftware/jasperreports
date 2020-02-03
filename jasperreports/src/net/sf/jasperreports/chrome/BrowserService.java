@@ -39,6 +39,7 @@ import com.github.kklisura.cdt.protocol.events.log.EntryAdded;
 import com.github.kklisura.cdt.protocol.events.runtime.ConsoleAPICalled;
 import com.github.kklisura.cdt.protocol.events.runtime.ExceptionThrown;
 import com.github.kklisura.cdt.protocol.types.log.LogEntry;
+import com.github.kklisura.cdt.protocol.types.page.Navigate;
 import com.github.kklisura.cdt.protocol.types.runtime.ExceptionDetails;
 import com.github.kklisura.cdt.protocol.types.runtime.RemoteObject;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
@@ -116,7 +117,11 @@ public class BrowserService
 				});
 
 				page.enable();
-				page.navigate(pageURL);
+				Navigate navigate = page.navigate(pageURL);
+				if (navigate.getErrorText() != null)
+				{
+					throw new JRRuntimeException("Page failed to load: " + navigate.getErrorText());
+				}
 				
 				Long timeout = pageTimeout(options);
 				if (log.isDebugEnabled())
