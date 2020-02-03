@@ -1206,6 +1206,15 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());
 		printText.setLineBreakOffsets(getLineBreakOffsets());
+		
+		if (
+			fullText != null
+			&& endIndex < fullText.length()
+			&& HorizontalTextAlignEnum.JUSTIFIED == getHorizontalTextAlign()
+			)
+		{
+			printText.getPropertiesMap().setProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, Boolean.TRUE.toString());
+		}
 	}
 	
 	protected boolean keepFullText()
