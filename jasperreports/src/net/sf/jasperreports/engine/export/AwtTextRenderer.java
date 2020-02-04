@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
+import java.text.AttributedString;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
@@ -105,8 +106,15 @@ public class AwtTextRenderer extends AbstractTextRenderer
 		
 		super.initialize(text, styledText, offsetX, offsetY);
 	}
-		
 
+
+	@Override
+	protected AttributedString getAttributedString()
+	{
+		return styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont);
+	}
+
+	
 	@Override
 	public void draw()
 	{

@@ -86,7 +86,7 @@ public abstract class AbstractTextRenderer
 	 * 
 	 */
 	private final boolean isMinimizePrinterJobSize;
-	private final boolean ignoreMissingFont;
+	protected final boolean ignoreMissingFont;
 	private final boolean defaultIndentFirstLine;
 	private final boolean defaultJustifyLastLine;
 
@@ -334,8 +334,7 @@ public abstract class AbstractTextRenderer
 	 */
 	public void render()
 	{
-		AttributedCharacterIterator allParagraphs =  
-			styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator();
+		AttributedCharacterIterator allParagraphs = getAttributedString().getIterator(); 
 
 		int tokenPosition = 0;
 		int prevParagraphStart = 0;
@@ -694,6 +693,11 @@ public abstract class AbstractTextRenderer
 		}
 	}
 	
+	/**
+	 * 
+	 */
+	protected abstract AttributedString getAttributedString();
+
 	/**
 	 * 
 	 */

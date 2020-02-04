@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.text.AttributedString;
+
 import com.lowagie.text.Element;
 import com.lowagie.text.pdf.PdfContentByte;
 
@@ -147,5 +149,12 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 		}
 
 		super.initialize(text, styledText, offsetX, offsetY);
+	}
+
+
+	@Override
+	protected AttributedString getAttributedString()
+	{
+		return styledText.getAttributedString();
 	}
 }
