@@ -212,9 +212,11 @@ public class TextMeasurer implements JRTextMeasurer
 	private int bottomPadding;
 	protected int rightPadding;
 	private JRParagraph jrParagraph;
+	private boolean isFirstParagraph;
 
 	private float formatWidth;
 	protected int maxHeight;
+	private boolean indentFirstLine;
 	private boolean canOverflow;
 	
 	private boolean hasDynamicIgnoreMissingFontProp;
@@ -446,6 +448,7 @@ public class TextMeasurer implements JRTextMeasurer
 		JRStyledText styledText,
 		int remainingTextStart,
 		int availableStretchHeight, 
+		boolean indentFirstLine,
 		boolean canOverflow
 		)
 	{
@@ -503,6 +506,7 @@ public class TextMeasurer implements JRTextMeasurer
 		formatWidth = formatWidth < 0 ? 0 : formatWidth;
 		maxHeight = height + availableStretchHeight - topPadding - bottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
+		this.indentFirstLine = indentFirstLine;
 		this.canOverflow = canOverflow;
 		
 		// refresh properties if required
@@ -544,7 +548,7 @@ public class TextMeasurer implements JRTextMeasurer
 		)
 	{
 		/*   */
-		initialize(styledText, remainingTextStart, availableStretchHeight, canOverflow);
+		initialize(styledText, remainingTextStart, availableStretchHeight, indentFirstLine, canOverflow);
 
 		TextLineWrapper lineWrapper = simpleLineWrapper;
 		// check if the simple wrapper would handle the text
@@ -557,6 +561,8 @@ public class TextMeasurer implements JRTextMeasurer
 		int tokenPosition = remainingTextStart;
 		int prevParagraphStart = remainingTextStart;
 		String prevParagraphText = null;
+
+		isFirstParagraph = true;
 
 		String remainingText = styledText.getText().substring(remainingTextStart);
 		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
@@ -571,6 +577,7 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				rendered = renderParagraph(lineWrapper, prevParagraphStart, prevParagraphText);
 
+				isFirstParagraph = false;
 				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
 				prevParagraphText = null;
 			}
@@ -818,7 +825,17 @@ public class TextMeasurer implements JRTextMeasurer
 			// the current segment limit is either the next tab character or the paragraph end 
 			int tabIndexOrEndIndex = (tabIndexes == null || currentTabHolder[0] >= tabIndexes.size() ? lineWrapper.paragraphEnd() : tabIndexes.get(currentTabHolder[0]) + 1);
 			
-			float startX = (lineWrapper.paragraphPosition() == 0 ? jrParagraph.getFirstLineIndent() : 0) + leftPadding;
+			int firstLineIndent = lineWrapper.paragraphPosition() == 0 ? jrParagraph.getFirstLineIndent() : 0;
+			
+			if (
+				firstLineIndent != 0
+				&& (isFirstParagraph && !indentFirstLine)
+				)
+			{
+				firstLineIndent = 0;
+			}
+			
+			float startX = firstLineIndent + leftPadding;
 			float endX = width - jrParagraph.getRightIndent() - rightPadding;
 			endX = endX < startX ? startX : endX;
 			//formatWidth = endX - startX;
