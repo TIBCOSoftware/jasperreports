@@ -579,6 +579,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 	private int crtEvenPageOffsetY;
 	
 	private boolean awtIgnoreMissingFont;
+	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
 
 	private Set<UnicodeBlock> glyphRendererBlocks;
@@ -733,6 +734,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			splitCharacter = new BreakIteratorSplitCharacter();
 		}
 		
+		defaultIndentFirstLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, true);
 		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
 		
 		crtOddPageOffsetX = configuration.getOddPageOffsetX();
@@ -3273,6 +3275,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 					jasperReportsContext, 
 					awtIgnoreMissingFont,
 					glyphRendererAddActualText && !tagHelper.isTagged,
+					defaultIndentFirstLine,
 					defaultJustifyLastLine
 					);
 		}
@@ -3283,6 +3286,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				new PdfTextRenderer(
 					jasperReportsContext, 
 					awtIgnoreMissingFont, 
+					defaultIndentFirstLine,
 					defaultJustifyLastLine
 					);//FIXMENOW make some reusable instances here and below
 		}
@@ -3292,6 +3296,7 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 				new SimplePdfTextRenderer(
 					jasperReportsContext, 
 					awtIgnoreMissingFont, 
+					defaultIndentFirstLine,
 					defaultJustifyLastLine
 					);//FIXMETAB optimize this
 		}

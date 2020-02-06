@@ -42,6 +42,18 @@ public interface JRPrintText extends JRPrintElement, JRTextAlignment, JRPrintAnc
 	 */
 	@Property(
 		valueType = Boolean.class,
+		defaultValue = PropertyConstants.BOOLEAN_TRUE,
+		scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
+		sinceVersion = PropertyConstants.VERSION_6_12_0
+		)
+	public static final String PROPERTY_AWT_INDENT_FIRST_LINE = JRPropertiesUtil.PROPERTY_PREFIX + "awt.indent.first.line";
+	
+
+	/**
+	 * Specifies if the last line in a paragraph should be justified.
+	 */
+	@Property(
+		valueType = Boolean.class,
 		defaultValue = PropertyConstants.BOOLEAN_FALSE,
 		scopes = {PropertyScope.CONTEXT, PropertyScope.REPORT, PropertyScope.TEXT_ELEMENT},
 		sinceVersion = PropertyConstants.VERSION_6_12_0

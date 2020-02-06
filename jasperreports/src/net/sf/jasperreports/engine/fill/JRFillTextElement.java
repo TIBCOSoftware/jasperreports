@@ -109,6 +109,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	//private int elementStretchHeightDelta;
 	private int textStart;
 	private int textEnd;
+	private boolean isCutParagraphOverflow;
+	private boolean isCutParagraphToContinueInOverflow;
 	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
 	private String oldRawText;
@@ -478,6 +480,22 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		this.textEnd = textEnd;
 	}
+
+	/**
+	 *
+	 */
+	protected boolean isCutParagraphToContinueInOverflow()
+	{
+		return isCutParagraphToContinueInOverflow;
+	}
+		
+	/**
+	 *
+	 */
+	protected void setCutParagraphToContinueInOverflow(boolean isCutParagraphToContinueInOverflow)
+	{
+		this.isCutParagraphToContinueInOverflow = isCutParagraphToContinueInOverflow;
+	}
 	
 	protected short[] getLineBreakOffsets()
 	{
@@ -597,6 +615,18 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 	
 
+	@Override
+	protected boolean prepare(
+		int availableHeight,
+		boolean isOverflow
+		) throws JRException
+	{
+		isCutParagraphOverflow = isCutParagraphToContinueInOverflow;
+		
+		return super.prepare(availableHeight, isOverflow);
+	}
+
+
 	/**
 	 *
 	 */
@@ -625,6 +655,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			processedText,
 			getTextEnd(),
 			availableStretchHeight,
+			isCutParagraphOverflow,
 			canOverflow
 			);
 		
@@ -684,6 +715,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						tmpProcessedText,
 						getTextEnd(),
 						availableStretchHeight,
+						isCutParagraphOverflow,
 						canOverflow
 						);
 				}
@@ -757,6 +789,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		setTextStart(getTextEnd());
 		setTextEnd(measuredText.getTextOffset());
+		setCutParagraphToContinueInOverflow(canOverflow && measuredText.isParagraphCut());
 		setLineBreakOffsets(measuredText.getLineBreakOffsets());
 		setTextTruncateSuffix(measuredText.getTextSuffix());
 		setLineSpacingFactor(measuredText.getLineSpacingFactor());
@@ -1206,6 +1239,23 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		printText.setTextTruncateSuffix(getTextTruncateSuffix());
 		printText.setLineBreakOffsets(getLineBreakOffsets());
+		
+		if (
+			isCutParagraphOverflow
+			&& getParagraph().getFirstLineIndent() != 0
+			)
+		{
+			printText.getPropertiesMap().setProperty(JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, Boolean.FALSE.toString());
+		}
+		
+		if (
+			fullText != null
+			&& endIndex < fullText.length()
+			&& HorizontalTextAlignEnum.JUSTIFIED == getHorizontalTextAlign()
+			)
+		{
+			printText.getPropertiesMap().setProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, Boolean.TRUE.toString());
+		}
 	}
 	
 	protected boolean keepFullText()

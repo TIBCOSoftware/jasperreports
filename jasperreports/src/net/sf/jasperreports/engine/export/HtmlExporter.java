@@ -195,6 +195,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 	private List<HyperlinkData> hyperlinksData = new ArrayList<HyperlinkData>();
 	
+	private boolean defaultIndentFirstLine;
 	private boolean defaultJustifyLastLine;
 
 	public HtmlExporter()
@@ -314,6 +315,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		// this is the filter used to create the table, taking in consideration unhandled generic elements
 		tableFilter = new GenericElementsFilterDecorator(jasperReportsContext, HTML_EXPORTER_KEY, filter);
 		
+		defaultIndentFirstLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, true);
 		defaultJustifyLastLine = propertiesUtil.getBooleanProperty(jasperPrint, JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, false);
 	}
 	
@@ -2669,7 +2671,17 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		int tokenPosition = 0;
 		int prevParagraphStart = 0;
 		String prevParagraphText = null;
-		boolean singleParagraph = true;
+
+		boolean indentFirstLine = true;
+		Integer firstLineIndent = printText.getParagraph().getFirstLineIndent(); 
+		if (firstLineIndent != 0)
+		{
+			indentFirstLine = defaultIndentFirstLine;
+			if (printText.getPropertiesMap().containsProperty(JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE))
+			{
+				indentFirstLine = propertiesUtil.getBooleanProperty(printText, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, defaultIndentFirstLine);
+			}
+		}
 
 		boolean justifyLastLine = false;
 		if (HorizontalTextAlignEnum.JUSTIFIED == printText.getHorizontalTextAlign())
@@ -2681,10 +2693,14 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			}
 		}
 
-		if (allText.indexOf('\n') > 0)
+		boolean isFirstParagraph = true;
+		boolean isLastParagraph = false;
+		
+		if (
+			(firstLineIndent != 0 && allText.indexOf('\n') > 0)
+			|| (!indentFirstLine || justifyLastLine)
+			)
 		{
-			singleParagraph = false;
-			
 			StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
@@ -2694,9 +2710,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 
 				if ("\n".equals(token))
 				{
-					exportParagraph(printText, allParagraphs, prevParagraphStart, prevParagraphText, false, 
-						!tkzer.hasMoreTokens(), justifyLastLine, tooltip, hyperlinkStarted);
-
+					exportParagraph(
+						printText, allParagraphs, prevParagraphStart, prevParagraphText,
+						isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
+						isLastParagraph && justifyLastLine, 
+						tooltip, hyperlinkStarted
+						);
+					
+					isFirstParagraph = false;
+					isLastParagraph = !tkzer.hasMoreTokens();
 					prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
 					prevParagraphText = null;
 				}
@@ -2712,12 +2734,17 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		else
 		{
 			prevParagraphText = allText;
+			firstLineIndent = null; // null means we don't need to use a <div> to force first line indent as it was already dealt-with in <td> style
 		}
 		
 		if (prevParagraphStart < allText.length())
 		{
-			exportParagraph(printText, allParagraphs, prevParagraphStart, prevParagraphText, singleParagraph, 
-				true, justifyLastLine, tooltip, hyperlinkStarted);
+			exportParagraph(
+				printText, allParagraphs, prevParagraphStart, prevParagraphText,
+				isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
+				justifyLastLine, // isLastParagraph would be considered true here, so no point in keeping && operation 
+				tooltip, hyperlinkStarted
+				);
 		}
 	}
 	
@@ -2726,8 +2753,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		AttributedCharacterIterator allParagraphs,
 		int paragraphStart,
 		String paragraphText, 
-		boolean singleParagraph,
-		boolean isLastParagraph,
+		Integer firstLineIndent,
 		boolean justifyLastLine,
 		String tooltip, 
 		boolean hyperlinkStarted
@@ -2764,17 +2790,18 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					).getIterator();
 		}
 
-		if (
-			!singleParagraph
-			|| (isLastParagraph && justifyLastLine)
-			)
+		if (firstLineIndent != null || justifyLastLine)
 		{
-			writer.write("<div");
-			if (isLastParagraph && justifyLastLine)
+			writer.write("<div style=\"");
+			if (firstLineIndent != null)
 			{
-				writer.write(" style=\"text-align-last: justify;\"");
+				writer.write("text-indent: " + firstLineIndent + "px;");
 			}
-			writer.write("/>");
+			if (justifyLastLine)
+			{
+				writer.write("text-align-last: justify;");
+			}
+			writer.write("\">");
 		}
 		
 		int runLimit = 0;
@@ -2832,10 +2859,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("</span>");
 		}
 		
-		if (
-			!singleParagraph
-			|| (isLastParagraph && justifyLastLine)
-			)
+		if (firstLineIndent != null || justifyLastLine)
 		{
 			writer.write("</div>");
 		}

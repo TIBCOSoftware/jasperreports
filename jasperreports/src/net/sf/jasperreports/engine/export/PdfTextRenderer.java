@@ -39,14 +39,14 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 public class PdfTextRenderer extends AbstractPdfTextRenderer
 {
 	/**
-	 * @deprecated Replaced by {@link #PdfTextRenderer(JasperReportsContext, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
 	 */
 	public PdfTextRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont
 		)
 	{
-		this(jasperReportsContext, ignoreMissingFont, false);
+		this(jasperReportsContext, ignoreMissingFont, true, false);
 	}
 	
 	
@@ -56,10 +56,16 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 	public PdfTextRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont,
+		boolean defaultIndentFirstLine,
 		boolean defaultJustifyLastLine
 		)
 	{
-		super(jasperReportsContext, ignoreMissingFont, defaultJustifyLastLine);
+		super(
+			jasperReportsContext, 
+			ignoreMissingFont, 
+			defaultIndentFirstLine,
+			defaultJustifyLastLine
+			);
 	}
 	
 	
