@@ -655,7 +655,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			processedText,
 			getTextEnd(),
 			availableStretchHeight,
-			isCutParagraphOverflow,
+			!isCutParagraphOverflow, // indentFirstLine
 			canOverflow
 			);
 		
@@ -715,7 +715,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 						tmpProcessedText,
 						getTextEnd(),
 						availableStretchHeight,
-						isCutParagraphOverflow,
+						!isCutParagraphOverflow, // indentFirstLine
 						canOverflow
 						);
 				}
