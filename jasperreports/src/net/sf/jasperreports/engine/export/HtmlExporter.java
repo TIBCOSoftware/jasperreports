@@ -2671,10 +2671,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		int tokenPosition = 0;
 		int prevParagraphStart = 0;
 		String prevParagraphText = null;
-		boolean singleParagraph = true;
 
 		boolean indentFirstLine = true;
-		if (printText.getParagraph().getFirstLineIndent() != 0)
+		Integer firstLineIndent = printText.getParagraph().getFirstLineIndent(); 
+		if (firstLineIndent != 0)
 		{
 			indentFirstLine = defaultIndentFirstLine;
 			if (printText.getPropertiesMap().containsProperty(JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE))
@@ -2696,10 +2696,11 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		boolean isFirstParagraph = true;
 		boolean isLastParagraph = false;
 		
-		if (allText.indexOf('\n') > 0)
+		if (
+			(firstLineIndent != 0 && allText.indexOf('\n') > 0)
+			|| (!indentFirstLine || justifyLastLine)
+			)
 		{
-			singleParagraph = false;
-			
 			StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 
 			// text is split into paragraphs, using the newline character as delimiter
@@ -2710,9 +2711,9 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 				if ("\n".equals(token))
 				{
 					exportParagraph(
-						printText, allParagraphs, prevParagraphStart, prevParagraphText, false, 
-						isFirstParagraph, indentFirstLine,
-						isLastParagraph, justifyLastLine, 
+						printText, allParagraphs, prevParagraphStart, prevParagraphText,
+						isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
+						isLastParagraph && justifyLastLine, 
 						tooltip, hyperlinkStarted
 						);
 					
@@ -2733,14 +2734,15 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		else
 		{
 			prevParagraphText = allText;
+			firstLineIndent = null; // null means we don't need to use a <div> to force first line indent as it was already dealt-with in <td> style
 		}
 		
 		if (prevParagraphStart < allText.length())
 		{
 			exportParagraph(
-				printText, allParagraphs, prevParagraphStart, prevParagraphText, singleParagraph,
-				isFirstParagraph, indentFirstLine,
-				true, justifyLastLine, 
+				printText, allParagraphs, prevParagraphStart, prevParagraphText,
+				isFirstParagraph && !indentFirstLine ? (Integer)0 : firstLineIndent,
+				justifyLastLine, // isLastParagraph would be considered true here, so no point in keeping && operation 
 				tooltip, hyperlinkStarted
 				);
 		}
@@ -2751,10 +2753,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		AttributedCharacterIterator allParagraphs,
 		int paragraphStart,
 		String paragraphText, 
-		boolean singleParagraph,
-		boolean isFirstParagraph,
-		boolean indentFirstLine,
-		boolean isLastParagraph,
+		Integer firstLineIndent,
 		boolean justifyLastLine,
 		String tooltip, 
 		boolean hyperlinkStarted
@@ -2791,30 +2790,18 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					).getIterator();
 		}
 
-		if (
-			!singleParagraph
-			|| (isFirstParagraph && !indentFirstLine)
-			|| (isLastParagraph && justifyLastLine)
-			)
+		if (firstLineIndent != null || justifyLastLine)
 		{
-			writer.write("<div");
-			if (
-				(isFirstParagraph && !indentFirstLine)
-				|| (isLastParagraph && justifyLastLine)
-				)
+			writer.write("<div style=\"");
+			if (firstLineIndent != null)
 			{
-				writer.write(" style=\"");
-				if (isFirstParagraph && !indentFirstLine)
-				{
-					writer.write("text-indent: 0px;");
-				}
-				if (isLastParagraph && justifyLastLine)
-				{
-					writer.write("text-align-last: justify;");
-				}
-				writer.write("\"");
+				writer.write("text-indent: " + firstLineIndent + "px;");
 			}
-			writer.write("/>");
+			if (justifyLastLine)
+			{
+				writer.write("text-align-last: justify;");
+			}
+			writer.write("\">");
 		}
 		
 		int runLimit = 0;
@@ -2872,10 +2859,7 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 			writer.write("</span>");
 		}
 		
-		if (
-			!singleParagraph
-			|| (isLastParagraph && justifyLastLine)
-			)
+		if (firstLineIndent != null || justifyLastLine)
 		{
 			writer.write("</div>");
 		}
