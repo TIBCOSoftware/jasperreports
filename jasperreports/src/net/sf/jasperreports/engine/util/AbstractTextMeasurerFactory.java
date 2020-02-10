@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 
 /**
- * Factory of {@link JdkGlyphFixTextMeasurer} instances.
+ * Factory of {@link JRTextMeasurer} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @see JRTextMeasurerUtil#PROPERTY_TEXT_MEASURER_FACTORY

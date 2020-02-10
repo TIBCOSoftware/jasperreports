@@ -3145,19 +3145,6 @@ to measure a single text element before giving up.
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep -->
-  
-  <configProperty name="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep">
-    <description>
-A property that specifies the number of milliseconds to sleep between 
-measuring reattempts.
-<br/>
-The default value is 0, which means that the measurer will not pause 
-between reattempts (see <api href="net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer.html#DEFAULT_ATTEMPT_SLEEP">DEFAULT_ATTEMPT_SLEEP</api>).
-    </description>
-  </configProperty>
-  
-  
   <!-- net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace -->
   
   <configProperty name="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stakctrace">
