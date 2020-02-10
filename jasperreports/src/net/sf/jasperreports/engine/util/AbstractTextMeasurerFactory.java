@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 
 /**
@@ -36,14 +33,4 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
  */
 public abstract class AbstractTextMeasurerFactory implements JRTextMeasurerFactory
 {
-
-	/**
-	 * @deprecated Replaced by {@link #createMeasurer(JasperReportsContext, JRCommonText)}.
-	 */
-	@Override
-	public final JRTextMeasurer createMeasurer(JRCommonText text)
-	{
-		return createMeasurer(DefaultJasperReportsContext.getInstance(), text);
-	}
-
 }
