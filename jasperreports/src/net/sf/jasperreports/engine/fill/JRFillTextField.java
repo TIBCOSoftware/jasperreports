@@ -45,13 +45,11 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.Pair;
 
 
@@ -934,22 +932,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setValue(getValue());
 		
 		setPrintText(text);
-		
-		if (
-			TextAdjustEnum.STRETCH_HEIGHT == getTextAdjust()
-			&& HorizontalTextAlignEnum.JUSTIFIED == getHorizontalTextAlign()
-			)
-		{
-			JRStyledText tmpStyledText = getStyledText();
-			if (tmpStyledText != null)
-			{
-				int fullTextLength = tmpStyledText.getText().length();
-				if (getTextEnd() < fullTextLength)
-				{
-					text.getPropertiesMap().setProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE, Boolean.TRUE.toString());
-				}
-			}
-		}
 
 		text.setAnchorName(getAnchorName());
 		if (getHyperlinkWhenExpression() == null || Boolean.TRUE.equals(hyperlinkWhen))

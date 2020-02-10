@@ -47,14 +47,14 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	private float yLine = 0;
 	
 	/**
-	 * @deprecated Replaced by {@link #SimplePdfTextRenderer(JasperReportsContext, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #SimplePdfTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
 	 */
 	public SimplePdfTextRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont
 		)
 	{
-		this(jasperReportsContext, ignoreMissingFont, false);
+		this(jasperReportsContext, ignoreMissingFont, true, false);
 	}
 	
 	
@@ -64,10 +64,16 @@ public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 	public SimplePdfTextRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont,
+		boolean defaultIndentFirstLine,
 		boolean defaultJustifyLastLine
 		)
 	{
-		super(jasperReportsContext, ignoreMissingFont, defaultJustifyLastLine);
+		super(
+			jasperReportsContext, 
+			ignoreMissingFont,
+			defaultIndentFirstLine,
+			defaultJustifyLastLine
+			);
 	}
 
 	

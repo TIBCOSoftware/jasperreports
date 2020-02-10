@@ -6348,6 +6348,13 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.awt.indent.first.line -->
+  
+  <configProperty name="net.sf.jasperreports.awt.indent.first.line">
+    <description>Property used to disable the indentation for the first line in a paragraph.</description>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.awt.justify.last.line -->
   
   <configProperty name="net.sf.jasperreports.awt.justify.last.line">

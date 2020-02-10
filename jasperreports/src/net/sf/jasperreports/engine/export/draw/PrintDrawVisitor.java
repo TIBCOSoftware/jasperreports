@@ -66,7 +66,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private FrameDrawer frameDrawer;
 
 	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext, RenderersCache, boolean, boolean, boolean, boolean)}.
 	 */
 	public PrintDrawVisitor(
 		JasperReportsContext jasperReportsContext,
@@ -80,6 +80,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 			renderersCache,
 			minimizePrinterJobSize,
 			ignoreMissingFont,
+			true,
 			false
 			);
 	}
@@ -89,6 +90,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		RenderersCache renderersCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont,
+		boolean defaultIndentFirstLine,
 		boolean defaultJustifyLastLine
 		)
 	{
@@ -103,6 +105,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 				jasperReportsContext,
 				minimizePrinterJobSize,
 				ignoreMissingFont,
+				defaultIndentFirstLine,
 				defaultJustifyLastLine
 				);
 		
@@ -111,7 +114,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #PrintDrawVisitor(JRGraphics2DExporterContext, RenderersCache, boolean, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JRGraphics2DExporterContext, RenderersCache, boolean, boolean, boolean, boolean)}.
 	 */
 	public PrintDrawVisitor(
 		JRGraphics2DExporterContext exporterContext, 
@@ -125,6 +128,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 			renderersCache,
 			minimizePrinterJobSize,
 			ignoreMissingFont,
+			true,
 			false
 			);
 	}
@@ -134,7 +138,8 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 		RenderersCache renderersCache,
 		boolean minimizePrinterJobSize,
 		boolean ignoreMissingFont,
-		boolean defaulJustifyLastLine
+		boolean defaultIndentFirstLine,
+		boolean defaultJustifyLastLine
 		)
 	{
 		this.jasperReportsContext = exporterContext.getJasperReportsContext();
@@ -148,7 +153,8 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 				jasperReportsContext,
 				minimizePrinterJobSize,
 				ignoreMissingFont,
-				defaulJustifyLastLine
+				defaultIndentFirstLine,
+				defaultJustifyLastLine
 				);
 		
 		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);

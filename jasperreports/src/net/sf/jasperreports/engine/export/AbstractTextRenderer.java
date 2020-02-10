@@ -70,9 +70,11 @@ public abstract class AbstractTextRenderer
 	protected float drawPosX;
 	protected float lineHeight;
 	protected boolean isMaxHeightReached;
+	protected boolean isFirstParagraph;
 	protected boolean isLastParagraph;
 	protected List<TabSegment> segments;
 	protected int segmentIndex;
+	protected boolean indentFirstLine;
 	protected boolean justifyLastLine;
 	
 	/**
@@ -84,12 +86,13 @@ public abstract class AbstractTextRenderer
 	 * 
 	 */
 	private final boolean isMinimizePrinterJobSize;
-	private final boolean ignoreMissingFont;
+	protected final boolean ignoreMissingFont;
+	private final boolean defaultIndentFirstLine;
 	private final boolean defaultJustifyLastLine;
 
 	
 	/**
-	 * @deprecated Replaced by {@link #AbstractTextRenderer(JasperReportsContext, boolean, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #AbstractTextRenderer(JasperReportsContext, boolean, boolean, boolean, boolean)}.
 	 */
 	public AbstractTextRenderer(
 		JasperReportsContext jasperReportsContext,
@@ -101,6 +104,7 @@ public abstract class AbstractTextRenderer
 			jasperReportsContext,
 			isMinimizePrinterJobSize,
 			ignoreMissingFont,
+			true,
 			false
 			);
 	}
@@ -113,6 +117,7 @@ public abstract class AbstractTextRenderer
 		JasperReportsContext jasperReportsContext,
 		boolean isMinimizePrinterJobSize,
 		boolean ignoreMissingFont,
+		boolean defaultIndentFirstLine,
 		boolean defaultJustifyLastLine
 		)
 	{
@@ -120,6 +125,7 @@ public abstract class AbstractTextRenderer
 		this.propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
+		this.defaultIndentFirstLine = defaultIndentFirstLine;
 		this.defaultJustifyLastLine = defaultJustifyLastLine;
 	}
 	
@@ -298,6 +304,12 @@ public abstract class AbstractTextRenderer
 			}
 		}
 		
+		indentFirstLine = defaultIndentFirstLine;
+		if (text.getPropertiesMap().containsProperty(JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE))
+		{
+			indentFirstLine = propUtil.getBooleanProperty(text, JRPrintText.PROPERTY_AWT_INDENT_FIRST_LINE, defaultIndentFirstLine);
+		}
+
 		justifyLastLine = defaultJustifyLastLine;
 		if (text.getPropertiesMap().containsProperty(JRPrintText.PROPERTY_AWT_JUSTIFY_LAST_LINE))
 		{
@@ -311,6 +323,7 @@ public abstract class AbstractTextRenderer
 		drawPosX = 0;
 	
 		isMaxHeightReached = false;
+		isLastParagraph = false;
 		
 		//maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(text.getMarkup()));
 	}
@@ -321,13 +334,14 @@ public abstract class AbstractTextRenderer
 	 */
 	public void render()
 	{
-		AttributedCharacterIterator allParagraphs =  
-			styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator();
+		AttributedCharacterIterator allParagraphs = getAttributedString().getIterator(); 
 
 		int tokenPosition = 0;
 		int prevParagraphStart = 0;
 		String prevParagraphText = null;
 
+		isFirstParagraph = true;
+		
 		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 
 		// text is split into paragraphs, using the newline character as delimiter
@@ -337,9 +351,10 @@ public abstract class AbstractTextRenderer
 
 			if ("\n".equals(token))
 			{
-				isLastParagraph = !tkzer.hasMoreTokens();
 				renderParagraph(allParagraphs, prevParagraphStart, prevParagraphText);
 
+				isFirstParagraph = false;
+				isLastParagraph = !tkzer.hasMoreTokens();
 				prevParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
 				prevParagraphText = null;
 			}
@@ -429,7 +444,17 @@ public abstract class AbstractTextRenderer
 				// the tab character at the end of the segment, although it is not actually rendered, it still causes the layout.getAdvance() to equal layout.getVisibleAdvance()
 				// meaning that any white spaces before the tab are not considered trailing spaces, so they contribute to segment width and thus impact segment text alignment
 				
-				float startX = (lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0) + leftPadding;
+				int firstLineIndent = lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0;
+				
+				if (
+					firstLineIndent != 0
+					&& (isFirstParagraph && !indentFirstLine)
+					)
+				{
+					firstLineIndent = 0;
+				}
+				
+				float startX = firstLineIndent + leftPadding;
 				endX = width - text.getParagraph().getRightIndent() - rightPadding;
 				endX = endX < startX ? startX : endX;
 				//formatWidth = endX - startX;
@@ -668,6 +693,11 @@ public abstract class AbstractTextRenderer
 		}
 	}
 	
+	/**
+	 * 
+	 */
+	protected abstract AttributedString getAttributedString();
+
 	/**
 	 * 
 	 */

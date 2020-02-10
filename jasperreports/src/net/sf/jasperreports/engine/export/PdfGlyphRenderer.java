@@ -79,7 +79,7 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	private PdfGlyphGraphics2D pdfGraphics2D;
 	
 	/**
-	 * @deprecated Replaced by {@link #PdfGlyphRenderer(JasperReportsContext, boolean, boolean, boolean)}.
+	 * @deprecated Replaced by {@link #PdfGlyphRenderer(JasperReportsContext, boolean, boolean, boolean, boolean)}.
 	 */
 	public PdfGlyphRenderer(
 		JasperReportsContext jasperReportsContext, 
@@ -90,6 +90,7 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 		this(
 			jasperReportsContext, 
 			ignoreMissingFont, 
+			true,
 			false,
 			addActualText
 			);
@@ -98,11 +99,17 @@ public class PdfGlyphRenderer extends AbstractPdfTextRenderer
 	public PdfGlyphRenderer(
 		JasperReportsContext jasperReportsContext, 
 		boolean ignoreMissingFont, 
+		boolean defaultIndentFirstLine,
 		boolean defaultJustifyLastLine,
 		boolean addActualText
 		)
 	{
-		super(jasperReportsContext, ignoreMissingFont, defaultJustifyLastLine);
+		super(
+			jasperReportsContext, 
+			ignoreMissingFont,
+			defaultIndentFirstLine,
+			defaultJustifyLastLine
+			);
 		this.addActualText = addActualText;
 	}
 

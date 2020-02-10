@@ -42,12 +42,15 @@ public interface JRTextMeasurer
 	 * @param styledText the full text
 	 * @param remainingTextStart the start index of the remaining text
 	 * @param availableStretchHeight the available stretch height
+	 * @param indentFirstLine whether should honor first line indent
 	 * @param canOverflow whether the text element is able to overflow
 	 * @return text measuring information
 	 */
 	JRMeasuredText measure(JRStyledText styledText,
-			int remainingTextStart,
-			int availableStretchHeight,
-			boolean canOverflow);
+		int remainingTextStart,
+		int availableStretchHeight,
+		boolean indentFirstLine,
+		boolean canOverflow
+		);
 
 }

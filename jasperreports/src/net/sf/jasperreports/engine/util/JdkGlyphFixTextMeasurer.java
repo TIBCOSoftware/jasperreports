@@ -173,11 +173,11 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 	}
 
 	/**
-	 * Calls {@link TextMeasurer#measure(JRStyledText, int, int, boolean) super.measure}, catches
+	 * Calls {@link TextMeasurer#measure(JRStyledText, int, int, boolean, boolean) super.measure}, catches
 	 * <code>sun.font.GlyphLayout</code> NPEs and reattempts the call.
 	 */
 	@Override
-	public JRMeasuredText measure(JRStyledText styledText, int remainingTextStart, int availableStretchHeight, boolean canOverflow)
+	public JRMeasuredText measure(JRStyledText styledText, int remainingTextStart, int availableStretchHeight, boolean indentFirstLine, boolean canOverflow)
 	{
 		int count = 0;
 		do
@@ -186,7 +186,7 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 			{
 				++count;
 
-				return super.measure(styledText, remainingTextStart, availableStretchHeight, canOverflow);
+				return super.measure(styledText, remainingTextStart, availableStretchHeight, indentFirstLine, canOverflow);
 			}
 			catch (NullPointerException e) //NOPMD
 			{
