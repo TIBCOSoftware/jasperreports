@@ -696,7 +696,10 @@ public abstract class AbstractTextRenderer
 	/**
 	 * 
 	 */
-	protected abstract AttributedString getAttributedString();
+	protected AttributedString getAttributedString()
+	{
+		return styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont);
+	}
 
 	/**
 	 * 
