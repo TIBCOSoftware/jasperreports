@@ -65,17 +65,30 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 	private final DocumentBuilderFactory documentBuilderFactory;
 	
 	private Map<String, String> namespacesMap;
+
+	/**
+	 *
+	 */
+	public XalanXPathQueryExecuter(
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset,
+		Map<String,? extends JRValueParameter> parametersMap
+		)
+	{
+		this(SimpleQueryExecutionContext.of(jasperReportsContext),
+				dataset, parametersMap);
+	}
 	
 	/**
 	 * 
 	 */
 	public XalanXPathQueryExecuter(
-		JasperReportsContext jasperReportsContext, 
+		QueryExecutionContext context,
 		JRDataset dataset, 
 		Map<String,? extends JRValueParameter> parametersMap
 		)
 	{
-		super(jasperReportsContext, dataset, parametersMap);
+		super(context, dataset, parametersMap);
 				
 		document = (Document) getParameterValue(XalanXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT);
 		documentBuilderFactory = (DocumentBuilderFactory) getParameterValue(

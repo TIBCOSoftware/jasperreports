@@ -124,7 +124,16 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 		Map<String,? extends JRValueParameter> parameters
 		) throws JRException
 	{
-		return new JaxenXPathQueryExecuter(jasperReportsContext, dataset, parameters);
+		return createQueryExecuter(SimpleQueryExecutionContext.of(jasperReportsContext), dataset, parameters);
 	}
 
+	@Override
+	public JRQueryExecuter createQueryExecuter(
+		QueryExecutionContext context,
+		JRDataset dataset,
+		Map<String, ? extends JRValueParameter> parameters
+		) throws JRException
+	{
+		return new JaxenXPathQueryExecuter(context, dataset, parameters);
+	}
 }
