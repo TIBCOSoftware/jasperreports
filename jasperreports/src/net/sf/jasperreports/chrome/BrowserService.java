@@ -68,6 +68,15 @@ public class BrowserService
 			)
 	public static final String PROPERTY_PAGE_TIMEOUT = Chrome.PROPERTY_PREFIX + "page.timeout";
 	
+	@Property(
+			category = PropertyConstants.CATEGORY_CHROME,
+			scopes = {PropertyScope.CONTEXT},
+			sinceVersion = PropertyConstants.VERSION_6_12_0,
+			valueType = Boolean.class,
+			defaultValue = "false"
+			)
+	public static final String PROPERTY_PAGE_ISOLATE = Chrome.PROPERTY_PREFIX + "page.isolate";
+	
 	private JRPropertiesUtil propertiesUtil;
 	private ChromeServiceHandle chromeServiceHandle;
 	
@@ -84,7 +93,9 @@ public class BrowserService
 			log.debug("page evaluation at " + pageURL);
 		}
 		
-		T result = chromeServiceHandle.runInTab(devToolsService ->
+		PageCreator pageCreator = isolate(options) ? IsolatedPageCreator.instance() : StandardPageCreator.instance();
+		ChromeInstanceHandle chromeInstance = chromeServiceHandle.getChromeInstance();
+		T result = pageCreator.runInPage(chromeInstance, devToolsService ->
 		{
 			try
 			{
@@ -146,6 +157,13 @@ public class BrowserService
 		return result;
 	}
 
+	protected boolean isolate(PageOptions options)
+	{
+		Boolean isolate = options == null ? null : options.getIsolate();
+		return isolate == null ? propertiesUtil.getBooleanProperty(PROPERTY_PAGE_ISOLATE, false)
+				: isolate;
+	}
+	
 	protected void setScreenDimensions(PageOptions options, ChromeDevToolsService devToolsService)
 	{
 		if (options != null && (options.getScreenWidth() != null || options.getScreenHeight() != null))
