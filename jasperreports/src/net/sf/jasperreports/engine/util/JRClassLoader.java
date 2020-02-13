@@ -374,6 +374,16 @@ public class JRClassLoader extends ClassLoader
 			return null;
 		}
 		
+		int ltPos = className.indexOf('<');
+		if (ltPos > 0)
+		{
+			int gtPos = className.lastIndexOf('>');
+			if (gtPos > ltPos)
+			{
+				className = className.substring(0, ltPos) + className.substring(gtPos);
+			}
+		}
+		
 		int arrayDimension = 0;
 		int classNameEnd = className.length();
 		int index = 0;
