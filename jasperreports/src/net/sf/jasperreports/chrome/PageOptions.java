@@ -35,6 +35,8 @@ public class PageOptions
 	
 	private Integer screenHeight;
 	
+	private Boolean isolate;
+	
 	public PageOptions()
 	{
 	}
@@ -67,6 +69,16 @@ public class PageOptions
 	public void setScreenHeight(Integer screenHeight)
 	{
 		this.screenHeight = screenHeight;
+	}
+
+	public Boolean getIsolate()
+	{
+		return isolate;
+	}
+
+	public void setIsolate(Boolean isolate)
+	{
+		this.isolate = isolate;
 	}
 	
 }
