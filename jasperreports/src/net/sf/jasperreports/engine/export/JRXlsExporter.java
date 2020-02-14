@@ -152,6 +152,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 	public static short MAX_COLOR_INDEX = 56;
 	public static short MIN_COLOR_INDEX = 10;	/* Indexes from 0 to 9 are reserved */
 	private static short A2_PAPERSIZE = (short)66; 	/* A2_PAPERSIZE defined locally since it is not declared in HSSFPrintSetup */
+	public static final String TEXT_FORMAT = "@";
+
 	
 	private static Map<HSSFColor, short[]> hssfColorsRgbs;
 	
@@ -951,6 +953,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 				@Override
 				public void handle(StringTextValue textValue)
 				{
+					if(TEXT_FORMAT.equals(getConvertedPattern(textElement, null)))
+					{
+						//set cell type as Text
+						baseStyle.setDataFormat(dataFormat.getFormat(TEXT_FORMAT));
+					}
+					
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 					if (textValue.getText() == null || textValue.getText().length() == 0)
 					{
@@ -1042,6 +1050,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter<XlsReportConfiguration,
 		}
 		else
 		{
+			//set cell type as Text
+			baseStyle.setDataFormat(dataFormat.getFormat(TEXT_FORMAT));
+			
 			HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
 			if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()) || isIgnoreTextFormatting(textElement))
 			{
