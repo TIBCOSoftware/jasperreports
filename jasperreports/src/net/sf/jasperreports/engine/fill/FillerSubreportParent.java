@@ -72,6 +72,12 @@ public class FillerSubreportParent implements BandReportFillerParent
 	}
 
 	@Override
+	public JRFillDataset getMainDataset()
+	{
+		return null; // we avoid subreports inheriting properties from master
+	}
+
+	@Override
 	public void registerSubfiller(JRBaseFiller filler)
 	{
 		parentFiller.registerSubfiller(filler);

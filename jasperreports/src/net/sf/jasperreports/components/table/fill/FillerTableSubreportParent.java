@@ -21,25 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.components.table.fill;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-
+import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.FillerSubreportParent;
+import net.sf.jasperreports.engine.fill.JRFillDataset;
+import net.sf.jasperreports.engine.fill.JRFillSubreport;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface FillerParent
+public class FillerTableSubreportParent extends FillerSubreportParent
 {
+	public FillerTableSubreportParent(JRFillSubreport parentElement, DatasetExpressionEvaluator evaluator) 
+	{
+		super(parentElement, evaluator);
+	}
 
-	BaseReportFiller getFiller();
-	
-	JRFillDataset getMainDataset();
-	
-	boolean isParentPagination();
-	
-	DatasetExpressionEvaluator getCachedEvaluator();
-
-	void updateBookmark(JRPrintElement element);
-
+	@Override
+	public JRFillDataset getMainDataset()
+	{
+		return getFiller().getMainDataset();
+	}
 }
