@@ -279,6 +279,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
+		public JRFillDataset getMainDataset() 
+		{
+			return null; // we avoid parts inheriting properties from master
+		}
+
+		@Override
 		public DatasetExpressionEvaluator getCachedEvaluator()
 		{
 			//FIXMEBOOK
@@ -394,6 +400,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		public PartReportFiller getFiller()
 		{
 			return fillContext.getFiller();
+		}
+
+		@Override
+		public JRFillDataset getMainDataset() 
+		{
+			return null; // we avoid parts inheriting properties from master
 		}
 
 		@Override

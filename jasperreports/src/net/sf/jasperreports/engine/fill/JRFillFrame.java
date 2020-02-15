@@ -123,7 +123,8 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		BorderSplitType splitType = frame.getBorderSplitType();
 		if (splitType == null)
 		{
-			String splitTypeProp = filler.getPropertiesUtil().getProperty(filler.getMainDataset(), PROPERTY_BORDER_SPLIT_TYPE);
+			String splitTypeProp = filler.getPropertiesUtil().getProperty(filler.getJasperReport(), PROPERTY_BORDER_SPLIT_TYPE); // property expression does not work, 
+			// but even if we would call filler.getMainDataset(), it would be too early as it is null here for frame elements placed in group bands
 			if (splitTypeProp != null)
 			{
 				splitType = BorderSplitType.byName(splitTypeProp);
