@@ -802,6 +802,16 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			if (detailBand.isToPrint())
 			{
+				while (
+					detailBand.getBreakHeight() > columnFooterOffsetY - offsetY
+					)
+				{
+					fillColumnBreak(
+						isCrtRecordOnColumn ? JRExpression.EVALUATION_DEFAULT : JRExpression.EVALUATION_OLD,
+						JRExpression.EVALUATION_DEFAULT
+						);
+				}
+
 				if (
 					keepDetailElementRangeForOrphanFooter
 					&& detailElementRange == null
