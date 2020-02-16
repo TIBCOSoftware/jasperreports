@@ -5,7 +5,7 @@
 	<parameter name="TXT" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. Fusce enim lacus, aliquam eu tincidunt eget, imperdiet sed urna."]]></defaultValueExpression>
 	</parameter>
-	<group name="dummy" preventOrphanFooter="true">
+	<group name="dummy" textAdjust="StretchHeight">
 		<groupFooter>
 			<band height="40">
 				<line>
