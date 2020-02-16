@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperPrint xmlns="http://jasperreports.sourceforge.net/jasperreports/print" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/print http://jasperreports.sourceforge.net/xsd/jasperprint.xsd" name="OrphanFooterReport.51" pageWidth="842" pageHeight="595" topMargin="20" leftMargin="20" bottomMargin="20" rightMargin="20" orientation="Landscape" locale="en_US" timezone="GMT">
+	<property name="net.sf.jasperreports.export.xml.start.page.index" value="0"/>
+	<property name="net.sf.jasperreports.export.xml.end.page.index" value="2"/>
+	<property name="net.sf.jasperreports.export.xml.page.count" value="3"/>
+	<origin group="dummy" band="groupHeader"/>
+	<origin group="dummy" band="groupFooter"/>
+	<origin band="detail"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans"/>
+	<page/>
+	<page>
+		<text textAlignment="Justified" textHeight="442.34375" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9" x="20" y="20" width="65" height="442" origin="2" srcId="2" printId="2"/>
+			<box>
+				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+			<textContent><![CDATA[velit. Aenean eget pretium ante, in sollicitudin eros. Duis condimentum, sapien at vehicula maximus, nunc urna congue elit, ac mollis felis purus a risus. Mauris rhoncus molestie lorem, volutpat blandit leo placerat ornare. Cras et libero sit amet ligula eleifend faucibus. Curabitur tincidunt mollis magna sed auctor. Fusce enim lacus, aliquam eu tincidunt eget, imperdiet sed urna.]]></textContent>
+		</text>
+		<text textAlignment="Center" verticalAlignment="Middle" textHeight="23.28125" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="fa82c4a7-f2b7-41c3-b30e-c7b75f2a8ca1" mode="Opaque" x="20" y="467" width="65" height="75" backcolor="#FFFF00" origin="2" srcId="3" printId="1"/>
+			<textContent><![CDATA[2ND DETAIL BAND]]></textContent>
+		</text>
+	</page>
+	<page>
+		<text textAlignment="Justified" textHeight="547.1094" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9" x="20" y="20" width="65" height="555" origin="2" srcId="2" printId="1">
+				<property name="net.sf.jasperreports.awt.justify.last.line" value="true"/>
+			</reportElement>
+			<box>
+				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+			<textContent><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod ]]></textContent>
+		</text>
+		<line>
+			<reportElement uuid="75dfa02f-5e1d-4b9f-bbd8-dc38ef380462" x="20" y="542" width="65" height="1" forecolor="#FF0000" origin="1" srcId="1" printId="1"/>
+		</line>
+	</page>
+</jasperPrint>

@@ -47,6 +47,6 @@ public class OrphanFooterTest extends AbstractXmlTest
 	@DataProvider
 	public Object[][] testArgs()
 	{
-		return runReportArgs("net/sf/jasperreports/groups/orphanfooter/repo", "OrphanFooterReport", 50);
+		return runReportArgs("net/sf/jasperreports/groups/orphanfooter/repo", "OrphanFooterReport", 51);
 	}
 }
