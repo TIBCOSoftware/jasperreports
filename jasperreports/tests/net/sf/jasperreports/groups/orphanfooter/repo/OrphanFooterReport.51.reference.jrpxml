@@ -7,7 +7,17 @@
 	<origin group="dummy" band="groupFooter"/>
 	<origin band="detail"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans"/>
-	<page/>
+	<page>
+		<text textAlignment="Justified" textHeight="547.1094" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
+			<reportElement uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9" x="20" y="20" width="65" height="555" origin="2" srcId="2" printId="1">
+				<property name="net.sf.jasperreports.awt.justify.last.line" value="true"/>
+			</reportElement>
+			<box>
+				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+			<textContent><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod ]]></textContent>
+		</text>
+	</page>
 	<page>
 		<text textAlignment="Justified" textHeight="442.34375" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
 			<reportElement uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9" x="20" y="20" width="65" height="442" origin="2" srcId="2" printId="2"/>
@@ -22,17 +32,8 @@
 		</text>
 	</page>
 	<page>
-		<text textAlignment="Justified" textHeight="547.1094" lineSpacingFactor="1.1640625" leadingOffset="-2.3583984">
-			<reportElement uuid="9b291d0b-d6bb-46ab-9a33-84e9a61b4de9" x="20" y="20" width="65" height="555" origin="2" srcId="2" printId="1">
-				<property name="net.sf.jasperreports.awt.justify.last.line" value="true"/>
-			</reportElement>
-			<box>
-				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-			</box>
-			<textContent><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus diam metus, tristique ut convallis non, elementum ac massa. Phasellus arcu enim, ultrices id augue vel, porta mattis urna. Duis ultricies, erat sed blandit euismod, magna velit laoreet orci, et pellentesque tortor neque quis est. In vel sollicitudin ex. Nulla facilisi. Ut nec ornare odio, at luctus ligula. Proin scelerisque ante turpis, a blandit nunc posuere nec. Quisque vitae accumsan odio, eget euismod ]]></textContent>
-		</text>
 		<line>
-			<reportElement uuid="75dfa02f-5e1d-4b9f-bbd8-dc38ef380462" x="20" y="542" width="65" height="1" forecolor="#FF0000" origin="1" srcId="1" printId="1"/>
+			<reportElement uuid="75dfa02f-5e1d-4b9f-bbd8-dc38ef380462" x="20" y="20" width="65" height="1" forecolor="#FF0000" origin="1" srcId="1" printId="1"/>
 		</line>
 	</page>
 </jasperPrint>
