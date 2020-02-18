@@ -48,10 +48,6 @@
 		<servlet-class>servlets.JasperPrintServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>Xml4SwfServlet</servlet-name>
-		<servlet-class>net.sf.jasperreports.j2ee.servlets.Xml4SwfServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>DocxServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.j2ee.servlets.DocxServlet</servlet-class>
 	</servlet>
@@ -104,10 +100,6 @@
 	<servlet-mapping>
 		<servlet-name>JasperPrintServlet</servlet-name>
 		<url-pattern>/servlets/jasperprint</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Xml4SwfServlet</servlet-name>
-		<url-pattern>/servlets/xml4swf</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>DocxServlet</servlet-name>
