@@ -23,27 +23,15 @@
  */
 package net.sf.jasperreports.components.iconlabel;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import net.sf.jasperreports.AbstractXmlTest;
-import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
 public class IconLabelTest extends AbstractXmlTest
 {
-	@Test(dataProvider = "testArgs")
-	public void testReport(String jrxmlFileName, String referenceFileNamePrefix) 
-			throws JRException, NoSuchAlgorithmException, IOException
-	{
-		runReport(jrxmlFileName, referenceFileNamePrefix);
-	}
-	
 	@DataProvider
 	public Object[][] testArgs()
 	{
