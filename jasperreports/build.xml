@@ -311,6 +311,7 @@
 		<copy todir="./build/test-classes">
 			<fileset dir="./tests">
 				<include name="**/*.jrxml"/>
+				<include name="**/*.sha"/>
 				<include name="**/*.jrpxml"/>
 				<include name="**/*.svg"/>
 				<include name="**/*.xml"/>

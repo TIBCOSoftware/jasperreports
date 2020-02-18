@@ -566,6 +566,7 @@
 				<directory>tests</directory>
 				<includes>
 					<include>**/*.jrxml</include>
+					<include>**/*.sha</include>
 					<include>**/*.jrpxml</include>
 					<include>**/*.svg</include>
 					<include>**/*.xml</include>

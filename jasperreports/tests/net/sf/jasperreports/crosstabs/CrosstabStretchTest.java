@@ -40,14 +40,14 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 public class CrosstabStretchTest extends AbstractXmlTest
 {
 	@Test(dataProvider = "testArgsLegacy")
-	public void testReportLegacy(String jrxmlFileName, String referenceFileNamePrefix) 
+	public void testReportLegacy(String folderName, String jrxmlFileNamePrefix, String referenceFileNamePrefix) 
 			throws JRException, NoSuchAlgorithmException, IOException
 	{
 		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
 		setJasperReportsContext(jasperReportsContext);
 
 		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "true");
-		runReport(jrxmlFileName, referenceFileNamePrefix);
+		runReport(folderName, jrxmlFileNamePrefix, referenceFileNamePrefix);
 	}
 	
 	@DataProvider
@@ -56,15 +56,16 @@ public class CrosstabStretchTest extends AbstractXmlTest
 		return runReportArgs("net/sf/jasperreports/crosstabs/repo", "CrosstabStretchReport", "CrosstabLegacyStretchReport", 7);
 	}
 	
+	@Override
 	@Test(dataProvider = "testArgs")
-	public void testReport(String jrxmlFileName, String referenceFileNamePrefix) 
+	public void testReport(String folderName, String jrxmlFileNamePrefix, String referenceFileNamePrefix) 
 			throws JRException, NoSuchAlgorithmException, IOException
 	{
 		SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
 		setJasperReportsContext(jasperReportsContext);
 		
 		jasperReportsContext.setProperty(StretchTypeEnum.PROPERTY_LEGACY_ELEMENT_STRETCH_ENABLED, "false");
-		runReport(jrxmlFileName, referenceFileNamePrefix);
+		runReport(folderName, jrxmlFileNamePrefix, referenceFileNamePrefix);
 	}
 	
 	@DataProvider
