@@ -2,7 +2,34 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.11.0 (2019-1x-xx)
+JasperReports 6.12.0 (2020-03-04)
+---------------------------------------------
+
+- added support for PDF forms into the core library using custom properties at report element level
+to convert the report elements into editable text fields, lists, check boxes or radio groups when
+the report is exported to PDF format;
+
+- the JasperReports Web Framework providing the embeddable report viewer APIs has been removed from
+the JasperReports Library as it is now available as part of other products such as JasperReports Server,
+Jaspersoft Studio and JasperReports IO; all Javascript, CSS, HTML templates, images files and servlets
+making up this framework have been removed from the core library JAR and the related /demo/samples/webapp-repo
+sample has been removed from the project distribution; the former /demo/samples/webapp sample continues
+to provide an example for using the JasperReports Library in Java web applications, but for delivering 
+static/non-interactive reports in all supported export formats;
+
+- solved problem with the virtualization of large unpaginated reports containing large frame elements;
+
+- improved justified alignment for paragraphs that are cut through by page/column breaks;
+
+- allow use of Java Generics in the class attribute of parameters, fields and variables;
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 6.11.0 (2019-11-26)
 ---------------------------------------------
 
 - support for noData cell added in the table component to allow displaying custom content when 

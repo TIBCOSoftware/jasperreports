@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 
@@ -72,7 +73,7 @@ public class FillerSubreportParent implements BandReportFillerParent
 	}
 
 	@Override
-	public JRFillDataset getMainDataset()
+	public JRPropertiesHolder getParentProperties()
 	{
 		return null; // we avoid subreports inheriting properties from master
 	}

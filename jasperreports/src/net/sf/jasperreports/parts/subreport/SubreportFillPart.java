@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -333,7 +334,7 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
-		public JRFillDataset getMainDataset() 
+		public JRPropertiesHolder getParentProperties() 
 		{
 			return null; // we avoid parts inheriting properties from master
 		}
@@ -463,7 +464,7 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
-		public JRFillDataset getMainDataset() 
+		public JRPropertiesHolder getParentProperties() 
 		{
 			return null; // we avoid parts inheriting properties from master
 		}
