@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 =============================================
 
-JasperReports 6.12.0 (2020-03-xx)
+JasperReports 6.12.0 (2020-03-04)
 ---------------------------------------------
 
 - added support for PDF forms into the core library using custom properties at report element level
