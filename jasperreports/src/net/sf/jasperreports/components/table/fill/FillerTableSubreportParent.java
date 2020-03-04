@@ -23,9 +23,9 @@
  */
 package net.sf.jasperreports.components.table.fill;
 
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.FillerSubreportParent;
-import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillSubreport;
 
 /**
@@ -39,7 +39,7 @@ public class FillerTableSubreportParent extends FillerSubreportParent
 	}
 
 	@Override
-	public JRFillDataset getMainDataset()
+	public JRPropertiesHolder getParentProperties()
 	{
 		return getFiller().getMainDataset();
 	}
