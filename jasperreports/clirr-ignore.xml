@@ -1,149 +1,170 @@
 <differences>
 	<difference>
-		<className>net/sf/jasperreports/ant/JRAntCompileTask</className>
-		<differenceType>7005</differenceType>
-		<method>*setKeepjava*</method>
-		<to>*setKeepjava*</to>
+		<className>net/sf/jasperreports/web/servlets/*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillPlaceItem</className>
-		<differenceType>7004</differenceType>
-		<method>*FillPlaceItem(*)</method>
+		<className>net/sf/jasperreports/web/util/*</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/components/table/ColumnExpressionCollector</className>
-		<differenceType>7005</differenceType>
-		<method>*collectCell*</method>
-		<to>*collectCell*</to>
+		<className>net/sf/jasperreports/web/listeners/JasperReportsContextListener</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/components/table/CompiledCell</className>
-		<differenceType>6001</differenceType>
-		<field>style*</field>
+		<className>net/sf/jasperreports/engine/fill/JRTextMeasurerFactory</className>
+		<differenceType>8001</differenceType>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/components/table/DesignCell</className>
+		<className>net/sf/jasperreports/engine/fill/JRPrintBand$ElementsIterator</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRPrintBand$OffsetElements</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/JRTextMeasurerUtil$WrappingTextMeasurerFactory</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/engine/util/JdkGlyphFixTextMeasurer*</className>
+		<differenceType>8001</differenceType>
+	</difference>
+	<difference>
+		<className>net/sf/jasperreports/web/util/WebUtil</className>
 		<differenceType>6011</differenceType>
-		<field>PROPERTY_DEFAULT_STYLE_PROVIDER</field>
+		<field>RESOURCE_JR_GLOBAL_CSS</field>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/components/table/DesignCell</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_HEIGHT</field>
+		<className>net/sf/jasperreports/engine/fill/TextMeasurerFactory</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/engine/fill/JRTextMeasurerFactory</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/components/table/DesignCell</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_STYLE</field>
+		<className>net/sf/jasperreports/engine/util/JRTextMeasurerFactory</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/engine/fill/JRTextMeasurerFactory</to>
 	</difference>
 	<difference>
-		<className>net/sf/jasperreports/components/table/DesignCell</className>
-		<differenceType>6011</differenceType>
-		<field>PROPERTY_STYLE_NAME_REFERENCE</field>
+		<className>net/sf/jasperreports/engine/util/AbstractTextMeasurerFactory</className>
+		<differenceType>4001</differenceType>
+		<to>net/sf/jasperreports/engine/fill/JRTextMeasurerFactory</to>
 	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/TableComponent</className>
+ 	<difference>
+		<className>net/sf/jasperreports/components/spiderchart/FillSpiderChart</className>
+		<differenceType>7006</differenceType>
+		<method>*getBookmarkLevel()</method>
+		<to>int</to>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/export/AbstractTextRenderer</className>
+		<differenceType>6006</differenceType>
+		<field>ignoreMissingFont</field>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/util/AbstractTextMeasurerFactory</className>
+		<differenceType>7002</differenceType>
+		<method>*createMeasurer(net.sf.jasperreports.engine.JRCommonText)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/util/JRTextMeasurerUtil</className>
+		<differenceType>7002</differenceType>
+		<method>*getTextMeasurerFactory(net.sf.jasperreports.engine.JRPropertiesHolder)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/crosstabs/design/JRDesignCrosstabBucket</className>
+		<differenceType>7002</differenceType>
+		<method>*setOrder(net.sf.jasperreports.engine.type.SortOrderEnum)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/JRImage</className>
+		<differenceType>7002</differenceType>
+		<method>*is*UsingCache()</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/base/JRBaseImage</className>
+		<differenceType>7002</differenceType>
+		<method>*is*UsingCache()</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/design/JRDesignImage</className>
+		<differenceType>7002</differenceType>
+		<method>*is*UsingCache()</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRFillImage</className>
+		<differenceType>7002</differenceType>
+		<method>*is*UsingCache()</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/analytics/dataset/DesignDataLevelBucket</className>
+		<differenceType>7002</differenceType>
+		<method>*setOrder(net.sf.jasperreports.engine.type.SortOrderEnum)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/export/SimplePdfTextRenderer</className>
+		<differenceType>7002</differenceType>
+		<method>*getPhrase(*)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/export/draw/DrawVisitor</className>
+		<differenceType>7002</differenceType>
+		<method>*setTextRenderer(net.sf.jasperreports.engine.JRReport)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/export/draw/FrameDrawer</className>
+		<differenceType>7002</differenceType>
+		<method>*FrameDrawer(*)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/export/draw/PrintDrawVisitor</className>
+		<differenceType>7004</differenceType>
+		<method>*PrintDrawVisitor(net.sf.jasperreports.engine.JasperReportsContext)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/export/draw/PrintDrawVisitor</className>
+		<differenceType>7002</differenceType>
+		<method>*setFrameDrawer(net.sf.jasperreports.engine.export.draw.FrameDrawer)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/export/draw/PrintDrawVisitor</className>
+		<differenceType>7002</differenceType>
+		<method>*setTextRenderer(net.sf.jasperreports.engine.JRReport)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/fill/JREvaluator</className>
+		<differenceType>7002</differenceType>
+		<method>*msg(*)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRTextMeasurer</className>
+		<differenceType>7004</differenceType>
+		<method>*measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/fill/TextMeasurer</className>
+		<differenceType>7004</differenceType>
+		<method>*measure(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/fill/TextMeasurer</className>
+		<differenceType>7004</differenceType>
+		<method>*initialize(net.sf.jasperreports.engine.util.JRStyledText, int, int, boolean)</method>
+	</difference>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/fill/JRMeasuredText</className>
 		<differenceType>7012</differenceType>
-		<method>*table.Row get*(*)</method>
+		<method>*isParagraphCut()</method>
 	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/TableComponent</className>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/base/ElementStore</className>
 		<differenceType>7012</differenceType>
-		<method>*util.List getGroup*()</method>
+		<method>*updatePage(net.sf.jasperreports.engine.base.JRVirtualPrintPage)</method>
 	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/TableComponent</className>
+ 	<difference>
+		<className>net/sf/jasperreports/engine/fill/FillerParent</className>
 		<differenceType>7012</differenceType>
-		<method>*getNoData()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/table/fill/TableReport</className>
-		<differenceType>7005</differenceType>
-		<method>*createCell*</method>
-		<to>*createCell*</to>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRElementDataset</className>
-		<differenceType>7012</differenceType>
-		<method>*getDatasetResetType()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/JRTextField</className>
-		<differenceType>7012</differenceType>
-		<method>*etTextAdjust(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/base/JRBaseElementDataset</className>
-		<differenceType>6010</differenceType>
-		<field>resetTypeValue</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/base/JRBaseTextField</className>
-		<differenceType>6010</differenceType>
-		<field>isStretchWithOverflow</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/design/JRDesignTextField</className>
-		<differenceType>6010</differenceType>
-		<field>isStretchWithOverflow</field>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/oasis/DocumentBuilder</className>
-		<differenceType>7004</differenceType>
-		<method>*getImagePath(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/oasis/InternalImageProcessor</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/export/oasis/InternalImageProcessorResult</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/engine/fill/JRFillTextElement</className>
-		<differenceType>7013</differenceType>
-		<method>*scaleFontToFit()</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/items/fill/FillItem</className>
-		<differenceType>7004</differenceType>
-		<method>*FillItem(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/items/fill/FillItemData</className>
-		<differenceType>7004</differenceType>
-		<method>*getFillItem(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillPlaceItemData</className>
-		<differenceType>7004</differenceType>
-		<method>*getFillItem(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillStyleItem</className>
-		<differenceType>7004</differenceType>
-		<method>*FillStyleItem(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillStyleItemData</className>
-		<differenceType>7004</differenceType>
-		<method>*getFillItem(*)</method>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillContextProvider</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillItem</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillItemDataset</className>
-		<differenceType>8001</differenceType>
-	</difference>
-	<difference>
-		<className>net/sf/jasperreports/components/map/fill/FillMarker</className>
-		<differenceType>8001</differenceType>
+		<method>*getParentProperties()</method>
 	</difference>
 </differences>
