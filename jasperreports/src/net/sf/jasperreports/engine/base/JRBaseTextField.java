@@ -378,7 +378,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_6_11_0)
 		{
-			textAdjust = isStretchWithOverflow ? TextAdjustEnum.CUT_TEXT : TextAdjustEnum.STRETCH_HEIGHT;
+			textAdjust = isStretchWithOverflow ? TextAdjustEnum.STRETCH_HEIGHT : TextAdjustEnum.CUT_TEXT;
 		}
 	}
 }
