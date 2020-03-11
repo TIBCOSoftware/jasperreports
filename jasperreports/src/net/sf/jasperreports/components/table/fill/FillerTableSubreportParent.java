@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2016 TIBCO Software Inc. All rights reserved.
+ * Copyright (C) 2001 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -21,26 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.components.table.fill;
 
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
-
+import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.FillerSubreportParent;
+import net.sf.jasperreports.engine.fill.JRFillSubreport;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public interface FillerParent
+public class FillerTableSubreportParent extends FillerSubreportParent
 {
+	public FillerTableSubreportParent(JRFillSubreport parentElement, DatasetExpressionEvaluator evaluator) 
+	{
+		super(parentElement, evaluator);
+	}
 
-	BaseReportFiller getFiller();
-	
-	JRPropertiesHolder getParentProperties();
-	
-	boolean isParentPagination();
-	
-	DatasetExpressionEvaluator getCachedEvaluator();
-
-	void updateBookmark(JRPrintElement element);
-
+	@Override
+	public JRPropertiesHolder getParentProperties()
+	{
+		return getFiller().getMainDataset();
+	}
 }

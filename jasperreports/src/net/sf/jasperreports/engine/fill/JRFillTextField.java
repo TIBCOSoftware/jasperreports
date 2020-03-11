@@ -636,7 +636,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			return generalPatternTimeZones.get(property);
 		}
 		
-		String propertyVal = filler.propertiesUtil.getProperty(filler.getMainDataset(), property);
+		String propertyVal = filler.getPropertiesUtil().getProperty(filler.getMainDataset(), property);
 		TimeZone timeZone = toFormatTimeZone(propertyVal);
 		generalPatternTimeZones.put(property, timeZone);
 		

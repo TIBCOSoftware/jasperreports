@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPart;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -279,6 +280,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		}
 
 		@Override
+		public JRPropertiesHolder getParentProperties() 
+		{
+			return null; // we avoid parts inheriting properties from master
+		}
+
+		@Override
 		public DatasetExpressionEvaluator getCachedEvaluator()
 		{
 			//FIXMEBOOK
@@ -394,6 +401,12 @@ public class SubreportFillPart extends BasePartFillComponent
 		public PartReportFiller getFiller()
 		{
 			return fillContext.getFiller();
+		}
+
+		@Override
+		public JRPropertiesHolder getParentProperties() 
+		{
+			return null; // we avoid parts inheriting properties from master
 		}
 
 		@Override

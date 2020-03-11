@@ -347,7 +347,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		
 		// report level property
-		String reportProperty = JRPropertiesUtil.getOwnProperty(filler.getMainDataset(), PROPERTY_IGNORE_WIDTH);
+		String reportProperty = JRPropertiesUtil.getOwnProperty(filler.getMainDataset(), PROPERTY_IGNORE_WIDTH); // because we read the "own" property here, without inheritance,
+		// it is most likely that this would not work for crosstab in table component because the filler.getMainDataset() would be the one from TableJasperReport (subreport),
+		// and not the master report dataset where the property would be set
 		if (reportProperty != null)
 		{
 			return JRPropertiesUtil.asBoolean(reportProperty);
