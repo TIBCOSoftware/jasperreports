@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>6.12.1</version>
+	<version>6.12.2</version>
 	<packaging>jar</packaging>
 	<name>JasperReports Library</name>
 	<description>Free Java Reporting Library</description>
@@ -49,7 +49,7 @@
 	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/TIBCOSoftware/jasperreports.git</connection>
-		<tag>6.12.1</tag>
+		<tag>6.12.2</tag>
 		<url>https://github.com/TIBCOSoftware/jasperreports</url>
 	</scm>
 	<properties>
@@ -430,7 +430,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
-			<version>6.12.1</version>
+			<version>6.12.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -499,7 +499,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-metadata</artifactId>
-			<version>6.12.1</version>
+			<version>6.12.2</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -614,7 +614,7 @@
 						<path>
 							<groupId>net.sf.jasperreports</groupId>
 							<artifactId>jasperreports-annotation-processors</artifactId>
-							<version>6.12.1</version>
+							<version>6.12.2</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
