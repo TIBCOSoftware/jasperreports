@@ -12,7 +12,7 @@ JasperReports 6.12.2 (2020-03-11)
 
 
 
-JasperReports 6.12.2 (2020-03-05)
+JasperReports 6.12.1 (2020-03-05)
 ---------------------------------------------
 
 - minor bug fixes and improvements;
