@@ -36,6 +36,7 @@ import org.apache.commons.collections4.map.ReferenceMap;
 
 import net.sf.jasperreports.annotations.properties.Property;
 import net.sf.jasperreports.annotations.properties.PropertyScope;
+import net.sf.jasperreports.compilers.ReportClassFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -86,6 +87,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 			ReferenceMap.ReferenceStrength.WEAK, ReferenceMap.ReferenceStrength.SOFT
 			);
 
+	private ReportClassFilter reportClassFilter;
 	
 	/**
 	 * 
@@ -93,6 +95,8 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	protected JRAbstractJavaCompiler(JasperReportsContext jasperReportsContext, boolean needsSourceFiles)
 	{
 		super(jasperReportsContext, needsSourceFiles);
+		
+		reportClassFilter = new ReportClassFilter(jasperReportsContext);
 	}
 
 
@@ -106,7 +110,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 			Class<?> clazz = getClassFromCache(className);
 			if (clazz == null)
 			{
-				clazz = JRClassLoader.loadClassFromBytes(className, (byte[]) compileData);
+				clazz = JRClassLoader.loadClassFromBytes(reportClassFilter, className, (byte[]) compileData);
 				putClassInCache(className, clazz);
 			}
 			
