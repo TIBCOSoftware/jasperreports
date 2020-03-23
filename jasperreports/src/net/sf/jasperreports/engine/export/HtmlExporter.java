@@ -528,7 +528,10 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		if (isMainReportTable)
 		{
 			int totalWidth = columns.last().getEndCoord() - columns.first().getStartCoord();
-			writer.write("<table class=\"jrPage\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: ");
+			int totalHeight = rows.last().getEndCoord() - rows.first().getStartCoord();
+			writer.write("<table class=\"jrPage\" data-jr-height=\"");
+			writer.write(String.valueOf(totalHeight)); // no need for size unit
+			writer.write("\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"empty-cells: show; width: ");
 			writer.write(toSizeUnit(totalWidth));
 			writer.write(";");
 		}
