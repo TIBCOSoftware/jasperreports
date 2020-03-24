@@ -2859,6 +2859,9 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 		{
 			tagHelper.startText(text.getLinkType() != null);
 		}
+
+		int forecolorAlpha = getSingleForecolorAlpha(styledText);
+		setFillColorAlpha(forecolorAlpha);
 		
 		/* rendering only non empty texts  */
 		if (styledText.length() > 0)
@@ -2866,6 +2869,8 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			textRenderer.render();
 		}
 		tagHelper.endText();
+		
+		resetFillColor();
 
 		atrans = new AffineTransform();
 		atrans.rotate(-angle, textRenderer.getX(), pageFormat.getPageHeight() - textRenderer.getY());
@@ -2876,6 +2881,32 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 			text.getLineBox(),
 			text
 			);
+	}
+	
+	protected int getSingleForecolorAlpha(JRStyledText styledText)
+	{
+		Color forecolor = (Color) styledText.getGlobalAttributes().get(TextAttribute.FOREGROUND);
+		if (forecolor == null || forecolor.getAlpha() == 255)
+		{
+			return 255;
+		}
+		
+		List<JRStyledText.Run> runs = styledText.getRuns();
+		if (runs.size() > 1)
+		{
+			for (JRStyledText.Run run : runs)
+			{
+				Color runForecolor = (Color) run.attributes.get(TextAttribute.FOREGROUND);
+				if (runForecolor != null && runForecolor.getAlpha() != forecolor.getAlpha())
+				{
+					//per run alpha currently not working because there's no support in Chunk
+					//falling back to opaque
+					return 255;
+				}
+			}
+		}
+		
+		return forecolor.getAlpha();
 	}
 	
 	/**
@@ -3819,17 +3850,21 @@ public class JRPdfExporter extends JRAbstractExporter<PdfReportConfiguration, Pd
 
 	protected void setFillColor(Color color)
 	{
-		int alpha = color.getAlpha();
+		setFillColorAlpha(color.getAlpha());
+		pdfContentByte.setRGBColorFill(
+				color.getRed(),
+				color.getGreen(),
+				color.getBlue());		
+	}
+
+
+	protected void setFillColorAlpha(int alpha)
+	{
 		if (alpha != 255)
 		{
 			setFillAlpha(alpha);
 			fillAlphaSet = true;
 		}
-		
-		pdfContentByte.setRGBColorFill(
-				color.getRed(),
-				color.getGreen(),
-				color.getBlue());		
 	}
 	
 	protected void resetFillColor()
