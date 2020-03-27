@@ -2765,6 +2765,8 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 		Locale locale = getTextLocale(printText);
 		LineSpacingEnum lineSpacing = printText.getParagraph().getLineSpacing();
 		Float lineSpacingSize = printText.getParagraph().getLineSpacingSize();
+		Integer leftIndent = printText.getParagraph().getLeftIndent();
+		Integer rightIndent = printText.getParagraph().getRightIndent();
 		float lineSpacingFactor = printText.getLineSpacingFactor();
 		Color backcolor = printText.getBackcolor();
 		
@@ -2793,16 +2795,28 @@ public class HtmlExporter extends AbstractHtmlExporter<HtmlReportConfiguration, 
 					).getIterator();
 		}
 
-		if (firstLineIndent != null || justifyLastLine)
+		if (
+			firstLineIndent != null || justifyLastLine 
+			|| (leftIndent != null && leftIndent > 0)
+			|| (rightIndent != null && rightIndent > 0)
+			)
 		{
 			writer.write("<div style=\"");
 			if (firstLineIndent != null)
 			{
-				writer.write("text-indent: " + firstLineIndent + "px;");
+				writer.write("text-indent:" + firstLineIndent + "px;");
 			}
 			if (justifyLastLine)
 			{
-				writer.write("text-align-last: justify;");
+				writer.write("text-align-last:justify;");
+			}
+			if (leftIndent != null && leftIndent > 0)
+			{
+				writer.write("padding-left:" + leftIndent + "px;");
+			}
+			if (rightIndent != null && rightIndent > 0)
+			{
+				writer.write("padding-right:" + rightIndent + "px;");
 			}
 			writer.write("\">");
 		}
