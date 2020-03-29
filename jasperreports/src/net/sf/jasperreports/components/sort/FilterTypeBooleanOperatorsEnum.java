@@ -38,7 +38,11 @@ public enum FilterTypeBooleanOperatorsEnum implements NamedEnum
 
 	IS_FALSE("Is false"),
 
-	IS_NOT_FALSE("Is not false");
+	IS_NOT_FALSE("Is not false"),
+
+	IS_NULL("Is Null"),
+
+	IS_NOT_NULL("Is not Null");
 	
 	/**
 	 *

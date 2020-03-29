@@ -86,6 +86,12 @@ public class FieldTextComparator extends AbstractFieldComparator<String> {
 				case STARTS_WITH:
 					result = validComparison ? lcCompareTo.startsWith(lcCompareStart) : false;
 					break;
+				case IS_NULL:
+					result = !validComparison;
+					break;
+				case IS_NOT_NULL:
+					result = validComparison;
+					break;
 			}
 		}
 

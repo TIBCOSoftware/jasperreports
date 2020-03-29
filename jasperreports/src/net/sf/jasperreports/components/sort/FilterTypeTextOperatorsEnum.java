@@ -46,7 +46,11 @@ public enum FilterTypeTextOperatorsEnum implements NamedEnum
 	
 	ENDS_WITH("Ends With"),
 	
-	DOES_NOT_END_WITH("Does not End With");
+	DOES_NOT_END_WITH("Does not End With"),
+
+	IS_NULL("Is Null"),
+
+	IS_NOT_NULL("Is not Null");
 
 	/**
 	 *

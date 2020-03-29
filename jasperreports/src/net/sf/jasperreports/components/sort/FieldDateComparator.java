@@ -107,6 +107,12 @@ public class FieldDateComparator extends AbstractFieldComparator<Date> {
 			case IS_ON_OR_BEFORE:
 				result = validComparison ? formattedCompareTo.compareTo(compareStart) <= 0 : false;
 				break;
+			case IS_NULL:
+				result = compareTo == null;
+				break;
+			case IS_NOT_NULL:
+				result = compareTo != null;
+				break;
 		}
 		
 		return result;
